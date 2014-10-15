@@ -310,6 +310,11 @@ module.exports = function(options) {
             useSend: !collab && (options.local || options.standalone),
             maxServerCallInterval: 2000
         },
+        {
+            packagePath: "plugins/c9.ide.language.trace/trace",
+            extendToken: extendToken,
+        },
+        "plugins/c9.ide.language.trace/ui",
 
         // Run
         {
