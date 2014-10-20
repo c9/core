@@ -314,7 +314,10 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.language.trace/trace",
             extendToken: extendToken,
         },
-        "plugins/c9.ide.language.trace/ui",
+        {
+            packagePath: "plugins/c9.ide.language.trace/ui",
+            workspaceDir: workspaceDir,
+        },
 
         // Run
         {
