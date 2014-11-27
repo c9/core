@@ -206,83 +206,87 @@ define(function(require, module, exports) {
                 return node.isRoot || node.isFolder;
             });
         }
-
-        function init(title, path, onChoose, onCancel, options) {
-            var createFolderButton = (options && options.createFolderButton) !== false;
-            var showFilesCheckbox = (options && options.showFilesCheckbox) !== false;
-            var hideFileInput = options && options.hideFileInput;
-
-            plugin.title = title || "Save As";
-            plugin.filename = path ? basename(path) : "";
-            plugin.directory = path ? (hideFileInput ? path : dirname(path)) : "/";
-            btnChoose.setAttribute("caption", options && options.chooseCaption || "Save");
-
-            var choosen = false;
-
-            btnChoose.onclick = function() {
-                var path = join(plugin.directory, hideFileInput ? "" : plugin.filename);
-
-                if (!path)
-                    return alert("Invalid Path", "Invalid Path",
-                        "Please choose a correct path and filename");
-
-                fs.exists(path, function(exists, stat) {
-                    var isDirectory = stat && (
-                        /(directory|folder)$/.test(stat.mime) || stat.link && /(directory|folder)$/.test(stat.linkStat.mime));
-                    if (isDirectory && !hideFileInput) {
-                        // @todo
-                        // var node = fsCache.findNode(path);
-                        // trSaveAs.select(node);
-                        // if (trSaveAs.selected == node) {
-                        //     txtSaveAs.setValue("");
-                        //     expand(node);
-                        // }
-                        return;
-                    }
-
-                    choosen = true;
-                    onChoose(path, stat || false, function() {
-                        dialog.hide();
-                    });
-                });
-            };
-
-            btnCancel.onclick = function() {
-                dialog.hide();
-            };
-
-            btnCreateFolder.setAttribute("visible", createFolderButton);
-            cbShowFiles.setAttribute("visible", showFilesCheckbox);
-            boxFilename.setAttribute("visible", !hideFileInput);
-
-
-            cbShowFiles.setAttribute("checked", true);
-            showFiles = true;
-            cbShowFiles.on("prop.value", function() {
-                showFiles = cbShowFiles.checked;
-                updateFilter(tree.provider);
-            });
-            // @todo options.hideTree
-            // @todo options.showFiles
-            // @todo options.showHiddenFiles
-
-            plugin.once("hide", function() {
-                if (!choosen && onCancel)
-                    onCancel();
-            });
-        }
-
-        function show(title, path, onChoose, onCancel, options) {
-            if (!plugin.loaded)
+        
+        function queue(implementation, force) {
+            if (!plugin.loaded) 
                 return;
-
-            draw();
-
-            init(title, path, onChoose, onCancel, options);
-
-            dialog.show();
+            
+            return Dialog.addToQueue(dialog, function(next) {
+                // Draw everything if needed
+                draw();
+                
+                // Call the show implementation
+                implementation(next);
+                
+                // Show UI
+                dialog.show();
+            }, force);
         }
-
+        
+        function show(title, path, onChoose, onCancel, options) {
+            queue(function(next) {
+                var createFolderButton = (options && options.createFolderButton) !== false;
+                var showFilesCheckbox = (options && options.showFilesCheckbox) !== false;
+                var hideFileInput = options && options.hideFileInput;
+                
+                plugin.title = title || "Save As";
+                plugin.filename = path ? basename(path) : "";
+                plugin.directory = path ? (hideFileInput ? path : dirname(path)) : "/";
+                btnChoose.setAttribute("caption", options && options.chooseCaption || "Save");
+                
+                var choosen = false;
+                btnChoose.onclick = function(){ 
+                    var path = join(plugin.directory, hideFileInput ? "" : plugin.filename);
+                    
+                    if (!path)
+                        return alert("Invalid Path", "Invalid Path", 
+                            "Please choose a correct path and filename");
+                    
+                    fs.exists(path, function (exists, stat) {
+                        var isDirectory = stat && (
+                            /(directory|folder)$/.test(stat.mime)
+                            || stat.link && /(directory|folder)$/.test(stat.linkStat.mime));
+                        if (isDirectory && !hideFileInput) {
+                            // @todo
+                            // var node = fsCache.findNode(path);
+                            // trSaveAs.select(node);
+                            // if (trSaveAs.selected == node) {
+                            //     txtSaveAs.setValue("");
+                            //     expand(node);
+                            // }
+                            return;
+                        }
+                        
+                        choosen = true;
+                        onChoose(path, stat || false, function(){
+                            dialog.hide();
+                        });
+                    });
+                };
+                btnCancel.onclick = function(){ dialog.hide(); };
+                
+                btnCreateFolder.setAttribute("visible", createFolderButton);
+                cbShowFiles.setAttribute("visible", showFilesCheckbox);
+                boxFilename.setAttribute("visible", !hideFileInput);
+                
+                cbShowFiles.setAttribute("checked", true); 
+                showFiles = true;
+                cbShowFiles.on("prop.value", function() {
+                    showFiles = cbShowFiles.checked;
+                    updateFilter(tree.provider);
+                });
+                // @todo options.hideTree
+                // @todo options.showFiles
+                // @todo options.showHiddenFiles
+                
+                plugin.once("hide", function(){
+                    if (!choosen && onCancel)
+                        onCancel();
+                    next();
+                });
+            });
+        }
+        
         function hide(){
             dialog && dialog.hide();
         }

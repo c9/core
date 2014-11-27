@@ -30,9 +30,8 @@ define(function(require, exports, module) {
         var Plugin = imports.Plugin;
         var auth = imports.auth;
         var vfsEndpoint = imports["vfs.endpoint"];
-        var errorDialog = imports["dialog.error"];
-        var showError = errorDialog.show;
-        var hideError = errorDialog.hide;
+        var showError = imports["dialog.error"].show;
+        var hideError = imports["dialog.error"].hide;
         var showAlert = imports["dialog.alert"].show;
         
         var eio = require("engine.io");
@@ -50,14 +49,11 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
         
-        // Give reference to vfs to plugin
-        errorDialog.vfs = plugin;
-        
         var buffer = [];
         var installChecked = false;
         var withInstall = options.withInstall;
         var dashboardUrl = options.dashboardUrl;
-        var region, vfsBaseUrl, homeUrl, projectUrl, pingUrl, serviceUrl;
+        var homeUrl, projectUrl, pingUrl, serviceUrl;
         var eioOptions, connection, consumer, vfs;
         var showErrorTimer, showErrorTimerMessage;
         var lastError;
@@ -189,7 +185,7 @@ define(function(require, exports, module) {
         }
         
         function download(path, filename, isfile) {
-            window.open(vfsUrl(path) + "?download" 
+            window.open(join(projectUrl, path) + "?download" 
                 + (filename ? "=" + encodeURIComponent(filename) : "")
                 + (isfile ? "&isfile=1" : ""));
         }
@@ -211,8 +207,6 @@ define(function(require, exports, module) {
                 if (lastError)
                     hideError(lastError);
 
-                region = urls.region;
-                vfsBaseUrl = urls.url;
                 homeUrl = urls.home;
                 projectUrl = urls.project;
                 pingUrl = urls.ping;
@@ -334,22 +328,6 @@ define(function(require, exports, module) {
         });
         plugin.on("unload", function(){
             loaded = false;
-            
-            id = null;
-            buffer = [];
-            installChecked = false;
-            region = null;
-            vfsBaseUrl = null;
-            homeUrl = null;
-            projectUrl = null;
-            pingUrl = null;
-            serviceUrl = null;
-            eioOptions = null;
-            consumer = null;
-            vfs = null;
-            showErrorTimer = null;
-            showErrorTimerMessage = null;
-            lastError = null;
         });
         
         /***** Register and define API *****/
@@ -371,8 +349,6 @@ define(function(require, exports, module) {
             get previewUrl(){ throw new Error("gone") },
             get serviceUrl(){ return serviceUrl; },
             get id() { return id; },
-            get baseUrl() { return vfsBaseUrl; },
-            get region() { return region; },
             
             /**
              * Performs a VFS REST API call

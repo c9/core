@@ -73,32 +73,23 @@ define(function(require, exports, module) {
 
         function activate(name, noAnim) {
             var options = panels[name];
-            if (!options) return false;
-            
             areas[options.where].activate(name, noAnim);
         }
 
         function deactivate(name) {
             var options = panels[name];
-            if (!options) return false;
-            
             areas[options.where].deactivate();
         }
 
         function enablePanel(name) {
             var options = panels[name];
-            if (!options) return false;
-            
             areas[options.where].enablePanel(name);
-            return true;
         }
 
         function disablePanel(name, noAnim, keep) {
             var panel = panels[name];
-            if (!panel) return false;// Called during unload, even when not registered
-            
-            areas[panel.where].disablePanel(name, noAnim, keep);
-            return true;
+            if (panel) // Called during unload, even when not registered
+                areas[panel.where].disablePanel(name, noAnim, keep);
         }
 
         /***** Lifecycle *****/

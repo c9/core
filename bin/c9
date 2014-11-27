@@ -9,8 +9,8 @@ require("amd-loader");
 var verbose = process.argv.indexOf("--verbose") + 1 
     || process.argv.indexOf("-v") + 1;
 
-architect.resolveConfig(require("../configs/cli.js")(),
-  __dirname + "/../plugins", function (err, config) {
+architect.resolveConfig(require("../configs/cli.js"),
+  __dirname + "/..", function (err, config) {
     if (err) throw err.message;
 
     var cli;
@@ -25,5 +25,8 @@ architect.resolveConfig(require("../configs/cli.js")(),
         
         if (!plugin.name)
             plugin.name = name;
+        
+        if (verbose)
+            console.log("Loading module " + name);
     });
 });

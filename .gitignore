@@ -19,8 +19,6 @@ plugins/c9.run/todo
 docs/generate/output
 docs/generate/lib/node_modules
 plugins/c9.docker/bin/node_modules/
-node_modules/vfs-local/test/mock2/
-plugins/c9.fs/mock/
 
 # ignore node_modules
 node_modules/*
@@ -41,11 +39,6 @@ node_modules/kaefer/node_modules/
 !node_modules/connect-architect
 !node_modules/pty.js
 !node_modules/ui
-!node_modules/react-bootstrap
-!node_modules/oldclient
-
-node_modules/oldclient/node_modules
-node_modules/oldclient/plugins-server/c9.api.project/tmp*
 
 node_modules/vfs-local/test/mock
 node_modules/vfs-ssh/__worker.js
@@ -60,15 +53,14 @@ node_modules/c9/node_modules
 plugins/c9.proxy/proxy.cfg
 plugins/c9.proxy/haproxy
 plugins/c9.proxy/haproxy-*
-**/.module-cache/
 
 .c9revisions
 .settings
 .c9config
 .c9
+.c9/project.settings
 *.watch
 *.pid
-*.swp
 *#*
 npm-debug.log
 foo.js

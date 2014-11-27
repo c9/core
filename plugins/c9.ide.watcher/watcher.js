@@ -142,7 +142,7 @@ define(function(require, exports, module) {
             
             fs.watch(path, function handler(err, event, filename, stat, files) {
                 if (err) {
-                    if (err.code == "ENOENT" && handlers[path] && handlers[path].retries < 1) {
+                    if (err.code == "ENOENT" && handlers[path].retries < 1) {
                         handlers[path].retries++;
                         handlers[path].timeout = 
                             setTimeout(function(){ 
@@ -158,13 +158,10 @@ define(function(require, exports, module) {
                     filename = basename(path);
 
                 if (event == "init") {
-                    if (handler.unwatchScheduled) {
+                    if (handler.unwatchScheduled)
                         fs.unwatch(path, handler);
-                        emit("unwatch", { path: path });
-                    }
-                    else {
+                    else
                         handlers[path] = handler;
-                    }
                     
                     if ($refresh)
                         fs.readdir(path, function() {});
@@ -211,7 +208,6 @@ define(function(require, exports, module) {
                 // console.log("[watchers] stopped watching", path);
                 if (typeof handlers[path] == "function") {
                     fs.unwatch(path, handlers[path]);
-                    emit("unwatch", { path: path });
                     delete handlers[path];
                 } else {
                     handlers[path].unwatchScheduled = true;
@@ -297,18 +293,6 @@ define(function(require, exports, module) {
                  *   about the path. See {@link fs#stat}.
                  */
                 "directory",
-                /** 
-                 * @event failed Fires when a watcher fails to be set
-                 * @param {Object} e
-                 * @param {String} e.path   the path
-                 */
-                "failed",
-                /** 
-                 * @event unwatch A watcher got removed for a path
-                 * @param {Object} e
-                 * @param {String} e.path   the path
-                 */
-                "unwatch",
             ],
             
             /**

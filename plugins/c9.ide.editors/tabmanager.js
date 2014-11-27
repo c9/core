@@ -227,10 +227,9 @@ define(function(require, module, exports) {
                 setTimeout(function() {
                     // Only set the state if we're not testing something else
                     if (options.testing != 2 && firstTime) {
-                        setState(state, firstTime, function(){
-                            emit.sticky("ready");
-                        });
+                        setState(state, firstTime, function(){});
                         firstTime = false;
+                        emit.sticky("ready");
                     }
                     
                     showTabs = settings.getBool("user/tabs/@show");
@@ -507,7 +506,7 @@ define(function(require, module, exports) {
                         + "a pane is available. Use the ready event.");
                 }
             }
-            
+                
             var tab = new Tab(state);
             
             var id = !tab.document.meta.cloned && tab.path 
@@ -721,8 +720,6 @@ define(function(require, module, exports) {
             if (!init && !options.testing)
                 clear();
             
-            var count = 0;
-            
             // Load State
             (function recur(parent, list) {
                 list.forEach(function(state) {
@@ -747,10 +744,8 @@ define(function(require, module, exports) {
                             state.pane = parent.cloud9pane;
                             state.init = init;
                             
-                            count++;
                             open(state, function(err, tab) {
-                                if (!--count)
-                                    callback();
+                                callback(err, tab);
                             });
                         }
                         else {
@@ -777,9 +772,6 @@ define(function(require, module, exports) {
                 focusTab(findTab(state.focus));
             
             setCornerPadding();
-            
-            if (!count)
-                callback();
         }
         
         function clear(soft, clearTabs /* For testing only */){
@@ -1105,7 +1097,7 @@ define(function(require, module, exports) {
                 }
                 
                 var doc = tab.document;
-                if (typeof value == "string")
+                if (value)
                     doc.value = value;
                     
                 // Set timestamp to now() to indicate that the file has been
@@ -1229,7 +1221,7 @@ define(function(require, module, exports) {
         function checkAllTabs() {
             getTabs().forEach(function(tab) {
                 var meta = tab.document.meta;
-                if (tab.path && !meta.newfile && !meta.preview && !meta.ignoreState && !meta.nofs)
+                if (tab.path && !meta.newfile && !meta.preview && !meta.ignoreState)
                     watcher.check(tab.path, meta.timestamp);
             });
         }
@@ -1422,7 +1414,6 @@ define(function(require, module, exports) {
             tabs = [];
             loaded = false;
             drawn = false;
-            lastPreviewTab = null;
         });
         
         /***** Register and define API *****/

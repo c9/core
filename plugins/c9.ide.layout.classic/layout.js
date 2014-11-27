@@ -1,21 +1,20 @@
 define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "layout.preload", "c9", "ui", "dialog.alert", "settings",
-        "commands", "dialog.question", "anims"
+        "commands", "dialog.question"
     ];
     main.provides = ["layout"];
     return main;
 
     function main(options, imports, register) {
         var c9 = imports.c9;
-        var Plugin = imports.Plugin;
-        var settings = imports.settings;
-        var commands = imports.commands;
         var alert = imports["dialog.alert"].show;
         var question = imports["dialog.question"];
-        var preload = imports["layout.preload"];
-        var anims = imports.anims;
+        var Plugin = imports.Plugin;
         var ui = imports.ui;
+        var settings = imports.settings;
+        var commands = imports.commands;
+        var preload = imports["layout.preload"];
         
         var markup = require("text!./layout.xml");
         
@@ -43,6 +42,11 @@ define(function(require, exports, module) {
             loaded = true;
             
             settings.on("read", function(){
+                settings.setDefaults("user/general", [
+                    ["skin", "black"]
+                    // ["layout", "default"]
+                ]);
+                
                 updateTheme(true);
                 
                 userLayout = settings.get("user/general/@layout");
@@ -65,7 +69,7 @@ define(function(require, exports, module) {
             }, plugin);
             
             if (!ui.packedThemes) {
-                var theme = settings.get("user/general/@skin");
+                var theme = settings.get("user/general/@skin") || "dark";
                 
                 ui.defineLessLibrary(require("text!./themes/default-" + theme + ".less"), plugin);
                 ui.defineLessLibrary(require("text!./less/lesshat.less"), plugin);
@@ -85,6 +89,25 @@ define(function(require, exports, module) {
         function draw(){
             if (drawn) return;
             drawn = true;
+            
+            if (apf.isGecko) {
+                var img = options.staticPrefix + "/images/gecko_mask.png";
+                document.body.insertAdjacentHTML("beforeend", '<svg xmlns="http://www.w3.org/2000/svg">'
+                    + '<defs>'
+                        + '<mask id="tab-mask-left" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">'
+                            + '<image width="46px" height="24px" xlink:href="' + img + '" x="1px"></image>'
+                        + '</mask>'
+                        + '<mask id="tab-mask-right" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">'
+                            + '<image width="46px" height="24px" xlink:href="' + img + '" x="-28px"></image>'
+                        + '</mask>'
+                    + '</defs>'
+                + '</svg>');
+                
+                var svg = document.body.lastChild;
+                plugin.addOther(function(){
+                    svg.parentNode.removeChild(svg);
+                });
+            }
             
             // Load the skin
             ui.insertSkin({
@@ -106,7 +129,7 @@ define(function(require, exports, module) {
             // Intentionally global
             window.sbShared = plugin.getElement("sbShared");
             
-            // update c9 main logo link
+            //update c9 main logo link
             logobar = plugin.getElement("logobar");
             if (c9.hosted) {
                 var mainlogo = logobar.$ext.getElementsByClassName('mainlogo');
@@ -124,6 +147,33 @@ define(function(require, exports, module) {
             ].forEach(function(p) {
                 var img = new Image();
                 img.src = options.staticPrefix + "/images/" + p;
+            });
+            
+            var hideOffline;
+            c9.on("stateChange", function(e) {
+                // Online
+                if (e.state & c9.NETWORK && e.state & c9.STORAGE) {
+                    hideOffline && hideOffline();
+                }
+                // Offline
+                else if (!hideOffline || hideOffline.hasClosed()) {
+                    hideOffline = notify("<div class='c9-offline'>No internet "
+                        + "connection detected. Cloud9 will automatically try to "
+                        + "reconnect when it detects an internet connection."
+                        + "</div>", true, 1000);
+                    
+                    document.querySelector(".c9-offline").addEventListener("click", function(){
+                        alert("Offline Notication", "You are currently offline.", 
+                          "This indicator notifies you that Cloud9 is unable to reach "
+                          + "the server. This usually happens because you are offline. "
+                          + "Some features will be disabled until the "
+                          + "network connection becomes available again. "
+                          + "This notication could also show when the server is "
+                          + "unreachable due to other reasons. Sometimes a refresh of "
+                          + "the tab will fix an issue. Please e-mail "
+                          + "support@c9.io for further problem resolution.");
+                    }, false);
+                }
             });
             
             window.addEventListener("resize", resize, false);
@@ -166,10 +216,6 @@ define(function(require, exports, module) {
                         // Remove Current Theme
                         if (removeTheme)
                             removeTheme();
-                        var url = options.staticPrefix.replace(/c9.ide.layout.classic\/?$/, "");
-                        theme = theme.replace(/(url\(["']?)\/static\/plugins\//g, function(_, x) {
-                            return x + url;
-                        });
                         // Load the theme css
                         ui.insertCss(theme, false, {
                             addOther: function(remove){ removeTheme = remove; }
@@ -407,81 +453,34 @@ define(function(require, exports, module) {
             }
         }
         
-        var activeFindArea, defaultFindArea, activating;
-        function setFindArea(amlNode, options, callback) {
-            var animate = options.animate;
-            if (animate == undefined)
-                animate = settings.getBool("user/general/@animateui");
+        var activeFindArea, defaultActive, activating;
+        function clearFindArea(active, callback, isDefault) {
+            if (isDefault)
+                defaultActive = active;
             
-            var toHide = activeFindArea || defaultFindArea;
-            if (options.isDefault)
-                defaultFindArea = amlNode;
-            var toShow = amlNode || defaultFindArea;
-            activeFindArea = amlNode;
-            
-            if (toShow == toHide)
-                return;
-            
-            var searchRow = plugin.getElement("searchRow");
-            activating = true;
-            if (toShow) {
-                searchRow.appendChild(toShow);
-                toShow.show();
-                toShow.$ext.style.overflow = "hidden";
-                toShow.$ext.style.height = 
-                    toShow.$ext.offsetHeight + "px";
+            if (!activeFindArea || !activeFindArea.aml 
+              || !activeFindArea.aml.visible
+              || activeFindArea == active) {
+                activeFindArea = active;
+                return false;
             }
-            hide(toHide, function() {
-                show(toShow, function() {
-                    activating = false;
-                    callback && callback();
-                });
+            
+            activating = true;
+            
+            // Hide Active Find Area Item
+            activeFindArea.toggle(-1, null, true, callback);
+            
+            // Set New Active Find Area Item
+            activeFindArea = active;
+            
+            activeFindArea.aml.once("prop.visible", function(){
+                if (!activating && defaultActive && !activeFindArea.aml.visible)
+                    defaultActive.toggle(1);
             });
             
-            function show(amlNode, callback) {
-                if (!amlNode)
-                    return callback();
-
-                anims.animateSplitBoxNode(amlNode, {
-                    height: amlNode.$ext.scrollHeight + "px",
-                    duration: 0.2,
-                    timingFunction: "cubic-bezier(.10, .10, .25, .90)"
-                }, function() {
-                    amlNode.$ext.style.height = "";
-                    ui.layout.forceResize(null, true);
-                    callback && callback();
-                });
-            }
-            function hide(amlNode, callback) {
-                if (!amlNode)
-                    return callback();
-                
-                amlNode.visible = false;
-                amlNode.$ext.style.height
-                    = amlNode.$ext.offsetHeight + "px";
-                
-                if (animate) {
-                    anims.animateSplitBoxNode(amlNode, {
-                        height: "0px",
-                        duration: 0.2,
-                        timingFunction: "ease-in-out"
-                    }, function(){
-                        amlNode.visible = true;
-                        amlNode.hide();
-                        if (amlNode.parentNode)
-                            amlNode.parentNode.removeChild(amlNode);
-    
-                        callback && callback();
-                    });
-                }
-                else {
-                    amlNode.visible = true;
-                    amlNode.setHeight(0);
-                    amlNode.hide();
-                    amlNode.parentNode.removeChild(amlNode);
-                    callback && callback();
-                }
-            }
+            activating = false;
+            
+            return true;
         }
         
         var hideFlagUpdate;
@@ -515,21 +514,6 @@ define(function(require, exports, module) {
             window.removeEventListener("resize", resize);
             
             if (removeTheme) removeTheme();
-            
-            logobar = null;
-            removeTheme = null;
-            theme = null;
-            c9console = null;
-            menus = null;
-            tabManager = null;
-            panels = null;
-            userLayout = null;
-            ignoreTheme = null;
-            notify = null;
-            hideFlagUpdate = null;
-            activeFindArea = null;
-            defaultFindArea = null;
-            activating = null;
         });
         
         /***** Register and define API *****/
@@ -580,7 +564,7 @@ define(function(require, exports, module) {
             /**
              * 
              */
-            setFindArea: setFindArea,
+            clearFindArea: clearFindArea,
             
             /**
              * 

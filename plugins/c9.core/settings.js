@@ -1,7 +1,5 @@
 define(function(require, exports, module) {
-    main.consumes = [
-        "c9", "ui", "Plugin", "fs", "proc", "api", "info", "ext", "util"
-    ];
+    main.consumes = ["c9", "ui", "Plugin", "fs", "proc", "api", "info", "ext"];
     main.provides = ["settings"];
     return main;
 
@@ -14,8 +12,6 @@ define(function(require, exports, module) {
         var proc = imports.proc;
         var api = imports.api;
         var info = imports.info;
-        var util = imports.util;
-        var _ = require("lodash");
         
         var join = require("path").join;
         
@@ -33,7 +29,6 @@ define(function(require, exports, module) {
         
         var resetSettings = options.reset || c9.location.match(/reset=([\w\|]*)/) && RegExp.$1;
         var develMode = c9.location.indexOf("devel=1") > -1;
-        var debugMode = c9.location.indexOf("debug=2") > -1;
         var testing = options.testing;
         var debug = options.debug;
         
@@ -65,9 +60,6 @@ define(function(require, exports, module) {
                 // Load from parsed settings in the index file
                 else if (options.settings) {
                     json = options.settings;
-                    
-                    if (debugMode)
-                        json.state = localStorage["debugState" + c9.projectName];
                     
                     for (var type in json) {
                         if (typeof json[type] == "string") {
@@ -174,17 +166,11 @@ define(function(require, exports, module) {
                     if (!node) return;
                     
                     // Get XML string
-                    var json = util.stableStringify(node, 0, "    ");
+                    var json = JSON.stringify(node, 0, "    ");
                     if (cache[type] == json) return; // Ignore if same as cache
                     
                     // Set Cache
                     cache[type] = json;
-                    
-                    // Debug mode
-                    if (debugMode && type == "state") {
-                        localStorage["debugState" + c9.projectName] = json;
-                        return;
-                    }
                     
                     // Detect whether we're in standalone mode
                     var standalone = !options.hosted;
@@ -342,7 +328,7 @@ define(function(require, exports, module) {
         
         function update(type, json, ud){
             // Do nothing if they are the same
-            if (_.isEqual(model[type], json))
+            if (JSON.stringify(model[type]) == JSON.stringify(json))
                 return;
             
             userData = ud;
@@ -428,7 +414,7 @@ define(function(require, exports, module) {
             if (typeof json == "object")
                 return JSON.parse(JSON.stringify(json));
                 
-            try {
+            try{
                 var obj = JSON.parse(json);
                 return obj;
             }
@@ -509,9 +495,6 @@ define(function(require, exports, module) {
         });
         plugin.on("unload", function(){
             dirty = false;
-            diff = 0;
-            userData = null;
-            inited = false;
             clearInterval(timer);
         });
         

@@ -56,20 +56,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 expect(count).to.equal(2);
                 done();
             });
-            it('should support alternative mime-types for internal data objects', function(done) {
-                var testData = { test: 1 };
-                
-                clipboard.on("copy", function(){ 
-                    clipboard.clipboardData.setData("c9/tree-nodes", testData); 
-                });
-                clipboard.on("paste", function(){ 
-                    var data = clipboard.clipboardData.getData("c9/tree-nodes")
-                    expect(data).to.equal(testData);
-                    done();
-                });
-                clipboard.copy();
-                clipboard.paste();
-            });
             
            if (!onload.remain) {
                after(function(done) {

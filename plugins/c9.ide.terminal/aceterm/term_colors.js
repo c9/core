@@ -3,33 +3,9 @@ define(function(require, exports, module) {
 /**
  * Colors
  */
-module.exports = function setColors(fg, bg, colors) {
+module.exports = function setColors(fg, bg) {
     bg = bg || '#000000';
     fg = fg || '#f0f0f0';
-    
-    // Colors 0-15
-    if (!colors) {
-        colors = [
-          // dark:
-          '#2e3436',
-          '#cc0000',
-          '#4e9a06',
-          '#c4a000',
-          '#3465a4',
-          '#75507b',
-          '#06989a',
-          '#d3d7cf',
-          // bright:
-          '#555753',
-          '#ef2929',
-          '#8ae234',
-          '#fce94f',
-          '#729fcf',
-          '#ad7fa8',
-          '#34e2e2',
-          '#eeeeec'
-        ];
-    }
     
     function hex(c) {
         c = c.toString(16);
@@ -81,6 +57,27 @@ module.exports = function setColors(fg, bg, colors) {
     var bgLuma = luma.apply(null, parseColor(bg));
     
     var overridenColors = Object.create(null);
+    // Colors 0-15
+    var colors = [
+      // dark:
+      '#2e3436',
+      '#cc0000',
+      '#4e9a06',
+      '#c4a000',
+      '#3465a4',
+      '#75507b',
+      '#06989a',
+      '#d3d7cf',
+      // bright:
+      '#555753',
+      '#ef2929',
+      '#8ae234',
+      '#fce94f',
+      '#729fcf',
+      '#ad7fa8',
+      '#34e2e2',
+      '#eeeeec'
+    ];
     
     // Colors 16-255
     // Much thanks to TooTallNate for writing this.

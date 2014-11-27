@@ -203,7 +203,7 @@ define(function(require, exports, module) {
                 fsCache.model.rowHeightInner = height;
                 fsCache.model.rowHeight = height + 1;
                 
-                if (e.changed && tree) (tree).resize(true);
+                if (e.changed) (tree).resize(true);
             });
         }
         
@@ -609,17 +609,14 @@ define(function(require, exports, module) {
             function isClipboardAvailable(e) {
                 if (tree.edit.renaming)
                     return;
-                
                 var cursor = tree.selection.getCursor();
                 if (e.type == "cut")
                     return cursor && cursor.path != "/";
-                
                 var nodes = clipboard.clipboardData.getData("c9/tree-nodes");
                 if (e.type == "clearcut")
                     return nodes && nodes.isCut;
                 if (e.type == "paste")
                     return nodes && getSelectedFolder();
-                    
                 return true;
             }
             function clearcut(){
@@ -1312,7 +1309,6 @@ define(function(require, exports, module) {
         plugin.on("unload", function(){
             tree && tree.destroy();
             loaded = false;
-            drawn = false;
         });
         
         /***** Register and define API *****/

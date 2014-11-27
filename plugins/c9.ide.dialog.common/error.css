@@ -1,22 +1,17 @@
-.errorlabel, .disconnectlabel{
+.errorlabel{
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     z-index: 10000000;
-    /*text-align: center;*/
+    text-align: center;
     pointer-events: none;
     .font-smoothing(@error-font-smoothing);
 }
-.errorlabel.anim, .disconnectlabel.anim{
+.errorlabel.anim{
     transition: top 0.2s;
     -moz-transition: top 0.2s; /* Gecko */
     -webkit-transition: top 0.2s; /* Safari */
-}
-.errorlabel.fade-in{
-    transition: opacity 0.2s;
-    -moz-transition: opacity 0.2s; /* Gecko */
-    -webkit-transition: opacity 0.2s; /* Safari */
 }
 .errorlabel div{
     background: @error-background;
@@ -31,9 +26,6 @@
     max-width: 100%;
     pointer-events: auto;
 }
-.errorlabel.fade-in div{
-    border-radius: 3px;
-}
 .errorlabel u.close{
     .image-2x("@{image-path}/@{error-close-image}", 42px, 28px);
     background-position: @error-close-idle-position;
@@ -41,7 +33,7 @@
     height: 14px;
     position: absolute;
     right: 8px;
-    top: 6px;
+    top: 8px;
     cursor: pointer;
 }
 .errorlabel u.close:hover{
@@ -53,25 +45,4 @@
 .errorlabel div span{
     border-bottom: 1px dotted rgb(255, 174, 174);
     cursor: help;
-}
-
-.disconnectlabel{
-    z-index: 10000001;
-}
-.disconnectlabel div{
-    background: @disconnect-background;
-    padding: @disconnect-padding;
-    color: @disconnect-color;
-    border-radius: 0 0 3px 3px;
-    box-shadow: @disconnect-box-shadow;
-    line-height: 1.4;
-    display: inline-block;
-    position: relative;
-    word-wrap: break-word;
-    text-align: center;
-    width: 300px;
-    pointer-events: auto;
-}
-.disconnectlabel u{
-    cursor: pointer;
 }

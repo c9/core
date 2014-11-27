@@ -93,17 +93,15 @@ define(function(require, exports, module) {
             getServers(function(err, servers) {
                 if (err) return callback(err);
                 
-                getVfsUrl(version, servers, function(err, vfsid, url, region) {
+                getVfsUrl(version, servers, function(err, url) {
                     if (err) return callback(err);
     
                     callback(null, {
-                        url: url,
-                        region: region,
-                        home: vfsid + "/home",
-                        project: vfsid + "/workspace",
-                        socket: vfsid + "/socket",
-                        ping: vfsid,
-                        serviceUrl: vfsid,
+                        home: url + "/home",
+                        project: url + "/workspace",
+                        socket: url + "/socket",
+                        ping: url,
+                        serviceUrl: url,
                     });
                 });
             });
@@ -147,7 +145,7 @@ define(function(require, exports, module) {
                         deleteOldVfs();
                         return getVfsUrl(version, vfsServers, callback);
                     }
-                    callback(null, vfs.vfsid, vfs.url, vfs.region);
+                    callback(null, vfs.vfsid);
                 });
                 return;
             }
@@ -224,7 +222,7 @@ define(function(require, exports, module) {
                     }
 
                     var vfs = rememberVfs(server, res.vfsid);
-                    callback(null, vfs.vfsid, server.url, server.region);
+                    callback(null, vfs.vfsid);
                 });
             })(0);
         }

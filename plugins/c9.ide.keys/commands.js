@@ -54,28 +54,6 @@ define(function(require, exports, module) {
                 if (platform && platform != "auto")
                     changePlatform(platform);
             });
-            
-            addCommands([{
-                name: "passKeysToBrowser",
-                group: "ignore",
-                bindKey: {
-                    win: "F12|Ctrl-Shift-I",
-                    mac: "F12|Cmd-`|Cmd-R|Cmd-Option-I|Cmd-H|Cmd-M"
-                },
-                exec: function(){},
-                passEvent: true,
-                hint: "Allow keys to be handled by the browser"
-            }, {
-                name: "cancelBrowserAction",
-                group: "ignore",
-                bindKey: {
-                    mac: "Command-S",
-                    win: "Ctrl-S|Alt-Left|Alt-Right",
-                    position: -10000
-                },
-                exec: function(){},
-                hint: "This cancels some native browser keybindings that can be annoying if triggered accidentally"
-            }], plugin);
         }
         
         /***** Methods *****/
@@ -240,7 +218,6 @@ define(function(require, exports, module) {
             }
             
             commandManager.removeCommand(command, clean);
-            markDirty.schedule();
         }
         
         function setDefault(name, keys) {
@@ -258,32 +235,15 @@ define(function(require, exports, module) {
             
             if (!key || !command)
                 return;
-            
-            command.bindKey = {
-                position: command.originalBindKey.position
-            };
-            
-            command.bindKey[commandManager.platform] = key;
-            
+
             commandManager.bindKey(key, command, asDefault);
             
             plugin.commandManager
                 .setProperty(command.name, key);
         }
         
-        function findKey(key, scope) {
-            var commands = commandManager.commandKeyBinding[key];
-            if (!commands)
-                commands = commandManager.commandKeyBinding[key.toLowerCase()];
-            if (!commands) return [];
-            if (!Array.isArray(commands)) commands = [commands];
-            if (scope == "global") {
-                var exceptions = getExceptionList();
-                commands = commands.filter(function(c) {
-                    return exceptions.indexOf(c) != -1;
-                });
-            }
-            return commands;
+        function findKey(key) {
+            // @todo commandManager.commandKeyBinding
         }
         
         function reset(noReload){
@@ -297,15 +257,7 @@ define(function(require, exports, module) {
                 else
                     delete plugin.commandManager[name];
             });
-            
-            if (noReload)
-                markDirty.cancel();
-            else
-                markDirty.schedule();
-        }
-        
-        function flushUpdateQueue() {
-            markDirty.call();
+            noReload || markDirty.schedule();
         }
         
         function getExceptionList(){
@@ -322,13 +274,10 @@ define(function(require, exports, module) {
                     passEvent: true,
                     exec: function(){}
                 },
-                commands.togglepreferences,
                 commands.openpreferences,
-                commands.passKeysToBrowser,
                 commands.find,
                 commands.openterminal,
                 commands.navigate,
-                commands.navigate_altkey,
                 commands.searchinfiles,
                 commands.close_term_pane,
                 commands.closeallbutme,
@@ -479,14 +428,6 @@ define(function(require, exports, module) {
          * @singleton
          */
         plugin.freezePublicAPI({
-            /**
-             * @ignore
-             */
-            flushUpdateQueue: flushUpdateQueue,
-            /**
-             * @ignore
-             */
-            get commandKeyBinding() { commandManager.commandKeyBinding },
             /**
              * @ignore
              */

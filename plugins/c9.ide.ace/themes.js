@@ -116,19 +116,19 @@ define(function(require, exports, module) {
                                         class: "themepicker", 
                                         style: "background:#3f3f3f;", 
                                         value: "dark-gray" 
+                                    }),
+                                    rb3 = new ui.radiobutton({ 
+                                        group: "theme-color", 
+                                        class: "themepicker", 
+                                        style: "background:#aaa;", 
+                                        value: "light-gray" 
+                                    }),
+                                    rb4 = new ui.radiobutton({ 
+                                        group: "theme-color", 
+                                        class: "themepicker", 
+                                        style: "background:#dcdbdb;", 
+                                        value: "light"
                                     })
-                                    // rb3 = new ui.radiobutton({ 
-                                    //     group: "theme-color", 
-                                    //     class: "themepicker", 
-                                    //     style: "background:#aaa;", 
-                                    //     value: "light-gray" 
-                                    // }),
-                                    // rb4 = new ui.radiobutton({ 
-                                    //     group: "theme-color", 
-                                    //     class: "themepicker", 
-                                    //     style: "background:#dcdbdb;", 
-                                    //     value: "light"
-                                    // })
                                 ]
                             })
                         ]
@@ -151,7 +151,7 @@ define(function(require, exports, module) {
                 settings.set("user/general/@skin", e.value);
             };
             var setTheme = function(e) {
-                [rb1, rb2, rb5].some(function(rb) {
+                [rb1, rb2, rb3, rb4, rb5].some(function(rb) {
                     if (rb.value == e.value) {
                         rb.select();
                         return true;
@@ -159,7 +159,7 @@ define(function(require, exports, module) {
                 })
             }
             settings.on("user/general/@skin", setTheme);
-            setTheme({ value: settings.get("user/general/@skin") });
+            setTheme({ value: settings.get("user/general/@skin") || "dark" });
             
             rb1.$group.on("afterchange", change);
             

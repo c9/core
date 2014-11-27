@@ -34,11 +34,10 @@ define(function(require, exports, module) {
                 ace: "lib/ace/lib/ace",
                 ace_tree: "lib/ace_tree/lib/ace_tree",
                 treehugger: "lib/treehugger/lib/treehugger",
-                acorn: "lib/treehugger/lib/treehugger/js",
-                tern: "lib/tern",
+                pivottable: "lib/pivottable/lib/pivot",
                 ui: "lib/ui",
                 c9: "lib/c9",
-                frontdoor: "lib/frontdoor",
+                frontdoor: "lib/frontdoor"
             };
             
             if (whitelist === "*") {
@@ -55,8 +54,6 @@ define(function(require, exports, module) {
             } else {
                 [
                     "ace_tree", 
-                    "acorn",
-                    "tern",
                     "treehugger",
                     "pivottable",
                     "architect",
@@ -88,8 +85,6 @@ define(function(require, exports, module) {
                         else if (path in whitelist)
                             return true;
                         else if (path.indexOf("c9.ide.") === 0)
-                            return true;
-                        else if (path.indexOf("c9.account") === 0)
                             return true;
                         else
                             return false;

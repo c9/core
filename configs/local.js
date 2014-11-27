@@ -1,7 +1,7 @@
 module.exports = function(options, optimist) {
     var plugins = require("./standalone")(options, optimist);
     
-    options.inProcessLocalFs = true;
+    options.inProcessLocalfs = true;
     
     plugins.forEach(function(p) {
         if (p.packagePath)

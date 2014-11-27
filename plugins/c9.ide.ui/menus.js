@@ -24,7 +24,7 @@ define(function(require, exports, module) {
         var count = 0;
         var debug = location.href.indexOf('menus=1') > -1;
         var minimized;
-        var inited, height = 31, minimizedHeight = 12;
+        var inited, height, minimizedHeight;
         
         var menubar, logobar; // UI elements
         
@@ -129,9 +129,6 @@ define(function(require, exports, module) {
                 }
             }), menubar.firstChild);
             
-            // Mark menu bar
-            menubar.menubar = true;
-            
             plugin.addElement(menubar);
     
             logobar.$ext.addEventListener("mousedown", function(){
@@ -230,8 +227,7 @@ define(function(require, exports, module) {
                         continue;
                     }
                     
-                    var c = cmd && commands.commands[cmd];
-                    fn = c && c.isAvailable;
+                    fn = cmd && commands.commands[cmd].isAvailable;
                     a = (!n.isAvailable || n.isAvailable(editor))
                       && (!fn || fn(editor));
                      
@@ -510,8 +506,6 @@ define(function(require, exports, module) {
         }
     
         function restore(preview, noAnim) {
-            if (!minimized && !preview) return;
-            
             apf.setStyleClass(logobar.$ext, "", ["minimized"]);
     
             logobar.$ext.style.overflow = "hidden";
@@ -538,8 +532,6 @@ define(function(require, exports, module) {
         }
     
         function minimize(preview, noAnim) {
-            if (minimized && !preview) return;
-            
             logobar.$ext.style.overflow = "hidden";
     
             anims.animateSplitBoxNode(logobar, {
@@ -658,10 +650,6 @@ define(function(require, exports, module) {
                 item: items[path],
                 menu: menus[path]
             };
-        }
-        
-        function escape(name) {
-            return name.replace(/[/]/g, "\u2044");
         }
         
         /***** Lifecycle *****/
@@ -891,13 +879,7 @@ define(function(require, exports, module) {
             /**
              * @ignore
              */
-            decorate: decorate,
-            
-            /**
-             * Escapes / in menu item name.
-             * @param {String} name  A name of menu item.
-             */
-            escape: escape
+            decorate: decorate
         });
         
         /***** Constructors *****/
@@ -908,8 +890,6 @@ define(function(require, exports, module) {
             
             var items = [], meta = {};
             var aml, lastCoords;
-            
-            if (!options) options = 0;
             
             function append(item) {
                 ui.insertByIndex(aml, item.aml, item.position, item.plugin || forPlugin);

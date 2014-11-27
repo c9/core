@@ -24,7 +24,7 @@ define(function(require, exports, module) {
             
             cmd.addCommand({
                 name: "open", 
-                info: "     Opens a file or directory.",
+                info: "   Opens a file or directory.",
                 usage: "<path>",
                 options: {
                     "path" : {

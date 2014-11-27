@@ -1,8 +1,7 @@
 define(function(require, exports, module) {
     main.consumes = [
         "PreferencePanel", "commands", "settings", "ui", "util", "Form",
-        "c9", "dialog.alert", "tabManager", "save", "dialog.confirm", "layout",
-        "preferences", "menus"
+        "c9", "dialog.alert", "tabManager", "save", "dialog.confirm", "layout"
     ];
     main.provides = ["preferences.keybindings"];
     return main;
@@ -12,12 +11,10 @@ define(function(require, exports, module) {
         var commands = imports.commands;
         var settings = imports.settings;
         var layout = imports.layout;
-        var preferences = imports.preferences;
         var ui = imports.ui;
         var c9 = imports.c9;
         var util = imports.util;
         var save = imports.save;
-        var menus = imports.menus;
         var tabManager = imports.tabManager;
         var alert = imports["dialog.alert"].show;
         var confirm = imports["dialog.confirm"].show;
@@ -40,7 +37,7 @@ define(function(require, exports, module) {
         // var emit = plugin.getEmitter();
         
         var model, datagrid, changed, container, filterbox;
-        var appliedCustomSets, intro, reloading;
+        var appliedCustomSets, intro;
         
         var loaded = false;
         function load() {
@@ -55,6 +52,7 @@ define(function(require, exports, module) {
                 if (commands.platform != platform) {
                     commands.changePlatform(platform);
                     reloadModel();
+                    applyFilter();
                 }
             }, plugin);
             
@@ -63,10 +61,8 @@ define(function(require, exports, module) {
             }, plugin);
             
             commands.on("update", function(){
-                if (!reloading) {
-                    changed = true;
-                    updateCommandsFromSettings();
-                }
+                changed = true;
+                updateCommandsFromSettings();
             }, plugin);
             
             save.on("beforeSave", function(e) {
@@ -78,20 +74,11 @@ define(function(require, exports, module) {
                     }
                     
                     var value = e.document.value
-                        .replace(/\/\/.*/g, "")
-                        .replace(/("(?:\\.|[^"])")|(?:,\s*)+([\]\}])|(\w+)\s*:|([\]\}]\s*[\[\{])/g,
-                            function(_, str, extraComma, noQuote, missingComma) {
-                                if (missingComma)
-                                    return missingComma[0] + "," + missingComma.slice(1);
-                                return str || extraComma || '"' + noQuote + '":';
-                        })
-                        .trim() || "[]";
+                        .replace(/\/\/.*/g, "");
                         
                     var json;
                     try {
                         json = JSON.parse(value);
-                        if (!Array.isArray(json))
-                            throw new Error("");
                     } catch (e) {
                         alert("Syntax Error", 
                             "Found a Syntax Error in Keybindings", 
@@ -102,19 +89,13 @@ define(function(require, exports, module) {
                     settings.setJson("user/key-bindings", json);
                     updateCommandsFromSettings();
                     
+                    // e.document.meta.$ignoreSave = true;
+                    // e.document.tab.close();
                     e.document.undoManager.bookmark();
                     
                     return false;
                 }
             }, plugin);
-            
-            menus.addItemByPath("Help/Key Bindings Editor", new ui.item({
-                onclick: function(){
-                    commands.exec("openpreferences", null, {
-                        panel: plugin
-                    });
-                }
-            }), 250, plugin);
         }
         
         var drawn;
@@ -133,18 +114,18 @@ define(function(require, exports, module) {
             }, {
                 caption: "Keystroke",
                 value: "keys",
-                width: "20%",
+                width: "100",
                 editor: "textbox" 
             }, {
                 caption: "Description",
                 value: "info",
-                width: "80%"
+                width: "100%"
             }];
             
             layout.on("eachTheme", function(e){
                 var height = parseInt(ui.getStyleRule(".bar-preferences .blackdg .tree-row", "height"), 10) || 24;
                 model.rowHeightInner = height;
-                model.rowHeight = height;
+                model.rowHeight = height + 1;
                 
                 if (e.changed) datagrid.resize(true);
             });
@@ -258,9 +239,6 @@ define(function(require, exports, module) {
                 {
                     bindKey: "Enter",
                     exec: function(){ }
-                }, {
-                    bindKey: "Esc",
-                    exec: function(ace){ ace.setValue(""); }
                 }
             ]);
             
@@ -272,18 +250,22 @@ define(function(require, exports, module) {
                 return false;
             });
             
-            var lastKey, displayKey;
             datagrid.on("createEditor", function(e) {
-                displayKey = lastKey = "";
-                e.ace.keyBinding.addKeyboardHandler(function(data, hashId, keyString, keyCode, e) {
-                    var ace = data.editor;
+                var ace = e.ace;
+                
+                var lastKey, displayKey;
+                
+                ace.keyBinding.addKeyboardHandler(function(data, hashId, keyString, keyCode, e) {
+                    var key = [];
                     var disable = { command: "null" };
                     
-                    var mod = keys.KEY_MODS[hashId];
-                    var isTextInput = keyString.length == 1 && (!mod || mod == "shift-");
-                    if (!e || isTextInput || keyCode <= 0) return;
+                    if (!e) return disable;
                     
-                    var key = mod.split("-").filter(Boolean);
+                    if (e.ctrlKey)  key.push("Ctrl");
+                    if (e.metaKey)  key.push(apf.isMac ? "Command" : "Meta");
+                    if (e.altKey)   key.push(apf.isMac ? "Option" : "Alt");
+                    if (e.shiftKey) key.push("Shift");
+                    
                     // do not allow binding to enter and escape without modifiers
                     if (!key.length) {
                         if (e.keyCode == 8) {
@@ -291,26 +273,40 @@ define(function(require, exports, module) {
                             lastKey = displayKey = "";
                             return disable;
                         }
-                        if (e.keyCode == 27) {
-                            ace.treeEditor.endRename(true);
+                        if (e.keyCode == 27)
                             return disable;
-                        }
                         if (e.keyCode == 13) {
-                            key = ace.getValue().split("-");
-                            keyString = key.pop();
-                            setTimeout(function() {
-                                ace.treeEditor.endRename(false);
-                            });
+                            var node = datagrid.selection.getCursor();
+                            var name = node.name;
+                            node.keys = displayKey;
+                            node.actualKeys = lastKey;
+                            
+                            // Make sure key is not already used
+                            if (commands.findKey(lastKey)) {
+                                alert();
+                            }
+                            
+                            // Add key
+                            commands.bindKey(lastKey, commands.commands[name]);
+                            
+                            datagrid.resize(true);
+                            datagrid.focus();
+                            
                             return disable;
                         }
                     }
                     
-                    if (keyCode > 0)
-                        key.push(keys[keys[keyString]] || keyString);
+                    if (keys[e.keyCode]) {
+                        if (!keys.MODIFIER_KEYS[e.keyCode])
+                          key.push(keys[e.keyCode].toUpperCase());
+                    } 
+                    else if (e.keyIdentifier.substr(0, 2) == "U+") {
+                        key.push(String.fromCharCode(
+                            parseInt(e.keyIdentifier.substr(2), 16)
+                        ));
+                    }
                     
-                    displayKey = lastKey = key.map(function(x) {
-                        return x.uCaseFirst();
-                    }).join("-");
+                    displayKey = lastKey = key.join("-");
                     if (commands.platform == "mac")
                         displayKey = apf.hotkeys.toMacNotation(displayKey);
                     ace.setValue(displayKey);
@@ -321,21 +317,6 @@ define(function(require, exports, module) {
             
             datagrid.on("rename", function(e) {
                 var node = e.node;
-                var name = node.name;
-                node.keys = displayKey;
-                node.actualKeys = lastKey;
-                
-                // Make sure key is not already used
-                var used = commands.findKey(lastKey);
-                if (used.length > 1 || (used[0] && used[0].name != name)) {
-                    alert("Notice",
-                        "There are other commands bound to this key combination",
-                        "[" + used.map(function(x) { return x.name }).join(", ") + "]"
-                    );
-                }
-                
-                // Add key
-                commands.bindKey(lastKey, commands.commands[name]);
                 var n = {
                     command: node.name,
                     keys: (node.actualKeys || node.keys).split("|")
@@ -349,15 +330,7 @@ define(function(require, exports, module) {
                     }
                 })) cmds.push(n);
                 
-                reloadModel();
-                
                 settings.setJson("user/key-bindings", cmds);
-            });
-            
-            // when tab is restored datagrids size might be wrong
-            // todo: remove this when apf bug is fixed
-            datagrid.once("mousemove", function() {
-                datagrid.resize(true);
             });
         }
         
@@ -385,21 +358,23 @@ define(function(require, exports, module) {
                 }
             
                 reloadModel();
-                reloading = true;
-                commands.flushUpdateQueue();
-                reloading = false;
             });
         }
         
         function reset(noReload) {
-            reloading = true;
-            commands.reset(true);
+            commands.reset(noReload);
             
             if (!noReload) {
                 settings.setJson("user/key-bindings", []);
                 reloadModel();
             }
-            reloading = false;
+        }
+        
+        function getObject(node) {
+            return {
+                command: node.name,
+                keys: node.keys,
+            };
         }
         
         function reloadModel() {
@@ -413,8 +388,6 @@ define(function(require, exports, module) {
                 if (!item.name) return;
                 
                 var groupName = item.group || "General";
-                if (groupName == "ignore") return;
-                
                 var group = groups[groupName];
                 if (!group)
                     root.push(group = groups[groupName] = { 
@@ -438,11 +411,13 @@ define(function(require, exports, module) {
             });
             
             model.cachedRoot = { items: root };
-            applyFilter();
+            model.setRoot(model.cachedRoot);
         }
         
-        function applyFilter() {
-            model.keyword = filterbox && filterbox.getValue();
+        function applyFilter(){
+            if (!filterbox) return;
+            
+            model.keyword = filterbox.getValue();
             if (!model.keyword) {
                 model.reKeyword = null;
                 model.setRoot(model.cachedRoot);
@@ -456,8 +431,6 @@ define(function(require, exports, module) {
         }
         
         function editUserKeys(tab) {
-            // preferences.hide();
-            
             var keys = settings.getJson("user/key-bindings") || [];
             var value = "// Edit this keymap file and save to apply.\n[\n";
             
@@ -468,10 +441,6 @@ define(function(require, exports, module) {
                     .replace(/\{/g, "{ ")
                     .replace(/\}/g, " }");
             }).join(",\n");
-            
-            if (!keys.length)
-                value += '    // { "command": "nexttab", "keys": ["Ctrl-Tab"] }';
-            
             value += "\n]";
             
             if (tab) {

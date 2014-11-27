@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     "use strict";
     
-    main.consumes = ["Plugin", "auth", "ext"];
+    main.consumes = ["Plugin", "auth"];
     main.provides = ["api"];
     return main;
 
@@ -14,11 +14,6 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         var apiUrl = options.apiUrl || "";
         var pid = options.projectId;
-        
-        var BASICAUTH;
-        
-        // Set api to ext
-        imports.ext.api = plugin;
 
         /***** Methods *****/
 
@@ -36,12 +31,6 @@ define(function(require, exports, module) {
                 options.method = method;
                 if (!options.timeout)
                     options.timeout = 60000;
-                
-                if (BASICAUTH) {
-                    options.username = BASICAUTH[0];
-                    options.password = BASICAUTH[1];
-                }
-                    
                 auth.request(url, options, function(err, data, res) {
                     if (err) {
                         err = (data && data.error) || err;
@@ -66,7 +55,6 @@ define(function(require, exports, module) {
         var preview = apiWrapper("/preview/");
         var project = apiWrapper("/projects/" + pid + "/");
         var users = apiWrapper("/users/");
-        var packages = apiWrapper("/packages/");
         var stats = apiWrapper("/stats/");
         var settings = apiWrapper("/settings/");
         var vfs = apiWrapper("/vfs/");
@@ -79,16 +67,12 @@ define(function(require, exports, module) {
          **/
         plugin.freezePublicAPI({
             get apiUrl() { return apiUrl; },
-            
-            get basicAuth() { throw new Error("Permission Denied"); },
-            set basicAuth(v) { BASICAUTH = v.split(":"); },
 
             collab: collab,
             user: user,
             preview: preview,
             project: project,
             users: users,
-            packages: packages,
             stats: stats,
             settings: settings,
             vfs: vfs

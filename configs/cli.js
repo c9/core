@@ -1,75 +1,39 @@
-module.exports = function(options) {
-    
 var EventEmitter = require("events").EventEmitter;
 
-var PID = process.env.C9_PID || 526;
-var APIHOST = process.env.C9_APIHOST || "api.c9.io"; // "api.c9.io";
-var APIURL = APIHOST.indexOf("localhost") > -1
-    ? "http://" + APIHOST
-    : "https://" + APIHOST;
-var AUTHURL = APIHOST.indexOf("localhost") > -1
-    ? "http://" + APIHOST
-    : "https://" + APIHOST.replace(/api\./, "");
-
-return [
-    "./c9.core/ext",
+module.exports = [
+    "./plugins/c9.core/ext",
     {
-        packagePath: "./c9.fs/fs",
+        packagePath: "./plugins/c9.fs/fs",
         baseProc: process.cwd(),
         cli: true
     },
     {
-        packagePath: "./c9.fs/net"
+        packagePath: "./plugins/c9.fs/net"
     },
     {
-        packagePath: "./c9.fs/proc",
+        packagePath: "./plugins/c9.fs/proc",
         baseProc: process.cwd()
     },
-    "./c9.vfs.client/vfs.cli",
-    "./c9.cli/cli",
+    "./plugins/c9.vfs.client/vfs.cli",
+    "./plugins/c9.cli/cli",
     {
-        packagePath: "./c9.cli/auth.bootstrap",
-        authUrl: AUTHURL
-    },
-    {
-        packagePath: "./c9.cli.publish/publish",
-        projectId: PID,
-        apiHost: APIHOST
-    },
-    {
-        packagePath: "./c9.ide.auth/auth",
-        accessToken: "token",
-        ideBaseUrl: "",
-        apiUrl: APIURL
-        // userId: process.env.C9_USER
-    },
-    {
-        packagePath: "./c9.core/api",
-        apiUrl: APIURL,
-        projectId: PID
-    },
-    {
-        packagePath: "./c9.core/http-node"
-        // debug: !options.packed
-    },
-    {
-        packagePath: "./c9.cli.bridge/bridge-client",
+        packagePath: "./plugins/c9.cli.bridge/bridge-client",
         port: 17123
     },
-    // "./c9.cli.mount/mount",
+    // "./plugins/c9.cli.mount/mount",
     {
-        packagePath: "./c9.cli.open/open",
+        packagePath: "./plugins/c9.cli.open/open",
         platform: process.platform
     },
     {
-        packagePath: "./c9.cli.open/restart",
+        packagePath: "./plugins/c9.cli.open/restart",
         platform: process.platform
     },
-    // "./c9.cli.sync/sync",
-    //"./c9.ide.keys/commands",
+    // "./plugins/c9.cli.sync/sync",
+    //"./plugins/c9.ide.keys/commands",
     {
         consumes: [],
-        provides: ["settings", "workspace", "cli_commands", "c9"],
+        provides: ["settings", "http", "workspace", "cli_commands", "c9", "auth"],
         setup: function(options, imports, register) {
             register(null, {
                 // @todo share with ace min
@@ -151,7 +115,5 @@ return [
         }
     }
 ];
-
-};
 
 if (!module.parent) require("../server")([__filename].concat(process.argv.slice(2)));

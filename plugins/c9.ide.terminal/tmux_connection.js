@@ -121,12 +121,9 @@ module.exports = function(c9, proc, installPath, shell) {
         session.sendTmuxCommand = sendTmuxCommand;
         session.clearHistory = clearHistory;
         
-        var cwd = session.cwd || "";
-        if (!/^~(\/|$)/.test(cwd))
-            cwd = session.root + cwd;
         var command = "";
         var options = {
-            cwd: cwd,
+            cwd: session.root + (session.cwd || ""),
             cols: session.cols || 80,
             rows: session.rows || 24,
             name: "xterm-color",
@@ -217,11 +214,8 @@ module.exports = function(c9, proc, installPath, shell) {
                         session.tab.meta.$ignore = true;
                         session.tab.close();
                     }
-                    else if (session.tab.isActive() && session.tab.pane.visible
-                        && document.hasFocus()
-                    ) {
+                    else if (session.tab.isActive() && session.tab.pane.visible)
                         reconnect(session);
-                    }
                 }
             });
             

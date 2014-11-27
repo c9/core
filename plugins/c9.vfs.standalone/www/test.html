@@ -151,7 +151,7 @@
     var c9Test = {onReady: null};
     var options = Object.create(null);
     var files = [];
-    (location.href.match(/^([^?]+)(?:\?(.*))?$/)[2] || "").split("&").map(function(part, i) {
+    location.href.match(/^([^?]+)(?:\?(.*))?$/)[2].split("&").map(function(part, i) {
         part = part.split("=").map(unescape);
         if (part[1] === undefined && part[0]) {
             files.push(part[0]);

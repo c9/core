@@ -1,6 +1,6 @@
 "use strict";
 
-plugin.consumes = [];
+plugin.consumes = ["raygun"];
 plugin.provides = ["error.logger"];
 
 module.exports = plugin;

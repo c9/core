@@ -444,7 +444,7 @@ define(function(require, exports, module) {
                                 if (!state.meta || state.meta.timestamp < stat.mtime) {
                                     var doc = tab.document;
                                     
-                                    function checkChange(){
+                                    function checkChange(){                                
                                         confirm("File Changed",
                                           tab.path + " has been changed on disk.",
                                           "Would you like to reload this file?",
@@ -456,7 +456,6 @@ define(function(require, exports, module) {
                                           function(){ // No
                                               // Set to changed
                                               doc.undoManager.bookmark(-2);
-                                              doc.meta.timestamp = stat.mtime;
                                           }, 
                                           { merge: false, all: false }
                                         );

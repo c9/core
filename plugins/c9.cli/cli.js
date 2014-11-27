@@ -18,18 +18,10 @@ define(function(require, exports, module) {
 
         function start(){
             var commands = cmd.commands;
-            var module;
+            var module = process.argv[2];
             var argv;
             
-            process.argv.some(function(n){
-                if (!n.match(/^[-\/]/) && n != "node") {
-                    module = n;
-                    return true;
-                }
-                return false;
-            });
-            
-            if (!commands[module] && process.argv.length > 2 && process.argv.every(function(n){ return !n.match(/^--/)})) {
+            if (!commands[module] && process.argv.length > 2) {
                 process.argv.splice(2, 0, "open");
                 module = "open";
             }

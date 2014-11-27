@@ -80,17 +80,17 @@
 
 .filetree .loading .filetree-icon,
 .filetree .loading.filetree-icon {
-    .image-2x("@{tree-spinner}", @tree-spinner-width, @tree-spinner-height);
+    background-image : url("@{image-path}/@{tree-spinner}");
 }
 
 .filetree .loading.selected .filetree-icon,
 .filetree .selected .loading.filetree-icon {
-    .image-2x("@{tree-focus-spinner}", @tree-spinner-width, @tree-spinner-height);
+    background-image : url("@{image-path}/@{tree-focus-spinner}");
 }
         
 .filetree.ace_tree_focus .loading.selected .filetree-icon,
 .filetree.ace_tree_focus .selected .loading.filetree-icon {
-    .image-2x("@{tree-selected-focus-spinner}", @tree-spinner-width, @tree-spinner-height);
+    background-image : url("@{image-path}/@{tree-selected-focus-spinner}");
 }
 
 .filetree .symlink>.filetree-icon:after, .filetree .favorite>.filetree-icon:after {
@@ -192,7 +192,6 @@
     display: -webkit-flex;
     display: flex;
     flex-direction: column;
-    -webkit-flex-direction: column;
 }
 
 .workspace_files .filetree.real{

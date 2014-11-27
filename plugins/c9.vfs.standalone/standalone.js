@@ -14,11 +14,11 @@ module.exports = plugin;
 var fs = require("fs");
 var assert = require("assert");
 var async = require("async");
+var frontdoor = require("frontdoor");
+var resolve = require("path").resolve;
 var join = require("path").join;
 var extend = require("util")._extend;
-var resolve = require("path").resolve;
-var basename = require("path").basename;
-var frontdoor = require("frontdoor");
+var execFile = require("child_process").execFile;
 
 function plugin(options, imports, register) {
     var previewHandler = imports["preview.handler"];
@@ -48,7 +48,7 @@ function plugin(options, imports, register) {
     imports.connect.use(api);
     
     api.get("/", function(req, res, next) {
-        res.writeHead(302, { "Location": "/ide.html" });
+        res.writeHead(302, {"Location": "/static/places.html"});
         res.end();
     });
     
@@ -84,10 +84,6 @@ function plugin(options, imports, register) {
             token: {
                 source: "query",
                 optional: true
-            },  
-            w: {
-                source: "query",
-                optional: true
             }, 
         }
     }, function(req, res, next) {
@@ -109,11 +105,23 @@ function plugin(options, imports, register) {
         opts.options.collab = collab;
         if (req.params.packed == 1)
             opts.packed = opts.options.packed = true;
-        
-        api.updatConfig(opts.options, {
-            w: req.params.w,
-            token: req.params.token
-        });
+        if (req.params.token) {
+            var id = req.params.token;
+            console.log(opts);
+            opts.options.accessToken = id;
+            opts.options.extendToken = id;
+            var user = opts.options.extendOptions.user;
+            user.id = id;
+            user.name = "user" + id;
+            user.fullname = "User " + id;
+        } else {
+            opts.options.accessToken = "token";
+            opts.options.extendToken = "token";
+            var user = opts.options.extendOptions.user;
+            user.id = -1;
+            user.name = "johndoe";
+            user.fullname = "John Doe";
+        }
         
         opts.options.debug = req.params.debug;
         res.setHeader("Cache-Control", "no-cache, no-store");
@@ -209,55 +217,19 @@ function plugin(options, imports, register) {
     api.get("/api.json", {name: "api"}, frontdoor.middleware.describeApi(api));
 
     // fake authentication
-    api.authenticate = api.authenticate || function() {
+    api.authenticate = function() {
         return function(req, res, next) { 
-            req.user = extend({}, options.options.extendOptions.user);
+            req.user = {
+                uid: 1
+            };
             next(); 
         };
     };
-    api.ensureAdmin = api.ensureAdmin || function() {
+    api.ensureAdmin = function() {
         return function(req, res, next) { 
             next(); 
         };
     };
-    api.getVfsOptions = api.getVfsOptions || function(user, pid) {
-        if (!options._projects) {
-            options._projects = [options.workspaceDir];
-        }
-        var wd = options._projects[pid] || options._projects[0];
-        console.log(user)
-        return {
-            workspaceDir: wd,
-            extendOptions: {
-                user: user,
-                project: {
-                    id: pid,
-                    name: pid + "-" + options._projects[pid]
-                },
-                readonly: user.id > 100
-            }
-        };
-    };    
-    api.updatConfig = api.updatConfig || function(opts, params) {
-        var id = params.token;
-        opts.accessToken = opts.extendToken = id || "token";
-        var user = opts.extendOptions.user;
-        user.id = id || -1;
-        user.name = id ? "user" + id : "johndoe";
-        user.email = id ? "user" + id + "@c9.io" : "johndoe@example.org";
-        user.fullname = id ? "User " + id : "John Doe";
-        opts.workspaceDir = params.w ? params.w : options.workspaceDir;
-        opts.projectName = basename(opts.workspaceDir);
-        if (!options._projects) {
-            options._projects = [options.workspaceDir];
-        }
-        var project = opts.extendOptions.project;
-        var pid = options._projects.indexOf(opts.workspaceDir);
-        if (pid == -1)
-            pid = options._projects.push(opts.workspaceDir) - 1;
-        project.id = pid;
-    };
-    
     imports.connect.setGlobalOption("apiBaseUrl", "");
 
     register(null, {
@@ -265,7 +237,9 @@ function plugin(options, imports, register) {
         "passport": {
             authenticate: function() {
                 return function(req, res, next) {
-                    req.user = extend({}, options.options.extendOptions.user);
+                    req.user = {
+                        uid: 1
+                    };
                     next();
                 };
             }
@@ -302,11 +276,10 @@ function getConfig(requested, options) {
     var filename = __dirname + "/../../configs/client-" + getConfigName(requested, options) + ".js";
 
     var installPath = options.settingDir || options.installPath || "";
-    var workspaceDir = options.options.workspaceDir;
     var settings = {
         "user": join(installPath, "user.settings"),
-        "project": join(options.local ? installPath : join(workspaceDir, ".c9"), "project.settings"),
-        "state": join(options.local ? installPath : join(workspaceDir, ".c9"), "state.settings")
+        "project": join(options.local ? installPath : join(options.workspaceDir, ".c9"), "project.settings"),
+        "state": join(options.local ? installPath : join(options.workspaceDir, ".c9"), "state.settings")
     };
     
     var fs = require("fs");

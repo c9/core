@@ -98,16 +98,7 @@ define(function(require, module, exports) {
             });
             
             plugin.on("unload", function(){
-                panels.deactivate(plugin.name);
-                
-                button = null;
-                mnuItem = null;
-                button = null;
-                area = null;
-                lastPanel = null;
-                xpath = null;
-                where = null;
-                drawn = false;
+                panels.disablePanel(plugin.name);
     
                 if (button)
                     button.destroy(true, true);

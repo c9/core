@@ -85,17 +85,10 @@ define(function(require, exports, module) {
                 else {
                     console.error("Unsupported state");
                 }
-                
-                if (tab.classList.contains("conflict")) {
-                    addChangedTab(tab, true);
-                }
             });
             
             tabManager.on("open", function(e) {
                 initializeDocument(e.tab.document);
-                if (e.tab.classList.contains("conflict")) {
-                    addChangedTab(e.tab, true);
-                }
             }, plugin);
             
             // Hook the save of the document value
@@ -105,29 +98,25 @@ define(function(require, exports, module) {
             }, plugin);
             
             save.on("afterSave", function(e) {
-                var meta = e.document.meta;
                 if (!e.err) {
-                    meta.$savedValue = meta.$savingValue;
+                    e.document.meta.$savedValue = e.document.meta.$savingValue;
                     watcher.watch(e.path);
                 }
-                delete meta.$savingValue;
-                delete meta.$mergeRoot;
+                delete e.document.meta.$savingValue;
             }, plugin);
     
             // Hook watcher events
             
             // Update a file
             watcher.on("change", function(e) {
-                var tab = tabManager.findTab(e.path);
-                if (tab) {
-                    if (collabEnabled && tab.editorType == "ace") {
-                        // Collab is supposed to handle this change
-                        // TODO make this a setting
-                        console.warn("[watchers] change ignored because of Collab", e.path);
-                        return;
-                    }
-                    
-                    addChangedTab(tab, e.type === "change");
+                if (collabEnabled) {
+                    // Collab is supposed to handle this change
+                    console.warn("[watchers] change ignored because of Collab", e.path);
+                }
+                else {
+                    var tab = tabManager.findTab(e.path);
+                    if (tab)
+                        addChangedTab(tab, e.type === "change");
                 }
             });
             
@@ -171,7 +160,7 @@ define(function(require, exports, module) {
                 return;
             }
             
-            changedPaths[tab.path] = { tab: tab, resolve: resolve };
+            changedPaths[tab.path] = { tab: tab };
             
             // If the terminal is currently focussed, lets wait until 
             // another tab is focussed
@@ -185,8 +174,6 @@ define(function(require, exports, module) {
             
             function resolve() {
                 console.log("[watchers] resolved change event without dialog", path);
-                doc.tab.classList.remove("conflict");
-                delete doc.meta.$merge;
                 delete changedPaths[path];
             }
 
@@ -219,7 +206,6 @@ define(function(require, exports, module) {
                 }
                 
                 if (tabManager.focussedTab && !changedPaths[tabManager.focussedTab.path]) {
-                    doc.tab.classList.add("conflict");
                     // Let's try again later, maybe then one of our paths gets focus
                     return tabManager.once("focus", function() {
                         dialog();
@@ -235,13 +221,13 @@ define(function(require, exports, module) {
             
             function checkByStatOrContents() {
                 fs.stat(path, function(err, stat) {
-                    if (!err && doc.meta.timestamp >= stat.mtime)
+                    if (!err && tab.document.meta.timestamp >= stat.mtime)
                         return resolve();
-                    checkByContents(stat);
+                    checkByContents();
                 });
             }
             
-            function checkByContents(stat) {
+            function checkByContents() {
                 fs.readFile(path, function(err, data) {
                     if (err) {
                         console.warn("[watchers] Could not read", path, "will assume it got changed");
@@ -251,17 +237,12 @@ define(function(require, exports, module) {
                     // false alarm. File content didn't change
                     if (data === doc.meta.$savedValue)
                         return resolve();
-                    
-                    // Store base value for merges
-                    if (doc.meta.$mergeRoot == undefined)
-                        doc.meta.$mergeRoot = doc.meta.$savedValue || doc.recentValue;
-                    // Update saved value
-                    doc.meta.$savedValue = data;
-                    if (stat)
-                        doc.meta.timestamp = stat.mtime;
-                        
+    
                     // short cut: remote value is the same as the current value
                     if (data === doc.value) { // Expensive check
+                        
+                        // Update saved value
+                        doc.meta.$savedValue = data;
                         
                         // Remove the changed state from the document
                         doc.undoManager.bookmark();
@@ -270,12 +251,6 @@ define(function(require, exports, module) {
                         resolve();
                         
                         return;
-                    } else {
-                        // if this is the first time change notification comes
-                        // remember undomanger state for deciding to merge or not
-                        if (doc.meta.$merge == undefined)
-                            doc.meta.$merge = !doc.undoManager.isAtBookmark();
-                        doc.undoManager.bookmark(-2);
                     }
                     
                     if (automerge(tab, data))
@@ -298,7 +273,7 @@ define(function(require, exports, module) {
                 return false;
             
             var doc = tab.document;
-            var root = doc.meta.$mergeRoot || doc.meta.$savedValue;
+            var root = doc.meta.$savedValue;
             
             if (typeof root !== "string")
                 return false;
@@ -306,7 +281,7 @@ define(function(require, exports, module) {
             var aceDoc = doc.getSession().session.doc;
             var mergedValue = threeWayMerge(root, data, aceDoc);
             
-            doc.meta.$mergeRoot = data;
+            doc.meta.$savedValue = mergedValue;
             
             // If the value on disk is the same as in the document, set the bookmark
             if (mergedValue == data) {
@@ -333,12 +308,12 @@ define(function(require, exports, module) {
             var doc = changedPaths[path].tab.document;
             doc.setBookmarkedValue(data, true);
             doc.meta.timestamp = Date.now() - settings.timeOffset;
-            changedPaths[path].resolve();
+            delete changedPaths[path];
         }
         
         function mergeChangedPath(err, path, data) {
             merge(changedPaths[path].tab, data);
-            changedPaths[path].resolve();
+            delete changedPaths[path];
         }
         
         function showChangeDialog(tab, data) {
@@ -354,19 +329,19 @@ define(function(require, exports, module) {
             }
             
             path = tab.path;
-            merge = tab.document.meta.$merge 
+            merge = tab.document.changed 
               && typeof tab.document.meta.$savedValue === "string";
             
             function no(all) { // Local | No
                 if (all) {
                     for (var id in changedPaths) {
                         changedPaths[id].tab.document.undoManager.bookmark(-2);
-                        changedPaths[id].resolve();
                     }
+                    changedPaths = {};
                 }
                 else {
                     changedPaths[path].tab.document.undoManager.bookmark(-2);
-                    changedPaths[path].resolve();
+                    delete changedPaths[path];
                     showChangeDialog();
                 }
                 

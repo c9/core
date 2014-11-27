@@ -24,12 +24,12 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         var undo;
         
         function Item(info, idx) {
-            this.getState = function(){ return [ info, idx ] };
-            this.undo = function(){ data.splice(idx, 1) };
+            this.getState = function(){ return [ info, idx ] }
+            this.undo = function(){ data.splice(idx, 1) }
             this.redo = function(){ 
                 data[idx || (idx = data.length)] = info; 
                 return this;
-            };
+            }
         }
         
         function checkCount(){
@@ -39,6 +39,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         }
         
         describe('undomanager', function() {
+            //@todo test for bookmark
             it('should load it\'s state from the constructor', function(done) {
                 undo = new UndoManager({
                     position: 1,
@@ -49,7 +50,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 
                 undo.on("itemFind", function(e) {
                     return new Item(e.state[0], e.state[1]);
-                });
+                }); check++;
                 
                 expect(undo.position).to.equal(1);
                 expect(undo.length).to.equal(5);
@@ -113,28 +114,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 undo.clearUndo(); check++;
                 expect(undo.position).to.equal(0);
                 expect(undo.length).to.equal(3);
-                expect(data).to.deep.equal(["a", "q"]);
-                checkCount();
-                done();
-            });
-            it('should remember bookmarked state', function(done) {
-                undo.setState({ position : 3, stack : stack, mark : 4 }); check++;
-                expect(undo.position).to.equal(3);
-                expect(undo.length).to.equal(5);
-                expect(undo.isAtBookmark()).to.equal(false);
-                undo.redo(); check++;
-                checkCount();
-                expect(undo.isAtBookmark()).to.equal(true);
-                expect(undo.position).to.equal(4);
-                undo.undo(); check++;
-                expect(undo.isAtBookmark()).to.equal(false);
-                undo.add(new Item("q").redo()); check++;
-                expect(undo.isAtBookmark()).to.equal(false);
-                expect(undo.position).to.equal(4);
-                undo.undo(); check++;
-                
-                undo.setState({ position : -1, stack : stack, mark : null }); check++;
-                expect(undo.isAtBookmark()).to.equal(true);
                 expect(data).to.deep.equal(["a", "q"]);
                 checkCount();
                 done();

@@ -76,6 +76,15 @@ module.exports = function(manifest, installPath) {
             curlftpfsBin: "curlftpfs",
             sshfsBin: "sshfs"
         },
+        // @lennartcl this should be moved
+        logicblox: {
+            bloxWebURL: process.env.LB_SERVER || "http://lbdemo.c9.io:8088",
+            username: "user1",
+            password: "password",
+            fileServerURL: process.env.LB_FILE_SERVER || process.env.LB_SERVER || "http://lbdemo.c9.io:8081",
+            application: "logicblox-ide",
+            devel: true
+        },
         saucelabs: {
             serverURL: null, // testing: "https://jlipps.dev.saucelabs.net"
             account: {
@@ -126,8 +135,6 @@ module.exports = function(manifest, installPath) {
                 apiKey: "1234"
             }
         },
-        pricing: { containers: [] },
-        zuora: {},
         localExtend: true,
         extendDirectory: __dirname + "/../plugins/c9.vfs.extend"
     };

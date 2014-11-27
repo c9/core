@@ -119,7 +119,7 @@ define(function(require, module, exports) {
             
             // Clipboard support
             function isClipboardAvailable(e) { 
-                return true;
+                return !e.fromKeyboard;
             }
             
             function cut(e) {
@@ -465,9 +465,6 @@ define(function(require, module, exports) {
                      * This is usually the case when the tab is active for the 
                      * first time. 
                      * @event draw
-                     * @param {Object}      e
-                     * @param {HTMLElement} e.htmlNode  
-                     * @param {Tab}         e.tab      
                      */
                     "draw",
                     /**

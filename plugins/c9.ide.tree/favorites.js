@@ -327,13 +327,6 @@ define(function(require, exports, module) {
             }
             
             fsCache.on("remove", function(e) {
-                // Lets ignore hidden files. It's most likely still there and
-                // the user just switching hidden files off in the file tree
-                // Possible solution is to do the filtering of hidden paths
-                // only in the renderer of the tree
-                if (!fsCache.showHidden && e.path.indexOf("/.") > -1)
-                    return;
-                    
                 keepSane(e.path);
             });
             

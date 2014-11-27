@@ -190,24 +190,8 @@
 @collab-chat-input-selection-color: rgb(76, 99, 18);
 @collab-chat-input-cursor-color: darken(#f1f1f1, @darken-chrome);
 
-// Bubble
-@bubble-border: 1px solid #000;
-@bubble-border-radius: 8px;
-@bubble-gradient: linear-gradient(center bottom,#202020 0%, #2f2f2f 100%);
-@bubble-padding: 15px 13px;
-@bubble-color: #ffffff;
-@bubble-margin-top: 10px;
-@bubble-box-shadow: inset 0px 1px 0px 0px #424242;
-@bubble-font-weight: bold;
-@bubble-with-noise: true;
-@bubble-close-image: "@{image-path}/bk-close-btn.png";
-@bubble-close-image-width: 13px;
-@bubble-close-image-height: 55px;
-@bubble-close-hover: 0 -19px;
-@bubble-close-active: 0 -19px;
-
 // Time Slider
-@time-slider-background: darken(#252525, @darken-chrome) url("@{image-path}/c9-noise.png");
+@time-slider-background: darken(#252525, @darken-chrome) url("/static/plugins/c9.ide.layout.classic/images/c9-noise.png");
 @time-slider-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
 @time-slider-border-bottom: solid rgb(194, 194, 194) 1px;
 @time-slider-font-family: Arial, sans-serif;
@@ -326,7 +310,7 @@
 @time-slider-revert-active-gradient: linear-gradient(top, rgb(43, 43, 43) 0%, rgb(36, 36, 36) 100%);
 @time-slider-revert-active-padding: 2px 0px 0px 1px;
 
-@time-slider-close-image: "@{image-path}/close_tab_btn.png";
+@time-slider-close-image: "/static/plugins/c9.ide.layout.classic/images/close_tab_btn.png";
 @time-slider-close-image-width: 42px;
 @time-slider-close-image-height: 28px;
 @time-slider-close-idle-position: 0 -14px;
@@ -354,21 +338,11 @@
 @pane-button-states-top: 7px;
 @pane-button-use-bold-focus: false;
 @pane-button-running-image: "@{image-path}/running.png";
-@pane-button-running-image-width: 384px;
-@pane-button-running-image-height: 16px;
-@pane-button-running-width: 16px;
-@pane-button-running-height: 16px;
 @pane-button-running-right: -5px;
 @pane-button-running-top: 3px;
-@pane-button-running-animation: running-spinner 1.2s linear 0s infinite normal;
 @pane-button-save-image: "@{image-path}/tab-save-spinner-active.png";
-@pane-button-save-image-width: 180px;
-@pane-button-save-image-height: 14px;
-@pane-button-save-width: 15px;
-@pane-button-save-height: 15px;
 @pane-button-save-right: -5px;
 @pane-button-save-top: 4px;
-@pane-button-save-animation: loading-spinner 1.2s linear 0s infinite normal;
 @pane-button-close-image: "@{image-path}/close_tab_btn.png";
 @pane-button-close-image-width: 42px;
 @pane-button-close-image-height: 28px;
@@ -391,9 +365,6 @@
 @pane-button-right-active: -31px -128px;
 @pane-button-mask-left: 0 -96px;
 @pane-button-mask-right: -29px -96px;
-
-@pane-button-dark-mask-left: @pane-button-mask-left;
-@pane-button-dark-mask-right: @pane-button-mask-right;
 
 @pane-button-dark-middle-active: 0 -59px;
 @pane-button-dark-left-active: 0 -127px;
@@ -462,10 +433,6 @@
 @pane-menu-active-gradient: linear-gradient(top, white 0%, white 100%);
 @pane-menu-upward-active-box-shadow: 0 1px darken(rgba(255, 255, 255, 0.6), @darken-chrome), inset 0 -1px darken(rgb(255, 255, 255), @darken-chrome);
 @pane-menu-upward-active-gradient: linear-gradient(top, white 0%, white 100%);
-
-@pane-menu-splits-image: "@{image-path}/splits.png";
-@pane-menu-splits-image-width: 138px;
-@pane-menu-splits-image-height: 54px;
 
 @pane-menu-button-margin: 2px 0 0 1px;
 @pane-menu-button-width: 19px;
@@ -536,7 +503,7 @@
 @menu-name-button-icon-width: 16px;
 @menu-name-button-icon-height: 16px;
 @menu-name-button-icon-border-radius: 0;
-@menu-name-button-icon-left: 8px;
+@menu-name-button-icon-left: 4px;
 @menu-name-button-icon-top: 4px;
 @menu-name-button-diff: 0;
 
@@ -608,8 +575,6 @@
 @dialog-button-right: 9px;
 @dialog-button-top: 9px;
 @dialog-close-url: "bk-close-btn.png";
-@dialog-close-width: 13px; 
-@dialog-close-height: 55px; 
 
 @dialog-buttons-padding: 11px 10px 10px; 
 @dialog-buttons-height: auto;
@@ -632,12 +597,6 @@
 @error-close-hover-position: -14px -14px;
 @error-close-active-position: -28px -14px;
 
-// Disconnect Dialog
-@disconnect-background: #D8B112;
-@disconnect-color: @error-color;
-@disconnect-padding: @error-padding;
-@disconnect-box-shadow: @error-box-shadow;
-
 // Offline Dialog
 @offline-gradient: linear-gradient(top, rgb(60, 112, 153) 0%, rgb(61, 97, 126) 100%);
 @offline-border-bottom: 1px solid rgba(0, 0, 0, 0.61);
@@ -652,7 +611,6 @@
 
 @update-gradient: linear-gradient(top, rgb(154, 180, 50) 0%, rgb(116, 143, 45) 100%);
 @readonly-gradient: linear-gradient(top, rgb(123, 150, 37) 0%, rgb(76, 114, 20));
-@theme-switch-gradient: linear-gradient(top, rgb(123, 150, 37) 0%, rgb(76, 114, 20));
 
 // Frame
 @frame-border-bottom: darken(#B8B8B8, @darken-chrome);
@@ -702,7 +660,7 @@
 @datagrid-watch-error: red;
 
 @datagrid-row-padding: 2px 0 2px 4px;
-@datagrid-row-height: 18px;
+@datagrid-row-height: 17px;
 @datagrid-row-toggler: -1px 4px -3px 3px;
 
 @datagrid-editor-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.5) inset;
@@ -819,14 +777,6 @@
 @textarea-line-height: auto;
 @textarea-padding: 5px;
 @textarea-border-radius: 0;
-@textarea-gradient: linear-gradient(center bottom,white 50%,#EBEBEB 100%);
-@textarea-box-shadow: 0px 1px 0px #ffffff;
-@textarea-font-family: Arial;
-@textarea-font-size: 12px;
-@textarea-color: #333;
-@textarea-border: 1px solid #AFAFAF;
-@textarea-disabled-border: 1px solid #c3c3c3;
-@textarea-disabled-color: #bebebe;
 
 // Button - Default
 @button-border-radius: 3px;
@@ -1009,11 +959,9 @@
 @tree-symlink-y: 5px;
 @tree-symlink-x: -3px;
 @tree-upload: "tree_upload_icon.png";
-@tree-spinner: "@{image-path}/file-tree-load-spinner-dark.gif";
-@tree-spinner-width: 16px;
-@tree-spinner-height: 17px;
-@tree-focus-spinner: "@{image-path}/file-tree-load-spinner-dark-unfocus.gif";
-@tree-selected-focus-spinner: "@{image-path}/file-tree-load-spinner-dark-selected.gif";
+@tree-spinner: "file-tree-load-spinner.gif";
+@tree-focus-spinner: "file-tree-load-spinner-unfocus.gif";
+@tree-selected-focus-spinner: "file-tree-load-spinner-selected.gif";
 @tree-folder-icon: "folder_light.png";
 @tree-folder-icon-width: 20px;
 @tree-folder-icon-height: 20px;
@@ -1062,16 +1010,6 @@
 @textbox-disabled-color: gray;
 @textbox-disabled-background: darken(rgb(216, 216, 216), @darken-chrome);
 
-// Textbox - Simple
-@tbsimple-border: 1px solid #afafaf;
-@tbsimple-border-radius: 0;
-@tbsimple-gradient: linear-gradient(center bottom,rgb(255,255,255) 50%,rgb(235,235,235) 100%);
-@tbsimple-color: #333333;
-@tbsimple-font-family: Tahoma, Arial;
-@tbsimple-font-size: 12px;
-@tbsimple-box-shadow: 0px 1px 0px #ffffff;
-@tbsimple-disabled-gradient: linear-gradient(center bottom,rgb(235,235,235) 0%,rgb(255,255,255) 40%);
-
 // Preview
 @preview-bar-box-shadow: 0px 1px darken(rgba(255, 255, 255, 0.1), @darken-chrome), 0 2px 4px darken(rgba(0, 0, 0, 0.12), @darken-chrome);
 @preview-bar-background-color: darken(#303130, @darken-chrome);
@@ -1100,7 +1038,7 @@
 @preview-icon-popout-width: 23px; 
 @preview-icon-popout-height: 280px;
 @preview-icon-popout-position: 0 -114px;
-@preview-icon-settings: "@{image-path}/@{c9-repeat-x}";
+@preview-icon-settings: "/static/plugins/c9.ide.layout.classic/images/@{c9-repeat-x}";
 @preview-icon-settings-width: @c9-repeat-x-width; 
 @preview-icon-settings-height: @c9-repeat-x-height;
 @preview-icon-settings-position: 50% -366px;
@@ -1261,7 +1199,7 @@
 @find-button-padding: 2px 11px;
 @find-button-margin-top: 0;
 @find-button-height: 27px;
-@find-dropdown-icon-image: "@{image-path}/dropdown-dark-glossy/button.png";
+@find-dropdown-icon-image: "/static/plugins/c9.ide.layout.classic/images/dropdown-dark-glossy/button.png";
 @find-dropdown-button-border-left: 1px solid darken(#000, @darken-chrome);
 
 @tooltip-label-gradient: linear-gradient(bottom, rgba(255,255,255,.04) 0%, rgba(255,255,255,0) 100%);
@@ -1291,7 +1229,6 @@
 // Goto Line - Dark
 @gotoline-background-dark: darken(#353637, @darken-chrome);
 @gotoline-box-shadow-dark: 1px 1px 6px darken(rgba(0, 0, 0, 0.5), @darken-chrome), 0 1px darken(rgba(255, 255, 255, 0.08), @darken-chrome) inset;
-@gotoline-border-dark: 0;
 
 @gotoline-list-background-dark: linear-gradient(center bottom, darken(rgb(69,69,69), @darken-chrome) 0%, darken(rgb(84,84,84), @darken-chrome) 100%);
 @gotoline-list-color-dark: darken(#e7e7e7, @darken-chrome);
@@ -1308,8 +1245,6 @@
 // Goto Line - Light
 @gotoline-background: darken(#F8F8F8, @darken-chrome);
 @gotoline-box-shadow: 1px 1px 6px darken(rgba(0, 0, 0, 0.18), @darken-chrome);
-@gotoline-border: 0;
-@gotoline-border-radius: 0px 5px 5px 0;
 
 @gotoline-list-background: linear-gradient(center bottom, darken(#E7E7E7, @darken-chrome) 0%, darken(#EBEBEB, @darken-chrome) 100%);
 @gotoline-list-color: darken(#727272, @darken-chrome);
@@ -1401,7 +1336,7 @@
 @welcome-logo-image-width: 155px;
 @welcome-logo-image-height: 103px;
 @welcome-alter-widgets: true;
-@welcome-heading-color: @welcome-color;
+@welcome-heading-color: black;
 @welcome-heading-border-bottom: 1px solid rgba(255, 255, 255, 0.39);
 
 // Output
@@ -1592,8 +1527,6 @@
 
 // Mount
 @mount-container-padding: 18px 10px 12px 10px;
-@mount-loading-background: rgba(0,0,0,0.5);
-@mount-loading-color: #f1f1f1;
 
 // Installer
 @installer-font-smoothing: true;
@@ -1620,62 +1553,3 @@
 @notify-close-image-idle: 0 -14px;
 @notify-close-image-hover: -14px -14px;
 @notify-close-image-active: -28px -14px;
-
-// Terminal Message
-@terminal-message-gradient: linear-gradient(to bottom, #6D8009 0%, #546B0C 100%);
-@terminal-message-border: 0;
-@terminal-message-border-radius: 3px;
-@terminal-message-color: #E6E6E6; 
-@terminal-message-font-family: Arial;
-@terminal-message-font-size: 12px;
-@terminal-message-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.8), inset -1px -1px rgba(255, 255, 255, 0.2), inset 1px 1px rgba(255, 255, 255, 0.2);
-@terminal-message-padding: 8px;
-@terminal-message-link-color: rgb(197, 213, 23);
-@terminal-message-button-gradient: linear-gradient(to bottom, #6D8009 0%, #546B0C 100%);
-@terminal-message-button-text-shadow: #383838 0px 1px 0px;
-@terminal-message-button-border-top: 1px solid #7FA017;
-@terminal-message-button-hover-gradient: @terminal-message-button-gradient;
-@terminal-message-button-active-gradient: @terminal-message-button-gradient;
-@terminal-message-close-image: "@{image-path}/close_tab_btn.png";
-@terminal-message-close-image-width: 42px;
-@terminal-message-close-image-height: 28px;
-@terminal-message-close-idle: 0 -14px;
-@terminal-message-close-hover: -14px -14px;
-@terminal-message-close-active: -28px -14px;
-
-// Stats
-@upgrade-color: #F1F1F1;
-@upgrade-progress-highlight-color: rgb(171, 211, 74);
-@upgrade-progress-background-color: rgb(226, 226, 226);
-
-@stats-button-width: 100px;
-@stats-button-margin-left: 0;
-@stats-button-padding: 2px 5px 2px 7px;
-@stats-button-border-left: 1px solid #e0e0e0;
-@stats-button-border-right: 1px solid #e0e0e0;
-@stats-button-box-shadow: none;
-@stats-button-color: #666666;
-@stats-button-hover-background: #E9E9E9;
-@stats-button-active-background: white;
-@stats-button-active-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.09);
-
-@stats-button-item-padding: 4px 0 0 0;
-@stats-button-item-font-size: 7px;
-@stats-button-progress-highlight-color: #D3D3D3;
-@stats-button-progress-highlight-hover-color: #98c878;
-@stats-button-progress-highlight-limit-color: #f06767;
-@stats-button-progress-background-color: #E8E8E8;
-@stats-button-progress-background-hover-color: rgb(223, 223, 223);
-@stats-button-progress-height: 9px;
-@stats-button-progress-margin-top: -2px;
-
-@stats-menu-padding: 20px;
-@stats-menu-width: 302px;
-@stats-menu-graph-label-text-transform: uppercase;
-@stats-menu-graph-border: 1px solid #DEDEDE;
-@stats-menu-graph-box-shadow: none;
-@stats-menu-graph-background: #FCFCFC;
-@stats-menu-graph-color: #8ED6FF;
-@stats-menu-info-background: #F9F9F9;
-@stats-menu-info-border: 0;
-@stats-menu-info-box-shadow: none;

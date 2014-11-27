@@ -37,7 +37,6 @@ define(function(require, module, exports) {
             if (!skipProps[prop])
                 plugin[prop] = options[prop];
         }
-        var totalLoadTime;
         
         function load() {
             if (loaded) return false;
@@ -57,7 +56,7 @@ define(function(require, module, exports) {
             }, plugin);
             
             vfs.on("disconnect", function(reason) {
-                setStatus(state & ~STORAGE & ~PROCESS & ~NETWORK);
+                setStatus(status & ~STORAGE & ~PROCESS & ~NETWORK);
                 emit("disconnect");
             }, plugin);
         
@@ -67,7 +66,7 @@ define(function(require, module, exports) {
             }, plugin);
             
             vfs.on("error", function(message) {
-                setStatus(state & ~STORAGE & ~PROCESS);
+                setStatus(status & ~STORAGE & ~PROCESS);
                 // TODO: Don't display all errors?
                 if (emit("showerrormessage", message) !== false) {
                     console.error(
@@ -274,11 +273,6 @@ define(function(require, module, exports) {
              * @readonly
              */
             get location(){ return location && location.href || ""; },
-            /**
-             * 
-             */
-            get totalLoadTime(){ return totalLoadTime; },
-            set totalLoadTime(v){ totalLoadTime = v; },
             
             _events: [
                 /**

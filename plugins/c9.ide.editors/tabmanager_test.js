@@ -486,11 +486,10 @@ require(["lib/architect/architect", "lib/chai/chai"],
                     tabs.clear();
                     expect(tabs.getPanes()).length(0);
                     expect(tabs.getTabs()).length(0);
-                    apf.z = 1;
+                    
                     tabs.setState(state, function(err) {
                         if (err) throw err.message;
                     });
-                    console.log(cstate, tabs.getState());
                     expect(cstate).to.deep.equal(tabs.getState());
                     
                     expect(tabs.getPanes()).length(5);

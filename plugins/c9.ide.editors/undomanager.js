@@ -24,11 +24,7 @@ define(function(require, module, exports) {
                 if (!canUndo())
                     return false;
                 
-                var item = stack[position];
-                if (!item.undo)
-                    item = stack[position] = findItem(item);
-                position--;
-                item.undo();
+                stack[position--].undo();
                 
                 emit("change");
             }
@@ -41,11 +37,7 @@ define(function(require, module, exports) {
                 if (!canRedo())
                     return false;
                 
-                position++;
-                var item = stack[position];
-                if (!item.redo)
-                    item = stack[position] = findItem(item);
-                item.redo();
+                stack[++position].redo();
                 
                 emit("change");
             }
@@ -82,9 +74,7 @@ define(function(require, module, exports) {
             }
             
             function remove(idx) {
-                var item = stack.splice(idx, 1)[0];
-                if (!item.undo)
-                    item = findItem(item);
+                item = stack.splice(idx, 1)[0];
                 item.undo();
                 
                 if (idx <= position)
@@ -118,7 +108,7 @@ define(function(require, module, exports) {
                     mark: mark,
                     position: position,
                     stack: stack.map(function(item) {
-                        return item.getState ? item.getState() : item;
+                        return item.getState();
                     })
                 };
             }
@@ -126,18 +116,26 @@ define(function(require, module, exports) {
             function setState(state) {
                 if (!state || !state.stack.length) 
                     return reset();
-
+                
+                if (!plugin.listeners("itemFind").length) {
+                    plugin.on("newListener", function wait(name) {
+                        if (name == "itemFind") {
+                            plugin.off("newListener", wait);
+                            setState(state);
+                        }
+                    });
+                    return;
+                }
+                
                 mark = state.mark;
                 position = state.position;
-                if (state.stack.length && state.stack[0] == undefined)
-                    return; // guard against broken stack 
-                stack = state.stack;
+                stack = state.stack.map(function(item) {
+                    return emit("itemFind", {
+                        state: item
+                    });
+                });
                 
                 emit("change"); //If you remove this again, change the test
-            }
-            
-            function findItem(compressedItem) {
-                return emit("itemFind", {state: compressedItem});
             }
             
             function reset(){

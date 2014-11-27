@@ -11,19 +11,18 @@ module.exports = plugin;
 
 function plugin(options, imports, register) {
     var raygun = imports.raygun;
-    var errorClient = raygun.errorClient;
-    var warningClient = raygun.warningClient;
+    var raygunClient = raygun.Client;
     var connect = imports.connect;
     var server = imports.http.getServer();
 
-    errorClient.user = warningClient.user = function(req) {
+    raygunClient.user = function(req) {
         return (req && req.user) ? req.user.name : "";
     };
 
     connect.useStart(function(req, res, next) {
         var d = domain.create();
         d.on("error", function(err) {
-            sendRequestError(errorClient, err, req);
+            sendRequestError(err);
             
             // from http://nodejs.org/api/domain.html
             try {
@@ -36,7 +35,7 @@ function plugin(options, imports, register) {
                 }, 10000);
                 // But don't keep the process open just for that!
                 killtimer.unref();
-
+    
                 // stop taking new requests.
                 server.close();
                 next(err);
@@ -48,21 +47,21 @@ function plugin(options, imports, register) {
         d.add(res);
         d.run(next);
     });
-
+    
     server.on("timeout", function(socket) {
         socket.destroy();
-
+        
         var domain = socket._httpMessage && socket._httpMessage.domain;
         var req = domain && domain.members[0];
         if (req && req.url)
-            sendRequestError(warningClient, new Error("Request timed out: " + req.url), req);
+            sendRequestError(new Error("Request timed out: " + req.url), req);
         
     });
     
-    function sendRequestError(raygunClient, err, req) {
+    function sendRequestError(err, req) {
         var parsedUrl = url.parse(req.url, false);
         var ip = req.remoteAddress;
-
+        
         var customData = _.clone(raygun.customData || {});
         if (req.user) {
             customData.user = {
@@ -71,12 +70,7 @@ function plugin(options, imports, register) {
                 email: req.user.email
             };
         }
-        else if (req.session) {
-            customData.user = {
-                id: req.session.uid
-            };
-        }
-
+        
         raygunClient.send(err, customData, function() {}, {
             host: parsedUrl.hostname,
             path: parsedUrl.pathname,
@@ -88,7 +82,7 @@ function plugin(options, imports, register) {
             user: req.user
         });
     }
-
+    
     register(null, {"raygun.connect": {
         sendRequestError: sendRequestError
     }});

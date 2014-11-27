@@ -68,7 +68,7 @@ define(function(require, module, exports) {
 
                 // Create Tab
                 amlTab = new ui.page({
-                    id: plugin.name, // path || 
+                    id: plugin.name, //path || 
                     type: "editor::" + editorType,
                     autofocus: false,
                     tooltip: tooltip,
@@ -78,7 +78,7 @@ define(function(require, module, exports) {
                     $focussable: true
                 });
                 
-                if (classList.names.length)
+                if (classList.names.length);
                     classList.add();
                 
                 plugin.addElement(amlTab);
@@ -111,12 +111,12 @@ define(function(require, module, exports) {
                 // Activate tab if necessary
                 if (active) {
                     if (amlPane)
-                        amlPane.set(amlTab); // path || 
+                        amlPane.set(amlTab); //path || 
                     else {
                         amlTab.on("DOMNodeInsertedIntoDocument", function insert(e) {
                             amlTab.parentNode.set(amlTab);
                             amlTab.off("DOMNodeInsertedIntoDocument", insert);
-                        });
+                        })
                     }
                 }
                 
@@ -185,16 +185,6 @@ define(function(require, module, exports) {
                     doc.on("setTooltip", function(e) {
                         plugin.tooltip = e.tooltip;
                     }, plugin);
-                    
-                    // Changed marker
-                    var setChanged = function(e) {
-                        if (e.changed || doc.meta.newfile)
-                            doc.tab.classList.add("changed");
-                        else
-                            doc.tab.classList.remove("changed");
-                    };
-                    doc.on("changed", setChanged, plugin);
-                    setChanged({ changed: doc.changed });
                     
                     docInited = true;
                 }
@@ -266,7 +256,7 @@ define(function(require, module, exports) {
                 });
             }
             
-            // @todo Explain difference with unload in docs
+            //@todo Explain difference with unload in docs
             function close(noAnim) {
                 amlPane.remove(amlTab, null, noAnim);
             }
@@ -280,7 +270,7 @@ define(function(require, module, exports) {
             plugin.on("unload", function(e) { 
                 closed = true;
                 
-                // If there are no more pages left, reset location
+                //If there are no more pages left, reset location
                 var last = amlPane.getPages().length === 0;
                 if (last)
                     apf.setStyleClass(amlPane.$ext, "empty");
@@ -483,12 +473,7 @@ define(function(require, module, exports) {
                      */
                     "beforeClose",
                     /**
-                     * Fires when this tab becomes the active tab of it's pane parent. 
-                     * 
-                     * Note that this event is fired early, often before the editor is initialized.
-                     * For most cases you want to use the {@link tabManager#tabAfterActivate} or 
-                     * {@link tabManager#tabAfterActivateSync} events on the {@link tabManager} plugin.
-                     * 
+                     * Fires when this tab becomes the active tab of it's pane parent
                      * @event activate
                      */
                     "activate",

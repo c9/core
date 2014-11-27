@@ -23,7 +23,7 @@ define(function(require, exports, module) {
             
             cmd.addCommand({
                 name: "restart", 
-                info: "  Restarts the currently running Cloud9",
+                info: "Restarts the currently running Cloud9",
                 options: {},
                 exec: function(argv) {
                     restart(function(err, success) {

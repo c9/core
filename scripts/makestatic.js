@@ -49,10 +49,9 @@ function main(config, settings, options, callback) {
     if (config[0] !== "/")
         config = path.join(__dirname, "/../configs/", config);
    
-    settings = require(path.join(__dirname, "/../settings", settings))();
-    settings.pricing = {};
+    settings = require(path.join(__dirname, "/../settings", settings));
     
-    var plugins = require(config)(settings, optimist(process.argv))
+    var plugins = require(config)(settings(), optimist(process.argv))
         .map(function(plugin) {
             if (plugin.packagePath == "connect-architect/connect") {
                 plugin.packagePath = "./c9.static/connect";

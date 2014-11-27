@@ -45,7 +45,7 @@ define(function(require, exports, module) {
         function focusOpenPrefs(){
             var pages = tabs.getTabs();
             for (var i = 0, tab = pages[i]; tab; tab = pages[i++]) {
-                if (tab.editorType == "preferences") {
+                if (tab.editor.type == "preferences") {
                     tabs.focusTab(tab);
                     return true;
                 }
@@ -62,26 +62,19 @@ define(function(require, exports, module) {
                 hint: "show the open settings panel",
                 group: "General",
                 bindKey: { mac: "Command-,", win: "Ctrl-," },
-                exec: function (editor, args) {
+                exec: function () {
                     var tab = tabs.focussedTab;
-                    if (tab && tab.editor.type == "preferences" && !args.panel) {
+                    if (tab && tab.editor.type == "preferences") {                    
                         tab.close();
                         return;
                     }
-                    if (focusOpenPrefs()) {
-                        if (args.panel)
-                            activate(args.panel);
-                        
+                    if (focusOpenPrefs())
                         return;
-                    }
     
                     tabs.open({
                         editorType: "preferences",
                         active: true
-                    }, function(){
-                        if (args.panel)
-                            activate(args.panel);
-                    });
+                    }, function(){});
                 }
             }, handle);
             
@@ -175,8 +168,6 @@ define(function(require, exports, module) {
             ui.insertByIndex(parent, htmlNode, index, false);
             
             htmlNode.level = level;
-            htmlNode.name = plugin.name;
-            htmlNode.hostPlugin = plugin;
             
             return htmlNode;
         }
@@ -226,7 +217,7 @@ define(function(require, exports, module) {
          *                         position : 20,
          *                         "Enable UI Animations" : {
          *                             type     : "checkbox",
-         *                             setting  : "user/general/@animateui",
+         *                             path     : "user/general/@animateui",
          *                             position : 1000
          *                         }
          *                     }
@@ -302,7 +293,7 @@ define(function(require, exports, module) {
              * @param {PreferencePanel} Panel  The panel to activate
              */
             activate: activate
-        });
+        })
         
         /***** Editor *****/
         
@@ -312,29 +303,13 @@ define(function(require, exports, module) {
             var tab;
             
             plugin.on("resize", function(e) {
-                emit("resize", e);
+                emit("resize", e)
             });
             
             plugin.on("draw", function(e) {
                 tab = e.tab;
                 draw(e);
-            });
-            
-            plugin.on("getState", function(e) {
-                e.state.activePanel = activePanel && activePanel.name;
-            });
-            plugin.on("setState", function(e) {
-                var name = e.state.activePanel;
-                if (activePanel && activePanel.name == name)
-                    return;
-                var panels = navigation && navigation.$ext && navigation.$ext.children;
-                if (panels) {
-                    for (var i = 0; i < panels.length; i++) {
-                        if (panels[i].name == name)
-                            return activate(panels[i].hostPlugin);
-                    }
-                }
-            });
+            })
             
             /***** Lifecycle *****/
             
@@ -379,44 +354,44 @@ define(function(require, exports, module) {
              *                 position : 100,
              *                 "Text Color" : {
              *                    type     : "colorbox",
-             *                    setting  : "user/terminal/@foregroundColor",
+             *                    path     : "user/terminal/@foregroundColor",
              *                    position : 10100
              *                 },
              *                 "Background Color" : {
              *                    type     : "colorbox",
-             *                    setting  : "user/terminal/@backgroundColor",
+             *                    path     : "user/terminal/@backgroundColor",
              *                    position : 10200
              *                 },
              *                 "Selection Color" : {
              *                    type     : "colorbox",
-             *                    setting  : "user/terminal/@selectionColor",
+             *                    path     : "user/terminal/@selectionColor",
              *                    position : 10250
              *                 },
              *                 "Font Family" : {
              *                    type     : "textbox",
-             *                    setting  : "user/terminal/@fontfamily",
+             *                    path     : "user/terminal/@fontfamily",
              *                    position : 10300
              *                 },
              *                 "Font Size" : {
              *                    type     : "spinner",
-             *                    setting  : "user/terminal/@fontsize",
+             *                    path     : "user/terminal/@fontsize",
              *                    min      : "1",
              *                    max      : "72",
              *                    position : 11000
              *                 },
              *                 "Antialiased Fonts" : {
              *                    type     : "checkbox",
-             *                    setting  : "user/terminal/@antialiasedfonts",
+             *                    path     : "user/terminal/@antialiasedfonts",
              *                    position : 12000
              *                 },
              *                 "Blinking Cursor" : {
              *                    type     : "checkbox",
-             *                    setting  : "user/terminal/@blinking",
+             *                    path     : "user/terminal/@blinking",
              *                    position : 12000
              *                 },
              *                 "Scrollback" : {
              *                    type     : "spinner",
-             *                    setting  : "user/terminal/@scrollback",
+             *                    path     : "user/terminal/@scrollback",
              *                    min      : "1",
              *                    max      : "100000",
              *                    position : 13000
@@ -437,7 +412,7 @@ define(function(require, exports, module) {
                  * of the available elements and their properties.
                  * 
                  * Instead of providing the `defaultValue` or `value` property
-                 * set the `setting` property to the setting that the
+                 * set the `path` property to the path of the setting that the
                  * user can edit. See {@link settings} for more information.
                  * 
                  * Example (from find in files):
@@ -450,22 +425,22 @@ define(function(require, exports, module) {
                  *                 "Show Full Path in Results" : {
                  *                     type     : "checkbox",
                  *                     position : 100,
-                 *                     setting  : "user/findinfiles/@fullpath"
+                 *                     path     : "user/findinfiles/@fullpath"
                  *                 },
                  *                 "Clear Results Before Each Search" : {
                  *                     type     : "checkbox",
                  *                     position : 100,
-                 *                     setting  : "user/findinfiles/@clear"
+                 *                     path     : "user/findinfiles/@clear"
                  *                 },
                  *                 "Scroll Down as Search Results Come In" : {
                  *                     type     : "checkbox",
                  *                     position : 100,
-                 *                     setting  : "user/findinfiles/@scrolldown"
+                 *                     path     : "user/findinfiles/@scrolldown"
                  *                 },
                  *                 "Open Files when Navigating Results with ↓ ↑" : {
                  *                     type     : "checkbox",
                  *                     position : 100,
-                 *                     setting  : "user/findinfiles/@consolelaunch"
+                 *                     path     : "user/findinfiles/@consolelaunch"
                  *                 }
                  *            }
                  *        }

@@ -20,7 +20,6 @@ define(function(require, exports, module) {
         var apiUrl = options.apiUrl || "";
         var ideBaseUrl = options.ideBaseUrl;
         var uid = options.userId;
-        var loggedIn = true;
         var checkLoop = createLoopDetector(3, 20 * 1000);
 
         /***** Methods *****/
@@ -85,21 +84,21 @@ define(function(require, exports, module) {
                     }
                     
                     if (user.id !== ANONYMOUS) {
-                        loggedIn = true;
-                        if (uid != user.id) {
-                            uid = user.id;
+                        var oldUid = uid;
+                        uid = user.id;
+                        if (uid != oldUid)
                             emit("relogin", {uid: user.id});
-                        }
                         // "login" or "logout" event is always dispatched after "loggingin" event
-                        emit("login", {uid: user.id, oldUid: uid});
+                        emit("login", {uid: user.id, oldUid: oldUid});
                     } else {
-                        loggedIn = false;
-                        emit("logout", {uid: user.id, newUid: ANONYMOUS});
+                        emit("logout", {uid: uid, newUid: ANONYMOUS});
+                        uid = user.id;
                     }
                 });
             }, function() {
                 if (uid != ANONYMOUS) {
                     emit("logout", {uid: uid, newUid: ANONYMOUS});
+                    uid = ANONYMOUS;
                 }
             }) || true;
         }
@@ -112,8 +111,9 @@ define(function(require, exports, module) {
                 http.request(ideBaseUrl + "/auth/signout", {
                     method: "POST"
                 }, function(err2) {
-                    loggedIn = false;
                     emit("logout", {uid: uid, newUid: ANONYMOUS});
+                    
+                    uid = ANONYMOUS;
                     callback && callback(err1 || err2);
                 });
             });
@@ -147,17 +147,10 @@ define(function(require, exports, module) {
          * @singleton
          **/
         plugin.freezePublicAPI({
-            
-            _events: [
-                "loggingin",
-                "login",
-                "logout"
-            ],
-            
             /**
              * 
              */
-            get loggedIn() { return loggedIn; },
+            get loggedIn() { return !loggingIn && uid != ANONYMOUS; },
             /**
              * 
              */
@@ -166,11 +159,7 @@ define(function(require, exports, module) {
              * 
              */
             get accessToken() { return accessToken; },
-            set accessToken(v) { accessToken = v; loggedIn = true;},
             
-            /**
-             * 
-             */
             login: login,
             
             /**

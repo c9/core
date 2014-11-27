@@ -144,7 +144,7 @@ define(function(require, exports, module) {
         }
 
 
-        function readonlyRest(pid, user, path, scope, req, res, next) {
+        function readonlyRest(pid, user, path, req, res, next) {
             for (var key in cache) {
                 var entry = cache[key];
                 var isPublic = entry.vfs && entry.vfs.public;
@@ -178,7 +178,7 @@ define(function(require, exports, module) {
                 if (req.method !== "GET" && req.method !== "HEAD")
                     return next(new error.Forbidden("Only GET and HEAD requests are allowed in read only mode"));
                     
-                vfs.handleRest(scope, path, req, res, next);
+                vfs.handleRest("workspace", path, req, res, next);
             }
         }
         
