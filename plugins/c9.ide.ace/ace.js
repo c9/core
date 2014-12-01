@@ -40,13 +40,14 @@ define(function(require, exports, module) {
         var lang = require("ace/lib/lang");
         var Range = require("ace/range").Range;
         var config = require("ace/config");
-        var AceEditor = require("ace/editor").Editor;
         var Document = require("ace/document").Document;
+        var AceEditor = require("ace/editor").Editor;
         var EditSession = require("ace/edit_session").EditSession;
+        var UndoManager = require("ace/undomanager").UndoManager;
+        var whitespaceUtil = require("ace/ext/whitespace");
         var defaultCommands = require("ace/commands/default_commands").commands;
         var VirtualRenderer = require("ace/virtual_renderer").VirtualRenderer;
         var multiSelectCommands = require("ace/multi_select").commands;
-        var whitespaceUtil = require("ace/ext/whitespace");
         
         // enable multiselect
         require("ace/multi_select");
@@ -283,47 +284,80 @@ define(function(require, exports, module) {
         function AceUndoManager(undoManager, session) {
             this.$session = session;
             this.$undo = undoManager;
+            this.$aceUndo = new UndoManager();
             var _self = this;
             var Item = this.Item;
             this.$undo.on("itemFind", function(e) {
                 return Item(_self, e.state);
             });
         }
+        function updateDeltas(deltas) {
+            if (deltas[0] && deltas[0].deltas) {
+                var oldDeltas = deltas.slice();
+                deltas.length = 0;
+                oldDeltas.forEach(function(x) {
+                    deltas.push.apply(deltas, x.deltas);
+                });
+            }
+        }
         AceUndoManager.prototype = {
+            rebase: function() {
+                var pos = this.$undo.position + 2;
+                var stack = this.$undo.stack;
+                for (var i = pos; i--; ) {
+                    var deltaSet = stack[i].deltas;
+                    if (deltaSet[0] && !deltaSet[0].disabled) {
+                        while(i < pos - 1) {
+                            var swapped = UndoManager.swapGroups(stack[i].deltas, stack[i + 1].deltas);
+                            stack[i].deltas = swapped[0];
+                            stack[i + 1].deltas = swapped[1];
+                            i++;
+                        }
+                        break;
+                    }
+                }
+            },
             Item: function(_self, deltas) {
                 return {
+                    deltas: deltas,
                     undo: function(){
-                        _self.$session.session.undoChanges(deltas, _self.dontSelect);
+                        updateDeltas(this.deltas); // change to the new format
+                        _self.rebase();
+                        _self.$session.session.undoChanges(this.deltas, _self.dontSelect);
                     },
                     redo: function(){
-                        _self.$session.session.redoChanges(deltas, _self.dontSelect);
+                        updateDeltas(this.deltas);
+                        _self.$session.session.redoChanges(this.deltas, _self.dontSelect);
                     },
-                    getState: function(){ 
-                        return deltas.filter(function (d) {
-                            return d.group != "fold";
+                    getState: function(){
+                        updateDeltas(this.deltas);
+                        return this.deltas.filter(function (d) {
+                            return d.action == "insert" || d.action == "remove";
                         });
                     }
                 };
             },
             
-            execute: function(options) {
-                if (options.merge && this.lastDeltas) {
-                    this.lastDeltas.push.apply(this.lastDeltas, options.args[0]);
-                } else {
-                    this.lastDeltas = options.args[0];
+            add: function(delta, doc) {
+                if (doc.mergeUndoDeltas === false || !this.lastDeltas) {
+                    this.lastDeltas = [];
                     this.$undo.add(this.Item(this, this.lastDeltas));
                 }
+                this.lastDeltas.push(delta);
             },
 
             undo: function(dontSelect) {
                 this.dontSelect = dontSelect;
+                this.lastDeltas = null;
                 this.$undo.undo();
             },
             redo: function(dontSelect) {
                 this.dontSelect = dontSelect;
+                this.lastDeltas = null;
                 this.$undo.redo();
             },
             reset: function(){
+                this.lastDeltas = null;
                 this.$undo.reset();
             },
             hasUndo: function() {
