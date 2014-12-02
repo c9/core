@@ -313,7 +313,10 @@ define(function(require, exports, module) {
                             stack[i + 1].deltas = swapped[1];
                             i++;
                         }
-                        break;
+                        deltaSet = stack[pos - 1].deltas;
+                        if (deltaSet[0].disabled)
+                            deltaSet[0].disabled = false;
+                        return deltaSet;
                     }
                 }
             },
@@ -322,8 +325,10 @@ define(function(require, exports, module) {
                     deltas: deltas,
                     undo: function(){
                         updateDeltas(this.deltas); // change to the new format
-                        _self.rebase();
-                        _self.$session.session.undoChanges(this.deltas, _self.dontSelect);
+                        var deltas = _self.rebase();
+                        if (!deltas)
+                            return false;
+                        _self.$session.session.undoChanges(deltas, _self.dontSelect);
                     },
                     redo: function(){
                         updateDeltas(this.deltas);
