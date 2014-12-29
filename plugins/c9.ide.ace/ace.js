@@ -282,14 +282,24 @@ define(function(require, exports, module) {
         /***** Undo Manager *****/
         
         function AceUndoManager(undoManager, session) {
+            var state = undoManager.getState();
             this.$session = session;
             this.$undo = undoManager;
             this.$aceUndo = new UndoManager();
-            var _self = this;
-            var Item = this.Item;
-            this.$undo.on("itemFind", function(e) {
-                return Item(_self, e.state);
-            });
+            this.$aceUndo.c9UndoProxy = undoManager;
+            undoManager.$aceUndo = this.$aceUndo;
+            undoManager.add = this.add;
+            undoManager.addSelection = this.addSelection;
+            undoManager.undo = this.undo;
+            undoManager.redo = this.redo;
+            undoManager.reset = this.reset;
+            undoManager.canUndo = this.canUndo;
+            undoManager.canRedo = this.canRedo;
+            undoManager.getState = this.getState;
+            undoManager.setState = this.setState;
+            this._emit = undoManager.getEmitter();
+            
+            undoManager.setState(state);
         }
         function updateDeltas(deltas) {
             if (deltas[0] && deltas[0].deltas) {
@@ -299,81 +309,74 @@ define(function(require, exports, module) {
                     deltas.push.apply(deltas, x.deltas);
                 });
             }
+            return deltas;
         }
         AceUndoManager.prototype = {
-            rebase: function() {
-                var pos = this.$undo.position + 2;
-                var stack = this.$undo.stack;
-                for (var i = pos; i--; ) {
-                    var deltaSet = stack[i].deltas;
-                    if (deltaSet[0] && !deltaSet[0].disabled) {
-                        while(i < pos - 1) {
-                            var swapped = UndoManager.swapGroups(stack[i].deltas, stack[i + 1].deltas);
-                            stack[i].deltas = swapped[0];
-                            stack[i + 1].deltas = swapped[1];
-                            i++;
-                        }
-                        deltaSet = stack[pos - 1].deltas;
-                        if (deltaSet[0].disabled)
-                            deltaSet[0].disabled = false;
-                        return deltaSet;
-                    }
-                }
-            },
-            Item: function(_self, deltas) {
-                return {
-                    deltas: deltas,
-                    undo: function(){
-                        updateDeltas(this.deltas); // change to the new format
-                        var deltas = _self.rebase();
-                        if (!deltas)
-                            return false;
-                        _self.$session.session.undoChanges(deltas, _self.dontSelect);
-                    },
-                    redo: function(){
-                        updateDeltas(this.deltas);
-                        _self.$session.session.redoChanges(this.deltas, _self.dontSelect);
-                    },
-                    getState: function(){
-                        updateDeltas(this.deltas);
-                        return this.deltas.filter(function (d) {
-                            return d.action == "insert" || d.action == "remove";
-                        });
-                    }
-                };
-            },
-            
             add: function(delta, doc) {
-                if (doc.mergeUndoDeltas === false || !this.lastDeltas) {
-                    this.lastDeltas = [];
-                    this.$undo.add(this.Item(this, this.lastDeltas));
-                }
-                this.lastDeltas.push(delta);
+                this.$aceUndo.add(delta, doc);
+                this._emit("change");
             },
-
+            addSelection: function(range, rev) {
+                this.$aceUndo.addSelection(range, rev);
+            },
             undo: function(dontSelect) {
-                this.dontSelect = dontSelect;
-                this.lastDeltas = null;
-                this.$undo.undo();
+                this.$aceUndo.undo(dontSelect);
+                this._emit("change");
             },
             redo: function(dontSelect) {
-                this.dontSelect = dontSelect;
-                this.lastDeltas = null;
-                this.$undo.redo();
+                this.$aceUndo.redo(dontSelect);
+                this._emit("change");
             },
             reset: function(){
-                this.lastDeltas = null;
-                this.$undo.reset();
+                this.$aceUndo.reset();
+                this._emit("change");
             },
-            hasUndo: function() {
-                return this.$undo.length > this.$undo.position + 1;
+            canUndo: function() {
+                return this.$aceUndo.canUndo();
             },
-            hasRedo: function() {
-                return this.$undo.length <= this.$undo.position + 1;
+            canRedo: function() {
+                return this.$aceUndo.canRedo();
             },
-            get $undoStack() {
-                return this.$undo.stack.slice(0, this.$undo.position + 1)
-                    .map(function(e){ return e.getState ? e.getState() : e });
+            clearUndo: function() {
+                this.$aceUndo.$undoStack = [];
+                this._emit("change");
+            },
+            clearRedo: function() {
+                this.$aceUndo.$redoStack = [];
+                this._emit("change");
+            },
+            getState: function() {
+                console.log("getState()");
+                var aceUndo = this.$aceUndo;
+                var stack = aceUndo.$undoStack.map(function(deltaSet) {
+                    return deltaSet.filter(function (d) {
+                        return d.action == "insert" || d.action == "remove";
+                    });
+                });
+                return {
+                    stack: stack,
+                    mark: aceUndo.mark,
+                    position: aceUndo.$rev
+                };
+            },
+            setState: function(e) {
+                console.log("setState()");
+                var aceUndo = this.$aceUndo;
+                aceUndo.$undoStack = (e.stack || []).filter(function(x) {
+                    return x.length;
+                });
+                aceUndo.$rev = e.position;
+                this.bookmark(e.mark);
+            },
+            isAtBookmark: function() {
+                return this.$aceUndo.isAtBookmark();
+            },
+            bookmark: function(index) {
+                this.$aceUndo.bookmark(index);
+                this._emit("change");
+            },
+            setSession: function(session) {
+                this.$aceUndo.setSession(session);
             }
         };
         
@@ -383,9 +386,19 @@ define(function(require, exports, module) {
         }
         
         (function() {
-            this.execute = function(options) {
-                this.$u.execute(options);
+            this.add = function(delta, doc) {
+                this.$u.add(delta, doc);
             };
+            
+            Object.defineProperty(this, "", {
+                configurable: true,
+                get: function() {
+                    return this.$u.lastDeltas;
+                },
+                set: function(v) {
+                    this.$u.lastDeltas = v;
+                }
+            });
         
             this.undo = function() {
                 var selectionRange = this.$u.undo(true);
@@ -1410,7 +1423,7 @@ define(function(require, exports, module) {
                 undoManager = session.getUndoManager();
             if (undoManager) {
                 var undoManagerProxy = new UndoManagerProxy(undoManager, s);
-                s.setUndoManager(undoManagerProxy);
+                s.setUndoManager(undoManagerProxy.$aceUndo);
             }
     
             // Overwrite the default $informUndoManager function such that new deltas
@@ -2211,9 +2224,9 @@ define(function(require, exports, module) {
                 var c9Session = doc.getSession();
                 
                 // if load starts from another editor type
-                // tabmanager will show as instantly
+                // tabmanager will show us instantly
                 // so we need to show progress bar instantly
-                progress.noFadeIn = !currentDocument;
+                progress.noFadeIn = !currentDocument || !currentDocument.tab.active;
                 
                 // Value Retrieval
                 doc.on("getValue", function get(e) {

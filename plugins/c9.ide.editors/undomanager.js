@@ -150,6 +150,8 @@ define(function(require, module, exports) {
                 emit("change");
             }
             
+            plugin.freezePublicAPI.baseclass();
+            
             /**
              * The Undo Manager class of Cloud9. Each {@link Document} 
              * has a single instance of the undo manager that
@@ -212,10 +214,6 @@ define(function(require, module, exports) {
              * 
              **/
             plugin.freezePublicAPI({
-                /**
-                 * @ignore
-                 */
-                get stack() { return stack; },
                 /**
                  * The number of items on the stack. This number will stay the
                  * same when using {@link UndoManager#undo} and 
