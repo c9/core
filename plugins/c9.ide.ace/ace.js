@@ -297,9 +297,13 @@ define(function(require, exports, module) {
             undoManager.canRedo = this.canRedo;
             undoManager.getState = this.getState;
             undoManager.setState = this.setState;
-            this._emit = undoManager.getEmitter();
+            undoManager.bookmark = this.bookmark;
+            undoManager.isAtBookmark = this.isAtBookmark;
+            undoManager.__defineGetter__("position", this.getPosition);
+            undoManager.__defineGetter__("length", this.getLength);
+            undoManager._emit = this._emit = undoManager.getEmitter();
             
-            undoManager.setState(state);
+            this.setState(state);
         }
         function updateDeltas(deltas) {
             if (deltas[0] && deltas[0].deltas) {
@@ -356,7 +360,7 @@ define(function(require, exports, module) {
                 return {
                     stack: stack,
                     mark: aceUndo.mark,
-                    position: aceUndo.$rev
+                    position: stack.length - 1
                 };
             },
             setState: function(e) {
@@ -365,7 +369,11 @@ define(function(require, exports, module) {
                 aceUndo.$undoStack = (e.stack || []).filter(function(x) {
                     return x.length;
                 });
-                aceUndo.$rev = e.position;
+                var stack = aceUndo.$undoStack;
+                var lastDeltaGroup = stack[stack.length] - 1;
+                var lastRev = lastDeltaGroup && lastDeltaGroup[0].id || 0;
+                aceUndo.$rev = lastRev;
+                aceUndo.$maxRev = Math.max(aceUndo.$maxRev, lastRev);
                 this.bookmark(e.mark);
             },
             isAtBookmark: function() {
@@ -377,6 +385,14 @@ define(function(require, exports, module) {
             },
             setSession: function(session) {
                 this.$aceUndo.setSession(session);
+            },
+            getPosition: function() {
+                var aceUndo = this.$aceUndo;
+                return aceUndo.$undoStack.length - 1;
+            },
+            getLength: function() {
+                var aceUndo = this.$aceUndo;
+                return aceUndo.$undoStack.length + aceUndo.$redoStack.length;
             }
         };
         
