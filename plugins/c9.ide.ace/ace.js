@@ -297,12 +297,15 @@ define(function(require, exports, module) {
             undoManager.canRedo = this.canRedo;
             undoManager.getState = this.getState;
             undoManager.setState = this.setState;
-            undoManager.bookmark = this.bookmark;
+            undoManager.bookmark = this.bookmarkPosition;
             undoManager.isAtBookmark = this.isAtBookmark;
             undoManager.__defineGetter__("position", this.getPosition);
             undoManager.__defineGetter__("length", this.getLength);
             undoManager._emit = this._emit = undoManager.getEmitter();
             
+            this.deleyedEmit = lang.delayedCall(this._emit.bind(null, "change"))
+                .schedule.bind(null, 0);
+            undoManager.on("changeSync", this.deleyedEmit);
             this.setState(state);
         }
         function updateDeltas(deltas) {
@@ -318,22 +321,22 @@ define(function(require, exports, module) {
         AceUndoManager.prototype = {
             add: function(delta, doc) {
                 this.$aceUndo.add(delta, doc);
-                this._emit("change");
+                this._emit("changeSync");
             },
             addSelection: function(range, rev) {
                 this.$aceUndo.addSelection(range, rev);
             },
             undo: function(dontSelect) {
                 this.$aceUndo.undo(dontSelect);
-                this._emit("change");
+                this._emit("changeSync");
             },
             redo: function(dontSelect) {
                 this.$aceUndo.redo(dontSelect);
-                this._emit("change");
+                this._emit("changeSync");
             },
             reset: function(){
                 this.$aceUndo.reset();
-                this._emit("change");
+                this._emit("changeSync");
             },
             canUndo: function() {
                 return this.$aceUndo.canUndo();
@@ -343,11 +346,11 @@ define(function(require, exports, module) {
             },
             clearUndo: function() {
                 this.$aceUndo.$undoStack = [];
-                this._emit("change");
+                this._emit("changeSync");
             },
             clearRedo: function() {
                 this.$aceUndo.$redoStack = [];
-                this._emit("change");
+                this._emit("changeSync");
             },
             getState: function() {
                 console.log("getState()");
@@ -379,14 +382,36 @@ define(function(require, exports, module) {
             isAtBookmark: function() {
                 return this.$aceUndo.isAtBookmark();
             },
-            bookmark: function(index) {
-                this.$aceUndo.bookmark(index);
-                this._emit("change");
+            bookmark: function(rev) {
+                this.$aceUndo.bookmark(rev);
+                this._emit("changeSync");
+            },
+            bookmarkPosition: function(index) {
+                if (index > -1) {
+                    var stack = this.$aceUndo.$undoStack;
+                    if (index >= stack.length) {
+                        index -= stack.length;
+                        stack = this.$aceUndo.$redoStack;
+                        index = stack.length - index;
+                    }
+                    var deltaSet = stack[index];
+                    var rev = deltaSet && deltaSet[0] && deltaSet[0].id;
+                    this.$aceUndo.bookmark(rev);
+                } else if (index == -1) {
+                    this.$aceUndo.bookmark(0);
+                } else {
+                    this.$aceUndo.bookmark(index);
+                }
+                this._emit("changeSync");
             },
             setSession: function(session) {
                 this.$aceUndo.setSession(session);
             },
             getPosition: function() {
+                var aceUndo = this.$aceUndo;
+                return aceUndo.$undoStack.length - 1;
+            },
+            getMark: function() {
                 var aceUndo = this.$aceUndo;
                 return aceUndo.$undoStack.length - 1;
             },

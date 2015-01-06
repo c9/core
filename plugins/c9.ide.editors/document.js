@@ -40,16 +40,15 @@ define(function(require, module, exports) {
             
             // Listen to changes and detect when the value of the editor
             // is different from what is on disk
-            function initUndo(){
-                undoManager.on("change", function(e) {
-                    var c = !undoManager.isAtBookmark();
-                    if (changed !== c || undoManager.position == -1) {
-                        changed = c;
-                        emit("changed", { changed: c });
-                    }
-                });
+            function updateStatus(e) {
+                var c = !undoManager.isAtBookmark();
+                if (changed !== c) {
+                    changed = c;
+                    emit("changed", { changed: c });
+                }
             }
-            initUndo();
+            undoManager.on("change", updateStatus);
+            undoManager.on("changeSync", updateStatus);
             
             /***** Methods *****/
             
@@ -60,26 +59,24 @@ define(function(require, module, exports) {
                 }
                 var state = getState();
                 
-                undoManager.once("change", function(){
-                    // Bookmark the undo manager
-                    undoManager.bookmark();
-                    
-                    // Update state
-                    delete state.changed;
-                    delete state.value;
-                    delete state.meta;
-                    state.undoManager = undoManager.getState();
-                    
-                    if (cleansed && editor && state[editor.type])
-                        state[editor.type].cleansed = true;
-                    
-                    // Set new state (preserving original state)
-                    if (emit("mergeState") !== false)
-                        setState(state);
-                });
-                
                 // Record value (which should add an undo stack item)
                 plugin.value = value;
+                
+                // Bookmark the undo manager
+                undoManager.bookmark();
+                
+                // Update state
+                delete state.changed;
+                delete state.value;
+                delete state.meta;
+                state.undoManager = undoManager.getState();
+                
+                if (cleansed && editor && state[editor.type])
+                    state[editor.type].cleansed = true;
+                
+                // Set new state (preserving original state)
+                if (emit("mergeState") !== false)
+                    setState(state);
             }
             
             function getState(filter) {

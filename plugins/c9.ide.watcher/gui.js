@@ -309,11 +309,8 @@ define(function(require, exports, module) {
             doc.meta.$mergeRoot = data;
             
             // If the value on disk is the same as in the document, set the bookmark
-            if (mergedValue == data) {
-                doc.undoManager.once("change", function(){
-                    doc.undoManager.bookmark();
-                });
-            }
+            if (mergedValue == data)
+                doc.undoManager.bookmark();
             
             return true;
         }
