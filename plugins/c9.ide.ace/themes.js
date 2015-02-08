@@ -151,7 +151,7 @@ define(function(require, exports, module) {
                 settings.set("user/general/@skin", e.value);
             };
             var setTheme = function(e) {
-                [rb1, rb2, rb5].some(function(rb) {
+                [rb1, rb2, rb3, rb4, rb5].some(function(rb) {
                     if (rb.value == e.value) {
                         rb.select();
                         return true;

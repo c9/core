@@ -20,5 +20,3 @@ curl -XPOST -k -v -u timjrobinson:password https://api.c9.dev/projects/90/instal
 Example install command:
 
 NODE_TLS_REJECT_UNAUTHORIZED=0 C9_APIHOST=api.c9.dev C9_PID=90 c9 install <name>
-
-NODE_TLS_REJECT_UNAUTHORIZED=0 C9_APIHOST=api.cloud9beta.com c9 install <name>

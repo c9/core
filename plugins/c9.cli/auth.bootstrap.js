@@ -15,7 +15,7 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         
         // TODO read from options
-        var AUTHURL = options.authUrl;
+        var AUTHURL = "https://c9.dev";
         var AUTHPATH = process.env.HOME + "/.c9/.auth";
         var lastToken;
 

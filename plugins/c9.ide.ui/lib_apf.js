@@ -1,5 +1,5 @@
-define(["require", "module", "exports", "./lib/menu/menu",
-    "./lib/page", "./lib/dropdown", "./lib/splitbox", "./lib/flexbox"],
+define(["require", "module", "exports", "ui/menu/menu",
+    "ui/page", "ui/dropdown", "ui/splitbox", "ui/flexbox"],
 function(require, module, exports) {
     main.consumes = ["ext"];
     main.provides = ["apf"]
@@ -17034,10 +17034,10 @@ apf.config.$inheritProperties["validgroup"] = 1;
 
 
 
-require("./lib/dropdown")(apf);
+require("ui/dropdown")(apf);
 
 
-require("./lib/splitbox")(apf);
+require("ui/splitbox")(apf);
 
 
 
@@ -37110,9 +37110,9 @@ apf.aml.setProcessingInstruction("livemarkup", apf.LiveMarkupPi);
 
 
 
-require("./lib/menu/menu")(apf);
-require("./lib/flexbox")(apf);
-require("./lib/page")(apf);
+require("ui/menu/menu")(apf);
+require("ui/flexbox")(apf);
+require("ui/page")(apf);
 
 
 

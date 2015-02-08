@@ -168,9 +168,6 @@ define(function(require, exports, module) {
             get accessToken() { return accessToken; },
             set accessToken(v) { accessToken = v; loggedIn = true;},
             
-            /**
-             * 
-             */
             login: login,
             
             /**

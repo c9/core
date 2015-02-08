@@ -171,7 +171,7 @@ define(function(require, exports, module) {
                 var position = options.position;
                 var node, childNodes;
                 
-                if (options.setting && !options.path)
+                if (!options.setting && options.path)
                     options.path = options.setting;
                 
                 if (debug)

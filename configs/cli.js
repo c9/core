@@ -7,9 +7,6 @@ var APIHOST = process.env.C9_APIHOST || "api.c9.io"; // "api.c9.io";
 var APIURL = APIHOST.indexOf("localhost") > -1
     ? "http://" + APIHOST
     : "https://" + APIHOST;
-var AUTHURL = APIHOST.indexOf("localhost") > -1
-    ? "http://" + APIHOST
-    : "https://" + APIHOST.replace(/api\./, "");
 
 return [
     "./c9.core/ext",
@@ -27,10 +24,7 @@ return [
     },
     "./c9.vfs.client/vfs.cli",
     "./c9.cli/cli",
-    {
-        packagePath: "./c9.cli/auth.bootstrap",
-        authUrl: AUTHURL
-    },
+    "./c9.cli/auth.bootstrap",
     {
         packagePath: "./c9.cli.publish/publish",
         projectId: PID,

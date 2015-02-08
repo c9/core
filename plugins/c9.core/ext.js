@@ -888,8 +888,8 @@ define(function(require, exports, module) {
                  * @fires newListener
                  **/
                 on: function(eventName, callback, plugin){
-                    // if (!declaredEvents[eventName])
-                    //     console.warn("Missing event description or unknown event '" + eventName + "' for plugin '" + name + "'", new Error().stack);
+                    if (!declaredEvents[eventName])
+                        console.warn("Missing event description or unknown event '" + eventName + "' for plugin '" + name + "'", new Error().stack);
                         
                     event.on(eventName, callback, plugin);
                 },
@@ -900,8 +900,8 @@ define(function(require, exports, module) {
                  * @param {Function} callback the function called when the event is fired
                  **/
                 once: function(eventName, callback){
-                    // if (!declaredEvents[eventName])
-                    //     console.warn("Missing event description or unknown event '" + eventName + "' for plugin '" + name + "'");
+                    if (!declaredEvents[eventName])
+                        console.warn("Missing event description or unknown event '" + eventName + "' for plugin '" + name + "'");
                         
                     event.once(eventName, callback);
                 },

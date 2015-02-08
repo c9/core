@@ -71,11 +71,6 @@ function plugin(options, imports, register) {
                 email: req.user.email
             };
         }
-        else if (req.session) {
-            customData.user = {
-                id: req.session.uid
-            };
-        }
 
         raygunClient.send(err, customData, function() {}, {
             host: parsedUrl.hostname,

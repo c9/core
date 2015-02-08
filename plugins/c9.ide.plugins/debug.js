@@ -46,9 +46,9 @@ define(function(require, exports, module) {
             menus.addItemByPath("Tools/Developer", null, 100100, plugin);
             menus.addItemByPath("Tools/Developer/Start in Debug Mode", new ui.item({
                 onclick: function(){
-                    var url = location.href + (location.href.indexOf("?") > -1
+                    var url = location.href + (location.href.indexOf("?") > -1)
                       ? "&debug=2"
-                      : "?debug=2");
+                      : "?debug=2";
                     window.open(url);
                 }
             }), 100100, plugin);
@@ -139,12 +139,10 @@ define(function(require, exports, module) {
                         watch("~/.c9/plugins/" + pluginPath);
                         
                         var cfg = options.plugins[path];
-                        var host = vfs.baseUrl + "/";
-                        var base = join(String(c9.projectId), 
-                            "plugins", auth.accessToken);
-                            
-                        cfg.packagePath = host + join(base, pluginPath.replace(/^plugins\//, ""));
-                        cfg.staticPrefix = host + join(base, name);
+                        cfg.packagePath = join(vfs.baseUrl, c9.projectId, "plugins", 
+                            auth.accessToken, pluginPath.replace(/^plugins\//, ""));
+                        cfg.staticPrefix = join(vfs.baseUrl, c9.projectId, "plugins", 
+                            auth.accessToken, name);
                         cfg.apikey = "0000000000000000000000000000=";
                         
                         config.push(cfg);

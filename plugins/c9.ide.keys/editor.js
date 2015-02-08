@@ -301,7 +301,6 @@ define(function(require, exports, module) {
                             setTimeout(function() {
                                 ace.treeEditor.endRename(false);
                             });
-                            return disable;
                         }
                     }
                     
@@ -413,8 +412,6 @@ define(function(require, exports, module) {
                 if (!item.name) return;
                 
                 var groupName = item.group || "General";
-                if (groupName == "ignore") return;
-                
                 var group = groups[groupName];
                 if (!group)
                     root.push(group = groups[groupName] = { 
@@ -456,7 +453,7 @@ define(function(require, exports, module) {
         }
         
         function editUserKeys(tab) {
-            // preferences.hide();
+            preferences.hide();
             
             var keys = settings.getJson("user/key-bindings") || [];
             var value = "// Edit this keymap file and save to apply.\n[\n";
@@ -470,7 +467,7 @@ define(function(require, exports, module) {
             }).join(",\n");
             
             if (!keys.length)
-                value += '    // { "command": "nexttab", "keys": ["Ctrl-Tab"] }';
+                value += '    // { "command": "nexttab", "keys": ["Alt-`", "Ctrl-Tab"] }';
             
             value += "\n]";
             
