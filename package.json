@@ -40,6 +40,7 @@
         "through": "2.2.0",
         "tmp": "~0.0.20",
         "uglify-js": "2.4.16",
+        "ui": "",
         "ws": "0.4.31"
     },
     "optionalDependencies": {
@@ -58,12 +59,12 @@
         "c9.ide.language.javascript.tern": "#3d678a103a",
         "c9.ide.language.javascript.infer": "#1ae097af44",
         "c9.ide.language.jsonalyzer": "#45a20496be",
-        "c9.ide.collab": "#fabc22dda7",
+        "c9.ide.collab": "#08536cf0fe",
         "c9.ide.local": "#d5c324ee5b",
         "c9.ide.find": "#be3bca94b7",
         "c9.ide.find.infiles": "#462928475c",
         "c9.ide.find.replace": "#fe41fa768d",
-        "c9.ide.run.debug": "#9a05fadc55",
+        "c9.ide.run.debug": "#b734a2a47f",
         "c9.ide.ace.emmet": "#e5f1a92ac3",
         "c9.ide.ace.gotoline": "#4d1a93172c",
         "c9.ide.ace.keymaps": "#422e83553b",

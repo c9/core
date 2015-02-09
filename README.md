@@ -1,5 +1,5 @@
 Cloud9 3.0 SDK for Plugin Development
-=======================================
+========================================
 
 This is the core repository for the Cloud9 v3 SDK. The SDK allows you to run a version of Cloud9 that allows you to develop plugins and create a custom IDE based on Cloud9.
 
@@ -18,13 +18,14 @@ We also have a tutorial for how to get started working on the core plugins. [Che
 We have several documentation resources for you:
 
 <table>
-    <tr><th>SDK documentation</th><td>http://cloud9-sdk.readme.io/v0.1/docs</td></tr>
+    <tr><th>SDK documentation</th><td>https://TOBEFILLEDIN</td></tr>
     <tr><th>API documentation</th><td>http://docs.c9.io/api</td></tr>
     <tr><th>User documentation</th><td>http://docs.c9.io</td></tr>
+    <tr><th>User docs repo</th><td>https://github.com/c9/docs.c9.io</td></tr>
 </table>
 
 Please joing the mailinglist to get support or give support to the growing community of plugin developers:
-https://groups.google.com/forum/#!forum/cloud9-sdk
+https://groups.google.com/forum/#!forum/cloud9-plugin-development
 
 #### Installation ####
 
@@ -76,5 +77,3 @@ To protect the interests of the Cloud9 contributors and users we require contrib
 2. [The Corporate CLA](https://docs.google.com/a/c9.io/forms/d/1vFejn4111GdnCNuQ6BfnJDaxdsUEMD4KCo1ayovAfu0/viewform): have your corporate lawyer review and submit this if your company is going to be contributing to the Cloud9 SDK and/or open source plugins.
 
 If you want to contribute to the Cloud9 SDK and/or open source plugins please go to the online form, fill it out and submit it.
-
-Happy coding, Cloud9
