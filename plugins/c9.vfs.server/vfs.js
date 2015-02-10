@@ -169,10 +169,27 @@ Vfs.prototype._createEngine = function(vfs, options) {
             that.socket.disconnect();
         
         that.socket = socket;
-        socket.on('close', function (reason, description) {
-            var logMetadata = {collab: options.collab, reason: reason, description: description, id: that.id, sid: socket.id, pid: that.pid};
-            console.log("Socket closed", logMetadata);
-            logMetadata.message = "Socket closed";
+        if (socket.socket) { // socket is the reliablesocket, socket.socket is the reconnectsocket which has engineio's socket inside it
+            var listenEIOSocket = function (eioSocket) {
+                if (!eioSocket) return;
+                eioSocket.on("close", function (reason, description) {
+                    var logMetadata = {collab: options.collab, reason: reason, description: description, id: that.id, sid: socket.id, pid: that.pid};
+                    console.log("Socket closed", logMetadata);
+                    logMetadata.message = "Socket closed";
+                    that.logger.log(logMetadata);
+                });
+            };
+            socket.socket.on('away', function() {
+                listenEIOSocket(socket.socket.socket);
+            });
+            socket.socket.on('back', function() {
+                listenEIOSocket(socket.socket.socket);
+            });
+        }
+        socket.on('disconnect', function (err) {
+            var logMetadata = {collab: options.collab, ere: err, id: that.id, sid: socket.id, pid: that.pid};
+            console.log("Socket disconnected", logMetadata);
+            logMetadata.message = "Socket disconnected";
             that.logger.log(logMetadata);
         });
         
