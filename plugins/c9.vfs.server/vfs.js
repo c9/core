@@ -19,11 +19,9 @@ function Vfs(vfs, master, options) {
     this.vfs = vfs;
     this.master = master;
     this.debug = options.debug || false;
-    this.logger = options.logger || {log: function(){}};
     this.readonly = options.readonly || false;
     this.public = options.public || false;
     this.vfsOptions = options.vfsOptions || {};
-    this.pid = this.vfsOptions.pid;
     var extendToken = options.extendToken;
 
     this.homeDir = options.homeDir;
@@ -169,12 +167,6 @@ Vfs.prototype._createEngine = function(vfs, options) {
             that.socket.disconnect();
         
         that.socket = socket;
-        socket.on('close', function (reason, description) {
-            var logMetadata = {collab: options.collab, reason: reason, description: description, id: that.id, sid: socket.id, pid: that.pid};
-            console.log("Socket closed", logMetadata);
-            logMetadata.message = "Socket closed";
-            that.logger.log(logMetadata);
-        });
         
         var transport = new smith.EngineIoTransport(socket, true);
         var worker = new VfsWorker(vfs);
@@ -193,10 +185,7 @@ Vfs.prototype._createEngine = function(vfs, options) {
         }
 
         worker.on("disconnect", function() {
-            var logMetadata = {collab: options.collab, id: that.id, sid: socket.id, pid: that.pid};
-            console.log("VFS socket disconnect:", logMetadata);
-            logMetadata.message = "VFS socket disconnect";
-            that.logger.log(logMetadata);
+            console.log("VFS socket disconnect:", options.collab, that.id, socket.id);
             if (options.collab) {
                 if (collabApi)
                     return disposeCollabClient();
