@@ -169,7 +169,7 @@ Vfs.prototype._createEngine = function(vfs, options) {
             that.socket.disconnect();
         
         that.socket = socket;
-        if (socket.socket) { // socket is the reliablesocket, socket.socket is the reconnectsocket which has engineio's socket inside it
+        if (socket.socket) { // socket is the reliablesocket, socket.socket is the reconnectsocket, socket.socket.socket is engineio's socket 
             var listenEIOSocket = function (eioSocket) {
                 if (!eioSocket) return;
                 eioSocket.on("close", function (reason, description) {
