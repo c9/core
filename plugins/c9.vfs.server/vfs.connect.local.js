@@ -1,12 +1,13 @@
 define(function(require, exports, module) {
     "use strict";
     
-    main.consumes = ["Plugin"];
+    main.consumes = ["Plugin", "logger"];
     main.provides = ["vfs.connect"];
     return main;
 
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
+        var logger = imports.logger;
     
         var Vfs = require("./vfs");
         var localFs = require("vfs-local");
@@ -45,6 +46,7 @@ define(function(require, exports, module) {
 
             callback(null, new Vfs(localFs(vfsOptions), master, {
                 debug: options.debug || false,
+                logger: logger,
                 homeDir: vfsOptions.homeDir,
                 projectDir: vfsOptions.projectDir,
                 extendDirectory: options.extendDirectory,
