@@ -1,0 +1,14 @@
+{
+    "name": "c9.connect.redirect",
+    "version": "0.0.1",
+
+    "main": "./redirect.js",
+    "private": true,
+
+    "plugin": {
+        "consumes": ["connect"],
+        "provides": [
+            "connect.redirect"
+        ]
+    }
+}

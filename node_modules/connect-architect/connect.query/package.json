@@ -1,0 +1,16 @@
+{
+    "name": "c9.connect.query",
+    "version": "0.0.1",
+
+    "main": "./query.js",
+    "private": true,
+
+    "plugin": {
+        "consumes": [
+            "connect"
+        ],
+        "provides": [
+            "connect.query"
+        ]
+    }
+}

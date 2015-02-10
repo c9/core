@@ -1,0 +1,19 @@
+{
+  "name": "Cloud9dev",
+  "version": "0.0.1",
+  "main": "projectManager.html",
+  "node-remote": "localhost",
+  "window": {
+    "title": "Cloud9",
+    "toolbar": false,
+    "width": 1100,
+    "height": 800,
+    "show": false,
+    "frame": true
+  },
+  "win_bg": "#000000",
+  "chromium-args" : "--disable-web-security --ignore-certificate-errors --auth-schemes='digest,ntlm,negotiate,basic'",
+  "webkit": {
+      "page-cache": false
+  }
+}

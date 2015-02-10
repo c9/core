@@ -1,0 +1,43 @@
+
+.cboffline {
+    width: 55px;
+    height: 21px;
+    background: url("@{image-path}/sync.png") no-repeat 0 -21px;
+}
+
+.cbofflineDown {
+    background-position : 0 0px;
+}
+
+.cbofflineChecked {
+    background-position : 0 0px;
+}
+
+.cboffline when(@preferences-flat){
+    background: #EFEFEF; //f07272;
+    border-radius: 24px;
+    height: 24px !important;
+    width: 51px !important;
+    border: 1px solid #A3A3A3; //8c3737;
+}
+
+.cboffline:after when(@preferences-flat){
+    content: "";
+    display: block;
+    width: 26px;
+    height: 26px;
+    border-radius: 26px;
+    background: white;
+    border: 1px solid #A3A3A3; //8c3737;
+    margin: -2px 0 0 -1px;
+}
+
+.cbofflineChecked when(@preferences-flat){
+    background: #98c878;
+    border-color: #7da562;
+}
+.cbofflineChecked:after when(@preferences-flat){
+    border-color: #7da562;
+    float: right;
+    margin: -2px -1px 0 0px;
+}

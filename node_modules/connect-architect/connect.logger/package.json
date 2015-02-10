@@ -1,0 +1,16 @@
+{
+    "name": "c9.connect.logger",
+    "version": "0.0.1",
+
+    "main": "./logger.js",
+    "private": true,
+
+    "plugin": {
+        "consumes": [
+            "connect"
+        ],
+        "provides": [
+            "connect.logger"
+        ]
+    }
+}

@@ -1,0 +1,7 @@
+build/output
+build/standalone/
+build/static
+build/node_modules/
+build/webkitbuilds/
+build/win32
+node_modules/logicblox/build/logicblox/static

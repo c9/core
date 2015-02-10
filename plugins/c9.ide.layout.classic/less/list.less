@@ -1,0 +1,92 @@
+
+.list{
+    overflow: auto;
+    position: relative;
+    border: 1px solid #c3c3c3;
+    background-color: #fafbfc;
+    cursor: default;
+}
+.noscrollbar{
+    overflow: hidden;
+}
+
+.white{
+    background : white;
+}
+
+.list, .draglist{
+    font-family: Tahoma, Arial;
+    font-size: 8pt;
+}
+
+.list>DIV, .draglist{
+    padding: 0;
+    height: 18px;
+}
+
+.list>DIV>SPAN, .draglist SPAN{
+    padding: 0 0 0 20px;
+    background: no-repeat 1px center;
+    height: 16px;
+    float: left;
+}
+
+.list>DIV>SPAN>U, .draglist U{
+    text-decoration: none;
+    color: black;
+    cursor: default;
+    display: block;
+    padding: 2px 4px 2px 2px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.listFocus>.indicate>SPAN>U{
+    border: 1px dotted #BBB;/*#25a8e7;*/
+    color : black;
+    padding: 1px 3px 1px 1px;
+}
+
+.list>.selected>SPAN>U{
+    background-color: #f0f0f0;
+    color: black;
+}
+.listFocus>.selected>SPAN>U, .draglist U{
+    color: white;
+    background-color: #25a8e7;
+}
+
+.list #txt_rename{
+    border: 1px solid #bbb;
+    padding: 1px 15px 1px 1px;
+    font-family: Tahoma, Arial;
+    font-size: 8pt;
+    color: black;
+    word-break: keep-all;
+    overflow: visible;
+    margin-top : 0px;
+    cursor: text;
+    height: 13px;
+    display: block;
+    outline : none;
+}
+
+.list .empty, .list .offline, .list .loading{
+    text-align: center;
+    padding: 8px 0 0 5px;
+    color: #AAA;
+    font-weight : normal;
+}
+
+.list.emptyLeft .empty {
+    text-align: left;
+}
+
+.shortlist{
+    border : 0;
+    overflow-y : auto;
+    overflow-x : hidden;
+    max-height : 90px;
+    width : auto;
+}
+    

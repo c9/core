@@ -1,0 +1,16 @@
+{
+    "name": "c9.connect.flash",
+    "version": "0.0.1",
+
+    "main": "./flash.js",
+    "private": true,
+
+    "plugin": {
+        "consumes": [
+            "session"
+        ],
+        "provides": [
+            "connect.flash"
+        ]
+    }
+}

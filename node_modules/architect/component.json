@@ -1,0 +1,10 @@
+{
+    "name": "architect",
+    "description": "A Simple yet powerful plugin system for node applications",
+    "version": "0.1.6",
+    "dependencies": {
+        "juliangruber/events": "*"
+    },
+    "main": "architect.js",
+    "scripts": ["architect.js"]
+}

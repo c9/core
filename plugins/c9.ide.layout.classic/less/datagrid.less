@@ -1,0 +1,527 @@
+
+.datagrid{
+    position: relative;
+    border: 1px solid #c3c3c3;
+    background-color: white;
+    /*cursor: default;*/
+    overflow : hidden;
+
+    font-family: Tahoma, Arial;
+    font-size: 8pt;
+
+    padding: 19px 0 0 0;
+    color : #333;
+}
+
+
+.datagrid .headings{
+    position : relative;
+    top : 0;
+    left : 0;
+    height : 20px;
+    z-index : 10;
+    background-color : #e6e6e6;
+    margin : -20px 15px 0 0;
+    white-space : nowrap;
+}
+
+.noscrollbar .datagrid .headings {
+    margin : -21px 1px 0 0;
+}
+.noscrollbar .datagrid{
+    background : transparant;
+}
+
+.datagrid .headings div{
+    background : -webkit-gradient(linear,left bottom,left top,color-stop(0, rgb(229,229,229)),color-stop(1, rgb(248,248,248)));
+    background: -moz-linear-gradient(center bottom,rgb(229,229,229) 0%,rgb(248,248,248) 100%);
+    overflow : hidden;
+    text-overflow : ellipsis;
+    color: #333;
+    border-bottom: 1px solid #BFBFBF;
+}
+
+.docktab .datagrid .headings div {
+    background-image: linear-gradient(bottom, rgb(236,239,242) 0%, rgb(237,240,243) 49%, rgb(244,246,248) 50%, rgb(250,252,254) 100%);
+    background-image: -o-linear-gradient(bottom, rgb(236,239,242) 0%, rgb(237,240,243) 49%, rgb(244,246,248) 50%, rgb(250,252,254) 100%);
+    background-image: -moz-linear-gradient(bottom, rgb(236,239,242) 0%, rgb(237,240,243) 49%, rgb(244,246,248) 50%, rgb(250,252,254) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgb(236,239,242) 0%, rgb(237,240,243) 49%, rgb(244,246,248) 50%, rgb(250,252,254) 100%);
+    background-image: -ms-linear-gradient(bottom, rgb(236,239,242) 0%, rgb(237,240,243) 49%, rgb(244,246,248) 50%, rgb(250,252,254) 100%);
+    border-bottom: 1px solid #e1e5ea;
+}
+
+.datagrid .headings div u{
+    padding : 2px 4px 1px 3px;
+    display : block;
+    height : 15px;
+    text-decoration : none;
+    border-left : 1px solid white;
+    border-right : 1px solid #bfbfbf;
+    border-top : 1px solid white;
+}
+
+.docktab .datagrid .headings div u{
+    border-top: 1px solid #fafcfe;
+    border-left : 1px solid #fafbfc;
+    border-right : 1px solid #c8c8c8;
+}
+
+.datagrid .headings div.hover,
+.datagrid .headings div.down,
+.datagrid .headings div.drag{
+    background : -webkit-gradient(linear,left bottom,left top,color-stop(0, rgb(221,221,221)),color-stop(1, rgb(255,255,255)));
+    background: -moz-linear-gradient(center bottom,rgb(221,221,221) 0%,rgb(255,255,255) 100%);
+    color : #555;
+}
+
+.datagrid .headings div.drag{
+    border : 1px solid white;
+}
+
+.datagrid .headings div.down u,
+.datagrid .headings div.hover u {
+    border-left: 1px solid transparent;
+}
+
+.datagrid .headings div.ascending u{
+    background-image : url("@{image-path}/sort_asc.gif");
+    background-repeat : no-repeat;
+    background-position : right 7px;
+}
+
+
+.datagrid .headings div.descending u {
+    background-image : url("@{image-path}/sort_desc.gif");
+    background-repeat : no-repeat;
+    background-position : right 6px;
+}
+
+.datagrid .records{
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height : 100%;
+    padding : 18px 0 0 0;
+    position : relative;
+    top : -19px;
+    white-space : nowrap;
+    border-color:white;
+    border-style:solid;
+    border-width:1px 0 0;
+}
+
+.with-noise .records {
+    background: #E1E1E1 url("@{image-path}/dg_noise.png") repeat 0 0;
+}
+
+.noscrollbar .records{
+    overflow-y : hidden;
+}
+
+.datagrid .records .row span{
+    height : 18px;
+    background : white no-repeat 0 50%;
+}
+
+.datagrid .records .row span u{
+    padding : 1px 3px 3px 4px;
+    height : 15px;
+    display : block;
+    text-decoration : none;
+    text-overflow : ellipsis;
+    white-space : nowrap;
+    overflow : hidden;
+    cursor: default;
+    border-right:1px solid #D6D6D6;
+    border-left : 1px solid white;
+}
+
+.with-noise .records .row span {
+    border-left : 1px solid #D1D1D1;
+    margin-left : -1px;
+}
+
+.with-noise .records .row span {
+    background-image: url("@{image-path}/dg_noise.png");
+    background-repeat: repeat;
+    border-top: #f0f0f0;
+    background-color: #e1e1e1;
+}
+.noscrollbar .datagrid .records .row span{
+    background-color : transparent;
+}
+
+.datagrid .records .row{
+    height : 18px;
+    padding-left : 0;
+}
+
+.datagrid .records .highlight span{
+
+}
+
+.datagrid .records .highlight{
+
+}
+
+.datagridFocus .records .indicate span{
+    padding : 0;
+    color : #333;
+}
+
+.datagridFocus .records .indicate span u{
+}
+
+.datagridFocus .records .row span{
+}
+
+.datagrid .row:nth-child(4n-1) span{
+    background: #f0f0f0;
+}
+.with-noise .row:nth-child(4n-1) span {
+    background: #d1d1d1;
+    background-image: url("@{image-path}/dg_noise.png");
+}
+
+.datagrid .records .testhead{
+    height : 22px;
+}
+
+.datagrid .records .testhead span {
+    border-top : 4px solid #c3c3c3;
+}
+
+.datagrid .records .current_execution span {
+    background : #d4e0c6;
+}
+
+.datagrid .records .selected, .datagrid .records .selected span{
+    background: -webkit-gradient(linear,left bottom,left top,color-stop(0, #CECECE),color-stop(1, #DEDEDE));
+    background: -moz-linear-gradient(center bottom,#CECECE 0%,#DEDEDE 100%);
+}
+.datagridFocus .records .selected, .datagridFocus .records .selected span,
+.datagridFocus .records .dragAppend, .datagridFocus .records .dragAppend span{
+    background: -webkit-gradient(linear,left bottom,left top,color-stop(0, rgb(51,124,188)),color-stop(1, rgb(64,145,216)));
+    background: -moz-linear-gradient(center bottom,rgb(51,124,188) 0%,rgb(64,145,216) 100%);
+    color : white;
+}
+/*.datagrid .records .editing, .datagrid .records .editing span{
+    background-color : white;
+    color : #333;
+}*/
+.datagridFocus .records .selected span u {
+    border-left : 1px solid #8bc0ed;
+}
+
+.datagrid .move_pointer{
+    height : 100px;
+    width : 2px;
+    position : absolute;
+    top : 0;
+    margin : -10px 0 0 -4px;
+    width : 9px;
+    height : 38px;
+    background : url("@{image-path}/column_picker.gif") no-repeat 0 0;
+    overflow : hidden;
+    z-index : 1000;
+}
+
+.datagrid .size_pointer{
+    border : 1px dotted gray;
+    border-width : 0 1px 0 1px;
+    height : 100%;
+    position : absolute;
+    top : 0px;
+    z-index : 1000;
+    cursor : e-resize;
+    cursor : ew-resize;
+}
+
+.datagrid .message{
+    font-weight : normal;
+    color : #333;
+    padding : 0 0 10px 50px;
+    font-size : 11px;
+    margin-top : 10px;
+    border-bottom : 1px solid #eee;
+}
+
+.datagrid .message label{
+    padding : 2px 0 0 4px;
+    height : 14px;
+    display : inline-block;
+    position : relative;
+    top : -3px;
+}
+
+/*.datagrid .message span{
+    background : url("@{icon-path}/cog.png") no-repeat left bottom;
+    width : 16px;
+    height : 16px;
+    display : inline-block;
+}*/
+
+.datagrid .root .message{
+    padding : 0;
+    margin : 0;
+    border-bottom : 0;
+    height : 0;
+}
+.datagrid .root .message label{
+    top : 0;
+    padding : 0;
+    height : 0;
+    overflow : hidden;
+}
+
+.pointer{
+    display : none;
+}
+
+.dginfo{
+    display : none;
+    overflow : hidden;
+    white-space : normal;
+    padding : 5px;
+    background-color : #f3f3f3;
+    margin-top : 3px;
+    margin-left : 6px;
+    position : relative;
+    left : -3px;
+    margin-bottom : 3px;
+}
+
+.dginfo h3{
+    margin : 0 0 5px 0;
+}
+
+.dginfo p{
+    margin : 0;
+}
+
+.datagrid .records .stdel, .datagridFocus .records .stdel,
+.datagrid .records .stdel span, .datagridFocus .records .stdel span{
+    color : #ccc;
+}
+
+.dragdg{
+    border : 2px solid black;
+    width : 10px;
+    height : 5px;
+}
+
+.datagrid .records .dragInsert{
+    height : 19px;
+    margin-top : -1px;
+}
+
+.datagrid .records .dragInsert span{
+    border-top : 1px solid gray;
+}
+
+.datagrid blockquote{
+    padding : 0;
+    margin : 0;
+    display: none;
+    height: 0;
+    overflow: hidden;
+    background: repeat-y 0px center;
+}
+
+.datagrid .records span.treecell u{
+    text-decoration : none;
+    display : inline-block;
+    width : 100%;
+    padding : 1px 2px 3px 2px;
+    border : 0;
+}
+
+.datagrid .records span.treecell u {
+    background-repeat: no-repeat;
+    padding-left:20px;
+}
+
+.datagrid.noicon .records span.treecell u {
+    padding-left: 0;
+}
+
+.datagrid .records .row .treecell .iconCell, .datagrid .records .row .iconCell  {
+    background-position : 1px 1px;
+    background-repeat   : no-repeat;
+    padding             : 1px 0 3px 22px;
+}
+
+.datagrid .treecell strong{
+    width : 9px;
+    height : 9px;
+    margin : 4px 4px 0 4px;
+    position : relative;
+    top : -5px;
+    display : inline-block;
+}
+
+.datagrid .plus>.treecell strong,
+.datagrid .pluslast>.treecell strong{
+    background-image:url("@{image-path}/plus.png");
+}
+
+.datagrid .min>.treecell strong,
+.datagrid .minlast>.treecell strong{
+    background-image:url("@{image-path}/min.png");
+}
+
+.datagrid .slider{
+    margin : 5px 5px 0 3px;
+}
+
+.datagrid .tb{
+    border : 0;
+    padding : 2px 0 4px 4px;
+    background : white;
+    border-left : 1px solid #eee;
+    border-bottom : 1px solid #eee;
+    height : 13px;
+    position : relative;
+    top : -6px;
+}
+
+.datagrid .treecell .tb{
+    padding : 1px 0 0 0;
+    top : 0;
+    border : 0;
+    border-bottom : 1px solid #eee;
+}
+
+/*.datagrid .tb_textbox{
+    margin   : 0 0 0 0;
+    height   : 16px;
+    overflow : hidden;
+    top      : 0;
+    border   : 1px solid #bbb;
+}
+.datagrid .tb_textbox .sbtb_middle{
+    background : white;
+    padding : 0;
+    border : 0;
+    box-shadow : 0px 0px 8px 1px rgba(0,0,0,0.2) inset;
+}
+.datagrid .tb_textbox .sbtb_middle input{
+    color : #333;
+    margin-top : 0;
+    top : -2px;
+    position : relative;
+    padding : 0 0 0 4px;
+    font-family : Tahoma, Arial;
+    font-size : 8pt;
+}*/
+
+.datagrid .message, .datagrid .empty{
+    height : 0;
+    padding : 0;
+    margin : 3px;
+}
+
+.datagrid .loading>.treecell strong{
+    background : url("@{image-path}/file-tree-load-spinner.gif") no-repeat 0 0;
+    width : 16px;
+    height : 16px;
+    top : -2px !important;
+    left : -3px;
+    vertical-align : top;
+    margin-right : -3px !important;
+}
+.datagrid .loading.selected>.treecell strong{
+    background : url("@{image-path}/file-tree-load-spinner-selected.gif") no-repeat 0 0;
+}
+.datagrid .row>span{
+    vertical-align : top;
+}
+
+    
+
+.datagrid .headings div{
+    float : left;
+}
+
+.datagrid .records .row span{
+    float : left;
+}
+    
+
+.datagrid .headings{
+    padding-top : 2px;
+    height : 15px;
+}
+
+.datagrid .headings div{
+    display : -moz-inline-box;
+    overflow : visible;
+    position : relative;
+}
+
+.datagrid .records{
+}
+
+.datagrid .records .row span{
+    display : -moz-inline-box;
+    overflow : visible;
+    position : relative;
+}
+    
+
+.datagrid .headings{
+    margin : -20px 17px 0 0;
+}
+    
+
+.datagrid {
+    position: relative;
+    border: 1px solid #c3c3c3;
+    background-color: white;
+    overflow : hidden;
+    font-family: Tahoma, Arial;
+    font-size: 8pt;
+    padding: 0;
+    color : #333;
+}
+
+.datagrid .headings {
+    position : absolute;
+    top : 20px;
+    left : 0;
+    right: -1px;
+    height : 20px;
+    z-index : 10;
+    background-color : #e6e6e6;
+    white-space : nowrap;
+}
+
+.datagrid .records {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position : absolute;
+    top : 0px;
+    bottom:0;
+    height:auto;
+    left:0;
+    right:0;
+    white-space : nowrap;
+    border-color:white;
+    border-style:solid;
+    border-width:1px 0 0;
+    display:block;
+    margin:0;
+}
+
+.noscrollbar .records{
+    overflow-y : hidden;
+}
+
+.datagrid div.records .treecell strong {
+    top : 0px;
+}
+
+.draggrid .treecell .iconCell,
+.datagrid .records span.treecell .iconCell {
+    padding : 2px 0 1px 24px;
+}
+    

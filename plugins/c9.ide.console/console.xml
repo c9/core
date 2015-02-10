@@ -1,0 +1,11 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:hbox id="consoleButtons" pack="end" top="0" right="3" height="24" align="center" padding="0" zindex="1000">
+        <a:button id="btnConsoleMax" skin="btn_console" class="maximize" state="true" margin="2 2 0 0" />
+        <a:divider skin="divider_console" margin="3 0 0 3"></a:divider>
+        <a:button
+          id="btnClose"
+          skin="btn_icon_only"
+          class="dim22-22  console_close_btn btn_icon_onlyIcon"
+          margin="1 0 0 1" />
+    </a:hbox>
+</a:application>

@@ -1,0 +1,37 @@
+{
+    "author": "Ajax.org B.V. <info@ajax.org>",
+    "contributors": [{
+        "name": "Fabian Jakobs",
+        "email": "fabian@c9.io"
+    }],
+    "name": "frontdoor",
+    "description": "Frontdoor is a libarary for creating RESTful API servers.",
+    "version": "0.0.1",
+    "scripts": {
+        "test": "find lib | grep '_test.js$' | xargs -n 1 node"
+    },
+    "licenses": [{
+        "type": "MIT",
+        "url": "http://github.com/frontdoor/smith/raw/master/LICENSE"
+    }],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/c9/frontdoor.git"
+    },
+    "main": "frontdoor.js",
+    "engines": {
+        "node": ">=0.6.0"
+    },
+    "dependencies": {
+        "http-error": "~0.0.1",
+        "request": "~2.12.0",
+        "amd-loader": "~0.0.5"
+    },
+    "devDependencies": {
+        "asyncjs": "~0.0.9",
+        "sinon": "~1.3.0",
+        
+        "express": "3.0.3",
+        "ejs": "*"
+    }
+}

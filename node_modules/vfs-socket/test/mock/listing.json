@@ -1,0 +1,7 @@
+[
+  {"name":"listing.json","access":6,"size":921,"mtime":1342205386000,"mime":"application/json","href":"http://localhost:44988/listing.json"},
+  {"name":"dir","access":7,"size":4096,"mtime":1342199601000,"mime":"inode/directory","href":"http://localhost:44988/dir/"},
+  {"name":"file.txt","access":6,"size":0,"mtime":1342199547000,"mime":"text/plain","href":"http://localhost:44988/file.txt"},
+  {"name":"fileLink.txt","access":7,"size":8,"mtime":1342199557000,"mime":"inode/symlink","link":"file.txt","linkStat":{"name":"file.txt","access":6,"size":0,"mtime":1342199547000,"mime":"text/plain","fullPath":"/file.txt"},"href":"http://localhost:44988/fileLink.txt"},
+  {"name":"dirLink","access":7,"size":3,"mtime":1342199574000,"mime":"inode/symlink","link":"dir","linkStat":{"name":"dir","access":7,"size":4096,"mtime":1342199601000,"mime":"inode/directory","fullPath":"/dir"},"href":"http://localhost:44988/dirLink/"}
+]

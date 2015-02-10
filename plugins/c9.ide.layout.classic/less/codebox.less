@@ -1,0 +1,89 @@
+.ace_one-line {
+    line-height: inherit!important;
+}
+.ace_one-line .ace_cursor {
+    border-left-width: 1px!important;
+}
+.ace_one-line .ace_scroller {
+    background: transparent!important;
+    border-radius: 0!important;
+}
+.ace_searchbox .sbtb_middle{
+    padding-right : 24px !important;
+}
+.searchbox .sbtb_middle .input{
+    white-space : nowrap !important;
+}
+.has_apf .searchTxt.tb_console.ace_searchboxDisabled .sbtb_middle {
+    color : @textbox-disabled-color;
+    background: @textbox-disabled-background;
+}
+.ace_one-line .ace_scroller.ace_scroll-left {
+    box-shadow: none;
+}
+
+.tb_console {
+    position : relative;
+    height   : 31px;
+    box-shadow: 0 1px @border-highlight;
+}
+
+.tb_console .sbtb_middle {
+    border          : 1px solid @textbox-border-color;
+    background      : @textbox-background;
+    box-shadow      : @textbox-box-shadow;
+    color           : @textbox-color;
+    font-size       : 14px;
+    height          : 19px;
+    line-height     : 18px;
+    padding         : 2px 4px 0px 4px;
+    outline         : none;
+    text-overflow   : ellipsis;
+}
+.tb_consoleFocus .sbtb_middle,
+.tb_consoleOver .sbtb_middle,
+.tb_console .sbtb_middle:hover {
+}
+
+.topborder .sbtb_middle{
+    border-width : 1px 0 0 0;
+}
+
+.tb_console .sbtb_middle INPUT,
+.consoleInputCloned {
+    border           : 0;
+    height           : 17px;
+    line-height      : 15px;
+    font-size        : 12px;
+    color            : #303030;
+    font-family      : menlo,courier new,fixed,swiss,sans-serif;
+    outline          : none;
+    background-color : transparent;
+    width: 100%;
+    padding : 0;
+}
+
+.tb_console.tb_textboxInitial .sbtb_middle {
+    padding-right : 0 !important;
+}
+
+.tb_console.tb_textboxInitial .input {
+    font-size : 10px;
+}
+
+.tb_console.tb_textboxInitial .ace_cursor{
+    display : none;
+}
+
+.tb_consoleDisabled .sbtb_middle {
+    background      : #e2e2e2;
+}
+.tb_consoleDisabled .sbtb_middle INPUT {
+    color : #b3b3b3;
+}
+
+.tb_consoleDisabled .sbtb_middle{
+    background: -webkit-gradient(linear,left bottom,left top,color-stop(0, rgb(235,235,235)),color-stop(0.4, rgb(255,255,255)));
+    background: -moz-linear-gradient(center bottom,rgb(235,235,235) 0%,rgb(255,255,255) 40%);
+    cursor : default;
+}

@@ -1,0 +1,28 @@
+.blackbutton {
+    .gradient(~"linear-gradient(top, @{button-black-background-1} 0%, @{button-black-background-2} 52%, @{button-black-background-3} 52%, @{button-black-background-4} 100%)");
+    .box-shadow(~"0 1px 0 @{button-black-highlight} inset, 0px 1px @{border-highlight-strong}");
+    
+    border: 1px solid @button-black-border-color;
+    border-radius: 3px;
+    color: @button-black-color;
+    text-shadow: @button-black-text-shadow;
+    height: 27px;
+    line-height: 27px;
+    padding: @button-black-padding;
+    text-align : center;
+    cursor : @button-black-cursor;
+    font-weight: @button-black-font-weight;
+    .font-smoothing(@button-black-font-smoothing);
+}
+.blackbuttonDisabled{
+    color: @button-black-disabled-color;
+}
+.blackbuttonFocus {
+    .box-shadow(~"0 1px 0 @{button-black-highlight} inset, 0px 1px @{border-highlight-strong}, @{button-black-focus-highlight}");
+}
+.blackbuttonOver {
+    .box-shadow(~"0 1px 0 @{border-highlight-strong} inset, 0px 1px @{border-highlight-strong}, 0 0 0 1000px @{button-black-hover-shadow} inset");
+}
+.blackbuttonDown {
+    .box-shadow(~"0 0 3px 2px @{button-black-active-inner-border} inset");
+}

@@ -1,0 +1,58 @@
+
+.cbblack.cbcontainer {
+    padding    : 2px 2px 2px @checkbox-black-image-width;
+}
+
+.cbblack.cbcontainer span {
+    color : @checkbox-black-color;
+    top         : 0;
+}
+
+.cbblack.cbcontainer.dark-bg span {
+    text-shadow: #000 0px 1px 0px;
+}
+
+.cbblack.cbcontainer .checkbox {
+    width:  @checkbox-black-width;
+    height: @checkbox-black-height;
+    .image-2x("@{image-path}/@{checkbox-black-image}", @checkbox-black-image-width, @checkbox-black-image-height);
+    background-position: 0 0;
+}
+
+.cbblack.cbcontainerOver .checkbox{
+    background-position : 0 (-1 * @checkbox-black-height);
+}
+
+.cbblack.cbcontainerDown .checkbox{
+    background-position : 0 (-2 * @checkbox-black-height);
+}
+
+.cbblack.cbcontainerChecked .checkbox {
+    background-position : 0 (-3 * @checkbox-black-height);
+}
+
+.cbblack.cbcontainerOver.cbcontainerChecked .checkbox{
+    background-position : 0 (-4 * @checkbox-black-height);
+}
+
+.cbblack.cbcontainerChecked.cbcontainerDown .checkbox {
+    background-position : 0 (-5 * @checkbox-black-height);
+}
+
+.cbblack.cbcontainerError span {
+    background-color : #ffb500;
+    color            : #fbfbfb;
+}
+
+.cbblack.cbcontainerDisabled .checkbox {
+    background-position : 0 (-6 * @checkbox-black-height);
+}
+
+.cbblack.cbcontainerDisabled.cbcontainerChecked .checkbox {
+    background-position : 0 (-7 * @checkbox-black-height);
+}
+
+.cbblack.cbcontainerDisabled span {
+    color : #bebebe;
+}
+    

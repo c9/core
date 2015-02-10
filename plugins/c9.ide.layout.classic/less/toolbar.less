@@ -1,0 +1,74 @@
+
+.docktab .toolbar {
+    border-bottom: 1px solid #e1e5ea;
+}
+
+.toolbar .menubar {
+    background: url("@{image-path}/menubar_row.png") repeat-x top left;
+    height: 22px;
+    z-index: 1;
+    font-family: Tahoma, Arial;
+    font-size: 12px;
+    position: relative;
+}
+
+.toolbar .subbar {
+    background-image: linear-gradient(bottom, rgb(236,239,242) 0%, rgb(237,240,243) 50%, rgb(243,246,248) 51%, rgb(249,251,254) 100%);
+    background-image: -o-linear-gradient(bottom, rgb(236,239,242) 0%, rgb(237,240,243) 50%, rgb(243,246,248) 51%, rgb(249,251,254) 100%);
+    background-image: -moz-linear-gradient(bottom, rgb(236,239,242) 0%, rgb(237,240,243) 50%, rgb(243,246,248) 51%, rgb(249,251,254) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgb(236,239,242) 0%, rgb(237,240,243) 50%, rgb(243,246,248) 51%, rgb(249,251,254) 100%);
+    background-image: -ms-linear-gradient(bottom, rgb(236,239,242) 0%, rgb(237,240,243) 50%, rgb(243,246,248) 51%, rgb(249,251,254) 100%);
+
+
+
+    font-family: Arial;
+    font-size: 12px;
+    border-bottom: 1px solid #E1E5EA;
+    position: relative;
+    padding: 0;
+    width : 100%;
+    overflow : hidden;
+    height : 27px;
+}
+
+.docktab .toolbar .subbar {
+    border-bottom: 1px solid #e8ecef;
+}
+
+.toolbar.modal-toolbar .subbar {
+    background-image: linear-gradient(bottom, rgb(217,217,217) 0%, rgb(237,237,237) 100%);
+    background-image: -o-linear-gradient(bottom, rgb(217,217,217) 0%, rgb(237,237,237) 100%);
+    background-image: -moz-linear-gradient(bottom, rgb(217,217,217) 0%, rgb(237,237,237) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgb(217,217,217) 0%, rgb(237,237,237) 100%);
+    background-image: -ms-linear-gradient(bottom, rgb(217,217,217) 0%, rgb(237,237,237) 100%);
+
+    border-top: 1px solid #f6f6f6;
+    border-bottom: 1px solid #bfbfbf;
+}
+.toolbar .subbar.no_border {
+    border-bottom: none;
+    padding-top: 1px;
+}
+
+.toolbar>.subbar>*{
+    display : inline-block;
+    float : left;
+    margin : 2px;
+}
+
+.toolbar>.subbar>.hbox, .toolbar>.subbar>.vbox, .toolbar>.subbar>.table{
+    display : block;
+    float : none;
+    margin : 0;
+}
+
+.toolbar>.subbar>.divider {
+    border-left: 1px solid #c4c4c4;
+    border-right: 1px solid #fafafa;
+    border-bottom: none;
+    border-top: none;
+    height: 17px;
+    float: left;
+    margin: 4px 0 0 0;
+}
+    

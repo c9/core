@@ -1,0 +1,14 @@
+{
+    "name": "c9.connect.basicauth",
+    "version": "0.0.1",
+
+    "main": "./basicauth-plugin.js",
+    "private": true,
+
+    "plugin": {
+        "consumes": [
+            "connect"
+        ],
+        "provides": []
+    }
+}

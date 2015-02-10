@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <title>Test Runner</title>
+        <link rel="stylesheet" href="lib/mocha/mocha.css" />
+        <style>
+            HTML {
+                overflow: auto !important
+            }
+            IFRAME {
+                width: 70%;
+                height: 100%;
+                display: block;
+                position: absolute;
+                left: 30%;
+                right: 0;
+                bottom: 0;
+            }
+            .stats {
+                font-size: 0.6em;
+                font-weight: normal;
+                font-style: italic;
+            }
+            #mocha-stats {
+                left: 41px;
+                right: initial;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div id="mocha">
+            <ul id="mocha-stats">
+                <li class="passes">
+                    <a href="#">passes:</a><em>0</em>
+                </li>
+                <li class="failures">
+                    <a href="#">failures:</a><em>0</em>
+                </li>
+                <li class="duration">
+                    duration: <em>0</em>s
+                </li>
+                <li class="progress">
+                    <em>0</em>
+                </li>
+            </ul>
+            <ul id="mocha-report"></ul>
+        </div>
+        <script src="require.js"></script>
+        <script src="/configs/require_config.js"></script>
+        <div id='jserror' width='100%' height='20px' style='font: 10px \"courier new\"; color: red; display: none;'></div>
+        <script>
+            window.onerror = function(msg) {
+                var el = document.getElementById('jserror');
+                el.innerHTML += "<div class='jserr'>" + msg + "</div>";
+            };
+        </script>
+        <script>
+            //<!--
+            /*global mocha afterEach*/
+            define("amd-loader", [], {});
+            require(["amd-loader"]);
+            // require.config({paths: {chai: "lib/chai/chai"}});
+
+            require(["text!/test/all.json"], function(tests) {
+                tests = JSON.parse(tests);
+
+                var allFiles = tests.list.slice();
+
+                var files = allFiles;
+                var iframe;
+                var file;
+                window.addEventListener('message', function(e) {
+                    var ul = document.createElement('ul');
+                    ul.innerHTML = e.data.report;
+                    var h1 = ul.querySelector('h1');
+                    h1.innerHTML = [
+                        "<span class='stats'>",
+                            " <span style='color:", e.data.failures ? "red" : "green", "'>",
+                                e.data.passes, "/", e.data.passes + e.data.failures,
+                            "</span>",
+                            " <span style='color:", e.data.duration > 2 ? "red" : "gray", "'>",
+                                e.data.duration + "s",
+                            "</span>",
+                            
+                            " <span style='color:", e.data.failures ? "red" : "gray", "'>",
+                                file,
+                            "</span>",
+                        "</span>",
+                        " <a href='", 'test.html?' + file, "'>\u21D7</a>"
+                    ].join("");
+                    if (h1.nextElementSibling)
+                        h1.nextElementSibling.style.display = "none";
+                    
+                    var h2s = ul.querySelectorAll('h1, h2');
+                    for (var i = 0, ii = h2s.length; i < ii; ++i) {
+                        h2s[i].addEventListener('click', toggle, false);
+                    }
+                    while (ul.firstChild) {
+                        document.getElementById('mocha-report').appendChild(ul.firstChild);
+                    }
+                    var _stats = document.getElementById('mocha-stats');
+
+                    function addStats(opt, prec) {
+                        if (!(opt in e.data)) return;
+                        var em = _stats.querySelector('.' + opt + ' > em');
+                        var value = Number(em.textContent) + e.data[opt];
+                        if (prec) value = value.toFixed(prec);
+                        em.textContent = value;
+                    }
+                    addStats('passes');
+                    addStats('failures');
+                    addStats('duration', 1);
+                    iframe.remove();
+                    loadNext();
+                }, false);
+
+                function toggle(e) {
+                    var pre = e.currentTarget.nextElementSibling;
+                    pre.style.display = pre.style.display !== 'none' ? 'none' : 'block';
+                }
+
+                function loadNext() {
+                    file = files.shift();
+                    if (!file) {
+                        return;
+                    }
+                    console.warn(file);
+                    iframe = document.createElement('iframe');
+                    iframe.src = 'test.html?' + file;
+                    document.body.appendChild(iframe);
+                }
+
+                loadNext();
+            });
+            //-->
+        </script>
+    </body>
+
+</html>

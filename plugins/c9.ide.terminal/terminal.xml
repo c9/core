@@ -1,0 +1,9 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:bar id="barTerminal" 
+      style       ="position:absolute;top:0;right:0;left:0;bottom:0" 
+      class       = "c9terminal">
+        <div class="c9terminalcontainer">
+            
+        </div>
+    </a:bar>
+</a:application>

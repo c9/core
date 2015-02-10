@@ -1,0 +1,214 @@
+module.exports = function(config, optimist) {
+    
+    var path = require("path");
+    
+    if (!optimist.local) {
+        optimist
+            .boolean("t")
+            .describe("t", "Start in test mode")
+            .describe("k", "Kill tmux server in test mode")
+            .default("b", false)
+            .describe("b", "Start the bridge server - to receive commands from the cli")
+            .default("w", config.workspaceDir)
+            .describe("w", "Workspace directory")
+            .alias("p", "port")
+            .default("port", process.env.PORT || config.port)
+            .describe("port", "Port")
+            .alias("d", "debug")
+            .default("debug", false)
+            .describe("debug", "Turn debugging on")
+            .alias("l", "listen")
+            .default("listen", process.env.IP || config.host)
+            .describe("listen", "IP address of the server")
+            .boolean("help")
+            .describe("workspacetype", "The workspace type to use")
+            .alias("ws", "workspacetype")
+            .describe("readonly", "Run in read only mode")
+            .alias("ro", "readonly")
+            .describe("packed", "Whether to use the packed version.")
+            .boolean("packed")
+            .default("packed", config.packed)
+            .alias("a", "auth")
+            .boolean("hosted")
+            .describe("hosted", "Use default config of the hosted version")
+            .default("hosted", false)
+            .describe("auth", "Basic Auth username:password")
+            .default("auth", ":")
+            .describe("collab", "Whether to enable collab.")
+            .default("collab", config.collab)
+            .describe("cache", "use cached version of cdn files")
+            .default("cache", true)
+            .describe("setting-path", "The path to store the settings.")
+            .boolean("inProcessLocalFs")
+            .describe("inProcessLocalFs", "Whether to run localfs in same process for debugging.")
+            .default("inProcessLocalFs", config.inProcessLocalFs);
+    }
+    
+    var argv = optimist.argv;
+    if (argv.help)
+        return null;
+    
+    var testing = argv.t;
+    var baseProc = path.normalize(testing
+        ? __dirname + "/../plugins/c9.fs/mock"
+        : argv.w || (__dirname + "/../"));
+    
+    // if (testing && !argv["setting-path"])
+    //     argv["setting-path"] = "/tmp/.c9";
+
+    if (baseProc != "/" && baseProc != "\\") // special case / for windows
+        baseProc = path.resolve(baseProc);
+
+    process.env.BASE_PROC = baseProc;
+
+    var port = argv.p;
+    var host = argv.l;
+    var debug = argv.d;
+    var readonly = argv.readonly;
+    var startBridge = argv.b;
+    
+    config.port = port || argv.port;
+    config.host = host || argv.listen;
+    
+    if (argv.collab != null)
+        config.collab = argv.collab;
+    
+    var workspaceType = argv.workspacetype || null;
+    
+    if (argv.hosted)
+        config.client_config = "default-hosted";
+    
+    config.workspaceDir = baseProc;
+    config.settingDir = argv["setting-path"];
+    config.projectName = path.basename(baseProc);
+    config.testing = testing;
+    config.debug = debug;
+    
+    if (!config.startBridge)
+        config.startBridge = startBridge;
+    
+    if (testing && argv.k)
+        require("child_process").exec("tmux -L cloud91.9 kill-server", function(){});
+
+    var auth = argv.auth.split(":");
+
+    var plugins = [
+        {
+            packagePath: "connect-architect/connect",
+            port: port,
+            host: host,
+            websocket: true
+        },
+        {
+            packagePath: "connect-architect/connect.basicauth",
+            username: auth[0],
+            password: auth[1]
+        },
+        {
+            packagePath: "connect-architect/connect.static",
+            prefix: "/static"
+        },
+        {
+            packagePath: "./c9.error/error_handler",
+            scope: "standalone",
+            hostname: config.hostname
+        },
+        "connect-architect/connect.remote-address",
+        "connect-architect/connect.render",
+        "connect-architect/connect.render.ejs",
+        "connect-architect/connect.redirect",
+        "connect-architect/connect.cors",
+        "./c9.connect.favicon/favicon",
+        //"connect-architect/connect.logger",
+        
+        "./c9.core/ext",
+        
+        {
+            packagePath: "./c9.ide.server/plugins",
+            // allow everything in standalone mode
+            blacklist: {
+                "c9.ide.server": true,
+                "c9.ide.test.selenium": true
+            },
+            whitelist: {
+                "c9.core": true,
+                "c9.fs": true,
+                "c9.login.client": true,
+                "c9.vfs.client": true,
+                "c9.cli.bridge": true,
+                "c9.nodeapi": true,
+                "saucelabs.preview": true
+            }
+        },
+        "./c9.preview/statics",
+        "./c9.nodeapi/nodeapi",
+        {
+            packagePath: "./c9.vfs.standalone/standalone",
+            local: config.local,
+            packed: argv.packed,
+            collab: config.collab,
+            version: config.cdn.version,
+            options: config,
+            installPath: config.installPath,
+            settingDir: config.settingDir,
+            correctedInstallPath: config.correctedInstallPath,
+            debug: debug,
+            workspaceDir: baseProc,
+            projectUrl: config.projectUrl,
+            homeUrl: config.homeUrl,
+            workspaceType: workspaceType,
+            readonly: readonly
+        },
+        "./c9.vfs.server/vfs.server",
+        "./c9.preview/preview.handler",
+        "./c9.vfs.server/cache",
+        "./c9.vfs.server/download",
+        "./c9.vfs.server/filelist",
+        "./c9.vfs.server/statics",
+        {
+            packagePath: "./c9.vfs.server/vfs.connect.standalone",
+            workspaceDir: baseProc,
+            readonly: readonly,
+            extendDirectory: config.extendDirectory,
+            extendOptions: config.extendOptions,
+            installPath: config.installPath,
+            settingDir: config.settingDir,
+            collab: config.collab,
+            nakBin: config.nakBin,
+            nodeBin: config.nodeBin,
+            tmuxBin: config.tmux,
+            vfs: {
+                defaultEnv: { CUSTOM: 43 },
+                local: config.local,
+                debug: debug,
+                inProcess: argv.inProcessLocalFs
+            }
+        /* ### BEGIN #*/
+        }, {
+            packagePath: "./c9.static/cdn",
+            cacheFiles: argv.cache
+        }, {
+            packagePath: "./c9.static/build",
+            version: config.cdn.version,
+            cache: config.cdn.cacheDir,
+            compress: config.cdn.compress,
+            baseUrl: config.cdn.baseUrl,
+            virtual: config.cdn.virtual,
+            config: "standalone"
+        /* ### END #*/
+        }
+    ];
+    
+    if (config.collab && !config.mode && !config.local) {
+        try {
+            var addApi = require("./api.standalone").addApi;
+        } catch(e) {}
+        if (addApi) {
+            plugins = addApi(plugins, config);
+        }
+    }
+    
+    return plugins;
+};
+
+if (!module.parent) require("../server")([__filename].concat(process.argv.slice(2)));

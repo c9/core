@@ -1,0 +1,10 @@
+{
+    "name": "connect.session.memory",
+    "version": "0.0.1",
+    "main": "session-ext.js",
+    "private": true,
+
+    "plugin": {
+        "provides": ["session-store"]
+    }
+}

@@ -1,0 +1,176 @@
+
+    .errorbox {
+        cursor      : default;
+        z-index     : 2000000;
+        position    : absolute;
+        margin      : 33px 0 0 5px;
+    }
+
+    .errorbox.upward {
+        margin-top: -5px;
+    }
+
+    .errorReserveUrl {
+        max-width: 350px !important;
+    }
+
+    .errorbox strong{
+        display : block;
+        margin  : 0 0 3px 0;
+    }
+
+    .errorbox .errorbox_ctl,
+    .errorbox .errorbox_ctr,
+    .errorbox .errorbox_cbl,
+    .errorbox .errorbox_cbr {
+        position            : absolute;
+        width               : 12px;
+        background-repeat   : no-repeat;
+        background-position : 0 0;
+    }
+
+    .errorbox .errorbox_ctl {
+        background-image    : url("@{image-path}/hp_errorbox_ctl.png");
+        height              : 12px;
+        top                 : 0;
+        left                : 0;
+    }
+
+    .errorbox .errorbox_ctr {
+        background-image    : url("@{image-path}/hp_errorbox_ctr.png");
+        height              : 12px;
+        top                 : 0;
+        right               : 0;
+    }
+
+    .errorbox .errorbox_cbl {
+        background-image    : url("@{image-path}/hp_errorbox_cbl.png");
+        height              : 20px;
+        bottom              : 0;
+        left                : 0;
+    }
+
+    .errorbox .errorbox_cbr {
+        background-image    : url("@{image-path}/hp_errorbox_cbr.png");
+        height              : 20px;
+        bottom              : 0;
+        right               : 0;
+    }
+
+    .errorbox .errorbox_bt,
+    .errorbox .errorbox_bl,
+    .errorbox .errorbox_br,
+    .errorbox .errorbox_bb {
+        position            : absolute;
+    }
+
+    .errorbox .errorbox_bt,
+    .errorbox .errorbox_bb {
+        background-repeat : repeat-x;
+    }
+
+    .errorbox .errorbox_bl,
+    .errorbox .errorbox_br {
+        background-repeat : repeat-y;
+    }
+
+    .errorbox .errorbox_bt {
+        background-image    : url("@{image-path}/hp_errorbox_bt.png");
+        top                 : 0;
+        left                : 12px;
+        right               : 12px;
+        height              : 12px;
+        background-position : 0 0px;
+    }
+
+    .errorbox .errorbox_bb {
+        background-image    : url("@{image-path}/hp_errorbox_bb.png");
+        bottom              : 0;
+        left                : 12px;
+        right               : 12px;
+        height              : 20px;
+        background-position : 0 0px;
+    }
+
+    .errorbox .errorbox_bl {
+        bottom              : 20px;
+        top                 : 12px;
+        left                : 0;
+        width               : 12px;
+        background-image    : url("@{image-path}/hp_errorbox_bl.png");
+        background-position : 0 0;
+    }
+
+    .errorbox .errorbox_br {
+        bottom              : 20px;
+        top                 : 12px;
+        right               : 0;
+        width               : 12px;
+        background-image    : url("@{image-path}/hp_errorbox_br.png");
+        background-position : 0 0;
+    }
+
+    .errorbox .errorboxContent {
+        top         : 12px;
+        left        : 12px;
+        right       : 12px;
+        bottom      : 12px;
+        padding     : 12px 12px 20px 12px;
+    }
+
+    .errorReserveUrl .errorboxContent {
+        width       : 325px;
+    }
+
+    .errorbox .errorboxContent SPAN {
+        padding         : 6px 8px 6px 2px;
+        display         : block;
+        background-color: #bf0202;
+        font-family     : Tahoma, Arial;
+        font-size       : 8pt;
+        color           : #ffffff;
+    }
+
+    .errorReserveUrl .errorboxContent SPAN {
+        text-align: center;
+    }
+
+    .errorbox .errbox_arrow {
+        background : url("@{image-path}/hp_errorbox_arrow.png") no-repeat top left;
+        width      : 11px;
+        height     : 9px;
+        position   : absolute;
+        top        : -8px;
+        left       : 15px;
+        padding    : 0;
+        margin     : 0;
+        border     : 0;
+        z-index    : 10000000;
+    }
+
+    .errorbox.upward .errbox_arrow {
+        background-position: 0 -9px;
+        top: 54px;
+    }
+
+    .errorReserveUrl .errbox_arrow {
+        display: none;
+    }
+
+    .errorbox .close {
+        width      : 9px;
+        height     : 10px;
+        background : url("@{image-path}/hp_errorbox_close.png") no-repeat top left;
+        position   : absolute;
+        top        : 5px;
+        left       : -5px;
+        z-index    : 999999;
+    }
+
+    .errorbox .close:hover {
+        background-position : 0 -10px;
+    }
+
+    .errorReserveUrl .close {
+        display: none;
+    }
