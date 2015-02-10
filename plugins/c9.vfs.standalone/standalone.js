@@ -137,11 +137,12 @@ function plugin(options, imports, register) {
             req.session = {};
             next();
         },
-        previewHandler.proxyCall(function() {
+        previewHandler.getProxyUrl(function() {
             return {
                 url: "http://localhost:" + options.options.port + "/vfs"
             };
-        })
+        }),
+        previewHandler.proxyCall()
     ]);
     
     api.get("/preview", function(req, res, next) {

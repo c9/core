@@ -73,13 +73,27 @@ define(function(require, exports, module) {
                         req.projectSession.role = role;
                         req.projectSession.pid = project.id;
                         
-                        next();
+                        var type = project.scm;
+                        req.projectSession.type = type;
+                        
+                        if (type != "docker")
+                            return next();
+                        
+                        project.populate("remote", function(err) {
+                            if (err) return next(err);
+                            
+                            var meta = project.remote.metadata;
+                            if (meta && meta.host && meta.cid)
+                                req.projectSession.proxyUrl = "http://" + meta.host + ":9000/" + meta.cid;
+
+                            next();
+                        });
                     });
                 });
             };
         }
 
-        function proxyCall(getServer) {
+        function getProxyUrl(getServer) {
             return function(req, res, next) {
                 var server = req.projectSession.vfsServer;
                 if (!server) {
@@ -90,11 +104,19 @@ define(function(require, exports, module) {
                     server = req.projectSession.vfsServer = server.internalUrl || server.url;
                 }
                         
-                var path = req.params.path;
-                
-                var url = server + "/" + req.projectSession.pid + "/preview" + req.params.path;
+                var url = server + "/" + req.projectSession.pid + "/preview";
                 if (req.session.token)
                     url += "?access_token=" + encodeURIComponent(req.session.token);
+                    
+                req.proxyUrl = url;
+            };
+        }
+
+        function proxyCall() {
+            return function(req, res, next) {
+                
+                var path = req.params.path;
+                var url = req.proxyUrl + path;
 
                 var parsedUrl = parseUrl(url);
                 var httpModule = parsedUrl.protocol == "https:" ? https : http;
@@ -282,6 +304,7 @@ define(function(require, exports, module) {
             "preview.handler": {
                 getProjectSession: getProjectSession,
                 getRole: getRole,
+                getProxyUrl: getProxyUrl,
                 proxyCall: proxyCall
             }
         });
