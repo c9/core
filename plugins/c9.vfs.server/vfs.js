@@ -154,6 +154,7 @@ Vfs.prototype._createEngine = function(vfs, options) {
     });
     
     this.keepAliveTimer = null;
+    var listeningForEIOSocketClose = false;
     
     this.workers = 0;
     
@@ -169,21 +170,29 @@ Vfs.prototype._createEngine = function(vfs, options) {
             that.socket.disconnect();
         
         that.socket = socket;
-        if (socket.socket) { // socket is the reliablesocket, socket.socket is the reconnectsocket, socket.socket.socket is engineio's socket 
-            var listenEIOSocket = function (eioSocket) {
-                if (!eioSocket) return;
-                eioSocket.on("close", function (reason, description) {
+        /*  - socket is the reliablesocket, 
+            - socket.socket is the reconnectsocket, 
+            - socket.socket.socket is engineio's socket */ 
+        if (socket.socket) { 
+            /* Add listener to core Engine.io socket used for user communication
+                to track and log all reasons causing it to close so when users
+                complain about disconnects we can investigate what's causing them */
+            var listenForEIOSocketClose = function (eioSocket) {
+                if (!eioSocket || listeningForEIOSocketClose) return;
+                eioSocket.once("close", function (reason, description) {
                     var logMetadata = {collab: options.collab, reason: reason, description: description, id: that.id, sid: socket.id, pid: that.pid};
                     console.log("Socket closed", logMetadata);
                     logMetadata.message = "Socket closed";
                     that.logger.log(logMetadata);
+                    listeningForEIOSocketClose = false;
                 });
+                listeningForEIOSocketClose = true;
             };
-            socket.socket.on('away', function() {
-                listenEIOSocket(socket.socket.socket);
+            socket.socket.once('away', function() {
+                listenForEIOSocketClose(socket.socket.socket);
             });
-            socket.socket.on('back', function() {
-                listenEIOSocket(socket.socket.socket);
+            socket.socket.once('back', function() {
+                listenForEIOSocketClose(socket.socket.socket);
             });
         }
         socket.on('disconnect', function (err) {
