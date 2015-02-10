@@ -180,9 +180,8 @@ Vfs.prototype._createEngine = function(vfs, options) {
             var listenForEIOSocketClose = function (eioSocket) {
                 if (!eioSocket || listeningForEIOSocketClose) return;
                 eioSocket.once("close", function (reason, description) {
-                    var logMetadata = {collab: options.collab, reason: reason, description: description, id: that.id, sid: socket.id, pid: that.pid};
-                    console.log("Socket closed", logMetadata);
-                    logMetadata.message = "Socket closed";
+                    var logMetadata = {message: "Socket closed", collab: options.collab, reason: reason, description: description, id: that.id, sid: socket.id, pid: that.pid};
+                    console.log(logMetadata);
                     that.logger.log(logMetadata);
                     listeningForEIOSocketClose = false;
                 });
@@ -196,9 +195,8 @@ Vfs.prototype._createEngine = function(vfs, options) {
             });
         }
         socket.on('disconnect', function (err) {
-            var logMetadata = {collab: options.collab, ere: err, id: that.id, sid: socket.id, pid: that.pid};
-            console.log("Socket disconnected", logMetadata);
-            logMetadata.message = "Socket disconnected";
+            var logMetadata = {message: "Socket disconnected", collab: options.collab, err: err, id: that.id, sid: socket.id, pid: that.pid};
+            console.log(logMetadata);
             that.logger.log(logMetadata);
         });
         
