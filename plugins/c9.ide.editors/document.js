@@ -165,6 +165,9 @@ define(function(require, module, exports) {
             
             function progress(options) {
                 emit("progress", options);
+                if (options.complete) {
+                    emit.sticky("complete");
+                }
             }
             
             function clone() {
