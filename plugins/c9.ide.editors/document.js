@@ -26,7 +26,7 @@ define(function(require, module, exports) {
             var meta = {};
             var hasValue = options && (typeof options.value === "string");
             
-            var tab, lastState, title, tooltip, editor, recentValue;
+            var tab, lastState, title, tooltip, editor, recentValue, ready;
             
             plugin.on("newListener", function(type, listener) {
                 if (type == "state.set" && lastState) {
@@ -337,9 +337,12 @@ define(function(require, module, exports) {
                  * @property {Boolean} ready
                  */
                 get ready(){ return ready; },
-                set ready(v) { 
-                    ready = v;
-                    emit.sticky("ready");
+                set ready(v) {
+                    if (typeof ready === "undefined") {
+                        ready = v;
+                        emit.sticky("ready");
+                    }
+                        
                 },
                 /**
                  * The tooltip displayed when hovering over the tab button
