@@ -30,8 +30,9 @@ define(function(require, exports, module) {
         var Plugin = imports.Plugin;
         var auth = imports.auth;
         var vfsEndpoint = imports["vfs.endpoint"];
-        var showError = imports["dialog.error"].show;
-        var hideError = imports["dialog.error"].hide;
+        var errorDialog = imports["dialog.error"];
+        var showError = errorDialog.show;
+        var hideError = errorDialog.hide;
         var showAlert = imports["dialog.alert"].show;
         
         var eio = require("engine.io");
@@ -48,6 +49,9 @@ define(function(require, exports, module) {
         
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
+        
+        // Give reference to vfs to plugin
+        errorDialog.vfs = plugin;
         
         var buffer = [];
         var installChecked = false;
@@ -330,6 +334,22 @@ define(function(require, exports, module) {
         });
         plugin.on("unload", function(){
             loaded = false;
+            
+            id = null;
+            buffer = [];
+            installChecked = false;
+            region = null;
+            vfsBaseUrl = null;
+            homeUrl = null;
+            projectUrl = null;
+            pingUrl = null;
+            serviceUrl = null;
+            eioOptions = null;
+            consumer = null;
+            vfs = null;
+            showErrorTimer = null;
+            showErrorTimerMessage = null;
+            lastError = null;
         });
         
         /***** Register and define API *****/
