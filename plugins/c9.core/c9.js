@@ -57,7 +57,7 @@ define(function(require, module, exports) {
             }, plugin);
             
             vfs.on("disconnect", function(reason) {
-                setStatus(state & ~STORAGE & ~PROCESS & ~NETWORK);
+                setStatus(status & ~STORAGE & ~PROCESS & ~NETWORK);
                 emit("disconnect");
             }, plugin);
         
@@ -67,7 +67,7 @@ define(function(require, module, exports) {
             }, plugin);
             
             vfs.on("error", function(message) {
-                setStatus(state & ~STORAGE & ~PROCESS);
+                setStatus(status & ~STORAGE & ~PROCESS);
                 // TODO: Don't display all errors?
                 if (emit("showerrormessage", message) !== false) {
                     console.error(

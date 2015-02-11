@@ -8,11 +8,11 @@ define(function(require, exports, module) {
 
     function main(options, imports, register) {
         var c9 = imports.c9;
+        var alert = imports["dialog.alert"].show;
         var Plugin = imports.Plugin;
+        var question = imports["dialog.question"];
         var settings = imports.settings;
         var commands = imports.commands;
-        var alert = imports["dialog.alert"].show;
-        var question = imports["dialog.question"];
         var preload = imports["layout.preload"];
         var anims = imports.anims;
         var ui = imports.ui;
@@ -124,6 +124,33 @@ define(function(require, exports, module) {
             ].forEach(function(p) {
                 var img = new Image();
                 img.src = options.staticPrefix + "/images/" + p;
+            });
+            
+            var hideOffline;
+            c9.on("stateChange", function(e) {
+                // Online
+                if (e.state & c9.NETWORK && e.state & c9.STORAGE) {
+                    hideOffline && hideOffline();
+                }
+                // Offline
+                else if (!hideOffline || hideOffline.hasClosed()) {
+                    hideOffline = notify("<div class='c9-offline'>No internet "
+                        + "connection detected. Cloud9 will automatically try to "
+                        + "reconnect when it detects an internet connection."
+                        + "</div>", true, 1000);
+                    
+                    document.querySelector(".c9-offline").addEventListener("click", function(){
+                        alert("Offline Notication", "You are currently offline.", 
+                          "This indicator notifies you that Cloud9 is unable to reach "
+                          + "the server. This usually happens because you are offline. "
+                          + "Some features will be disabled until the "
+                          + "network connection becomes available again. "
+                          + "This notication could also show when the server is "
+                          + "unreachable due to other reasons. Sometimes a refresh of "
+                          + "the tab will fix an issue. Please e-mail "
+                          + "support@c9.io for further problem resolution.");
+                    }, false);
+                }
             });
             
             window.addEventListener("resize", resize, false);
@@ -515,21 +542,6 @@ define(function(require, exports, module) {
             window.removeEventListener("resize", resize);
             
             if (removeTheme) removeTheme();
-            
-            logobar = null;
-            removeTheme = null;
-            theme = null;
-            c9console = null;
-            menus = null;
-            tabManager = null;
-            panels = null;
-            userLayout = null;
-            ignoreTheme = null;
-            notify = null;
-            hideFlagUpdate = null;
-            activeFindArea = null;
-            defaultFindArea = null;
-            activating = null;
         });
         
         /***** Register and define API *****/
