@@ -387,7 +387,7 @@ require(["lib/architect/architect", "lib/chai/chai"],
                     var tab = pane.getTab();
                     pane.unload();
                     expect(tabs.getPanes()).length(1);
-                    expect(tabs.getTabs()).length(7);
+                    expect(tabs.getTabs()).length(6);
                     tabs.focusTab(tab);
                     expect(tab.editor.name).to.equal("texteditor1");
                     expect.html(tab.pane.aml.getPage("editor::texteditor").$ext).visible;
@@ -412,7 +412,7 @@ require(["lib/architect/architect", "lib/chai/chai"],
                     var tab = pane.getTab();
                     pane.unload();
                     expect(tabs.getPanes()).length(1);
-                    expect(tabs.getTabs()).length(7);
+                    expect(tabs.getTabs()).length(6);
                     tabs.focusTab(tab);
                     expect(tab.editor.name).to.equal("texteditor3");
                     expect(tab.pane.aml.getPage("editor::texteditor").$ext.style.display).to.not.equal("none");
@@ -434,7 +434,7 @@ require(["lib/architect/architect", "lib/chai/chai"],
                     var tab = tabs.getPanes()[1].getTab();
                     pane.unload();
                     expect(tabs.getPanes()).length(1);
-                    expect(tabs.getTabs()).length(7);
+                    expect(tabs.getTabs()).length(6);
                     tabs.focusTab(tab);
                     expect(tab.editor.name).to.equal("texteditor4");
                     expect(tab.pane.aml.getPage("editor::texteditor").$ext.style.display).to.not.equal("none");
@@ -456,7 +456,7 @@ require(["lib/architect/architect", "lib/chai/chai"],
                     var tab = pane.getTab();
                     pane.unload();
                     expect(tabs.getPanes()).length(1);
-                    expect(tabs.getTabs()).length(7);
+                    expect(tabs.getTabs()).length(6);
                     tabs.focusTab(tab);
                     expect(tab.editor.name).to.equal("texteditor4");
                     expect(tab.pane.aml.getPage("editor::texteditor").$ext.style.display).to.not.equal("none");
@@ -472,13 +472,13 @@ require(["lib/architect/architect", "lib/chai/chai"],
                     first.hsplit();
                 
                     var pages = tabs.getTabs();
-                    expect(pages).length(7);
+                    expect(pages).length(6);
                     tabs.getPanes().forEach(function(pane) {
                         pages.pop().attachTo(pane);
                     });
                     
                     expect(tabs.getPanes()).length(5);
-                    expect(tabs.getTabs()).length(7);
+                    expect(tabs.getTabs()).length(6);
                     
                     done();
                 });
@@ -496,7 +496,7 @@ require(["lib/architect/architect", "lib/chai/chai"],
                     expect(cstate).to.deep.equal(tabs.getState());
                     
                     expect(tabs.getPanes()).length(5);
-                    expect(tabs.getTabs()).length(7);
+                    expect(tabs.getTabs()).length(6);
                     
                     //Loop through state to check all the widths/heights
                     
