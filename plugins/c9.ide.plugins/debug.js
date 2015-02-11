@@ -74,7 +74,7 @@ define(function(require, exports, module) {
                 list.forEach(function(stat){
                     var name = stat.name;
                     // If the plugin doesn't exist
-                    if (names.indexOf(name) == -1 && name.charAt(0) != "." && name != "_")
+                    if (names.indexOf(name) == -1 && name.charAt(0) != "." && name.charAt(0) != "_")
                         toLoad.push(name);
                 });
                 

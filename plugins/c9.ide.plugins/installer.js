@@ -76,17 +76,21 @@ define(function(require, exports, module) {
                 else return;
                 
                 queue.push({ name: item.packageName, version: item.version });
+                
+                if (installing)
+                    installing.push(item);
             });
             
             if (installing) return;
-            installing = true;
+            installing = config;
             
             var i = 0;
-            function next(){
+            function next(err){
+                if (err) console.log(err);
+                
                 if (!queue[i]) {
-                    config = queue;
                     installing = false; queue = [];
-                    architect.loadAdditionalPlugins(config, callback);
+                    architect.loadAdditionalPlugins(installing, callback);
                     return;
                 }
                 
