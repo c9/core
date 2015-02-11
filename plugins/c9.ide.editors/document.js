@@ -165,9 +165,6 @@ define(function(require, module, exports) {
             
             function progress(options) {
                 emit("progress", options);
-                if (options.complete) {
-                    emit.sticky("complete", options);
-                }
             }
             
             function clone() {
@@ -336,6 +333,15 @@ define(function(require, module, exports) {
                     emit("setEditor", {editor: v});
                 },
                 /**
+                 * Whether the document is fully loaded
+                 * @property {Boolean} ready
+                 */
+                get ready(){ return ready; },
+                set ready(v) { 
+                    ready = v;
+                    emit.sticky("ready");
+                },
+                /**
                  * The tooltip displayed when hovering over the tab button
                  * @property {String} tooltip
                  */
@@ -487,16 +493,6 @@ define(function(require, module, exports) {
                      * @param {Boolean} e.upload    whether this is an upload (instead of a download).
                      **/
                     "progress",
-                    /**
-                     * Fires when the initial document loaded completely
-                     * @event once
-                     * @param {Object}  e
-                     * @param {Number}  e.loaded    the number of bytes that have been downloaded/uploaded.
-                     * @param {Number}  e.total     the total number of bytes for this file.
-                     * @param {Boolean} e.complete  whether the download has completed.
-                     * @param {Boolean} e.upload    whether this is an upload (instead of a download).
-                     **/
-                    "complete",
                     /**
                      * Fires when this document is cloned
                      * @event cone
