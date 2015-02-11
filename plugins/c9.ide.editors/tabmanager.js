@@ -1162,7 +1162,10 @@ define(function(require, module, exports) {
                 });
             }
             else {
-                done(null, null);
+                // done has to be called asynchronously
+                setTimeout(function() {
+                    done(null, null);
+                });
             }
             
             return tab;
