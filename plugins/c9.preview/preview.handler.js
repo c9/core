@@ -186,10 +186,11 @@ define(function(require, exports, module) {
                             body += data;
                         
                         req.headers.accept= "text/html";
+                        var statusCode = request.statusCode;
 
                         if (body.indexOf("EISDIR") !== -1) {
                             res.redirect(req.url + "/");
-                        } else if (body.indexOf("ENOENT") !== -1) {
+                        } else if (body.indexOf("ENOENT") !== -1 || statusCode == 404) {
                             next(new error.NotFound("File '" + path + "' could not be found!"));
                         } else {
                             delete req.session.ws[req.ws];
@@ -199,7 +200,6 @@ define(function(require, exports, module) {
                                 json = JSON.parse(body);
                             } catch(e) {} 
                             
-                            var statusCode = request.statusCode;
                             if (statusCode == 503) {
                                 res.setHeader('Content-Type', 'text/html; charset=utf-8');
                                 res.render(__dirname + "/views/progress.html.ejs", {
