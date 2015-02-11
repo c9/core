@@ -166,7 +166,7 @@ define(function(require, module, exports) {
             function progress(options) {
                 emit("progress", options);
                 if (options.complete) {
-                    emit.sticky("complete");
+                    emit.sticky("complete", options);
                 }
             }
             
@@ -487,6 +487,16 @@ define(function(require, module, exports) {
                      * @param {Boolean} e.upload    whether this is an upload (instead of a download).
                      **/
                     "progress",
+                    /**
+                     * Fires when the initial document loaded completely
+                     * @event once
+                     * @param {Object}  e
+                     * @param {Number}  e.loaded    the number of bytes that have been downloaded/uploaded.
+                     * @param {Number}  e.total     the total number of bytes for this file.
+                     * @param {Boolean} e.complete  whether the download has completed.
+                     * @param {Boolean} e.upload    whether this is an upload (instead of a download).
+                     **/
+                    "complete",
                     /**
                      * Fires when this document is cloned
                      * @event cone
