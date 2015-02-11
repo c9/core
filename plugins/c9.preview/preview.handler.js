@@ -148,9 +148,7 @@ define(function(require, exports, module) {
                     port: parsedUrl.port,
                     headers: req.headers
                 }, function(request) {
-                    if (request.statusCode == 301)
-                        res.redirect(req.url + "/");
-                    else if (request.statusCode >= 400)
+                    if (request.statusCode >= 400)
                         handleError(request);
                     else if (isDir)
                         serveListing(request);
