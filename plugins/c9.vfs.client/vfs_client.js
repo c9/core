@@ -223,7 +223,8 @@ define(function(require, exports, module) {
                 eioOptions = {
                     path: parsedSocket.path,
                     host: parsedSocket.host,
-                    port: parsedSocket.port || "443",
+                    port: parsedSocket.port 
+                        || parsedSocket.protocol == "https:" ? "443" : null,
                     secure: parsedSocket.protocol 
                         ? parsedSocket.protocol == "https:" : true
                 };
