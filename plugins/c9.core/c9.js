@@ -37,7 +37,7 @@ define(function(require, module, exports) {
             if (!skipProps[prop])
                 plugin[prop] = options[prop];
         }
-        var totalLoadTime;
+        var totalLoadTime, startLoadTime;
         
         function load() {
             if (loaded) return false;
@@ -279,6 +279,11 @@ define(function(require, module, exports) {
              */
             get totalLoadTime(){ return totalLoadTime; },
             set totalLoadTime(v){ totalLoadTime = v; },
+            /**
+             * 
+             */
+            get startLoadTime(){ return startLoadTime; },
+            set startLoadTime(v){ startLoadTime = v; },
             
             _events: [
                 /**
