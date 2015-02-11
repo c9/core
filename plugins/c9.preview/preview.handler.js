@@ -14,6 +14,7 @@ define(function(require, exports, module) {
         var error = require("http-error");
         var https = require("https");
         var http = require("http");
+        var mime = require("mime");
         var parseUrl = require("url").parse;
         var debug = require("debug")("preview");
         
@@ -34,7 +35,7 @@ define(function(require, exports, module) {
                     session.ws = {};
     
                 req.projectSession = session.ws[ws];
-                if (!req.projectSession || !req.projectSession.ts || req.projectSession.ts < Date.now() - 5000) {
+                if (!req.projectSession || !req.projectSession.ts || req.projectSession.ts < Date.now() - 10000) {
                     req.projectSession = session.ws[ws] = {
                         ts: Date.now()
                     };
@@ -76,7 +77,7 @@ define(function(require, exports, module) {
                         var type = project.scm;
                         req.projectSession.type = type;
                         
-                        if (type != "docker")
+                        if (type != "docker" || project.state != db.Project.STATE_READY)
                             return next();
                         
                         project.populate("remote", function(err) {
@@ -84,7 +85,7 @@ define(function(require, exports, module) {
                             
                             var meta = project.remote.metadata;
                             if (meta && meta.host && meta.cid)
-                                req.projectSession.proxyUrl = "http://" + meta.host + ":9000/" + meta.cid;
+                                req.projectSession.proxyUrl = "http://" + meta.host + ":9000/" + meta.cid + "/home/ubuntu/workspace";
 
                             next();
                         });
@@ -95,6 +96,12 @@ define(function(require, exports, module) {
 
         function getProxyUrl(getServer) {
             return function(req, res, next) {
+                
+                if (req.projectSession.proxyUrl) {
+                    req.proxyUrl = req.projectSession.proxyUrl;
+                    return next();
+                }
+                
                 var server = req.projectSession.vfsServer;
                 if (!server) {
                     server = getServer();
@@ -109,6 +116,7 @@ define(function(require, exports, module) {
                     url += "?access_token=" + encodeURIComponent(req.session.token);
                     
                 req.proxyUrl = url;
+                next();
             };
         }
 
@@ -140,7 +148,9 @@ define(function(require, exports, module) {
                     port: parsedUrl.port,
                     headers: req.headers
                 }, function(request) {
-                    if (request.statusCode >= 400)
+                    if (request.statusCode == 301)
+                        res.redirect(req.url + "/");
+                    else if (request.statusCode >= 400)
                         handleError(request);
                     else if (isDir)
                         serveListing(request);
@@ -232,7 +242,18 @@ define(function(require, exports, module) {
                         } catch (e) {
                             return next(e);
                         }
-                        
+
+                        // convert nginx listing
+                        if (body[0] && body[0].type) {
+                            body = body.map(function(stat) {
+                                return {
+                                    name: stat.name,
+                                    mime: stat.type == "directory" ? "inode/directory" : mime.lookup(stat.name),
+                                    size: stat.size || 0,
+                                    mtime: stat.mtime
+                                };
+                            });
+                        }
                         var entries = body
                             .filter(function(entry) {
                                 return entry.name[0] !== ".";
