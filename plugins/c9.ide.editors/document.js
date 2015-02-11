@@ -338,11 +338,9 @@ define(function(require, module, exports) {
                  */
                 get ready(){ return ready; },
                 set ready(v) {
-                    if (typeof ready === "undefined") {
-                        ready = v;
-                        emit.sticky("ready");
-                    }
-                        
+                    if (ready) throw new Error("Permission Denied");
+                    ready = true;
+                    emit.sticky("ready");
                 },
                 /**
                  * The tooltip displayed when hovering over the tab button
