@@ -21,11 +21,10 @@ We have several documentation resources for you:
     <tr><th>SDK documentation</th><td>http://cloud9-sdk.readme.io/v0.1/docs</td></tr>
     <tr><th>API documentation</th><td>http://docs.c9.io/api</td></tr>
     <tr><th>User documentation</th><td>http://docs.c9.io</td></tr>
-    <tr><th>User docs repo</th><td>https://github.com/c9/docs.c9.io</td></tr>
 </table>
 
 Please joing the mailinglist to get support or give support to the growing community of plugin developers:
-https://groups.google.com/forum/#!forum/cloud9-plugin-development
+https://groups.google.com/forum/#!forum/cloud9-sdk
 
 #### Installation ####
 

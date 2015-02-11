@@ -50,6 +50,11 @@ define(function(require, exports, module) {
                     showDisconnect(e);
                 });
             });
+            vfs.on("away", function(){
+            });
+            vfs.on("back", function(){
+                hideDisconnect();
+            });
             vfs.on("connect", function(){
                 hideDisconnect();
             });
