@@ -107,12 +107,11 @@ define(function(require, exports, module) {
             }, function(err, process){
                 if (err) return callback(err);
                 
-                var res = null;
                 process.stdout.on("data", function(c){
-                    res = c.toString("utf8");
+                    console.log(c);
                 });
                 process.stderr.on("data", function(c){
-                    err = c.toString("utf8");
+                    console.error(c);
                 });
                 
                 process.on("exit", function(code){
@@ -121,7 +120,7 @@ define(function(require, exports, module) {
                         error.code = code;
                         return callback(error);
                     }
-                    callback(null, res);
+                    callback();
                 });
             });
         }
