@@ -181,7 +181,6 @@ Vfs.prototype._createEngine = function(vfs, options) {
                 if (!eioSocket || listeningForEIOSocketClose) return;
                 eioSocket.once("close", function (reason, description) {
                     var logMetadata = {message: "Socket closed", collab: options.collab, reason: reason, description: description, id: that.id, sid: socket.id, pid: that.pid};
-                    console.log(logMetadata);
                     that.logger.log(logMetadata);
                     listeningForEIOSocketClose = false;
                 });
@@ -196,7 +195,6 @@ Vfs.prototype._createEngine = function(vfs, options) {
         }
         socket.on('disconnect', function (err) {
             var logMetadata = {message: "Socket disconnected", collab: options.collab, err: err, id: that.id, sid: socket.id, pid: that.pid};
-            console.log(logMetadata);
             that.logger.log(logMetadata);
         });
         
@@ -217,9 +215,7 @@ Vfs.prototype._createEngine = function(vfs, options) {
         }
 
         worker.on("disconnect", function() {
-            var logMetadata = {collab: options.collab, id: that.id, sid: socket.id, pid: that.pid};
-            console.log("VFS socket disconnect:", logMetadata);
-            logMetadata.message = "VFS socket disconnect";
+            var logMetadata = {message: "VFS socket disconnect", collab: options.collab, id: that.id, sid: socket.id, pid: that.pid};
             that.logger.log(logMetadata);
             if (options.collab) {
                 if (collabApi)
