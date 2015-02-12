@@ -35,9 +35,9 @@ define(function(require, exports, module) {
                     session.ws = {};
     
                 req.projectSession = session.ws[ws];
-                if (!req.projectSession || !req.projectSession.ts || req.projectSession.ts < Date.now() - 10000) {
+                if (!req.projectSession || !req.projectSession.expires || req.projectSession.expires <= Date.now()) {
                     req.projectSession = session.ws[ws] = {
-                        ts: Date.now()
+                        expires: Date.now() + 10000
                     };
                 }
                 
@@ -84,10 +84,20 @@ define(function(require, exports, module) {
                             if (err) return next(err);
                             
                             var meta = project.remote.metadata;
-                            if (meta && meta.host && meta.cid)
-                                req.projectSession.proxyUrl = "http://" + meta.host + ":9000/" + meta.cid + "/home/ubuntu/workspace";
+                            if (meta && meta.host && meta.cid) {
+                                db.Container.load(meta.cid, function(err, container) {
+                                    if (err) return next(err);
 
-                            next();
+                                    if (container.state == db.Container.STATE_RUNNING)
+                                        req.projectSession.proxyUrl = "http://" + meta.host + ":9000/" + meta.cid + "/home/ubuntu/workspace";
+                                    else
+                                        req.projectSession.expires = Date.now() + 1000;
+                                        
+                                    next();
+                                });
+                            } else {
+                                next();
+                            }
                         });
                     });
                 });
