@@ -102,8 +102,10 @@ define(function(require, exports, module) {
         }
         
         function installPlugin(name, version, callback){
-            proc.spawn("c9", {
-                args: ["install", "--local", "--force", "--accessToken=" + auth.accessToken, name + "@" + version]
+            // proc.spawn("c9", {
+            //     args: ["install", "--local", "--force", "--accessToken=" + auth.accessToken, name + "@" + version]
+            proc.spawn("/home/ubuntu/.nvm/v0.10.28/bin/node", {
+                args: ["/mnt/shared/bin/c9", "install", "--local", "--force", "--accessToken=" + auth.accessToken, name + "@" + version]
             }, function(err, process){
                 if (err) return callback(err);
                 
