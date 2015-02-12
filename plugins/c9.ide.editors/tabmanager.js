@@ -1113,6 +1113,7 @@ define(function(require, module, exports) {
                 if (!doc.meta.timestamp)
                     doc.meta.timestamp = Date.now() - settings.timeOffset;
                 
+                doc.ready = true;
                 emit("open", { tab: tab, options: options });
                 callback && callback(null, tab);
             }
@@ -1123,7 +1124,7 @@ define(function(require, module, exports) {
 
             // Hooks for plugins that want to override value and state loading
             var event = { 
-                options: options, 
+                options: options,
                 tab: tab, 
                 loadFromDisk: loadFromDisk,
                 setLoading: setLoading,
@@ -1161,7 +1162,10 @@ define(function(require, module, exports) {
                 });
             }
             else {
-                done(null, null);
+                // done has to be called asynchronously
+                setTimeout(function() {
+                    done(null, null);
+                });
             }
             
             return tab;
