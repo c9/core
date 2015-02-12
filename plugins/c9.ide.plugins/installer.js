@@ -90,7 +90,7 @@ define(function(require, exports, module) {
                 
                 if (!queue[i]) {
                     installing = false; queue = [];
-                    architect.loadAdditionalPlugins(installing, callback);
+                    architect.loadAdditionalPlugins(config, callback);
                     return;
                 }
                 
