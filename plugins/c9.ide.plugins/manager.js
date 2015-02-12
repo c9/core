@@ -564,7 +564,7 @@ define(function(require, exports, module) {
                         return handleError(err);
                     
                     // Untar tar file
-                    proc.execFile("bash", {
+                    proc.execFile("bash", { 
                         args: ["-c", ["tar", "-zxvf", tarPath, "-C", pluginsDirAbsolute].join(" ")]
                     }, function(err, stderr, stdout){
                         if (err) 
