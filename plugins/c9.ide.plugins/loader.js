@@ -76,7 +76,7 @@ define(function(require, exports, module) {
                     wait++;
                     
                     var install = [];
-                    fs.exists(path, function(exists){
+                    fs.exists("~/.c9/" + path, function(exists){
                         if (!exists) {
                             install.push(options);
                             names.remove(name);
