@@ -38,7 +38,7 @@ if [ "$os" == "darwin" ]; then
     if [ ! -d $SOURCE/build/webkitbuilds/cache/mac/0.9.3 ]; then
         mkdir -p $SOURCE/build/webkitbuilds/cache/mac/0.9.3/node-webkit.app
         pushd $SOURCE/build/webkitbuilds/cache/mac/0.9.3
-        curl -O http://dl.node-webkit.org/v0.9.3/node-webkit-v0.9.3-pre8-osx-ia32.zip
+        curl -OL http://dl.node-webkit.org/v0.9.3/node-webkit-v0.9.3-pre8-osx-ia32.zip
         unzip node-webkit-v0.9.3-pre8-osx-ia32.zip
         popd
     fi
@@ -74,11 +74,11 @@ if [ "$os" == "windows" ]; then
     pushd build
     if [ ! -f node.exe ]; then
         echo "downloading node"
-        curl -O http://nodejs.org/dist/$NODE_VERSION/node.exe
+        curl -OL http://nodejs.org/dist/$NODE_VERSION/node.exe
     fi
     if [ ! -f node-webkit-$NW_VERSION-win-ia32.zip ]; then
         echo "downloading node-webkit"
-        curl -O http://dl.node-webkit.org/$NW_VERSION/node-webkit-$NW_VERSION-win-ia32.zip
+        curl -OL http://dl.node-webkit.org/$NW_VERSION/node-webkit-$NW_VERSION-win-ia32.zip
     fi
     
     dest=win32-dev/bin
