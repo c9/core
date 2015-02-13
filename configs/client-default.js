@@ -591,6 +591,14 @@ module.exports = function(options) {
             local: options.local
         },
         {
+            packagePath: "plugins/c9.ide.login/login",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.login",
+            ideBaseUrl: options.ideBaseUrl,
+            dashboardUrl: options.dashboardUrl,
+            accountUrl: options.accountUrl,
+            local: options.local
+        },
+        {
             packagePath: "plugins/c9.ide.pubsub/pubsub-client",
             extendToken: extendToken
         },
