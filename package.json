@@ -40,7 +40,9 @@
         "through": "2.2.0",
         "tmp": "~0.0.20",
         "uglify-js": "2.4.16",
-        "ws": "0.4.31"
+        "ws": "0.4.31",
+        "read": "~1.0.5",
+        "form-data": "~0.2.0"
     },
     "optionalDependencies": {
         "heapdump": "0.2.10"
