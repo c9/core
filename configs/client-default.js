@@ -243,7 +243,7 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.dialog.login/login",
             noLogout: !options.local
         },
-        "plugins/c9.ide.dialog.file/filesave",
+        "plugins/c9.ide.dialog.file/file",
         "plugins/c9.ide.dialog.wizard/wizard",
         
         // VFS

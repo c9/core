@@ -2,7 +2,7 @@ define(function(require, module, exports) {
     main.consumes = [
         "Plugin", "ui", "fs", "dialog.alert", "fs.cache", "util", "Dialog", "tree"
     ];
-    main.provides = ["dialog.filesave"];
+    main.provides = ["dialog.file"];
     return main;
     
     function main(options, imports, register) {
@@ -45,10 +45,10 @@ define(function(require, module, exports) {
             drawn = true;
             
             // Markup
-            ui.insertMarkup(null, require("text!./filesave.xml"), plugin);
+            ui.insertMarkup(null, require("text!./file.xml"), plugin);
             
             // CSS
-            ui.insertCss(require("text!./filesave.css"), plugin);
+            ui.insertCss(require("text!./file.css"), plugin);
             
             dialog = plugin.getElement("window");
             container = plugin.getElement("container");
@@ -368,7 +368,7 @@ define(function(require, module, exports) {
         });
         
         register("", {
-            "dialog.filesave" : plugin
+            "dialog.file" : plugin
         });
     }
 });

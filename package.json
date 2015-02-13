@@ -58,7 +58,7 @@
         "c9.ide.language.javascript.tern": "#3d678a103a",
         "c9.ide.language.javascript.infer": "#1ae097af44",
         "c9.ide.language.jsonalyzer": "#45a20496be",
-        "c9.ide.collab": "#9b7f85fc89",
+        "c9.ide.collab": "#116fe74942",
         "c9.ide.local": "#d5c324ee5b",
         "c9.ide.find": "#be3bca94b7",
         "c9.ide.find.infiles": "#462928475c",
@@ -92,14 +92,14 @@
         "c9.ide.readonly": "#f6f07bbe42",
         "c9.ide.recentfiles": "#7c099abf40",
         "c9.ide.remote": "#37773d905b",
-        "c9.ide.run": "#63341edc5d",
-        "c9.ide.run.build": "#2ba0107f97",
-        "c9.ide.save": "#4cf2ae332c",
+        "c9.ide.run": "#0a8cc7f0a9",
+        "c9.ide.run.build": "#6726030127",
+        "c9.ide.save": "#a32a8f4346",
         "c9.ide.terminal.monitor": "#8e025b3ae1",
         "c9.ide.theme.flat": "#5c7c27ab74",
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
-        "c9.ide.upload": "#8726fed462",
+        "c9.ide.upload": "#0bd010d3dc",
         "c9.ide.welcome": "#b4be5c22a5"
     }
 }

@@ -388,7 +388,7 @@ require([
             "dialog.alert": {show: function() { console.log(console, Array.prototype.slice.apply(arguments)); }},
             "dialog.confirm": {show: function() {}},
             "dialog.question": {show: function() {}},
-            "dialog.filesave": {show: function() {}},
+            "dialog.file": {show: function() {}},
             "dialog.fileremove": {show: function() {}},
             "dialog.fileoverwrite": {show: function() {}},
             "dialog.error": {
