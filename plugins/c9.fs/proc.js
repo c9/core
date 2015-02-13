@@ -357,7 +357,7 @@ define(function(require, exports, module) {
             },
             
             /**
-             * Spawns a child process in a TMUX and returns a stream object.
+             * Spawns a child process in a TMUX session and returns a stream object.
              * Use this method if the process you wish to start requires a 
              * terminal (for instance VI).
              * 

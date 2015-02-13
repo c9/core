@@ -76,15 +76,19 @@ define(function(require, exports, module) {
                 else return;
                 
                 queue.push({ name: item.packageName, version: item.version });
+                
+                if (installing)
+                    installing.push(item);
             });
             
             if (installing) return;
-            installing = true;
+            installing = config;
             
             var i = 0;
-            function next(){
+            function next(err){
+                if (err) console.log(err);
+                
                 if (!queue[i]) {
-                    config = queue;
                     installing = false; queue = [];
                     architect.loadAdditionalPlugins(config, callback);
                     return;
@@ -98,17 +102,16 @@ define(function(require, exports, module) {
         }
         
         function installPlugin(name, version, callback){
-            proc.spawn("c9", {
-                args: ["install", "--local", "--force", "--accessToken=" + auth.accessToken, name + "@" + version]
+            proc.spawn("bash", {
+                args: ["-c", ["c9", "install", "--local", "--force", "--accessToken=" + auth.accessToken, name + "@" + version].join(" ")]
             }, function(err, process){
                 if (err) return callback(err);
                 
-                var res = null;
                 process.stdout.on("data", function(c){
-                    res = c.toString("utf8");
+                    console.log(c);
                 });
                 process.stderr.on("data", function(c){
-                    err = c.toString("utf8");
+                    console.error(c);
                 });
                 
                 process.on("exit", function(code){
@@ -117,7 +120,7 @@ define(function(require, exports, module) {
                         error.code = code;
                         return callback(error);
                     }
-                    callback(null, res);
+                    callback();
                 });
             });
         }

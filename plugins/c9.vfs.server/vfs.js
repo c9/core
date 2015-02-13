@@ -19,9 +19,11 @@ function Vfs(vfs, master, options) {
     this.vfs = vfs;
     this.master = master;
     this.debug = options.debug || false;
+    this.logger = options.logger || {log: function(){}};
     this.readonly = options.readonly || false;
     this.public = options.public || false;
     this.vfsOptions = options.vfsOptions || {};
+    this.pid = this.vfsOptions.pid;
     var extendToken = options.extendToken;
 
     this.homeDir = options.homeDir;
@@ -152,6 +154,7 @@ Vfs.prototype._createEngine = function(vfs, options) {
     });
     
     this.keepAliveTimer = null;
+    var listeningForEIOSocketClose = false;
     
     this.workers = 0;
     
@@ -167,6 +170,35 @@ Vfs.prototype._createEngine = function(vfs, options) {
             that.socket.disconnect();
         
         that.socket = socket;
+        /*  - socket is the reliablesocket, 
+            - socket.socket is the reconnectsocket, 
+            - socket.socket.socket is engineio's socket */ 
+        if (socket.socket) { 
+            /* Add listener to core Engine.io socket used for user communication
+                to track and log all reasons causing it to close so when users
+                complain about disconnects we can investigate what's causing them */
+            var listenForEIOSocketClose = function (eioSocket) {
+                if (!eioSocket || listeningForEIOSocketClose) return;
+                eioSocket.once("close", function (reason, description) {
+                    var logMetadata = {message: "Socket closed", collab: options.collab, reason: reason, description: description, id: that.id, sid: socket.id, pid: that.pid};
+                    console.log(logMetadata);
+                    that.logger.log(logMetadata);
+                    listeningForEIOSocketClose = false;
+                });
+                listeningForEIOSocketClose = true;
+            };
+            socket.socket.once('away', function() {
+                listenForEIOSocketClose(socket.socket.socket);
+            });
+            socket.socket.once('back', function() {
+                listenForEIOSocketClose(socket.socket.socket);
+            });
+        }
+        socket.on('disconnect', function (err) {
+            var logMetadata = {message: "Socket disconnected", collab: options.collab, err: err, id: that.id, sid: socket.id, pid: that.pid};
+            console.log(logMetadata);
+            that.logger.log(logMetadata);
+        });
         
         var transport = new smith.EngineIoTransport(socket, true);
         var worker = new VfsWorker(vfs);
@@ -185,7 +217,10 @@ Vfs.prototype._createEngine = function(vfs, options) {
         }
 
         worker.on("disconnect", function() {
-            console.log("VFS socket disconnect:", options.collab, that.id, socket.id);
+            var logMetadata = {collab: options.collab, id: that.id, sid: socket.id, pid: that.pid};
+            console.log("VFS socket disconnect:", logMetadata);
+            logMetadata.message = "VFS socket disconnect";
+            that.logger.log(logMetadata);
             if (options.collab) {
                 if (collabApi)
                     return disposeCollabClient();

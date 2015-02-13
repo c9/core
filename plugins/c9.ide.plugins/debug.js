@@ -74,7 +74,7 @@ define(function(require, exports, module) {
                 list.forEach(function(stat){
                     var name = stat.name;
                     // If the plugin doesn't exist
-                    if (names.indexOf(name) == -1 && name.charAt(0) != "." && name != "_")
+                    if (names.indexOf(name) == -1 && name.charAt(0) != "." && name.charAt(0) != "_")
                         toLoad.push(name);
                 });
                 
@@ -139,10 +139,12 @@ define(function(require, exports, module) {
                         watch("~/.c9/plugins/" + pluginPath);
                         
                         var cfg = options.plugins[path];
-                        cfg.packagePath = join(vfs.baseUrl, c9.projectId, "plugins", 
-                            auth.accessToken, pluginPath.replace(/^plugins\//, ""));
-                        cfg.staticPrefix = join(vfs.baseUrl, c9.projectId, "plugins", 
-                            auth.accessToken, name);
+                        var host = vfs.baseUrl + "/";
+                        var base = join(String(c9.projectId), 
+                            "plugins", auth.accessToken);
+                            
+                        cfg.packagePath = host + join(base, pluginPath.replace(/^plugins\//, ""));
+                        cfg.staticPrefix = host + join(base, name);
                         cfg.apikey = "0000000000000000000000000000=";
                         
                         config.push(cfg);
