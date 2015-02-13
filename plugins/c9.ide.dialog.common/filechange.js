@@ -48,11 +48,6 @@ define(function(require, module, exports) {
         /***** Register *****/
         
         plugin.freezePublicAPI({
-            show: show
-        })
-        
-        register("", {
-            "dialog.filechange": plugin,
             /**
              * 
              */
@@ -61,6 +56,15 @@ define(function(require, module, exports) {
                     { id: "applyall", visible: value}
                 ]);
             },
+            
+            /**
+             * 
+             */
+            show: show
+        });
+        
+        register("", {
+            "dialog.filechange": plugin,
         });
     }
 });

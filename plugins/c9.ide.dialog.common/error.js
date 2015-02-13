@@ -236,6 +236,7 @@ define(function(require, exports, module) {
             offset = 0;
             error = null;
             hideTimeout = null;
+            disconnect = null;
         });
         
         /***** Register and define API *****/
