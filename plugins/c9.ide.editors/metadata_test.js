@@ -68,7 +68,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.dialog.common/fileoverwrite",
         "plugins/c9.ide.dialog.common/fileremove",
         "plugins/c9.ide.dialog.common/question",
-        "plugins/c9.ide.dialog.file/filesave",
+        "plugins/c9.ide.dialog.file/file",
         
         // Mock plugins
         {
