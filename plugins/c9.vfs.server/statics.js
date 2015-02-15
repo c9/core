@@ -1,7 +1,7 @@
 /**
  * Additional static files for the the smith.io client plugin
  *
- * @copyright 2010, Ajax.org B.V.
+ * @copyright 2013, Ajax.org B.V.
  */
 
 main.consumes = ["Plugin", "connect.static"];

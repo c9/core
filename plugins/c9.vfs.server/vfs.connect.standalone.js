@@ -1,7 +1,7 @@
 /**
  * Keeps a Cache of VFS instances
  *
- * @copyright 2010, Ajax.org B.V.
+ * @copyright 2013, Ajax.org B.V.
  */
 define(function(require, exports, module) {
     main.consumes = ["Plugin", "api"];

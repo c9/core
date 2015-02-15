@@ -1,7 +1,7 @@
 /**
  * Server nodejs library files to the client
  *
- * @copyright 2010, Ajax.org B.V.
+ * @copyright 2013, Ajax.org B.V.
  */
 
 "use strict";

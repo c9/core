@@ -1,7 +1,7 @@
 /**
  * File Finder module for the Cloud9 that uses nak
  *
- * @copyright 2012, Ajax.org B.V.
+ * @copyright 2013, Ajax.org B.V.
  * @license GPLv3 <http://www.gnu.org/licenses/gpl.txt>
  */
 define(function(require, exports, module) {

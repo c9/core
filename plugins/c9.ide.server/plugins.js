@@ -1,7 +1,7 @@
 /**
  * Serve plugins on the static server
  *
- * @copyright 2010, Ajax.org B.V.
+ * @copyright 2013, Ajax.org B.V.
  */
 
 define(function(require, exports, module) {
