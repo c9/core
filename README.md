@@ -38,6 +38,8 @@ To update the SDK to the latest version run:
 
     git pull origin master
     scripts/install-sdk.sh
+    
+Please note that Cloud9 v3 currently requires Node.js 0.10. We are working on 0.12 support and will change this message when we do.
 
 #### Starting Cloud9 ####
 
