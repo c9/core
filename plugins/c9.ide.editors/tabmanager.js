@@ -1852,6 +1852,7 @@ define(function(require, module, exports) {
              * @param {Pane}     [options.pane]          The pane to attach the new tab to
              * @param {String}   [options.editorType]    The type of the editor for this tab
              * @param {Boolean}  [options.active=false]  Whether this tab is set as active
+             * @param {Boolean}  [options.focus=false]   Whether this tab is set as focussed
              * @param {Boolean}  [options.forceNew=false] Always create a tab
              * @param {Boolean}  [options.demandExisting=false] Whether to try opening an
              *   existing tab even for tabs without a path.

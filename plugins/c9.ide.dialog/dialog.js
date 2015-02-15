@@ -195,6 +195,10 @@ define(function(require, module, exports) {
                 }, force);
             }
             
+            function show() {
+                return plugin.queue(function(){}, true);
+            }
+            
             function hide(){
                 dialog && dialog.hide();
             }
@@ -508,6 +512,13 @@ define(function(require, module, exports) {
                  * @fires show
                  */
                 queue: queue,
+    
+                /**
+                 * Show the dialog. When using queing overwrite this method
+                 * with your own show function.
+                 * @fires show
+                 */
+                show: show,
     
                 /**
                  * Hide the dialog.
