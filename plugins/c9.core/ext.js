@@ -76,7 +76,7 @@ define(function(require, exports, module) {
             emit("register", {plugin: plugin});
         }
         
-        function unregisterPlugin(plugin, loaded, ignoreDeps) {
+        function unregisterPlugin(plugin, loaded, ignoreDeps, keep) {
             if (!plugin.registered)
                 return;
             
@@ -92,7 +92,8 @@ define(function(require, exports, module) {
                 return false;
             }
             
-            // plugins.splice(plugins.indexOf(plugin), 1);
+            if (!keep)
+                plugins.splice(plugins.indexOf(plugin), 1);
             delete lut[plugin.name];
             
             loaded(false, 0);
@@ -184,7 +185,7 @@ define(function(require, exports, module) {
                 throw new Error("Could not find plugin: " + name);
             
             var plugin = lut[name]
-            if (plugin.unload() === false)
+            if (plugin.unload({ keep: true }) === false)
                 throw new Error("Failed unloading plugin: " + name);
                 
             manuallyDisabled[name] = plugin;
@@ -205,7 +206,14 @@ define(function(require, exports, module) {
             /**
              *
              */
-            get named(){ return Object.create(lut); },
+            get named(){ 
+                var named = Object.create(lut); 
+                for (var name in manuallyDisabled) {
+                    if (!lut[name])
+                        lut[name] = manuallyDisabled[name];
+                }
+                return named;
+            },
             
             _events: [
                 /**
@@ -502,7 +510,7 @@ define(function(require, exports, module) {
                 if (event.emit("beforeUnload", e) === false)
                     return false;
                 
-                if (unregisterPlugin(this, init, ignoreDeps) === false)
+                if (unregisterPlugin(this, init, ignoreDeps, e && e.keep) === false)
                     return false;
                 
                 loaded = false;
