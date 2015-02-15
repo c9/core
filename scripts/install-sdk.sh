@@ -18,6 +18,7 @@ case "$uname" in
     *x86_64*) arch=x64 ;;
     *i*86*) arch=x86 ;;
     *armv6l*) arch=arm-pi ;;
+    *armv7l*) arch=arm-pi ;;
 esac
 
 if ! [[ -f ~/.c9/installed ]] && ! [[ $os == "windows" ]]; then
