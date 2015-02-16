@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     "use strict";
 
-    main.consumes = ["Plugin", "ext", "c9"];
+    main.consumes = ["Plugin", "ext", "c9", "vfs"];
     main.provides = ["vfs.ping"];
     return main;
 
