@@ -391,6 +391,8 @@ define(function(require, exports, module) {
                 // }
                 
                 if (!baseclass) {
+                    delete this.baseclass;
+                    delete this.freezePublicAPI.baseclass;
                     delete this.freezePublicAPI;
                     delete this.setAPIKey;
                     delete this.getEmitter;
@@ -401,6 +403,7 @@ define(function(require, exports, module) {
                 return this;
             };
             var baseclass;
+            this.baseclass = 
             this.freezePublicAPI.baseclass = function(){ baseclass = true; };
             
             function getElement(name, callback) {
@@ -611,7 +614,7 @@ define(function(require, exports, module) {
             
             /***** Register and define API *****/
             
-            this.freezePublicAPI.baseclass();
+            this.baseclass();
             
             /**
              * Base class for all Plugins of Cloud9. A Cloud9 Plugin is
