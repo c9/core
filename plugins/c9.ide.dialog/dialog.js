@@ -175,7 +175,7 @@ define(function(require, module, exports) {
                     implementation();
                     
                     // Update UI
-                    if (!custom) {
+                    if (!custom && (heading || body)) {
                         titles.$int.innerHTML = "<h3 style='margin:0 0 10px 0'>" 
                             + heading + "</h3><div class='alertMsg'>" 
                             + body + "</div>";
