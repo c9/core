@@ -88,11 +88,17 @@
         };
         Storage.create(window, "localStorage");
         Storage.create(window, "sessionStorage");
-    
+        
         /*global Mocha, mocha*/
         mocha.reporter(function(runner) {
-            Mocha.reporters.Base.call(this, runner);
-            Mocha.reporters.HTML.call(this, runner);
+            function extend(target, BaseFn, arg) {
+                var base = BaseFn.prototype;
+                for (var i in base) if (!target[i]) target[i] = base[i];
+                BaseFn.call(target, arg);
+            }
+            
+            extend(this, Mocha.reporters.Base, runner);
+            extend(this, Mocha.reporters.HTML, runner);
             
             var tests = [];
             var stats = this.stats;
