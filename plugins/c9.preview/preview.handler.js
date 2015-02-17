@@ -122,8 +122,6 @@ define(function(require, exports, module) {
                 }
                         
                 var url = server + "/" + req.projectSession.pid + "/preview";
-                if (req.session.token)
-                    url += "?access_token=" + encodeURIComponent(req.session.token);
                     
                 req.proxyUrl = url;
                 next();
@@ -135,6 +133,8 @@ define(function(require, exports, module) {
                 
                 var path = req.params.path;
                 var url = req.proxyUrl + path;
+                if (req.session.token)
+                    url += "?access_token=" + encodeURIComponent(req.session.token);
 
                 var parsedUrl = parseUrl(url);
                 var httpModule = parsedUrl.protocol == "https:" ? https : http;
