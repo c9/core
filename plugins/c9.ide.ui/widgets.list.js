@@ -181,7 +181,9 @@ define(function(require, exports, module) {
                  *
                  */
                 get scrollMargin(){ return acetree.renderer.scrollMargin; },
-                set scrollMargin(value){ acetree.renderer.setScrollMargin(value[0], value[1]); },
+                set scrollMargin(value){ 
+                    acetree.renderer.setScrollMargin(value[0], value[1]); 
+                },
                 /**
                  *
                  */
@@ -252,7 +254,25 @@ define(function(require, exports, module) {
                  * 
                  */
                 get renderRow(){ return model.renderRow; },
-                set renderRow(fn){ model.renderRow = fn; },
+                set renderRow(fn){ 
+                    model.renderRow = fn; 
+                    acetree.setDataProvider(model);
+                },
+                /**
+                 * 
+                 */
+                get getContentHTML(){ return model.getContentHTML; },
+                set getContentHTML(fn){ model.getContentHTML = fn; },
+                /**
+                 * 
+                 */
+                get getCaptionHTML(){ return model.getCaptionHTML; },
+                set getCaptionHTML(fn){ model.getCaptionHTML = fn; },
+                /**
+                 * 
+                 */
+                get getIconHTML(){ return model.getIconHTML; },
+                set getIconHTML(fn){ model.getIconHTML = fn; },
                 /**
                  * 
                  */

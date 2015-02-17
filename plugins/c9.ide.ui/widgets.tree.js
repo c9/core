@@ -58,21 +58,6 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                get getContentHTML(){ return model.getContentHTML; },
-                set getContentHTML(fn){ model.getContentHTML = fn; },
-                /**
-                 * 
-                 */
-                get getCaptionHTML(){ return model.getCaptionHTML; },
-                set getCaptionHTML(fn){ model.getCaptionHTML = fn; },
-                /**
-                 * 
-                 */
-                get getIconHTML(){ return model.getIconHTML; },
-                set getIconHTML(fn){ model.getIconHTML = fn; },
-                /**
-                 * 
-                 */
                 get getRowIndent(){ return model.getRowIndent; },
                 set getRowIndent(fn){ model.getRowIndent = fn; },
                 /**
