@@ -293,7 +293,7 @@
                 require.packaged = true;
             if (!packed || devel) {
                 packageIsLoading = true;
-                loadScript("node_modules/requirejs/require.js", function() {
+                loadScript("plugins/c9.vfs.standalone/www/require.js", function() {
                     removeNwRequire();
                     startIde();
                     packageIsLoading = false;

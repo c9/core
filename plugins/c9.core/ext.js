@@ -76,7 +76,7 @@ define(function(require, exports, module) {
             emit("register", {plugin: plugin});
         }
         
-        function unregisterPlugin(plugin, loaded, ignoreDeps) {
+        function unregisterPlugin(plugin, loaded, ignoreDeps, keep) {
             if (!plugin.registered)
                 return;
             
@@ -92,7 +92,8 @@ define(function(require, exports, module) {
                 return false;
             }
             
-            // plugins.splice(plugins.indexOf(plugin), 1);
+            if (!keep)
+                plugins.splice(plugins.indexOf(plugin), 1);
             delete lut[plugin.name];
             
             loaded(false, 0);
@@ -184,7 +185,7 @@ define(function(require, exports, module) {
                 throw new Error("Could not find plugin: " + name);
             
             var plugin = lut[name]
-            if (plugin.unload() === false)
+            if (plugin.unload({ keep: true }) === false)
                 throw new Error("Failed unloading plugin: " + name);
                 
             manuallyDisabled[name] = plugin;
@@ -205,7 +206,14 @@ define(function(require, exports, module) {
             /**
              *
              */
-            get named(){ return Object.create(lut); },
+            get named(){ 
+                var named = Object.create(lut); 
+                for (var name in manuallyDisabled) {
+                    if (!lut[name])
+                        lut[name] = manuallyDisabled[name];
+                }
+                return named;
+            },
             
             _events: [
                 /**
@@ -383,6 +391,8 @@ define(function(require, exports, module) {
                 // }
                 
                 if (!baseclass) {
+                    delete this.baseclass;
+                    delete this.freezePublicAPI.baseclass;
                     delete this.freezePublicAPI;
                     delete this.setAPIKey;
                     delete this.getEmitter;
@@ -393,6 +403,7 @@ define(function(require, exports, module) {
                 return this;
             };
             var baseclass;
+            this.baseclass = 
             this.freezePublicAPI.baseclass = function(){ baseclass = true; };
             
             function getElement(name, callback) {
@@ -502,7 +513,7 @@ define(function(require, exports, module) {
                 if (event.emit("beforeUnload", e) === false)
                     return false;
                 
-                if (unregisterPlugin(this, init, ignoreDeps) === false)
+                if (unregisterPlugin(this, init, ignoreDeps, e && e.keep) === false)
                     return false;
                 
                 loaded = false;
@@ -562,7 +573,7 @@ define(function(require, exports, module) {
             
             function setAPIKey(apikey){
                 // Validate Key
-                if (!apikey || !apikey.match(/\w{28}=/))
+                if (!apikey || !apikey.match(/[\w+]{27}=/))
                     throw new Error("Invalid API key");
                 
                 return {
@@ -603,7 +614,7 @@ define(function(require, exports, module) {
             
             /***** Register and define API *****/
             
-            this.freezePublicAPI.baseclass();
+            this.baseclass();
             
             /**
              * Base class for all Plugins of Cloud9. A Cloud9 Plugin is

@@ -26,7 +26,7 @@ define(function(require, module, exports) {
             var meta = {};
             var hasValue = options && (typeof options.value === "string");
             
-            var tab, lastState, title, tooltip, editor, recentValue;
+            var tab, lastState, title, tooltip, editor, recentValue, ready;
             
             plugin.on("newListener", function(type, listener) {
                 if (type == "state.set" && lastState) {
@@ -331,6 +331,16 @@ define(function(require, module, exports) {
                 set editor(v) { 
                     editor = v;
                     emit("setEditor", {editor: v});
+                },
+                /**
+                 * Whether the document is fully loaded
+                 * @property {Boolean} ready
+                 */
+                get ready(){ return ready; },
+                set ready(v) {
+                    if (ready) throw new Error("Permission Denied");
+                    ready = true;
+                    emit.sticky("ready");
                 },
                 /**
                  * The tooltip displayed when hovering over the tab button

@@ -243,7 +243,7 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.dialog.login/login",
             noLogout: !options.local
         },
-        "plugins/c9.ide.dialog.file/filesave",
+        "plugins/c9.ide.dialog.file/file",
         "plugins/c9.ide.dialog.wizard/wizard",
         
         // VFS
@@ -588,6 +588,14 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.preferences/project",
             basePath: workspaceDir,
+            local: options.local
+        },
+        {
+            packagePath: "plugins/c9.ide.login/login",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.login",
+            ideBaseUrl: options.ideBaseUrl,
+            dashboardUrl: options.dashboardUrl,
+            accountUrl: options.accountUrl,
             local: options.local
         },
         {

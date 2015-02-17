@@ -539,7 +539,9 @@ define(function(require, exports, module) {
                             form.append('options', JSON.stringify(json.plugins));
                             form.append('package', fs.createReadStream(zipFilePath));
                             
-                            var path = "/packages/" + json.name + "/versions?access_token=" + auth.accessToken;
+                            var path = "/packages/" + json.name 
+                                + "/versions?access_token=" 
+                                + encodeURIComponent(auth.accessToken);
                             var host = APIHOST.split(":")[0]
                             var port = parseInt(APIHOST.split(":")[1]) || null;
                             
@@ -650,6 +652,9 @@ define(function(require, exports, module) {
                         var gzPath = join(os.tmpDir(), name + "@" + version + ".tar.gz");
                         var file = fs.createWriteStream(gzPath);
                         
+                        var path = "/packages/" + name + "/versions/" + version 
+                                + "/download?access_token="
+                                + encodeURIComponent(auth.accessToken);
                         var host = APIHOST.split(":")[0];
                         var port = parseInt(APIHOST.split(":")[1]) || null;
                         
@@ -659,8 +664,7 @@ define(function(require, exports, module) {
                             host: host, 
                             port: port,
                             auth: BASICAUTH,
-                            path: "/packages/" + name + "/versions/" + version 
-                                + "/download?access_token=" + auth.accessToken
+                            path: path
                         }, function(response){
                             response.pipe(file);
                         });

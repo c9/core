@@ -1113,6 +1113,7 @@ define(function(require, module, exports) {
                 if (!doc.meta.timestamp)
                     doc.meta.timestamp = Date.now() - settings.timeOffset;
                 
+                doc.ready = true;
                 emit("open", { tab: tab, options: options });
                 callback && callback(null, tab);
             }
@@ -1123,7 +1124,7 @@ define(function(require, module, exports) {
 
             // Hooks for plugins that want to override value and state loading
             var event = { 
-                options: options, 
+                options: options,
                 tab: tab, 
                 loadFromDisk: loadFromDisk,
                 setLoading: setLoading,
@@ -1161,7 +1162,10 @@ define(function(require, module, exports) {
                 });
             }
             else {
-                done(null, null);
+                // done has to be called asynchronously
+                setTimeout(function() {
+                    done(null, null);
+                });
             }
             
             return tab;
@@ -1848,6 +1852,7 @@ define(function(require, module, exports) {
              * @param {Pane}     [options.pane]          The pane to attach the new tab to
              * @param {String}   [options.editorType]    The type of the editor for this tab
              * @param {Boolean}  [options.active=false]  Whether this tab is set as active
+             * @param {Boolean}  [options.focus=false]   Whether this tab is set as focussed
              * @param {Boolean}  [options.forceNew=false] Always create a tab
              * @param {Boolean}  [options.demandExisting=false] Whether to try opening an
              *   existing tab even for tabs without a path.

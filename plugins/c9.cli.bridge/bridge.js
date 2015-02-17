@@ -1,9 +1,4 @@
-/**
- * File Finder module for the Cloud9 that uses nak
- *
- * @copyright 2012, Ajax.org B.V.
- * @license GPLv3 <http://www.gnu.org/licenses/gpl.txt>
- */
+
 define(function(require, exports, module) {
     main.consumes = ["c9", "Plugin", "ext"];
     main.provides = ["bridge"];
@@ -19,7 +14,7 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
 
-        var ENABLED = options.startBridge;
+        var ENABLED = options.startBridge !== false;
         var PORT = options.port || 17123;
 
         var stream, api;

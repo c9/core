@@ -1,19 +1,28 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 cd `dirname $0`/..
 SOURCE=`pwd`
 
+uname="$(uname -a)"
+os=
+arch="$(uname -m)"
+case "$uname" in
+    Linux\ *) os=linux ;;
+    Darwin\ *) os=darwin ;;
+    SunOS\ *) os=sunos ;;
+    FreeBSD\ *) os=freebsd ;;
+    CYGWIN*) os=windows ;;
+    MINGW*) os=windows ;;
+esac
+case "$uname" in
+    *x86_64*) arch=x64 ;;
+    *i*86*) arch=x86 ;;
+    *armv6l*) arch=arm-pi ;;
+esac
 
-if ! [[ -f ~/.c9/installed ]];
-    https://raw.githubusercontent.com/c9/install/master/install.sh | bash
-    then echo 1;
+if ! [[ -f ~/.c9/installed ]] && ! [[ $os == "windows" ]]; then
+    curl https://raw.githubusercontent.com/c9/install/master/install.sh | bash
 fi
-
-
-deps=`node -e 'console.log(Object.keys(require("./package.json").dependencies).join(" "))'`; 
-for m in $deps; do echo $m; 
-    cp -R ../newclient/node_modules/$m node_modules ;  
-done
 
 
 installC9Package() {
@@ -28,14 +37,18 @@ installC9Package() {
     fi
     
     pushd ./plugins/$name
-    if ! [[ -d ./plugins/$name/.git ]]; then
+    if ! [[ -d .git ]]; then
         git init
+        # git remote rm origin || true
         git remote add origin $REPO
     fi
     
-    git fetch origin
+    version=`node -e 'console.log((require("../../package.json").c9plugins["'$name'"].substr(1) || "origin/master"))'`;
+    rev=`git rev-parse --revs-only $version`
     
-    version=`node -e 'console.log(require("./package.json").c9packages["'$name'"].substr(1))'`;
+    if [ "$rev" == "" ]; then
+        git fetch origin
+    fi
     
     status=`git status --porcelain --untracked-files=no`
     if [ "$status" == "" ]; then
@@ -46,8 +59,22 @@ installC9Package() {
     popd
 }
 
-c9packages=`node -e 'console.log(Object.keys(require("./package.json").c9packages).join(" "))'`; 
-for m in $c9packages; do echo $m; 
-    # cp -R ../newclient/plugins/$m plugins ;  
-    installC9Package $m
+c9packages=(`node -e 'console.log(Object.keys(require("./package.json").c9plugins).join(" "))'`);
+count=${#c9packages[@]}
+i=0
+for m in ${c9packages[@]}; do echo $m; 
+    i=$(($i + 1))
+    echo "updating plugin $i of $count"
+    installC9Package $m || true
 done
+
+
+# deps=`node -e 'console.log(Object.keys(require("./package.json").dependencies).join(" "))'`; 
+# for m in $deps; do echo $m; 
+#     npm install $m || true
+# done
+npm install || true
+
+
+echo "Success!"
+echo "run 'node server.js -p 8181 -l 0.0.0.0' to launch Cloud9"

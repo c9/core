@@ -529,7 +529,7 @@ define(function(require, exports, module) {
             if (!template)
                 template = "c9.ide.default";
             
-            var url = join(staticPrefix, "templates", template + ".tar.gz");
+            var url = staticPrefix + "/" + join("templates", template + ".tar.gz");
             if (!url.match(/^http/))
                 url = location.origin + url;
             
@@ -551,20 +551,21 @@ define(function(require, exports, module) {
                 if (err)
                     return handleError(err);
                 
-                // Download tar file with template for plugin
                 var pluginsDir = join("~", ".c9/plugins/_/");
                 var pluginsDirAbsolute = pluginsDir.replace(/^~/, c9.home);
                 var tarPath = join(pluginsDir, template + ".tar.gz");
                 var tarPathAbsolute = tarPath.replace(/^~/, c9.home);
-                proc.execFile("curl", {
-                    args: ["-L", url, "--create-dirs", "-o", tarPathAbsolute]
+                
+                // Download tar file with template for plugin
+                proc.execFile("bash", {
+                    args: ["-c", ["curl", "-L", url, "--create-dirs", "-o", tarPathAbsolute].join(" ")]
                 }, function(err, stderr, stdout){
                     if (err)
                         return handleError(err);
                     
                     // Untar tar file
-                    proc.execFile("tar", {
-                        args: ["-zxvf", tarPath, "-C", pluginsDirAbsolute]
+                    proc.execFile("bash", {
+                        args: ["-c", ["tar", "-zxvf", tarPath, "-C", pluginsDirAbsolute].join(" ")]
                     }, function(err, stderr, stdout){
                         if (err) 
                             return handleError(err);
@@ -579,7 +580,7 @@ define(function(require, exports, module) {
                             fs.unlink(tarPath, function(){
                                 
                                 // Add plugin to favorites
-                                favs.addFavorite(pluginsDir, "plugins");
+                                favs.addFavorite(dirname(pluginsDir), "plugins");
                                 
                                 // Select and expand the folder of the plugin
                                 tree.expandAndSelect(path);

@@ -6,8 +6,7 @@
  * @module c9.fs
  * @main c9.fs
  *
- * @copyright 2010, Ajax.org B.V.
- * @license GPLv3 <http://www.gnu.org/licenses/gpl.txt>
+ * @copyright 2013, Ajax.org B.V.
  */
 //@todo might have to add queueing for safe operations
 define(function(require, exports, module) {

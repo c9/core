@@ -1,8 +1,7 @@
 /**
  * Server nodejs library files to the client
  *
- * @copyright 2010, Ajax.org B.V.
- * @license GPLv3 <http://www.gnu.org/licenses/gpl.txt>
+ * @copyright 2013, Ajax.org B.V.
  */
 
 "use strict";
