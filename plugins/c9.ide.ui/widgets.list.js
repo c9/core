@@ -27,7 +27,9 @@ define(function(require, exports, module) {
             var model;
             var redirectEvents;
             var meta = {};
-            var excludedEvents = { "load":1, "unload":1 };
+            var excludedEvents = { 
+                "load":1, "unload":1, "addListener":1, "removeListener":1 
+            };
 
             plugin.on("load", function(){
                 acetree = new AceTree(options.container);
@@ -40,43 +42,44 @@ define(function(require, exports, module) {
                 for (var prop in options) {
                     if (prop == "container") continue;
                     if (plugin.hasOwnProperty(prop)) 
-                        plugin[prop](options[prop]);
+                        plugin[prop] = options[prop];
                 }
                 
                 // Configure redirected events
                 redirectEvents = {
-                    scroll: acetree.provider,
+                    scroll: model,
                     scrollbarVisibilityChanged: acetree.renderer,
                     resize: acetree.renderer,
-                    expand: acetree.provider,
-                    collapse: acetree.provider
+                    expand: model,
+                    collapse: model
                 };
                 
             });
             plugin.on("unload", function(){
-                acetree && acetree.destroy();
-                
-                acetree = null;
-                model = null;
-                redirectEvents = null;
+                if (acetree) {
+                    model.setRoot(null);
+                    acetree.destroy();
+                    acetree.container.innerHTML = "";
+                }
                 meta = {};
             });
             plugin.on("newListener", function(type, fn){
                 if (excludedEvents[type]) return;
                 if (redirectEvents[type])
-                    redirectEvents.on(type, fn);
+                    redirectEvents[type].on(type, fn);
                 else
                     acetree.on(type, fn);
             });
             plugin.on("removeListener", function(type, fn){
                 if (excludedEvents[type]) return;
                 if (redirectEvents[type])
-                    redirectEvents.removeListener(type, fn);
+                    redirectEvents[type].removeListener(type, fn);
                 else
                     acetree.removeListener(type, fn);
             });
             
             /**
+             * 
              */
             /**
              * @constructor
@@ -101,14 +104,15 @@ define(function(require, exports, module) {
                  * 
                  */
                 get selectedNodes(){ 
-                    return (acetree.selection.getCursor() 
-                        || acetree.getFirstNode()) || null;
+                    return (acetree.selection.getSelectedNodes() || []);/*.map(function(n){
+                        return n.id;
+                    }); */
                 },
                 /**
                  * 
                  */
                 get selectedNode(){ 
-                    return acetree.selection.getSelectedNodes() || []; 
+                    return (acetree.selection.getCursor() || null); //.id || null;
                 },
                 /**
                  * 
@@ -117,7 +121,7 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                get scrollTop(){ return acetree.provider.getScrollTop(); },
+                get scrollTop(){ return model.getScrollTop(); },
                 /**
                  * 
                  */
@@ -354,7 +358,7 @@ define(function(require, exports, module) {
                  * 
                  */
                 setScrollTop: function(scrollTop){
-                    return acetree.provider.setScrollTop(scrollTop);
+                    return model.setScrollTop(scrollTop);
                 },
                 /**
                  * 
@@ -397,6 +401,12 @@ define(function(require, exports, module) {
                  */
                 getIndexForNode: function(node){
                     return model.getIndexForNode(node);
+                },
+                /**
+                 * 
+                 */
+                refresh: function(){
+                    plugin.setRoot(plugin.root);
                 }
             });
             

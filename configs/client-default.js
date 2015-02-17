@@ -220,6 +220,9 @@ module.exports = function(options) {
             autoInit: !options.local
         },
         "plugins/c9.ide.ui/forms",
+        "plugins/c9.ide.ui/widgets.list",
+        "plugins/c9.ide.ui/widgets.tree",
+        "plugins/c9.ide.ui/widgets.datagrid",
         "plugins/c9.ide.ui/focus",
         "plugins/c9.ide.ui/lib_apf",
         

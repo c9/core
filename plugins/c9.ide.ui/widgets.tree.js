@@ -16,10 +16,12 @@ define(function(require, exports, module) {
             if (!options.baseName)
                 options.baseName = "tree";
             
-            var model = new TreeModel();
-            options.model = model;
+            if (!options.model) {
+                var model = new TreeModel();
+                options.model = model;
+            }
             
-            var plugin = new List(options, forPlugin);
+            var plugin = new List(options, forPlugin, true);
             // var emit = plugin.getEmitter();
             if (baseclass) plugin.baseclass();
             

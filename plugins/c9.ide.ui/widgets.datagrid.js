@@ -1,10 +1,12 @@
 define(function(require, exports, module) {
-    main.consumes = ["Tree"];
+    main.consumes = ["Tree", "layout", "ui"];
     main.provides = ["Datagrid"];
     return main;
 
     function main(options, imports, register) {
         var Tree = imports.Tree;
+        var layout = imports.layout;
+        var ui = imports.ui;
         
         var TreeModel = require("ace_tree/data_provider");
         
@@ -22,9 +24,18 @@ define(function(require, exports, module) {
             model.columns = options.columns;
             options.model = model;
             
-            var plugin = new Tree(options, forPlugin);
+            var plugin = new Tree(options, forPlugin, true);
             // var emit = plugin.getEmitter();
             if (baseclass) plugin.baseclass();
+            
+            layout.on("eachTheme", function(e){
+                var cls = "." + plugin.theme + " .row";
+                var height = parseInt(ui.getStyleRule(cls, "height"), 10) || 24;
+                // model.rowHeightInner = height - 1;
+                model.rowHeight = height;
+                
+                if (e.changed) plugin.resize(true);
+            });
             
             /**
              */
