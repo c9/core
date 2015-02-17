@@ -74,10 +74,13 @@ define(function(require, module, exports) {
             var modal = options.modal;
             var zindex = options.zindex;
             var allowClose = options.allowClose;
-            var elements = options.elements;
+            var elements = options.elements || [];
             var resizable = options.resizable || false;
             var widths = options.widths || {};
             var count = 0;
+            
+            if (custom === undefined)
+                custom = !(body || heading);
             
             var dialog, buttons, titles;
             
@@ -148,9 +151,14 @@ define(function(require, module, exports) {
                 buttons = plugin.getElement("buttons");
                 
                 // Create dynamic UI elements
-                elements.forEach(function(item) {
-                    createItem(null, null, item);
-                });
+                if (elements.length) {
+                    elements.forEach(function(item) {
+                        createItem(null, null, item);
+                    });
+                }
+                else {
+                    buttons.parentNode.removeChild(buttons);
+                }
                 
                 emit.sticky("draw", {
                     aml: titles,
@@ -175,7 +183,7 @@ define(function(require, module, exports) {
                     implementation();
                     
                     // Update UI
-                    if (!custom) {
+                    if (!custom && (heading || body)) {
                         titles.$int.innerHTML = "<h3 style='margin:0 0 10px 0'>" 
                             + heading + "</h3><div class='alertMsg'>" 
                             + body + "</div>";
