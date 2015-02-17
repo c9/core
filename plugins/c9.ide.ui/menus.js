@@ -932,6 +932,7 @@ define(function(require, exports, module) {
             plugin.on("load", function(){
                 aml = new ui.menu({
                     id: options.id,
+                    zindex: options.zindex,
                     "onprop.visible" : function(e) {
                         emit(e.value ? "show" : "hide", lastCoords);
                         checkItems.call(this, e);
@@ -1032,6 +1033,12 @@ define(function(require, exports, module) {
                  * @readonly
                  */
                 get visible(){ return aml.visible; },
+                /**
+                 * Specifies the zindex of the menu
+                 * @property {Number} zindex
+                 */
+                get zindex(){ return aml && ui.getStyle(aml.$ext, "z-index"); },
+                set zindex(value) { aml && aml.setAttribute("zindex", value); },
                 /**
                  * The menu items appended to this menu
                  * @property {MenuItem[]} items
