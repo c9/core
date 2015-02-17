@@ -9,6 +9,7 @@ define(function(require, exports, module) {
         var AceTree = require("ace_tree/tree");
         var AceTreeEditor = require("ace_tree/edit");
         var ListModel = require("ace_tree/list_data");
+        var TreeModel = require("ace_tree/data_provider");
         
         ListModel.prototype.getEmptyMessage = function(){
             return this.emptyMessage || "";
@@ -38,7 +39,9 @@ define(function(require, exports, module) {
                 drawn = true;
                 
                 acetree = new AceTree(htmlNode);
-                model = options.model || new ListModel();
+                model = options.model || (options.dataType === "object"
+                    ? new TreeModel()
+                    : new ListModel());
                 
                 // Set model
                 acetree.setDataProvider(model);
@@ -104,6 +107,11 @@ define(function(require, exports, module) {
              */
             plugin.freezePublicAPI({
                 // Getter Properties
+                /**
+                 * @ignore
+                 * @readonly
+                 */
+                get acetree(){ return acetree; },
                 /**
                  * A meta data object that allows you to store whatever you want
                  * in relation to this menu.
