@@ -79,9 +79,6 @@ define(function(require, module, exports) {
             var widths = options.widths || {};
             var count = 0;
             
-            if (custom === undefined)
-                custom = !(body || heading);
-            
             var dialog, buttons, titles;
             
             var loaded;
@@ -183,7 +180,8 @@ define(function(require, module, exports) {
                     implementation();
                     
                     // Update UI
-                    if (!custom && (heading || body)) {
+                    var custom = options.custom || !(heading || body);
+                    if (!custom) {
                         titles.$int.innerHTML = "<h3 style='margin:0 0 10px 0'>" 
                             + heading + "</h3><div class='alertMsg'>" 
                             + body + "</div>";
