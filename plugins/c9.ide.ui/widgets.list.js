@@ -20,7 +20,7 @@ define(function(require, exports, module) {
             if (!options) throw new Error("options are required");
             
             var plugin = new Plugin("Ajax.org", main.consumes);
-            // var emit = plugin.getEmitter();
+            var emit = plugin.getEmitter();
             if (baseclass) plugin.baseclass();
             
             var acetree;
@@ -28,11 +28,16 @@ define(function(require, exports, module) {
             var redirectEvents;
             var meta = {};
             var excludedEvents = { 
-                "load":1, "unload":1, "addListener":1, "removeListener":1 
+                "draw": 1, "load":1, "unload":1, 
+                "addListener":1, "removeListener":1 
             };
-
-            plugin.on("load", function(){
-                acetree = new AceTree(options.container);
+            
+            var drawn = false;
+            function draw(htmlNode) {
+                if (drawn) return;
+                drawn = true;
+                
+                acetree = new AceTree(htmlNode);
                 model = options.model || new ListModel();
                 
                 // Set model
@@ -54,12 +59,22 @@ define(function(require, exports, module) {
                     collapse: model
                 };
                 
+                emit.sticky("draw");
+            }
+
+            plugin.on("load", function(){
+                if (options.container)
+                    plugin.attachTo(options.container);
             });
             plugin.on("unload", function(){
                 if (acetree) {
+                    var container = acetree.container;
+                    
                     model.setRoot(null);
                     acetree.destroy();
-                    acetree.container.innerHTML = "";
+                    
+                    container.innerHTML = "";
+                    container.parentNode.removeChild(container);
                 }
                 meta = {};
             });
@@ -249,6 +264,10 @@ define(function(require, exports, module) {
                  // Events
                 _events: [
                     /**
+                     * @event draw Fires 
+                     */
+                    "draw",
+                    /**
                      * @event click Fires 
                      */
                     "click",
@@ -407,6 +426,23 @@ define(function(require, exports, module) {
                  */
                 refresh: function(){
                     plugin.setRoot(plugin.root);
+                },
+                /**
+                 * 
+                 */
+                attachTo: function(htmlNode, beforeNode){
+                    var container;
+                    if (drawn)
+                        container = acetree.container;
+                    else {
+                        container = document.createElement("div");
+                        container.style.height = "100%";
+                    }
+                    
+                    htmlNode.insertBefore(container, beforeNode);
+                        
+                    if (!drawn)
+                        draw(container);
                 }
             });
             
