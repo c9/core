@@ -1,10 +1,11 @@
 define(function(require, exports, module) {
-    main.consumes = ["Plugin"];
+    main.consumes = ["Plugin", "ui"];
     main.provides = ["List"];
     return main;
 
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
+        var ui = imports.ui;
         
         var AceTree = require("ace_tree/tree");
         var AceTreeEditor = require("ace_tree/edit");
@@ -14,6 +15,10 @@ define(function(require, exports, module) {
         ListModel.prototype.getEmptyMessage = function(){
             return this.emptyMessage || "";
         };
+        
+        ui.on("load", function(){
+            ui.insertCss(require("text!./widgets.less"), ui);
+        });
         
         /***** Constructors *****/
         
@@ -42,6 +47,10 @@ define(function(require, exports, module) {
                 model = options.model || (options.dataType === "object"
                     ? new TreeModel()
                     : new ListModel());
+                
+                // Set Default Theme
+                if (!options.theme)
+                    options.theme = "custom-tree " + (options.baseName || "list");
                 
                 // Set model
                 acetree.setDataProvider(model);
