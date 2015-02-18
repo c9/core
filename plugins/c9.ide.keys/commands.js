@@ -256,19 +256,21 @@ define(function(require, exports, module) {
         function bindKey(key, command, asDefault) {
             removeCommand(command, null, true);
             
-            if (!key || !command)
+            if (!command)
                 return;
             
-            command.bindKey = {
-                position: command.originalBindKey.position
-            };
+            if (typeof key == "string" || !key) {
+                command.bindKey = {};
+                command.bindKey[commandManager.platform] = key;
+            } else
+                command.bindKey = key;
             
-            command.bindKey[commandManager.platform] = key;
+            if (command.bindKey.position == undefined)
+                command.bindKey.position = command.originalBindKey.position;
             
-            commandManager.bindKey(key, command, asDefault);
-            
-            plugin.commandManager
-                .setProperty(command.name, key);
+            commandManager.bindKey(command.bindKey, command, asDefault);
+            plugin.commandManager.setProperty(command.name, 
+                command.bindKey[commandManager.platform]);
         }
         
         function findKey(key, scope) {
@@ -291,11 +293,7 @@ define(function(require, exports, module) {
             
             Object.keys(commands).forEach(function(name) {
                 var cmd = commands[name];
-                var key = cmd.bindKey && cmd.bindKey[platform];
-                if (key)
-                    bindKey(key, cmd);
-                else
-                    delete plugin.commandManager[name];
+                bindKey(cmd.originalBindKey, cmd);
             });
             
             if (noReload)

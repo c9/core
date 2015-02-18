@@ -173,6 +173,8 @@ define(function(require, exports, module) {
                             "By resetting your keybindings to their "
                             + "defaults you will lose all custom keybindings.", 
                             function(){
+                                settings.set("user/ace/@keyboardmode", "default");
+                                settings.set("user/key-bindings/@platform", "auto");
                                 reset();
                             }, function(){});
                     },
