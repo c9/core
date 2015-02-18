@@ -91,7 +91,7 @@ module.exports = function(config, optimist) {
 
     var isLocalhost = host == "localhost" || host == "127.0.0.1";
     if (argv.auth !== ":" && !isLocalhost) {
-        console.log("Authentication is required when not running on localhost. Please use -a user:pass.");
+        console.log("Authentication is required when not running on localhost.\nPlease use -a user:pass or --listen localhost to listen locally.");
         process.exit(255);
     }
     var auth = (argv.auth || ":").split(":");
