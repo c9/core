@@ -119,7 +119,7 @@
     background-position: -5px -1px;
 }
 
-.filetreeDragImage.copy:after {
+.filetree.dragImage.copy:after {
     content: "+";
     background: fade(@selected-focus-background, 92%);
     border: 1px @selected-focus-background solid;
@@ -139,14 +139,14 @@
     background: radial-gradient(5px 5px, circle,  rgb(126, 143, 28), rgb(76, 93, 0));
     box-shadow: 0px 0px 7px 0px #000;
 }
-.filetreeDragImage .toggler {
+.filetree.dragImage .toggler {
     pointer-events: none;
 }
 
-.ace_tree_DragOver.filetree .tree-row.selected {
+.dragOver.filetree .tree-row.selected {
     background: fade(@selected-background, 60%);
 }
-.ace_tree_DragOver.filetree .tree-row.dropTarget {
+.dragOver.filetree .tree-row.dropTarget {
     background: @selected-focus-background;
     box-shadow: 1px 1px fade(@selected-focus-background, 60%) inset;
     color: @selected-color;
