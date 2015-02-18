@@ -1,16 +1,18 @@
 define(function(require, exports, module) {
-    main.consumes = ["Plugin", "ui"];
+    main.consumes = ["Plugin", "ui", "util"];
     main.provides = ["List"];
     return main;
 
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var ui = imports.ui;
+        var util = imports.util;
         
         var AceTree = require("ace_tree/tree");
         var AceTreeEditor = require("ace_tree/edit");
         var ListModel = require("ace_tree/list_data");
         var TreeModel = require("ace_tree/data_provider");
+        var search = require("../c9.ide.navigate/search");
         
         ListModel.prototype.getEmptyMessage = function(){
             return this.emptyMessage || "";
@@ -53,6 +55,7 @@ define(function(require, exports, module) {
                 model = options.model || (dataType === "object"
                     ? new TreeModel()
                     : new ListModel());
+                model.filterCaseInsensitive = true;
                 
                 if (!options.rowHeight)
                     options.rowHeight = 23;
@@ -172,7 +175,7 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                get root(){ return model.root; },
+                get root(){ return model.cachedRoot; },
                 /**
                  * 
                  */
@@ -254,6 +257,36 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
+                get filterKeyword(){ return model.keyword; },
+                set filterKeyword(value){
+                    model.keyword = value;
+                    if (!model.keyword) {
+                        model.reKeyword = null;
+                        model.setRoot(model.cachedRoot);
+                    }
+                    else {
+                        model.reKeyword = new RegExp("(" 
+                            + util.escapeRegExp(model.keyword) + ")", 'i');
+                        var root = search.treeSearch(
+                            model.cachedRoot.items || model.cachedRoot, 
+                            model.keyword, model.filterCaseInsensitive,
+                            null, null, model.indexProperty);
+                        model.setRoot(root);
+                    }
+                },
+                /**
+                 * 
+                 */
+                get filterCaseInsensitive(){ return model.filterCaseInsensitive; },
+                set filterCaseInsensitive(value){ model.filterCaseInsensitive = value; },
+                /**
+                 * 
+                 */
+                get filterProperty(){ return model.filterProperty; },
+                set filterProperty(value){ model.filterProperty = value; },
+                /**
+                 * 
+                 */
                 get maxLines(){ return acetree.getOption("maxLines"); },
                 set maxLines(value){ acetree.setOption("maxLines", value); },
                 /**
@@ -310,7 +343,11 @@ define(function(require, exports, module) {
                  * 
                  */
                 get sort(){ return model.sort; },
-                set sort(fn){ model.sort = fn; },
+                set sort(fn){ 
+                    model.$sortNodes = fn ? true : false;
+                    model.$sorted = fn ? true : false;
+                    model.sort = fn; 
+                },
                 /**
                  * 
                  */
@@ -403,6 +440,7 @@ define(function(require, exports, module) {
                  * 
                  */
                 setRoot: function(root){
+                    model.cachedRoot = root;
                     return model.setRoot(root);
                 },
                 /**
