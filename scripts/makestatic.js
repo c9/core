@@ -67,18 +67,24 @@ function main(config, settings, options, callback) {
             compress: options.compress,
             virtual: options.virtual
         })
-        .concat({
-            consumes: [],
-            provides: ["cdn.build", "db"],
-            setup: function(options, imports, register) {
-                register(null, { "cdn.build": {}, "db": {} });
-            }
-        })
         .filter(function(p) {
             var path = p.packagePath;
             return !path || path.indexOf("c9.db.redis/redis") == -1
                 && path.indexOf("c9.static/build") == -1
                 && path.indexOf("c9.api/health") == -1;
+        })
+        .concat({
+            consumes: [],
+            provides: ["cdn.build", "db", "health"],
+            setup: function(options, imports, register) {
+                register(null, { 
+                    "cdn.build": {}, 
+                    "db": {}, 
+                    "health": { 
+                        addCheck: function() {}
+                    }
+                });
+            }
         });
 
     
