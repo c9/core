@@ -146,7 +146,7 @@ Vfs.prototype._createEngine = function(vfs, options) {
     var that = this;
     
     var engine = new eio.Server({
-        pingTimeout: 3000,
+        pingTimeout: 5000,
         pingInterval: 15000,
         transports: ["polling", "websocket"],
         allowUpgrades: true,
