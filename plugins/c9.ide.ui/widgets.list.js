@@ -33,9 +33,15 @@ define(function(require, exports, module) {
             var model;
             var redirectEvents;
             var meta = {};
+            var dataType = options.model ? "object" : options.dataType;
             var excludedEvents = { 
                 "draw": 1, "load":1, "unload":1, 
                 "addListener":1, "removeListener":1 
+            };
+            var renameEvents = {
+                "select": "changeSelection",
+                "afterRename": "rename",
+                "scroll": "changeScrollTop"
             };
             
             var drawn = false;
@@ -44,13 +50,16 @@ define(function(require, exports, module) {
                 drawn = true;
                 
                 acetree = new AceTree(htmlNode);
-                model = options.model || (options.dataType === "object"
+                model = options.model || (dataType === "object"
                     ? new TreeModel()
                     : new ListModel());
                 
+                if (!options.rowHeight)
+                    options.rowHeight = 23;
+                
                 // Set Default Theme
                 if (!options.theme)
-                    options.theme = "custom-tree " + (options.baseName || "list");
+                    options.theme = "custom-tree ace-tree-" + (options.baseName || "list");
                 
                 // Set model
                 acetree.setDataProvider(model);
@@ -77,6 +86,10 @@ define(function(require, exports, module) {
             plugin.on("load", function(){
                 if (options.container)
                     plugin.attachTo(options.container);
+                
+                forPlugin.once("unload", function(){
+                    plugin.unload();
+                });
             });
             plugin.on("unload", function(){
                 if (acetree) {
@@ -92,6 +105,10 @@ define(function(require, exports, module) {
             });
             plugin.on("newListener", function(type, fn){
                 if (excludedEvents[type]) return;
+                
+                if (renameEvents[type])
+                    type = renameEvents[type];
+                
                 if (redirectEvents[type])
                     redirectEvents[type].on(type, fn);
                 else
@@ -99,6 +116,10 @@ define(function(require, exports, module) {
             });
             plugin.on("removeListener", function(type, fn){
                 if (excludedEvents[type]) return;
+                
+                if (renameEvents[type])
+                    type = renameEvents[type];
+                
                 if (redirectEvents[type])
                     redirectEvents[type].removeListener(type, fn);
                 else
@@ -136,15 +157,17 @@ define(function(require, exports, module) {
                  * 
                  */
                 get selectedNodes(){ 
-                    return (acetree.selection.getSelectedNodes() || []);/*.map(function(n){
-                        return n.id;
-                    }); */
+                    var sel = (acetree.selection.getSelectedNodes() || []);
+                    return dataType == "object"
+                        ? sel
+                        : sel.map(function(n){ return n.id; });
                 },
                 /**
                  * 
                  */
                 get selectedNode(){ 
-                    return (acetree.selection.getCursor() || null); //.id || null;
+                    var item = (acetree.selection.getCursor() || null);
+                    return dataType == "object" ? item : item.id;
                 },
                 /**
                  * 
@@ -154,6 +177,7 @@ define(function(require, exports, module) {
                  * 
                  */
                 get scrollTop(){ return model.getScrollTop(); },
+                set scrollTop(value){ return model.setScrollTop(value); },
                 /**
                  * 
                  */
@@ -333,10 +357,6 @@ define(function(require, exports, module) {
                      */
                     "folderDragEnter",
                     /**
-                     * @event drop Fires 
-                     */
-                    "drop",
-                    /**
                      * @event dropOutside Fires 
                      */
                     "dropOutside",
@@ -360,10 +380,6 @@ define(function(require, exports, module) {
                      * @event afterRename Fires 
                      */
                     "afterRename",
-                    /**
-                     * @event select Fires 
-                     */
-                    "select",
                     /**
                      * @event select Fires 
                      */
@@ -413,14 +429,8 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                setScrollTop: function(scrollTop){
-                    return model.setScrollTop(scrollTop);
-                },
-                /**
-                 * 
-                 */
-                startRename: function(node){
-                    return acetree.edit.startRename(node);
+                startRename: function(node, column){
+                    return acetree.edit.startRename(node, column);
                 },
                 /**
                  * 

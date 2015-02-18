@@ -28,14 +28,18 @@ define(function(require, exports, module) {
             // var emit = plugin.getEmitter();
             if (baseclass) plugin.baseclass();
             
-            layout.on("eachTheme", function(e){
-                var cls = "." + plugin.theme + " .row";
-                var height = parseInt(ui.getStyleRule(cls, "height"), 10) || 24;
-                // model.rowHeightInner = height - 1;
-                model.rowHeight = height;
-                
-                if (e.changed) plugin.resize(true);
-            });
+            var acetree = plugin.acetree;
+            
+            if (!options.rowHeight) {
+                layout.on("eachTheme", function(e){
+                    var cls = "." + plugin.theme + " .row";
+                    var height = parseInt(ui.getStyleRule(cls, "height"), 10) || 23;
+                    // model.rowHeightInner = height - 1;
+                    model.rowHeight = height;
+                    
+                    if (e.changed) plugin.resize(true);
+                });
+            }
             
             /**
              */
@@ -51,7 +55,13 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                get columns(){ return model.columns; }
+                get columns(){ throw new Error("Columns can only be set.") },
+                set columns(c){
+                    if (!acetree) return;
+                    
+                    model.columns = c;
+                    acetree.renderer.setDataProvider(model);
+                }
             });
             
             return plugin;
