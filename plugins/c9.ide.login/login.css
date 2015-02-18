@@ -16,7 +16,8 @@
 }
 
 .btnName.c9-menu-btnIcon{
-    padding-left: @menu-name-button-icon-padding-left;
+    text-indent: -2000px;
+    overflow: hidden;
 }
 .btnName{
     padding: @menu-name-button-padding;

@@ -229,8 +229,14 @@ body>.session_btn.curbtn{
     background-position : @pane-button-dark-middle-active;
     margin-top: 2px;
 }
-.dark.session_btn.curbtn .tab_middle:before { background-position : @pane-button-dark-left-active; }
-.dark.session_btn.curbtn .tab_middle:after { background-position : @pane-button-dark-right-active; }
+.dark.session_btn.curbtn .tab_middle:before { 
+    background-position : @pane-button-dark-left-active; 
+    -webkit-mask-position : @pane-button-dark-mask-left;
+}
+.dark.session_btn.curbtn .tab_middle:after { 
+    background-position : @pane-button-dark-right-active; 
+    -webkit-mask-position : @pane-button-dark-mask-right;
+}
 
 /* Tab Title */
 
@@ -303,6 +309,7 @@ body>.session_btn.curbtn{
 .has_apf .session_btn.changed strong,
 .has_apf .session_btn.saving strong,
 .has_apf .session_btn.saved strong,
+.has_apf .session_btn.conflict strong,
 .has_apf .session_btn.error strong {
     .image-2x("@{image-path}/@{pane-button-states-image}", (4 * @pane-button-states-image-size), @pane-button-states-image-size);
     background-position: 0 2px;
@@ -312,25 +319,22 @@ body>.session_btn.curbtn{
     top        : @pane-button-states-top;
     margin-top : 0px;
 
-    -webkit-animation: none;
-       -moz-animation: none;
-            animation: none;
+    .animation(none);
 }
 .has_apf .session_btn.changed strong { background-position : 0 0; }
 .has_apf .session_btn.error strong { background-position : (-1 * @pane-button-states-image-size) 0; }
 .has_apf .session_btn.saving strong { background-position : (-2 * @pane-button-states-image-size) 0; }
 .has_apf .session_btn.saved strong { background-position : (-3 * @pane-button-states-image-size) 0; }
+.has_apf .session_btn.conflict strong { background-position : (-2 * @pane-button-states-image-size) 0; }
 
 .asterisk .session_btn.changed .sessiontab_title:before {content: "*";}
 
 .has_apf .session_btn.running strong{
-    background: url(@pane-button-running-image) no-repeat;
-    -webkit-animation: running-spinner 1.2s linear 0s infinite normal;
-       -moz-animation: running-spinner 1.2s linear 0s infinite normal;
-            animation: running-spinner 1.2s linear 0s infinite normal;
+    .image-2x(@pane-button-running-image, @pane-button-running-image-width, @pane-button-running-image-height, no-repeat);
+    .animation(@pane-button-running-animation);
 
-    height     : 16px;
-    width      : 16px;
+    height     : @pane-button-running-width;
+    width      : @pane-button-running-height;
     right      : @pane-button-running-right;
     top        : @pane-button-running-top;
     z-index    : 10;
@@ -338,15 +342,11 @@ body>.session_btn.curbtn{
 
 .has_apf .session_btn.loading strong,
 .has_apf .session_btn.connecting strong{
-    /*background : url("@{image-path}/tab-save-spinner-inactive.gif") no-repeat 0 0;*/
+    .image-2x(@pane-button-save-image, @pane-button-save-image-width, @pane-button-save-image-height, no-repeat);
+    .animation(@pane-button-save-animation);
 
-    background: url(@pane-button-save-image) no-repeat;
-    -webkit-animation: loading-spinner 1.2s linear 0s infinite normal;
-       -moz-animation: loading-spinner 1.2s linear 0s infinite normal;
-            animation: loading-spinner 1.2s linear 0s infinite normal;
-
-    height     : 15px;
-    width      : 15px;
+    height     : @pane-button-save-width;
+    width      : @pane-button-save-height;
     right      : @pane-button-save-right;
     top        : @pane-button-save-top;
     z-index    : 10;
@@ -370,9 +370,7 @@ body>.session_btn.curbtn{
     z-index     : 10;
     margin-top  : @pane-button-close-hack;
 
-    -webkit-animation: none;
-       -moz-animation: none;
-            animation: none;
+    .animation(none)
 }
 
 .has_apf .session_btn strong:hover  { background-position : -14px @pane-button-close-background; }

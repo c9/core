@@ -8,6 +8,7 @@ define(function(require, exports, module) {
 
         var plugins = [];
         var lut = {};
+        var manuallyDisabled = {};
         var dependencies = {};
         var counters = {};
         
@@ -17,7 +18,7 @@ define(function(require, exports, module) {
         
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
-        var vfs, settings;
+        var vfs, settings, api;
         
         plugin.__defineSetter__("vfs", function(remote) {
             vfs = remote;
@@ -37,10 +38,14 @@ define(function(require, exports, module) {
             delete plugin.settings;
         });
         
+        plugin.__defineSetter__("api", function(remote) {
+            api = remote;
+            delete plugin.api;
+        });
+        
         var eventRegistry = Object.create(null);
         
         /***** Methods *****/
-        
         
         function uid(type, name) {
             while (!name || lut[name]) {
@@ -53,12 +58,11 @@ define(function(require, exports, module) {
         }
         
         function registerPlugin(plugin, loaded) {
-            var dt = new Date();
-    
-            plugins.push(plugin);
+            if (plugins.indexOf(plugin) == -1)
+                plugins.push(plugin);
             lut[plugin.name] = plugin;
             
-            loaded(true, Number(new Date() - dt));
+            loaded(true);
             
             var deps = plugin.deps;
             if (deps) {
@@ -72,40 +76,29 @@ define(function(require, exports, module) {
             emit("register", {plugin: plugin});
         }
         
-        function unregisterPlugin(plugin, loaded, ignoreDeps) {
+        function unregisterPlugin(plugin, loaded, ignoreDeps, keep) {
             if (!plugin.registered)
                 return;
             
-            var deps, usedBy;
-            if (dependencies && !ignoreDeps) {
-                // Check for dependencies needing this plugin
-                deps = dependencies[plugin.name];
-                usedBy = [];
-                
-                if (deps) {
-                    Object.keys(deps).forEach(function(name) {
-                        usedBy.push(name);
-                    });
-                }
-                if (usedBy.length) {
-                    //@todo this should be moved to whoever is calling this.
-                    // if (!silent)
-                    //     util.alert(
-                    //         "Could not disable extension",
-                    //         "Extension is still in use",
-                    //         "This extension cannot be disabled, because it is still in use by the following plugins:<br /><br />"
-                    //         + " - " + usedBy.join("<br /> - ")
-                    //         + "<br /><br /> Please disable those plugins first.");
-                    return false;
-                }
+            if (!ignoreDeps && getDependencies(plugin.name).length) {
+                //@todo this should be moved to whoever is calling this.
+                // if (!silent)
+                //     util.alert(
+                //         "Could not disable extension",
+                //         "Extension is still in use",
+                //         "This extension cannot be disabled, because it is still in use by the following plugins:<br /><br />"
+                //         + " - " + usedBy.join("<br /> - ")
+                //         + "<br /><br /> Please disable those plugins first.");
+                return false;
             }
             
-            plugins.splice(plugins.indexOf(plugin), 1);
+            if (!keep)
+                plugins.splice(plugins.indexOf(plugin), 1);
             delete lut[plugin.name];
             
             loaded(false, 0);
             
-            deps = plugin.deps;
+            var deps = plugin.deps;
             if (deps && dependencies) {
                 deps.forEach(function(dep) {
                     delete dependencies[dep][plugin.name];
@@ -113,6 +106,22 @@ define(function(require, exports, module) {
             }
             
             emit("unregister", {plugin: plugin});
+        }
+        
+        function getDependencies(pluginName){
+            var usedBy = [];
+            
+            // Check for dependencies needing this plugin
+            if (dependencies) {
+                var deps = dependencies[pluginName];
+                if (deps) {
+                    Object.keys(deps).forEach(function(name) {
+                        usedBy.push(name);
+                    });
+                }
+            }
+            
+            return usedBy
         }
         
         function loadRemotePlugin(id, options, callback) {
@@ -147,7 +156,7 @@ define(function(require, exports, module) {
                 if (plugin.unload)
                     unload(plugin);
                 else
-                    console.warn("Ignoring not a plugin: " + name);
+                    console.warn("Ignoring not a plugin: " + plugin.name);
             }
         }
         
@@ -165,6 +174,23 @@ define(function(require, exports, module) {
             vfs.unextend(id, options, callback);
         }
         
+        function enablePlugin(name){
+            if (!lut[name] && !manuallyDisabled[name]) 
+                throw new Error("Could not find plugin: " + name);
+            (lut[name] || manuallyDisabled[name]).load(name);
+        }
+        
+        function disablePlugin(name){
+            if (!lut[name]) 
+                throw new Error("Could not find plugin: " + name);
+            
+            var plugin = lut[name]
+            if (plugin.unload({ keep: true }) === false)
+                throw new Error("Failed unloading plugin: " + name);
+                
+            manuallyDisabled[name] = plugin;
+        }
+        
         /***** Register and define API *****/
 
         /**
@@ -172,8 +198,22 @@ define(function(require, exports, module) {
          * @singleton
          */
         plugin.freezePublicAPI({
+            /**
+             *
+             */
             get plugins(){ return plugins.slice(0); },
-            get named(){ return Object.create(lut); },
+            
+            /**
+             *
+             */
+            get named(){ 
+                var named = Object.create(lut); 
+                for (var name in manuallyDisabled) {
+                    if (!lut[name])
+                        lut[name] = manuallyDisabled[name];
+                }
+                return named;
+            },
             
             _events: [
                 /**
@@ -239,7 +279,22 @@ define(function(require, exports, module) {
             /**
              * 
              */
-            unloadAllPlugins: unloadAllPlugins
+            unloadAllPlugins: unloadAllPlugins,
+            
+            /**
+             * 
+             */
+            getDependencies: getDependencies,
+            
+            /**
+             * 
+             */
+            enablePlugin: enablePlugin,
+            
+            /**
+             * 
+             */
+            disablePlugin: disablePlugin
         });
         
         function Plugin(developer, deps) {
@@ -276,9 +331,8 @@ define(function(require, exports, module) {
                 }
             });
             
-            function init(reg, tm) {
+            function init(reg) {
                 registered = reg;
-                time = tm;
             }
             
             /***** Methods *****/
@@ -316,7 +370,9 @@ define(function(require, exports, module) {
                 // Build a list of known events to warn users if they use a 
                 // non-existent event.
                 if (api._events) {
-                    declaredEvents.concat(api._events);
+                    api._events.forEach(function(name){
+                        declaredEvents[name] =  true;
+                    });
                     delete api._events;
                 }
                 
@@ -335,7 +391,10 @@ define(function(require, exports, module) {
                 // }
                 
                 if (!baseclass) {
+                    delete this.baseclass;
+                    delete this.freezePublicAPI.baseclass;
                     delete this.freezePublicAPI;
+                    delete this.setAPIKey;
                     delete this.getEmitter;
                     Object.freeze(this);
                 }
@@ -344,6 +403,7 @@ define(function(require, exports, module) {
                 return this;
             };
             var baseclass;
+            this.baseclass = 
             this.freezePublicAPI.baseclass = function(){ baseclass = true; };
             
             function getElement(name, callback) {
@@ -420,6 +480,8 @@ define(function(require, exports, module) {
             }
             
             function load(nm, type) {
+                var dt = Date.now();
+                
                 if (type) nm = uid(type, nm);
                 if (nm && !name) name = nm;
                 event.name = name;
@@ -429,6 +491,8 @@ define(function(require, exports, module) {
                 
                 event.emit("load");
                 event.on("newListener", initLoad);
+                
+                time = Date.now() - dt;
             }
             
             function enable() {
@@ -449,7 +513,7 @@ define(function(require, exports, module) {
                 if (event.emit("beforeUnload", e) === false)
                     return false;
                 
-                if (unregisterPlugin(this, init, ignoreDeps) === false)
+                if (unregisterPlugin(this, init, ignoreDeps, e && e.keep) === false)
                     return false;
                 
                 loaded = false;
@@ -507,9 +571,50 @@ define(function(require, exports, module) {
                 onNewEvents = {};
             }
             
+            function setAPIKey(apikey){
+                // Validate Key
+                if (!apikey || !apikey.match(/[\w+]{27}=/))
+                    throw new Error("Invalid API key");
+                
+                return {
+                    getPersistentData: getPersistentData.bind(this, apikey),
+                    setPersistentData: setPersistentData.bind(this, apikey)
+                };
+            }
+            
+            function getPersistentData(apiKey, context, callback){
+                var type;
+                
+                if (!apiKey) 
+                    throw new Error("API Key not set. Please call plugin.setAPIKey(options.key);");
+                
+                if (context == "user") type = "user";
+                else if (context == "workspace") type = "project";
+                else throw new Error("Unsupported context: " + context);
+                
+                api[type].get("persistent/" + apiKey, function(err, data){
+                    if (err) return callback(err);
+                    try{ callback(null, JSON.stringify(data)); }
+                    catch(e){ return callback(e); }
+                });
+            }
+            
+            function setPersistentData(apiKey, context, data, callback){
+                var type;
+                
+                if (!apiKey) 
+                    throw new Error("API Key not set. Please call plugin.setAPIKey(options.key);");
+                
+                if (context == "user") type = "user";
+                else if (context == "workspace") type = "project";
+                else throw new Error("Unsupported context: " + context);
+                
+                api[type].put("persistent/" + apiKey, { data: JSON.stringify(data) }, callback);
+            }
+            
             /***** Register and define API *****/
             
-            this.freezePublicAPI.baseclass();
+            this.baseclass();
             
             /**
              * Base class for all Plugins of Cloud9. A Cloud9 Plugin is
@@ -574,12 +679,6 @@ define(function(require, exports, module) {
              *             plugin.on("load", function(e) {
              *                 // Create a command, menu item, etc
              *             });
-             *             plugin.on("enable", function(e) {
-             *                 // Enable UI elements
-             *             });
-             *             plugin.on("disable", function(e) {
-             *                 // Disable UI elements
-             *             });
              *             plugin.on("unload", function(e) {
              *                 // Any custom unload code (most things are cleaned up automatically)
              *             });
@@ -623,15 +722,11 @@ define(function(require, exports, module) {
                     /**
                      * Fires when the plugin is enabled
                      * @event enable
-                     * @param {Object} e
-                     * @param {Plugin} e.plugin the plugin that is enabled
                      */
                     "enable",
                     /**
                      * Fires when the plugin is disabled
                      * @event disable
-                     * @param {Object} e
-                     * @param {Plugin} e.plugin the plugin that is disabled
                      */
                     "disable",
                     /**
@@ -763,12 +858,12 @@ define(function(require, exports, module) {
                 load: load,
                 
                 /**
-                 * Enable this plugin
+                 * @ignore Enable this plugin
                  **/
                 enable: enable,
                 
                 /**
-                 * Disable this plugin
+                 * @ignore Disable this plugin
                  **/
                 disable: disable,
                  
@@ -782,6 +877,11 @@ define(function(require, exports, module) {
                  * cleanup by this plugin
                  */
                 cleanUp: cleanUp,
+                
+                /**
+                 * 
+                 */
+                setAPIKey: setAPIKey,
                 
                 /**
                  * Adds an event handler to this plugin. Note that unlike the
@@ -798,14 +898,24 @@ define(function(require, exports, module) {
                  *   this you will leak listeners into Cloud9.
                  * @fires newListener
                  **/
-                on: event.on.bind(event),
+                on: function(eventName, callback, plugin){
+                    // if (!declaredEvents[eventName])
+                    //     console.warn("Missing event description or unknown event '" + eventName + "' for plugin '" + name + "'", new Error().stack);
+                        
+                    event.on(eventName, callback, plugin);
+                },
                 
                 /**
                  * Adds an event handler to this plugin and removes it after executing it once
                  * @param {String} name the name of this event
                  * @param {Function} callback the function called when the event is fired
                  **/
-                once: event.once.bind(event),
+                once: function(eventName, callback){
+                    // if (!declaredEvents[eventName])
+                    //     console.warn("Missing event description or unknown event '" + eventName + "' for plugin '" + name + "'");
+                        
+                    event.once(eventName, callback);
+                },
                 
                 /**
                  * Removes an event handler from this plugin

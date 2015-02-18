@@ -5,20 +5,18 @@
 }
 
 .tb_textbox .sbtb_middle {
-    height           : 19px;
-    padding          : 2px 5px;
-    border: 1px solid #afafaf;
-    background: -webkit-gradient(linear,left bottom,left top,color-stop(0.5, rgb(255,255,255)),color-stop(1, rgb(235,235,235)));
-    background: -moz-linear-gradient(center bottom,rgb(255,255,255) 50%,rgb(235,235,235) 100%);
-    color: #333333;
+    height: 19px;
+    padding: 2px 5px;
+    border: @tbsimple-border;
+    border-radius: @tbsimple-border-radius;
+    .gradient(~"@{tbsimple-gradient}");
+    color: @tbsimple-color;
     margin: 0;
     outline: none;
-    font-family: Tahoma, Arial;
-    font-size: 12px;
+    font-family: @tbsimple-font-family;
+    font-size: @tbsimple-font-size;
     text-overflow: ellipsis;
-    -webkit-box-shadow: 0px 1px 0px #ffffff;
-    -moz-box-shadow: 0px 1px 0px #ffffff;
-    box-shadow: 0px 1px 0px #ffffff;
+    box-shadow: @tbsimple-box-shadow;
 }
 
 .topborder .sbtb_middle{
@@ -45,8 +43,7 @@
 }
 
 .tb_textboxDisabled .sbtb_middle{
-    background: -webkit-gradient(linear,left bottom,left top,color-stop(0, rgb(235,235,235)),color-stop(0.4, rgb(255,255,255)));
-    background: -moz-linear-gradient(center bottom,rgb(235,235,235) 0%,rgb(255,255,255) 40%);
+    .gradient(~"@{tbsimple-disabled-gradient}");
     cursor : default;
 }
     

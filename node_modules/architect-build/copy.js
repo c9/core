@@ -26,23 +26,39 @@ function copyBinaryFile(srcFile, destFile) {
     fs.closeSync(fdw);
 }
 
+function $testFn(re) {
+    if (!re || typeof re == "function") return re;
+    return function(name) { return re.test(name); };
+}
+
 function copy(from, to, options) {
     from = convertPath(from);
     to = convertPath(to);
     if (!options) options = {};
-    var exclude = options.exclude;
-    var include = options.include;
+    var exclude = $testFn(options.exclude);
+    var include = $testFn(options.include);
+    if (!options.onError) options.onError = logError;
+    
+    function excludePath(name, parent) {
+        if ((exclude && exclude(name, parent)) && !(include && include(name, parent))) 
+            return true;
+    }
     
     function filterCopyDir(from, to) {
-        var files = fs.readdirSync(from);
+        var files;
+        try {
+            files = fs.readdirSync(from);
+        } catch(e) {
+            return options.onError(e);
+        }
         var dirCreated = false;
         files.forEach(function(x) {
-            if ((exclude && exclude.test(x)) && !(include && include.test(x))) 
+            if (excludePath(x, from))
                 return;
             var stat; try {
                 stat = fs.lstatSync(from  + '/' + x);
             } catch(e) {
-                return console.error(e);
+                return options.onError(e);
             }
             
             if (stat.isSymbolicLink())
@@ -58,14 +74,14 @@ function copy(from, to, options) {
                     try {
                         mkdirSync(to);
                     } catch (e) {
-                        return console.error(e);
+                        return options.onError(e);
                     }
                     dirCreated = true;
                 }
                 try {
                     copy.file(from+ '/' + x, to+ '/' + x, options.replace);
                 } catch(e) {
-                    console.error(e);
+                    return options.onError(e);
                 }
             }
         });
@@ -107,6 +123,10 @@ copy.file = function(from, to, replace) {
     }
         
 };
+
+function logError() {
+    console.error.apply(console, arguments);
+}
 
 copy.convertPath = convertPath;
 module.exports = copy;

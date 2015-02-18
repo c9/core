@@ -1,3 +1,5 @@
+define(function(require, exports, module) {
+    
 "use strict";
 
 var url = require("url");
@@ -203,3 +205,5 @@ module.exports = function Section(name, description, types) {
         return api;
     };
 };
+
+});

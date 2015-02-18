@@ -210,7 +210,32 @@ define(function(require, exports, module) {
                     ui.setStyleRule(i[0], i[1], i[2]);
                 });
                 
-                libterm.setColors(fcolor, bcolor);
+                // Small hack until we have terminal themes
+                var colors;
+                if (bcolor == "#eaf0f7") {
+                    colors = [
+                      // dark:
+                      '#eaf0f7', // background wrong link
+                      '#cc0000',
+                      '#4e9a06',
+                      '#c4a000',
+                      '#3465a4',
+                      '#75507b',
+                      '#06989a',
+                      '#d3d7cf',
+                      // bright:
+                      '#555753', // grey
+                      '#ef2929', // red
+                      '#579818', // green
+                      '#C3A613', // yellow
+                      '#5183B8', // blue
+                      '#ad7fa8', // purple
+                      '#20C7C7', // mint
+                      '#BBBBBB' // light grey
+                    ];
+                }
+                
+                libterm.setColors(fcolor, bcolor, colors);
                 
                 handleEmit("settingsUpdate");
             }
@@ -218,13 +243,14 @@ define(function(require, exports, module) {
             // Terminal
             
             settings.on("read", function(e) {
-                var skin = settings.get("user/general/@skin") || "dark";
+                var skin = settings.get("user/general/@skin");
+                var colors = defaults[skin] || defaults["dark"];
                 
                 settings.setDefaults("user/terminal", [
-                    ["backgroundColor", defaults[skin][0]],
-                    ["foregroundColor", defaults[skin][1]],
-                    ["selectionColor", defaults[skin][2]],
-                    ["antialiasedfonts", defaults[skin][3]],
+                    ["backgroundColor", colors[0]],
+                    ["foregroundColor", colors[1]],
+                    ["selectionColor", colors[2]],
+                    ["antialiasedfonts", colors[3]],
                     ["fontfamily", "Ubuntu Mono, Menlo, Consolas, monospace"], //Monaco, 
                     ["fontsize", "12"],
                     ["blinking", "false"],
@@ -389,6 +415,9 @@ define(function(require, exports, module) {
                 var cm = commands;
                 // TODO find better way for terminal and ace commands to coexist
                 aceterm.commands.addCommands(cm.getExceptionList());
+                cm.on("update", function() {
+                    aceterm.commands.addCommands(cm.getExceptionList());
+                }, plugin);
                 
                 aceterm.commands.exec = function(command) {
                     return cm.exec(command);
@@ -442,6 +471,7 @@ define(function(require, exports, module) {
                     aceterm.blur();
             }
             
+            var afterAnim;
             function resize(e) {
                 var renderer = aceterm && aceterm.renderer;
                 if (!renderer || !currentDocument) return;
@@ -463,9 +493,13 @@ define(function(require, exports, module) {
                         renderer.onResize(false, null, 
                             htmlNode.offsetWidth + e.delta);
                     }
+                    afterAnim = true;
                 }
-                else if (e.type != "afteranim") {
-                    renderer.onResize();
+                else if (e.type == "afteranim" && afterAnim) {
+                    afterAnim = false;
+                } else {
+                    afterAnim = false;
+                    renderer.$updateSizeAsync();
                 }
             }
             
@@ -1226,6 +1260,11 @@ define(function(require, exports, module) {
                      */
                     "connect"
                 ],
+                
+                /**
+                 * @ignore This is here to overwrite default behavior
+                 */
+                isClipboardAvailable: function(e) { return !e.fromKeyboard },
                 
                 /**
                  * Writes a string to the terminal. The message is send to the 

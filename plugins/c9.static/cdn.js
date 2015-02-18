@@ -52,16 +52,6 @@ function main(options, imports, register) {
         });
     }]);
     
-    section.get("/:hash/modules/ace/:module*", [prepare, function(req, res, next) {
-        var module = req.params.module.replace(/^\//, "").replace(/\.js$/, "");
-        var file = path.join(build.cacheDir, req.params.hash, "modules", "ace", module + ".js");
-        sendCached(file, req, res, next, function(callback) {
-            build.buildAce("ace/" + module, req.pathConfig, function(err, result) {
-                callback(err, result && result.code || "");
-            });
-        });
-    }]);
-    
     section.get("/:hash/modules/:module*", [prepare, function(req, res, next) {
         var module = req.params.module.replace(/^\//, "").replace(/\.js$/, "");
         var file = path.join(build.cacheDir, req.params.hash, "modules", module + ".js");

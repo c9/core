@@ -167,6 +167,42 @@ function plugin(options, imports, register) {
     });
     
     // read only rest interface
+    section.get("/:pid/plugins/:access_token/:path*", {
+        "access_token": {
+            type: "string"
+        },
+        "pid": {
+            type: "pid"
+        },
+        "path": {
+            type: "string"
+        }
+    }, [
+        requestTimeout(15*60*1000),
+        connect.getModule().compress(),
+        function(req, res, next) {
+            req.query = {
+                access_token: req.params["access_token"]
+            };
+            passport.authenticate("bearer", { session: false }, function(err, user) {
+                if (err) return next(err);
+                
+                req.user = user || { id: -1};
+                next();
+            })(req, res, next);
+        },
+        function(req, res, next) {
+            var pid = req.params.pid;
+            var path = req.params.path;
+            var user = req.user;
+            
+            if (path.indexOf("../") !== -1)
+                return next(new error.BadRequest("invalid path"));
+
+            cache.readonlyRest(pid, user, "/.c9/plugins/" + path, "home", req, res, next);
+        }
+    ]);
+    
     section.get("/:pid/preview/:path*", {
         "pid": {
             type: "pid"
@@ -190,7 +226,7 @@ function plugin(options, imports, register) {
             var path = req.params.path;
             var user = req.user;
 
-            cache.readonlyRest(pid, user, path, req, res, next);
+            cache.readonlyRest(pid, user, path, "workspace", req, res, next);
         }
     ]);
     

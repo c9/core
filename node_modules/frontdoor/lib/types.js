@@ -1,6 +1,6 @@
+define(function(require, exports, module) {
 "use strict";
 
-var validateEmail = require("email-validator").validate;
 var inherits = require("util").inherits; 
 
 exports.Types = function() {
@@ -12,7 +12,6 @@ exports.Types = function() {
     this.register("int", new exports.Integer());
     this.register("json", new exports.Json());
     this.register("array", new exports.Array());
-    this.register("email", new exports.Email());
     this.register("array[string]", new exports.Array(new exports.String()));
 };
 exports.Types.prototype.register = function(name, type) {
@@ -60,12 +59,6 @@ exports.RegExp.prototype.check = function(value) {
 };
 exports.RegExp.prototype.toString = function() {
     return (this.name ? this.name + " " : "") + this.re.toString();
-};
-
-exports.Email = function() {};
-inherits(exports.Email, exports.Type);
-exports.Email.check = function(value) {
-    return validateEmail(value);
 };
 
 exports.Json = function() {};
@@ -135,3 +128,5 @@ exports.Boolean.prototype.parse = function(string) {
 exports.Boolean.prototype.check = function(value) {
     return typeof value == "boolean";
 };
+
+});

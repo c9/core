@@ -146,7 +146,7 @@ define(function(require, module, exports) {
             return style;
         }
         
-        function insertLess(css, filename, staticPrefix, _callback) {
+        function insertLess(css, filename, staticPrefix, _callback, force) {
             var callback = _callback || function(err) {
                 if (err) console.error(err);    
             };
@@ -156,9 +156,11 @@ define(function(require, module, exports) {
             
             if (!css) return callback();
             
-            if (packed && css)
-                throw new Error("Can't add dynamic less library in packed mode!");
-            if (packedThemes) return;
+            if (!force) {
+                if (packed && css)
+                    throw new Error("Can't add dynamic less library in packed mode!");
+                if (packedThemes) return;
+            }
                 
             // use dynamic require because we don't want this in the packed version
             var parser = new less.Parser({
@@ -192,7 +194,8 @@ define(function(require, module, exports) {
                 staticPrefix = "";
             }
 
-            if (staticPrefix !== false && !packedThemes) {
+            var force = packedThemes && String(staticPrefix).match(/^http/);
+            if (staticPrefix !== false && !packedThemes || force) {
                 var filename = staticPrefix + "/" + plugin.name + ".less";
                 insertLess(css, filename, staticPrefix, function(err, style) {
                     if (err)
@@ -204,7 +207,7 @@ define(function(require, module, exports) {
                             style.parentNode.removeChild(style);
                         });
                     }
-                });
+                }, force);
             }
             else {
                 if (!packed && packedThemes && staticPrefix !== false) {

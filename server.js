@@ -2,7 +2,9 @@
 "use strict";
 
 require("amd-loader");
-require("heapdump");
+try {
+    require("heapdump");
+} catch(e) {}
 
 var path = require("path");
 var architect = require("architect");
@@ -17,8 +19,9 @@ var DEFAULT_CONFIG = "s";
 var DEFAULT_SETTINGS = getDefaultSettings();
 
 var shortcuts = {
-    "dev"  : ["ide", "preview", "vfs", "api", "sapi", "proxy", "redis", "oldclient", "homepage", "apps-proxy", "-s", "devel"],
+    "dev"  : ["ide", "preview", "vfs", "api", "sapi", "proxy", "redis", "account", "oldclient", "homepage", "apps-proxy", "-s", "devel"],
     "odev" : ["ide", "preview", "vfs", "api", "proxy", "oldclient", "homepage", "apps-proxy", "worker", "-s", "onlinedev"],
+    "bill" : ["ide", "preview", "vfs", "api", "proxy", "oldclient", "homepage", "apps-proxy", "account", "-s", "billing"],
     "beta" : ["ide", "preview", "vfs", "proxy", "-s", "beta"],
     "ci"   : ["ide", "preview", "vfs", "proxy", "-s", "ci"],
     "s"    : ["standalone", "-s", "standalone"]

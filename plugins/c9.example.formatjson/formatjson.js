@@ -1,14 +1,12 @@
 define(function(require, exports, module) {
     main.consumes = [
-        "Plugin", "c9", "util", "settings", "ui", "menus", "preferences", 
-        "tabManager", "commands", "dialog.alert"
+        "Plugin", "settings", "ui", "menus", "preferences", "tabManager", 
+        "commands", "dialog.alert"
     ];
     main.provides = ["formatjson"];
     return main;
 
     function main(options, imports, register) {
-        var c9 = imports.c9;
-        var util = imports.util;
         var Plugin = imports.Plugin;
         var settings = imports.settings;
         var ui = imports.ui;
@@ -25,11 +23,7 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         // var emit = plugin.getEmitter();
         
-        var loaded = false;
         function load(){
-            if (loaded) return false;
-            loaded = true;
-            
             commands.addCommand({
                 name: "formatjson",
                 group: "Format",
@@ -99,14 +93,8 @@ define(function(require, exports, module) {
         plugin.on("load", function(){
             load();
         });
-        plugin.on("enable", function(){
-            
-        });
-        plugin.on("disable", function(){
-            
-        });
         plugin.on("unload", function(){
-            loaded = false;
+            
         });
         
         /***** Register and define API *****/

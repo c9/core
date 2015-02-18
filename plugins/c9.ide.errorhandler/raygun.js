@@ -1263,7 +1263,7 @@ window.TraceKit = TraceKit;
       try {
         processUnhandledException(_traceKit.computeStackTrace(ex), {
           customData: typeof _customData === 'function' ?
-            merge(_customData(), customData) :
+            merge(_customData(ex), customData) :
             merge(_customData, customData),
           tags: mergeArray(_tags, tags)
         });

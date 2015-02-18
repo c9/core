@@ -118,6 +118,7 @@ define(function(require, exports, module) {
         
         this.getText = function(node) {
             var command = this.commands.commands[node.id];
+            if (!command) return "";
             return (command.group || "General") + ": "
                 + (command.displayName || command.name || node.id)
                 + (command.hint ? "\n" + command.hint : "");

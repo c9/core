@@ -29,9 +29,12 @@ define(function(require, exports, module) {
         /***** Methods *****/
         
         function preload(callback) {
+            settings.setDefaults("user/general", [
+                ["skin", "dark"] // "flat-light"
+            ]);
             if (!packed || options.loadTheme) return callback();
             try {
-                var theme = settings.get("user/general/@skin") || "dark";
+                var theme = settings.get("user/general/@skin");
                 return getTheme(theme, callback);
             } catch(e) {}
             async.forEach(Object.keys(themes), getTheme, callback);

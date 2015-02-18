@@ -1,17 +1,17 @@
 /**
  * Keeps a Cache of VFS instances
  *
- * @copyright 2010, Ajax.org B.V.
- * @license GPLv3 <http://www.gnu.org/licenses/gpl.txt>
+ * @copyright 2013, Ajax.org B.V.
  */
 define(function(require, exports, module) {
-    main.consumes = ["Plugin"];
+    main.consumes = ["Plugin", "api"];
     main.provides = ["vfs.connect"];
     return main;
 
 
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
+        var api = imports.api;
 
         var Vfs = require("./vfs");
         var Parent = require('vfs-child').Parent;
@@ -23,6 +23,12 @@ define(function(require, exports, module) {
         /***** Methods *****/
         
         function connect(user, pid, callback) {
+            var projectOptions = api.getVfsOptions
+                ? api.getVfsOptions(user, pid)
+                : {
+                    workspaceDir: options.workspaceDir,
+                    extendOptions: options.extendOptions
+                };
             
             var vfsOptions = {
                 root: "/",
@@ -32,7 +38,7 @@ define(function(require, exports, module) {
                 readOnly: false,
                 debug: options.debug,
                 homeDir: process.env.HOME,
-                projectDir: options.workspaceDir,
+                projectDir: projectOptions.workspaceDir,
                 nakBin: options.nakBin || (process.env.HOME + "/.c9/node_modules/.bin/nak"),
                 nodeBin: options.nodeBin,
                 tmuxBin: options.tmuxBin
@@ -49,7 +55,7 @@ define(function(require, exports, module) {
                     homeDir: vfsOptions.homeDir,
                     projectDir: vfsOptions.projectDir,
                     extendDirectory: options.extendDirectory,
-                    extendOptions: options.extendOptions,
+                    extendOptions: projectOptions.extendOptions,
                     extendToken: "not_needed",
                     collab: options.collab,
                     vfsOptions: vfsOptions,

@@ -29,6 +29,9 @@ module.exports = function(config, optimist) {
             .boolean("packed")
             .default("packed", config.packed)
             .alias("a", "auth")
+            .boolean("hosted")
+            .describe("hosted", "Use default config of the hosted version")
+            .default("hosted", false)
             .describe("auth", "Basic Auth username:password")
             .default("auth", ":")
             .describe("collab", "Whether to enable collab.")
@@ -71,6 +74,9 @@ module.exports = function(config, optimist) {
         config.collab = argv.collab;
     
     var workspaceType = argv.workspacetype || null;
+    
+    if (argv.hosted)
+        config.client_config = "default-hosted";
     
     config.workspaceDir = baseProc;
     config.settingDir = argv["setting-path"];
@@ -198,8 +204,13 @@ module.exports = function(config, optimist) {
         }
     ];
     
-    if (config.collab && !config.mode) {
-        plugins = require("./api.standalone").addApi(plugins, config);
+    if (config.collab && !config.mode && !config.local) {
+        try {
+            var addApi = require("./api.standalone").addApi;
+        } catch(e) {}
+        if (addApi) {
+            plugins = addApi(plugins, config);
+        }
     }
     
     return plugins;

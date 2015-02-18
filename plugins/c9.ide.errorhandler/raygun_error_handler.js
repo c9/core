@@ -37,18 +37,21 @@ define(function(require, exports, module) {
             var user = info.getUser();
             var workspace = info.getWorkspace();
             
-            Raygun.init(apiKey).attach().withCustomData({
-                user: {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email
-                },
-                workspace: {
-                    id: workspace.id,
-                    name: workspace.name,
-                    contents: workspace.contents
-                },
-                revision: revision
+            Raygun.init(apiKey).attach().withCustomData(function(ex) {
+                return {
+                    user: {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email
+                    },
+                    workspace: {
+                        id: workspace.id,
+                        name: workspace.name,
+                        contents: workspace.contents
+                    },
+                    revision: revision,
+                    data: ex && ex.data
+                };
             });
             Raygun.setUser(info.getUser().name);
             Raygun.setVersion(version + ".0");

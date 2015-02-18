@@ -190,8 +190,24 @@
 @collab-chat-input-selection-color: rgb(76, 99, 18);
 @collab-chat-input-cursor-color: lighten(#f1f1f1, @lighten-chrome);
 
+// Bubble
+@bubble-border: 1px solid #000;
+@bubble-border-radius: 8px;
+@bubble-gradient: linear-gradient(center bottom,#202020 0%, #2f2f2f 100%);
+@bubble-padding: 15px 13px;
+@bubble-color: #ffffff;
+@bubble-margin-top: 10px;
+@bubble-box-shadow: inset 0px 1px 0px 0px #424242;
+@bubble-font-weight: bold;
+@bubble-with-noise: true;
+@bubble-close-image: "@{image-path}/bk-close-btn.png";
+@bubble-close-image-width: 13px;
+@bubble-close-image-height: 55px;
+@bubble-close-hover: 0 -19px;
+@bubble-close-active: 0 -19px;
+
 // Time Slider
-@time-slider-background: lighten(#252525, @lighten-chrome) url("/static/plugins/c9.ide.layout.classic/images/c9-noise.png");
+@time-slider-background: lighten(#252525, @lighten-chrome) url("@{image-path}/c9-noise.png");
 @time-slider-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
 @time-slider-border-bottom: solid rgb(194, 194, 194) 1px;
 @time-slider-font-family: Arial, sans-serif;
@@ -310,7 +326,7 @@
 @time-slider-revert-active-gradient: linear-gradient(top, rgb(43, 43, 43) 0%, rgb(36, 36, 36) 100%);
 @time-slider-revert-active-padding: 2px 0px 0px 1px;
 
-@time-slider-close-image: "/static/plugins/c9.ide.layout.classic/images/close_tab_btn.png";
+@time-slider-close-image: "@{image-path}/close_tab_btn.png";
 @time-slider-close-image-width: 42px;
 @time-slider-close-image-height: 28px;
 @time-slider-close-idle-position: 0 -14px;
@@ -338,11 +354,21 @@
 @pane-button-states-top: 7px;
 @pane-button-use-bold-focus: false;
 @pane-button-running-image: "@{image-path}/running.png";
+@pane-button-running-image-width: 384px;
+@pane-button-running-image-height: 16px;
+@pane-button-running-width: 16px;
+@pane-button-running-height: 16px;
 @pane-button-running-right: -5px;
 @pane-button-running-top: 3px;
+@pane-button-running-animation: running-spinner 1.2s linear 0s infinite normal;
 @pane-button-save-image: "@{image-path}/tab-save-spinner-active.png";
+@pane-button-save-image-width: 180px;
+@pane-button-save-image-height: 14px;
+@pane-button-save-width: 15px;
+@pane-button-save-height: 15px;
 @pane-button-save-right: -5px;
 @pane-button-save-top: 4px;
+@pane-button-save-animation: loading-spinner 1.2s linear 0s infinite normal;
 @pane-button-close-image: "@{image-path}/close_tab_btn.png";
 @pane-button-close-image-width: 42px;
 @pane-button-close-image-height: 28px;
@@ -365,6 +391,9 @@
 @pane-button-right-active: -31px -128px;
 @pane-button-mask-left: 0 -96px;
 @pane-button-mask-right: -29px -96px;
+
+@pane-button-dark-mask-left: @pane-button-mask-left;
+@pane-button-dark-mask-right: @pane-button-mask-right;
 
 @pane-button-dark-middle-active: 0 -59px;
 @pane-button-dark-left-active: 0 -127px;
@@ -433,6 +462,10 @@
 @pane-menu-active-gradient: linear-gradient(top, lighten(#525356, @lighten-chrome) 0%, lighten(#494949, @lighten-chrome) 100%);
 @pane-menu-upward-active-box-shadow: 0 1px lighten(#3d3d3d, @lighten-chrome), inset 0 -1px lighten(#525356, @lighten-chrome);
 @pane-menu-upward-active-gradient: linear-gradient(top, lighten(#494949, @lighten-chrome) 0%, lighten(#4b4b4c, @lighten-chrome) 100%);
+
+@pane-menu-splits-image: "@{image-path}/splits.png";
+@pane-menu-splits-image-width: 138px;
+@pane-menu-splits-image-height: 54px;
 
 @pane-menu-button-margin: 2px 0 0 1px;
 @pane-menu-button-width: 19px;
@@ -503,7 +536,7 @@
 @menu-name-button-icon-width: 16px;
 @menu-name-button-icon-height: 16px;
 @menu-name-button-icon-border-radius: 0;
-@menu-name-button-icon-left: 4px;
+@menu-name-button-icon-left: 8px;
 @menu-name-button-icon-top: 4px;
 @menu-name-button-diff: 0;
 
@@ -575,6 +608,8 @@
 @dialog-button-right: 9px;
 @dialog-button-top: 9px;
 @dialog-close-url: "bk-close-btn.png";
+@dialog-close-width: 13px; 
+@dialog-close-height: 55px; 
 
 @dialog-buttons-padding: 11px 10px 10px; 
 @dialog-buttons-height: auto;
@@ -597,6 +632,12 @@
 @error-close-hover-position: -14px -14px;
 @error-close-active-position: -28px -14px;
 
+// Disconnect Dialog
+@disconnect-background: #D8B112;
+@disconnect-color: @error-color;
+@disconnect-padding: @error-padding;
+@disconnect-box-shadow: @error-box-shadow;
+
 // Offline Dialog
 @offline-gradient: linear-gradient(top, rgb(60, 112, 153) 0%, rgb(61, 97, 126) 100%);
 @offline-border-bottom: 1px solid rgba(0, 0, 0, 0.61);
@@ -611,6 +652,7 @@
 
 @update-gradient: linear-gradient(top, rgb(154, 180, 50) 0%, rgb(116, 143, 45) 100%);
 @readonly-gradient: linear-gradient(top, rgb(123, 150, 37) 0%, rgb(76, 114, 20));
+@theme-switch-gradient: linear-gradient(top, rgb(123, 150, 37) 0%, rgb(76, 114, 20));
 
 // Frame
 @frame-border-bottom: lighten(rgb(26, 26, 26), @lighten-chrome);
@@ -660,7 +702,7 @@
 @datagrid-watch-error: yellow;
 
 @datagrid-row-padding: 2px 0 2px 4px;
-@datagrid-row-height: 17px;
+@datagrid-row-height: 18px;
 @datagrid-row-toggler: -1px 4px -3px 3px;
 
 @datagrid-editor-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.5) inset;
@@ -777,6 +819,14 @@
 @textarea-line-height: auto;
 @textarea-padding: 5px;
 @textarea-border-radius: 0;
+@textarea-gradient: linear-gradient(center bottom,white 50%,#EBEBEB 100%);
+@textarea-box-shadow: 0px 1px 0px #ffffff;
+@textarea-font-family: Arial;
+@textarea-font-size: 12px;
+@textarea-color: #333;
+@textarea-border: 1px solid #AFAFAF;
+@textarea-disabled-border: 1px solid #c3c3c3;
+@textarea-disabled-color: #bebebe;
 
 // Button - Default
 @button-border-radius: 3px;
@@ -959,9 +1009,11 @@
 @tree-symlink-y: 7px;
 @tree-symlink-x: -5px;
 @tree-upload: "tree_upload_icon.png";
-@tree-spinner: "file-tree-load-spinner-dark.gif";
-@tree-focus-spinner: "file-tree-load-spinner-dark-unfocus.gif";
-@tree-selected-focus-spinner: "file-tree-load-spinner-dark-selected.gif";
+@tree-spinner: "@{image-path}/file-tree-load-spinner-dark.gif";
+@tree-spinner-width: 16px;
+@tree-spinner-height: 17px;
+@tree-focus-spinner: "@{image-path}/file-tree-load-spinner-dark-unfocus.gif";
+@tree-selected-focus-spinner: "@{image-path}/file-tree-load-spinner-dark-selected.gif";
 @tree-folder-icon: "folder.png";
 @tree-folder-icon-width: 20px;
 @tree-folder-icon-height: 20px;
@@ -1010,6 +1062,16 @@
 @textbox-disabled-color: lighten(gray, @lighten-chrome);
 @textbox-disabled-background: lighten(rgb(216, 216, 216), @lighten-chrome);
 
+// Textbox - Simple
+@tbsimple-border: 1px solid #afafaf;
+@tbsimple-border-radius: 0;
+@tbsimple-gradient: linear-gradient(center bottom,rgb(255,255,255) 50%,rgb(235,235,235) 100%);
+@tbsimple-color: #333333;
+@tbsimple-font-family: Tahoma, Arial;
+@tbsimple-font-size: 12px;
+@tbsimple-box-shadow: 0px 1px 0px #ffffff;
+@tbsimple-disabled-gradient: linear-gradient(center bottom,rgb(235,235,235) 0%,rgb(255,255,255) 40%);
+
 // Preview
 @preview-bar-box-shadow: 0px 1px lighten(rgba(255,255,255,0.1), @lighten-chrome), 0 4px 12px lighten(rgba(0, 0, 0, 0.4), @lighten-chrome);
 @preview-bar-background-color: lighten(#303130, @lighten-chrome);
@@ -1038,7 +1100,7 @@
 @preview-icon-popout-width: 23px; 
 @preview-icon-popout-height: 280px;
 @preview-icon-popout-position: 0 -114px;
-@preview-icon-settings: "/static/plugins/c9.ide.layout.classic/images/@{c9-repeat-x}";
+@preview-icon-settings: "@{image-path}/@{c9-repeat-x}";
 @preview-icon-settings-width: @c9-repeat-x-width; 
 @preview-icon-settings-height: @c9-repeat-x-height;
 @preview-icon-settings-position: 50% -366px;
@@ -1199,7 +1261,7 @@
 @find-button-padding: 2px 11px;
 @find-button-margin-top: 0;
 @find-button-height: 27px;
-@find-dropdown-icon-image: "/static/plugins/c9.ide.layout.classic/images/dropdown-dark-glossy/button.png";
+@find-dropdown-icon-image: "@{image-path}/dropdown-dark-glossy/button.png";
 @find-dropdown-button-border-left: 1px solid lighten(#000, @lighten-chrome);
 
 @tooltip-label-gradient: linear-gradient(bottom, rgba(255,255,255,.04) 0%, rgba(255,255,255,0) 100%);
@@ -1229,6 +1291,7 @@
 // Goto Line - Dark
 @gotoline-background-dark: lighten(#353637, @lighten-chrome);
 @gotoline-box-shadow-dark: 1px 1px 6px lighten(rgba(0, 0, 0, 0.5), @lighten-chrome), 0 1px lighten(rgba(255, 255, 255, 0.08), @lighten-chrome) inset;
+@gotoline-border-dark: 0;
 
 @gotoline-list-background-dark: linear-gradient(center bottom, lighten(rgb(69,69,69), @lighten-chrome) 0%, lighten(rgb(84,84,84), @lighten-chrome) 100%);
 @gotoline-list-color-dark: lighten(#e7e7e7, @lighten-chrome);
@@ -1245,6 +1308,8 @@
 // Goto Line - Light
 @gotoline-background: lighten(#F8F8F8, @lighten-chrome);
 @gotoline-box-shadow: 1px 1px 6px lighten(rgba(0, 0, 0, 0.18), @lighten-chrome);
+@gotoline-border: 0;
+@gotoline-border-radius: 0px 5px 5px 0;
 
 @gotoline-list-background: linear-gradient(center bottom, lighten(#E7E7E7, @lighten-chrome) 0%, lighten(#EBEBEB, @lighten-chrome) 100%);
 @gotoline-list-color: lighten(#727272, @lighten-chrome);
@@ -1336,7 +1401,7 @@
 @welcome-logo-image-width: 155px;
 @welcome-logo-image-height: 103px;
 @welcome-alter-widgets: true;
-@welcome-heading-color: black;
+@welcome-heading-color: @welcome-color;
 @welcome-heading-border-bottom: 1px solid rgba(255, 255, 255, 0.39);
 
 // Output
@@ -1526,7 +1591,9 @@
 @upload-frame-item-color: #e1e1e1;
 
 // Mount
-@mount-container-padding: 18px 10px 12px 10px;
+@mount-container-padding: 8px 0px 2px 0px;
+@mount-loading-background: rgba(0,0,0,0.5);
+@mount-loading-color: #f1f1f1;
 
 // Installer
 @installer-font-smoothing: true;
@@ -1553,3 +1620,62 @@
 @notify-close-image-idle: 0 -14px;
 @notify-close-image-hover: -14px -14px;
 @notify-close-image-active: -28px -14px;
+
+// Terminal Message
+@terminal-message-gradient: linear-gradient(to bottom, #6D8009 0%, #546B0C 100%);
+@terminal-message-border: 0;
+@terminal-message-border-radius: 3px;
+@terminal-message-color: #E6E6E6; 
+@terminal-message-font-family: Arial;
+@terminal-message-font-size: 12px;
+@terminal-message-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.8), inset -1px -1px rgba(255, 255, 255, 0.2), inset 1px 1px rgba(255, 255, 255, 0.2);
+@terminal-message-padding: 8px;
+@terminal-message-link-color: rgb(197, 213, 23);
+@terminal-message-button-gradient: linear-gradient(to bottom, #6D8009 0%, #546B0C 100%);
+@terminal-message-button-text-shadow: #383838 0px 1px 0px;
+@terminal-message-button-border-top: 1px solid #7FA017;
+@terminal-message-button-hover-gradient: @terminal-message-button-gradient;
+@terminal-message-button-active-gradient: @terminal-message-button-gradient;
+@terminal-message-close-image: "@{image-path}/close_tab_btn.png";
+@terminal-message-close-image-width: 42px;
+@terminal-message-close-image-height: 28px;
+@terminal-message-close-idle: 0 -14px;
+@terminal-message-close-hover: -14px -14px;
+@terminal-message-close-active: -28px -14px;
+
+// Stats
+@upgrade-color: #FFF;
+@upgrade-progress-highlight-color: #B4D519;
+@upgrade-progress-background-color: #616161;
+
+@stats-button-width: 93px;
+@stats-button-margin-left: -4px;
+@stats-button-padding: 0px 2px 2px 3px;
+@stats-button-border-left: 1px solid transparent;
+@stats-button-border-right: 1px solid black;
+@stats-button-box-shadow: 1px 0 rgba(255, 255, 255, 0.06);
+@stats-button-color: rgba(255, 255, 255, 0.8);
+@stats-button-hover-background: rgba(255, 255, 255, 0.06);
+@stats-button-active-background: #494949;
+@stats-button-active-box-shadow: none;
+
+@stats-button-item-padding: 2px 0 0 0;
+@stats-button-item-font-size: 6px;
+@stats-button-progress-highlight-color: #747474;
+@stats-button-progress-highlight-hover-color: #C8DA2A;
+@stats-button-progress-highlight-limit-color: red;
+@stats-button-progress-background-color: #3D3D3D;
+@stats-button-progress-background-hover-color: #545454;
+@stats-button-progress-height: 3px;
+@stats-button-progress-margin-top: 1px;
+
+@stats-menu-padding: 10px;
+@stats-menu-width: 302px;
+@stats-menu-graph-label-text-transform: normal;
+@stats-menu-graph-border: 1px solid rgba(0, 0, 0, 0.4);
+@stats-menu-graph-box-shadow: 1px 1px rgba(255,255,255,0.06), inset 1px 1px rgba(255,255,255,0.06);
+@stats-menu-graph-background: rgba(255, 255, 255, 0.07);
+@stats-menu-graph-color: @stats-button-progress-highlight-hover-color;
+@stats-menu-info-background: rgba(255, 255, 255, 0.07);
+@stats-menu-info-border: 1px solid rgba(0, 0, 0, 0.4);
+@stats-menu-info-box-shadow: 1px 1px rgba(255,255,255,0.06), inset 1px 1px rgba(255,255,255,0.06);

@@ -124,10 +124,18 @@ define(function(require, exports, module) {
             },
             getData: function(type, callback) {
                 var data = provider.get(type);
+                
+                // If `data` is false the provider was not able to fetch data from the clipboard.
+                // This is usually because the browser does not allow this for security reasons.
+                // The browser (chrome) does allow this when the cloud9 plugin is installed.
                 if (data === false)
                     showAlert(null, true);
-                    
-                if (data === undefined) {
+                
+                // If `data` is undefined the provider did not support the mime type. This usually
+                // happens when the mime type is custom, such as when copying tree nodes or other
+                // internal to Cloud9 data.
+                // In either case we try to find the data in the local (in memory) clipboard.
+                if (data === false || data === undefined) {
                     var found;
                     clipboardData.items.every(function(item) {
                         if (item.type == type) {

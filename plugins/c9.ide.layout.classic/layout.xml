@@ -12,10 +12,7 @@
 
     <!-- default model -->
     <a:model />
-
-    <a:state id="stServerConnected" active="false" />
-    <a:state id="stProcessRunning" active="false" />
-
+    
     <a:scrollbar
         id       = "sbShared"
         skin     = "sbios"

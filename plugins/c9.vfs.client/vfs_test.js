@@ -25,7 +25,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         //Mock Plugins
         {
             consumes: ["Plugin"],
-            provides: ["auth.bootstrap", "info", "dialog.error"],
+            provides: ["auth.bootstrap", "info", "dialog.error", "api", "dialog.alert"],
             setup: expect.html.mocked
         },
         {

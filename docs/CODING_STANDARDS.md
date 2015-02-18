@@ -1,4 +1,4 @@
-ajax.org Coding Style
+Cloud9 IDE Coding Style
 =====================
 
 Goals

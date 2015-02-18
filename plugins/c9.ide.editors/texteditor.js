@@ -71,12 +71,6 @@ define(function(require, exports, module) {
                     doc.tooltip = path;
                 }
                 doc.tab.on("setPath", setTitle, session);
-                doc.on("changed", function(e) {
-                    if (e.changed || doc.meta.newfile)
-                        doc.tab.classList.add("changed");
-                    else
-                        doc.tab.classList.remove("changed");
-                }, session);
                 
                 setTitle({path: doc.tab.path || ""});
                 

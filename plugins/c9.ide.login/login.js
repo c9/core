@@ -24,7 +24,8 @@ define(function(require, exports, module) {
 
         var ideBaseUrl = options.ideBaseUrl;
         var dashboardUrl = options.dashboardUrl;
-        var lastUser;
+        var accountUrl = options.accountUrl;
+        var lastUser, mnuUser;
 
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
@@ -51,23 +52,26 @@ define(function(require, exports, module) {
             info.on("change", updateButton, plugin);
             createButton(user);
             lastUser = user;
+            
+            emit.sticky("ready", { name: user.fullname, id: user.id }, plugin);
         }
 
         function createButton(user) {
+            var name = "user_" + user.id;
+            
             // todo cleanup seems to not work well
             // without this menu is empty after logging out and back in
             if (lastUser)
-                menus.remove(lastUser.fullname);
-            menus.remove(user.fullname);
+                menus.remove("user_" + lastUser.id);
+            menus.remove(name);
             
-            var name = user.fullname;
             var parent = layout.findParent(plugin);
             
             // Insert CSS
             ui.insertCss(require("text!./login.css"), plugin);
             
             // Create Menu
-            var mnuUser = new ui.menu();
+            mnuUser = new ui.menu();
             plugin.addElement(mnuUser);
             
             // Add named button
@@ -84,6 +88,9 @@ define(function(require, exports, module) {
             var c = 500;
             menus.addItemByPath(name + "/Dashboard", new ui.item({
                 onclick: function() { window.open(dashboardUrl); }
+            }), c += 100, plugin);
+            menus.addItemByPath(name + "/Account", new ui.item({
+                onclick: function() { window.open(accountUrl); }
             }), c += 100, plugin);
             menus.addItemByPath(name + "/Home", new ui.item({
                 onclick: function() { window.open(ideBaseUrl); }
@@ -106,7 +113,8 @@ define(function(require, exports, module) {
             button.setAttribute("class", "btnName");
             button.setAttribute("icon", icon);
             button.setAttribute("iconsize", "16px 16px");
-            // button.removeAttribute("caption");
+            button.setAttribute("tooltip", user.fullname);
+            button.setAttribute("caption", user.fullname);
             ui.insertByIndex(parent, button, 600, plugin);
 
             if (c9.local) {
@@ -125,8 +133,6 @@ define(function(require, exports, module) {
                 if (menus.minimized)
                     minimize();
             }
-
-            emit.sticky("ready", { name: name }, plugin);
         }
 
         function signout() {
@@ -169,6 +175,8 @@ define(function(require, exports, module) {
          *
          **/
         plugin.freezePublicAPI({
+            get menu(){ return mnuUser; },
+            
             _events: [
                 /**
                  * @event ready

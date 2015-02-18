@@ -14,6 +14,7 @@ module.exports = function(options) {
     var collab = options.collab;
     var packaging = options.packaging;
     var staticPrefix = options.staticPrefix;
+    var ssh = options.ssh;
 
     var nodeBin = options.nodeBin || ["node"];
     var nodePath = options.nodePath || "";
@@ -27,11 +28,6 @@ module.exports = function(options) {
     // allow extend code access only to C9-deveoped plugins
     var extendToken = options.extendToken || "token";
     
-    // if you want to actually use any of these settings in the client, add them to 
-    // configs/ide.js under the c9.ide.server/configs plugin configuration
-    var segmentIoOptions = options.analytics && options.analytics.segmentio || {};
-    var treasureDataOptions = options.analytics && options.analytics.treasureData || {};
-    
     var plugins = [
         // C9
         {
@@ -41,6 +37,7 @@ module.exports = function(options) {
             version: options.manifest.version + " (" + options.manifest.revision + ")",
             debug: debug,
             workspaceId: options.workspaceId,
+            workspaceDir: workspaceDir,
             name: options.workspaceName,
             readonly: options.readonly,
             isAdmin: options.isAdmin,
@@ -73,23 +70,24 @@ module.exports = function(options) {
         //     baseUrl: options.apiUrl
         // },
         "plugins/c9.core/util",
-        // Logging, Metrics, Monitoring, Testing
         {
-            packagePath: "plugins/c9.ide.log/log",
-            devel: devel,
-            source: "web"
+            packagePath: "plugins/c9.ide.plugins/loader",
+            plugins: options.plugins || []
         },
-        "plugins/c9.ide.log/duration",
-        "plugins/c9.ide.analytics/cookie",
         {
-            packagePath: "plugins/c9.ide.analytics/analytics",
-            secret: segmentIoOptions.secret,
-            flushAt: segmentIoOptions.flushAt,
-            integrations: segmentIoOptions.integrations,
-            tdWriteKey: treasureDataOptions.tdWriteKey,
-            tdDb: treasureDataOptions.tdDb
+            packagePath: "plugins/c9.ide.plugins/installer",
+            updates: options.pluginUpdates || []
         },
-        "plugins/c9.ide.analytics/user_activity",
+        {
+            packagePath: "plugins/c9.ide.plugins/manager",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.plugins"
+        },
+        {
+            packagePath: "plugins/c9.ide.plugins/debug"
+        },
+        {
+            packagePath: "plugins/c9.ide.plugins/market"
+        },
         
         // VFS
         "plugins/c9.vfs.client/vfs.ping",
@@ -99,6 +97,7 @@ module.exports = function(options) {
             debug: debug,
             installPath: options.installPath,
             dashboardUrl: options.dashboardUrl,
+            accountUrl: options.accountUrl
         },
         {
             packagePath: "plugins/c9.vfs.client/endpoint",
@@ -107,15 +106,6 @@ module.exports = function(options) {
             pid: options.project.id,
             servers: options.vfsServers,
             updateServers: hosted
-        },
-        {
-            packagePath: "plugins/c9.ide.performancestats/stats",
-            interval: 30 * 60 * 1000,
-            ssh: false,
-        },
-        {
-            packagePath: "plugins/c9.ide.restore/restore",
-            ideBaseUrl: options.ideBaseUrl
         },
         {
             packagePath: "plugins/c9.ide.auth/auth",
@@ -221,8 +211,7 @@ module.exports = function(options) {
         // UI
         {
             packagePath: "plugins/c9.ide.ui/ui",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.ui",
-            packedThemes: options.packedThemes,
+            staticPrefix: staticPrefix + "/plugins/c9.ide.ui"
         },
         "plugins/c9.ide.ui/anims",
         "plugins/c9.ide.ui/tooltip",
@@ -254,7 +243,7 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.dialog.login/login",
             noLogout: !options.local
         },
-        "plugins/c9.ide.dialog.file/filesave",
+        "plugins/c9.ide.dialog.file/file",
         "plugins/c9.ide.dialog.wizard/wizard",
         
         // VFS
@@ -295,11 +284,14 @@ module.exports = function(options) {
         "plugins/c9.ide.language/jumptodef",
         "plugins/c9.ide.language/worker_util_helper",
         "plugins/c9.ide.language.generic/generic",
-        "plugins/c9.ide.language.javascript/javascript",
         "plugins/c9.ide.language.css/css",
         "plugins/c9.ide.language.html/html",
+        "plugins/c9.ide.language.javascript/javascript",
         "plugins/c9.ide.language.javascript.immediate/immediate",
         "plugins/c9.ide.language.javascript.infer/jsinfer",
+        "plugins/c9.ide.language.javascript.tern/tern",
+        "plugins/c9.ide.language.javascript.tern/architect_resolver",
+        "plugins/c9.ide.language.javascript.eslint/eslint",
         {
             packagePath: "plugins/c9.ide.language.jsonalyzer/jsonalyzer",
             extendToken: extendToken,
@@ -310,7 +302,6 @@ module.exports = function(options) {
             useSend: !collab && (options.local || options.standalone),
             maxServerCallInterval: 2000
         },
-        "plugins/c9.ide.language.jsonalyzer/architect_resolver",
 
         // Run
         {
@@ -322,7 +313,6 @@ module.exports = function(options) {
             installPath: options.correctedInstallPath,
             local: options.local
         },
-        "plugins/c9.ide.run/run_analytics",
         {
             packagePath: "plugins/c9.ide.run/gui",
             staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
@@ -435,7 +425,6 @@ module.exports = function(options) {
             sshfsBin: options.mount.sshfsBin,
             fusermountBin: options.mount.fusermountBin
         },
-        "plugins/c9.ide.download/download",
         {
             packagePath: "plugins/c9.ide.upload/dragdrop",
             treeAsPane: options.local
@@ -471,53 +460,6 @@ module.exports = function(options) {
         "plugins/c9.ide.panels/panel",
         "plugins/c9.ide.panels/area",
         "plugins/c9.ide.installer/installer_mock",
-        // {
-        //     packagePath: "plugins/c9.ide.installer/installer",
-        //     installScript: "https://raw.githubusercontent.com/c9/install/master/install.sh",
-        //     homeDir: options.homeDir
-        // },
-        
-        // Deploy
-        // {
-        //     packagePath : "plugins/c9.ide.deploy/deploy",
-        //     staticPrefix : staticPrefix + "/plugins/c9.ide.deploy"
-        // },
-        // "plugins/c9.ide.deploy/instance",
-        // "plugins/c9.ide.deploy/target",
-        // {
-        //     packagePath : "plugins/c9.ide.deploy.mongolab/mongolab",
-        //     staticPrefix : staticPrefix + "/plugins/c9.ide.deploy.mongolab/images"
-        // },
-        // {
-        //     packagePath : "plugins/c9.ide.deploy.heroku/heroku",
-        //     staticPrefix : staticPrefix + "/plugins/c9.ide.deploy.heroku/images"
-        // },
-        // {
-        //     packagePath : "plugins/c9.ide.deploy.heroku/libheroku",
-        //     basePath : workspaceDir,
-        //     heroku : options.heroku,
-        //     git : options.git
-        // },
-        // {
-        //     packagePath : "plugins/c9.ide.deploy.openshift/openshift",
-        //     staticPrefix : staticPrefix + "/plugins/c9.ide.deploy.openshift/images",
-        //     rhc : options.rhc
-        // },
-        // {
-        //     packagePath : "plugins/c9.ide.deploy.openshift/libopenshift",
-        //     basePath : workspaceDir,
-        //     git : options.git,
-        //     rhc : options.rhc
-        // },
-        // {
-        //     packagePath : "plugins/c9.ide.deploy.gae/gae",
-        //     staticPrefix : staticPrefix + "/plugins/c9.ide.deploy.gae/images"
-        // },
-        // {
-        //     packagePath : "plugins/c9.ide.deploy.gae/libgae",
-        //     basePath : workspaceDir,
-        //     git : options.git,
-        // },
         
         // Previewer
         {
@@ -578,7 +520,8 @@ module.exports = function(options) {
                 id: options.project.id,
                 name: options.project.name,
                 contents: options.project.contents,
-                descr: options.project.descr
+                descr: options.project.descr,
+                remote: options.project.remote
             }
         },
         {
@@ -607,22 +550,9 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.help/help",
             staticPrefix: staticPrefix + "/plugins/c9.ide.help"
         },
-        // {
-        //     packagePath: "plugins/c9.ide.feedback/feedback",
-        //     staticPrefix: staticPrefix + "/plugins/c9.ide.feedback",
-        //     baseurl: options.ideBaseUrl,
-        //     userSnapApiKey: options.feedback.userSnapApiKey,
-        //     screenshotSupport: true
-        // },
         {
             packagePath: "plugins/c9.ide.configuration/configure"
         },
-        {
-            packagePath: "plugins/c9.ide.feedback/nps",
-            standalone: options.standalone,
-            local: options.local
-        },
-        "plugins/c9.ide.feedback/jobs",
         "plugins/c9.ide.save/save",
         "plugins/c9.ide.recentfiles/recentfiles",
         {
@@ -665,36 +595,17 @@ module.exports = function(options) {
             staticPrefix: staticPrefix + "/plugins/c9.ide.login",
             ideBaseUrl: options.ideBaseUrl,
             dashboardUrl: options.dashboardUrl,
+            accountUrl: options.accountUrl,
             local: options.local
         },
         {
             packagePath: "plugins/c9.ide.pubsub/pubsub-client",
             extendToken: extendToken
         },
-        // {
-        //     packagePath: "plugins/c9.dashboard.new/dashboard",
-        //     staticPrefix: staticPrefix + "/plugins/c9.dashboard.new"
-        // }
-        
-        // Sauce Labs
         {
-            packagePath: "plugins/saucelabs.preview/preview",
-            staticPrefix: staticPrefix + "/plugins/saucelabs.preview",
-            bashBin: options.bashBin
+            packagePath: "plugins/c9.ide.collab/notifications/bubble",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.collab/notifications"
         },
-        "plugins/c9.ide.hackhands/hackhands",
-        {
-            packagePath: "plugins/saucelabs.preview/sauce_connect",
-            installPath: options.sauceConnectPath || options.correctedInstallPath,
-            assumeConnected: hosted || (options.saucelabs && options.saucelabs.assumeConnected),
-            eagerConnect: options.local
-        },
-        {
-            packagePath: "plugins/saucelabs.preview/auth",
-            account: options.saucelabs && options.saucelabs.account,
-            serverURL: options.saucelabs && options.saucelabs.serverURL,
-            bashBin: options.bashBin
-        }
     ];
     
     if (packaging || !devel) {
@@ -710,13 +621,6 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.errorhandler/simple_error_handler",
             version: options.manifest.version,
             revision: options.manifest.revision
-        });
-    }
-    
-    if (packaging || hosted) {
-        plugins.push({
-            packagePath: "plugins/c9.ide.quota/quota",
-            workspaceDir: workspaceDir
         });
     }
     
@@ -766,10 +670,6 @@ module.exports = function(options) {
             hosted: hosted,
             isAdmin: options.isAdmin
         },
-        {
-            packagePath: "plugins/c9.ide.collab/notifications/bubble",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.collab/notifications"
-        },
         "plugins/c9.ide.collab/members/members_panel",
         {
             packagePath: "plugins/c9.ide.collab/share/share",
@@ -783,10 +683,15 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.collab/chat/chat",
             staticPrefix: staticPrefix + "/plugins/c9.ide.collab/chat"
-         }
-         );
-         // }
-     }
+        });
+    }
 
     return plugins;
 };
+
+
+
+
+
+
+

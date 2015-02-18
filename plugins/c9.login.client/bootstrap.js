@@ -273,7 +273,7 @@ Auth.prototype._unpoll = function() {
 
 function uid(length) {
     var buf = new Uint8Array(new ArrayBuffer(length));
-    window.crypto.getRandomValues(buf);
+    (window.crypto || window.msCrypto).getRandomValues(buf);
     
     return btoa(Array.prototype.reduce.call(buf, function(s, c) {
         return s + String.fromCharCode(c);

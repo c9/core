@@ -80,6 +80,9 @@ apf.codebox = function(struct, tagName) {
             "findnext", "findprevious", "expandtoline"]);
         // todo is there a property for these?
         ace.commands.removeCommands(["indent", "outdent"]);
+        ace.commands.commandKeyBinding = Object.create(null);
+        ace.commands.addCommand(ace.commands.byName.undo);
+        ace.commands.addCommand(ace.commands.byName.redo);
 
         this.$editor = this.ace = ace;
         ace.renderer.setPadding(2);
@@ -184,7 +187,6 @@ apf.codebox = function(struct, tagName) {
         editor.renderer.setHighlightGutterLine(false);
 
         editor.$mouseHandler.$focusWaitTimout = 0;
-        
         
         editor.setReadOnly = function(readOnly) {
             if (this.$readOnly != readOnly) {

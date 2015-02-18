@@ -1,6 +1,8 @@
 define(function(require, module, exports) {
     "use strict";
     
+    var XHR = XMLHttpRequest; // Grab constructor early so it can't be spoofed
+    
     main.consumes = ["Plugin"];
     main.provides = ["http"];
     return main;
@@ -32,7 +34,7 @@ define(function(require, module, exports) {
                 headers.Authorization = "Basic " + btoa(options.username + ":" + options.password);
             }
             
-            var xhr = new XMLHttpRequest();
+            var xhr = new XHR();
             
             if (options.overrideMimeType)
                 xhr.overrideMimeType = options.overrideMimeType;
@@ -127,7 +129,7 @@ define(function(require, module, exports) {
             };
             
             xhr.onerror = function(e) {
-                if (e instanceof XMLHttpRequestProgressEvent) {
+                if (typeof XMLHttpRequestProgressEvent == "function" && e instanceof XMLHttpRequestProgressEvent) {
                     // No useful information in this object.
                     // Possibly CORS error if code was 0.
                     var err = new Error("Failed to retrieve resource from " + parsedUrl.host);

@@ -1,4 +1,10 @@
+/**
+ * Some more docs for Student
+ */
 var Student = (function () {
+    /**
+     * Some docs for Student
+     */
     function Student(firstname, middleinitial, lastname) {
         this.firstname = firstname;
         this.middleinitial = middleinitial;
@@ -8,6 +14,9 @@ var Student = (function () {
     return Student;
 })();
 
+/**
+ * A greeter().
+ */
 function greeter(person) {
     return "Hello, " + person.firstname + " " + person.lastname;
 }

@@ -14,6 +14,7 @@ define(function(require, exports, module) {
         var error = require("http-error");
         var https = require("https");
         var http = require("http");
+        var mime = require("mime");
         var parseUrl = require("url").parse;
         var debug = require("debug")("preview");
         
@@ -34,9 +35,9 @@ define(function(require, exports, module) {
                     session.ws = {};
     
                 req.projectSession = session.ws[ws];
-                if (!req.projectSession || !req.projectSession.ts || req.projectSession.ts < Date.now() - 5000) {
+                if (!req.projectSession || !req.projectSession.expires || req.projectSession.expires <= Date.now()) {
                     req.projectSession = session.ws[ws] = {
-                        ts: Date.now()
+                        expires: Date.now() + 10000
                     };
                 }
                 
@@ -73,14 +74,44 @@ define(function(require, exports, module) {
                         req.projectSession.role = role;
                         req.projectSession.pid = project.id;
                         
-                        next();
+                        var type = project.scm;
+                        req.projectSession.type = type;
+                        
+                        if (type != "docker" || project.state != db.Project.STATE_READY)
+                            return next();
+                        
+                        project.populate("remote", function(err) {
+                            if (err) return next(err);
+                            
+                            var meta = project.remote.metadata;
+                            if (meta && meta.host && meta.cid) {
+                                db.Container.load(meta.cid, function(err, container) {
+                                    if (err) return next(err);
+
+                                    if (container.state == db.Container.STATE_RUNNING)
+                                        req.projectSession.proxyUrl = "http://" + meta.host + ":9000/" + meta.cid + "/home/ubuntu/workspace";
+                                    else
+                                        req.projectSession.expires = Date.now() + 1000;
+                                        
+                                    next();
+                                });
+                            } else {
+                                next();
+                            }
+                        });
                     });
                 });
             };
         }
 
-        function proxyCall(getServer) {
+        function getProxyUrl(getServer) {
             return function(req, res, next) {
+                
+                if (req.projectSession.proxyUrl) {
+                    req.proxyUrl = req.projectSession.proxyUrl;
+                    return next();
+                }
+                
                 var server = req.projectSession.vfsServer;
                 if (!server) {
                     server = getServer();
@@ -90,9 +121,18 @@ define(function(require, exports, module) {
                     server = req.projectSession.vfsServer = server.internalUrl || server.url;
                 }
                         
-                var path = req.params.path;
+                var url = server + "/" + req.projectSession.pid + "/preview";
+                    
+                req.proxyUrl = url;
+                next();
+            };
+        }
+
+        function proxyCall() {
+            return function(req, res, next) {
                 
-                var url = server + "/" + req.projectSession.pid + "/preview" + req.params.path;
+                var path = req.params.path;
+                var url = req.proxyUrl + path;
                 if (req.session.token)
                     url += "?access_token=" + encodeURIComponent(req.session.token);
 
@@ -154,10 +194,11 @@ define(function(require, exports, module) {
                             body += data;
                         
                         req.headers.accept= "text/html";
+                        var statusCode = request.statusCode;
 
                         if (body.indexOf("EISDIR") !== -1) {
                             res.redirect(req.url + "/");
-                        } else if (body.indexOf("ENOENT") !== -1) {
+                        } else if (body.indexOf("ENOENT") !== -1 || statusCode == 404) {
                             next(new error.NotFound("File '" + path + "' could not be found!"));
                         } else {
                             delete req.session.ws[req.ws];
@@ -167,7 +208,6 @@ define(function(require, exports, module) {
                                 json = JSON.parse(body);
                             } catch(e) {} 
                             
-                            var statusCode = request.statusCode;
                             if (statusCode == 503) {
                                 res.setHeader('Content-Type', 'text/html; charset=utf-8');
                                 res.render(__dirname + "/views/progress.html.ejs", {
@@ -210,7 +250,18 @@ define(function(require, exports, module) {
                         } catch (e) {
                             return next(e);
                         }
-                        
+
+                        // convert nginx listing
+                        if (body[0] && body[0].type) {
+                            body = body.map(function(stat) {
+                                return {
+                                    name: stat.name,
+                                    mime: stat.type == "directory" ? "inode/directory" : mime.lookup(stat.name),
+                                    size: stat.size || 0,
+                                    mtime: stat.mtime
+                                };
+                            });
+                        }
                         var entries = body
                             .filter(function(entry) {
                                 return entry.name[0] !== ".";
@@ -282,6 +333,7 @@ define(function(require, exports, module) {
             "preview.handler": {
                 getProjectSession: getProjectSession,
                 getRole: getRole,
+                getProxyUrl: getProxyUrl,
                 proxyCall: proxyCall
             }
         });

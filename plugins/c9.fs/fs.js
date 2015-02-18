@@ -6,8 +6,7 @@
  * @module c9.fs
  * @main c9.fs
  *
- * @copyright 2010, Ajax.org B.V.
- * @license GPLv3 <http://www.gnu.org/licenses/gpl.txt>
+ * @copyright 2013, Ajax.org B.V.
  */
 //@todo might have to add queueing for safe operations
 define(function(require, exports, module) {
@@ -218,6 +217,22 @@ define(function(require, exports, module) {
              */
             getExtension: getExtension,
             
+            /** 
+             * Fires before a file is read
+             * @event beforeReadFile
+             * @cancellable
+             * @param {Object} e
+             * @param {String} e.path the path to the file to read
+             * @param {Array}  e.args the arguments to the function
+             */
+            /**
+             * Fires after a file is read
+             * @event afterReadFile
+             * @param {Object} e
+             * @param {Error}  e.error   the error information returned by the operation
+             * @param {String} e.path    the path to the file to read
+             * @param {Array}  e.result  the arguments to the callback
+             */
             /**
              * Reads the entire contents from a file in the workspace.
              * 
@@ -236,22 +251,6 @@ define(function(require, exports, module) {
              * @fires error
              * @fires downloadProgress
              */
-            /** 
-             * Fires before a file is read
-             * @event beforeReadFile
-             * @cancellable
-             * @param {Object} e
-             * @param {String} e.path the path to the file to read
-             * @param {Array}  e.args the arguments to the function
-             */
-            /**
-             * Fires after a file is read
-             * @event afterReadFile
-             * @param {Object} e
-             * @param {Error}  e.error   the error information returned by the operation
-             * @param {String} e.path    the path to the file to read
-             * @param {Array}  e.result  the arguments to the callback
-             */
             readFile: api.readFile,
             
             /**
@@ -259,17 +258,6 @@ define(function(require, exports, module) {
              */
             readFileWithMetadata: wrap("readFile", xhr.readFileWithMetadata),
             
-            /**
-             * Writes a file in the workspace
-             * 
-             * @param {String}   path          the path of the file to write 
-             * @param {String}   data          the content of the file
-             * @param {Object}   [encoding]    the encoding of the content for the file
-             * @param {Function} callback      called after the file is written
-             * @param {Error}    callback.err  the error information returned by the operation
-             * @fires error
-             * @fires uploadProgress
-             */
             /** 
              * Fires before a file is written
              * @event beforeWriteFile
@@ -286,18 +274,19 @@ define(function(require, exports, module) {
              * @param {String} e.path    the path to the file to write
              * @param {Array}  e.result  the arguments to the callback
              */
-            writeFile: api.writeFile,
-            
             /**
-             * Appends a file in the workspace
-             *
-             * @param {String}   path          the path of the file to append
-             * @param {String}   data          the content to append to the file
+             * Writes a file in the workspace
+             * 
+             * @param {String}   path          the path of the file to write 
+             * @param {String}   data          the content of the file
              * @param {Object}   [encoding]    the encoding of the content for the file
-             * @param {Function} callback      called after the file is appended
+             * @param {Function} callback      called after the file is written
              * @param {Error}    callback.err  the error information returned by the operation
              * @fires error
+             * @fires uploadProgress
              */
+            writeFile: api.writeFile,
+            
             /**
              * Fires before a file is appended
              * @event beforeAppendFile
@@ -314,16 +303,18 @@ define(function(require, exports, module) {
              * @param {String} e.path    the path to the file to append
              * @param {Array}  e.result  the arguments to the callback
              */
-            appendFile: api.appendFile,
-
             /**
-             * Read the contents of a directory as an array of stat objects.
-             * @param {String}   path            the path of the directory to get the listing from
-             * @param {Function} callback        called after the file listing is read
-             * @param {Error}    callback.err    the error information returned by the operation
-             * @param {String[]} callback.files  a list of strings containing the filenames of the files in the directory
+             * Appends a file in the workspace
+             *
+             * @param {String}   path          the path of the file to append
+             * @param {String}   data          the content to append to the file
+             * @param {Object}   [encoding]    the encoding of the content for the file
+             * @param {Function} callback      called after the file is appended
+             * @param {Error}    callback.err  the error information returned by the operation
              * @fires error
              */
+            appendFile: api.appendFile,
+
             /** 
              * Fires before a file listing is read
              * @event beforeReaddir
@@ -340,20 +331,16 @@ define(function(require, exports, module) {
              * @param {String} e.path    the path to the directory
              * @param {Array}  e.result  the arguments to the callback
              */
-            readdir: api.readdir,
-            
             /**
-             * Rename/move a file or directory.
-             * @param {String}  from      the current path of the file or directory to move/rename
-             * @param {String}  to        the new path of the file or directory
-             * @param {Object}  [options] 
-             * @param {Boolean} [options.overwrite]  specifying whether an existing file 
-             *        should be overwritten. If set to false an error is returned
-             *        if a file with the same name already exists in that path.
-             * @param {Function} callback            called after the file or directory is moved/renamed
-             * @param {Error}    callback.err        the error information returned by the operation
+             * Read the contents of a directory as an array of stat objects.
+             * @param {String}   path            the path of the directory to get the listing from
+             * @param {Function} callback        called after the file listing is read
+             * @param {Error}    callback.err    the error information returned by the operation
+             * @param {String[]} callback.files  a list of strings containing the filenames of the files in the directory
              * @fires error
              */
+            readdir: api.readdir,
+            
             /** 
              * Fires before the file or directory is moved/renamed
              * @event beforeRename
@@ -370,15 +357,20 @@ define(function(require, exports, module) {
              * @param {String} e.path    the path to the file or directory
              * @param {Array}  e.result  the arguments to the callback
              */
-            rename: api.rename,
-            
             /**
-             * Tests if a file or directory exists
-             * @param {String}   path             the path of the file or directory to test for
-             * @param {Function} callback         called after the test is completed
-             * @param {Boolean}  callback.exists  whether the path exists
+             * Rename/move a file or directory.
+             * @param {String}  from      the current path of the file or directory to move/rename
+             * @param {String}  to        the new path of the file or directory
+             * @param {Object}  [options] 
+             * @param {Boolean} [options.overwrite]  specifying whether an existing file 
+             *        should be overwritten. If set to false an error is returned
+             *        if a file with the same name already exists in that path.
+             * @param {Function} callback            called after the file or directory is moved/renamed
+             * @param {Error}    callback.err        the error information returned by the operation
              * @fires error
              */
+            rename: api.rename,
+            
             /** 
              * Fires before testing for the existence of a file or directory
              * @event beforeExists
@@ -394,8 +386,31 @@ define(function(require, exports, module) {
              * @param {String} e.path  the path to the file of directory to test for
              * @param {Array}  e.args  the arguments to the function
              */
+            /**
+             * Tests if a file or directory exists
+             * @param {String}   path             the path of the file or directory to test for
+             * @param {Function} callback         called after the test is completed
+             * @param {Boolean}  callback.exists  whether the path exists
+             * @fires error
+             */
             exists: api.exists,
             
+            /** 
+             * Fires before the file information is retrieved
+             * @event beforeStat
+             * @cancellable
+             * @param {Object} e
+             * @param {String} e.path  the path to the file or directory to stat
+             * @param {Array}  e.args  the arguments to the function
+             */
+            /** 
+             * Fires after the file information is retrieved
+             * @event afterStat
+             * @param {Object} e
+             * @param {Error}  e.error   the error information returned by the operation
+             * @param {String} e.path    the path to the file or directory to stat
+             * @param {Array}  e.result  the arguments to the callback
+             */
             /**
              * Loads the stat information for a single path entity.
              * @param {String}   path      the path of the file or directory to stat
@@ -416,31 +431,8 @@ define(function(require, exports, module) {
              *   will have an additional property that's the resolved path relative to the root.
              * @fires error
              */
-            /** 
-             * Fires before the file information is retrieved
-             * @event beforeStat
-             * @cancellable
-             * @param {Object} e
-             * @param {String} e.path  the path to the file or directory to stat
-             * @param {Array}  e.args  the arguments to the function
-             */
-            /** 
-             * Fires after the file information is retrieved
-             * @event afterStat
-             * @param {Object} e
-             * @param {Error}  e.error   the error information returned by the operation
-             * @param {String} e.path    the path to the file or directory to stat
-             * @param {Array}  e.result  the arguments to the callback
-             */
             stat: api.stat,
             
-            /**
-             * Creates all non-existing directories of the path.
-             * @param {String}   path          the path to directory to create
-             * @param {Function} callback      called after the directories are created
-             * @param {Error}    callback.err  the error information returned by the operation
-             * @fires error
-             */
             /** 
              * Fires before the directories are created
              * @event beforeMkdirP
@@ -457,16 +449,15 @@ define(function(require, exports, module) {
              * @param {String} e.path    the path to the directories to create
              * @param {Array}  e.result  the arguments to the callback
              */
-            mkdirP: api.mkdirP,
-            
             /**
-             * Create a directory at path. Will error with EEXIST if something is already at the path.
-             * @param {Object}   e
-             * @param {String}   e.path          the path of the directory to create
-             * @param {Function} e.callback      called after the directory is created
-             * @param {Error}    e.callback.err  the error information returned by the operation
+             * Creates all non-existing directories of the path.
+             * @param {String}   path          the path to directory to create
+             * @param {Function} callback      called after the directories are created
+             * @param {Error}    callback.err  the error information returned by the operation
              * @fires error
              */
+            mkdirP: api.mkdirP,
+            
             /** 
              * Fires before the directory is created
              * @event beforeMkdir
@@ -483,15 +474,16 @@ define(function(require, exports, module) {
              * @param {String} e.path    the path to the directory is created
              * @param {Array}  e.result  the arguments to the callback
              */
-            mkdir: api.mkdir,
-            
             /**
-             * Delete a file at path
-             * @param {String}   path          the path of the file or directory to unlink
-             * @param {Function} callback      called after the file is unlinked
-             * @param {Error}    callback.err  the error information returned by the operation
+             * Create a directory at path. Will error with EEXIST if something is already at the path.
+             * @param {Object}   e
+             * @param {String}   e.path          the path of the directory to create
+             * @param {Function} e.callback      called after the directory is created
+             * @param {Error}    e.callback.err  the error information returned by the operation
              * @fires error
              */
+            mkdir: api.mkdir,
+            
             /** 
              * Fires before a file is unlinked
              * @event beforeUnlink
@@ -508,15 +500,15 @@ define(function(require, exports, module) {
              * @param {String} e.path    the path to the file to unlink
              * @param {Array}  e.result  the arguments to the callback
              */
-            unlink: api.unlink,
-            
             /**
-             * Delete a file at path.
-             * @param {String}   path          the path of the file to delete
-             * @param {Function} callback      called after the file is deleted
+             * Delete a file at path
+             * @param {String}   path          the path of the file or directory to unlink
+             * @param {Function} callback      called after the file is unlinked
              * @param {Error}    callback.err  the error information returned by the operation
              * @fires error
              */
+            unlink: api.unlink,
+            
             /** 
              * Fires before a file is deleted
              * @event beforeRmfile
@@ -532,18 +524,15 @@ define(function(require, exports, module) {
              * @param {String} e.path    the path to the file to delete
              * @param {Array}  e.result  the arguments to the callback
              */
-            rmfile: api.rmfile,
-            
             /**
-             * Delete a directory at path
-             * @param {String}   path               the path of the directory to delete
-             * @param {Object}   [options] 
-             * @param {Boolean}  [options.recursive]  If options.recursive is 
-             *   truthy, it will instead shell out to rm -rf after resolving the path.
-             * @param {Function} callback           called after the directory is deleted
-             * @param {Error}    callback.err       the error information returned by the operation
+             * Delete a file at path.
+             * @param {String}   path          the path of the file to delete
+             * @param {Function} callback      called after the file is deleted
+             * @param {Error}    callback.err  the error information returned by the operation
              * @fires error
              */
+            rmfile: api.rmfile,
+            
             /** Fires before the directory is deleted
              * @event beforeRmdir
              * @cancellable
@@ -558,8 +547,34 @@ define(function(require, exports, module) {
              * @param {String} e.path    the path to the directory to delete
              * @param {Array}  e.result  the arguments to the callback
              */
+            /**
+             * Delete a directory at path
+             * @param {String}   path               the path of the directory to delete
+             * @param {Object}   [options] 
+             * @param {Boolean}  [options.recursive]  If options.recursive is 
+             *   truthy, it will instead shell out to rm -rf after resolving the path.
+             * @param {Function} callback           called after the directory is deleted
+             * @param {Error}    callback.err       the error information returned by the operation
+             * @fires error
+             */
             rmdir: api.rmdir, 
             
+            /** 
+             * Fires before the file or directory is copied
+             * @event beforeCopy
+             * @cancellable
+             * @param {Object} e
+             * @param {String} e.path  the path to the file to copy
+             * @param {Array}  e.args  the arguments to the function
+             */
+            /** 
+             * Fires after the file or directory is copied
+             * @event afterCopy
+             * @param {Object} e
+             * @param {Error}  e.error   the error information returned by the operation
+             * @param {String} e.path    the path to the file to copy
+             * @param {Array}  e.result  the arguments to the callback
+             */
             /**
              * Copy a file within the workspace
              * @param {String}  from                  the path of the file or directory to copy
@@ -580,32 +595,8 @@ define(function(require, exports, module) {
              *   (i.e. test.js will become test.1.js).
              * @fires error
              */
-            /** 
-             * Fires before the file or directory is copied
-             * @event beforeCopy
-             * @cancellable
-             * @param {Object} e
-             * @param {String} e.path  the path to the file to copy
-             * @param {Array}  e.args  the arguments to the function
-             */
-            /** 
-             * Fires after the file or directory is copied
-             * @event afterCopy
-             * @param {Object} e
-             * @param {Error}  e.error   the error information returned by the operation
-             * @param {String} e.path    the path to the file to copy
-             * @param {Array}  e.result  the arguments to the callback
-             */
             copy: api.copy, //path, to, callback
             
-            /**
-             * Change the mode of a file within the workspace
-             * @param {String}  path                  the path of the file or directory to copy
-             * @param {String}  mode                  the mode of the file or directory to set
-             * @param {Function} callback             called after the file is copied
-             * @param {Error}    callback.err         the error information returned by the operation
-             * @fires error
-             */
             /** 
              * Fires before the file or directory is copied
              * @event beforeChmode
@@ -622,19 +613,16 @@ define(function(require, exports, module) {
              * @param {String} e.path    the path to the file to chmod
              * @param {Array}  e.result  the arguments to the callback
              */
-            chmod: api.chmod, //path, to, callback
-            
             /**
-             * Create a special symlink file at path. The symlink data will be 
-             * the value of target. No translation of the link data is done. 
-             * It's taken literally.
-             * @param {String}   path           the path of the file or directory to symlink
-             * @param {String}   target         the target of the symlink
-             * @param {Function} callback       called after the file or directory is symlinked
-             * @param {Error}    callback.err   the error information returned by the operation
-             * @param {Object}   callback.data  
+             * Change the mode of a file within the workspace
+             * @param {String}  path                  the path of the file or directory to copy
+             * @param {String}  mode                  the mode of the file or directory to set
+             * @param {Function} callback             called after the file is copied
+             * @param {Error}    callback.err         the error information returned by the operation
              * @fires error
              */
+            chmod: api.chmod, //path, to, callback
+            
             /** 
              * Fires before the file or directory is symlinked
              * @event beforeSymlink
@@ -651,21 +639,19 @@ define(function(require, exports, module) {
              * @param {String} e.path    the path to the file to symlink
              * @param {Array}  e.result  the arguments to the callback
              */
-            symlink: api.symlink, //path, target, callback
-            
             /**
-             * Watches for changes on a file or directory
-             * @param {String}   path               the path of the file or directory to watch
-             * @param {Function} callback           called after the 
-             *   file is watched with event = 'init' or when a file is changed
-             *   with an event 'rename' or 'change'
-             * @param {Error}    callback.err       the error information returned by the operation
-             * @param {String}   callback.event     The name of the event. Can be any 
-             *   of the following values: init, delete, change.
-             * @param {String}   callback.filename  The name of the file that is 
-             *   changed. On some platforms (e.g. OSX) this value is never filled.
+             * Create a special symlink file at path. The symlink data will be 
+             * the value of target. No translation of the link data is done. 
+             * It's taken literally.
+             * @param {String}   path           the path of the file or directory to symlink
+             * @param {String}   target         the target of the symlink
+             * @param {Function} callback       called after the file or directory is symlinked
+             * @param {Error}    callback.err   the error information returned by the operation
+             * @param {Object}   callback.data  
              * @fires error
              */
+            symlink: api.symlink, //path, target, callback
+            
             /** 
              * Fires before a file is watched
              * @event beforeWatch
@@ -682,16 +668,21 @@ define(function(require, exports, module) {
              * @param {String} e.path    the path to the file or directory to watch
              * @param {Array}  e.result  the arguments to the callback
              */
-            watch: api.watch,
-            
             /**
-             * Stop watching for changes on a file or directory
-             * @param {String}   path          the path of the file or directory to unwatch
-             * @param {Function} callback      called after the file is unwatched
-             * @param {Error}    callback.err  the error information returned by the operation
-             * 
+             * Watches for changes on a file or directory
+             * @param {String}   path               the path of the file or directory to watch
+             * @param {Function} callback           called after the 
+             *   file is watched with event = 'init' or when a file is changed
+             *   with an event 'rename' or 'change'
+             * @param {Error}    callback.err       the error information returned by the operation
+             * @param {String}   callback.event     The name of the event. Can be any 
+             *   of the following values: init, delete, change.
+             * @param {String}   callback.filename  The name of the file that is 
+             *   changed. On some platforms (e.g. OSX) this value is never filled.
              * @fires error
              */
+            watch: api.watch,
+            
             /** 
              * Fires before a file is unwatched
              * @event beforeUnwatch
@@ -708,17 +699,16 @@ define(function(require, exports, module) {
              * @param {String} e.path    the path to the file or directory to unwatch
              * @param {Array}  e.result  the arguments to the callback
              */
-            unwatch: api.unwatch,
-            
             /**
-             * Set metadata for a file. This is used by Cloud9 to store data like
-             *   the scroll position, selection and undo stack.
+             * Stop watching for changes on a file or directory
              * @param {String}   path          the path of the file or directory to unwatch
-             * @param {Object}   data          the metadata for this file
-             * @param {Function} callback      called after the metadata is saved
+             * @param {Function} callback      called after the file is unwatched
              * @param {Error}    callback.err  the error information returned by the operation
+             * 
              * @fires error
              */
+            unwatch: api.unwatch,
+            
             /** 
              * Fires before setting metadata
              * @event beforeMetadata
@@ -734,6 +724,15 @@ define(function(require, exports, module) {
              * @param {Error}  e.error   the error information returned by the operation
              * @param {String} e.path    the path to the file to set metadata for
              * @param {Array}  e.result  the arguments to the callback
+             */
+            /**
+             * Set metadata for a file. This is used by Cloud9 to store data like
+             *   the scroll position, selection and undo stack.
+             * @param {String}   path          the path of the file or directory to unwatch
+             * @param {Object}   data          the metadata for this file
+             * @param {Function} callback      called after the metadata is saved
+             * @param {Error}    callback.err  the error information returned by the operation
+             * @fires error
              */
             metadata: api.metadata
         });

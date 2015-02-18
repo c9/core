@@ -1,8 +1,10 @@
+define(function(require, exports, module) {
+    
 exports.flatten = function(arr, ret){
     if (!Array.isArray(arr))
         return [arr];
     
-    var ret = ret || [];
+    ret = ret || [];
     for (var i = 0; i < arr.length; ++i) {
         if (Array.isArray(arr[i])) {
           exports.flatten(arr[i], ret);
@@ -12,3 +14,5 @@ exports.flatten = function(arr, ret){
     }
     return ret;
 };
+
+});

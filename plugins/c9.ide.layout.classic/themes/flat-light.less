@@ -30,6 +30,7 @@
 
 .btnName{
     margin-right: 0px !important;
+    padding-left: 33px !important;
 }
 
 .c9-menu-btnDown:not(.c9-menu-btnmenuDown){
@@ -87,9 +88,14 @@
     top: 12px;
 }
 
-.output .c9-toolbarbutton-glossyIcon.runbtn{ width: 69px !important; }
+.output .c9-toolbarbutton-glossyIcon.runbtn{ 
+    width: 69px !important; 
+    min-width: 69px !important; 
+}
 .output .c9-toolbarbutton-glossyIcon.restart,
 .output .c9-toolbarbutton-glossyIcon.bug{ min-width: 29px !important; }
+.output .c9-toolbarbutton-glossy.cwd{ min-width: 53px !important; }
+.output .c9-toolbarbutton-glossy.env{ min-width: 48px !important; }
 .output .c9-toolbarbutton-glossyIcon.restart .c9-icon{ left: 5px; top: 5px; }
 .output .c9-toolbarbutton-glossyIcon.bug .c9-icon{ left: 4px; }
 .output .c9-toolbarbutton-glossy{
@@ -150,14 +156,14 @@
 .console>.hbox>.console_close_btn{
     width: 26px !important;
     height: 30px !important;
-    margin: 4px -4px 0px 3px !important;
+    margin: 11px -4px 0px 3px !important;
     box-sizing: border-box;
 }
 .console>.hbox>.divider_console{
     display: none;
 }
 .console>.hbox>.btn_console{
-    margin: 0px 0px 0px 0px !important;
+    margin: 7px 0px 0px 0px !important;
     border-radius: 0;
     width: 26px !important;
     height: 31px !important;
@@ -195,11 +201,6 @@
      box-shadow: 17px 0 16px -16px rgba(0, 0, 0, 0.2) inset !important;
 }
 
-.bar-preferences{
-    top: 4px !important;
-    border-top: 1px solid #DEDEDE;
-}
-
 .bar-preferences .blackdg .ace_tree-editor{
     box-shadow: none;
     color: #333;
@@ -225,10 +226,13 @@
 }
 
 .session_btn.btnclose .tab_middle .sessiontab_title {
-    margin-right: 4px;
+    margin-right: 6px;
     margin-left: -4px;
     position: relative;
     z-index: 1000;
+}
+.session_btn.btnclose.running .tab_middle .sessiontab_title{
+    margin-right: 7px;
 }
 
 .session_btn strong{
@@ -249,6 +253,10 @@
 }
 .grouped_checkbox_holder.mount .cbcontainer{
     margin-left: 1px !important;
+}
+.grouped_checkbox_holder.mount .cbcontainerFocus span{
+    border: 0;
+    margin-left: 0;
 }
 
 .grouped_checkbox_holder.mount .cbcontainer:first-child{
@@ -316,13 +324,70 @@
 }
 
 .c9-menu-bar .c9-mbar-cont .c9-divider-double.extrasdivider{
-    border-right: 1px solid rgb(224, 224, 224) !important;
-    margin-top: -7px;
-    height: 46px !important;
+    // border-right: 1px solid rgb(224, 224, 224) !important;
+    // margin-top: -7px;
+    // height: 46px !important;
+    display: none;
 }
 
 .ace_gutter-cell.ace_info{
     .image-2x("@{theme-image-path}/ace_info_flat_light.png", 16px, 16px, no-repeat, true);
+}
+
+.c9-toolbarbutton-glossy .c9-icon {
+    height: 20px;
+}
+
+.bk-window.relative, .bk-window2.relative{
+    box-shadow: 0 0 30px rgba(0,0,0,0.2) !important;
+}
+
+.reportabug{
+    width: 378px !important;
+}
+.reportabug .bk-container{
+    padding: 10px;
+}
+.reportabug #form > .hbox:first-child{
+    padding-bottom: 14px !important;
+}
+
+.output .c9-divider{
+    display: none;
+}
+
+#fileUploadSelect {
+    top: 300px;
+    left: 99px;
+    width: 181px;
+    height: 24px;
+}
+
+#fileUploadSelect.uploadWithFolders {
+    left: 118px;
+    width: 120px;
+    height: 29px;
+}
+
+#folderUploadSelect {
+    top: 300px;
+    left: 243px;
+    width: 120px;
+    height: 29px;
+}
+
+.editor_tab.morepadding .btnsesssioncontainer {
+    padding-right: 0;
+}
+
+.filetree.ace_tree_focus .selected .extrainfo{
+    color: #FFFFFF;
+    .font-smoothing(true);
+}
+
+.loading-spinner {
+    .image-2x("/static/@{pane-button-save-image}", @pane-button-save-image-width, @pane-button-save-image-height);
+    .animation(~"loading-24-spinner 1s linear 0s infinite normal");
 }
 
 @media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
@@ -347,10 +412,15 @@
     .session_btn .tab_middle:before {
         background-position   : 0 -126px;
         -webkit-mask-position : 0 -95px;
+        left: -35px;
+    }
+    .session_btn .tab_shadow:before{
+        left: -35px;
     }
     .session_btn .tab_middle:after {
         background-position   : -42px -126px;
         -webkit-mask-position : -42px -95px;
+        right: -37px;
     }
     .dark.session_btn.curbtn .tab_middle:before,
     .session_btn.curbtn .tab_middle:before { 
@@ -371,5 +441,8 @@
     }
     .session_btn.curbtn .tab_shadow:after {
         background-position : -42px -123px;
+    }
+    .c9-toolbarbutton-glossy .c9-icon {
+        height: 19px;
     }
 }

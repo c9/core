@@ -171,10 +171,13 @@ define(function(require, exports, module) {
                 var position = options.position;
                 var node, childNodes;
                 
+                if (options.setting && !options.path)
+                    options.path = options.setting;
+                
                 if (debug)
                     name = "\\[" + (position || "") + "\\] " + name;
                 
-                switch(options.type) {
+                switch (options.type) {
                     case "checkbox":
                         childNodes = [
                             new ui.label({ width : width, maxwidth: maxwidth, caption: name + ":" }),
@@ -183,8 +186,8 @@ define(function(require, exports, module) {
                                     ? createBind(options.path) 
                                     : (options.defaultValue || ""),
                                 values: options.values,
-                                skin: "cboffline",
-                                width: "55"
+                                skin: "cboffline"
+                                // width: "55"
                             })
                         ];
                     break;
@@ -226,7 +229,7 @@ define(function(require, exports, module) {
                                     : (options.defaultValue || ""),
                                 min: options.min,
                                 max: options.max,
-                                realtime: options.realtime || 1
+                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
                             })
                         ];
                     break;
@@ -247,7 +250,7 @@ define(function(require, exports, module) {
                                     : (options.defaultValue || ""),
                                 min: options.min,
                                 max: options.max,
-                                realtime: options.realtime || 1
+                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
                             })
                         ];
                     break;
@@ -274,7 +277,7 @@ define(function(require, exports, module) {
                                 value: options.path 
                                     ? createBind(options.path) 
                                     : (options.defaultValue || ""),
-                                realtime: options.realtime || 1
+                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
                             })
                         ];
                     break;
@@ -287,7 +290,7 @@ define(function(require, exports, module) {
                                 value: options.path 
                                     ? createBind(options.path) 
                                     : (options.defaultValue || ""),
-                                realtime: options.realtime || 1
+                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
                             })
                         ];
                     break;
@@ -299,7 +302,7 @@ define(function(require, exports, module) {
                                 value: options.path 
                                     ? createBind(options.path) 
                                     : (options.defaultValue || ""),
-                                realtime: options.realtime || 1
+                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
                             })
                         ];
                     break;
@@ -360,7 +363,7 @@ define(function(require, exports, module) {
                                 value: options.path 
                                     ? createBind(options.path) 
                                     : (options.defaultValue || ""),
-                                realtime: options.realtime || 1
+                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
                             })
                         ];
                     break;

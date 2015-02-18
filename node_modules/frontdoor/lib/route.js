@@ -1,3 +1,4 @@
+define(function(require, exports, module) {
 "use strict";
 
 var RegExpType = require("./types").RegExp;
@@ -275,3 +276,5 @@ module.exports = function Route(route, options, handler, types) {
         return route;
     };
 };
+
+});

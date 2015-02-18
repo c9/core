@@ -131,7 +131,7 @@ define(function(require, exports, module) {
 
                 if (!prediction) {
                     DEBUG && console.log("!", "nopredict:", e.data.replace(/\r/g, "\\r"));
-                    state = STATE_WAIT_FOR_ECHO_OR_PROMPT;
+                    state = STATE_WAIT_FOR_PROMPT;
                     return;
                 }
                 
@@ -201,7 +201,11 @@ define(function(require, exports, module) {
                     nonPredictTerminal.write(e.data);
                 }
                 
-                DEBUG && console.log("<", nonPredictTerminal.$debugCharsAt(e.$startY).join(""));
+                DEBUG && console.log(
+                    "< "
+                    + (state == STATE_PREDICT ? nonPredictTerminal.$debugCharsAt(e.$startY).join("") + " < " : "")
+                    + e.data
+                );
                 
                 if (!predictions.length) {
                     if (state == STATE_PREDICT && nonPredictStartY !== nonPredictTerminal.ybase + nonPredictTerminal.y) {
@@ -726,8 +730,14 @@ define(function(require, exports, module) {
             return (lastPings[0] + lastPings[1] + lastPings[2]) / 3;
         }
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
+        });
+        
+        plugin.on("unload", function() {
+            lastPings = [MIN_PREDICTION_WAIT, MIN_PREDICTION_WAIT, MIN_PREDICTION_WAIT];
+            pendingPings = [];
+            loaded = false;
         });
         
         /**

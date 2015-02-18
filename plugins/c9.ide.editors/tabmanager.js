@@ -227,9 +227,10 @@ define(function(require, module, exports) {
                 setTimeout(function() {
                     // Only set the state if we're not testing something else
                     if (options.testing != 2 && firstTime) {
-                        setState(state, firstTime, function(){});
+                        setState(state, firstTime, function(){
+                            emit.sticky("ready");
+                        });
                         firstTime = false;
-                        emit.sticky("ready");
                     }
                     
                     showTabs = settings.getBool("user/tabs/@show");
@@ -506,7 +507,7 @@ define(function(require, module, exports) {
                         + "a pane is available. Use the ready event.");
                 }
             }
-                
+            
             var tab = new Tab(state);
             
             var id = !tab.document.meta.cloned && tab.path 
@@ -720,6 +721,8 @@ define(function(require, module, exports) {
             if (!init && !options.testing)
                 clear();
             
+            var count = 0;
+            
             // Load State
             (function recur(parent, list) {
                 list.forEach(function(state) {
@@ -744,8 +747,10 @@ define(function(require, module, exports) {
                             state.pane = parent.cloud9pane;
                             state.init = init;
                             
+                            count++;
                             open(state, function(err, tab) {
-                                callback(err, tab);
+                                if (!--count)
+                                    callback();
                             });
                         }
                         else {
@@ -772,6 +777,9 @@ define(function(require, module, exports) {
                 focusTab(findTab(state.focus));
             
             setCornerPadding();
+            
+            if (!count)
+                callback();
         }
         
         function clear(soft, clearTabs /* For testing only */){
@@ -1097,7 +1105,7 @@ define(function(require, module, exports) {
                 }
                 
                 var doc = tab.document;
-                if (value)
+                if (typeof value == "string")
                     doc.value = value;
                     
                 // Set timestamp to now() to indicate that the file has been
@@ -1105,6 +1113,7 @@ define(function(require, module, exports) {
                 if (!doc.meta.timestamp)
                     doc.meta.timestamp = Date.now() - settings.timeOffset;
                 
+                doc.ready = true;
                 emit("open", { tab: tab, options: options });
                 callback && callback(null, tab);
             }
@@ -1115,7 +1124,7 @@ define(function(require, module, exports) {
 
             // Hooks for plugins that want to override value and state loading
             var event = { 
-                options: options, 
+                options: options,
                 tab: tab, 
                 loadFromDisk: loadFromDisk,
                 setLoading: setLoading,
@@ -1153,7 +1162,10 @@ define(function(require, module, exports) {
                 });
             }
             else {
-                done(null, null);
+                // done has to be called asynchronously
+                setTimeout(function() {
+                    done(null, null);
+                });
             }
             
             return tab;
@@ -1221,7 +1233,7 @@ define(function(require, module, exports) {
         function checkAllTabs() {
             getTabs().forEach(function(tab) {
                 var meta = tab.document.meta;
-                if (tab.path && !meta.newfile && !meta.preview && !meta.ignoreState)
+                if (tab.path && !meta.newfile && !meta.preview && !meta.ignoreState && !meta.nofs)
                     watcher.check(tab.path, meta.timestamp);
             });
         }
@@ -1414,6 +1426,7 @@ define(function(require, module, exports) {
             tabs = [];
             loaded = false;
             drawn = false;
+            lastPreviewTab = null;
         });
         
         /***** Register and define API *****/
@@ -1839,6 +1852,7 @@ define(function(require, module, exports) {
              * @param {Pane}     [options.pane]          The pane to attach the new tab to
              * @param {String}   [options.editorType]    The type of the editor for this tab
              * @param {Boolean}  [options.active=false]  Whether this tab is set as active
+             * @param {Boolean}  [options.focus=false]   Whether this tab is set as focussed
              * @param {Boolean}  [options.forceNew=false] Always create a tab
              * @param {Boolean}  [options.demandExisting=false] Whether to try opening an
              *   existing tab even for tabs without a path.

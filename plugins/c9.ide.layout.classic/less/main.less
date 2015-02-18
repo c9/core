@@ -17,6 +17,10 @@ BODY {
     .font-smoothing(@general-smoothing);
 }
 
+BODY.noInput *{
+    pointer-events: none;
+}
+
 .ace_editor .ace_gutter{
     .font-smoothing(@ace-gutter-font-smoothing);
 }

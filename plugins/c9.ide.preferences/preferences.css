@@ -252,9 +252,6 @@
 .prefpanel{
     background : @preferences-background;
 }
-.tab_console .bar-preferences{
-    margin-top : -1px;
-}
 
 .bar-preferences .header {
 }
@@ -375,11 +372,11 @@
     margin: @preferences-intro-text-margin;
 }
 
-.prefpanel .intro a {
+.prefpanel a {
     color: @preferences-intro-link-color;
     text-decoration : none;
 }
-.prefpanel .intro a:hover {
+.prefpanel a:hover {
     text-decoration : underline;
 }
 

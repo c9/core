@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     "use strict";
     
-    main.consumes = ["fs", "Plugin", "c9", "util", "watcher"];
+    main.consumes = ["fs", "Plugin", "c9", "util", "watcher", "error_handler"];
     main.provides = ["fs.cache"];
     return main;
 
@@ -11,6 +11,7 @@ define(function(require, exports, module) {
         var c9 = imports.c9;
         var util = imports.util;
         var watcher = imports.watcher;
+        var reportError = imports.error_handler.reportError;
         var TreeData = require("ace_tree/data_provider");
         var lang = require("ace/lib/lang");
         
@@ -579,6 +580,16 @@ define(function(require, exports, module) {
             if (findNode(node.path) != node)
                 return;
             var parent = findNode(dirname(node.path));
+            if (!parent) {
+                // likely a broken node
+                var e = new Error("Node with misformed path in fs.cache");
+                reportError(e, {
+                    path: node.path,
+                    hasParentProp: !!node.parent,
+                    parentPath: node.parent && node.parent.path
+                });
+                return;
+            }
             silent || model._signal("remove", node);
             var wasOpen = startUpdate(parent);
             delete parent.map[node.label];

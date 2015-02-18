@@ -247,20 +247,22 @@ require(["lib/architect/architect", "lib/chai/chai"],
 
                 it('should rename a directory  - change tab path', function(done) {
                     var vpath = "/dir/stuff.json";
-                    tabs.openFile(vpath, function(err, tab) {
-                        expect(tab.path).to.equal(vpath);
-                        expect(tab.title).to.equal("stuff.json");
-                        
-                        fs.rename("/dir", "/dir2", function(err) {
-                            if (err)
-                                throw err;
-                            expect(tab.path).to.equal("/dir2/stuff.json");
+                    fs.rmdir("/dir2", { recursive: true }, function(){
+                        tabs.openFile(vpath, function(err, tab) {
+                            expect(tab.path).to.equal(vpath);
                             expect(tab.title).to.equal("stuff.json");
-                            tab.unload();
-                            fs.rename("/dir2", "/dir", function (err) {
+                            
+                            fs.rename("/dir", "/dir2", function(err) {
                                 if (err)
                                     throw err;
-                                done();
+                                expect(tab.path).to.equal("/dir2/stuff.json");
+                                expect(tab.title).to.equal("stuff.json");
+                                tab.unload();
+                                fs.rename("/dir2", "/dir", function (err) {
+                                    if (err)
+                                        throw err;
+                                    done();
+                                });
                             });
                         });
                     });
@@ -486,10 +488,11 @@ require(["lib/architect/architect", "lib/chai/chai"],
                     tabs.clear();
                     expect(tabs.getPanes()).length(0);
                     expect(tabs.getTabs()).length(0);
-                    
+                    apf.z = 1;
                     tabs.setState(state, function(err) {
                         if (err) throw err.message;
                     });
+                    console.log(cstate, tabs.getState());
                     expect(cstate).to.deep.equal(tabs.getState());
                     
                     expect(tabs.getPanes()).length(5);

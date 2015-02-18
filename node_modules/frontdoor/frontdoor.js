@@ -1,5 +1,7 @@
 "use strict";
 
+require("amd-loader");
+
 var Route = require("./lib/route");
 var Section = require("./lib/section");
 var Types = require("./lib/types");

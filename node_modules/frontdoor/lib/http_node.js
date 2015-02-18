@@ -24,6 +24,22 @@ function request(url, options, callback) {
     var timeout = options.hasOwnProperty("timeout") ? options.timeout : 10000;
     var parsedUrl = parseUrl(url, options.query);
     
+    if (typeof body == "object") {
+        if (contentType.indexOf("application/json") === 0) {
+            try {
+                body = JSON.stringify(body);
+            } catch(e) {
+                return done(new Error("Could not serialize body as json"));
+            }
+        }
+        if (contentType.indexOf("application/x-www-form-urlencoded") === 0) {
+            body = qs.stringify(body);
+        }
+        else {
+            body = body.toString();
+        }
+    }
+    
     var isHttps = parsedUrl.protocol == "https:";
     var proto = isHttps ? https : http;
     var reqOptions = {
@@ -106,22 +122,6 @@ function request(url, options, callback) {
             done(err, data, fields);
         });
     });
-    
-    if (typeof body == "object") {
-        if (contentType.indexOf("application/json") === 0) {
-            try {
-                body = JSON.stringify(body);
-            } catch(e) {
-                return done(new Error("Could not serialize body as json"));
-            }
-        }
-        if (contentType.indexOf("application/x-www-form-urlencoded") === 0) {
-            body = qs.stringify(body);
-        }
-        else {
-            body = body.toString();
-        }
-    }
     
     var timedout = false;
     if (timeout) {

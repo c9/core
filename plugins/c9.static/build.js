@@ -126,28 +126,29 @@ function main(options, imports, register) {
                 
                 lessLibs.push(theme);
                 
-                fs.readFile(path.join(pathConfig.root, "plugins/c9.ide.layout.classic/themes/" + color + ".less"), "utf8", function(err, custom) {
-                    // Can error
-                    
-                    if (custom)
-                        lessLibs.push(custom);
+                lessLibs.staticPrefix = "plugins/c9.ide.layout.classic";
                 
-                    build(plugins, {
-                        cache: cache,
-                        pathConfig: pathConfig,
-                        enableBrowser: true,
-                        includeConfig: false,
-                        noArchitect: true,
-                        compress: compress,
-                        filter: [],
-                        ignore: [],
-                        withRequire: false,
-                        compileLess: true,
-                        lessLibs: lessLibs,
-                        lessLibCacheKey: color,
-                        basepath: pathConfig.root
-                    }, callback);
-                });
+                var themeCss = [{
+                    id: "text!" + "plugins/c9.ide.layout.classic/themes/" + color + ".less",
+                    parent: {}
+                }];
+                
+                build(plugins, {
+                    cache: cache,
+                    pathConfig: pathConfig,
+                    enableBrowser: true,
+                    includeConfig: false,
+                    noArchitect: true,
+                    compress: compress,
+                    filter: [],
+                    ignore: [],
+                    withRequire: false,
+                    compileLess: true,
+                    lessLibs: lessLibs,
+                    lessLibCacheKey: color,
+                    basepath: pathConfig.root,
+                    additional: themeCss
+                }, callback);
             });
         });
     }
@@ -157,6 +158,9 @@ function main(options, imports, register) {
             aceModuleIgnores = cache.aceModuleIgnores;
         
         if (aceModuleIgnores) {
+            if (aceModuleIgnores.indexOf(module) != -1)
+                aceModuleIgnores = []; // allow building default themes
+                
             return build([module], {
                 cache: cache,
                 pathConfig: pathConfig,
@@ -173,7 +177,8 @@ function main(options, imports, register) {
         }
         
         var ignoreRoots = sharedModules().concat([
-            "ace/editor"
+            "ace/editor",
+            "ace/multi_select"
         ]);
         
         build(ignoreRoots, {
@@ -190,6 +195,7 @@ function main(options, imports, register) {
                 pkg.deps && pkg.deps.forEach(function(p) {
                     if (!deps[p]) deps[p] = 1;
                 });
+                deps[pkg.id] = 1;
             });
             aceModuleIgnores = Object.keys(deps);
             if (cache)
@@ -205,13 +211,14 @@ function main(options, imports, register) {
             "ace/mode/javascript",
             "ace/mode/css",
             "ace/mode/c9search",
-            "ace/theme/textmate",
-            "ace/theme/tomorrow_night_bright",
-            "ace/theme/idle_fingers"
-        ]
+            "ace/multi_select"
+        ];
     }
     
     function buildModule(module, pathConfig, callback) {
+        if (/^(ace\/|plugins\/c9.ide.ace)/.test(module))
+            return buildAce(module, pathConfig, callback);
+        
         build([], {
             cache: cache,
             pathConfig: pathConfig,
@@ -243,6 +250,7 @@ function main(options, imports, register) {
                 "plugins/c9.ide.language.generic/open_files_local_completer",
                 "plugins/c9.ide.language.generic/simple/make",
                 "plugins/c9.ide.language.generic/simple/shell",
+                "plugins/c9.ide.language.generic/simple/php",
                 "plugins/c9.ide.language.javascript/parse",
                 "plugins/c9.ide.language.javascript/scope_analyzer",
                 "plugins/c9.ide.language.javascript/debugger",
@@ -254,7 +262,10 @@ function main(options, imports, register) {
                 "plugins/c9.ide.language.javascript.infer/infer_tooltip",
                 "plugins/c9.ide.language.javascript.infer/infer_completer",
                 "plugins/c9.ide.language.html/html_completer",
-                "plugins/c9.ide.language.css/css_handler"
+                "plugins/c9.ide.language.css/css_handler",
+                "plugins/c9.ide.language.javascript.tern/worker/tern_worker",
+                "plugins/c9.ide.language.javascript.tern/worker/architect_resolver_worker",
+                "plugins/c9.ide.language.javascript.eslint/worker/eslint_worker",
             ].concat(jsonalyzer.handlersWorker).concat(jsonalyzer.helpersWorker);
         } 
 
@@ -332,9 +343,11 @@ function main(options, imports, register) {
                 
                 pathConfig.hash = hash;
                 pathConfig.root = path.resolve(path.join(__dirname, "../../"));
+                var baseUrl = pathConfig.baseUrl || "";
                 for (var p in pathConfig.paths) {
-                    if (typeof pathConfig.paths[p] === "string")
-                        pathConfig.paths[p] = pathConfig.paths[p].replace(/^\/static/, "");
+                    var url = pathConfig.paths[p];
+                    if (typeof url === "string" && url.substring(0, baseUrl.length) == baseUrl)
+                        pathConfig.paths[p] = url.substring(baseUrl.length);
                 }
                 pathConfig.pathMap = pathMap;
                 callback(null, pathConfig);

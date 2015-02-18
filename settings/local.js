@@ -33,13 +33,6 @@ module.exports = function(manifest, installPath, settingDir) {
     if (process.platform == "win32" && config.projectName == "/")
         config.projectName = "Computer";
     
-    config.logicblox.bloxWebURL = process.env.LB_SERVER || "http://localhost:8080";
-    config.logicblox.username = "user1";
-    config.logicblox.password = "password";
-    config.logicblox.fileServerURL = process.env.LB_FILE_SERVER || process.env.LB_SERVER || "http://localhost:8081",
-    config.logicblox.application = "logicblox-ide",
-    config.logicblox.devel = true;
-    
     config.saucelabs.serverURL = null;
     config.saucelabs.account = null;
     

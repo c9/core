@@ -74,7 +74,7 @@ define(function(require, module, exports) {
             var modal = options.modal;
             var zindex = options.zindex;
             var allowClose = options.allowClose;
-            var elements = options.elements;
+            var elements = options.elements || [];
             var resizable = options.resizable || false;
             var widths = options.widths || {};
             var count = 0;
@@ -148,9 +148,14 @@ define(function(require, module, exports) {
                 buttons = plugin.getElement("buttons");
                 
                 // Create dynamic UI elements
-                elements.forEach(function(item) {
-                    createItem(null, null, item);
-                });
+                if (elements.length) {
+                    elements.forEach(function(item) {
+                        createItem(null, null, item);
+                    });
+                }
+                else {
+                    buttons.parentNode.removeChild(buttons);
+                }
                 
                 emit.sticky("draw", {
                     aml: titles,
@@ -175,6 +180,7 @@ define(function(require, module, exports) {
                     implementation();
                     
                     // Update UI
+                    var custom = options.custom || !(heading || body);
                     if (!custom) {
                         titles.$int.innerHTML = "<h3 style='margin:0 0 10px 0'>" 
                             + heading + "</h3><div class='alertMsg'>" 
@@ -193,6 +199,10 @@ define(function(require, module, exports) {
                     // Focus UI
                     focusManager.focus(dialog, true);
                 }, force);
+            }
+            
+            function show() {
+                return plugin.queue(function(){}, true);
             }
             
             function hide(){
@@ -508,6 +518,13 @@ define(function(require, module, exports) {
                  * @fires show
                  */
                 queue: queue,
+    
+                /**
+                 * Show the dialog. When using queing overwrite this method
+                 * with your own show function.
+                 * @fires show
+                 */
+                show: show,
     
                 /**
                  * Hide the dialog.

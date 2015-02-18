@@ -184,21 +184,26 @@ define(function(require, exports, module) {
         function copyStaticResources(usedPlugins, pathConfig, next) {
             var moduleDeps = require("architect-build/module-deps");
             var copy = require('architect-build/copy');
-            // hack: add bootstrap.js manually since it is included only from html
-            usedPlugins["/plugins/c9.login.client/bootstrap"] = 1;
-            function collectDirs(plugins) {
-                var map = Object.create(null);
-                plugins.forEach(function(p) {
-                    map[path.dirname(p)] = 1;
-                });
-                return Object.keys(map);
-            }
-            collectDirs(Object.keys(usedPlugins)).forEach(function(p) {
+            // todo: use usedPlugins to filter out some of unneeded deps
+            var roots = pathConfig.pathMap;
+            Object.keys(roots).filter(function(p) {
+                return !/(c9.docker|docs|smith|vfs-socket|engine.io|msgpack.js)$/.test(p);
+            }).forEach(function(p) {
                 var absPath = moduleDeps.resolveModulePath(p, pathConfig.pathMap);
+                if (/^\/lib\/ace/.test(p)) 
+                    return;
                 copy(absPath, root + "/static/" + p, {
-                    include: /^(libmarkdown.js|loading.css|runners_list.js|builders_list.js|bootstrap.js)$/,
-                    exclude: /\.(js|css|less|xml)$|^mock$/,
-                    onDir: function(e) { console.log('\x1b[1A\x1b[0K' + e) }
+                    include: /^(libmarkdown.js|runners_list.js|builders_list.js|bootstrap.js)$/,
+                    exclude: function(name, dir) {
+                        if (/\.css$/.test(name)) {
+                            if (!cache.files[dir + "/" + name]) {
+                                console.log("\x1b [1A\x1b[0K", "adding file ", dir + "/" + name);
+                                return false;
+                            }
+                        }
+                        return /\.(jsx?|css|less|xml|ejs|prv|pub|sh)$|(^|[/])^(mock|example|\.[^/]*|package.json)[/]?$/.test(name);
+                    },
+                    onDir: function(e) { console.log("\x1b [1A\x1b[0K" + e) }
                 });
             });
             next();

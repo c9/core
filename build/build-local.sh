@@ -100,7 +100,7 @@ console.log('Client Plugins:');
     });
     
 console.log('CLI Plugins:');
-    plugins = require('./configs/cli').concat('plugins/c9.login.client/bootstrap')
+    plugins = require('./configs/cli')().concat('plugins/c9.login.client/bootstrap')
     copy.dirs('$SOURCE', '$APPDIR', pluginDirs(plugins), {
         exclude: /^mock$/,
     });
@@ -122,7 +122,7 @@ console.log('Node Modules:');
         });
         copy.dirs('$SOURCE', '$APPDIR', deps, {
             include: null,
-            exclude: /^(mock|tests?|examples?|samples|Readme.*|build|dist|\.(idea|grunt|jshintrc|npmignore|gitignore|travis.yml))$/i
+            exclude: /^(mock|tests?|examples?|samples|Readme.*|build|dist|LICENSE|\\.(idea|grunt|jshintrc|npmignore|gitignore|travis.yml))\$|_test\\.js/i
         });
     });
 
@@ -160,7 +160,7 @@ if [ "$COMPRESS" ]; then
     if [ "$OBFUSCATE" ]; then
         OPTS="{ obfuscate: true }"
     else
-        OPTS=""
+        OPTS="{}"
     fi
     node -e "require('architect-build/compress_folder')('$APPDIR', '$OPTS')"
 fi

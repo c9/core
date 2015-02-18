@@ -125,7 +125,8 @@ define(function(require, module, exports) {
                     }, function(){});
                 }
                 
-                scroll();
+                if (options.form)
+                    scroll();
                 
                 emit("activate");
             }

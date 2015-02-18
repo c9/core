@@ -1,8 +1,7 @@
 /**
  * Serve plugins on the static server
  *
- * @copyright 2010, Ajax.org B.V.
- * @license GPLv3 <http://www.gnu.org/licenses/gpl.txt>
+ * @copyright 2013, Ajax.org B.V.
  */
 
 define(function(require, exports, module) {
@@ -34,10 +33,11 @@ define(function(require, exports, module) {
                 ace: "lib/ace/lib/ace",
                 ace_tree: "lib/ace_tree/lib/ace_tree",
                 treehugger: "lib/treehugger/lib/treehugger",
-                pivottable: "lib/pivottable/lib/pivot",
+                acorn: "lib/treehugger/lib/treehugger/js",
+                tern: "lib/tern",
                 ui: "lib/ui",
                 c9: "lib/c9",
-                frontdoor: "lib/frontdoor"
+                frontdoor: "lib/frontdoor",
             };
             
             if (whitelist === "*") {
@@ -54,6 +54,8 @@ define(function(require, exports, module) {
             } else {
                 [
                     "ace_tree", 
+                    "acorn",
+                    "tern",
                     "treehugger",
                     "pivottable",
                     "architect",
@@ -85,6 +87,8 @@ define(function(require, exports, module) {
                         else if (path in whitelist)
                             return true;
                         else if (path.indexOf("c9.ide.") === 0)
+                            return true;
+                        else if (path.indexOf("c9.account") === 0)
                             return true;
                         else
                             return false;

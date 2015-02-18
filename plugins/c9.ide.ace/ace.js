@@ -54,6 +54,9 @@ define(function(require, exports, module) {
         // and error marker
         require("ace/ext/error_marker");
         
+        // preload html mode
+        require("ace/mode/html");
+        
         // Needed to clear ace
         var dummySession = new EditSession("");
         
@@ -90,7 +93,7 @@ define(function(require, exports, module) {
         var lastTheme, grpSyntax; 
         
         var theme;
-        var skin = settings.get("user/general/@skin") || "dark";
+        var skin = settings.get("user/general/@skin");
         var defaultThemes = {
             "light" : "ace/theme/cloud9_day",
             "light-gray" : "ace/theme/cloud9_day",
@@ -328,7 +331,7 @@ define(function(require, exports, module) {
             },
             get $undoStack() {
                 return this.$undo.stack.slice(0, this.$undo.position + 1)
-                    .map(function(e){return e.getState()});
+                    .map(function(e){ return e.getState ? e.getState() : e });
             }
         };
         
@@ -513,6 +516,11 @@ define(function(require, exports, module) {
         /***** Commands *****/
         
         function setCommands() {
+            function isAce(editor, allowBlured) {
+                if (!editor || !editor.ace)
+                    return false;
+                return  allowBlured || editor.ace.isFocused();
+            }
             function fnWrap(command) {
                 command.group = "Code Editor";
                 command.readOnly = command.readOnly || false;
@@ -520,17 +528,21 @@ define(function(require, exports, module) {
     
                 var isAvailable = command.isAvailable;
                 command.isAvailable = function(editor, args, event) {
-                    if (!editor || !editor.ace) return false;
-                    
-                    // using this instead of editor.type == "ace" to make 
+                    // checking editor.ace instead of editor.type == "ace" to make 
                     // commands avaliable in editors inheriting from ace
-                    if (event instanceof KeyboardEvent && (!editor.ace.isFocused()))
+                    if (event instanceof KeyboardEvent && !isAce(editor))
+                        editor = apf.activeElement;
+                    if (!isAce(editor, true))
+                        return false;
+                    if (!editor.ace.commands.byName[command.name])
                         return false;
                     
                     return isAvailable ? isAvailable(editor.ace) : true;
                 };
     
                 command.findEditor = function(editor) {
+                    if (apf.activeElement && apf.activeElement.ace && apf.activeElement.ace.isFocused())
+                        return apf.activeElement.ace;
                     return editor && editor.ace || editor;
                 };
                 
@@ -1553,6 +1565,7 @@ define(function(require, exports, module) {
                 
                 // temporary workaround for apf focus bugs
                 // only blur is needed sinse the rest is handled by tabManager
+                // todo remove this when there is proper focus manager
                 e.tab.$blur = function(e) {
                     var ace = plugin.ace; // can be null when called for destroyed tab
                     if (!ace || !e || !e.toElement || e.toElement.tagName == "menu") 
@@ -1562,6 +1575,12 @@ define(function(require, exports, module) {
                     else
                         ace.textInput.blur();
                 };
+                ace.on("focus", function() {
+                    var page = apf.findHost(container);
+                    if (apf.activeElement != page)
+                        page.focus();
+                });
+                
                 
                 // Create Menu
                 handle.draw();
@@ -1667,7 +1686,7 @@ define(function(require, exports, module) {
                     afterAnim = true;
                 }
                 else if (e.type == "afteranim" && afterAnim) {
-                    return;
+                    afterAnim = false;
                 } else {
                     afterAnim = false;
                     renderer.$updateSizeAsync();
@@ -2113,7 +2132,7 @@ define(function(require, exports, module) {
                     }
                     else {
                         var progress = ((e.loaded / e.total) * 100) || 0;
-                        if (progress >= (c9Session.progress || 0)) {
+                        if (progress >= (c9Session.progress || 0) || (c9Session.progress == 100 && !progress)) {
                             c9Session.progress = progress;
                         } else if (c9Session.progress && e.upload) {
                             // see https://github.com/c9/newclient/issues/3682
@@ -2158,19 +2177,6 @@ define(function(require, exports, module) {
                     doc.tooltip = path;
                 }
                 setTitle({path: doc.tab.path || ""});
-                
-                // Changed marker
-                function setChanged(e) {
-                    var cn = doc.tab.classList;
-                    if (!cn) return;
-                    
-                    if (e.changed || doc.meta.newfile)
-                        cn.add("changed");
-                    else
-                        cn.remove("changed");
-                }
-                doc.on("changed", setChanged, c9Session);
-                setChanged({ changed: doc.changed });
                 
                 // Update mode when the filename changes
                 doc.tab.on("setPath", function(e) {
@@ -2525,6 +2531,11 @@ define(function(require, exports, module) {
                      */
                     "themeChange"
                 ],
+                
+                /**
+                 * @ignore This is here to overwrite default behavior
+                 */
+                isClipboardAvailable: function(e) { return !e.fromKeyboard },
                 
                 /**
                  * Retrieves the value of one of the ace options.

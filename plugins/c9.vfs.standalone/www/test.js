@@ -109,6 +109,7 @@ require([
             save: (function(){
                 var x = new EventEmitter();
                 x.saveAll = function(c){ c(); };
+                x.getSavingState = function(tab) { return "saved"; };
                 return x;
             })(),
             findreplace: {
@@ -116,6 +117,13 @@ require([
             },
             ace: {
                 getElement: function(){}
+            },
+            css: {
+                get packed() { return true; },
+                get packedThemes() { return true; },
+                defineLessLibrary: function(){},
+                insert: function() {},
+                insertLess: function() {}
             },
             settings: (function(){
                 var obj = new EventEmitter();
@@ -227,7 +235,7 @@ require([
                 layout.getElement = function(){
                     return new apf.bar();
                 };
-                layout.clearFindArea = function(active, callback, isDefault) {
+                layout.setFindArea = function(active, callback, isDefault) {
                     // callback();
                 };
                 layout.proposeLayoutChange = function(){};
@@ -315,6 +323,7 @@ require([
                 var tree = new EventEmitter();
                 tree.createFolder = function(){};
                 tree.getElement = function(){};
+                tree.getAllExpanded = function(){ return []; };
                 return tree;
             })(),
             "tree.favorites" : (function(){
@@ -379,7 +388,7 @@ require([
             "dialog.alert": {show: function() { console.log(console, Array.prototype.slice.apply(arguments)); }},
             "dialog.confirm": {show: function() {}},
             "dialog.question": {show: function() {}},
-            "dialog.filesave": {show: function() {}},
+            "dialog.file": {show: function() {}},
             "dialog.fileremove": {show: function() {}},
             "dialog.fileoverwrite": {show: function() {}},
             "dialog.error": {

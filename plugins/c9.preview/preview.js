@@ -49,9 +49,10 @@ define(function(require, exports, module) {
             requestTimeout(15*60*1000),
             handler.getProjectSession(),
             handler.getRole(db),
-            handler.proxyCall(function() {
+            handler.getProxyUrl(function() {
                 return vfsServers ? vfsServers[0] : null;
-            })
+            }),
+            handler.proxyCall()
         ]); 
         
         api.error(function(err, req, res, next) {

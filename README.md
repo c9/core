@@ -1,39 +1,49 @@
-Cloud9 3.0
-==========
+Cloud9 3.0 SDK for Plugin Development
+=======================================
 
-The new VFS based Cloud9.
+This is the core repository for the Cloud9 v3 SDK. The SDK allows you to run a version of Cloud9 that allows you to develop plugins and create a custom IDE based on Cloud9.
+
+#### Project Status: *ALPHA*
+
+During the alpha stage, expect many things to break, not work or simply fail.
+
+#### Creating Plugins ####
+
+The best and easiest way to create plugins is on c9.io. Please check out this tutorial for how to [get started writing plugins.](http://cloud9-sdk.readme.io/v0.1/docs/getting-started)
+
+We also have a tutorial for how to get started working on the core plugins. [Check out that tutorial here.](http://cloud9-sdk.readme.io/v0.1/docs/contributing-to-existing-packages)
 
 #### Documentation ####
 
-Find the documentation at http://docs.c9.io:8080/.
+We have several documentation resources for you:
 
-The docs are protected by a username and password:
+<table>
+    <tr><th>SDK documentation</th><td>http://cloud9-sdk.readme.io/v0.1/docs</td></tr>
+    <tr><th>API documentation</th><td>http://docs.c9.io/api</td></tr>
+    <tr><th>User documentation</th><td>http://docs.c9.io</td></tr>
+</table>
 
-    username: c9v3
-    password: r3v0l4t10naRy
+Please joing the mailinglist to get support or give support to the growing community of plugin developers:
+https://groups.google.com/forum/#!forum/cloud9-sdk
 
 #### Installation ####
 
-Installing newclient is super simple.
+Follow these steps to install the SDK:
 
-    git clone git@github.com:ajaxorg/newclient.git
-    cd newclient
-    npm install
+    git clone git@github.com:c9/core.git c9sdk
+    cd c9sdk
+    scripts/install-sdk.sh
     
-Installing dependencies is easy as well.
+To update the SDK to the latest version run:
 
-    curl https://raw.github.com/c9/install/master/install.sh | bash
+    git pull origin master
+    scripts/install-sdk.sh
+    
+Please note that Cloud9 v3 currently requires Node.js 0.10. We are working on 0.12 support and will change this message when we do.
 
-Installing the node-webkit based newclient has more steps:
+#### Starting Cloud9 ####
 
-1. Run `scripts/setup-local-dev` to download our own fork of node-webkit and create `Cloud9-dev` app in `build` folder.
-2. Set up an alias called 'c9nw' for newclient, e.g. using
-   alias c9nw=\`pwd\`/build/Cloud9-dev.app/Contents/MacOS/node-webkit
-
-#### Starting the standalone ####
-
-For most development purposes it's recommended to use the lightweight
-standalone version. It can be started as follows:
+Start the Cloud9 as follows:
 
     node server.js
 
@@ -48,169 +58,25 @@ The following options can be used:
     --port           Port
     --debug          Turn debugging on
     --listen         IP address of the server
-    --workspacetype  The workspace type to use
     --readonly       Run in read only mode
     --packed         Whether to use the packed version.
     --auth           Basic Auth username:password
     --collab         Whether to enable collab.
+    --no-cache       Don't use the cached version of CSS
 
-#### Starting the hosted version ####
+Now visit [http://localhost:8181/ide.html](http://localhost:8181/ide.html) to load Cloud9.
 
-Starting the hosted version is a bit more involved.
+#### Contributing ####
 
-1. Add to your /etc/hosts the line:
+We actively encourage and support contributions. We accept pull requests to the core as well as to any of the open source plugins and libraries that we maintain under the c9 organization on GitHub.
 
-    ```
-    127.0.0.1    c9.dev vfs.c9.dev ide.c9.dev api.c9.dev preview.c9.dev
-    ```
+Feel free to fork and improve/enhance the Cloud9 SDK and the open source plugins in any way you want. Then please open a pull request. For more information on our contributing guidelines, see our contributing guide: http://cloud9-sdk.readme.io/v0.1/docs/contributing-to-cloud9
 
-2. You should have your **c9** folder next to your **newclient** folder (because the `legacy` role will expect so).
+To protect the interests of the Cloud9 contributors and users we require contributors to sign a Contributors License Agreement (CLA) before we pull the changes into the main repository. Our CLA is the simplest of agreements, requiring that the contributions you make to an ajax.org project are only those you're allowed to make. This helps us significantly reduce future legal risk for everyone involved. It is easy, helps everyone, takes ten minutes, and only needs to be completed once. There are two versions of the agreement:
 
-3. Start non-touched roles in a process and the in-dev roles in another process (to easily restart more often) - (note that a process can play multiple roles at once).
+1. [The Individual CLA](https://docs.google.com/a/c9.io/forms/d/1MfmfrxqD_PNlNsuK0lC2KSelRLxGLGfh_wEcG0ijVvo/viewform): use this version if you're working on the Cloud9 SDK or open source plugins in your spare time, or can clearly claim ownership of copyright in what you'll be submitting.
+2. [The Corporate CLA](https://docs.google.com/a/c9.io/forms/d/1vFejn4111GdnCNuQ6BfnJDaxdsUEMD4KCo1ayovAfu0/viewform): have your corporate lawyer review and submit this if your company is going to be contributing to the Cloud9 SDK and/or open source plugins.
 
-    `./server.js legacy redis proxy`
-    `./server.js ide api vfs preview`
-    
-   Optionally, you can use the scripts/launch script to launch these processes for you. It will also make sure they are kept alive, and kills any rogue legacy processes as needed.
+If you want to contribute to the Cloud9 SDK and/or open source plugins please go to the online form, fill it out and submit it.
 
-4. Set yourself as alpha user in your local redis db:
-
-    `cd ../c9`
-    `bin/cli.sh infraredis`
-    `HMSET u/uid alpha true`
-
-    (OR easier: change that [line](https://github.com/c9/newclient/blob/master/plugins/c9.ide.server/user_filter.js#L7) to `return true;`)
-
-6. Login to the old c9 at [https://c9.dev](https://c9.dev)
-
-7. Open your workspace with prefix: `ide.c9.dev` prefix instead of `c9.dev` (in oldclient): e.g. [https://ide.c9.dev/username/workspacename](https://ide.c9.dev/username/workspacename)
-
-#### Starting node webkit version ####
-
-Run `scripts/setup-local-dev` to install node-webkit and create Cloud9-dev app in build folder.
-
-it will create build/cloud9-dev.app, which can run either with double click or `build/Cloud9-dev.app/Contents/MacOS/node-webkit`
-(If node-webkit is installed and the nw command is the alias for node-webkit. `nw local` works too, but it have problems with native menus on mac)
-
-    
-The following flags are available:
-
-    --wait          Wait with starting everything. Type start(); in the console to start.
-    --devel         Loads packed files from the server, useful if something is deleted, and you need to rebuild.
-    --unpacked      Run with unpacked files. This is handy for debugging.
-    --no-worker     Run without the worker (runs all the worker process in the main thread).
-
-You can also open via bin/c9 (though c9 needs to be packaged and installed for this to work properly)
-
-	bin/c9 server.js
-
-#### Building the local version ####
-
-Run the following command to build a .app file for OSX:
-
-    make local
-
-This will create a "Cloud9.app" in the build/output directory. Furthermore there are these build steps
-
-    make local-static       Build the static files for the local version
-    make local-build        Build the packages for the local version
-    make local-update       Build an update package for the local version
-    make local-install      Install the local version in ~/Applications
-    make local-installer    Build the OSX installer pkg and puts it in output/c9.pkg
-
-#### Run the update service ####
-
-To run the update service run:
-
-    node node configs/update-service.js
-
-This will provide the rest API that the local version connects to to requests updates.
-
-#### Load full UI in the browser ####
-
-[http://localhost:8181/ide.html](http://localhost:8181/ide.html)
-
-The plugin configuration for development mode is in configs/client-default.js.
-
-To start the full UI in development mode use the following url:
-
-[http://localhost:8181/ide.html?devel=1](http://localhost:8181/ide.html?devel=1)
-
-The plugin configuration for development mode is in configs/client-devel.js.
-
-#### Running Tests ####
-
-In the following example the server name is localhost. Change this to your server name or ip address.
-
-Running all tests:
-
-[http://localhost:8181/static/test.html](http://localhost:8181/static/test.html)
-
-Running one specific test (in this case of the ace plugin):
-
-[http://localhost:8181/static/test.html?plugins/c9.ace/ace_test.js](http://localhost:8181/static/test.html?plugins/c9.ace/ace_test.js)
-
-Running multiple tests:
-
-[http://localhost:8181/static/test.html?plugins/c9.ace/ace_test.js&plugins/c9.ace.gotoline/gotoline_test.js](http://localhost:8181/static/test.html?plugins/c9.ace/ace_test.js&plugins/c9.ace.gotoline/gotoline_test.js)
-
-Keeping the UI after the test ran
-
-[http://localhost:8181/static/test.html?plugins/c9.ace/ace_test.js&remain=1](http://localhost:8181/static/test.html?plugins/c9.ace/ace_test.js&remain=1)
-
-note: you may need to install coffee-script for all tests to pass (sudo npm install -g coffee-script)
-
-#### Committing back to SubTree repositories
-
-Newclient uses git subtree as a way to manage the underlying repositories that are managed by us. 
-To commit back to those repositories keep in mind that commits should not cross repository boundaries. 
-Split up your commits per sub repo. The sub repos are all in the node_modules folder.
-
-To pull from a repo use the following command:
-
-    git fetch <name> master
-    git subtree pull --prefix node_modules/<name> <name> master --squash
-
-
-To push back to a repo use the following command:
-
-    git subtree push --prefix=node_modules/<name> <name> <branch_name>
-
-For instance:
-
-    git subtree push --prefix=node_modules/ace ace fix/multi-cursor-weirdness
-
-For more info see: [http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/](http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/)
-
-#### Installing a new version of git using nix
-
-Older versions of git don't have the subtree command. You can use nix to install the latest version of git:
-
-    scripts/install-git-subtree.sh
-
-#### Deploy to alpha.c9.io ####
-
-Deploy to alpha.c9.io (every server, GCE and AWS) is done automatically by Jenkins CI server as soon
-as there is a merge in master *and* every test passes.
-To force a deploy:
-
-1. ssh ubunutu@salt.c9.io
-2. sudo salt 'newclient*-prod' state.highstate
-3. wait to see the result in the output
-
-To force the deploy of a specific commit, tag or branch you need to modify the file **/srv/salt/prodenv/newclientrepo.sls**
-and change the rev parameter to the desired one:
-
-    newclient_git:
-      git.latest:
-        - require:
-          - file: '{{ pillar['home'] }}/.ssh/id_rsa_deploy'
-          - file: '{{ pillar['home'] }}/.ssh/config'
-        - target: {{ pillar['home'] }}/newclient
-        - runas: {{ pillar['user'] }}
-        - rev: master
-
-To deploy the vfs:
-
-    sudo salt 'vfs*-prod' state.highstate
-
+Happy coding, Cloud9

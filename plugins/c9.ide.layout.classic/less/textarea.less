@@ -3,19 +3,17 @@
     overflow: auto;
     resize: none;
 
-    padding: 2px 6px;
-    border: 1px solid #AFAFAF;
-    background: -webkit-gradient(linear,left bottom,left top,color-stop(0.5, white),color-stop(1, #EBEBEB));
-    background: -moz-linear-gradient(center bottom,white 50%,#EBEBEB 100%);
+    padding: @textarea-padding;
+    border: @textarea-border;
+    border-radius: @textarea-border-radius;
+    .gradient(~"@{textarea-gradient}");
     margin: 0;
     text-overflow: ellipsis;
-    -webkit-box-shadow: 0px 1px 0px #ffffff;
-    -moz-box-shadow: 0px 1px 0px #ffffff;
-    box-shadow: 0px 1px 0px #ffffff;
+    box-shadow: @textarea-box-shadow;
 
-    font-size: 12px;
-    color: #333;
-    font-family: Arial;
+    font-size: @textarea-font-size;
+    color: @textarea-color;
+    font-family: @textarea-font-family;
     outline: none;
     background-color: transparent;
 }
@@ -24,8 +22,8 @@
 }
 
 .taDisabled{
-    border: 1px solid #c3c3c3;
-    color: #bebebe;
+    border: @textarea-disabled-border;
+    color: @textarea-disabled-color;
 }
 
 .taInitial{
