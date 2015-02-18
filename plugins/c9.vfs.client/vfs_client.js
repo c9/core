@@ -188,8 +188,17 @@ define(function(require, exports, module) {
         }
         
         function download(path, filename, isfile) {
-            window.open(vfsUrl(path) + "?download" 
-                + (filename ? "=" + encodeURIComponent(filename) : "")
+            var extraPaths = "";
+            if (Array.isArray(path)) {
+                extraPaths = path;
+                path = path[0];
+                extraPaths = "," + extraPaths.map(function(p) {
+                    return p[0] == path[0] && p != path ? escape(p) : "";
+                }).filter(Boolean).join(",");
+            }
+            window.open(vfsUrl(path) + extraPaths
+                + "?download" 
+                + (filename ? "=" + escape(filename) : "")
                 + (isfile ? "&isfile=1" : ""));
         }
 
