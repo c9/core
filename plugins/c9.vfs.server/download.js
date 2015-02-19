@@ -31,18 +31,22 @@ define(function(require, exports, module) {
         });
         
         function download(vfs, root, req, res, next) {
-            var path = Path.join(root, Path.normalize(decodeURI(req.uri.pathname).replace(/^(\/?\.\.)?\/?/, "")));
-            var dir = Path.dirname(path);
-            var name = Path.basename(path).replace(/\/*$/, "");
+            var paths = req.uri.pathname.split(",").map(function(path) {
+                return Path.join(root, Path.normalize(unescape(path).replace(/^(\/?\.\.)?\/?/, "")));
+            });
+            var path = paths[0];
+            var name = Path.basename(path);
             
-            var filename;
-            if (req.uri.query.download)
-                filename = req.uri.query.download;
-            else
-                filename = name + ".tar.gz";
-            
-            var process;
+            var filename = req.uri.query.download;
+            if (!filename) {
+                filename = name;
+                if (!req.uri.query.isfile) {
+                    filename += (paths.length > 1 ? "[+" + (paths.length - 1) + "]"  : "") + ".tar.gz";
+                }
+            }
+            var filenameHeader = "attachment; filename*=utf-8''" + encodeURIComponent(filename);
 
+            var process;
             req.on("close", function() {
                 if (process) process.kill();
             });
@@ -56,14 +60,14 @@ define(function(require, exports, module) {
                             return next(err);
                     }
                     
-                    // once we receive data on stdout pipe it to the response        
-                    meta.stream.once("data", function (data) {
+                    // once we receive data on stdout pipe it to the response
+                    meta.stream.once("data", function(data) {
                         if (res.headerSent)
                             return;
                             
                         res.writeHead(200, {
                             "Content-Type": "octet/stream",
-                            "Content-Disposition": "attachment; filename=" + name
+                            "Content-Disposition": filenameHeader
                         });
                         res.write(data);
                         meta.stream.pipe(res);
@@ -76,10 +80,29 @@ define(function(require, exports, module) {
                 });
             }
             else {
-                vfs.spawn("tar", {
-                    args: ["-zcf", "-", name],
-                    cwd: dir
-                }, function (err, meta) {
+                // TODO add support for downloding as zip on windows
+                // var cwd;
+                // var args = ["-r", "-"];
+                // paths.forEach(function(path) {
+                //     if (!path) return;
+                //     var dir = Path.dirname(path);
+                //     if (!cwd) cwd = dir;
+                //     var name = Path.relative(cwd, path);
+                //     if (name[0] == "-") name = "./" + name;
+                //     args.push(name);
+                // });
+                // vfs.spawn("zip", { args: args, cwd: cwd }
+                
+                var args = ["-zcf", "-"];
+                paths.forEach(function(path) {
+                    if (!path) return;
+                    var dir = Path.dirname(path);
+                    var name = Path.basename(path);
+                    if (name[0] == "-")
+                        name = "--add-file=" + name;
+                    args.push("-C" + dir, name);
+                });
+                vfs.spawn("tar", { args: args }, function (err, meta) {
                     if (err)
                         return next(err);
                         
@@ -92,7 +115,7 @@ define(function(require, exports, module) {
                             
                         res.writeHead(200, {
                             "Content-Type": "application/x-gzip",
-                            "Content-Disposition": "attachment; filename=" + filename
+                            "Content-Disposition": filenameHeader
                         });
                         res.write(data);
                         process.stdout.pipe(res);

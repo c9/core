@@ -53,7 +53,7 @@ module.exports = {
             var file = fs.createWriteStream(filename);
             http.get("http://localhost:8787/?download=download.tar.gz", function(res) {
                 assert.equal(res.headers["content-type"], "application/x-gzip");
-                assert.equal(res.headers["content-disposition"], "attachment; filename=download.tar.gz");
+                assert.equal(res.headers["content-disposition"], "attachment; filename*=utf-8''download.tar.gz");
 
                 res.pipe(file);
                 
@@ -98,7 +98,7 @@ module.exports = {
             var file = fs.createWriteStream(filename);
             http.get("http://localhost:8787/views?download", function(res) {
                 assert.equal(res.headers["content-type"], "application/x-gzip");
-                assert.equal(res.headers["content-disposition"], "attachment; filename=views.tar.gz");
+                assert.equal(res.headers["content-disposition"], "attachment; filename*=utf-8''views.tar.gz");
                 
                 res.pipe(file);
                 
