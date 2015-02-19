@@ -33,7 +33,6 @@ module.exports = function(config, optimist) {
             .describe("hosted", "Use default config of the hosted version")
             .default("hosted", false)
             .describe("auth", "Basic Auth username:password")
-            .default("auth", ":")
             .describe("collab", "Whether to enable collab.")
             .default("collab", config.collab)
             .describe("cache", "use cached version of cdn files")
@@ -90,7 +89,12 @@ module.exports = function(config, optimist) {
     if (testing && argv.k)
         require("child_process").exec("tmux -L cloud91.9 kill-server", function(){});
 
-    var auth = argv.auth.split(":");
+    var isLocalhost = host == "localhost" || host == "127.0.0.1";
+    if (argv.auth !== ":" && !isLocalhost) {
+        console.log("Authentication is required when not running on localhost.\nPlease use -a user:pass or --listen localhost to listen locally.");
+        process.exit(255);
+    }
+    var auth = (argv.auth || ":").split(":");
 
     var plugins = [
         {
