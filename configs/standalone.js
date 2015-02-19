@@ -90,7 +90,7 @@ module.exports = function(config, optimist) {
         require("child_process").exec("tmux -L cloud91.9 kill-server", function(){});
 
     var isLocalhost = host == "localhost" || host == "127.0.0.1";
-    if (argv.auth !== ":" && !isLocalhost) {
+    if ((!argv.auth || !argv.auth.match(":")) && !isLocalhost) {
         console.log("Authentication is required when not running on localhost.\nPlease use -a user:pass or --listen localhost to listen locally.");
         process.exit(255);
     }
