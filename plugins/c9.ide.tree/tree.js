@@ -1313,6 +1313,19 @@ define(function(require, exports, module) {
             tree && tree.destroy();
             loaded = false;
             drawn = false;
+            
+            container = null;
+            winFilesViewer = null;
+            showHideScrollPos = null;
+            scrollTimer = null;
+            tree = null;
+            
+            expandedList = {};
+            scrollPos = -1;
+            loadedSettings = 0;
+            refreshing = false;
+            changed = false;
+            refreshTimer;
         });
         
         /***** Register and define API *****/
