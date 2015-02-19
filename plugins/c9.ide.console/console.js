@@ -185,7 +185,7 @@ define(function(require, module, exports) {
 
             tabs.on("paneCreate", function(e) {
                 if (hidden && container && ui.isChildOf(container, e.pane.aml)) {
-                    e.pane.visible = false;
+                    e.pane._visible = false;
                 }
             });
 
@@ -297,7 +297,7 @@ define(function(require, module, exports) {
             maxHeight = window.innerHeight - 70;
             
             getPanes().forEach(function(pane) {
-                pane.visible = !shouldHide;
+                pane._visible = !shouldHide;
             });
             
             if (!shouldHide && !tabs.focussedTab) {

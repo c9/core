@@ -362,7 +362,7 @@ define(function(require, module, exports) {
                 },
                 /**
                  * Sets or retrieves the serialized value of this document.
-                 * Setting this document will not change the undo stack. Set
+                 * Setting this property will not change the undo stack. Set
                  * this property only to initialize the document or to reset
                  * the value of this document. Requesting the value of this
                  * document will cause it to serialize it's full state.

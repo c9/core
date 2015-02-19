@@ -124,12 +124,6 @@ define(function(require, exports, module) {
             return usedBy
         }
         
-        function loadRemotePlugin(id, options, callback) {
-            vfs.extend(id, options, function(err, meta) {
-                callback(err, meta && meta.api);
-            });
-        }
-        
         function unloadAllPlugins(exclude) {
             if (lut.settings)
                 lut.settings.unload(null, true);
@@ -158,6 +152,12 @@ define(function(require, exports, module) {
                 else
                     console.warn("Ignoring not a plugin: " + plugin.name);
             }
+        }
+        
+        function loadRemotePlugin(id, options, callback) {
+            vfs.extend(id, options, function(err, meta) {
+                callback(err, meta && meta.api);
+            });
         }
         
         function fetchRemoteApi(id, callback) {
