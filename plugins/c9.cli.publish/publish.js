@@ -10,7 +10,8 @@ define(function(require, exports, module) {
         var auth = imports.auth;
         var api = imports.api;
         
-        var SHELLSCRIPT = require("text!./publish.git.sh").toString("utf8");
+        var TEST_MODE = !!process.env.C9_TEST_MODE;
+        var SHELLSCRIPT = TEST_MODE ? "" : require("text!./publish.git.sh").toString("utf8");
         var TAR = "tar";
         var APIHOST = options.apiHost;
         var BASICAUTH = process.env.C9_TEST_AUTH;
