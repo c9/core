@@ -316,6 +316,7 @@ function runCLI(command, options, callback){
     env["C9_APIHOST"] = HOST;
     env["C9_PID"] = PID;
     env["C9_TEST_AUTH"] = USERNAME + ":" + PASSWORD;
+    env["C9_TEST_MODE"] = 1;
     
     options.push("--verbose");
     var p = child.spawn(join(__dirname, "../../bin/c9"), [command].concat(options), {
