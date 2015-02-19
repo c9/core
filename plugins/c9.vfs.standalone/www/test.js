@@ -443,6 +443,10 @@ require([
                 var x = new EventEmitter();
                 return x;
             })(),
+            "collab": (function(){
+                var x = new EventEmitter();
+                return x;
+            })(),
             "collab.connect": (function(){
                 var x = new EventEmitter();
                 return x;
