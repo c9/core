@@ -178,7 +178,7 @@ Vfs.prototype._createEngine = function(vfs, options) {
                 to track and log all reasons causing it to close so when users
                 complain about disconnects we can investigate what's causing them */
             var listenForEIOSocketEvents = function (eioSocket) {
-                if (!eioSocket || listeningForEIOSocketClose) return;
+                if (!eioSocket || listeningForEIOSocketEvents) return;
                 eioSocket.once("close", function (reason, description) {
                     var logMetadata = {message: "Socket closed", collab: options.collab, reason: reason, description: description, id: that.id, sid: socket.id, pid: that.pid};
                     that.logger.log(logMetadata);
@@ -188,7 +188,7 @@ Vfs.prototype._createEngine = function(vfs, options) {
                     var newTransportName = transport && transport.name ? transport.name : "unknown";
                     var logMetadata = {message: "Socket transport changed", collab: options.collab, type: newTransportName,  id: that.id, sid: socket.id, pid: that.pid};
                     that.logger.log(logMetadata);
-                })
+                });
                 listeningForEIOSocketEvents = true;
             };
             socket.socket.once('away', function() {
