@@ -30,7 +30,6 @@
         "nak": "",
         "netutil": "~0.0.1",
         "optimist": "~0.6.0",
-        "pty.js": "~0.2.3",
         "qs": "0.6.6",
         "rusha": "~0.7.2",
         "send": "~0.1.4",
@@ -45,6 +44,7 @@
         "form-data": "~0.2.0"
     },
     "optionalDependencies": {
+        "pty.js": "~0.2.3",
         "heapdump": "0.2.10"
     },
     "licenses": [],

@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash -e
 
 cd `dirname $0`/..
 SOURCE=`pwd`
@@ -21,17 +21,19 @@ case "$uname" in
     *armv7l*) arch=arm-pi ;;
 esac
 
-if ! [[ -f ~/.c9/installed ]] && ! [[ $os == "windows" ]]; then
-    curl https://raw.githubusercontent.com/c9/install/master/install.sh | bash
-fi
+red=$'\e[01;31m'
+green=$'\e[01;32m'
+yellow=$'\e[01;33m'
+blue=$'\e[01;34m'
+magenta=$'\e[01;35m'
+resetColor=$'\e[0m'
 
 
-installC9Package() {
+updatePackage() {
     name=$1
     
     REPO=https://github.com/c9/$name
-    
-    echo "checking out $REPO"
+    echo "${green}checking out ${resetColor}$REPO"
     
     if ! [[ -d ./plugins/$name ]]; then
         mkdir -p ./plugins/$name
@@ -44,7 +46,7 @@ installC9Package() {
         git remote add origin $REPO
     fi
     
-    version=`node -e 'console.log((require("../../package.json").c9plugins["'$name'"].substr(1) || "origin/master"))'`;
+    version=`"$NODE" -e 'console.log((require("../../package.json").c9plugins["'$name'"].substr(1) || "origin/master"))'`;
     rev=`git rev-parse --revs-only $version`
     
     if [ "$rev" == "" ]; then
@@ -55,27 +57,57 @@ installC9Package() {
     if [ "$status" == "" ]; then
         git reset $version --hard
     else
-        echo "$name contains uncommited changes. Skipping..."
+        echo "${yellow}$name ${red}contains uncommited changes.${yellow} Skipping...${resetColor}"
     fi
     popd
 }
 
-c9packages=(`node -e 'console.log(Object.keys(require("./package.json").c9plugins).join(" "))'`);
-count=${#c9packages[@]}
-i=0
-for m in ${c9packages[@]}; do echo $m; 
-    i=$(($i + 1))
-    echo "updating plugin $i of $count"
-    installC9Package $m || true
-done
+updateAllPackages() {
+    c9packages=(`"$NODE" -e 'console.log(Object.keys(require("./package.json").c9plugins).join(" "))'`);
+    count=${#c9packages[@]}
+    i=0
+    for m in ${c9packages[@]}; do echo $m; 
+        i=$(($i + 1))
+        echo "updating plugin ${blue}$i${resetColor} of ${blue}$count${resetColor}"
+        updatePackage $m || true
+    done
+}
 
+updateNodeModules() {
+    echo "${magenta}--- Running npm install --------------------------------------------${resetColor}"
+    safeInstall(){
+        deps=`"$NODE" -e 'console.log(Object.keys(require("./package.json").dependencies).join(" "))'`; 
+        for m in $deps; do echo $m; 
+            "$NPM" install --loglevel warn $m || true
+        done
+    }
+    "$NPM" install || safeInstall
+    echo "${magenta}--------------------------------------------------------------------${resetColor}"
+}
 
-# deps=`node -e 'console.log(Object.keys(require("./package.json").dependencies).join(" "))'`; 
-# for m in $deps; do echo $m; 
-#     npm install $m || true
-# done
-npm install || true
+updateCore() {
+    git remote add c9 https://github.com/c9/core 2> /dev/null || true
+    git fetch c9
+    git merge c9/master --ff-only || \
+        echo "${yellow}Couldn't automatically update sdk core ${resetColor}"
+}
 
+installGlobalDeps() {
+    if ! [[ -f ~/.c9/installed ]]; then
+        curl https://raw.githubusercontent.com/c9/install/master/install.sh | bash
+    fi
+}
+
+############################################################################
+NPM=npm
+NODE=node
+
+updateCore || true
+
+installGlobalDeps
+updateAllPackages
+updateNodeModules
 
 echo "Success!"
-echo "run 'node server.js -p 8181 -l 0.0.0.0' to launch Cloud9"
+echo "run '${yellow}node server.js -p 8181 -l 0.0.0.0 -a :${resetColor}' to launch Cloud9"
+"$NODE" server.js -p 8181 -l 0.0.0.0 -a :
