@@ -115,9 +115,11 @@ require([
             findreplace: {
                 
             },
-            ace: {
-                getElement: function(){}
-            },
+            ace: (function() {
+                var x = new EventEmitter();
+                x.getElement = function(){};
+                return x;
+            })(),
             css: {
                 get packed() { return true; },
                 get packedThemes() { return true; },
@@ -302,6 +304,7 @@ require([
                     setCommand: function(){},
                     attachTo: function(){},
                     detach: function(){},
+                    emit: emit,
                     show: function(){ emit("show"); },
                     hide: function(){ emit("hide"); },
                     draw: function draw(area) {
@@ -419,7 +422,44 @@ require([
                     }
                     doc.setValue(newVal);
                 }
-            }
+            },
+            metadata: (function(){
+                var x = new EventEmitter();
+                return x;
+            })(),
+            editors: (function(){
+                var x = new EventEmitter();
+                return x;
+            })(),
+            timeslider: (function(){
+                var x = new EventEmitter();
+                return x;
+            })(),
+            OTDocument: (function(){
+                var x = new EventEmitter();
+                return x;
+            })(),
+            "notification.bubble": (function(){
+                var x = new EventEmitter();
+                return x;
+            })(),
+            "collab": (function(){
+                var x = new EventEmitter();
+                return x;
+            })(),
+            "collab.connect": (function(){
+                var x = new EventEmitter();
+                return x;
+            })(),
+            "collab.workspace": (function(){
+                var x = new EventEmitter();
+                x.users = [];
+                return x;
+            })(),
+            "collab.util": (function(){
+                var x = new EventEmitter();
+                return x;
+            })(),
         });
     };
     
