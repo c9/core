@@ -288,12 +288,12 @@ define(function(require, exports, module) {
             return commands;
         }
         
-        function reset(noReload){
+        function reset(noReload, toDefault){
             commandManager.commandKeyBinding = {};
             
             Object.keys(commands).forEach(function(name) {
                 var cmd = commands[name];
-                bindKey(cmd.originalBindKey, cmd);
+                bindKey(toDefault ? cmd.originalBindKey : cmd.bindKey, cmd);
             });
             
             if (noReload)
