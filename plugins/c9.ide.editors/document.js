@@ -369,7 +369,7 @@ define(function(require, module, exports) {
                  * @property {String} value
                  */
                 get value(){
-                    var calculated = emit("getValue", {value: value});
+                    var calculated = emit("getValue", { value: recentValue || value });
                     if (typeof calculated != "string")
                         calculated = value;
                     

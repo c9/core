@@ -137,7 +137,7 @@ define(function(require, module, exports) {
             }
             
             function findItem(compressedItem) {
-                return emit("itemFind", {state: compressedItem});
+                return emit("itemFind", { state: compressedItem });
             }
             
             function reset(){
@@ -205,8 +205,8 @@ define(function(require, module, exports) {
              *     }
              *     
              *     var undoManager = new UndoManager();
-             *     undoManager.add(new Item("a", 0)); // data = ["a"]
-             *     undoManager.add(new Item("b", 1)); // data = ["a", "b"]
+             *     undoManager.add(new Item("a").redo()); // data = ["a"]
+             *     undoManager.add(new Item("b").redo()); // data = ["a", "b"]
              * 
              *     undoManager.undo(); // data = ["a"];
              *     undoManager.undo(); // data = [];
