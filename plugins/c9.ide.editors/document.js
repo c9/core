@@ -330,7 +330,7 @@ define(function(require, module, exports) {
                 get editor(){ return editor; },
                 set editor(v) { 
                     editor = v;
-                    emit("setEditor", {editor: v});
+                    emit("setEditor", { editor: v });
                 },
                 /**
                  * Whether the document is fully loaded
@@ -340,7 +340,7 @@ define(function(require, module, exports) {
                 set ready(v) {
                     if (ready) throw new Error("Permission Denied");
                     ready = true;
-                    emit.sticky("ready");
+                    emit.sticky("ready", { doc: plugin });
                 },
                 /**
                  * The tooltip displayed when hovering over the tab button
@@ -349,7 +349,7 @@ define(function(require, module, exports) {
                 get tooltip(){ return tooltip; },
                 set tooltip(v) { 
                     tooltip = v; 
-                    emit("setTooltip", {tooltip: v});
+                    emit("setTooltip", { tooltip: v });
                 },
                 /**
                  * The title of the document (displayed as caption of the tab button)
@@ -358,18 +358,18 @@ define(function(require, module, exports) {
                 get title(){ return title; },
                 set title(v) { 
                     title = v; 
-                    emit("setTitle", {title: v});
+                    emit("setTitle", { title: v });
                 },
                 /**
                  * Sets or retrieves the serialized value of this document.
-                 * Setting this document will not change the undo stack. Set
+                 * Setting this property will not change the undo stack. Set
                  * this property only to initialize the document or to reset
                  * the value of this document. Requesting the value of this
                  * document will cause it to serialize it's full state.
                  * @property {String} value
                  */
                 get value(){
-                    var calculated = emit("getValue", {value: value});
+                    var calculated = emit("getValue", { value: recentValue || value });
                     if (typeof calculated != "string")
                         calculated = value;
                     
@@ -380,7 +380,7 @@ define(function(require, module, exports) {
                 },
                 set value(v) { 
                     value = recentValue = v;
-                    emit("setValue", {value: v});
+                    emit("setValue", { value: v });
                     hasValue = true;
                 },
                 /**
