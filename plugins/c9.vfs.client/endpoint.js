@@ -16,7 +16,7 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
 
-        var urlServers;
+        var urlServers, lastVfs;
         var query = require("url").parse(document.location.href, true).query;
         if (query.vfs) {
             if (!query.vfs.match(/^https:\/\/.*\/vfs$/))
@@ -164,7 +164,6 @@ define(function(require, exports, module) {
                     return callback(new Error("Disconnected: Could not reach your workspace. Please try again later."));
 
                 var server = servers[i];
-
                 auth.request(server.url + "/" + options.pid, {
                     method: "POST",
                     timeout: 120000,
@@ -268,22 +267,24 @@ define(function(require, exports, module) {
             };
 
             var data = JSON.stringify(vfs);
-            var oldData = window.sessionStorage.getItem("vfsid");
+            
+            var oldData = lastVfs || window.sessionStorage.getItem("vfsid");
             if (oldData && oldData !== data)
                 deleteOldVfs();
-
-            try {
-                window.sessionStorage.setItem("vfsid", data);
-            } catch(e) {
-                // could throw a quota exception
-            } 
+            
+            lastVfs = data;
+            
             return vfs;
         }
 
         function recallVfs() {
             var vfs;
             try {
-                vfs = JSON.parse(window.sessionStorage.getItem("vfsid"));
+                vfs = JSON.parse(lastVfs || window.sessionStorage.getItem("vfsid"));
+                if (!lastVfs) {
+                    window.sessionStorage.removeItem("vfsid");
+                    lastVfs = JSON.stringify(vfs);
+                }
             } catch (e) {}
 
             if (!vfs)
@@ -300,10 +301,11 @@ define(function(require, exports, module) {
         function deleteOldVfs() {
             var vfs;
             try {
-                vfs = JSON.parse(window.sessionStorage.getItem("vfsid"));
+                vfs = JSON.parse(lastVfs || window.sessionStorage.getItem("vfsid"));
             } catch (e) {}
 
             window.sessionStorage.removeItem("vfsid");
+            lastVfs = null;
             if (!vfs) return;
 
             auth.request(vfs.vfsid, {
@@ -315,13 +317,29 @@ define(function(require, exports, module) {
                 if (err) console.error(vfs.vfsid, "deleted", err);
                 });
         }
-
+        
         function fatalError(msg, action) {
             var err = new Error(msg);
             err.fatal = true;
             err.action = action || "reload";
             return err;
         }
+        
+        function saveToSessionStorage() {
+            try {
+                window.sessionStorage.setItem("vfsid", lastVfs);
+            } catch(e) {
+                // could throw a quota exception
+            }
+        }
+        
+        plugin.on("load", function() {
+            window.addEventListener("unload", saveToSessionStorage);
+        });
+        
+        plugin.on("unload", function() {
+            window.removeEventListener("unload", saveToSessionStorage);
+        });
 
         /***** Register and define API *****/
 
