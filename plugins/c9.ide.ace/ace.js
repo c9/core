@@ -1977,6 +1977,7 @@ define(function(require, exports, module) {
             }
             
             function hideProgress(){
+                if (!ace) return; // ace was destroyed during timeout
                 var style = progress.background.style;
                 function hide() {
                     style.display = "none";
@@ -1993,7 +1994,6 @@ define(function(require, exports, module) {
                 style.opacity = 0;
                 
                 ace.renderer.unfreeze();
-                // ace.resize(true);
             }
             
             function showProgress(value, upload, t) {
