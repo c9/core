@@ -205,7 +205,8 @@ define(function(require, module, exports) {
             
             /***** Register and define API *****/
             
-            plugin.freezePublicAPI.baseclass();
+            // This is a base class
+            plugin.baseclass();
             
             /**
              * Editor base class for Cloud9 Editors. Each file that is opened

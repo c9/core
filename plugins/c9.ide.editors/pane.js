@@ -657,20 +657,18 @@ define(function(require, module, exports) {
                  * @readonly
                  */
                 get group(){
-                    function getGroup(amlPane) {
-                        var pNode = amlPane.parentNode;
+                    var pNode = amlPane.parentNode;
+                    
+                    if (pNode.localName.indexOf("splitbox") == -1)
+                        return false;
                         
-                        if (pNode.localName.indexOf("splitbox") == -1)
-                            return false;
-                            
-                        var result = pNode.childNodes.map(function(aml) {
-                            return aml.cloud9pane;
-                        });
-                        // result.__defineGetter__("group", function(){
-                        //     return getGroup(pNode)
-                        // });
-                        return result;
-                    }
+                    var result = [];
+                    pNode.childNodes.forEach(function(aml) {
+                        if (aml.cloud9pane)
+                            result.push(aml.cloud9pane);
+                    });
+                    
+                    return result;
                 },
                 
                 /**
@@ -703,7 +701,8 @@ define(function(require, module, exports) {
                  * @readonly
                  */
                 get visible(){ return visible; },
-                set visible(v){ visible = v; },
+                set visible(v){ amlPane.setProperty("visible", v); visible = v; },
+                set _visible(v){ visible = v; },
                 
                 /**
                  * Retrieves the meta object for this panel

@@ -24,6 +24,7 @@ case "$uname" in
     *x86_64*) arch=x64 ;;
     *i*86*) arch=x86 ;;
     *armv6l*) arch=arm-pi ;;
+    *armv7l*) arch=arm-pi ;;
 esac
 
 showStatus () { printf "\e[1A\e[0K\r%s\n" $1; }
@@ -89,7 +90,7 @@ console.log('Client Plugins:');
     });
     
 console.log('CLI Plugins:');
-    plugins = require('./configs/cli');
+    plugins = require('./configs/cli')();
     copy.dirs('$SOURCE', '$APPDIR', pluginDirs(plugins), {
         exclude: /^mock$/,
     });

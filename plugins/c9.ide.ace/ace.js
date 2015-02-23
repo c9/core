@@ -2075,7 +2075,7 @@ define(function(require, exports, module) {
             
             /***** Lifecycle *****/
             
-            //@todo set selection, scroll and file in header
+            // @todo set selection, scroll and file in header
             
             plugin.on("load", function(){
                 
@@ -2102,7 +2102,7 @@ define(function(require, exports, module) {
                 doc.on("setValue", function set(e) { 
                     var aceSession = c9Session.session;
                     if (!aceSession)
-                        return; //This is probably a deconstructed document
+                        return; // This is probably a deconstructed document
                     
                     // The first value that is set should clear the undo stack
                     // additional times setting the value should keep it.
@@ -2115,7 +2115,7 @@ define(function(require, exports, module) {
                         hideProgress();
                     }
                     
-                    if (e.state)
+                    if (e.state) // There is nowhere where e.state is set. Dead code?
                         setState(doc, e.state);
                         
                     if (currentDocument === doc)
