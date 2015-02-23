@@ -90,7 +90,7 @@ console.log('Client Plugins:');
     });
     
 console.log('CLI Plugins:');
-    plugins = require('./configs/cli');
+    plugins = require('./configs/cli')();
     copy.dirs('$SOURCE', '$APPDIR', pluginDirs(plugins), {
         exclude: /^mock$/,
     });
