@@ -632,6 +632,11 @@ define(function(require, exports, module) {
                             max: "64",
                             position: 100
                         },
+                        "Autodetect Tab Size on Load" : {
+                            type: "checkbox",
+                            path: "project/ace/@guessTabSize",
+                            position: 150
+                        },
                         "New File Line Endings" : {
                            type: "dropdown",
                            path: "project/ace/@newLineMode",
