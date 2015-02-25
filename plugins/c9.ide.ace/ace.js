@@ -2052,7 +2052,8 @@ define(function(require, exports, module) {
         
             function detectSettingsOnLoad(c9Session) {
                 var session = c9Session.session;
-                whitespaceUtil.detectIndentation(session);
+                if (settings.get("project/ace/@guessTabSize"))
+                    whitespaceUtil.detectIndentation(session);
                 if (!session.syntax) {
                     var syntax = detectSyntax(c9Session);
                     if (syntax)
