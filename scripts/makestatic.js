@@ -72,15 +72,21 @@ function main(config, settings, options, callback) {
         })
         .concat({
             consumes: [],
-            provides: ["cdn.build", "db"],
+            provides: ["cdn.build", "db", "health"],
             setup: function(options, imports, register) {
-                register(null, { "cdn.build": {}, "db": {
-                    "Vfs": {
-                        findAllAndPurge: function(maxVfsAge, callback) {
-                            callback(null, [{}]);
+                register(null, {
+                    "cdn.build": {},
+                    "db": {
+                        "Vfs": {
+                            findAllAndPurge: function(maxVfsAge, callback) {
+                                callback(null, [{}]);
+                            }
                         }
+                    }, 
+                    "health": { 
+                        addCheck: function() {}
                     }
-                } });
+                });
             }
         })
         .filter(function(p) {
@@ -88,19 +94,6 @@ function main(config, settings, options, callback) {
             return !path || path.indexOf("c9.db.redis/redis") == -1
                 && path.indexOf("c9.static/build") == -1
                 && path.indexOf("c9.api/health") == -1;
-        })
-        .concat({
-            consumes: [],
-            provides: ["cdn.build", "db", "health"],
-            setup: function(options, imports, register) {
-                register(null, { 
-                    "cdn.build": {}, 
-                    "db": {}, 
-                    "health": { 
-                        addCheck: function() {}
-                    }
-                });
-            }
         });
 
     
