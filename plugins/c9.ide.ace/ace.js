@@ -632,6 +632,11 @@ define(function(require, exports, module) {
                             max: "64",
                             position: 100
                         },
+                        "Autodetect Tab Size on Load" : {
+                            type: "checkbox",
+                            path: "project/ace/@guessTabSize",
+                            position: 150
+                        },
                         "New File Line Endings" : {
                            type: "dropdown",
                            path: "project/ace/@newLineMode",
@@ -2052,7 +2057,8 @@ define(function(require, exports, module) {
         
             function detectSettingsOnLoad(c9Session) {
                 var session = c9Session.session;
-                whitespaceUtil.detectIndentation(session);
+                if (settings.get("project/ace/@guessTabSize"))
+                    whitespaceUtil.detectIndentation(session);
                 if (!session.syntax) {
                     var syntax = detectSyntax(c9Session);
                     if (syntax)
