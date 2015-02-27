@@ -617,7 +617,7 @@ define(function(require, exports, module) {
             
             commands.addCommand({
                 name: "toggleWordWrap",
-                bindKey: {win: "", mac: ""},
+                bindKey: {win: "Ctrl-Q", mac: "Ctrl-W"},
                 exec: function(editor) {
                     editor.setOption("wrap",  editor.getOption("wrap") == "off");
                 }, 

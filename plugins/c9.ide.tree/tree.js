@@ -103,7 +103,7 @@ define(function(require, exports, module) {
             commands.addCommand({ 
                 name: "focusTree", 
                 // shortcut can be modified here 
-                bindKey: { mac: "", win: ""}, 
+                bindKey: { mac: "Shift-Esc", win: "Shift-Esc"},
                 exec: function() { 
                     panels.activate("tree"); 
                     plugin.focus();
