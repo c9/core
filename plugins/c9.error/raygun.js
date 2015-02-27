@@ -30,6 +30,7 @@ function plugin(options, imports, register) {
     };
     
     for (var client in clients) {
+        client = clients[client];
         client._send = client.send;
         client.send = function(exception, customData, callback, request) {
             var ex = exception;
