@@ -326,7 +326,6 @@ define(function(require, exports, module) {
                 commands.find,
                 commands.openterminal,
                 commands.navigate,
-                commands.navigate_altkey,
                 commands.searchinfiles,
                 commands.close_term_pane,
                 commands.closeallbutme,
