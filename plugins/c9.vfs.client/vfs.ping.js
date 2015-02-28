@@ -60,11 +60,14 @@ define(function(require, exports, module) {
             if (!api) return callback(new Error("Client is offline"));
 
             var start = Date.now();
-            api.ping("ping", function(err) {
+            api.ping("ping", function(err, response) {
                 var took = Date.now() - start;
                 if (err) return callback(err);
 
-                callback(null, took);
+                callback(null, {
+                    serverTime: response.serverTime,
+                    total: took
+                });
             });
         }
 
