@@ -93,7 +93,7 @@ module.exports = function(config, optimist) {
     if (!/:/.test(argv.auth) && !isLocalhost) {
         console.log("Authentication is required when not running on localhost.\nPlease use -a user:pass or --listen localhost to listen locally.");
         console.log("switching to localhost");
-        host == "127.0.0.1";
+        host = config.host = "127.0.0.1";
     }
     var auth = (argv.auth || ":").split(":");
 
@@ -102,7 +102,8 @@ module.exports = function(config, optimist) {
             packagePath: "connect-architect/connect",
             port: port,
             host: host,
-            websocket: true
+            websocket: true,
+            showRealIP: !config.mode
         },
         {
             packagePath: "connect-architect/connect.basicauth",
