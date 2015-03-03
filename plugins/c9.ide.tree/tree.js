@@ -12,18 +12,19 @@ define(function(require, exports, module) {
         var c9 = imports.c9;
         var util = imports.util;
         var Panel = imports.Panel;
-        var fs = imports.fs;
         var panels = imports.panels;
         var settings = imports.settings;
-        var layout = imports.layout;
+        var fs = imports.fs;
         var ui = imports.ui;
-        var menus = imports.menus;
         var tabs = imports.tabManager;
+        var menus = imports.menus;
+        var layout = imports.layout;
         var clipboard = imports.clipboard;
+        var commands = imports.commands;
         var watcher = imports.watcher;
         var prefs = imports.preferences;
-        var fsCache = imports["fs.cache"];
         var alert = imports["dialog.alert"].show;
+        var fsCache = imports["fs.cache"];
         var confirmRemove = imports["dialog.fileremove"].show;
         var confirmRename = imports["dialog.fileoverwrite"].show;
         var showError = imports["dialog.error"].show;
@@ -99,6 +100,15 @@ define(function(require, exports, module) {
                 if (panels.isActive("tree"))
                     tree && tree.resize();
             });
+            commands.addCommand({ 
+                name: "focusTree", 
+                // shortcut can be modified here 
+                bindKey: { mac: "Shift-Esc", win: "Shift-Esc"},
+                exec: function() { 
+                    panels.activate("tree"); 
+                    plugin.focus();
+                }
+            }, plugin);
             
             // On Ready Resize initially
             c9.once("ready", function(){ tree && tree.resize(); });

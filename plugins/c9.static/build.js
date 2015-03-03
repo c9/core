@@ -206,7 +206,12 @@ function main(options, imports, register) {
     
     function sharedModules() {
         return [
-            "lib/architect/architect"
+            "lib/architect/architect",
+            "ace/mode/html",
+            "ace/mode/javascript",
+            "ace/mode/css",
+            "ace/mode/c9search",
+            "ace/multi_select"
         ];
     }
     
