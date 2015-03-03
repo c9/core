@@ -632,6 +632,11 @@ define(function(require, exports, module) {
                             max: "64",
                             position: 100
                         },
+                        "Autodetect Tab Size on Load" : {
+                            type: "checkbox",
+                            path: "project/ace/@guessTabSize",
+                            position: 150
+                        },
                         "New File Line Endings" : {
                            type: "dropdown",
                            path: "project/ace/@newLineMode",
@@ -1977,6 +1982,7 @@ define(function(require, exports, module) {
             }
             
             function hideProgress(){
+                if (!ace) return; // ace was destroyed during timeout
                 var style = progress.background.style;
                 function hide() {
                     style.display = "none";
@@ -1993,7 +1999,6 @@ define(function(require, exports, module) {
                 style.opacity = 0;
                 
                 ace.renderer.unfreeze();
-                // ace.resize(true);
             }
             
             function showProgress(value, upload, t) {
@@ -2052,7 +2057,8 @@ define(function(require, exports, module) {
         
             function detectSettingsOnLoad(c9Session) {
                 var session = c9Session.session;
-                whitespaceUtil.detectIndentation(session);
+                if (settings.get("project/ace/@guessTabSize"))
+                    whitespaceUtil.detectIndentation(session);
                 if (!session.syntax) {
                     var syntax = detectSyntax(c9Session);
                     if (syntax)
