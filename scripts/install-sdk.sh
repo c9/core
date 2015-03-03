@@ -110,4 +110,3 @@ updateNodeModules
 
 echo "Success!"
 echo "run '${yellow}node server.js -p 8181 -l 0.0.0.0 -a :${resetColor}' to launch Cloud9"
-"$NODE" server.js -p 8181 -l 0.0.0.0 -a :
