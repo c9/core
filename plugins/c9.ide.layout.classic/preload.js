@@ -30,7 +30,7 @@ define(function(require, exports, module) {
         
         function preload(callback) {
             settings.setDefaults("user/general", [
-                ["skin", "dark"] // "flat-light"
+                ["skin", options.defaultTheme || "dark"] // "flat-light"
             ]);
             if (!packed || options.loadTheme) return callback();
             try {
