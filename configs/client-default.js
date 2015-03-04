@@ -403,7 +403,8 @@ module.exports = function(options) {
         "plugins/c9.ide.theme.flat/flat-light",
         {
             packagePath: "plugins/c9.ide.layout.classic/preload",
-            themePrefix: options.themePrefix
+            themePrefix: options.themePrefix,
+            defaultTheme: "dark"
         },
         {
             packagePath: "plugins/c9.ide.tree/tree",
