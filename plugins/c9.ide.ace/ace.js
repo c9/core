@@ -614,6 +614,17 @@ define(function(require, exports, module) {
                     settings.set("user/ace/@fontSize", --currSize < 1 ? 1 : currSize);
                 }
             }), handle);
+            
+            commands.addCommand({
+                name: "toggleWordWrap",
+                bindKey: {win: "Ctrl-Q", mac: "Ctrl-W"},
+                exec: function(editor) {
+                    editor.setOption("wrap",  editor.getOption("wrap") == "off");
+                }, 
+                isAvailable: function(editor) {
+                    return editor && editor.type == "ace";
+                }
+            }, handle);
         }
         
         /***** Preferences *****/

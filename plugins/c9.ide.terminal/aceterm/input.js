@@ -1,4 +1,5 @@
 define(function(require, exports, module) {
+    var isWindows = require("ace/lib/useragent").isWindows;
     module.exports = function initInput(ace) {
         var HashHandler = require("ace/keyboard/hash_handler").HashHandler;
         var KEY_MODS = require("ace/lib/keys").KEY_MODS;
@@ -156,6 +157,9 @@ define(function(require, exports, module) {
                 passEvent: !hashId || hashId === KEY_MODS.shift || (
                     // on mac key combos without ctrl or cmd trigger textinput
                     specialKeys.platform === "mac" && !(hashId & (KEY_MODS.ctrl | KEY_MODS.cmd))
+                ) || (
+                    // on windows 8+ calling preventDefault on win+space breaks textinput
+                    specialKeys.platform === "win" && hashId == KEY_MODS.cmd && (keyCode == 32 || keyCode == -1)
                 )
             };
         };
