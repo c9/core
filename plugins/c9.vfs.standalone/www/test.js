@@ -364,7 +364,8 @@ require([
             })(),
             util: {
                 alert: function() {},
-                escapeXml: function(s) { return s; }
+                escapeXml: function(s) { return s; },
+                stableStringify: function(s) { return JSON.stringify(s); },
             },
             gotoline: {
                 toggle: function(){ }

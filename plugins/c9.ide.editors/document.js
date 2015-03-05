@@ -39,13 +39,16 @@ define(function(require, module, exports) {
             
             // Listen to changes and detect when the value of the editor
             // is different from what is on disk
-            undoManager.on("change", function(e) {
-                var c = !undoManager.isAtBookmark();
-                if (changed !== c || undoManager.position == -1) {
-                    changed = c;
-                    emit("changed", { changed: c });
-                }
-            });
+            function initUndo(){
+                undoManager.on("change", function(e) {
+                    var c = !undoManager.isAtBookmark();
+                    if (changed !== c || undoManager.position == -1) {
+                        changed = c;
+                        emit("changed", { changed: c });
+                    }
+                });
+            }
+            initUndo();
             
             /***** Methods *****/
             
@@ -401,6 +404,11 @@ define(function(require, module, exports) {
                  * @property {UndoManager} undoManager
                  */
                 get undoManager(){ return undoManager; },
+                set undoManager(newUndo){ 
+                    undoManager.unload();
+                    undoManager = newUndo; 
+                    initUndo();
+                },
                 
                 _events: [
                     /**
