@@ -20,6 +20,8 @@ if (!module.parent) {
         .boolean("symlink")
         .describe("compress", "Compress output files")
         .boolean("compress")
+        .describe("react-style", "compile react less CSS")
+        .boolean("react-style")
         .describe("dest", "destination folder for the static files")
         .boolean("help")
         .describe("help", "Show command line options.");
@@ -106,6 +108,12 @@ function main(config, settings, options, callback) {
                 app.services.makestatic.getMounts(options.dest, callback);
             else if (options.symlink)
                 app.services.makestatic.symlink(options.dest, callback);
+            else if (options["react-style"])
+                app.services["react.style"].compile(function(err, code) {
+                    if (err) return callback(err);
+                    console.log(code);
+                    callback();
+                });
             else
                 app.services.makestatic.copy(options.dest, callback);
         });
