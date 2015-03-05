@@ -337,6 +337,10 @@
             function done(err) {
                 console.log("/" + Array(20).join("-"));
                 console.log("finished running " + (i - 1) + " tests from " + all.length + ". In " + (Date.now() - t) + "ms");
+                if (!err && document.URL.indexOf("stress=1") >= 0) {
+                    console.log("Stress testing and found no errors so reloading");
+                    location.reload();
+                }
                 callback && callback(err);
             }
         }
