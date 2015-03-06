@@ -1416,7 +1416,11 @@ window.TraceKit = TraceKit;
       }
     }
   }
-
+    
+  var blackListedErrors = {
+    'Error with empty message': {},
+    'Script error': {}
+  };
   function processUnhandledException(stackTrace, options) {
     var stack = [],
         qs = {};
@@ -1469,14 +1473,25 @@ window.TraceKit = TraceKit;
       finalCustomData = { error: msg };
       log('Raygun4JS: ' + msg);
     }
+    
+    // c9!
+    var message = custom_message || stackTrace.message || options.status || 'Error with empty message';
+    if (blackListedErrors.hasOwnProperty(message)) {
+        var count = (blackListedErrors[message].count || 0) + 1;
+        blackListedErrors[message].count = count;
+        if (count % 10 !== 1) {
+            return;
+        }
+        finalCustomData.$blackList = blackListedErrors[message];
+    }
 
     var payload = {
       'OccurredOn': new Date(),
       'Details': {
         'Error': {
           'ClassName': stackTrace.name,
-          'Message': custom_message || stackTrace.message || options.status || 'Script error',
-          'StackTrace': stack
+          'Message': message,
+          'StackTrace': stack,
         },
         'Environment': {
           'UtcOffset': new Date().getTimezoneOffset() / -60.0,
