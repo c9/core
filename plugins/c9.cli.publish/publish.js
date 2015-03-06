@@ -342,9 +342,14 @@ define(function(require, exports, module) {
                 
                 // Validate plugins
                 var plugins = {};
-                fs.readdirSync(cwd).map(function(filename) {
-                    if (/_test\.js$/.test(filename) || !/.js/.test(filename)) return;
-                    var val = fs.readFileSync(cwd + "/" + filename);
+                fs.readdirSync(cwd).forEach(function(filename) {
+                    if (/_test\.js$/.test(filename) || !/\.js$/.test(filename)) return;
+                    try {
+                        var val = fs.readFileSync(cwd + "/" + filename);
+                    } catch(e) {
+                        if (e.code == "EISDIR") return;
+                        throw e;
+                    }
                     if (!/\(options,\s*imports,\s*register\)/.test(val)) return;
                     if (!/consumes\s*=/.test(val)) return;
                     if (!/provides\s*=/.test(val)) return;
