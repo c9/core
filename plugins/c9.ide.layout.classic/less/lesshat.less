@@ -2268,8 +2268,8 @@
 }
 
 .image-2x(@image; @width; @height; @repeat: no-repeat; @important: false) {
-    @filename  : ~`/(.*)\.(jpg|jpeg|png|gif)/.exec(@{image})[1]`;
-    @extension : ~`/(.*)\.(jpg|jpeg|png|gif)/.exec(@{image})[2]`;
+    @filename  : ~`/(.*)\.(jpg|jpeg|png|gif)|$/.exec(@{image})[1] || ""`;
+    @extension : ~`/(.*)\.(jpg|jpeg|png|gif)|$/.exec(@{image})[2] || ""`;
     background-image: ~`(function(){ return "url(@{filename}.@{extension})" + ("@{important}" == "true" ? ' !important' : '');})()`;
     background-repeat: @repeat;
 
