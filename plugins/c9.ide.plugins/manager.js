@@ -99,7 +99,7 @@ define(function(require, exports, module) {
         });
         // var emit = plugin.getEmitter();
         
-        var HASSDK = c9.location.indexOf("sdk=1") > -1;
+        var HASSDK = c9.location.indexOf("sdk=0") === -1;
         
         var model, datagrid, filterbox;
         var btnUninstall, btnReport, btnReadme, btnCloud9;
