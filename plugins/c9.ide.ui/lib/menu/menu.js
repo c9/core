@@ -938,7 +938,7 @@ apf.menu = function(struct, tagName){
         // workaround for a chrome bug where clicking on shadow clciks on contents of overflown element
         this.$ext.addEventListener("mouseup", function(e) {
             var rect = this.getBoundingClientRect();
-            if (e.clientY > rect.bottom) {
+            if (e.clientY > rect.bottom && rect.height) {
                 e.stopPropagation();
                 e.preventDefault();
             }
