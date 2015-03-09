@@ -3786,6 +3786,15 @@ apf.setStyleRule = function(name, type, value, stylesheet, win) {
     return !!rule;
 };
 
+apf.removeStyleRule = function(name, stylesheet, win) {
+    var rule = findCssRule(name, stylesheet, win);
+    if (rule) {
+        var i = Array.prototype.indexOf.call(rule.parentStyleSheet.cssRules, rule);
+        if (i != -1)
+            rule.parentStyleSheet.deleteRule(i);
+    }
+    return !!rule;
+}
 /**
  * This method gets a single CSS rule.
  * @param {String} name         The CSS name of the rule (i.e. `.cls` or `#id`).

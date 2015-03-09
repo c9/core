@@ -40,7 +40,7 @@ define(function(require, module, exports) {
                     }
                     amlTab && amlTab.setAttribute("class", this.names.join(" "));
                 }
-            }
+            };
             
             function initStyleSheet(fg, bg) {
                 var cssClass = plugin.name.replace(/[^a-zA-Z0-9\-_\u00A0-\uFFFF]/g, "-");
@@ -49,10 +49,14 @@ define(function(require, module, exports) {
                 rule = "." + cssClass + ".curbtn .tab_middle, ." 
                      + cssClass + ".curbtn .tab_middle::after, ." 
                      + cssClass + ".curbtn .tab_middle::before";
-                     
-                ui.importStylesheet([
-                    [rule, "background-color:" + (bg || "inherit") + ";"
-                     + "color:" + (fg || "inherit") + ";"]
+                if (!bg) bg = "inherit";
+                if (!fg) fg = "inherit";
+                
+                (
+                    ui.setStyleRule(rule, "background-color", bg, stylesheet) &&
+                    ui.setStyleRule(rule, "foreground-color", fg, stylesheet)
+                ) || ui.importStylesheet([
+                    [rule, "background-color:" + bg + ";" + "color:" + fg + ";"]
                 ], window, stylesheet);
             }
             
@@ -280,6 +284,8 @@ define(function(require, module, exports) {
             plugin.on("unload", function(e) { 
                 closed = true;
                 
+                if (rule)
+                    ui.removeStyleRule(rule, stylesheet);
                 // If there are no more pages left, reset location
                 var last = amlPane.getPages().length === 0;
                 if (last)
