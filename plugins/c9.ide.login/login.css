@@ -1,0 +1,36 @@
+.c9-menu-btn.titlebar{
+    position: absolute;
+    z-index: 100000000;
+    right: 24px;
+    top: 1px;
+    height: 19px;
+}
+
+.c9-menu-btn.titlebar:not(.c9-menu-btnDown){
+    height: 18px;
+    border-bottom: 1px solid black;
+}
+
+.fullscreen>.btnName{
+    display: none;
+}
+
+.btnName.c9-menu-btnIcon{
+    text-indent: -2000px;
+    overflow: hidden;
+}
+.btnName{
+    padding: @menu-name-button-padding;
+    margin-left: @menu-name-button-diff !important;
+}
+.btnName.c9-menu-btnmenuDown{
+    margin-left: 0 !important;
+}
+.btnName .icon{
+    background-size: @menu-name-button-icon-width @menu-name-button-icon-height !important;
+    top: @menu-name-button-icon-top !important;
+    left: @menu-name-button-icon-left !important;
+    width: @menu-name-button-icon-width; 
+    height: @menu-name-button-icon-height;
+    border-radius: @menu-name-button-icon-border-radius;
+}
