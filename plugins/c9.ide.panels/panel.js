@@ -17,19 +17,18 @@ define(function(require, module, exports) {
         var uCaseFirst = require("c9/string").uCaseFirst;
         
         function Panel(developer, deps, options) {
-            // Panel extends ext.Plugin
             var plugin = new Plugin(developer, deps);
             var emit = plugin.getEmitter();
             
             var autohide = options.autohide || false;
             var index = options.index || 100;
-            var className = options.className;
+            var buttonCSSClass = options.buttonCSSClass;
+            var panelCSSClass = options.panelCSSClass;
             var caption = options.caption;
-            var elementName = options.elementName;
             var width = options.width;
             var minWidth = options.minWidth;
             
-            var mnuItem, button, area, lastPanel, xpath, where;
+            var mnuItem, button, area, lastPanel, xpath, where, aml;
             
             plugin.on("load", function(){
                 xpath = "state/panels/" + plugin.name;
@@ -153,23 +152,27 @@ define(function(require, module, exports) {
                 if (drawn) return false;
                 drawn = true;
                 
+                aml = area.aml.appendChild(new ui.bar({
+                    "skin": "panel-bar",
+                    "class" : panelCSSClass || "",
+                    "visible": false
+                }));
+                plugin.addElement(aml);
+                
                 emit.sticky("draw", { 
-                    html: area.container, 
-                    aml: area.aml 
+                    html: aml.$int, 
+                    aml: aml 
                 });
                 
-                var aml = plugin.getElement(elementName);
-                if (aml) {
-                    aml.$ext.style.zIndex = 100;
-                    aml.$ext.style.minWidth = ""; //Needed for the anims
-                    aml.$ext.style.position = "absolute";
-                    aml.$ext.style.left = where == "left" ? area.width + "px" : 0;
-                    aml.$ext.style.top = 0;
-                    aml.$ext.style.right = where == "right" ? area.width + "px" : 0;
-                    aml.$ext.style.bottom = 0;
-                    
-                    aml.$display = apf.CSSPREFIX + "Flex";
-                }
+                aml.$ext.style.zIndex = 100;
+                aml.$ext.style.minWidth = ""; //Needed for the anims
+                aml.$ext.style.position = "absolute";
+                aml.$ext.style.left = where == "left" ? area.width + "px" : 0;
+                aml.$ext.style.top = 0;
+                aml.$ext.style.right = where == "right" ? area.width + "px" : 0;
+                aml.$ext.style.bottom = 0;
+                
+                aml.$display = apf.CSSPREFIX + "Flex";
                 
                 return true;
             }
@@ -178,7 +181,6 @@ define(function(require, module, exports) {
                 area = toArea;
                 
                 try {
-                    var aml = plugin.getElement(elementName);
                     if (aml)
                         area.aml.appendChild(aml);
                 } catch (e) {}
@@ -203,7 +205,7 @@ define(function(require, module, exports) {
                         state: true,
                         caption: caption,
                         auto: false,
-                        "class" : className || "",
+                        "class" : buttonCSSClass || "",
                         onmousedown: function(){
                             panels.areas[where].toggle(plugin.name, autohide, true);
                         },
@@ -312,8 +314,8 @@ define(function(require, module, exports) {
              *   autohiding panel. The developer is responsible for hiding
              *   the panel. This behavior will animate the panel during
              * @param hide and show over other panels, if there are any.
-             * @param {String}   [options.elementName] Specifies the name of the aml element that renders the panel
-             * @param {String}   [options.className]   Specifies the name of the css class that is applied to the panel
+             * @param {String}   [options.buttonCSSClass]   Specifies the name of the css class that is applied to the button
+             * @param {String}   [options.panelCSSClass]   Specifies the name of the css class that is applied to the panel
              * @param {Number}   [options.width]       Specifies the default width of the panel
              * @param {Number}   [options.minWidth]    Specifies the minimal width of the panel
              * @param {String}   [options.where]       Accepts "left" or "right" to determine where the panel is added
@@ -350,7 +352,7 @@ define(function(require, module, exports) {
                  * @private
                  * @readonly
                  */
-                get aml(){ return plugin.getElement(elementName); },
+                get aml(){ return aml; },
                 
                 /**
                  * The area that this panel is a part of.
