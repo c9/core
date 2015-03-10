@@ -1419,7 +1419,7 @@ window.TraceKit = TraceKit;
     
   var blackListedErrors = {
     'Error with empty message': {},
-    'Script error': {}
+    'Script error.': {}
   };
   function processUnhandledException(stackTrace, options) {
     var stack = [],
