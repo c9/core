@@ -69,7 +69,7 @@ updateAllPackages() {
     for m in ${c9packages[@]}; do echo $m; 
         i=$(($i + 1))
         echo "updating plugin ${blue}$i${resetColor} of ${blue}$count${resetColor}"
-        updatePackage $m || true
+        updatePackage $m
     done
 }
 
