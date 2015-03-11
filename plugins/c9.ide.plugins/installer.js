@@ -20,7 +20,7 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         // var emit = plugin.getEmitter();
         
-        var HASSDK = c9.location.indexOf("sdk=1") > -1;
+        var HASSDK = c9.location.indexOf("sdk=0") === -1;
         
         var queue = [];
         var installing;
