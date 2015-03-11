@@ -23,7 +23,7 @@ var SAFE_PORTS = [2222, 2310, 3000, 3001, 3030, 3210, 3333, 4000, 4001,
                   7777, 8000, 8001, 8003, 8031, 8080, 8081, 8765, 8777,
                   8888, 9000, 9001, 9080, 9090, 9876, 9877, 9999, 49221];
 
-var installPath = process.platform == "darwin"
+var installPath = process.platform == "dar-win" // disabled for sdk
     ? "/Library/Application Support/Cloud9"
     : join(process.env.HOME, ".c9");
     
