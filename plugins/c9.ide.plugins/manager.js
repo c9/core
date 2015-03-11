@@ -100,6 +100,7 @@ define(function(require, exports, module) {
         // var emit = plugin.getEmitter();
         
         var HASSDK = c9.location.indexOf("sdk=0") === -1;
+        var ENABLED = c9.location.indexOf("sdk=1") > -1;
         
         var model, datagrid, filterbox;
         var btnUninstall, btnReport, btnReadme, btnCloud9;
@@ -122,14 +123,16 @@ define(function(require, exports, module) {
             //     updateCommandsFromSettings();
             // }, plugin);
             
-            menus.addItemByPath("File/New Plugin", null, 210, plugin);
-            Object.keys(TEMPLATES).forEach(function(name){
-                menus.addItemByPath("File/New Plugin/" + TEMPLATES[name], new ui.item({
-                    onclick: function(){
-                        createNewPlugin(name);
-                    }
-                }), 210, plugin);
-            });
+            if (ENABLED) {
+                menus.addItemByPath("File/New Plugin", null, 210, plugin);
+                Object.keys(TEMPLATES).forEach(function(name){
+                    menus.addItemByPath("File/New Plugin/" + TEMPLATES[name], new ui.item({
+                        onclick: function(){
+                            createNewPlugin(name);
+                        }
+                    }), 210, plugin);
+                });
+            }
         }
         
         var drawn;

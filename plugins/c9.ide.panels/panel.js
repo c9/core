@@ -353,6 +353,10 @@ define(function(require, module, exports) {
                  * @readonly
                  */
                 get aml(){ return aml; },
+                /**
+                 * @property {HTMLElement} container
+                 */
+                get container(){ return aml.$ext; },
                 
                 /**
                  * The area that this panel is a part of.
