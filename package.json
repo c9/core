@@ -29,7 +29,7 @@
         "msgpack-js": "~0.1.1",
         "msgpack-js-browser": "~0.1.4",
         "nak": "",
-        "netutil": "~0.0.1",
+        "netutil": "~0.0.2",
         "optimist": "~0.6.0",
         "qs": "0.6.6",
         "rusha": "~0.7.2",
