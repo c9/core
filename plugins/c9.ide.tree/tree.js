@@ -314,7 +314,6 @@ define(function(require, exports, module) {
                 id: "mnuitemHiddenFiles",
                 type: "check",
                 caption: "Show Hidden Files",
-                visible: "{tree.container.visible}",
                 checked: "user/projecttree/@showhidden",
                 onclick: function(e) {
                     setTimeout(function() {
