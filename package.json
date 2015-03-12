@@ -45,8 +45,7 @@
         "form-data": "~0.2.0"
     },
     "optionalDependencies": {
-        "pty.js": "git://github.com/cloud9ide/pty.js.git#10e31e23ed",
-        "heapdump": "0.2.10"
+        "pty.js": "git://github.com/cloud9ide/pty.js.git#10e31e23ed"
     },
     "licenses": [],
     "c9plugins": {
