@@ -93,6 +93,7 @@ function loadScript(path, token, callback) {
 
     var and = path.indexOf("?") >= 0 ? "&" : "?";
     s.src = path + (token ? and + "access_token=" + encodeURIComponent(token) : "");
+    s.crossOrigin = true;
     head.appendChild(s);
 
     s.onload = s.onreadystatechange = function(_, isAbort) {
