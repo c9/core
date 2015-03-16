@@ -56,7 +56,10 @@ function main(config, settings, options, callback) {
     
     var plugins = require(config)(settings, optimist(process.argv))
         .map(function(plugin) {
+            if (typeof plugin == "string")
+                plugin = { packagePath: plugin };
             plugin.packaging = true;
+            
             if (plugin.packagePath == "connect-architect/connect") {
                 plugin.packagePath = "./c9.static/connect";
             }

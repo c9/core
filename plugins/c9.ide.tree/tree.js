@@ -44,7 +44,7 @@ define(function(require, exports, module) {
         var plugin = new Panel("Ajax.org", main.consumes, {
             index: options.index || 100,
             caption: "Workspace",
-            elementName: "winFilesViewer",
+            panelCSSClass: "workspace_files",
             minWidth: 130,
             where: options.where || "left"
         });
@@ -227,7 +227,7 @@ define(function(require, exports, module) {
             
             // Fetch UI elements
             container = plugin.getElement("container");
-            winFilesViewer = plugin.getElement("winFilesViewer");
+            winFilesViewer = options.aml
             
             // Create the Ace Tree
             tree = new Tree(container.$int);
@@ -314,7 +314,6 @@ define(function(require, exports, module) {
                 id: "mnuitemHiddenFiles",
                 type: "check",
                 caption: "Show Hidden Files",
-                visible: "{tree.container.visible}",
                 checked: "user/projecttree/@showhidden",
                 onclick: function(e) {
                     setTimeout(function() {

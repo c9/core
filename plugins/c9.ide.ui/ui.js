@@ -639,6 +639,10 @@ define(function(require, module, exports) {
             /**
              * @ignore
              */
+            removeStyleRule: apf.removeStyleRule,
+            /**
+             * @ignore
+             */
             setStyleClass: apf.setStyleClass,
             
             /**

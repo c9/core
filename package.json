@@ -18,6 +18,7 @@
         "connect": "~2.12.0",
         "debug": "~0.7.4",
         "ejs": "~0.8.3",
+        "emmet": "git://github.com/cloud9ide/emmet-core.git#2ff6dc06ad",
         "engine.io": "~1.5.1",
         "engine.io-client": "~1.5.1",
         "eslint": "git://github.com/cloud9ide/eslint.git#e2d052aafd81ea0aa6d1d4fd9f88f3613e386160",
@@ -28,7 +29,7 @@
         "msgpack-js": "~0.1.1",
         "msgpack-js-browser": "~0.1.4",
         "nak": "",
-        "netutil": "~0.0.1",
+        "netutil": "~0.0.2",
         "optimist": "~0.6.0",
         "qs": "0.6.6",
         "rusha": "~0.7.2",
@@ -44,8 +45,7 @@
         "form-data": "~0.2.0"
     },
     "optionalDependencies": {
-        "pty.js": "~0.2.3",
-        "heapdump": "0.2.10"
+        "pty.js": "git://github.com/cloud9ide/pty.js.git#10e31e23ed"
     },
     "licenses": [],
     "c9plugins": {
@@ -65,7 +65,7 @@
         "c9.ide.find": "#989c06e6a7",
         "c9.ide.find.infiles": "#f98dfef554",
         "c9.ide.find.replace": "#e4daf722b8",
-        "c9.ide.run.debug": "#6b7ab83781",
+        "c9.ide.run.debug": "#379e508be6",
         "c9.automate": "#86bf1ee1ca",
         "c9.ide.ace.emmet": "#e5f1a92ac3",
         "c9.ide.ace.gotoline": "#4d1a93172c",
@@ -96,7 +96,7 @@
         "c9.ide.recentfiles": "#7c099abf40",
         "c9.ide.remote": "#cd45e81d2f",
         "c9.ide.run": "#e510a39b4b",
-        "c9.ide.run.build": "#6726030127",
+        "c9.ide.run.build": "#915e48b363",
         "c9.ide.run.debug.xdebug": "#b91d23f48b",
         "c9.ide.save": "#a32a8f4346",
         "c9.ide.terminal.monitor": "#b0b4d03280",

@@ -33,11 +33,10 @@ function plugin(options, imports, register) {
         client = clients[client];
         client._send = client.send;
         client.send = function(exception, customData, callback, request) {
-            var ex = exception;
             if (!exception.stack)
-                ex = new Error(exception.message || exception);
+                exception = new Error(exception.message || exception);
                 
-            return this._send(ex, customData, callback, request);
+            return this._send.apply(this, arguments);
         };
     }
     

@@ -60,7 +60,7 @@ define(function(require, exports, module) {
                 group: "ignore",
                 bindKey: {
                     win: "F12|Ctrl-Shift-I",
-                    mac: "F12|Cmd-`|Cmd-R|Cmd-Option-I|Cmd-H|Cmd-M"
+                    mac: "F12|Cmd-`|Cmd-Option-I|Cmd-H|Cmd-M"
                 },
                 exec: function(){},
                 passEvent: true,
@@ -69,8 +69,8 @@ define(function(require, exports, module) {
                 name: "cancelBrowserAction",
                 group: "ignore",
                 bindKey: {
-                    mac: "Command-S",
-                    win: "Ctrl-S|Alt-Left|Alt-Right",
+                    mac: "Command-S|Cmd-R",
+                    win: "Ctrl-S|Ctrl-R|Alt-Left|Alt-Right",
                     position: -10000
                 },
                 exec: function(){},
@@ -308,12 +308,7 @@ define(function(require, exports, module) {
         
         function getExceptionList(){
             // Whitelist certain IDE keys for use from terminal and preview
-            return [{
-                    bindKey: { win: "F12|Ctrl-Shift-I", mac: "F12|Cmd-`|Cmd-R|Cmd-Option-I|Cmd-H|Cmd-M" },
-                    name: "passKeysToBrowser",
-                    passEvent: true,
-                    exec: function(){}
-                },
+            return [
                 {
                     bindKey: { win: null, mac: "Command-O" },
                     name: "navigateAlt",

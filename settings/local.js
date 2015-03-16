@@ -3,7 +3,7 @@ module.exports = function(manifest, installPath, settingDir) {
     var fs = require("fs");
     
     if (typeof installPath != "string") {
-        installPath = process.platform == "darwin"
+        installPath = process.platform == "darwin" && false // disabled for sdk
             ? "/Library/Application Support/Cloud9"
             : path.join(process.env.HOME, ".c9");
     }
