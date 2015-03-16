@@ -20,6 +20,8 @@ if (!module.parent) {
         .boolean("symlink")
         .describe("compress", "Compress output files")
         .boolean("compress")
+        .describe("react-style", "compile react less CSS")
+        .boolean("react-style")
         .describe("dest", "destination folder for the static files")
         .boolean("help")
         .describe("help", "Show command line options.");
@@ -54,7 +56,10 @@ function main(config, settings, options, callback) {
     
     var plugins = require(config)(settings, optimist(process.argv))
         .map(function(plugin) {
+            if (typeof plugin == "string")
+                plugin = { packagePath: plugin };
             plugin.packaging = true;
+            
             if (plugin.packagePath == "connect-architect/connect") {
                 plugin.packagePath = "./c9.static/connect";
             }
@@ -68,24 +73,30 @@ function main(config, settings, options, callback) {
             compress: options.compress,
             virtual: options.virtual
         })
-        .filter(function(p) {
-            var path = p.packagePath;
-            return !path || path.indexOf("c9.db.redis/redis") == -1
-                && path.indexOf("c9.static/build") == -1
-                && path.indexOf("c9.api/health") == -1;
-        })
         .concat({
             consumes: [],
             provides: ["cdn.build", "db", "health"],
             setup: function(options, imports, register) {
-                register(null, { 
-                    "cdn.build": {}, 
-                    "db": {}, 
+                register(null, {
+                    "cdn.build": {},
+                    "db": {
+                        "Vfs": {
+                            findAllAndPurge: function(maxVfsAge, callback) {
+                                callback(null, [{}]);
+                            }
+                        }
+                    }, 
                     "health": { 
                         addCheck: function() {}
                     }
                 });
             }
+        })
+        .filter(function(p) {
+            var path = p.packagePath;
+            return !path || path.indexOf("c9.db.redis/redis") == -1
+                && path.indexOf("c9.static/build") == -1
+                && path.indexOf("c9.api/health") == -1;
         });
 
     
@@ -100,6 +111,12 @@ function main(config, settings, options, callback) {
                 app.services.makestatic.getMounts(options.dest, callback);
             else if (options.symlink)
                 app.services.makestatic.symlink(options.dest, callback);
+            else if (options["react-style"])
+                app.services["react.style"].compile(function(err, code) {
+                    if (err) return callback(err);
+                    console.log(code);
+                    callback();
+                });
             else
                 app.services.makestatic.copy(options.dest, callback);
         });

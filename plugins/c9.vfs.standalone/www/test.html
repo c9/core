@@ -1,10 +1,16 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Test Runner</title>
-  <link rel="stylesheet" href="lib/mocha/mocha.css" />
-  <style> HTML { overflow: auto !important } </style>
+    <meta charset="utf-8">
+    <title>Test Runner</title>
+    <link rel="stylesheet" href="lib/mocha/mocha.css" />
+    <style>
+        HTML { overflow: auto !important }
+        body {
+            font: 20px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+            padding: 60px 50px;
+        }
+  </style>
 </head>
 <body>
     <div id="mocha"></div>
@@ -88,11 +94,17 @@
         };
         Storage.create(window, "localStorage");
         Storage.create(window, "sessionStorage");
-    
+        
         /*global Mocha, mocha*/
         mocha.reporter(function(runner) {
-            Mocha.reporters.Base.call(this, runner);
-            Mocha.reporters.HTML.call(this, runner);
+            function extend(target, BaseFn, arg) {
+                var base = BaseFn.prototype;
+                for (var i in base) if (!target[i]) target[i] = base[i];
+                BaseFn.call(target, arg);
+            }
+            
+            extend(this, Mocha.reporters.Base, runner);
+            extend(this, Mocha.reporters.HTML, runner);
             
             var tests = [];
             var stats = this.stats;
@@ -325,6 +337,11 @@
             function done(err) {
                 console.log("/" + Array(20).join("-"));
                 console.log("finished running " + (i - 1) + " tests from " + all.length + ". In " + (Date.now() - t) + "ms");
+                /* stress param makes the page continually refresh until a failure is found */
+                if (document.URL.indexOf("stress=1") >= 0 && getReport() && !getReport().stats.failures) {
+                    console.log("Stress testing and found no errors so reloading");
+                    location.reload();
+                }
                 callback && callback(err);
             }
         }

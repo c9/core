@@ -2589,13 +2589,22 @@ apf.DATE = 5;
 apf.REGEXP = 6;
 apf.FUNCTION = 7;
 
-Array.prototype.dataType = apf.ARRAY;
-Number.prototype.dataType = apf.NUMBER;
-Date.prototype.dataType = apf.DATE;
-Boolean.prototype.dataType = apf.BOOLEAN;
-String.prototype.dataType = apf.STRING;
-RegExp.prototype.dataType = apf.REGEXP;
-Function.prototype.dataType = apf.FUNCTION;
+function defineProp(obj, name, val) {
+    Object.defineProperty(obj, name, {
+        value: val,
+        enumerable: false,
+        writable: true,
+        configurable: true,
+    });
+}
+
+defineProp(Array.prototype, "dataType", apf.ARRAY);
+defineProp(Number.prototype, "dataType", apf.NUMBER);
+defineProp(Date.prototype, "dataType", apf.DATE);
+defineProp(Boolean.prototype, "dataType", apf.BOOLEAN);
+defineProp(String.prototype, "dataType", apf.STRING);
+defineProp(RegExp.prototype, "dataType", apf.REGEXP);
+defineProp(Function.prototype, "dataType", apf.FUNCTION);
 
 
 /*
@@ -2606,10 +2615,10 @@ Function.prototype.dataType = apf.FUNCTION;
  * @type Function
  * @see apf.extend
  */
-Function.prototype.extend = function() {
+defineProp(Function.prototype, "extend", function() {
     apf.extend.apply(this, [this].concat(Array.prototype.slice.call(arguments)));
     return this;
-};
+});
 
 /*
  * Attach a Function object to an event as handler method. If apf.AbstractEvent
@@ -2622,7 +2631,7 @@ Function.prototype.extend = function() {
  * @type Function
  * @see apf.AbstractEvent
  */
-Function.prototype.bindWithEvent = function() {
+defineProp(Function.prototype, "bindWithEvent", function() {
     var __method = this,
         args = Array.prototype.slice.call(arguments),
         o = args.shift(),
@@ -2634,48 +2643,19 @@ Function.prototype.bindWithEvent = function() {
         return __method.apply(o, [event].concat(args)
             .concat(Array.prototype.slice.call(arguments)));
     }
-};
-
-/*
- * The bind function creates a new function (a bound function) that calls the
- * function that is its this value (the bound function's target function) with
- * a specified this parameter, which cannot be overridden. bind also accepts
- * leading default arguments to provide to the target function when the bound
- * function is called.  A bound function may also be constructed using the new
- * operator: doing so acts as though the target function had instead been
- * constructed.  The provided this value is ignored, while prepended arguments
- * are provided to the emulated function.
- *
- * @param {Object} context The 'this' context of the bound function
- * @type Function
- */
-if (!Function.prototype.bind)
-    Function.prototype.bind = function(context /*, arg1, arg2... */) {
-        if (typeof this !== 'function') throw new TypeError();
-        var _arguments = Array.prototype.slice.call(arguments, 1),
-            _this = this,
-            _concat = Array.prototype.concat,
-            _function = function() {
-                return _this.apply(this instanceof _dummy ? this : context,
-                    _concat.apply(_arguments, arguments));
-            },
-            _dummy = function() {};
-        _dummy.prototype = _this.prototype;
-        _function.prototype = new _dummy();
-        return _function;
-};
+});
 
 /*
  * Copy an array, like this statement would: 'this.concat([])', but then do it
  * recursively.
  */
-Array.prototype.copy = function(){
+defineProp(Array.prototype, "copy", function(){
     var ar = [];
     for (var i = 0, j = this.length; i < j; i++)
         ar[i] = this[i] && this[i].copy ? this[i].copy() : this[i];
 
     return ar;
-};
+});
 
 /*
  * Concatenate the current Array instance with one (or more) other Arrays, like
@@ -2685,13 +2665,13 @@ Array.prototype.copy = function(){
  * @param {Array} array1, array2, array3, etc.
  * @type  {Array}
  */
-Array.prototype.merge = function(){
+defineProp(Array.prototype, "merge", function(){
     for (var i = 0, k = arguments.length; i < k; i++) {
         for (var j = 0, l = arguments[i].length; j < l; j++) {
             this.push(arguments[i][j]);
         }
     }
-};
+});
 
 /*
  * Add the values of one or more arrays to the current instance by using the
@@ -2701,7 +2681,7 @@ Array.prototype.merge = function(){
  * @type  {Array}
  * @see Array.copy
  */
-Array.prototype.arrayAdd = function(){
+defineProp(Array.prototype, "arrayAdd", function(){
     var s = this.copy();
     for (var i = 0, k = arguments.length; i < k; i++) {
         for (var j = 0, l = s.length; j < l; j++) {
@@ -2710,7 +2690,7 @@ Array.prototype.arrayAdd = function(){
     }
 
     return s;
-};
+});
 
 /*
  * Check if an object is contained within the current Array instance.
@@ -2718,12 +2698,12 @@ Array.prototype.arrayAdd = function(){
  * @param {Mixed}   obj The value to check for inside the Array
  * @type  {Boolean}
  */
-Array.prototype.equals = function(obj) {
+defineProp(Array.prototype, "equals", function(obj) {
     for (var i = 0, j = this.length; i < j; i++)
         if (this[i] != obj[i])
             return false;
     return true;
-};
+});
 
 /*
  * Make sure that an array instance contains only unique values (NO duplicates).
@@ -2821,7 +2801,7 @@ var uniqueBenvie = function(){
 }();
 
 if (typeof Set !== "undefined") {
-    Array.prototype.makeUnique = function(){
+    defineProp(Array.prototype, "makeUnique", function(){
         var out = [],
             seen = new Set,
             i = this.length;
@@ -2834,12 +2814,12 @@ if (typeof Set !== "undefined") {
         }
 
         return out;
-    }
+    });
 }
 else {
-    Array.prototype.makeUnique = function(){
+    defineProp(Array.prototype, "makeUnique", function(){
         return uniqueBenvie(this);
-    };
+    });
 }
 
 /*
@@ -2850,45 +2830,10 @@ else {
  * @type  {Boolean}
  * @see Array.indexOf
  */
-Array.prototype.contains = function(obj, from) {
+defineProp(Array.prototype, "contains", function(obj, from) {
     return this.indexOf(obj, from) != -1;
-};
+});
 
-/*
- * Search for the index of the first occurence of a value 'obj' inside an array
- * instance.
- * July 29, 2008: added 'from' argument support to indexOf()
- *
- * @param {Mixed}  obj    The value to search for inside the array
- * @param {Number} [from] Left offset index to start the search from
- * @type  {Number}
- */
-Array.prototype.indexOf = Array.prototype.indexOf || function(obj, from) {
-    var len = this.length;
-    for (var i = (from < 0) ? Math.max(0, len + from) : from || 0; i < len; i++) {
-        if (this[i] === obj)
-            return i;
-    }
-    return -1;
-};
-
-/*
- * Search for the index of the last occurence of a value 'obj' inside an array
- * instance.
- *
- * @param {Mixed}  obj    The value to search for inside the array
- * @param {Number} [from] Left offset index to start the search from
- * @type  {Number}
- */
-Array.prototype.lastIndexOf = Array.prototype.lastIndexOf || function(obj, from) {
-    //same as indexOf(), but in reverse loop, JS spec 1.6
-    var len = this.length;
-    for (var i = (from >= len) ? len - 1 : (from < 0) ? from + len : len - 1; i >= 0; i--) {
-        if (this[i] === obj)
-            return i;
-    }
-    return -1;
-};
 
 /*
  * Like Array.push, but only invoked when the value 'item' is already present
@@ -2897,7 +2842,7 @@ Array.prototype.lastIndexOf = Array.prototype.lastIndexOf || function(obj, from)
  * @param {Mixed} item, item, ...
  * @type  {Array}
  */
-Array.prototype.pushUnique = function(){
+defineProp(Array.prototype, "pushUnique", function(){
     var item,
         i = 0,
         l = arguments.length;
@@ -2907,7 +2852,7 @@ Array.prototype.pushUnique = function(){
         this.push(item);
     }
     return this;
-};
+});
 
 /*
  * @todo: Ruben: could you please comment on this function? Seems to serve a very
@@ -2915,7 +2860,7 @@ Array.prototype.pushUnique = function(){
  *
  * I also could not find an occurrence in our codebase.
  */
-Array.prototype.search = function(){
+defineProp(Array.prototype, "search", function(){
     for (var i = 0, length = arguments.length; i < length; i++) {
         if (typeof this[i] != "array")
             continue;
@@ -2926,7 +2871,7 @@ Array.prototype.search = function(){
                 return this[i];
         }
     }
-};
+});
 
 /*
  * Iterate through each value of an array instance from left to right (front to
@@ -2935,13 +2880,12 @@ Array.prototype.search = function(){
  * @param {Function} fn
  * @type  {Array}
  */
-Array.prototype.each =
-Array.prototype.forEach = Array.prototype.forEach || function(fn) {
+defineProp(Array.prototype, "each", function(fn) {
     for (var i = 0, l = this.length; i < l; i++)
         if (fn.call(this, this[i], i, this) === false)
             break;
     return this;
-}
+});
 
 /*
  * Search for a value 'obj' inside an array instance and remove it when found.
@@ -2949,7 +2893,7 @@ Array.prototype.forEach = Array.prototype.forEach || function(fn) {
  * @type {Mixed} obj
  * @type {Array}
  */
-Array.prototype.remove = function(obj) {
+defineProp(Array.prototype, "remove", function(obj) {
     for (var i = this.length - 1; i >= 0; i--) {
         if (this[i] != obj)
             continue;
@@ -2958,7 +2902,7 @@ Array.prototype.remove = function(obj) {
     }
 
     return this;
-};
+});
 
 /*
  * Remove an item from an array instance which can be identified with key 'i'
@@ -2966,10 +2910,10 @@ Array.prototype.remove = function(obj) {
  * @param  {Number} i
  * @return {Mixed}  The removed item
  */
-Array.prototype.removeIndex = function(i) {
+defineProp(Array.prototype, "removeIndex", function(i) {
     if (!this.length) return null;
     return this.splice(i, 1);
-};
+});
 
 /*
  * Insert a new value at a specific object; alias for Array.splice.
@@ -2978,9 +2922,9 @@ Array.prototype.removeIndex = function(i) {
  * @param {Number} i   Index to insert 'obj' at
  * @type  {Number}
  */
-Array.prototype.insertIndex = function(obj, i) {
+defineProp(Array.prototype, "insertIndex", function(obj, i) {
     this.splice(i, 0, obj);
-};
+});
 
 /*
  * Reverses the order of the elements of an array; the first becomes the last,
@@ -2988,89 +2932,7 @@ Array.prototype.insertIndex = function(obj, i) {
  *
  * @type {Array}
  */
-Array.prototype.invert =
-Array.prototype.reverse = Array.prototype.reverse || function(){
-    var l = this.length - 1;
-    for (var temp, i = 0; i < Math.ceil(0.5 * l); i++) {
-        temp = this[i];
-        this[i] = this[l - i]
-        this[l - i] = temp;
-    }
-
-    return this;
-};
-
-
-
-/*
- * Attempt to fully comply (in terms of functionality) with the JS specification,
- * up 'till version 1.7:
- * @link http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects:Array
- */
-
-/*
- * Creates a new array with all of the elements of this array for which the
- * provided filtering function returns true.
- *
- * @param {Function} fn   Function to test each element of the array.
- * @param {Object}   bind Object to use as this when executing callback.
- * @type  {Array}
- */
-Array.prototype.filter = Array.prototype.filter || function(fn, bind) {
-    var results = [];
-    for (var i = 0, l = this.length; i < l; i++) {
-        if (fn.call(bind, this[i], i, this))
-            results.push(this[i]);
-    }
-    return results;
-};
-
-/*
- * Returns true if every element in this array satisfies the provided testing
- * function.
- *
- * @param {Function} fn   Function to test for each element.
- * @param {Object}   bind Object to use as this when executing callback.
- * @type  {Boolean}
- */
-Array.prototype.every = Array.prototype.every || function(fn, bind) {
-    for (var i = 0, l = this.length; i < l; i++) {
-        if (!fn.call(bind, this[i], i, this))
-            return false;
-    }
-    return true;
-};
-
-/*
- * Creates a new array with the results of calling a provided function on every
- * element in this array.
- *
- * @param {Function} fn   Function that produces an element of the new Array from an element of the current one.
- * @param {Object}   bind Object to use as this when executing callback.
- * @type  {Array}
- */
-Array.prototype.map = Array.prototype.map || function(fn, bind) {
-    var results = [];
-    for (var i = 0, l = this.length; i < l; i++)
-        results[i] = fn.call(bind, this[i], i, this);
-    return results;
-};
-
-/*
- * Tests whether some element in the array passes the test implemented by the
- * provided function.
- *
- * @param {Function} fn   Function to test for each element.
- * @param {Object}   bind Object to use as this when executing callback.
- * @type  {Boolean}
- */
-Array.prototype.some = Array.prototype.some || function(fn, bind) {
-    for (var i = 0, l = this.length; i < l; i++) {
-        if (fn.call(bind, this[i], i, this))
-            return true;
-    }
-    return false;
-};
+defineProp(Array.prototype, "invert", Array.prototype.reverse);
 
 
 
@@ -3924,6 +3786,15 @@ apf.setStyleRule = function(name, type, value, stylesheet, win) {
     return !!rule;
 };
 
+apf.removeStyleRule = function(name, stylesheet, win) {
+    var rule = findCssRule(name, stylesheet, win);
+    if (rule) {
+        var i = Array.prototype.indexOf.call(rule.parentStyleSheet.cssRules, rule);
+        if (i != -1)
+            rule.parentStyleSheet.deleteRule(i);
+    }
+    return !!rule;
+}
 /**
  * This method gets a single CSS rule.
  * @param {String} name         The CSS name of the rule (i.e. `.cls` or `#id`).
@@ -6575,12 +6446,6 @@ apf.extend(apf.config, {
               ? !apf.isFalse(value)
               : false;
         },
-        
-        
-        "login" : function(value, x) {
-            apf.auth.init(x);
-        },
-        
         
         
         
@@ -22453,8 +22318,8 @@ apf.runNonIe = function (){
     //Document.prototype.onreadystatechange = null;
     Document.prototype.parseError = 0;
     
-    Array.prototype.item = function(i){return this[i];};
-    Array.prototype.expr = "";
+    defineProp(Array.prototype, "item", function(i){return this[i];});
+    defineProp(Array.prototype, "expr", "");
     
     /*try{
         XMLDocument.prototype.readyState = 0;
@@ -27193,593 +27058,6 @@ apf.appsettings = function(struct, tagName) {
 
 apf.aml.setElement("appsettings", apf.appsettings);
 
-
-
-
-
-
-
-
-/**
- * @define auth Centralized authentication handling. Not being logged in, after being
- * offline for a while can put the application
- * in a complex undefined state. The auth element makes sure the state is always
- * properly managed. When it gets signalled 'authentication required' it dispatches the
- * appropriate events to display a login box. It can automatically retry logging
- * in to one or more services using in memory stored username/password
- * combinations. It will queue all requests that require authentication until
- * the application is logged in again and will then empty the queue.
- * Example:
- * This example sets up apf.auth with two services that it can log into. 
- * <code>
- *  <a:appsettings>
- *      <a:auth>
- *           <a:service name = "my-backend"
- *                      login = "{comm.login(username, password)}"
- *                      logout = "{comm.logout()}" />
- *           <a:service name = "my-jabber-server"
- *                      login = "{myXmpp.login(username, password, domain)}"
- *                      logout = "{myXmpp.logout()}" />
- *      </a:auth>
- *  </a:appsettings>
- * </code>
- * Example:
- * A login window with different states managed by apf.auth
- * <code>
- *   <a:appsettings>
- *       <a:auth 
- *         login = "{comm.login(username, password)}" 
- *         logout = "{comm.logout()}"
- *         autostart = "false"
- *         window = "winLogin"
- *         fail-state = "stFail"
- *         error-state = "stError"
- *         login-state = "stIdle"
- *         logout-state = "stLoggedOut"
- *         waiting-state = "stLoggingIn" />
- *   </a:appsettings>
- *   <a:teleport>
- *       <a:rpc 
- *         id = "comm" 
- *         protocol = "cgi">
- *           <a:method name="login" url="login.php">
- *               <a:param name="username" />
- *               <a:param name="password" />
- *           </a:method>
- *           <a:method name="logout" url="logout.php" />
- *       </a:rpc>
- *   </a:teleport>
- *  
- *   <a:state-group
- *     loginMsg.visible = "false"
- *     winLogin.disabled = "false">
- *       <a:state id="stFail"
- *         loginMsg.value = "Username or password incorrect"
- *         loginMsg.visible = "true"
- *         winLogin.disabled = "false" />
- *       <a:state id="stError"
- *         loginMsg.value = "An error has occurred. Please check your network."
- *         loginMsg.visible = "true"
- *         winLogin.disabled = "false" />
- *       <a:state id="stLoggingIn"
- *         loginMsg.value = "Please wait whilst logging in..."
- *         loginMsg.visible = "true"
- *         winLogin.disabled = "true"
- *         btnLogout.visible = "false" />
- *       <a:state id="stIdle"
- *         btnLogout.visible = "true" />
- *       <a:state id="stLoggedOut"
- *         btnLogout.visible = "false"
- *         loginMsg.visible = "false"
- *         winLogin.disabled = "false" />
- *  </a:state-group>
- * 
- *  <a:window id="winLogin" visible="true" width="400" height="400">
- *      <a:label>Username</a:label>
- *      <a:textbox type="username" value="TestUser" />
- *  
- *      <a:label>Password</a:label>
- *      <a:textbox type="password" value="open" />
- * 
- *      <a:label id="loginMsg" />
- *      <a:button action="login">Log in</a:button>
- *  </a:window>
- *  <a:button id="btnLogout" visible="false" action="logout">Log out</a:button>
- * </code>
- *
- * @event beforelogin   Fires before the log in request is sent to the service
- *   cancelable:    Prevents the log in from happening
- * @event beforelogout  Fires before the log out request is sent to the service
- *   cancelable:    Prevents the log out from happening
- * @event logincheck    Fires when log in data is received. Login is sometimes very complex, this event is dispatched to allow a custom check if a log in succeeded.
- *   bubbles: yes
- *   object:
- *     {Object} data     the data received from the log in request
- *     {Number} state    the return code of the log in request
- * @event loginfail     Fires when a log in attempt has failed
- * @event loginsuccess  Fires when a log in attempt succeeded
- * @event logoutcheck   Fires when log out data is received. Login is sometimes very complex, this event is dispatched to allow a custom check if a log out succeeded.
- *   bubbles: yes
- *   object:
- *     {Object} data     the data received from the log out request
- *     {Number} state    the return code of the log out request
- * @event logoutfail    Fires when a log out attempt has failed
- * @event logoutsuccess Fires when a log out attempt succeeded
- * @event authrequired  Fires when log in credentials are required, either because they are incorrect, or because they are unavailable.
- *   bubbles: yes
- *
- * @inherits apf.Class
- *
- * @attribute {String}  login           the {@link term.datainstruction data instruction} on how to log in to a service.
- * @attribute {String}  logout          the {@link term.datainstruction data instruction} on how to log out of a service.
- * @attribute {Boolean} autostart       whether to fire authrequired at startup. Defaults to true.
- * @attribute {String}  window          the id of the window element that offers a log in form to the user. DEPRECATED.
- * @attribute {String}  authreq-state   the id of the state element which is activated when logging in failed because the credentials where incorrect.
- * @attribute {String}  login-state     the id of the state element which is activated when logging in succeeded.
- * @attribute {String}  waiting-state   the id of the state element which is activated when the user is waiting while the application is logging in.
- * @attribute {String}  fail-state      the id of the state element which is activated when logging in failed because the credentials where incorrect.
- * @attribute {String}  error-state     the id of the state element which is activated when logging in failed because of an error (i.e. network disconnected).
- * @attribute {String}  logout-state    the id of the state element which is activated when the user is logged out.
- * @attribute {String}  model           the id of the model element which gets the data loaded given at login success.
- * @attribute {String}  remember        whether to remember the login credentials after the first successful login attempt. Will only be used i.c.w. RPC
- * @allowchild service
- * @define service  Element specifying a server to log into.
- * @attribute {String} name     the unique identifier of the service
- * @attribute {String} login    the {@link term.datainstruction data instruction} on how to log in to a service
- * @attribute {String} logout   the {@link term.datainstruction data instruction} on how to log out of a service
- * @see apf.appsettings
- *
- * @default_private
- */
-
-apf.auth = function(struct, tagName) {
-    this.$init(tagName || "auth", apf.NODE_HIDDEN, struct);
-
-    this.$services = {};
-    this.$cache = {};
-    this.$queue = [];
-    this.$credentials = null;
-};
-
-apf.aml.setElement("auth", apf.auth);
-
-(function(){
-    this.autostart = true;
-    this.authenticated = false;
-    this.enablequeue = false;
-    
-    this.$retry = true;
-    this.loggedIn = false;
-    this.$needsLogin = false;
-    this.$hasHost = false;
-
-    /**
-     * Indicates the state of the log in process.
-     * Possible values:
-     * 0 idle
-     * 1 logging in
-     * 2 logging out
-     */
-    this.inProcess = 0;
-    
-    //1 = force no bind rule, 2 = force bind rule
-    this.$attrExcludePropBind = apf.extend({
-        login: 1,
-        logout: 1
-    }, this.$attrExcludePropBind);
-    
-    this.$booleanProperties["autostart"] = true;
-    this.$booleanProperties["remember"] = true;
-
-    this.$supportedProperties.push("login", "logout", "fail-state", "error-state",
-        "login-state", "logout-state", "waiting-state", "window", "autostart",
-        "remember", "authenticated", "enablequeue");
-
-    this.$propHandlers["login"] = 
-    this.$propHandlers["login-state"] = function(value) {
-        this.$services["default"] = value ? this : null;
-        this.$needsLogin = value ? true : false;
-    };
-    
-    this.register = function(node) {
-        this.$services[node.name] = node;
-        this.$needsLogin = true;
-    };
-    
-    this.unregister = function(node) {
-        var prop;
-        delete this.$services[node.name];
-        if (!(prop in this.$services))
-            this.$needsLogin = false;
-    };
-    
-    this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
-        this.inited = true;
-
-        if (this.parentNode && this.parentNode.$setAuth) {
-            this.parentNode.$setAuth(this);
-            this.$hasHost = true;
-        }
-
-        if (this.autostart && !this.$hasHost) {
-            var _self = this;
-            apf.addEventListener("load", function(){
-                apf.addEventListener("login", function(){
-                    _self.authRequired();
-                    apf.removeEventListener("load", arguments.callee);
-                });
-            });
-        }
-    });
-    
-    this.addEventListener("authrequired", function(){
-        if (self[this.window]) {
-            this.win = self[this.window];
-            if (this.win) {
-                this.win.show();
-                return false;
-            }
-        }
-        
-        if (self[this["authreq-state"]]) {
-            this.state = self[this["authreq-state"]];
-            if (this.state) {
-                this.state.activate();
-                return false;
-            }
-        }
-    });
-
-    this.addEventListener("beforelogin", function(){
-        if (self[this["waiting-state"]]) {
-            this.state = self[this["waiting-state"]];
-            if (this.state)
-                this.state.activate();
-        }
-    });
-
-    var knownHttpAuthErrors = {401:1, 403:1}
-    function failFunction(e) {
-        var st = (e.state == apf.TIMEOUT || !knownHttpAuthErrors[e.status]
-            ? self[this["error-state"]]
-            : self[this["fail-state"]]) || self[this["fail-state"]]
-
-        if (st) {
-            this.state = st;
-            if (this.state) {
-                this.state.activate();
-                return false;
-            }
-        }
-    }
-    
-    this.addEventListener("loginfail",  failFunction);
-    this.addEventListener("logoutfail", failFunction);
-
-    this.addEventListener("logoutsuccess", function(){
-        if (self[this["logout-state"]]) {
-            this.state = self[this["logout-state"]];
-            if (this.state)
-                this.state.activate();
-        }
-    });
-
-    this.addEventListener("loginsuccess", function(e) {
-        if (self[this.window]) {
-            this.win = self[this.window];
-            if (this.win)
-                this.win.hide();
-        }
-
-        if (self[this["login-state"]]) {
-            this.state = self[this["login-state"]];
-            if (this.state)
-                this.state.activate();
-        }
-
-        
-        if (e.data && this.model) {
-            this.model = apf.nameserver.get("model", this.model);
-            if (this.model)
-                this.model.load(e.data);
-        }
-        
-    });
-
-    /**
-     * Log in to one or more services
-     * @param {String}   username   the username portion of the credentials used to log in with
-     * @param {String}   password   the password portion of the credentials used to log in with
-     * @param {Function} [callback] code to be called when the application succeeds or fails logging in
-     * @param {Object}   [options]  extra settings and variables for the login. These variables will be available in the {@link term.datainstruction data instruction} which is called to execute the actual log in.
-     *   Properties:
-     *   {Array} services   a list of names of services to be logged in to
-     *   {String} service   the name of a single service to log in to
-     */
-    this.logIn = function(username, password, callback, options) {
-        if (!options) options = {};
-
-        options.username = username;
-        options.password = password;
-
-        if (this.dispatchEvent("beforelogin", options) === false)
-            return false;
-
-        this.inProcess = 1; //Logging in
-
-        var pos = 0,
-            len = 0,
-            _self = this,
-            doneCallback = function() {
-                if (len != ++pos)
-                    return;
-
-                _self.inProcess = 0; //Idle
-                _self.loggedIn = true;
-                _self.clearQueue();
-
-                if (callback)
-                    callback();
-            };
-
-        if (this.$hasHost) { // child of Teleport element
-            this.$credentials = options;
-            callback = this.$hostCallback;
-            this.$hostCallback = null;
-            len = 1;
-            doneCallback();
-            this.dispatchEvent("loginsuccess", {
-                state: 1,
-                data: null,
-                bubbles: true,
-                username: username,
-                password: password
-            });
-            if (!this.remember)
-                this.$credentials = null;
-        }
-        else {
-            if (!options.service) {
-                var s = options.$services || this.$services;
-                for (var name in s) {
-                    len++;
-                    this.$do(name, options, "in", null, doneCallback);
-                }
-            }
-            else if (options.service) {
-                len = 1;
-                this.$do(options.service, options, "in", null, doneCallback);
-            }
-        }
-    };
-
-    this.relogin = function(){
-        if (this.dispatchEvent("beforerelogin") === false)
-            return false;
-
-        
-
-        //@todo shouldn't I be using inProces here?
-        var name, pos = 0, len = 0, _self = this,
-            doneCallback = function(){
-                if (len != ++pos)
-                    return;
-
-                _self.inProcess = 0; //Idle
-                _self.loggedIn = true;
-                _self.clearQueue();
-            };
-
-        for (name in this.$services) {
-            if (!this.$cache[name])
-                return false;
-            len++;
-            this.$do(name, this.$cache[name], "in", true, doneCallback);
-        }
-
-        return true;
-    };
-
-    this.$do = function(service, options, type, isRelogin, callback) {
-        var xmlNode = this.$services[service],
-            _self = options.userdata = this;
-
-        
-
-        
-
-        //Execute login call
-        options.callback = function(data, state, extra) {
-            if (state == apf.TIMEOUT && extra.retries < apf.maxHttpRetries)
-                return extra.tpModule.retry(extra.id);
-
-            /*
-                Login is sometimes very complex, so this check is
-                here to test the data for login information
-            */
-            var result = _self.dispatchEvent("log" + type + "check",
-                apf.extend({
-                    state: state,
-                    data: data,
-                    service: service,
-                    bubbles: true
-                }, extra)),
-
-                loginFailed = typeof result == "boolean"
-                    ? !result
-                    : !(state == apf.SUCCESS || type == "out" && extra.status == 401);
-
-            if (loginFailed) {
-                _self.inProcess = 0; //Idle
-
-                if (isRelogin) //If we're retrying then we'll step out here
-                    return _self.authRequired();
-
-                
-
-                var commError = new Error(apf.formatErrorString(0, null,
-                    "Logging " + type, "Error logging in: " + extra.message));
-
-                if (_self.dispatchEvent("log" + type + "fail", apf.extend({
-                    error: commError,
-                    service: service,
-                    state: state,
-                    data: data,
-                    bubbles: true,
-                    username: options.username,
-                    password: options.password
-                }, extra)) !== false)
-                    throw commError; //@todo ouch, too harsh?
-
-                //@todo Call auth required again??
-                
-                _self.setProperty("authenticated", false);
-
-                return;
-            }
-
-            if (type == "in") {
-                //If we use retry, cache the login information
-                if (!isRelogin && _self.$retry) {
-                    var cacheItem = {};
-                    for (var prop in options) {
-                        if ("object|array".indexOf(typeof options[prop]) == -1)
-                            cacheItem[prop] = options[prop];
-                    }
-                    _self.$cache[service || "default"] = cacheItem;
-                }
-            }
-            else {
-                //Remove cached credentials
-                if (_self.$cache[service || "default"])
-                     _self.$cache[service || "default"] = null;
-
-                //_self.authRequired();
-            }
-
-            if (callback)
-                callback();
-
-            _self.dispatchEvent("log" + type + "success", apf.extend({}, extra, {
-                state: state,
-                service: service,
-                data: data,
-                bubbles: true,
-                username: options.username,
-                password: options.password
-            }));
-
-            
-            
-            _self.setProperty("authenticated", true);
-        };
-        apf.saveData(xmlNode.getAttribute("log" + type), options);
-    };
-
-    this.clearQueue = function(){
-        if (!this.loggedIn) //Queue should only be cleared when we're logged in
-            return;
-
-        var queue = this.$queue.slice();
-        this.$queue.length = 0;
-
-        for (var i = 0; i < queue.length; i++) {
-            var qItem = queue[i];
-
-            //We might be logged out somewhere in this process (think sync)
-            if (!this.loggedIn) {
-                this.$queue.push(qItem);
-                continue;
-            }
-
-             //Specialty retry (protocol specific)
-            if (qItem.retry)
-                qItem.$retry.call(qItem.object);
-
-            //Standard TelePort Module retry
-            else if (qItem.id)
-                qItem.tpModule.retry(qItem.id);
-
-            
-        }
-
-        //The queue might be filled somehow
-        if (this.$queue.length)
-            this.clearQueue();
-    };
-
-    /**
-     * Log out of one or more services
-     * @param {Function} [callback] code to be called when the application succeeds or fails logging out
-     * @param {Object}   [options]  extra settings and variables for the login. These variables will be available out the {@link term.datainstruction data instruction} which is called to execute the actual log out.
-     *   Properties:
-     *   {Array} services   a list of names of services to be logged out of
-     *   {String} service   the name of a single service to log out of
-     */
-    this.logOut = function(callback, options) {
-        if (!options) options = {};
-
-        if (this.dispatchEvent("beforelogout", options) === false)
-            return;
-
-        this.loggedIn = false;
-
-        if (!options.service) {
-            for (var name in this.$services)
-                this.$do(name, options, "out", null, callback);
-        }
-        else if (options.service)
-            this.$do(options.service, options, "out", null, callback);
-
-    };
-    
-    this.getCredentials = function(service) {
-        var cache = this.$cache[service || "default"];
-        return !cache ? ["", ""] : [cache.username, cache.password];
-    };
-
-    /**
-     * Signals services that a log in is required and fires authrequired event
-     * @param {Object}   [options]      information on how to reconstruct a failed action, that detected a log in was required. (i.e. When an HTTP call fails with a 401 Auth Required the options object contains information on how to retry the http request)
-     * @param {Object}   [forceNoRetry] don't try to log in with stored credentials. 
-     */
-    this.authRequired = function(options, forceNoRetry) {
-        // If we're already logging in return
-        if (options && options.userdata == this)
-            return;
-
-        // If we're supposed to be logged in we'll try to log in automatically
-        if (this.loggedIn && !forceNoRetry && this.$retry && this.relogin()) {
-            var result = false;
-        }
-        else if (this.inProcess != 1) { //If we're not already logging in
-            if (this.$hasHost && typeof options == "function") { //inside Teleport element
-                if (this.$credentials) 
-                    return options();
-                this.$hostCallback = options;
-            }
-            /*
-                Apparently our credentials aren't valid anymore,
-                or retry is turned off. If this event returns false
-                the developer will call apf.auth.login() at a later date.
-            */
-            var result = this.dispatchEvent("authrequired", apf.extend({
-                bubbles: true,
-                data: options && options.data
-            }, options));
-        }
-
-        this.loggedIn = false;
-
-        if (result === false) {
-            if (this.enablequeue && options) //Add communication to queue for later processing
-                this.$queue.push(options);
-
-            return true; //cancels error state in protocol
-        }
-    };
-
-}).call(apf.auth.prototype = new apf.AmlElement());
 
 
 

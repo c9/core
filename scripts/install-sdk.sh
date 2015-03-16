@@ -69,7 +69,7 @@ updateAllPackages() {
     for m in ${c9packages[@]}; do echo $m; 
         i=$(($i + 1))
         echo "updating plugin ${blue}$i${resetColor} of ${blue}$count${resetColor}"
-        updatePackage $m || true
+        updatePackage $m
     done
 }
 
@@ -110,4 +110,3 @@ updateNodeModules
 
 echo "Success!"
 echo "run '${yellow}node server.js -p 8181 -l 0.0.0.0 -a :${resetColor}' to launch Cloud9"
-"$NODE" server.js -p 8181 -l 0.0.0.0 -a :

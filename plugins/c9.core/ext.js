@@ -689,7 +689,7 @@ define(function(require, exports, module) {
              *             plugin.freezePublicAPI({
              *                 doSomething : doSomething
              *             });
-             *         });
+             *         }
              *     });
              * 
              * @class Plugin

@@ -175,33 +175,39 @@ define(function(require, exports, module) {
                     if (WAIT_FOR_SIGNAL)
                         ignore(path, 200);
                     // console.warn("[watchers] ignored event for", path, stat.vfsWrite ? "(was vfsWrite)" : "(was on ignore list)");
-                    return;
+                    
+                    fireWatcherEvent(".all");
+                } else {
+                    fireWatcherEvent("");
+                    fireWatcherEvent(".all");
                 }
                 
-                if (event == "error") {
-                    // console.error("[watchers] received error for", path, err, stat);
-                }
-                else if (event == "delete") {
-                    fs.unwatch(path, handler);
-                    delete handlers[path];
-                    // console.log("[watchers] received", event, "event for", path, stat);
-                    emit("delete", { path : path });
-                }
-                else if (event == "directory") {
-                    emit("directory", {
-                        path: path,
-                        files: files,
-                        stat: stat
-                    });
-                }
-                else {
-                    // console.log("[watchers] received", event, "event for", path, stat);
-                    emit("change", {
-                        type: event,  //change || rename
-                        filename: filename,
-                        path: path,
-                        stat: stat
-                    });
+                function fireWatcherEvent(eventSuffix) {
+                    if (event == "error") {
+                        // console.error("[watchers] received error for", path, err, stat);
+                    }
+                    else if (event == "delete") {
+                        fs.unwatch(path, handler);
+                        delete handlers[path];
+                        // console.log("[watchers] received", event, "event for", path, stat);
+                        emit("delete" + eventSuffix, { path : path });
+                    }
+                    else if (event == "directory") {
+                        emit("directory" + eventSuffix, {
+                            path: path,
+                            files: files,
+                            stat: stat
+                        });
+                    }
+                    else {
+                        // console.log("[watchers] received", event, "event for", path, stat);
+                        emit("change" + eventSuffix, {
+                            type: event,  // change || rename
+                            filename: filename,
+                            path: path,
+                            stat: stat
+                        });
+                    }
                 }
             });
         }

@@ -614,6 +614,17 @@ define(function(require, exports, module) {
                     settings.set("user/ace/@fontSize", --currSize < 1 ? 1 : currSize);
                 }
             }), handle);
+            
+            commands.addCommand({
+                name: "toggleWordWrap",
+                bindKey: {win: "Ctrl-Q", mac: "Ctrl-W"},
+                exec: function(editor) {
+                    editor.setOption("wrap",  editor.getOption("wrap") == "off");
+                }, 
+                isAvailable: function(editor) {
+                    return editor && editor.type == "ace";
+                }
+            }, handle);
         }
         
         /***** Preferences *****/
@@ -631,6 +642,11 @@ define(function(require, exports, module) {
                             min: "1",
                             max: "64",
                             position: 100
+                        },
+                        "Autodetect Tab Size on Load" : {
+                            type: "checkbox",
+                            path: "project/ace/@guessTabSize",
+                            position: 150
                         },
                         "New File Line Endings" : {
                            type: "dropdown",
@@ -1977,6 +1993,7 @@ define(function(require, exports, module) {
             }
             
             function hideProgress(){
+                if (!ace) return; // ace was destroyed during timeout
                 var style = progress.background.style;
                 function hide() {
                     style.display = "none";
@@ -1993,7 +2010,6 @@ define(function(require, exports, module) {
                 style.opacity = 0;
                 
                 ace.renderer.unfreeze();
-                // ace.resize(true);
             }
             
             function showProgress(value, upload, t) {
@@ -2052,7 +2068,8 @@ define(function(require, exports, module) {
         
             function detectSettingsOnLoad(c9Session) {
                 var session = c9Session.session;
-                whitespaceUtil.detectIndentation(session);
+                if (settings.get("project/ace/@guessTabSize"))
+                    whitespaceUtil.detectIndentation(session);
                 if (!session.syntax) {
                     var syntax = detectSyntax(c9Session);
                     if (syntax)

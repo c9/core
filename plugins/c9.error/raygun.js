@@ -29,6 +29,17 @@ function plugin(options, imports, register) {
         warning: new raygun.Client().init({ apiKey: options.keys.warning })
     };
     
+    for (var client in clients) {
+        client = clients[client];
+        client._send = client.send;
+        client.send = function(exception, customData, callback, request) {
+            if (!exception.stack)
+                exception = new Error(exception.message || exception);
+                
+            return this._send.apply(this, arguments);
+        };
+    }
+    
     clients.error.setVersion(options.version + ".0");
     clients.warning.setVersion(options.version + ".0");
 

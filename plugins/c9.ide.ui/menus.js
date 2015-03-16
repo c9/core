@@ -211,28 +211,27 @@ define(function(require, exports, module) {
                 var editor = emit("getEditor");
     
                 var nodes = this.childNodes;
-                for (var start = 0, a, fn, cmd, n, i = nodes.length - 1; i >= 0; i--) {
-                    cmd = (n = nodes[i]).command;
-                    
-                    if (start == i && !n.visible)
-                        start = i + 1;
+                for (var n, prev, i = nodes.length - 1; i >= 0; i--) {
+                    var cmd = (n = nodes[i]).command;
 
                     if (!n.visible) continue;
-
+                    
                     // prevent dividers two consecutive dividers and dividers
                     // at bottom and top
                     if (n.localName == "divider") {
-                        if (i === start || i == nodes.length -1 
-                          || nodes[i - 1].localName == "divider")
+                        if (!prev || prev.localName == "divider")
                             n.hide();
                         else
                             n.show();
+                        
+                        prev = n;
                         continue;
                     }
+                    prev = n;
                     
                     var c = cmd && commands.commands[cmd];
-                    fn = c && c.isAvailable;
-                    a = (!n.isAvailable || n.isAvailable(editor))
+                    var fn = c && c.isAvailable;
+                    var a = (!n.isAvailable || n.isAvailable(editor))
                       && (!fn || fn(editor));
                      
                     if (!cmd) 
@@ -241,6 +240,9 @@ define(function(require, exports, module) {
                         continue;
 
                     n[a ? "enable" : "disable"]();
+                }
+                if (prev && prev.localName == "divider") {
+                    prev.hide();
                 }
             }
             

@@ -24,7 +24,6 @@ define(function(require, exports, module) {
         var plugin = new Panel("Ajax.org", main.consumes, {
             index: options.index || 300,
             caption: "Commands",
-            elementName: "winCommands",
             minWidth: 150,
             autohide: true,
             where: options.where || "left"
@@ -69,7 +68,7 @@ define(function(require, exports, module) {
             
             var treeParent = plugin.getElement("commandsList");
             txtFilter = plugin.getElement("txtFilter");
-            winCommands = plugin.getElement("winCommands");
+            winCommands = options.aml;
 
             // Create the Ace Tree
             tree = new Tree(treeParent.$int);
