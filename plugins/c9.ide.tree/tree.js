@@ -961,10 +961,15 @@ define(function(require, exports, module) {
                 if (node === false || path.charAt(0) == "!") 
                     return increment();
                 
+                if (!/^[!~/]/.test(path)) {
+                    console.error("invalid path", path);
+                    delete expandedList[path];
+                    return increment();
+                }
+                
                 if (node && node.status == "loaded") {
                     expandNode(node);
-                    increment();
-                    return;
+                    return increment();
                 }
                 
                 fs.readdir(path, function(err, data) {
