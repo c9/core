@@ -330,7 +330,10 @@ define(function(require, exports, module) {
         }
         
         function updateChangedPath(err, path, data) {
-            var doc = changedPaths[path].tab.document;
+            var tab = changedPaths[path].tab || tabManager.findTab(path);
+            if (!tab)
+                return changedPaths[path] && changedPaths[path].resolve();
+            var doc = tab.document;
             doc.setBookmarkedValue(data, true);
             doc.meta.timestamp = Date.now() - settings.timeOffset;
             changedPaths[path].resolve();
