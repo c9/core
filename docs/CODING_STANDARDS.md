@@ -19,7 +19,7 @@ Base
 Tabs vs Spaces
 --------------
 
-We use 4 spaces of indenteation.
+We use 4 spaces of indentation.
 
 Line Termination
 ----------------
@@ -100,7 +100,7 @@ Your opening braces go on the same line as the statement.
 
 Also, notice the use of whitespace before and after the condition statement.
 
-Closing braces are always followed by a new line. This is releavant for `else`, `catch` and `finally`.
+Closing braces are always followed by a new line. This is relevant for `else`, `catch` and `finally`.
 
 *Right*:
 
