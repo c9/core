@@ -1419,7 +1419,8 @@ window.TraceKit = TraceKit;
     
   var blackListedErrors = {
     'Error with empty message': {},
-    'Script error.': {}
+    'Script error.': {},
+    'DealPly is not defined': { factor: 10e5 }
   };
   function processUnhandledException(stackTrace, options) {
     var stack = [],
@@ -1479,7 +1480,7 @@ window.TraceKit = TraceKit;
     if (blackListedErrors.hasOwnProperty(message)) {
         var count = (blackListedErrors[message].count || 0) + 1;
         blackListedErrors[message].count = count;
-        if (count % 10 !== 1) {
+        if (count % (blackListedErrors[message].factor || 10) !== 1) {
             return;
         }
         finalCustomData.$blackList = blackListedErrors[message];
