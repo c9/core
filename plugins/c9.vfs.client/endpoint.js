@@ -206,6 +206,9 @@ define(function(require, exports, module) {
                             return;
                         }
                         else if (err.code == 403) {
+                            if (res.error.blocked)
+                                callback(fatalError(res.error.message, "dashboard"));
+                                
                             // forbidden. User doesn't have access
                             // wait a while before trying again
                             setTimeout(function() {
