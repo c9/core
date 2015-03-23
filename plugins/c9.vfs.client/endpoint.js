@@ -166,7 +166,7 @@ define(function(require, exports, module) {
                 var server = servers[i];
                 auth.request(server.url + "/" + options.pid, {
                     method: "POST",
-                    timeout: 20000,
+                    timeout: 120000,
                     body: {
                         version: version
                     },
