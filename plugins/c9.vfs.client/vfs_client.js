@@ -7,7 +7,7 @@
 define(function(require, exports, module) {
     "use strict";
     
-    main.consumes = ["Plugin", "auth", "vfs.endpoint", "dialog.error", "dialog.alert"];
+    main.consumes = ["Plugin", "auth", "vfs.endpoint", "dialog.error", "dialog.alert", "error_handler"];
     main.provides = ["vfs"];
     return main;
 
@@ -33,6 +33,7 @@ define(function(require, exports, module) {
         var showError = errorDialog.show;
         var hideError = errorDialog.hide;
         var showAlert = imports["dialog.alert"].show;
+        var errorHandler = imports.error_handler;
         
         var eio = require("engine.io");
         var Consumer = require("vfs-socket/consumer").Consumer;
@@ -123,6 +124,7 @@ define(function(require, exports, module) {
                 });
                 
                 function disconnect() {
+                    pingUrl = null;
                     reconnect(function(err) {
                         if (err && err.fatal)
                             return;
@@ -275,6 +277,7 @@ define(function(require, exports, module) {
             consumer.connect(transport, function(err, _vfs) {
                 // TODO
                 if (err) {
+                    errorHandler.reportError(new Error("Error connecting to VFS", { err: err }));
                     console.error("error connecting to VFS", err);
                     return;
                 }

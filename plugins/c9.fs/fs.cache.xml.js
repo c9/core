@@ -289,14 +289,14 @@ define(function(require, exports, module) {
                 var newPath = e.args[1];
                 var parent = findNode(dirname(newPath));
                 
-                //Validation
+                // Validation
                 var toNode = findNode(newPath);
                 
-                if (parent) { //Dir is in cache
+                if (parent) { // Dir is in cache
                     if (toNode)
                         deleteNode(toNode);
                 
-                    createNode(newPath, null, node); // Move node                    
+                    createNode(newPath, null, node); // Move node
                     recurPathUpdate(node, oldPath, newPath);
                     
                     e.undo = function(){
@@ -480,6 +480,11 @@ define(function(require, exports, module) {
         }
         
         function createNode(path, stat, updateNode, updating) {
+            if (!/^[!~/]/.test(path)) {
+                var e = new Error("Refusing to add a node with misformed path to fs.cache");
+                return reportError(e, { path: path });
+            }
+            
             if (orphans[path]) {
                 updateNode = orphans[path];
                 delete orphans[path];

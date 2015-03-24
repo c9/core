@@ -311,7 +311,7 @@ define(function(require, exports, module) {
                             "content-length": data.length + inject.length,
                             "content-type": request.headers["content-type"],
                             "etag": request.headers.etag,
-                            "date": request.headers.data,
+                            "date": request.headers.date,
                             "access-control-allow-origin": "https://ide." + ideHost
                         });
                         res.write(data);

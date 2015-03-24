@@ -158,6 +158,10 @@ define(function(require, exports, module) {
                 if (!/(https?|ftp|file):/.test(href)) {
                     href = "http://" + href;
                 }
+                href = href.replace(/(^https?:\/\/)(0.0.0.0|localhost)(?=:|\/|$)/, function(_, protocol, host) {
+                    host = c9.hostname || window.location.host;
+                    return protocol + host.replace(/:\d+/, "");
+                });
                 if (e.metaKey || e.ctrlKey)
                     window.open(href);
                 else

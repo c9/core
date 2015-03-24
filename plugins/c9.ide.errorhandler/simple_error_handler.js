@@ -50,29 +50,29 @@ define(function(require, exports, module) {
                         oldOnError.apply(this, arguments);
                 };
     
-                //Catch all APF Routed errors
-//                ui.addEventListener("error", function(e) {
-//                    var errorInfo = {
-//                        agent       : navigator.userAgent,
-//                        type        : "APF Error",
-//                        message     : e.message,
-//                        tgt         : e.currentTarget && e.currentTarget.serialize(),
-//                        url         : e.url,
-//                        state       : e.state,
-//                        e           : e.error,
-//                        workspaceId : plugin.workspaceId
-//                    };
-//                    
-//                    emit("error", errorInfo);
-//                    
-//                    http.request("/api/debug", {
-//                        method      : "POST",
-//                        contentType : "application/json",
-//                        body        : errorInfo
-//                    }, function(err) {
-//                        if (err) console.error(err);
-//                    });
-//                });
+                // Catch all APF Routed errors
+                // ui.addEventListener("error", function(e) {
+                //     var errorInfo = {
+                //         agent       : navigator.userAgent,
+                //         type        : "APF Error",
+                //         message     : e.message,
+                //         tgt         : e.currentTarget && e.currentTarget.serialize(),
+                //         url         : e.url,
+                //         state       : e.state,
+                //         e           : e.error,
+                //         workspaceId : plugin.workspaceId
+                //     };
+                    
+                //     emit("error", errorInfo);
+                    
+                //     http.request("/api/debug", {
+                //         method      : "POST",
+                //         contentType : "application/json",
+                //         body        : errorInfo
+                //     }, function(err) {
+                //         if (err) console.error(err);
+                //     });
+                // });
             }
         }
         
@@ -87,8 +87,11 @@ define(function(require, exports, module) {
             // });
         }
         
-        function reportError(exception) {
-            console.error(exception.stack || exception);
+        function reportError(exception, customData) {
+            if (customData)
+                console.error(exception, customData);
+            else
+                console.error(exception.stack || exception);
             submitError(exception);
         }
         
@@ -96,6 +99,10 @@ define(function(require, exports, module) {
         
         plugin.on("load", function(){
             load();
+        });
+        
+        plugin.on("unload", function(){
+            loaded = false;
         });
         
         /***** Register and define API *****/

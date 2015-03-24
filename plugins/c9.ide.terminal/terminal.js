@@ -738,6 +738,8 @@ define(function(require, exports, module) {
                 terminal.on("afterWrite", function() {
                     clearTmuxBorders(terminal);
                 });
+                
+                session.getEmitter().sticky("terminalReady", session);
             }
             
             /***** Lifecycle *****/

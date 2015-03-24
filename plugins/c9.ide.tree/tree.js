@@ -227,7 +227,7 @@ define(function(require, exports, module) {
             
             // Fetch UI elements
             container = plugin.getElement("container");
-            winFilesViewer = options.aml
+            winFilesViewer = options.aml;
             
             // Create the Ace Tree
             tree = new Tree(container.$int);
@@ -242,6 +242,16 @@ define(function(require, exports, module) {
                 var icon = node.isFolder ? "folder" : util.getFileIcon(node.label);
                 if (node.status === "loading") icon = "loading";
                 return "<span class='filetree-icon " + icon + "'></span>";
+            };
+            
+            fsCache.model.getTooltipText = function(node) {
+                var size = node.size;
+                return node.label + (node.link ? " => " + node.link  + "\n" : "")
+                    + (size ? " | " + (
+                        size < 0x400 ? size + " bytes" :
+                        size < 0x100000 ? (size / 0x400).toFixed(2) + "KB" :
+                            (size / 0x100000).toFixed(2) + "MB"
+                    ) : "");
             };
             
             if (settings.get("user/general/@treestyle") == "alternative")
@@ -951,10 +961,15 @@ define(function(require, exports, module) {
                 if (node === false || path.charAt(0) == "!") 
                     return increment();
                 
+                if (!/^[!~/]/.test(path)) {
+                    console.error("invalid path", path);
+                    delete expandedList[path];
+                    return increment();
+                }
+                
                 if (node && node.status == "loaded") {
                     expandNode(node);
-                    increment();
-                    return;
+                    return increment();
                 }
                 
                 fs.readdir(path, function(err, data) {

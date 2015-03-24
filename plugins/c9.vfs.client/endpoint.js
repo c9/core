@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     "use strict";
     
-    main.consumes = ["Plugin", "auth", "http", "api"];
+    main.consumes = ["Plugin", "auth", "http", "api", "error_handler"];
     main.provides = ["vfs.endpoint"];
     return main;
 
@@ -10,6 +10,7 @@ define(function(require, exports, module) {
         var auth = imports.auth;
         var http = imports.http;
         var api = imports.api;
+        var errorHandler = imports.error_handler;
         
         /***** Initialization *****/
 
@@ -43,29 +44,32 @@ define(function(require, exports, module) {
         var servers;
         var pendingServerReqs = [];
         
-        if (options.getServers)
-            options.getServers(initDefaultServers);
-        else
-            initDefaultServers();
+        initDefaultServers();
         
         options.pid = options.pid || 1;
         
         /***** Methods *****/
         
         function initDefaultServers(baseURI) {
-            options.getServers = undefined;
-            var loc = require("url").parse(baseURI || document.baseURI || window.location.href);
-            var defaultServers = [{
-                url: loc.protocol + "//" + loc.hostname + (loc.port ? ":" + loc.port : "") + "/vfs",
-                region: "default"
-            }];
-            servers = (urlServers || options.servers || defaultServers).map(function(server) {
-                server.url = server.url.replace(/\/*$/, "");
-                return server;
-            });
-            pendingServerReqs.forEach(function(cb) {
-                cb(null, servers);
-            });
+            if (options.getServers)
+                return options.getServers(init);
+            init();
+
+            function init() {
+                options.getServers = undefined;
+                var loc = require("url").parse(baseURI || document.baseURI || window.location.href);
+                var defaultServers = [{
+                    url: loc.protocol + "//" + loc.hostname + (loc.port ? ":" + loc.port : "") + "/vfs",
+                    region: "default"
+                }];
+                servers = (urlServers || options.servers || defaultServers).map(function(server) {
+                    server.url = server.url.replace(/\/*$/, "");
+                    return server;
+                });
+                pendingServerReqs.forEach(function(cb) {
+                    cb(null, servers);
+                });
+            }
         }
 
         function getServers(callback) {
@@ -90,10 +94,14 @@ define(function(require, exports, module) {
         }
 
         function getVfsEndpoint(version, callback) {
-            getServers(function(err, servers) {
-                if (err) return callback(err);
+            getServers(function(err, _servers) {
+                if (err) {
+                    errorHandler.reportError(err);
+                    initDefaultServers();
+                    _servers = servers;
+                }
                 
-                getVfsUrl(version, servers, function(err, vfsid, url, region) {
+                getVfsUrl(version, _servers, function(err, vfsid, url, region) {
                     if (err) return callback(err);
     
                     callback(null, {
@@ -166,7 +174,7 @@ define(function(require, exports, module) {
                 var server = servers[i];
                 auth.request(server.url + "/" + options.pid, {
                     method: "POST",
-                    timeout: 20000,
+                    timeout: 120000,
                     body: {
                         version: version
                     },
@@ -206,6 +214,9 @@ define(function(require, exports, module) {
                             return;
                         }
                         else if (err.code == 403) {
+                            if (res.error.blocked)
+                                callback(fatalError(res.error.message, "dashboard"));
+                                
                             // forbidden. User doesn't have access
                             // wait a while before trying again
                             setTimeout(function() {
