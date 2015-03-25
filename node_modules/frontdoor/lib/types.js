@@ -53,6 +53,7 @@ exports.RegExp.prototype.parse = function(value) {
     return value.toString();
 };
 exports.RegExp.prototype.check = function(value) {
+    if (typeof value !== "string") return false;
     value = value.toString();
     var match = value.match(this.re);
     return match && value === match[0];
