@@ -40,6 +40,12 @@ define(function(require, module, exports) {
             apf.Class.prototype.emit = apf.Class.prototype.dispatchEvent;
             apf.Class.prototype.off = apf.Class.prototype.removeEventListener;
             
+            Object.defineProperty(apf.Class.prototype, '$html', {
+                get: function() { return this.$int || this.$container || this.$ext; },
+                enumerable: false,
+                configurable: false
+            });
+            
             apf.preProcessCSS = insertLess;
             
             // Load a basic document into APF
