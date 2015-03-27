@@ -2,7 +2,7 @@ define(function(require, exports, module) {
     main.consumes = [
         "PreferencePanel", "commands", "settings", "ui", "util", "Form",
         "c9", "dialog.alert", "tabManager", "save", "dialog.confirm", "layout",
-        "menus" // "preferenced"
+        "menus"
     ];
     main.provides = ["preferences.keybindings"];
     return main;
@@ -12,7 +12,6 @@ define(function(require, exports, module) {
         var commands = imports.commands;
         var settings = imports.settings;
         var layout = imports.layout;
-        // var preferences = imports.preferences;
         var ui = imports.ui;
         var c9 = imports.c9;
         var util = imports.util;
