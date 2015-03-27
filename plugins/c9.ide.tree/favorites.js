@@ -93,7 +93,8 @@ define(function(require, exports, module) {
                     status: "loaded",
                     map: {},
                     children: [],
-                    noSelect: true
+                    noSelect: true,
+                    $sorted: true
                 }]
             };
             
@@ -230,6 +231,7 @@ define(function(require, exports, module) {
                         favRoot.children.splice(index, 0, favNode);
                         fsCache.refresh(favRoot);
                         emit("favoriteReorder");
+                        update(favNode);
                     }
                 }, true);
                 

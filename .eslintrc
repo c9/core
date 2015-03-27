@@ -23,7 +23,6 @@ rules:
     no-irregular-whitespace: 3
     no-negated-in-lhs: 1
     no-regex-spaces: 3
-    no-reserved-keys: 3
     no-unreachable: 1
     use-isnan: 2
     valid-typeof: 1
