@@ -11,7 +11,7 @@ define(function(require, exports, module) {
     function main(options, imports, register) {
         var c9 = imports.c9;
         var Plugin = imports.Plugin;
-        var _ = require("lodash");
+        var normalize = require("path").normalize;
 
         var plugin = new Plugin("Ajax.org", main.consumes);
 
@@ -270,7 +270,7 @@ define(function(require, exports, module) {
         var reHome = new RegExp("^" + plugin.escapeRegExp(c9.home || "/home/ubuntu"));
         plugin.normalizePath = function(path){
             if (!path || path.charAt(0) == "~") return path;
-            return (path.replace(/^[\/]+/, "/")).replace(reHome, "~");
+            return normalize(path.replace(reHome, "~"));
         };
         
         /**
