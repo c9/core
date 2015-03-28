@@ -92,7 +92,6 @@ module.exports = function(options) {
         "plugins/c9.vfs.client/vfs.ping",
         {
             packagePath: "plugins/c9.vfs.client/vfs_client",
-            withInstall: false,
             debug: debug,
             installPath: options.installPath,
             dashboardUrl: options.dashboardUrl,
@@ -495,7 +494,15 @@ module.exports = function(options) {
         },
         "plugins/c9.ide.panels/panel",
         "plugins/c9.ide.panels/area",
-        "plugins/c9.ide.installer/installer_mock",
+        
+        // Installer
+        "plugins/c9.ide.installer/automate",
+        "plugins/c9.ide.installer/ui",
+        {
+            packagePath: "plugins/c9.ide.installer/installer",
+            homeDir: options.homeDir,
+            installSelfCheck: true
+        },
         
         // Previewer
         {
