@@ -496,8 +496,14 @@ module.exports = function(options) {
         "plugins/c9.ide.panels/area",
         
         // Installer
+        "plugins/c9.ide.installer/gui",
         "plugins/c9.ide.installer/automate",
-        "plugins/c9.ide.installer/ui",
+        "plugins/c9.ide.installer/commands/centos",
+        "plugins/c9.ide.installer/commands/bash",
+        "plugins/c9.ide.installer/commands/npm",
+        "plugins/c9.ide.installer/commands/symlink",
+        "plugins/c9.ide.installer/commands/tar.gz",
+        "plugins/c9.ide.installer/commands/ubuntu",
         {
             packagePath: "plugins/c9.ide.installer/installer",
             homeDir: options.homeDir,
