@@ -501,6 +501,8 @@ module.exports = function(options) {
         "plugins/c9.ide.format/formatters/jsbeautify",
         
         // Other
+        "plugins/c9.ide.download/download",
+        
         {
             packagePath: "plugins/c9.ide.info/info",
             installPath: options.installPath,
