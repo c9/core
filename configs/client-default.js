@@ -1,6 +1,5 @@
 var assert = require("assert");
 
-
 module.exports = function(options) {
     assert(options.staticPrefix, "Option 'staticPrefix' must be set");
     assert(options.workspaceDir, "Option 'workspaceDir' must be set");
@@ -47,6 +46,7 @@ module.exports = function(options) {
             env: options.env || "devel",
             home: options.home,
             platform: options.platform,
+            architecture: options.architecture,
             installed: options.installed,
             projectId: options.project.id,
             projectName: options.projectName || "Project",
@@ -507,7 +507,8 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.installer/installer",
             homeDir: options.homeDir,
-            installSelfCheck: true
+            installSelfCheck: true,
+            installPath: options.installPath
         },
         
         // Previewer

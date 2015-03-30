@@ -466,6 +466,11 @@ define(function(require, module, exports) {
                  */
                 get modal(){ return modal; },
                 /**
+                 * @property {Boolean} visible
+                 * @readonly
+                 */
+                get visible(){ return dialog && dialog.visible; },
+                /**
                  * @property {Boolean} allowClose
                  */
                 get allowClose(){ return allowClose; },

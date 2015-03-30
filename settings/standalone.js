@@ -44,6 +44,7 @@ module.exports = function(manifest, installPath) {
         host: process.env.IP || "0.0.0.0",
         testing: false,
         platform: process.platform,
+        arch: process.arch,
         tmux: path.join(installPath, "bin/tmux"),
         nakBin: path.join(__dirname, "../node_modules/nak/bin/nak"),
         bashBin: "bash",
