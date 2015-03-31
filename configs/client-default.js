@@ -14,7 +14,6 @@ module.exports = function(options) {
     var collab = options.collab;
     var packaging = options.packaging;
     var staticPrefix = options.staticPrefix;
-    var ssh = options.ssh;
 
     var nodeBin = options.nodeBin || ["node"];
     var nodePath = options.nodePath || "";
