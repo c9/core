@@ -390,7 +390,34 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.console/console",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
+            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
+            defaultState: options.project.scmurl ? {
+                type: "pane", 
+                nodes: [{
+                    type: "tab",
+                    editorType: "terminal",
+                    active: "true",
+                    document: {
+                        changed: false,
+                        meta: {
+                            timestamp: Date.now()
+                        },
+                        filter: true,
+                        title: "bash - \"Cloning ...\"",
+                        tooltip: "bash - \"Cloning ...\"",
+                        terminal: {
+                            id: "clone",
+                            cwd: ""
+                        }
+                    }
+                }, {
+                    type: "tab",
+                    editorType: "immediate",
+                    document: {
+                        title: "Immediate"
+                    }
+                }]
+            } : null
         },
         
         // Layout & Panels
