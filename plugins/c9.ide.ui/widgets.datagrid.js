@@ -16,9 +16,10 @@ define(function(require, exports, module) {
             if (!options) throw new Error("options are required");
             
             if (!options.baseName)
-                options.baseName = "tree";
+                options.baseName = "datagrid";
+                
             if (!options.theme)
-                options.theme = "blackdg";
+                options.theme = "blackdg ace-tree-" + (options.baseName || "datagrid");
             
             var model = new TreeModel();
             model.columns = options.columns;

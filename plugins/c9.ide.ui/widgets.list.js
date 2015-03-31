@@ -56,6 +56,7 @@ define(function(require, exports, module) {
                     ? new TreeModel()
                     : new ListModel());
                 model.filterCaseInsensitive = true;
+                model.$sortNodes = false;
                 
                 if (!options.rowHeight)
                     options.rowHeight = 23;
@@ -80,7 +81,9 @@ define(function(require, exports, module) {
                     scrollbarVisibilityChanged: acetree.renderer,
                     resize: acetree.renderer,
                     expand: model,
-                    collapse: model
+                    collapse: model,
+                    check: model,
+                    uncheck: model
                 };
                 
                 emit.sticky("draw");
@@ -262,7 +265,10 @@ define(function(require, exports, module) {
                     model.getCheckboxHTML = value 
                         ? function(node){
                             return "<span class='checkbox " 
-                                + (node.isChecked ? "checked" : "") + "'></span>";
+                                + (node.isChecked == -1 
+                                    ? "half-checked " 
+                                    : (node.isChecked ? "checked " : ""))
+                                + "'></span>";
                         }
                         : null;
                 },
@@ -360,7 +366,7 @@ define(function(require, exports, module) {
                  * 
                  */
                 get sort(){ return model.sort; },
-                set sort(fn){ 
+                set sort(fn){ debugger;
                     model.$sortNodes = fn ? true : false;
                     model.$sorted = fn ? true : false;
                     model.sort = fn; 
