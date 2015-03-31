@@ -257,6 +257,18 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
+                get enableCheckboxes(){ return model.getCheckboxHTML ? true : false; },
+                set enableCheckboxes(value){ 
+                    model.getCheckboxHTML = value 
+                        ? function(node){
+                            return "<span class='checkbox " 
+                                + (node.isChecked ? "checked" : "") + "'></span>";
+                        }
+                        : null;
+                },
+                /**
+                 * 
+                 */
                 get filterKeyword(){ return model.keyword; },
                 set filterKeyword(value){
                     model.keyword = value;
@@ -339,6 +351,11 @@ define(function(require, exports, module) {
                  */
                 get getIconHTML(){ return model.getIconHTML; },
                 set getIconHTML(fn){ model.getIconHTML = fn; },
+                /**
+                 * 
+                 */
+                get getCheckboxHTML(){ return model.getCheckboxHTML; },
+                set getCheckboxHTML(fn){ model.getCheckboxHTML = fn; },
                 /**
                  * 
                  */
