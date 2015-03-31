@@ -88,7 +88,7 @@ define(function(require, exports, module) {
                 
                 emit.sticky("draw");
             }
-
+            
             plugin.on("load", function(){
                 if (options.container)
                     plugin.attachTo(options.container);
@@ -271,6 +271,20 @@ define(function(require, exports, module) {
                                 + "'></span>";
                         }
                         : null;
+                    
+                    if (value) {
+                        acetree.commands.bindKey("Space", function(e) {
+                            var nodes = acetree.selection.getSelectedNodes();
+                            var node = acetree.selection.getCursor();
+                            node.isChecked = !node.isChecked;
+                            nodes.forEach(function(n){ n.isChecked = node.isChecked });
+                            model._signal(node.isChecked ? "check" : "uncheck", nodes);
+                            model._signal("change");
+                        });
+                    }
+                    else {
+                        // @TODO
+                    }
                 },
                 /**
                  * 
@@ -441,6 +455,14 @@ define(function(require, exports, module) {
                      */
                     "afterRename",
                     /**
+                     * @event check Fires 
+                     */
+                    "check",
+                    /**
+                     * @event uncheck Fires 
+                     */
+                    "uncheck",
+                    /**
                      * @event select Fires 
                      */
                     "select",
@@ -516,6 +538,22 @@ define(function(require, exports, module) {
                  */
                 disable: function(){
                     return acetree.enable();
+                },
+                /**
+                 * 
+                 */
+                check: function(node, half){
+                    node.isChecked = half ? -1 : true;
+                    model._signal("check", node);
+                    model._signal("change");
+                },
+                /**
+                 * 
+                 */
+                uncheck: function(node){
+                    node.isChecked = false;
+                    model._signal("uncheck", node);
+                    model._signal("change");
                 },
                 /**
                  * 
