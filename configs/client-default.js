@@ -355,6 +355,8 @@ module.exports = function(options) {
         "plugins/c9.ide.run.debug/variables",
         "plugins/c9.ide.run.debug/watches",
         "plugins/c9.ide.run.debug/liveinspect",
+
+        "plugins/c9.ide.run.debug.xdebug/xdebug",
         
         // Console
         {

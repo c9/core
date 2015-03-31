@@ -186,7 +186,7 @@
             tests = JSON.parse(tests);
             allFiles = tests.list.slice();
             
-            if (!files.length && location.href.slice(-1) == "?") {
+            if (!files.length && (location.search === "?" || location.search === "")) {
                 var disabled = tests.blacklist.slice().sort();
                 var enabled = tests.list.slice().sort();
                 var all = "<span style='font-size: 14px;'><a href='/static/test.html''>run all</a></span>";
