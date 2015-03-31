@@ -9,6 +9,8 @@ plugins/c9.vfs.standalone/www/less.html
 plugins/c9.ide.run/todo
 plugins/c9.vfs.standalone/www/charts
 plugins/c9.ide.language.javascript.tern/util/sigs_ts
+plugins/c9.account.billing/node_modules/
+plugins/c9.account/node_modules/
 scripts/build
 build/output
 build/standalone/
