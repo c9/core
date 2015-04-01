@@ -14,7 +14,6 @@ module.exports = function(options) {
     var collab = options.collab;
     var packaging = options.packaging;
     var staticPrefix = options.staticPrefix;
-    var ssh = options.ssh;
 
     var nodeBin = options.nodeBin || ["node"];
     var nodePath = options.nodePath || "";
@@ -392,7 +391,34 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.console/console",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
+            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
+            defaultState: options.project.scmurl ? {
+                type: "pane", 
+                nodes: [{
+                    type: "tab",
+                    editorType: "terminal",
+                    active: "true",
+                    document: {
+                        changed: false,
+                        meta: {
+                            timestamp: Date.now()
+                        },
+                        filter: true,
+                        title: "bash - \"Cloning ...\"",
+                        tooltip: "bash - \"Cloning ...\"",
+                        terminal: {
+                            id: "clone",
+                            cwd: ""
+                        }
+                    }
+                }, {
+                    type: "tab",
+                    editorType: "immediate",
+                    document: {
+                        title: "Immediate"
+                    }
+                }]
+            } : null
         },
         
         // Layout & Panels
