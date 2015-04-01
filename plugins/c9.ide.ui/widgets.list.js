@@ -261,7 +261,7 @@ define(function(require, exports, module) {
                  * 
                  */
                 get enableCheckboxes(){ return model.getCheckboxHTML ? true : false; },
-                set enableCheckboxes(value){ 
+                set enableCheckboxes(value){
                     model.getCheckboxHTML = value 
                         ? function(node){
                             return "<span class='checkbox " 
@@ -283,7 +283,7 @@ define(function(require, exports, module) {
                         });
                     }
                     else {
-                        // @TODO
+                        acetree.commands.bindKey("Space", null);
                     }
                 },
                 /**
