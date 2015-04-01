@@ -740,7 +740,7 @@ define(function(require, exports, module) {
                                     var err = code !== 0
                                         ? new Error("Failed to unpack package")
                                         : null;
-                                    if (err) return callback(err)
+                                    if (err) return callback(err);
                                     
                                     proc.spawn(join(process.env.HOME, ".c9/node/bin/npm"), {
                                         args: ["install"],
