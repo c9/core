@@ -741,9 +741,27 @@ define(function(require, exports, module) {
                                         ? new Error("Failed to unpack package")
                                         : null;
                                     
-                                    // Done
-                                    callback(err, {
-                                        version: version
+                                    proc.spawn(join(process.env.HOME, ".c9/node/bin/npm"), {
+                                        args: ["install"],
+                                        cwd: packagePath
+                                    }, function(err, p){
+                                        if (err) return callback(err);
+                                        
+                                        if (verbose) {
+                                            p.stdout.on("data", function(c){
+                                                process.stdout.write(c.toString("utf8"));
+                                            });
+                                            p.stderr.on("data", function(c){
+                                                process.stderr.write(c.toString("utf8"));
+                                            });
+                                        }
+                                        
+                                        p.on("exit", function(code){
+                                            // Done
+                                            callback(err, {
+                                                version: version
+                                            });
+                                        });
                                     });
                                 });
                             });
