@@ -46,7 +46,7 @@ module.exports = function(options) {
             env: options.env || "devel",
             home: options.home,
             platform: options.platform,
-            architecture: options.architecture,
+            arch: options.arch,
             installed: options.installed,
             projectId: options.project.id,
             projectName: options.projectName || "Project",
@@ -222,7 +222,10 @@ module.exports = function(options) {
             autoInit: !options.local
         },
         "plugins/c9.ide.ui/forms",
-        "plugins/c9.ide.ui/widgets.list",
+        {
+            packagePath: "plugins/c9.ide.ui/widgets.list",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
+        },
         "plugins/c9.ide.ui/widgets.tree",
         "plugins/c9.ide.ui/widgets.datagrid",
         "plugins/c9.ide.ui/focus",
@@ -496,7 +499,10 @@ module.exports = function(options) {
         "plugins/c9.ide.panels/area",
         
         // Installer
-        "plugins/c9.ide.installer/gui",
+        {
+            packagePath: "plugins/c9.ide.installer/gui",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
+        },
         "plugins/c9.ide.installer/automate",
         "plugins/c9.ide.installer/commands/centos",
         "plugins/c9.ide.installer/commands/bash",
