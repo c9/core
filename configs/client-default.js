@@ -503,7 +503,7 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.installer/gui",
             staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
         },
-        "plugins/c9.ide.installer/automate",
+        "plugins/c9.automate/automate",
         "plugins/c9.ide.installer/commands/centos",
         "plugins/c9.ide.installer/commands/bash",
         "plugins/c9.ide.installer/commands/npm",
