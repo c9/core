@@ -2,7 +2,8 @@
 define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "vfs", "fs", "plugin.loader", "c9", "ext", "watcher",
-        "dialog.notification", "ui", "menus", "commands", "settings", "auth"
+        "dialog.notification", "ui", "menus", "commands", "settings", "auth",
+        "installer"
     ];
     main.provides = ["plugin.debug"];
     return main;
@@ -14,6 +15,7 @@ define(function(require, exports, module) {
         var ext = imports.ext;
         var ui = imports.ui;
         var menus = imports.menus;
+        var installer = imports.installer;
         var settings = imports.settings;
         var commands = imports.commands;
         var fs = imports.fs;
@@ -122,7 +124,7 @@ define(function(require, exports, module) {
                         return next();
                     }
                     
-                    try{ 
+                    try {
                         var options = JSON.parse(data); 
                         if (!options.plugins) 
                             throw new Error("Missing plugins property in package.json of " + name);
@@ -132,6 +134,22 @@ define(function(require, exports, module) {
                         return next();
                     }
                     
+                    var host = vfs.baseUrl + "/";
+                    var base = join(String(c9.projectId), 
+                        "plugins", auth.accessToken);
+                        
+                    // Start the installer if one is included
+                    if (options.installer) {
+                        var version = options.installer.version;
+                        var url = host + join(base, name, options.installer.main);
+                        installer.createVersion(name, version, function(v, o){
+                            require([url], function(fn){
+                                fn(v, o);
+                            });
+                        });
+                    }
+                    
+                    // Add the plugin to the config
                     Object.keys(options.plugins).forEach(function(path){
                         var pluginPath = name + "/" + path + ".js";
                         
@@ -139,10 +157,6 @@ define(function(require, exports, module) {
                         watch("~/.c9/plugins/" + pluginPath);
                         
                         var cfg = options.plugins[path];
-                        var host = vfs.baseUrl + "/";
-                        var base = join(String(c9.projectId), 
-                            "plugins", auth.accessToken);
-                            
                         cfg.packagePath = host + join(base, pluginPath.replace(/^plugins\//, ""));
                         cfg.staticPrefix = host + join(base, name);
                         cfg.apikey = "0000000000000000000000000000=";
@@ -158,6 +172,15 @@ define(function(require, exports, module) {
                 if (!config.length) return;
                 
                 // Load config
+                if (installer.sessions.length) {
+                    installer.on("stop", function(err){
+                        if (err) 
+                            return console.error(err);
+                        finish();
+                    });
+                    return;
+                }
+                
                 architect.loadAdditionalPlugins(config, function(err){
                     if (err) console.error(err);
                 });
@@ -266,12 +289,6 @@ define(function(require, exports, module) {
         
         plugin.on("load", function() {
             load();
-        });
-        plugin.on("enable", function() {
-            
-        });
-        plugin.on("disable", function() {
-            
         });
         plugin.on("unload", function() {
             loaded = false;
