@@ -390,6 +390,28 @@
     padding : 5px 3px 1px 5px;
 }
 
+.ace_tree .tree-row .checkbox{
+    outline: 1px solid rgba(0, 0, 0, 0.16);
+    background: white;
+    width: 13px;
+    height: 13px;
+    margin: -2px 5px 0 0px;
+    display: inline-block;
+    vertical-align: middle;
+    pointer-events: auto;
+}
+.ace_tree .tree-row .checkbox.checked{
+    background: white url("@{image-path}/@{menu-check}");
+    background-position: -2px -2px;
+}
+.ace_tree .tree-row .checkbox.half-checked{
+    background: #DDDDDD url("@{image-path}/@{menu-check}");
+    background-position: -2px -2px;
+}
+.installer .execute .progress{
+    bottom: -50px;
+}
+
 @media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
     .listBP .checked .checkbox {
         background-position: 0px -61px !important;
