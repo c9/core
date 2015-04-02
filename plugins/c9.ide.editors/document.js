@@ -1,5 +1,5 @@
 define(function(require, module, exports) {
-    main.consumes = ["Plugin", "UndoManager", "util"];
+    main.consumes = ["Plugin", "UndoManager", "util", "error_handler"];
     main.provides = ["Document"];
     return main;
 
@@ -7,6 +7,7 @@ define(function(require, module, exports) {
         var Plugin = imports.Plugin;
         var util = imports.util;
         var UndoManager = imports.UndoManager;
+        var reportError = imports.error_handler.reportError;
         
         function Document(options) {
             var plugin = new Plugin("Ajax.org", main.consumes);
@@ -341,8 +342,11 @@ define(function(require, module, exports) {
                  */
                 get ready(){ return ready; },
                 set ready(v) {
-                    if (ready) throw new Error("Permission Denied");
-                    ready = true;
+                    // try to find out why is this called twice
+                    var e =  new Error("Setting ready on ready document");
+                    if (ready)
+                        reportError(e, {ready: ready});
+                    ready = e.stack || true;
                     emit.sticky("ready", { doc: plugin });
                 },
                 /**
