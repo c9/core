@@ -1575,7 +1575,7 @@ define(function(require, exports, module) {
              * @param {Object}  syntax
              * @param {Object}  syntax.caption        Caption to display in the menu
              * @param {Number}  syntax.order          order in the menu
-             * @param {String}  syntax.id             The path to corresponding ace language mode. (if doesn't contain "/" assumed to be from "ace/mode/<id>")
+             * @param {String}  syntax.name           The path to corresponding ace language mode. (if doesn't contain "/" assumed to be from "ace/mode/<name>")
              * @param {String}  syntax.extensions     file extensions in the form "ext1|ext2|^filename". this is case-insensitive
              */
             defineSyntax: defineSyntax,

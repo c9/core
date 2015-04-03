@@ -236,103 +236,62 @@ define(function(require, exports, module) {
                 var filename = RegExp.$2;
                 if (filename.indexOf("/") > -1) return;
                 
-                switch (type) {
-                    case "builders":
-                        parallel.push(function(next){
-                            fs.readFile(join(path, filename), function(err, data){
-                                if (err) {
-                                    console.error(err);
-                                    return next(err);
-                                }
-                                
+                parallel.push(function(next){
+                    fs.readFile(join(path, filename), function(err, data){
+                        if (err) {
+                            console.error(err);
+                            return next(err);
+                        }
+                        
+                        switch (type) {
+                            case "builders":
                                 data = util.safeParseJson(data, next);
                                 if (!data) return;
                                 
                                 services.build.addBuilder(filename, data, placeholder);
-                                next();
-                            });
-                        });
-                        break;
-                    case "keymaps":
-                        parallel.push(function(next){
-                            fs.readFile(join(path, filename), function(err, data){
-                                if (err) {
-                                    console.error(err);
-                                    return next(err);
-                                }
-                                
+                                break;
+                            case "keymaps":
                                 data = util.safeParseJson(data, next);
                                 if (!data) return;
                                 
                                 services["preferences.keybindings"].addCustomKeymap(filename, data, placeholder);
-                                next();
-                            });
-                        });
-                        break;
-                    case "modes":
-                        parallel.push(function(next){
-                            
-                        });
-                        break;
-                    case "outline":
-                        parallel.push(function(next){
-                            fs.readFile(join(path, filename), function(err, data){
-                                if (err) {
-                                    console.error(err);
-                                    return next(err);
-                                }
+                                break;
+                            case "modes":
+                                data = util.safeParseJson(data, next);
+                                if (!data) return;
                                 
+                                services.ace.defineSyntax({
+                                    name: join(path, "modes", data.name),
+                                    caption: data.caption,
+                                    extensions: (data.extensions || []).join("|")
+                                });
+                                break;
+                            case "outline":
                                 data = util.safeParseJson(data, next);
                                 if (!data) return;
                                 
                                 services.outline.addOutlinePlugin(filename, data, placeholder);
-                                next();
-                            });
-                        });
-                        break;
-                    case "runners":
-                        parallel.push(function(next){
-                            fs.readFile(join(path, filename), function(err, data){
-                                if (err) {
-                                    console.error(err);
-                                    return next(err);
-                                }
-                                
+                                break;
+                            case "runners":
                                 data = util.safeParseJson(data, next);
                                 if (!data) return;
                                 
                                 services.run.addRunner(filename, data, placeholder);
-                                next();
-                            });
-                        });
-                        break;
-                    case "snippets":
-                        parallel.push(function(next){
-                            fs.readFile(join(path, filename), function(err, snippet){
-                                if (err) {
-                                    console.error(err);
-                                    return next(err);
-                                }
-                                
-                                services.complete.addSnippet(snippet, plugin);
-                                next();
-                            });
-                        });
-                        break;
-                    case "themes":
-                        parallel.push(function(next){
-                            fs.readFile(join(path, filename), function(err, theme){
-                                if (err) {
-                                    console.error(err);
-                                    return next(err);
-                                }
-                                
-                                services.ace.addTheme(theme, placeholder);
-                                next();
-                            });
-                        });
-                        break;
-                }
+                                break;
+                            case "snippets":
+                                services.complete.addSnippet(data, plugin);
+                                break;
+                            case "themes":
+                                services.ace.addTheme(data, placeholder);
+                                break;
+                            case "template":
+                                services.newresource.addFileTemplate(data, placeholder);
+                                break;
+                        }
+                        
+                        next();
+                    });
+                });
             });
             
             return parallel;
