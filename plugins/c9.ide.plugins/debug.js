@@ -261,13 +261,21 @@ define(function(require, exports, module) {
                                 services["preferences.keybindings"].addCustomKeymap(filename, data, placeholder);
                                 break;
                             case "modes":
-                                data = util.safeParseJson(data, next);
-                                if (!data) return;
+                                var mode = {};
+                                var firstLine = data.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
+                                firstLine.split(";").forEach(function(n){
+                                    if (!n) return;
+                                    var info = n.split(":");
+                                    mode[info[0].trim()] = info[1].trim();
+                                });
                                 
                                 services.ace.defineSyntax({
                                     name: join(path, "modes", data.name),
-                                    caption: data.caption,
-                                    extensions: (data.extensions || []).join("|")
+                                    caption: mode.caption,
+                                    extensions: (mode.extensions || "").trim()
+                                        .split(",")
+                                        .map(function(n){ return n.trim(); })
+                                        .filter(function(n){ return n; })
                                 });
                                 break;
                             case "outline":
