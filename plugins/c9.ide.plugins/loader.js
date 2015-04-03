@@ -68,7 +68,7 @@ define(function(require, exports, module) {
                 var path = options.packagePath + ".js";
                 var host = vfs.baseUrl + "/";
                 var base = join(String(c9.projectId), "plugins", auth.accessToken);
-                            
+                
                 options.packagePath = host + join(base, path.replace(/^plugins\//, ""));
                 options.staticPrefix = host + join(base, name);
                 

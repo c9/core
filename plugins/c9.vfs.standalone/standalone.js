@@ -115,7 +115,7 @@ function plugin(options, imports, register) {
             token: req.params.token
         });
         
-        opts.options.debug = req.params.debug;
+        opts.options.debug = req.params.debug == 1;
         res.setHeader("Cache-Control", "no-cache, no-store");
         res.render(__dirname + "/views/standalone.html.ejs", {
             architectConfig: getConfig(configType, opts),

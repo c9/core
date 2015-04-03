@@ -154,20 +154,24 @@ define(function(require, exports, module) {
                                 });
                             }
                             
+                            var pathConfig = {};
+                            
+                            pathConfig["plugins/" + name] = host + join(base, name);
                             // Add the plugin to the config
                             Object.keys(options.plugins).forEach(function(path){
                                 var pluginPath = name + "/" + path + ".js";
                                 
                                 // Watch project path
                                 watch("~/.c9/plugins/" + pluginPath);
-                                
                                 var cfg = options.plugins[path];
-                                cfg.packagePath = host + join(base, pluginPath.replace(/^plugins\//, ""));
+                                cfg.packagePath = "plugins/" + name + "/" + path;
                                 cfg.staticPrefix = host + join(base, name);
                                 cfg.apikey = "0000000000000000000000000000=";
                                 
                                 config.push(cfg);
                             });
+                            
+                            requirejs.config({paths: pathConfig});
                             
                             next();
                         });
