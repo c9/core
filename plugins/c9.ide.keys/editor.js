@@ -38,6 +38,8 @@ define(function(require, exports, module) {
         });
         // var emit = plugin.getEmitter();
         
+        var customKeymaps = {};
+        
         var model, datagrid, changed, container, filterbox;
         var appliedCustomSets, intro, reloading;
         
@@ -56,6 +58,15 @@ define(function(require, exports, module) {
                     reloadModel();
                 }
             }, plugin);
+            
+            settings.on("user/ace/@keyboardmode", function(){
+                var mode = settings.getJson("user/ace/@keyboardmode");
+                if (customKeymaps[mode]) {
+                    settings.set("user/ace/@keyboardmode", "default");
+                    settings.setJson("user/key-bindings", customKeymaps[mode]);
+                    updateCommandsFromSettings();
+                }
+            });
             
             settings.on("read", function(e) {
                 updateCommandsFromSettings();
@@ -184,6 +195,7 @@ define(function(require, exports, module) {
                     title: "Keyboard Mode",
                     type: "dropdown",
                     path: "user/ace/@keyboardmode",
+                    name: "kbmode",
                     items: [
                         { caption: "Default", value: "default" },
                         { caption: "Vim", value: "vim" },
@@ -495,6 +507,47 @@ define(function(require, exports, module) {
             }
         }
         
+        function addCustomKeymap(name, keymap, plugin){
+            customKeymaps[name] = keymap;
+            
+            if (!Object.keys(customKeymaps).length) {
+                menus.addItemByPath("Edit/Keyboard Mode/~", 
+                    new ui.divider(), 10000, plugin);
+            }
+            
+            menus.addItemByPath("Edit/Keyboard Mode/" + name, new ui.item({
+                type: "radio",
+                value: name.toLowerCase(), 
+                onclick: function(e) {
+                    settings.set("user/ace/@keyboardmode", name);
+                }
+            }), 10000 + Object.keys(customKeymaps).length, plugin);
+            
+            plugin.addOther(function(){ delete customKeymaps[name]; });
+            
+            if (plugin.visible)
+                updateKeymaps();
+        }
+        
+        function updateKeymaps(){
+            var items = [
+                { caption: "Default", value: "default" },
+                { caption: "Vim", value: "vim" },
+                { caption: "Emacs", value: "emacs" },
+                { caption: "Sublime", value: "sublime" }
+            ];
+            
+            for (var name in customKeymaps) {
+                items.push({ caption: name, value: name });
+            }
+            
+            plugin.form.update([{
+                type: "dropdown",
+                name: "kbmode",
+                items: items
+            }])
+        }
+        
         /***** Lifecycle *****/
         
         plugin.on("load", function() {
@@ -504,7 +557,10 @@ define(function(require, exports, module) {
             draw(e);
         });
         plugin.on("activate", function(e) {
-            datagrid && datagrid.resize();
+            if (!drawn) return;
+            
+            datagrid.resize();
+            updateKeymaps();
         });
         plugin.on("resize", function(e) {
             datagrid && datagrid.resize();
@@ -532,7 +588,12 @@ define(function(require, exports, module) {
             /**
              * 
              */
-            editUserKeys: editUserKeys
+            editUserKeys: editUserKeys,
+            
+            /**
+             * 
+             */
+            addCustomKeymap: addCustomKeymap
         });
         
         register(null, { 

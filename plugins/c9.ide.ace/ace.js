@@ -90,7 +90,8 @@ define(function(require, exports, module) {
         
         var isMinimal = options.minimal;
         var themeLoaded = {};
-        var lastTheme, grpSyntax; 
+        var themeCounter = 100;
+        var lastTheme, grpSyntax, grpThemes;
         
         var theme;
         var skin = settings.get("user/general/@skin");
@@ -140,8 +141,10 @@ define(function(require, exports, module) {
         
         function setTheme(path, isPreview, fromServer, $err) {
             // Get Theme or wait for theme to load
-            try{
-                theme = fromServer || require(path);
+            try {
+                theme = typeof path == "object"
+                    ? path
+                    : fromServer || require(path);
                 
                 // fixes a problem with Ace architect loading /lib/ace
                 // creating a conflict with themes
@@ -1089,69 +1092,83 @@ define(function(require, exports, module) {
             
             /**** Themes ****/
             
-            var grpThemes = new ui.group();
-            var mnuThemes = new ui.menu({
+            grpThemes = new ui.group();
+            
+            menus.addItemByPath("View/Themes/", new ui.menu({
                 "onprop.visible" : function(e) {
                     if (e.value)
                         grpThemes.setValue(settings.get("user/ace/@theme"));
                 }
-            });
-            menus.addItemByPath("View/Themes/", mnuThemes, 350000, handle);
+            }), 350000, handle);
             
-            var preview;
-            var setMenuThemeDelayed = lang.delayedCall(function(){
-                setMenuTheme(preview, true);
-            }, 150);
-            function setMenuTheme(path, isPreview) {
-                setTheme(path || settings.get("user/ace/@theme"), isPreview);
-            }
-            
-            function addThemeMenu(name, path, index) {
-                menus.addItemByPath("View/Themes/" + name, new ui.item({
-                    type: "radio",
-                    value: path || themes[name],
-                    group: grpThemes,
-                    
-                    onmouseover: function(e) {
-                        preview = this.value;
-                        setMenuThemeDelayed.schedule();
-                    },
-                    
-                    onmouseout: function(e) {
-                        preview = null;
-                        setMenuThemeDelayed.schedule();
-                    },
-    
-                    onclick: function(e) {
-                        setMenuTheme(e.currentTarget.value);
-                    }
-                }), index, handle);
-            }
-        
             // Create Theme Menus
-            var mainCounter = 100;
             for (var name in themes) {
                 if (themes[name] instanceof Array) {
                     
                     // Add Menu Item (for submenu)
-                    menus.addItemByPath("View/Themes/" + name + "/", null, mainCounter++, handle);
+                    menus.addItemByPath("View/Themes/" + name + "/", null, themeCounter++, handle);
                     
                     themes[name].forEach(function (n) {
                         // Add Menu Item
                         var themeprop = Object.keys(n)[0];
-                        addThemeMenu(name + "/" + themeprop, n[themeprop]);
+                        addThemeMenu(name + "/" + themeprop, n[themeprop], -1);
                     });
                 }
                 else {
                     // Add Menu Item
-                    addThemeMenu(name, null, mainCounter++);
+                    addThemeMenu(name, null, themeCounter++);
                 }
             }
+            
+            /**** Syntax ****/
             
             grpSyntax = new ui.group();
             handle.addElement(grpNewline, grpSyntax, grpThemes);
         }
         
+        var preview;
+        var setMenuThemeDelayed = lang.delayedCall(function(){
+            setMenuTheme(preview, true);
+        }, 150);
+        function setMenuTheme(path, isPreview) {
+            setTheme(path || settings.get("user/ace/@theme"), isPreview);
+        }
+        function addThemeMenu(name, path, index, plugin) {
+            menus.addItemByPath("View/Themes/" + name, new ui.item({
+                type: "radio",
+                value: path || themes[name],
+                group: grpThemes,
+                
+                onmouseover: function(e) {
+                    preview = this.value;
+                    setMenuThemeDelayed.schedule();
+                },
+                
+                onmouseout: function(e) {
+                    preview = null;
+                    setMenuThemeDelayed.schedule();
+                },
+
+                onclick: function(e) {
+                    setMenuTheme(e.currentTarget.value);
+                }
+            }), index == -1 ? undefined : index || themeCounter++, plugin || handle);
+        }
+        function addTheme(css, plugin){
+            var theme = { cssText: css };
+            var firstLine = css.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
+            firstLine.split(";").forEach(function(n){
+                if (!n) return;
+                var info = n.split(":");console.log(info)
+                theme[info[0].trim()] = info[1].trim();
+            });
+            theme.isDark = theme.isDark == "true";
+                
+            themes[theme.name] = theme;
+            
+            ui.insertCss(exports.cssText, plugin);
+            addThemeMenu(theme.name, theme, null, plugin);
+        }
 
         function rebuildSyntaxMenu() {
             menus.remove("View/Syntax/");
@@ -1500,7 +1517,7 @@ define(function(require, exports, module) {
             /**
              * Set the theme for ace.
              * 
-             * Here's a list of known themes:
+             * Here's a list of default themes:
              * 
              * * ace/theme/ambiance
              * * ace/theme/chrome
@@ -1558,6 +1575,13 @@ define(function(require, exports, module) {
                 var mode = modes.byName[syntax];
                 return mode && mode.caption || "Text";
             },
+            
+            /**
+             * Adds a menu item for a new theme
+             * @param {String} css
+             * @param {Plugin} plugin
+             */
+            addTheme: addTheme,
             
             /**
              * @ignore

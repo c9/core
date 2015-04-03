@@ -3,7 +3,7 @@ define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "vfs", "fs", "plugin.loader", "c9", "ext", "watcher",
         "dialog.notification", "ui", "menus", "commands", "settings", "auth",
-        "installer"
+        "installer", "find", "util"
     ];
     main.provides = ["plugin.debug"];
     return main;
@@ -13,6 +13,8 @@ define(function(require, exports, module) {
         var vfs = imports.vfs;
         var watcher = imports.watcher;
         var ext = imports.ext;
+        var util = imports.util;
+        var find = imports.find;
         var ui = imports.ui;
         var menus = imports.menus;
         var installer = imports.installer;
@@ -26,6 +28,7 @@ define(function(require, exports, module) {
         
         var dirname = require("path").dirname;
         var join = require("path").join;
+        var async = require("async");
         
         var architect;
         
@@ -36,6 +39,8 @@ define(function(require, exports, module) {
         
         var ENABLED = c9.location.indexOf("debug=2") > -1;
         var HASSDK = c9.location.indexOf("sdk=0") === -1;
+        
+        var reParts = /^(builders|keymaps|modes|outline|runners|snippets|themes)\/(.*)/
         
         var loaded = false;
         function load() {
@@ -118,52 +123,81 @@ define(function(require, exports, module) {
                 }
                 
                 // Fetch package.json
-                fs.readFile("~/.c9/plugins/" + name + "/package.json", function(err, data){
-                    if (err) {
-                        console.error(err);
-                        return next();
-                    }
-                    
-                    try {
-                        var options = JSON.parse(data); 
-                        if (!options.plugins) 
-                            throw new Error("Missing plugins property in package.json of " + name);
-                    }
-                    catch(e){ 
-                        console.error(err);
-                        return next();
-                    }
-                    
-                    var host = vfs.baseUrl + "/";
-                    var base = join(String(c9.projectId), 
-                        "plugins", auth.accessToken);
-                        
-                    // Start the installer if one is included
-                    if (options.installer) {
-                        var version = options.installer.version;
-                        var url = host + join(base, name, options.installer.main);
-                        installer.createVersion(name, version, function(v, o){
-                            require([url], function(fn){
-                                fn(v, o);
+                async.parallel([
+                    function(next){
+                        fs.readFile("~/.c9/plugins/" + name + "/package.json", function(err, data){
+                            if (err)
+                                return next(err);
+                            
+                            try {
+                                var options = JSON.parse(data); 
+                                if (!options.plugins) 
+                                    throw new Error("Missing plugins property in package.json of " + name);
+                            }
+                            catch(e){ 
+                                return next(err);
+                            }
+                            
+                            var host = vfs.baseUrl + "/";
+                            var base = join(String(c9.projectId), 
+                                "plugins", auth.accessToken);
+                                
+                            // Start the installer if one is included
+                            if (options.installer) {
+                                var version = options.installer.version;
+                                var url = host + join(base, name, options.installer.main);
+                                installer.createVersion(name, version, function(v, o){
+                                    require([url], function(fn){
+                                        fn(v, o);
+                                    });
+                                });
+                            }
+                            
+                            // Add the plugin to the config
+                            Object.keys(options.plugins).forEach(function(path){
+                                var pluginPath = name + "/" + path + ".js";
+                                
+                                // Watch project path
+                                watch("~/.c9/plugins/" + pluginPath);
+                                
+                                var cfg = options.plugins[path];
+                                cfg.packagePath = host + join(base, pluginPath.replace(/^plugins\//, ""));
+                                cfg.staticPrefix = host + join(base, name);
+                                cfg.apikey = "0000000000000000000000000000=";
+                                
+                                config.push(cfg);
+                            });
+                            
+                            next();
+                        });
+                    },
+                    function(next){
+                        var path = join(c9.home, "plugins", + name);
+                        var rePath = new RegExp("^" + util.escapeRegExp(path), "g");
+                        find.getFileList({ 
+                            path: path, 
+                            nocache: true, 
+                            buffer: true 
+                        }, function(err, data){ 
+                            if (err)
+                                return next(err);
+                            
+                            // Remove the base path
+                            data = data.replace(rePath, "");
+                            
+                            // Process all the submodules
+                            var parallel = processModules(path, data);
+                            async.parallel(parallel, function(err, data){
+                                if (err)
+                                    return next(err);
+                                
+                                // Done
+                                next();
                             });
                         });
                     }
-                    
-                    // Add the plugin to the config
-                    Object.keys(options.plugins).forEach(function(path){
-                        var pluginPath = name + "/" + path + ".js";
-                        
-                        // Watch project path
-                        watch("~/.c9/plugins/" + pluginPath);
-                        
-                        var cfg = options.plugins[path];
-                        cfg.packagePath = host + join(base, pluginPath.replace(/^plugins\//, ""));
-                        cfg.staticPrefix = host + join(base, name);
-                        cfg.apikey = "0000000000000000000000000000=";
-                        
-                        config.push(cfg);
-                    });
-                    
+                ], function(err, results){
+                    if (err) console.error(err);
                     next();
                 });
             }
@@ -187,6 +221,113 @@ define(function(require, exports, module) {
             }
             
             list.forEach(next);
+        }
+        
+        function processModules(path, data){
+            var parallel = [];
+            var services = architect.services;
+            
+            var placeholder = new Plugin();
+            
+            data.split("\n").forEach(function(line){
+                if (!line.match(reParts)) return;
+                    
+                var type = RegExp.$1;
+                var filename = RegExp.$2;
+                if (filename.indexOf("/") > -1) return;
+                
+                switch (type) {
+                    case "builders":
+                        parallel.push(function(next){
+                            fs.readFile(join(path, filename), function(err, data){
+                                if (err) {
+                                    console.error(err);
+                                    return next(err);
+                                }
+                                
+                                data = util.safeParseJson(data, next);
+                                if (!data) return;
+                                
+                                services.build.addBuilder(filename, data, placeholder);
+                                next();
+                            });
+                        });
+                        break;
+                    case "keymaps":
+                        parallel.push(function(next){
+                            fs.readFile(join(path, filename), function(err, data){
+                                if (err) {
+                                    console.error(err);
+                                    return next(err);
+                                }
+                                
+                                data = util.safeParseJson(data, next);
+                                if (!data) return;
+                                
+                                services["preferences.keybindings"].addCustomKeymap(filename, data, placeholder);
+                                next();
+                            });
+                        });
+                        break;
+                    case "modes":
+                        parallel.push(function(next){
+                            
+                        });
+                        break;
+                    case "outline":
+                        parallel.push(function(next){
+                            fs.readFile(join(path, filename), function(err, data){
+                                if (err) {
+                                    console.error(err);
+                                    return next(err);
+                                }
+                                
+                                data = util.safeParseJson(data, next);
+                                if (!data) return;
+                                
+                                services.outline.addOutlinePlugin(filename, data, placeholder);
+                                next();
+                            });
+                        });
+                        break;
+                    case "runners":
+                        parallel.push(function(next){
+                            fs.readFile(join(path, filename), function(err, data){
+                                if (err) {
+                                    console.error(err);
+                                    return next(err);
+                                }
+                                
+                                data = util.safeParseJson(data, next);
+                                if (!data) return;
+                                
+                                services.run.addRunner(filename, data, placeholder);
+                                next();
+                            });
+                        });
+                        break;
+                    case "snippets":
+                        parallel.push(function(next){
+                            
+                        });
+                        break;
+                    case "themes":
+                        parallel.push(function(next){
+                            fs.readFile(join(path, filename), function(err, theme){
+                                if (err) {
+                                    console.error(err);
+                                    return next(err);
+                                }
+                                
+                                services.ace.addTheme(theme, placeholder);
+                                next();
+                            });
+                        });
+                        break;
+                }
+            });
+            
+            return parallel;
         }
         
         // Check if require.s.contexts._ can help watching all dependencies

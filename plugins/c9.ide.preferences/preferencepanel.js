@@ -352,6 +352,13 @@ define(function(require, module, exports) {
                  */
                 get form(){ return form },
                 
+                /**
+                 * Whether this panel is active
+                 * @property {Boolean} active
+                 * @readonly
+                 */
+                get active(){ return amlBar.visible; },
+                
                 _events: [
                     /**
                      * Fired when the panel container is drawn.
@@ -361,7 +368,19 @@ define(function(require, module, exports) {
                      * @param {AMLElement}  e.aml      The aml container.
                      * @param {AMLElement}  e.navHtml  The html element that represents the navigation.
                      */
-                    "draw"
+                    "draw",
+                    /**
+                     * @event activate 
+                     */
+                    "activate",
+                    /**
+                     * @event deactivate 
+                     */
+                    "deactivate",
+                    /**
+                     * @event resize 
+                     */
+                    "resize"
                 ],
                     
                 /**

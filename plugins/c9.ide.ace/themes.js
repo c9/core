@@ -16,7 +16,7 @@ define(function(require, exports, module) {
         
         var plugin = new PreferencePanel("Ajax.org", main.consumes, {
             caption: "Themes",
-            className: "keybindings",
+            className: "flatform",
             form: true,
             noscroll: true,
             colwidth: 150,
@@ -183,12 +183,6 @@ define(function(require, exports, module) {
         });
         plugin.on("draw", function(e) {
             draw(e);
-        });
-        plugin.on("enable", function() {
-            
-        });
-        plugin.on("disable", function() {
-            
         });
         plugin.on("unload", function() {
             loaded = false;

@@ -209,6 +209,14 @@ define(function(require, exports, module) {
             return JSON.stringify(sortByKeys(obj), replacer, spaces);
         };
         
+        plugin.safeParseJson = function(strJson, cb){
+            // Remove comments
+            var data = strJson.replace(/(^|\n)\s*\/\/.*/g, "");
+                
+            try { return JSON.parse(data); }
+            catch (e) { cb(e); return false; }
+        }
+        
         /**
          * 
          */
