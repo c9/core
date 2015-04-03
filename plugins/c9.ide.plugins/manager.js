@@ -580,14 +580,18 @@ define(function(require, exports, module) {
 
                 // Download tar file with template for plugin
                 proc.execFile("bash", {
-                    args: ["-c", ["curl", "-L", url, "--create-dirs", "-o", tarPathAbsolute].join(" ")]
+                    args: ["-c", [
+                        // using mkdirp since "--create-dirs" is broken on windows
+                        "mkdir", "-p", util.escapeShell(dirname(tarPathAbsolute)), ";",
+                        "curl", "-L", util.escapeShell(url), "-o", util.escapeShell(tarPathAbsolute)].join(" ")
+                    ]
                 }, function(err, stderr, stdout){
                     if (err)
                         return handleError(err);
 
                     // Untar tar file
                     proc.execFile("bash", {
-                        args: ["-c", ["tar", "-zxvf", tarPath, "-C", pluginsDirAbsolute].join(" ")]
+                        args: ["-c", ["tar", "-zxvf", util.escapeShell(tarPath), "-C", util.escapeShell(pluginsDirAbsolute)].join(" ")]
                     }, function(err, stderr, stdout){
                         if (err)
                             return handleError(err);

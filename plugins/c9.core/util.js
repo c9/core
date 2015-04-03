@@ -348,10 +348,10 @@ define(function(require, exports, module) {
         };
 
         plugin.escapeShell = function(cmd) {
-            var re = /([\#\&\;\`\|\*\?<>\^\(\)\[\]\{\}\$\,\x0A\xFF\' \"])/g;
+            var re = /([\#\&\;\`\|\*\?<>\^\(\)\[\]\{\}\$\,\x0A\xFF\' \"\\])/g;
             return cmd.replace(re, "\\$1");//.replace(/^~/, "\\~");
         };
-
+        
         var cloneObject = plugin.cloneObject = function(obj) {
             if (obj === null || typeof obj !== "object")
                 return obj;
