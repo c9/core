@@ -1159,7 +1159,7 @@ define(function(require, exports, module) {
             var firstLine = css.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
             firstLine.split(";").forEach(function(n){
                 if (!n) return;
-                var info = n.split(":");console.log(info)
+                var info = n.split(":");
                 theme[info[0].trim()] = info[1].trim();
             });
             theme.isDark = theme.isDark == "true";

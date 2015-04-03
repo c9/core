@@ -308,7 +308,15 @@ define(function(require, exports, module) {
                         break;
                     case "snippets":
                         parallel.push(function(next){
-                            
+                            fs.readFile(join(path, filename), function(err, snippet){
+                                if (err) {
+                                    console.error(err);
+                                    return next(err);
+                                }
+                                
+                                services.complete.addSnippet(snippet, plugin);
+                                next();
+                            });
                         });
                         break;
                     case "themes":
