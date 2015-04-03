@@ -1168,6 +1168,13 @@ define(function(require, exports, module) {
             
             ui.insertCss(exports.cssText, plugin);
             addThemeMenu(theme.name, theme, null, plugin);
+            
+            handleEmit("addTheme");
+            
+            plugin.addOther(function(){
+                delete themes[theme.name];
+                handleEmit("removeTheme");
+            });
         }
 
         function rebuildSyntaxMenu() {
@@ -1218,15 +1225,18 @@ define(function(require, exports, module) {
         function defineSyntax(opts) {
             if (!opts.name || !opts.caption)
                 throw new Error("malformed syntax definition");
+            
             var name = opts.name;
             modes.byCaption[opts.caption] = opts;
             modes.byName[name] = opts;
             
             if (!opts.extensions)
                 opts.extensions = "";
+                
             opts.extensions.split("|").forEach(function(ext) {
                 modes.extensions[ext] = name;
             });
+            
             updateSyntaxMenu.schedule();
         }
         
@@ -1235,9 +1245,11 @@ define(function(require, exports, module) {
             var extPos = fileName.lastIndexOf(".") + 1;
             if (extPos)
                 return fileName.substr(extPos).toLowerCase();
+            
             // special case for new files
             if (/^Untitled\d+$/.test(fileName))
                 fileName = fileName.replace(/\d+/, "");
+            
             return "^" + fileName;
         }
         
