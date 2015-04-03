@@ -173,7 +173,7 @@ define(function(require, exports, module) {
                         });
                     },
                     function(next){
-                        var path = join(c9.home, "plugins", + name);
+                        var path = join(c9.home, "plugins", name);
                         var rePath = new RegExp("^" + util.escapeRegExp(path), "g");
                         find.getFileList({ 
                             path: path, 
