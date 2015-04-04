@@ -35,11 +35,14 @@ define(function(require, exports, module) {
         var os = require("os");
         var FormData = require("form-data");
         var http = require(APIHOST.indexOf("localhost") > -1 ? "http" : "https");
+        var Path = require("path");
         var basename = require("path").basename;
         var dirname = require("path").dirname;
+        var async  = require("async");
         
         var verbose = false;
         var force = false;
+        var dryRun = false;
         
         // Set up basic auth for api if needed
         if (BASICAUTH) api.basicAuth = BASICAUTH;
@@ -70,6 +73,11 @@ define(function(require, exports, module) {
                         "alias": "f",
                         "default": false,
                         "boolean": true
+                    },
+                    "dry-run" : {
+                        "description": "Only build a test version",
+                        "default": false,
+                        "boolean": true
                     }
                 },
                 check: function(argv) {
@@ -79,6 +87,7 @@ define(function(require, exports, module) {
                 exec: function(argv) {
                     verbose = argv["verbose"];
                     force = argv["force"];
+                    dryRun = argv["dry-run"];
                     
                     publish(
                         argv._[1],
@@ -344,7 +353,7 @@ define(function(require, exports, module) {
                 // Validate plugins
                 var plugins = {};
                 fs.readdirSync(cwd).forEach(function(filename) {
-                    if (/_test\.js$/.test(filename) || !/\.js$/.test(filename)) return;
+                    if (/(__packed__|_test)\.js$/.test(filename) || !/\.js$/.test(filename)) return;
                     try {
                         var val = fs.readFileSync(cwd + "/" + filename);
                     } catch(e) {
@@ -400,6 +409,8 @@ define(function(require, exports, module) {
                 fs.writeFile(packagePath, JSON.stringify(json, 1, "  "), function(err){
                     if (err) return callback(err);
                     
+                    if (dryRun) return build();
+                    
                     SHELLSCRIPT = SHELLSCRIPT
                         .replace(/\$1/, packagePath)
                         .replace(/\$2/, json.version);
@@ -448,7 +459,7 @@ define(function(require, exports, module) {
                         enableBrowser: true,
                         includeConfig: false,
                         noArchitect: true,
-                        compress: true,
+                        compress: !dryRun,
                         obfuscate: true,
                         oneLine: true,
                         filter: [],
@@ -458,26 +469,51 @@ define(function(require, exports, module) {
                         basepath: base,
                     }, function(e, result) {
                         var packedFiles = result.sources.map(function(m) {
-                            return m.file
+                            return m.file;
                         });
-                        fs.writeFile("__packed__.js", result.code, "utf8", function(err, result) {
-                            if (err) console.log(err);
-                            
-                            zip(packedFiles);
-                        });
+                        
+                        async.series([
+                            function(next) {
+                                fs.writeFile("__packed__.js", result.code, "utf8", next);
+                            },
+                            function(next) {
+                                fs.readdir(cwd, function(files) {
+                                    if (files.indexOf("themes") != -1) {
+                                        
+                                    }
+                                    
+                                });
+                            },
+                            function(next) {
+                                packedFiles.push(cwd + "/themes");
+                                zip(packedFiles);
+                            }
+                        ]);
                     });
                 }
                 
                 function zip(ignore){
-                    zipFilePath = join(os.tmpDir(), json.name + "@" + json.version);
+                    zipFilePath = join(os.tmpDir(), json.name + "@" + json.version) + ".tar.gz";
                     var tarArgs = ["-zcvf", zipFilePath, "."]; 
                     var c9ignore = process.env.HOME + "/.c9/.c9ignore";
+                    if (process.platform == "win32") {
+                        tarArgs[1]= zipFilePath.replace(/\\/g, "/").replace(/^(\w):/, "/$1");
+                        c9ignore = c9ignore.replace(/\\/g, "/");
+                    }
                     fs.exists(c9ignore, function (exists) {
                         if (exists) {
                             tarArgs.push("--exclude-from=" + c9ignore);
                         }
-                        proc.spawn(TAR, { 
-                            args: tarArgs
+                        ignore.forEach(function(p) {
+                            p = Path.relative(cwd, p);
+                            if (!/^\.+\//.test(p)) {
+                                tarArgs.push("--exclude=./" + p);
+                            }
+                        });
+                        console.log(tarArgs)
+                        proc.spawn(TAR, {
+                            args: tarArgs,
+                            cwd: cwd
                         }, function(err, p){
                             if (err) return callback(err);
                             
@@ -495,6 +531,8 @@ define(function(require, exports, module) {
                                     return callback(new Error("ERROR: Could not package directory"));
                                 
                                 console.log("Built package", json.name + "@" + json.version);
+                                
+                                if (dryRun) return callback(1);
                                 
                                 upload();
                             });
