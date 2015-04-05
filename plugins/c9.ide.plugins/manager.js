@@ -347,9 +347,13 @@ define(function(require, exports, module) {
 
                     if (CORE[item.name] || item.parent.parent && item.parent.parent.isType == "core") {
                         btnUninstall.disable();
-                        btnReload.disable();
                     } else {
                         btnUninstall.enable();
+                    }
+
+                    if (item.isPackage || CORE[item.name] || item.parent.parent && item.parent.parent.isType == "core") {
+                        btnReload.disable();
+                    } else {
                         btnReload.enable();
                     }
 
