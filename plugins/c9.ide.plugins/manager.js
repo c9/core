@@ -3,7 +3,7 @@ define(function(require, exports, module) {
     main.consumes = [
         "PreferencePanel", "settings", "ui", "util", "Form", "ext", "c9",
         "dialog.alert", "dialog.confirm", "layout", "proc", "menus", "commands",
-        "dialog.error", "tree.favorites", "fs", "tree"
+        "dialog.error", "tree.favorites", "fs", "tree", "plugin.debug"
     ];
     main.provides = ["plugin.manager"];
     return main;
@@ -55,6 +55,7 @@ define(function(require, exports, module) {
         var confirm = imports["dialog.confirm"].show;
         var showError = imports["dialog.error"].show;
         var favs = imports["tree.favorites"];
+        var pluginDebug = imports["plugin.debug"];
 
         var search = require("../c9.ide.navigate/search");
         var Tree = require("ace_tree/tree");
@@ -277,7 +278,6 @@ define(function(require, exports, module) {
                         caption: "Reload",
                         onclick: function(){
                             var item = datagrid.selection.getCursor();
-                            console.log(item);
                             if (item.enabled && item.name)
                                 reload(item.name);
                         }
@@ -614,67 +614,7 @@ define(function(require, exports, module) {
                 if (architect.lut[plugin].provides.indexOf(name) < 0)
                     continue;
 
-                var unloaded = [];
-                var recurUnload = function(name){
-                    var plugin = architect.services[name];
-                    unloaded.push(name);
-
-                    // Find all the dependencies
-                    var deps = ext.getDependencies(plugin.name);
-
-                    // Unload all the dependencies (and their deps)
-                    deps.forEach(function(name){
-                        recurUnload(name);
-                    });
-
-                    // Unload plugin
-                    plugin.unload();
-                }
-
-                // Recursively unload plugin
-                var p = architect.lut[plugin];
-                if (p.provides) { // Plugin might not been initialized all the way
-                    p.provides.forEach(function(name){
-                        recurUnload(name);
-                    });
-                }
-
-                // create reverse lookup table
-                var rlut = {};
-                for (var packagePath in architect.lut) {
-                    var provides = architect.lut[packagePath].provides;
-                    if (provides) { // Plugin might not been initialized all the way
-                        provides.forEach(function(name){
-                            rlut[name] = packagePath;
-                        });
-                    }
-                }
-
-                // Build config of unloaded plugins
-                var config = [], done = {};
-                unloaded.forEach(function(name){
-                    var packagePath = rlut[name];
-
-                    // Make sure we include each plugin only once
-                    if (done[packagePath]) return;
-                    done[packagePath] = true;
-
-                    var options = architect.lut[packagePath];
-                    delete options.provides;
-                    delete options.consumes;
-                    delete options.setup;
-
-                    config.push(options);
-
-                    // Clear require cache
-                    requirejs.undef(options.packagePath); // global
-                });
-
-                // Load all plugins again
-                architect.loadAdditionalPlugins(config, function(err){
-                    if (err) console.error(err);
-                });
-
+                pluginDebug.reloadPackage(plugin);
                 return;
             }
         }
