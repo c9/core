@@ -189,7 +189,7 @@
             if (!files.length && (location.search === "?" || location.search === "")) {
                 var disabled = tests.blacklist.slice().sort();
                 var enabled = tests.list.slice().sort();
-                var all = "<span style='font-size: 14px;'><a href='/static/test.html''>run all</a></span>";
+                var all = "<span style='font-size: 14px;'><a href='?runAllTests&remain=1'>run all</a></span>";
                 var initErr = document.getElementById('jserror').innerHTML;
                 setupDom(""
                     + "<h1>Enabled tests" + all + "</h1>"
@@ -376,8 +376,11 @@
         c9Test.run = run;
         c9Test.runAll = runAll;
         c9Test.allFiles = allFiles;
+        if (location.href.match(/\?runAllTests/)) {
+            files = allFiles;
+        }
         c9Test.find = function(r) {
-            return c9Test.allFiles.filter(function(x) { return x.match(r) });
+            return c9Test.allFiles.filter(function(x) { return x.match(r); });
         };
         c9Test.reRun = c9Test.run;
         // wait for test.js to initialise chai
