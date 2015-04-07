@@ -582,7 +582,14 @@ define(function(require, exports, module) {
             commands.addCommand(commands.commands.togglerecording, handle);
             commands.addCommand(commands.commands.replaymacro, handle);
             
-            commands.addCommand(fnWrap({
+            function sharedCommand(command) {
+                command.isAvailable = function(editor) {
+                    return editor && editor.type == "ace";
+                };
+                command.group = "Code Editor";
+                return command;
+            }
+            commands.addCommand(sharedCommand({
                 name: "syntax",
                 exec: function(_, syntax) {
                     if (typeof syntax == "object")
@@ -597,7 +604,7 @@ define(function(require, exports, module) {
                 commands: modes.caption
             }), handle);
             
-            commands.addCommand(fnWrap({
+            commands.addCommand(sharedCommand({
                 name: "largerfont",
                 bindKey: { mac : "Command-+|Command-=", win : "Ctrl-+|Ctrl-=" },
                 exec: function(e) {
@@ -606,7 +613,7 @@ define(function(require, exports, module) {
                 }
             }), handle);
     
-            commands.addCommand(fnWrap({
+            commands.addCommand(sharedCommand({
                 name: "smallerfont",
                 bindKey: { mac : "Command--", win : "Ctrl--" },
                 exec: function(e) {
@@ -615,16 +622,13 @@ define(function(require, exports, module) {
                 }
             }), handle);
             
-            commands.addCommand({
+            commands.addCommand(sharedCommand({
                 name: "toggleWordWrap",
                 bindKey: {win: "Ctrl-Q", mac: "Ctrl-W"},
                 exec: function(editor) {
                     editor.setOption("wrap",  editor.getOption("wrap") == "off");
-                }, 
-                isAvailable: function(editor) {
-                    return editor && editor.type == "ace";
                 }
-            }, handle);
+            }), handle);
         }
         
         /***** Preferences *****/
