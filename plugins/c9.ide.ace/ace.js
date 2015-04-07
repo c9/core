@@ -305,8 +305,7 @@ define(function(require, exports, module) {
             
             this.deleyedEmit = lang.delayedCall(this._emit.bind(null, "change"))
                 .schedule.bind(null, 0);
-            undoManager.on("changeSync", this.deleyedEmit);
-            this.setState(state);
+            this.setState(state, true);
         }
         function updateDeltas(deltas) {
             if (deltas[0] && deltas[0].deltas) {
@@ -321,22 +320,22 @@ define(function(require, exports, module) {
         AceUndoManager.prototype = {
             add: function(delta, doc) {
                 this.$aceUndo.add(delta, doc);
-                this._emit("changeSync");
+                this._emit("change");
             },
             addSelection: function(range, rev) {
                 this.$aceUndo.addSelection(range, rev);
             },
             undo: function(dontSelect) {
                 this.$aceUndo.undo(dontSelect);
-                this._emit("changeSync");
+                this._emit("change");
             },
             redo: function(dontSelect) {
                 this.$aceUndo.redo(dontSelect);
-                this._emit("changeSync");
+                this._emit("change");
             },
             reset: function(){
                 this.$aceUndo.reset();
-                this._emit("changeSync");
+                this._emit("change");
             },
             canUndo: function() {
                 return this.$aceUndo.canUndo();
@@ -346,11 +345,11 @@ define(function(require, exports, module) {
             },
             clearUndo: function() {
                 this.$aceUndo.$undoStack = [];
-                this._emit("changeSync");
+                this._emit("change");
             },
             clearRedo: function() {
                 this.$aceUndo.$redoStack = [];
-                this._emit("changeSync");
+                this._emit("change");
             },
             startNewGroup: function() {
                 return this.$aceUndo.startNewGroup();
@@ -372,7 +371,7 @@ define(function(require, exports, module) {
                     position: stack.length - 1
                 };
             },
-            setState: function(e) {
+            setState: function(e, silent) {
                 console.log("setState()");
                 var aceUndo = this.$aceUndo;
                 aceUndo.$undoStack = (e.stack || []).filter(function(x) {
@@ -383,14 +382,15 @@ define(function(require, exports, module) {
                 var lastRev = lastDeltaGroup && lastDeltaGroup[0].id || 0;
                 aceUndo.$rev = lastRev;
                 aceUndo.$maxRev = Math.max(aceUndo.$maxRev, lastRev);
-                this.bookmark(e.mark);
+                this.$aceUndo.bookmark(e.mark);
+                silent || this._emit("change");
             },
             isAtBookmark: function() {
                 return this.$aceUndo.isAtBookmark();
             },
             bookmark: function(rev) {
                 this.$aceUndo.bookmark(rev);
-                this._emit("changeSync");
+                this._emit("change");
             },
             bookmarkPosition: function(index) {
                 if (index > -1) {
@@ -408,7 +408,7 @@ define(function(require, exports, module) {
                 } else {
                     this.$aceUndo.bookmark(index);
                 }
-                this._emit("changeSync");
+                this._emit("change");
             },
             addSession: function(session) {
                 this.$aceUndo.addSession(session);
