@@ -352,6 +352,12 @@ define(function(require, exports, module) {
                 this.$aceUndo.$redoStack = [];
                 this._emit("changeSync");
             },
+            startNewGroup: function() {
+                return this.$aceUndo.startNewGroup();
+            },
+            markIgnored: function(from, to) {
+                return this.$aceUndo.markIgnored(from, to);
+            },
             getState: function() {
                 console.log("getState()");
                 var aceUndo = this.$aceUndo;
@@ -371,9 +377,9 @@ define(function(require, exports, module) {
                 var aceUndo = this.$aceUndo;
                 aceUndo.$undoStack = (e.stack || []).filter(function(x) {
                     return x.length;
-                });
+                }).map(updateDeltas);
                 var stack = aceUndo.$undoStack;
-                var lastDeltaGroup = stack[stack.length] - 1;
+                var lastDeltaGroup = stack[stack.length - 1];
                 var lastRev = lastDeltaGroup && lastDeltaGroup[0].id || 0;
                 aceUndo.$rev = lastRev;
                 aceUndo.$maxRev = Math.max(aceUndo.$maxRev, lastRev);
@@ -404,14 +410,10 @@ define(function(require, exports, module) {
                 }
                 this._emit("changeSync");
             },
-            setSession: function(session) {
-                this.$aceUndo.setSession(session);
+            addSession: function(session) {
+                this.$aceUndo.addSession(session);
             },
             getPosition: function() {
-                var aceUndo = this.$aceUndo;
-                return aceUndo.$undoStack.length - 1;
-            },
-            getMark: function() {
                 var aceUndo = this.$aceUndo;
                 return aceUndo.$undoStack.length - 1;
             },
@@ -420,53 +422,6 @@ define(function(require, exports, module) {
                 return aceUndo.$undoStack.length + aceUndo.$redoStack.length;
             }
         };
-        
-        function UndoManagerProxy(undoManager, session) {
-            this.$u = undoManager;
-            this.$doc = session;
-        }
-        
-        (function() {
-            this.add = function(delta, doc) {
-                this.$u.add(delta, doc);
-            };
-            
-            Object.defineProperty(this, "", {
-                configurable: true,
-                get: function() {
-                    return this.$u.lastDeltas;
-                },
-                set: function(v) {
-                    this.$u.lastDeltas = v;
-                }
-            });
-        
-            this.undo = function() {
-                var selectionRange = this.$u.undo(true);
-                if (selectionRange) {
-                    this.$doc.selection.setSelectionRange(selectionRange);
-                }
-            };
-        
-            this.redo = function() {
-                var selectionRange = this.$u.redo(true);
-                if (selectionRange) {
-                    this.$doc.selection.setSelectionRange(selectionRange);
-                }
-            };
-        
-            this.reset = function() {
-                this.$u.reset();
-            };
-        
-            this.hasUndo = function() {
-                return this.$u.hasUndo();
-            };
-        
-            this.hasRedo = function() {
-                return this.$u.hasRedo();
-            };
-        }).call(UndoManagerProxy.prototype);
         
         /***** Generic Load *****/
         
@@ -1463,8 +1418,7 @@ define(function(require, exports, module) {
             if (!undoManager)
                 undoManager = session.getUndoManager();
             if (undoManager) {
-                var undoManagerProxy = new UndoManagerProxy(undoManager, s);
-                s.setUndoManager(undoManagerProxy.$aceUndo);
+                s.setUndoManager(undoManager);
             }
     
             // Overwrite the default $informUndoManager function such that new deltas

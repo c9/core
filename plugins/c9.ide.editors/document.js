@@ -40,15 +40,16 @@ define(function(require, module, exports) {
             
             // Listen to changes and detect when the value of the editor
             // is different from what is on disk
-            function updateStatus(e) {
-                var c = !undoManager.isAtBookmark();
-                if (changed !== c) {
-                    changed = c;
-                    emit("changed", { changed: c });
-                }
+            function initUndo(){
+                undoManager.on("change", function(e) {
+                    var c = !undoManager.isAtBookmark();
+                    if (changed !== c) {
+                        changed = c;
+                        emit("changed", { changed: c });
+                    }
+                });
             }
-            undoManager.on("change", updateStatus);
-            undoManager.on("changeSync", updateStatus);
+            initUndo();
             
             /***** Methods *****/
             
