@@ -99,13 +99,13 @@ define(function(require, module, exports) {
             }
             
             function bookmark(index) {
-                mark = index !== undefined ? index : this.position;
+                mark = index !== undefined ? index : position;
                 
                 emit("change");
             }
             
             function isAtBookmark(){
-                return mark !== null && mark == this.position 
+                return mark !== null && mark == position 
                     || mark === null && position == -1;
             }
             
