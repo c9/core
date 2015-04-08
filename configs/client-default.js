@@ -156,6 +156,10 @@ module.exports = function(options) {
             staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
             defaultShow: options.local
         },
+        {
+            packagePath: "plugins/c9.ide.metrics/metrics",
+            hosted: hosted
+        },
 
         // Ace && Commands
         "plugins/c9.ide.keys/commands",
