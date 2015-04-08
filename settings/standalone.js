@@ -11,7 +11,7 @@ module.exports = function(manifest, installPath) {
     var builders = require("../plugins/c9.ide.run.build/builders_list");
     
     var workspaceDir = path.resolve(__dirname + "/../");
-    var sdk = !!manifest.sdk;
+    var sdk = !manifest.sdk;
     
     if (process.platform == "win32" && process.env.HOME === undefined) {
         process.env.HOME = process.env.HOMEDRIVE + process.env.HOMEPATH;
