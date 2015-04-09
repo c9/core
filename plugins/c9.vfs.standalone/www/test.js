@@ -407,10 +407,6 @@ require([
                     
                 }
             },
-            "metrics": {
-                getLastPing: function() { throw Error("Not implemented"); },
-                getLastest: function() { throw Error("Not implemented"); },
-            },
             error_handler: {reportError: function(){}},
             installer: {
                 show: function(){}

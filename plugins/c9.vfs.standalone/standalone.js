@@ -48,7 +48,7 @@ function plugin(options, imports, register) {
     imports.connect.use(api);
     
     api.get("/", function(req, res, next) {
-        res.writeHead(302, { "Location": options.sdk ? "/ide.html" : "/static/places.html" });
+        res.writeHead(302, { "Location": "/ide.html" });
         res.end();
     });
     

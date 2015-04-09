@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     "use strict";
 
-    main.consumes = ["Plugin", "ext", "c9", "vfs", "metrics"];
+    main.consumes = ["Plugin", "ext", "c9", "vfs"];
     main.provides = ["vfs.ping"];
     return main;
 
@@ -9,7 +9,6 @@ define(function(require, exports, module) {
         var Plugin = imports.Plugin;
         var c9 = imports.c9;
         var ext = imports.ext;
-        var metrics = imports.metrics;
 
         /***** Initialization *****/
 
