@@ -1,9 +1,3 @@
-/**
- * Smith.io client
- *
- * @copyright 2013, Ajax.org B.V.
- */
-
 define(function(require, exports, module) {
     "use strict";
     
@@ -58,7 +52,6 @@ define(function(require, exports, module) {
         errorDialog.vfs = plugin;
         
         var buffer = [];
-        var installChecked = false;
         var withInstall = options.withInstall;
         var dashboardUrl = options.dashboardUrl;
         var region, vfsBaseUrl, homeUrl, projectUrl, pingUrl, serviceUrl;
@@ -287,13 +280,8 @@ define(function(require, exports, module) {
                     return;
                 }
                 
-                if (!installChecked) {
-                    checkInstall(_vfs, callback);
-                    installChecked = true;
-                }
-                else {
+                if (emit("beforeConnect", { done: callback, vfs: _vfs }) !== false)
                     callback();
-                }
                 
                 function callback(shouldReconnect) {
                     if (shouldReconnect) {
@@ -320,19 +308,6 @@ define(function(require, exports, module) {
             });
         }
         
-        function checkInstall(vfs, callback) {
-            if (!withInstall)
-                 return callback(false);
-            
-            vfs.stat(options.installPath + "/installed", {}, function(err, stat) {
-                if (err && err.code == "ENOENT") {
-                    emit.sticky("install", { callback: callback, vfs: vfs });
-                }
-                else
-                    callback();
-            });
-        }
-        
         var bufferedVfsCalls = [];
         function vfsCall(method, path, options, callback) {
             if (Array.isArray(method))
@@ -354,7 +329,6 @@ define(function(require, exports, module) {
             
             id = null;
             buffer = [];
-            installChecked = false;
             region = null;
             vfsBaseUrl = null;
             homeUrl = null;
