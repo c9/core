@@ -226,7 +226,7 @@ function plugin(options, imports, register) {
             options._projects = [options.workspaceDir];
         }
         var wd = options._projects[pid] || options._projects[0];
-        console.log(user)
+        
         return {
             workspaceDir: wd,
             extendOptions: {
@@ -316,7 +316,6 @@ function getConfig(requested, options) {
         try {
             data = fs.readFileSync(settings[type], "utf8");
         } catch (e) {
-            console.log(e);
         }
         settings[type] = data;
     }
