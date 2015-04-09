@@ -150,6 +150,7 @@ module.exports = function(config, optimist) {
         "./c9.nodeapi/nodeapi",
         {
             packagePath: "./c9.vfs.standalone/standalone",
+            sdk: config.sdk,
             local: config.local,
             packed: argv.packed,
             collab: config.collab,

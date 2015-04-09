@@ -75,7 +75,9 @@ define(function(require, exports, module) {
         /***** Register and define API *****/
         
         plugin.freezePublicAPI({
-            reportError: reportError
+            /** @deprecated Use log() instead. */
+            reportError: reportError,
+            log: reportError
         });
         
         register(null, { "error_handler" : plugin });

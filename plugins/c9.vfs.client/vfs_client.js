@@ -7,7 +7,10 @@
 define(function(require, exports, module) {
     "use strict";
     
-    main.consumes = ["Plugin", "auth", "vfs.endpoint", "dialog.error", "dialog.alert", "error_handler"];
+    main.consumes = [
+        "Plugin", "auth", "vfs.endpoint", "dialog.error",
+        "dialog.alert", "error_handler", "metrics"
+    ];
     main.provides = ["vfs"];
     return main;
 
@@ -34,6 +37,7 @@ define(function(require, exports, module) {
         var hideError = errorDialog.hide;
         var showAlert = imports["dialog.alert"].show;
         var errorHandler = imports.error_handler;
+        var metrics = imports.metrics;
         
         var eio = require("engine.io");
         var Consumer = require("vfs-socket/consumer").Consumer;
@@ -50,7 +54,7 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
         
-        // Give reference to vfs to plugin
+        // Give reference to vfs to plugins
         errorDialog.vfs = plugin;
         
         var buffer = [];
@@ -209,6 +213,7 @@ define(function(require, exports, module) {
             
             vfsEndpoint.get(protocolVersion, function(err, urls) {
                 if (err) {
+                    metrics.increment("connect_failed", 1, true);
                     if (!showErrorTimer) {
                         showErrorTimer = setTimeout(function() {
                             showVfsError(showErrorTimerMessage);
