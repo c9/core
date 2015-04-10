@@ -534,7 +534,7 @@ define(function(require, exports, module) {
                         editor = apf.activeElement;
                     if (!isAce(editor, true))
                         return false;
-                    if (!editor.ace.commands.byName[command.name])
+                    if (!editor.ace.commands.byName[command.name] && !command.shared)
                         return false;
                     
                     return isAvailable ? isAvailable(editor.ace) : true;
@@ -582,6 +582,21 @@ define(function(require, exports, module) {
             commands.addCommand(commands.commands.togglerecording, handle);
             commands.addCommand(commands.commands.replaymacro, handle);
             
+            // when event for cmd-z in textarea is not canceled 
+            // chrome tries to find another textarea with pending undo and focus it
+            // we do not want this to happen when ace instance is focused
+            commands.addCommand(fnWrap({
+                name: "cancelBrowserUndoInAce",
+                bindKey: {
+                    mac: "Cmd-Z|Cmd-Shift-Z|Cmd-Y",
+                    win: "Ctrl-Z|Ctrl-Shift-Z|Ctrl-Y",
+                    position: -10000
+                },
+                group: "ignore",
+                exec: function(e) {},
+                readOnly: true,
+                shared: true
+            }), handle);
             function sharedCommand(command) {
                 command.isAvailable = function(editor) {
                     return editor && editor.type == "ace";
