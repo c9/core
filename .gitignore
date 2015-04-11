@@ -1,5 +1,6 @@
 build/installer/
-build/win32
+build/sdk
+build/win32*
 build/node.exe
 build/node*.zip
 build/Cloud9-dev.app
