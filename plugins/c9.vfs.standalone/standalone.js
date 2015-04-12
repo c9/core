@@ -35,6 +35,11 @@ function plugin(options, imports, register) {
     }]);
     
     statics.addStatics([{
+        path: __dirname + "/../../node_modules/architect-build/build_support",
+        mount: "/"
+    }]);
+
+    statics.addStatics([{
         path: __dirname + "/../../configs",
         mount: "/configs"
     }]);
