@@ -3,5 +3,7 @@ build/standalone/
 build/static
 build/node_modules/
 build/webkitbuilds/
-build/win32
+build/win32*
+build/Cloud9
+build/sdk
 node_modules/logicblox/build/logicblox/static
