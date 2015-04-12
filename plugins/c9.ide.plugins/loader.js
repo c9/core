@@ -39,7 +39,7 @@ define(function(require, exports, module) {
             for (var i = 0; i < plugins.length; i++) {
                 try { 
                     if (plugins[i].setup)
-                        plugins[i].setup = eval(plugins[i].setup);
+                        plugins[i].setup = window.eval(plugins[i].setup);
                 }
                 catch(e) {
                     console.error("Could not load plugin from cache: " + plugins[i].name);
