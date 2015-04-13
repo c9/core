@@ -437,6 +437,10 @@ define(function(require, exports, module) {
             /**
              * 
              */
+            addStaticPlugin: addStaticPlugin,
+            /**
+             * 
+             */
             reloadPackage: reloadPackage
         });
         

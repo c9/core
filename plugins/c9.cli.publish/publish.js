@@ -448,107 +448,182 @@ define(function(require, exports, module) {
                     var base = dirname(cwd);
                     var packageName = json.name;
                     var config = Object.keys(plugins).map(function(p) {
-                        return packageName + "/" + p;
+                        return packageName + "/" + p.replace(/\.js$/, "");
                     });
                     var paths = {};
                     paths[packageName] = cwd;
-                    
-                    var build = require("architect-build/build");
-                    build(config, {
-                        paths: paths,
-                        enableBrowser: true,
-                        includeConfig: false,
-                        noArchitect: true,
-                        compress: !dryRun,
-                        obfuscate: true,
-                        oneLine: true,
-                        filter: [],
-                        ignore: [],
-                        withRequire: false,
-                        stripLess: false,
-                        basepath: base,
-                    }, function(e, result) {
-                        var packedFiles = result.sources.map(function(m) {
-                            return m.file;
-                        });
-                        
-                        async.series([
-                            function(next) {
-                                fs.readdir(cwd, function(err, files) {
-                                    console.log(files)
-                                    if (err) 
-                                        return next();
-                                    var extraCode = [];
-                                    function forEachFile(dir, f) {
-                                        try {
-                                            fs.readdirSync(dir).forEach(f);
-                                        } catch(e) {
-                                            console.log(e);
-                                        }
+                    var result, packedFiles, staticPlugin;
+                    async.series([
+                        function(next) {
+                            fs.readdir(cwd, function(err, files) {
+                                console.log(files)
+                                if (err) 
+                                    return next();
+                                var extraCode = [];
+                                function forEachFile(dir, f) {
+                                    try {
+                                        fs.readdirSync(dir).forEach(function(filename) {
+                                            var data = fs.readFileSync(dir + "/" + filename, "utf8");
+                                            f(filename, data);
+                                        });
+                                    } catch(e) {
+                                        console.error(e);
                                     }
+                                }
+                                
+                                if (files.indexOf("builders") != -1) {
+                                    forEachFile(cwd + "/builders", function(filename, data) {
+                                        extraCode.push({
+                                            type: "builders",
+                                            filename: filename,
+                                            data: data
+                                        });
+                                    });
+                                }
+                                if (files.indexOf("keymaps") != -1) {
+                                    forEachFile(cwd + "/keymaps", function(filename, data) {
+                                        extraCode.push({
+                                            type: "keymaps",
+                                            filename: filename,
+                                            data: data
+                                        });
+                                    });
+                                }
+                                if (files.indexOf("modes") != -1) {
+                                    forEachFile(cwd + "/modes", function(filename, data) {
+                                        if (/(?:_highlight_rules|_test|_worker|_fold|_behaviou?r).js$/.test(filename))
+                                            return;
+                                        var firstLine = data.split("\n", 1)[0];
+                                        extraCode.push({
+                                            type: "modes",
+                                            filename: filename,
+                                            data: firstLine
+                                        });
+                                    });
+                                }
+                                if (files.indexOf("outline") != -1) {
+                                    forEachFile(cwd + "/outline", function(filename, data) {
+                                        extraCode.push({
+                                            type: "outline",
+                                            filename: filename,
+                                            data: data
+                                        });
+                                    });
+                                }
+                                if (files.indexOf("runners") != -1) {
+                                    forEachFile(cwd + "/runners", function(filename, data) {
+                                        extraCode.push({
+                                            type: "runners",
+                                            filename: filename,
+                                            data: data
+                                        });
+                                    });
+                                }
+                                if (files.indexOf("snippets") != -1) {
+                                    forEachFile(cwd + "/snippets", function(filename, data) {
+                                        extraCode.push({
+                                            type: "snippets",
+                                            filename: filename,
+                                            data: data
+                                        });
+                                    });
+                                }
+                                if (files.indexOf("themes") != -1) {
+                                    forEachFile(cwd + "/themes", function(filename, data) {
+                                        extraCode.push({
+                                            type: "themes",
+                                            filename: filename,
+                                            data: data
+                                        });
+                                    });
+                                }
+                                if (files.indexOf("template") != -1) {
+                                    forEachFile(cwd + "/template", function(filename, data) {
+                                        extraCode.push({
+                                            type: "template",
+                                            filename: filename,
+                                            data: data
+                                        });
+                                    });
+                                }
+                                
+                                if (!extraCode.length)
+                                    return next();
                                     
-                                    if (files.indexOf("builders") != -1) {
-                                        forEachFile(cwd + "/builders", function(p) {
-                                            console.log(p, "***");
-                                            extraCode.push()
+                                var code = (function() {
+                                    define("packageName/__static__", [], function(require, exports, module) {
+                                        main.consumes = [
+                                            "Plugin", "plugin.debug"
+                                        ];
+                                        main.provides = [];
+                                        return main;
+                                        function main(options, imports, register) {
+                                            var debug = imports["plugin.debug"];
+                                            var Plugin = imports["plugin.debug"];
+                                            var plugin = new Plugin();
+                                            extraCode.forEach(function(x) {
+                                                debug.addStaticPlugin(x.type, "packageName", x.filename, x.data, plugin);
+                                            });
                                             
-                                        });
-                                    }
-                                    if (files.indexOf("keymaps") != -1) {
-                                        forEachFile(cwd + "/keymaps", function(p) {
-                                            console.log(p, "***");
-                                        });
-                                    }
-                                    if (files.indexOf("modes") != -1) {
-                                        forEachFile(cwd + "/modes", function(p) {
-                                            console.log(p, "***");
-                                        });
-                                    }
-                                    if (files.indexOf("outline") != -1) {
-                                        forEachFile(cwd + "/outline", function(p) {
-                                            console.log(p, "***");
-                                        });
-                                    }
-                                    if (files.indexOf("runners") != -1) {
-                                        forEachFile(cwd + "/runners", function(p) {
-                                            console.log(p, "***");
-                                        });
-                                    }
-                                    if (files.indexOf("snippets") != -1) {
-                                        forEachFile(cwd + "/snippets", function(p) {
-                                            console.log(p, "***");
-                                        });
-                                    }
-                                    if (files.indexOf("themes") != -1) {
-                                        forEachFile(cwd + "/themes", function(p) {
-                                            console.log(p, "***");
-                                        });
-                                    }
-                                    if (files.indexOf("template") != -1) {
-                                        forEachFile(cwd + "/template", function(p) {
-                                            console.log(p, "***");
-                                        });
-                                    }
-                                    
-                                    
-                                    result.code += (function() {
-                                        extraCode
-                                        
-                                    }).toString().replace(/^.*{|}$/g, "")
-                                        .replace("extraCode", extraCode);
-                                    
-                                    next();
+                                            register(null, {});
+                                        }
+                                    });
+                                }).toString();
+                                
+                                var indent = code.match(/\n\r?(\s*)/)[1].length;
+                                code = code
+                                    .replace(/\r/g, "")
+                                    .replace(new RegExp("^ {" + indent + "}", "gm"), "")
+                                    .replace(/^.*?{|}$/g, "")
+                                    .replace(/packageName/g, packageName)
+                                    .replace(/^(\s*)extraCode/gm, function(_, indent) {
+                                        return JSON.stringify(extraCode, null, 4)
+                                            .replace(/^/gm, indent);
+                                    });
+                                
+                                staticPlugin = {
+                                    source: code,
+                                    id: packageName + "/__static__",
+                                    path: ""
+                                };
+                                next();
+                            });
+                        },
+                        
+                        function(next) {
+                            var build = require("architect-build/build");
+                            console.log(config);
+                            build(config, {
+                                additional: staticPlugin ? [staticPlugin] : [],
+                                paths: paths,
+                                enableBrowser: true,
+                                includeConfig: false,
+                                noArchitect: true,
+                                compress: !dryRun,
+                                obfuscate: true,
+                                oneLine: true,
+                                filter: [],
+                                ignore: [],
+                                withRequire: false,
+                                stripLess: false,
+                                basepath: base,
+                            }, function(e, r) {
+                                result = r;
+                                packedFiles = result.sources.map(function(m) {
+                                    return m.file;
                                 });
-                            },
-                            function(next) {
-                                fs.writeFile("__packed__.js", result.code, "utf8", next);
-                            },
-                            function(next) {
-                                packedFiles.push(cwd + "/themes");
-                                zip(packedFiles);
-                            }
-                        ]);
-                    });
+                                next();
+                            });
+                        },
+                        function(next) {
+                            fs.writeFile("__packed__.js", result.code, "utf8", next);
+                        },
+                        function(next) {
+                            packedFiles.push(cwd + "/themes");
+                            zip(packedFiles);
+                        }
+                    ]);
+ 
                 }
                 
                 function zip(ignore){
