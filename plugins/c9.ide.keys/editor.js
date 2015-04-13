@@ -350,9 +350,12 @@ define(function(require, exports, module) {
                 
                 // Add key
                 commands.bindKey(lastKey, commands.commands[name]);
+                var keys = {};
+                keys[commands.platform] = (node.actualKeys || node.keys).split("|");
+                
                 var n = {
                     command: node.name,
-                    keys: (node.actualKeys || node.keys).split("|")
+                    keys: keys
                 };
                 
                 var cmds = settings.getJson("user/key-bindings") || [];
@@ -389,6 +392,8 @@ define(function(require, exports, module) {
                         if (!cmd || !cmd.command)
                             return;
                         var keys = cmd.keys;
+                        if (typeof keys == "object" && keys[commands.platform])
+                            keys = keys[commands.platform];
                         if (Array.isArray(keys))
                             keys = keys.join("|");
                         if (typeof keys == "string")
@@ -484,7 +489,7 @@ define(function(require, exports, module) {
             }).join(",\n");
             
             if (!keys.length)
-                value += '    // { "command": "nexttab", "keys": ["Ctrl-Tab"] }';
+                value += '    // { "command": "nexttab", "keys": { win: "Ctrl-Tab", mac: "Cmd-Tab" } }';
             
             value += "\n]";
             
@@ -542,8 +547,7 @@ define(function(require, exports, module) {
             }
             
             plugin.form.update([{
-                type: "dropdown",
-                name: "kbmode",
+                id: "kbmode",
                 items: items
             }])
         }
