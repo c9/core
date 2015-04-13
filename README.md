@@ -23,7 +23,7 @@ We have several documentation resources for you:
     <tr><th>User documentation</th><td>http://docs.c9.io</td></tr>
 </table>
 
-Please joing the mailinglist to get support or give support to the growing community of plugin developers:
+Please join the mailinglist to get support or give support to the growing community of plugin developers:
 https://groups.google.com/forum/#!forum/cloud9-sdk
 
 #### Installation ####
