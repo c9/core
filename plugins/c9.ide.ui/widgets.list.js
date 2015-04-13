@@ -19,7 +19,7 @@ define(function(require, exports, module) {
         };
         
         ui.on("load", function(){
-            ui.insertCss(require("text!./widgets.less"), ui);
+            ui.insertCss(require("text!./widgets.less"), options.staticPrefix, ui);
         });
         
         /***** Constructors *****/
@@ -56,6 +56,7 @@ define(function(require, exports, module) {
                     ? new TreeModel()
                     : new ListModel());
                 model.filterCaseInsensitive = true;
+                model.$sortNodes = false;
                 
                 if (!options.rowHeight)
                     options.rowHeight = 23;
@@ -80,12 +81,14 @@ define(function(require, exports, module) {
                     scrollbarVisibilityChanged: acetree.renderer,
                     resize: acetree.renderer,
                     expand: model,
-                    collapse: model
+                    collapse: model,
+                    check: model,
+                    uncheck: model
                 };
                 
                 emit.sticky("draw");
             }
-
+            
             plugin.on("load", function(){
                 if (options.container)
                     plugin.attachTo(options.container);
@@ -257,6 +260,35 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
+                get enableCheckboxes(){ return model.getCheckboxHTML ? true : false; },
+                set enableCheckboxes(value){
+                    model.getCheckboxHTML = value 
+                        ? function(node){
+                            return "<span class='checkbox " 
+                                + (node.isChecked == -1 
+                                    ? "half-checked " 
+                                    : (node.isChecked ? "checked " : ""))
+                                + "'></span>";
+                        }
+                        : null;
+                    
+                    if (value) {
+                        acetree.commands.bindKey("Space", function(e) {
+                            var nodes = acetree.selection.getSelectedNodes();
+                            var node = acetree.selection.getCursor();
+                            node.isChecked = !node.isChecked;
+                            nodes.forEach(function(n){ n.isChecked = node.isChecked });
+                            model._signal(node.isChecked ? "check" : "uncheck", nodes);
+                            model._signal("change");
+                        });
+                    }
+                    else {
+                        acetree.commands.bindKey("Space", null);
+                    }
+                },
+                /**
+                 * 
+                 */
                 get filterKeyword(){ return model.keyword; },
                 set filterKeyword(value){
                     model.keyword = value;
@@ -342,8 +374,13 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
+                get getCheckboxHTML(){ return model.getCheckboxHTML; },
+                set getCheckboxHTML(fn){ model.getCheckboxHTML = fn; },
+                /**
+                 * 
+                 */
                 get sort(){ return model.sort; },
-                set sort(fn){ 
+                set sort(fn){ debugger;
                     model.$sortNodes = fn ? true : false;
                     model.$sorted = fn ? true : false;
                     model.sort = fn; 
@@ -417,6 +454,14 @@ define(function(require, exports, module) {
                      * @event afterRename Fires 
                      */
                     "afterRename",
+                    /**
+                     * @event check Fires 
+                     */
+                    "check",
+                    /**
+                     * @event uncheck Fires 
+                     */
+                    "uncheck",
                     /**
                      * @event select Fires 
                      */
@@ -493,6 +538,22 @@ define(function(require, exports, module) {
                  */
                 disable: function(){
                     return acetree.enable();
+                },
+                /**
+                 * 
+                 */
+                check: function(node, half){
+                    node.isChecked = half ? -1 : true;
+                    model._signal("check", node);
+                    model._signal("change");
+                },
+                /**
+                 * 
+                 */
+                uncheck: function(node){
+                    node.isChecked = false;
+                    model._signal("uncheck", node);
+                    model._signal("change");
                 },
                 /**
                  * 

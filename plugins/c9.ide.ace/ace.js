@@ -534,7 +534,7 @@ define(function(require, exports, module) {
                         editor = apf.activeElement;
                     if (!isAce(editor, true))
                         return false;
-                    if (!editor.ace.commands.byName[command.name])
+                    if (!editor.ace.commands.byName[command.name] && !command.shared)
                         return false;
                     
                     return isAvailable ? isAvailable(editor.ace) : true;
@@ -582,7 +582,29 @@ define(function(require, exports, module) {
             commands.addCommand(commands.commands.togglerecording, handle);
             commands.addCommand(commands.commands.replaymacro, handle);
             
+            // when event for cmd-z in textarea is not canceled 
+            // chrome tries to find another textarea with pending undo and focus it
+            // we do not want this to happen when ace instance is focused
             commands.addCommand(fnWrap({
+                name: "cancelBrowserUndoInAce",
+                bindKey: {
+                    mac: "Cmd-Z|Cmd-Shift-Z|Cmd-Y",
+                    win: "Ctrl-Z|Ctrl-Shift-Z|Ctrl-Y",
+                    position: -10000
+                },
+                group: "ignore",
+                exec: function(e) {},
+                readOnly: true,
+                shared: true
+            }), handle);
+            function sharedCommand(command) {
+                command.isAvailable = function(editor) {
+                    return editor && editor.type == "ace";
+                };
+                command.group = "Code Editor";
+                return command;
+            }
+            commands.addCommand(sharedCommand({
                 name: "syntax",
                 exec: function(_, syntax) {
                     if (typeof syntax == "object")
@@ -597,7 +619,7 @@ define(function(require, exports, module) {
                 commands: modes.caption
             }), handle);
             
-            commands.addCommand(fnWrap({
+            commands.addCommand(sharedCommand({
                 name: "largerfont",
                 bindKey: { mac : "Command-+|Command-=", win : "Ctrl-+|Ctrl-=" },
                 exec: function(e) {
@@ -606,7 +628,7 @@ define(function(require, exports, module) {
                 }
             }), handle);
     
-            commands.addCommand(fnWrap({
+            commands.addCommand(sharedCommand({
                 name: "smallerfont",
                 bindKey: { mac : "Command--", win : "Ctrl--" },
                 exec: function(e) {
@@ -615,16 +637,13 @@ define(function(require, exports, module) {
                 }
             }), handle);
             
-            commands.addCommand({
+            commands.addCommand(sharedCommand({
                 name: "toggleWordWrap",
                 bindKey: {win: "Ctrl-Q", mac: "Ctrl-W"},
                 exec: function(editor) {
                     editor.setOption("wrap",  editor.getOption("wrap") == "off");
-                }, 
-                isAvailable: function(editor) {
-                    return editor && editor.type == "ace";
                 }
-            }, handle);
+            }), handle);
         }
         
         /***** Preferences *****/

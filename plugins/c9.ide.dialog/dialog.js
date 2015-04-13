@@ -67,26 +67,21 @@ define(function(require, module, exports) {
             var left = options.left;
             var top = options.top;
             var width = options.width || 512;
+            var height = options.height;
             var title = options.title;
             var heading = options.heading;
             var body = options.body;
-            var custom = options.custom;
+            var className = options.class;
             var modal = options.modal;
             var zindex = options.zindex;
             var allowClose = options.allowClose;
             var elements = options.elements || [];
-            var resizable = options.resizable || false;
+            var resizable = false;
             var widths = options.widths || {};
             var count = 0;
             
             var dialog, buttons, titles;
             
-            var loaded;
-            function load(){
-                if (loaded) return;
-                loaded = true;
-            }
-        
             var drawn = false;
             function draw(htmlNode) {
                 if (drawn) return;
@@ -101,9 +96,13 @@ define(function(require, module, exports) {
                     modal: modal,
                     buttons: allowClose ? "close" : "",
                     width: width,
+                    height: height,
                     zindex: zindex || "",
                     skin: "bk-window2",
-                    class: "relative" + (options.dark ? " dark" : ""),
+                    class: "dialog " 
+                        + (height ? "" : "relative") 
+                        + (options.dark ? " dark" : "") 
+                        + (className ? " " + className : ""),
                     childNodes: [
                         new ui.vbox({
                             id: "titles",
@@ -162,8 +161,8 @@ define(function(require, module, exports) {
                     html: titles.$int
                 });
                 
-                if (resizable)
-                    plugin.resizable = resizable;
+                if (options.resizable)
+                    plugin.resizable = options.resizable;
             }
             
             /***** Method *****/
@@ -359,6 +358,11 @@ define(function(require, module, exports) {
                 return node;
             }
             
+            plugin.on("unload", function(){
+                drawn = false;
+                resizable = false;
+            });
+            
             /***** Register and define API *****/
             
             plugin.freezePublicAPI.baseclass();
@@ -437,13 +441,20 @@ define(function(require, module, exports) {
                     resizable = v;
                     if (!dialog) return;
                     
-                    dialog.setAttribute("height", v ? dialog.getHeight() : "");
-                    dialog.setAttribute("width", v ? dialog.getWidth() : "");
-                    dialog.setAttribute("class", v ? "" : "relative");
-                    titles.setAttribute("anchors", v ? "0 0 46 0" : "");
-                    buttons.setAttribute("bottom", v ? "0" : "");
-                    buttons.setAttribute("left", v ? "0" : "");
-                    buttons.setAttribute("right", v ? "0" : "");
+                    if (!height)
+                        dialog.setAttribute("height", v ? dialog.getHeight() : "");
+                    if (!width)
+                        dialog.setAttribute("width", v ? dialog.getWidth() : "");
+                        
+                    dialog.setAttribute("class", "dialog " 
+                        + (v ? "" : "relative")
+                        + (options.dark ? " dark" : "") 
+                        + (className ? " " + className : ""));
+                        
+                    // titles.setAttribute("anchors", v ? "0 0 46 0" : "");
+                    // buttons.setAttribute("bottom", v ? "0" : "");
+                    // buttons.setAttribute("left", v ? "0" : "");
+                    // buttons.setAttribute("right", v ? "0" : "");
                     dialog.setAttribute("resizable", v);
                 },
                 /**
@@ -465,6 +476,11 @@ define(function(require, module, exports) {
                  * @readonly
                  */
                 get modal(){ return modal; },
+                /**
+                 * @property {Boolean} visible
+                 * @readonly
+                 */
+                get visible(){ return dialog && dialog.visible; },
                 /**
                  * @property {Boolean} allowClose
                  */

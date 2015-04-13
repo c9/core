@@ -139,6 +139,7 @@ module.exports = function(config, optimist) {
             whitelist: {
                 "c9.core": true,
                 "c9.fs": true,
+                "c9.automate": true,
                 "c9.login.client": true,
                 "c9.vfs.client": true,
                 "c9.cli.bridge": true,

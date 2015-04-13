@@ -1,5 +1,6 @@
 build/installer/
-build/win32
+build/sdk
+build/win32*
 build/node.exe
 build/node*.zip
 build/Cloud9-dev.app
@@ -77,3 +78,4 @@ plugins/c9.proxy/haproxy-*
 npm-debug.log
 foo.js
 hello.js
+plugins/c9.docker/containers/ci/files/github_c9_newclient

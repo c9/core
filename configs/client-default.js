@@ -1,6 +1,5 @@
 var assert = require("assert");
 
-
 module.exports = function(options) {
     assert(options.staticPrefix, "Option 'staticPrefix' must be set");
     assert(options.workspaceDir, "Option 'workspaceDir' must be set");
@@ -47,6 +46,7 @@ module.exports = function(options) {
             env: options.env || "devel",
             home: options.home,
             platform: options.platform,
+            arch: options.arch,
             installed: options.installed,
             projectId: options.project.id,
             projectName: options.projectName || "Project",
@@ -92,7 +92,6 @@ module.exports = function(options) {
         "plugins/c9.vfs.client/vfs.ping",
         {
             packagePath: "plugins/c9.vfs.client/vfs_client",
-            withInstall: false,
             debug: debug,
             installPath: options.installPath,
             dashboardUrl: options.dashboardUrl,
@@ -223,7 +222,10 @@ module.exports = function(options) {
             autoInit: !options.local
         },
         "plugins/c9.ide.ui/forms",
-        "plugins/c9.ide.ui/widgets.list",
+        {
+            packagePath: "plugins/c9.ide.ui/widgets.list",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
+        },
         "plugins/c9.ide.ui/widgets.tree",
         "plugins/c9.ide.ui/widgets.datagrid",
         "plugins/c9.ide.ui/focus",
@@ -495,7 +497,28 @@ module.exports = function(options) {
         },
         "plugins/c9.ide.panels/panel",
         "plugins/c9.ide.panels/area",
-        "plugins/c9.ide.installer/installer_mock",
+        
+        // Installer
+        {
+            packagePath: "plugins/c9.ide.installer/gui",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
+        },
+        "plugins/c9.automate/automate",
+        "plugins/c9.ide.installer/commands/centos",
+        "plugins/c9.ide.installer/commands/bash",
+        "plugins/c9.ide.installer/commands/npm",
+        "plugins/c9.ide.installer/commands/symlink",
+        {
+            packagePath: "plugins/c9.ide.installer/commands/tar.gz",
+            bashBin: options.bashBin
+        },
+        "plugins/c9.ide.installer/commands/ubuntu",
+        {
+            packagePath: "plugins/c9.ide.installer/installer",
+            homeDir: options.homeDir,
+            installSelfCheck: true,
+            installPath: options.installPath
+        },
         
         // Previewer
         {
