@@ -474,15 +474,74 @@ define(function(require, exports, module) {
                         
                         async.series([
                             function(next) {
-                                fs.writeFile("__packed__.js", result.code, "utf8", next);
-                            },
-                            function(next) {
-                                fs.readdir(cwd, function(files) {
-                                    if (files.indexOf("themes") != -1) {
-                                        
+                                fs.readdir(cwd, function(err, files) {
+                                    console.log(files)
+                                    if (err) 
+                                        return next();
+                                    var extraCode = [];
+                                    function forEachFile(dir, f) {
+                                        try {
+                                            fs.readdirSync(dir).forEach(f);
+                                        } catch(e) {
+                                            console.log(e);
+                                        }
                                     }
                                     
+                                    if (files.indexOf("builders") != -1) {
+                                        forEachFile(cwd + "/builders", function(p) {
+                                            console.log(p, "***");
+                                            extraCode.push()
+                                            
+                                        });
+                                    }
+                                    if (files.indexOf("keymaps") != -1) {
+                                        forEachFile(cwd + "/keymaps", function(p) {
+                                            console.log(p, "***");
+                                        });
+                                    }
+                                    if (files.indexOf("modes") != -1) {
+                                        forEachFile(cwd + "/modes", function(p) {
+                                            console.log(p, "***");
+                                        });
+                                    }
+                                    if (files.indexOf("outline") != -1) {
+                                        forEachFile(cwd + "/outline", function(p) {
+                                            console.log(p, "***");
+                                        });
+                                    }
+                                    if (files.indexOf("runners") != -1) {
+                                        forEachFile(cwd + "/runners", function(p) {
+                                            console.log(p, "***");
+                                        });
+                                    }
+                                    if (files.indexOf("snippets") != -1) {
+                                        forEachFile(cwd + "/snippets", function(p) {
+                                            console.log(p, "***");
+                                        });
+                                    }
+                                    if (files.indexOf("themes") != -1) {
+                                        forEachFile(cwd + "/themes", function(p) {
+                                            console.log(p, "***");
+                                        });
+                                    }
+                                    if (files.indexOf("template") != -1) {
+                                        forEachFile(cwd + "/template", function(p) {
+                                            console.log(p, "***");
+                                        });
+                                    }
+                                    
+                                    
+                                    result.code += (function() {
+                                        extraCode
+                                        
+                                    }).toString().replace(/^.*{|}$/g, "")
+                                        .replace("extraCode", extraCode);
+                                    
+                                    next();
                                 });
+                            },
+                            function(next) {
+                                fs.writeFile("__packed__.js", result.code, "utf8", next);
                             },
                             function(next) {
                                 packedFiles.push(cwd + "/themes");
@@ -510,7 +569,7 @@ define(function(require, exports, module) {
                                 tarArgs.push("--exclude=./" + p);
                             }
                         });
-                        console.log(tarArgs)
+                        // console.log(tarArgs)
                         proc.spawn(TAR, {
                             args: tarArgs,
                             cwd: cwd

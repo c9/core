@@ -230,7 +230,6 @@ define(function(require, exports, module) {
         
         function processModules(path, data){
             var parallel = [];
-            var services = architect.services;
             
             var placeholder = new Plugin();
             
@@ -251,59 +250,7 @@ define(function(require, exports, module) {
                             return next(err);
                         }
                         
-                        switch (type) {
-                            case "builders":
-                                data = util.safeParseJson(data, next);
-                                if (!data) return;
-                                
-                                services.build.addBuilder(filename, data, placeholder);
-                                break;
-                            case "keymaps":
-                                data = util.safeParseJson(data, next);
-                                if (!data) return;
-                                
-                                services["preferences.keybindings"].addCustomKeymap(filename, data, placeholder);
-                                break;
-                            case "modes":
-                                var mode = {};
-                                var firstLine = data.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
-                                firstLine.split(";").forEach(function(n){
-                                    if (!n) return;
-                                    var info = n.split(":");
-                                    mode[info[0].trim()] = info[1].trim();
-                                });
-                                
-                                services.ace.defineSyntax({
-                                    name: join(path, "modes", data.name),
-                                    caption: mode.caption,
-                                    extensions: (mode.extensions || "").trim()
-                                        .split(",")
-                                        .map(function(n){ return n.trim(); })
-                                        .filter(function(n){ return n; })
-                                });
-                                break;
-                            case "outline":
-                                data = util.safeParseJson(data, next);
-                                if (!data) return;
-                                
-                                services.outline.addOutlinePlugin(filename, data, placeholder);
-                                break;
-                            case "runners":
-                                data = util.safeParseJson(data, next);
-                                if (!data) return;
-                                
-                                services.run.addRunner(filename, data, placeholder);
-                                break;
-                            case "snippets":
-                                services.complete.addSnippet(data, plugin);
-                                break;
-                            case "themes":
-                                services.ace.addTheme(data, placeholder);
-                                break;
-                            case "template":
-                                services.newresource.addFileTemplate(data, placeholder);
-                                break;
-                        }
+                        addStaticPlugin(type, path, filename, data, placeholder);
                         
                         next();
                     });
@@ -311,6 +258,63 @@ define(function(require, exports, module) {
             });
             
             return parallel;
+        }
+        
+        function addStaticPlugin(type, pluginName, filename, data, plugin) {
+            var services = architect.services;
+            switch (type) {
+                case "builders":
+                    data = util.safeParseJson(data, function() {});
+                    if (!data) return;
+                    
+                    services.build.addBuilder(filename, data, plugin);
+                    break;
+                case "keymaps":
+                    data = util.safeParseJson(data, function() {});
+                    if (!data) return;
+                    
+                    services["preferences.keybindings"].addCustomKeymap(filename, data, plugin);
+                    break;
+                case "modes":
+                    var mode = {};
+                    var firstLine = data.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
+                    firstLine.split(";").forEach(function(n){
+                        if (!n) return;
+                        var info = n.split(":");
+                        mode[info[0].trim()] = info[1].trim();
+                    });
+                    
+                    services.ace.defineSyntax({
+                        name: join(pluginName, "modes", data.name),
+                        caption: mode.caption,
+                        extensions: (mode.extensions || "").trim()
+                            .split(",")
+                            .map(function(n){ return n.trim(); })
+                            .filter(function(n){ return n; })
+                    });
+                    break;
+                case "outline":
+                    data = util.safeParseJson(data, function() {});
+                    if (!data) return;
+                    
+                    services.outline.addOutlinePlugin(filename, data, plugin);
+                    break;
+                case "runners":
+                    data = util.safeParseJson(data, function() {});
+                    if (!data) return;
+                    
+                    services.run.addRunner(filename, data, plugin);
+                    break;
+                case "snippets":
+                    services.complete.addSnippet(data, plugin);
+                    break;
+                case "themes":
+                    services.ace.addTheme(data, plugin);
+                    break;
+                case "template":
+                    services.newresource.addFileTemplate(data, plugin);
+                    break;
+            }
         }
         
         // Check if require.s.contexts._ can help watching all dependencies
