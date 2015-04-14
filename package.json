@@ -49,7 +49,7 @@
     },
     "licenses": [],
     "c9plugins": {
-        "c9.ide.language": "#d6f468f4e0",
+        "c9.ide.language": "#3a8040d0c5",
         "c9.ide.language.css": "#ef8a28943e",
         "c9.ide.language.generic": "#8a3be4533a",
         "c9.ide.language.html": "#bbe81afed1",
@@ -59,7 +59,7 @@
         "c9.ide.language.javascript.eslint": "#8832423ad1",
         "c9.ide.language.javascript.tern": "#7aab8b0b6a",
         "c9.ide.language.javascript.infer": "#393d215e96",
-        "c9.ide.language.jsonalyzer": "#7261f47b26",
+        "c9.ide.language.jsonalyzer": "#a1057f20db",
         "c9.ide.collab": "#7b09419b5c",
         "c9.ide.local": "#cf624506cc",
         "c9.ide.find": "#4db399c1de",

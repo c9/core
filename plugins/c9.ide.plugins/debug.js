@@ -262,6 +262,7 @@ define(function(require, exports, module) {
         
         function addStaticPlugin(type, pluginName, filename, data, plugin) {
             var services = architect.services;
+            var path = "plugins/" + pluginName + "/" + type + "/" + filename.replace(/\.js$/, "");
             switch (type) {
                 case "builders":
                     data = util.safeParseJson(data, function() {});
@@ -285,17 +286,16 @@ define(function(require, exports, module) {
                     });
                     
                     services.ace.defineSyntax({
-                        name: join(pluginName, "modes", filename.replace(/\.js$/, "")),
+                        name: join(pluginName, "modes", path),
                         caption: mode.caption,
                         extensions: (mode.extensions || "").trim()
                             .replace(/\s*,\s*/g, "|")
                     });
                     break;
                 case "outline":
-                    data = util.safeParseJson(data, function() {});
                     if (!data) return;
                     
-                    services.outline.addOutlinePlugin(filename, data, plugin);
+                    services.outline.addOutlinePlugin(path, data, plugin);
                     break;
                 case "runners":
                     data = util.safeParseJson(data, function() {});
