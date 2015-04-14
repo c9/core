@@ -82,7 +82,8 @@ module.exports = function(options) {
         "plugins/c9.core/util",
         {
             packagePath: "plugins/c9.ide.plugins/loader",
-            plugins: options.plugins || []
+            plugins: options.plugins || [],
+            loadFromDisk: options.standalone
         },
         {
             packagePath: "plugins/c9.ide.plugins/installer",

@@ -454,7 +454,6 @@ define(function(require, exports, module) {
                     async.series([
                         function(next) {
                             fs.readdir(cwd, function(err, files) {
-                                console.log(files)
                                 if (err) 
                                     return next();
                                 var extraCode = [];
@@ -599,9 +598,24 @@ define(function(require, exports, module) {
                             var build = require("architect-build/build");
                             var paths = {};
                             paths["plugins/" + packageName] = cwd;
-
+                            
+                            var additional = [];
+                            var packedConfig = Object.keys(config);
+                            if (staticPlugin) {
+                                additional.push(staticPlugin);
+                                packedConfig.push(staticPlugin.id);
+                            }
+                            var path = "plugins/" + packageName + "/__packed__";
+                            additional.push({
+                                id: path,
+                                source: 'define("' + path + '", [],' + 
+                                    JSON.stringify(config.concat(), null, 4) + ')',
+                                literal : true,
+                                order: -1
+                            });
+                            
                             build(config, {
-                                additional: staticPlugin ? [staticPlugin] : [],
+                                additional: additional,
                                 paths: paths,
                                 enableBrowser: true,
                                 includeConfig: false,
@@ -617,7 +631,7 @@ define(function(require, exports, module) {
                             }, function(e, r) {
                                 result = r;
                                 result.sources.forEach(function(m) {
-                                    packedFiles.push(m.file);
+                                    m.file && packedFiles.push(m.file);
                                 });
                                 next();
                             });
@@ -626,7 +640,7 @@ define(function(require, exports, module) {
                             fs.writeFile("__packed__.js", result.code, "utf8", next);
                         },
                         function(next) {
-                            console.log(packedFiles)
+                            // console.log(packedFiles)
                             zip(packedFiles);
                         }
                     ]);
