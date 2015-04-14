@@ -49,7 +49,7 @@
     },
     "licenses": [],
     "c9plugins": {
-        "c9.ide.language": "#30f99228d7",
+        "c9.ide.language": "#d6f468f4e0",
         "c9.ide.language.css": "#ef8a28943e",
         "c9.ide.language.generic": "#8a3be4533a",
         "c9.ide.language.html": "#bbe81afed1",
@@ -86,7 +86,7 @@
         "c9.ide.installer": "#38f5840924",
         "c9.ide.mount": "#cb45b621f1",
         "c9.ide.navigate": "#64156c7f4a",
-        "c9.ide.newresource": "#97e345d3b3",
+        "c9.ide.newresource": "#39c7b1aa23",
         "c9.ide.openfiles": "#28a4f5af16",
         "c9.ide.preview": "#dba2f4214d",
         "c9.ide.preview.browser": "#ac18aaf31d",
