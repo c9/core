@@ -148,14 +148,15 @@
 .bar-preferences .keybindings{
     min-height: 250px;
 }
-.bar-preferences .keybindings .container > .hsplitbox, .bar-preferences .keybindings .container > .basic{
+.bar-preferences .flatform .container > .hsplitbox, 
+.bar-preferences .flatform .container > .basic{
     border-top : 1px solid @preferences-border-top-color-light;
     box-sizing: border-box;
 }
 .bar-preferences .keybindings .intro when(@preferences-flat){
     margin-bottom: 8px !important;
 }
-.bar-preferences .keybindings .container > .hsplitbox:last-child when(@preferences-flat){
+.bar-preferences .flatform .container > .hsplitbox:last-child when(@preferences-flat){
     height: 49px !important;
 }
 .bar-preferences .container>.hsplitbox:last-child{

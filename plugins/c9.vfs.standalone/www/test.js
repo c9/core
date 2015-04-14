@@ -400,6 +400,7 @@ require([
                     console.warn(msg);
                 }
             },
+            "installer": { createSession : function(){}, reinstall: function(){} },
             "run.gui": { getElement : function(){} },
             "debugger": {debug: function() {}, stop: function(){}},
             "focusManager": {
@@ -407,10 +408,11 @@ require([
                     
                 }
             },
-            error_handler: {reportError: function(){}},
-            installer: {
-                show: function(){}
+            "metrics": {
+                getLastPing: function() { throw Error("Not implemented"); },
+                getLastest: function() { throw Error("Not implemented"); },
             },
+            error_handler: {reportError: function(){}},
             proc: {
                 execFile: function() {},
                 spawn: function() {}

@@ -1004,6 +1004,11 @@ define(function(require, module, exports) {
                              && t.document.title === options.title));
                      })[0]);
             
+            // prevent opening of same tab twice in non cloned mode
+            // TODO move cloning into ace?
+            if (!tab)
+                tab = findTab(path);
+            
             // Clone Tab
             if (((options.document || 0).meta || 0).cloned) {
                 if (!tab) {

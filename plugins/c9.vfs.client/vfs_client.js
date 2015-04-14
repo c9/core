@@ -1,13 +1,10 @@
-/**
- * Smith.io client
- *
- * @copyright 2013, Ajax.org B.V.
- */
-
 define(function(require, exports, module) {
     "use strict";
     
-    main.consumes = ["Plugin", "auth", "vfs.endpoint", "dialog.error", "dialog.alert", "error_handler"];
+    main.consumes = [
+        "Plugin", "auth", "vfs.endpoint", "dialog.error",
+        "dialog.alert", "error_handler", "metrics"
+    ];
     main.provides = ["vfs"];
     return main;
 
@@ -34,6 +31,7 @@ define(function(require, exports, module) {
         var hideError = errorDialog.hide;
         var showAlert = imports["dialog.alert"].show;
         var errorHandler = imports.error_handler;
+        var metrics = imports.metrics;
         
         var eio = require("engine.io");
         var Consumer = require("vfs-socket/consumer").Consumer;
@@ -50,11 +48,10 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
         
-        // Give reference to vfs to plugin
+        // Give reference to vfs to plugins
         errorDialog.vfs = plugin;
         
         var buffer = [];
-        var installChecked = false;
         var withInstall = options.withInstall;
         var dashboardUrl = options.dashboardUrl;
         var region, vfsBaseUrl, homeUrl, projectUrl, pingUrl, serviceUrl;
@@ -209,6 +206,7 @@ define(function(require, exports, module) {
             
             vfsEndpoint.get(protocolVersion, function(err, urls) {
                 if (err) {
+                    metrics.increment("vfs.failed.connect", 1, true);
                     if (!showErrorTimer) {
                         showErrorTimer = setTimeout(function() {
                             showVfsError(showErrorTimerMessage);
@@ -282,13 +280,8 @@ define(function(require, exports, module) {
                     return;
                 }
                 
-                if (!installChecked) {
-                    checkInstall(_vfs, callback);
-                    installChecked = true;
-                }
-                else {
+                if (emit("beforeConnect", { done: callback, vfs: _vfs }) !== false)
                     callback();
-                }
                 
                 function callback(shouldReconnect) {
                     if (shouldReconnect) {
@@ -315,19 +308,6 @@ define(function(require, exports, module) {
             });
         }
         
-        function checkInstall(vfs, callback) {
-            if (!withInstall)
-                 return callback(false);
-            
-            vfs.stat(options.installPath + "/installed", {}, function(err, stat) {
-                if (err && err.code == "ENOENT") {
-                    emit.sticky("install", { callback: callback, vfs: vfs });
-                }
-                else
-                    callback();
-            });
-        }
-        
         var bufferedVfsCalls = [];
         function vfsCall(method, path, options, callback) {
             if (Array.isArray(method))
@@ -349,7 +329,6 @@ define(function(require, exports, module) {
             
             id = null;
             buffer = [];
-            installChecked = false;
             region = null;
             vfsBaseUrl = null;
             homeUrl = null;

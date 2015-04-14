@@ -1,5 +1,6 @@
 build/installer/
-build/win32
+build/sdk
+build/win32*
 build/node.exe
 build/node*.zip
 build/Cloud9-dev.app
@@ -9,6 +10,10 @@ plugins/c9.vfs.standalone/www/less.html
 plugins/c9.ide.run/todo
 plugins/c9.vfs.standalone/www/charts
 plugins/c9.ide.language.javascript.tern/util/sigs_ts
+plugins/c9.account.billing/node_modules/
+plugins/c9.account/node_modules/
+plugins/c9.api.project/coverage/
+plugins/c9.db.redis/coverage/
 scripts/build
 build/output
 build/standalone/
@@ -76,3 +81,4 @@ plugins/c9.account/node_modules/
 npm-debug.log
 foo.js
 hello.js
+plugins/c9.docker/containers/ci/files/github_c9_newclient

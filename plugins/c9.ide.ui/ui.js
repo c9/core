@@ -8,7 +8,7 @@ define(function(require, module, exports) {
         require("plugins/c9.ide.ui/codebox")(imports.apf);
         var settings;
 
-        var packed = require("text!./style.css").length === 0;
+        var packed = require("text!./style.less").length === 0;
         var less = require("./lib_less1.5");
         if (less) less.async = true;
         var packedThemes = packed || options.packedThemes !== false;
@@ -39,6 +39,12 @@ define(function(require, module, exports) {
             };
             apf.Class.prototype.emit = apf.Class.prototype.dispatchEvent;
             apf.Class.prototype.off = apf.Class.prototype.removeEventListener;
+            
+            Object.defineProperty(apf.Class.prototype, '$html', {
+                get: function() { return this.$int || this.$container || this.$ext; },
+                enumerable: false,
+                configurable: false
+            });
             
             apf.preProcessCSS = insertLess;
             

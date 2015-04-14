@@ -11,6 +11,7 @@ module.exports = function(manifest, installPath) {
     var builders = require("../plugins/c9.ide.run.build/builders_list");
     
     var workspaceDir = path.resolve(__dirname + "/../");
+    var sdk = !manifest.sdk;
     
     if (process.platform == "win32" && process.env.HOME === undefined) {
         process.env.HOME = process.env.HOMEDRIVE + process.env.HOMEPATH;
@@ -37,11 +38,13 @@ module.exports = function(manifest, installPath) {
         home: home,
         uid: "-1",
         dev: true,
+        sdk: sdk,
         pid: process.pid,
         port: process.env.PORT || 8181,
         host: process.env.IP || "0.0.0.0",
         testing: false,
         platform: process.platform,
+        arch: process.arch,
         tmux: path.join(installPath, "bin/tmux"),
         nakBin: path.join(__dirname, "../node_modules/nak/bin/nak"),
         bashBin: "bash",

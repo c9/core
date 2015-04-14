@@ -66,6 +66,18 @@ The following options can be used:
 
 Now visit [http://localhost:8181/ide.html](http://localhost:8181/ide.html) to load Cloud9.
 
+#### Running Tests ####
+
+Run server side tests with:
+    
+    npm run test
+    
+Run client side tests with:
+
+    npm run ctest
+    
+Then visit [http://localhost:8181/static/test](http://localhost:8181/static/test) in your browser.
+
 #### Contributing ####
 
 We actively encourage and support contributions. We accept pull requests to the core as well as to any of the open source plugins and libraries that we maintain under the c9 organization on GitHub.

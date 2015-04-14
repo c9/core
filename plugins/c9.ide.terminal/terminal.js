@@ -778,7 +778,7 @@ define(function(require, exports, module) {
                               + "installed. Would you like to open the installer "
                               + "to update to the latest version?",
                             function(){ // Yes
-                                installer.show();
+                                installer.reinstall("Cloud9 IDE");
                             },
                             function(){ // No
                                 // Do nothing

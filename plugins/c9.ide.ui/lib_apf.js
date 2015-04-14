@@ -9016,6 +9016,9 @@ var modules = {
     boxFlex: function(oHtml, value, center) {
         oHtml.style[apf.CSS_FLEX_PROP] = value;
     },
+    boxFlexGrow: function(oHtml, value, center) {
+        oHtml.style[apf.CSS_FLEX_PROP + "-grow"] = value;
+    },
     "height-rsz": function(oHtml, value, center) {
         oHtml.style.height = value + PX;
         if (apf.hasSingleResizeEvent && apf.layout.$onresize)

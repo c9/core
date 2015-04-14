@@ -36,6 +36,7 @@ define(function(require, exports, module) {
         var FormData = require("form-data");
         var http = require(APIHOST.indexOf("localhost") > -1 ? "http" : "https");
         var basename = require("path").basename;
+        var dirname = require("path").dirname;
         
         var verbose = false;
         var force = false;
@@ -433,6 +434,41 @@ define(function(require, exports, module) {
                 // @TODO add a .c9exclude file that excludes files
                 var zipFilePath;
                 function build(){
+                    var base = dirname(cwd);
+                    var packageName = json.name;
+                    var config = Object.keys(plugins).map(function(p) {
+                        return packageName + "/" + p;
+                    });
+                    var paths = {};
+                    paths[packageName] = cwd;
+                    
+                    var build = require("architect-build/build");
+                    build(config, {
+                        paths: paths,
+                        enableBrowser: true,
+                        includeConfig: false,
+                        noArchitect: true,
+                        compress: true,
+                        obfuscate: true,
+                        oneLine: true,
+                        filter: [],
+                        ignore: [],
+                        withRequire: false,
+                        stripLess: false,
+                        basepath: base,
+                    }, function(e, result) {
+                        var packedFiles = result.sources.map(function(m) {
+                            return m.file
+                        });
+                        fs.writeFile("__packed__.js", result.code, "utf8", function(err, result) {
+                            if (err) console.log(err);
+                            
+                            zip(packedFiles);
+                        });
+                    });
+                }
+                
+                function zip(ignore){
                     zipFilePath = join(os.tmpDir(), json.name + "@" + json.version);
                     var tarArgs = ["-zcvf", zipFilePath, "."]; 
                     var c9ignore = process.env.HOME + "/.c9/.c9ignore";
@@ -704,10 +740,29 @@ define(function(require, exports, module) {
                                     var err = code !== 0
                                         ? new Error("Failed to unpack package")
                                         : null;
+                                    if (err) return callback(err);
                                     
-                                    // Done
-                                    callback(err, {
-                                        version: version
+                                    proc.spawn(join(process.env.HOME, ".c9/node/bin/npm"), {
+                                        args: ["install"],
+                                        cwd: packagePath
+                                    }, function(err, p){
+                                        if (err) return callback(err);
+                                        
+                                        if (verbose) {
+                                            p.stdout.on("data", function(c){
+                                                process.stdout.write(c.toString("utf8"));
+                                            });
+                                            p.stderr.on("data", function(c){
+                                                process.stderr.write(c.toString("utf8"));
+                                            });
+                                        }
+                                        
+                                        p.on("exit", function(code){
+                                            // Done
+                                            callback(err, {
+                                                version: version
+                                            });
+                                        });
                                     });
                                 });
                             });

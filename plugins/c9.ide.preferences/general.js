@@ -23,7 +23,7 @@ define(function(require, exports, module) {
         var emit = plugin.getEmitter();
         emit.setMaxListeners(1000);
         
-        var navHtml, intro;
+        var intro;
         
         var loaded = false;
         function load() {
@@ -44,15 +44,13 @@ define(function(require, exports, module) {
             prefs.on("add", function(e) {
                 if (!("Project" in e.state))
                     plugin.add(e.state, e.plugin);
-            });
+            }, plugin);
         }
         
         var drawn = false;
         function draw(e) {
             if (drawn) return;
             drawn = true;
-            
-            navHtml = e.navHtml;
             
             plugin.add({
                "General" : {
@@ -71,7 +69,7 @@ define(function(require, exports, module) {
                                     + "Cloud9 will return to it's original configuration", 
                                     function(){
                                         settings.reset();
-                                    }, function(){})
+                                    }, function(){});
                             }
                         }
                     },
@@ -109,8 +107,8 @@ define(function(require, exports, module) {
                 + '<p class="hint">These settings are synced across all your workspaces.</p>';
             
             intro.$int.querySelector("a").onclick = function(){ 
-                emit("edit")
-            }
+                emit("edit");
+            };
         }
         
         /***** Methods *****/
@@ -124,15 +122,10 @@ define(function(require, exports, module) {
         plugin.on("draw", function(e) {
             draw(e);
         });
-        plugin.on("enable", function() {
-            
-        });
-        plugin.on("disable", function() {
-            
-        });
         plugin.on("unload", function() {
             loaded = false;
             drawn = false;
+            intro = null;
         });
         
         /***** Register and define API *****/

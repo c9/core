@@ -428,7 +428,11 @@
                         fatalError(err);
                     });
                     
-                    app.on("service", function(name, plugin){
+                    app.on("service", function(name, plugin) {
+                        if (name == "plugin.loader" || name == "plugin.installer" || name == "plugin.debug" || name == "plugin.manager")
+                            plugin.architect = app; // TODO why we rename app to architect?
+                        if (name == "c9")
+                            plugin.startLoadTime = start;
                         if (!plugin.name)
                             plugin.name = name;
                     });

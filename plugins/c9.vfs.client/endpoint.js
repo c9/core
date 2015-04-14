@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     "use strict";
     
-    main.consumes = ["Plugin", "auth", "http", "api", "error_handler"];
+    main.consumes = ["Plugin", "auth", "http", "api", "error_handler", "metrics"];
     main.provides = ["vfs.endpoint"];
     return main;
 
@@ -11,6 +11,7 @@ define(function(require, exports, module) {
         var http = imports.http;
         var api = imports.api;
         var errorHandler = imports.error_handler;
+        var metrics = imports.metrics;
         
         /***** Initialization *****/
 
@@ -168,8 +169,10 @@ define(function(require, exports, module) {
 
             // just take the first server that doesn't return an error
             (function tryNext(i) {
-                if (i >= servers.length)
+                if (i >= servers.length) {
+                    metrics.increment("vfs.failed.connect_all", 1, true);
                     return callback(new Error("Disconnected: Could not reach your workspace. Please try again later."));
+                }
 
                 var server = servers[i];
                 auth.request(server.url + "/" + options.pid, {

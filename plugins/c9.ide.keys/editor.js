@@ -2,7 +2,7 @@ define(function(require, exports, module) {
     main.consumes = [
         "PreferencePanel", "commands", "settings", "ui", "util", "Form",
         "c9", "dialog.alert", "tabManager", "save", "dialog.confirm", "layout",
-        "preferences", "menus"
+        "menus"
     ];
     main.provides = ["preferences.keybindings"];
     return main;
@@ -12,7 +12,6 @@ define(function(require, exports, module) {
         var commands = imports.commands;
         var settings = imports.settings;
         var layout = imports.layout;
-        var preferences = imports.preferences;
         var ui = imports.ui;
         var c9 = imports.c9;
         var util = imports.util;
@@ -32,7 +31,7 @@ define(function(require, exports, module) {
         
         var plugin = new PreferencePanel("Ajax.org", main.consumes, {
             caption: "Keybindings",
-            className: "keybindings",
+            className: "keybindings flatform",
             form: true,
             noscroll: true,
             index: 200
@@ -211,7 +210,7 @@ define(function(require, exports, module) {
                     node: container = new ui.bar({
                         anchors: "269 0 0 0",
                         "class" : "keybindings",
-                        style: "padding:44px 10px 10px 10px;position:relative"
+                        style: "padding:44px 10px 10px 10px"
                     })
                 }
             ], commands);
@@ -510,15 +509,18 @@ define(function(require, exports, module) {
         plugin.on("resize", function(e) {
             datagrid && datagrid.resize();
         });
-        plugin.on("enable", function() {
-            
-        });
-        plugin.on("disable", function() {
-            
-        });
         plugin.on("unload", function() {
             loaded = false;
             drawn = false;
+            
+            model = null;
+            datagrid = null;
+            changed = null;
+            container = null;
+            filterbox = null;
+            appliedCustomSets = null;
+            intro = null;
+            reloading = null;
         });
         
         /***** Register and define API *****/

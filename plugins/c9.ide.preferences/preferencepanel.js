@@ -261,7 +261,7 @@ define(function(require, module, exports) {
                             "textarea"        : 400,
                             "checked-spinner" : 50
                         }
-                    });
+                    }, plugin);
                 }
             });
             

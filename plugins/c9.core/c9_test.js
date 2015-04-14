@@ -37,6 +37,8 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         var vfs = imports.vfs;
         
         describe('c9', function() {
+            this.timeout(30000);
+            
             it('should send proper events during connecting', function(done) {
                 // var count = 0;
 

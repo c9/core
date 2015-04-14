@@ -10,7 +10,7 @@ define(function(require, exports, module) {
         
         /***** Initialization *****/
         
-        function Form(options) {
+        function Form(options, forPlugin) {
             var plugin = new Plugin("Ajax.org", main.consumes);
             var emit = plugin.getEmitter();
 
@@ -41,6 +41,9 @@ define(function(require, exports, module) {
 
                 if (options.form)
                     add(options.form);
+                
+                if (forPlugin)
+                    forPlugin.addOther(function(){ plugin.unload(); });
             }
         
             var drawn = false;
@@ -398,7 +401,7 @@ define(function(require, exports, module) {
             function update(items) {
                 items.forEach(function(item) {
                     var el = plugin.getElement(item.id);
-                    switch(el.type) {
+                    switch (el.type) {
                         case "dropdown":
                             var dropdown = el.lastChild;
                             
@@ -412,7 +415,14 @@ define(function(require, exports, module) {
                                 dropdown.setAttribute("value", item.value);
                         break;
                         default:
-                            el.lastChild.setAttribute('value', item.value);
+                            if ("value" in item)
+                                el.lastChild.setAttribute('value', item.value);
+                            if ("onclick" in item)
+                                el.lastChild.onclick = item.onclick;
+                            if ("visible" in item)
+                                el.lastChild.setAttribute("visible", item.visible)
+                            if ("zindex" in item)
+                                el.lastChild.setAttribute("zindex", item.zindex)
                         break;
                     }
                 })

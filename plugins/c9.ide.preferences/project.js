@@ -21,7 +21,7 @@ define(function(require, exports, module) {
         var emit = plugin.getEmitter();
         emit.setMaxListeners(1000);
         
-        var navHtml, intro;
+        var intro;
         
         var loaded = false;
         function load() {
@@ -42,12 +42,12 @@ define(function(require, exports, module) {
             prefs.on("add", function(e) {
                 if ("Project" in e.state)
                     plugin.add(e.state, e.plugin);
-            });
+            }, plugin);
             
             prefs.on("draw", function(e) {
                 if (!prefs.activePanel)
                     prefs.activate(plugin);
-            });
+            }, plugin);
         }
         
         var drawn = false;
@@ -65,8 +65,6 @@ define(function(require, exports, module) {
             intro.$int.querySelector("a").onclick = function(){ 
                 emit("edit");
             }
-            
-            navHtml = e.navHtml;
         }
         
         /***** Methods *****/
@@ -79,15 +77,10 @@ define(function(require, exports, module) {
         plugin.on("draw", function(e) {
             draw(e);
         });
-        plugin.on("enable", function() {
-            
-        });
-        plugin.on("disable", function() {
-            
-        });
         plugin.on("unload", function() {
             loaded = false;
             drawn = false;
+            intro = null;
         });
         
         /***** Register and define API *****/
