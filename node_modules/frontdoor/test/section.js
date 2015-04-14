@@ -1,6 +1,10 @@
-var test = require('tape');
+var assert = require('assert-diff');
 var Section = require('../frontdoor').Section;
 var Url = require('url');
+
+require("c9/inline-mocha")(module);
+// require("amd-loader");
+
 
 var mock = {
     req: function( method, uri) {
@@ -15,7 +19,7 @@ var mock = {
     }
 };
 
-test('Defines params on section level', function(assert, things, done) {
+it('Defines params on section level', function(done) {
     var testParams = {
         required: {
           type: 'int',
@@ -155,12 +159,12 @@ test('Defines params on section level', function(assert, things, done) {
 
         api.handle( req.pathname, req, {}, function(err) {
             if ( testCase.err ) {
-                assert.pass( 'route not matched: ' + testCase.label );
+                assert.ok( 'route not matched: ' + testCase.label );
                 return;
             }
             assert.fail( 'route not matched: ' + testCase.label );                
         });
     });
     
-    assert.end();
+    done();
 });

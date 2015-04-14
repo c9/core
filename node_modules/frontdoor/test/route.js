@@ -3,9 +3,12 @@
 var sinon = require("sinon");
 var frontdoor = require('../frontdoor');
 var Route = frontdoor.Route;
-var test = require('tape');
+var assert = require('assert');
 
-test("test router: simple route with argument", function(assert) {
+require("c9/inline-mocha")(module);
+require("amd-loader");
+
+it("test router: simple route with argument", function(done) {
     var route = new Route("/user/:name", sinon.stub());
 
     var req = {};
@@ -15,10 +18,10 @@ test("test router: simple route with argument", function(assert) {
     assert.equal(route.match(req, "/user/fabian"), true);
     assert.equal(req.match.name, "fabian");
 
-    assert.end();
+    done();
 });
 
-test("test router: simple route with number argument", function(assert) {
+it("test router: simple route with number argument", function(done) {
     var route = new Route("/user/:id", {
         params: {
             id: {
@@ -32,10 +35,10 @@ test("test router: simple route with number argument", function(assert) {
     assert.equal(route.match(req, "/user/123"), true);
     assert.equal(req.match.id, 123);
 
-    assert.end();
+    done();
 });
 
-test("test router: for params if the value is a string it is treated as the type", function(assert) {
+it("test router: for params if the value is a string it is treated as the type", function(done) {
     var route = new Route("/user/:id", {
         params: {
             id: "int"
@@ -46,10 +49,10 @@ test("test router: for params if the value is a string it is treated as the type
     assert.equal(route.match(req, "/user/123"), true);
     assert.equal(req.match.id, 123);
 
-    assert.end();
+    done();
 });
 
-test("test router: complex route with wildcard arguments", function(assert) {
+it("test router: complex route with wildcard arguments", function(done) {
     var route = new Route("/user/:name/:rest*", {
         params: {
             id: {
@@ -74,11 +77,11 @@ test("test router: complex route with wildcard arguments", function(assert) {
     assert.equal(req.match.name, "fabian");
     assert.equal(req.match.rest, "/abc/123");
 
-    assert.end();
+    done();
 
 });
 
-test("test router: complex route with multiple arguments", function(assert) {
+it("test router: complex route with multiple arguments", function(done) {
     var route = new Route("/user/:name/:id", {
         params: {
             id: {
@@ -95,11 +98,11 @@ test("test router: complex route with multiple arguments", function(assert) {
     assert.equal(req.match.id, 123);
     assert.equal(req.match.name, "fabian");
 
-    assert.end();
+    done();
 
 });
 
-test("test regexp types", function(assert) {
+it("test regexp types", function(done) {
     var route = new Route("/users/:uid", {
         params: {
             uid: /u\d+/
@@ -111,23 +114,23 @@ test("test regexp types", function(assert) {
     assert.ok(route.match(req, "/users/u123"));
     assert.ok(!route.match(req, "/users/_u123"));
 
-    assert.end();
+    done();
 
 });
 
-test("test custom type without register", function(assert) {
+it("test custom type without register", function(done) {
     var DateType = {
         parse: function(string) {
             if (!/\d{13}/.test(string))
                 throw new Error("not a timestamp");
-
+                
             return new Date(parseInt(string, 10));
         },
         check: function(value) {
             return value instanceof Date;
         }
     };
-
+    
     var route = new Route("/ts/:ts", {
         params: {
             ts: {
@@ -135,15 +138,14 @@ test("test custom type without register", function(assert) {
             }
         }
     }, sinon.stub());
-
+    
     var req = {};
-
+    
     assert.ok(route.match(req, "/ts/1353676299181"));
     assert.ok(req.match.ts instanceof Date);
-
+    
     assert.ok(!route.match(req, "/ts/353676299181"));
     assert.ok(!route.match(req, "/ts/abc"));
-
-
-    assert.end();
+    
+    done();
 });
