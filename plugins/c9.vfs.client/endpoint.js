@@ -170,7 +170,7 @@ define(function(require, exports, module) {
             // just take the first server that doesn't return an error
             (function tryNext(i) {
                 if (i >= servers.length) {
-                    metrics.increment("connect_failed_all", 1, true);
+                    metrics.increment("vfs.failed.connect_all", 1, true);
                     return callback(new Error("Disconnected: Could not reach your workspace. Please try again later."));
                 }
 

@@ -206,7 +206,7 @@ define(function(require, exports, module) {
             
             vfsEndpoint.get(protocolVersion, function(err, urls) {
                 if (err) {
-                    metrics.increment("connect_failed", 1, true);
+                    metrics.increment("vfs.failed.connect", 1, true);
                     if (!showErrorTimer) {
                         showErrorTimer = setTimeout(function() {
                             showVfsError(showErrorTimerMessage);
