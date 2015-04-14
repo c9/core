@@ -159,7 +159,7 @@ define(function(require, exports, module) {
                             pathConfig["plugins/" + name] = host + join(base, name);
                             // Add the plugin to the config
                             Object.keys(options.plugins).forEach(function(path){
-                                var pluginPath = name + "/" + path + ".js";
+                                var pluginPath = name + "/" + path;
                                 
                                 // Watch project path
                                 watch("~/.c9/plugins/" + pluginPath);

@@ -51,13 +51,13 @@ define(function(require, exports, module) {
             var wait = 0;
             var host = vfs.baseUrl + "/";
             var base = join(String(c9.projectId), "plugins", auth.accessToken);
+            var install = [];
             
             if (loadFromDisk) {
                 fs.readdir("~/.c9/plugins", function(error, files){
                     files.forEach(function(f) {
-                        loadOne({
-                            packageName: f.name,
-                        }, false);
+                        if (!/^[_.]/.test(f.name))
+                            loadOne({ packageName: f.name}, false);
                     })
                 });
             }
@@ -74,7 +74,6 @@ define(function(require, exports, module) {
                 // if (!options.setup) {
                 //     wait++;
                     
-                //     var install = [];
                 //     fs.exists("~/.c9/" + path, function(exists){
                 //         if (!exists) {
                 //             install.push(options);
@@ -93,10 +92,10 @@ define(function(require, exports, module) {
                 var packageName = packageConfig.packageName;
                 var root = "plugins/" + packageName;
                 var paths = {};
-                paths[root] = host + base + "/" + root;
+                paths[root] = host + base + "/" + packageName;
                 requirejs.config({paths: paths});
-                require.undef(root + "/__packed__.js");
-                require([root + "/__packed__.js"], function(plugins) {
+                requirejs.undef(root + "/__packed__.js");
+                require([root + "/__packed__"], function(plugins) {
                     var config = plugins.map(function(p) {
                         return {
                             staticPrefix: host + join(base, name),
