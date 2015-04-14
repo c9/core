@@ -600,8 +600,9 @@ define(function(require, exports, module) {
                             paths["plugins/" + packageName] = cwd;
                             
                             var additional = [];
-                            var packedConfig = Object.keys(config);
+                            var packedConfig = config.slice();
                             if (staticPlugin) {
+                                console.log(packedConfig)
                                 additional.push(staticPlugin);
                                 packedConfig.push(staticPlugin.id);
                             }
@@ -609,7 +610,7 @@ define(function(require, exports, module) {
                             additional.push({
                                 id: path,
                                 source: 'define("' + path + '", [],' + 
-                                    JSON.stringify(config.concat(), null, 4) + ')',
+                                    JSON.stringify(packedConfig, null, 4) + ')',
                                 literal : true,
                                 order: -1
                             });

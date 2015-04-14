@@ -285,12 +285,10 @@ define(function(require, exports, module) {
                     });
                     
                     services.ace.defineSyntax({
-                        name: join(pluginName, "modes", data.name),
+                        name: join(pluginName, "modes", filename.replace(/\.js$/, "")),
                         caption: mode.caption,
                         extensions: (mode.extensions || "").trim()
-                            .split(",")
-                            .map(function(n){ return n.trim(); })
-                            .filter(function(n){ return n; })
+                            .replace(/\s*,\s*/g, "|")
                     });
                     break;
                 case "outline":
@@ -306,7 +304,7 @@ define(function(require, exports, module) {
                     services.run.addRunner(filename, data, plugin);
                     break;
                 case "snippets":
-                    services.complete.addSnippet(data, plugin);
+                    services["language.complete"].addSnippet(data, plugin);
                     break;
                 case "themes":
                     services.ace.addTheme(data, plugin);
