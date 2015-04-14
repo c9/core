@@ -448,11 +448,9 @@ define(function(require, exports, module) {
                     var base = dirname(cwd);
                     var packageName = json.name;
                     var config = Object.keys(plugins).map(function(p) {
-                        return packageName + "/" + p.replace(/\.js$/, "");
+                        return "plugins/" + packageName + "/" + p.replace(/\.js$/, "");
                     });
-                    var paths = {};
-                    paths[packageName] = cwd;
-                    var result, packedFiles, staticPlugin;
+                    var result, packedFiles = [], staticPlugin;
                     async.series([
                         function(next) {
                             fs.readdir(cwd, function(err, files) {
@@ -473,6 +471,7 @@ define(function(require, exports, module) {
                                 
                                 if (files.indexOf("builders") != -1) {
                                     forEachFile(cwd + "/builders", function(filename, data) {
+                                        packedFiles.push(cwd + "/builders/" + filename);
                                         extraCode.push({
                                             type: "builders",
                                             filename: filename,
@@ -482,6 +481,7 @@ define(function(require, exports, module) {
                                 }
                                 if (files.indexOf("keymaps") != -1) {
                                     forEachFile(cwd + "/keymaps", function(filename, data) {
+                                        packedFiles.push(cwd + "/keymaps/" + filename);
                                         extraCode.push({
                                             type: "keymaps",
                                             filename: filename,
@@ -503,6 +503,7 @@ define(function(require, exports, module) {
                                 }
                                 if (files.indexOf("outline") != -1) {
                                     forEachFile(cwd + "/outline", function(filename, data) {
+                                        packedFiles.push(cwd + "/outline/" + filename);
                                         extraCode.push({
                                             type: "outline",
                                             filename: filename,
@@ -512,6 +513,7 @@ define(function(require, exports, module) {
                                 }
                                 if (files.indexOf("runners") != -1) {
                                     forEachFile(cwd + "/runners", function(filename, data) {
+                                        packedFiles.push(cwd + "/runners/" + filename);
                                         extraCode.push({
                                             type: "runners",
                                             filename: filename,
@@ -521,6 +523,7 @@ define(function(require, exports, module) {
                                 }
                                 if (files.indexOf("snippets") != -1) {
                                     forEachFile(cwd + "/snippets", function(filename, data) {
+                                        packedFiles.push(cwd + "/snippets/" + filename);
                                         extraCode.push({
                                             type: "snippets",
                                             filename: filename,
@@ -530,6 +533,7 @@ define(function(require, exports, module) {
                                 }
                                 if (files.indexOf("themes") != -1) {
                                     forEachFile(cwd + "/themes", function(filename, data) {
+                                        packedFiles.push(cwd + "/themes/" + filename);
                                         extraCode.push({
                                             type: "themes",
                                             filename: filename,
@@ -537,10 +541,11 @@ define(function(require, exports, module) {
                                         });
                                     });
                                 }
-                                if (files.indexOf("template") != -1) {
-                                    forEachFile(cwd + "/template", function(filename, data) {
+                                if (files.indexOf("templates") != -1) {
+                                    forEachFile(cwd + "/templates", function(filename, data) {
+                                        packedFiles.push(cwd + "/templates/" + filename);
                                         extraCode.push({
-                                            type: "template",
+                                            type: "templates",
                                             filename: filename,
                                             data: data
                                         });
@@ -551,7 +556,7 @@ define(function(require, exports, module) {
                                     return next();
                                     
                                 var code = (function() {
-                                    define("packageName/__static__", [], function(require, exports, module) {
+                                    define(function(require, exports, module) {
                                         main.consumes = [
                                             "Plugin", "plugin.debug"
                                         ];
@@ -559,7 +564,7 @@ define(function(require, exports, module) {
                                         return main;
                                         function main(options, imports, register) {
                                             var debug = imports["plugin.debug"];
-                                            var Plugin = imports["plugin.debug"];
+                                            var Plugin = imports.Plugin;
                                             var plugin = new Plugin();
                                             extraCode.forEach(function(x) {
                                                 debug.addStaticPlugin(x.type, "packageName", x.filename, x.data, plugin);
@@ -583,7 +588,7 @@ define(function(require, exports, module) {
                                 
                                 staticPlugin = {
                                     source: code,
-                                    id: packageName + "/__static__",
+                                    id: "plugins/" + packageName + "/__static__",
                                     path: ""
                                 };
                                 next();
@@ -592,7 +597,9 @@ define(function(require, exports, module) {
                         
                         function(next) {
                             var build = require("architect-build/build");
-                            console.log(config);
+                            var paths = {};
+                            paths["plugins/" + packageName] = cwd;
+
                             build(config, {
                                 additional: staticPlugin ? [staticPlugin] : [],
                                 paths: paths,
@@ -609,8 +616,8 @@ define(function(require, exports, module) {
                                 basepath: base,
                             }, function(e, r) {
                                 result = r;
-                                packedFiles = result.sources.map(function(m) {
-                                    return m.file;
+                                result.sources.forEach(function(m) {
+                                    packedFiles.push(m.file);
                                 });
                                 next();
                             });
@@ -619,21 +626,23 @@ define(function(require, exports, module) {
                             fs.writeFile("__packed__.js", result.code, "utf8", next);
                         },
                         function(next) {
-                            packedFiles.push(cwd + "/themes");
+                            console.log(packedFiles)
                             zip(packedFiles);
                         }
                     ]);
  
                 }
                 
+                function normalizePath(p) {
+                    if (process.platform == "win32")
+                        p = p.replace(/\\/g, "/").replace(/^(\w):/, "/$1");
+                    return p;
+                }
+                
                 function zip(ignore){
                     zipFilePath = join(os.tmpDir(), json.name + "@" + json.version) + ".tar.gz";
-                    var tarArgs = ["-zcvf", zipFilePath, "."]; 
-                    var c9ignore = process.env.HOME + "/.c9/.c9ignore";
-                    if (process.platform == "win32") {
-                        tarArgs[1]= zipFilePath.replace(/\\/g, "/").replace(/^(\w):/, "/$1");
-                        c9ignore = c9ignore.replace(/\\/g, "/");
-                    }
+                    var tarArgs = ["-zcvf", normalizePath(zipFilePath), "."]; 
+                    var c9ignore = normalizePath(process.env.HOME + "/.c9/.c9ignore");
                     fs.exists(c9ignore, function (exists) {
                         if (exists) {
                             tarArgs.push("--exclude-from=" + c9ignore);
@@ -641,7 +650,7 @@ define(function(require, exports, module) {
                         ignore.forEach(function(p) {
                             p = Path.relative(cwd, p);
                             if (!/^\.+\//.test(p)) {
-                                tarArgs.push("--exclude=./" + p);
+                                tarArgs.push("--exclude=./" + normalizePath(p));
                             }
                         });
                         // console.log(tarArgs)

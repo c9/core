@@ -311,7 +311,7 @@ define(function(require, exports, module) {
                 case "themes":
                     services.ace.addTheme(data, plugin);
                     break;
-                case "template":
+                case "templates":
                     services.newresource.addFileTemplate(data, plugin);
                     break;
             }
