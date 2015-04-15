@@ -1,12 +1,14 @@
 "use strict";
 
+"use server";
+
+require("amd-loader");
+require("c9/inline-mocha")(module);
+
 var sinon = require("sinon");
 var frontdoor = require('../frontdoor');
 var Route = frontdoor.Route;
 var assert = require('assert');
-
-require("c9/inline-mocha")(module);
-require("amd-loader");
 
 it("test router: simple route with argument", function(done) {
     var route = new Route("/user/:name", sinon.stub());
