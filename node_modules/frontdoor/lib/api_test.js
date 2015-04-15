@@ -5,7 +5,7 @@
 require("amd-loader");
 
 
-var assert = require("assert");
+var assert = require("assert-diff");
 var sinon = require("sinon");
 
 var Api = require("./api");
@@ -405,16 +405,19 @@ module.exports = {
                             "method": "put",
                             "params": {
                                 "id": {
+                                    "name": "id",
                                     "type": "/\\d{4}/",
                                     "source": "url",
                                     "optional": false
                                 },
                                 "name": {
+                                    "name": "name",
                                     "type": "string",
                                     "source": "body",
                                     "optional": false
                                 },
                                 "age": {
+                                    "name": "age",
                                     "type": "int",
                                     "source": "body",
                                     "optional": true
@@ -426,6 +429,7 @@ module.exports = {
                             "method": "delete",
                             "params": {
                                 "id": {
+                                    "name": "id",
                                     "type": "string",
                                     "source": "url",
                                     "optional": false
@@ -436,8 +440,8 @@ module.exports = {
                 }
             ]
         };
-        assert.equal(JSON.stringify(description), JSON.stringify(expected));
         
+        assert.equal(JSON.stringify(description), JSON.stringify(expected));
     },
     
     "test handler with two arguments should be treated as function(params, callback) {}": function() {
@@ -469,8 +473,6 @@ module.exports = {
         assert(called);
     }
     
-    // test checks can be async
-    // fromString, fromJson
 };
 
 !module.parent && require("asyncjs").test.testcase(module.exports).exec();
