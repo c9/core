@@ -512,6 +512,12 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
+                blur: function(){
+                    return acetree.blur();
+                },
+                /**
+                 * 
+                 */
                 startRename: function(node, column){
                     return acetree.edit.startRename(node, column);
                 },
