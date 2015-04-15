@@ -76,10 +76,12 @@ module.exports = function Route(route, options, handler, types, parent ) {
                     params[key] = Params.param( key );
 
                 var param = params[key];
+                
+                // override the default source for params 
+                // that are created by parsing the url
+                param.source = 'url';
+                
 
-                if (param.source !== "url")
-                    throw new Error("Url parameters must have 'url' as source but found '" + param.source + "'");
-                    
                 if (wildcard)
                     return "(/*)";
                 else 
@@ -142,7 +144,7 @@ module.exports = function Route(route, options, handler, types, parent ) {
         
         // marker object
         var EMPTY = {};
-        
+
         // 1. check if all required params are there
         for (var key in params) {
             var param = params[key];
@@ -239,7 +241,7 @@ module.exports = function Route(route, options, handler, types, parent ) {
         for (var name in params) {
             var param = params[name];
             route.params[name] = {
-                name: param.name,
+                name: name,
                 type: param.type.toString(),
                 source: param.source,
                 optional: param.optional
