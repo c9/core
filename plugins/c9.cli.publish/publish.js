@@ -617,7 +617,7 @@ define(function(require, exports, module) {
                             additional.push({
                                 id: path,
                                 source: 'define("' + path + '", [],' + 
-                                    JSON.stringify(packedConfig, null, 4) + ')',
+                                    JSON.stringify(packedConfig, null, 4) + ');',
                                 literal : true,
                                 order: -1
                             });
