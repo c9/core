@@ -1,9 +1,13 @@
+"use strict";
+"use server";
+
+require("c9/inline-mocha")(module);
+require("amd-loader");
+
 var assert = require('assert-diff');
 var Section = require('../frontdoor').Section;
 var Url = require('url');
 
-require("c9/inline-mocha")(module);
-// require("amd-loader");
 
 
 var mock = {
