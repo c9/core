@@ -2,6 +2,8 @@
 
 "use server";
 
+require("amd-loader");
+
 var assert = require("assert");
 var sinon = require("sinon");
 
