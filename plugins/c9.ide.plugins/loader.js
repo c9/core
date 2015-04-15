@@ -1,3 +1,4 @@
+/*global requirejs*/
 define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "vfs", "c9", "plugin.installer", "fs", "auth"
@@ -57,33 +58,25 @@ define(function(require, exports, module) {
                 fs.readdir("~/.c9/plugins", function(error, files){
                     files.forEach(function(f) {
                         if (!/^[_.]/.test(f.name))
-                            loadOne({ packageName: f.name}, false);
-                    })
+                            loadOne({packageName: f.name}, false);
+                    });
                 });
             }
             
+            var packages = {};
             config.forEach(function(options){
-                // var name = options.packagePath.replace(/^plugins\/([^\/]*?)\/.*$/, "$1");
-                // names.push(name);
-                
-                // var path = options.packagePath + ".js";
-                
-                // options.packagePath = host + join(base, path.replace(/^plugins\//, ""));
-                
-                
-                // if (!options.setup) {
-                //     wait++;
-                    
-                //     fs.exists("~/.c9/" + path, function(exists){
-                //         if (!exists) {
-                //             install.push(options);
-                //             names.remove(name);
-                //         }
-                        
-                //         if (!--wait)
-                //             done(install);
-                //     });
-                // }
+                var name = options.packagePath.replace(/^plugins\/([^\/]*?)\/.*$/, "$1");
+                if (!packages[name]) {
+                    packages[name] = {
+                        packageName: name,
+                        apiKey: options.apiKey
+                    };
+                }
+                names.push(name);
+            });
+            
+            Object.keys(packages).forEach(function(key) {
+                loadOne(packages[key], false);
             });
             
             function loadOne(packageConfig, forceInstall) {
@@ -94,8 +87,8 @@ define(function(require, exports, module) {
                 var paths = {};
                 paths[root] = host + base + "/" + packageName;
                 requirejs.config({paths: paths});
-                requirejs.undef(root + "/__packed__.js");
-                require([root + "/__packed__"], function(plugins) {
+                requirejs.undef(root + "/__installed__.js");
+                require([root + "/__installed__"], function(plugins) {
                     var config = plugins.map(function(p) {
                         return {
                             staticPrefix: host + join(base, name),
@@ -109,8 +102,8 @@ define(function(require, exports, module) {
                     
                     done();
                 }, function(err) {
-                    if (forceInstall) {
-                        install.push(packageName)
+                    if (err && forceInstall) {
+                        install.push(packageName);
                     }
                     done();
                 });

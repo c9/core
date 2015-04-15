@@ -353,7 +353,7 @@ define(function(require, exports, module) {
                 // Validate plugins
                 var plugins = {};
                 fs.readdirSync(cwd).forEach(function(filename) {
-                    if (/(__packed__|_test)\.js$/.test(filename) || !/\.js$/.test(filename)) return;
+                    if (/(__\w*__|_test)\.js$/.test(filename) || !/\.js$/.test(filename)) return;
                     try {
                         var val = fs.readFileSync(cwd + "/" + filename);
                     } catch(e) {
@@ -613,7 +613,7 @@ define(function(require, exports, module) {
                                 additional.push(staticPlugin);
                                 packedConfig.push(staticPlugin.id);
                             }
-                            var path = "plugins/" + packageName + "/__packed__";
+                            var path = "plugins/" + packageName + "/__installed__";
                             additional.push({
                                 id: path,
                                 source: 'define("' + path + '", [],' + 
@@ -675,6 +675,7 @@ define(function(require, exports, module) {
                                 tarArgs.push("--exclude=./" + normalizePath(p));
                             }
                         });
+                        tarArgs.push("--transform='flags=r;s|__packed__|__installed__|'");
                         // console.log(tarArgs)
                         proc.spawn(TAR, {
                             args: tarArgs,
