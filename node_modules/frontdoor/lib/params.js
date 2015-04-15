@@ -54,13 +54,11 @@ define(function(require, exports, module) {
     
         param: function(def, name, source) {
             var param = def;
-            source = source || 'url';
-    
+
             // Singe edge case for implicit param generation from the url pathparts,
             // where the pathpart is not defined in params definition.
             if (typeof def === 'string' && !name) {
                 return {
-                    name: def,
                     source: 'url',
                     optional: false,
                     type: BuiltinTypes.get('string'),
@@ -75,18 +73,15 @@ define(function(require, exports, module) {
             }
     
             param.optional = !!param.optional;
-            param.source = param.source || source;
+            param.source = param.source || source || "body";
+            param.type = param.type || "string";
     
             // allow regular expressions as types
             if (param.type instanceof RegExp)
                 param.type = new RegExpType(param.type);
     
-            if (param.source == "body")
-                param.type = param.type || "json";
-    
-            param.type = param.type || "string";
-    
-            if (!/^body|url|query$/.test(param.source)) {
+
+            if ( !/^body|url|query$/.test(param.source)) {
                 throw new Error("parameter source muste be 'url', 'query' or 'body'");
             }
     
