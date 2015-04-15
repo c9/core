@@ -21,10 +21,6 @@ var mock = {
 
 it('Defines params on section level', function(done) {
     var testParams = {
-        required: {
-          type: 'int',
-          optional: false,
-        },
         int: {
             type: 'int',
             source: 'url'
@@ -91,12 +87,6 @@ it('Defines params on section level', function(done) {
             err: true,
         },
         {
-            label: 'Must match required type int',
-            path: '/test/:required',
-            url: '/test',
-            err: true,
-        },
-        {
             label: 'Match an optional param',
             path: '/test/:optional',
             url: '/test',
@@ -153,15 +143,20 @@ it('Defines params on section level', function(done) {
             
         api.params = testParams;
         
+        var handled = false;
+
         api.get( testCase.path, testCase.options || {}, function(req, res, next){
+            handled = true;
+
             assert.deepEqual( req.params, testCase.params, testCase.label );            
         });
 
         api.handle( req.pathname, req, {}, function(err) {
             if ( testCase.err ) {
-                assert.ok( 'route not matched: ' + testCase.label );
+                assert.ok( 'OK: route not matched: ' + testCase.label );
                 return;
             }
+            assert.ok(handled);
             assert.fail( 'route not matched: ' + testCase.label );                
         });
     });
