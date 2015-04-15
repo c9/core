@@ -551,6 +551,14 @@ define(function(require, exports, module) {
                                     });
                                 }
                                 
+                                if (json.installer) {
+                                    extraCode.push({
+                                        type: "installer",
+                                        filename: json.installer.main,
+                                        data: json.installer.version
+                                    });
+                                }
+                                
                                 if (!extraCode.length)
                                     return next();
                                     
@@ -602,7 +610,6 @@ define(function(require, exports, module) {
                             var additional = [];
                             var packedConfig = config.slice();
                             if (staticPlugin) {
-                                console.log(packedConfig)
                                 additional.push(staticPlugin);
                                 packedConfig.push(staticPlugin.id);
                             }

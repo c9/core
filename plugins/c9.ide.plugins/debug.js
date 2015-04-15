@@ -123,6 +123,7 @@ define(function(require, exports, module) {
                     return;
                 }
                 
+                var resourceHolder = new Plugin();
                 // Fetch package.json
                 async.parallel([
                     function(next){
@@ -142,17 +143,6 @@ define(function(require, exports, module) {
                             var host = vfs.baseUrl + "/";
                             var base = join(String(c9.projectId), 
                                 "plugins", auth.accessToken);
-                                
-                            // Start the installer if one is included
-                            if (options.installer) {
-                                var version = options.installer.version;
-                                var url = host + join(base, name, options.installer.main);
-                                installer.createVersion(name, version, function(v, o){
-                                    require([url], function(fn){
-                                        fn(v, o);
-                                    });
-                                });
-                            }
                             
                             var pathConfig = {};
                             
@@ -173,6 +163,12 @@ define(function(require, exports, module) {
                             
                             requirejs.config({paths: pathConfig});
                             
+                            // Start the installer if one is included
+                            if (options.installer) {
+                                addStaticPlugin("installer", name, options.installer.main,
+                                    options.installer.version, resourceHolder);
+                            }
+                            
                             next();
                         });
                     },
@@ -191,7 +187,7 @@ define(function(require, exports, module) {
                             data = data.replace(rePath, "");
                             
                             // Process all the submodules
-                            var parallel = processModules(path, data);
+                            var parallel = processModules(path, data, resourceHolder);
                             async.parallel(parallel, function(err, data){
                                 if (err)
                                     return next(err);
@@ -228,10 +224,8 @@ define(function(require, exports, module) {
             list.forEach(next);
         }
         
-        function processModules(path, data){
+        function processModules(path, data, plugin){
             var parallel = [];
-            
-            var placeholder = new Plugin();
             
             data.split("\n").forEach(function(line){
                 if (!line.match(reParts)) return;
@@ -250,7 +244,7 @@ define(function(require, exports, module) {
                             return next(err);
                         }
                         
-                        addStaticPlugin(type, path, filename, data, placeholder);
+                        addStaticPlugin(type, path, filename, data, plugin);
                         
                         next();
                     });
@@ -312,6 +306,12 @@ define(function(require, exports, module) {
                 case "templates":
                     services.newresource.addFileTemplate(data, plugin);
                     break;
+                case "installer":
+                    installer.createSession(pluginName, data, function(v, o){
+                        require([path], function(fn){
+                            fn(v, o);
+                        });
+                    });
             }
         }
         
