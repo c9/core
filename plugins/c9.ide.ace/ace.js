@@ -1218,7 +1218,16 @@ define(function(require, exports, module) {
             }
         }
         
-        var updateSyntaxMenu = lang.delayedCall(rebuildSyntaxMenu, 50);
+        var updateSyntaxMenu = lang.delayedCall(function() {
+            rebuildSyntaxMenu();
+            tabs.getTabs().forEach(function(tab) {
+                if (tab.editorType == "ace") {
+                    var c9Session = tab.document.getSession();
+                    if (c9Session.session)
+                        detectSyntax(c9Session, tab.path);
+                }
+            });
+        }, 50);
         
         /***** Syntax *****/
         
@@ -1236,6 +1245,7 @@ define(function(require, exports, module) {
             opts.extensions.split("|").forEach(function(ext) {
                 modes.extensions[ext] = name;
             });
+            
             
             updateSyntaxMenu.schedule();
         }
