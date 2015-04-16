@@ -1,25 +1,12 @@
 define(function(require, exports, module) {
 "use strict";
 
-var Params = require("./params");
+var RegExpType = require("./types").RegExp;
+var Types = require("./types").Types;
 var flatten = require("./utils").flatten;
 var error = require("http-error");
 
-function prepareParams( options, types, parent ){
-    var params = Params.normalize(options.params, types );
-
-    if ( parent ){
-        for ( var key in parent.params ){
-            if ( params[key] ) continue;
-            params[key] = parent.params[key];
-        }
-    }
-
-    return params;
-}
-
-
-module.exports = function Route(route, options, handler, types, parent ) {
+module.exports = function Route(route, options, handler, types) {
 
     // options is optional
     if (typeof options == "function" || Array.isArray(options)) {
@@ -27,9 +14,9 @@ module.exports = function Route(route, options, handler, types, parent ) {
         handler = options;
         options = {};
     }
-    
 
     options.route = route;
+    types = types || new Types();
     
     this.middlewares = flatten(handler);
 
@@ -41,13 +28,14 @@ module.exports = function Route(route, options, handler, types, parent ) {
     });
 
     this.middlewares.unshift(decodeParams);
+        
     this.method = (options.method || "GET").toLowerCase();
 
     var self = this;
     var keys = [];
-    
-    var params = prepareParams( options, types, parent );
+    var params = options.params || {};
     var routeRe = normalizePath(options.route, keys, params);
+    params = normalizeParams(params);
 
     function wrapHandler(handler) {
         return function(req, res, next) {
@@ -65,23 +53,30 @@ module.exports = function Route(route, options, handler, types, parent ) {
      * the default values for url parameters.
      */
     function normalizePath(path, keys, params) {
+        for (var name in params) {
+            var param = params[name];
+            if (typeof param == "string" || param instanceof RegExp)
+                params[name] = { type: param};
+        }
+        
         path = path
             .concat("/?")
             .replace(/\/:([\w\.\-\_]+)(\*?)/g, function(match, key, wildcard) {
                 keys.push(key);
-
-                // Implicit params: part of path definition but not defined as
-                // { params }, created here on the fly.
-                if (!params[key]) 
-                    params[key] = Params.param( key );
-
+                if (!params[key]) {
+                    params[key] = {};
+                }
+                // url params default to type string and optional=false
                 var param = params[key];
+                param.type = param.type || "string";
+                param.optional = false;
                 
-                // override the default source for params 
-                // that are created by parsing the url
-                param.source = 'url';
+                if (!param.source)
+                    param.source = "url";
                 
-
+                if (param.source !== "url")
+                    throw new Error("Url parameters must have 'url' as source but found '" + param.source + "'");
+                    
                 if (wildcard)
                     return "(/*)";
                 else 
@@ -89,11 +84,44 @@ module.exports = function Route(route, options, handler, types, parent ) {
             })
             .replace(/([\/.])/g, '\\$1')
             .replace(/\*/g, '(.*)');
-            
 
         return new RegExp('^' + path + '$');
     }
+        
+    function normalizeParams(params) {
+        for (var name in params) {
+            var param = params[name];
 
+            if (param.source == "query") {
+                // query params default to string
+                param.type = param.type || "string";
+            } 
+            else if (!param.source || param.source == "body") {
+                // body params default to json
+                param.type = param.type || "json";
+                param.source = "body";
+            }
+            else if (param.source === "url") {
+                param.type = param.type || "string";
+            }
+            else {
+                throw new Error("parameter source muste be 'url', 'query' or 'body'");
+            }
+            
+            // optional defaults to false
+            param.optional = !!param.optional;
+                
+            // allow regular expressions as types
+            if (param.type instanceof RegExp)
+                param.type = new RegExpType(param.type);
+                
+            // convert all types to type objects
+            param.type = types.get(param.type);
+        }
+        
+        return params;
+    }
+        
     /**
      * Check if the given path matched the route regular expression. If
      * the regular expression doesn't match or parsing fails `match` will
@@ -101,9 +129,8 @@ module.exports = function Route(route, options, handler, types, parent ) {
      **/
     this.match = function(req, path) {
         var m = path.match(routeRe);
-
         if (!m) return false;
-
+        
         var match = {};
         for (var i = 0; i < keys.length; i++) {
             var value = m[i+1];
@@ -120,7 +147,6 @@ module.exports = function Route(route, options, handler, types, parent ) {
             }
             match[key] = value;
         }
-
         req.match = match;
         return true;
     };
@@ -133,7 +159,6 @@ module.exports = function Route(route, options, handler, types, parent ) {
      */
     function decodeParams(req, res, next) {
         var urlParams = req.match;
-
         if (!urlParams) return;
         
         var body = req.body || {};
@@ -144,14 +169,10 @@ module.exports = function Route(route, options, handler, types, parent ) {
         
         // marker object
         var EMPTY = {};
-
+        
         // 1. check if all required params are there
         for (var key in params) {
             var param = params[key];
-
-            if ( keys.indexOf(key) === -1 && param.source == 'url' )
-                continue;
-
             if (
                 (!param.optional) && (
                     (param.source == "body" && !(key in body)) ||
@@ -170,8 +191,7 @@ module.exports = function Route(route, options, handler, types, parent ) {
                 var type = param.type;
                 var value = EMPTY;
                 var isValid = true;
-
-                switch (param.source) {
+                switch(param.source) {
                     case "body":
                         if (param.optional && !(key in body))
                             break;
@@ -241,7 +261,7 @@ module.exports = function Route(route, options, handler, types, parent ) {
         for (var name in params) {
             var param = params[name];
             route.params[name] = {
-                name: name,
+                name: param.name,
                 type: param.type.toString(),
                 source: param.source,
                 optional: param.optional
