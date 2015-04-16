@@ -173,6 +173,7 @@ module.exports = function(config, optimist) {
         "./c9.vfs.server/download",
         "./c9.vfs.server/filelist",
         "./c9.vfs.server/statics",
+        "./c9.metrics/mock_metrics",
         {
             packagePath: "./c9.vfs.server/vfs.connect.standalone",
             workspaceDir: baseProc,
