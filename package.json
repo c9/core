@@ -23,7 +23,7 @@
         "engine.io-client": "~1.5.1",
         "eslint": "git://github.com/cloud9ide/eslint.git#e2d052aafd81ea0aa6d1d4fd9f88f3613e386160",
         "http-error": "~0.0.5",
-        "less": "~1.5.1",
+        "less": "^2.4.0",
         "mime": "~1.2.9",
         "mkdirp": "~0.3.5",
         "msgpack-js": "~0.1.1",
