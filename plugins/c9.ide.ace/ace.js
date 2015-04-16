@@ -1223,7 +1223,7 @@ define(function(require, exports, module) {
             tabs.getTabs().forEach(function(tab) {
                 if (tab.editorType == "ace") {
                     var c9Session = tab.document.getSession();
-                    if (c9Session.session)
+                    if (c9Session && c9Session.session)
                         detectSyntax(c9Session, tab.path);
                 }
             });
