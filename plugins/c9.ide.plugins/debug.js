@@ -187,8 +187,8 @@ define(function(require, exports, module) {
                             // Remove the base path
                             data = data.replace(rePath, "");
                             
-                            if (data.indexOf("/__installed__.js"))
-                                next("installed");
+                            if (data.indexOf("/__installed__.js") !== -1)
+                                return next("installed");
                             
                             // Process all the submodules
                             var parallel = processModules(path, data, resourceHolder);
