@@ -5,7 +5,8 @@ define(function(require, exports, module) {
         "connect.render",
         "connect.render.ejs",
         "connect.redirect",
-        "connect.static"
+        "connect.static",
+        "metrics"
     ];
     main.provides = ["preview.handler"];
     return main;
@@ -15,6 +16,7 @@ define(function(require, exports, module) {
         var https = require("https");
         var http = require("http");
         var mime = require("mime");
+        var metrics = imports.metrics;
         var parseUrl = require("url").parse;
         var debug = require("debug")("preview");
         
@@ -167,6 +169,7 @@ define(function(require, exports, module) {
                     else
                         serveFile(request);
                 }).on("error", function(err) {
+                    metrics.increment("preview.failed.error");
                     next(err); 
                 });
                 
