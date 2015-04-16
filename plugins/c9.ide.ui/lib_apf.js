@@ -20275,6 +20275,9 @@ apf.Interactive = function(){
         
         doResize(e);
         
+        if (_self.dispatchEvent)
+            _self.dispatchEvent("resize");
+        
         //overThreshold = true;
     }
     

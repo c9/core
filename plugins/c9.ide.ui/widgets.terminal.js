@@ -105,14 +105,7 @@ define(function(require, exports, module) {
                 if (drawn) return;
                 drawn = true;
                 
-                aceterm = Aceterm.createEditor(null, "ace/theme/idle_fingers");
-                aceterm.container.style.position = "absolute";
-                aceterm.container.style.left = "0px";
-                aceterm.container.style.right = "0px";
-                aceterm.container.style.top = "0px";
-                aceterm.container.style.bottom = "0px";
-                
-                htmlNode.appendChild(aceterm.container);
+                aceterm = Aceterm.createEditor(htmlNode, "ace/theme/idle_fingers");
                 
                 terminal = new Aceterm(cols, rows, send);
                 aceterm.setSession(terminal.aceSession);
@@ -269,6 +262,11 @@ define(function(require, exports, module) {
                  */
                 get theme(){ return aceterm.renderer.theme.cssClass; },
                 set theme(value){ aceterm.renderer.setTheme({cssClass: value}); },
+                /**
+                 * 
+                 */
+                get convertEol(){ return terminal.convertEol || false; },
+                set convertEol(value){ terminal.convertEol = value; },
                 
                  // Events
                 _events: [

@@ -130,6 +130,9 @@ define(function(require, module, exports) {
                     if (allowClose && e.keyCode == 27)
                         dialog.hide();
                 });
+                dialog.on("resize", function(){
+                    emit("resize");
+                });
                 
                 commands.addCommand({
                     name: plugin.name,
