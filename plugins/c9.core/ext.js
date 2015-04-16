@@ -121,7 +121,7 @@ define(function(require, exports, module) {
                 }
             }
             
-            return usedBy
+            return usedBy;
         }
         
         function unloadAllPlugins(exclude) {
@@ -184,7 +184,7 @@ define(function(require, exports, module) {
             if (!lut[name]) 
                 throw new Error("Could not find plugin: " + name);
             
-            var plugin = lut[name]
+            var plugin = lut[name];
             if (plugin.unload({ keep: true }) === false)
                 throw new Error("Failed unloading plugin: " + name);
                 
@@ -407,7 +407,7 @@ define(function(require, exports, module) {
             this.freezePublicAPI.baseclass = function(){ baseclass = true; };
             
             function getElement(name, callback) {
-                //remove id's after storing them.
+                // remove id's after storing them.
                 if (!callback) {
                     // If we run without APF, just return a simple object
                     if (typeof apf == "undefined") 
@@ -442,13 +442,13 @@ define(function(require, exports, module) {
                         return;
                     // Delete their global reference
                     delete window[id];
-                    //delete apf.nameserver.lookup.all[node.id];
+                    // delete apf.nameserver.lookup.all[node.id];
                     
                     // Keep their original name in a lookup table
                     names[id] = node;
                     
                     // Set a new unique id
-                    if (node.localName != "page") { //Temp hack, should fix in tabs
+                    if (node.localName != "page") { // Temp hack, should fix in tabs
                         node.id = "element" + node.$uniqueId;
                         apf.nameserver.lookup.all[node.id] = node;
                     }
@@ -532,7 +532,7 @@ define(function(require, exports, module) {
             
             function cleanUp(keepElements) {
                 if (!keepElements) {
-                    //Loop through elements
+                    // Loop through elements
                     elements.forEach(function(element) {
                         element.destroy(true, true);
                     });
@@ -541,7 +541,7 @@ define(function(require, exports, module) {
                     waiting = [];
                 }
                 
-                //Loop through events
+                // Loop through events
                 events.forEach(function(eventRecord) {
                     var event = eventRegistry[eventRecord[0]];
                     if (!event) return; // this happens with mock plugins during testing
@@ -562,7 +562,7 @@ define(function(require, exports, module) {
                 });
                 events = [];
                 
-                //Loop through other
+                // Loop through other
                 other.forEach(function(o) {
                     o();
                 });
@@ -594,7 +594,7 @@ define(function(require, exports, module) {
                 
                 api[type].get("persistent/" + apiKey, function(err, data){
                     if (err) return callback(err);
-                    try{ callback(null, JSON.stringify(data)); }
+                    try { callback(null, JSON.stringify(data)); }
                     catch(e){ return callback(e); }
                 });
             }

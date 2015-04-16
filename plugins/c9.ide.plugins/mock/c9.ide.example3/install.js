@@ -10,7 +10,7 @@ module.exports = function(session, options){
         "optional": true
     }, [
         {
-            "npm": ["sqlite3@2.1.18"]
+            "npm": ["sqlite3@3.0.5"]
         },
         {
             "tar.gz": {

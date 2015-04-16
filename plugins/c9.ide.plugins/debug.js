@@ -27,6 +27,7 @@ define(function(require, exports, module) {
         var notify = imports["dialog.notification"].show;
         
         var dirname = require("path").dirname;
+        var basename = require("path").basename;
         var join = require("path").join;
         var async = require("async");
         
@@ -126,13 +127,15 @@ define(function(require, exports, module) {
                 var resourceHolder = new Plugin();
                 var resourceVersion = "";
                 
+                resourceHolder.on("load", function(){ load(); });
+                
                 resourceHolder.freezePublicAPI({
                     get version(){ return resourceVersion },
                     set version(v){ resourceVersion = v; }
                 });
                 
                 var inited = false;
-                resourceHolder.on("load", function(){
+                function load(){
                     async.parallel([
                         function(next){
                             // Fetch package.json
@@ -184,8 +187,8 @@ define(function(require, exports, module) {
                             });
                         },
                         function(next){
-                            var path = join(c9.home, "plugins", name);
-                            var rePath = new RegExp("^" + util.escapeRegExp(path), "g");
+                            var path = join("~/.c9/plugins", name);
+                            var rePath = new RegExp("^" + util.escapeRegExp(path.replace(/^~/, c9.home) + "/"), "gm");
                             find.getFileList({ 
                                 path: path, 
                                 nocache: true, 
@@ -194,11 +197,10 @@ define(function(require, exports, module) {
                                 if (err)
                                     return next(err);
                                 
-                                
                                 // Remove the base path
                                 data = data.replace(rePath, "");
                                 
-                                if (data.indexOf("/__installed__.js") !== -1)
+                                if (data.match(/^__installed__.js/))
                                     return next("installed");
                                 
                                 // Process all the submodules
@@ -206,6 +208,9 @@ define(function(require, exports, module) {
                                 async.parallel(parallel, function(err, data){
                                     if (err)
                                         return next(err);
+                                    
+                                    if (!inited)
+                                        resourceHolder.load(name + ".bundle");
                                     
                                     // Done
                                     next();
@@ -220,9 +225,8 @@ define(function(require, exports, module) {
                             inited = true;
                         }
                     });
-                });
-                
-                resourceHolder.load("Cloud9 Bundle");
+                }
+                load();
             }
             
             function finish(){
@@ -256,17 +260,17 @@ define(function(require, exports, module) {
                 var filename = RegExp.$2;
                 if (filename.indexOf("/") > -1) return;
                 
-                if (type == "module" && filename.match(reModule))
+                if (type == "modes" && filename.match(reModule))
                     return;
                 
                 parallel.push(function(next){
-                    fs.readFile(join(path, filename), function(err, data){
+                    fs.readFile(join(path, type, filename), function(err, data){
                         if (err) {
                             console.error(err);
                             return next(err);
                         }
                         
-                        addStaticPlugin(type, path, filename, data, plugin);
+                        addStaticPlugin(type, basename(path), filename, data, plugin);
                         
                         next();
                     });
@@ -282,13 +286,14 @@ define(function(require, exports, module) {
                 + (type == "installer" ? "" : type + "/") 
                 + filename.replace(/\.js$/, "");
             
-            if (!services[plugin.name] && type !== "installer") {
-                services[plugin.name] = plugin;
+            var bundleName = pluginName + ".bundle";
+            if (!services[bundleName] && type !== "installer") {
+                services[bundleName] = plugin;
                 architect.lut["~/.c9/plugins/" + pluginName] = {
                     provides: []
                 };
-                architect.pluginToPackage[plugin.name] = {
-                    path: plugin.packagePath,
+                architect.pluginToPackage[bundleName] = {
+                    path: "~/.c9/plugins/" + pluginName,
                     package: pluginName,
                     version: plugin.version,
                     isAdditionalMode: true
