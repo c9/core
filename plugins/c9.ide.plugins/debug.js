@@ -165,8 +165,8 @@ define(function(require, exports, module) {
                             
                             // Start the installer if one is included
                             if (options.installer) {
-                                addStaticPlugin("installer", name, options.installer.main,
-                                    options.installer.version, resourceHolder);
+                                addStaticPlugin("installer", name, options.installer,
+                                    null, resourceHolder);
                             }
                             
                             next();
@@ -311,11 +311,20 @@ define(function(require, exports, module) {
                     services.newresource.addFileTemplate(data, plugin);
                     break;
                 case "installer":
-                    installer.createSession(pluginName, data, function(v, o){
-                        require([path], function(fn){
-                            fn(v, o);
+                    if (data) {
+                        installer.createSession(pluginName, data, function(v, o){
+                            require([path], function(fn){
+                                fn(v, o);
+                            });
                         });
-                    });
+                    }
+                    else {
+                        require([path], function(fn){
+                            installer.createSession(pluginName, fn.version, function(v, o){
+                                fn(v, o);
+                            });
+                        });
+                    }
             }
         }
         

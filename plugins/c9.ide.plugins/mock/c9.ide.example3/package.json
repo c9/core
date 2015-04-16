@@ -16,10 +16,7 @@
   "plugins": {
     "example": {}
   },
-  "installer": {
-    "main": "install.js",
-    "version": 1
-  },
+  "installer": "install.js",
   "categories": [
     "misc"
   ],
