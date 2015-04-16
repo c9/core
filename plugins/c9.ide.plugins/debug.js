@@ -124,87 +124,105 @@ define(function(require, exports, module) {
                 }
                 
                 var resourceHolder = new Plugin();
-                // Fetch package.json
-                async.parallel([
-                    function(next){
-                        fs.readFile("~/.c9/plugins/" + name + "/package.json", function(err, data){
-                            if (err)
-                                return next(err);
-                            
-                            try {
-                                var options = JSON.parse(data); 
-                                if (!options.plugins) 
-                                    throw new Error("Missing plugins property in package.json of " + name);
-                            }
-                            catch(e){ 
-                                return next(err);
-                            }
-                            
-                            var host = vfs.baseUrl + "/";
-                            var base = join(String(c9.projectId), 
-                                "plugins", auth.accessToken);
-                            
-                            var pathConfig = {};
-                            
-                            pathConfig["plugins/" + name] = host + join(base, name);
-                            // Add the plugin to the config
-                            Object.keys(options.plugins).forEach(function(path){
-                                var pluginPath = name + "/" + path;
-                                
-                                // Watch project path
-                                watch("~/.c9/plugins/" + pluginPath);
-                                var cfg = options.plugins[path];
-                                cfg.packagePath = "plugins/" + name + "/" + path;
-                                cfg.staticPrefix = host + join(base, name);
-                                cfg.apikey = "0000000000000000000000000000=";
-                                
-                                config.push(cfg);
-                            });
-                            
-                            requirejs.config({paths: pathConfig});
-                            
-                            // Start the installer if one is included
-                            if (options.installer) {
-                                addStaticPlugin("installer", name, options.installer,
-                                    null, resourceHolder);
-                            }
-                            
-                            next();
-                        });
-                    },
-                    function(next){
-                        var path = join(c9.home, "plugins", name);
-                        var rePath = new RegExp("^" + util.escapeRegExp(path), "g");
-                        find.getFileList({ 
-                            path: path, 
-                            nocache: true, 
-                            buffer: true 
-                        }, function(err, data){ 
-                            if (err)
-                                return next(err);
-                            
-                            
-                            // Remove the base path
-                            data = data.replace(rePath, "");
-                            
-                            if (data.indexOf("/__installed__.js") !== -1)
-                                return next("installed");
-                            
-                            // Process all the submodules
-                            var parallel = processModules(path, data, resourceHolder);
-                            async.parallel(parallel, function(err, data){
+                var resourceVersion = "";
+                
+                resourceHolder.freezePublicAPI({
+                    get version(){ return resourceVersion },
+                    set version(v){ resourceVersion = v; }
+                });
+                
+                var inited = false;
+                resourceHolder.on("load", function(){
+                    async.parallel([
+                        function(next){
+                            // Fetch package.json
+                            fs.readFile("~/.c9/plugins/" + name + "/package.json", function(err, data){
                                 if (err)
                                     return next(err);
                                 
-                                // Done
+                                try {
+                                    var options = JSON.parse(data); 
+                                    if (!options.plugins) 
+                                        throw new Error("Missing plugins property in package.json of " + name);
+                                }
+                                catch(e){ 
+                                    return next(err);
+                                }
+                                
+                                var host = vfs.baseUrl + "/";
+                                var base = join(String(c9.projectId), 
+                                    "plugins", auth.accessToken);
+                                
+                                var pathConfig = {};
+                                
+                                pathConfig["plugins/" + name] = host + join(base, name);
+                                // Add the plugin to the config
+                                Object.keys(options.plugins).forEach(function(path){
+                                    var pluginPath = name + "/" + path;
+                                    
+                                    // Watch project path
+                                    watch("~/.c9/plugins/" + pluginPath);
+                                    var cfg = options.plugins[path];
+                                    cfg.packagePath = "plugins/" + name + "/" + path;
+                                    cfg.staticPrefix = host + join(base, name);
+                                    cfg.apikey = "0000000000000000000000000000=";
+                                    
+                                    config.push(cfg);
+                                });
+                                
+                                requirejs.config({paths: pathConfig});
+                                
+                                resourceHolder.version = options.version;
+                                
+                                // Start the installer if one is included
+                                if (options.installer) {
+                                    addStaticPlugin("installer", name, options.installer,
+                                        null, resourceHolder);
+                                }
+                                
                                 next();
                             });
-                        });
-                    }
-                ], function(err, results){
-                    if (err) console.error(err);
-                    next();
+                        },
+                        function(next){
+                            var path = join(c9.home, "plugins", name);
+                            var rePath = new RegExp("^" + util.escapeRegExp(path), "g");
+                            find.getFileList({ 
+                                path: path, 
+                                nocache: true, 
+                                buffer: true 
+                            }, function(err, data){ 
+                                if (err)
+                                    return next(err);
+                                
+                                
+                                // Remove the base path
+                                data = data.replace(rePath, "");
+                                
+                                if (data.indexOf("/__installed__.js") !== -1)
+                                    return next("installed");
+                                
+                                // Process all the submodules
+                                var parallel = processModules(path, data, resourceHolder);
+                                async.parallel(parallel, function(err, data){
+                                    if (err)
+                                        return next(err);
+                                    
+                                    // Done
+                                    next();
+                                });
+                            });
+                        }
+                    ], function(err, results){
+                        if (err) console.error(err);
+                        
+                        if (!inited) {
+                            next();
+                            inited = true;
+                        }
+                    });
                 });
+                
+                resourceHolder.load("Cloud9 Bundle");
             }
             
             function finish(){
@@ -260,7 +278,26 @@ define(function(require, exports, module) {
         
         function addStaticPlugin(type, pluginName, filename, data, plugin) {
             var services = architect.services;
-            var path = "plugins/" + pluginName + "/" + type + "/" + filename.replace(/\.js$/, "");
+            var path = "plugins/" + pluginName + "/" 
+                + (type == "installer" ? "" : type + "/") 
+                + filename.replace(/\.js$/, "");
+            
+            if (!services[plugin.name] && type !== "installer") {
+                services[plugin.name] = plugin;
+                architect.lut["~/.c9/plugins/" + pluginName] = {
+                    provides: []
+                };
+                architect.pluginToPackage[plugin.name] = {
+                    path: plugin.packagePath,
+                    package: pluginName,
+                    version: plugin.version,
+                    isAdditionalMode: true
+                };
+                if (!architect.packages[pluginName])
+                    architect.packages[pluginName] = [];
+                architect.packages[pluginName].push(name);
+            }
+            
             switch (type) {
                 case "builders":
                     data = util.safeParseJson(data, function() {});

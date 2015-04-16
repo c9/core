@@ -134,6 +134,10 @@ define(function(require, exports, module) {
                         }
                     }), 210, plugin);
                 });
+                
+                ext.on("register", function(){
+                    reloadModel();
+                });
             }
         }
 

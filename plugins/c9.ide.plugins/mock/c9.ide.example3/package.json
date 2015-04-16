@@ -13,9 +13,7 @@
     "type": "git",
     "url": "http://github.com/c9/newclient.git"
   },
-  "plugins": {
-    "example": {}
-  },
+  "plugins": {},
   "installer": "install.js",
   "categories": [
     "misc"
