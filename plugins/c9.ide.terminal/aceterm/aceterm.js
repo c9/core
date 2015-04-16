@@ -518,7 +518,7 @@ define(function(require, exports, module) {
                     flags = data >> 18;
 
                     if (flags & 1) {
-                        if (this.allowBoldFonts)
+                        if (this.$fontMetrics.allowBoldFonts)
                             out += 'font-weight:bold;';
                         // see: XTerm*boldColors
                         if (fgColor < 8)
