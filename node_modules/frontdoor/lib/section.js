@@ -4,6 +4,7 @@ define(function(require, exports, module) {
 
 var url = require("url");
 var Types = require("./types").Types;
+var Params = require("./params");
 var Route = require("./route");
 var flatten = require("./utils").flatten;
 
@@ -32,10 +33,11 @@ module.exports = function Section(name, description, types) {
             return self._route(route, options, handler);
         }).bind(self, method);
     });
+
     this.del = this["delete"];
 
     this.registerType = types.register.bind(types);
-    
+
     this.all = function(method, route, options, handler) {
         var self = this;
         var args = arguments;
@@ -54,7 +56,7 @@ module.exports = function Section(name, description, types) {
     };
 
     this._route = function(route, options, handler) {
-        route = new Route(route, options, handler, types);
+        route = new Route(route, options, handler, types, this);
         route.parent = this;
         routes[route.method].push(route);
         return this;
@@ -160,7 +162,9 @@ module.exports = function Section(name, description, types) {
             if (section && section.length) {
                 var subPath = "/" + splitPath.slice(1).join("/");
                 for (var i = 0; i < section.length; i++) {
+
                     var handler = section[i].match(req, subPath, method);
+
                     if (handler)
                         return handler;
                 }
@@ -204,6 +208,21 @@ module.exports = function Section(name, description, types) {
 
         return api;
     };
+    
+    var params;
+    
+    Object.defineProperty( this, 'params', {
+        set: function( def, types ){
+            params = Params.normalize( def );
+        },
+        
+        get: function(){
+            return params;
+        }
+    });
+    
+
+
 };
 
 });

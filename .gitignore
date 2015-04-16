@@ -13,6 +13,7 @@ plugins/c9.ide.language.javascript.tern/util/sigs_ts
 plugins/c9.account.billing/node_modules/
 plugins/c9.account/node_modules/
 plugins/c9.api.project/coverage/
+plugins/c9.proxy.apps/coverage/
 plugins/c9.db.redis/coverage/
 scripts/build
 build/output
