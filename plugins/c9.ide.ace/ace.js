@@ -1325,7 +1325,7 @@ define(function(require, exports, module) {
                 syntax = "json";
             }
             else if (/\.(bashrc|inputrc)$/.test(path)) {
-                syntax = "bash";
+                syntax = "sh";
             }
             else if (/\.(git(attributes|config|ignore)|npmrc)$/.test(path)) {
                 syntax = "ini";
@@ -2121,12 +2121,12 @@ define(function(require, exports, module) {
                 bgStyle.bottom = upload ? "" : 0;
             }
         
-            function detectSettingsOnLoad(c9Session) {
+            function detectSettingsOnLoad(c9Session, doc) {
                 var session = c9Session.session;
                 if (settings.get("project/ace/@guessTabSize"))
                     whitespaceUtil.detectIndentation(session);
                 if (!session.syntax) {
-                    var syntax = detectSyntax(c9Session);
+                    var syntax = detectSyntax(c9Session, doc && doc.tab && doc.tab.path);
                     if (syntax)
                         setSyntax(c9Session, syntax, true);
                 }
@@ -2183,7 +2183,7 @@ define(function(require, exports, module) {
                         // aceSession.doc.setValue(e.value || "");
                     } else {
                         aceSession.setValue(e.value || "");
-                        detectSettingsOnLoad(c9Session);
+                        detectSettingsOnLoad(c9Session, doc);
                         hideProgress();
                     }
                     
@@ -2295,7 +2295,7 @@ define(function(require, exports, module) {
                     setState(doc, e.state);
                 
                 if (doc.meta.newfile) {
-                    detectSettingsOnLoad(c9Session);
+                    detectSettingsOnLoad(c9Session, doc);
                     aceSession.on("change", function detectIndentation() {
                         if (aceSession.$guessTabSize) {
                             if (aceSession.getLength() <= 2) return;
@@ -2306,7 +2306,7 @@ define(function(require, exports, module) {
                         aceSession.off("change", detectIndentation);
                     });
                 } else if (doc.hasValue()) {
-                    detectSettingsOnLoad(c9Session);
+                    detectSettingsOnLoad(c9Session, doc);
                 }
                 
                 // Create the ace like undo manager that proxies to 
