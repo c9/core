@@ -391,7 +391,7 @@ define(function(require, exports, module) {
 
             var lut = ext.named;
 
-            ext.plugins.forEach(function(plugin) { if (plugin.name == "Cloud9 Bundle") debugger;
+            ext.plugins.forEach(function(plugin) {
                 var info = architect.pluginToPackage[plugin.name];
                 var packageName = info && info.package || "runtime";
 
