@@ -2,6 +2,9 @@
 
 "use server";
 
+require("amd-loader");
+
+
 var assert = require("assert");
 var sinon = require("sinon");
 
@@ -284,14 +287,18 @@ module.exports = {
         root.handle({
             method: "PUT",
             url: "/post/fab?age=34"
-        }, this.res, assert.fail);
-        sinon.assert.calledWith(this.res.writeHead, 422);
-        var errors = JSON.parse(this.res.end.args[0][0]).errors;
-        assert.equal(errors.length, 1);
-        assert.equal(errors[0].resource, "root");
-        assert.equal(errors[0].field, "name");
-        assert.equal(errors[0].code, "missing_field");
-        
+        }, this.res, function(err){
+            
+            assert.ok( err );
+
+            var errors = err.errors;
+            assert.equal(errors.length, 1);
+            assert.equal(errors[0].resource, "root");
+            assert.equal(errors[0].field, "name");
+            assert.equal(errors[0].code, "missing_field");
+        });
+
+
         this.res.writeHead.reset();
         this.res.end.reset();
         
@@ -299,14 +306,19 @@ module.exports = {
             method: "PUT",
             url: "/post/fab?age=juhu",
             body: { name: "Fabian"}
-        }, this.res, assert.fail);
-        sinon.assert.calledWith(this.res.writeHead, 422);
-        var errors = JSON.parse(this.res.end.args[0][0]).errors;
-        assert.equal(errors.length, 1);
-        assert.equal(errors[0].resource, "root");
-        assert.equal(errors[0].field, "age");
-        assert.equal(errors[0].type_expected, "int");
-        assert.equal(errors[0].code, "invalid");
+        }, this.res, function(err){
+            
+            assert.ok( err );
+
+            var errors = err.errors;
+            
+            assert.equal(errors.length, 1);
+            assert.equal(errors[0].resource, "root");
+            assert.equal(errors[0].field, "age");
+            assert.equal(errors[0].type_expected, "int");
+            assert.equal(errors[0].code, "invalid");
+        });
+
     },
     
     "test custom type with register": function() {

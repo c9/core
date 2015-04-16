@@ -2,6 +2,7 @@
 "use strict";
 "use server";
 "use mocha";
+"use blacklist";
 
 require("c9/inline-mocha")(module);
 
