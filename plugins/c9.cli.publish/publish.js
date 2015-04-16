@@ -552,10 +552,18 @@ define(function(require, exports, module) {
                                 }
                                 
                                 if (json.installer) {
+                                    var path = join(cwd, json.installer);
+                                    var installerCode = fs.readFileSync(path, "utf8");
+                                    
+                                    var m = installerCode.match(/\.version\s*=\s*(\d+)/g);
+                                    
+                                    var installerVersion = m && m[0];
+                                    if (!installerVersion)
+                                        return callback(new Error("ERROR: missing installer version in " +  json.installer));
                                     extraCode.push({
                                         type: "installer",
-                                        filename: json.installer.main,
-                                        data: json.installer.version
+                                        filename: json.installer,
+                                        data: version
                                     });
                                 }
                                 
@@ -573,9 +581,14 @@ define(function(require, exports, module) {
                                             var debug = imports["plugin.debug"];
                                             var Plugin = imports.Plugin;
                                             var plugin = new Plugin();
-                                            extraCode.forEach(function(x) {
-                                                debug.addStaticPlugin(x.type, "packageName", x.filename, x.data, plugin);
+                                            plugin.version = "VERSION";
+                                            plugin.on("load", function load() {
+                                                extraCode.forEach(function(x) {
+                                                    debug.addStaticPlugin(x.type, "packageName", x.filename, x.data, plugin);
+                                                });
                                             });
+                                            
+                                            plugin.load("Cloud9 Bundle");
                                             
                                             register(null, {});
                                         }
@@ -588,6 +601,7 @@ define(function(require, exports, module) {
                                     .replace(new RegExp("^ {" + indent + "}", "gm"), "")
                                     .replace(/^.*?{|}$/g, "")
                                     .replace(/packageName/g, packageName)
+                                    .replace(/VERSION/g, json.version)
                                     .replace(/^(\s*)extraCode/gm, function(_, indent) {
                                         return JSON.stringify(extraCode, null, 4)
                                             .replace(/^/gm, indent);
