@@ -136,7 +136,7 @@ define(function(require, exports, module) {
                 });
                 
                 ext.on("register", function(){
-                    reloadModel();
+                    setTimeout(reloadModel);
                 });
             }
         }
