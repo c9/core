@@ -5,12 +5,9 @@ define(function(require, exports, module) {
 
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
-        var ui = imports.ui;
-        var util = imports.util;
         var commands = imports.commands;
         
         var Aceterm = require("../c9.ide.terminal/aceterm/aceterm");
-        var libterm = require("../c9.ide.terminal/aceterm/libterm");
         
         /***** Constructors *****/
         
