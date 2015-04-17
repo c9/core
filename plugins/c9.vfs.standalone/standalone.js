@@ -35,6 +35,11 @@ function plugin(options, imports, register) {
     }]);
     
     statics.addStatics([{
+        path: __dirname + "/../../node_modules/architect-build/build_support",
+        mount: "/"
+    }]);
+
+    statics.addStatics([{
         path: __dirname + "/../../configs",
         mount: "/configs"
     }]);
@@ -101,8 +106,7 @@ function plugin(options, imports, register) {
         var cdn = options.options.cdn;
         options.options.themePrefix = "/static/" + cdn.version + "/skin/" + configName;
         options.options.workerPrefix = "/static/" + cdn.version + "/worker";
-        if (req.params.packed == 1)
-            options.options.CORSWorkerPrefix = "/static/" + cdn.version + "/worker";
+        options.options.CORSWorkerPrefix = req.params.packed ? "/static/" + cdn.version + "/worker" : "";
 
         var collab = options.collab && req.params.collab !== 0 && req.params.nocollab != 1;
         var opts = extend({}, options);
@@ -115,7 +119,7 @@ function plugin(options, imports, register) {
             token: req.params.token
         });
         
-        opts.options.debug = req.params.debug;
+        opts.options.debug = req.params.debug == 1;
         res.setHeader("Cache-Control", "no-cache, no-store");
         res.render(__dirname + "/views/standalone.html.ejs", {
             architectConfig: getConfig(configType, opts),

@@ -28,6 +28,9 @@ blue=$'\e[01;34m'
 magenta=$'\e[01;35m'
 resetColor=$'\e[0m'
 
+NO_PULL=
+NO_GLOBAL_INSTALL=
+FORCE=
 
 updatePackage() {
     name=$1
@@ -86,11 +89,30 @@ updateNodeModules() {
 }
 
 updateCore() {
+    if [ "$NO_PULL" ]; then 
+        return 0;
+    fi
+    
+    # without this git merge fails on windows
+    mv ./scripts/install-sdk.sh  ./scripts/.install-sdk-tmp.sh 
+    cp ./scripts/.install-sdk-tmp.sh ./scripts/install-sdk.sh
+    git checkout -- ./scripts/install-sdk.sh
+
     git remote add c9 https://github.com/c9/core 2> /dev/null || true
     git fetch c9
     git merge c9/master --ff-only || \
         echo "${yellow}Couldn't automatically update sdk core ${resetColor}"
+
+    ## TODO use fetched script?
+    # oldScript="$(cat ./scripts/install-sdk.sh)"
+    # newScript="$(cat ./scripts/install-sdk.sh)"
+    # if ! [ "$oldScript" == "$newScript" ]; then
+    #     ./scripts/install-sdk.sh --no-pull
+    #     exit
+    # fi
 }
+
+
 
 installGlobalDeps() {
     if ! [[ -f ~/.c9/installed ]] && ! [[ $os == "windows" ]]; then

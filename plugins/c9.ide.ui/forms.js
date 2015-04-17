@@ -21,6 +21,7 @@ define(function(require, exports, module) {
             var maxwidth = options.colmaxwidth || 300;
             var widths = options.widths || {};
             var skins = options.skins || {};
+            var elements = {};
             var container, meta = {};
 
             var debug = location.href.indexOf('menus=1') > -1;
@@ -388,8 +389,10 @@ define(function(require, exports, module) {
                     });
                 }
                 
-                if (options.name)
+                if (options.name) {
                     node.setAttribute("id", options.name);
+                    elements[node.name] = node;
+                }
                 
                 ui.insertByIndex(heading.container, node, position, foreign);
 
@@ -400,7 +403,7 @@ define(function(require, exports, module) {
             
             function update(items) {
                 items.forEach(function(item) {
-                    var el = plugin.getElement(item.id);
+                    var el = elements[item.id];
                     switch (el.type) {
                         case "dropdown":
                             var dropdown = el.lastChild;
@@ -409,10 +412,17 @@ define(function(require, exports, module) {
                                 return "<item value='" + item.value 
                                   + "'><![CDATA[" + item.caption + "]]></item>";
                             }).join("");
-                            if (data) 
-                                dropdown.$model.load("<items>" + data + "</items>");
-                            if (item.value)
-                                dropdown.setAttribute("value", item.value);
+                            if (data) {
+                                setTimeout(function(){
+                                    dropdown.$model.load("<items>" + data + "</items>");
+                                    
+                                    setTimeout(function(){
+                                        var value = item.value || dropdown.value;
+                                        dropdown.value = -999;
+                                        dropdown.setAttribute("value", value);
+                                    });
+                                });
+                            }
                         break;
                         default:
                             if ("value" in item)

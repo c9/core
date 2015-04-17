@@ -21,7 +21,7 @@ define(function(require, exports, module) {
             var module;
             var argv;
             
-            process.argv.some(function(n){
+            process.argv.slice(2).some(function(n){
                 if (!n.match(/^[-\/]/) && n != "node") {
                     module = n;
                     return true;
