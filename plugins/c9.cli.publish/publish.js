@@ -588,7 +588,7 @@ define(function(require, exports, module) {
                                                 });
                                             });
                                             
-                                            plugin.load("PACKAGE_NAME.Bundle");
+                                            plugin.load("PACKAGE_NAME.bundle");
                                             
                                             register(null, {});
                                         }
