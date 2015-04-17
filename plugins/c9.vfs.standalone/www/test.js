@@ -400,7 +400,7 @@ require([
                     console.warn(msg);
                 }
             },
-            "installer": { createSession : function(){}, reinstall: function(){} },
+            "installer": { createSession : function(){}, reinstall: function(){}, isInstalled: function(){ return true; } },
             "run.gui": { getElement : function(){} },
             "debugger": {debug: function() {}, stop: function(){}},
             "focusManager": {
