@@ -327,10 +327,10 @@ define(function(require, exports, module) {
                     });
                     
                     services.ace.defineSyntax({
-                        name: join(pluginName, "modes", path),
+                        name: path,
                         caption: mode.caption,
                         extensions: (mode.extensions || "").trim()
-                            .replace(/\s*,\s*/g, "|")
+                            .replace(/\s*,\s*/g, "|").replace(/(^|\|)\./g, "$1")
                     });
                     break;
                 case "outline":
