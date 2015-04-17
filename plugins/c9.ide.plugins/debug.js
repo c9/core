@@ -116,18 +116,19 @@ define(function(require, exports, module) {
             }
             
             var config = [];
-            var count = list.length;
+            var loadConfig = function(){
+                architect.loadAdditionalPlugins(config, function(err){
+                    if (err) console.error(err);
+                });
+            };
             
-            function next(name){
-                if (!name) {
-                    if (--count === 0) finish();
-                    return;
-                }
-                
+            async.each(list, function(name, next){
                 var resourceHolder = new Plugin();
                 var resourceVersion = "";
                 
-                resourceHolder.on("load", function(){ load(); });
+                resourceHolder.on("load", function(){ 
+                    if (inited) load();
+                });
                 
                 resourceHolder.freezePublicAPI({
                     get version(){ return resourceVersion },
@@ -156,9 +157,11 @@ define(function(require, exports, module) {
                                 var base = join(String(c9.projectId), 
                                     "plugins", auth.accessToken);
                                 
+                                // Configure Require.js
                                 var pathConfig = {};
-                                
                                 pathConfig["plugins/" + name] = host + join(base, name);
+                                requirejs.config({ paths: pathConfig });
+                                
                                 // Add the plugin to the config
                                 Object.keys(options.plugins).forEach(function(path){
                                     var pluginPath = name + "/" + path;
@@ -173,8 +176,7 @@ define(function(require, exports, module) {
                                     config.push(cfg);
                                 });
                                 
-                                requirejs.config({paths: pathConfig});
-                                
+                                // Set version for package manager
                                 resourceHolder.version = options.version;
                                 
                                 // Start the installer if one is included
@@ -226,28 +228,27 @@ define(function(require, exports, module) {
                         }
                     });
                 }
+                
                 load();
-            }
-            
-            function finish(){
+            }, function(){
                 if (!config.length) return;
                 
                 // Load config
                 if (installer.sessions.length) {
-                    installer.on("stop", function(err){
+                    installer.on("stop", function listen(err){
                         if (err) 
                             return console.error(err);
-                        finish();
+                        
+                        if (!installer.sessions.length) {
+                            loadConfig();
+                            installer.off("stop", listen);
+                        }
                     });
                     return;
                 }
                 
-                architect.loadAdditionalPlugins(config, function(err){
-                    if (err) console.error(err);
-                });
-            }
-            
-            list.forEach(next);
+                loadConfig();
+            });
         }
         
         function processModules(path, data, plugin){
