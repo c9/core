@@ -43,7 +43,7 @@ define(function(require, exports, module) {
             
             var excludedEvents = { 
                 "draw": 1, "load":1, "unload":1, "resize":1,
-                "addListener":1, "removeListener":1 
+                "addListener":1, "removeListener":1, "input":1
             };
             var renameEvents = {
                 "select": "changeSelection",
