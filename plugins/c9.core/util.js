@@ -209,6 +209,14 @@ define(function(require, exports, module) {
             return JSON.stringify(sortByKeys(obj), replacer, spaces);
         };
         
+        plugin.safeParseJson = function(strJson, cb){
+            // Remove comments
+            var data = strJson.replace(/(^|\n)\s*\/\/.*/g, "");
+                
+            try { return JSON.parse(data); }
+            catch (e) { cb(e); return false; }
+        }
+        
         /**
          * 
          */
@@ -269,8 +277,7 @@ define(function(require, exports, module) {
         
         var reHome = new RegExp("^" + plugin.escapeRegExp(c9.home || "/home/ubuntu"));
         plugin.normalizePath = function(path){
-            if (!path || path.charAt(0) == "~") return path;
-            return normalize(path.replace(reHome, "~"));
+            return path && normalize(path.replace(reHome, "~"));
         };
         
         /**
@@ -340,10 +347,10 @@ define(function(require, exports, module) {
         };
 
         plugin.escapeShell = function(cmd) {
-            var re = /([\#\&\;\`\|\*\?<>\^\(\)\[\]\{\}\$\,\x0A\xFF\' \"])/g;
+            var re = /([\#\&\;\`\|\*\?<>\^\(\)\[\]\{\}\$\,\x0A\xFF\' \"\\])/g;
             return cmd.replace(re, "\\$1");//.replace(/^~/, "\\~");
         };
-
+        
         var cloneObject = plugin.cloneObject = function(obj) {
             if (obj === null || typeof obj !== "object")
                 return obj;

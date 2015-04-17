@@ -1,3 +1,4 @@
+/*global requirejs*/
 define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "vfs", "c9", "plugin.installer", "fs", "auth"
@@ -26,6 +27,7 @@ define(function(require, exports, module) {
         var HASSDK = c9.location.indexOf("sdk=0") === -1;
         
         var plugins = options.plugins;
+        var loadFromDisk = options.loadFromDisk
         var names = [];
         
         var loaded = false;
@@ -35,18 +37,6 @@ define(function(require, exports, module) {
             
             if (!HASSDK) return;
             if (!ENABLED) return;
-            
-            for (var i = 0; i < plugins.length; i++) {
-                try { 
-                    if (plugins[i].setup)
-                        plugins[i].setup = eval(plugins[i].setup);
-                }
-                catch(e) {
-                    console.error("Could not load plugin from cache: " + plugins[i].name);
-                    delete plugins[i].setup;
-                    continue;
-                }
-            }
             
             loadPlugins(plugins);
         }
@@ -60,47 +50,72 @@ define(function(require, exports, module) {
             }
             
             var wait = 0;
+            var host = vfs.baseUrl + "/";
+            var base = join(String(c9.projectId), "plugins", auth.accessToken);
+            var install = [];
             
+            if (loadFromDisk) {
+                fs.readdir("~/.c9/plugins", function(error, files){
+                    files.forEach(function(f) {
+                        if (!/^[_.]/.test(f.name))
+                            loadOne({packageName: f.name}, false);
+                    });
+                });
+            }
+            
+            var packages = {};
             config.forEach(function(options){
                 var name = options.packagePath.replace(/^plugins\/([^\/]*?)\/.*$/, "$1");
-                names.push(name);
-                
-                var path = options.packagePath + ".js";
-                var host = vfs.baseUrl + "/";
-                var base = join(String(c9.projectId), "plugins", auth.accessToken);
-                            
-                options.packagePath = host + join(base, path.replace(/^plugins\//, ""));
-                options.staticPrefix = host + join(base, name);
-                
-                if (!options.setup) {
-                    wait++;
-                    
-                    var install = [];
-                    fs.exists("~/.c9/" + path, function(exists){
-                        if (!exists) {
-                            install.push(options);
-                            names.remove(name);
-                        }
-                        
-                        if (!--wait)
-                            done(install);
-                    });
+                if (!packages[name]) {
+                    packages[name] = {
+                        packageName: name,
+                        apiKey: options.apiKey
+                    };
                 }
+                names.push(name);
             });
             
-            if (!wait)
-                done([]);
+            Object.keys(packages).forEach(function(key) {
+                loadOne(packages[key], false);
+            });
             
-            function done(install){
-                if (install.length)
-                    installer.installPlugins(install, function(err){
-                        if (err) console.error(err);
-                    });
+            function loadOne(packageConfig, forceInstall) {
+                wait++;
                 
-                if (names.length)
+                var packageName = packageConfig.packageName;
+                var root = "plugins/" + packageName;
+                var paths = {};
+                paths[root] = host + base + "/" + packageName;
+                requirejs.config({paths: paths});
+                requirejs.undef(root + "/__installed__.js");
+                require([root + "/__installed__"], function(plugins) {
+                    var config = plugins.map(function(p) {
+                        return {
+                            staticPrefix: host + join(base, paths[root]),
+                            packagePath: p
+                        };
+                    });
+                    
                     architect.loadAdditionalPlugins(config, function(err){
                         if (err) console.error(err);
                     });
+                    
+                    done();
+                }, function(err) {
+                    if (err && forceInstall) {
+                        install.push(packageName);
+                    }
+                    done();
+                });
+            }
+            
+            function done(){
+                if (!--wait) return;
+                if (install.length) {
+                    installer.installPlugins(install, function(err){
+                        if (err) console.error(err);
+                    });
+                }
             }
         }
         
@@ -108,12 +123,6 @@ define(function(require, exports, module) {
         
         plugin.on("load", function() {
             load();
-        });
-        plugin.on("enable", function() {
-            
-        });
-        plugin.on("disable", function() {
-            
         });
         plugin.on("unload", function() {
             loaded = false;

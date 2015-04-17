@@ -16,7 +16,7 @@ define(function(require, exports, module) {
         
         var plugin = new PreferencePanel("Ajax.org", main.consumes, {
             caption: "Themes",
-            className: "keybindings",
+            className: "flatform",
             form: true,
             noscroll: true,
             colwidth: 150,
@@ -31,6 +31,18 @@ define(function(require, exports, module) {
             if (loaded) return false;
             loaded = true;
             
+            function update(){
+                if (!drawn) return;
+                
+                var list = getThemes();
+                plugin.form.update({
+                    id: "syntax",
+                    items: list
+                });
+            }
+            
+            ace.on("addTheme", update);
+            ace.on("removeTheme", update);
         }
         
         var drawn;
@@ -38,17 +50,7 @@ define(function(require, exports, module) {
             if (drawn) return;
             drawn = true;
             
-            var list = [];
-            var themes = ace.themes
-            for (var base in themes) {
-                if (themes[base] instanceof Array)
-                    themes[base].forEach(function (n) {
-                        var themeprop = Object.keys(n)[0];
-                        list.push({ caption: themeprop, value: n[themeprop] });
-                    });
-                else
-                    list.push({ caption: base, value: themes[base] });
-            }
+            var list = getThemes();
             
             var rb1, rb2, rb3, rb4, rb5;
             plugin.form.add([
@@ -138,6 +140,7 @@ define(function(require, exports, module) {
                     title: "Syntax Theme",
                     type: "dropdown",
                     path: "user/ace/@theme",
+                    name: "syntax",
                     width: 165,
                     onchange: function(e) {
                         ace.setTheme(e.value);
@@ -175,6 +178,20 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
         
+        function getThemes(){
+            var list = [];
+            var themes = ace.themes
+            for (var base in themes) {
+                if (themes[base] instanceof Array)
+                    themes[base].forEach(function (n) {
+                        var themeprop = Object.keys(n)[0];
+                        list.push({ caption: themeprop, value: n[themeprop] });
+                    });
+                else
+                    list.push({ caption: base, value: themes[base] });
+            }
+            return list;
+        }
         
         /***** Lifecycle *****/
         
@@ -183,12 +200,6 @@ define(function(require, exports, module) {
         });
         plugin.on("draw", function(e) {
             draw(e);
-        });
-        plugin.on("enable", function() {
-            
-        });
-        plugin.on("disable", function() {
-            
         });
         plugin.on("unload", function() {
             loaded = false;

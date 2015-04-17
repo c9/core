@@ -232,14 +232,18 @@ define(function(require, exports, module) {
                 abs = true;
             }
             
-            if (path.lastIndexOf(VFSROOT, 0) === 0) {
+            if (path.toLowerCase().lastIndexOf(VFSROOT.toLowerCase(), 0) === 0) {
                 path = path.substr(VFSROOT.length);
                 abs = false;
+            }
+            else if (path.toLowerCase().lastIndexOf(c9.home.toLowerCase(), 0) === 0) {
+                path = c9.home + "/" + path.substr(c9.home.length);
+                abs = true;
             }
             else
                 abs = true;
             
-            if (path[0] != "/")
+            if (path[0] != "/" && !abs)
                 path = "/" + path;
             
             return {

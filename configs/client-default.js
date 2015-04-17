@@ -7,6 +7,17 @@ module.exports = function(options) {
     assert(options.workspaceName, "Option 'workspaceName' must be set");
     assert(options.home, "Option 'home' must be set");
     assert(options.platform, "Option 'platform' must be set");
+    
+    // normalize workspacedir and home paths
+    function normalize(path) {
+        path = path.replace(/([^/])\/$/, "$1");
+        if (options.platform == "win32")
+            path = path.replace(/\\/g, "/");
+        return path;
+    }
+    options.workspaceDir = normalize(options.workspaceDir);
+    options.installPath = normalize(options.installPath);
+    options.home = normalize(options.home);
 
     var workspaceDir = options.workspaceDir;
     var debug = options.debug !== undefined ? options.debug : false;
@@ -71,7 +82,8 @@ module.exports = function(options) {
         "plugins/c9.core/util",
         {
             packagePath: "plugins/c9.ide.plugins/loader",
-            plugins: options.plugins || []
+            plugins: options.plugins || [],
+            loadFromDisk: options.standalone
         },
         {
             packagePath: "plugins/c9.ide.plugins/installer",
