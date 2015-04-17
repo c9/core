@@ -369,8 +369,7 @@ define(function(require, exports, module) {
                  * 
                  */
                 clear: function(data){
-                    terminal.ybase = 0;
-                    terminal.lines = terminal.lines.slice(-(terminal.ybase + terminal.rows));
+                    terminal.clear();
                 },
                 /**
                  * 

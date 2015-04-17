@@ -55,7 +55,14 @@ define(function(require, exports, module) {
             var install = [];
             
             if (loadFromDisk) {
-                fs.readdir("~/.c9/plugins", function(error, files){
+                fs.readdir("~/.c9/plugins", function handle(err, files){
+                    if (err) {
+                        if (err.code == "EDISCONNECT")
+                            fs.readdir("~/.c9/plugins", handle);
+                        console.error(err);
+                        return;
+                    }
+                    
                     files.forEach(function(f) {
                         if (!/^[_.]/.test(f.name))
                             loadOne({packageName: f.name}, false);
