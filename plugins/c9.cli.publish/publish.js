@@ -584,11 +584,11 @@ define(function(require, exports, module) {
                                             plugin.version = "VERSION";
                                             plugin.on("load", function load() {
                                                 extraCode.forEach(function(x) {
-                                                    debug.addStaticPlugin(x.type, "packageName", x.filename, x.data, plugin);
+                                                    debug.addStaticPlugin(x.type, "PACKAGE_NAME", x.filename, x.data, plugin);
                                                 });
                                             });
                                             
-                                            plugin.load("Cloud9 Bundle");
+                                            plugin.load("PACKAGE_NAME.Bundle");
                                             
                                             register(null, {});
                                         }
@@ -600,7 +600,7 @@ define(function(require, exports, module) {
                                     .replace(/\r/g, "")
                                     .replace(new RegExp("^ {" + indent + "}", "gm"), "")
                                     .replace(/^.*?{|}$/g, "")
-                                    .replace(/packageName/g, packageName)
+                                    .replace(/PACKAGE_NAME/g, packageName)
                                     .replace(/VERSION/g, json.version)
                                     .replace(/^(\s*)extraCode/gm, function(_, indent) {
                                         return JSON.stringify(extraCode, null, 4)
