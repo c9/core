@@ -57,8 +57,11 @@ define(function(require, exports, module) {
             if (loadFromDisk) {
                 fs.readdir("~/.c9/plugins", function(error, files){
                     files.forEach(function(f) {
-                        if (!/^[_.]/.test(f.name))
-                            loadOne({packageName: f.name}, false);
+                        if (!/^[_.]/.test(f.name)) {
+                            fs.exists("~/.c9/plugins/" + f.name + "/__installed__.js", function(exists) {
+                                if (exists) loadOne({packageName: f.name}, false);
+                            });
+                        }
                     });
                 });
             }
