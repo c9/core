@@ -21,6 +21,7 @@ module.exports = function(options) {
 
     var workspaceDir = options.workspaceDir;
     var debug = options.debug !== undefined ? options.debug : false;
+    
     var collab = options.collab;
     var packaging = options.packaging;
     var staticPrefix = options.staticPrefix;
