@@ -100,6 +100,10 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.plugins/market"
         },
+        {
+            packagePath: "plugins/c9.ide.plugins/test",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.plugins"
+        },
         
         // VFS
         "plugins/c9.vfs.client/vfs.ping",

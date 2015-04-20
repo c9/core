@@ -36,7 +36,9 @@ define(function(require, exports, module) {
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
-        // var emit = plugin.getEmitter();
+        var emit = plugin.getEmitter();
+        
+        var plugins = [];
         
         var ENABLED = c9.location.indexOf("debug=2") > -1;
         var HASSDK = c9.location.indexOf("sdk=0") === -1;
@@ -60,7 +62,7 @@ define(function(require, exports, module) {
                       : "?debug=2");
                     window.open(url);
                 }
-            }), 100100, plugin);
+            }), 900, plugin);
             
             if (!ENABLED) return;
             
@@ -104,7 +106,7 @@ define(function(require, exports, module) {
             
             menus.addItemByPath("Tools/Developer/Restart Plugin", new ui.item({
                 command: "restartplugin"
-            }), 100100, plugin);
+            }), 1000, plugin);
         }
         
         /***** Methods *****/
@@ -174,6 +176,7 @@ define(function(require, exports, module) {
                                     cfg.apikey = "0000000000000000000000000000=";
                                     
                                     config.push(cfg);
+                                    plugins.push(name + "/" + path);
                                 });
                                 
                                 // Set version for package manager
@@ -231,6 +234,8 @@ define(function(require, exports, module) {
                 
                 load();
             }, function(){
+                emit.sticky("ready");
+                
                 if (!config.length) return;
                 
                 // Load config
@@ -487,11 +492,23 @@ define(function(require, exports, module) {
              */
             get architect(){ throw new Error(); },
             set architect(v){ architect = v; },
+            /**
+             * 
+             */
+            get plugins(){ return plugins; },
+            
+            _events: [
+                /**
+                 * @event ready
+                 */
+                "ready"
+            ],
             
             /**
              * 
              */
             addStaticPlugin: addStaticPlugin,
+            
             /**
              * 
              */

@@ -101,7 +101,9 @@
                 });
                 
                 app.on("service", function(name, plugin, options){
-                    if (name == "plugin.loader" || name == "plugin.installer" || name == "plugin.debug" || name == "plugin.manager")
+                    if (name == "plugin.loader" || name == "plugin.installer" 
+                      || name == "plugin.debug" || name == "plugin.manager"
+                      || name == "plugin.test")
                         plugin.architect = app;
                     if (!plugin.name)
                         plugin.name = name;
