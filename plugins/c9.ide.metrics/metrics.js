@@ -78,8 +78,14 @@ define(function(require, exports, module) {
              * Set a metric value for this user/workspace,
              * e.g. the time it takes to load this workspace.
              * 
-             * These metrics get logged to a service like datadog,
-             * namespaced in c9.ide.metrics.
+             * Metrics logged with log() are aggregated by workspace
+             * and logged to a service like datadog, namespaced in c9.ide.metrics.
+             * 
+             * Calling log() consecutively for one metric with different values
+             * will set the metric to a different value each time. For aggregation
+             * and bandwidth purposes, the last value wins in such a scenario.
+             * For example, `log("ping", 50); log("ping", 100);` indicates
+             * out ping metric has a value of 100.
              * 
              * Example:
              * 
