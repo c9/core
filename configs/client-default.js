@@ -240,6 +240,7 @@ module.exports = function(options) {
         },
         "plugins/c9.ide.ui/widgets.tree",
         "plugins/c9.ide.ui/widgets.datagrid",
+        "plugins/c9.ide.ui/widgets.terminal",
         "plugins/c9.ide.ui/focus",
         "plugins/c9.ide.ui/lib_apf",
         

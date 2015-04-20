@@ -130,6 +130,9 @@ define(function(require, module, exports) {
                     if (allowClose && e.keyCode == 27)
                         dialog.hide();
                 });
+                dialog.on("resize", function(){
+                    emit("resize");
+                });
                 
                 commands.addCommand({
                     name: plugin.name,
@@ -254,7 +257,7 @@ define(function(require, module, exports) {
             
             // @todo this looks very similar to forms.js. Perhaps able to merge?
             function createItem(heading, name, options) {
-                var position = options.position || count++;
+                var position = options.position || (count += 100);
                 var node;
                 
                 switch(options.type) {
@@ -511,6 +514,13 @@ define(function(require, module, exports) {
                      */
                     "hide"
                 ],
+                
+                /**
+                 * 
+                 */
+                createElement: function(options){
+                    createItem(null, null, options);
+                },
     
                 /**
                  * Updates form elements with new values. This method currently
