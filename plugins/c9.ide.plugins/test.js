@@ -96,7 +96,7 @@ define(function(require, exports, module) {
             function handle(err){
                 iframe.removeEventListener("load", handle);
                 iframe.removeEventListener("error", onError);
-                callback(err instanceof Error ? err : null);
+                callback(err instanceof Error ? err : null, tab);
             }
             
             function onError(e){
@@ -122,8 +122,10 @@ define(function(require, exports, module) {
         
         function run(pluginName, callback){
             // Load test runner
-            loadIframe(pluginName, function(err){
+            loadIframe(pluginName, function(err, tab){
                 if (err) return callback(err);
+                
+                tab.editor.setLocation("Test for `" + pluginName + "`")
                 
                 // Wait until iframe is loaded
                 plugin.once("ready", function(){
