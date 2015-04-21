@@ -55,14 +55,17 @@ define(function(require, exports, module) {
             
             menus.addItemByPath("Tools/~", new ui.divider(), 100000, plugin);
             menus.addItemByPath("Tools/Developer", null, 100100, plugin);
-            menus.addItemByPath("Tools/Developer/Start in Debug Mode", new ui.item({
-                onclick: function(){
-                    var url = location.href + (location.href.indexOf("?") > -1
-                      ? "&debug=2"
-                      : "?debug=2");
-                    window.open(url);
-                }
-            }), 900, plugin);
+            
+            if (!ENABLED) {
+                menus.addItemByPath("Tools/Developer/Start in Debug Mode", new ui.item({
+                    onclick: function(){
+                        var url = location.href + (location.href.indexOf("?") > -1
+                          ? "&debug=2"
+                          : "?debug=2");
+                        window.open(url);
+                    }
+                }), 900, plugin);
+            }
             
             if (!ENABLED) return;
             
