@@ -26,7 +26,8 @@ Object.keys(modesByName).forEach(function(name) {
         mode.order = 0;
 
     mode.extensions.split("|").forEach(function(ext) {
-        fileExtensions[ext] = name;
+        if (!fileExtensions[ext])
+            fileExtensions[ext] = name;
     });
 });
 
