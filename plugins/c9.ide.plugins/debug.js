@@ -115,6 +115,9 @@ define(function(require, exports, module) {
                 return;
             }
             
+            if (typeof list == "string")
+                list = [list];
+            
             var config = [];
             var loadConfig = function(){
                 architect.loadAdditionalPlugins(config, function(err){
@@ -495,7 +498,11 @@ define(function(require, exports, module) {
             /**
              * 
              */
-            reloadPackage: reloadPackage
+            reloadPackage: reloadPackage,
+            /**
+             * 
+             */
+            loadPackage: loadPlugins
         });
         
         register(null, {
