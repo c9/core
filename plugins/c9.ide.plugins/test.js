@@ -1,7 +1,8 @@
 /* global requirejs */
 define(function(require, exports, module) {
     main.consumes = [
-        "Plugin", "plugin.debug", "c9", "menus", "ui", "ext", "preview"
+        "Plugin", "plugin.debug", "c9", "menus", "ui", "ext", "preview",
+        "preview.browser"
     ];
     main.provides = ["plugin.test"];
     return main;
@@ -14,6 +15,7 @@ define(function(require, exports, module) {
         var ext = imports.ext;
         var ui = imports.ui;
         var debug = imports["plugin.debug"];
+        var browser = imports["preview.browser"];
         
         /***** Initialization *****/
         
@@ -51,6 +53,29 @@ define(function(require, exports, module) {
             ext.on("unregister", function(){
                 // TODO
             }, plugin);
+            
+            var reloading;
+            function loadPreview(url, session){
+                var idx = url.indexOf(options.staticPrefix);
+                if (!reloading && idx > -1) {
+                    reloading = true;
+                    
+                    var name = session.doc.meta.pluginName;
+                    run(name, function(err){
+                        if (err) console.error(err);
+                    });
+                    
+                    reloading = false;
+                }
+            }
+            
+            // browser.on("navigate", function(e){
+            //     if (!e.session.doc.meta.plugName)
+            //         debugger;
+            // });
+            browser.on("reload", function(e){
+                loadPreview(e.session.path, e.session);
+            });
         }
         
         /***** Methods *****/
@@ -62,7 +87,7 @@ define(function(require, exports, module) {
             emit("ready");
         }
         
-        function loadIframe(callback){
+        function loadIframe(pluginName, callback){
             var url = options.staticPrefix + "/test.html";
             if (url.indexOf("http") !== 0)
                 url = location.origin + url;
@@ -82,6 +107,8 @@ define(function(require, exports, module) {
                 debugger; // e.??
                 handle(new Error());
             }
+            
+            tab.document.meta.pluginName = pluginName;
         }
         
         function loadTestSuite(name, callback){
@@ -98,7 +125,7 @@ define(function(require, exports, module) {
         
         function run(pluginName, callback){
             // Load test runner
-            loadIframe(function(err){
+            loadIframe(pluginName, function(err){
                 if (err) return callback(err);
                 
                 // Wait until iframe is loaded
