@@ -69,10 +69,6 @@ define(function(require, exports, module) {
                 }
             }
             
-            // browser.on("navigate", function(e){
-            //     if (!e.session.doc.meta.plugName)
-            //         debugger;
-            // });
             browser.on("reload", function(e){
                 loadPreview(e.session.path, e.session);
             });
@@ -108,6 +104,7 @@ define(function(require, exports, module) {
                 handle(new Error());
             }
             
+            tab.document.meta.ignoreState = true;
             tab.document.meta.pluginName = pluginName;
         }
         
