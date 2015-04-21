@@ -125,7 +125,7 @@ define(function(require, exports, module) {
             loadIframe(pluginName, function(err, tab){
                 if (err) return callback(err);
                 
-                tab.editor.setLocation("Test for '" + pluginName + "'")
+                tab.editor.setLocation("test://" + pluginName)
                 
                 // Wait until iframe is loaded
                 plugin.once("ready", function(){
