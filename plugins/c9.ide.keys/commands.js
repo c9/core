@@ -339,10 +339,10 @@ define(function(require, exports, module) {
                 commands.previoustab,
                 commands.nextpane,
                 commands.previouspane,
-                commands.exit || {},
-                commands.hidesearchreplace || {},
-                commands.hidesearchinfiles || {},
-                commands.toggleconsole || {},
+                commands.exit,
+                commands.hidesearchreplace,
+                commands.hidesearchinfiles,
+                commands.toggleconsole,
                 commands.runlast,
                 commands.run,
                 commands.resume,
@@ -355,8 +355,19 @@ define(function(require, exports, module) {
                 commands.new,
                 commands.build,
                 commands.switchterminal,
-                commands.findinfiles
-            ];
+                commands.findinfiles,
+                commands.tab1,
+                commands.tab2,
+                commands.tab3,
+                commands.tab4,
+                commands.tab5,
+                commands.tab6,
+                commands.tab7,
+                commands.tab8,
+                commands.tab9,
+                commands.tab0,
+                commands.reopenLastTab,
+            ].filter(Boolean);
         }
         
         function getExceptionBindings(){
