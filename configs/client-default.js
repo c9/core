@@ -21,6 +21,7 @@ module.exports = function(options) {
 
     var workspaceDir = options.workspaceDir;
     var debug = options.debug !== undefined ? options.debug : false;
+    
     var collab = options.collab;
     var packaging = options.packaging;
     var staticPrefix = options.staticPrefix;
@@ -98,6 +99,10 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.plugins/market"
+        },
+        {
+            packagePath: "plugins/c9.ide.plugins/test",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.plugins"
         },
         
         // VFS

@@ -372,11 +372,10 @@ define(function(require, exports, module) {
                         console.warn("WARNING: Plugin '" + name + "' is not listed in package.json.");
                         warned = true;
                     }
-                    // @TODO temporarily disabled the requirement for tests while tests cannot actually run yet
-                    // else if (!fs.existsSync(join(cwd, name.replace(/\.js$/, "_test.js")))) {
-                    //     console.warn("ERROR: Plugin '" + name + "' has no test associated with it.");
-                    //     failed = true;
-                    // }
+                    else if (!fs.existsSync(join(cwd, name.replace(/\.js$/, "_test.js")))) {
+                        console.warn("ERROR: Plugin '" + name + "' has no test associated with it. There must be a file called '" + name + "_test.js' containing tests.");
+                        failed = true;
+                    }
                 });
                 
                 if (failed)
