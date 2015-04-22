@@ -21,6 +21,7 @@ module.exports = function(options) {
 
     var workspaceDir = options.workspaceDir;
     var debug = options.debug !== undefined ? options.debug : false;
+    
     var collab = options.collab;
     var packaging = options.packaging;
     var staticPrefix = options.staticPrefix;
@@ -98,6 +99,10 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.plugins/market"
+        },
+        {
+            packagePath: "plugins/c9.ide.plugins/test",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.plugins"
         },
         
         // VFS
@@ -240,6 +245,7 @@ module.exports = function(options) {
         },
         "plugins/c9.ide.ui/widgets.tree",
         "plugins/c9.ide.ui/widgets.datagrid",
+        "plugins/c9.ide.ui/widgets.terminal",
         "plugins/c9.ide.ui/focus",
         "plugins/c9.ide.ui/lib_apf",
         

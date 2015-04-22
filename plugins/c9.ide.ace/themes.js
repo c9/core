@@ -35,10 +35,10 @@ define(function(require, exports, module) {
                 if (!drawn) return;
                 
                 var list = getThemes();
-                plugin.form.update({
+                plugin.form.update([{
                     id: "syntax",
                     items: list
-                });
+                }]);
             }
             
             ace.on("addTheme", update);

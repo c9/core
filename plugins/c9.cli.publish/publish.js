@@ -81,7 +81,7 @@ define(function(require, exports, module) {
                     }
                 },
                 check: function(argv) {
-                    if (argv._.length < 2 && !argv["newversion"])
+                    if (argv._.length < 2 && !argv["newversion"] && !argv["dry-run"])
                         throw new Error("Missing version");
                 },
                 exec: function(argv) {
@@ -100,11 +100,60 @@ define(function(require, exports, module) {
                                     console.error("\nTry running with --verbose flag for more information");
                                 process.exit(1);
                             }
-                            else {
+                            else if (!dryRun) {
                                 console.log("Succesfully published version", data.version);
                                 process.exit(0);
                             }
                         });
+                }
+            });
+            
+             cmd.addCommand({
+                name: "build", 
+                info: "  Builds development version of package to load in non-debug mode.",
+                usage: "[--devel]",
+                options: {
+                    "devel" : {
+                        "description": "",
+                        "alias": "d",
+                        "default": false,
+                        "boolean": true
+                    }
+                },
+                exec: function(argv) {
+                    if (argv["devel"]) {
+                        var code = function(argument) {
+                            /* TODO explain */
+                            define("plugins/PACKAGE_NAME/__installed__", [],[
+                                "plugins/PACKAGE_NAME/__debug__"
+                            ]);
+                            define("plugins/PACKAGE_NAME/__debug__",[], function(require, exports, module) {
+                                main.consumes = ["plugin.debug"];
+                                main.provides = [];
+                                return main;
+                            
+                                function main(options, imports, register) {
+                                    var debug = imports["plugin.debug"];
+                                    debug.loadPackage("PACKAGE_NAME");
+                                }
+                            });
+                        }.toString();
+                        var cwd = process.cwd();
+                        var packageName = basename(cwd);
+                        var indent = code.match(/\n\r?(\s*)/)[1].length;
+                        code = code
+                            .replace(/\r/g, "")
+                            .replace(new RegExp("^ {" + indent + "}", "gm"), "")
+                            .replace(/^.*?{|}$/g, "")
+                            .trim()
+                            .replace(/PACKAGE_NAME/g, packageName);
+                                    
+                        fs.writeFileSync(cwd + "/__installed__.js", code, "utf8")
+                    } else {
+                        dryRun = true
+                        publish({local: true}, function(err, data){});
+                    }
+                    
                 }
             });
             
@@ -316,7 +365,11 @@ define(function(require, exports, module) {
             });
         }
         
-        function publish(version, callback) {
+        function publish(options, callback) {
+            if (typeof options != "object")
+                options = {version: options};
+            
+            var version = options.version;
             var cwd = process.cwd();
             var packagePath = cwd + "/package.json";
             fs.readFile(packagePath, function(err, data){
@@ -372,41 +425,44 @@ define(function(require, exports, module) {
                         console.warn("WARNING: Plugin '" + name + "' is not listed in package.json.");
                         warned = true;
                     }
-                    // @TODO temporarily disabled the requirement for tests while tests cannot actually run yet
-                    // else if (!fs.existsSync(join(cwd, name.replace(/\.js$/, "_test.js")))) {
-                    //     console.warn("ERROR: Plugin '" + name + "' has no test associated with it.");
-                    //     failed = true;
-                    // }
+                    else if (!fs.existsSync(join(cwd, name.replace(/\.js$/, "_test.js")))) {
+                        console.warn("ERROR: Plugin '" + name + "' has no test associated with it. There must be a file called '" + name + "_test.js' containing tests.");
+                        failed = true;
+                    }
                 });
                 
                 if (failed)
                     return callback(new Error());
                 
-                if (warned && !force)
+                if (warned && !force && !dryRun)
                     return callback(new Error("Use --force to ignore these warnings."));
                 
-                var v = (json.version || "0.0.1").split(".");
-                
-                // Update the version field in the package.json file
-                if (version == "major") {
-                    v[0]++;
-                    v[1] = 0;
-                    v[2] = 0;
+                if (!dryRun) {
+                    var v = (json.version || "0.0.1").split(".");
+                    // Update the version field in the package.json file
+                    if (version == "major") {
+                        v[0]++;
+                        v[1] = 0;
+                        v[2] = 0;
+                    }
+                    else if (version == "minor") {
+                        v[1]++;
+                        v[2] = 0;
+                    }
+                    else if (version == "patch" || version == "build") v[2]++;
+                    else if (version.match(/^\d+\.\d+\.\d+$/))
+                        v = version.split(".");
+                    else
+                        return callback(new Error("Invalid version. Semver required: " + version));
+                    
+                    json.version = v.join(".");
                 }
-                else if (version == "minor") {
-                    v[1]++;
-                    v[2] = 0;
-                }
-                else if (version == "patch" || version == "build") v[2]++;
-                else if (version.match(/^\d+\.\d+\.\d+$/))
-                    v = version.split(".");
-                else
-                    return callback(new Error("Invalid version. Semver required: " + version));
                 
-                json.version = v.join(".");
+                if (dryRun)
+                    return build();
                 
                 // Write the package.json file
-                fs.writeFile(packagePath, JSON.stringify(json, 1, "  "), function(err){
+                fs.writeFile(packagePath, JSON.stringify(json, null, "  "), function(err){
                     if (err) return callback(err);
                     
                     if (dryRun) return build();
@@ -415,6 +471,7 @@ define(function(require, exports, module) {
                         .replace(/\$1/, packagePath)
                         .replace(/\$2/, json.version);
                     
+                    // commit
                     proc.spawn("bash", {
                         args: ["-c", SHELLSCRIPT]
                     }, function(err, p){
@@ -551,6 +608,8 @@ define(function(require, exports, module) {
                                     });
                                 }
                                 
+                                packedFiles.push(cwd + "/__installed__.js");
+                                
                                 if (json.installer) {
                                     var path = join(cwd, json.installer);
                                     var installerCode = fs.readFileSync(path, "utf8");
@@ -631,7 +690,7 @@ define(function(require, exports, module) {
                             additional.push({
                                 id: path,
                                 source: 'define("' + path + '", [],' + 
-                                    JSON.stringify(packedConfig, null, 4) + ')',
+                                    JSON.stringify(packedConfig, null, 4) + ');',
                                 literal : true,
                                 order: -1
                             });
@@ -659,20 +718,17 @@ define(function(require, exports, module) {
                             });
                         },
                         function(next) {
-                            fs.writeFile("__packed__.js", result.code, "utf8", next);
+                            var filename = options.local ? "__installed__.js" : "__packed__.js";
+                            fs.writeFile(filename, result.code, "utf8", next);
                         },
                         function(next) {
                             // console.log(packedFiles)
+                            if (options.local)
+                                return callback();
                             zip(packedFiles);
                         }
                     ]);
  
-                }
-                
-                function normalizePath(p) {
-                    if (process.platform == "win32")
-                        p = p.replace(/\\/g, "/").replace(/^(\w):/, "/$1");
-                    return p;
                 }
                 
                 function zip(ignore){
@@ -710,9 +766,10 @@ define(function(require, exports, module) {
                                 if (code !== 0)
                                     return callback(new Error("ERROR: Could not package directory"));
                                 
-                                console.log("Built package", json.name + "@" + json.version);
+                                console.log("Built package", json.name + "@" + json.version +
+                                    (dryRun ? " at " + zipFilePath : ""));
                                 
-                                if (dryRun) return callback(1);
+                                if (dryRun) return callback();
                                 
                                 upload();
                             });
@@ -933,15 +990,17 @@ define(function(require, exports, module) {
                             console.log("Downloading package to", gzPath);
                         
                         request.on('response', function(res) {
-                            if (res.statusCode != 200) 
+                            if (res.statusCode != 200)
                                 return callback(new Error("Unknown Error:" + res.statusCode));
-                                
+                        });
+                        
+                        file.on('finish', function(err) {
                             if (verbose)
                                 console.log("Unpacking", gzPath, "to", packagePath);
                             
                             // Untargz package
                             proc.spawn(TAR, {
-                                args: ["-C", packagePath, "-zxvf", gzPath]
+                                args: ["-C", normalizePath(packagePath), "-zxvf", normalizePath(gzPath)]
                             }, function(err, p){
                                 if (err) return callback(err);
                                 
@@ -1108,6 +1167,12 @@ define(function(require, exports, module) {
                 }
                 prevDir = curDir + '/';
             }
+        }
+        
+        function normalizePath(p) {
+            if (process.platform == "win32")
+                p = p.replace(/\\/g, "/").replace(/^(\w):/, "/$1");
+            return p;
         }
 
         /***** Lifecycle *****/

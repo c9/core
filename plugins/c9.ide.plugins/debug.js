@@ -36,7 +36,9 @@ define(function(require, exports, module) {
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
-        // var emit = plugin.getEmitter();
+        var emit = plugin.getEmitter();
+        
+        var plugins = [];
         
         var ENABLED = c9.location.indexOf("debug=2") > -1;
         var HASSDK = c9.location.indexOf("sdk=0") === -1;
@@ -53,14 +55,17 @@ define(function(require, exports, module) {
             
             menus.addItemByPath("Tools/~", new ui.divider(), 100000, plugin);
             menus.addItemByPath("Tools/Developer", null, 100100, plugin);
-            menus.addItemByPath("Tools/Developer/Start in Debug Mode", new ui.item({
-                onclick: function(){
-                    var url = location.href + (location.href.indexOf("?") > -1
-                      ? "&debug=2"
-                      : "?debug=2");
-                    window.open(url);
-                }
-            }), 100100, plugin);
+            
+            if (!ENABLED) {
+                menus.addItemByPath("Tools/Developer/Start in Debug Mode", new ui.item({
+                    onclick: function(){
+                        var url = location.href + (location.href.indexOf("?") > -1
+                          ? "&debug=2"
+                          : "?debug=2");
+                        window.open(url);
+                    }
+                }), 900, plugin);
+            }
             
             if (!ENABLED) return;
             
@@ -104,7 +109,7 @@ define(function(require, exports, module) {
             
             menus.addItemByPath("Tools/Developer/Restart Plugin", new ui.item({
                 command: "restartplugin"
-            }), 100100, plugin);
+            }), 1000, plugin);
         }
         
         /***** Methods *****/
@@ -114,6 +119,9 @@ define(function(require, exports, module) {
                 vfs.once("connect", loadPlugins.bind(this, config));
                 return;
             }
+            
+            if (typeof list == "string")
+                list = [list];
             
             var config = [];
             var loadConfig = function(){
@@ -174,6 +182,7 @@ define(function(require, exports, module) {
                                     cfg.apikey = "0000000000000000000000000000=";
                                     
                                     config.push(cfg);
+                                    plugins.push(name + "/" + path);
                                 });
                                 
                                 // Set version for package manager
@@ -231,6 +240,8 @@ define(function(require, exports, module) {
                 
                 load();
             }, function(){
+                emit.sticky("ready");
+                
                 if (!config.length) return;
                 
                 // Load config
@@ -487,15 +498,31 @@ define(function(require, exports, module) {
              */
             get architect(){ throw new Error(); },
             set architect(v){ architect = v; },
+            /**
+             * 
+             */
+            get plugins(){ return plugins; },
+            
+            _events: [
+                /**
+                 * @event ready
+                 */
+                "ready"
+            ],
             
             /**
              * 
              */
             addStaticPlugin: addStaticPlugin,
+            
             /**
              * 
              */
-            reloadPackage: reloadPackage
+            reloadPackage: reloadPackage,
+            /**
+             * 
+             */
+            loadPackage: loadPlugins
         });
         
         register(null, {
