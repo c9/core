@@ -3,6 +3,7 @@ build/sdk
 build/win32*
 build/node.exe
 build/node*.zip
+build/c9bin
 build/Cloud9-dev.app
 docs/generate/lib/node_modules
 plugins/c9.ide.layout.classic/less/*.css
