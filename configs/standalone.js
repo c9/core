@@ -144,6 +144,7 @@ module.exports = function(config, optimist) {
                 "c9.vfs.client": true,
                 "c9.cli.bridge": true,
                 "c9.nodeapi": true,
+                "c9.ide.experiment": true,
                 "saucelabs.preview": true
             }
         },
@@ -174,6 +175,7 @@ module.exports = function(config, optimist) {
         "./c9.vfs.server/filelist",
         "./c9.vfs.server/statics",
         "./c9.metrics/mock_metrics",
+        "./c9.ide.experiment/mock_experiment",
         {
             packagePath: "./c9.vfs.server/vfs.connect.standalone",
             workspaceDir: baseProc,
