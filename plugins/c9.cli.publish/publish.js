@@ -35,11 +35,14 @@ define(function(require, exports, module) {
         var os = require("os");
         var FormData = require("form-data");
         var http = require(APIHOST.indexOf("localhost") > -1 ? "http" : "https");
+        var Path = require("path");
         var basename = require("path").basename;
         var dirname = require("path").dirname;
+        var async  = require("async");
         
         var verbose = false;
         var force = false;
+        var dryRun = false;
         
         // Set up basic auth for api if needed
         if (BASICAUTH) api.basicAuth = BASICAUTH;
@@ -70,15 +73,21 @@ define(function(require, exports, module) {
                         "alias": "f",
                         "default": false,
                         "boolean": true
+                    },
+                    "dry-run" : {
+                        "description": "Only build a test version",
+                        "default": false,
+                        "boolean": true
                     }
                 },
                 check: function(argv) {
-                    if (argv._.length < 2 && !argv["newversion"])
+                    if (argv._.length < 2 && !argv["newversion"] && !argv["dry-run"])
                         throw new Error("Missing version");
                 },
                 exec: function(argv) {
                     verbose = argv["verbose"];
                     force = argv["force"];
+                    dryRun = argv["dry-run"];
                     
                     publish(
                         argv._[1],
@@ -91,11 +100,60 @@ define(function(require, exports, module) {
                                     console.error("\nTry running with --verbose flag for more information");
                                 process.exit(1);
                             }
-                            else {
+                            else if (!dryRun) {
                                 console.log("Succesfully published version", data.version);
                                 process.exit(0);
                             }
                         });
+                }
+            });
+            
+             cmd.addCommand({
+                name: "build", 
+                info: "  Builds development version of package to load in non-debug mode.",
+                usage: "[--devel]",
+                options: {
+                    "devel" : {
+                        "description": "",
+                        "alias": "d",
+                        "default": false,
+                        "boolean": true
+                    }
+                },
+                exec: function(argv) {
+                    if (argv["devel"]) {
+                        var code = function(argument) {
+                            /* TODO explain */
+                            define("plugins/PACKAGE_NAME/__installed__", [],[
+                                "plugins/PACKAGE_NAME/__debug__"
+                            ]);
+                            define("plugins/PACKAGE_NAME/__debug__",[], function(require, exports, module) {
+                                main.consumes = ["plugin.debug"];
+                                main.provides = [];
+                                return main;
+                            
+                                function main(options, imports, register) {
+                                    var debug = imports["plugin.debug"];
+                                    debug.loadPackage("PACKAGE_NAME");
+                                }
+                            });
+                        }.toString();
+                        var cwd = process.cwd();
+                        var packageName = basename(cwd);
+                        var indent = code.match(/\n\r?(\s*)/)[1].length;
+                        code = code
+                            .replace(/\r/g, "")
+                            .replace(new RegExp("^ {" + indent + "}", "gm"), "")
+                            .replace(/^.*?{|}$/g, "")
+                            .trim()
+                            .replace(/PACKAGE_NAME/g, packageName);
+                                    
+                        fs.writeFileSync(cwd + "/__installed__.js", code, "utf8")
+                    } else {
+                        dryRun = true
+                        publish({local: true}, function(err, data){});
+                    }
+                    
                 }
             });
             
@@ -307,7 +365,11 @@ define(function(require, exports, module) {
             });
         }
         
-        function publish(version, callback) {
+        function publish(options, callback) {
+            if (typeof options != "object")
+                options = {version: options};
+            
+            var version = options.version;
             var cwd = process.cwd();
             var packagePath = cwd + "/package.json";
             fs.readFile(packagePath, function(err, data){
@@ -344,7 +406,7 @@ define(function(require, exports, module) {
                 // Validate plugins
                 var plugins = {};
                 fs.readdirSync(cwd).forEach(function(filename) {
-                    if (/_test\.js$/.test(filename) || !/\.js$/.test(filename)) return;
+                    if (/(__\w*__|_test)\.js$/.test(filename) || !/\.js$/.test(filename)) return;
                     try {
                         var val = fs.readFileSync(cwd + "/" + filename);
                     } catch(e) {
@@ -363,47 +425,53 @@ define(function(require, exports, module) {
                         console.warn("WARNING: Plugin '" + name + "' is not listed in package.json.");
                         warned = true;
                     }
-                    // @TODO temporarily disabled the requirement for tests while tests cannot actually run yet
-                    // else if (!fs.existsSync(join(cwd, name.replace(/\.js$/, "_test.js")))) {
-                    //     console.warn("ERROR: Plugin '" + name + "' has no test associated with it.");
-                    //     failed = true;
-                    // }
+                    else if (!fs.existsSync(join(cwd, name.replace(/\.js$/, "_test.js")))) {
+                        console.warn("ERROR: Plugin '" + name + "' has no test associated with it. There must be a file called '" + name + "_test.js' containing tests.");
+                        failed = true;
+                    }
                 });
                 
                 if (failed)
                     return callback(new Error());
                 
-                if (warned && !force)
+                if (warned && !force && !dryRun)
                     return callback(new Error("Use --force to ignore these warnings."));
                 
-                var v = (json.version || "0.0.1").split(".");
-                
-                // Update the version field in the package.json file
-                if (version == "major") {
-                    v[0]++;
-                    v[1] = 0;
-                    v[2] = 0;
+                if (!dryRun) {
+                    var v = (json.version || "0.0.1").split(".");
+                    // Update the version field in the package.json file
+                    if (version == "major") {
+                        v[0]++;
+                        v[1] = 0;
+                        v[2] = 0;
+                    }
+                    else if (version == "minor") {
+                        v[1]++;
+                        v[2] = 0;
+                    }
+                    else if (version == "patch" || version == "build") v[2]++;
+                    else if (version.match(/^\d+\.\d+\.\d+$/))
+                        v = version.split(".");
+                    else
+                        return callback(new Error("Invalid version. Semver required: " + version));
+                    
+                    json.version = v.join(".");
                 }
-                else if (version == "minor") {
-                    v[1]++;
-                    v[2] = 0;
-                }
-                else if (version == "patch" || version == "build") v[2]++;
-                else if (version.match(/^\d+\.\d+\.\d+$/))
-                    v = version.split(".");
-                else
-                    return callback(new Error("Invalid version. Semver required: " + version));
                 
-                json.version = v.join(".");
+                if (dryRun)
+                    return build();
                 
                 // Write the package.json file
-                fs.writeFile(packagePath, JSON.stringify(json, 1, "  "), function(err){
+                fs.writeFile(packagePath, JSON.stringify(json, null, "  "), function(err){
                     if (err) return callback(err);
+                    
+                    if (dryRun) return build();
                     
                     SHELLSCRIPT = SHELLSCRIPT
                         .replace(/\$1/, packagePath)
                         .replace(/\$2/, json.version);
                     
+                    // commit
                     proc.spawn("bash", {
                         args: ["-c", SHELLSCRIPT]
                     }, function(err, p){
@@ -437,47 +505,251 @@ define(function(require, exports, module) {
                     var base = dirname(cwd);
                     var packageName = json.name;
                     var config = Object.keys(plugins).map(function(p) {
-                        return packageName + "/" + p;
+                        return "plugins/" + packageName + "/" + p.replace(/\.js$/, "");
                     });
-                    var paths = {};
-                    paths[packageName] = cwd;
-                    
-                    var build = require("architect-build/build");
-                    build(config, {
-                        paths: paths,
-                        enableBrowser: true,
-                        includeConfig: false,
-                        noArchitect: true,
-                        compress: true,
-                        obfuscate: true,
-                        oneLine: true,
-                        filter: [],
-                        ignore: [],
-                        withRequire: false,
-                        stripLess: false,
-                        basepath: base,
-                    }, function(e, result) {
-                        var packedFiles = result.sources.map(function(m) {
-                            return m.file
-                        });
-                        fs.writeFile("__packed__.js", result.code, "utf8", function(err, result) {
-                            if (err) console.log(err);
+                    var result, packedFiles = [], staticPlugin;
+                    async.series([
+                        function(next) {
+                            fs.readdir(cwd, function(err, files) {
+                                if (err) 
+                                    return next();
+                                var extraCode = [];
+                                function forEachFile(dir, f) {
+                                    try {
+                                        fs.readdirSync(dir).forEach(function(filename) {
+                                            var data = fs.readFileSync(dir + "/" + filename, "utf8");
+                                            f(filename, data);
+                                        });
+                                    } catch(e) {
+                                        console.error(e);
+                                    }
+                                }
+                                
+                                if (files.indexOf("builders") != -1) {
+                                    forEachFile(cwd + "/builders", function(filename, data) {
+                                        packedFiles.push(cwd + "/builders/" + filename);
+                                        extraCode.push({
+                                            type: "builders",
+                                            filename: filename,
+                                            data: data
+                                        });
+                                    });
+                                }
+                                if (files.indexOf("keymaps") != -1) {
+                                    forEachFile(cwd + "/keymaps", function(filename, data) {
+                                        packedFiles.push(cwd + "/keymaps/" + filename);
+                                        extraCode.push({
+                                            type: "keymaps",
+                                            filename: filename,
+                                            data: data
+                                        });
+                                    });
+                                }
+                                if (files.indexOf("modes") != -1) {
+                                    forEachFile(cwd + "/modes", function(filename, data) {
+                                        if (/(?:_highlight_rules|_test|_worker|_fold|_behaviou?r).js$/.test(filename))
+                                            return;
+                                        var firstLine = data.split("\n", 1)[0];
+                                        extraCode.push({
+                                            type: "modes",
+                                            filename: filename,
+                                            data: firstLine
+                                        });
+                                    });
+                                }
+                                if (files.indexOf("outline") != -1) {
+                                    forEachFile(cwd + "/outline", function(filename, data) {
+                                        packedFiles.push(cwd + "/outline/" + filename);
+                                        extraCode.push({
+                                            type: "outline",
+                                            filename: filename,
+                                            data: data
+                                        });
+                                    });
+                                }
+                                if (files.indexOf("runners") != -1) {
+                                    forEachFile(cwd + "/runners", function(filename, data) {
+                                        packedFiles.push(cwd + "/runners/" + filename);
+                                        extraCode.push({
+                                            type: "runners",
+                                            filename: filename,
+                                            data: data
+                                        });
+                                    });
+                                }
+                                if (files.indexOf("snippets") != -1) {
+                                    forEachFile(cwd + "/snippets", function(filename, data) {
+                                        packedFiles.push(cwd + "/snippets/" + filename);
+                                        extraCode.push({
+                                            type: "snippets",
+                                            filename: filename,
+                                            data: data
+                                        });
+                                    });
+                                }
+                                if (files.indexOf("themes") != -1) {
+                                    forEachFile(cwd + "/themes", function(filename, data) {
+                                        packedFiles.push(cwd + "/themes/" + filename);
+                                        extraCode.push({
+                                            type: "themes",
+                                            filename: filename,
+                                            data: data
+                                        });
+                                    });
+                                }
+                                if (files.indexOf("templates") != -1) {
+                                    forEachFile(cwd + "/templates", function(filename, data) {
+                                        packedFiles.push(cwd + "/templates/" + filename);
+                                        extraCode.push({
+                                            type: "templates",
+                                            filename: filename,
+                                            data: data
+                                        });
+                                    });
+                                }
+                                
+                                packedFiles.push(cwd + "/__installed__.js");
+                                
+                                if (json.installer) {
+                                    var path = join(cwd, json.installer);
+                                    var installerCode = fs.readFileSync(path, "utf8");
+                                    
+                                    var m = installerCode.match(/\.version\s*=\s*(\d+)/g);
+                                    
+                                    var installerVersion = m && m[0];
+                                    if (!installerVersion)
+                                        return callback(new Error("ERROR: missing installer version in " +  json.installer));
+                                    extraCode.push({
+                                        type: "installer",
+                                        filename: json.installer,
+                                        data: version
+                                    });
+                                }
+                                
+                                if (!extraCode.length)
+                                    return next();
+                                    
+                                var code = (function() {
+                                    define(function(require, exports, module) {
+                                        main.consumes = [
+                                            "Plugin", "plugin.debug"
+                                        ];
+                                        main.provides = [];
+                                        return main;
+                                        function main(options, imports, register) {
+                                            var debug = imports["plugin.debug"];
+                                            var Plugin = imports.Plugin;
+                                            var plugin = new Plugin();
+                                            plugin.version = "VERSION";
+                                            plugin.on("load", function load() {
+                                                extraCode.forEach(function(x) {
+                                                    debug.addStaticPlugin(x.type, "PACKAGE_NAME", x.filename, x.data, plugin);
+                                                });
+                                            });
+                                            
+                                            plugin.load("PACKAGE_NAME.bundle");
+                                            
+                                            register(null, {});
+                                        }
+                                    });
+                                }).toString();
+                                
+                                var indent = code.match(/\n\r?(\s*)/)[1].length;
+                                code = code
+                                    .replace(/\r/g, "")
+                                    .replace(new RegExp("^ {" + indent + "}", "gm"), "")
+                                    .replace(/^.*?{|}$/g, "")
+                                    .replace(/PACKAGE_NAME/g, packageName)
+                                    .replace(/VERSION/g, json.version)
+                                    .replace(/^(\s*)extraCode/gm, function(_, indent) {
+                                        return JSON.stringify(extraCode, null, 4)
+                                            .replace(/^/gm, indent);
+                                    });
+                                
+                                staticPlugin = {
+                                    source: code,
+                                    id: "plugins/" + packageName + "/__static__",
+                                    path: ""
+                                };
+                                next();
+                            });
+                        },
+                        
+                        function(next) {
+                            var build = require("architect-build/build");
+                            var paths = {};
+                            paths["plugins/" + packageName] = cwd;
                             
+                            var additional = [];
+                            var packedConfig = config.slice();
+                            if (staticPlugin) {
+                                additional.push(staticPlugin);
+                                packedConfig.push(staticPlugin.id);
+                            }
+                            var path = "plugins/" + packageName + "/__installed__";
+                            additional.push({
+                                id: path,
+                                source: 'define("' + path + '", [],' + 
+                                    JSON.stringify(packedConfig, null, 4) + ');',
+                                literal : true,
+                                order: -1
+                            });
+                            
+                            build(config, {
+                                additional: additional,
+                                paths: paths,
+                                enableBrowser: true,
+                                includeConfig: false,
+                                noArchitect: true,
+                                compress: !dryRun,
+                                obfuscate: true,
+                                oneLine: true,
+                                filter: [],
+                                ignore: [],
+                                withRequire: false,
+                                stripLess: false,
+                                basepath: base,
+                            }, function(e, r) {
+                                result = r;
+                                result.sources.forEach(function(m) {
+                                    m.file && packedFiles.push(m.file);
+                                });
+                                next();
+                            });
+                        },
+                        function(next) {
+                            var filename = options.local ? "__installed__.js" : "__packed__.js";
+                            fs.writeFile(filename, result.code, "utf8", next);
+                        },
+                        function(next) {
+                            // console.log(packedFiles)
+                            if (options.local)
+                                return callback();
                             zip(packedFiles);
-                        });
-                    });
+                        }
+                    ]);
+ 
                 }
                 
                 function zip(ignore){
-                    zipFilePath = join(os.tmpDir(), json.name + "@" + json.version);
-                    var tarArgs = ["-zcvf", zipFilePath, "."]; 
-                    var c9ignore = process.env.HOME + "/.c9/.c9ignore";
+                    zipFilePath = join(os.tmpDir(), json.name + "@" + json.version) + ".tar.gz";
+                    var tarArgs = ["-zcvf", normalizePath(zipFilePath), "."]; 
+                    var c9ignore = normalizePath(process.env.HOME + "/.c9/.c9ignore");
                     fs.exists(c9ignore, function (exists) {
                         if (exists) {
                             tarArgs.push("--exclude-from=" + c9ignore);
                         }
-                        proc.spawn(TAR, { 
-                            args: tarArgs
+                        ignore.forEach(function(p) {
+                            p = Path.relative(cwd, p);
+                            if (!/^\.+\//.test(p)) {
+                                tarArgs.push("--exclude=./" + normalizePath(p));
+                            }
+                        });
+                        tarArgs.push("--transform='flags=r;s|__packed__|__installed__|'");
+                        // console.log(tarArgs)
+                        proc.spawn(TAR, {
+                            args: tarArgs,
+                            cwd: cwd
                         }, function(err, p){
                             if (err) return callback(err);
                             
@@ -494,7 +766,10 @@ define(function(require, exports, module) {
                                 if (code !== 0)
                                     return callback(new Error("ERROR: Could not package directory"));
                                 
-                                console.log("Built package", json.name + "@" + json.version);
+                                console.log("Built package", json.name + "@" + json.version +
+                                    (dryRun ? " at " + zipFilePath : ""));
+                                
+                                if (dryRun) return callback();
                                 
                                 upload();
                             });
@@ -715,15 +990,17 @@ define(function(require, exports, module) {
                             console.log("Downloading package to", gzPath);
                         
                         request.on('response', function(res) {
-                            if (res.statusCode != 200) 
+                            if (res.statusCode != 200)
                                 return callback(new Error("Unknown Error:" + res.statusCode));
-                                
+                        });
+                        
+                        file.on('finish', function(err) {
                             if (verbose)
                                 console.log("Unpacking", gzPath, "to", packagePath);
                             
                             // Untargz package
                             proc.spawn(TAR, {
-                                args: ["-C", packagePath, "-zxvf", gzPath]
+                                args: ["-C", normalizePath(packagePath), "-zxvf", normalizePath(gzPath)]
                             }, function(err, p){
                                 if (err) return callback(err);
                                 
@@ -890,6 +1167,12 @@ define(function(require, exports, module) {
                 }
                 prevDir = curDir + '/';
             }
+        }
+        
+        function normalizePath(p) {
+            if (process.platform == "win32")
+                p = p.replace(/\\/g, "/").replace(/^(\w):/, "/$1");
+            return p;
         }
 
         /***** Lifecycle *****/

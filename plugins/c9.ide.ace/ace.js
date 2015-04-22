@@ -90,7 +90,8 @@ define(function(require, exports, module) {
         
         var isMinimal = options.minimal;
         var themeLoaded = {};
-        var lastTheme, grpSyntax; 
+        var themeCounter = 100;
+        var lastTheme, grpSyntax, grpThemes;
         
         var theme;
         var skin = settings.get("user/general/@skin");
@@ -140,8 +141,10 @@ define(function(require, exports, module) {
         
         function setTheme(path, isPreview, fromServer, $err) {
             // Get Theme or wait for theme to load
-            try{
-                theme = fromServer || require(path);
+            try {
+                theme = typeof path == "object"
+                    ? path
+                    : fromServer || require(path);
                 
                 // fixes a problem with Ace architect loading /lib/ace
                 // creating a conflict with themes
@@ -1089,69 +1092,90 @@ define(function(require, exports, module) {
             
             /**** Themes ****/
             
-            var grpThemes = new ui.group();
-            var mnuThemes = new ui.menu({
+            grpThemes = new ui.group();
+            
+            menus.addItemByPath("View/Themes/", new ui.menu({
                 "onprop.visible" : function(e) {
                     if (e.value)
                         grpThemes.setValue(settings.get("user/ace/@theme"));
                 }
-            });
-            menus.addItemByPath("View/Themes/", mnuThemes, 350000, handle);
+            }), 350000, handle);
             
-            var preview;
-            var setMenuThemeDelayed = lang.delayedCall(function(){
-                setMenuTheme(preview, true);
-            }, 150);
-            function setMenuTheme(path, isPreview) {
-                setTheme(path || settings.get("user/ace/@theme"), isPreview);
-            }
-            
-            function addThemeMenu(name, path, index) {
-                menus.addItemByPath("View/Themes/" + name, new ui.item({
-                    type: "radio",
-                    value: path || themes[name],
-                    group: grpThemes,
-                    
-                    onmouseover: function(e) {
-                        preview = this.value;
-                        setMenuThemeDelayed.schedule();
-                    },
-                    
-                    onmouseout: function(e) {
-                        preview = null;
-                        setMenuThemeDelayed.schedule();
-                    },
-    
-                    onclick: function(e) {
-                        setMenuTheme(e.currentTarget.value);
-                    }
-                }), index, handle);
-            }
-        
             // Create Theme Menus
-            var mainCounter = 100;
             for (var name in themes) {
                 if (themes[name] instanceof Array) {
                     
                     // Add Menu Item (for submenu)
-                    menus.addItemByPath("View/Themes/" + name + "/", null, mainCounter++, handle);
+                    menus.addItemByPath("View/Themes/" + name + "/", null, themeCounter++, handle);
                     
                     themes[name].forEach(function (n) {
                         // Add Menu Item
                         var themeprop = Object.keys(n)[0];
-                        addThemeMenu(name + "/" + themeprop, n[themeprop]);
+                        addThemeMenu(name + "/" + themeprop, n[themeprop], -1);
                     });
                 }
                 else {
                     // Add Menu Item
-                    addThemeMenu(name, null, mainCounter++);
+                    addThemeMenu(name, null, themeCounter++);
                 }
             }
+            
+            /**** Syntax ****/
             
             grpSyntax = new ui.group();
             handle.addElement(grpNewline, grpSyntax, grpThemes);
         }
         
+        var preview;
+        var setMenuThemeDelayed = lang.delayedCall(function(){
+            setMenuTheme(preview, true);
+        }, 150);
+        function setMenuTheme(path, isPreview) {
+            setTheme(path || settings.get("user/ace/@theme"), isPreview);
+        }
+        function addThemeMenu(name, path, index, plugin) {
+            menus.addItemByPath("View/Themes/" + name, new ui.item({
+                type: "radio",
+                value: path || themes[name],
+                group: grpThemes,
+                
+                onmouseover: function(e) {
+                    preview = this.value;
+                    setMenuThemeDelayed.schedule();
+                },
+                
+                onmouseout: function(e) {
+                    preview = null;
+                    setMenuThemeDelayed.schedule();
+                },
+
+                onclick: function(e) {
+                    setMenuTheme(e.currentTarget.value);
+                }
+            }), index == -1 ? undefined : index || themeCounter++, plugin || handle);
+        }
+        function addTheme(css, plugin){
+            var theme = { cssText: css };
+            var firstLine = css.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
+            firstLine.split(";").forEach(function(n){
+                if (!n) return;
+                var info = n.split(":");
+                theme[info[0].trim()] = info[1].trim();
+            });
+            theme.isDark = theme.isDark == "true";
+                
+            themes[theme.name] = theme;
+            
+            ui.insertCss(exports.cssText, plugin);
+            addThemeMenu(theme.name, theme, null, plugin);
+            
+            handleEmit("addTheme");
+            
+            plugin.addOther(function(){
+                delete themes[theme.name];
+                handleEmit("removeTheme");
+            });
+        }
 
         function rebuildSyntaxMenu() {
             menus.remove("View/Syntax/");
@@ -1194,22 +1218,39 @@ define(function(require, exports, module) {
             }
         }
         
-        var updateSyntaxMenu = lang.delayedCall(rebuildSyntaxMenu, 50);
+        var updateSyntaxMenu = lang.delayedCall(function() {
+            rebuildSyntaxMenu();
+            tabs.getTabs().forEach(function(tab) {
+                if (tab.editorType == "ace") {
+                    var c9Session = tab.document.getSession();
+                    if (c9Session && c9Session.session) {
+                        var syntax = getSyntax(c9Session, tab.path);
+                        if (syntax)
+                            c9Session.setOption("syntax", syntax);
+                    }
+                }
+            });
+        }, 50);
         
         /***** Syntax *****/
         
         function defineSyntax(opts) {
             if (!opts.name || !opts.caption)
                 throw new Error("malformed syntax definition");
+            
             var name = opts.name;
             modes.byCaption[opts.caption] = opts;
             modes.byName[name] = opts;
             
+            opts.order = opts.order || 0;
             if (!opts.extensions)
                 opts.extensions = "";
+                
             opts.extensions.split("|").forEach(function(ext) {
                 modes.extensions[ext] = name;
             });
+            
+            
             updateSyntaxMenu.schedule();
         }
         
@@ -1218,9 +1259,11 @@ define(function(require, exports, module) {
             var extPos = fileName.lastIndexOf(".") + 1;
             if (extPos)
                 return fileName.substr(extPos).toLowerCase();
+            
             // special case for new files
             if (/^Untitled\d+$/.test(fileName))
                 fileName = fileName.replace(/\d+/, "");
+            
             return "^" + fileName;
         }
         
@@ -1296,7 +1339,7 @@ define(function(require, exports, module) {
                 syntax = "json";
             }
             else if (/\.(bashrc|inputrc)$/.test(path)) {
-                syntax = "bash";
+                syntax = "sh";
             }
             else if (/\.(git(attributes|config|ignore)|npmrc)$/.test(path)) {
                 syntax = "ini";
@@ -1500,7 +1543,7 @@ define(function(require, exports, module) {
             /**
              * Set the theme for ace.
              * 
-             * Here's a list of known themes:
+             * Here's a list of default themes:
              * 
              * * ace/theme/ambiance
              * * ace/theme/chrome
@@ -1546,7 +1589,7 @@ define(function(require, exports, module) {
              * @param {Object}  syntax
              * @param {Object}  syntax.caption        Caption to display in the menu
              * @param {Number}  syntax.order          order in the menu
-             * @param {String}  syntax.id             The path to corresponding ace language mode. (if doesn't contain "/" assumed to be from "ace/mode/<id>")
+             * @param {String}  syntax.name           The path to corresponding ace language mode. (if doesn't contain "/" assumed to be from "ace/mode/<name>")
              * @param {String}  syntax.extensions     file extensions in the form "ext1|ext2|^filename". this is case-insensitive
              */
             defineSyntax: defineSyntax,
@@ -1558,6 +1601,13 @@ define(function(require, exports, module) {
                 var mode = modes.byName[syntax];
                 return mode && mode.caption || "Text";
             },
+            
+            /**
+             * Adds a menu item for a new theme
+             * @param {String} css
+             * @param {Plugin} plugin
+             */
+            addTheme: addTheme,
             
             /**
              * @ignore
@@ -2085,12 +2135,12 @@ define(function(require, exports, module) {
                 bgStyle.bottom = upload ? "" : 0;
             }
         
-            function detectSettingsOnLoad(c9Session) {
+            function detectSettingsOnLoad(c9Session, doc) {
                 var session = c9Session.session;
                 if (settings.get("project/ace/@guessTabSize"))
                     whitespaceUtil.detectIndentation(session);
                 if (!session.syntax) {
-                    var syntax = detectSyntax(c9Session);
+                    var syntax = detectSyntax(c9Session, doc && doc.tab && doc.tab.path);
                     if (syntax)
                         setSyntax(c9Session, syntax, true);
                 }
@@ -2147,7 +2197,7 @@ define(function(require, exports, module) {
                         // aceSession.doc.setValue(e.value || "");
                     } else {
                         aceSession.setValue(e.value || "");
-                        detectSettingsOnLoad(c9Session);
+                        detectSettingsOnLoad(c9Session, doc);
                         hideProgress();
                     }
                     
@@ -2259,7 +2309,7 @@ define(function(require, exports, module) {
                     setState(doc, e.state);
                 
                 if (doc.meta.newfile) {
-                    detectSettingsOnLoad(c9Session);
+                    detectSettingsOnLoad(c9Session, doc);
                     aceSession.on("change", function detectIndentation() {
                         if (aceSession.$guessTabSize) {
                             if (aceSession.getLength() <= 2) return;
@@ -2270,7 +2320,7 @@ define(function(require, exports, module) {
                         aceSession.off("change", detectIndentation);
                     });
                 } else if (doc.hasValue()) {
-                    detectSettingsOnLoad(c9Session);
+                    detectSettingsOnLoad(c9Session, doc);
                 }
                 
                 // Create the ace like undo manager that proxies to 

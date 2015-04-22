@@ -97,7 +97,9 @@ define(function(require, exports, module) {
         function getVfsEndpoint(version, callback) {
             getServers(function(err, _servers) {
                 if (err) {
-                    errorHandler.reportError(err);
+                    if (err.code !== "EDISCONNECT")
+                        errorHandler.reportError(new Error("Could not get list of VFS servers"), { cause: err });
+                    metrics.increment("vfs.failed.connect_getservers", 1, true);
                     initDefaultServers();
                     _servers = servers;
                 }
@@ -170,7 +172,7 @@ define(function(require, exports, module) {
             // just take the first server that doesn't return an error
             (function tryNext(i) {
                 if (i >= servers.length) {
-                    metrics.increment("connect_failed_all", 1, true);
+                    metrics.increment("vfs.failed.connect_all", 1, true);
                     return callback(new Error("Disconnected: Could not reach your workspace. Please try again later."));
                 }
 

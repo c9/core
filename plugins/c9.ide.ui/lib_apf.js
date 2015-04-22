@@ -9683,7 +9683,7 @@ var ID = "id",
             for (j = rules.length - 1; j >= 0; j--) {
                 var rule = rules[j];
 
-                if (!rule.style || !rule.selectorText.match("\." + className + "$"))
+                if (!rule.style || !(rule.selectorText || "").match("\." + className + "$"))
                     continue;
 
                 for (style in rule.style) {
@@ -20274,6 +20274,9 @@ apf.Interactive = function(){
         lastTime = new Date().getTime();
         
         doResize(e);
+        
+        if (_self.dispatchEvent)
+            _self.dispatchEvent("resize");
         
         //overThreshold = true;
     }

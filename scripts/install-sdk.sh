@@ -28,6 +28,9 @@ blue=$'\e[01;34m'
 magenta=$'\e[01;35m'
 resetColor=$'\e[0m'
 
+NO_PULL=
+NO_GLOBAL_INSTALL=
+FORCE=
 
 updatePackage() {
     name=$1
@@ -63,7 +66,7 @@ updatePackage() {
 }
 
 updateAllPackages() {
-    c9packages=`"$NODE" -e 'console.log(Object.keys(require("./package.json").c9plugins).join(" "))'`;
+    c9packages=(`"$NODE" -e 'console.log(Object.keys(require("./package.json").c9plugins).join(" "))'`)
     count=${#c9packages[@]}
     i=0
     for m in ${c9packages[@]}; do echo $m; 
@@ -76,7 +79,7 @@ updateAllPackages() {
 updateNodeModules() {
     echo "${magenta}--- Running npm install --------------------------------------------${resetColor}"
     safeInstall(){
-        deps=`"$NODE" -e 'console.log(Object.keys(require("./package.json").dependencies).join(" "))'`; 
+        deps=(`"$NODE" -e 'console.log(Object.keys(require("./package.json").dependencies).join(" "))'`)
         for m in $deps; do echo $m; 
             "$NPM" install --loglevel warn $m || true
         done
@@ -86,11 +89,30 @@ updateNodeModules() {
 }
 
 updateCore() {
+    if [ "$NO_PULL" ]; then 
+        return 0;
+    fi
+    
+    # without this git merge fails on windows
+    mv ./scripts/install-sdk.sh  ./scripts/.install-sdk-tmp.sh 
+    cp ./scripts/.install-sdk-tmp.sh ./scripts/install-sdk.sh
+    git checkout -- ./scripts/install-sdk.sh
+
     git remote add c9 https://github.com/c9/core 2> /dev/null || true
     git fetch c9
     git merge c9/master --ff-only || \
         echo "${yellow}Couldn't automatically update sdk core ${resetColor}"
+
+    ## TODO use fetched script?
+    # oldScript="$(cat ./scripts/install-sdk.sh)"
+    # newScript="$(cat ./scripts/install-sdk.sh)"
+    # if ! [ "$oldScript" == "$newScript" ]; then
+    #     ./scripts/install-sdk.sh --no-pull
+    #     exit
+    # fi
 }
+
+
 
 installGlobalDeps() {
     if ! [[ -f ~/.c9/installed ]] && ! [[ $os == "windows" ]]; then
@@ -102,6 +124,10 @@ installGlobalDeps() {
 NPM=npm
 NODE=node
 
+# cleanup build cache since c9.static doesn't do this automatically yet
+rm -rf ./build/standalone
+
+# pull the latest version
 updateCore || true
 
 installGlobalDeps

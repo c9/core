@@ -181,6 +181,21 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
         
+        function splitSafe(path){
+           var pieces = [], escaped;
+           path.split("/").forEach(function(n){
+               if (escaped) n = escaped + "/" + n;
+               escaped = n.substr(-1) == "\\" ? n : false; //.substr(n, n.length - 1)
+               if (!escaped) pieces.push(n);
+           });
+           if (escaped) pieces.push(escaped);
+           return pieces;
+        }
+        
+        function popSafe(path){
+            return splitSafe(path).pop().replace(/\\\//g, "/");
+        }
+        
         function init(){
             inited = true;
             layout.initMenus(plugin);
@@ -365,7 +380,8 @@ define(function(require, exports, module) {
             if (item) {
                 item.setAttribute("submenu", menu);
                 item.setAttribute("caption",
-                    apf.escapeXML((debug ? "(" + index + ")" : "") + name.split("/").pop()));
+                    apf.escapeXML((debug ? "(" + index + ")" : "") 
+                    + popSafe(name)));
                 items[name] = item;
             }
             else {
@@ -374,7 +390,7 @@ define(function(require, exports, module) {
                     item = items[name] = new apf.item({
                         submenu: menu,
                         caption: (debug ? "(" + index + ") " : "") +
-                            name.split("/").pop()
+                            popSafe(name)
                     });
                 }
                 else {
@@ -402,7 +418,7 @@ define(function(require, exports, module) {
         function setMenuItem(parent, name, menuItem, index, item, plugin) {
             if (item && !item.nodeFunc) plugin = item, item = null;
             
-            var itemName = name.split("/").pop();
+            var itemName = popSafe(name);
             if (itemName == "~")
                 name += index;
     
@@ -462,7 +478,7 @@ define(function(require, exports, module) {
             
             assert(plugin !== undefined, "addItemByPath requires a plugin argument");
             
-            var steps = path.split("/"), name, p = [], isLast;
+            var steps = splitSafe(path), name, p = [], isLast;
             var curpath;
     
             if (!menuItem)
@@ -568,7 +584,7 @@ define(function(require, exports, module) {
             if (!items[path])
                 throw new Error("Could not find menu item " + path);
             
-            var steps = path.split("/"), p = [], item;
+            var steps = splitSafe(path), p = [], item;
             var curpath;
     
             for (var name, i = 0, l = steps.length; i < l; i++) {

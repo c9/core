@@ -39,6 +39,9 @@ define(function(require, exports, module) {
         var protocolVersion = require("kaefer/version").protocol;
         var smith = require("smith");
         var URL = require("url");
+        var DEBUG = options.debug 
+            && (typeof location == "undefined" 
+            || location.href.indexOf("debug=3") > -1);
 
         // The connected vfs unique id
         var id;
@@ -76,11 +79,11 @@ define(function(require, exports, module) {
             if (loaded) return false;
             loaded = true;
             
-            smith.debug = options.debug;
+            smith.debug = DEBUG;
             
             connection = connectClient(connectEngine, {
                 preConnectCheck: preConnectCheck,
-                debug: options.debug
+                debug: DEBUG
             });
             
             connection.on("away", emit.bind(null, "away"));
@@ -206,7 +209,7 @@ define(function(require, exports, module) {
             
             vfsEndpoint.get(protocolVersion, function(err, urls) {
                 if (err) {
-                    metrics.increment("connect_failed", 1, true);
+                    metrics.increment("vfs.failed.connect", 1, true);
                     if (!showErrorTimer) {
                         showErrorTimer = setTimeout(function() {
                             showVfsError(showErrorTimerMessage);

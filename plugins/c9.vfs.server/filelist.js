@@ -94,8 +94,7 @@ define(function(require, exports, module) {
                     if (code == 127) {
                         err = new error.PreconditionFailed(
                             "Your instance seems to be missing the 'nak' utility\n" + 
-                            "If you are using an SSH workspace, please do:\n" +
-                            "    'curl https://raw.github.com/c9/install/master/install.sh | bash'");
+                            "Please re-install nak.");
                     } else if (code) {
                         err = new error.InternalServerError(
                             "'nak' utility failed with exit code " + code + 

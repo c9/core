@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
     main.consumes = [
-        "Plugin", "proc", "c9", "pubsub", "auth"
+        "Plugin", "proc", "c9", "pubsub", "auth", "util"
     ];
     main.provides = ["plugin.installer"];
     return main;
@@ -8,10 +8,12 @@ define(function(require, exports, module) {
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var c9 = imports.c9;
+        var util = imports.util;
         var proc = imports.proc;
         var auth = imports.auth;
         var pubsub = imports.pubsub;
         
+        var escapeShell = util.escapeShell;
         var updates = options.updates;
         var architect;
         
@@ -103,7 +105,7 @@ define(function(require, exports, module) {
         
         function installPlugin(name, version, callback){
             proc.spawn("bash", {
-                args: ["-c", ["c9", "install", "--local", "--force", "--accessToken=" + auth.accessToken, name + "@" + version].join(" ")]
+                args: ["-c", ["c9", "install", "--local", "--force", "--accessToken=" + auth.accessToken, escapeShell(name) + "@" + escapeShell(version)].join(" ")]
             }, function(err, process){
                 if (err) return callback(err);
                 
@@ -127,7 +129,7 @@ define(function(require, exports, module) {
         
         function uninstallPlugin(name, callback){
             proc.spawn("c9", {
-                args: ["remove", "--local", "--force", "--accessToken=" + auth.accessToken, name]
+                args: ["remove", "--local", "--force", "--accessToken=" + auth.accessToken, escapeShell(name)]
             }, function(err, process){
                 if (err) return callback(err);
                 
@@ -154,12 +156,6 @@ define(function(require, exports, module) {
         
         plugin.on("load", function() {
             load();
-        });
-        plugin.on("enable", function() {
-            
-        });
-        plugin.on("disable", function() {
-            
         });
         plugin.on("unload", function() {
             loaded = false;
