@@ -70,8 +70,8 @@ plugins/c9.proxy/proxy.cfg
 plugins/c9.proxy/haproxy
 plugins/c9.proxy/haproxy-*
 **/.module-cache/
-plugins/c9.account.billing/node_modules/
 plugins/c9.account/node_modules/
+plugins/c9.account.*/node_modules/
 
 .c9revisions
 .settings
