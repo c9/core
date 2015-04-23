@@ -160,9 +160,8 @@ define(function(require, exports, module) {
                 doc.title = "Package Browser";
                 
                 function setTheme(){
-                    // var bg = ui.getStyleRule(".bar-preferences .container .header", "backgroundColor") || "#F0F0F0";
-                    var bg = "#FFF";
-                    doc.tab.backgroundColor = bg; //"#2d2d2d";
+                    var bg = "#ededed";
+                    doc.tab.backgroundColor = bg;
                     
                     if (util.shadeColor(bg, 1).isLight)
                         doc.tab.classList.remove("dark");
