@@ -24,12 +24,12 @@ define(function(require, exports, module) {
         var extensions = [];
         var packages = {};
         
-        var handle = editors.register("plugin.packages", "Packages Browser", 
-                                      PackagesBrowser, extensions);
+        var handle = editors.register("plugin.packages", "Package Browser", 
+                                      PackageBrowser, extensions);
         var emit = handle.getEmitter();
         emit.setMaxListeners(1000);
         
-        var HASSDK = c9.location.indexOf("sdk=1") > -1;
+        var HASSDK = c9.location.indexOf("sdk=0") === -1;
         
         function focusOpenPackages(){
             var pages = tabs.getTabs();
@@ -49,8 +49,8 @@ define(function(require, exports, module) {
             });
             
             commands.addCommand({
-                name: "openpackagesbrowser",
-                hint: "open the packages browser",
+                name: "openpackagebrowser",
+                hint: "open the package browser",
                 group: "General",
                 // bindKey: { mac: "Command-,", win: "Ctrl-," },
                 exec: function () {
@@ -69,9 +69,10 @@ define(function(require, exports, module) {
                 }
             }, handle);
             
-            menus.addItemByPath("Cloud9/Plugin Store", new ui.item({
-                command: "openpackagesbrowser"
-            }), 301, handle);
+            menus.addItemByPath("Cloud9/~", new ui.divider(), 1000, handle);
+            menus.addItemByPath("Cloud9/Package Browser", new ui.item({
+                command: "openpackagebrowser"
+            }), 1100, handle);
         });
         
         /***** Methods *****/
@@ -123,10 +124,10 @@ define(function(require, exports, module) {
         
         /***** Editor *****/
         
-        function PackagesBrowser(){
+        function PackageBrowser(){
             var plugin = new Editor("Ajax.org", main.consumes, extensions);
             //var emit = plugin.getEmitter();
-            var tab;
+            var tab, iframe;
             
             plugin.on("resize", function(e) {
                 emit("resize", e);
@@ -136,33 +137,15 @@ define(function(require, exports, module) {
                 tab = e.tab;
                 var htmlNode = e.htmlNode;
                 
-                api.packages.get("", function(err, list){
-                    if (c9.standalone) {
-                        err = null;
-                        list = [{ name: "example", apikey:"0000000000000000000000000000=", packagePath: "plugins/c9.example/example" }];
-                    }
-                    
-                    if (err) return;
-                    
-                    var sHtml = "";
-                    list.forEach(function(plugin){ // @todo use react instead in an iframe
-                        packages[plugin.name] = plugin;
-                    
-                        sHtml += "<div>"
-                            + "<span>" + plugin.name + "</span> | "
-                            + "<a href='javascript:void(0)' plugin-name='" + plugin.name + "' target='project'>Install In Workspace</a> | "
-                            + "<a href='javascript:void(0)' plugin-name='" + plugin.name + "' target='user'>Install To User</a>"
-                            + "</div>";
-                    });
-                    
-                    htmlNode.innerHTML = sHtml;
-                    htmlNode.addEventListener("click", function(e){
-                        if (e.target.tagName == "A") {
-                            installPlugin(e.target.getAttribute("plugin-name"), 
-                                e.target.getAttribute("target"), function(){});
-                        }
-                    });
-                });
+                iframe = htmlNode.appendChild(document.createElement("iframe"));
+                iframe.style.position = "absolute";
+                iframe.style.top = 0;
+                iframe.style.left = 0;
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                iframe.style.border = 0;
+                
+                iframe.src = location.origin + "/profile/packages?nobar=1&pid=" + c9.projectId;
             });
             
             plugin.on("getState", function(e) {
