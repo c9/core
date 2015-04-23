@@ -157,7 +157,7 @@ define(function(require, exports, module) {
             
             plugin.on("documentLoad", function(e) {
                 var doc = e.doc;
-                doc.title = "Plugin Store";
+                doc.title = "Package Browser";
                 
                 function setTheme(){
                     // var bg = ui.getStyleRule(".bar-preferences .container .header", "backgroundColor") || "#F0F0F0";
