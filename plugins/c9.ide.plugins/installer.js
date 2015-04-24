@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
     main.consumes = [
-        "Plugin", "proc", "c9", "pubsub", "auth", "util"
+        "Plugin", "proc", "c9", "pubsub", "auth", "util", "installer"
     ];
     main.provides = ["plugin.installer"];
     return main;
@@ -12,6 +12,7 @@ define(function(require, exports, module) {
         var proc = imports.proc;
         var auth = imports.auth;
         var pubsub = imports.pubsub;
+        var installer = imports.installer;
         
         var async = require("async");
         
@@ -107,53 +108,29 @@ define(function(require, exports, module) {
         }
         
         function installPlugin(name, version, callback){
-            proc.spawn("bash", {
-                args: ["-c", ["c9", "install", "--local", "--force", "--accessToken=" + auth.accessToken, escapeShell(name) + "@" + escapeShell(version)].join(" ")]
-            }, function(err, process){
-                if (err) return callback(err);
-                
-                var output = "";
-                process.stdout.on("data", function(c){
-                    output += c;
-                });
-                process.stderr.on("data", function(c){
-                    output += c;
+            // Headless installation of the plugin
+            installer.createSession(name, version, function(session, options){
+                session.install({
+                    "bash": "c9 install --local --force --accessToken=" + auth.accessToken
+                        + " " + escapeShell(name) + "@" + escapeShell(version)
                 });
                 
-                process.on("exit", function(code){
-                    if (code) {
-                        var error = new Error(output);
-                        error.code = code;
-                        return callback(error);
-                    }
-                    callback();
-                });
-            });
+                // Force to start immediately
+                session.start(callback, true);
+            }, function(){}, 2); // Force to not be administered
         }
         
         function uninstallPlugin(name, callback){
-            proc.spawn("c9", {
-                args: ["remove", "--local", "--force", "--accessToken=" + auth.accessToken, escapeShell(name)]
-            }, function(err, process){
-                if (err) return callback(err);
-                
-                var res = null;
-                process.stdout.on("data", function(c){
-                    res = c.toString("utf8");
-                });
-                process.stderr.on("data", function(c){
-                    err = c.toString("utf8");
+            // Headless uninstallation of the plugin
+            installer.createSession(name, -1, function(session, options){
+                session.install({
+                    "bash": "c9 remove --local --force --accessToken=" + auth.accessToken
+                        + " " + escapeShell(name)
                 });
                 
-                process.on("exit", function(code){
-                    if (code) {
-                        var error = new Error(err);
-                        error.code = code;
-                        return callback(error);
-                    }
-                    callback(null, res);
-                });
-            });
+                // Force to start immediately
+                session.start(callback, true);
+            }, function(){}, 2); // Force to not be administered
         }
         
         /***** Lifecycle *****/
@@ -182,6 +159,11 @@ define(function(require, exports, module) {
              * 
              */
             installPlugins: installPlugins,
+            
+            /**
+             * 
+             */
+            installPlugin: installPlugin,
             
             /**
              * 
