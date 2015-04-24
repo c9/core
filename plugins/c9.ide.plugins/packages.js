@@ -137,15 +137,15 @@ define(function(require, exports, module) {
                 tab = e.tab;
                 var htmlNode = e.htmlNode;
                 
+                htmlNode.style.paddingTop = 0;
+                
                 iframe = htmlNode.appendChild(document.createElement("iframe"));
-                iframe.style.position = "absolute";
-                iframe.style.top = 0;
-                iframe.style.left = 0;
                 iframe.style.width = "100%";
                 iframe.style.height = "100%";
                 iframe.style.border = 0;
+                iframe.style.backgroundColor = "#fbfbfb";
                 
-                iframe.src = location.origin + "/profile/packages?nobar=1&pid=" + c9.projectId;
+                iframe.src = location.origin.replace("ide.", "") + "/profile/packages?nobar=1&pid=" + c9.projectId;
             });
             
             plugin.on("getState", function(e) {
@@ -160,7 +160,7 @@ define(function(require, exports, module) {
                 doc.title = "Package Browser";
                 
                 function setTheme(){
-                    var bg = "#ededed";
+                    var bg = "#fbfbfb";
                     doc.tab.backgroundColor = bg;
                     
                     if (util.shadeColor(bg, 1).isLight)
@@ -174,14 +174,7 @@ define(function(require, exports, module) {
             });
             
             plugin.on("documentActivate", function(e) {
-                e.doc.tab.on("unload", function(){
-                    if (parent.parentNode == tab)
-                        tab.removeChild(parent);
-                });
                 
-                tab.appendChild(parent);
-                
-                emit("show");
             });
             
             /***** Register and define API *****/
