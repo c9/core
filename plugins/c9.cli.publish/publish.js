@@ -467,11 +467,14 @@ define(function(require, exports, module) {
                     
                     if (dryRun) return build();
                     
+                    commit();
+                });
+                
+                function commit() {
                     SHELLSCRIPT = SHELLSCRIPT
                         .replace(/\$1/, packagePath)
                         .replace(/\$2/, json.version);
-                    
-                    // commit
+                        
                     proc.spawn("bash", {
                         args: ["-c", SHELLSCRIPT]
                     }, function(err, p){
@@ -495,10 +498,9 @@ define(function(require, exports, module) {
                             build();
                         });
                     });
-                });
+                }
                 
                 // Build the package
-                // @TODO use a proper package tool
                 // @TODO add a .c9exclude file that excludes files
                 var zipFilePath;
                 function build(){
@@ -727,8 +729,8 @@ define(function(require, exports, module) {
                                 args: ["-rf", ".c9build"],
                                 cwd: cwd
                             }, function() {
-                                mkdirP(cwd + "/.c9build");
-                                fs.writeFile(cwd + "/.c9build/__installed__.js", result.code, "utf8", next);
+                                mkdirP(cwd + "/.c9/.build");
+                                fs.writeFile(cwd + "/.c9/.build/__installed__.js", result.code, "utf8", next);
                             });
                         },
                         function(next) {
@@ -742,7 +744,7 @@ define(function(require, exports, module) {
                                 p = "/" + normalizePath(Path.relative(cwd, p));
                                 excludeMap[p] = 1;
                             });
-                            copy(cwd, cwd + "/.c9build", {
+                            copy(cwd, cwd + "/.c9/.build", {
                                 exclude: function(name, parent) {
                                     if (excludeRe.test(name))
                                         return true;
@@ -769,7 +771,7 @@ define(function(require, exports, module) {
                         tarArgs.push(".");
                         proc.spawn(TAR, {
                             args: tarArgs,
-                            cwd: cwd + "/.c9build"
+                            cwd: cwd + "/.c9/.build"
                         }, function(err, p){
                             if (err) return callback(err);
                             
