@@ -54,7 +54,6 @@ function main(argv, config, callback) {
         .default("settings", DEFAULT_SETTINGS)
         .describe("settings", "Settings file to use")
         .describe("dump", "dump config file as JSON")
-        .describe("domain", "Top-level domain to use (e.g, c9.io)")
         .boolean("help")
         .describe("help", "Show command line options.");
 
@@ -87,14 +86,6 @@ function start(configName, options, callback) {
    
     var settings = require(path.join(__dirname, "./settings", settingsName))();
     
-    if (argv.domain) {
-        settings.c9.domain = argv.domain;
-        for (var s in settings) {
-            settings[s].baseUrl = settings[s].baseUrl
-                && settings[s].baseUrl.replace(/[^./]+\.[^.]+$/, argv.domain);
-        }
-    }
-
     var plugins = require(configPath)(settings, options);
     
     if (argv.help) {
