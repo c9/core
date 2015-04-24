@@ -718,38 +718,58 @@ define(function(require, exports, module) {
                             });
                         },
                         function(next) {
-                            var filename = options.local ? "__installed__.js" : "__packed__.js";
-                            fs.writeFile(filename, result.code, "utf8", next);
+                            if (options.local)
+                                fs.writeFile(cwd + "__installed__.js", result.code, "utf8", callback);
+                            next();
                         },
                         function(next) {
-                            // console.log(packedFiles)
-                            if (options.local)
-                                return callback();
-                            zip(packedFiles);
+                            proc.execFile("rm", {
+                                args: ["-rf", ".c9build"],
+                                cwd: cwd
+                            }, function() {
+                                mkdirP(cwd + "/.c9build");
+                                fs.writeFile(cwd + "/.c9build/__installed__.js", result.code, "utf8", next);
+                            });
+                        },
+                        function(next) {
+                            var copy = require("architect-build/copy");
+                            
+                            var excludeRe = /^\.(gitignore|hgignore|git|c9|hg|c9build)$/;
+                            var excludeMap = Object.create(null);
+                            
+                            packedFiles.push(cwd + "/__installed__.js");
+                            packedFiles.forEach(function(p) {
+                                p = "/" + normalizePath(Path.relative(cwd, p));
+                                excludeMap[p] = 1;
+                            });
+                            copy(cwd, cwd + "/.c9build", {
+                                exclude: function(name, parent) {
+                                    if (excludeRe.test(name))
+                                        return true;
+                                    var fullPath = parent.substr(cwd.length) + "/" + name;
+                                    if (excludeMap[fullPath])
+                                        return true;
+                                    return false;
+                                }
+                            })
+                            zip();
                         }
                     ]);
  
                 }
                 
-                function zip(ignore){
+                function zip(){
                     zipFilePath = join(os.tmpDir(), json.name + "@" + json.version) + ".tar.gz";
-                    var tarArgs = ["-zcvf", normalizePath(zipFilePath), "."]; 
+                    var tarArgs = ["-zcvf", normalizePath(zipFilePath)]; 
                     var c9ignore = normalizePath(process.env.HOME + "/.c9/.c9ignore");
                     fs.exists(c9ignore, function (exists) {
                         if (exists) {
                             tarArgs.push("--exclude-from=" + c9ignore);
                         }
-                        ignore.forEach(function(p) {
-                            p = Path.relative(cwd, p);
-                            if (!/^\.+\//.test(p)) {
-                                tarArgs.push("--exclude=./" + normalizePath(p));
-                            }
-                        });
-                        tarArgs.push("--transform='flags=r;s|__packed__|__installed__|'");
-                        // console.log(tarArgs)
+                        tarArgs.push(".");
                         proc.spawn(TAR, {
                             args: tarArgs,
-                            cwd: cwd
+                            cwd: cwd + "/.c9build"
                         }, function(err, p){
                             if (err) return callback(err);
                             
