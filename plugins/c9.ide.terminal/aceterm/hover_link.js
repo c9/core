@@ -254,6 +254,42 @@ var HoverLink = function(editor) {
             match.value = value.replace(/:[^\d][^:]*$/, "");
             // match.basePath = "";
         }
+        else if (prompt.command === "ack" || prompt.command === "ag") {
+            match.type = "path";
+            var fontColor = lineData[column] && lineData[column][0];
+            if (match.start !== 0) {
+                if (fontColor == 131840)
+                    return;
+                
+                var col = column;
+                while (lineData[col] && lineData[col][0] == fontColor)
+                    col--;
+                match.start = col + 1;
+                col = column;
+                while (lineData[col] && lineData[col][0] == fontColor)
+                    col++;
+                match.value = line.substring(match.start, col);
+            }
+            
+            var jumpLine = line.match(/^(\d*:)?/)[0];
+            var jumpColumn = Math.max(match.start - jumpLine.length, 0);
+            
+            var pathLine = line;
+            while (/^\d+/.test(pathLine) && row > prompt.row) {
+                lineData = session.getLineData(row);
+                if (!lineData.wrapped) {
+                    pathLine = session.getLine(row);
+                }
+                row--;
+            }
+            
+            match.path = pathLine;
+            if (jumpLine)
+                match.path += ":" + jumpLine + jumpColumn;
+            
+            if (match.start == 0 && jumpLine)
+                match.action = "open";
+        }
         else if (/^(~|\.\.?)?[\/\\]/.test(value) || /\w:[\\]/.test(value)) {
             match.type = "path";
             match.value = value.replace(/['">)}\].,;:]+$/, "");
@@ -325,7 +361,8 @@ var HoverLink = function(editor) {
                         command: command,
                         index: m.index,
                         args: args,
-                        lineData: lineData
+                        lineData: lineData,
+                        row: row
                     };
                 }
                 if (lineData.isUserInput)
