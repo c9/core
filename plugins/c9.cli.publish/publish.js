@@ -466,15 +466,24 @@ define(function(require, exports, module) {
                     json.version = v.join(".");
                 }
                 
-                if (!version)
-                    return build();
+                return build();
                 
-                // Write the package.json file
-                var indent = data.match(/{\n\r?^ {4}"/) ? 4 : 2;
-                fs.writeFile(packagePath, JSON.stringify(json, null, indent), function(err){
-                    if (err) return callback(err);
-                    return build();
-                });
+                function updatePackageJSON(next) {
+                    if (!version)
+                        return next();
+                    
+                    // Write the package.json file
+                    var indent = data.match(/{\n\r?^ {4}"/) ? 4 : 2;
+                    var newData = JSON.stringify(json, null, indent);
+                    fs.writeFile(cwd + "/.c9/.build/pacage.json", newData, function(err){
+                        if (dryRun)
+                            return next(); // if dry-run is passed only update path in .build
+                        fs.writeFile(packagePath, newData, function(err){
+                            if (err) return callback(err);
+                            return next();
+                        });
+                    });
+                }
                 
                 // Build the package
                 // @TODO add a .c9exclude file that excludes files
@@ -702,7 +711,7 @@ define(function(require, exports, module) {
                         },
                         function(next) {
                             proc.execFile("rm", {
-                                args: ["-rf", ".c9build"],
+                                args: ["-rf", ".c9/.build"],
                                 cwd: cwd
                             }, function() {
                                 mkdirP(cwd + "/.c9/.build");
@@ -712,7 +721,7 @@ define(function(require, exports, module) {
                         function(next) {
                             var copy = require("architect-build/copy");
                             
-                            var excludeRe = /^\.(gitignore|hgignore|git|c9|hg|c9build)$/;
+                            var excludeRe = /^\.(gitignore|hgignore|git|c9|hg)$/;
                             var excludeMap = Object.create(null);
                             
                             packedFiles.push(cwd + "/__installed__.js");
@@ -729,7 +738,11 @@ define(function(require, exports, module) {
                                         return true;
                                     return false;
                                 }
-                            })
+                            });
+                            next();
+                        },
+                        updatePackageJSON,
+                        function(next) {
                             zip();
                         }
                     ]);
@@ -1222,7 +1235,7 @@ define(function(require, exports, module) {
             force = false;
         });
         
-        /***** Register and define API *****/
+        /***** Register and definfe API *****/
 
         /**
          * 
