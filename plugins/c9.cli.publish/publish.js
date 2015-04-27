@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-    main.consumes = ["Plugin", "cli_commands", "proc", "api", "auth"];
+    main.consumes = ["Plugin", "cli_commands", "proc", "api", "auth", "installer"];
     main.provides = ["cli.publish"];
     return main;
 
@@ -9,6 +9,7 @@ define(function(require, exports, module) {
         var proc = imports.proc;
         var auth = imports.auth;
         var api = imports.api;
+        var installer = imports.installer;
         
         var TEST_MODE = !!process.env.C9_TEST_MODE;
         var SHELLSCRIPT = TEST_MODE ? "" : require("text!./publish.git.sh").toString("utf8");
