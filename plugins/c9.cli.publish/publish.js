@@ -230,6 +230,8 @@ define(function(require, exports, module) {
                 }
                 if (!json.repository)
                     return callback(new Error("ERROR: Missing repository property in package.json"));
+                if (!json.repository.url)
+                    return callback(new Error("ERROR: Missing repository.url property in package.json"));
                 if (!json.categories || json.categories.length == 0)
                     return callback(new Error("ERROR: At least one category is required in package.json"));
                 
