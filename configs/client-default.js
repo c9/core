@@ -529,6 +529,7 @@ module.exports = function(options) {
         "plugins/c9.ide.installer/commands/gem",
         "plugins/c9.ide.installer/commands/zip",
         "plugins/c9.ide.installer/commands/symlink",
+        "plugins/c9.ide.installer/commands/message",
         {
             packagePath: "plugins/c9.ide.installer/commands/tar.gz",
             bashBin: options.bashBin

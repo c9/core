@@ -219,6 +219,8 @@ define(function(require, exports, module) {
                 }
                 
                 // Basic Validation
+                if (json.private)
+                    return callback(new Error("ERROR: Private flag in package.json prevents from publishing"));
                 if (!json.name)
                     return callback(new Error("ERROR: Missing name property in package.json"));
                 if (basename(cwd) != json.name) {

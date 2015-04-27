@@ -83,6 +83,7 @@ return [
     "./c9.ide.installer/commands/gem",
     "./c9.ide.installer/commands/zip",
     "./c9.ide.installer/commands/symlink",
+    "./c9.ide.installer/commands/message",
     {
         packagePath: "./c9.ide.installer/commands/tar.gz",
         bashBin: "bash"
@@ -93,7 +94,8 @@ return [
         packagePath: "./c9.ide.installer/installer",
         homeDir: process.env.HOME,
         installSelfCheck: false,
-        installPath: process.env.HOME + "/.c9"
+        installPath: process.env.HOME + "/.c9",
+        cli: true
     },
     // "./c9.cli.sync/sync",
     //"./c9.ide.keys/commands",
@@ -108,6 +110,7 @@ return [
                     debug: true,
                     hosted: false,
                     local: true,
+                    home: process.env.HOME,
                     setStatus: function(){}
                 },
                 error_handler: {
