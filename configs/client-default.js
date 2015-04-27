@@ -525,6 +525,9 @@ module.exports = function(options) {
         "plugins/c9.ide.installer/commands/centos",
         "plugins/c9.ide.installer/commands/bash",
         "plugins/c9.ide.installer/commands/npm",
+        "plugins/c9.ide.installer/commands/pip",
+        "plugins/c9.ide.installer/commands/gem",
+        "plugins/c9.ide.installer/commands/zip",
         "plugins/c9.ide.installer/commands/symlink",
         {
             packagePath: "plugins/c9.ide.installer/commands/tar.gz",

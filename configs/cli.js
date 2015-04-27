@@ -69,6 +69,9 @@ return [
     "./c9.ide.installer/commands/centos",
     "./c9.ide.installer/commands/bash",
     "./c9.ide.installer/commands/npm",
+    "./c9.ide.installer/commands/pip",
+    "./c9.ide.installer/commands/gem",
+    "./c9.ide.installer/commands/zip",
     "./c9.ide.installer/commands/symlink",
     {
         packagePath: "./c9.ide.installer/commands/tar.gz",
