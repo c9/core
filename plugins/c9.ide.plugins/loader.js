@@ -58,9 +58,9 @@ define(function(require, exports, module) {
                 fs.readdir("~/.c9/plugins", function handle(err, files){
                     if (err) {
                         if (err.code == "EDISCONNECT") {
-                            c9.once("connect", function(){
+                            setTimeout(function(){
                                 fs.readdir("~/.c9/plugins", handle);
-                            });
+                            }, 100);
                         }
                         console.error(err);
                         return;
