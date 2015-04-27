@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-    main.consumes = ["Plugin", "cli_commands", "proc", "api", "auth", "installer"];
+    main.consumes = ["Plugin", "cli_commands", "proc", "api", "auth"];
     main.provides = ["cli.publish"];
     return main;
 
@@ -9,7 +9,6 @@ define(function(require, exports, module) {
         var proc = imports.proc;
         var auth = imports.auth;
         var api = imports.api;
-        var installer = imports.installer;
         
         var TEST_MODE = !!process.env.C9_TEST_MODE;
         var SHELLSCRIPT = TEST_MODE ? "" : require("text!./publish.git.sh").toString("utf8");
@@ -157,12 +156,12 @@ define(function(require, exports, module) {
                             .trim()
                             .replace(/PACKAGE_NAME/g, packageName);
                                     
-                        fs.writeFileSync(cwd + "/__installed__.js", code, "utf8")
-                    } else {
-                        dryRun = true
-                        publish({local: true}, function(err, data){});
+                        fs.writeFileSync(cwd + "/__installed__.js", code, "utf8");
+                    } 
+                    else {
+                        dryRun = true;
+                        publish({local: true}, function(){});
                     }
-                    
                 }
             });
             
@@ -195,183 +194,12 @@ define(function(require, exports, module) {
                         });
                 }
             });
-            
-            cmd.addCommand({
-                name: "install", 
-                info: "  Installs a cloud9 package.",
-                usage: "[--verbose] [--force] [--global] [--local] [--debug] <package>[@<version>]", // @TODO --global, --debug, --local
-                options: {
-                    "local": {
-                        description: "",
-                        "default": false,
-                        "boolean": true
-                    },
-                    "global": {
-                        description: "",
-                        "default": false,
-                        "boolean": true
-                    },
-                    "debug": {
-                        description: "",
-                        "default": false,
-                        "boolean": true
-                    },
-                    "package" : {
-                        description: "",
-                        "default": false
-                    },
-                    "verbose" : {
-                        "description": "Output more information",
-                        "alias": "v",
-                        "default": false,
-                        "boolean": true
-                    },
-                    "force" : {
-                        "description": "Ignore warnings",
-                        "alias": "f",
-                        "default": false,
-                        "boolean": true
-                    }
-                },
-                check: function(argv) {
-                    if (argv._.length < 2 && !argv["package"])
-                        throw new Error("package");
-                },
-                exec: function(argv) {
-                    verbose = argv["verbose"];
-                    force = argv["force"];
-                    
-                    if (argv.accessToken)
-                        auth.accessToken = argv.accessToken;
-                    
-                    if (!argv.local && !argv.debug) {
-                        if (!process.env.C9_PID) {
-                            console.warn("It looks like you are not running on c9.io. Will default to local installation of the package");
-                            argv.local = true;
-                        }
-                    }
-                    
-                    var name = argv._[1];
-                    install(
-                        name,
-                        {
-                            global: argv.global,
-                            local: argv.local,
-                            debug: argv.debug
-                        },
-                        function(err, data){
-                            if (err) {
-                                console.error(err.message || "Terminated.");
-                                process.exit(1);
-                            }
-                            else {
-                                console.log("Succesfully installed", name + (argv.debug ? "" : "@" + data.version));
-                                process.exit(0);
-                            }
-                        });
-                }
-            });
-            
-            cmd.addCommand({
-                name: "remove", 
-                info: "   Removes a cloud9 package.",
-                usage: "[--verbose] [--global] [--local] <package>", // @TODO --global
-                options: {
-                    "local": {
-                        description: "",
-                        "default": false,
-                        "boolean": true
-                    },
-                    "global": {
-                        description: "",
-                        "default": false,
-                        "boolean": true
-                    },
-                    "package" : {
-                        description: ""
-                    },
-                    "verbose" : {
-                        "description": "Output more information",
-                        "alias": "v",
-                        "default": false,
-                        "boolean": true
-                    }
-                },
-                check: function(argv) {
-                    if (argv._.length < 2 && !argv["package"])
-                        throw new Error("package");
-                },
-                exec: function(argv) {
-                    verbose = argv["verbose"];
-                    
-                    if (argv.accessToken)
-                        auth.accessToken = argv.accessToken;
-                    
-                    var name = argv._[1];
-                    uninstall(
-                        name,
-                        {
-                            global: argv.global,
-                            local: argv.local
-                        },
-                        function(err, data){
-                            if (err) {
-                                console.error(err.message || "Terminated.");
-                                process.exit(1);
-                            }
-                            else {
-                                console.log("Succesfully removed", name);
-                                process.exit(0);
-                            }
-                        });
-                }
-            });
-            
-            cmd.addCommand({
-                name: "list", 
-                info: "     Lists all available packages.",
-                usage: "[--json]",
-                options: {
-                    "json": {
-                        description: "",
-                        "default": false,
-                        "boolean": true
-                    },
-                },
-                check: function(argv) {},
-                exec: function(argv) {
-                    verbose = argv["verbose"];
-                    
-                    list(argv.json);
-                }
-            });
         }
 
         /***** Methods *****/
         
         function stringifyError(err){
             return (verbose ? JSON.stringify(err, 4, "    ") : (typeof err == "string" ? err : err.message));
-        }
-        
-        function list(asJson, callback){
-            callback = callback || function(){};
-            api.packages.get("", function(err, list){
-                if (err) {
-                    console.error("ERROR: Could not get list: ", stringifyError(err));
-                    return callback(err);
-                }
-                
-                if (asJson) {
-                    console.log(JSON.stringify(list, 4, "   "));
-                    return callback(null, list);
-                }
-                else {
-                    list.forEach(function(item){
-                        console.log(item.name, "https://c9.io/packages/" + item.name);
-                    });
-                    return callback(null, list);
-                }
-            });
         }
         
         function publish(options, callback) {
@@ -398,8 +226,8 @@ define(function(require, exports, module) {
                     if (!force)
                         return callback(new Error("Use --force to ignore this warning."));
                 }
-                if (!json.description)
-                    return callback(new Error("ERROR: Missing description property in package.json"));
+                if (json.description)
+                    return console.warn("WARNING: Description property in package.json found, but not used. Create a README.md instead.");
                 if (!json.repository)
                     return callback(new Error("ERROR: Missing repository property in package.json"));
                 if (!json.categories || json.categories.length == 0)
@@ -411,6 +239,8 @@ define(function(require, exports, module) {
                     if (!force)
                         return callback(new Error("Use --force to ignore these warnings."));
                 }
+                
+                json.description = fs.readFileSync(join(cwd, "README.md"), "utf8");
                 
                 // Validate plugins
                 var plugins = {};
@@ -949,288 +779,6 @@ define(function(require, exports, module) {
             });
         }
         
-        function install(packageName, options, callback){
-            // Call install url
-            var parts = packageName.split("@");
-            var name = parts[0];
-            var version = parts[1];
-            var repository;
-            
-            if (!version || options.debug) {
-                if (verbose)
-                    console.log("Retrieving package info");
-                    
-                api.packages.get(name, function (err, info) {
-                    if (err) return callback(err);
-                    
-                    if (verbose)
-                        console.log("Found:", info);
-                        
-                    version = info.latest;
-                    repository = info.repository;
-                    
-                    installPackage();
-                });
-            }
-            else {
-                installPackage();
-            }
-            
-            function prepareDirectory(callback){
-                // Create package dir
-                var packagePath = process.env.HOME + "/.c9/plugins/" + name;
-                var exists = fs.existsSync(packagePath) ;
-                if (exists) {
-                    if (!force)
-                        return callback(new Error("WARNING: Directory not empty: " + packagePath 
-                            + ". Use --force to overwrite."));
-                
-                    proc.execFile("rm", {
-                        args: ["-Rf", packagePath]
-                    }, function(){
-                        mkdirP(packagePath);
-                        callback(null, packagePath);
-                    });
-                }
-                else {
-                    mkdirP(packagePath);
-                    callback(null, packagePath);
-                }
-            }
-            
-            function installPackage(){
-                if (!version)
-                    return callback(new Error("No version found for this package"));
-                
-                if (options.local) {
-                    if (verbose)
-                        console.log("Installing package locally");
-                    
-                    prepareDirectory(function(err, packagePath){
-                        if (err) return callback(err);
-                        
-                        // Download package
-                        var gzPath = join(os.tmpDir(), name + "@" + version + ".tar.gz");
-                        var file = fs.createWriteStream(gzPath);
-                        
-                        var path = "/packages/" + name + "/versions/" + version 
-                                + "/download?access_token="
-                                + encodeURIComponent(auth.accessToken);
-                        var host = APIHOST.split(":")[0];
-                        var port = parseInt(APIHOST.split(":")[1]) || null;
-                        
-                        var request = http.get({
-                            agent: false,
-                            method: "get",
-                            host: host, 
-                            port: port,
-                            auth: BASICAUTH,
-                            path: path
-                        }, function(response){
-                            response.pipe(file);
-                        });
-                        
-                        if (verbose)
-                            console.log("Downloading package to", gzPath);
-                        
-                        request.on('response', function(res) {
-                            if (res.statusCode != 200)
-                                return callback(new Error("Unknown Error:" + res.statusCode));
-                        });
-                        
-                        file.on('finish', function(err) {
-                            if (verbose)
-                                console.log("Unpacking", gzPath, "to", packagePath);
-                            
-                            // Untargz package
-                            proc.spawn(TAR, {
-                                args: ["-C", normalizePath(packagePath), "-zxvf", normalizePath(gzPath)]
-                            }, function(err, p){
-                                if (err) return callback(err);
-                                
-                                if (verbose) {
-                                    p.stdout.on("data", function(c){
-                                        process.stdout.write(c.toString("utf8"));
-                                    });
-                                    p.stderr.on("data", function(c){
-                                        process.stderr.write(c.toString("utf8"));
-                                    });
-                                }
-                                
-                                p.on("exit", function(code){
-                                    var err = code !== 0
-                                        ? new Error("Failed to unpack package")
-                                        : null;
-                                    if (err) return callback(err);
-                                    
-                                    proc.spawn(join(process.env.HOME, ".c9/node/bin/npm"), {
-                                        args: ["install"],
-                                        cwd: packagePath
-                                    }, function(err, p){
-                                        if (err) return callback(err);
-                                        
-                                        if (verbose) {
-                                            p.stdout.on("data", function(c){
-                                                process.stdout.write(c.toString("utf8"));
-                                            });
-                                            p.stderr.on("data", function(c){
-                                                process.stderr.write(c.toString("utf8"));
-                                            });
-                                        }
-                                        
-                                        p.on("exit", function(code){
-                                            // Done
-                                            callback(err, {
-                                                version: version
-                                            });
-                                        });
-                                    });
-                                });
-                            });
-                        });
-                    });
-                }
-                else if (options.debug) {
-                    if (verbose)
-                        console.log("Installing debug version of package");
-                    
-                    prepareDirectory(function(err, packagePath){
-                        if (err) return callback(err);
-                    
-                        if (verbose)
-                            console.log("Cloning repository: ", repository);
-                        
-                        // Git clone repository
-                        var scm = SCM[repository.type];
-                        proc.spawn(scm.binary, {
-                            args: [scm.clone, repository.url, packagePath]
-                        }, function(err, p){
-                            if (err) return callback(err);
-                            
-                            if (verbose) {
-                                p.stdout.on("data", function(c){
-                                    process.stdout.write(c.toString("utf8"));
-                                });
-                                p.stderr.on("data", function(c){
-                                    process.stderr.write(c.toString("utf8"));
-                                });
-                            }
-                            
-                            p.on("exit", function(code){
-                                var err = code !== 0
-                                    ? new Error("Failed to clone package from repository. Do you have access?")
-                                    : null;
-                                
-                                // Done
-                                callback(err);
-                            });
-                        });
-                    });
-                }
-                else {
-                    if (verbose)
-                        console.log("Notifying c9.io that packages needs to be installed");
-                    
-                    // Install Locally
-                    options.local = true;
-                    install(name + "@" + version, options, function(err){
-                        if (err) return callback(err);
-                        
-                        var path = "~/.c9/plugins/" + name;
-                        fs.readFile(path + "/package.json", "utf8", function(err, data){
-                            if (err) return callback(new Error("Package.json not found in " + path));
-                            
-                            var installPath;
-                            try { installPath = JSON.parse(data).installer; }
-                            catch(e){ 
-                                return callback(new Error("Could not parse package.json in " + path));
-                            }
-                            
-                            if (installPath) {
-                                installer.createSession(name, version, require(path + "/" + installPath), function(err){
-                                    if (err) return callback(new Error("Error Installing Package " + name + "@" + version));
-                                    installToDatabase();
-                                });
-                            }
-                            else
-                                installToDatabase();
-                        });
-                        
-                        
-                        function installToDatabase(){
-                            var endpoint = options.global ? api.user : api.project;
-                            var url = "install/" + packageName + "/" + version + "?silent=1";
-                            
-                            endpoint.post(url, function(err, info){
-                                callback(err, info);
-                            });
-                        }
-                    });
-                    
-                }
-            }
-        }
-        
-        function uninstall(packageName, options, callback){
-            // Call uninstall url
-            var parts = packageName.split("@");
-            var name = parts[0];
-            var version = parts[1];
-            
-            if (!version) {
-                api.packages.get(name, function (err, info) {
-                    if (err) return callback(err);
-                    version = info.latest;
-                    
-                    uninstallPackage();
-                });
-            }
-            else {
-                uninstallPackage();
-            }
-            
-            function uninstallPackage(){
-                if (options.local || options.debug) {
-                    // rm -Rf
-                    var packagePath = process.env.HOME + "/.c9/plugins/" + name;
-                    proc.spawn("rm", {
-                        args: ["-rf", packagePath]
-                    }, function(err, p){
-                        if (err) return callback(err);
-                        
-                        if (verbose) {
-                            p.stdout.on("data", function(c){
-                                process.stdout.write(c.toString("utf8"));
-                            });
-                            p.stderr.on("data", function(c){
-                                process.stderr.write(c.toString("utf8"));
-                            });
-                        }
-                        
-                        p.on("exit", function(code){
-                            var err = code !== 0
-                                ? new Error("Failed to remove package.")
-                                : null;
-                            
-                            // if debug > see if should be installed and put back original
-                            // @TODO
-                            
-                            // Done
-                            callback(err);
-                        });
-                    });
-                }
-                else {
-                    var endpoint = options.global ? api.user : api.project;
-                    var url = "uninstall/" + packageName;
-                    
-                    endpoint.post(url, function(err, info){
-                        callback(err, info);
-                    });
-                }
-            }
-        }
-        
         function mkdirP(path){
             var dirs = path.split('/');
             var prevDir = dirs.splice(0,1) + "/";
@@ -1280,22 +828,7 @@ define(function(require, exports, module) {
             /**
              * 
              */
-            unpublish: unpublish,
-            
-            /**
-             *
-             */
-            install: install,
-            
-            /**
-             * 
-             */
-            uninstall: uninstall,
-            
-            /**
-             * 
-             */
-            list: list
+            unpublish: unpublish
         });
         
         register(null, {

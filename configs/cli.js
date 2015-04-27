@@ -37,6 +37,16 @@ return [
         apiHost: APIHOST
     },
     {
+        packagePath: "./c9.cli.publish/install",
+        projectId: PID,
+        apiHost: APIHOST
+    },
+    {
+        packagePath: "./c9.cli.publish/list",
+        projectId: PID,
+        apiHost: APIHOST
+    },
+    {
         packagePath: "./c9.ide.auth/auth",
         accessToken: "token",
         ideBaseUrl: "",
