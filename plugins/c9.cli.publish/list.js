@@ -78,7 +78,7 @@ define(function(require, exports, module) {
                     var max = [0, 0, 0, 0];
                     list.forEach(function(item){
                         max[0] = Math.max(max[0], item.name.length);
-                        max[1] = Math.max(max[1], Math.min(100, item.description.split(".")[0].length));
+                        max[1] = Math.max(max[1], Math.min(50, item.description.split(".")[0].length));
                         max[2] = Math.max(max[2], item.name.length + 33);
                         max[3] = Math.max(max[3], (item.website || item.repository.url).length);
                     });

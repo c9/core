@@ -243,6 +243,7 @@ define(function(require, exports, module) {
                 if (json.description)
                     console.warn("WARNING: Description property in package.json will be ignored. README.md will be used.");
                 
+                var originalDesc = json.description;
                 json.description = fs.readFileSync(join(cwd, "README.md"), "utf8");
                 
                 // Validate plugins
@@ -306,10 +307,14 @@ define(function(require, exports, module) {
                     if (!version)
                         return next();
                     
+                    // Reset description
+                    var pkgJson = Object.create(json);
+                    pkgJson.description = originalDesc;
+                    
                     // Write the package.json file
                     var indent = data.match(/{\n\r?^ {4}"/) ? 4 : 2;
-                    var newData = JSON.stringify(json, null, indent);
-                    fs.writeFile(cwd + "/.c9/.build/pacage.json", newData, function(err){
+                    var newData = JSON.stringify(pkgJson, null, indent);
+                    fs.writeFile(cwd + "/.c9/.build/pacage.json", newData, function(){
                         if (dryRun)
                             return next(); // if dry-run is passed only update path in .build
                         fs.writeFile(packagePath, newData, function(err){
