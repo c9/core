@@ -118,7 +118,7 @@ define(function(require, exports, module) {
             
             cmd.addCommand({
                 name: "build", 
-                info: "  Builds development version of package to load in non-debug mode.",
+                info: "    Builds development version of package to load in non-debug mode.",
                 usage: "[--devel]",
                 options: {
                     "devel" : {
@@ -1130,12 +1130,42 @@ define(function(require, exports, module) {
                     if (verbose)
                         console.log("Notifying c9.io that packages needs to be installed");
                     
-                    var endpoint = options.global ? api.user : api.project;
-                    var url = "install/" + packageName + "/" + version;
-                    
-                    endpoint.post(url, function(err, info){
-                        callback(err, info);
+                    // Install Locally
+                    options.local = true;
+                    install(name + "@" + version, options, function(err){
+                        if (err) return callback(err);
+                        
+                        var path = "~/.c9/plugins/" + name;
+                        fs.readFile(path + "/package.json", "utf8", function(err, data){
+                            if (err) return callback(new Error("Package.json not found in " + path));
+                            
+                            var installPath;
+                            try { installPath = JSON.parse(data).installer; }
+                            catch(e){ 
+                                return callback(new Error("Could not parse package.json in " + path));
+                            }
+                            
+                            if (installPath) {
+                                installer.createSession(name, version, require(path + "/" + installPath), function(err){
+                                    if (err) return callback(new Error("Error Installing Package " + name + "@" + version));
+                                    installToDatabase();
+                                });
+                            }
+                            else
+                                installToDatabase();
+                        });
+                        
+                        
+                        function installToDatabase(){
+                            var endpoint = options.global ? api.user : api.project;
+                            var url = "install/" + packageName + "/" + version + "?silent=1";
+                            
+                            endpoint.post(url, function(err, info){
+                                callback(err, info);
+                            });
+                        }
                     });
+                    
                 }
             }
         }

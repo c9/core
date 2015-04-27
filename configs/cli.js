@@ -65,11 +65,28 @@ return [
         packagePath: "./c9.cli.open/restart",
         platform: process.platform
     },
+    "./c9.automate/automate",
+    "./c9.ide.installer/commands/centos",
+    "./c9.ide.installer/commands/bash",
+    "./c9.ide.installer/commands/npm",
+    "./c9.ide.installer/commands/symlink",
+    {
+        packagePath: "./c9.ide.installer/commands/tar.gz",
+        bashBin: "bash"
+    },
+    "./c9.ide.installer/commands/ubuntu",
+    "./c9.ide.installer/cli",
+    {
+        packagePath: "./c9.ide.installer/installer",
+        homeDir: process.env.HOME,
+        installSelfCheck: false,
+        installPath: process.env.HOME + "/.c9"
+    },
     // "./c9.cli.sync/sync",
     //"./c9.ide.keys/commands",
     {
         consumes: [],
-        provides: ["settings", "workspace", "cli_commands", "c9"],
+        provides: ["settings", "workspace", "cli_commands", "c9", "error_handler"],
         setup: function(options, imports, register) {
             register(null, {
                 // @todo share with ace min
@@ -79,6 +96,9 @@ return [
                     hosted: false,
                     local: true,
                     setStatus: function(){}
+                },
+                error_handler: {
+                    log: function(){}
                 },
                 workspace: (function(){
                     var ws = new EventEmitter();
