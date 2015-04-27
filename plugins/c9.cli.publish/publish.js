@@ -241,7 +241,7 @@ define(function(require, exports, module) {
                 }
                 
                 if (json.description)
-                    return console.warn("WARNING: Description property in package.json will be ignored. README.md will be used.");
+                    console.warn("WARNING: Description property in package.json will be ignored. README.md will be used.");
                 
                 json.description = fs.readFileSync(join(cwd, "README.md"), "utf8");
                 

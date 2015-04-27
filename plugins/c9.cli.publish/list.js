@@ -11,6 +11,10 @@ define(function(require, exports, module) {
         var BASICAUTH = process.env.C9_TEST_AUTH;
         var verbose = false;
         
+        var LIGHTBlUE = "\x1b[01;94m";
+        var RESETCOLOR = "\x1b[0m";
+        var PADDING = 2;
+        
         // Set up basic auth for api if needed
         if (BASICAUTH) api.basicAuth = BASICAUTH;
         
@@ -39,7 +43,11 @@ define(function(require, exports, module) {
                 exec: function(argv) {
                     verbose = argv["verbose"];
                     
-                    list(argv.json);
+                    list(argv.json, function(err){
+                        if (err)
+                            console.error(err.message || err);
+                        process.exit(err ? 1 : 0);
+                    });
                 }
             });
         }
@@ -48,6 +56,10 @@ define(function(require, exports, module) {
         
         function stringifyError(err){
             return (verbose ? JSON.stringify(err, 4, "    ") : (typeof err == "string" ? err : err.message));
+        }
+        
+        function pad(str, nr){
+            return str + Array(nr - str.length).join(" ");
         }
         
         function list(asJson, callback){
@@ -63,8 +75,19 @@ define(function(require, exports, module) {
                     return callback(null, list);
                 }
                 else {
+                    var max = [0, 0, 0, 0];
                     list.forEach(function(item){
-                        console.log(item.name, "https://c9.io/packages/" + item.name);
+                        max[0] = Math.max(max[0], item.name.length);
+                        max[1] = Math.max(max[1], Math.min(100, item.description.split(".")[0].length));
+                        max[2] = Math.max(max[2], item.name.length + 33);
+                        max[3] = Math.max(max[3], (item.website || item.repository.url).length);
+                    });
+                    list.forEach(function(item){
+                        console.log(
+                            pad(item.name, max[0] + PADDING), 
+                            pad(item.description.split(".")[0], max[1] + PADDING), 
+                            LIGHTBlUE + pad("https://c9.io/profile/packages/" + item.name, max[2] + PADDING) + RESETCOLOR, 
+                            pad(item.website || item.repository.url, max[3]));
                     });
                     return callback(null, list);
                 }
