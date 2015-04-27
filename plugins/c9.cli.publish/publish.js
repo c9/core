@@ -43,6 +43,7 @@ define(function(require, exports, module) {
         var verbose = false;
         var force = false;
         var dryRun = false;
+        var createTag = false;
         
         // Set up basic auth for api if needed
         if (BASICAUTH) api.basicAuth = BASICAUTH;
@@ -78,16 +79,23 @@ define(function(require, exports, module) {
                         "description": "Only build a test version",
                         "default": false,
                         "boolean": true
+                    },
+                    "tag" : {
+                        "description": "Create git tag for published version",
+                        "alias": "t",
+                        "default": false,
+                        "boolean": true
                     }
                 },
                 check: function(argv) {
-                    if (argv._.length < 2 && !argv["newversion"] && !argv["dry-run"])
-                        throw new Error("Missing version");
+                    // if (argv._.length < 2 && !argv["newversion"] && !argv["dry-run"])
+                    //     throw new Error("Missing version");
                 },
                 exec: function(argv) {
                     verbose = argv["verbose"];
                     force = argv["force"];
                     dryRun = argv["dry-run"];
+                    createTag = argv["tag"];
                     
                     publish(
                         argv._[1],
@@ -108,7 +116,7 @@ define(function(require, exports, module) {
                 }
             });
             
-             cmd.addCommand({
+            cmd.addCommand({
                 name: "build", 
                 info: "  Builds development version of package to load in non-debug mode.",
                 usage: "[--devel]",
@@ -372,7 +380,7 @@ define(function(require, exports, module) {
             var version = options.version;
             var cwd = process.cwd();
             var packagePath = cwd + "/package.json";
-            fs.readFile(packagePath, function(err, data){
+            fs.readFile(packagePath, "utf8", function(err, data){
                 if (err) return callback(new Error("ERROR: Could not find package.json in " + cwd));
                 
                 var json;
@@ -437,7 +445,7 @@ define(function(require, exports, module) {
                 if (warned && !force && !dryRun)
                     return callback(new Error("Use --force to ignore these warnings."));
                 
-                if (!dryRun) {
+                if (version) {
                     var v = (json.version || "0.0.1").split(".");
                     // Update the version field in the package.json file
                     if (version == "major") {
@@ -458,47 +466,17 @@ define(function(require, exports, module) {
                     json.version = v.join(".");
                 }
                 
-                if (dryRun)
+                if (!version)
                     return build();
                 
                 // Write the package.json file
-                fs.writeFile(packagePath, JSON.stringify(json, null, "  "), function(err){
+                var indent = data.match(/{\n\r?^ {4}"/) ? 4 : 2;
+                fs.writeFile(packagePath, JSON.stringify(json, null, indent), function(err){
                     if (err) return callback(err);
-                    
-                    if (dryRun) return build();
-                    
-                    SHELLSCRIPT = SHELLSCRIPT
-                        .replace(/\$1/, packagePath)
-                        .replace(/\$2/, json.version);
-                    
-                    // commit
-                    proc.spawn("bash", {
-                        args: ["-c", SHELLSCRIPT]
-                    }, function(err, p){
-                        if (err) return callback(err);
-                        
-                        if (verbose) {
-                            p.stdout.on("data", function(c){
-                                process.stdout.write(c.toString("utf8"));
-                            });
-                            p.stderr.on("data", function(c){
-                                process.stderr.write(c.toString("utf8"));
-                            });
-                        }
-                        
-                        p.on("exit", function(code, stderr, stdout){
-                            if (code !== 0) 
-                                return callback(new Error("ERROR: publish failed with exit code " + code));
-                            
-                            console.log("Created tag and updated package.json to version", json.version);
-                            
-                            build();
-                        });
-                    });
+                    return build();
                 });
                 
                 // Build the package
-                // @TODO use a proper package tool
                 // @TODO add a .c9exclude file that excludes files
                 var zipFilePath;
                 function build(){
@@ -718,38 +696,58 @@ define(function(require, exports, module) {
                             });
                         },
                         function(next) {
-                            var filename = options.local ? "__installed__.js" : "__packed__.js";
-                            fs.writeFile(filename, result.code, "utf8", next);
+                            if (options.local)
+                                fs.writeFile(cwd + "__installed__.js", result.code, "utf8", callback);
+                            next();
                         },
                         function(next) {
-                            // console.log(packedFiles)
-                            if (options.local)
-                                return callback();
-                            zip(packedFiles);
+                            proc.execFile("rm", {
+                                args: ["-rf", ".c9build"],
+                                cwd: cwd
+                            }, function() {
+                                mkdirP(cwd + "/.c9/.build");
+                                fs.writeFile(cwd + "/.c9/.build/__installed__.js", result.code, "utf8", next);
+                            });
+                        },
+                        function(next) {
+                            var copy = require("architect-build/copy");
+                            
+                            var excludeRe = /^\.(gitignore|hgignore|git|c9|hg|c9build)$/;
+                            var excludeMap = Object.create(null);
+                            
+                            packedFiles.push(cwd + "/__installed__.js");
+                            packedFiles.forEach(function(p) {
+                                p = "/" + normalizePath(Path.relative(cwd, p));
+                                excludeMap[p] = 1;
+                            });
+                            copy(cwd, cwd + "/.c9/.build", {
+                                exclude: function(name, parent) {
+                                    if (excludeRe.test(name))
+                                        return true;
+                                    var fullPath = parent.substr(cwd.length) + "/" + name;
+                                    if (excludeMap[fullPath])
+                                        return true;
+                                    return false;
+                                }
+                            })
+                            zip();
                         }
                     ]);
  
                 }
                 
-                function zip(ignore){
+                function zip(){
                     zipFilePath = join(os.tmpDir(), json.name + "@" + json.version) + ".tar.gz";
-                    var tarArgs = ["-zcvf", normalizePath(zipFilePath), "."]; 
+                    var tarArgs = ["-zcvf", normalizePath(zipFilePath)]; 
                     var c9ignore = normalizePath(process.env.HOME + "/.c9/.c9ignore");
                     fs.exists(c9ignore, function (exists) {
                         if (exists) {
                             tarArgs.push("--exclude-from=" + c9ignore);
                         }
-                        ignore.forEach(function(p) {
-                            p = Path.relative(cwd, p);
-                            if (!/^\.+\//.test(p)) {
-                                tarArgs.push("--exclude=./" + normalizePath(p));
-                            }
-                        });
-                        tarArgs.push("--transform='flags=r;s|__packed__|__installed__|'");
-                        // console.log(tarArgs)
+                        tarArgs.push(".");
                         proc.spawn(TAR, {
                             args: tarArgs,
-                            cwd: cwd
+                            cwd: cwd + "/.c9/.build"
                         }, function(err, p){
                             if (err) return callback(err);
                             
@@ -840,7 +838,7 @@ define(function(require, exports, module) {
                                     return callback(new Error("ERROR: Failed to update existing package - " 
                                         + stringifyError(err)));
                                 if (verbose)
-                                    console.log("Successfully updated existing package");
+                                    console.log("Successfully updated metadata of existing package");
                                 
                                 next(pkg);
                             });
@@ -875,13 +873,45 @@ define(function(require, exports, module) {
                             form.pipe(request);
                             
                             request.on('response', function(res) {
+                                // TODO better handle version exists error
+                                if (res.statusCode == 412 && !version)
+                                    console.error("ERROR: most likely version " + json.version + " already exisits, try increasing version");
                                 if (res.statusCode != 200)
                                     return callback(new Error("ERROR: Unknown Error:" + res.statusCode));
                             
-                                // Create Version Complete
-                                callback(null, json);
+                                commitAndPush();
                             });
                         }
+                    });
+                }
+                
+                function commitAndPush() {
+                    // Create Version Complete
+                    if (!createTag)
+                        callback(null, json);
+                                
+                    proc.spawn("bash", {
+                        args: ["-c", SHELLSCRIPT, "--", json.version, normalizePath(packagePath)]
+                    }, function(err, p){
+                        if (err) return callback(err);
+                        
+                        if (verbose) {
+                            p.stdout.on("data", function(c){
+                                process.stdout.write(c.toString("utf8"));
+                            });
+                            p.stderr.on("data", function(c){
+                                process.stderr.write(c.toString("utf8"));
+                            });
+                        }
+                        
+                        p.on("exit", function(code, stderr, stdout){
+                            if (code !== 0) 
+                                return callback(new Error("ERROR: publish failed with exit code " + code));
+                            
+                            console.log("Created tag and updated package.json to version", json.version);
+                            
+                            callback(null, json);
+                        });
                     });
                 }
             });
