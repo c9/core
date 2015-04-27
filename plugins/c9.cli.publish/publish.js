@@ -228,8 +228,6 @@ define(function(require, exports, module) {
                     if (!force)
                         return callback(new Error("Use --force to ignore this warning."));
                 }
-                if (json.description)
-                    return console.warn("WARNING: Description property in package.json found, but not used. Create a README.md instead.");
                 if (!json.repository)
                     return callback(new Error("ERROR: Missing repository property in package.json"));
                 if (!json.categories || json.categories.length == 0)
@@ -241,6 +239,9 @@ define(function(require, exports, module) {
                     if (!force)
                         return callback(new Error("Use --force to ignore these warnings."));
                 }
+                
+                if (json.description)
+                    return console.warn("WARNING: Description property in package.json will be ignored. README.md will be used.");
                 
                 json.description = fs.readFileSync(join(cwd, "README.md"), "utf8");
                 
