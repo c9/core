@@ -13,9 +13,10 @@
     "type": "git",
     "url": ""
   },
-  "plugins": {
-    "plugin": {}
-  },
-  "categories": ["miscellaneous"],
+  "plugins": {},
+  "installer": "install.js",
+  "categories": [
+    "misc"
+  ],
   "licenses": []
 }

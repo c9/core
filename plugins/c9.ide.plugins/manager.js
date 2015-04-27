@@ -85,7 +85,9 @@ define(function(require, exports, module) {
         };
         var TEMPLATES = {
             "plugin.simple": "Empty Plugin",
-            "plugin.default": "Full Plugin"
+            "plugin.default": "Full Plugin",
+            "plugin.installer": "Installer Plugin",
+            "plugin.bundle": "Cloud9 Bundle"
         };
 
         // @TODO add sorting
