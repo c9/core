@@ -246,7 +246,8 @@ define(function(require, exports, module) {
                     console.warn("WARNING: Description property in package.json will be ignored. README.md will be used.");
                 
                 var originalDesc = json.description;
-                json.description = fs.readFileSync(join(cwd, "README.md"), "utf8");
+                json.description = fs.readFileSync(join(cwd, "README.md"), "utf8")
+                    .replace(/^\#.*\n*/, "");
                 
                 // Validate plugins
                 var plugins = {};
