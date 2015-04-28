@@ -77,6 +77,7 @@ return [
     },
     "./c9.automate/automate",
     "./c9.ide.installer/commands/centos",
+    "./c9.ide.installer/commands/darwin",
     "./c9.ide.installer/commands/bash",
     "./c9.ide.installer/commands/npm",
     "./c9.ide.installer/commands/pip",

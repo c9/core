@@ -523,6 +523,7 @@ module.exports = function(options) {
         },
         "plugins/c9.automate/automate",
         "plugins/c9.ide.installer/commands/centos",
+        "plugins/c9.ide.installer/commands/darwin",
         "plugins/c9.ide.installer/commands/bash",
         "plugins/c9.ide.installer/commands/npm",
         "plugins/c9.ide.installer/commands/pip",
