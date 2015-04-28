@@ -62,7 +62,9 @@ define(function(require, exports, module) {
                 exception = new Error(exception);
             if (!exception)
                 exception = new Error("Unspecified error");
-            console.error(exception.stack);
+            console.error(exception);
+            if (customData)
+                console.log(customData);
             Raygun.send(exception, customData, tags);
         }
         

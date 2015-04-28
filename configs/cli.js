@@ -37,6 +37,16 @@ return [
         apiHost: APIHOST
     },
     {
+        packagePath: "./c9.cli.publish/install",
+        projectId: PID,
+        apiHost: APIHOST
+    },
+    {
+        packagePath: "./c9.cli.publish/list",
+        projectId: PID,
+        apiHost: APIHOST
+    },
+    {
         packagePath: "./c9.ide.auth/auth",
         accessToken: "token",
         ideBaseUrl: "",
@@ -65,11 +75,34 @@ return [
         packagePath: "./c9.cli.open/restart",
         platform: process.platform
     },
+    "./c9.automate/automate",
+    "./c9.ide.installer/commands/centos",
+    "./c9.ide.installer/commands/darwin",
+    "./c9.ide.installer/commands/bash",
+    "./c9.ide.installer/commands/npm",
+    "./c9.ide.installer/commands/pip",
+    "./c9.ide.installer/commands/gem",
+    "./c9.ide.installer/commands/zip",
+    "./c9.ide.installer/commands/symlink",
+    "./c9.ide.installer/commands/message",
+    {
+        packagePath: "./c9.ide.installer/commands/tar.gz",
+        bashBin: "bash"
+    },
+    "./c9.ide.installer/commands/ubuntu",
+    "./c9.ide.installer/cli",
+    {
+        packagePath: "./c9.ide.installer/installer",
+        homeDir: process.env.HOME,
+        installSelfCheck: false,
+        installPath: process.env.HOME + "/.c9",
+        cli: true
+    },
     // "./c9.cli.sync/sync",
     //"./c9.ide.keys/commands",
     {
         consumes: [],
-        provides: ["settings", "workspace", "cli_commands", "c9"],
+        provides: ["settings", "workspace", "cli_commands", "c9", "error_handler"],
         setup: function(options, imports, register) {
             register(null, {
                 // @todo share with ace min
@@ -78,7 +111,11 @@ return [
                     debug: true,
                     hosted: false,
                     local: true,
+                    home: process.env.HOME,
                     setStatus: function(){}
+                },
+                error_handler: {
+                    log: function(){}
                 },
                 workspace: (function(){
                     var ws = new EventEmitter();

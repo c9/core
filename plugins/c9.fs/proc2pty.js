@@ -4,7 +4,7 @@ define(function(require, exports, module) {
     module.exports = function(process){
         var pty = new EventEmitter();
         pty.write = function(data){
-            process.stdin.write(data);
+            process.stdin.write(data.replace(/\r/g, "\n"));
         };
         pty.resize = function(){};
         pty.destroy =
@@ -23,5 +23,5 @@ define(function(require, exports, module) {
         });
         
         return pty;
-    }
+    };
 });
