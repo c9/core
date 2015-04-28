@@ -112,7 +112,8 @@ return [
                     hosted: false,
                     local: true,
                     home: process.env.HOME,
-                    setStatus: function(){}
+                    setStatus: function(){},
+                    location: ""
                 },
                 error_handler: {
                     log: function(){}
