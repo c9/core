@@ -254,11 +254,11 @@ var HoverLink = function(editor) {
             match.value = value.replace(/:[^\d][^:]*$/, "");
             // match.basePath = "";
         }
-        else if (prompt.command === "ack" || prompt.command === "ag") {
+        else if (prompt.command === "ack" || prompt.command === "ag" || prompt.command === "ack-grep") {
             match.type = "path";
             var fontColor = lineData[column] && lineData[column][0];
             if (match.start !== 0) {
-                if (fontColor == 131840)
+                if (fontColor == session.term.defAttr)
                     return;
                 
                 var col = column;
@@ -273,6 +273,9 @@ var HoverLink = function(editor) {
             
             var jumpLine = line.match(/^(\d*:)?/)[0];
             var jumpColumn = Math.max(match.start - jumpLine.length, 0);
+            
+            if (match.start == 0 && jumpLine)
+                match.value = jumpLine;
             
             var pathLine = line;
             while (/^\d+/.test(pathLine) && row > prompt.row) {
