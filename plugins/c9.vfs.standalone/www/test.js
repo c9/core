@@ -155,6 +155,9 @@ require([
                 prefs.add = function(){};
                 return prefs;
             })(),
+            analytics: {
+                addTrait: function() {}
+            },
             commands: (function(){
                 var commands = {};
                 
