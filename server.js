@@ -19,7 +19,7 @@ var DEFAULT_CONFIG = "s";
 var DEFAULT_SETTINGS = getDefaultSettings();
 
 var shortcuts = {
-    "dev"  : ["ide", "preview", "vfs", "api", "sapi", "proxy", "redis", "account", "oldclient", "homepage", "apps-proxy", "-s", "devel"],
+    "dev"  : ["ide", "preview", "vfs", "api", "sapi", "proxy", "redis", "oldclient", "homepage", "apps-proxy", "-s", "devel"],
     "odev" : ["ide", "preview", "vfs", "api", "proxy", "oldclient", "homepage", "apps-proxy", "worker", "-s", "onlinedev"],
     "bill" : ["ide", "preview", "vfs", "api", "proxy", "oldclient", "homepage", "apps-proxy", "account", "-s", "billing"],
     "beta" : ["ide", "preview", "vfs", "proxy", "-s", "beta"],
