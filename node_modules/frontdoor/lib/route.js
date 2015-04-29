@@ -161,7 +161,8 @@ module.exports = function Route(route, options, handler, types) {
      * the decoded and validated parameters are stored in `req.params` 
      * otherwhise an error is returned.
      */
-    var decodeParams = this.decodeParams = function(req, res, next) {
+    this.decodeParams = decodeParams;
+    function decodeParams(req, res, next) {
         var urlParams = req.match;
         if (!urlParams) return;
         
