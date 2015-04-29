@@ -4,7 +4,7 @@ var EventEmitter = require("events").EventEmitter;
 EventEmitter.prototype.emit = new Function("type", 
     EventEmitter.prototype.emit.toString()
         .replace(/return false/g, "return")
-        .replace(/^.*\n/, "")
+        .replace(/^[^{]*{/, "")
         .replace(/\}$/, ""));
 
 var PID = process.env.C9_PID || 526;
