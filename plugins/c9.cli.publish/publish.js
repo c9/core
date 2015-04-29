@@ -245,8 +245,8 @@ define(function(require, exports, module) {
                 if (json.description)
                     console.warn("WARNING: Description property in package.json will be ignored. README.md will be used.");
                 
-                var originalDesc = json.description;
-                json.description = fs.readFileSync(join(cwd, "README.md"), "utf8");
+                var description = fs.readFileSync(join(cwd, "README.md"), "utf8")
+                    .replace(/^\#.*\n*/, "");
                 
                 // Validate plugins
                 var plugins = {};
@@ -309,13 +309,9 @@ define(function(require, exports, module) {
                     if (!version)
                         return next();
                     
-                    // Reset description
-                    var pkgJson = Object.create(json);
-                    pkgJson.description = originalDesc;
-                    
                     // Write the package.json file
                     var indent = data.match(/{\n\r?^ {4}"/) ? 4 : 2;
-                    var newData = JSON.stringify(pkgJson, null, indent);
+                    var newData = JSON.stringify(json, null, indent);
                     fs.writeFile(cwd + "/.c9/.build/pacage.json", newData, function(){
                         if (dryRun)
                             return next(); // if dry-run is passed only update path in .build
@@ -650,7 +646,7 @@ define(function(require, exports, module) {
                                     contentType: "application/json",
                                     body: {
                                         name: json.name,
-                                        description: json.description,
+                                        description: description,
                                         owner_type: "user", // @TODO implement this when adding orgs
                                         owner_id: parseInt(user.id),
                                         permissions: json.permissions || "world",
@@ -682,7 +678,7 @@ define(function(require, exports, module) {
                                     repository: json.repository,
                                     longname: json.longname,
                                     website: json.website,
-                                    description: json.description,
+                                    description: description,
                                     screenshots: json.screenshots,
                                     pricing: json.pricing,
                                     enabled: true

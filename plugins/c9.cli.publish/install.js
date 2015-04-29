@@ -299,7 +299,7 @@ define(function(require, exports, module) {
                                 return callback(new Error("ERROR: Private flag in package.json prevents from installing"));
                         }
                         catch(e) {
-                            return callback(new Error("ERROR: Invalid package"));
+                            return callback(new Error("ERROR: Invalid package: " + e.message));
                         }
                         
                         proc.execFile("bash", { args: ["-c", "cp -a " + join(process.cwd(), "/*") + " " + packagePath] }, function(err){
