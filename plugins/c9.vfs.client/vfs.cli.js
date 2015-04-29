@@ -9,7 +9,7 @@ define(function(require, module, exports) {
 
         var vfs = new localFs({
             root: "/",
-            // nopty: true,
+            nopty: true,
             defaultEnv: { CUSTOM: 43 }
         });
 
