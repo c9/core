@@ -29,11 +29,6 @@ define(function(require, exports, module) {
                 return false;
             });
             
-            if (!commands[module] && process.argv.length > 2 && process.argv.every(function(n){ return !n.match(/^--/)})) {
-                process.argv.splice(2, 0, "open");
-                module = "open";
-            }
-            
             optimist = require('optimist');
             
             if (!module || !commands[module]) {
