@@ -11,7 +11,7 @@ define(function(require, exports, module) {
         var api = imports.api;
         
         var TEST_MODE = !!process.env.C9_TEST_MODE;
-        var SHELLSCRIPT = TEST_MODE ? "" : require("text!./publish.git.sh").toString("utf8");
+        var SHELLSCRIPT = TEST_MODE ? "" : require("text!./publish.git.sh");
         var TAR = "tar";
         var APIHOST = options.apiHost;
         var BASICAUTH = process.env.C9_TEST_AUTH;
@@ -312,7 +312,7 @@ define(function(require, exports, module) {
                     // Write the package.json file
                     var indent = data.match(/{\n\r?^ {4}"/) ? 4 : 2;
                     var newData = JSON.stringify(json, null, indent);
-                    fs.writeFile(cwd + "/.c9/.build/pacage.json", newData, function(){
+                    fs.writeFile(cwd + "/.c9/.build/package.json", newData, function(){
                         if (dryRun)
                             return next(); // if dry-run is passed only update path in .build
                         fs.writeFile(packagePath, newData, function(err){
@@ -446,7 +446,7 @@ define(function(require, exports, module) {
                                     extraCode.push({
                                         type: "installer",
                                         filename: json.installer,
-                                        data: version
+                                        data: installerVersion
                                     });
                                 }
                                 
@@ -820,7 +820,7 @@ define(function(require, exports, module) {
             force = false;
         });
         
-        /***** Register and definfe API *****/
+        /***** Register and define API *****/
 
         /**
          * 

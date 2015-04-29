@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "acorn": ">=0.11.0",
-        "amd-loader": "~0.0.5",
+        "amd-loader": "",
         "async": "^0.9.0",
         "base64id": "~0.1.0",
         "c9": "",
@@ -83,7 +83,7 @@
         "c9.ide.help.support": "#60e88f5680",
         "c9.ide.imgeditor": "#08bbc53578",
         "c9.ide.immediate": "#6845a93705",
-        "c9.ide.installer": "#0b915c68e9",
+        "c9.ide.installer": "#80d050b6de",
         "c9.ide.mount": "#32e79866ee",
         "c9.ide.navigate": "#64156c7f4a",
         "c9.ide.newresource": "#f1f0624768",
