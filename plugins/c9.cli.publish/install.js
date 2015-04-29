@@ -59,7 +59,7 @@ define(function(require, exports, module) {
             cmd.addCommand({
                 name: "install", 
                 info: "  Installs a cloud9 package.",
-                usage: "[--verbose] [--force] [--global] [--local] [--debug] [--dry-run] <package>[@<version>]",
+                usage: "[--verbose] [--force] [--global] [--local] [--debug] [<package>[@<version>] | . ]",
                 options: {
                     "local": {
                         description: "",
@@ -83,11 +83,6 @@ define(function(require, exports, module) {
                     "verbose" : {
                         "description": "Output more information",
                         "alias": "v",
-                        "default": false,
-                        "boolean": true
-                    },
-                    "dry-run" : {
-                        "description": "Installs current directory as a package",
                         "default": false,
                         "boolean": true
                     },
@@ -117,13 +112,17 @@ define(function(require, exports, module) {
                     }
                     
                     var name = argv._[1];
+                    var test = name == ".";
+                    if (test)
+                        name = require("path").basename(process.cwd());
+                    
                     install(
                         name,
                         {
                             global: argv.global,
                             local: argv.local,
                             debug: argv.debug,
-                            dryRun: argv["dry-run"]
+                            test: test
                         },
                         function(err, data){
                             if (err) {
@@ -203,7 +202,7 @@ define(function(require, exports, module) {
             var version = parts[1];
             var repository;
             
-            if ((!version || options.debug) && !options.dryRun) {
+            if ((!version || options.debug) && !options.test) {
                 if (verbose)
                     console.log("Retrieving package info");
                     
@@ -226,9 +225,14 @@ define(function(require, exports, module) {
             function prepareDirectory(callback){
                 // Create package dir
                 var packagePath = process.env.HOME + "/.c9/plugins/" + name;
-                var exists = fs.existsSync(packagePath) ;
+                var exists = fs.existsSync(packagePath);
+                
+                // Ignore when testing and in the same dir
+                if (options.test && process.cwd() == packagePath)
+                    exists = false;
+                
                 if (exists) {
-                    if (!force)
+                    if (!force && !options.test)
                         return callback(new Error("WARNING: Directory not empty: " + packagePath 
                             + ". Use --force to overwrite."));
                 
@@ -246,7 +250,7 @@ define(function(require, exports, module) {
             }
             
             function installPackage(){
-                if (!version && !options.dryRun)
+                if (!version && !options.test)
                     return callback(new Error("No version found for this package"));
                 
                 if (options.local) {
@@ -292,7 +296,7 @@ define(function(require, exports, module) {
                         });
                     }
                     
-                    if (options.dryRun) {
+                    if (options.test) {
                         try {
                             var json = JSON.parse(fs.readFileSync(join(process.cwd(), "package.json")));
                             if (json.private)
@@ -302,11 +306,20 @@ define(function(require, exports, module) {
                             return callback(new Error("ERROR: Invalid package: " + e.message));
                         }
                         
-                        proc.execFile("bash", { args: ["-c", "cp -a " + join(process.cwd(), "/*") + " " + packagePath] }, function(err){
-                            if (err) return callback(err);
-                            
+                        if (process.cwd() == packagePath)
                             installNPM();
-                        });
+                        else {
+                            proc.execFile("bash", { 
+                                args: [
+                                    "-c", "cp -a " + join(process.cwd(), "/*") 
+                                    + " " + packagePath
+                                ] 
+                            }, function(err){
+                                if (err) return callback(err);
+                                
+                                installNPM();
+                            });
+                        }
                         
                         return;
                     }
@@ -376,7 +389,7 @@ define(function(require, exports, module) {
                 if (verbose)
                     console.log("Installing debug version of package");
                 
-                if (!options.dryRun)
+                if (!options.test)
                     return callback(new Error("Dry run is not supported for debug installations"));
                 
                 prepareDirectory(function(err, packagePath){
@@ -421,11 +434,11 @@ define(function(require, exports, module) {
                 options.local = true;
                 install(name + "@" + version, options, function(err){
                     if (err) return callback(err);
-                    
+                
                     var path = process.env.HOME + "/.c9/plugins/" + name;
                     fs.readFile(path + "/package.json", "utf8", function(err, data){
                         if (err) return callback(new Error("Package.json not found in " + path));
-                        
+                
                         var installPath;
                         try { installPath = JSON.parse(data).installer; }
                         catch(e){ 
@@ -434,10 +447,10 @@ define(function(require, exports, module) {
                         
                         if (installPath) {
                             installerCLI.verbose = verbose;
-                            installer.createSession(name, version, require(path + "/" + installPath), function(err){
+                            installer.createSession(name, version || "", require(path + "/" + installPath), function(err){
                                 if (err) return callback(new Error("Error Installing Package " + name + "@" + version));
                                 installToDatabase();
-                            });
+                            }, force || options.test);
                         }
                         else
                             installToDatabase();
@@ -445,8 +458,8 @@ define(function(require, exports, module) {
                     
                     
                     function installToDatabase(){
-                        if (options.dryRun)
-                            return callback(null, { version: "dry-run" });
+                        if (options.test)
+                            return callback(null, { version: "test" });
                         
                         var endpoint = options.global ? api.user : api.project;
                         var url = "install/" + packageName + "/" + version + "?mode=silent";
