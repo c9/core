@@ -69,7 +69,8 @@ define(function(require, exports, module) {
                     console.error("ERROR: Could not get list: ", stringifyError(err));
                     return callback(err);
                 }
-                
+                // TODO if tty.isatty(process.stdout) use process.stdout.columns process.stdout.rows 
+                // to give nicely wrapped output
                 if (asJson) {
                     console.log(JSON.stringify(list, 4, "   "));
                     return callback(null, list);
@@ -87,7 +88,7 @@ define(function(require, exports, module) {
                             pad(item.name, max[0] + PADDING), 
                             pad(item.description.split(".")[0], max[1] + PADDING), 
                             LIGHTBlUE + pad("https://c9.io/profile/packages/" + item.name, max[2] + PADDING) + RESETCOLOR, 
-                            pad(item.website || item.repository.url, max[3]));
+                            item.website || item.repository.url); // do not pad last item
                     });
                     return callback(null, list);
                 }
