@@ -311,8 +311,8 @@ define(function(require, exports, module) {
                         else {
                             proc.execFile("bash", { 
                                 args: [
-                                    "-c", "cp -a " + join(process.cwd(), "/*") 
-                                    + " " + packagePath
+                                    "-c", "cp -a \"" + join(process.cwd(), "/\"*") 
+                                    + " \"" + packagePath + "\""
                                 ] 
                             }, function(err){
                                 if (err) return callback(err);
