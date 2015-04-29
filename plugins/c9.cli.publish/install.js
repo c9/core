@@ -308,11 +308,8 @@ define(function(require, exports, module) {
                         if (process.cwd() == packagePath)
                             installNPM();
                         else {
-                            proc.execFile("bash", { 
-                                args: [
-                                    "-c", "cp -a \"" + join(process.cwd(), "/\"*") 
-                                    + " \"" + packagePath + "\""
-                                ] 
+                            proc.execFile("cp", { 
+                                args: ["-R", process.cwd(), dirname(packagePath)]
                             }, function(err){
                                 if (err) return callback(err);
                                 
