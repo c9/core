@@ -137,6 +137,10 @@ module.exports = function Route(route, options, handler, types) {
             var key = keys[i];
             var param = params[key];
             var type = param.type;
+            if (param.optional && value == null) {
+                match[key] = value;
+                continue;
+            }
             try {
                 value = type.parse(value);
             } catch (e) {
@@ -157,7 +161,7 @@ module.exports = function Route(route, options, handler, types) {
      * the decoded and validated parameters are stored in `req.params` 
      * otherwhise an error is returned.
      */
-    function decodeParams(req, res, next) {
+    var decodeParams = this.decodeParams = function(req, res, next) {
         var urlParams = req.match;
         if (!urlParams) return;
         
@@ -197,10 +201,12 @@ module.exports = function Route(route, options, handler, types) {
                             break;
                             
                         value = body[key]; // body is already JSON parsed
+                        if (param.optional && value == null)
+                            break;
                         isValid = type.check(value);
                         break;
                     case "query":
-                        if (param.optional && !(key in query))
+                        if (param.optional && query[key] == null)
                             break;
                             
                         try {
@@ -211,7 +217,7 @@ module.exports = function Route(route, options, handler, types) {
                         isValid = isValid === false ? false : type.check(value);
                         break;
                     case "url":
-                        if (param.optional && !(key in urlParams))
+                        if (param.optional && urlParams[key] == null)
                             break;
 
                         value = urlParams[key]; // is already parsed and checked

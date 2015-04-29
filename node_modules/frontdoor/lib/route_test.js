@@ -133,7 +133,65 @@ module.exports = {
         
         assert.ok(!route.match(req, "/ts/353676299181"));
         assert.ok(!route.match(req, "/ts/abc"));
-    }
+    },
+    
+    "test router: decode parameter in body": function(next) {
+        var route = new Route("/user", {
+            params: {
+                id: {
+                    type: "int",
+                    optional: true,
+                    source: "body"
+                }
+            }
+        }, sinon.stub());
+        
+        var req = {
+            match: "match",
+            parsedUrl: {
+                query: ""
+            },
+            body: { id: 15 }
+        };
+        var res = {};
+        
+        // Note: usually optionals would say 'source: "body",'
+        // but this should work
+        route.decodeParams(req, res, function(err, result) {
+            assert.equal(err, null);
+            assert.equal(req.params.id, 15);
+            next();
+        });
+    },
+    
+    "test router: optional number argument can be falsy": function(next) {
+        var route = new Route("/user", {
+            params: {
+                id: {
+                    type: "int",
+                    optional: true,
+                    source: "body"
+                }
+            }
+        }, sinon.stub());
+        
+        var req = {
+            match: "match",
+            parsedUrl: {
+                query: ""
+            },
+            body: { id: null }
+        };
+        var res = {};
+        
+        // Note: usually optionals would say 'source: "body",'
+        // but this should work
+        route.decodeParams(req, res, function(err, result) {
+            assert.equal(err, null);
+            assert.equal(req.params.id, null);
+            next();
+        });
+    },
 };
 
 !module.parent && require("asyncjs").test.testcase(module.exports).exec();
