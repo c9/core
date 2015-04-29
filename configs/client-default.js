@@ -515,6 +515,7 @@ module.exports = function(options) {
         },
         "plugins/c9.ide.panels/panel",
         "plugins/c9.ide.panels/area",
+        "plugins/c9.ide.processlist/processlist",
         
         // Installer
         {
