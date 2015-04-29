@@ -15,6 +15,8 @@ define(function(require, exports, module) {
         var installer = imports.installer;
         var installerCLI = imports["installer.cli"];
         
+        var dirname = require("path").dirname;
+        
         var TEST_MODE = !!process.env.C9_TEST_MODE;
         var TAR = "tar";
         var APIHOST = options.apiHost;
