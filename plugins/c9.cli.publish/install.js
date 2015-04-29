@@ -427,9 +427,6 @@ define(function(require, exports, module) {
             }
             
             function installFull(){
-                if (verbose)
-                    console.log("Notifying c9.io that packages needs to be installed");
-                
                 // Install Locally
                 options.local = true;
                 install(name + "@" + version, options, function(err){
@@ -460,6 +457,9 @@ define(function(require, exports, module) {
                     function installToDatabase(){
                         if (options.test)
                             return callback(null, { version: "test" });
+                            
+                        if (verbose)
+                            console.log("Notifying c9.io that packages needs to be installed");
                         
                         var endpoint = options.global ? api.user : api.project;
                         var url = "install/" + packageName + "/" + version + "?mode=silent";
