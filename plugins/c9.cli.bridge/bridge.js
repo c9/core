@@ -1,4 +1,3 @@
-
 define(function(require, exports, module) {
     main.consumes = ["c9", "Plugin", "ext"];
     main.provides = ["bridge"];
@@ -8,6 +7,8 @@ define(function(require, exports, module) {
         var Plugin = imports.Plugin;
         var c9 = imports.c9;
         var ext = imports.ext;
+        
+        var JSONStream = require("./json-stream");
 
         /***** Initialization *****/
 
@@ -15,15 +16,10 @@ define(function(require, exports, module) {
         var emit = plugin.getEmitter();
 
         var ENABLED = options.startBridge !== false;
-        var PORT = options.port || 17123;
 
         var stream, api;
 
-        var loaded = false;
         function load(){
-            if (loaded) return;
-            loaded = true;
-            
             if (!ENABLED) return;
 
             ext.loadRemotePlugin("bridge", {
@@ -35,58 +31,52 @@ define(function(require, exports, module) {
 
                 api = remote;
 
-                api.connect(PORT, function(err, meta) {
-                    if (err) {
-                        loaded = false;
+                api.connect(function(err, meta) {
+                    if (err) 
+                        return console.error(err); // this should never happen
 
-                        if (err.code == "EADDRINUSE") {
-                            console.warn("Another Application is using port "
-                                + PORT + ". CLI client interface disabled. Restart Cloud9 to retry connecting.");
-                        }
-                        else
-                            console.error(err);
-
-                        return;
-                    }
-
-                    stream = meta.stream;
-
-                    stream.on("data", function(chunk) {
-                        try { var message = JSON.parse(chunk); }
-                        catch (e) {
-                            setTimeout(function(){
-                                loaded = false;
-                                load();
-                            }, 60000);
-                            return;
-                        }
-                        emit("message", { message: message });
+                    stream = new JSONStream(meta.stream);
+                    
+                    stream.on("error", function(err) {
+                        console.error(err);
+                    });
+                        
+                    stream.on("data", function(payload) {
+                        var response = emit("message", { message: payload.message });
+                        
+                        stream.write({
+                            id: payload.id,
+                            message: response
+                        });
                     });
 
                     stream.on("close", function(){
-                        loaded = false;
+                        load();
                     });
                 });
             });
 
-            window.addEventListener("unload", unload);
+            window.addEventListener("unload", function(){
+                api && api.disconnect();
+            });
         }
         
-        function unload() {
-            api && api.disconnect();
-            api = stream = null;
-            loaded = false;
+        function write(json){
+            if (!stream) return false;
+            stream.write(JSON.stringify(json));
+            return true;
         }
-
+        
         /***** Methods *****/
 
         plugin.on("load", function(){
             c9.on("connect", load, plugin);
-            c9.on("disconnect", unload, plugin);
         });
 
         plugin.on("unload", function(){
             api && api.disconnect();
+            stream = null;
+            api = null;
         });
 
         /***** Register and define API *****/
@@ -94,7 +84,12 @@ define(function(require, exports, module) {
         /**
          * Bridge To Communicate from CLI to IDE
          **/
-        plugin.freezePublicAPI({ });
+        plugin.freezePublicAPI({ 
+            /**
+             * 
+             */
+            write: write
+        });
 
         register(null, {
             bridge: plugin

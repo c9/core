@@ -618,7 +618,6 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.cli.bridge/bridge",
-            port: 17123,
             startBridge: options.startBridge
         },
         {

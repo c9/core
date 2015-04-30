@@ -13,25 +13,57 @@ define(function(require, exports, module) {
         var c9 = imports.c9;
         var net = imports.net;
         
+        var JSONStream = require("./json-stream");
+        
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
         // var emit = plugin.getEmitter();
         
-        var PORT = options.port || 17123;
+        var counter = 0;
+        var SOCKET = c9.home + "/.c9/bridge.socket";
         
         /***** Methods *****/
         
         function send(message, callback) {
-            net.connect(PORT, {}, function(err, stream) {
+            net.connect(SOCKET, {}, function(err, stream) {
                 if (err)
                     return callback(err);
                 
-                stream.write(JSON.stringify(message));
-                stream.end();
+                var jstream = new JSONStream(stream);
+                var msgId = generateMessageId();
+                var done;
                 
-                callback();
+                stream.write(JSON.stringify({
+                    id: msgId,
+                    message: message
+                }));
+                
+                jstream.on("data", function(payload){
+                    if (payload.id == msgId && !done) {
+                        done = true;
+                        callback(null, payload.message);
+                        stream.end();
+                    }
+                });
+                
+                jstream.on("error", function(err){
+                    if (done) return;
+                    callback(err);
+                    done = true;
+                });
+                
+                jstream.on("close", function(){
+                    if (done) return;
+                    callback(new Error("No Response"));
+                    done = true;
+                })
             });
+        }
+        
+        function generateMessageId(){
+            // Use vfs token
+            return Math.random() + "-" + ++counter;
         }
         
         /***** Lifecycle *****/

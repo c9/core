@@ -90,7 +90,7 @@ define(function(require, exports, module) {
                 paths: paths
             };
             
-            bridge.send(message, function cb(err) {
+            bridge.send(message, function cb(err, response) {
                 if (err) {
                     if (err.code == "ECONNREFUSED") {
                         // Seems Cloud9 is not running, lets start it up
@@ -111,6 +111,9 @@ define(function(require, exports, module) {
                         console.log(err.message);
                 }
                 
+                if (response !== true)
+                    console.log("Could not open ", paths);
+                
                 process.exit(); // I don't get why this is needed
             });
         }
@@ -129,11 +132,14 @@ define(function(require, exports, module) {
                     
                     var timed = Date.now();
                     (function retry(){
-                        bridge.send({ type: "ping" }, function(err) {
+                        bridge.send({ type: "ping" }, function(err, message) {
                             if (!err) 
                                 return callback(true);
                             
                             if (Date.now() - timed > 10000)
+                                return callback(false);
+                            
+                            if (message !== true)
                                 return callback(false);
                             
                             setTimeout(retry, 100);

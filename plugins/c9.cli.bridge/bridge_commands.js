@@ -23,22 +23,20 @@ define(function(require, exports, module) {
         
         var BASEPATH = options.basePath;
         
-        var loaded = false;
         function load(){
-            if (loaded) return;
-            loaded = true;
-            
             bridge.on("message", function(e) {
                 var message = e.message;
                 
                 switch (message.type) {
                     case "open":
                         open(message);
-                        break;
+                        return true;
                     case "ping":
-                        break;
+                        return true;
+                    default:
+                        return false;
                 }
-            });
+            }, plugin);
         }
         
         /***** Methods *****/
@@ -61,7 +59,7 @@ define(function(require, exports, module) {
                     
                     var node = favs.addFavorite(path);
     
-                    tree.expand(path, function(err) {
+                    tree.expand(path, function() {
                         tree.select(node); //path || "/");
                         tree.scrollToSelection();
                     });

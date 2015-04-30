@@ -1,37 +1,114 @@
 module.exports = function (vfs, options, register) { 
+    var stream;
+    
+    var net = require("net");
     var Stream = require('stream');
-    var stream, server;
+    
+    var SOCKET = process.env.HOME + "/.c9/bridge.socket";
+    
+    function createListenClient(api){
+        var client = net.connect(SOCKET, function(data){
+            if (data) api.onData(data);
+        });
+        client.setEncoding("utf8");
+        client.unref();
+        
+        client.on("data", function(data){
+            if (data) api.onData(data);
+        });
+        
+        client.on("error", function(err){
+            if (err.code == "ECONNREFUSED") {
+                require("fs").unlink(SOCKET, function(){
+                    createListenServer(api);
+                });
+            }
+            else
+                api.onError(err);
+        });
+        
+        client.on("end", function(){
+            createListenServer(api);
+        });
+        
+        api.onConnect(client);
+        
+        api.disconnect = function(){
+            client.end();
+        };
+        
+        return client;
+    }
+    
+    function createListenServer(api){
+        var unixServer = net.createServer(function(client) {
+            client.setEncoding("utf8");
+            
+            client.on("data", function(data){
+                if (data) api.onData(data);
+            });
+            
+            client.on("error", function(data){
+                // console.error("ERROR", api.id, data);
+            });
+            
+            api.onConnect(client);
+        });
+        unixServer.listen(SOCKET);
+        
+        unixServer.on("error", function(err){
+            if (err.code == "EADDRINUSE") {
+                createListenClient(api);
+            }
+            else
+                api.onError(err);
+        });
+        
+        api.disconnect = function(){
+            unixServer.close();
+        };
+    }
     
     register(null, {
-        connect: function (port, callback) {
+        connect: function (callback) {
             if (stream) return callback(null, { stream: stream });
-            
-            server = require('net').createServer(function(c) {
-                var buffer = "";
-                c.on("data", function(chunk) {
-                    buffer += chunk;
-                });
-                c.on("end", function(){
-                    stream.emit("data", buffer);
-                });
-            });
-            server.on("error", function(err) {
-                callback(err);
-            });
-            server.listen(port, process.env.OPENSHIFT_DIY_IP || "localhost", function(err) {
-                if (err) return callback(err);
-                callback(null, { stream: stream });
-            });
             
             stream = new Stream();
             stream.readable = true;
+            stream.writable = true;
+            
+            var client;
+            var sent = false;
+            var api = this.api = {
+                id: Math.random(), 
+                onConnect: function(c){
+                    client = c;
+                    if (sent) return;
+                    
+                    callback(null, { stream: stream });
+                    sent = true;
+                },
+                onData: function(data){
+                    stream.emit("data", data);
+                },
+                onError: function(err){
+                    stream.emit("error", err);
+                }
+            };
+            
+            createListenServer(api);
+            
+            stream.on("data", function(data){
+                if (client) client.write(data);
+            });
         },
         
         disconnect: function(){
-            try { server && server.close(); }
+            try { this.api && this.api.disconnect(); }
             catch (e) {}
+            
             stream = null;
-            server = null;
+            delete this.api;
         }
     });
 };
