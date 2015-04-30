@@ -417,6 +417,9 @@ require([
                 log: function() {},
                 increment: function() {}
             },
+            "error.logger": {
+                log: function() {},
+            },
             error_handler: {reportError: function(){}},
             proc: {
                 execFile: function() {},
