@@ -89,10 +89,10 @@ module.exports = function (vfs, options, register) {
                     sent = true;
                 },
                 onData: function(data){
-                    stream.emit("data", data);
+                    stream && stream.emit("data", data);
                 },
                 onError: function(err){
-                    stream.emit("error", err);
+                    stream && stream.emit("error", err);
                 }
             };
             

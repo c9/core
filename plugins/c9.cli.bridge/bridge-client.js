@@ -34,10 +34,10 @@ define(function(require, exports, module) {
                 var msgId = generateMessageId();
                 var done;
                 
-                stream.write(JSON.stringify({
+                jstream.write({
                     id: msgId,
                     message: message
-                }));
+                });
                 
                 jstream.on("data", function(payload){
                     if (payload.id == msgId && !done) {

@@ -42,12 +42,17 @@ define(function(require, exports, module) {
                     });
                         
                     stream.on("data", function(payload) {
-                        var response = emit("message", { message: payload.message });
-                        
-                        stream.write({
-                            id: payload.id,
-                            message: response
+                        emit("message", { 
+                            message: payload.message,
+                            respond: function(err, message){
+                                stream.write({
+                                    id: payload.id,
+                                    message: message,
+                                    error: err
+                                });
+                            }
                         });
+                        
                     });
 
                     stream.on("close", function(){
@@ -63,7 +68,7 @@ define(function(require, exports, module) {
         
         function write(json){
             if (!stream) return false;
-            stream.write(JSON.stringify(json));
+            stream.write(json);
             return true;
         }
         

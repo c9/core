@@ -25,8 +25,13 @@ define(function(require, exports, module) {
             cmd.addCommand({
                 name: "open", 
                 info: "     Opens a file or directory.",
-                usage: "<path>",
+                usage: "[--wait] <path>",
                 options: {
+                    "wait": {
+                        description: "Wait until the file(s) are closed",
+                        "default": false,
+                        "boolean": true
+                    },
                     "path" : {
                         description: "Specify the path that will be opened",
                         default: false
@@ -39,6 +44,7 @@ define(function(require, exports, module) {
                 exec: function(argv) {
                     open(
                         argv._.slice(1),  // Remove "open" from the paths
+                        argv.wait,
                         function(){});
                 }
             });
@@ -46,12 +52,16 @@ define(function(require, exports, module) {
 
         /***** Methods *****/
 
-        function open(paths, callback) {
+        function open(paths, wait, callback) {
             try {
                 paths = paths.map(function(path) {
                     var isDir = fs.existsSync(path) && fs.statSync(path).isDirectory();
+                    path = PATH.resolve(path);
+                    if (path.substr(0, process.env.HOME.length) == process.env.HOME)
+                        path = "~" + path.substr(process.env.HOME.length);
+                        
                     return {
-                        path: "/" + PATH.resolve(path),
+                        path: path,
                         type: isDir ? "directory" : "file"
                     };
                 });
@@ -65,6 +75,7 @@ define(function(require, exports, module) {
             paths.forEach(function(info) {
                 var path = info.type == "directory"
                     ? info.path : PATH.dirname(info.path);
+                
                 if (!last) {
                     last = path;
                 }
@@ -86,6 +97,7 @@ define(function(require, exports, module) {
             var message = {
                 type: "open",
                 workspace: "local",
+                wait: wait,
                 // cwd       : cwd,
                 paths: paths
             };
