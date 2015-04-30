@@ -120,7 +120,7 @@ function start(configName, options, callback) {
         }
         
         if (argv._getConfig)
-            return callback && callback(null, config);
+            return callback && callback(null, config, configPath);
 
         var app = architect.createApp(config, function (err, app) {
             if (err) {

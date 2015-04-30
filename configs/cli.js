@@ -1,6 +1,12 @@
 module.exports = function(options) {
     
+// workaround for api difference between node and c9 events modules
 var EventEmitter = require("events").EventEmitter;
+var emit_ = EventEmitter.prototype.emit
+EventEmitter.prototype.emit = function() {
+    emit_.apply(this, arguments);
+    return true;
+}
 
 var PID = process.env.C9_PID || 526;
 var APIHOST = process.env.C9_APIHOST || "api.c9.io"; // "api.c9.io";
