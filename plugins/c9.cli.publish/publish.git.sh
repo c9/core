@@ -1,13 +1,13 @@
-PACKAGE_PATH=$1
-VERSION=$2
-CWD=${PWD}
+VERSION="$1"
+PACKAGE_PATH="$2"
+CWD="${PWD}"
 
 if [ ! -d .git ]; then
     echo "$CWD is not a git repository" 1>&2
     exit 1
 fi
 
-if [ ! -e $PACKAGE_PATH ]; then
+if [ ! -f "$PACKAGE_PATH" ]; then
     echo "Could not find package.json" 1>&2
     exit 1
 fi

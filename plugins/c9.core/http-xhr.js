@@ -29,6 +29,8 @@ define(function(require, module, exports) {
             var timeout = options.hasOwnProperty("timeout") ? options.timeout : 10000;
             var async = options.sync !== true;
             var parsedUrl = parseUrl(url, options.query);
+            if (contentType === "application/json")
+                headers.Accept = headers.Accept || "application/json";
             
             if (options.username) {
                 headers.Authorization = "Basic " + btoa(options.username + ":" + options.password);
