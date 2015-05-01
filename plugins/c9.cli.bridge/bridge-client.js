@@ -22,7 +22,7 @@ define(function(require, exports, module) {
         
         var counter = 0;
         var SOCKET = c9.platform == "win32"
-            ? "\\\\.\\pipe\\"+ c9.home +"\\.c9\\bridge.socket"
+            ? "\\\\.\\pipe\\.c9\\bridge.socket"
             : c9.home + "/.c9/bridge.socket";
         
         /***** Methods *****/

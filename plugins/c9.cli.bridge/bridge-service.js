@@ -5,7 +5,7 @@ module.exports = function (vfs, options, register) {
     var Stream = require('stream');
     
     var SOCKET = process.platform == "win32"
-        ? "\\\\.\\pipe\\"+ process.env.HOME +"\\.c9\\bridge.socket"
+        ? "\\\\.\\pipe\\.c9\\bridge.socket"
         : process.env.HOME + "/.c9/bridge.socket";
 
     function createListenClient(api){
