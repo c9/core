@@ -157,9 +157,6 @@ module.exports = function(c9, proc, installPath, shell) {
             options.output = false;
             options.terminal = true;
             options.detachOthers = !session.hasConnected;
-            options.env = {
-                "EDITOR": "`which c9` open --wait"
-            };
         }
         
         // Connect to backend and start tmux session
