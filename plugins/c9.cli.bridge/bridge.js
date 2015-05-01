@@ -58,6 +58,8 @@ define(function(require, exports, module) {
                     stream.on("close", function(){
                         load();
                     });
+                    
+                    emit.sticky("ready");
                 });
             });
 
@@ -67,9 +69,12 @@ define(function(require, exports, module) {
         }
         
         function write(json){
-            if (!stream) return false;
+            if (!stream) {
+                plugin.once("ready", function(){ write(json); });
+                return;
+            }
+            
             stream.write(json);
-            return true;
         }
         
         /***** Methods *****/

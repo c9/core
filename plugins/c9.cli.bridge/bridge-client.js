@@ -5,7 +5,7 @@
  */
 define(function(require, exports, module) {
     main.consumes = ["c9", "Plugin", "net"];
-    main.provides = ["bridge-client"];
+    main.provides = ["bridge.client"];
     return main;
 
     function main(options, imports, register) {
@@ -87,7 +87,7 @@ define(function(require, exports, module) {
         });
         
         register(null, {
-            "bridge-client": plugin
+            "bridge.client": plugin
         });
     }
 });

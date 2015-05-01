@@ -195,6 +195,7 @@ require([
             })(),
             log: {},
             http: {},
+            ui: {},
             api: {
                 stats: {
                     post: function(type, message, cb) {

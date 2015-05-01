@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-    main.consumes = ["Plugin", "cli_commands", "proc", "bridge-client"];
+    main.consumes = ["Plugin", "cli_commands", "proc", "bridge.client"];
     main.provides = ["open"];
     return main;
 
@@ -7,7 +7,7 @@ define(function(require, exports, module) {
         var Plugin = imports.Plugin;
         var cmd = imports.cli_commands;
         var proc = imports.proc;
-        var bridge = imports["bridge-client"];
+        var bridge = imports["bridge.client"];
         
         var fs = require("fs");
         var PATH = require("path");
