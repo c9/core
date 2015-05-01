@@ -7,6 +7,9 @@ define(function(require, exports, module) {
         var Plugin = imports.Plugin;
         var cmd = imports.cli_commands;
 
+        var fs = require("fs");
+        var resolve = require("path").resolve;
+
         var optimist;
         
         /***** Initialization *****/
@@ -21,13 +24,25 @@ define(function(require, exports, module) {
             var module;
             var argv;
             
-            process.argv.slice(2).some(function(n){
+            process.argv.slice(2).some(function(n) {
                 if (!n.match(/^[-\/]/) && n != "node") {
                     module = n;
                     return true;
                 }
                 return false;
             });
+            
+            if (!commands[module] && process.argv.length > 2) {
+                for (var i = 2; i < process.argv.length; i++) {
+                    if (process.argv[i].charAt(0) == "-") continue;
+                    var path = resolve(process.argv[i]);
+                    if (fs.existsSync(path)) {
+                        process.argv.splice(2, 0, "open");
+                        module = "open";
+                    }
+                    break;
+                }
+            }
             
             optimist = require('optimist');
             

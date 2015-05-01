@@ -31,10 +31,6 @@ define(function(require, exports, module) {
                         description: "Wait until the file(s) are closed",
                         "default": false,
                         "boolean": true
-                    },
-                    "path" : {
-                        description: "Specify the path that will be opened",
-                        default: false
                     }
                 },
                 check: function(argv) {
