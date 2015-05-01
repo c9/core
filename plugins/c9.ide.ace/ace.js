@@ -360,29 +360,46 @@ define(function(require, exports, module) {
             getState: function() {
                 console.log("getState()");
                 var aceUndo = this.$aceUndo;
-                var stack = aceUndo.$undoStack.map(function(deltaSet) {
-                    return deltaSet.filter(function (d) {
+                var mark = -1;
+                var aceMark = aceUndo.mark;
+                var stack = [];
+                function transform(deltaSet) {
+                    var newDelta = deltaSet.filter(function (d) {
+                        if (d.id == aceMark) mark = stack.length;
                         return d.action == "insert" || d.action == "remove";
                     });
-                });
+                    stack.push(newDelta);
+                }
+                aceUndo.$undoStack.forEach(transform);
+                if (aceUndo.$redoStackBaseRev == aceUndo.$rev)
+                    aceUndo.$redoStack.forEach(transform);
                 return {
                     stack: stack,
-                    mark: aceUndo.mark,
-                    position: stack.length - 1
+                    mark: mark,
+                    position: aceUndo.$undoStack.length - 1
                 };
             },
             setState: function(e, silent) {
                 console.log("setState()");
                 var aceUndo = this.$aceUndo;
-                aceUndo.$undoStack = (e.stack || []).filter(function(x) {
+                var stack = e.stack || [];
+                var marked = stack[e.mark] && stack[e.mark][0];
+                var pos = e.position + 1;
+                var undo = stack.slice(0, pos);
+                var redo = stack.slice(pos);
+                aceUndo.$undoStack = undo.filter(function(x) {
                     return x.length;
                 }).map(updateDeltas);
-                var stack = aceUndo.$undoStack;
+                aceUndo.$redoStack = redo.filter(function(x) {
+                    return x.length;
+                }).map(updateDeltas);
+                stack = aceUndo.$undoStack;
                 var lastDeltaGroup = stack[stack.length - 1];
                 var lastRev = lastDeltaGroup && lastDeltaGroup[0].id || 0;
                 aceUndo.$rev = lastRev;
+                aceUndo.$redoStackBaseRev == aceUndo.$rev;
                 aceUndo.$maxRev = Math.max(aceUndo.$maxRev, lastRev);
-                this.$aceUndo.bookmark(e.mark);
+                this.$aceUndo.bookmark(marked && marked.id != null ? marked.id : -1);
                 silent || this._emit("change");
             },
             isAtBookmark: function() {
