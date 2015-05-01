@@ -2,7 +2,7 @@
 
 "use client";
 
-require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (architect, chai, basePath) {
+require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "/vfs-home"], function (architect, chai, basePath, homePath) {
     var expect = chai.expect;
     var Assert = chai.assert;
     
@@ -15,7 +15,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
             hosted: true,
             local: false,
             davPrefix: "/",
-            home: "/home/ubuntu"
+            home: homePath
         },
         
         "plugins/c9.core/ext",
