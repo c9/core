@@ -21,9 +21,12 @@ module.exports = function (vfs, options, register) {
         
         client.on("error", function(err){
             if (err.code == "ECONNREFUSED") {
-                require("fs").unlink(SOCKET, function(){
+                require("fs").unlink(SOCKET, function(){ 
                     createListenServer(api);
                 });
+            }
+            else if (err.code == "ENOENT") {
+                createListenServer(api);
             }
             else
                 api.onError(err);
@@ -42,7 +45,11 @@ module.exports = function (vfs, options, register) {
         return client;
     }
     
-    function createListenServer(api){
+    function createListenServer(api){ 
+        // var timeout = setTimeout(function(){
+        //     unixServer.close();
+        // }, 500);
+    
         var unixServer = net.createServer(function(client) {
             client.setEncoding("utf8");
             
@@ -98,7 +105,8 @@ module.exports = function (vfs, options, register) {
                 }
             };
             
-            createListenServer(api);
+            // createListenServer
+            createListenClient(api);
             
             stream.write = function(data){
                 if (client) client.write(data);
@@ -111,6 +119,10 @@ module.exports = function (vfs, options, register) {
             
             stream = null;
             delete this.api;
+        },
+        
+        destroy: function(){
+            this.disconnect();
         }
     });
 };

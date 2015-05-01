@@ -140,6 +140,7 @@ define(function(require, exports, module) {
             
             cmd.addCommand({
                 name: "remove", 
+                alias: "uninstall",
                 info: "   Removes a cloud9 package.",
                 usage: "[--verbose] [--global] [--local] <package>", // @TODO --global
                 options: {

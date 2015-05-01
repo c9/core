@@ -71,9 +71,9 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "/vfs-home"], 
             it('send and receive messages', function(done) {
                 bridge.on("message", function(e){
                     if (e.message.hello) {
-                        e.respond({ "hi": true });
+                        e.respond(null, { "hi": true });
                     }
-                })
+                });
                 client.send({ "hello": true }, function(err, message){
                     if (err) throw err.message;
                     expect(message).property("hi").to.be.ok;
