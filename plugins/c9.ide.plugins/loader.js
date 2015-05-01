@@ -57,8 +57,11 @@ define(function(require, exports, module) {
             if (loadFromDisk) {
                 fs.readdir("~/.c9/plugins", function handle(err, files){
                     if (err) {
-                        if (err.code == "EDISCONNECT")
-                            fs.readdir("~/.c9/plugins", handle);
+                        if (err.code == "EDISCONNECT") {
+                            c9.once("connect", function(){
+                                fs.readdir("~/.c9/plugins", handle);
+                            });
+                        }
                         console.error(err);
                         return;
                     }

@@ -127,6 +127,8 @@ define(function(require, exports, module) {
         function showMenu(e) {
             if (e.type == "link" && (tabManager.focussedTab || 0).editorType)
                 return open(e);
+            if (e.action == "open")
+                return open(e);
             
             createMenu(e);
             
@@ -206,7 +208,7 @@ define(function(require, exports, module) {
         }
         
         function buildPath(e) {
-            var path = e.value;
+            var path = e.path || e.value;
             var abs = false;
             
             if (c9.platform == "win32") {

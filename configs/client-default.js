@@ -456,7 +456,7 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.layout.classic/preload",
             themePrefix: options.themePrefix,
-            defaultTheme: "dark"
+            defaultTheme: options.defaultTheme || "dark"
         },
         {
             packagePath: "plugins/c9.ide.tree/tree",
@@ -515,6 +515,7 @@ module.exports = function(options) {
         },
         "plugins/c9.ide.panels/panel",
         "plugins/c9.ide.panels/area",
+        "plugins/c9.ide.processlist/processlist",
         
         // Installer
         {
@@ -523,9 +524,14 @@ module.exports = function(options) {
         },
         "plugins/c9.automate/automate",
         "plugins/c9.ide.installer/commands/centos",
+        "plugins/c9.ide.installer/commands/darwin",
         "plugins/c9.ide.installer/commands/bash",
         "plugins/c9.ide.installer/commands/npm",
+        "plugins/c9.ide.installer/commands/pip",
+        "plugins/c9.ide.installer/commands/gem",
+        "plugins/c9.ide.installer/commands/zip",
         "plugins/c9.ide.installer/commands/symlink",
+        "plugins/c9.ide.installer/commands/message",
         {
             packagePath: "plugins/c9.ide.installer/commands/tar.gz",
             bashBin: options.bashBin

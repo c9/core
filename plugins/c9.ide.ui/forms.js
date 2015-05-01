@@ -202,19 +202,24 @@ define(function(require, exports, module) {
                         }).join("");
                         if (data) model.load("<items>" + data + "</items>");
                         
+                        var dd;
                         childNodes = [
                             new ui.label({ width : width, maxwidth: maxwidth, caption: name + ":" }),
-                            new ui.dropdown({
+                            dd = new ui.dropdown({
                                 model: model,
                                 width: options.width || widths.dropdown,
                                 skin: "black_dropdown",
                                 margin: "-1 0 0 0",
                                 zindex: 100,
-                                onafterchange: options.onchange && function(e) {
-                                    options.onchange({ value: e.value || e.args[2] });
+                                onafterchange: function(e) {
+                                    if (options.path)
+                                        settings.set(options.path, e.value);
+                                    
+                                    if (options.onchange)
+                                        options.onchange({ value: e.value || e.args[2] });
                                 }, 
-                                value: options.path 
-                                    ? createBind(options.path) //{settings.model}::
+                                value: options.path
+                                    ? settings.get(options.path)
                                     : (options.defaultValue || ""),
                                 each: options.each || "[item]",
                                 caption: options.caption || "[text()]",
@@ -222,6 +227,10 @@ define(function(require, exports, module) {
                                 "empty-message" : options["empty-message"]
                             })
                         ];
+                        
+                        settings.on(options.path, function(){
+                            dd.setValue(settings.get(options.path));
+                        }, plugin);
                     break;
                     case "spinner":
                         childNodes = [

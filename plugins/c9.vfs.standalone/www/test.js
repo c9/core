@@ -155,6 +155,9 @@ require([
                 prefs.add = function(){};
                 return prefs;
             })(),
+            analytics: {
+                addTrait: function() {}
+            },
             commands: (function(){
                 var commands = {};
                 
@@ -411,8 +414,13 @@ require([
             "metrics": {
                 getLastPing: function() { throw Error("Not implemented"); },
                 getLastest: function() { throw Error("Not implemented"); },
+                log: function() {},
+                increment: function() {}
             },
-            error_handler: {reportError: function(){}},
+            error_handler: {
+                log: function() {},
+                reportError: function(){}
+            },
             proc: {
                 execFile: function() {},
                 spawn: function() {}

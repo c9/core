@@ -1,13 +1,14 @@
 define(function(require, exports, module) {
     "use strict";
 
-    main.consumes = ["Plugin", "ui"];
+    main.consumes = ["Plugin", "ui", "metrics"];
     main.provides = ["dialog.error"];
     return main;
 
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var ui = imports.ui;
+        var metrics = imports.metrics;
         
         /***** Initialization *****/
         
@@ -84,6 +85,8 @@ define(function(require, exports, module) {
         }
 
         function show(message, timeout) {
+            metrics.increment("dialog.error");
+            
             // Error message container
             if (!error) {
                 error = document.body.appendChild(document.createElement("div"));

@@ -12,13 +12,13 @@ function plugin(options, imports, register) {
     
      register(null, {
         "experiment": {
-            configureExperiment: function() {},
+            configure: function() {},
             onStart: function() {
                 var chain = {
                     variation: function() {
                         return chain;
                     }
-                }
+                };
                 return chain;
             }
         }

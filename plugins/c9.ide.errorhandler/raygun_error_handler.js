@@ -8,7 +8,7 @@ define(function(require, exports, module) {
     "use strict";
 
     main.consumes = [
-        "Plugin", "info"
+        "Plugin", "info", "metrics"
     ];
     main.provides = ["error_handler"];
     return main;
@@ -16,6 +16,7 @@ define(function(require, exports, module) {
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var info = imports.info;
+        var metrics = imports.metrics;
 
         /***** Initialization *****/
         
@@ -57,12 +58,15 @@ define(function(require, exports, module) {
             Raygun.setVersion(version + ".0");
         }
         
-        function reportError(exception, customData, tags) {
+        function log(exception, customData, tags) {
+            metrics.increment("errorhandler.log");
             if (typeof exception === "string")
                 exception = new Error(exception);
             if (!exception)
                 exception = new Error("Unspecified error");
-            console.error(exception.stack);
+            console.error(exception);
+            if (customData)
+                console.log(customData);
             Raygun.send(exception, customData, tags);
         }
         
@@ -76,8 +80,8 @@ define(function(require, exports, module) {
         
         plugin.freezePublicAPI({
             /** @deprecated Use log() instead. */
-            reportError: reportError,
-            log: reportError
+            reportError: log,
+            log: log
         });
         
         register(null, { "error_handler" : plugin });
