@@ -438,9 +438,9 @@ define(function(require, exports, module) {
                                     var path = join(cwd, json.installer);
                                     var installerCode = fs.readFileSync(path, "utf8");
                                     
-                                    var m = installerCode.match(/\.version\s*=\s*(\d+)/g);
+                                    var m = installerCode.match(/\.version\s*=\s*(\d+)/);
                                     
-                                    var installerVersion = m && m[0];
+                                    var installerVersion = m && m[1];
                                     if (!installerVersion)
                                         return callback(new Error("ERROR: missing installer version in " +  json.installer));
                                     extraCode.push({
