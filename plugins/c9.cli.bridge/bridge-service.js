@@ -4,8 +4,10 @@ module.exports = function (vfs, options, register) {
     var net = require("net");
     var Stream = require('stream');
     
-    var SOCKET = process.env.HOME + "/.c9/bridge.socket";
-    
+    var SOCKET = process.platform == "win32"
+        ? "\\\\.\\pipe\\"+ process.env.HOME +"\\.c9\\bridge.socket"
+        : process.env.HOME + "/.c9/bridge.socket";
+
     function createListenClient(api){
         var client = net.connect(SOCKET, function(data){
             if (data) api.onData(data);
