@@ -21,7 +21,9 @@ define(function(require, exports, module) {
         // var emit = plugin.getEmitter();
         
         var counter = 0;
-        var SOCKET = c9.home + "/.c9/bridge.socket";
+        var SOCKET = process.platform == "win32"
+            ? "\\\\.\\pipe\\"+ process.env.HOME +"\\.c9\\bridge.socket"
+            : process.env.HOME + "/.c9/bridge.socket";
         
         /***** Methods *****/
         

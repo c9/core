@@ -2,7 +2,7 @@
 define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "bridge", "tabManager", "panels", "tree.favorites", "tree", 
-        "fs", "preferences", "settings"
+        "fs", "preferences", "settings", "c9"
     ];
     main.provides = ["bridge.commands"];
     return main;
@@ -16,6 +16,7 @@ define(function(require, exports, module) {
         var settings = imports.settings;
         var favs = imports["tree.favorites"];
         var fs = imports.fs;
+        var c9 = imports.c9;
         var prefs = imports.preferences;
         
         var async = require("async");
@@ -68,11 +69,13 @@ define(function(require, exports, module) {
         function open(message, callback) {
             var i = -1;
             var tabs = [];
-            
+            BASEPATH = c9.toInternalPath(BASEPATH);
+
             async.each(message.paths, function(info, next) {
                 var path = info.path;
                 i++;
                 
+                path = c9.toInternalPath(path);
                 // Make sure file is inside workspace
                 if (path.charAt(0) !== "~") {
                     if (path.substr(0, BASEPATH.length) !== BASEPATH)
