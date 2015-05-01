@@ -98,9 +98,9 @@ module.exports = function (vfs, options, register) {
             
             createListenServer(api);
             
-            stream.on("data", function(data){
+            stream.write = function(data){
                 if (client) client.write(data);
-            });
+            };
         },
         
         disconnect: function(){
