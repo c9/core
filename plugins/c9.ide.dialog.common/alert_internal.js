@@ -1,11 +1,12 @@
 define(function(require, module, exports) {
-    main.consumes = ["Dialog", "util", "dialog.alert"];
+    main.consumes = ["Dialog", "util", "dialog.alert", "metrics"];
     main.provides = ["dialog.alert_internal"];
     return main;
     
     function main(options, imports, register) {
         var Dialog = imports.Dialog;
         var util = imports.util;
+        var metrics = imports.metrics;
         var alertWrapper = imports["dialog.alert"];
         
         /***** Initialization *****/
@@ -25,6 +26,8 @@ define(function(require, module, exports) {
         /***** Methods *****/
         
         function show(title, header, msg, onhide, options) {
+            metrics.increment("dialog.error");
+            
             return plugin.queue(function(){
                 if (header === undefined) {
                     plugin.title = "Notice";
