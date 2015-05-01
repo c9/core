@@ -417,10 +417,10 @@ require([
                 log: function() {},
                 increment: function() {}
             },
-            "error.logger": {
+            error_handler: {
                 log: function() {},
+                reportError: function(){}
             },
-            error_handler: {reportError: function(){}},
             proc: {
                 execFile: function() {},
                 spawn: function() {}
