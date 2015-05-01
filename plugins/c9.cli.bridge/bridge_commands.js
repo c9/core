@@ -1,8 +1,8 @@
 
 define(function(require, exports, module) {
     main.consumes = [
-        "Plugin", "bridge", "tabManager", "panels", 
-        "tree.favorites", "tree", "fs"
+        "Plugin", "bridge", "tabManager", "panels", "tree.favorites", "tree", 
+        "fs", "preferences", "settings"
     ];
     main.provides = ["bridge.commands"];
     return main;
@@ -13,8 +13,10 @@ define(function(require, exports, module) {
         var tabManager = imports.tabManager;
         var panels = imports.panels;
         var tree = imports.tree;
+        var settings = imports.settings;
         var favs = imports["tree.favorites"];
         var fs = imports.fs;
+        var prefs = imports.preferences;
         
         var async = require("async");
         
@@ -39,6 +41,24 @@ define(function(require, exports, module) {
                     default:
                         console.error("Unknown Bridge Command: ", message.type);
                         break;
+                }
+            }, plugin);
+            
+            settings.on("read", function(e) {
+                settings.setDefaults("user/terminal", [
+                    ["defaultEditor", "true"]
+                ]);
+            }, plugin);
+            
+            prefs.add({
+                "Editors" : {
+                    "Terminal" : {
+                        "Use Cloud9 as the Default Editor" : {
+                            type: "checkbox",
+                            path: "user/terminal/@defaultEditor",
+                            position: 14000
+                        }
+                    }
                 }
             }, plugin);
         }
