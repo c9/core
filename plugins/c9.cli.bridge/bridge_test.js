@@ -21,6 +21,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
         "plugins/c9.core/ext",
         "plugins/c9.core/http-xhr",
         "plugins/c9.core/util",
+        "plugins/c9.ide.ui/lib_apf",
+        "plugins/c9.ide.ui/ui",
         "plugins/c9.core/settings",
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
