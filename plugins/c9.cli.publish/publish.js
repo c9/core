@@ -88,8 +88,7 @@ define(function(require, exports, module) {
                     }
                 },
                 check: function(argv) {
-                    // if (argv._.length < 2 && !argv["newversion"] && !argv["dry-run"])
-                    //     throw new Error("Missing version");
+                    
                 },
                 exec: function(argv) {
                     verbose = argv["verbose"];
