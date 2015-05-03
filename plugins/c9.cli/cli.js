@@ -77,7 +77,8 @@ define(function(require, exports, module) {
             argv = optimist
                 .usage("The Cloud9 CLI.\nUsage: c9 " + module + " [--help] " + def.usage)
                 .options(def.options);
-            if (argv.help)
+            
+            if (argv.argv.help)
                 argv = argv.check(function(){
                     if (argv.help)
                         throw new Error("Help Requested");
