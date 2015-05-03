@@ -358,7 +358,6 @@ define(function(require, exports, module) {
                 return this.$aceUndo.markIgnored(from, to);
             },
             getState: function() {
-                console.log("getState()");
                 var aceUndo = this.$aceUndo;
                 var mark = -1;
                 var aceMark = aceUndo.mark;
@@ -380,7 +379,6 @@ define(function(require, exports, module) {
                 };
             },
             setState: function(e, silent) {
-                console.log("setState()");
                 var aceUndo = this.$aceUndo;
                 var stack = e.stack || [];
                 var marked = stack[e.mark] && stack[e.mark][0];
@@ -397,9 +395,15 @@ define(function(require, exports, module) {
                 var lastDeltaGroup = stack[stack.length - 1];
                 var lastRev = lastDeltaGroup && lastDeltaGroup[0].id || 0;
                 aceUndo.$rev = lastRev;
-                aceUndo.$redoStackBaseRev == aceUndo.$rev;
+                aceUndo.$redoStackBaseRev = aceUndo.$rev;
                 aceUndo.$maxRev = Math.max(aceUndo.$maxRev, lastRev);
-                this.$aceUndo.bookmark(marked && marked.id != null ? marked.id : -1);
+                var markedRev = marked && marked.id;
+                if (markedRev != null)
+                    this.$aceUndo.bookmark(markedRev);
+                else if (e.mark == e.position)
+                    this.$aceUndo.bookmark();
+                else
+                    this.$aceUndo.bookmark(-1);
                 silent || this._emit("change");
             },
             isAtBookmark: function() {
@@ -419,6 +423,7 @@ define(function(require, exports, module) {
                     }
                     var deltaSet = stack[index];
                     var rev = deltaSet && deltaSet[0] && deltaSet[0].id;
+                    if (rev == null) rev = -1;
                     this.$aceUndo.bookmark(rev);
                 } else if (index == -1) {
                     this.$aceUndo.bookmark(0);
