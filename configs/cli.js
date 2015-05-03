@@ -56,7 +56,8 @@ return [
         packagePath: "./c9.ide.auth/auth",
         accessToken: "token",
         ideBaseUrl: "",
-        apiUrl: APIURL
+        apiUrl: APIURL,
+        cli: true
         // userId: process.env.C9_USER
     },
     {

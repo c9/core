@@ -66,7 +66,6 @@ define(function(require, exports, module) {
                 }, function(err, token) {
                     if (err) return callback(err);
                     
-                    
                     fs.writeFile(AUTHPATH, token, function(err){
                         if (err) return callback(err);
                         callback(null, lastToken = token);
