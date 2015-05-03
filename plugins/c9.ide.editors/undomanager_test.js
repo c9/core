@@ -133,7 +133,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 expect(undo.position).to.equal(4);
                 undo.undo(); check++;
                 
-                undo.setState({ position : -1, stack : stack, mark : null }); check++;
+                undo.setState({ position : -1, stack : stack, mark : -1 }); check++;
                 expect(undo.isAtBookmark()).to.equal(true);
                 expect(data).to.deep.equal(["a", "q"]);
                 checkCount();
