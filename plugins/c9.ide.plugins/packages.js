@@ -3,7 +3,7 @@ define(function(require, exports, module) {
         "Editor", "editors", "ui", "commands", "menus", "layout", 
         "tabManager", "util", "settings", "api", "c9"
     ];
-    main.provides = ["plugin.market"];
+    main.provides = ["plugin.packages"];
     return main;
     
     function main(options, imports, register) {
@@ -24,17 +24,17 @@ define(function(require, exports, module) {
         var extensions = [];
         var packages = {};
         
-        var handle = editors.register("plugin.market", "Market Place", 
-                                      MarketPlace, extensions);
+        var handle = editors.register("plugin.packages", "Package Browser", 
+                                      PackageBrowser, extensions);
         var emit = handle.getEmitter();
         emit.setMaxListeners(1000);
         
-        var HASSDK = c9.location.indexOf("sdk=1") > -1;
+        var HASSDK = c9.location.indexOf("sdk=0") === -1;
         
-        function focusOpenMarket(){
+        function focusOpenPackages(){
             var pages = tabs.getTabs();
             for (var i = 0, tab = pages[i]; tab; tab = pages[i++]) {
-                if (tab.editorType == "plugin.market") {
+                if (tab.editorType == "plugin.packages") {
                     tabs.focusTab(tab);
                     return true;
                 }
@@ -49,29 +49,30 @@ define(function(require, exports, module) {
             });
             
             commands.addCommand({
-                name: "openmarketplace",
-                hint: "open the market place",
+                name: "openpackagebrowser",
+                hint: "open the package browser",
                 group: "General",
                 // bindKey: { mac: "Command-,", win: "Ctrl-," },
                 exec: function () {
                     var tab = tabs.focussedTab;
-                    if (tab && tab.editor.type == "plugin.market") {
+                    if (tab && tab.editor.type == "plugin.packages") {
                         tab.close();
                         return;
                     }
-                    if (focusOpenMarket())
+                    if (focusOpenPackages())
                         return;
     
                     tabs.open({
-                        editorType: "plugin.market",
+                        editorType: "plugin.packages",
                         active: true
                     }, function(){});
                 }
             }, handle);
             
-            menus.addItemByPath("Cloud9/Plugin Store", new ui.item({
-                command: "openmarketplace"
-            }), 301, handle);
+            menus.addItemByPath("Cloud9/~", new ui.divider(), 1000, handle);
+            menus.addItemByPath("Cloud9/Package Browser", new ui.item({
+                command: "openpackagebrowser"
+            }), 1100, handle);
         });
         
         /***** Methods *****/
@@ -123,10 +124,10 @@ define(function(require, exports, module) {
         
         /***** Editor *****/
         
-        function MarketPlace(){
+        function PackageBrowser(){
             var plugin = new Editor("Ajax.org", main.consumes, extensions);
             //var emit = plugin.getEmitter();
-            var tab;
+            var tab, iframe;
             
             plugin.on("resize", function(e) {
                 emit("resize", e);
@@ -136,33 +137,15 @@ define(function(require, exports, module) {
                 tab = e.tab;
                 var htmlNode = e.htmlNode;
                 
-                api.packages.get("", function(err, list){
-                    if (c9.standalone) {
-                        err = null;
-                        list = [{ name: "example", apikey:"0000000000000000000000000000=", packagePath: "plugins/c9.example/example" }];
-                    }
-                    
-                    if (err) return;
-                    
-                    var sHtml = "";
-                    list.forEach(function(plugin){ // @todo use react instead in an iframe
-                        packages[plugin.name] = plugin;
-                    
-                        sHtml += "<div>"
-                            + "<span>" + plugin.name + "</span> | "
-                            + "<a href='javascript:void(0)' plugin-name='" + plugin.name + "' target='project'>Install In Workspace</a> | "
-                            + "<a href='javascript:void(0)' plugin-name='" + plugin.name + "' target='user'>Install To User</a>"
-                            + "</div>";
-                    });
-                    
-                    htmlNode.innerHTML = sHtml;
-                    htmlNode.addEventListener("click", function(e){
-                        if (e.target.tagName == "A") {
-                            installPlugin(e.target.getAttribute("plugin-name"), 
-                                e.target.getAttribute("target"), function(){});
-                        }
-                    });
-                });
+                htmlNode.style.paddingTop = 0;
+                
+                iframe = htmlNode.appendChild(document.createElement("iframe"));
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                iframe.style.border = 0;
+                iframe.style.backgroundColor = "#fbfbfb";
+                
+                iframe.src = location.origin.replace("ide.", "") + "/profile/packages?nobar=1&pid=" + c9.projectId;
             });
             
             plugin.on("getState", function(e) {
@@ -174,12 +157,11 @@ define(function(require, exports, module) {
             
             plugin.on("documentLoad", function(e) {
                 var doc = e.doc;
-                doc.title = "Plugin Store";
+                doc.title = "Package Browser";
                 
                 function setTheme(){
-                    // var bg = ui.getStyleRule(".bar-preferences .container .header", "backgroundColor") || "#F0F0F0";
-                    var bg = "#FFF";
-                    doc.tab.backgroundColor = bg; //"#2d2d2d";
+                    var bg = "#fbfbfb";
+                    doc.tab.backgroundColor = bg;
                     
                     if (util.shadeColor(bg, 1).isLight)
                         doc.tab.classList.remove("dark");
@@ -192,14 +174,7 @@ define(function(require, exports, module) {
             });
             
             plugin.on("documentActivate", function(e) {
-                e.doc.tab.on("unload", function(){
-                    if (parent.parentNode == tab)
-                        tab.removeChild(parent);
-                });
                 
-                tab.appendChild(parent);
-                
-                emit("show");
             });
             
             /***** Register and define API *****/
@@ -212,13 +187,13 @@ define(function(require, exports, module) {
                 
             });
             
-            plugin.load(null, "plugin.market");
+            plugin.load(null, "plugin.packages");
             
             return plugin;
         }
         
         register(null, {
-            "plugin.market": handle
+            "plugin.packages": handle
         });
     }
 });

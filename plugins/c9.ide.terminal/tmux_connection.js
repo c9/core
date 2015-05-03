@@ -157,6 +157,7 @@ module.exports = function(c9, proc, installPath, shell) {
             options.output = false;
             options.terminal = true;
             options.detachOthers = !session.hasConnected;
+            options.defaultEditor = session.defaultEditor;
         }
         
         // Connect to backend and start tmux session

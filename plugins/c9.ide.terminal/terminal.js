@@ -750,6 +750,9 @@ define(function(require, exports, module) {
                 
                 session.__defineGetter__("tab", function(){ return doc.tab });
                 session.__defineGetter__("doc", function(){ return doc });
+                session.__defineGetter__("defaultEditor", function(){ 
+                    return settings.getBool("user/terminal/@defaultEditor");
+                });
                 
                 session.attach = function(){
                     if (session.aceSession && aceterm) {

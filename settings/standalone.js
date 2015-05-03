@@ -28,6 +28,7 @@ module.exports = function(manifest, installPath) {
     
     var config = {
         standalone: true,
+        startBridge: true,
         manifest: manifest,
         workspaceDir: workspaceDir,
         projectName: path.basename(workspaceDir),

@@ -1,20 +1,25 @@
 
 define(function(require, exports, module) {
     main.consumes = [
-        "Plugin", "bridge", "tabManager", "panels", 
-        "tree.favorites", "tree", "fs"
+        "Plugin", "bridge", "tabManager", "panels", "tree.favorites", "tree", 
+        "fs", "preferences", "settings", "c9"
     ];
-    main.provides = ["bridge_commands"];
+    main.provides = ["bridge.commands"];
     return main;
 
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var bridge = imports.bridge;
-        var tabs = imports.tabManager;
+        var tabManager = imports.tabManager;
         var panels = imports.panels;
         var tree = imports.tree;
+        var settings = imports.settings;
         var favs = imports["tree.favorites"];
         var fs = imports.fs;
+        var c9 = imports.c9;
+        var prefs = imports.preferences;
+        
+        var async = require("async");
         
         /***** Initialization *****/
         
@@ -23,36 +28,62 @@ define(function(require, exports, module) {
         
         var BASEPATH = options.basePath;
         
-        var loaded = false;
         function load(){
-            if (loaded) return;
-            loaded = true;
-            
             bridge.on("message", function(e) {
                 var message = e.message;
                 
                 switch (message.type) {
                     case "open":
-                        open(message);
+                        open(message, e.respond);
                         break;
                     case "ping":
+                        e.respond(null, true);
+                        break;
+                    default:
+                        console.error("Unknown Bridge Command: ", message.type);
                         break;
                 }
-            });
+            }, plugin);
+            
+            settings.on("read", function(e) {
+                settings.setDefaults("user/terminal", [
+                    ["defaultEditor", "true"]
+                ]);
+            }, plugin);
+            
+            prefs.add({
+                "Editors" : {
+                    "Terminal" : {
+                        "Use Cloud9 as the Default Editor" : {
+                            type: "checkbox",
+                            path: "user/terminal/@defaultEditor",
+                            position: 14000
+                        }
+                    }
+                }
+            }, plugin);
         }
         
         /***** Methods *****/
         
-        function open(message) {
-            message.paths.forEach(function(info, i) {
+        function open(message, callback) {
+            var i = -1;
+            var tabs = [];
+            BASEPATH = c9.toInternalPath(BASEPATH);
+
+            async.each(message.paths, function(info, next) {
                 var path = info.path;
+                i++;
                 
+                path = c9.toInternalPath(path);
                 // Make sure file is inside workspace
-                if (path.substr(0, BASEPATH.length) !== BASEPATH)
-                    return;
-                
-                // Remove base path
-                path = path.substr(BASEPATH.length);
+                if (path.charAt(0) !== "~") {
+                    if (path.substr(0, BASEPATH.length) !== BASEPATH)
+                        return; // Dont' call callback. Perhaps another client will pick this up.
+                    
+                    // Remove base path
+                    path = path.substr(BASEPATH.length);
+                }
                 
                 if (info.type == "directory") {
                     path = path.replace(/\/$/, "");
@@ -61,26 +92,45 @@ define(function(require, exports, module) {
                     
                     var node = favs.addFavorite(path);
     
-                    tree.expand(path, function(err) {
+                    tree.expand(path, function() {
                         tree.select(node); //path || "/");
                         tree.scrollToSelection();
+                        next();
                     });
                     tree.focus();
                 }
                 else {
-                    tabs.once("ready", function(){
+                    tabManager.once("ready", function(){
                         fs.exists(path, function(existing) {
-                            tabs.open({
+                            var tab = tabManager.open({
                                 path: path,
                                 active: i === 0,
                                 document:
                                     existing
                                         ? undefined
                                         : { meta : { newfile: true } }
-                            }, function(){});
+                            }, function(){
+                                next();
+                            });
+                            
+                            if (message.wait) {
+                                tab.on("close", function(){
+                                    tabs.splice(tabs.indexOf(tab), 1);
+                                    if (!tabs.length)
+                                        callback(null, true);
+                                });
+                            }
+                            
+                            tabs.push(tab);
                         });
                     });
                 }
+            }, function(err){
+                if (err)
+                    return callback(err);
+                    
+                if (!message.wait || !tabs.length)
+                    callback(null, true);
             });
         }
         
@@ -102,7 +152,7 @@ define(function(require, exports, module) {
         plugin.freezePublicAPI({});
         
         register(null, {
-            "bridge_commands": plugin
+            "bridge.commands": plugin
         });
     }
 });

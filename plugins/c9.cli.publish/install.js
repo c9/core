@@ -140,6 +140,7 @@ define(function(require, exports, module) {
             
             cmd.addCommand({
                 name: "remove", 
+                alias: "uninstall",
                 info: "   Removes a cloud9 package.",
                 usage: "[--verbose] [--global] [--local] <package>", // @TODO --global
                 options: {
@@ -387,8 +388,8 @@ define(function(require, exports, module) {
                 if (verbose)
                     console.log("Installing debug version of package");
                 
-                if (!options.test)
-                    return callback(new Error("Dry run is not supported for debug installations"));
+                if (options.test)
+                    return callback(new Error("Test is not supported for debug installations"));
                 
                 prepareDirectory(function(err, packagePath){
                     if (err) return callback(err);
