@@ -195,6 +195,7 @@ require([
             })(),
             log: {},
             http: {},
+            ui: {},
             api: {
                 stats: {
                     post: function(type, message, cb) {
@@ -414,8 +415,13 @@ require([
             "metrics": {
                 getLastPing: function() { throw Error("Not implemented"); },
                 getLastest: function() { throw Error("Not implemented"); },
+                log: function() {},
+                increment: function() {}
             },
-            error_handler: {reportError: function(){}},
+            error_handler: {
+                log: function() {},
+                reportError: function(){}
+            },
             proc: {
                 execFile: function() {},
                 spawn: function() {}

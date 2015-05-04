@@ -156,6 +156,14 @@ function plugin(options, imports, register) {
         res.end("define(function(require, exports, module) { return '" 
             + options.workspaceDir + "'; });");
     });
+    api.get("/vfs-home", function(req, res, next) {
+        if (!options.options.testing)
+            return next();
+            
+        res.writeHead(200, {"Content-Type": "application/javascript"});
+        res.end("define(function(require, exports, module) { return '" 
+            + process.env.HOME + "'; });");
+    });
 
     api.get("/update", function(req, res, next) {
         res.writeHead(200, {

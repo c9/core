@@ -98,7 +98,7 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.plugins/debug"
         },
         {
-            packagePath: "plugins/c9.ide.plugins/market"
+            packagePath: "plugins/c9.ide.plugins/packages"
         },
         {
             packagePath: "plugins/c9.ide.plugins/test",
@@ -456,7 +456,7 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.layout.classic/preload",
             themePrefix: options.themePrefix,
-            defaultTheme: "dark"
+            defaultTheme: options.defaultTheme || "dark"
         },
         {
             packagePath: "plugins/c9.ide.tree/tree",
@@ -618,7 +618,6 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.cli.bridge/bridge",
-            port: 17123,
             startBridge: options.startBridge
         },
         {

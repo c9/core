@@ -55,7 +55,7 @@ define(function(require, exports, module) {
             loaded = true;
             
             if (options.cli)
-                plugin.on("error", function(e){ console.error(e.error); });
+                plugin.on("error", function(e){ }); // Prevent exception
         }
         
         function wrap(name, fn) {

@@ -56,7 +56,8 @@ return [
         packagePath: "./c9.ide.auth/auth",
         accessToken: "token",
         ideBaseUrl: "",
-        apiUrl: APIURL
+        apiUrl: APIURL,
+        cli: true
         // userId: process.env.C9_USER
     },
     {
@@ -119,7 +120,8 @@ return [
                     local: true,
                     home: process.env.HOME,
                     setStatus: function(){},
-                    location: ""
+                    location: "",
+                    platform: process.platform,
                 },
                 error_handler: {
                     log: function(){}

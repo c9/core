@@ -77,10 +77,6 @@ define(function(require, exports, module) {
                         "default": false,
                         "boolean": true
                     },
-                    "package" : {
-                        description: "",
-                        "default": false
-                    },
                     "verbose" : {
                         "description": "Output more information",
                         "alias": "v",
@@ -131,7 +127,7 @@ define(function(require, exports, module) {
                                 process.exit(1);
                             }
                             else {
-                                console.log("Succesfully installed", name + (argv.debug ? "" : "@" + data.version));
+                                console.log("Successfully installed", name + (argv.debug ? "" : "@" + data.version));
                                 process.exit(0);
                             }
                         });
@@ -140,6 +136,7 @@ define(function(require, exports, module) {
             
             cmd.addCommand({
                 name: "remove", 
+                alias: "uninstall",
                 info: "   Removes a cloud9 package.",
                 usage: "[--verbose] [--global] [--local] <package>", // @TODO --global
                 options: {
@@ -152,9 +149,6 @@ define(function(require, exports, module) {
                         description: "",
                         "default": false,
                         "boolean": true
-                    },
-                    "package" : {
-                        description: ""
                     },
                     "verbose" : {
                         "description": "Output more information",
@@ -186,7 +180,7 @@ define(function(require, exports, module) {
                                 process.exit(1);
                             }
                             else {
-                                console.log("Succesfully removed", name);
+                                console.log("Successfully removed", name);
                                 process.exit(0);
                             }
                         });
@@ -387,8 +381,8 @@ define(function(require, exports, module) {
                 if (verbose)
                     console.log("Installing debug version of package");
                 
-                if (!options.test)
-                    return callback(new Error("Dry run is not supported for debug installations"));
+                if (options.test)
+                    return callback(new Error("Test is not supported for debug installations"));
                 
                 prepareDirectory(function(err, packagePath){
                     if (err) return callback(err);

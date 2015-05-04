@@ -40,13 +40,14 @@ define(function(require, exports, module) {
         var lang = require("ace/lib/lang");
         var Range = require("ace/range").Range;
         var config = require("ace/config");
-        var AceEditor = require("ace/editor").Editor;
         var Document = require("ace/document").Document;
+        var AceEditor = require("ace/editor").Editor;
         var EditSession = require("ace/edit_session").EditSession;
+        var UndoManager = require("ace/undomanager").UndoManager;
+        var whitespaceUtil = require("ace/ext/whitespace");
         var defaultCommands = require("ace/commands/default_commands").commands;
         var VirtualRenderer = require("ace/virtual_renderer").VirtualRenderer;
         var multiSelectCommands = require("ace/multi_select").commands;
-        var whitespaceUtil = require("ace/ext/whitespace");
         
         // enable multiselect
         require("ace/multi_select");
@@ -281,99 +282,168 @@ define(function(require, exports, module) {
         /***** Undo Manager *****/
         
         function AceUndoManager(undoManager, session) {
+            var state = undoManager.getState();
             this.$session = session;
             this.$undo = undoManager;
-            var _self = this;
-            var Item = this.Item;
-            this.$undo.on("itemFind", function(e) {
-                return Item(_self, e.state);
-            });
+            this.$aceUndo = new UndoManager();
+            this.$aceUndo.c9UndoProxy = undoManager;
+            undoManager.$aceUndo = this.$aceUndo;
+            undoManager.add = this.add;
+            undoManager.addSelection = this.addSelection;
+            undoManager.undo = this.undo;
+            undoManager.redo = this.redo;
+            undoManager.reset = this.reset;
+            undoManager.canUndo = this.canUndo;
+            undoManager.canRedo = this.canRedo;
+            undoManager.getState = this.getState;
+            undoManager.setState = this.setState;
+            undoManager.bookmark = this.bookmarkPosition;
+            undoManager.isAtBookmark = this.isAtBookmark;
+            undoManager.__defineGetter__("position", this.getPosition);
+            undoManager.__defineGetter__("length", this.getLength);
+            undoManager._emit = this._emit = undoManager.getEmitter();
+            
+            this.deleyedEmit = lang.delayedCall(this._emit.bind(null, "change"))
+                .schedule.bind(null, 0);
+            this.setState(state, true);
+        }
+        function updateDeltas(deltas) {
+            if (deltas[0] && deltas[0].deltas) {
+                var oldDeltas = deltas.slice();
+                deltas.length = 0;
+                oldDeltas.forEach(function(x) {
+                    deltas.push.apply(deltas, x.deltas);
+                });
+            }
+            return deltas;
         }
         AceUndoManager.prototype = {
-            Item: function(_self, deltas) {
-                return {
-                    undo: function(){
-                        _self.$session.session.undoChanges(deltas, _self.dontSelect);
-                    },
-                    redo: function(){
-                        _self.$session.session.redoChanges(deltas, _self.dontSelect);
-                    },
-                    getState: function(){ 
-                        return deltas.filter(function (d) {
-                            return d.group != "fold";
-                        });
-                    }
-                };
+            add: function(delta, doc) {
+                this.$aceUndo.add(delta, doc);
+                this._emit("change");
             },
-            
-            execute: function(options) {
-                if (options.merge && this.lastDeltas) {
-                    this.lastDeltas.push.apply(this.lastDeltas, options.args[0]);
-                } else {
-                    this.lastDeltas = options.args[0];
-                    this.$undo.add(this.Item(this, this.lastDeltas));
-                }
+            addSelection: function(range, rev) {
+                this.$aceUndo.addSelection(range, rev);
             },
-
             undo: function(dontSelect) {
-                this.dontSelect = dontSelect;
-                this.$undo.undo();
+                this.$aceUndo.undo(dontSelect);
+                this._emit("change");
             },
             redo: function(dontSelect) {
-                this.dontSelect = dontSelect;
-                this.$undo.redo();
+                this.$aceUndo.redo(dontSelect);
+                this._emit("change");
             },
             reset: function(){
-                this.$undo.reset();
+                this.$aceUndo.reset();
+                this._emit("change");
             },
-            hasUndo: function() {
-                return this.$undo.length > this.$undo.position + 1;
+            canUndo: function() {
+                return this.$aceUndo.canUndo();
             },
-            hasRedo: function() {
-                return this.$undo.length <= this.$undo.position + 1;
+            canRedo: function() {
+                return this.$aceUndo.canRedo();
             },
-            get $undoStack() {
-                return this.$undo.stack.slice(0, this.$undo.position + 1)
-                    .map(function(e){ return e.getState ? e.getState() : e });
+            clearUndo: function() {
+                this.$aceUndo.$undoStack = [];
+                this._emit("change");
+            },
+            clearRedo: function() {
+                this.$aceUndo.$redoStack = [];
+                this._emit("change");
+            },
+            startNewGroup: function() {
+                return this.$aceUndo.startNewGroup();
+            },
+            markIgnored: function(from, to) {
+                return this.$aceUndo.markIgnored(from, to);
+            },
+            getState: function() {
+                var aceUndo = this.$aceUndo;
+                var mark = -1;
+                var aceMark = aceUndo.mark;
+                var stack = [];
+                function transform(deltaSet) {
+                    var newDelta = deltaSet.filter(function (d) {
+                        if (d.id == aceMark) mark = stack.length;
+                        return d.action == "insert" || d.action == "remove";
+                    });
+                    stack.push(newDelta);
+                }
+                aceUndo.$undoStack.forEach(transform);
+                if (aceUndo.$redoStackBaseRev == aceUndo.$rev)
+                    aceUndo.$redoStack.forEach(transform);
+                return {
+                    stack: stack,
+                    mark: mark,
+                    position: aceUndo.$undoStack.length - 1
+                };
+            },
+            setState: function(e, silent) {
+                var aceUndo = this.$aceUndo;
+                var stack = e.stack || [];
+                var marked = stack[e.mark] && stack[e.mark][0];
+                var pos = e.position + 1;
+                var undo = stack.slice(0, pos);
+                var redo = stack.slice(pos);
+                aceUndo.$undoStack = undo.filter(function(x) {
+                    return x.length;
+                }).map(updateDeltas);
+                aceUndo.$redoStack = redo.filter(function(x) {
+                    return x.length;
+                }).map(updateDeltas);
+                stack = aceUndo.$undoStack;
+                var lastDeltaGroup = stack[stack.length - 1];
+                var lastRev = lastDeltaGroup && lastDeltaGroup[0].id || 0;
+                aceUndo.$rev = lastRev;
+                aceUndo.$redoStackBaseRev = aceUndo.$rev;
+                aceUndo.$maxRev = Math.max(aceUndo.$maxRev, lastRev);
+                var markedRev = marked && marked.id;
+                if (markedRev != null)
+                    this.$aceUndo.bookmark(markedRev);
+                else if (e.mark == e.position)
+                    this.$aceUndo.bookmark();
+                else
+                    this.$aceUndo.bookmark(-1);
+                silent || this._emit("change");
+            },
+            isAtBookmark: function() {
+                return this.$aceUndo.isAtBookmark();
+            },
+            bookmark: function(rev) {
+                this.$aceUndo.bookmark(rev);
+                this._emit("change");
+            },
+            bookmarkPosition: function(index) {
+                if (index > -1) {
+                    var stack = this.$aceUndo.$undoStack;
+                    if (index >= stack.length) {
+                        index -= stack.length;
+                        stack = this.$aceUndo.$redoStack;
+                        index = stack.length - index;
+                    }
+                    var deltaSet = stack[index];
+                    var rev = deltaSet && deltaSet[0] && deltaSet[0].id;
+                    if (rev == null) rev = -1;
+                    this.$aceUndo.bookmark(rev);
+                } else if (index == -1) {
+                    this.$aceUndo.bookmark(0);
+                } else {
+                    this.$aceUndo.bookmark(index);
+                }
+                this._emit("change");
+            },
+            addSession: function(session) {
+                this.$aceUndo.addSession(session);
+            },
+            getPosition: function() {
+                var aceUndo = this.$aceUndo;
+                return aceUndo.$undoStack.length - 1;
+            },
+            getLength: function() {
+                var aceUndo = this.$aceUndo;
+                return aceUndo.$undoStack.length + aceUndo.$redoStack.length;
             }
         };
-        
-        function UndoManagerProxy(undoManager, session) {
-            this.$u = undoManager;
-            this.$doc = session;
-        }
-        
-        (function() {
-            this.execute = function(options) {
-                this.$u.execute(options);
-            };
-        
-            this.undo = function() {
-                var selectionRange = this.$u.undo(true);
-                if (selectionRange) {
-                    this.$doc.selection.setSelectionRange(selectionRange);
-                }
-            };
-        
-            this.redo = function() {
-                var selectionRange = this.$u.redo(true);
-                if (selectionRange) {
-                    this.$doc.selection.setSelectionRange(selectionRange);
-                }
-            };
-        
-            this.reset = function() {
-                this.$u.reset();
-            };
-        
-            this.hasUndo = function() {
-                return this.$u.hasUndo();
-            };
-        
-            this.hasRedo = function() {
-                return this.$u.hasRedo();
-            };
-        }).call(UndoManagerProxy.prototype);
         
         /***** Generic Load *****/
         
@@ -1370,8 +1440,7 @@ define(function(require, exports, module) {
             if (!undoManager)
                 undoManager = session.getUndoManager();
             if (undoManager) {
-                var undoManagerProxy = new UndoManagerProxy(undoManager, s);
-                s.setUndoManager(undoManagerProxy);
+                s.setUndoManager(undoManager);
             }
     
             // Overwrite the default $informUndoManager function such that new deltas
@@ -2172,9 +2241,9 @@ define(function(require, exports, module) {
                 var c9Session = doc.getSession();
                 
                 // if load starts from another editor type
-                // tabmanager will show as instantly
+                // tabmanager will show us instantly
                 // so we need to show progress bar instantly
-                progress.noFadeIn = !currentDocument;
+                progress.noFadeIn = !currentDocument || !currentDocument.tab.active;
                 
                 // Value Retrieval
                 doc.on("getValue", function get(e) {
