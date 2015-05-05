@@ -429,7 +429,7 @@ define(function(require, exports, module) {
                 return JSON.parse(JSON.stringify(json));
                 
             try {
-                var obj = JSON.parse(json);
+                var obj = json && JSON.parse(json);
                 return obj;
             }
             catch (e) {

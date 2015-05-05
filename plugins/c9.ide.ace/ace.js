@@ -142,22 +142,11 @@ define(function(require, exports, module) {
         
         function setTheme(path, isPreview, fromServer, $err) {
             // Get Theme or wait for theme to load
-            try {
-                theme = typeof path == "object"
-                    ? path
-                    : fromServer || require(path);
-                
-                // fixes a problem with Ace architect loading /lib/ace
-                // creating a conflict with themes
-                if (!theme || theme.isDark === undefined)
-                    throw new Error();
-            }
-            catch (e) {
-                // not checking this can create infinite loop in build
-                $err || require([path], function(){
-                    setTheme(path, isPreview, fromServer, true);
+            theme = fromServer;
+            if (!theme) {
+                return $err || config.loadModule(path, function(m) {
+                    setTheme(path, isPreview, m, true);
                 });
-                return;
             }
             
             if (!isPreview) {
