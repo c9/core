@@ -1,3 +1,6 @@
+ecmaFeatures:
+    jsx: true
+
 env:
     node: true
     browser: true
@@ -5,6 +8,7 @@ env:
     builtin: true
     mocha: true
     jasmine: false
+    es6: false
 
 rules:
     handle-callback-err: 1
