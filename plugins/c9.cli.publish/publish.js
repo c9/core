@@ -723,7 +723,7 @@ define(function(require, exports, module) {
                             
                             request.on('response', function(res) {
                                 // TODO better handle version exists error
-                                if (res.statusCode == 412 && !version)
+                                if (res.statusCode == 412)
                                     console.error("ERROR: most likely version " + json.version + " already exisits, try increasing version");
                                 if (res.statusCode != 200)
                                     return callback(new Error("ERROR: Unknown Error:" + res.statusCode));

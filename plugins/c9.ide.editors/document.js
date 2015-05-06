@@ -43,7 +43,7 @@ define(function(require, module, exports) {
             function initUndo(){
                 undoManager.on("change", function(e) {
                     var c = !undoManager.isAtBookmark();
-                    if (changed !== c || undoManager.position == -1) {
+                    if (changed !== c) {
                         changed = c;
                         emit("changed", { changed: c });
                     }
@@ -60,26 +60,24 @@ define(function(require, module, exports) {
                 }
                 var state = getState();
                 
-                undoManager.once("change", function(){
-                    // Bookmark the undo manager
-                    undoManager.bookmark();
-                    
-                    // Update state
-                    delete state.changed;
-                    delete state.value;
-                    delete state.meta;
-                    state.undoManager = undoManager.getState();
-                    
-                    if (cleansed && editor && state[editor.type])
-                        state[editor.type].cleansed = true;
-                    
-                    // Set new state (preserving original state)
-                    if (emit("mergeState") !== false)
-                        setState(state);
-                });
-                
                 // Record value (which should add an undo stack item)
                 plugin.value = value;
+                
+                // Bookmark the undo manager
+                undoManager.bookmark();
+                
+                // Update state
+                delete state.changed;
+                delete state.value;
+                delete state.meta;
+                state.undoManager = undoManager.getState();
+                
+                if (cleansed && editor && state[editor.type])
+                    state[editor.type].cleansed = true;
+                
+                // Set new state (preserving original state)
+                if (emit("mergeState") !== false)
+                    setState(state);
             }
             
             function getState(filter) {

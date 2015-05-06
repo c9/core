@@ -77,10 +77,6 @@ define(function(require, exports, module) {
                         "default": false,
                         "boolean": true
                     },
-                    "package" : {
-                        description: "",
-                        "default": false
-                    },
                     "verbose" : {
                         "description": "Output more information",
                         "alias": "v",
@@ -131,7 +127,7 @@ define(function(require, exports, module) {
                                 process.exit(1);
                             }
                             else {
-                                console.log("Succesfully installed", name + (argv.debug ? "" : "@" + data.version));
+                                console.log("Successfully installed", name + (argv.debug ? "" : "@" + data.version));
                                 process.exit(0);
                             }
                         });
@@ -153,9 +149,6 @@ define(function(require, exports, module) {
                         description: "",
                         "default": false,
                         "boolean": true
-                    },
-                    "package" : {
-                        description: ""
                     },
                     "verbose" : {
                         "description": "Output more information",
@@ -187,7 +180,7 @@ define(function(require, exports, module) {
                                 process.exit(1);
                             }
                             else {
-                                console.log("Succesfully removed", name);
+                                console.log("Successfully removed", name);
                                 process.exit(0);
                             }
                         });
@@ -358,7 +351,11 @@ define(function(require, exports, module) {
                         
                         // Untargz package
                         proc.spawn(TAR, {
-                            args: ["-C", normalizePath(packagePath), "-zxvf", normalizePath(gzPath)]
+                            args: [
+                                (verbose ? "-v" : ""),
+                                "-C", normalizePath(packagePath),
+                                "-zxf", normalizePath(gzPath)
+                            ]
                         }, function(err, p){
                             if (err) return callback(err);
                             

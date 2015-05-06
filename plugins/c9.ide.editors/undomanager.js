@@ -10,7 +10,7 @@ define(function(require, module, exports) {
             var plugin = new Plugin("Ajax.org", main.consumes);
             var emit = plugin.getEmitter();
             
-            var position = -1, mark = null, stack = [];
+            var position = -1, mark = -2, stack = [];
 
             if (options)
                 setState(options);
@@ -55,7 +55,7 @@ define(function(require, module, exports) {
                 position = 0;
                 
                 if (mark < position)
-                    mark = -1;
+                    mark = -2;
                 
                 emit("change");
             }
@@ -64,7 +64,7 @@ define(function(require, module, exports) {
                 stack = stack.slice(0, position + 1);
                 
                 if (mark > position)
-                    mark = -1;
+                    mark = -2;
                 
                 if (!noEvent)
                     emit("change");
@@ -91,7 +91,7 @@ define(function(require, module, exports) {
                     position--;
                 
                 if (mark == idx)
-                    mark = -1;
+                    mark = -2;
                 else if (mark > idx)
                     mark--;
                 
@@ -105,8 +105,7 @@ define(function(require, module, exports) {
             }
             
             function isAtBookmark(){
-                return mark !== null && mark == position 
-                    || mark === null && position == -1;
+                return mark == position;
             }
             
             function item(idx) {
@@ -133,7 +132,7 @@ define(function(require, module, exports) {
                     return; // guard against broken stack 
                 stack = state.stack;
                 
-                emit("change"); //If you remove this again, change the test
+                emit("change"); // If you remove this again, change the test
             }
             
             function findItem(compressedItem) {
@@ -146,10 +145,12 @@ define(function(require, module, exports) {
 
                 position = -1;
                 stack = [];
-                mark = null;
+                mark = -1;
                 
                 emit("change");
             }
+            
+            plugin.freezePublicAPI.baseclass();
             
             /**
              * The Undo Manager class of Cloud9. Each {@link Document} 
@@ -213,10 +214,6 @@ define(function(require, module, exports) {
              * 
              **/
             plugin.freezePublicAPI({
-                /**
-                 * @ignore
-                 */
-                get stack() { return stack; },
                 /**
                  * The number of items on the stack. This number will stay the
                  * same when using {@link UndoManager#undo} and 

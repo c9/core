@@ -80,7 +80,10 @@ define(function(require, exports, module) {
 
                 request(apiUrl + "/user", function(err, user) {
                     if (err || !user) {
-                        console.warn("LOGIN: API /user err", err);
+                        if (options.cli)
+                            console.warn("Invalid username or password. Please try again.");
+                        else
+                            console.warn("LOGIN: API /user err", err);
                         return setTimeout(login, 1000);
                     }
                     
