@@ -351,7 +351,11 @@ define(function(require, exports, module) {
                         
                         // Untargz package
                         proc.spawn(TAR, {
-                            args: ["-C", normalizePath(packagePath), "-zxvf", normalizePath(gzPath)]
+                            args: [
+                                (verbose ? "-v" : ""),
+                                "-C", normalizePath(packagePath),
+                                "-zxf", normalizePath(gzPath)
+                            ]
                         }, function(err, p){
                             if (err) return callback(err);
                             

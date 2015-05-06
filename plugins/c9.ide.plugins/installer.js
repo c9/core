@@ -85,9 +85,12 @@ define(function(require, exports, module) {
             
             var found = {}, packages = [];
             config.forEach(function(item){
-                if (!found[item.name])
-                    found[item.name] = true;
-                else return;
+                if (typeof item === "string") {
+                    item = { name: item, version: null };
+                }
+                
+                if (found[item.name]) return;
+                found[item.name] = true;
                 
                 packages.push({ name: item.name, version: item.version });
             });
@@ -110,9 +113,21 @@ define(function(require, exports, module) {
         function installPlugin(name, version, callback){
             // Headless installation of the plugin
             installer.createSession(name, version, function(session, options){
+                var cmd = [
+                    "c9",
+                    "install",
+                    "--local",
+                    "--force",
+                    "--accessToken=" + auth.accessToken,
+                ];
+                
+                if (version == null)
+                    cmd.push(escapeShell(name));
+                else
+                    cmd.push(escapeShell(name + "@" + version));
+                
                 session.install({
-                    "bash": "c9 install --local --force --accessToken=" + auth.accessToken
-                        + " " + escapeShell(name) + "@" + escapeShell(version)
+                    "bash": cmd.join(" ")
                 });
                 
                 // Force to start immediately

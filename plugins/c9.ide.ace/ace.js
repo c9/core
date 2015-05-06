@@ -149,7 +149,7 @@ define(function(require, exports, module) {
                 
                 // fixes a problem with Ace architect loading /lib/ace
                 // creating a conflict with themes
-                if (theme.isDark === undefined)
+                if (!theme || theme.isDark === undefined)
                     throw new Error();
             }
             catch (e) {
