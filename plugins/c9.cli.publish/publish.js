@@ -370,9 +370,18 @@ define(function(require, exports, module) {
                                 }
                                 if (files.indexOf("modes") != -1) {
                                     forEachFile(cwd + "/modes", function(filename, data) {
-                                        if (/(?:_highlight_rules|_test|_worker|_fold|_behaviou?r).js$/.test(filename))
+                                        if (/(?:_highlight_rules|_test|_worker|_fold|_behaviou?r)\.js$/.test(filename))
                                             return;
-                                        var firstLine = data.split("\n", 1)[0];
+                                        if (!/\.js$/.test(filename))
+                                            return;
+                                        var firstLine = data.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
+                                        
+                                        if (!/caption\s*:[^;]+/i.test(firstLine)) {
+                                            packedFiles.push(cwd + "/modes/" + filename);
+                                            console.error("Ignoring mode with invalid header: ", firstLine);
+                                            console.error("    at " + cwd + "/modes/" + filename);
+                                            return;
+                                        }
                                         extraCode.push({
                                             type: "modes",
                                             filename: filename,
@@ -542,7 +551,7 @@ define(function(require, exports, module) {
                         },
                         function(next) {
                             if (options.local)
-                                fs.writeFile(cwd + "__installed__.js", result.code, "utf8", callback);
+                                fs.writeFile(cwd + "/__installed__.js", result.code, "utf8", callback);
                             next();
                         },
                         function(next) {
