@@ -527,6 +527,7 @@ module.exports = function(options) {
         "plugins/c9.ide.installer/commands/darwin",
         "plugins/c9.ide.installer/commands/bash",
         "plugins/c9.ide.installer/commands/npm",
+        "plugins/c9.ide.installer/commands/npm-g",
         "plugins/c9.ide.installer/commands/pip",
         "plugins/c9.ide.installer/commands/gem",
         "plugins/c9.ide.installer/commands/zip",
