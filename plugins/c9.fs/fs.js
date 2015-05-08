@@ -64,13 +64,14 @@ define(function(require, exports, module) {
                 
                 if (typeof args[args.length - 1] != "function")
                     throw new Error("Missing callback for " + name);
-                    
-                if (!/^[!~/]/.test(path)) {
-                    var e = new Error("Invalid path passed to fs " + name);
-                    e.data = { name: name, path: path };
-                    setTimeout(function() { throw e });
-                    return args[args.length - 1](e);
-                }
+                
+                // // TODO disabled to not break local version on windows
+                // if (!/^[!~/]/.test(path)) {
+                //     var e = new Error("Invalid path passed to fs " + name);
+                //     e.data = { name: name, path: path };
+                //     setTimeout(function() { throw e });
+                //     return args[args.length - 1](e);
+                // }
 
                 var original_callback = args.pop();
                 
