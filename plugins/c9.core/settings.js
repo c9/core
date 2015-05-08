@@ -427,14 +427,14 @@ define(function(require, exports, module) {
             
             if (typeof json == "object")
                 return JSON.parse(JSON.stringify(json));
-                
+            
+            if (typeof json == "string")
+                return json;
+            
             try {
-                var obj = json && JSON.parse(json);
-                return obj;
+                return JSON.parse(json);
             }
-            catch (e) {
-                return false;
-            }
+            catch (e) {}
         }
         
         function getBool(query) {
