@@ -190,6 +190,32 @@ define(function(require, exports, module) {
 
         /***** Methods *****/
         
+        function spawn(command, options, callback) {
+            if (options.stdio == null) {
+                // if verbose, echo stdout
+                // always echo stderr
+                options.stdio = [
+                    "pipe",
+                    verbose ? process.stdout : "ignore",
+                    process.stderr
+                ];
+            }
+            
+            proc.spawn(command, options, function(err, child) {
+                if (err) return callback(err);
+                
+                child.on("exit", function(code) {
+                    if (code !== 0) {
+                        var error = new Error("Command failed: " + command);
+                        error.code = code;
+                        return callback(error);
+                    }
+                    
+                    callback();
+                });
+            });
+        }
+        
         function install(packageName, options, callback){
             // Call install url
             var parts = packageName.split("@");
@@ -267,27 +293,12 @@ define(function(require, exports, module) {
                     if (err) return callback(err);
                     
                     function installNPM(){
-                        proc.spawn(join(process.env.HOME, ".c9/node/bin/npm"), {
+                        spawn(join(process.env.HOME, ".c9/node/bin/npm"), {
                             args: ["install"],
                             cwd: packagePath
-                        }, function(err, p){
+                        }, function(err) {
                             if (err) return callback(err);
-                            
-                            if (verbose) {
-                                p.stdout.on("data", function(c){
-                                    process.stdout.write(c.toString("utf8"));
-                                });
-                                p.stderr.on("data", function(c){
-                                    process.stderr.write(c.toString("utf8"));
-                                });
-                            }
-                            
-                            p.on("exit", function(code){
-                                // Done
-                                callback(err, {
-                                    version: version
-                                });
-                            });
+                            callback(null, { version: version });
                         });
                     }
                     
@@ -350,32 +361,20 @@ define(function(require, exports, module) {
                             console.log("Unpacking", gzPath, "to", packagePath);
                         
                         // Untargz package
-                        proc.spawn(TAR, {
+                        spawn(TAR, {
                             args: [
                                 (verbose ? "-v" : ""),
                                 "-C", normalizePath(packagePath),
                                 "-zxf", normalizePath(gzPath)
                             ]
-                        }, function(err, p){
-                            if (err) return callback(err);
-                            
-                            if (verbose) {
-                                p.stdout.on("data", function(c){
-                                    process.stdout.write(c.toString("utf8"));
-                                });
-                                p.stderr.on("data", function(c){
-                                    process.stderr.write(c.toString("utf8"));
-                                });
+                        }, function(err) {
+                            if (err) {
+                                var error = new Error("Failed to unpack package");
+                                error.code = err.code;
+                                return callback(error);
                             }
                             
-                            p.on("exit", function(code){
-                                var err = code !== 0
-                                    ? new Error("Failed to unpack package")
-                                    : null;
-                                if (err) return callback(err);
-                                
-                                installNPM();
-                            });
+                            installNPM();
                         });
                     });
                 });
@@ -396,28 +395,16 @@ define(function(require, exports, module) {
                     
                     // Git clone repository
                     var scm = SCM[repository.type];
-                    proc.spawn(scm.binary, {
+                    spawn(scm.binary, {
                         args: [scm.clone, repository.url, packagePath]
-                    }, function(err, p){
-                        if (err) return callback(err);
-                        
-                        if (verbose) {
-                            p.stdout.on("data", function(c){
-                                process.stdout.write(c.toString("utf8"));
-                            });
-                            p.stderr.on("data", function(c){
-                                process.stderr.write(c.toString("utf8"));
-                            });
+                    }, function(err) {
+                        if (err) {
+                            var error = new Error("Failed to clone package from repository. Do you have access?");
+                            error.code = err.code;
+                            return callback(error);
                         }
                         
-                        p.on("exit", function(code){
-                            var err = code !== 0
-                                ? new Error("Failed to clone package from repository. Do you have access?")
-                                : null;
-                            
-                            // Done
-                            callback(err);
-                        });
+                        callback();
                     });
                 });
             }
@@ -490,31 +477,19 @@ define(function(require, exports, module) {
                 if (options.local || options.debug) {
                     // rm -Rf
                     var packagePath = process.env.HOME + "/.c9/plugins/" + name;
-                    proc.spawn("rm", {
+                    spawn("rm", {
                         args: ["-rf", packagePath]
-                    }, function(err, p){
-                        if (err) return callback(err);
-                        
-                        if (verbose) {
-                            p.stdout.on("data", function(c){
-                                process.stdout.write(c.toString("utf8"));
-                            });
-                            p.stderr.on("data", function(c){
-                                process.stderr.write(c.toString("utf8"));
-                            });
+                    }, function(err) {
+                        if (err) {
+                            var error = new Error("Failed to remove package.");
+                            error.code = err.code;
+                            return callback(error);
                         }
                         
-                        p.on("exit", function(code){
-                            var err = code !== 0
-                                ? new Error("Failed to remove package.")
-                                : null;
-                            
-                            // if debug > see if should be installed and put back original
-                            // @TODO
-                            
-                            // Done
-                            callback(err);
-                        });
+                        // if debug > see if should be installed and put back original
+                        // @TODO
+                        
+                        callback();
                     });
                 }
                 else {
