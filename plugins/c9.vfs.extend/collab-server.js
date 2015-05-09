@@ -22,6 +22,8 @@ var dbFilePath;
 var cachedWS;
 var cachedUsers;
 
+var Sequelize;
+
 var debug = false;
 
 function getHomeDir() {
@@ -39,18 +41,23 @@ function getProjectWD() {
  * npm: sqlite3 & sequelize
  */
 function installServer(callback) {
-    function checkInstalled() {
+    function checkInstalled(root) {
         try {
-            require("sqlite3");
-            require("sequelize");
+            require(root + "sqlite3");
+            Sequelize = require(root + "sequelize");
             return true;
         } catch (err) {
+            console.error(err);
             return false;
         }
     }
 
-    if (!checkInstalled()) {
-        var err = new Error("[vfs-collab] Missing dependencies - NODE_PATH: " + process.env.NODE_PATH + "; node " + process.version);
+    if (!checkInstalled(getHomeDir() + "/.c9/node_modules/") && !checkInstalled("")) {
+        var err = new Error("[vfs-collab] Couldn't load node modules sqlite3 and sequelize "
+            + "from " + getHomeDir() + "/.c9/node_modules/; "
+            + "node version: " + process.version + "; "
+            + "node execPath " + process.execPath
+            );
         err.code = "EFATAL";
         return callback(err);
     }
@@ -80,7 +87,6 @@ function wrapSeq(fun, next) {
  * @param {Function} callback
  */
 function initDB(readonly, callback) {
-    var Sequelize = require("sequelize");
     var MAX_LOG_LINE_LENGTH = 151;
 
     dbFilePath = dbFilePath || Path.join(getProjectWD(), "collab.db");
