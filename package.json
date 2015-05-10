@@ -11,10 +11,8 @@
     },
     "dependencies": {
         "acorn": ">=0.11.0",
-        "amd-loader": "",
         "async": "^0.9.0",
         "base64id": "~0.1.0",
-        "c9": "",
         "connect": "~2.12.0",
         "debug": "~0.7.4",
         "ejs": "~0.8.3",
@@ -44,10 +42,19 @@
         "read": "~1.0.5",
         "form-data": "~0.2.0"
     },
-    "optionalDependencies": {
-        "pty.js": "git://github.com/cloud9ide/pty.js.git#10e31e23ed"
+    "devDependencies": {
+        "chai": "~1.5.0",
+        "mocha": "~1.8.1"
     },
     "licenses": [],
+    "bundledDependencies": [
+        "ace",
+        "ace_tree",
+        "amd-loader",
+        "architect",
+        "architect-build",
+        "c9"
+    ],
     "c9plugins": {
         "c9.ide.language": "#77f75c7635",
         "c9.ide.language.css": "#ef8a28943e",
