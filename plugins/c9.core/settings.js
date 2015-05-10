@@ -425,10 +425,10 @@ define(function(require, exports, module) {
             if (query.indexOf("json()") == -1)
                 json = json["json()"];
             
-            if (typeof json == "object")
+            if (typeof json === "object")
                 return JSON.parse(JSON.stringify(json));
             
-            if (typeof json == "string")
+            if (typeof json !== "string")
                 return json;
             
             try {

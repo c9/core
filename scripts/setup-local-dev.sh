@@ -19,6 +19,7 @@ case "$uname" in
     FreeBSD\ *) os=freebsd ;;
     CYGWIN*) os=windows ;;
     MINGW*) os=windows ;;
+    MSYS_NT*) os=windows ;;
 esac
 case "$uname" in
     *x86_64*) arch=x64 ;;
@@ -69,24 +70,30 @@ if [ "$os" == "darwin" ]; then
 fi
 
 if [ "$os" == "windows" ]; then
-    NODE_VERSION=v0.10.25
-    NW_VERSION=v0.9.2
+    NODE_VERSION=v0.12.2
+    NW_VERSION=v0.12.1
     
     pushd build
-    if [ ! -f node.exe ]; then
+    if [ ! -f "$HOME/.c9/"node.exe ]; then
         echo "downloading node"
+        pushd "$HOME/.c9/"
         curl -OL http://nodejs.org/dist/$NODE_VERSION/node.exe
+        popd
     fi
-    if [ ! -f node-webkit-$NW_VERSION-win-ia32.zip ]; then
+    
+    NW_FILE_NAME=nwjs-$NW_VERSION-win-ia32
+    if [ ! -f $NW_FILE_NAME.zip ]; then
         echo "downloading node-webkit"
-        curl -OL http://dl.node-webkit.org/$NW_VERSION/node-webkit-$NW_VERSION-win-ia32.zip
+        curl -OL http://dl.nwjs.io/$NW_VERSION/$NW_FILE_NAME.zip
     fi
     
     dest=win32-dev/bin
     mkdir -p $dest
     
-    unzip node-webkit-$NW_VERSION-win-ia32.zip -d $dest
-    cp node.exe $dest
+    unzip -uo $NW_FILE_NAME.zip -d win32-dev
+    rm -rf $dest
+    mv win32-dev/$NW_FILE_NAME $dest
+    # cp node.exe $dest
     mv $dest/nw.exe $dest/Cloud9.exe
     
     cp win32/icon.png $dest

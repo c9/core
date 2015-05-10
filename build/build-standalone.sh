@@ -19,6 +19,7 @@ case "$uname" in
     FreeBSD\ *) os=freebsd ;;
     CYGWIN*) os=windows ;;
     MINGW*) os=windows ;;
+    MSYS_NT*) os=windows ;;
 esac
 case "$uname" in
     *x86_64*) arch=x64 ;;
