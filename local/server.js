@@ -34,7 +34,7 @@ if (installPath === "/Library/Application Support/Cloud9"
     installPath = join(process.env.HOME, installPath);
 
 var nodePath = process.platform == "win32"
-    ? join(process.execPath, "..\\node.exe")
+    ? join(installPath, "node.exe")
     : installPath + "/node/bin/node";
 
 var logStream;
