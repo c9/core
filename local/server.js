@@ -9,7 +9,7 @@ if (process.platform == "win32") {
     if (!process.env.HOME)
         process.env.HOME = process.env.HOMEDRIVE + process.env.HOMEPATH;
     // add cloud9 cygwin to path
-    var msysBin = join(process.execPath, "/../../msys/bin");
+    var msysBin = join(process.env.HOME, ".c9", "msys/bin");
     process.env.Path = msysBin + ";" + process.env.path;
     process.env.C9_BASH_BIN = msysBin + "/bash.exe";
     process.env.CYGWIN = "nodosfilewarning " + (process.env.CYGWIN || "");
