@@ -47,7 +47,7 @@ define(function(require, exports, module) {
             
             settings.on("read", function(e) {
                 settings.setDefaults("user/terminal", [
-                    ["defaultEditor", "true"]
+                    ["defaultEditor", "false"]
                 ]);
             }, plugin);
             
