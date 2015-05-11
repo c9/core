@@ -4,7 +4,7 @@ define(function(require, exports, module) {
     main.consumes = ["Plugin", "auth", "http", "api", "error_handler", "metrics"];
     main.provides = ["vfs.endpoint"];
             
-    var PARALLEL_SEARCHES=3;
+    var PARALLEL_SEARCHES=2;
             
     return main;
 
@@ -172,7 +172,7 @@ define(function(require, exports, module) {
             if (servers.length && !servers.filter(function(s) { return s.version !== version; }).length)
                 return onProtocolChange(callback);
                 
-            var nextServer = 0;
+            var latestServer = 0;
             var foundServer = false;
             
             /* Create a callback that is only ever called once */
@@ -188,7 +188,7 @@ define(function(require, exports, module) {
             // just take the first server that doesn't return an error
             function tryNext(i) {
                 if (foundServer) return false; 
-                if (i >= servers.length)
+                if (i >= servers.length) {
                     metrics.increment("vfs.failed.connect_all", 1, true);
                     return callback(new Error("Disconnected: Could not reach your workspace. Please try again later."));
                 }
@@ -250,7 +250,7 @@ define(function(require, exports, module) {
 
                     if (err) {
                         setTimeout(function() {
-                            tryNext(++nextServer);
+                            tryNext(++latestServer);
                         }, 2000);
                         return;
                     }
@@ -262,8 +262,16 @@ define(function(require, exports, module) {
             
             
             // Kick off some parallel runners to find a vfs server. 
+            var attemptedServers = {}; // Keep a list of servers we've attempted so upon this first parallel attempt we don't just smash all ports on the same vfs server. 
             for (var s = 0; s < servers.length && s < PARALLEL_SEARCHES; s++)  {
-                tryNext(nextServer++);
+                latestServer = s; // Keep in sync with s, if runners fail we want them to try other vfs server's starting from nextServer
+                var server = servers[s];
+                var serverMatch = server.url.match(/vfs-gce-[a-z]+-[0-9]+/);  // server.url looks like: https://vfs-gce-ae-09-2.c9.io or https://vfs.c9.dev/vfs we're grabbing the base url of the host (without the -2)
+                var serverBaseUrl = serverMatch ? serverMatch[0] : server.url;
+                if (!attemptedServers[serverBaseUrl]) {
+                    attemptedServers[serverBaseUrl] = true;
+                    tryNext(s);
+                }
             }
         }
 
