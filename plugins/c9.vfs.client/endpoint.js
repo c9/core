@@ -3,6 +3,9 @@ define(function(require, exports, module) {
     
     main.consumes = ["Plugin", "auth", "http", "api", "error_handler", "metrics"];
     main.provides = ["vfs.endpoint"];
+            
+    var PARALLEL_SEARCHES=3;
+            
     return main;
 
     function main(options, imports, register) {
@@ -168,10 +171,24 @@ define(function(require, exports, module) {
             // check for version
             if (servers.length && !servers.filter(function(s) { return s.version !== version; }).length)
                 return onProtocolChange(callback);
-
+                
+            var nextServer = 0;
+            var foundServer = false;
+            
+            /* Create a callback that is only ever called once */
+            var mainCallback = callback;
+            callback = function() {
+                if (!foundServer) {
+                    foundServer = true;
+                    var args = Array.prototype.slice.call(arguments);
+                    return mainCallback.apply(this, args);
+                }
+            };
+            
             // just take the first server that doesn't return an error
-            (function tryNext(i) {
-                if (i >= servers.length) {
+            function tryNext(i) {
+                if (foundServer) return false; 
+                if (i >= servers.length)
                     metrics.increment("vfs.failed.connect_all", 1, true);
                     return callback(new Error("Disconnected: Could not reach your workspace. Please try again later."));
                 }
@@ -233,7 +250,7 @@ define(function(require, exports, module) {
 
                     if (err) {
                         setTimeout(function() {
-                            tryNext(i+1);
+                            tryNext(++nextServer);
                         }, 2000);
                         return;
                     }
@@ -241,7 +258,13 @@ define(function(require, exports, module) {
                     var vfs = rememberVfs(server, res.vfsid);
                     callback(null, vfs.vfsid, server.url, server.region);
                 });
-            })(0);
+            };
+            
+            
+            // Kick off some parallel runners to find a vfs server. 
+            for (var s = 0; s < servers.length && s < PARALLEL_SEARCHES; s++)  {
+                tryNext(nextServer++);
+            }
         }
 
         function onProtocolChange(callback) {
