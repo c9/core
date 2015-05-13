@@ -261,18 +261,29 @@ define(function(require, exports, module) {
             };
             
             
-            // Kick off some parallel runners to find a vfs server. 
-            var attemptedServers = {}; // Keep a list of servers we've attempted so upon this first parallel attempt we don't just smash all ports on the same vfs server. 
-            for (var s = 0; s < servers.length && s < PARALLEL_SEARCHES; s++)  {
-                latestServer = s; // Keep in sync with s, if runners fail we want them to try other vfs server's starting from nextServer
-                var server = servers[s];
-                var serverMatch = server.url.match(/vfs-gce-[a-z]+-[0-9]+/);  // server.url looks like: https://vfs-gce-ae-09-2.c9.io or https://vfs.c9.dev/vfs we're grabbing the base url of the host (without the -2)
-                var serverBaseUrl = serverMatch ? serverMatch[0] : server.url;
-                if (!attemptedServers[serverBaseUrl]) {
-                    attemptedServers[serverBaseUrl] = true;
-                    tryNext(s);
+            function startParallelSearches (totalRunners) {
+                var attemptedServers = {}; 
+                for (var s = 0; s < servers.length && s < totalRunners; s++)  {
+                    latestServer = s; 
+                    var server = servers[s];
+                    var serverHostname = getHostFromServerUrl(server.url);
+                    if (!attemptedServers[serverHostname]) {
+                        attemptedServers[serverHostname] = true;
+                        tryNext(s);
+                    }
                 }
             }
+            
+            startParallelSearches(PARALLEL_SEARCHES);
+        }
+        
+        function getHostFromServerUrl(serverUrl) {
+            // server.url looks like: https://vfs-gce-ae-09-2.c9.io or https://vfs.c9.dev/vfs we're grabbing the base url of the host (without the -2)
+            var serverMatch = serverUrl.replace(/^(https:..[^.]+-\d+)(-\d+)(.*)/, "$1$3");  
+            if (serverMatch) {
+                return serverMatch[0];
+            }
+            return serverUrl;
         }
 
         function onProtocolChange(callback) {
