@@ -3,6 +3,9 @@ define(function(require, exports, module) {
     
     main.consumes = ["Plugin", "auth", "http", "api", "error_handler", "metrics"];
     main.provides = ["vfs.endpoint"];
+            
+    var PARALLEL_SEARCHES=2;
+            
     return main;
 
     function main(options, imports, register) {
@@ -168,9 +171,23 @@ define(function(require, exports, module) {
             // check for version
             if (servers.length && !servers.filter(function(s) { return s.version !== version; }).length)
                 return onProtocolChange(callback);
-
+                
+            var latestServer = 0;
+            var foundServer = false;
+            
+            /* Create a callback that is only ever called once */
+            var mainCallback = callback;
+            callback = function() {
+                if (!foundServer) {
+                    foundServer = true;
+                    var args = Array.prototype.slice.call(arguments);
+                    return mainCallback.apply(this, args);
+                }
+            };
+            
             // just take the first server that doesn't return an error
-            (function tryNext(i) {
+            function tryNext(i) {
+                if (foundServer) return false; 
                 if (i >= servers.length) {
                     metrics.increment("vfs.failed.connect_all", 1, true);
                     return callback(new Error("Disconnected: Could not reach your workspace. Please try again later."));
@@ -233,7 +250,7 @@ define(function(require, exports, module) {
 
                     if (err) {
                         setTimeout(function() {
-                            tryNext(i+1);
+                            tryNext(++latestServer);
                         }, 2000);
                         return;
                     }
@@ -241,7 +258,32 @@ define(function(require, exports, module) {
                     var vfs = rememberVfs(server, res.vfsid);
                     callback(null, vfs.vfsid, server.url, server.region);
                 });
-            })(0);
+            };
+            
+            
+            function startParallelSearches (totalRunners) {
+                var attemptedServers = {}; 
+                for (var s = 0; s < servers.length && s < totalRunners; s++)  {
+                    latestServer = s; 
+                    var server = servers[s];
+                    var serverHostUrl = getHostFromServerUrl(server.url);
+                    if (!attemptedServers[serverHostUrl]) {
+                        attemptedServers[serverHostUrl] = true;
+                        tryNext(s);
+                    }
+                }
+            }
+            
+            startParallelSearches(PARALLEL_SEARCHES);
+        }
+        
+        function getHostFromServerUrl(serverUrl) {
+            // server.url looks like: https://vfs-gce-ae-09-2.c9.io or https://vfs.c9.dev/vfs we're grabbing the base url of the host (without the -2)
+            var serverHostUrl = serverUrl.replace(/^(https:..[^.]+-\d+)(-\d+)(.*)/, "$1$3");  
+            if (serverHostUrl) {
+                return serverHostUrl;
+            }
+            return serverUrl;
         }
 
         function onProtocolChange(callback) {
