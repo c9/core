@@ -3,9 +3,7 @@ define(function(require, exports, module) {
     
     main.consumes = ["Plugin", "auth", "http", "api", "error_handler", "metrics"];
     main.provides = ["vfs.endpoint"];
-            
-    var PARALLEL_SEARCHES=2;
-            
+    
     return main;
 
     function main(options, imports, register) {
@@ -15,6 +13,8 @@ define(function(require, exports, module) {
         var api = imports.api;
         var errorHandler = imports.error_handler;
         var metrics = imports.metrics;
+        
+        var PARALLEL_SEARCHES = 2;
         
         /***** Initialization *****/
 
@@ -165,11 +165,11 @@ define(function(require, exports, module) {
                 });
                 return;
             }
-
-            var servers = shuffleServers(vfsServers);
+            
+            var servers = shuffleServers(version, vfsServers);
             
             // check for version
-            if (servers.length && !servers.filter(function(s) { return s.version !== version; }).length)
+            if (vfsServers.length && !servers.length)
                 return onProtocolChange(callback);
                 
             var latestServer = 0;
@@ -258,7 +258,7 @@ define(function(require, exports, module) {
                     var vfs = rememberVfs(server, res.vfsid);
                     callback(null, vfs.vfsid, server.url, server.region);
                 });
-            };
+            }
             
             
             function startParallelSearches (totalRunners) {
@@ -293,11 +293,15 @@ define(function(require, exports, module) {
             return callback(fatalError("Protocol change detected", "reload"));
         }
 
-        function shuffleServers(servers) {
+        function shuffleServers(version, servers) {
             servers = servers.slice();
-            var isBeta = region == "beta";
+            var isBetaClient = region === "beta";
             servers = servers.filter(function(s) {
-                return isBeta || s.region !== "beta";
+                var isBetaServer = s.region === "beta";
+                return isBetaServer === isBetaClient;
+            });
+            servers = servers.filter(function(s) {
+                return s.version == undefined || s.version == version;
             });
             return servers.sort(function(a, b) {
                 if (a.region == b.region) {
