@@ -266,9 +266,9 @@ define(function(require, exports, module) {
                 for (var s = 0; s < servers.length && s < totalRunners; s++)  {
                     latestServer = s; 
                     var server = servers[s];
-                    var serverHostname = getHostFromServerUrl(server.url);
-                    if (!attemptedServers[serverHostname]) {
-                        attemptedServers[serverHostname] = true;
+                    var serverHostUrl = getHostFromServerUrl(server.url);
+                    if (!attemptedServers[serverHostUrl]) {
+                        attemptedServers[serverHostUrl] = true;
                         tryNext(s);
                     }
                 }
@@ -279,9 +279,9 @@ define(function(require, exports, module) {
         
         function getHostFromServerUrl(serverUrl) {
             // server.url looks like: https://vfs-gce-ae-09-2.c9.io or https://vfs.c9.dev/vfs we're grabbing the base url of the host (without the -2)
-            var serverMatch = serverUrl.replace(/^(https:..[^.]+-\d+)(-\d+)(.*)/, "$1$3");  
-            if (serverMatch) {
-                return serverMatch[0];
+            var serverHostUrl = serverUrl.replace(/^(https:..[^.]+-\d+)(-\d+)(.*)/, "$1$3");  
+            if (serverHostUrl) {
+                return serverHostUrl;
             }
             return serverUrl;
         }
