@@ -73,6 +73,9 @@ plugins/c9.proxy/haproxy-*
 plugins/c9.account/node_modules/
 plugins/c9.account.*/node_modules/
 
+test/selenium/notify/
+test/selenium/results/
+
 .c9revisions
 .settings
 .c9config
