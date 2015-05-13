@@ -47,7 +47,7 @@ define(function(require, exports, module) {
             
             settings.on("read", function(e) {
                 settings.setDefaults("user/terminal", [
-                    ["defaultEditor", "true"]
+                    ["defaultEnvEditor", "false"]
                 ]);
             }, plugin);
             
@@ -56,7 +56,7 @@ define(function(require, exports, module) {
                     "Terminal" : {
                         "Use Cloud9 as the Default Editor" : {
                             type: "checkbox",
-                            path: "user/terminal/@defaultEditor",
+                            path: "user/terminal/@defaultEnvEditor",
                             position: 14000
                         }
                     }

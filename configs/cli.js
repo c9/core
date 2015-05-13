@@ -87,6 +87,7 @@ return [
     "./c9.ide.installer/commands/darwin",
     "./c9.ide.installer/commands/bash",
     "./c9.ide.installer/commands/npm",
+    "./c9.ide.installer/commands/npm-g",
     "./c9.ide.installer/commands/pip",
     "./c9.ide.installer/commands/gem",
     "./c9.ide.installer/commands/zip",

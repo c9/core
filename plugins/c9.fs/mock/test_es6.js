@@ -45,6 +45,10 @@ array;
 var qux = {left};
 qux;
 var {p,q} = { p: 1, q: 2};
+p;
+q;
+
+class Blie {}
 
 class Model extends Blie {
   constructor(properties) {

@@ -1,5 +1,7 @@
 "use strict";
 
+var error = require("http-error");
+
 plugin.consumes = [
     "connect",
     "connect.static", 
@@ -78,6 +80,9 @@ function plugin(options, imports, register) {
     connect.useStart(frontdoor.middleware.jsonWriter());
     
     connect.useError(function(err, req, res, next) {
+        if (typeof err == "string")
+            err = new error.InternalServerError(err);
+            
         var statusCode = parseInt(err.code || err.status || res.statusCode, 10) || 500;
 
         if (statusCode < 400)

@@ -43,8 +43,8 @@ define(function(require, exports, module) {
         var ENABLED = c9.location.indexOf("debug=2") > -1;
         var HASSDK = c9.location.indexOf("sdk=0") === -1;
         
-        var reParts = /^(builders|keymaps|modes|outline|runners|snippets|themes)\/(.*)/
-        var reModule = /(?:_highlight_rules|_test|_worker|_fold|_behaviou?r).js$/
+        var reParts = /^(builders|keymaps|modes|outline|runners|snippets|themes)\/(.*)/;
+        var reModule = /(?:_highlight_rules|_test|_worker|_fold|_behaviou?r).js$/;
         
         var loaded = false;
         function load() {
@@ -272,7 +272,7 @@ define(function(require, exports, module) {
                 var filename = RegExp.$2;
                 if (filename.indexOf("/") > -1) return;
                 
-                if (type == "modes" && filename.match(reModule))
+                if (type == "modes" && (reModule.test(filename) || !/\.js$/.test(filename)))
                     return;
                 
                 parallel.push(function(next){
