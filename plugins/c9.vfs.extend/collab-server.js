@@ -52,16 +52,16 @@ function installServer(callback) {
         }
     }
 
-    if (!checkInstalled(getHomeDir() + "/.c9/node_modules/") && !checkInstalled("")) {
+    if (!Sequelize && !checkInstalled(getHomeDir() + "/.c9/node_modules/") && !checkInstalled("")) {
         var err = new Error("[vfs-collab] Couldn't load node modules sqlite3 and sequelize "
             + "from " + getHomeDir() + "/.c9/node_modules/; "
             + "node version: " + process.version + "; "
             + "node execPath " + process.execPath
             );
         err.code = "EFATAL";
-        return callback(err);
+        return callback && callback(err);
     }
-    callback();
+    callback && callback();
 }
 
 /**
@@ -90,6 +90,7 @@ function initDB(readonly, callback) {
     var MAX_LOG_LINE_LENGTH = 151;
 
     dbFilePath = dbFilePath || Path.join(getProjectWD(), "collab.db");
+    installServer();
     var sequelize = new Sequelize("c9-collab", "c9", "c9-collab-secret", {
         // the sql dialect of the database
         dialect: "sqlite",
