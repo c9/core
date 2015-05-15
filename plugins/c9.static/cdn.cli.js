@@ -179,7 +179,7 @@ define(function(require, exports, module) {
                     excludePattern = /_test/;
                 
                 var prefix = name.split("/")[0];
-                var targetPath = path.join(name, type);
+                var targetPath = name + "/" + type;
                 
                 if (!pathMap[prefix])
                     throw new Error("Cannot map prefix " + prefix + " for package " + name);
@@ -198,7 +198,7 @@ define(function(require, exports, module) {
                     });
                 
                 files.map(function(p) {
-                    result.push(path.join(targetPath, path.basename(p, ".js")));
+                    result.push(targetPath + "/" + path.basename(p, ".js"));
                 });
             }
             
