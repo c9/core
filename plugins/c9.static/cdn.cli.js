@@ -155,51 +155,68 @@ define(function(require, exports, module) {
                     process.exit();
             }
         });
+        
         function listAceModules(pathConfig, cb) {
-            // build async loaded ace modules
-            var aceModules = ["vim", "emacs", "sublime"].map(function(x) {
-                return "plugins/c9.ide.ace.keymaps/" + x + "/keymap";
-            });
-            var paths = {
-                ace: __dirname + "/../../node_modules/ace/lib/ace",
-                plugins: __dirname + "/../../plugins",
+            var result = [
+                "plugins/c9.ide.ace.keymaps/vim/keymap",
+                "plugins/c9.ide.ace.keymaps/emacs/keymap",
+                "plugins/c9.ide.ace.keymaps/sublime/keymap",
+            ];
+            
+            // FIXME: this could be resolved via pathConfig:
+            var pathMap = {
+                "ace": __dirname + "/../../node_modules/ace/lib/ace",
+                "plugins": __dirname + "/../../plugins",
             };
-            function addAceModules(path, excludePattern) {
-                var parts = path.split("/");
-                if (parts[0] == "ace") {
-                    if (parts[1] == "modes" || parts[1] == "themes")
-                        parts[1] = parts[1].slice(0, -1);
-                }
-                parts[0] = paths[parts[0]];
-                var fsPath = parts.join("/");
-                try {
-                    var files = fs.readdirSync(fsPath);
-                    files.filter(function(p) {
-                        return !excludePattern.test(p) && !/[\s#]/.test(p) && /.*\.js$/.test(p);
-                    }).forEach(function(p) {
-                        aceModules.push(path + "/" + p.slice(0, -3));
+            
+            var packages = [
+                "ace",
+                "plugins/c9.ide.salesforce/salesforce.language",
+            ];
+            
+            function readPackage(name, type, excludePattern) {
+                var targetPath = path.join(name, type);
+                
+                var parts = targetPath.split("/");
+                var prefix = parts[0];
+                
+                if (!pathMap[prefix])
+                    throw new Error("Cannot map prefix " + prefix + " for path " + targetPath);
+                
+                var sourcePath = path.resolve(pathMap[prefix], path.relative(prefix, targetPath));
+                
+                if (!fs.existsSync(sourcePath))
+                    return;
+                    
+                var files = fs
+                    .readdirSync(sourcePath)
+                    .filter(function(p) {
+                        return !excludePattern.test(p)
+                            && !/[\s#]/.test(p)
+                            && /.*\.js$/.test(p);
                     });
-                } catch(e) {}
+                
+                files.map(function(p) {
+                    result.push(path.join(targetPath, path.basename(p, ".js")));
+                });
             }
             
-            var aceModulePaths = [
-                "ace",
-                "plugins/c9.ide.salesforce/salesforce.language"
-            ];
-            aceModulePaths.forEach(function(p) {
-                addAceModules(p + "/modes", /_highlight_rules|_test|_worker|xml_util|_outdent|behaviour|completions/);
-                addAceModules(p + "/themes", /_test/);
-                addAceModules(p + "/ext", /_test/);
-                addAceModules(p + "/snippets", /_test/);
+            packages.forEach(function(name) {
+                var isAce = (name === "ace");
+                readPackage(name, (isAce ? "mode" : "modes"), /_highlight_rules|_test|_worker|xml_util|_outdent|behaviour|completions/);
+                readPackage(name, (isAce ? "theme" : "themes"), /_test/);
+                readPackage(name, "ext", /_test/);
+                readPackage(name, "snippets", /_test/);
             });
             
             function take() {
-                var p = aceModules.pop();
-                console.log("building ", p, aceModules.length);
-                cb(p, aceModules.length && take);
+                var p = result.pop();
+                console.log("building ", p, result.length);
+                cb(p, result.length && take);
             }
             take();
         }
+        
         function copyStaticResources(usedPlugins, pathConfig, next) {
             var moduleDeps = require("architect-build/module-deps");
             var copy = require('architect-build/copy');
