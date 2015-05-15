@@ -155,32 +155,73 @@ define(function(require, exports, module) {
                     process.exit();
             }
         });
+        
         function listAceModules(pathConfig, cb) {
-            // build async loaded ace modules
-            var aceModules = ["vim", "emacs", "sublime"].map(function(x) {
-                return "plugins/c9.ide.ace.keymaps/" + x + "/keymap";
-            });
-            var acePath = __dirname + "/../../node_modules/ace/lib/ace";
-            function addAceModules(type, excludePattern) {
-                var files = fs.readdirSync(acePath + "/" + type);
-                files.filter(function(p) {
-                    return !excludePattern.test(p) && !/[\s#]/.test(p) && /.*\.js$/.test(p);
-                }).forEach(function(p) {
-                    aceModules.push("ace/" + type + "/" + p.slice(0, -3));
+            var result = [
+                "plugins/c9.ide.ace.keymaps/vim/keymap",
+                "plugins/c9.ide.ace.keymaps/emacs/keymap",
+                "plugins/c9.ide.ace.keymaps/sublime/keymap",
+            ];
+            
+            // FIXME: this could be resolved via pathConfig:
+            var pathMap = {
+                "ace": __dirname + "/../../node_modules/ace/lib/ace",
+                "plugins": __dirname + "/../../plugins",
+            };
+            
+            var packages = [
+                "ace",
+                "plugins/c9.ide.salesforce/salesforce.language",
+            ];
+            
+            function readPackage(name, type, excludePattern) {
+                if (!excludePattern)
+                    excludePattern = /_test/;
+                
+                var prefix = name.split("/")[0];
+                var targetPath = name + "/" + type;
+                
+                if (!pathMap[prefix])
+                    throw new Error("Cannot map prefix " + prefix + " for package " + name);
+                
+                var sourcePath = pathMap[prefix] + "/" + targetPath.substr(prefix.length);
+                
+                try {
+                    var files = fs.readdirSync(sourcePath);
+                } catch (e) {
+                    if (e.code === "ENOENT") return;
+                    else throw e;
+                }
+                
+                files = files.filter(function(p) {
+                    return !excludePattern.test(p)
+                        && !/[\s#]/.test(p)
+                        && /\.js$/.test(p);
+                });
+                
+                files.forEach(function(p) {
+                    result.push(targetPath + "/" + p.replace(/.js$/, ""));
                 });
             }
-            addAceModules("mode", /_highlight_rules|_test|_worker|xml_util|_outdent|behaviour|completions/);
-            addAceModules("theme", /_test/);
-            addAceModules("ext", /_test/);
-            addAceModules("snippets", /_test/);
+            
+            packages.forEach(function(name) {
+                var isAce = (name === "ace");
+                var modesExcludePattern = /_highlight_rules|_test|_worker|xml_util|_outdent|behaviour|completions/;
+                
+                readPackage(name, (isAce ? "mode" : "modes"), modesExcludePattern);
+                readPackage(name, (isAce ? "theme" : "themes"));
+                readPackage(name, "ext");
+                readPackage(name, "snippets");
+            });
             
             function take() {
-                var p = aceModules.pop();
-                console.log("building ", p, aceModules.length);
-                cb(p, aceModules.length && take);
+                var p = result.pop();
+                console.log("building ", p, result.length);
+                cb(p, result.length && take);
             }
             take();
         }
+        
         function copyStaticResources(usedPlugins, pathConfig, next) {
             var moduleDeps = require("architect-build/module-deps");
             var copy = require('architect-build/copy');
