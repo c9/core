@@ -186,18 +186,20 @@ define(function(require, exports, module) {
                 
                 var sourcePath = path.resolve(pathMap[prefix], path.relative(prefix, targetPath));
                 
-                if (!fs.existsSync(sourcePath))
-                    return;
-                    
-                var files = fs
-                    .readdirSync(sourcePath)
-                    .filter(function(p) {
-                        return !excludePattern.test(p)
-                            && !/[\s#]/.test(p)
-                            && /\.js$/.test(p);
-                    });
+                try {
+                    var files = fs.readdirSync(sourcePath);
+                } catch (e) {
+                    if (e.code === "ENOENT") return;
+                    else throw e;
+                }
                 
-                files.map(function(p) {
+                files = files.filter(function(p) {
+                    return !excludePattern.test(p)
+                        && !/[\s#]/.test(p)
+                        && /\.js$/.test(p);
+                });
+                
+                files.forEach(function(p) {
                     result.push(targetPath + "/" + path.basename(p, ".js"));
                 });
             }
