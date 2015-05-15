@@ -184,7 +184,7 @@ define(function(require, exports, module) {
                 if (!pathMap[prefix])
                     throw new Error("Cannot map prefix " + prefix + " for package " + name);
                 
-                var sourcePath = path.resolve(pathMap[prefix], path.relative(prefix, targetPath));
+                var sourcePath = pathMap[prefix] + "/" + targetPath.substr(prefix.length);
                 
                 try {
                     var files = fs.readdirSync(sourcePath);
@@ -200,7 +200,7 @@ define(function(require, exports, module) {
                 });
                 
                 files.forEach(function(p) {
-                    result.push(targetPath + "/" + path.basename(p, ".js"));
+                    result.push(targetPath + "/" + p.replace(/.js$/, ""));
                 });
             }
             
