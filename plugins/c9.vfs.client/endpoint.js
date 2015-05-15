@@ -255,10 +255,12 @@ define(function(require, exports, module) {
                         return;
                     }
 
-                    var vfs = rememberVfs(server, res.vfsid);
-                    callback(null, vfs.vfsid, server.url, server.region);
+                    if (!foundServer) {
+                        var vfs = rememberVfs(server, res.vfsid);
+                        callback(null, vfs.vfsid, server.url, server.region);
+                    }
                 });
-            };
+            }
             
             
             function startParallelSearches (totalRunners) {
