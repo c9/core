@@ -1,6 +1,6 @@
 "use strict";
 
-var error = require("http-error");
+var errors = require("http-error");
 
 plugin.consumes = [
     "connect",
@@ -81,7 +81,7 @@ function plugin(options, imports, register) {
     
     connect.useError(function(err, req, res, next) {
         if (typeof err == "string")
-            err = new error.InternalServerError(err);
+            err = new errors.InternalServerError(err);
             
         var statusCode = parseInt(err.code || err.status || res.statusCode, 10) || 500;
 
