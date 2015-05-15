@@ -197,6 +197,32 @@ define(function(require, exports, module) {
 
         /***** Methods *****/
         
+        function spawn(command, options, callback) {
+            if (options.stdio == null) {
+                // if verbose, echo stdout
+                // always echo stderr
+                options.stdio = [
+                    "pipe",
+                    verbose ? process.stdout : "ignore",
+                    process.stderr
+                ];
+            }
+            
+            proc.spawn(command, options, function(err, child) {
+                if (err) return callback(err);
+                
+                child.on("exit", function(code) {
+                    if (code !== 0) {
+                        var error = new Error("Command failed: " + command);
+                        error.code = code;
+                        return callback(error);
+                    }
+                    
+                    callback();
+                });
+            });
+        }
+        
         function stringifyError(err){
             return (verbose ? JSON.stringify(err, 4, "    ") : (typeof err == "string" ? err : err.message));
         }
@@ -551,7 +577,7 @@ define(function(require, exports, module) {
                         },
                         function(next) {
                             if (options.local)
-                                fs.writeFile(cwd + "/__installed__.js", result.code, "utf8", callback);
+                                return fs.writeFile(cwd + "/__installed__.js", result.code, "utf8", callback);
                             next();
                         },
                         function(next) {
@@ -603,32 +629,19 @@ define(function(require, exports, module) {
                             tarArgs.push("--exclude-from=" + c9ignore);
                         }
                         tarArgs.push(".");
-                        proc.spawn(TAR, {
+                        spawn(TAR, {
                             args: tarArgs,
                             cwd: cwd + "/.c9/.build"
-                        }, function(err, p){
-                            if (err) return callback(err);
+                        }, function(err){
+                            if (err)
+                                return callback(new Error("ERROR: Could not package directory"));
+                                
+                            console.log("Built package", json.name + "@" + json.version +
+                                (dryRun ? " at " + zipFilePath : ""));
                             
-                            if (verbose) {
-                                p.stdout.on("data", function(c){
-                                    process.stdout.write(c.toString("utf8"));
-                                });
-                                p.stderr.on("data", function(c){
-                                    process.stderr.write(c.toString("utf8"));
-                                });
-                            }
+                            if (dryRun) return callback();
                             
-                            p.on("exit", function(code){
-                                if (code !== 0)
-                                    return callback(new Error("ERROR: Could not package directory"));
-                                
-                                console.log("Built package", json.name + "@" + json.version +
-                                    (dryRun ? " at " + zipFilePath : ""));
-                                
-                                if (dryRun) return callback();
-                                
-                                upload();
-                            });
+                            upload();
                         });
                     });
                 }
@@ -748,28 +761,12 @@ define(function(require, exports, module) {
                     if (!createTag)
                         callback(null, json);
                                 
-                    proc.spawn("bash", {
+                    spawn("bash", {
                         args: ["-c", SHELLSCRIPT, "--", json.version, normalizePath(packagePath)]
                     }, function(err, p){
-                        if (err) return callback(err);
-                        
-                        if (verbose) {
-                            p.stdout.on("data", function(c){
-                                process.stdout.write(c.toString("utf8"));
-                            });
-                            p.stderr.on("data", function(c){
-                                process.stderr.write(c.toString("utf8"));
-                            });
-                        }
-                        
-                        p.on("exit", function(code, stderr, stdout){
-                            if (code !== 0) 
-                                return callback(new Error("ERROR: publish failed with exit code " + code));
-                            
-                            console.log("Created tag and updated package.json to version", json.version);
-                            
-                            callback(null, json);
-                        });
+                        if (err) return callback(err);                            
+                        console.log("Created tag and updated package.json to version", json.version);                            
+                        callback(null, json);
                     });
                 }
             });
