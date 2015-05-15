@@ -246,6 +246,9 @@ define(function(require, exports, module) {
                             }, 10000);
                             return;
                         }
+                        else if (err.code === 500 && res && res.error && res.error.cause) {
+                            return callback(res.error.cause.message);
+                        }
                     }
 
                     if (err) {
