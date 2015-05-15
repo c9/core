@@ -175,13 +175,14 @@ define(function(require, exports, module) {
             ];
             
             function readPackage(name, type, excludePattern) {
+                if (!excludePattern)
+                    excludePattern = /_test/;
+                
+                var prefix = name.split("/")[0];
                 var targetPath = path.join(name, type);
                 
-                var parts = targetPath.split("/");
-                var prefix = parts[0];
-                
                 if (!pathMap[prefix])
-                    throw new Error("Cannot map prefix " + prefix + " for path " + targetPath);
+                    throw new Error("Cannot map prefix " + prefix + " for package " + name);
                 
                 var sourcePath = path.resolve(pathMap[prefix], path.relative(prefix, targetPath));
                 
@@ -193,7 +194,7 @@ define(function(require, exports, module) {
                     .filter(function(p) {
                         return !excludePattern.test(p)
                             && !/[\s#]/.test(p)
-                            && /.*\.js$/.test(p);
+                            && /\.js$/.test(p);
                     });
                 
                 files.map(function(p) {
@@ -203,10 +204,12 @@ define(function(require, exports, module) {
             
             packages.forEach(function(name) {
                 var isAce = (name === "ace");
-                readPackage(name, (isAce ? "mode" : "modes"), /_highlight_rules|_test|_worker|xml_util|_outdent|behaviour|completions/);
-                readPackage(name, (isAce ? "theme" : "themes"), /_test/);
-                readPackage(name, "ext", /_test/);
-                readPackage(name, "snippets", /_test/);
+                var modesExcludePattern = /_highlight_rules|_test|_worker|xml_util|_outdent|behaviour|completions/;
+                
+                readPackage(name, (isAce ? "mode" : "modes"), modesExcludePattern);
+                readPackage(name, (isAce ? "theme" : "themes"));
+                readPackage(name, "ext");
+                readPackage(name, "snippets");
             });
             
             function take() {
