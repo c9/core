@@ -160,38 +160,19 @@ define(function(require, exports, module) {
             var aceModules = ["vim", "emacs", "sublime"].map(function(x) {
                 return "plugins/c9.ide.ace.keymaps/" + x + "/keymap";
             });
-            var paths = {
-                ace: __dirname + "/../../node_modules/ace/lib/ace",
-                plugins: __dirname + "/../../plugins",
-            };
-            function addAceModules(path, excludePattern) {
-                var parts = path.split("/");
-                if (parts[0] == "ace") {
-                    if (parts[1] == "modes" || parts[1] == "themes")
-                        parts[1] = parts[1].slice(0, -1);
-                }
-                parts[0] = paths[parts[0]];
-                var fsPath = parts.join("/");
-                try {
-                    var files = fs.readdirSync(fsPath);
-                    files.filter(function(p) {
-                        return !excludePattern.test(p) && !/[\s#]/.test(p) && /.*\.js$/.test(p);
-                    }).forEach(function(p) {
-                        aceModules.push(path + "/" + p.slice(0, -3));
-                    });
-                } catch(e) {}
+            var acePath = __dirname + "/../../node_modules/ace/lib/ace";
+            function addAceModules(type, excludePattern) {
+                var files = fs.readdirSync(acePath + "/" + type);
+                files.filter(function(p) {
+                    return !excludePattern.test(p) && !/[\s#]/.test(p) && /.*\.js$/.test(p);
+                }).forEach(function(p) {
+                    aceModules.push("ace/" + type + "/" + p.slice(0, -3));
+                });
             }
-            
-            var aceModulePaths = [
-                "ace",
-                "plugins/c9.ide.salesforce/salesforce.language"
-            ];
-            aceModulePaths.forEach(function(p) {
-                addAceModules(p + "/modes", /_highlight_rules|_test|_worker|xml_util|_outdent|behaviour|completions/);
-                addAceModules(p + "/themes", /_test/);
-                addAceModules(p + "/ext", /_test/);
-                addAceModules(p + "/snippets", /_test/);
-            });
+            addAceModules("mode", /_highlight_rules|_test|_worker|xml_util|_outdent|behaviour|completions/);
+            addAceModules("theme", /_test/);
+            addAceModules("ext", /_test/);
+            addAceModules("snippets", /_test/);
             
             function take() {
                 var p = aceModules.pop();
