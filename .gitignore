@@ -88,3 +88,4 @@ npm-debug.log
 foo.js
 hello.js
 plugins/c9.docker/containers/ci/files/github_c9_newclient
+security-audit.log
