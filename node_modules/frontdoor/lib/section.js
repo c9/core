@@ -15,6 +15,7 @@ module.exports = function Section(name, description, types) {
     var self = this;
     
     this.middlewares = [];
+    this.globals = [];
     this.errorHandlers = [];
     this.name = name;
 
@@ -45,10 +46,22 @@ module.exports = function Section(name, description, types) {
         });
     };
     
+    /**
+     * Insert global middleware(s) for this section: The parent section is
+     * always an empty container that delegates to it's sub-sections, and
+     * executes all the middelwares for that section.
+     * 
+     * This method allows us to inject a "global" middleware that is inserted
+     * *after* decodeParams and *before* all other middelwares.
+     */
+    this.global = function( middleware ){
+        this.globals.push.apply(this.globals, flatten(middleware));
+    };
+    
     this.use = function(middleware) {
         this.middlewares.push.apply(this.middlewares, flatten(middleware));
     };
-    
+
     this.error = function(middleware) {
         this.errorHandlers.push.apply(this.errorHandlers, flatten(middleware));
     };
@@ -112,7 +125,7 @@ module.exports = function Section(name, description, types) {
         var method = req.method.toLowerCase();
         if (methods.indexOf(method) == -1)
             return next();
-        
+            
         var handler = this.match(req, path, method);
         if (!handler)
             return next();
@@ -124,6 +137,9 @@ module.exports = function Section(name, description, types) {
             errorHandlers.unshift.apply(errorHandlers, handler.errorHandlers || []);
             handler = handler.parent;
         }
+
+        if (this.globals.length)
+            middleware.splice.apply( middleware, [1, 0].concat( this.globals ) );
 
         var i = 0;
         function processNext() {
