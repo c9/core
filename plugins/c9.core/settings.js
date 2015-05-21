@@ -428,13 +428,13 @@ define(function(require, exports, module) {
             if (typeof json === "object")
                 return JSON.parse(JSON.stringify(json));
             
-            if (typeof json !== "string")
-                return json;
-            
-            try {
-                return JSON.parse(json);
+            if (typeof json === "string") {
+                try {
+                    return JSON.parse(json);
+                } catch (e) {}
             }
-            catch (e) {}
+            // do not return null or undefined so that getJson(query).foo never throws
+            return false;
         }
         
         function getBool(query) {
