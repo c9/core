@@ -106,9 +106,8 @@ define(function(require, module, exports) {
                 };
                 
                 var data = xhr.responseText;
-                if ((options.overrideMimeType || res.headers["content-type"])
-                    .indexOf("application/json") === 0
-                ) {
+                var contentType = options.overrideMimeType || res.headers["content-type"] || "";
+                if (contentType.indexOf("application/json") === 0) {
                     try {
                         data = JSON.parse(data);
                     } catch (e) {
