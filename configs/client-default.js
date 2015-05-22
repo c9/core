@@ -380,6 +380,7 @@ module.exports = function(options) {
         "plugins/c9.ide.run.debug/liveinspect",
 
         "plugins/c9.ide.run.debug.xdebug/xdebug",
+        "plugins/c9.ide.run.debug/debuggers/gdb/gdbdebugger",
         
         // Console
         {
