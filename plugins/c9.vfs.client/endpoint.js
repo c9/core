@@ -298,6 +298,7 @@ define(function(require, exports, module) {
             // I'm keeping this vague because we don't want users to blame
             // a "cloud9 update" for losing work
             deleteOldVfs();
+            metrics.increment("vfs.failed.protocol_mismatch", 1, true);
             return callback(fatalError("Protocol change detected", "reload"));
         }
 
