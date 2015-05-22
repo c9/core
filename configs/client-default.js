@@ -474,12 +474,14 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.mount/ftp",
             curlftpfsBin: options.mount.curlftpfsBin,
-            fusermountBin: options.mount.fusermountBin
+            fusermountBin: options.mount.fusermountBin,
+            ssh: options.ssh
         },
         {
             packagePath: "plugins/c9.ide.mount/sftp",
             sshfsBin: options.mount.sshfsBin,
-            fusermountBin: options.mount.fusermountBin
+            fusermountBin: options.mount.fusermountBin,
+            ssh: options.ssh
         },
         {
             packagePath: "plugins/c9.ide.upload/dragdrop",
