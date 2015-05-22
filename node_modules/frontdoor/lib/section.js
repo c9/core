@@ -83,13 +83,13 @@ module.exports = function Section(name, description, types) {
         return section;
     };
 
-    this.mount = function( name, section ){
+    this.mount = function(name, section) {
         if (!sections[name])
             sections[name] = [];
 
         sections[name].push(section);
     };
-
+    
     this._rootHandler = function(req, res) {
         this.handle(req, res, function(err) {
             if (err) {
