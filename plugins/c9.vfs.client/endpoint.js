@@ -169,8 +169,11 @@ define(function(require, exports, module) {
             var servers = shuffleServers(version, vfsServers);
             
             // check for version
-            if (vfsServers.length && !servers.length)
+            if (vfsServers.length && !servers.length) {
+                if (region === "beta")
+                    return callback(fatalError("Staging VFS server(s) not working", "reload"));
                 return onProtocolChange(callback);
+            }
                 
             var latestServer = 0;
             var foundServer = false;
