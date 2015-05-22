@@ -22,7 +22,7 @@ define(function(require, exports, module) {
 
         /***** Methods *****/
 
-        var REST_METHODS = ["get", "post", "put", "delete"];
+        var REST_METHODS = ["get", "post", "put", "delete", "patch"];
 
         function wrapMethod(urlPrefix, method) {
             return function(url, options, callback) {
@@ -33,7 +33,7 @@ define(function(require, exports, module) {
                 }
                 var headers = options.headers = options.headers || {};
                 headers.Accept = headers.Accept || "application/json";
-                options.method = method;
+                options.method = method.toUpperCase();
                 if (!options.timeout)
                     options.timeout = 60000;
                 
