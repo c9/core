@@ -147,7 +147,7 @@ define(function(require, exports, module) {
             
             function done(err) {
                 if (err) {
-                    console.error(err);
+                    console.error(err, err.stack);
                     process.exit(1);
                 }
                 pending--;
@@ -242,6 +242,10 @@ define(function(require, exports, module) {
                                 return false;
                             }
                         }
+                        if (name == "node_modules" && /plugins\/[^\/\\]+/.test(dir))
+                            return true;
+                        if (/^(LICENSE|README.md)$/.test(name))
+                            return true;
                         return /\.(jsx?|css|less|xml|ejs|prv|pub|sh)$|(^|[/])^(mock|example|\.[^/]*|package.json)[/]?$/.test(name);
                     },
                     onDir: function(e) { console.log("\x1b [1A\x1b[0K" + e) }
