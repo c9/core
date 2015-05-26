@@ -87,6 +87,7 @@ module.exports = function Section(name, description, types) {
         if (!sections[name])
             sections[name] = [];
 
+        section.parent = this;
         sections[name].push(section);
     };
     
