@@ -1952,11 +1952,10 @@ function handleLeaveDocument(userIds, client, data) {
     var docId = data.docId;
     var userId = userIds.userId;
     var clientId = userIds.clientId;
-    if (!documents[docId] || !documents[docId][clientId] || !client.openDocIds[docId]) {
+    if (!documents[docId] || !documents[docId][clientId] || !client.openDocIds[docId])
         return console.error("[vfs-collab] Trying to leave a non-member document!",
             docId, clientId, documents[docId] && Object.keys(documents[docId]), Object.keys(client.openDocIds),
             Object.keys(documents), Object.keys(clients));
-    }
     delete client.openDocIds[docId];
     console.error("[vfs-collab]", clientId, "is leaving document", docId);
     delete documents[docId][clientId];
@@ -2936,6 +2935,3 @@ lock("abc", function () {
     }, 100);
 });
 */
-
-// Exported for testing
-exports.operation = operations;
