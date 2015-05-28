@@ -136,7 +136,7 @@ module.exports = function(manifest, installPath) {
         pricing: { containers: [] },
         zuora: {},
         localExtend: true,
-        extendDirectory: __dirname + "/../plugins/c9.vfs.extend"
+        extendDirectory: __dirname + "/../plugins"
     };
 
     config.extendOptions = {
