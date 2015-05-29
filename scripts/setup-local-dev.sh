@@ -71,13 +71,15 @@ fi
 
 if [ "$os" == "windows" ]; then
     NODE_VERSION=v0.12.2
-    NW_VERSION=v0.12.1
-    
+    NW_VERSION=v0.12.2
+    # TODO find a more reliable place to put c9 dependencies
+    HOME="$HOMEDRIVE$HOMEPATH"
     pushd build
-    if [ ! -f "$HOME/.c9/"node.exe ]; then
+    if [ ! -f "$HOME/.c9/"node.exe ] || [ ! -d "$HOME/.c9/"msys ]; then
         echo "downloading node"
         pushd "$HOME/.c9/"
-        curl -OL http://nodejs.org/dist/$NODE_VERSION/node.exe
+        curl -L https://raw.githubusercontent.com/cloud9ide/sdk-deps-win32/master/install.sh | bash
+        # bash $SOURCE/../sdk-deps-win32/install.sh # for testing
         popd
     fi
     
