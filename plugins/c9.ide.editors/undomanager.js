@@ -10,7 +10,7 @@ define(function(require, module, exports) {
             var plugin = new Plugin("Ajax.org", main.consumes);
             var emit = plugin.getEmitter();
             
-            var position = -1, mark = -2, stack = [];
+            var position = -1, mark = -1, stack = [];
 
             if (options)
                 setState(options);
