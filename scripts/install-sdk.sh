@@ -6,10 +6,10 @@ has() {
   return $?
 }
 
-if has "wget"; then
-  DOWNLOAD="wget --no-check-certificate -nc"
-elif has "curl"; then
-  DOWNLOAD="curl -sSOL"
+if has "curl"; then
+  DOWNLOAD="curl -L "
+elif has "wget"; then
+  DOWNLOAD="wget -O - "
 else
   echo "Error: you need curl or wget to proceed" >&2;
   exit 1
