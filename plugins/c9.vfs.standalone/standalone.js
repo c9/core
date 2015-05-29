@@ -98,16 +98,17 @@ function plugin(options, imports, register) {
             configType = "devel";
 
         var configName = getConfigName(configType, options);
-        var cdn = options.options.cdn;
-        options.options.themePrefix = "/static/" + cdn.version + "/skin/" + configName;
-        options.options.workerPrefix = "/static/" + cdn.version + "/worker";
-        options.options.CORSWorkerPrefix = req.params.packed ? "/static/" + cdn.version + "/worker" : "";
 
         var collab = options.collab && req.params.collab !== 0 && req.params.nocollab != 1;
         var opts = extend({}, options);
         opts.options.collab = collab;
         if (req.params.packed == 1)
             opts.packed = opts.options.packed = true;
+        
+        var cdn = options.options.cdn;
+        options.options.themePrefix = "/static/" + cdn.version + "/skin/" + configName;
+        options.options.workerPrefix = "/static/" + cdn.version + "/worker";
+        options.options.CORSWorkerPrefix = opts.packed ? "/static/" + cdn.version + "/worker" : "";
         
         api.updatConfig(opts.options, {
             w: req.params.w,
