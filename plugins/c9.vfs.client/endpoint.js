@@ -169,8 +169,11 @@ define(function(require, exports, module) {
             var servers = shuffleServers(version, vfsServers);
             
             // check for version
-            if (vfsServers.length && !servers.length)
+            if (vfsServers.length && !servers.length) {
+                if (region === "beta")
+                    return callback(fatalError("Staging VFS server(s) not working", "reload"));
                 return onProtocolChange(callback);
+            }
                 
             var latestServer = 0;
             var foundServer = false;
@@ -295,6 +298,7 @@ define(function(require, exports, module) {
             // I'm keeping this vague because we don't want users to blame
             // a "cloud9 update" for losing work
             deleteOldVfs();
+            metrics.increment("vfs.failed.protocol_mismatch", 1, true);
             return callback(fatalError("Protocol change detected", "reload"));
         }
 
