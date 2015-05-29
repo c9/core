@@ -122,8 +122,9 @@ installGlobalDeps() {
 }
 
 ############################################################################
-NPM=npm
-NODE=node
+C9_DIR=$HOME/.c9
+NPM=$C9_DIR/node/bin/npm
+NODE=$C9_DIR/node/bin/node
 
 # cleanup build cache since c9.static doesn't do this automatically yet
 rm -rf ./build/standalone
