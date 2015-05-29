@@ -293,7 +293,7 @@ define(function(require, exports, module) {
                     if (err) return callback(err);
                     
                     function installNPM(){
-                        spawn(join(process.env.HOME, ".c9/node/bin/npm"), {
+                        spawn(join(process.env.HOME, process.platform == "win32"? ".c9/npm.cmd" : ".c9/node/bin/npm"), {
                             args: ["install"],
                             cwd: packagePath
                         }, function(err) {
