@@ -159,7 +159,14 @@ define(function(require, exports, module) {
                     } 
                     else {
                         dryRun = true;
-                        publish({local: true}, function(){});
+                        publish({local: true}, function(err){
+                            if (err) {
+                                console.error(err);
+                                if (!verbose)
+                                    console.error("\nTry running with --verbose flag for more information");
+                                process.exit(1);
+                            }
+                        });
                     }
                 }
             });
@@ -296,8 +303,8 @@ define(function(require, exports, module) {
                         warned = true;
                     }
                     else if (!fs.existsSync(join(cwd, name.replace(/\.js$/, "_test.js")))) {
-                        console.warn("ERROR: Plugin '" + name + "' has no test associated with it. There must be a file called '" + name + "_test.js' containing tests.");
-                        failed = true;
+                        console.warn("ERROR: Plugin '" + name + "' has no test associated with it. There must be a file called '" + name.replace(/\.js$/, "") + "_test.js' containing tests.");
+                        warned = true;
                     }
                 });
                 

@@ -613,12 +613,18 @@ function registerWindow(win, id) {
     
     allWindows[id] = win;
     activeWindowId = id;
-    win.on("close", function() {
+    function mainCloseHandler() {
         if (win.listeners("close").length == 1) {
             onClose(id);
             win.close(true);
         }
+    }
+    // make sure only one mainCloseHandler is attached even after calling win.reload()
+    win.listeners("close").forEach(function(f) {
+        if (f.name == "mainCloseHandler")
+            win.removeListener("close", f);
     });
+    win.on("close", mainCloseHandler);
     win.on("focus", function() {
         onFocus(id);
     });

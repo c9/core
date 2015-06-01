@@ -1,5 +1,20 @@
 #!/bin/bash -e
 
+set -e
+has() {
+  type "$1" > /dev/null 2>&1
+  return $?
+}
+
+if has "curl"; then
+  DOWNLOAD="curl -L "
+elif has "wget"; then
+  DOWNLOAD="wget -O - "
+else
+  echo "Error: you need curl or wget to proceed" >&2;
+  exit 1
+fi
+
 cd `dirname $0`/..
 SOURCE=`pwd`
 
@@ -116,12 +131,23 @@ updateCore() {
 
 
 installGlobalDeps() {
-    if ! [[ -f ~/.c9/installed ]] && ! [[ $os == "windows" ]]; then
-        curl https://raw.githubusercontent.com/c9/install/master/install.sh | bash
+    if ! [[ -f ~/.c9/installed ]]; then
+        if [[ $os == "windows" ]]; then
+            URL=https://raw.githubusercontent.com/cloud9ide/sdk-deps-win32
+        else
+            URL=https://raw.githubusercontent.com/c9/install
+        fi    
+        $DOWNLOAD $URL/master/install.sh | bash
     fi
 }
 
 ############################################################################
+export C9_DIR="$HOME"/.c9
+if [[ $os == "windows" ]]; then
+    export PATH="$C9_DIR:$C9_DIR/node_modules/.bin:$PATH"
+else
+    export PATH="$C9_DIR/node/bin:$C9_DIR/node_modules/.bin:$PATH"
+fi
 NPM=npm
 NODE=node
 

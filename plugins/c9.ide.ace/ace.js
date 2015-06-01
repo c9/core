@@ -348,23 +348,33 @@ define(function(require, exports, module) {
             },
             getState: function() {
                 var aceUndo = this.$aceUndo;
-                var mark = -1;
+                var mark = -2;
                 var aceMark = aceUndo.mark;
                 var stack = [];
                 function transform(deltaSet) {
-                    var newDelta = deltaSet.filter(function (d) {
+                    if (!deltaSet || !deltaSet.filter) {
+                        errorHandler.reportError("Misformed ace delta", {
+                            delta: deltaSet
+                        });
+                        return;
+                    }
+                    var newDelta = deltaSet.filter(function(d) {
                         if (d.id == aceMark) mark = stack.length;
                         return d.action == "insert" || d.action == "remove";
                     });
-                    stack.push(newDelta);
+                    if (newDelta.length)
+                        stack.push(newDelta);
                 }
                 aceUndo.$undoStack.forEach(transform);
+                var pos = stack.length - 1;
+                if (pos == -1 && aceUndo.isAtBookmark())
+                    mark = pos;
                 if (aceUndo.$redoStackBaseRev == aceUndo.$rev)
                     aceUndo.$redoStack.forEach(transform);
                 return {
-                    stack: stack,
                     mark: mark,
-                    position: aceUndo.$undoStack.length - 1
+                    position: pos,
+                    stack: stack
                 };
             },
             setState: function(e, silent) {
@@ -374,18 +384,24 @@ define(function(require, exports, module) {
                 var pos = e.position + 1;
                 var undo = stack.slice(0, pos);
                 var redo = stack.slice(pos);
-                aceUndo.$undoStack = undo.filter(function(x) {
-                    return x.length;
-                }).map(updateDeltas);
-                aceUndo.$redoStack = redo.filter(function(x) {
-                    return x.length;
-                }).map(updateDeltas);
-                stack = aceUndo.$undoStack;
+                var maxRev = aceUndo.$maxRev;
+                function check(x) {
+                    if (!x.length) return false;
+                    if (!x[0].id || x[0].id < maxRev) {
+                        x[0].id = maxRev++;
+                    } else {
+                        maxRev = x[0].id;
+                    }
+                    return true;
+                }
+                aceUndo.$undoStack = undo.map(updateDeltas).filter(check);
+                aceUndo.$redoStack = redo.map(updateDeltas).filter(check);
+                
                 var lastDeltaGroup = stack[stack.length - 1];
-                var lastRev = lastDeltaGroup && lastDeltaGroup[0].id || 0;
+                var lastRev = lastDeltaGroup && lastDeltaGroup[0] && lastDeltaGroup[0].id || 0;
                 aceUndo.$rev = lastRev;
                 aceUndo.$redoStackBaseRev = aceUndo.$rev;
-                aceUndo.$maxRev = Math.max(aceUndo.$maxRev, lastRev);
+                aceUndo.$maxRev = Math.max(maxRev, lastRev);
                 var markedRev = marked && marked.id;
                 if (markedRev != null)
                     this.$aceUndo.bookmark(markedRev);

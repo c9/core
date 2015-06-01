@@ -326,9 +326,17 @@
         
         //::dev:{*/
         function $rebuild() {
+            var progressMsg = document.getElementById("progress-msg");
             if (!window.rebuildProc) {
-                if (document.getElementById("progress-msg"))
-                    document.getElementById("progress-msg").firstChild.data = "Rebuilding";
+                if (sessionStorage.triedToReload) {
+                    win.showDevTools();
+                    progressMsg.textContent = "there were errors starting application";
+                    return 
+                }
+                sessionStorage.triedToReload = 1;
+                
+                if (progressMsg)
+                    progressMsg.firstChild.data = "Rebuilding";
                 var proc = window.rebuildProc = spawn("bash", ["./scripts/makelocal.sh", "--quick"]);
                 proc = spawn("bash", ["../scripts/makelocal.sh"], {cwd: server.__dirname});
                 proc.stdout.on("data", function(d) { console.log(d + "") });
