@@ -316,7 +316,6 @@ define(function(require, exports, module) {
                     exec: function(){}
                 },
                 commands.openpreferences,
-                commands.openpreferences,
                 commands.passKeysToBrowser,
                 commands.find,
                 commands.openterminal,
