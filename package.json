@@ -103,7 +103,7 @@
         "c9.ide.recentfiles": "#7c099abf40",
         "c9.ide.remote": "#301d2ab519",
         "c9.ide.processlist": "#bc11818bb5",
-        "c9.ide.run": "#be076fbe53",
+        "c9.ide.run": "#a7145f7037",
         "c9.ide.run.build": "#ad45874c88",
         "c9.ide.run.debug.xdebug": "#3b1520f83d",
         "c9.ide.save": "#3cb206c168",
@@ -112,6 +112,6 @@
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
         "c9.ide.upload": "#0bd010d3dc",
-        "c9.ide.welcome": "#b4be5c22a5"
+        "c9.ide.welcome": "#a0f004e3bd"
     }
 }

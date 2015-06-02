@@ -315,7 +315,7 @@ define(function(require, exports, module) {
                     passEvent: true,
                     exec: function(){}
                 },
-                commands.togglepreferences,
+                commands.openpreferences,
                 commands.openpreferences,
                 commands.passKeysToBrowser,
                 commands.find,
