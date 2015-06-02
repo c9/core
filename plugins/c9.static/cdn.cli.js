@@ -233,6 +233,10 @@ define(function(require, exports, module) {
                 var absPath = moduleDeps.resolveModulePath(p, pathConfig.pathMap);
                 if (/^\/lib\/ace/.test(p)) 
                     return;
+                if (!cache.files) {
+                    console.error("Config is empty");
+                    process.exit(1);
+                }
                 copy(absPath, root + "/static/" + p, {
                     include: /^(libmarkdown.js|runners_list.js|builders_list.js|bootstrap.js)$/,
                     exclude: function(name, dir) {
