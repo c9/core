@@ -47,6 +47,11 @@ define(function(require, exports, module) {
             optimist = require('optimist');
             
             if (!module || !commands[module]) {
+                if (process.argv.indexOf("--version") != -1) {
+                    console.log(require("../../package.json").version);
+                    process.exit(0);
+                }
+                
                 argv = optimist
                     .usage("The Cloud9 CLI.\nUsage: c9 [--verbose] <command> [<args>]\n\n"
                             + "The most commonly used c9 commands are:\n" 
