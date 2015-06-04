@@ -103,10 +103,10 @@ define(function(require, exports, module) {
                 requirejs.undef(root + "/__installed__.js");
                 require([root + "/__installed__"], function(plugins) {
                     var config = plugins.map(function(p) {
-                        return {
-                            staticPrefix: host + join(base, paths[root]),
-                            packagePath: p
-                        };
+                        if (typeof p == "string")
+                            p = { packagePath: p };
+                        p.staticPrefix = host + join(base, paths[root]);
+                        return p;
                     });
                     
                     architect.loadAdditionalPlugins(config, function(err){

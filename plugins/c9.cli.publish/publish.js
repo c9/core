@@ -555,7 +555,12 @@ define(function(require, exports, module) {
                             additional.push({
                                 id: path,
                                 source: 'define("' + path + '", [],' + 
-                                    JSON.stringify(packedConfig, null, 4) + ');',
+                                    JSON.stringify(packedConfig.map(function(p) {
+                                        var name = p.slice(p.lastIndexOf("/") + 1)
+                                        var options = json.plugins[name] || {};
+                                        options.packagePath = p;
+                                        return options;
+                                    }), null, 4) + ');',
                                 literal : true,
                                 order: -1
                             });
