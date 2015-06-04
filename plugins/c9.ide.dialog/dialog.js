@@ -228,9 +228,9 @@ define(function(require, module, exports) {
                     }
                     
                     var el = plugin.getElement(item.id);
-                    switch(el.type) {
+                    switch (el.type || el.tagName) {
                         case "dropdown":
-                            var dropdown = el.lastChild;
+                            var dropdown = el;
                             
                             var data = item.items.map(function(item) {
                                 return "<item value='" + item.value 
@@ -247,12 +247,12 @@ define(function(require, module, exports) {
                             if ("onclick" in item)
                                 el.onclick = item.onclick;
                             if ("visible" in item)
-                                el.setAttribute("visible", item.visible)
+                                el.setAttribute("visible", item.visible);
                             if ("zindex" in item)
-                                el.setAttribute("zindex", item.zindex)
+                                el.setAttribute("zindex", item.zindex);
                         break;
                     }
-                })
+                });
             }
             
             // @todo this looks very similar to forms.js. Perhaps able to merge?
