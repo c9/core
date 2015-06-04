@@ -1420,7 +1420,9 @@ window.TraceKit = TraceKit;
   var blackListedErrors = {
     'Error with empty message': {},
     'Script error.': {},
-    'DealPly is not defined': { factor: 10e5 }
+    'DealPly is not defined': { factor: 10e5 },
+    "Cannot read property 'style' of null": { factor: 10e3 },
+    "Project with id '<id>' does not exist": { factor: 10e2 },
   };
   var groupedErrors = [{
     regex: /^((?:Project|User) with id ')(\d+)(' does not exist)/i,
@@ -1432,7 +1434,7 @@ window.TraceKit = TraceKit;
     regex: /^(Cannot GET \/)([\s\S]*)/i,
     pullOut: { 1: 'url' }
   }, {
-    regex: /^(Error whilst parsing: Unexpected end whilst parsing xpath \/)([\s\S]*)/i,
+    regex: /^(Error whilst parsing: Unexpected end whilst parsing (?:xpath|xml|string))([\s\S]*)/i,
     pullOut: { 1: 'apfStuff' }
   }];
   function processUnhandledException(stackTrace, options) {
@@ -1498,6 +1500,7 @@ window.TraceKit = TraceKit;
         parts.forEach(function(p, i) {
           if (g.pullOut[i - 1]) {
             finalCustomData[g.pullOut[i - 1]] = p;
+            message += "<" + g.pullOut[i - 1] + ">";
           } else {
             message += p;
           }
