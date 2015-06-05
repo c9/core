@@ -55,6 +55,7 @@ function main(argv, config, callback) {
         .describe("settings", "Settings file to use")
         .describe("dump", "dump config file as JSON")
         .describe("domain", "Top-level domain to use (e.g, c9.io)")
+        .default("domain", process.env.C9_HOSTNAME)
         .boolean("help")
         .describe("help", "Show command line options.");
 
