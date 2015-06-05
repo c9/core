@@ -102,6 +102,9 @@ define(function(require, exports, module) {
             
             save.on("beforeSave", function(e) {
                 e.document.meta.$savingValue = e.save;
+                if (e.tab.classList.contains("conflict")) {
+                    showChangeDialog(e.tab);
+                }
             }, plugin);
             
             save.on("afterSave", function(e) {
@@ -367,9 +370,7 @@ define(function(require, exports, module) {
                 else {
                     changedPaths[path].tab.document.undoManager.bookmark(-2);
                     changedPaths[path].resolve();
-                    showChangeDialog();
                 }
-                
                 checkEmptyQueue();
             }
             
@@ -382,7 +383,6 @@ define(function(require, exports, module) {
                 else {
                     getLatestValue(path, function(err, path, data) {
                         updateChangedPath(err, path, data);
-                        showChangeDialog();
                     });
                 }
                 
@@ -408,7 +408,6 @@ define(function(require, exports, module) {
         
                             getLatestValue(path, function(err, path, data) {
                                 mergeChangedPath(err, path, data);
-                                showChangeDialog();
                             });
                         }
                         
