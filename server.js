@@ -57,6 +57,7 @@ function main(argv, config, onLoaded) {
         .describe("settings", "Settings file to use")
         .describe("dump", "dump config file as JSON")
         .describe("domain", "Top-level domain to use (e.g, c9.io)")
+        .describe("exclude", "Exclude specified service")
         .default("domain", process.env.C9_HOSTNAME)
         .boolean("help")
         .describe("help", "Show command line options.");
@@ -64,6 +65,8 @@ function main(argv, config, onLoaded) {
     var configs = options.argv._;
     if (!configs.length) 
         configs = [config || DEFAULT_CONFIG];
+    if (options.exclude && !options.exclude.length)
+        options.exclude = [options.exclude];
     
     var expanded = expandShortCuts(configs);
     if (expanded.length > configs.length)
@@ -80,6 +83,8 @@ function main(argv, config, onLoaded) {
     
     function startConfigs(configs, done) {
         async.each(configs, function(config, next) {
+            if (options.exclude && options.exclude.indexOf(config) > -1)
+                return next();
             start(config, options, function(err, result) {
                 onLoaded && onLoaded(err, result);
                 next(err);
