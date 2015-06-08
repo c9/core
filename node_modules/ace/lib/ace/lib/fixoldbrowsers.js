@@ -15,5 +15,6 @@ define(function(require, exports, module) {
 
 require("./regexp");
 require("./es5-shim");
+require("./es6-shim");
 
 });
