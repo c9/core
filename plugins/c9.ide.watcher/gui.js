@@ -232,8 +232,12 @@ define(function(require, exports, module) {
                 if (!tabManager.findTab(path)) // drat! tab is gone
                     return;
                 
-                // Show dialog
-                showChangeDialog();
+                // Show dialogs for changed tabs
+                for (path in changedPaths) {
+                    tab = changedPaths[path].tab;
+                    data = changedPaths[path].data;
+                    showChangeDialog(tab, data);
+                }
             }
             
             function checkByStatOrContents() {
