@@ -368,7 +368,7 @@ define(function(require, exports, module) {
                 if (all) {
                     for (var id in changedPaths) {
                         changedPaths[id].tab.document.undoManager.bookmark(-2);
-                        changedPaths[id].resolve(path);
+                        changedPaths[id].resolve(id);
                     }
                 }
                 else {
