@@ -13,8 +13,11 @@ function plugin(options, imports, register) {
     var db = imports.db;
     var fs = require("fs");
     var child_process = require("child_process");
+    var async = require("async");
+    var https = require("https");
+    var os = require("os");
     
-    function init(callback) {
+    function initHosts(callback) {
         db.DockerHost.findAll(function(err, servers) {
             if (err) return callback(err);
             
@@ -37,8 +40,34 @@ function plugin(options, imports, register) {
             });
         });
     }
+    
+    function checkPublic(callback) {
+        https.request({ host: options.host, path: "/" }, function(res) {
+            res.on("data", function() {
+                // Required handler
+            }).on("end", function() {
+                if (res.statusCode === 302)
+                    return done(new Error("Please make sure your hosted Cloud9 workspace is public"));
+                done();
+            });
+        }).on("error", function(err) {
+            done(new Error("Error connecting to your hosted workspace: " + err.message));
+        }).on("timeout", function(err) {
+            done(new Error("Error connecting to your hosted workspace: " + err.message));
+        }).end();
+        
+        function done(err) {
+            if (!callback)
+                return;
+            callback(err);
+            callback = null;
+        }
+    }
 
-    init(function(err) {
+    async.series([
+        initHosts,
+        checkPublic,
+    ], function(err) {
         register(err, {
             "onlinedev_helper": {}
         });
