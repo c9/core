@@ -187,10 +187,10 @@ define(function(require, exports, module) {
             }
             
             function resolve() {
-                console.log("[watchers] resolved change event without dialog", this.tab.path);
+                console.log("[watchers] resolved change event without dialog", path);
                 doc.tab.classList.remove("conflict");
                 delete doc.meta.$merge;
-                delete changedPaths[this.tab.path];
+                delete changedPaths[path];
             }
 
             var doc = tab.document;
@@ -233,9 +233,9 @@ define(function(require, exports, module) {
                     return;
                 
                 // Show dialogs for changed tabs
-                for (path in changedPaths) {
-                    tab = changedPaths[path].tab;
-                    data = changedPaths[path].data;
+                for (var changedPath in changedPaths) {
+                    tab = changedPaths[changedPath].tab;
+                    data = changedPaths[changedPath].data;
                     showChangeDialog(tab, data);
                 }
             }
