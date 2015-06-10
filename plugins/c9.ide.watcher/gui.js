@@ -186,11 +186,11 @@ define(function(require, exports, module) {
                 return;
             }
             
-            function resolve(path) {
+            function resolve() {
                 console.log("[watchers] resolved change event without dialog", path);
                 doc.tab.classList.remove("conflict");
                 delete doc.meta.$merge;
-                delete changedPaths[path];
+                delete changedPaths[this.tab.path];
             }
 
             var doc = tab.document;
@@ -340,12 +340,12 @@ define(function(require, exports, module) {
             var doc = tab.document;
             doc.setBookmarkedValue(data, true);
             doc.meta.timestamp = Date.now() - settings.timeOffset;
-            changedPaths[path].resolve(path);
+            changedPaths[path].resolve();
         }
         
         function mergeChangedPath(err, path, data) {
             merge(changedPaths[path].tab, data);
-            changedPaths[path].resolve(path);
+            changedPaths[path].resolve();
         }
         
         function showChangeDialog(tab, data) {
@@ -368,12 +368,12 @@ define(function(require, exports, module) {
                 if (all) {
                     for (var id in changedPaths) {
                         changedPaths[id].tab.document.undoManager.bookmark(-2);
-                        changedPaths[id].resolve(id);
+                        changedPaths[id].resolve();
                     }
                 }
                 else {
                     changedPaths[path].tab.document.undoManager.bookmark(-2);
-                    changedPaths[path].resolve(path);
+                    changedPaths[path].resolve();
                 }
                 checkEmptyQueue();
             }
