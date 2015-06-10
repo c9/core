@@ -187,7 +187,7 @@ define(function(require, exports, module) {
             }
             
             function resolve() {
-                console.log("[watchers] resolved change event without dialog", path);
+                console.log("[watchers] resolved change event without dialog", this.tab.path);
                 doc.tab.classList.remove("conflict");
                 delete doc.meta.$merge;
                 delete changedPaths[this.tab.path];
