@@ -65,8 +65,8 @@ function main(argv, config, onLoaded) {
     var configs = options.argv._;
     if (!configs.length) 
         configs = [config || DEFAULT_CONFIG];
-    if (options.exclude && !options.exclude.length)
-        options.exclude = [options.exclude];
+    if (options.argv.exclude && !Array.isArray(options.argv.exclude.length))
+        options.argv.exclude = [options.argv.exclude];
     
     var expanded = expandShortCuts(configs);
     if (expanded.length > configs.length)
@@ -83,7 +83,7 @@ function main(argv, config, onLoaded) {
     
     function startConfigs(configs, done) {
         async.each(configs, function(config, next) {
-            if (options.exclude && options.exclude.indexOf(config) > -1)
+            if (options.argv.exclude && options.argv.exclude.indexOf(config) > -1)
                 return next();
             start(config, options, function(err, result) {
                 onLoaded && onLoaded(err, result);
