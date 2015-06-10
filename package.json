@@ -90,8 +90,8 @@
         "c9.ide.help.support": "#6bcfa8ceff",
         "c9.ide.imgeditor": "#ed89162aa7",
         "c9.ide.immediate": "#6845a93705",
-        "c9.ide.installer": "#dbfbb98527",
-        "c9.ide.mount": "#250f8d91a2",
+        "c9.ide.installer": "#c36540bd61",
+        "c9.ide.mount": "#3e90feee2e",
         "c9.ide.navigate": "#f358997d93",
         "c9.ide.newresource": "#f1f0624768",
         "c9.ide.openfiles": "#28a4f5af16",
@@ -103,7 +103,7 @@
         "c9.ide.recentfiles": "#7c099abf40",
         "c9.ide.remote": "#301d2ab519",
         "c9.ide.processlist": "#bc11818bb5",
-        "c9.ide.run": "#0bd1d664fb",
+        "c9.ide.run": "#9d632b19c0",
         "c9.ide.run.build": "#ad45874c88",
         "c9.ide.run.debug.xdebug": "#3b1520f83d",
         "c9.ide.save": "#a03709ef3f",
@@ -112,6 +112,6 @@
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
         "c9.ide.upload": "#0bd010d3dc",
-        "c9.ide.welcome": "#b4be5c22a5"
+        "c9.ide.welcome": "#a0f004e3bd"
     }
 }
