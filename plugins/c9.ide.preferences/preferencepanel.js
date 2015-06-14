@@ -217,19 +217,24 @@ define(function(require, module, exports) {
                         .addNavigation(caption, index, heading.navHtml, plugin);
                         
                     subHeadings[caption] = { navHtml: htmlNode, index: index };
+                    htmlNode.$caption = caption;
                     
-                    htmlNode.addEventListener("mousedown", function(){
-                        apf.tween.single(container.$int, {
-                            type: "scrollTop",
-                            steps: 10,
-                            anim: apf.tween.easeInOutCubic,
-                            from: container.$int.scrollTop,
-                            to: form.headings[caption].container.$ext.offsetTop
-                        })
-                    });
+                    htmlNode.addEventListener("mousedown", scrollTo.bind(null, caption));
                 }
                 
                 return subHeadings[caption];
+            }
+            
+            function scrollTo(caption) {
+                if (!form.headings[caption])
+                    return;
+                apf.tween.single(container.$int, {
+                     type: "scrollTop",
+                    steps: 10,
+                    anim: apf.tween.easeInOutCubic,
+                    from: container.$int.scrollTop,
+                    to: form.headings[caption].container.$ext.offsetTop
+                })
             }
             
             /***** LifeCycle *****/
@@ -322,6 +327,10 @@ define(function(require, module, exports) {
              */
             plugin.freezePublicAPI({
                 /**
+                 * @ignore.
+                 */
+                get section() { return lastA && lastA.$caption; },
+                /**
                  * The APF UI element that is presenting the pane in the UI.
                  * This property is here for internal reasons only. *Do not 
                  * depend on this property in your plugin.*
@@ -394,6 +403,10 @@ define(function(require, module, exports) {
                  */
                 show: show,
                 
+                /**
+                 * Scrolls to a subheading.
+                 */
+                scrollTo: scrollTo,
                 /**
                  * Hides the panel.
                  */
