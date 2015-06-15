@@ -91,9 +91,18 @@ module.exports = function(config, optimist) {
 
     var isLocalhost = host == "localhost" || host == "127.0.0.1";
     if (!/:/.test(argv.auth) && !isLocalhost) {
-        console.log("Authentication is required when not running on localhost.\nPlease use -a user:pass or --listen localhost to listen locally.");
-        console.log("switching to localhost");
+        console.log("Authentication is required when not running on localhost.");
+        console.log("If you would like to expose this service to other hosts or the Internet");
+        console.log("at large, please specify -a user:pass to set a username and password");
+        console.log("(or use -a : to force no login).");
+        console.log("Use --listen localhost to only listen on the localhost interface and");
+        console.log("and suppress this message.\n");
         host = config.host = "127.0.0.1";
+    }
+    if (/:/.test(argv.auth) && !isLocalhost && !process.env.C9_HOSTNAME) {
+        console.log("Warning: running Cloud9 without using HTTP authentication.");
+        console.log("Run using --listen localhost instead to only expose Cloud9 to localhost,");
+        console.log("or use -a username:password to setup HTTP authentication\n");
     }
     var auth = (argv.auth || ":").split(":");
 
