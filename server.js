@@ -85,8 +85,8 @@ function main(argv, config, onLoaded) {
         async.each(configs, function(config, next) {
             if (options.argv.exclude && options.argv.exclude.indexOf(config) > -1)
                 return next();
-            start(config, options, function(err, result) {
-                onLoaded && onLoaded(err, result);
+            start(config, options, function(err, result, path) {
+                onLoaded && onLoaded(err, result, path);
                 next(err);
             });
         }, done);
@@ -123,8 +123,9 @@ function start(configName, options, callback) {
     if (argv.domain) {
         settings.c9.domain = argv.domain;
         for (var s in settings) {
-            settings[s].baseUrl = settings[s].baseUrl
-                && settings[s].baseUrl.replace(/[^./]+\.[^.]+$/, argv.domain);
+            if (settings[s])
+                settings[s].baseUrl = settings[s].baseUrl
+                    && settings[s].baseUrl.replace(/[^./]+\.[^.]+$/, argv.domain);
         }
     }
 
