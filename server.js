@@ -125,7 +125,7 @@ function start(configName, options, callback) {
         for (var s in settings) {
             if (settings[s])
                 settings[s].baseUrl = settings[s].baseUrl
-                    && settings[s].baseUrl.replace(/[^./]+\.[^.]+$/, argv.domain);
+                    && settings[s].baseUrl.replace(/[^./]+\.[^.\/]+/, argv.domain);
         }
     }
 
