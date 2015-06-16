@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+set -e
+
 while [ "$1" ]; do
   case "$1" in
     --compress) COMPRESS=1 ;;
@@ -19,6 +21,7 @@ case "$uname" in
     FreeBSD\ *) os=freebsd ;;
     CYGWIN*) os=windows ;;
     MINGW*) os=windows ;;
+    MSYS_NT*) os=windows ;;
 esac
 case "$uname" in
     *x86_64*) arch=x64 ;;
@@ -69,24 +72,32 @@ if [ "$os" == "darwin" ]; then
 fi
 
 if [ "$os" == "windows" ]; then
-    NODE_VERSION=v0.10.25
-    NW_VERSION=v0.9.2
-    
+    NODE_VERSION=v0.12.2
+    NW_VERSION=v0.12.2
+    # TODO find a more reliable place to put c9 dependencies
+    HOME="$HOMEDRIVE$HOMEPATH"
     pushd build
-    if [ ! -f node.exe ]; then
+    if [ ! -f "$HOME/.c9/"node.exe ] || [ ! -d "$HOME/.c9/"msys ]; then
         echo "downloading node"
-        curl -OL http://nodejs.org/dist/$NODE_VERSION/node.exe
+        pushd "$HOME/.c9/"
+        curl -L https://raw.githubusercontent.com/cloud9ide/sdk-deps-win32/master/install.sh | bash
+        # bash $SOURCE/../sdk-deps-win32/install.sh # for testing
+        popd
     fi
-    if [ ! -f node-webkit-$NW_VERSION-win-ia32.zip ]; then
+    
+    NW_FILE_NAME=nwjs-$NW_VERSION-win-ia32
+    if [ ! -f $NW_FILE_NAME.zip ]; then
         echo "downloading node-webkit"
-        curl -OL http://dl.node-webkit.org/$NW_VERSION/node-webkit-$NW_VERSION-win-ia32.zip
+        curl -OL http://dl.nwjs.io/$NW_VERSION/$NW_FILE_NAME.zip
     fi
     
     dest=win32-dev/bin
     mkdir -p $dest
     
-    unzip node-webkit-$NW_VERSION-win-ia32.zip -d $dest
-    cp node.exe $dest
+    unzip -uo $NW_FILE_NAME.zip -d win32-dev
+    rm -rf $dest
+    mv win32-dev/$NW_FILE_NAME $dest
+    # cp node.exe $dest
     mv $dest/nw.exe $dest/Cloud9.exe
     
     cp win32/icon.png $dest
@@ -102,6 +113,30 @@ if [ "$os" == "windows" ]; then
     ' > $dest/package.json
 
     popd
+    # create shortcuts
+    echo '
+        var WshShell = WScript.CreateObject("WScript.Shell");
+        var strDesktop = WshShell.SpecialFolders("Desktop");
+        var cwd = WScript.ScriptFullName.replace(/\\[^\\]+$/, "");
+        var link1 = WshShell.CreateShortcut(cwd + "\\Cloud9#.lnk");
+        link1.TargetPath = cwd + "\\build\\win32-dev\\bin\\Cloud9.exe";
+        link1.IconLocation = cwd + "\\build\\win32\\Cloud9.ico";
+        link1.Description = "Cloud9";
+        link1.WorkingDirectory = cwd;
+        link1.Save();
+
+        var link2 = WshShell.CreateShortcut(cwd + "\\Cloud9#packed.lnk");
+        link2.TargetPath = link1.TargetPath;
+        link2.Arguments = "--packed --no-devtools";
+        link2.IconLocation = link1.IconLocation;
+        link2.Description = "Cloud9";
+        link2.WorkingDirectory = cwd;
+        link2.Save();
+        ' > ./shortcut.wscript.js
+    cscript //NoLogo //B //E:jscript ./shortcut.wscript.js
+    rm -f ./shortcut.wscript.js
+    
+    bash ./makelocal.sh
 fi
 
 

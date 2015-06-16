@@ -64,13 +64,14 @@ define(function(require, exports, module) {
                 bindKey: { mac: "Command-,", win: "Ctrl-," },
                 exec: function (editor, args) {
                     var tab = tabs.focussedTab;
-                    if (tab && tab.editor.type == "preferences" && !args.panel) {
+                    var toggle = args.toggle || args.source == "click";
+                    if (tab && tab.editor.type == "preferences" && toggle) {
                         tab.close();
                         return;
                     }
                     if (focusOpenPrefs()) {
                         if (args.panel)
-                            activate(args.panel);
+                            activate(args.panel, args.section);
                         
                         return;
                     }
@@ -80,7 +81,7 @@ define(function(require, exports, module) {
                         active: true
                     }, function(){
                         if (args.panel)
-                            activate(args.panel);
+                            activate(args.panel, args.section);
                     });
                 }
             }, handle);
@@ -139,7 +140,6 @@ define(function(require, exports, module) {
             // Create UI elements
             parent = e.tab.appendChild(new ui.hsplitbox({
                 "class"      : "bar-preferences",
-                //"skinset"    : "prefs",
                 "anchors"    :  "0 0 0 0",
             }));
             parent.appendChild(navigation);
@@ -181,17 +181,31 @@ define(function(require, exports, module) {
             return htmlNode;
         }
         
-        function activate(panel) {
+        function activate(panel, section) {
             if (!drawn) {
                 if (!activePanel)
                     handle.once("draw", function(){ activate(activePanel); });
                 activePanel = panel;
                 return;
             }
-            
+            if (typeof panel == "string") {
+                var panels = navigation && navigation.$ext && navigation.$ext.children;
+                if (panels) {
+                    for (var i = 0; i < panels.length; i++) {
+                        if (panels[i].name == panel) {
+                            panel = panels[i].hostPlugin;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!panel || !panel.show)
+                return console.error("Couldn't find preference panel", panel);
             if (activePanel && activePanel != panel)
                 activePanel.hide();
             panel.show(!activePanel);
+            if (section)
+                panel.scrollTo(section);
             activePanel = panel;
         }
         
@@ -322,18 +336,10 @@ define(function(require, exports, module) {
             
             plugin.on("getState", function(e) {
                 e.state.activePanel = activePanel && activePanel.name;
+                e.state.section = activePanel && activePanel.section;
             });
             plugin.on("setState", function(e) {
-                var name = e.state.activePanel;
-                if (activePanel && activePanel.name == name)
-                    return;
-                var panels = navigation && navigation.$ext && navigation.$ext.children;
-                if (panels) {
-                    for (var i = 0; i < panels.length; i++) {
-                        if (panels[i].name == name)
-                            return activate(panels[i].hostPlugin);
-                    }
-                }
+                activate(e.state.activePanel, e.state.section);
             });
             
             /***** Lifecycle *****/

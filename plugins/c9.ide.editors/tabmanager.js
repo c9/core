@@ -35,7 +35,7 @@ define(function(require, module, exports) {
         var loadFilesAtInit = options.loadFilesAtInit;
         
         var PREFIX = "/////";
-        var XPREVIEW = /(tar\.gz|tar|tgz|zip)$/;
+        var XPREVIEW = /\.(gz|tar|tgz|zip|rar|jar|exe|pyc|pdf)$/;
         
         var unfocussed = true;
         var showTabs = true;

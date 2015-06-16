@@ -59,7 +59,7 @@ define(function(require, exports, module) {
         }
         
         function pad(str, nr){
-            return str + Array(nr - str.length).join(" ");
+            return str + Array(Math.max(0, nr - str.length)).join(" ");
         }
         
         function list(asJson, callback){

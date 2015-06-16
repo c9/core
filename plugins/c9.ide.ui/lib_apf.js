@@ -29363,7 +29363,7 @@ apf.aml.setElement("colorbox", apf.colorbox);
  * @private
  */
 apf.WinServer = {
-    count: 900000,
+    count: 150000,
     wins: [],
 
     setTop: function(win, norecur) {

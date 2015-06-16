@@ -67,6 +67,8 @@ define(function(require, exports, module) {
             console.error(exception);
             if (customData)
                 console.log(customData);
+            if (!exception.stack)
+                exception.stack = new Error().stack;
             Raygun.send(exception, customData, tags);
         }
         

@@ -69,10 +69,10 @@ define(function(require, exports, module) {
                 }
             }, handle);
             
-            menus.addItemByPath("Cloud9/~", new ui.divider(), 1000, handle);
-            menus.addItemByPath("Cloud9/Package Browser", new ui.item({
-                command: "openpackagebrowser"
-            }), 1100, handle);
+            // menus.addItemByPath("Cloud9/~", new ui.divider(), 1000, handle);
+            // menus.addItemByPath("Cloud9/Package Browser", new ui.item({
+            //     command: "openpackagebrowser"
+            // }), 1100, handle);
         });
         
         /***** Methods *****/

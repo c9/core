@@ -1,3 +1,7 @@
+/**
+ * Watcher
+ * Watches files and folders for changes and notifies the rest of the system when they happen. 
+ **/
 define(function(require, exports, module) {
     main.consumes = ["c9", "Plugin", "fs"];
     main.provides = ["watcher"];

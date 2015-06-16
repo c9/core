@@ -225,15 +225,13 @@ module.exports = function(c9, proc, installPath, shell) {
                 }
             });
             
-            var buffer = "";
-            session.pty.started = c9.platform == "win32";
             session.pty.on("data", function(data) {
                 if (!disregarded) {
                     if (typeof data == "object") {
                         if (data.started)
-                            return (session.pty.started = true);
+                            return;
                         else if (data.code) {
-                            if (data.type == "exception") { //Error
+                            if (data.type == "exception") { // Error
                                 session.disregard();
                                 console.error("Error creating TMUX session: ", err.message);
                                 session.setState("error");
@@ -244,15 +242,6 @@ module.exports = function(c9, proc, installPath, shell) {
                         }
                         else
                             return session.setSize(data);
-                    }
-                        
-                    if (!options.attach && !session.pty.started) {
-                        buffer += data;
-                        if (buffer.indexOf("Set option: c0-change-trigger -> 0 ") > -1) {
-                            session.pty.started = true;
-                            data = buffer.replace(/^[\s\S]*Set option: c0-change-trigger -> 0 /, "");
-                        }
-                        else return;
                     }
                     
                     if (session.filter)

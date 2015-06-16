@@ -159,7 +159,14 @@ define(function(require, exports, module) {
                     } 
                     else {
                         dryRun = true;
-                        publish({local: true}, function(){});
+                        publish({local: true}, function(err){
+                            if (err) {
+                                console.error(err);
+                                if (!verbose)
+                                    console.error("\nTry running with --verbose flag for more information");
+                                process.exit(1);
+                            }
+                        });
                     }
                 }
             });
@@ -196,6 +203,32 @@ define(function(require, exports, module) {
         }
 
         /***** Methods *****/
+        
+        function spawn(command, options, callback) {
+            if (options.stdio == null) {
+                // if verbose, echo stdout
+                // always echo stderr
+                options.stdio = [
+                    "pipe",
+                    verbose ? process.stdout : "ignore",
+                    process.stderr
+                ];
+            }
+            
+            proc.spawn(command, options, function(err, child) {
+                if (err) return callback(err);
+                
+                child.on("exit", function(code) {
+                    if (code !== 0) {
+                        var error = new Error("Command failed: " + command);
+                        error.code = code;
+                        return callback(error);
+                    }
+                    
+                    callback();
+                });
+            });
+        }
         
         function stringifyError(err){
             return (verbose ? JSON.stringify(err, 4, "    ") : (typeof err == "string" ? err : err.message));
@@ -270,8 +303,8 @@ define(function(require, exports, module) {
                         warned = true;
                     }
                     else if (!fs.existsSync(join(cwd, name.replace(/\.js$/, "_test.js")))) {
-                        console.warn("ERROR: Plugin '" + name + "' has no test associated with it. There must be a file called '" + name + "_test.js' containing tests.");
-                        failed = true;
+                        console.warn("ERROR: Plugin '" + name + "' has no test associated with it. There must be a file called '" + name.replace(/\.js$/, "") + "_test.js' containing tests.");
+                        warned = true;
                     }
                 });
                 
@@ -370,9 +403,18 @@ define(function(require, exports, module) {
                                 }
                                 if (files.indexOf("modes") != -1) {
                                     forEachFile(cwd + "/modes", function(filename, data) {
-                                        if (/(?:_highlight_rules|_test|_worker|_fold|_behaviou?r).js$/.test(filename))
+                                        if (/(?:_highlight_rules|_test|_worker|_fold|_behaviou?r)\.js$/.test(filename))
                                             return;
-                                        var firstLine = data.split("\n", 1)[0];
+                                        if (!/\.js$/.test(filename))
+                                            return;
+                                        var firstLine = data.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
+                                        
+                                        if (!/caption\s*:[^;]+/i.test(firstLine)) {
+                                            packedFiles.push(cwd + "/modes/" + filename);
+                                            console.error("Ignoring mode with invalid header: ", firstLine);
+                                            console.error("    at " + cwd + "/modes/" + filename);
+                                            return;
+                                        }
                                         extraCode.push({
                                             type: "modes",
                                             filename: filename,
@@ -513,7 +555,12 @@ define(function(require, exports, module) {
                             additional.push({
                                 id: path,
                                 source: 'define("' + path + '", [],' + 
-                                    JSON.stringify(packedConfig, null, 4) + ');',
+                                    JSON.stringify(packedConfig.map(function(p) {
+                                        var name = p.slice(p.lastIndexOf("/") + 1)
+                                        var options = json.plugins[name] || {};
+                                        options.packagePath = p;
+                                        return options;
+                                    }), null, 4) + ');',
                                 literal : true,
                                 order: -1
                             });
@@ -542,7 +589,7 @@ define(function(require, exports, module) {
                         },
                         function(next) {
                             if (options.local)
-                                fs.writeFile(cwd + "__installed__.js", result.code, "utf8", callback);
+                                return fs.writeFile(cwd + "/__installed__.js", result.code, "utf8", callback);
                             next();
                         },
                         function(next) {
@@ -594,32 +641,19 @@ define(function(require, exports, module) {
                             tarArgs.push("--exclude-from=" + c9ignore);
                         }
                         tarArgs.push(".");
-                        proc.spawn(TAR, {
+                        spawn(TAR, {
                             args: tarArgs,
                             cwd: cwd + "/.c9/.build"
-                        }, function(err, p){
-                            if (err) return callback(err);
+                        }, function(err){
+                            if (err)
+                                return callback(new Error("ERROR: Could not package directory"));
+                                
+                            console.log("Built package", json.name + "@" + json.version +
+                                (dryRun ? " at " + zipFilePath : ""));
                             
-                            if (verbose) {
-                                p.stdout.on("data", function(c){
-                                    process.stdout.write(c.toString("utf8"));
-                                });
-                                p.stderr.on("data", function(c){
-                                    process.stderr.write(c.toString("utf8"));
-                                });
-                            }
+                            if (dryRun) return callback();
                             
-                            p.on("exit", function(code){
-                                if (code !== 0)
-                                    return callback(new Error("ERROR: Could not package directory"));
-                                
-                                console.log("Built package", json.name + "@" + json.version +
-                                    (dryRun ? " at " + zipFilePath : ""));
-                                
-                                if (dryRun) return callback();
-                                
-                                upload();
-                            });
+                            upload();
                         });
                     });
                 }
@@ -739,28 +773,12 @@ define(function(require, exports, module) {
                     if (!createTag)
                         callback(null, json);
                                 
-                    proc.spawn("bash", {
+                    spawn("bash", {
                         args: ["-c", SHELLSCRIPT, "--", json.version, normalizePath(packagePath)]
                     }, function(err, p){
-                        if (err) return callback(err);
-                        
-                        if (verbose) {
-                            p.stdout.on("data", function(c){
-                                process.stdout.write(c.toString("utf8"));
-                            });
-                            p.stderr.on("data", function(c){
-                                process.stderr.write(c.toString("utf8"));
-                            });
-                        }
-                        
-                        p.on("exit", function(code, stderr, stdout){
-                            if (code !== 0) 
-                                return callback(new Error("ERROR: publish failed with exit code " + code));
-                            
-                            console.log("Created tag and updated package.json to version", json.version);
-                            
-                            callback(null, json);
-                        });
+                        if (err) return callback(err);                            
+                        console.log("Created tag and updated package.json to version", json.version);                            
+                        callback(null, json);
                     });
                 }
             });

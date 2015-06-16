@@ -100,7 +100,7 @@ var Autocomplete = function() {
             var rect = editor.container.getBoundingClientRect();
             pos.top += rect.top - renderer.layerConfig.offset;
             pos.left += rect.left - editor.renderer.scrollLeft;
-            pos.left += renderer.$gutterLayer.gutterWidth;
+            pos.left += renderer.gutterWidth;
 
             this.popup.show(pos, lineHeight);
         } else if (keepPopupPosition && !prefix) {
@@ -142,10 +142,11 @@ var Autocomplete = function() {
         // we have to check if activeElement is a child of popup because
         // on IE preventDefault doesn't stop scrollbar from being focussed
         var el = document.activeElement;
-        var text = this.editor.textInput.getElement()
-        if (el != text && ( !this.popup || el.parentNode != this.popup.container )
-            && el != this.tooltipNode && e.relatedTarget != this.tooltipNode
-            && e.relatedTarget != text
+        var text = this.editor.textInput.getElement();
+        var fromTooltip = e.relatedTarget && e.relatedTarget == this.tooltipNode;
+        var container = this.popup && this.popup.container;
+        if (el != text && el.parentNode != container && !fromTooltip
+            && el != this.tooltipNode && e.relatedTarget != text
         ) {
             this.detach();
         }
@@ -349,7 +350,7 @@ var Autocomplete = function() {
             doc = selected;
 
         if (typeof doc == "string")
-            doc = {docText: doc}
+            doc = {docText: doc};
         if (!doc || !(doc.docHTML || doc.docText))
             return this.hideDocTooltip();
         this.showDocTooltip(doc);
@@ -416,7 +417,7 @@ Autocomplete.startCommand = {
     bindKey: "Ctrl-Space|Ctrl-Shift-Space|Alt-Space"
 };
 
-var FilteredList = function(array, filterText, mutateData) {
+var FilteredList = function(array, filterText) {
     this.all = array;
     this.filtered = array;
     this.filterText = filterText || "";

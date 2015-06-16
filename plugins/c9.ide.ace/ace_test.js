@@ -526,6 +526,21 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     expect.html(doc.tab).text("50");
                     done();
                 });
+                it('should not loose undomanager state', function(done) {
+                    var u = editor.activeDocument.undoManager;
+                    u.setState({mark: -1, position: -1, stack: []});
+                    var state = u.getState();
+                    expect(state.mark).to.equal(-1);
+                    expect(state.position).to.equal(-1);
+                    expect(state.stack.length).to.equal(0);
+                    
+                    u.setState({mark: -2, position: -1, stack: []});
+                    state = u.getState();
+                    expect(state.mark).to.equal(-2);
+                    expect(state.position).to.equal(-1);
+                    expect(state.stack.length).to.equal(0);
+                    done();
+                });
             });
             
             // @todo test split api and menu

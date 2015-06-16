@@ -102,6 +102,9 @@ define(function(require, exports, module) {
             
             save.on("beforeSave", function(e) {
                 e.document.meta.$savingValue = e.save;
+                if (e.tab.classList.contains("conflict")) {
+                    showChangeDialog(e.tab);
+                }
             }, plugin);
             
             save.on("afterSave", function(e) {
@@ -229,8 +232,12 @@ define(function(require, exports, module) {
                 if (!tabManager.findTab(path)) // drat! tab is gone
                     return;
                 
-                // Show dialog
-                showChangeDialog();
+                // Show dialogs for changed tabs
+                for (var changedPath in changedPaths) {
+                    tab = changedPaths[changedPath].tab;
+                    data = changedPaths[changedPath].data;
+                    showChangeDialog(tab, data);
+                }
             }
             
             function checkByStatOrContents() {
@@ -367,9 +374,7 @@ define(function(require, exports, module) {
                 else {
                     changedPaths[path].tab.document.undoManager.bookmark(-2);
                     changedPaths[path].resolve();
-                    showChangeDialog();
                 }
-                
                 checkEmptyQueue();
             }
             
@@ -382,7 +387,6 @@ define(function(require, exports, module) {
                 else {
                     getLatestValue(path, function(err, path, data) {
                         updateChangedPath(err, path, data);
-                        showChangeDialog();
                     });
                 }
                 
@@ -408,7 +412,6 @@ define(function(require, exports, module) {
         
                             getLatestValue(path, function(err, path, data) {
                                 mergeChangedPath(err, path, data);
-                                showChangeDialog();
                             });
                         }
                         

@@ -245,7 +245,7 @@ define(function(require, exports, module) {
         
         function setDefault(name, keys) {
             var command = commands[name];
-            
+            if (!command) return;
             // If bind key is not yet overridden by a custom one
             if (plugin.commandManager[name] == command.bindKey[platform])
                 bindKey(keys[platform], command);
@@ -315,7 +315,6 @@ define(function(require, exports, module) {
                     passEvent: true,
                     exec: function(){}
                 },
-                commands.togglepreferences,
                 commands.openpreferences,
                 commands.passKeysToBrowser,
                 commands.find,

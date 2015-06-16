@@ -12,9 +12,12 @@ module.exports = function(manifest, installPath) {
     
     var workspaceDir = path.resolve(__dirname + "/../");
     var sdk = !manifest.sdk;
+    var win32 = process.platform == "win32";
     
-    if (process.platform == "win32" && process.env.HOME === undefined) {
+    if (win32 && process.env.HOME === undefined) {
         process.env.HOME = process.env.HOMEDRIVE + process.env.HOMEPATH;
+        if (!/msys\/bin|Git\/bin/.test(process.env.PATH))
+            process.env.PATH = path.join(process.env.HOME, ".c9", "msys/bin") + ";" + process.env.PATH;
     }
     
     var home = process.env.HOME;
@@ -49,7 +52,7 @@ module.exports = function(manifest, installPath) {
         tmux: path.join(installPath, "bin/tmux"),
         nakBin: path.join(__dirname, "../node_modules/nak/bin/nak"),
         bashBin: "bash",
-        nodeBin: [process.execPath],
+        nodeBin: [path.join(installPath, win32 ? "node.exe" : "node/bin/node"), process.execPath],
         installPath: installPath,
         correctedInstallPath: correctedInstallPath,
         staticPrefix: "/static",
@@ -133,7 +136,7 @@ module.exports = function(manifest, installPath) {
         pricing: { containers: [] },
         zuora: {},
         localExtend: true,
-        extendDirectory: __dirname + "/../plugins/c9.vfs.extend"
+        extendDirectory: __dirname + "/../plugins"
     };
 
     config.extendOptions = {

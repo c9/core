@@ -23,7 +23,7 @@ function plugin(options, imports, register) {
     connect.useStart(function(req, res, next) {
         var d = domain.create();
         d.on("error", function(err) {
-            sendRequestError(errorClient, err, req);
+            sendRequestError(err, req);
             
             // from http://nodejs.org/api/domain.html
             try {
@@ -55,11 +55,19 @@ function plugin(options, imports, register) {
         var domain = socket._httpMessage && socket._httpMessage.domain;
         var req = domain && domain.members[0];
         if (req && req.url)
-            sendRequestError(warningClient, new Error("Request timed out: " + req.url), req);
+            sendRequestWarning(new Error("Request timed out: " + req.url), req);
         
     });
     
-    function sendRequestError(raygunClient, err, req) {
+    function sendRequestError(err, req) {
+        return _sendRequest(errorClient, err, req);
+    }
+    
+    function sendRequestWarning(err, req) {
+        return _sendRequest(warningClient, err, req);
+    }
+    
+    function _sendRequest(raygunClient, err, req) {
         var parsedUrl = url.parse(req.url, false);
         var ip = req.remoteAddress;
 
@@ -90,6 +98,7 @@ function plugin(options, imports, register) {
     }
 
     register(null, {"raygun.connect": {
-        sendRequestError: sendRequestError
+        sendRequestError: sendRequestError,
+        sendRequestWarning: sendRequestWarning
     }});
 }
