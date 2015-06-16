@@ -50,6 +50,7 @@ function getDefaultSettings() {
 module.exports.getDefaultSettings = getDefaultSettings;
 
 function main(argv, config, onLoaded) {
+    var inContainer = require("./settings/devel.js")().inContainer;
     var options = optimist(argv)
         .usage("Usage: $0 [CONFIG_NAME] [--help]")
         .alias("s", "settings")
@@ -58,7 +59,7 @@ function main(argv, config, onLoaded) {
         .describe("dump", "dump config file as JSON")
         .describe("domain", "Top-level domain to use (e.g, c9.io)")
         .describe("exclude", "Exclude specified service")
-        .default("domain", process.env.C9_HOSTNAME)
+        .default("domain", inContainer && process.env.C9_HOSTNAME)
         .boolean("help")
         .describe("help", "Show command line options.");
 
@@ -123,9 +124,8 @@ function start(configName, options, callback) {
     if (argv.domain) {
         settings.c9.domain = argv.domain;
         for (var s in settings) {
-            if (settings[s])
-                settings[s].baseUrl = settings[s].baseUrl
-                    && settings[s].baseUrl.replace(/[^./]+\.[^.]+$/, argv.domain);
+            if (settings[s] && settings[s].baseUrl)
+                settings[s].baseUrl = replaceDomain(settings[s].baseUrl, argv.domain);
         }
     }
 
@@ -172,4 +172,9 @@ function start(configName, options, callback) {
                 plugin.name = name; 
         });
     });
+}
+
+function replaceDomain(uri, domain) {
+    var parsed = url.parse(uri);
+    return url.format(parsed);
 }
