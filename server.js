@@ -125,14 +125,8 @@ function start(configName, options, callback) {
     if (argv.domain) {
         settings.c9.domain = argv.domain;
         for (var s in settings) {
-<<<<<<< HEAD
-            if (settings[s])
-                settings[s].baseUrl = settings[s].baseUrl
-                    && settings[s].baseUrl.replace(/[^./]+\.[^.\/]+/, argv.domain);
-=======
             if (settings[s] && settings[s].baseUrl)
                 settings[s].baseUrl = replaceDomain(settings[s].baseUrl, argv.domain);
->>>>>>> origin/master
         }
     }
 
