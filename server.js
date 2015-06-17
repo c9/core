@@ -50,12 +50,8 @@ function getDefaultSettings() {
 module.exports.getDefaultSettings = getDefaultSettings;
 
 function main(argv, config, onLoaded) {
-    
-    var defaultDomain = "";
-    if (process.env.C9_HOSTNAME && process.env.C9_HOSTNAME.match(/-\d+$/)) {
-        defaultDomain = process.env.C9_HOSTNAME;
-    }
-        
+    var inContainer = require("./settings/devel.js")().inContainer;
+
     var options = optimist(argv)
         .usage("Usage: $0 [CONFIG_NAME] [--help]")
         .alias("s", "settings")
@@ -129,9 +125,14 @@ function start(configName, options, callback) {
     if (argv.domain) {
         settings.c9.domain = argv.domain;
         for (var s in settings) {
+<<<<<<< HEAD
             if (settings[s])
                 settings[s].baseUrl = settings[s].baseUrl
                     && settings[s].baseUrl.replace(/[^./]+\.[^.\/]+/, argv.domain);
+=======
+            if (settings[s] && settings[s].baseUrl)
+                settings[s].baseUrl = replaceDomain(settings[s].baseUrl, argv.domain);
+>>>>>>> origin/master
         }
     }
 
@@ -178,4 +179,8 @@ function start(configName, options, callback) {
                 plugin.name = name; 
         });
     });
+}
+
+function replaceDomain(url, domain) {
+    return url.replace(/[^./]+\.[^./]+$/, domain).replace(/[^./]+\.[^.]+\//, domain + "/");
 }
