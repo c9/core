@@ -50,6 +50,12 @@ function getDefaultSettings() {
 module.exports.getDefaultSettings = getDefaultSettings;
 
 function main(argv, config, onLoaded) {
+    
+    var defaultDomain = "";
+    if (process.env.C9_HOSTNAME && process.env.C9_HOSTNAME.match(/-\d+$/)) {
+        defaultDomain = process.env.C9_HOSTNAME;
+    }
+        
     var options = optimist(argv)
         .usage("Usage: $0 [CONFIG_NAME] [--help]")
         .alias("s", "settings")
@@ -58,7 +64,7 @@ function main(argv, config, onLoaded) {
         .describe("dump", "dump config file as JSON")
         .describe("domain", "Top-level domain to use (e.g, c9.io)")
         .describe("exclude", "Exclude specified service")
-        .default("domain", process.env.C9_HOSTNAME)
+        .default("domain", defaultDomain)
         .boolean("help")
         .describe("help", "Show command line options.");
 
