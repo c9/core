@@ -174,7 +174,6 @@ function start(configName, options, callback) {
     });
 }
 
-function replaceDomain(uri, domain) {
-    var parsed = url.parse(uri);
-    return url.format(parsed);
+function replaceDomain(url, domain) {
+    return url.replace(/[^./]+\.[^./]+$/, domain).replace(/[^./]+\.[^.]+\//, domain + "/");
 }
