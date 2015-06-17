@@ -10,6 +10,7 @@ var path = require("path");
 var architect = require("architect");
 var optimist = require("optimist");
 var async = require("async");
+var os = require("os");
 
 if (process.version.match(/^v0/) && parseFloat(process.version.substr(3)) < 10) {
     console.warn("You're using Node.js version " + process.version 
@@ -35,7 +36,7 @@ if (!module.parent)
     main(process.argv.slice(2));
 
 function getDefaultSettings() {
-    var hostname = require("os").hostname();
+    var hostname = os.hostname();
     
     var suffix = hostname.trim().split("-").pop() || "";
     var modes = {
@@ -50,7 +51,7 @@ function getDefaultSettings() {
 module.exports.getDefaultSettings = getDefaultSettings;
 
 function main(argv, config, onLoaded) {
-    var inContainer = require("./settings/devel.js")().inContainer;
+    var inContainer = os.hostname().match(/-\d+$/);
     var options = optimist(argv)
         .usage("Usage: $0 [CONFIG_NAME] [--help]")
         .alias("s", "settings")
