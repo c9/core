@@ -2,7 +2,7 @@ define(function(require, exports, module) {
 
 var modesByName = require("ace/ext/modelist").modesByName;
 
-modesByName.javascript.extensions += "|run|build";
+modesByName.javascript.extensions += "|run|build|outline";
 
 var primaryModes = ["c_cpp","clojure","coffee","csharp","css","dart","golang",
     "html","jade","java","javascript","json","less","lua","perl","php","python",
