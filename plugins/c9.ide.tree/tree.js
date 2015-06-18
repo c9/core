@@ -247,7 +247,7 @@ define(function(require, exports, module) {
             fsCache.model.getTooltipText = function(node) {
                 var size = node.size;
                 return node.label + (node.link ? " => " + node.link  + "\n" : "")
-                    + (size && !node.isFolder ? " | " + (
+                    + (size != undefined && !node.isFolder ? " | " + (
                         size < 0x400 ? size + " bytes" :
                         size < 0x100000 ? (size / 0x400).toFixed(2) + "KB" :
                             (size / 0x100000).toFixed(2) + "MB"
