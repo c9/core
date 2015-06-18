@@ -56,7 +56,7 @@
         "c9"
     ],
     "c9plugins": {
-        "c9.ide.language": "#fa45dc5260",
+        "c9.ide.language": "#2755277da0",
         "c9.ide.language.css": "#ef8a28943e",
         "c9.ide.language.generic": "#32986699ac",
         "c9.ide.language.html": "#bbe81afed1",
@@ -86,7 +86,7 @@
         "c9.ide.configuration": "#adf50fdaa2",
         "c9.ide.dialog.wizard": "#7667ec79a8",
         "c9.ide.fontawesome": "#781602c5d8",
-        "c9.ide.format": "#f51451ac57",
+        "c9.ide.format": "#b0bb91a623",
         "c9.ide.help.support": "#61f5a81d8c",
         "c9.ide.imgeditor": "#ed89162aa7",
         "c9.ide.immediate": "#6845a93705",
@@ -112,6 +112,6 @@
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
         "c9.ide.upload": "#0bd010d3dc",
-        "c9.ide.welcome": "#6dcd8e18d4"
+        "c9.ide.welcome": "#890d055ff6"
     }
 }
