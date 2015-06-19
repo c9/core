@@ -7,7 +7,8 @@ plugin.consumes = [
     "connect.render",
     "connect.render.ejs",
     "connect.remote-address",
-    "vfs.cache"
+    "vfs.cache",
+    "analytics"
 ];
 plugin.provides = [
     "vfs.server"
@@ -34,6 +35,7 @@ function plugin(options, imports, register) {
     var passport = imports.passport;
     var connect = imports.connect;
     var render = imports["connect.render"];
+    var analytics = imports["analytics"];
     
     var Types = require("frontdoor").Types;
     var error = require("http-error");
@@ -43,6 +45,7 @@ function plugin(options, imports, register) {
 
     var section = api.section("vfs");
 
+    var VFS_ACTIVITY_WINDOW = 1000 * 60 * 60;
 
     section.registerType("vfsid", new Types.RegExp(/[a-zA-Z0-9]{16}/));
     section.registerType("pid", new Types.Number(0));
@@ -59,7 +62,6 @@ function plugin(options, imports, register) {
     }, [
         api.ensureAdmin(),
         function(req, res, next) {
-            
             var type = req.params.status.split(".")[1] || "html";
             
             var entries = cache.getAll();
@@ -277,7 +279,7 @@ function plugin(options, imports, register) {
                 err.code = 499;
                 return next(err);
             }
-    
+            trackActivity(entry.user);
             entry.vfs.handleRest(scope, path, req, res, next);
         }
     ]);
@@ -306,10 +308,20 @@ function plugin(options, imports, register) {
                 err.code = 499;
                 return next(err);
             }
-                
+            
             entry.vfs.handleEngine(req, res, next);
         }
     ]);
+    
+    function trackActivity(user) {
+        if (user.lastVfsAccess > Date.now() - VFS_ACTIVITY_WINDOW) return;
+        
+        analytics.identifyClean(user);
+        analytics.trackClean(user, "VFS ACTIVITY");
+        
+        user.lastVfsAccess = Date.now();
+        user.save(function() {});
+    }
 
     register(null, {
         "vfs.server": {
