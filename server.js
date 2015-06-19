@@ -52,6 +52,7 @@ module.exports.getDefaultSettings = getDefaultSettings;
 
 function main(argv, config, onLoaded) {
     var inContainer = os.hostname().match(/-\d+$/);
+    
     var options = optimist(argv)
         .usage("Usage: $0 [CONFIG_NAME] [--help]")
         .alias("s", "settings")
