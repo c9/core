@@ -318,7 +318,7 @@ function plugin(options, imports, register) {
             Date.now() > user.lastVfsAccess + VFS_ACTIVITY_WINDOW) {
             
             analytics.identifyClean(user);
-            analytics.trackClean(user, "VFS ACTIVITY");
+            analytics.trackClean(user, "VFS is active");
             
             user.lastVfsAccess = Date.now();
             user.save(function() {});
