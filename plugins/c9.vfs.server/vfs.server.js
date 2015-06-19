@@ -314,13 +314,15 @@ function plugin(options, imports, register) {
     ]);
     
     function trackActivity(user) {
-        if (user.lastVfsAccess > Date.now() - VFS_ACTIVITY_WINDOW) return;
-        
-        analytics.identifyClean(user);
-        analytics.trackClean(user, "VFS ACTIVITY");
-        
-        user.lastVfsAccess = Date.now();
-        user.save(function() {});
+        if (new Date(user.lastVfsAccess).getDate() != new Date().getDate() || 
+            Date.now() > user.lastVfsAccess + VFS_ACTIVITY_WINDOW) {
+            
+            analytics.identifyClean(user);
+            analytics.trackClean(user, "VFS ACTIVITY");
+            
+            user.lastVfsAccess = Date.now();
+            user.save(function() {});
+        }
     }
 
     register(null, {
