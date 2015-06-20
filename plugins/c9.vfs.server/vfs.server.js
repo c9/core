@@ -279,6 +279,8 @@ function plugin(options, imports, register) {
                 err.code = 499;
                 return next(err);
             }
+            // TODO: use an interval to make sure this fires
+            //       even when this REST api is not used for a day
             trackActivity(entry.user);
             entry.vfs.handleRest(scope, path, req, res, next);
         }
