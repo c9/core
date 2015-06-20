@@ -36,6 +36,7 @@ function plugin(options, imports, register) {
     var connect = imports.connect;
     var render = imports["connect.render"];
     var analytics = imports["analytics"];
+    var async = require("async");
     
     var Types = require("frontdoor").Types;
     var error = require("http-error");
@@ -281,7 +282,7 @@ function plugin(options, imports, register) {
             }
             // TODO: use an interval to make sure this fires
             //       even when this REST api is not used for a day
-            trackActivity(entry.user);
+            trackActivity(entry.user, req.cookies);
             entry.vfs.handleRest(scope, path, req, res, next);
         }
     ]);
@@ -315,12 +316,23 @@ function plugin(options, imports, register) {
         }
     ]);
     
-    function trackActivity(user) {
+    function trackActivity(user, cookies) {
+        if (user.id === -1)
+            return;
+
         if (new Date(user.lastVfsAccess).getDate() != new Date().getDate() || 
             Date.now() > user.lastVfsAccess + VFS_ACTIVITY_WINDOW) {
             
-            analytics.identifyClean(user);
-            analytics.trackClean(user, "VFS is active", { uid: user.id });
+            // Alias anonymous id, identify, and track activity;
+            // wait for a flush between each step; see
+            // https://segment.com/docs/integrations/mixpanel/#server-side
+            async.series([
+                analytics.aliasClean.bind(null, cookies.mixpanelAnonymousId, user.id),
+                analytics.identifyClean.bind(user, {}),
+                analytics.trackClean(user, "VFS is active", { uid: user.id }),
+            ], function(err) {
+                if (err) return console.log("Error logging activity", err.stack || err);
+            });
             
             user.lastVfsAccess = Date.now();
             user.save(function() {});
