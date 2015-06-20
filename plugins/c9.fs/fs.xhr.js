@@ -36,13 +36,20 @@ return function(_request) {
             if (err)
                 return metadata ? callback(err, null, null, res) : callback(err, null, res);
             var hasMetadata = res.headers["x-metadata-length"] != undefined;            
-            if (metadata) {
+            if (metadata || hasMetadata) {
                 var ml = parseInt(res.headers["x-metadata-length"], 10) || 0;
                 var ln = data.length;
+                if (!metadata) {
+                    var $reqHeaders = res.$reqHeaders;
+                    var message = "Unexpected metadata ";
+                    if ($reqHeaders)
+                        message += ($reqHeaders == headers) + $reqHeaders["x-request-metadata"];
+                    console.error($reqHeaders, headers, message);
+                    setTimeout(function() { throw new Error(message); });
+                    return callback(err, data.substr(0, ln - ml), res);
+                }
                 callback(err, data.substr(0, ln - ml), ml && data.substr(-1 * ml) || "", res);
             } else {
-                if (hasMetadata)
-                    throw new Error("Unexpected metadata");
                 callback(err, data, res);
             }
         }, progress, false, headers);

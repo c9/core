@@ -326,7 +326,7 @@ function plugin(options, imports, register) {
 
         if (new Date(user.lastVfsAccess).getDate() != new Date().getDate() || 
             Date.now() > user.lastVfsAccess + VFS_ACTIVITY_WINDOW) {
-            
+
             // Alias anonymous id, identify, and track activity;
             // wait for a flush between each step; see
             // https://segment.com/docs/integrations/mixpanel/#server-side
@@ -337,7 +337,7 @@ function plugin(options, imports, register) {
             ], function(err) {
                 if (err) return console.log("Error logging activity", err.stack || err);
             });
-            
+
             user.lastVfsAccess = Date.now();
             user.save(function() {});
         }
