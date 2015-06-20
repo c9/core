@@ -111,6 +111,8 @@ function plugin(options, imports, register) {
             var version = req.params.version;
             var user = req.user;
             
+            trackActivity(user, req.cookies);
+            
             if (version != kaefer.version.protocol) {
                 var err = new error.PreconditionFailed("Wrong VFS protocol version. Expected version '" + kaefer.version.protocol + "' but found '" + version + "'");
                 err.subtype = "protocol_mismatch";
@@ -198,6 +200,8 @@ function plugin(options, imports, register) {
             var pid = req.params.pid;
             var path = req.params.path;
             var user = req.user;
+            
+            trackActivity(user, req.cookies);
             
             if (path.indexOf("../") !== -1)
                 return next(new error.BadRequest("invalid path"));
