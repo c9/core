@@ -333,7 +333,7 @@ function plugin(options, imports, register) {
             async.series([
                 analytics.aliasClean.bind(analytics, cookies.mixpanelAnonymousId, user.id),
                 analytics.identifyClean.bind(analytics, user, {}),
-                analytics.trackClean(analytics, user, "VFS is active", { uid: user.id }),
+                analytics.trackClean.bind(analytics, user, "VFS is active", { uid: user.id }),
             ], function(err) {
                 if (err) return console.log("Error logging activity", err.stack || err);
             });
