@@ -316,7 +316,10 @@ function plugin(options, imports, register) {
     function trackActivity(user) {
         if (new Date(user.lastVfsAccess).getDate() != new Date().getDate() || 
             Date.now() > user.lastVfsAccess + VFS_ACTIVITY_WINDOW) {
-            
+
+            if (user.id === -1)
+                return;
+
             analytics.identifyClean(user);
             analytics.trackClean(user, "VFS is active");
             
