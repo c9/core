@@ -331,9 +331,9 @@ function plugin(options, imports, register) {
             // wait for a flush between each step; see
             // https://segment.com/docs/integrations/mixpanel/#server-side
             async.series([
-                analytics.aliasClean.bind(null, cookies.mixpanelAnonymousId, user.id),
-                analytics.identifyClean.bind(user, {}),
-                analytics.trackClean(user, "VFS is active", { uid: user.id }),
+                analytics.aliasClean.bind(analytics, cookies.mixpanelAnonymousId, user.id),
+                analytics.identifyClean.bind(analytics, user, {}),
+                analytics.trackClean(analytics, user, "VFS is active", { uid: user.id }),
             ], function(err) {
                 if (err) return console.log("Error logging activity", err.stack || err);
             });
