@@ -1,0 +1,39 @@
+"use strict";
+
+plugin.consumes = [
+    "db", "connect.static"
+];
+plugin.provides = [
+    "unpacked_helper"
+];
+
+module.exports = plugin;
+
+function plugin(options, imports, register) {
+    var connectStatic = imports["connect.static"];
+    var assert = require("assert");
+    var baseUrl = options.baseUrl;
+    var ideBaseUrl = options.ideBaseUrl;
+    var apiBaseUrl = options.apiBaseUrl;
+    var vfsBaseUrl = options.vfsBaseUrl;
+    
+    connectStatic.getRequireJsConfig().baseUrlLoadBalancers = [
+        ideBaseUrl,
+        baseUrl + "/uph",
+        // We could include others but dogfooding URLs like
+        // vfs.newclient-lennartcl.c9.io don't have a cert, so
+        // let's not
+        // apiBaseUrl + "/uph",
+        // vfsBaseUrl + "/uph",
+    ];
+    assert(connectStatic.getRequireJsConfig().baseUrlLoadBalancers);
+    
+    function cacheForever(req, res, next) {
+        res.setHeader("Cache-Control", "public, max-age=31556926");
+        next();
+    }
+    
+    register(null, {
+        "unpacked_helper": {}
+    });
+}
