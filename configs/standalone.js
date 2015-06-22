@@ -125,7 +125,7 @@ module.exports = function(config, optimist) {
         "connect-architect/connect.redirect",
         "connect-architect/connect.cors",
         "./c9.connect.favicon/favicon",
-        //"connect-architect/connect.logger",
+        // "./c9.logger/stdout-logger",
         
         "./c9.core/ext",
         
