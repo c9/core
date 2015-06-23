@@ -1,5 +1,3 @@
-define(function(require, exports, module) {
-    
 exports.flatten = function(arr, ret){
     if (!Array.isArray(arr))
         return [arr];
@@ -14,5 +12,3 @@ exports.flatten = function(arr, ret){
     }
     return ret;
 };
-
-});

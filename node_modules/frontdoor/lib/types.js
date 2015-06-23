@@ -1,4 +1,3 @@
-define(function(require, exports, module) {
 "use strict";
 
 var inherits = require("util").inherits; 
@@ -129,5 +128,3 @@ exports.Boolean.prototype.parse = function(string) {
 exports.Boolean.prototype.check = function(value) {
     return typeof value == "boolean";
 };
-
-});
