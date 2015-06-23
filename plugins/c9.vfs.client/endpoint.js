@@ -304,12 +304,20 @@ define(function(require, exports, module) {
         }
 
         function shuffleServers(version, servers) {
+            // If a strict region is specified, only use that region
             servers = servers.slice();
             if (strictRegion) {
                 servers = servers.filter(function(s) {
                     return s.region === strictRegion;
                 });
             }
+            // Never use staging servers if we're not on staging,
+            // even though they appear in the production VFS registry
+            var isBetaClient = region === "beta";
+            servers = servers.filter(function(s) {
+                var isBetaServer = s.region === "beta";
+                return isBetaServer === isBetaClient;
+            });
             servers = servers.filter(function(s) {
                 return s.version == undefined || s.version == version;
             });
