@@ -104,11 +104,10 @@ define(function(require, exports, module) {
                         fs.exists(path, function(existing) {
                             var tab = tabManager.open({
                                 path: path,
-                                active: i === 0,
-                                document:
-                                    existing
-                                        ? undefined
-                                        : { meta : { newfile: true } }
+                                focus: i === 0,
+                                document: existing
+                                    ? undefined
+                                    : { meta : { newfile: true } }
                             }, function(){
                                 next();
                             });

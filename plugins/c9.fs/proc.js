@@ -509,6 +509,12 @@ define(function(require, exports, module) {
                         });
                     });
                 }
+            },
+            /**
+             * @ignore
+             */
+            killtree: function(pid, options, callback) {
+                vfs.killtree(pid, options, callback);
             }
         });
         

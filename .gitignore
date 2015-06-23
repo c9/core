@@ -47,8 +47,6 @@ node_modules/kaefer/node_modules/
 !node_modules/treehugger
 !node_modules/logicblox
 !node_modules/connect-architect
-!node_modules/pty.js
-node_modules/pty.js/.npmignore
 !node_modules/ui
 !node_modules/react-bootstrap
 !node_modules/oldclient

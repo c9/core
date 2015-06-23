@@ -125,7 +125,7 @@ module.exports = function(config, optimist) {
         "connect-architect/connect.redirect",
         "connect-architect/connect.cors",
         "./c9.connect.favicon/favicon",
-        //"connect-architect/connect.logger",
+        // "./c9.logger/stdout-logger",
         
         "./c9.core/ext",
         
@@ -174,6 +174,7 @@ module.exports = function(config, optimist) {
         "./c9.vfs.server/download",
         "./c9.vfs.server/filelist",
         "./c9.vfs.server/statics",
+        "./c9.analytics/mock_analytics",
         "./c9.metrics/mock_metrics",
         "./c9.ide.experiment/mock_experiment",
         {

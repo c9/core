@@ -557,9 +557,9 @@ define(function(require, exports, module) {
                     node.map = {};
                 else if (!isFolder && node.map)
                     delete node.map;
-                if (stat.size)
+                if (stat.size != undefined)
                     node.size = stat.size;
-                if (stat.mtime)
+                if (stat.mtime != undefined)
                     node.mtime = stat.mtime;
                 if (original_stat)
                     node.link = stat.fullPath;

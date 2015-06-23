@@ -9,6 +9,8 @@ try {
 var path = require("path");
 var architect = require("architect");
 var optimist = require("optimist");
+var async = require("async");
+var os = require("os");
 
 if (process.version.match(/^v0/) && parseFloat(process.version.substr(3)) < 10) {
     console.warn("You're using Node.js version " + process.version 
@@ -26,6 +28,7 @@ var shortcuts = {
     "ci"   : ["ide", "preview", "vfs", "proxy", "-s", "ci"],
     "s"    : ["standalone", "-s", "standalone"]
 };
+var delayLoadConfigs = ["preview", "api", "oldclient", "apps-proxy", "worker"];
 
 module.exports = main;
 
@@ -33,7 +36,7 @@ if (!module.parent)
     main(process.argv.slice(2));
 
 function getDefaultSettings() {
-    var hostname = require("os").hostname();
+    var hostname = os.hostname();
     
     var suffix = hostname.trim().split("-").pop() || "";
     var modes = {
@@ -47,7 +50,9 @@ function getDefaultSettings() {
 
 module.exports.getDefaultSettings = getDefaultSettings;
 
-function main(argv, config, callback) {
+function main(argv, config, onLoaded) {
+    var inContainer = os.hostname().match(/-\d+$/);
+    
     var options = optimist(argv)
         .usage("Usage: $0 [CONFIG_NAME] [--help]")
         .alias("s", "settings")
@@ -55,26 +60,57 @@ function main(argv, config, callback) {
         .describe("settings", "Settings file to use")
         .describe("dump", "dump config file as JSON")
         .describe("domain", "Top-level domain to use (e.g, c9.io)")
+        .describe("exclude", "Exclude specified service")
+        .default("domain", inContainer && process.env.C9_HOSTNAME)
         .boolean("help")
         .describe("help", "Show command line options.");
 
     var configs = options.argv._;
     if (!configs.length) 
         configs = [config || DEFAULT_CONFIG];
-        
-    configs.forEach(function(config) {
-        if (shortcuts[config]) {
-            return main(shortcuts[config].concat(argv.filter(function(arg) {
-                return arg != config;
-            })), null, callback);
-        }
-        else {
-            start(config, options, callback);
-        }
+    if (options.argv.exclude && !Array.isArray(options.argv.exclude.length))
+        options.argv.exclude = [options.argv.exclude];
+    
+    var expanded = expandShortCuts(configs);
+    if (expanded.length > configs.length)
+        return main(expanded.concat(argv.filter(function(arg) {
+            return !shortcuts[arg];
+        })), config, onLoaded);
+
+    var delayed = expanded.filter(function(c) { return delayLoadConfigs.indexOf(c) !== -1 });
+    var notDelayed = expanded.filter(function(c) { return delayLoadConfigs.indexOf(c) === -1 });
+    
+    startConfigs(notDelayed, function() {
+        startConfigs(delayed, function() {});
     });
+    
+    function startConfigs(configs, done) {
+        async.each(configs, function(config, next) {
+            if (options.argv.exclude && options.argv.exclude.indexOf(config) > -1)
+                return next();
+            start(config, options, function(err, result, path) {
+                onLoaded && onLoaded(err, result, path);
+                next(err);
+            });
+        }, done);
+    }
+}
+     
+function expandShortCuts(configs) {
+    var results = configs.slice();
+    for (var i = 0; i < results.length; i++) {
+        var expanded = shortcuts[results[i]];
+        if (expanded) {
+            results.splice.apply(results, [i, 1].concat(expanded));
+            i += expanded.length - 1;
+        }
+    }
+    return results;
 }
 
 function start(configName, options, callback) {
+    console.log("Starting", configName);
+    
     var argv = options.argv;
     var settingsName = argv.settings;
     
@@ -90,8 +126,8 @@ function start(configName, options, callback) {
     if (argv.domain) {
         settings.c9.domain = argv.domain;
         for (var s in settings) {
-            settings[s].baseUrl = settings[s].baseUrl
-                && settings[s].baseUrl.replace(/[^./]+\.[^.]+$/, argv.domain);
+            if (settings[s] && settings[s].baseUrl)
+                settings[s].baseUrl = replaceDomain(settings[s].baseUrl, argv.domain);
         }
     }
 
@@ -138,4 +174,8 @@ function start(configName, options, callback) {
                 plugin.name = name; 
         });
     });
+}
+
+function replaceDomain(url, domain) {
+    return url.replace(/[^./]+\.[^./]+$/, domain).replace(/[^./]+\.[^.]+\//, domain + "/");
 }

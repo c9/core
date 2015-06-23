@@ -410,6 +410,7 @@ define(function(require, exports, module) {
             pty: vfsCall.bind(null, "pty"),
             tmux: vfsCall.bind(null, "tmux"),
             execFile: vfsCall.bind(null, "execFile"),
+            killtree: vfsCall.bind(null, "killtree"),
 
             // Extending the API
             use: vfsCall.bind(null, "use"),

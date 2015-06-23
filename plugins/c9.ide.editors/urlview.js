@@ -15,6 +15,7 @@ define(function(require, exports, module) {
             var plugin = new Editor("Ajax.org", main.consumes, extensions);
             //var emit = plugin.getEmitter();
             var container;
+            var counter = 0;
             
             plugin.on("draw", function(e) {
                 // Create UI elements

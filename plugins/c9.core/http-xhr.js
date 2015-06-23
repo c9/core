@@ -102,7 +102,8 @@ define(function(require, module, exports) {
                 var res = {
                     body: xhr.responseText,
                     status: xhr.status,
-                    headers: parseHeaders(xhr.getAllResponseHeaders())
+                    headers: parseHeaders(xhr.getAllResponseHeaders()),
+                    $reqHeaders: headers // TODO remove when bug in readFileWithMetadata is fixed 
                 };
                 
                 var data = xhr.responseText;

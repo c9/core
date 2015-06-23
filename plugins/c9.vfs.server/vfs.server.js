@@ -7,7 +7,8 @@ plugin.consumes = [
     "connect.render",
     "connect.render.ejs",
     "connect.remote-address",
-    "vfs.cache"
+    "vfs.cache",
+    "analytics"
 ];
 plugin.provides = [
     "vfs.server"
@@ -34,6 +35,8 @@ function plugin(options, imports, register) {
     var passport = imports.passport;
     var connect = imports.connect;
     var render = imports["connect.render"];
+    var analytics = imports["analytics"];
+    var async = require("async");
     
     var Types = require("frontdoor").Types;
     var error = require("http-error");
@@ -43,6 +46,7 @@ function plugin(options, imports, register) {
 
     var section = api.section("vfs");
 
+    var VFS_ACTIVITY_WINDOW = 1000 * 60 * 60;
 
     section.registerType("vfsid", new Types.RegExp(/[a-zA-Z0-9]{16}/));
     section.registerType("pid", new Types.Number(0));
@@ -59,7 +63,6 @@ function plugin(options, imports, register) {
     }, [
         api.ensureAdmin(),
         function(req, res, next) {
-            
             var type = req.params.status.split(".")[1] || "html";
             
             var entries = cache.getAll();
@@ -107,6 +110,8 @@ function plugin(options, imports, register) {
             var pid = req.params.pid;
             var version = req.params.version;
             var user = req.user;
+            
+            trackActivity(user, req.cookies);
             
             if (version != kaefer.version.protocol) {
                 var err = new error.PreconditionFailed("Wrong VFS protocol version. Expected version '" + kaefer.version.protocol + "' but found '" + version + "'");
@@ -196,6 +201,8 @@ function plugin(options, imports, register) {
             var path = req.params.path;
             var user = req.user;
             
+            trackActivity(user, req.cookies);
+            
             if (path.indexOf("../") !== -1)
                 return next(new error.BadRequest("invalid path"));
 
@@ -277,7 +284,9 @@ function plugin(options, imports, register) {
                 err.code = 499;
                 return next(err);
             }
-    
+            // TODO: use an interval to make sure this fires
+            //       even when this REST api is not used for a day
+            trackActivity(entry.user, req.cookies);
             entry.vfs.handleRest(scope, path, req, res, next);
         }
     ]);
@@ -306,10 +315,33 @@ function plugin(options, imports, register) {
                 err.code = 499;
                 return next(err);
             }
-                
+            
             entry.vfs.handleEngine(req, res, next);
         }
     ]);
+    
+    function trackActivity(user, cookies) {
+        if (user.id === -1)
+            return;
+
+        if (new Date(user.lastVfsAccess).getDate() != new Date().getDate() || 
+            Date.now() > user.lastVfsAccess + VFS_ACTIVITY_WINDOW) {
+
+            // Alias anonymous id, identify, and track activity;
+            // wait for a flush between each step; see
+            // https://segment.com/docs/integrations/mixpanel/#server-side
+            async.series([
+                analytics.aliasClean.bind(analytics, cookies.mixpanelAnonymousId, user.id),
+                analytics.identifyClean.bind(analytics, user, {}),
+                analytics.trackClean.bind(analytics, user, "VFS is active", { uid: user.id }),
+            ], function(err) {
+                if (err) return console.log("Error logging activity", err.stack || err);
+            });
+
+            user.lastVfsAccess = Date.now();
+            user.save(function() {});
+        }
+    }
 
     register(null, {
         "vfs.server": {
