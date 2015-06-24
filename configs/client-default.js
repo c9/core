@@ -302,7 +302,7 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.language/language",
             workspaceDir: workspaceDir,
-            staticPrefix: options.packed ? staticPrefix : options.baseUrl + staticPrefix,
+            staticPrefix: options.packed || !options.baseUrl ? staticPrefix : options.baseUrl + staticPrefix,
             workerPrefix: options.CORSWorkerPrefix // "/static/standalone/worker"
         },
         "plugins/c9.ide.language/keyhandler",
