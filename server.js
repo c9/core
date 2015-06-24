@@ -123,7 +123,7 @@ function start(configName, options, callback) {
    
     var settings = require(path.join(__dirname, "./settings", settingsName))();
     
-    if (argv.domain) {
+    if (argv.domain && settings.c9) {
         settings.c9.domain = argv.domain;
         for (var s in settings) {
             if (settings[s] && settings[s].baseUrl)
