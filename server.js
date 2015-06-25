@@ -59,9 +59,9 @@ function main(argv, config, onLoaded) {
         .default("settings", DEFAULT_SETTINGS)
         .describe("settings", "Settings file to use")
         .describe("dump", "dump config file as JSON")
-        .describe("domain", "Top-level domain to use (e.g, c9.io)")
+        .describe("domains", "Primary and any secondary top-level domains to use (e.g, c9.io,c9.dev)")
         .describe("exclude", "Exclude specified service")
-        .default("domain", inContainer && process.env.C9_HOSTNAME)
+        .default("domains", inContainer && process.env.C9_HOSTNAME)
         .boolean("help")
         .describe("help", "Show command line options.");
 
@@ -123,11 +123,13 @@ function start(configName, options, callback) {
    
     var settings = require(path.join(__dirname, "./settings", settingsName))();
     
-    if (argv.domain && settings.c9) {
-        settings.c9.domain = argv.domain;
+    argv.domains = argv.domains || settings.domains;
+    if (argv.domains && settings.c9) {
+        settings.c9.domains = Array.isArray(argv.domains) ? argv.domains : [argv.domains];
+        var primaryDomain = argv.domains[0];
         for (var s in settings) {
             if (settings[s] && settings[s].baseUrl)
-                settings[s].baseUrl = replaceDomain(settings[s].baseUrl, argv.domain);
+                settings[s].baseUrl = replaceDomain(settings[s].baseUrl, primaryDomain);
         }
     }
 
@@ -177,5 +179,7 @@ function start(configName, options, callback) {
 }
 
 function replaceDomain(url, domain) {
+    if (url.match(/\$DOMAIN/))
+        return url;
     return url.replace(/[^./]+\.[^./]+$/, domain).replace(/[^./]+\.[^.]+\//, domain + "/");
 }
