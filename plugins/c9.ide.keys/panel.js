@@ -1,6 +1,7 @@
 define(function(require, exports, module) {
     main.consumes = [
-        "Panel", "ui", "menus", "panels", "commands", "tabManager", "layout"
+        "Panel", "ui", "menus", "panels", "commands", "tabManager", "layout",
+        "settings"
     ];
     main.provides = ["commands.panel"];
     return main;
@@ -13,6 +14,7 @@ define(function(require, exports, module) {
         var panels = imports.panels;
         var layout = imports.layout;
         var commands = imports.commands;
+        var settings = imports.settings;
         
         var markup = require("text!./panel.xml");
         var search = require('../c9.ide.navigate/search');
@@ -130,6 +132,7 @@ define(function(require, exports, module) {
             txtFilter.ace.on("input", function(e) {
                 var val = txtFilter.getValue();
                 filter(val);
+                settings.set("state/commandPanel/@value", val);
             });
             
             function onblur(e) {
@@ -154,8 +157,10 @@ define(function(require, exports, module) {
             setTimeout(function(){
                 // Assign the dataprovider
                 tree.setDataProvider(ldSearch);
-                
                 tree.selection.$wrapAround = true;
+                var val = settings.get("state/commandPanel/@value");
+                if (val)
+                    txtFilter.ace.setValue(val);
             }, 200);
         }
         
