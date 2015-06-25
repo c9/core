@@ -180,8 +180,12 @@ function replaceDomains(settings, domains) {
     settings.primaryDomain = replaceDomain(settings.primaryDomain, primaryDomain);
     settings.primaryBaseUrl = replaceDomain(settings.primaryBaseUrl, primaryDomain);
     for (var s in settings) {
+        if (!settings[s])
+            continue;
         if (settings[s].baseUrl)
             settings[s].baseUrl = replaceDomain(settings[s].baseUrl, primaryDomain);
+        if (settings[s].primaryBaseUrl)
+            settings[s].primaryBaseUrl = replaceDomain(settings[s].primaryBaseUrl, primaryDomain);
         if (settings[s].baseUrls) {
             assert(settings[s].baseUrls.length === 1);
             settings[s].baseUrls = domains.map(function(d) {
