@@ -10,6 +10,7 @@ var path = require("path");
 var architect = require("architect");
 var optimist = require("optimist");
 var async = require("async");
+var assert = require("assert");
 var os = require("os");
 
 if (process.version.match(/^v0/) && parseFloat(process.version.substr(3)) < 10) {
@@ -124,14 +125,8 @@ function start(configName, options, callback) {
     var settings = require(path.join(__dirname, "./settings", settingsName))();
     
     argv.domains = argv.domains || settings.domains;
-    if (argv.domains && settings.c9) {
-        settings.c9.domains = Array.isArray(argv.domains) ? argv.domains : [argv.domains];
-        var primaryDomain = argv.domains[0];
-        for (var s in settings) {
-            if (settings[s] && settings[s].baseUrl)
-                settings[s].baseUrl = replaceDomain(settings[s].baseUrl, primaryDomain);
-        }
-    }
+    if (settings.c9 && argv.domains)
+        replaceDomains(settings, argv.domains);
 
     var plugins = require(configPath)(settings, options);
     
@@ -178,8 +173,22 @@ function start(configName, options, callback) {
     });
 }
 
+function replaceDomains(settings, domains) {
+    domains = Array.isArray(domains) ? domains : [domains];
+    settings.domains = domains;
+    var primaryDomain = domains[0];
+    for (var s in settings) {
+        if (settings[s].baseUrl)
+            settings[s].baseUrl = replaceDomain(settings[s].baseUrl, primaryDomain);
+        if (settings[s].baseUrls) {
+            assert(settings[s].baseUrls.length === 1);
+            settings[s].baseUrls = domains.map(function(d) {
+                return replaceDomain(settings[s].baseUrls[0], d);
+            });
+        }
+    }
+}
+
 function replaceDomain(url, domain) {
-    if (url.match(/\$DOMAIN/))
-        return url;
     return url.replace(/[^./]+\.[^./]+$/, domain).replace(/[^./]+\.[^.]+\//, domain + "/");
 }
