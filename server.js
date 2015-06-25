@@ -178,6 +178,7 @@ function replaceDomains(settings, domains) {
     var primaryDomain = domains[0];
     settings.domains = domains;
     settings.primaryDomain = replaceDomain(settings.primaryDomain, primaryDomain);
+    settings.primaryBaseUrl = replaceDomain(settings.primaryBaseUrl, primaryDomain);
     for (var s in settings) {
         if (settings[s].baseUrl)
             settings[s].baseUrl = replaceDomain(settings[s].baseUrl, primaryDomain);
@@ -191,5 +192,5 @@ function replaceDomains(settings, domains) {
 }
 
 function replaceDomain(url, domain) {
-    return url.replace(/[^./]+\.[^./]+$/, domain).replace(/[^./]+\.[^.]+\//, domain + "/");
+    return url.replace("$DOMAIN", domain);
 }
