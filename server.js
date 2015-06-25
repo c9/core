@@ -175,8 +175,9 @@ function start(configName, options, callback) {
 
 function replaceDomains(settings, domains) {
     domains = Array.isArray(domains) ? domains : [domains];
-    settings.domains = domains;
     var primaryDomain = domains[0];
+    settings.domains = domains;
+    settings.primaryDomain = replaceDomain(settings.primaryDomain, primaryDomain);
     for (var s in settings) {
         if (settings[s].baseUrl)
             settings[s].baseUrl = replaceDomain(settings[s].baseUrl, primaryDomain);
