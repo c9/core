@@ -33,7 +33,7 @@ define(function(require, exports, module) {
                 ace: "lib/ace/lib/ace",
                 ace_tree: "lib/ace_tree/lib/ace_tree",
                 treehugger: "lib/treehugger/lib/treehugger",
-                acorn: "lib/treehugger/lib/treehugger/js",
+                acorn: "lib/treehugger/lib/acorn",
                 tern: "lib/tern",
                 tern_from_ts: "lib/tern_from_ts",
                 ui: "lib/ui",
