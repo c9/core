@@ -105,7 +105,7 @@ define(function(require, exports, module) {
                     var config = plugins.map(function(p) {
                         if (typeof p == "string")
                             p = { packagePath: p };
-                        p.staticPrefix = host + join(base, paths[root]);
+                        p.staticPrefix = paths[root];
                         return p;
                     });
                     
