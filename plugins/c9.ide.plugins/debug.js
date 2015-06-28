@@ -44,7 +44,8 @@ define(function(require, exports, module) {
         var HASSDK = c9.location.indexOf("sdk=0") === -1;
         
         var reParts = /^(builders|keymaps|modes|outline|runners|snippets|themes)\/(.*)/;
-        var reModule = /(?:_highlight_rules|_test|_worker|_fold|_behaviou?r).js$/;
+        var reModule = /(?:_highlight_rules|_test|_worker|_fold|_behaviou?r)\.js$/;
+        var jsExtRe = /\.js$/;
         
         var loaded = false;
         function load() {
@@ -272,8 +273,19 @@ define(function(require, exports, module) {
                 var filename = RegExp.$2;
                 if (filename.indexOf("/") > -1) return;
                 
-                if (type == "modes" && (reModule.test(filename) || !/\.js$/.test(filename)))
+                if (type == "modes" && (reModule.test(filename) || !jsExtRe.test(filename)))
                     return;
+                
+                if (type == "snippets") {
+                    if (jsExtRe.test(filename)) {
+                        var snippetPath = join("plugins", basename(path), type, filename).replace(jsExtRe, "");
+                        require([snippetPath], function(m) {
+                            architect.services["language.complete"].addSnippet(m, plugin);
+                        });
+                    }
+                    if (!/\.snippets$/.test(filename))
+                        return;
+                }
                 
                 parallel.push(function(next){
                     fs.readFile(join(path, type, filename), function(err, data){
