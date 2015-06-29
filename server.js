@@ -10,7 +10,6 @@ var path = require("path");
 var architect = require("architect");
 var optimist = require("optimist");
 var async = require("async");
-var assert = require("assert");
 var os = require("os");
 require("c9/setup_paths.js");
 
@@ -61,9 +60,9 @@ function main(argv, config, onLoaded) {
         .default("settings", DEFAULT_SETTINGS)
         .describe("settings", "Settings file to use")
         .describe("dump", "dump config file as JSON")
-        .describe("domains", "Primary and any secondary top-level domains to use (e.g, c9.io,c9.dev)")
+        .describe("domain", "Top-level domain to use (e.g, c9.io)")
         .describe("exclude", "Exclude specified service")
-        .default("domains", inContainer && process.env.C9_HOSTNAME)
+        .default("domain", inContainer && process.env.C9_HOSTNAME)
         .boolean("help")
         .describe("help", "Show command line options.");
 
@@ -125,9 +124,13 @@ function start(configName, options, callback) {
    
     var settings = require(path.join(__dirname, "./settings", settingsName))();
     
-    argv.domains = argv.domains || settings.domains;
-    if (settings.c9 && argv.domains)
-        replaceDomains(settings, argv.domains);
+    if (argv.domain && settings.c9) {
+        settings.c9.domain = argv.domain;
+        for (var s in settings) {
+            if (settings[s] && settings[s].baseUrl)
+                settings[s].baseUrl = replaceDomain(settings[s].baseUrl, argv.domain);
+        }
+    }
 
     var plugins = require(configPath)(settings, options);
     
@@ -174,28 +177,6 @@ function start(configName, options, callback) {
     });
 }
 
-function replaceDomains(settings, domains) {
-    domains = Array.isArray(domains) ? domains : [domains];
-    var primaryDomain = domains[0];
-    settings.domains = domains;
-    settings.primaryDomain = replaceDomain(settings.primaryDomain, primaryDomain);
-    settings.primaryBaseUrl = replaceDomain(settings.primaryBaseUrl, primaryDomain);
-    for (var s in settings) {
-        if (!settings[s])
-            continue;
-        if (settings[s].baseUrl)
-            settings[s].baseUrl = replaceDomain(settings[s].baseUrl, primaryDomain);
-        if (settings[s].primaryBaseUrl)
-            settings[s].primaryBaseUrl = replaceDomain(settings[s].primaryBaseUrl, primaryDomain);
-        if (settings[s].baseUrls) {
-            assert(settings[s].baseUrls.length === 1);
-            settings[s].baseUrls = domains.map(function(d) {
-                return replaceDomain(settings[s].baseUrls[0], d);
-            });
-        }
-    }
-}
-
 function replaceDomain(url, domain) {
-    return url.replace("$DOMAIN", domain);
+    return url.replace(/[^./]+\.[^./]+$/, domain).replace(/[^./]+\.[^.]+\//, domain + "/");
 }
