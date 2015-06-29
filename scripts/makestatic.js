@@ -2,6 +2,7 @@
 "use strict";
 
 require("amd-loader");
+require("c9/setup_paths.js");
 var path = require("path");
 var architect = require("architect");
 var optimist = require("optimist");
