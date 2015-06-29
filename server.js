@@ -11,7 +11,7 @@ var architect = require("architect");
 var optimist = require("optimist");
 var async = require("async");
 var os = require("os");
-var urls = require("./plugins/c9.core/urls");
+var urls = require("c9/urls");
 require("c9/setup_paths.js");
 
 if (process.version.match(/^v0/) && parseFloat(process.version.substr(3)) < 10) {
