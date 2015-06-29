@@ -11,7 +11,7 @@ During the alpha stage, expect many things to break, not work or simply fail.
 
 The best and easiest way to create plugins is on c9.io. Please check out this tutorial for how to [get started writing plugins.](http://cloud9-sdk.readme.io/v0.1/docs/getting-started-with-cloud9-plugins)
 
-We also have a tutorial for how to get started working on the core plugins. [Check out that tutorial here.](http://cloud9-sdk.readme.io/v0.1/docs/contributing-to-existing-packages)
+We also have a tutorial for how to get started working on the core plugins. [Check out that tutorial here.](http://cloud9-sdk.readme.io/v0.1/docs/contributing-to-cloud9)
 
 #### Documentation ####
 
