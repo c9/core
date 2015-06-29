@@ -11,6 +11,7 @@ var architect = require("architect");
 var optimist = require("optimist");
 var async = require("async");
 var os = require("os");
+require("c9/setup_paths.js");
 
 if (process.version.match(/^v0/) && parseFloat(process.version.substr(3)) < 10) {
     console.warn("You're using Node.js version " + process.version 
