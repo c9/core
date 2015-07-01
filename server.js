@@ -63,7 +63,7 @@ function main(argv, config, onLoaded) {
         .describe("dump", "dump config file as JSON")
         .describe("domains", "Primary and any secondary top-level domains to use (e.g, c9.io,c9.dev)")
         .describe("exclude", "Exclude specified service")
-        .default("domains", inContainer && process.env.C9_HOSTNAME)
+        .default("domains", inContainer && process.env.C9_HOSTNAME || process.env.C9_DOMAINS)
         .boolean("help")
         .describe("help", "Show command line options.");
 
