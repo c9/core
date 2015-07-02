@@ -9,8 +9,6 @@ define(function(require, module, exports) {
         var settings;
 
         var packed = require("text!./style.less").length === 0;
-        var less = require("./lib_less1.5");
-        if (less) less.async = true;
         var packedThemes = packed || options.packedThemes !== false;
 
         /***** Initialization *****/
@@ -167,28 +165,30 @@ define(function(require, module, exports) {
                     throw new Error("Can't add dynamic less library in packed mode!");
                 if (packedThemes) return;
             }
-                
             // use dynamic require because we don't want this in the packed version
-            var parser = new less.Parser({
-                filename: filename
-            });
-            
-            // Parse Less Code
-            var baseLib = "@base-path : \"" + staticPrefix + "\";\n"
-                + "@image-path : \"" + staticPrefix + "/images\";\n"
-                + "@icon-path : \"" + staticPrefix + "/icons\";\n";
-            
-            var code = baseLib + "\n" + cssLibs.join("\n") + "\n" + css;
-            parser.parse(code, function (e, tree) {
-                if (e)
-                    return callback(e);
-                    
-                // Add css to the DOM
-                var style = createStyleSheet(tree.toCSS({
-                    relativeUrls: true,
-                    rootpath: staticPrefix || ""
-                }));
-                callback(null, style);
+            require(["./lib_less1.5"], function(less) {
+                if (less) less.async = true;
+                var parser = new less.Parser({
+                    filename: filename
+                });
+                
+                // Parse Less Code
+                var baseLib = "@base-path : \"" + staticPrefix + "\";\n"
+                    + "@image-path : \"" + staticPrefix + "/images\";\n"
+                    + "@icon-path : \"" + staticPrefix + "/icons\";\n";
+                
+                var code = baseLib + "\n" + cssLibs.join("\n") + "\n" + css;
+                parser.parse(code, function (e, tree) {
+                    if (e)
+                        return callback(e);
+                        
+                    // Add css to the DOM
+                    var style = createStyleSheet(tree.toCSS({
+                        relativeUrls: true,
+                        rootpath: staticPrefix || ""
+                    }));
+                    callback(null, style);
+                });
             });
         }
         

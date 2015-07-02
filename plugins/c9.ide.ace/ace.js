@@ -891,7 +891,11 @@ define(function(require, exports, module) {
                                { caption : "Timed",  value : "true" }
                            ],
                            position: 14000
-                        }
+                        },
+                        "Enable Wrapping For New Documents" : {
+                            type: "checkbox",
+                            path: "user/ace/@useWrapMode"
+                        },
                     }
                 }
             }, handle);
