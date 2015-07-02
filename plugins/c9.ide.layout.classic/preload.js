@@ -49,12 +49,14 @@ define(function(require, exports, module) {
                     callback(err, data);
                 });
             } else {
-                http.request(themePrefix + "/" + name + ".css", {
+                var url = themePrefix + "/" + name + ".css";
+                http.request(url, {
                     timeout: 2 * 60 * 1000
                 }, function(err, data) {
                     if (err)
                         return callback(err, data);
-                    
+                    // set sourceurl so that sourcemaps work when theme is inserted as a style tag
+                    data += "\n/*# sourceURL=" + url + " */";
                     themes[name] = data;
                     callback(err, data);
                 });
