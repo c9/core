@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "fs", "settings", "preferences", "watcher", "tabManager", 
-        "save", "dialog.question", "dialog.filechange", "threewaymerge"
+        "save", "dialog.question", "dialog.filechange", "threewaymerge", "error_handler"
     ];
     main.provides = ["watcher.gui"];
     return main;
@@ -17,6 +17,7 @@ define(function(require, exports, module) {
         var question = imports["dialog.question"];
         var filechange = imports["dialog.filechange"];
         var threeWayMerge = imports.threewaymerge.merge;
+        var errorHandler = imports.error_handler;
         
         var collabEnabled = options.collab;
 
@@ -127,6 +128,23 @@ define(function(require, exports, module) {
                         // Collab is supposed to handle this change
                         // TODO make this a setting
                         console.warn("[watchers] change ignored because of Collab", e.path);
+                        /* If the lastChange (added by collab) was greater than 1 second ago set up a watch 
+                            To ensure that collab makes this change, if not report an error. The lastChange
+                            check is to avoid a race condition if collab updates before this function runs */
+                        if (!tab.debugData.lastChange || tab.debugData.lastChange < (Date.now() - 1000)) {
+                            if (tab.debugData.changeRegistered) {
+                                clearTimeout(tab.debugData.changeRegistered);
+                            }
+                            tab.debugData.changeRegistered = setTimeout(function() {
+                                errorHandler.reportError(new Error("Watcher picked up file change but collab didn't apply it"), {
+                                    active: tab.active,
+                                    state: tab.getState(),
+                                    collabEnabled: collabEnabled,
+                                    lastChange: tab.debugData.lastChange,
+                                    currentTime: Date.now(),
+                                });
+                            }, 5000);
+                        }
                         return;
                     }
                     
