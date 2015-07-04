@@ -26,6 +26,7 @@ define(function(require, exports, module) {
  */
 
 var EventEmitter = require("events").EventEmitter;
+var wc = require("./wc");
 
 var normal = 0
   , escaped = 1
@@ -455,10 +456,29 @@ Terminal.prototype.writeInternal = function(data) {//TODO optimize lines
                 insertY = lines.length - 1;
               }
               
-              if (!this.insertMode)
-                lines[insertY][this.x] = [this.curAttr, ch];
-              else
-                lines[insertY].splice(this.x, 0, [this.curAttr, ch]);
+              var width = ch > "\x7f" ? wc.charWidth(ch.charCodeAt(0)) : 1;
+              line = lines[insertY];
+              switch (width) {
+                case 1:
+                  if (!this.insertMode)
+                    line[this.x] = [this.curAttr, ch];
+                  else
+                    line[insertY].splice(this.x, 0, [this.curAttr, ch]);
+                  break;
+                case 0:
+                  if (this.x > 0) this.x--;
+                  line[this.x] = [this.curAttr, line[this.x][1] + ch];
+                  break;
+                case 2:
+                  if (!this.insertMode) {
+                    line[this.x] = [this.curAttr, ch];
+                    line[this.x + 1] = [this.curAttr, ""];
+                  } else {
+                    line[insertY].splice(this.x, 0, [this.curAttr, ch], [this.curAttr, ""]);
+                  }
+                  this.x++;
+                  break;
+              }
 
               this.x++;
               this.updateRange(this.y);
