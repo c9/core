@@ -86,9 +86,10 @@ define(function(require, exports, module) {
                     list.forEach(function(item){
                         console.log(
                             pad(item.name, max[0] + PADDING), 
-                            pad(item.description.split(".")[0], max[1] + PADDING), 
-                            LIGHTBlUE + pad("https://c9.io/profile/packages/" + item.name, max[2] + PADDING) + RESETCOLOR, 
-                            item.website || item.repository.url); // do not pad last item
+                            item.description.split(".")[0].replace(/[\r\n]/g, ""));
+                            // pad(item.description.split(".")[0].replace(/[\r\n]/g, "-"), max[1] + PADDING));
+                            // LIGHTBlUE + pad("https://c9.io/packages/" + item.name, max[2] + PADDING) + RESETCOLOR, 
+                            // item.website || item.repository.url); // do not pad last item
                     });
                     return callback(null, list);
                 }
