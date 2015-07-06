@@ -458,6 +458,11 @@ Terminal.prototype.writeInternal = function(data) {//TODO optimize lines
               
               var width = ch > "\x7f" ? wc.charWidth(ch.charCodeAt(0)) : 1;
               line = lines[insertY];
+              var x = this.x;
+              while (line[x] && !line[x][1] && x > 0) {
+                line[x] = [line[x][0], " "];
+                x--;
+              }
               switch (width) {
                 case 1:
                   if (!this.insertMode)
@@ -472,7 +477,7 @@ Terminal.prototype.writeInternal = function(data) {//TODO optimize lines
                 case 2:
                   if (!this.insertMode) {
                     line[this.x] = [this.curAttr, ch];
-                    line[this.x + 1] = [this.curAttr, ""];
+                    line[this.x + 1] = [this.curAttr, "\x00"];
                   } else {
                     line[insertY].splice(this.x, 0, [this.curAttr, ch], [this.curAttr, ""]);
                   }
@@ -700,6 +705,9 @@ Terminal.prototype.writeInternal = function(data) {//TODO optimize lines
               // change log file
               break;
             case 50:
+              var args = this.params[1].match(/CursorShape=(.)/i);
+              var shape = ['BLOCK', 'BEAM', 'UNDERLINE'][parseInt(args && args[1]) || 0];
+              // TODO cursor shape
               // dynamic font
               break;
             case 51:
