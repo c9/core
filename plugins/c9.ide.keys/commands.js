@@ -69,7 +69,7 @@ define(function(require, exports, module) {
                 name: "cancelBrowserAction",
                 group: "ignore",
                 bindKey: {
-                    mac: "Command-S|Cmd-R",
+                    mac: "Cmd-S|Cmd-R|Cmd-[|Cmd-]",
                     win: "Ctrl-S|Ctrl-R|Alt-Left|Alt-Right",
                     position: -10000
                 },
