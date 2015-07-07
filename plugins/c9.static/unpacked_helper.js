@@ -14,8 +14,8 @@ function plugin(options, imports, register) {
     var assert = require("assert");
     var baseUrl = options.baseUrl;
     var ideBaseUrl = options.ideBaseUrl;
-    assert(options.baseUrl, "baseUrl must be set");
-    assert(options.ideBaseUrl, "ideBaseUrl must be set");
+    assert(baseUrl, "baseUrl must be set");
+    assert(ideBaseUrl, "ideBaseUrl must be set");
     
     var balancers = [
         baseUrl + "/uph",
