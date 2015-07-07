@@ -20,6 +20,8 @@ function plugin(options, imports, register) {
     var balancers = [
         baseUrl + "/uph",
     ];
+    /* UNDONE: for now we put all static content on one domain
+               because of reports of CORS errors
     if (!options.avoidSubdomains)
         balancers.push(
             ideBaseUrl
@@ -29,6 +31,7 @@ function plugin(options, imports, register) {
             // apiBaseUrl + "/uph",
             // vfsBaseUrl + "/uph"
         );
+    */
     
     connectStatic.getRequireJsConfig().baseUrlLoadBalancers = balancers;
     assert(connectStatic.getRequireJsConfig().baseUrlLoadBalancers);
