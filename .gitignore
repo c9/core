@@ -1,10 +1,7 @@
-build/installer/
-build/sdk
-build/win32*
-build/node.exe
-build/node*.zip
-build/c9bin
-build/Cloud9-dev.app
+build/*/
+build/*.zip
+build/*.exe
+build/*.tgz
 docs/generate/lib/node_modules
 plugins/c9.ide.layout.classic/less/*.css
 plugins/c9.vfs.standalone/www/less.html
@@ -17,12 +14,6 @@ plugins/c9.api.project/coverage/
 plugins/c9.proxy.apps/coverage/
 plugins/c9.db.redis/coverage/
 scripts/build
-build/output
-build/standalone/
-build/standalonebuild/
-build/static
-build/node_modules/
-build/webkitbuilds/
 plugins/c9.run/todo
 docs/generate/output
 docs/generate/lib/node_modules
@@ -36,7 +27,6 @@ node_modules/*
 !node_modules/ace*
 !node_modules/architect*
 !node_modules/vfs*
-!node_modules/build
 !node_modules/c9
 !node_modules/frontdoor
 !node_modules/kaefer
