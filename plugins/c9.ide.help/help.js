@@ -41,10 +41,10 @@ define(function(require, exports, module) {
             }), 100, plugin);
 
             var c = 0;
-            menus.addItemByPath("Support/Welcome", new ui.item({ 
+            menus.addItemByPath("Support/Welcome Page", new ui.item({ 
                 onclick: function(){ tabs.openEditor("welcome", true, function(){}) }
             }), c += 100, plugin);
-            menus.addItemByPath("Support/Show IDE Status", new ui.item({ 
+            menus.addItemByPath("Support/Status Page", new ui.item({ 
                 onclick: function(){window.open('http://status.c9.io'); }
             }), c += 100, plugin);
 
@@ -54,13 +54,12 @@ define(function(require, exports, module) {
             // }.bind(this, c += 100), plugin);
             menus.addItemByPath("Support/~", new ui.divider(), c += 100, plugin);
 
-            menus.addItemByPath("Support/Support/", null, c += 100, plugin);
-            menus.addItemByPath("Support/~", new ui.divider(), c += 100, plugin);
             menus.addItemByPath("Support/Learning/", null, c += 100, plugin);
+            menus.addItemByPath("Support/Get Help/", null, c += 100, plugin);
             menus.addItemByPath("Support/Get in Touch/", null, c += 100, plugin);
 
             c = 0;
-            menus.addItemByPath("Support/Learning/Documentation", new ui.item({ 
+            menus.addItemByPath("Support/Learning/Cloud9 Documentation", new ui.item({ 
                 onclick: function(){ 
                     window.open("https://docs.c9.io"); 
                 }
