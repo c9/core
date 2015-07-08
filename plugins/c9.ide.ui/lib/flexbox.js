@@ -203,7 +203,8 @@ apf.vbox = function(struct, tagName) {
                 
                 var nodes = this.childNodes;
                 for (var i = 0, l = nodes.length; i < l; i++) {
-                    if ((node = nodes[i]).nodeFunc != apf.NODE_VISIBLE || !node.$amlLoaded) //|| node.visible === false 
+                    var node = nodes[i];
+                    if (node.nodeFunc != apf.NODE_VISIBLE || !node.$amlLoaded) //|| node.visible === false 
                         continue;
 
                     node.$ext.style.textAlign = apf.getStyle(node.$ext, "textAlign") || "left";

@@ -30,6 +30,7 @@ define(function(require, exports, module) {
         var showError = imports["dialog.error"].show;
         
         var Tree = require("ace_tree/tree");
+        var Tooltip = require("ace_tree/tooltip");
         var TreeEditor = require("ace_tree/edit");
         var markup = require("text!./tree.xml");
         
@@ -236,6 +237,8 @@ define(function(require, exports, module) {
             tree.renderer.setTheme({cssClass: "filetree"});
             tree.setDataProvider(fsCache.model);
             tree.setOption("enableDragDrop", true);
+            
+            // tree.tooltip = new Tooltip(tree);
             
             fsCache.model.$indentSize = 12;
             fsCache.model.getIconHTML = function(node) {
