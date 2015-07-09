@@ -6112,7 +6112,7 @@ apf.zmanager = function(){
             level: 100000
         },
         "popup" : {
-            level: 200000
+            level: 195000
         },
         "notifier" : {
             level: 300000
