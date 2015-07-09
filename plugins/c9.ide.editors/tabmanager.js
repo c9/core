@@ -131,7 +131,11 @@ define(function(require, module, exports) {
             function removeTab(e) {
                 if (!e.error) { 
                     var tab = findTab(e.path);
-                    tab && tab.unload();
+                    if (tab) {
+                        tab.document.meta.$ignoreSave = true;
+                        tab.close();
+                        delete tab.document.meta.$ignoreSave;
+                    }
                 }
             }
             fs.on("afterUnlink", removeTab);
