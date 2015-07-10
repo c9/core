@@ -24,7 +24,7 @@ define(function(require, exports, module) {
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
-        // var emit = plugin.getEmitter();
+        var emit = plugin.getEmitter();
         
         var removedPaths, changedPaths;
         var deleteDialog, changeDialog, initialFocus;
@@ -136,13 +136,7 @@ define(function(require, exports, module) {
                                 clearTimeout(tab.debugData.changeRegistered);
                             }
                             tab.debugData.changeRegistered = setTimeout(function() {
-                                errorHandler.reportError(new Error("Watcher picked up file change but collab didn't apply it"), {
-                                    active: tab.active,
-                                    state: tab.getState(),
-                                    collabEnabled: collabEnabled,
-                                    lastChange: tab.debugData.lastChange,
-                                    currentTime: Date.now(),
-                                });
+                                emit("changeNotAppliedError", {tab: tab});
                             }, 5000);
                         }
                         return;
