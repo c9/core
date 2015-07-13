@@ -124,23 +124,9 @@ define(function(require, exports, module) {
             watcher.on("change", function(e) {
                 var tab = tabManager.findTab(e.path);
                 if (tab) {
-                    if (collabEnabled && tab.editorType == "ace") {
-                        // Collab is supposed to handle this change
-                        // TODO make this a setting
-                        console.warn("[watchers] change ignored because of Collab", e.path);
-                        /* If the lastChange (added by collab) was greater than 1 second ago set up a watch 
-                            To ensure that collab makes this change, if not report an error. The lastChange
-                            check is to avoid a race condition if collab updates before this function runs */
-                        if (!tab.debugData.lastChange || tab.debugData.lastChange < (Date.now() - 1000)) {
-                            if (tab.debugData.changeRegistered) {
-                                clearTimeout(tab.debugData.changeRegistered);
-                            }
-                            tab.debugData.changeRegistered = setTimeout(function() {
-                                emit("changeNotAppliedError", {tab: tab});
-                            }, 5000);
-                        }
-                        return;
-                    }
+                    // If collab picks this up and handles the change it will return false 
+                    if (emit("docChange", {tab: tab}) === false)
+                        return
                     
                     addChangedTab(tab, e.type === "change");
                 }
