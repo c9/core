@@ -578,6 +578,7 @@ define(function(require, exports, module) {
                 });
                 endUpdate(modified[0], wasOpen);
             }
+            model._signal("createNode", node);
             return node;
         }
         
