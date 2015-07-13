@@ -33,7 +33,7 @@
         "rusha": "~0.7.2",
         "send": "~0.1.4",
         "simple-mime": "~0.0.8",
-        "tern": "git://github.com/cloud9ide/tern.git#cf4f716c765b22398ab8df74e8e5619329fe1b79",
+        "tern": "git://github.com/cloud9ide/tern.git#42164cde34b4cb057fa0c53d3881a58d903a3135",
         "tern_from_ts": "git://github.com/cloud9ide/tern_from_ts.git#6a0107e602b0d044fe1753533cf31f52cf5fb95a",
         "through": "2.2.0",
         "tmp": "~0.0.20",
