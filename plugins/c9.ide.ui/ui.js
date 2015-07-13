@@ -292,8 +292,6 @@ define(function(require, module, exports) {
         }
         
         function insertByIndex(parent, item, index, plugin) {
-            item.$position = index;
-    
             var beforeNode, diff = 100000000, nodes = parent.childNodes;
             for (var i = 0, l = nodes.length; i < l; i++) {
                 var d = nodes[i].$position - index;
@@ -302,13 +300,34 @@ define(function(require, module, exports) {
                     diff = d;
                 }
             }
-    
-            var node = parent.insertBefore(item, beforeNode);
             
-            if (plugin !== false)
-                plugin.addElement(node);
+            if (typeof item == "string") {
+                var bar = new plugin.bar({htmlNode: document.createElement("div")});
+                bar.insertMarkup(item, { callback: function(){} });
+                item = bar.childNodes.slice();
+                bar.childNodes.length = 0;
+                bar.destroy();
+            }
             
-            return node;
+            if (Array.isArray(item)) {
+                for (var i = 0; i < item.length; i++) {
+                    var node = parent.insertBefore(item[i], beforeNode);
+                    node.$position = index;
+                    
+                    if (plugin !== false)
+                        plugin.addElement(node);
+                    
+                }
+                return item[0];
+            } else {
+                var node = parent.insertBefore(item, beforeNode);
+                node.$position = index;
+                
+                if (plugin !== false)
+                    plugin.addElement(node);
+                
+                return node;
+            }
         }
         
         function addClass(html, name) {
