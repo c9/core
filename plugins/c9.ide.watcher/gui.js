@@ -23,7 +23,7 @@ define(function(require, exports, module) {
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
-        // var emit = plugin.getEmitter();
+        var emit = plugin.getEmitter();
         
         var removedPaths, changedPaths;
         var deleteDialog, changeDialog, initialFocus;
@@ -123,12 +123,9 @@ define(function(require, exports, module) {
             watcher.on("change", function(e) {
                 var tab = tabManager.findTab(e.path);
                 if (tab) {
-                    if (collabEnabled && tab.editorType == "ace") {
-                        // Collab is supposed to handle this change
-                        // TODO make this a setting
-                        console.warn("[watchers] change ignored because of Collab", e.path);
+                    // If collab picks this up and handles the change it will return false 
+                    if (emit("docChange", {tab: tab}) === false)
                         return;
-                    }
                     
                     addChangedTab(tab, e.type === "change");
                 }
