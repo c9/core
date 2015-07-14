@@ -302,7 +302,7 @@ define(function(require, module, exports) {
             }
             
             if (typeof item == "string") {
-                var bar = new plugin.bar({htmlNode: document.createElement("div")});
+                var bar = new apf.bar({htmlNode: document.createElement("div")});
                 bar.insertMarkup(item, { callback: function(){} });
                 item = bar.childNodes.slice();
                 bar.childNodes.length = 0;
