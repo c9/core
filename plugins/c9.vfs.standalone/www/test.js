@@ -106,6 +106,10 @@ require([
                 x.check = function(){};
                 return x;
             })(),
+            "watcher.gui": (function(){
+                var x = new EventEmitter();
+                return x;
+            })(),
             save: (function(){
                 var x = new EventEmitter();
                 x.saveAll = function(c){ c(); };

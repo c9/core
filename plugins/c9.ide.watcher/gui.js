@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "fs", "settings", "preferences", "watcher", "tabManager", 
-        "save", "dialog.question", "dialog.filechange", "threewaymerge", "error_handler"
+        "save", "dialog.question", "dialog.filechange", "threewaymerge"
     ];
     main.provides = ["watcher.gui"];
     return main;
@@ -17,7 +17,6 @@ define(function(require, exports, module) {
         var question = imports["dialog.question"];
         var filechange = imports["dialog.filechange"];
         var threeWayMerge = imports.threewaymerge.merge;
-        var errorHandler = imports.error_handler;
         
         var collabEnabled = options.collab;
 
@@ -126,7 +125,7 @@ define(function(require, exports, module) {
                 if (tab) {
                     // If collab picks this up and handles the change it will return false 
                     if (emit("docChange", {tab: tab}) === false)
-                        return
+                        return;
                     
                     addChangedTab(tab, e.type === "change");
                 }
