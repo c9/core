@@ -15,7 +15,6 @@ define(function(require, module, exports) {
                 title, tooltip, amlTab, closed, rule, docInited;
                 
             var meta = {};
-            var debugData = {};
             var name = options.name;
             
             var classList = {
@@ -356,13 +355,6 @@ define(function(require, module, exports) {
                  * @property {Object} meta
                  */
                 get meta(){ return meta; },
-                
-                /**
-                 * Data for debugging issues and errors with tabs 
-                 * @property {Object} debugData
-                 */
-                get debugData(){ return debugData; },
-                
                 /** 
                  * The path to the file loaded into this tab. This property will
                  * be undefined when no path is set (for instance when no file
