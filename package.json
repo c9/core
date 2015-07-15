@@ -33,7 +33,7 @@
         "rusha": "~0.7.2",
         "send": "~0.1.4",
         "simple-mime": "~0.0.8",
-        "tern": "git://github.com/lennartcl/tern.git#97464df789dbb4d81ca4579383a02b320c69563d",
+        "tern": "git://github.com/cloud9ide/tern.git#42164cde34b4cb057fa0c53d3881a58d903a3135",
         "tern_from_ts": "git://github.com/cloud9ide/tern_from_ts.git#6a0107e602b0d044fe1753533cf31f52cf5fb95a",
         "through": "2.2.0",
         "tmp": "~0.0.20",
@@ -56,7 +56,7 @@
         "c9"
     ],
     "c9plugins": {
-        "c9.ide.language": "#f762c3f34d",
+        "c9.ide.language": "#7239694abb",
         "c9.ide.language.css": "#ef8a28943e",
         "c9.ide.language.generic": "#7505e7902e",
         "c9.ide.language.html": "#bbe81afed1",
@@ -64,7 +64,7 @@
         "c9.ide.language.javascript": "#8479d0a9c1",
         "c9.ide.language.javascript.immediate": "#0535804ada",
         "c9.ide.language.javascript.eslint": "#2db744b1a3",
-        "c9.ide.language.javascript.tern": "#2b0bb024da",
+        "c9.ide.language.javascript.tern": "#504150a52f",
         "c9.ide.language.javascript.infer": "#cfec494a3c",
         "c9.ide.language.jsonalyzer": "#ba3e0d298c",
         "c9.ide.collab": "#134f6b68a8",
