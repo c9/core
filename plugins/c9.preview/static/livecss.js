@@ -409,7 +409,7 @@ document.addEventListener("keydown", function(e) {
     var hashId = 0 | (e.ctrlKey ? 1 : 0) | (e.altKey ? 2 : 0)
         | (e.shiftKey ? 4 : 0) | (e.metaKey ? 8 : 0);
     
-    var keys = ckb[hashId];
+    var keys = ckb && ckb[hashId];
     var cmd = keys && keys[e.keyCode];
     
     if (cmd) {
