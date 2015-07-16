@@ -323,17 +323,30 @@ define(function(require, exports, module) {
             });
             return servers.sort(function(a, b) {
                 if (a.region == b.region) {
-                    if (a.load < b.load)
+                    if (a.packageVersion == b.packageVersion) {
+                        if (a.load < b.load) {
+                            return -1;
+                        } 
+                        else {
+                            return 1;
+                        }
+                    }
+                    else if (a.packageVersion > b.packageVersion) {
                         return -1;
-                    else
+                    }
+                    else {
                         return 1;
+                    }
                 }
-                else if (a.region == region)
+                else if (a.region == region) {
                     return -1;
-                else if (b.region == region)
+                }
+                else if (b.region == region) {
                     return 1;
-                else
+                }
+                else {
                     return 0;
+                }
             });
         }
 
