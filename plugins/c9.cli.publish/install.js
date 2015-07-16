@@ -291,12 +291,21 @@ define(function(require, exports, module) {
                 
                 prepareDirectory(function(err, packagePath){
                     if (err) return callback(err);
-                    
+                    var npmBin = [
+                        join(process.env.HOME, process.platform == "win32"? ".c9/npm.cmd" : ".c9/node/bin/npm"),
+                        "/mnt/shared/sbin/npm"
+                    ];
                     function installNPM(){
-                        spawn(join(process.env.HOME, process.platform == "win32"? ".c9/npm.cmd" : ".c9/node/bin/npm"), {
+                        spawn(npmBin[0], {
                             args: ["install"],
                             cwd: packagePath
                         }, function(err) {
+                            if (err && err.code == 127) {
+                                npmBin.shift();
+                                if (npmBin.length)
+                                    return installNPM();
+                            }
+                            
                             if (err) return callback(err);
                             callback(null, { version: version });
                         });

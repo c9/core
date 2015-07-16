@@ -1,7 +1,7 @@
 require({
     baseUrl: "lib"
 }, ["treehugger/tree", "treehugger/traverse", "treehugger/js/parse", "jquery",
-    "treehugger/js/acorn", "treehugger/js/acorn_loose"
+    "acorn/dist/acorn", "acorn/dist/acorn_loose", "acorn/dist/walk"
 ], function(tree, traverse, parsejs, jq, acorn, acorn_loose) {
 
 window.acorn_loose = acorn_loose
@@ -30,9 +30,9 @@ window.acorn_loose = acorn_loose
     $("#output").val(this.toPrettyString());
   }
 
-    require.ready(function() {
-        $("#code").keyup(exec);
-        $("#runbutton").click(exec);
-        exec();
-    });
+    
+  $("#code").keyup(exec);
+  $("#runbutton").click(exec);
+  exec();
+    
 });
