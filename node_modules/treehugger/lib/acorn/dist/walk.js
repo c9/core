@@ -1,9 +1,5 @@
 define(["require", "exports", "module", "./acorn"], function(require, exports, module) {
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}(g.acorn || (g.acorn = {})).walk = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/src\\walk\\index.js":[function(_dereq_,module,exports){
-"use strict";
-
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-
 // AST walker module for Mozilla Parser API compatible trees
 
 // A simple walk is one where you simply specify callbacks to be
@@ -22,38 +18,19 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
 // walker, and state can be used to give this walked an initial
 // state.
 
-exports.simple = simple;
+"use strict";
 
-// An ancestor walk builds up an array of ancestor nodes (including
-// the current node) and passes them to the callback as the state parameter.
-exports.ancestor = ancestor;
-
-// A recursive walk is one where your functions override the default
-// walkers. They can modify and replace the state parameter that's
-// threaded through the walk, and can opt how and whether to walk
-// their child nodes (by calling their third argument on these
-// nodes).
-exports.recursive = recursive;
-
-// Find a node with a given start, end, and type (all are optional,
-// null can be used as wildcard). Returns a {node, state} object, or
-// undefined when it doesn't find a matching node.
-exports.findNodeAt = findNodeAt;
-
-// Find the innermost node of a given type that contains the given
-// position. Interface similar to findNodeAt.
-exports.findNodeAround = findNodeAround;
-
-// Find the outermost matching node after a given position.
-exports.findNodeAfter = findNodeAfter;
-
-// Find the outermost matching node before a given position.
-exports.findNodeBefore = findNodeBefore;
-
-// Used to create a custom walker. Will fill in all missing node
-// type properties with the defaults.
-exports.make = make;
 exports.__esModule = true;
+exports.simple = simple;
+exports.ancestor = ancestor;
+exports.recursive = recursive;
+exports.findNodeAt = findNodeAt;
+exports.findNodeAround = findNodeAround;
+exports.findNodeAfter = findNodeAfter;
+exports.findNodeBefore = findNodeBefore;
+exports.make = make;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function simple(node, visitors, base, state, override) {
   if (!base) base = exports.base;(function c(node, st, override) {
@@ -63,6 +40,9 @@ function simple(node, visitors, base, state, override) {
     if (found) found(node, st);
   })(node, state, override);
 }
+
+// An ancestor walk builds up an array of ancestor nodes (including
+// the current node) and passes them to the callback as the state parameter.
 
 function ancestor(node, visitors, base, state) {
   if (!base) base = exports.base;
@@ -78,6 +58,12 @@ function ancestor(node, visitors, base, state) {
   })(node, state);
 }
 
+// A recursive walk is one where your functions override the default
+// walkers. They can modify and replace the state parameter that's
+// threaded through the walk, and can opt how and whether to walk
+// their child nodes (by calling their third argument on these
+// nodes).
+
 function recursive(node, state, funcs, base, override) {
   var visitor = funcs ? exports.make(funcs, base) : base;(function c(node, st, override) {
     visitor[override || node.type](node, st, c);
@@ -85,17 +71,11 @@ function recursive(node, state, funcs, base, override) {
 }
 
 function makeTest(test) {
-  if (typeof test == "string") {
-    return function (type) {
-      return type == test;
-    };
-  } else if (!test) {
-    return function () {
-      return true;
-    };
-  } else {
-    return test;
-  }
+  if (typeof test == "string") return function (type) {
+    return type == test;
+  };else if (!test) return function () {
+    return true;
+  };else return test;
 }
 
 var Found = function Found(node, state) {
@@ -103,6 +83,10 @@ var Found = function Found(node, state) {
 
   this.node = node;this.state = state;
 };
+
+// Find a node with a given start, end, and type (all are optional,
+// null can be used as wildcard). Returns a {node, state} object, or
+// undefined when it doesn't find a matching node.
 
 function findNodeAt(node, start, end, test, base, state) {
   test = makeTest(test);
@@ -114,11 +98,13 @@ function findNodeAt(node, start, end, test, base, state) {
       if (test(type, node) && (start == null || node.start == start) && (end == null || node.end == end)) throw new Found(node, st);
     })(node, state);
   } catch (e) {
-    if (e instanceof Found) {
-      return e;
-    }throw e;
+    if (e instanceof Found) return e;
+    throw e;
   }
 }
+
+// Find the innermost node of a given type that contains the given
+// position. Interface similar to findNodeAt.
 
 function findNodeAround(node, pos, test, base, state) {
   test = makeTest(test);
@@ -126,48 +112,50 @@ function findNodeAround(node, pos, test, base, state) {
   try {
     ;(function c(node, st, override) {
       var type = override || node.type;
-      if (node.start > pos || node.end < pos) {
-        return;
-      }base[type](node, st, c);
+      if (node.start > pos || node.end < pos) return;
+      base[type](node, st, c);
       if (test(type, node)) throw new Found(node, st);
     })(node, state);
   } catch (e) {
-    if (e instanceof Found) {
-      return e;
-    }throw e;
+    if (e instanceof Found) return e;
+    throw e;
   }
 }
+
+// Find the outermost matching node after a given position.
 
 function findNodeAfter(node, pos, test, base, state) {
   test = makeTest(test);
   if (!base) base = exports.base;
   try {
     ;(function c(node, st, override) {
-      if (node.end < pos) {
-        return;
-      }var type = override || node.type;
+      if (node.end < pos) return;
+      var type = override || node.type;
       if (node.start >= pos && test(type, node)) throw new Found(node, st);
       base[type](node, st, c);
     })(node, state);
   } catch (e) {
-    if (e instanceof Found) {
-      return e;
-    }throw e;
+    if (e instanceof Found) return e;
+    throw e;
   }
 }
+
+// Find the outermost matching node before a given position.
 
 function findNodeBefore(node, pos, test, base, state) {
   test = makeTest(test);
   if (!base) base = exports.base;
   var max = undefined;(function c(node, st, override) {
-    if (node.start > pos) {
-      return;
-    }var type = override || node.type;
+    if (node.start > pos) return;
+    var type = override || node.type;
     if (node.end <= pos && (!max || max.node.end < node.end) && test(type, node)) max = new Found(node, st);
     base[type](node, st, c);
   })(node, state);
   return max;
 }
+
+// Used to create a custom walker. Will fill in all missing node
+// type properties with the defaults.
 
 function make(funcs, base) {
   if (!base) base = exports.base;
