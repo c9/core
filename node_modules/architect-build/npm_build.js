@@ -124,6 +124,9 @@ function addModule(id, parent) {
             children.push(name.slice(1, -1));
         }
     }
+    if (/\.json$/.test(filename))
+        children = [];
+    
     var module = {
         relPath: relPath(filename),
         id: filename,
