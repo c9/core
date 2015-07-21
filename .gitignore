@@ -32,6 +32,7 @@ node_modules/*
 !node_modules/c9
 !node_modules/frontdoor
 !node_modules/kaefer
+!node_modules/verify-bot
 node_modules/kaefer/node_modules/
 !node_modules/nak
 !node_modules/pivottable
