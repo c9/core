@@ -167,7 +167,7 @@ define(function(require, exports, module) {
                 return;
             }
             
-            var servers = shuffleServers(version, vfsServers);
+            servers = shuffleServers(version, vfsServers);
             
             // check for version
             if (vfsServers.length && !servers.length) {
