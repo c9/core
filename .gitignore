@@ -10,6 +10,7 @@ plugins/c9.vfs.standalone/www/charts
 plugins/c9.ide.language.javascript.tern/util/sigs_ts
 plugins/c9.account.billing/node_modules/
 plugins/c9.account/node_modules/
+plugins/c9.react/node_modules/
 plugins/c9.api.project/coverage/
 plugins/c9.api.user/coverage/
 plugins/c9.proxy.apps/coverage/
