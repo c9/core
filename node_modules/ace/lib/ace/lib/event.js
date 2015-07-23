@@ -115,6 +115,29 @@ exports.capture = function(el, eventHandler, releaseCaptureHandler) {
     return onMouseUp;
 };
 
+exports.addTouchMoveListener = function (el, callback) {
+    if ("ontouchmove" in el) {
+        var startx, starty;
+        exports.addListener(el, "touchstart", function (e) {
+            var touchObj = e.changedTouches[0];
+            startx = touchObj.clientX;
+            starty = touchObj.clientY;
+        });
+        exports.addListener(el, "touchmove", function (e) {
+            var factor = 1,
+            touchObj = e.changedTouches[0];
+
+            e.wheelX = -(touchObj.clientX - startx) / factor;
+            e.wheelY = -(touchObj.clientY - starty) / factor;
+
+            startx = touchObj.clientX;
+            starty = touchObj.clientY;
+
+            callback(e);
+        });
+    } 
+};
+
 exports.addMouseWheelListener = function(el, callback) {
     if ("onmousewheel" in el) {
         exports.addListener(el, "mousewheel", function(e) {
@@ -335,7 +358,7 @@ function resetPressedKeys(e) {
     pressedKeys = Object.create(null);
 }
 
-if (window.postMessage && !useragent.isOldIE) {
+if (typeof window == "object" && window.postMessage && !useragent.isOldIE) {
     var postMessageId = 1;
     exports.nextTick = function(callback, win) {
         win = win || window;
@@ -352,11 +375,11 @@ if (window.postMessage && !useragent.isOldIE) {
 }
 
 
-exports.nextFrame = window.requestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.msRequestAnimationFrame ||
-    window.oRequestAnimationFrame;
+exports.nextFrame = typeof window == "object" && (window.requestAnimationFrame
+    || window.mozRequestAnimationFrame
+    || window.webkitRequestAnimationFrame
+    || window.msRequestAnimationFrame
+    || window.oRequestAnimationFrame);
 
 if (exports.nextFrame)
     exports.nextFrame = exports.nextFrame.bind(window);
