@@ -38,7 +38,6 @@ function plugin(options, imports, register) {
                 console.error("Our current stack: ", new Error().stack);
                 var killtimer = setTimeout(function() {
                     console.error("Exiting after uncaught exception");
-                    console.error(err.stack || err);
                     process.exit(1);
                 }, 10000);
                 // But don't keep the process open just for that!
