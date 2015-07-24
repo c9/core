@@ -23,6 +23,10 @@ function plugin(options, imports, register) {
     connect.useStart(function(req, res, next) {
         var d = domain.create();
         d.on("error", function(err) {
+            raygun.customData = raygun.customData || {};
+            raygun.customData.serverCrashed = true;
+            raygun.customData.exceptionStack = err.stack;
+            raygun.customData.crashStack = new Error().stack;
             sendRequestError(err, req);
             
             // from http://nodejs.org/api/domain.html
