@@ -7,6 +7,7 @@ module.exports = function(manifest, installPath) {
     }
     
     var path = require("path");
+    var os = require("os");
     var runners = require("../plugins/c9.ide.run/runners_list").local;
     var builders = require("../plugins/c9.ide.run.build/builders_list");
     
@@ -28,6 +29,7 @@ module.exports = function(manifest, installPath) {
     var correctedInstallPath = installPath.substr(0, home.length) == home
         ? "~" + installPath.substr(home.length)
         : installPath;
+    var inContainer = os.hostname().match(/-\d+$/);
     
     var config = {
         standalone: true,
@@ -45,7 +47,7 @@ module.exports = function(manifest, installPath) {
         sdk: sdk,
         pid: process.pid,
         port: process.env.PORT || 8181,
-        host: process.env.IP || "0.0.0.0",
+        host: process.env.IP || (inContainer ? "0.0.0.0" : "127.0.0.1"),
         testing: false,
         platform: process.platform,
         arch: process.arch,

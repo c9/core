@@ -164,4 +164,5 @@ updateNodeModules
 echo -e "c9.*\n.gitignore" >  plugins/.gitignore
 
 echo "Success!"
-echo "run '${yellow}node server.js -p 8181 -l 0.0.0.0 -a :${resetColor}' to launch Cloud9"
+
+echo "run '${yellow}node server.js -p 8080 -a :${resetColor}' to launch Cloud9"
