@@ -458,6 +458,9 @@ define(function(require, module, exports) {
                 emit.sticky("paneCreate", { pane: pane }, pane);
             });
             
+            if (!settings.getBool("user/tabs/@show"))
+                ui.setStyleClass(pane.aml.$ext, "notabs", ["notabs"]);
+            
             changed = true;
             settings.save();
         
