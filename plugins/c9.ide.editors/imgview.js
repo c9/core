@@ -12,7 +12,7 @@ define(function(require, exports, module) {
         
         /***** Initialization *****/
         
-        var extensions = ["gif", "ico"];
+        var extensions = ["gif", "ico", "svg"];
                           
         function ImageEditor(){
             var plugin = new Editor("Ajax.org", main.consumes, extensions);

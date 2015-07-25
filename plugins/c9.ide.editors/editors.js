@@ -91,7 +91,7 @@ define(function(require, module, exports) {
             extensions.forEach(function(ext) {
                 // force lower-case, to account for other LowerCase checks below
                 ext = ext.toLowerCase();
-                (fileExtensions[ext] || (fileExtensions[ext] = [])).push(editor);
+                (fileExtensions[ext] || (fileExtensions[ext] = [])).unshift(editor);
             });
     
             if (editor.type == options.defaultEditor)
