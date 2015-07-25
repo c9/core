@@ -45,7 +45,7 @@ define(function(require, module, exports) {
         var counter = 1;
         
         var focussedTab, previewTab, previewTimeout;
-        var container, mnuEditors, collapsedMenu;
+        var container, mnuEditors, collapsedMenu, isReady;
         
         // Ref to focusManager - this will be changed later
         focusManager.tabManager = plugin;
@@ -201,7 +201,6 @@ define(function(require, module, exports) {
             });
             
             // Settings
-            var firstTime = true;
             settings.on("read", function(e) {
                 // Defaults
                 settings.setDefaults("user/tabs", [
@@ -230,12 +229,12 @@ define(function(require, module, exports) {
                 
                 setTimeout(function() {
                     // Only set the state if we're not testing something else
-                    if (options.testing != 2 && firstTime) {
-                        setState(state, firstTime, function(){
+                    if (options.testing != 2 && !isReady) {
+                        setState(state, !isReady, function(){
                             emit.sticky("ready");
                         });
-                        firstTime = false;
                     }
+                    isReady = true;
                     
                     showTabs = settings.getBool("user/tabs/@show");
                     toggleButtons(showTabs);
@@ -1953,7 +1952,12 @@ define(function(require, module, exports) {
             /**
              * 
              */
-            clone: clone
+            clone: clone,
+            
+            /**
+             * @ignore
+             */
+            get isReady(){ return isReady; },
         });
         
         register(null, {
