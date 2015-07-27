@@ -111,6 +111,7 @@
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
         "c9.ide.upload": "#0bd010d3dc",
-        "c9.ide.welcome": "#c370b3f191"
+        "c9.ide.welcome": "#c370b3f191",
+        "smf.core": "#012cdbd6c2"
     }
 }
