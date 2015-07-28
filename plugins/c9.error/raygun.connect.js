@@ -23,15 +23,21 @@ function plugin(options, imports, register) {
     connect.useStart(function(req, res, next) {
         var d = domain.create();
         d.on("error", function(err) {
+            raygun.customData = raygun.customData || {};
+            raygun.customData.serverCrashed = true;
+            raygun.customData.exceptionStack = err.stack;
+            raygun.customData.crashStack = new Error().stack;
             sendRequestError(err, req);
             
             // from http://nodejs.org/api/domain.html
             try {
                 // make sure we close down within 10 seconds
                 console.error("Uncaught exception. Logging error and shutting down in 10 sec");
+                console.error("Exception:", err);
+                console.error("Exception stack:", err.stack);
+                console.error("Our current stack: ", new Error().stack);
                 var killtimer = setTimeout(function() {
                     console.error("Exiting after uncaught exception");
-                    console.error(err.stack || err);
                     process.exit(1);
                 }, 10000);
                 // But don't keep the process open just for that!
