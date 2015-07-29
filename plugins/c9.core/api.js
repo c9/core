@@ -83,6 +83,8 @@ define(function(require, exports, module) {
             get basicAuth() { throw new Error("Permission Denied"); },
             set basicAuth(v) { BASICAUTH = v.split(":"); },
 
+            apiWrapper: apiWrapper,
+
             collab: collab,
             user: user,
             preview: preview,
