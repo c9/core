@@ -162,6 +162,7 @@ updateAllPackages
 updateNodeModules
 
 echo -e "c9.*\n.gitignore" >  plugins/.gitignore
+echo -e "nak\n.gitignore" >  node_modules/.gitignore
 
 echo "Success!"
 
