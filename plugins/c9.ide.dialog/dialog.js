@@ -190,7 +190,10 @@ define(function(require, module, exports) {
                     }
                     
                     // allow selecting dialog message text
-                    titles.textselect = !custom;
+                    var textselect = options.textselect;
+                    if (textselect == undefined)
+                        textselect = !custom;
+                    titles.textselect = textselect;
                     
                     // When the dialog closes the next dialog can appear
                     plugin.once("hide", next);

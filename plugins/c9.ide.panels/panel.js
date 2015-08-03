@@ -46,8 +46,11 @@ define(function(require, module, exports) {
                             area.enablePanel(plugin.name);
                         else
                             area.disablePanel(plugin.name);
-                    }
+                    },
                 });
+                
+                mnuItem.panel = plugin;
+                
                 menus.addItemByPath("Window/" + caption, mnuItem, index, plugin);
                 
                 panels.on("showPanel" + uCaseFirst(plugin.name), function(e) {
@@ -206,9 +209,10 @@ define(function(require, module, exports) {
                         caption: caption,
                         auto: false,
                         "class" : buttonCSSClass || "",
-                        onmousedown: function(){
+                        onmousedown: function(e){
+                            if (e.htmlEvent && e.htmlEvent.button) return;
                             panels.areas[where].toggle(plugin.name, autohide, true);
-                        },
+                        }
                     });
                     plugin.addElement(button);
                 }
