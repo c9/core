@@ -1,0 +1,66 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:window
+      id        = "window"
+      center    = "true"
+      height    = "395"
+      minwidth  = "560"
+      minheight = "247"
+      icon      = ""
+      buttons   = "close"
+      skin      = "bk-window2"
+      kbclose   = "true"
+      resizable = "true"
+      title     = "Files"
+      width     = "560"
+      class     = "dark"
+      draggable = "true">
+        <a:vbox
+          class     = "filesave-inner-padding"
+          padding   = "0">
+            <div class="dgLikeContaier" margin="5 0 5 0" flex="1">
+                <a:hbox id="container"
+                  anchors  = "0 0 0 0"
+                  overflow = "hidden">
+                </a:hbox>
+            </div> 
+            <a:hbox
+              align     = "center"
+              padding   = "5">
+                <a:label class="lbl_saveas" width="70">File Output:</a:label>
+                <a:textbox
+                id           = "fileOutput"
+                flex         = "7"
+                class        = "directory ace_searchbox tb_textbox searchbox searchTxt tb_console tb_textboxInitial"
+                focusselect  = "true" 
+                visible      = "true"
+                value        = "Untitled" />
+            </a:hbox>
+            <a:hbox edge="23 0 0" pack="end" padding="8">
+                  <!--class    = "btnIconOnly smallCaption"-->
+                <a:checkbox
+                  id      = "cbShowFiles"
+                  skin    = "checkbox_black"
+                  checked = "false"
+                  width   = "120"
+                  margin  = "7 0 0">
+                    Show files in tree
+                </a:checkbox>
+                <a:filler />
+                <a:button
+                  id       = "btnCancel"
+                  class    = "btn-red"
+                  skin     = "btn-default-css3"
+                  width   = "120"
+                  caption  = "Cancel"
+                />
+                <a:button
+                  id      = "btnChoose"
+                  class   = "btn-green"
+                  width   = "120"
+                  caption = "Save"
+                  skin    = "btn-default-css3"
+                />
+            </a:hbox>
+        </a:vbox>
+    </a:window>
+</a:application>
