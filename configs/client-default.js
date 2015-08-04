@@ -704,7 +704,7 @@ module.exports = function(options) {
     if (options.standalone || options.local) {
         plugins.push(
             "plugins/c9.ide.scm/status",
-           "plugins/c9.ide.scm/editor"
+            "plugins/c9.ide.scm/editor"
         );
     }
     
