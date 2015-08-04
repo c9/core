@@ -219,11 +219,11 @@ define(function(require, exports, module) {
         function install(packageName, options, callback){
             // Call install url
             var parts = packageName.split("@");
-            var name = parts[0];
+            var name = packageName = parts[0];
             var version = parts[1];
             var repository;
             
-            if ((!version || options.debug) && !options.test) {
+            if (!options.test) {
                 if (verbose)
                     console.log("Retrieving package info");
                     
@@ -232,8 +232,10 @@ define(function(require, exports, module) {
                     
                     if (verbose)
                         console.log("Found:", info);
+                    
+                    if (!version)
+                        version = info.latest;
                         
-                    version = info.latest;
                     repository = info.repository;
                     
                     installPackage();
@@ -362,7 +364,9 @@ define(function(require, exports, module) {
                     
                     request.on('response', function(res) {
                         if (res.statusCode != 200)
-                            return callback(new Error("Unknown Error:" + res.statusCode));
+                            return callback(new Error("Unknown Error getting " 
+                                + host + (port  ? ":" + port : "") 
+                                + path + ":" + res.statusCode));
                     });
                     
                     file.on('finish', function() {
@@ -451,7 +455,7 @@ define(function(require, exports, module) {
                             return callback(null, { version: "test" });
                             
                         if (verbose)
-                            console.log("Notifying c9.io that packages needs to be installed");
+                            console.log("Notifying c9.io that package is installed");
                         
                         var endpoint = options.global ? api.user : api.project;
                         var url = "install/" + packageName + "/" + version + "?mode=silent";
