@@ -104,6 +104,8 @@ define(function(require, exports, module) {
         }, 500);
         
         function exec(command, editor, args, e) {
+            var sCommand = command;
+            
             if (!editor || editor.fake)
                 editor = emit("getEditor");
             
@@ -119,8 +121,10 @@ define(function(require, exports, module) {
             if (typeof command === 'string')
                 command = commands[command];
             
-            if (!command)
+            if (!command) {
+                console.warn("Could not find command ", sCommand);
                 return false;
+            }
             
             if (command.isAvailable && !command.isAvailable(editor, args, e))
                 return; //Disable commands for other contexts
