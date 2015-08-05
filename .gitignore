@@ -43,6 +43,7 @@ node_modules/kaefer/node_modules/
 !node_modules/ui
 !node_modules/react-bootstrap
 !node_modules/oldclient
+!node_modules/vargs
 
 node_modules/oldclient/node_modules
 node_modules/oldclient/plugins-server/c9.api.project/tmp*
