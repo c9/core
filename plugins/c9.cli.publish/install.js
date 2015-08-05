@@ -109,10 +109,11 @@ define(function(require, exports, module) {
                     }
                     
                     var name = argv._[1];
+                    
                     var test = name == ".";
                     if (test)
                         name = require("path").basename(process.cwd());
-                    
+                        
                     install(
                         name,
                         {
@@ -219,7 +220,7 @@ define(function(require, exports, module) {
         function install(packageName, options, callback){
             // Call install url
             var parts = packageName.split("@");
-            var name = packageName = parts[0];
+            var name = parts[0];
             var version = parts[1];
             var repository;
             
@@ -458,7 +459,7 @@ define(function(require, exports, module) {
                             console.log("Notifying c9.io that package is installed");
                         
                         var endpoint = options.global ? api.user : api.project;
-                        var url = "install/" + packageName + "/" + version + "?mode=silent";
+                        var url = "install/" + name + "/" + version + "?mode=silent";
                         
                         endpoint.post(url, function(err, info){
                             callback(err, info);
