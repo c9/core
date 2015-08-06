@@ -363,7 +363,9 @@
         if (require == requirejs) {
             require = function(a, b, c) {
                 if (!c && Array.isArray(a))
-                    c = function(err) { lastDone(err.message); };
+                    c = function(err) { 
+                        lastDone && lastDone(err.message); 
+                    };
                 return requirejs(a, b, c);
             };
             Object.keys(requirejs).forEach(function(x) {
