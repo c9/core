@@ -2,7 +2,7 @@ Cloud9 3.0 SDK for Plugin Development
 ======================================
 
 This is the core repository for the Cloud9 v3 SDK. The SDK allows you to run a version of Cloud9 that allows you to develop plugins and create a custom IDE based on Cloud9.
-
+ 
 #### Project Status: *ALPHA*
 
 During the alpha stage, expect many things to break, not work or simply fail.
