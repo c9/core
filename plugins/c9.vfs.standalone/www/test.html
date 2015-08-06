@@ -226,8 +226,10 @@
                 running = false;
                 lastDone && lastDone();
             }
-            running ? done() : mocha.run(done);
-            running = true;
+            if (!running) {
+                running = true;
+                mocha.run(done);
+            }
         };
         onload.remain = onload.remain == "1";
         
