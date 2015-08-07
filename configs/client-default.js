@@ -701,6 +701,13 @@ module.exports = function(options) {
             staticPrefix: staticPrefix + "/plugins/c9.ide.collab/notifications"
         },
     ];
+
+    if (options.standalone || options.local) {
+        plugins.push(
+            "plugins/c9.ide.scm/status",
+            "plugins/c9.ide.scm/editor"
+        );
+    }
     
     if (packaging || !devel) {
         plugins.push({
