@@ -1,7 +1,7 @@
 {
     "name": "c9",
     "description": "New Cloud9 Client",
-    "version": "3.0.2234",
+    "version": "3.0.2278",
     "author": "Ajax.org B.V. <info@ajax.org>",
     "private": true,
     "main": "bin/c9",
@@ -33,7 +33,7 @@
         "rusha": "~0.7.2",
         "send": "~0.1.4",
         "simple-mime": "~0.0.8",
-        "tern": "git://github.com/cloud9ide/tern.git#42164cde34b4cb057fa0c53d3881a58d903a3135",
+        "tern": "git://github.com/cloud9ide/tern.git#749e64a0f0fed91f883ff055df37b4bfc9f2d980",
         "tern_from_ts": "git://github.com/cloud9ide/tern_from_ts.git#6a0107e602b0d044fe1753533cf31f52cf5fb95a",
         "through": "2.2.0",
         "tmp": "~0.0.20",
@@ -55,7 +55,7 @@
         "c9"
     ],
     "c9plugins": {
-        "c9.ide.language": "#4a3fb360aa",
+        "c9.ide.language": "#c8a0de682c",
         "c9.ide.language.css": "#ef8a28943e",
         "c9.ide.language.generic": "#77d43cfaf0",
         "c9.ide.language.html": "#bbe81afed1",
@@ -65,7 +65,7 @@
         "c9.ide.language.javascript.eslint": "#9b2721c3d0",
         "c9.ide.language.javascript.tern": "#a8f7ed0e30",
         "c9.ide.language.javascript.infer": "#cfec494a3c",
-        "c9.ide.language.jsonalyzer": "#ba3e0d298c",
+        "c9.ide.language.jsonalyzer": "#103e701afc",
         "c9.ide.collab": "#b49eda3791",
         "c9.ide.local": "#a9703b630c",
         "c9.ide.find": "#6cc6d3379d",
@@ -94,7 +94,7 @@
         "c9.ide.navigate": "#f358997d93",
         "c9.ide.newresource": "#f1f0624768",
         "c9.ide.openfiles": "#28a4f5af16",
-        "c9.ide.preview": "#d10e9d75e1",
+        "c9.ide.preview": "#a75e218d3e",
         "c9.ide.preview.browser": "#c50007ebbc",
         "c9.ide.preview.markdown": "#ab8d30ad9f",
         "c9.ide.pubsub": "#a85fb27eca",
@@ -105,13 +105,13 @@
         "c9.ide.run": "#1e99c8c1d2",
         "c9.ide.run.build": "#ad45874c88",
         "c9.ide.run.debug.xdebug": "#3b1520f83d",
-        "c9.ide.save": "#58b8616a88",
-        "c9.ide.scm": "#undefined",
-        "c9.ide.terminal.monitor": "#b0b4d03280",
+        "c9.ide.save": "#cc613b6ead",
+        "c9.ide.scm": "#f3847917b8",
+        "c9.ide.terminal.monitor": "#b52a3f2144",
         "c9.ide.theme.flat": "#2de8414db7",
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
         "c9.ide.upload": "#0bd010d3dc",
-        "c9.ide.welcome": "#c370b3f191"
+        "c9.ide.welcome": "#0cb72cfc56"
     }
 }

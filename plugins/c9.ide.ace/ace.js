@@ -1673,6 +1673,11 @@ define(function(require, exports, module) {
             defineSyntax: defineSyntax,
             
             /**
+             * @ignore
+             */
+            getSyntaxForPath: getSyntaxForPath,
+            
+            /**
              * @ignore this is used by statusbar
              */
             getSyntaxCaption: function(syntax) {

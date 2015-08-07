@@ -16,7 +16,7 @@
     <div id="mocha"></div>
     <div id='jserror' width='100%' height='20px' style='font: 10px \"courier new\"; color: red; display: none;'></div>
 
-    <script src="require.js"></script>
+    <script src="mini_require.js"></script>
     <script src="/configs/require_config.js"></script>
     <script src="lib/mocha/mocha.js"></script>
     <script>
@@ -156,7 +156,7 @@
         require([path]);
     }
     // allow running some tests in both client and server
-    ["amd-loader", "../../test/setup_paths"].forEach(defineEmpty);
+    ["amd-loader", "test/setup_paths"].forEach(defineEmpty);
     // require.config({paths: {chai: "lib/chai/chai"}});
     
     
@@ -173,7 +173,13 @@
     });
 
     
-    var deps = ["text!/test/all.json", "lib/architect/architect", "lib/chai/chai", "test.js"];
+    var deps = [
+        "text!/test/all.json",
+        "lib/architect/architect",
+        "lib/chai/chai",
+        "test",
+        "plugins/c9.ide.ui/lib_less1.5"
+    ];
     if (options.ui === "none")
         deps.shift();
 
@@ -226,8 +232,10 @@
                 running = false;
                 lastDone && lastDone();
             }
-            running ? done() : mocha.run(done);
-            running = true;
+            if (!running) {
+                running = true;
+                mocha.run(done);
+            }
         };
         onload.remain = onload.remain == "1";
         
@@ -347,14 +355,14 @@
         }
         
         /* global requirejs require: true*/
-        var defaultModules = Object.keys(requirejs.s.contexts._.defined).filter(function(x) {
+        var defaultModules = Object.keys(define.modules).filter(function(x) {
             return !/text!/.test(x);
         });
         function cleanupRequireModules() {
-            Object.keys(require.s.contexts._.defined).forEach(function(x) {
+            Object.keys(define.modules).forEach(function(x) {
                 if (/text!/.test(x) || defaultModules.indexOf(x) != -1)
                     return;
-                if (/lib\/ace|lib\/treehugger|\/ctags\/ctags$/.test(x) && !/_test/.test(x))
+                if (/^ace|^treehugger|\/ctags\/ctags$/.test(x) && !/_test/.test(x))
                     return;
                     
                 require.undef(x);
@@ -363,8 +371,18 @@
         if (require == requirejs) {
             require = function(a, b, c) {
                 if (!c && Array.isArray(a))
-                    c = function(err) { lastDone(err.message); };
-                return requirejs(a, b, c);
+                    c = function(err) { 
+                        lastDone && lastDone(err.message); 
+                    };
+                // workaround for sync minirequire behaviour
+                var bt = b && function() {
+                    var args = [].slice.call(arguments);
+                    var self = this;
+                    setTimeout(function() {
+                        b.apply(self, args);
+                    });
+                };
+                return requirejs(a, bt, c);
             };
             Object.keys(requirejs).forEach(function(x) {
                 if (!(x in require)) {

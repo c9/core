@@ -122,13 +122,16 @@ filefinder.prototype.treewalk = function(basedir, subdir, fnpattern, blacklist, 
     function next() {
       var file = list[i++];
       if (!file) return cb(null, foundfilesarray.length);
+      var partName = path.join(subdir, file);
       var filepath = path.join(fulldir, file);
       
       // get file info
       fs.stat(filepath, function(err, stat) {
         if (stat && stat.isDirectory()) {
+          if (blacklist && blacklist.indexOf(partName + "/") !== -1)
+            return next();
           // directory, so recurse
-          _self.treewalk(basedir, path.join(subdir, file), fnpattern, blacklist, foundfilesarray, function(err, res) {
+          _self.treewalk(basedir, partName, fnpattern, blacklist, foundfilesarray, function(err, res) {
             results = results.concat(res);
             next();
           });
@@ -141,7 +144,6 @@ filefinder.prototype.treewalk = function(basedir, subdir, fnpattern, blacklist, 
           }
           
           // check if blacklisted
-          var partName = path.join(subdir, file);
           if (!blacklist || blacklist.indexOf(partName) == -1) {
               if (DEBUGMODE) console.log("file found: %s", partName);
               foundfilesarray.push(partName);
