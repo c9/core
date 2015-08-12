@@ -391,7 +391,8 @@ module.exports = function(options) {
         "plugins/c9.ide.test/test",
         "plugins/c9.ide.test/testpanel",
         "plugins/c9.ide.test/all",
-        // "plugins/c9.ide.test/lastrun",
+        "plugins/c9.ide.test/results",
+        "plugins/c9.ide.test/codecoverage",
         
         // Console
         {
