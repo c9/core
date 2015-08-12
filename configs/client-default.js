@@ -387,6 +387,12 @@ module.exports = function(options) {
         "plugins/c9.ide.run.debug.xdebug/xdebug",
         "plugins/c9.ide.run.debug/debuggers/gdb/gdbdebugger",
         
+        // Test
+        "plugins/c9.ide.test/test",
+        "plugins/c9.ide.test/testpanel",
+        "plugins/c9.ide.test/all",
+        // "plugins/c9.ide.test/lastrun",
+        
         // Console
         {
             packagePath: "plugins/c9.ide.terminal/terminal",
