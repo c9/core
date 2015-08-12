@@ -116,7 +116,7 @@ define(function(require, module, exports) {
                 if (mnuItem)
                     mnuItem.destroy(true, true);
     
-                menus.remove("View/Panels/" + caption);
+                menus.remove("Window/" + caption);
                 
                 panels.unregister(plugin);
             });
