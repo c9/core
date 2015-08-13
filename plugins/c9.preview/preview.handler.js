@@ -6,6 +6,7 @@ define(function(require, exports, module) {
         "connect.render.ejs",
         "connect.redirect",
         "connect.static",
+        "error.logger",
         "metrics"
     ];
     main.provides = ["preview.handler"];
@@ -19,6 +20,7 @@ define(function(require, exports, module) {
         var metrics = imports.metrics;
         var parseUrl = require("url").parse;
         var debug = require("debug")("preview");
+        var logError = imports["error.logger"].warn;
         
         var staticPrefix = imports["connect.static"].getStaticPrefix();
         
@@ -306,8 +308,16 @@ define(function(require, exports, module) {
                         if (data)
                             buffer += data;
                         
-                        if (shouldInject)
-                            buffer = generateInstrumentedHTML(buffer) || "";
+                        if (shouldInject) {
+                            try {
+                                buffer = generateInstrumentedHTML(buffer) || "";
+                            } catch(e) {
+                                // don't intrument if it fails
+                                logError(new Error("HTML instrumentation failed"), {
+                                    exception: e
+                                });
+                            }
+                        }
                         data = new Buffer(buffer);
                         res.writeHead(200, {
                             "content-length": data.length + inject.length,
