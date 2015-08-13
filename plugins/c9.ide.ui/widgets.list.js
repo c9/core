@@ -79,6 +79,7 @@ define(function(require, exports, module) {
                 redirectEvents = {
                     scroll: model,
                     scrollbarVisibilityChanged: acetree.renderer,
+                    afterRender: acetree.renderer,
                     resize: acetree.renderer,
                     expand: model,
                     collapse: model,
@@ -455,6 +456,10 @@ define(function(require, exports, module) {
                      */
                     "afterRename",
                     /**
+                     * @event afterRender Fires 
+                     */
+                    "afterRender",
+                    /**
                      * @event check Fires 
                      */
                     "check",
@@ -598,7 +603,8 @@ define(function(require, exports, module) {
                 }
             });
             
-            plugin.load(null, options.baseName || "list");
+            if (!baseclass)
+                plugin.load(null, options.baseName || "list");
             
             return plugin;
         }
