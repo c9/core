@@ -22,6 +22,8 @@ define(function(require, exports, module) {
         
         var basename = require("path").basename;
         var dirname = require("path").dirname;
+        var escapeHTML = require("ace/lib/lang").escapeHTML;
+
         
         /***** Initialization *****/
         
@@ -650,9 +652,9 @@ define(function(require, exports, module) {
             model.getCaptionHTML = function(node) {
                 if (node.isFavorite) {
                     var path = node.labelPath || node.path;
-                    return basename(path) 
+                    return escapeHTML(basename(path)) 
                         + "<span class='extrainfo'> - " 
-                        + dirname(path) + "</span>";
+                        + escapeHTML(dirname(path)) + "</span>";
                 }
                 else
                     return getCaptionHTML.call(model, node);
