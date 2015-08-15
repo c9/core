@@ -178,6 +178,7 @@ module.exports = function(config, optimist) {
             readonly: readonly
         },
         "./c9.vfs.server/vfs.server",
+        "./c9.error/logger.raygun_mock",
         "./c9.preview/preview.handler",
         "./c9.vfs.server/cache",
         "./c9.vfs.server/download",

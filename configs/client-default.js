@@ -656,6 +656,7 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.configuration/configure"
         },
+        "plugins/c9.ide.services/linked-services",
         "plugins/c9.ide.save/save",
         "plugins/c9.ide.recentfiles/recentfiles",
         {
