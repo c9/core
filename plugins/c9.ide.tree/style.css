@@ -212,6 +212,6 @@
 .ace_tree .heading .toggler{
     display : none !important;
 }
-.ace_tree .heading .ace_tree-icon{
+.ace_tree .heading .ace_tree-icon, .ace_tree .heading .filetree-icon{
     display : none !important;
 }
