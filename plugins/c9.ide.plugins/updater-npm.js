@@ -22,8 +22,9 @@ define(function(require, exports, module) {
 
         /***** Initialization *****/
 
-        var pluginsPath = "/home/ubuntu/.c9/plugins";
-        var managedPath = "/home/ubuntu/.c9/managed";
+        var npmBin = options.npmBin || "/home/ubuntu/.nvm/nvm-exec";
+        var pluginsPath = options.pluginsPath || "/home/ubuntu/.c9/plugins";
+        var managedPath = options.managedPath || "/home/ubuntu/.c9/managed";
 
         var managedNpmPath = [managedPath, "npm"].join("/");
         var managedEtcPath = [managedNpmPath, "etc"].join("/");
@@ -187,8 +188,6 @@ define(function(require, exports, module) {
         }
 
         function npmExec(command, args, callback) {
-            var npmBin = "/home/ubuntu/.nvm/nvm-exec";
-
             debug(npmBin, { args: [ "npm", command ].concat(args) });
 
             proc.execFile(npmBin, {
