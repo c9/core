@@ -107,11 +107,11 @@
 .filetree .favorite{
     opacity : 0.5;
 }
-.filetree .extrainfo{
-    color : rgb(92, 92, 92);
+.ace_tree .extrainfo{
+    color : @tree-extrainfo-color;
 }
-.filetree.ace_tree_focus .selected .extrainfo{
-    color : #CCCCCC;
+.ace_tree.ace_tree_focus .selected .extrainfo{
+    color : @tree-focus-selected-extrainfo-color;
 }
 
 .filetree .tree-row.dragAppendUpload .filetree-icon {

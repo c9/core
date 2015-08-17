@@ -391,7 +391,10 @@ module.exports = function(options) {
         "plugins/c9.ide.test/test",
         "plugins/c9.ide.test/testpanel",
         "plugins/c9.ide.test/testrunner",
-        "plugins/c9.ide.test/all",
+        {
+            packagePath: "plugins/c9.ide.test/all",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.test"
+        },
         "plugins/c9.ide.test/results",
         // "plugins/c9.ide.test/codecoverage",
         

@@ -381,7 +381,7 @@ define(function(require, exports, module) {
                  * 
                  */
                 get sort(){ return model.sort; },
-                set sort(fn){ debugger;
+                set sort(fn){
                     model.$sortNodes = fn ? true : false;
                     model.$sorted = fn ? true : false;
                     model.sort = fn; 
