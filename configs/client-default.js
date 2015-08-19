@@ -396,7 +396,7 @@ module.exports = function(options) {
             staticPrefix: staticPrefix + "/plugins/c9.ide.test"
         },
         "plugins/c9.ide.test/results",
-        // "plugins/c9.ide.test/codecoverage",
+        "plugins/c9.ide.test/coverage",
         
         "plugins/c9.ide.test.mocha/mocha",
         
