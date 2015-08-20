@@ -113,5 +113,8 @@
         "c9.ide.undo": "#b028bcb4d5",
         "c9.ide.upload": "#0bd010d3dc",
         "c9.ide.welcome": "#0cb72cfc56"
+    },
+    "scripts": {
+        "start": "node server.js"
     }
 }
