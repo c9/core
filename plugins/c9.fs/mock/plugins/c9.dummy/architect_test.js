@@ -1,3 +1,5 @@
+"use blacklist";
+
 /**
  * Bogus plugin. Circularity ftw.
  */
@@ -13,8 +15,7 @@ define(function(require, exports, module) {
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var ui = imports.ui;
-        imports.
-        
+
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
@@ -59,6 +60,6 @@ define(function(require, exports, module) {
         //register(null, { "myplugin" : plugin });
         register(null, { "myplugin" : {
             myfunc2: myfunc
-        });
+        }});
     }
 });
