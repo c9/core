@@ -397,6 +397,7 @@ module.exports = function(options) {
         },
         "plugins/c9.ide.test/results",
         "plugins/c9.ide.test/coverage",
+        "plugins/c9.ide.test/coverageview",
         
         "plugins/c9.ide.test.mocha/mocha",
         

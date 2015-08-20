@@ -19,7 +19,7 @@ define(function(require, exports, module) {
                 options.baseName = "datagrid";
                 
             if (!options.theme)
-                options.theme = "blackdg ace-tree-" + (options.baseName || "datagrid");
+                options.theme = "blackdg ace-tree-" + options.baseName;
             
             var model = new TreeModel();
             model.columns = options.columns;
@@ -33,7 +33,7 @@ define(function(require, exports, module) {
             
             if (!options.rowHeight) {
                 layout.on("eachTheme", function(e){
-                    var cls = "." + plugin.theme + " .row";
+                    var cls = "." + options.theme.replace(/ /g, " .") + " .row";
                     var height = parseInt(ui.getStyleRule(cls, "height"), 10) || 23;
                     // model.rowHeightInner = height - 1;
                     model.rowHeight = height;
