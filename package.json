@@ -44,6 +44,9 @@
         "chai": "~1.5.0",
         "mocha": "1.8.2"
     },
+    "scripts": {
+        "start": "node server.js"
+    },
     "devDependencies": {},
     "licenses": [],
     "bundledDependencies": [
