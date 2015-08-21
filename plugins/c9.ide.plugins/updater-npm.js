@@ -23,7 +23,6 @@ define(function(require, exports, module) {
         /***** Initialization *****/
 
         var npmBin = options.npmBin || "/home/ubuntu/.nvm/nvm-exec";
-        var pluginsPath = options.pluginsPath || "/home/ubuntu/.c9/plugins";
         var managedPath = options.managedPath || "/home/ubuntu/.c9/managed";
 
         var managedNpmPath = [managedPath, "npm"].join("/");
@@ -45,7 +44,7 @@ define(function(require, exports, module) {
 
             // TODO: DRY error handling
 
-            fsMkdirs([ managedPath, managedEtcPath, managedModulesPath, pluginsPath ], function(err) {
+            fsMkdirs([ managedPath, managedEtcPath, managedModulesPath, managedPluginsPath ], function(err) {
                 if (err) {
                     console.error("[plugin.updater.npm]", err);
                     showErrorDialog(err);
@@ -269,16 +268,16 @@ define(function(require, exports, module) {
         }
 
         /**
-         * Removes symbolic links from the `~/.c9/plugins` folder.
+         * Removes symbolic links from the `~/.c9/managed/plugins` folder.
          */
         function fsRmLinks(callback) {
-            debug("find", { args: [ pluginsPath, "-maxdepth", "1", "-type", "l", "-exec", "rm", "{}", ";" ] });
+            debug("find", { args: [ managedPluginsPath, "-maxdepth", "1", "-type", "l", "-exec", "rm", "{}", ";" ] });
 
             // find . -maxdepth 1 -type l -exec rm {} \;
 
             proc.execFile("find", {
                 args: [
-                    pluginsPath,
+                    managedPluginsPath,
                     "-maxdepth", "1",
                     "-type", "l",
                     "-exec", "rm", "{}", ";"
@@ -296,13 +295,13 @@ define(function(require, exports, module) {
          * @param {String} pkgPath  Path to the source package folder
          */
         function fsLink(pkgPath, callback) {
-            debug("ls", { args: [ "-s", "-f", pkgPath, [ pluginsPath, "." ].join("/") ]});
+            debug("ls", { args: [ "-s", "-f", pkgPath, [ managedPluginsPath, "." ].join("/") ]});
 
             proc.execFile("ln", {
                 args: [
                     "-s", "-f",
                     pkgPath,
-                    [ pluginsPath, "." ].join("/"),
+                    [ managedPluginsPath, "." ].join("/"),
                 ],
             }, function(err, stdout, stderr) {
                 debug([err, stdout, stderr]);
@@ -324,7 +323,7 @@ define(function(require, exports, module) {
                 args: [
                     "-rf", basename,
                 ],
-                cwd: pluginsPath,
+                cwd: managedPluginsPath,
             }, function(err, stdout, stderr) {
                 debug([err, stdout, stderr]);
 
