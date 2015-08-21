@@ -78,6 +78,10 @@ define(function(require, module, exports) {
                 }
             }
             
+            if (options.withCredentials) {
+                xhr.withCredentials = true;
+            }
+            
             var timer;
             var timedout = false;
             if (timeout) {

@@ -34,6 +34,7 @@ if (typeof process !== "undefined") {
 
 define(function(require, exports, module) {
 "use strict";
+"use client";
 
 var EditSession = require("../edit_session").EditSession;
 var Tokenizer = require("../tokenizer").Tokenizer;

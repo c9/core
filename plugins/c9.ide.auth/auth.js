@@ -113,7 +113,8 @@ define(function(require, exports, module) {
 
             http.request("/_auth/logout", function(err1) {
                 http.request(ideBaseUrl + "/auth/signout", {
-                    method: "POST"
+                    method: "POST",
+                    withCredentials: true
                 }, function(err2) {
                     loggedIn = false;
                     emit("logout", {uid: uid, newUid: ANONYMOUS});

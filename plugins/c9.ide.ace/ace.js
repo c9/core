@@ -1375,7 +1375,7 @@ define(function(require, exports, module) {
         }
         
         function getMode(syntax) {
-            syntax = (syntax || "text").toLowerCase();
+            syntax = (syntax || settings.get("project/ace/@defaultSyntax") || "text").toLowerCase();
             if (syntax.indexOf("/") == -1)
                 syntax = "ace/mode/" + syntax;
     

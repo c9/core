@@ -44,7 +44,7 @@ define(function(require, module, exports) {
                 column.setWidth(CURWIDTH);
                 column.setAttribute("class", where);
                 
-                column.oncontextmenu = function(e) {
+                bar.oncontextmenu = function(e) {
                     var menu = menus.get("Window").menu;
                     menu.display(e.x, e.y);
                     menu.childNodes.forEach(function(x) {
