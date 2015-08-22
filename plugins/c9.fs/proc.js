@@ -346,7 +346,7 @@ define(function(require, exports, module) {
              * @fires afterPty
              */
             pty: function(path, options, callback) {
-                if (installMode) {
+                if (installMode || options.fakePty) {
                     plugin.spawn(path, options, function(err, process){
                         if (err) return callback(err);
                         callback(null, new ProcessToPty(process));
