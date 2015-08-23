@@ -56,7 +56,7 @@ define(function(require, exports, module) {
                 container = new ui.bar({ 
                     htmlNode: htmlNode || document.body,
                     "class"  : options.className,
-                    style: options.style
+                    style: options.style || ""
                 });
                 plugin.addElement(container);
                 
@@ -479,7 +479,7 @@ define(function(require, exports, module) {
                 }
                 
                 htmlNode.insertBefore(container.$ext, beforeNode || null);
-                emit("show");
+                show();
             }
             
             function detach(){
@@ -490,6 +490,11 @@ define(function(require, exports, module) {
             function toJson(amlNode, json) {
                 if (!json)
                     json = {};
+                
+                if (!drawn) {
+                    draw();
+                    hide();
+                }
                 
                 (amlNode || container).childNodes.forEach(function(row) {
                     if (row.localName == 'bar')
