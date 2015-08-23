@@ -381,6 +381,7 @@ define(function(require, exports, module) {
                         ];
                     break;
                     case "textarea-row":
+                        // TODO this should be ace
                         node = new ui.vsplitbox({
                             options: options,
                             height: options.rowheight || rowheight,
@@ -391,6 +392,9 @@ define(function(require, exports, module) {
                                 new ui.textarea({
                                     width: options.width || widths.textarea,
                                     height: options.height || 200,
+                                    style: options.fixedFont
+                                        ? "font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace; font-size: 10px"
+                                        : "",
                                     value: options.path 
                                         ? createBind(options.path) 
                                         : (options.defaultValue || ""),
