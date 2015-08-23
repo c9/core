@@ -1,0 +1,303 @@
+.c9-dropdown-btn {
+    height             : 21px;
+    overflow           : hidden;
+    cursor             : default;
+    position           : relative;
+    -moz-user-select   : none;
+    -khtml-user-select : none;
+    user-select        : none;
+    line-height        : 17px;
+    border             : 1px solid transparent;
+    float              : left;
+}
+.c9-dropdown-btn.main {
+    border-width:1px 0 1px 1px;
+}
+.c9-dropdown-btn.arrow {
+    border-width:1px 1px 1px 0;
+}
+.c9-dropdown-btn .c9-icon {
+    width:19px;
+    height:19px;
+    position:absolute;
+    top:2px;
+    left:4px;
+    background-position: 0 0;
+    background-repeat:no-repeat;
+    display : none;
+}
+.c9-dropdown-btnIcon .c9-icon {
+    display : block;
+}
+ .c9-dropdown-btn .c9-label {
+    position:relative;
+    overflow:hidden;
+    font-family:Arial;
+    font-size:12px;
+    color:#cecece;
+    line-height:14px;
+    height             : 14px;
+    padding:1px 5px 0 7px;
+    margin:3px 0 0 0;
+    border-right:1px solid #1c1c1c;
+ }
+ .c9-dropdown-btnIcon .c9-label {
+    padding:1px 5px 0 26px;
+ }
+ .c9-dropdown-btn .c9-arrow {
+    width:14px;
+    height:15px;
+    margin:3px 0 0 0;
+    position:relative;
+    border-left:1px solid #4d4d4d;
+    background:url(images/btn-arrow.png) no-repeat 4px 6px;
+ }
+ .c9-dropdown-btn.arrow .c9-icon,
+ .c9-dropdown-btn.arrow .c9-label,
+ .c9-dropdown-btn.main .c9-arrow {
+    display:none;
+ }
+ .c9-dropdown-btnOver {
+    border                : 1px solid #1c1c1c;
+    -moz-border-radius    : 5px;
+    -webkit-border-radius : 5px;
+    border-radius         : 5px;
+    background : #333333;
+    background : -webkit-gradient(linear, left top, left bottom, from(#393939), color-stop(1, #333333));
+    background : -moz-linear-gradient(center bottom, #333333 0%, #393939 100%) repeat scroll 0 0 transparent;
+    border:1px solid #1c1c1c;
+    -moz-box-shadow    : 0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0px 1px 0px 0px rgba(255, 255, 255, 0.1);
+    -webkit-box-shadow : 0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0px 1px 0px 0px rgba(255, 255, 255, 0.1);
+    box-shadow         : 0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0px 1px 0px 0px rgba(255, 255, 255, 0.1);
+    float:left;
+}
+.c9-dropdown-btnOver.main {
+    -moz-border-radius    : 5px 0 0 5px;
+    -webkit-border-radius : 5px 0 0 5px;
+    border-radius         : 5px 0 0 5px;
+    border-right          : 0;
+}
+.c9-dropdown-btnOver.arrow,
+.c9-dropdown-btnDown.main.arrow {
+    -moz-border-radius    : 0 5px 5px 0;
+    -webkit-border-radius : 0 5px 5px 0;
+    border-radius         : 0 5px 5px 0;
+    border-left:0;
+}
+.c9-dropdown-btnDown.main .c9-label,
+.c9-dropdown-btnOver .c9-label {
+    height       : 17px;
+    padding      : 4px 5px 0 7px;
+    margin       : 0;
+}
+.c9-dropdown-btnIcon.c9-dropdown-btnDown .c9-label,
+.c9-dropdown-btnIcon.c9-dropdown-btnOver .c9-label {
+    padding      : 4px 5px 0 26px;
+ }
+.c9-dropdown-btnDown.main .c9-arrow,
+.c9-dropdown-btnOver .c9-arrow {
+    width               : 14px;
+    height              : 21px;
+    margin              : 0;
+    background-position : 4px 9px;
+}
+.c9-dropdown-btnDown {
+    border                : 1px solid #1c1c1c;
+    -moz-border-radius    : 5px;
+    -webkit-border-radius : 5px;
+    border-radius         : 5px;
+    background : #333333;
+    background : -webkit-gradient(linear, left top, left bottom, from(#393939), color-stop(1, #333333));
+    background : -moz-linear-gradient(center bottom, #333333 0%, #393939 100%) repeat scroll 0 0 transparent;
+    -moz-box-shadow    : 0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0px 1px 0px 0px rgba(255, 255, 255, 0.15);
+    -webkit-box-shadow : 0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0px 1px 0px 0px rgba(255, 255, 255, 0.15);
+    box-shadow         : 0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0px 1px 0px 0px rgba(255, 255, 255, 0.15);
+    float:left;
+}
+.c9-dropdown-btnDown.main {
+    -moz-border-radius    : 5px 0 0 5px;
+    -webkit-border-radius : 5px 0 0 5px;
+    border-radius         : 5px 0 0 5px;
+    border-right          : 0;
+    background : #333333;
+    background : -webkit-gradient(linear, left top, left bottom, from(#282828), color-stop(1, #2e2e2e));
+    background : -moz-linear-gradient(center bottom, #2e2e2e 0%, #282828 100%) repeat scroll 0 0 transparent;
+}
+.c9-dropdown-btnDown.main .c9-icon {
+    background-position: 0 -19px;
+}
+.c9-dropdown-btnDown.arrow {
+    -moz-border-radius    : 0 5px 5px 0;
+    -webkit-border-radius : 0 5px 5px 0;
+    border-radius         : 0 5px 5px 0;
+    border-left           : 0;
+    background : #333333;
+    background : -webkit-gradient(linear, left top, left bottom, from(#282828), color-stop(1, #1f1f1f));
+    background : -moz-linear-gradient(center bottom, #1f1f1f 0%, #282828 100%) repeat scroll 0 0 transparent;
+}
+.c9-dropdown-btnDisabled.main .c9-icon {
+    background-position: 0 -37px;
+}
+ .c9-dropdown-btnDisabled .c9-label {
+    color:#18191a;
+    text-shadow   : rgba(62, 63, 64, 1) 0px 1px 0px;
+    border-right:0;
+    padding:1px 6px 0 7px;
+ }
+ .c9-dropdown-btnIcon.c9-dropdown-btnDisabled .c9-label {
+    padding:1px 6px 0 26px;
+ }
+ .c9-dropdown-btnDisabled .c9-arrow {
+    width:15px;
+    height:15px;
+    margin:3px 0 0 0;
+    border-left:0;
+    background:url(images/btn-arrow2.png) no-repeat 0 6px;
+ }
+.btnRun .main,
+.btnRun .main:after,
+.btnRun .arrow{
+    background: url(images/c9-no-repeat.png) no-repeat;
+    border: 0 none;
+    border-radius: 0;
+    box-shadow: none;
+    height: 23px;
+}
+.btnRun .main {
+    background-position: 0px -434px;
+    margin-right: 3px;
+    overflow: visible;
+}
+.btnRun .main.c9-dropdown-btnOver {
+    background-position: 0px -457px;
+}
+.btnRun .main:after {
+    background-position: -397px -424px;
+    content: "";
+    display: block;
+    left: 100%;
+    position: absolute;
+    top: 0;
+    width: 3px;
+}
+.btnRun .main .c9-label {
+    border-right: 0 none;
+    padding-left: 23px !important;
+}
+.btnRun .main .c9-icon {
+    left: 3px;
+    top: 2px;
+}
+.btnRun .main.c9-dropdown-btnOver:after {
+    background-position: -397px -457px;
+}
+.btnRun .c9-dropdown-btnDown.main {
+    background-position: 0px -490px;
+}
+.btnRun .c9-dropdown-btnDown.main:after {
+    background-position: -397px -490px;
+}
+.btnRun .arrow {
+    background-position: -400px -424px;
+    width: 16px;
+}
+.btnRun .c9-dropdown-btnOver.arrow {
+    background-position: -400px -457px;
+}
+.btnRun .c9-dropdown-btnDown.arrow {
+    background-position: -400px -490px;
+}
+.btnRun .arrow .c9-arrow {
+    display: none;
+}
+.testpanel .fm-content .c9-header-plus {
+    top: -31px;
+    right: 32px;
+}
+.testpanel .fm-content .panel-settings {
+    overflow: visible;
+}
+.testpanel .fm-content .panel-settings:before {
+    background: url(images/c9-no-repeat.png) no-repeat -100px -293px;
+    content: "";
+    display: block;
+    height: 26px;
+    left: -2px;
+    position: absolute;
+    top: 0;
+    width: 2px;
+}
+.testpanel .fm-content .testPanelControls {
+    right: 4px;
+    position: relative;
+    top: 1px;
+}
+.testPanelControls .c9-toolbarbutton-light,
+.testPanelControls .light-dropdown {
+    margin-right: 10px !important;
+}
+.light-dropdown .c9-dropdown-btn {
+    height: 19px;
+}
+.light-dropdown .c9-dropdown-btn.main {
+    border-radius: 2px 0 0 2px;
+}
+.light-dropdown .c9-dropdown-btn .c9-label {
+    border-right-color: rgba(76,76,76,.3);
+    color: #4D4D4D;
+    height: 19px !important;
+    line-height: 21px;
+    margin-top: 0 !important;
+    padding: 0 5px !important;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+.light-dropdown .c9-dropdown-btn.arrow {
+    border-radius: 0 2px 2px 0;
+}
+.light-dropdown .c9-dropdown-btn .c9-arrow {
+    background-position: 4px 8px;
+    border-left-color: rgba(255,255,255,.75);
+    margin: 0;
+    height: 21px;
+}
+.light-dropdown .c9-dropdown-btnOver,
+.light-dropdown .c9-dropdown-btnDown {
+    background-color: rgba(255,255,255,.65);
+    background-image: -webkit-linear-gradient(bottom, rgba(0,0,0,.08), transparent);
+    background-image:    -moz-linear-gradient(bottom, rgba(0,0,0,.08), transparent);
+    background-image:         linear-gradient(bottom, rgba(0,0,0,.08), transparent);
+    border-color: rgba(128,128,128,.55);
+    box-shadow: 0 1px 0 0 rgba(255,255,255,.7) inset;
+}
+.light-dropdown .c9-dropdown-btnDown.primary {
+    background-color: rgba(233,233,233,.555);
+    box-shadow: 0 1px 0 0 rgba(0,0,0,.15) inset;
+}
+
+/********/
+
+.c9-dropdown-btn .c9-label {
+    padding : 1px 3px 0 7px;
+}
+.c9-dropdown-btnIcon .c9-label {
+    padding : 1px 3px 0 26px;
+}
+.c9-dropdown-btnOver .c9-label,
+.c9-dropdown-btnDown.main .c9-label {
+    height  : 17px;
+    padding : 4px 3px 0 7px;
+    margin  : 0;
+}
+.c9-dropdown-btnIcon.c9-dropdown-btnOver .c9-label,
+.c9-dropdown-btnIcon.c9-dropdown-btnDown.main .c9-label {
+    padding : 4px 3px 0 26px;
+}
+.c9-dropdown-btnDisabled .c9-label {
+    padding:1px 4px 0 7px;
+}
+.c9-dropdown-btnIcon.c9-dropdown-btnDisabled .c9-label {
+    padding:1px 4px 0 26px;
+ }
+.c9-dropdown-btnDisabled .c9-arrow {
+    background-position : 0 6px;
+}

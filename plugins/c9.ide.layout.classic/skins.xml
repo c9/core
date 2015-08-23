@@ -579,6 +579,17 @@
         </a:main>
     </a:presentation>
 </a:spinner>
+<a:splitbutton name="splitbutton">
+    <a:presentation>
+        <a:main caption="div[2]/text()" background="div/span" icon="div[1]">
+            <div class="c9-dropdown-btn">
+                <div class="c9-icon"></div>
+                <div class="c9-label">-</div>
+                <div class="c9-arrow"></div>
+             </div>
+        </a:main>
+    </a:presentation>
+</a:splitbutton>
 <a:splitter  name="splitter">
     
     <a:presentation>
