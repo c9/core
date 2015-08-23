@@ -380,6 +380,25 @@ define(function(require, exports, module) {
                             })
                         ];
                     break;
+                    case "textarea-row":
+                        node = new ui.vsplitbox({
+                            options: options,
+                            height: options.rowheight || rowheight,
+                            edge: options.edge || edge,
+                            type: options.type,
+                            childNodes: [
+                                new ui.label({ height: 40, caption: name + ":" }),
+                                new ui.textarea({
+                                    width: options.width || widths.textarea,
+                                    height: options.height || 200,
+                                    value: options.path 
+                                        ? createBind(options.path) 
+                                        : (options.defaultValue || ""),
+                                    realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
+                                })
+                            ]
+                        });
+                    break;
                     case "custom":
                         node = options.node;
                     break;
