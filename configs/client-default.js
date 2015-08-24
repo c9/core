@@ -705,7 +705,11 @@ module.exports = function(options) {
         },
         
         // git integration
-        "plugins/c9.ide.scm/status",
+        "plugins/c9.ide.scm/scm",
+        "plugins/c9.ide.scm/scmpanel",
+        "plugins/c9.ide.scm/detail",
+        "plugins/c9.ide.scm/log",
+        "plugins/c9.ide.scm/git",
         "plugins/c9.ide.scm/editor",
     ];
     
