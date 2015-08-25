@@ -33593,6 +33593,9 @@ apf.splitbutton = function(struct, tagName) {
 
                 _self.dispatchEvent("mouseout", { button: this });
             },
+            onmousedown: function() {
+                _self.dispatchEvent("mousedown", { button: this });
+            },
             onclick: function(e) {
                 _self.dispatchEvent("click");
             }
@@ -33621,6 +33624,9 @@ apf.splitbutton = function(struct, tagName) {
                 }
 
                 _self.dispatchEvent("mouseout", { button: this });
+            },
+            onmousedown: function() {
+                _self.dispatchEvent("mousedown", { button: this });
             },
             onclick: function(e) {
                 _self.dispatchEvent("split.click", e);

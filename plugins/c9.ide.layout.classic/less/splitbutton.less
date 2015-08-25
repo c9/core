@@ -5,12 +5,12 @@ body .splitbutton .arrow {
     min-width: 10px !important;
 }
 
-.splitbutton .arrow:before {
+.splitbutton>div:first-child:after {
     content: "";
     display: block;
     border-left: 1px solid @border-highlight-dark;
     position: absolute;
-    left: -1px;
+    right: 0;
     top: 4px;
     bottom: 4px;
 }
