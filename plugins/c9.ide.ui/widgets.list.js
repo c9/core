@@ -34,6 +34,7 @@ define(function(require, exports, module) {
             var acetree;
             var model;
             var redirectEvents;
+            var filterRoot;
             var meta = {};
             var dataType = options.model ? "object" : options.dataType;
             var excludedEvents = { 
@@ -294,17 +295,18 @@ define(function(require, exports, module) {
                 set filterKeyword(value){
                     model.keyword = value;
                     if (!model.keyword) {
+                        filterRoot = null;
                         model.reKeyword = null;
                         model.setRoot(model.cachedRoot);
                     }
                     else {
                         model.reKeyword = new RegExp("(" 
                             + util.escapeRegExp(model.keyword) + ")", 'i');
-                        var root = search.treeSearch(
+                        filterRoot = search.treeSearch(
                             model.cachedRoot.items || model.cachedRoot, 
                             model.keyword, model.filterCaseInsensitive,
                             null, null, model.indexProperty);
-                        model.setRoot(root);
+                        model.setRoot(filterRoot);
                     }
                 },
                 /**
@@ -582,7 +584,7 @@ define(function(require, exports, module) {
                  * 
                  */
                 refresh: function(){
-                    plugin.setRoot(plugin.root);
+                    model.setRoot(filterRoot || plugin.root);
                 },
                 /**
                  * 
