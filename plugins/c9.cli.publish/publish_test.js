@@ -304,7 +304,7 @@ describe("cli.publish", function(){
         it("should remove a package locally", function(done){
             runCLI("remove", ["--local", "c9.ide.example"], function(err, stdout, stderr){
                 expect(stdout).to.match(/Successfully removed c9.ide.example/);
-                expect(fs.existsSync(pluginDir)).ok;
+                expect(fs.existsSync(pluginDir)).not.ok;
                 done();
             });
         });
