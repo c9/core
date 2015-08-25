@@ -1,7 +1,7 @@
 /*global describe it before beforeEach after bar =*/
 
 "use client";
-"use mocha";
+
 
 require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/assertions"], function (architect, chai, baseProc) {
     var expect = chai.expect;
