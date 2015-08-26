@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 "use server";
-"use mocha";
+
 
 require("c9/inline-mocha")(module);
 if (typeof define === "undefined") {
