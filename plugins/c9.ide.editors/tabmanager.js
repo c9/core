@@ -1098,7 +1098,11 @@ define(function(require, module, exports) {
             function done(err, value) {
                 tab.classList.remove("loading");
                 
-                if (err) {
+                if (err && options.newOnError) {
+                    tab.document.meta.newfile = true;
+                    value = options.value || "";
+                }
+                else if (err) {
                     tab.classList.add("error");
                     tab.document.meta.error = true;
                     
