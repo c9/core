@@ -11,10 +11,11 @@ define(function(require, exports, module) {
     ];
     main.provides = ["myplugin"];
     return main;
-
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var ui = imports.ui;
+        // Note: the syntax error below is intentional and used by architect_resolver_test.js
+        imports.
 
         /***** Initialization *****/
         
