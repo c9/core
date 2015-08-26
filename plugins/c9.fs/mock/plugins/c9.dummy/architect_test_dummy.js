@@ -1,5 +1,3 @@
-"use blacklist";
-
 /**
  * Bogus plugin. Circularity ftw.
  */
