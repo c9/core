@@ -1,5 +1,5 @@
 "use client";
-"use mocha";
+
 
 define(function(require, exports, module) {
     main.consumes = ["plugin.test", "myplugin"];
