@@ -1,5 +1,3 @@
-"use blacklist";
-
 /**
  * Bogus plugin. Circularity ftw.
  */
@@ -11,11 +9,11 @@ define(function(require, exports, module) {
     ];
     main.provides = ["myplugin"];
     return main;
-
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var ui = imports.ui;
-        imports. // This is needed for architect_resolver_test
+        // Note: the syntax error below is intentional and used by architect_resolver_test.js
+        imports.
 
         /***** Initialization *****/
         

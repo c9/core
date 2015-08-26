@@ -254,6 +254,8 @@ define(function(require, exports, module) {
             }
 
             listAllPackages(function(err, resolved) {
+                if (err) return console.error(err);
+                
                 if (!loadFromDisk) {
                     // filter packages by config instead of loading
                     // everything from disk
