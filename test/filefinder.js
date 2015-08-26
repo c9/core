@@ -30,7 +30,7 @@ var util = require("util");
 var path = require("path");
 
 
-var DEBUGMODE = true;
+var DEBUGMODE = false;
 
 
 
