@@ -9,7 +9,7 @@
     background : transparent;
     color : @color;
     border-radius: 3px;
-    margin: 1px 0px 0px 10px;
+    margin: 0px 0px 0px 10px;
     padding-left: 6px;
     height: @tree-row-height;
 }
