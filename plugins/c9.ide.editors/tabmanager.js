@@ -33,7 +33,7 @@ define(function(require, module, exports) {
         emit.setMaxListeners(100);
         
         var loadFilesAtInit = options.loadFilesAtInit;
-		var ideProviderName = options.ideProviderName || "Cloud9";
+        var ideProviderName = options.ideProviderName || "Cloud9";
         
         var PREFIX = "/////";
         var XPREVIEW = /\.(gz|tar|tgz|zip|rar|jar|exe|pyc|pdf)$/;
