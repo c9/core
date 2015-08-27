@@ -204,7 +204,7 @@
     font-variant: small-caps;
     font-size: 16px;
     margin-top: 0px;
-    margin-bottom: 3px;
+    margin-bottom: 0px;
     color: @tree-heading-color;
     text-shadow: @tree-heading-text-shadow;
     line-height: 0;
