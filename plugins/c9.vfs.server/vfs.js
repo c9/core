@@ -11,6 +11,8 @@ var wrapVfs = require("./vfs_wrapper");
 var proxyVfs = require("./vfs_proxy");
 var urlParse = require('url').parse;
 
+module.exports = Vfs;
+
 function Vfs(vfs, master, options) {
     EventEmitter.call(this);
     
