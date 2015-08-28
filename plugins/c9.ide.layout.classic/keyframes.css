@@ -28,8 +28,8 @@
 
 .loading-spinner {
     background: url("@{image-path}/tab-save-spinner-active.png") no-repeat;
-    -webkit-animation: loading-24-spinner 1.2s steps(24) infinite;
-            animation: loading-24-spinner 1.2s steps(24) infinite;
+    -webkit-animation: loading-spinner 1.2s steps(11) infinite;
+            animation: loading-spinner 1.2s steps(11) infinite;
 }
 
 @-webkit-keyframes ball { 0%, 19.99%, 100% { background-position: 0 0 } 20%, 39.99% { background-position: -30px 0 } 40%, 59.99% { background-position: -60px 0 } 60%,79.99% { background-position: -90px 0 } 80%, 99.99% { background-position: -120px 0 } }
