@@ -11,8 +11,6 @@ var wrapVfs = require("./vfs_wrapper");
 var proxyVfs = require("./vfs_proxy");
 var urlParse = require('url').parse;
 
-module.exports = Vfs;
-
 function Vfs(vfs, master, options) {
     EventEmitter.call(this);
     
@@ -127,7 +125,9 @@ Vfs.prototype._watchConnection = function(pid) {
     }
     function onStderr(data) {
         // @todo collab stderr logs
-        console.log("VFS stderr [" + pid + "]: " + data);
+        var logMessage = "VFS stderr [" + pid + "]: " + data
+        console.log(logMessage);
+        that.logger.log(logMessage);
     }
     
     master.on("disconnect", onError);
