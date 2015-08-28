@@ -125,9 +125,8 @@ Vfs.prototype._watchConnection = function(pid) {
     }
     function onStderr(data) {
         // @todo collab stderr logs
-        var logMessage = "VFS stderr [" + pid + "]: " + data
-        console.log(logMessage);
-        that.logger.log(logMessage);
+        console.log("VFS stderr [" + pid + "]: " + data);
+        that.logger.log({message: data, pid: pid});
     }
     
     master.on("disconnect", onError);
