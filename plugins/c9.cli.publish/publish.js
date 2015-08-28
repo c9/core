@@ -282,6 +282,17 @@ define(function(require, exports, module) {
                 
                 // Validate plugins
                 var plugins = {};
+                
+                var warned, failed;
+                Object.keys(json.plugins || {}).forEach(function(name){
+                    var filename = name + ".js";
+                    if (!fs.existsSync(join(cwd, name + "_test.js"))) {
+                        console.warn("ERROR: Plugin '" + name + "' has no test associated with it. There must be a file called '" + name + "_test.js' containing tests.");
+                        warned = true;
+                    }
+                    plugins[filename] = json.plugins[name];
+                });
+                
                 fs.readdirSync(cwd).forEach(function(filename) {
                     if (/(__\w*__|_test)\.js$/.test(filename) || !/\.js$/.test(filename)) return;
                     try {
@@ -293,18 +304,8 @@ define(function(require, exports, module) {
                     if (!/\(options,\s*imports,\s*register\)/.test(val)) return;
                     if (!/consumes\s*=/.test(val)) return;
                     if (!/provides\s*=/.test(val)) return;
-                    plugins[filename] = {};
-                });
-                
-                var warned, failed;
-                Object.keys(plugins).forEach(function(name){
-                    if (!json.plugins[name.replace(/\.js$/, "")]) {
-                        console.warn("WARNING: Plugin '" + name + "' is not listed in package.json.");
-                        warned = true;
-                    }
-                    else if (!fs.existsSync(join(cwd, name.replace(/\.js$/, "_test.js")))) {
-                        console.warn("ERROR: Plugin '" + name + "' has no test associated with it. There must be a file called '" + name.replace(/\.js$/, "") + "_test.js' containing tests.");
-                        warned = true;
+                    if (!plugins[filename]) {
+                        console.warn("WARNING: Plugin '" + filename + "' is not listed in package.json.");
                     }
                 });
                 
