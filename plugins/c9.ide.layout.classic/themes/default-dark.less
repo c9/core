@@ -41,6 +41,7 @@
 @highlight-selected-color: darken(#f1f1f1, @darken-font);
 
 @empty-message-color: darken(#f1f1f1, @darken-font);
+@inactive-font-color: #636363;
 
 @general-font-family: Arial, Helvetica, sans-serif;
 @general-font-size: 12px;
@@ -1694,8 +1695,15 @@
 @detail-label-border-bottom: 1px solid rgba(0,0,0,0.7);
 @detail-label-box-shadow: rgba(255, 255, 255, 0.06);
 
-@detail-label-hash-border: 1px solid @highlight-color;
+@detail-label-hash-border: 1px solid #95AD0A;
 @detail-label-hash-color: @highlight-color;
-@detail-label-hash-background: #555555;
+@detail-label-hash-background: #545D21;
+
+@log-hash-color: #f1f1f1;
+@log-hash-background: #545D21;
+@log-hash-border: 1px solid #95AD0A;
+
+@diff-toolbar-buttons-background: @border-highlight;
+@diff-toolbar-buttons-border: none;
 
 @panel-settings-changes-top: 36px;
