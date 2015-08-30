@@ -64,15 +64,14 @@ define(function(require, exports, module) {
             "dark"  : ["#153649", "#FFFFFF", "#515D77", true],
             "dark-gray"  : ["#153649", "#FFFFFF", "#515D77", true]
         };
-        (function() {
-            var themeName;
-            if (options.defaults) {
-                for (themeName in options.defaults) {
-                    defaults[themeName] = options.defaults[themeName];
-                }
-            }
-        })();
 
+        var themeName;
+        if (options.defaults) {
+            for (themeName in options.defaults) {
+                defaults[themeName] = options.defaults[themeName];
+            }
+        }
+                
         // Import the CSS
         ui.insertCss(require("text!./style.css"), options.staticPrefix, handle);
         
