@@ -65,6 +65,13 @@ define(function(require, exports, module) {
             "dark-gray"  : ["#153649", "#FFFFFF", "#515D77", true]
         };
 
+        var themeName;
+        if (options.defaults) {
+            for (themeName in options.defaults) {
+                defaults[themeName] = options.defaults[themeName];
+            }
+        }
+                
         // Import the CSS
         ui.insertCss(require("text!./style.css"), options.staticPrefix, handle);
         
