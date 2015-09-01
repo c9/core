@@ -960,7 +960,7 @@ apf.menu = function(struct, tagName){
             if (!amlNode.$amlLoaded)
                 amlNode.dispatchEvent("DOMNodeInsertedIntoDocument");
             // sometimes DOMNodeInsertedIntoDocument event handler puts $ext at the end of the popup
-            if (!amlNode.previousSibling || !amlNode.previousSibling.$ext || amlNode.$ext)
+            if (!amlNode.previousSibling || !amlNode.previousSibling.$ext || !amlNode.$ext)
                 continue;
             if (amlNode.$ext.previousSibling == amlNode.previousSibling.$ext)
                 continue;
