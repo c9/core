@@ -171,7 +171,10 @@ define(function(require, exports, module) {
          * @singleton
          **/
         plugin.freezePublicAPI({
-            
+            /**
+             * Shows Cloud9 about dialog 
+             */
+            showAbout: showAbout
         });
         
         register(null, {

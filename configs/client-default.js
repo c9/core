@@ -309,6 +309,7 @@ module.exports = function(options) {
         },
         "plugins/c9.ide.language/keyhandler",
         "plugins/c9.ide.language/complete",
+        "plugins/c9.ide.language/quickfix",
         "plugins/c9.ide.language/marker",
         "plugins/c9.ide.language/refactor",
         "plugins/c9.ide.language/tooltip",
@@ -644,7 +645,8 @@ module.exports = function(options) {
             staticPrefix: staticPrefix + "/plugins/c9.ide.help"
         },
         {
-            packagePath: "plugins/c9.ide.configuration/configure"
+            packagePath: "plugins/c9.ide.configuration/configure",
+            dashboardUrl: options.dashboardUrl,
         },
         "plugins/c9.ide.save/save",
         "plugins/c9.ide.recentfiles/recentfiles",
