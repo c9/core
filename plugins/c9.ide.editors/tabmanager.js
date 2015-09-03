@@ -33,6 +33,7 @@ define(function(require, module, exports) {
         emit.setMaxListeners(100);
         
         var loadFilesAtInit = options.loadFilesAtInit;
+        var ideProviderName = options.ideProviderName || "Cloud9";
         
         var PREFIX = "/////";
         var XPREVIEW = /\.(gz|tar|tgz|zip|rar|jar|exe|pyc|pdf)$/;
@@ -468,8 +469,8 @@ define(function(require, module, exports) {
         
         function updateTitle(tab) {
             document.title = tab && settings.getBool("user/tabs/@title") && tab.title
-                ? tab.title + " - Cloud9"
-                : c9.projectName + " - Cloud9";
+                ? tab.title + " - "  + ideProviderName
+                : c9.projectName + " - "  + ideProviderName;
         }
         
         var lastCorner;
