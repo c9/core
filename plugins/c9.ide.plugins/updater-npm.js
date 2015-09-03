@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 
     main.consumes = [
         "Plugin",
-        "c9", "proc", "Dialog",
+        "c9", "proc", "Dialog", "ui",
     ];
     main.provides = ["plugin.updater.npm"];
     return main;
@@ -13,6 +13,7 @@ define(function(require, exports, module) {
         var c9 = imports["c9"];
         var proc = imports["proc"];
         var Dialog = imports["Dialog"];
+        var ui = imports["ui"];
 
         var async = require("async");
         var path = require("path");
@@ -25,9 +26,9 @@ define(function(require, exports, module) {
         var npmBin = options.npmBin || "/home/ubuntu/.nvm/nvm-exec";
         var managedPath = options.managedPath || "/home/ubuntu/.c9/managed";
 
+        var managedRcPath = [managedPath, ".npmrc"].join("/");
         var managedNpmPath = [managedPath, "npm"].join("/");
         var managedEtcPath = [managedNpmPath, "etc"].join("/");
-        var managedRcPath = [managedEtcPath, "npmrc"].join("/");
         var managedCachePath = [managedPath, "npm", "cache"].join("/");
         var managedPluginsPath = [managedPath, "plugins"].join("/");
         var managedModulesPath = [managedPath, "node_modules"].join("/");
@@ -35,6 +36,8 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
 
         function load() {
+            ui.insertCss(require("text!./style.css"), false, plugin);
+
             var pkgs = options.packages;
 
             if (!pkgs) {
@@ -381,6 +384,7 @@ define(function(require, exports, module) {
         function showUpdateDialog() {
             var dialog = new Dialog("Ajax.org", [], {
                 name: "plugin.updater.npm.dialog",
+                class: "dialog-updater",
                 allowClose: false,
                 modal: true,
                 elements: [
