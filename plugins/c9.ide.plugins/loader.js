@@ -70,7 +70,7 @@ define(function(require, exports, module) {
             }, function(err, packages) {
                 if (err && err.code === "EDISCONNECT") {
                     c9.once("connect", function() {
-                        loadPluginsFromDisk(callback);
+                        listAllPackages(callback);
                     });
                     return;
                 }
