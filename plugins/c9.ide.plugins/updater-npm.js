@@ -295,13 +295,13 @@ define(function(require, exports, module) {
          * @param {String} pkgPath  Path to the source package folder
          */
         function fsLink(pkgPath, callback) {
-            debug("ls", { args: [ "-s", "-f", pkgPath, [ managedPluginsPath, "." ].join("/") ]});
+            debug("ln", { args: [ "-s", "-f", pkgPath, [ managedPluginsPath, "." ].join("/") ]});
 
             proc.execFile("ln", {
                 args: [
                     "-s", "-f",
                     pkgPath,
-                    [ managedPluginsPath, "." ].join("/"),
+                    managedPluginsPath + "/.",
                 ],
             }, function(err, stdout, stderr) {
                 debug([err, stdout, stderr]);
