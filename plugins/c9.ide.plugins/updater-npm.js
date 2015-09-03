@@ -262,7 +262,7 @@ define(function(require, exports, module) {
             async.each(pkgs, function(pkg, done) {
                 npmExplorePath(pkg, function(err, pkgPath) {
                     if (err) return done(err);
-                    fsForceLink(pkgPath, done);
+                    fsLink(pkgPath, done);
                 });
             }, callback);
         }
@@ -306,31 +306,6 @@ define(function(require, exports, module) {
             }, function(err, stdout, stderr) {
                 debug([err, stdout, stderr]);
                 callback(err, stdout, stderr);
-            });
-        }
-
-        /**
-         * Forcefully delete an existing plugin folder and change it to
-         * a symbolic link in `~/.c9/plugins` pointing to the given plugin
-         * path.
-         *
-         * @param {String} pkgPath  Path to the source package folder
-         */
-        function fsForceLink(pkgPath, callback) {
-            var basename = path.basename(pkgPath);
-
-            proc.execFile("rm", {
-                args: [
-                    "-rf", basename,
-                ],
-                cwd: managedPluginsPath,
-            }, function(err, stdout, stderr) {
-                debug([err, stdout, stderr]);
-
-                if (err)
-                    return callback(err, stdout, stderr);
-
-                fsLink(pkgPath, callback);
             });
         }
 
