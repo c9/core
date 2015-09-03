@@ -70,7 +70,7 @@ define(function(require, exports, module) {
             }, function(err, packages) {
                 if (err && err.code === "EDISCONNECT") {
                     c9.once("connect", function() {
-                        loadPluginsFromDisk(callback);
+                        listAllPackages(callback);
                     });
                     return;
                 }
@@ -120,7 +120,6 @@ define(function(require, exports, module) {
 
                 async.map(stats, function(stat, done) {
                     // check for folder or symlink with folder target
-
                     if (stat.mime !== "inode/directory"
                         && (stat.mime === "inode/symlink" && stat.linkStat.mime !== "inode/directory")
                     ) {
@@ -128,13 +127,11 @@ define(function(require, exports, module) {
                     }
 
                     // check folers not prefixed with [._]
-
                     if (stat.name[0] === "." || stat.name[0] === "_") {
                         return done();
                     }
 
                     // check and load package.json
-
                     var config = {
                         name: stat.name,
                         path: absolutePath([ dirPath, stat.name ].join("/")),
@@ -216,17 +213,14 @@ define(function(require, exports, module) {
          */
         function loadPackage(config, callback) {
             loadPackageInstalledJs(config, function(err, installed) {
-                var plugins;
-
+                var plugins = installed;
                 if (err) {
                     plugins = _.map(config.metadata.plugins, function(value, key) {
                         return [ "plugins", config.name, key ].join("/");
                     });
-                } else {
-                    plugins = installed;
                 }
 
-                var architectConfig = installed.map(function(plugin) {
+                var architectConfig = plugins.map(function(plugin) {
                     if (typeof plugin == "string")
                         plugin = { packagePath: plugin };
 
@@ -256,36 +250,41 @@ define(function(require, exports, module) {
             listAllPackages(function(err, resolved) {
                 if (err) return console.error(err);
                 
+                var extraPackages = {};
+                // convert old format from db to the new one
+                loaderConfig.forEach(function(p) {
+                    if (!extraPackages[p.packageName]) {
+                        var path = "plugins/" + p.packageName;
+                        extraPackages[path] = {
+                            apiKey: p.apiKey,
+                            packagePath: path,
+                            version: p.version,
+                            name: p.packageName
+                        };
+                    }
+                });
                 if (!loadFromDisk) {
                     // filter packages by config instead of loading
                     // everything from disk
-
                     resolved = resolved.filter(function(config) {
-                        var extraConfig = _.find(loaderConfig, { packagePath: config.packagePath });
-
-                        if (!extraConfig) {
-                            console.warn("[c9.ide.loader] Not loading package "
-                                + config.path + " because it is not installed, "
-                                + "according to the database");
-
-                            return false;
-                        }
-
-                        config.apiKey = extraConfig.apiKey;
-
-                        return true;
+                        if (extraPackages[config.packagePath])
+                            return true;
+                            
+                        console.warn("[c9.ide.loader] Not loading package "
+                            + config.path + " because it is not installed, "
+                            + "according to the database");
+                        return false;
                     });
                 }
-
-                loaderConfig.forEach(function(extraConfig) {
-                    // warn about missing packages which are supposed to be installed
-
-                    if (!_.find(resolved, { packagePath: extraConfig.packagePath })) {
-                        console.warn("[c9.ide.loader] Package "
-                            + extraConfig.packagePath + " should be installed, according "
-                            + "to the database, but was not found on the filesystem. "
-                            + "Try reinstalling it.");
-                    }
+                resolved.filter(function(config) {
+                    if (extraPackages[config.packagePath])
+                        delete extraPackages[config.packagePath];
+                });
+                Object.keys(extraPackages).forEach(function(extraConfig) {
+                    console.warn("[c9.ide.loader] Package " 
+                        + extraConfig.packagePath + " should be installed, according "
+                        + "to the database, but was not found on the filesystem. "
+                        + "Try reinstalling it.");
                 });
 
                 names = _.pluck(resolved, "name");
@@ -307,7 +306,6 @@ define(function(require, exports, module) {
             load();
         });
         plugin.on("unload", function() {
-            loaded = false;
         });
         
         /***** Register and define API *****/
