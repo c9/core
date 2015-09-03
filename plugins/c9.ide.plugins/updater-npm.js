@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 
     main.consumes = [
         "Plugin",
-        "c9", "proc", "Dialog",
+        "c9", "proc", "Dialog", "ui",
     ];
     main.provides = ["plugin.updater.npm"];
     return main;
@@ -13,6 +13,7 @@ define(function(require, exports, module) {
         var c9 = imports["c9"];
         var proc = imports["proc"];
         var Dialog = imports["Dialog"];
+        var ui = imports["ui"];
 
         var async = require("async");
         var path = require("path");
@@ -25,9 +26,9 @@ define(function(require, exports, module) {
         var npmBin = options.npmBin || "/home/ubuntu/.nvm/nvm-exec";
         var managedPath = options.managedPath || "/home/ubuntu/.c9/managed";
 
+        var managedRcPath = [managedPath, ".npmrc"].join("/");
         var managedNpmPath = [managedPath, "npm"].join("/");
         var managedEtcPath = [managedNpmPath, "etc"].join("/");
-        var managedRcPath = [managedEtcPath, "npmrc"].join("/");
         var managedCachePath = [managedPath, "npm", "cache"].join("/");
         var managedPluginsPath = [managedPath, "plugins"].join("/");
         var managedModulesPath = [managedPath, "node_modules"].join("/");
@@ -35,6 +36,8 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
 
         function load() {
+            ui.insertCss(require("text!./style.css"), false, plugin);
+
             var pkgs = options.packages;
 
             if (!pkgs) {
@@ -195,7 +198,6 @@ define(function(require, exports, module) {
                 env: {
                     "npm_config_production": "true",
                     "npm_config_depth": 0,
-                    "npm_config_link": "true",
                     "npm_config_userconfig": "/dev/null",
                     "npm_config_prefix": managedNpmPath,
                     "npm_config_cache": managedCachePath,
@@ -322,6 +324,11 @@ define(function(require, exports, module) {
         function fsWriteNpmrc(callback) {
             var config = [
                 "//registry.npmjs.org/:_authToken = a7c61f6e-5b10-41db-947f-8bc8f1f9468b",
+                "production = true",
+                "depth = 0",
+                "userconfig = /dev/null",
+                "prefix = " + managedNpmPath,
+                "cache = " + managedCachePath,
             ];
 
             //
@@ -352,6 +359,7 @@ define(function(require, exports, module) {
         function showUpdateDialog() {
             var dialog = new Dialog("Ajax.org", [], {
                 name: "plugin.updater.npm.dialog",
+                class: "dialog-updater",
                 allowClose: false,
                 modal: true,
                 elements: [
