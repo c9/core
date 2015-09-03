@@ -645,7 +645,8 @@ module.exports = function(options) {
             staticPrefix: staticPrefix + "/plugins/c9.ide.help"
         },
         {
-            packagePath: "plugins/c9.ide.configuration/configure"
+            packagePath: "plugins/c9.ide.configuration/configure",
+            dashboardUrl: options.dashboardUrl,
         },
         "plugins/c9.ide.save/save",
         "plugins/c9.ide.recentfiles/recentfiles",
