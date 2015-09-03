@@ -195,7 +195,6 @@ define(function(require, exports, module) {
                 env: {
                     "npm_config_production": "true",
                     "npm_config_depth": 0,
-                    "npm_config_link": "true",
                     "npm_config_userconfig": "/dev/null",
                     "npm_config_prefix": managedNpmPath,
                     "npm_config_cache": managedCachePath,
@@ -347,6 +346,11 @@ define(function(require, exports, module) {
         function fsWriteNpmrc(callback) {
             var config = [
                 "//registry.npmjs.org/:_authToken = a7c61f6e-5b10-41db-947f-8bc8f1f9468b",
+                "production = true",
+                "depth = 0",
+                "userconfig = /dev/null",
+                "prefix = " + managedNpmPath,
+                "cache = " + managedCachePath,
             ];
 
             //
