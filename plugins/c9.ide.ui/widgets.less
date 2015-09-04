@@ -9,13 +9,17 @@
     background : transparent;
     color : @color;
     border-radius: 3px;
-    margin: 1px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
     padding-left: 6px;
     height: @tree-row-height;
 }
 .custom-tree.ace_tree.ace-tree-list .tree-row {
     margin: 1px 0px 0px 0px;
     padding-left: 0;
+}
+.custom-tree.ace_tree .tree-row.heading {
+    color: @tree-heading-color;
+    text-shadow: @tree-heading-text-shadow;
 }
 
 .custom-tree.ace_tree .tree-row.selected {

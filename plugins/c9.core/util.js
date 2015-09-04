@@ -379,12 +379,12 @@ define(function(require, exports, module) {
             return cmd.replace(re, "\\$1");//.replace(/^~/, "\\~");
         };
         
-        var cloneObject = plugin.cloneObject = function(obj) {
+        var cloneObject = plugin.cloneObject = function(obj, shallow) {
             if (obj === null || typeof obj !== "object")
                 return obj;
             var copy = Array.isArray(obj) ? [] : {};
             Object.keys(obj).forEach(function(k) {
-                copy[k] = cloneObject(obj[k]);
+                copy[k] = shallow ? obj[k] : cloneObject(obj[k]);
             });
             return copy;
         };

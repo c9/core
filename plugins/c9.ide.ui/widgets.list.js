@@ -34,6 +34,7 @@ define(function(require, exports, module) {
             var acetree;
             var model;
             var redirectEvents;
+            var filterRoot;
             var meta = {};
             var dataType = options.model ? "object" : options.dataType;
             var excludedEvents = { 
@@ -79,6 +80,7 @@ define(function(require, exports, module) {
                 redirectEvents = {
                     scroll: model,
                     scrollbarVisibilityChanged: acetree.renderer,
+                    afterRender: acetree.renderer,
                     resize: acetree.renderer,
                     expand: model,
                     collapse: model,
@@ -293,17 +295,18 @@ define(function(require, exports, module) {
                 set filterKeyword(value){
                     model.keyword = value;
                     if (!model.keyword) {
+                        filterRoot = null;
                         model.reKeyword = null;
                         model.setRoot(model.cachedRoot);
                     }
                     else {
                         model.reKeyword = new RegExp("(" 
                             + util.escapeRegExp(model.keyword) + ")", 'i');
-                        var root = search.treeSearch(
+                        filterRoot = search.treeSearch(
                             model.cachedRoot.items || model.cachedRoot, 
                             model.keyword, model.filterCaseInsensitive,
                             null, null, model.indexProperty);
-                        model.setRoot(root);
+                        model.setRoot(filterRoot);
                     }
                 },
                 /**
@@ -380,7 +383,7 @@ define(function(require, exports, module) {
                  * 
                  */
                 get sort(){ return model.sort; },
-                set sort(fn){ debugger;
+                set sort(fn){
                     model.$sortNodes = fn ? true : false;
                     model.$sorted = fn ? true : false;
                     model.sort = fn; 
@@ -454,6 +457,10 @@ define(function(require, exports, module) {
                      * @event afterRename Fires 
                      */
                     "afterRename",
+                    /**
+                     * @event afterRender Fires 
+                     */
+                    "afterRender",
                     /**
                      * @event check Fires 
                      */
@@ -577,7 +584,7 @@ define(function(require, exports, module) {
                  * 
                  */
                 refresh: function(){
-                    plugin.setRoot(plugin.root);
+                    model.setRoot(filterRoot || plugin.root);
                 },
                 /**
                  * 
@@ -598,7 +605,8 @@ define(function(require, exports, module) {
                 }
             });
             
-            plugin.load(null, options.baseName || "list");
+            if (!baseclass)
+                plugin.load(null, options.baseName || "list");
             
             return plugin;
         }
