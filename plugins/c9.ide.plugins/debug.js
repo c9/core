@@ -365,7 +365,7 @@ define(function(require, exports, module) {
                     data = util.safeParseJson(data, function() {});
                     if (!data) return;
                     
-                    services.run.addRunner(filename, data, plugin);
+                    services.run.addRunner(data.caption || filename, data, plugin);
                     break;
                 case "snippets":
                     services["language.complete"].addSnippet(data, plugin);
