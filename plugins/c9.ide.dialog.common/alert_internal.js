@@ -37,7 +37,7 @@ define(function(require, module, exports) {
                 else {
                     plugin.title = title;
                 }
-                plugin.heading = util.escapeXml(header);
+                plugin.heading = options && options.isHTML ? header : util.escapeXml(header);
                 plugin.body = options && options.isHTML ? msg : (util.escapeXml(msg) || "")
                     .replace(/\n/g, "<br />")
                     .replace(/(https?:\/\/[^\s]*\b)/g, "<a href='$1' target='_blank'>$1</a>");
