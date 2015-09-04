@@ -19,6 +19,7 @@ define(function(require, exports, module) {
         var lastCookie = 0;
         var offset = 0;
         var error, hideTimeout, disconnect;
+        var lastClassname;
         
         var DISCONNECTDELAY = 1000;
         
@@ -85,27 +86,30 @@ define(function(require, exports, module) {
         }
 
         function show(message, timeout) {
-            metrics.increment("dialog.error");
-            
             // Error message container
             if (!error) {
                 error = document.body.appendChild(document.createElement("div"));
-                error.className = "errorlabel";
                 error.addEventListener("mouseup", function(e) {
                     if (e.target.tagName == "U")
                         hide();
                 });
             }
+            error.className = "errorlabel "
+                + (message.className ? message.className : "");
             
-            if (!message) {
-                console.trace();
-                return console.error("empty error message", message);
+            if (!message.noError) {
+                metrics.increment("dialog.error");
+                
+                if (!message) {
+                    console.trace();
+                    return console.error("empty error message", message);
+                }
+                
+                console.error("Error:", 
+                    message.stack || message.html || message.message || message);
             }
             
-            console.error("Error:", 
-                message.stack || message.html || message.message || message);
-            
-            hide(function () {
+            hide(function() {
                 var messageString;
                 if (typeof message == "string") {
                     messageString = apf.escapeXML(message);
@@ -127,8 +131,10 @@ define(function(require, exports, module) {
                 error.firstChild.style.marginLeft = Math.max(0, (getCenterX() - (error.firstChild.offsetWidth / 2))) + "px";
                 
                 // Start anim
+                lastClassname = message.className;
                 setTimeout(function() {
-                    error.className = "errorlabel anim " + (offset > 0 ? "fade-in" : "");
+                    error.className = "errorlabel anim " + (offset > 0 ? "fade-in" : "") 
+                        + " " + (message.className || "");
                     error.style.top = (offset + topPx) + "px";
                     error.style.opacity = 1;
                 }, 10);
@@ -150,7 +156,8 @@ define(function(require, exports, module) {
             if (!error || error.style.display === "none")
                 return callback && callback();
             
-            error.className = "errorlabel anim " + (offset > 0 ? "fade-in" : "");
+            error.className = "errorlabel anim " + (offset > 0 ? "fade-in " : " ")
+                + (lastClassname ? lastClassname : "");
             if (offset > 0)
                 error.style.opacity = 0;
             else
@@ -258,6 +265,10 @@ define(function(require, exports, module) {
             get vfs(){ throw new Error("Permission Denied"); },
             set vfs(v){ initDisconnectEvents(v); },
             
+            get visible() {
+                return error && error.style.display !== "none" && error.className;
+            },
+            
             /**
              * 
              */
@@ -270,12 +281,16 @@ define(function(require, exports, module) {
             
             /**
              * Displays an error message in the main error reporting UI.
-             * @param {String} message  The message to display.
+             * @param {String} message     The message to display.
+             * @param {Number} [timeout]   A custom timeout for this error to hide, or -1 for no hiding.
+             * @returns a cookie for use with hide()
              */
             show: show,
             
             /**
              * Hides the main error reporting UI.
+             * 
+             * @param [cookie] A cookie indicating the popup to hide
              */
             hide: hide,
         });
