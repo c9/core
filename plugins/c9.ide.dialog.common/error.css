@@ -31,6 +31,10 @@
     max-width: 100%;
     pointer-events: auto;
 }
+.infolabel.errorlabel div{
+    background: @dialog-background-color;
+    color: @label-color;
+}
 .errorlabel.fade-in div{
     border-radius: 3px;
 }

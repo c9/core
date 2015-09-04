@@ -258,6 +258,7 @@ module.exports = function(options) {
         "plugins/c9.ide.dialog.common/filechange",
         "plugins/c9.ide.dialog.common/fileoverwrite",
         "plugins/c9.ide.dialog.common/fileremove",
+        "plugins/c9.ide.dialog.common/info",
         "plugins/c9.ide.dialog.common/question",
         {
             packagePath: "plugins/c9.ide.dialog.common/error",
