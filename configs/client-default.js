@@ -390,20 +390,6 @@ module.exports = function(options) {
         "plugins/c9.ide.run.debug.xdebug/xdebug",
         "plugins/c9.ide.run.debug/debuggers/gdb/gdbdebugger",
         
-        // Test
-        "plugins/c9.ide.test/test",
-        "plugins/c9.ide.test/testpanel",
-        "plugins/c9.ide.test/testrunner",
-        {
-            packagePath: "plugins/c9.ide.test/all",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.test"
-        },
-        "plugins/c9.ide.test/results",
-        "plugins/c9.ide.test/coverage",
-        "plugins/c9.ide.test/coverageview",
-        
-        "plugins/c9.ide.test.mocha/mocha",
-        
         // Console
         {
             packagePath: "plugins/c9.ide.terminal/terminal",
@@ -718,6 +704,24 @@ module.exports = function(options) {
             staticPrefix: staticPrefix + "/plugins/c9.ide.collab/notifications"
         },
     ];
+    
+    if (!options.sdk) {
+        plugins.push(
+            // Test
+            "plugins/c9.ide.test/test",
+            "plugins/c9.ide.test/testpanel",
+            "plugins/c9.ide.test/testrunner",
+            {
+                packagePath: "plugins/c9.ide.test/all",
+                staticPrefix: staticPrefix + "/plugins/c9.ide.test"
+            },
+            "plugins/c9.ide.test/results",
+            "plugins/c9.ide.test/coverage",
+            "plugins/c9.ide.test/coverageview",
+            
+            "plugins/c9.ide.test.mocha/mocha"
+        );
+    }
 
     if (options.standalone || options.local) {
         plugins.push(
