@@ -29,8 +29,6 @@ define(function(require, exports, module) {
             // var emit = plugin.getEmitter();
             if (baseclass) plugin.baseclass();
             
-            var acetree = plugin.acetree;
-            
             if (!options.rowHeight) {
                 layout.on("eachTheme", function(e){
                     var cls = "." + options.theme.replace(/ /g, " .") + " .row";
@@ -58,10 +56,9 @@ define(function(require, exports, module) {
                  */
                 get columns(){ throw new Error("Columns can only be set.") },
                 set columns(c){
-                    if (!acetree) return;
-                    
                     model.columns = c;
-                    acetree.renderer.setDataProvider(model);
+                    if (plugin.acetree)
+                        plugin.acetree.renderer.setDataProvider(model);
                 }
             });
             
