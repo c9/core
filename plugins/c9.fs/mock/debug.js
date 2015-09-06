@@ -69,7 +69,7 @@ function start() {
     tryConnect(debugPort, 100, function(e, debugConnection) {
         console.log("-----------------------------");
         debugConnection.on("data", function(data) {
-            console.log(data + "");
+            console.log(data + "" + (!outConnection.write ? "<buffer>" : ""));
             if (outConnection.write)
                 outConnection.write(data);
             else
@@ -82,11 +82,13 @@ function start() {
         });
     });
     
-    outConnection = [];
+    outConnection = outConnection || [];
     inConnection = [];
     
     function startServer() {
+        console.log("start-server")
         interceptServer = net.createServer(function(socket) {
+            console.log(socket)
             outConnection.forEach(function(e) {socket.write(e)});
             outConnection = socket;
             socket.on("data", function(buffer) {
@@ -94,9 +96,13 @@ function start() {
             });
             socket.on("error", function(e) {
                 console.log(e);
+            })
+            socket.on("end", function(e) {
+                outConnection = null
             });
         }).on("error", function(e) {
             interceptServer = null;
+            console.error(e);
         }).listen(port);
     }
 }
@@ -106,6 +112,7 @@ function stop() {
     p && p.kill();
     interceptServer && interceptServer.close();
     inConnection.end && inConnection.end();
+    // outConnection.end && outConnection.end();
 }
 
 process.stdin.resume();
@@ -124,6 +131,11 @@ process.stdin.on("data", function(s) {
     buffer += s;
     var i = buffer.search(/\s/);
     if (i == -1) return;
+    if (/^d-out/.test(buffer)) {
+        console.log("end netproxy connection");
+        outConnection.end && outConnection.end();
+        return;
+    }
     var t = parseInt(buffer.slice(0, i), 0);
     buffer = "";
     function wait() {
