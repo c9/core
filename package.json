@@ -55,7 +55,7 @@
         "c9"
     ],
     "c9plugins": {
-        "c9.ide.language": "#763bdc3a6e",
+        "c9.ide.language": "#c053d65511",
         "c9.ide.language.css": "#a649f2a710",
         "c9.ide.language.generic": "#77d43cfaf0",
         "c9.ide.language.html": "#0f4078c187",
@@ -76,7 +76,7 @@
         "c9.ide.ace.emmet": "#6dc4585e02",
         "c9.ide.ace.gotoline": "#a8ff07c8f4",
         "c9.ide.ace.keymaps": "#bf6d36213f",
-        "c9.ide.ace.repl": "#441348094e",
+        "c9.ide.ace.repl": "#7989bbd07f",
         "c9.ide.ace.split": "#0ae0151c78",
         "c9.ide.ace.statusbar": "#d95be89d53",
         "c9.ide.ace.stripws": "#cf0f42ac59",
@@ -88,7 +88,7 @@
         "c9.ide.format": "#b0bb91a623",
         "c9.ide.help.support": "#e95f98f87c",
         "c9.ide.imgeditor": "#66a9733dc1",
-        "c9.ide.immediate": "#2ef20acbcc",
+        "c9.ide.immediate": "#18c23aa730",
         "c9.ide.installer": "#0fde9f0067",
         "c9.ide.mount": "#292b312b4b",
         "c9.ide.navigate": "#c191d9b92f",
