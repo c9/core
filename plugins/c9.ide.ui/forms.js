@@ -477,12 +477,8 @@ define(function(require, exports, module) {
                     container.parentNode = htmlNode;
                     htmlNode = htmlNode.$int;
                 }
-                // if we have apf node, make sure apf child-parent links do not get broken
-                if (htmlNode.host && container.host) {
-                    htmlNode.host.insertBefore(container.host, beforeNode && beforeNode.host);
-                } else {
-                    htmlNode.insertBefore(container.$ext, beforeNode || null);
-                }
+                
+                htmlNode.insertBefore(container.$ext, beforeNode || null);
                 show();
             }
             
