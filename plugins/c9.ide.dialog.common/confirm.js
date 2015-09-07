@@ -25,7 +25,7 @@ define(function(require, module, exports) {
             return plugin.queue(function(){
                 plugin.title = title;
                 plugin.heading = options && options.isHTML ? header : util.escapeXml(header);
-                plugin.body = options && options.isHTML ? msg : util.escapeXml(msg).replace("\n", "<br>");
+                plugin.body = options && options.isHTML ? msg : util.escapeXml(msg).replace(/\n/g, "<br>");
                 
                 plugin.update([
                     { id: "ok", onclick: function(){ plugin.hide(); onconfirm(); } },
