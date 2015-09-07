@@ -21,11 +21,11 @@ define(function(require, module, exports) {
         
         /***** Methods *****/
         
-        function show(title, header, msg, onconfirm, oncancel) {
+        function show(title, header, msg, onconfirm, oncancel, options) {
             return plugin.queue(function(){
                 plugin.title = title;
-                plugin.heading = util.escapeXml(header);
-                plugin.body = util.escapeXml(msg);
+                plugin.heading = options && options.isHTML ? header : util.escapeXml(header);
+                plugin.body = options && options.isHTML ? msg : util.escapeXml(msg).replace(/\n/g, "<br>");
                 
                 plugin.update([
                     { id: "ok", onclick: function(){ plugin.hide(); onconfirm(); } },
