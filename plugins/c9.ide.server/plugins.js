@@ -84,7 +84,7 @@ define(function(require, exports, module) {
                 }]);
 
                 statics.addStatics(externalPlugins.map(function(plugin) {
-                   return {
+                    return {
                         path: __dirname + "/../../node_modules/" + plugin,
                         mount: "/plugins/" + plugin
                     };
