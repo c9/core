@@ -171,7 +171,7 @@ define(function(require, exports, module) {
             
             var packages = [
                 "ace",
-                "plugins/c9.ide.salesforce/salesforce.language",
+                "plugins/salesforce.language",
             ];
             
             function readPackage(name, type, excludePattern) {
