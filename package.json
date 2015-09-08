@@ -42,7 +42,8 @@
         "read": "~1.0.5",
         "form-data": "~0.2.0",
         "chai": "~1.5.0",
-        "mocha": "~1.8.1"
+        "mocha": "~1.8.1",
+        "sinon": "~1.16.0"
     },
     "devDependencies": {},
     "licenses": [],
@@ -113,5 +114,8 @@
         "c9.ide.undo": "#b028bcb4d5",
         "c9.ide.upload": "#0bd010d3dc",
         "c9.ide.welcome": "#0cb72cfc56"
+    },
+    "scripts": {
+        "start": "node server.js"
     }
 }
