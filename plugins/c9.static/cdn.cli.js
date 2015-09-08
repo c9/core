@@ -167,24 +167,33 @@ define(function(require, exports, module) {
             var pathMap = {
                 "ace": __dirname + "/../../node_modules/ace/lib/ace",
                 "plugins": __dirname + "/../../plugins",
+                "plugins/salesforce.language": __dirname + "/../../node_modules/salesforce.language"
             };
             
             var packages = [
                 "ace",
-                "plugins/c9.ide.salesforce/salesforce.language",
+                "plugins/salesforce.language",
             ];
+
+            function toFsPath(id) {
+                var testPath = id, tail = "";
+                while (testPath) {
+                    if (pathMap[testPath])
+                        return pathMap[testPath] + tail;
+                    var i = testPath.lastIndexOf("/");
+                    if (i === -1) break;
+                    tail = testPath.substr(i) + tail;
+                    testPath = testPath.slice(0, i);
+                }
+                throw new Error("Cannot map path " + id);
+            }
             
             function readPackage(name, type, excludePattern) {
                 if (!excludePattern)
                     excludePattern = /_test/;
                 
-                var prefix = name.split("/")[0];
                 var targetPath = name + "/" + type;
-                
-                if (!pathMap[prefix])
-                    throw new Error("Cannot map prefix " + prefix + " for package " + name);
-                
-                var sourcePath = pathMap[prefix] + "/" + targetPath.substr(prefix.length);
+                var sourcePath = toFsPath(targetPath);
                 
                 try {
                     var files = fs.readdirSync(sourcePath);
