@@ -43,6 +43,63 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
 
+        // TODO the resolution alghoritm used here is very inefficient
+        // ideally we will use a simpler method that doesn't need to scan directories
+        function loadPlugins(loaderConfig){
+            if (!vfs.connected) {
+                vfs.once("connect", loadPlugins.bind(this, loaderConfig));
+                return;
+            }
+            
+            if (!loaderConfig.length && !loadFromDisk)
+                return;
+
+            listAllPackages(function(err, resolved) {
+                if (err) return console.error(err);
+                
+                var extraPackages = {};
+                // convert old format from db to the new one
+                loaderConfig.forEach(function(p) {
+                    if (!extraPackages[p.packageName]) {
+                        var path = "plugins/" + p.packageName;
+                        extraPackages[path] = {
+                            apiKey: p.apiKey,
+                            packagePath: path,
+                            version: p.version,
+                            name: p.packageName
+                        };
+                    }
+                });
+                if (!loadFromDisk) {
+                    // filter packages by config instead of loading
+                    // everything from disk
+                    resolved = resolved.filter(function(config) {
+                        if (extraPackages[config.packagePath])
+                            return true;
+                            
+                        console.warn("[c9.ide.loader] Not loading package "
+                            + config.path + " because it is not installed, "
+                            + "according to the database");
+                        return false;
+                    });
+                }
+                resolved.filter(function(config) {
+                    if (extraPackages[config.packagePath])
+                        delete extraPackages[config.packagePath];
+                });
+                Object.keys(extraPackages).forEach(function(extraConfig) {
+                    console.warn("[c9.ide.loader] Package " 
+                        + extraConfig.packagePath + " should be installed, according "
+                        + "to the database, but was not found on the filesystem. "
+                        + "Try reinstalling it.");
+                });
+
+                async.each(resolved, loadPackage, function(err) {
+                    if (err) console.error(err);
+                });
+            });
+        }
+
         /**
          * List all packages on disk by scanning `~/.c9` and resolve the
          * detected packages by order of override priority:
@@ -134,16 +191,11 @@ define(function(require, exports, module) {
                     // check and load package.json
                     var config = {
                         name: stat.name,
-                        path: absolutePath([ dirPath, stat.name ].join("/")),
-                        packagePath: [ "plugins", stat.name ].join("/"),
+                        path: absolutePath([dirPath, stat.name].join("/")),
+                        packagePath: ["plugins", stat.name].join("/"),
                         staticPrefix: stat.href.replace(/\/$/, ""),
                     };
-
-                    loadPackageMetadata(config, function(err, metadata) {
-                        if (err) return done(err);
-                        config.metadata = metadata;
-                        done(null, config);
-                    });
+                    done(null, config);
                 }, callback);
             });
         }
@@ -158,13 +210,7 @@ define(function(require, exports, module) {
          * @param {Object} callback.metadata
          */
         function loadPackageMetadata(config, callback) {
-            var paths = {};
-            paths[config.packagePath] = config.staticPrefix;
-
-            requirejs.config({ paths: paths });
-            requirejs.undef([config.packagePath, "package.json"].join("/"));
-
-            require([("text!" + [config.packagePath, "package.json" ].join("/"))], function(metadataStr) {
+            fs.readfile([config.path, "package.json" ].join("/"), function(metadataStr) {
                 var metadata;
 
                 try {
@@ -195,7 +241,7 @@ define(function(require, exports, module) {
             requirejs.config({ paths: paths });
             requirejs.undef([config.packagePath, "__installed__.js"].join("/"));
 
-            require([[config.packagePath, "__installed__" ].join("/")], function(installed) {
+            require([[config.packagePath, "__installed__"].join("/")], function(installed) {
                 callback(null, installed);
             }, function(err) {
                 callback(err);
@@ -212,12 +258,19 @@ define(function(require, exports, module) {
          * @param {Error=} callback.err
          */
         function loadPackage(config, callback) {
-            loadPackageInstalledJs(config, function(err, installed) {
+            loadPackageInstalledJs(config, function addToArchitect(err, installed) {
                 var plugins = installed;
                 if (err) {
-                    plugins = _.map(config.metadata.plugins, function(value, key) {
-                        return [ "plugins", config.name, key ].join("/");
-                    });
+                    return callback(err);
+                    // TODO disbled since this doesn't handle bundles and breaks debug=2
+                    // loadPackageMetadata(config, function(err, metadata) {
+                    //     if (err) return callback(err);
+                    //     config.metadata = metadata;
+                    //     var plugins = _.map(config.metadata.plugins, function(value, key) {
+                    //         return [ "plugins", config.name, key ].join("/");
+                    //     });
+                    //     addToArchitect(err, plugins);
+                    // });
                 }
 
                 var architectConfig = plugins.map(function(plugin) {
@@ -234,63 +287,11 @@ define(function(require, exports, module) {
 
                     return plugin;
                 });
+                
+                names.push(config.name);
 
                 architect.loadAdditionalPlugins(architectConfig, function(err) {
                     callback(err);
-                });
-            });
-        }
-
-        function loadPlugins(loaderConfig){
-            if (!vfs.connected) {
-                vfs.once("connect", loadPlugins.bind(this, loaderConfig));
-                return;
-            }
-
-            listAllPackages(function(err, resolved) {
-                if (err) return console.error(err);
-                
-                var extraPackages = {};
-                // convert old format from db to the new one
-                loaderConfig.forEach(function(p) {
-                    if (!extraPackages[p.packageName]) {
-                        var path = "plugins/" + p.packageName;
-                        extraPackages[path] = {
-                            apiKey: p.apiKey,
-                            packagePath: path,
-                            version: p.version,
-                            name: p.packageName
-                        };
-                    }
-                });
-                if (!loadFromDisk) {
-                    // filter packages by config instead of loading
-                    // everything from disk
-                    resolved = resolved.filter(function(config) {
-                        if (extraPackages[config.packagePath])
-                            return true;
-                            
-                        console.warn("[c9.ide.loader] Not loading package "
-                            + config.path + " because it is not installed, "
-                            + "according to the database");
-                        return false;
-                    });
-                }
-                resolved.filter(function(config) {
-                    if (extraPackages[config.packagePath])
-                        delete extraPackages[config.packagePath];
-                });
-                Object.keys(extraPackages).forEach(function(extraConfig) {
-                    console.warn("[c9.ide.loader] Package " 
-                        + extraConfig.packagePath + " should be installed, according "
-                        + "to the database, but was not found on the filesystem. "
-                        + "Try reinstalling it.");
-                });
-
-                names = _.pluck(resolved, "name");
-
-                async.each(resolved, loadPackage, function(err) {
-                    if (err) console.error(err);
                 });
             });
         }
