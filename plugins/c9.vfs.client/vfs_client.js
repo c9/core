@@ -251,6 +251,9 @@ define(function(require, exports, module) {
                     });
                 case "reload":
                     lastError = showError(err.message + ". Please reload this window.", -1);
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 5 * 60 * 1000);
                     break;
                 default:
                     lastError = showError(err, -1);
