@@ -9,6 +9,9 @@ function plugin(options, imports, register) {
     var raygun = imports.raygun;
     
     function error(err, customData, user) {
+        if (typeof err === "string") {
+            err = new Error(err);
+        }
         raygun.errorClient.setUser(user);
         raygun.errorClient.send(err, customData);
     }
