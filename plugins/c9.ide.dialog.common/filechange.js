@@ -28,10 +28,11 @@ define(function(require, module, exports) {
         
         /***** Methods *****/
         
-        function show(title, header, onlocal, onremote, onmerge, options) {
+        function show(title, header, body, onlocal, onremote, onmerge, options) {
             return plugin.queue(function(){
                 plugin.title = title;
                 plugin.heading = util.escapeXml(header);
+                if (body) plugin.body = util.escapeXml(body);
                 
                 var cb = plugin.getElement("applyall");
                 cb.uncheck();
