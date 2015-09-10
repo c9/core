@@ -253,7 +253,7 @@ define(function(require, exports, module) {
                     lastError = showError(err.message + ". Please reload this window.", -1);
                     setTimeout(function() {
                         window.location.reload();
-                    }, 5 * 60 * 1000);
+                    }, (Math.random() * 8) + 2 * 60 * 1000);
                     break;
                 default:
                     lastError = showError(err, -1);
