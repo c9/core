@@ -1266,7 +1266,7 @@ define(function(require, module, exports) {
             if (XPREVIEW.test(options.path))
                 return;
             
-            if (previewTab && previewTab.path === options.path) {
+            if (!options.editorType && previewTab && previewTab.path === options.path) {
                 // keepPreview();
                 return previewTab;
             }
@@ -1286,8 +1286,8 @@ define(function(require, module, exports) {
                 }
             }
 
-            if (!options.path)
-                throw new Error("No path specified for preview");
+            if (!options.path && !options.editorType)
+                throw new Error("No path or editorType specified for preview");
             
             return createPreview(options, pane, callback);
         }
@@ -1305,17 +1305,19 @@ define(function(require, module, exports) {
             }
             // Else create preview pane
             else if (!previewTimeout || options.immediate) {
+                var doc = options.document || {};
+                doc.meta = {
+                    readonly: true,
+                    preview: true
+                };
+                
                 previewTab = open({ 
                     path: path, 
+                    editorType: options.editorType,
                     active: true, 
                     pane: pane,
                     noanim: true,
-                    document: {
-                        meta: {
-                            readonly: true,
-                            preview: true
-                        }
-                    }
+                    document: doc
                 }, function(err, tab) {
                     // Previewing has already been cancelled
                     if (err || !tab.loaded)

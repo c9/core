@@ -703,6 +703,14 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.collab/notifications/bubble",
             staticPrefix: staticPrefix + "/plugins/c9.ide.collab/notifications"
         },
+        
+        // git integration
+        "plugins/c9.ide.scm/scm",
+        "plugins/c9.ide.scm/scmpanel",
+        "plugins/c9.ide.scm/detail",
+        "plugins/c9.ide.scm/log",
+        "plugins/c9.ide.scm/git",
+        "plugins/c9.ide.scm/editor",
     ];
     
     if (!options.sdk) {
@@ -723,12 +731,6 @@ module.exports = function(options) {
         );
     }
 
-    if (options.standalone || options.local) {
-        plugins.push(
-            "plugins/c9.ide.scm/status",
-            "plugins/c9.ide.scm/editor"
-        );
-    }
     
     if (packaging || !devel) {
         plugins.push({

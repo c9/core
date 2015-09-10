@@ -886,7 +886,7 @@ define(function(require, exports, module) {
         
             if (!scrollTimer) {
                 scrollTimer = setTimeout(function() {
-                    settings.set("state/projecttree/@scrollpos", 
+                    tree && settings.set("state/projecttree/@scrollpos", 
                         tree.provider.getScrollTop());
                     scrollTimer = null;
                 }, 1000);
@@ -902,7 +902,7 @@ define(function(require, exports, module) {
                     emit.sticky("ready");
                 };
                 
-                if (c9.connected) { //was c9.inited
+                if (c9.connected) { // was c9.inited
                     setTimeout(function() {
                         loadProjectTree(null, done);
                     }, 200);
