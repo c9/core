@@ -118,7 +118,7 @@ define(function(require, exports, module) {
                                         class: "themepicker", 
                                         style: "background:#3f3f3f;", 
                                         value: "dark-gray" 
-                                    })
+                                    }),
                                     // rb3 = new ui.radiobutton({ 
                                     //     group: "theme-color", 
                                     //     class: "themepicker", 
