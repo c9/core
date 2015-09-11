@@ -6,7 +6,6 @@ define(function(require, module, exports) {
     function main(options, imports, register) {
         var Dialog = imports.Dialog;
         var util = imports.util;
-        options = options || {};
         
         /***** Initialization *****/
         
@@ -30,6 +29,7 @@ define(function(require, module, exports) {
         /***** Methods *****/
         
         function show(title, header, body, onlocal, onremote, onmerge, options) {
+            options = options || {};
             return plugin.queue(function(){
                 plugin.title = title;
                 plugin.heading = util.escapeXml(header);
