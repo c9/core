@@ -6,6 +6,7 @@ define(function(require, module, exports) {
     function main(options, imports, register) {
         var Dialog = imports.Dialog;
         var util = imports.util;
+        options = options || {};
         
         /***** Initialization *****/
         
