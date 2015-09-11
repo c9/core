@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-    main.consumes = ["Plugin", "c9", "menus", "layout", "ui", "http", "tabManager"];
+    main.consumes = ["Plugin", "c9", "menus", "layout", "ui", "http"];
     main.provides = ["help"];
     return main;
 
@@ -9,7 +9,6 @@ define(function(require, exports, module) {
         var http = imports.http;
         var ui = imports.ui;
         var menus = imports.menus;
-        var tabs = imports.tabManager;
         
         var markup = require("text!./help.xml");
         var css = require("text!./style.css");
@@ -41,9 +40,6 @@ define(function(require, exports, module) {
             }), 100, plugin);
 
             var c = 0;
-            menus.addItemByPath("Support/Welcome Page", new ui.item({ 
-                onclick: function(){ tabs.openEditor("welcome", true, function(){}) }
-            }), c += 100, plugin);
             menus.addItemByPath("Support/Status Page", new ui.item({ 
                 onclick: function(){window.open('http://status.c9.io'); }
             }), c += 100, plugin);
