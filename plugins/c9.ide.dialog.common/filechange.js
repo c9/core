@@ -39,6 +39,12 @@ define(function(require, module, exports) {
                 cb.uncheck();
                 cb.setAttribute("visible", options.all !== false);
                 
+                if (options.merge) {
+                    var mergeBoth = plugin.getElement("mergeboth");
+                    if (options.merge.caption) mergeBoth.setAttribute("caption", options.mergeBoth.caption);
+                }
+                
+                
                 plugin.update([
                     { id: "keepmine",  onclick: function(){ plugin.hide(); onlocal(cb.value); } },
                     { id: "useremote", onclick: function(){ plugin.hide(); onremote(cb.value); } },
