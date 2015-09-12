@@ -237,7 +237,10 @@ function main(options, imports, register) {
         if (module == "plugins/c9.ide.language/worker") {
             // jsonalyzer is missing in built version of local
             var jsonalyzer = require("../c9.ide.language.jsonalyzer/default_plugins");
-            var extraPackages = ["plugins/@smartface/smartface.language/loadInclude"];
+            var extraPackages = [
+                "plugins/c9.ide.test.mocha/mocha_outline_worker",
+                "plugins/@smartface/smartface.language/loadInclude"
+            ];
             try {
                 extraPackages = extraPackages.concat(require("lib/salesforce.language/__worker__"));
             } catch(e) {}
