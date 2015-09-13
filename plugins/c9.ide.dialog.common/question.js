@@ -38,7 +38,7 @@ define(function(require, module, exports) {
                 
                 plugin.title = title;
                 plugin.heading = options && options.isHTML ? header : util.escapeXml(header);
-                plugin.body = options && options.isHTML ? header : util.escapeXml(header);
+                plugin.body = options && options.isHTML ? msg : util.escapeXml(msg);
                 
                 plugin.allowClose = cancel;
                 
