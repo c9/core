@@ -493,8 +493,8 @@ define(function(require, exports, module) {
                     predictStartY = session.terminal.y + session.terminal.ybase;
                     state = STATE_PREDICT;
                     if (!checkTextBeforePrediction()) {
-                        errorHandler.reportError(new Error("Warning: unable to init predictions"));
-                        if (DEBUG) debugger;
+                        // Appears to happen when tmux or shell unexpectedly sends a new line
+                        console.warn("Unable to init predictions");
                         state = STATE_WAIT_FOR_ECHO;
                     }
                 });
