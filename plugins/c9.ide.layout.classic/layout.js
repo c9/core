@@ -221,7 +221,8 @@ define(function(require, exports, module) {
                 "Click Yes to change the theme or No to keep the current theme.",
                 function(){ // yes
                     ignoreTheme = true;
-                    settings.set("user/general/@skin", kind);
+                    var theme = {"dark": "dark", "light": "flat-light"}[kind];
+                    settings.set("user/general/@skin", theme);
                     updateTheme(false, type);
                     ignoreTheme = false;
                     settings.set("user/general/@propose", question.dontAsk);
