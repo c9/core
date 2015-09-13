@@ -37,8 +37,8 @@ define(function(require, module, exports) {
                 var metadata = options.metadata;
                 
                 plugin.title = title;
-                plugin.heading = util.escapeXml(header);
-                plugin.body = util.escapeXml(msg).replace(/\n/g, "<br />");
+                plugin.heading = options && options.isHTML ? header : util.escapeXml(header);
+                plugin.body = options && options.isHTML ? msg : util.escapeXml(msg).replace(/\n/g, "<br>");
                 
                 plugin.allowClose = cancel;
                 
