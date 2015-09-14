@@ -143,10 +143,12 @@ installGlobalDeps() {
 
 ############################################################################
 export C9_DIR="$HOME"/.c9
-if [[ $os == "windows" ]]; then
-    export PATH="$C9_DIR:$C9_DIR/node_modules/.bin:$PATH"
-else
-    export PATH="$C9_DIR/node/bin:$C9_DIR/node_modules/.bin:$PATH"
+if ! [[ `which npm` ]]; then
+    if [[ $os == "windows" ]]; then
+        export PATH="$C9_DIR:$C9_DIR/node_modules/.bin:$PATH"
+    else
+        export PATH="$C9_DIR/node/bin:$C9_DIR/node_modules/.bin:$PATH"
+    fi
 fi
 NPM=npm
 NODE=node
