@@ -30,6 +30,8 @@ define(function(require, exports, module) {
             if (loaded) return false;
             loaded = true;
             
+            settings.setDefaults("state/experiments", [["@enabled", true]]);
+            
             plugin.form.add([{
                 type: "custom",
                 title: "Introduction",
