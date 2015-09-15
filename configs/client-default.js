@@ -687,6 +687,7 @@ module.exports = function(options) {
             basePath: workspaceDir,
             local: options.local
         },
+        "plugins/c9.ide.preferences/experimental",
         {
             packagePath: "plugins/c9.ide.login/login",
             staticPrefix: staticPrefix + "/plugins/c9.ide.login",

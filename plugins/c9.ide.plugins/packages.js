@@ -1,7 +1,8 @@
 define(function(require, exports, module) {
     main.consumes = [
         "Editor", "editors", "ui", "commands", "menus", "layout", 
-        "tabManager", "util", "settings", "api", "c9"
+        "tabManager", "util", "settings", "api", "c9", 
+        "preferences.experimental"
     ];
     main.provides = ["plugin.packages"];
     return main;
@@ -18,6 +19,7 @@ define(function(require, exports, module) {
         var util = imports.util;
         var layout = imports.layout;
         var ui = imports.ui;
+        var experimental = imports["preferences.experimental"];
         
         /***** Initialization *****/
         
@@ -29,7 +31,7 @@ define(function(require, exports, module) {
         var emit = handle.getEmitter();
         emit.setMaxListeners(1000);
         
-        var HASSDK = c9.location.indexOf("sdk=0") === -1;
+        var HASSDK = experimental.addExperiment("sdk=0", "SDK/Load Custom Plugins");
         
         function focusOpenPackages(){
             var pages = tabs.getTabs();

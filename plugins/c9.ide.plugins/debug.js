@@ -3,7 +3,7 @@ define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "vfs", "fs", "plugin.loader", "c9", "ext", "watcher",
         "dialog.notification", "ui", "menus", "commands", "settings", "auth",
-        "installer", "find", "util"
+        "installer", "find", "util", "preferences.experimental"
     ];
     main.provides = ["plugin.debug"];
     return main;
@@ -25,6 +25,7 @@ define(function(require, exports, module) {
         var auth = imports.auth;
         var loader = imports["plugin.loader"];
         var notify = imports["dialog.notification"].show;
+        var experimental = imports["preferences.experimental"];
         
         var dirname = require("path").dirname;
         var basename = require("path").basename;
@@ -41,7 +42,7 @@ define(function(require, exports, module) {
         var plugins = [];
         
         var ENABLED = c9.location.indexOf("debug=2") > -1;
-        var HASSDK = c9.location.indexOf("sdk=0") === -1;
+        var HASSDK = experimental.addExperiment("sdk=0", "SDK/Load Custom Plugins");;
         
         var reParts = /^(builders|keymaps|modes|outline|runners|snippets|themes)\/(.*)/;
         var reModule = /(?:_highlight_rules|_test|_worker|_fold|_behaviou?r)\.js$/;
