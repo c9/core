@@ -60,9 +60,13 @@ define(function(require, exports, module) {
                 current[parts[i]] = current = {};
             }
             current.type = "checkbox";
-            current.setting = "state/experiments/" + name.toLowerCase().replace(/\//g, "-");
+            current.setting = "state/experiments/" + query.split("=")[0].replace(/\//g, "-");
             
             plugin.add(obj);
+            
+            // TODO return the value of the query (to be checked in the location or the settings):
+            // =0 means the value should be set to 0 to disable otherwise it is enabled
+            // =1 means the value should be set to 1 to enable otherwise it is disabled
         }
         
         /***** Lifecycle *****/
