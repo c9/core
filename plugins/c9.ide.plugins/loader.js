@@ -239,7 +239,7 @@ define(function(require, exports, module) {
             paths[config.packagePath] = config.staticPrefix;
 
             requirejs.config({ paths: paths });
-            requirejs.undef([config.packagePath, "__installed__.js"].join("/"));
+            requirejs.undef(config.packagePath, true);
 
             require([[config.packagePath, "__installed__"].join("/")], function(installed) {
                 callback(null, installed);
