@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     main.consumes = [
         "PreferencePanel", "ui", "dialog.confirm", "settings",
-        "preferences"
+        "preferences", "c9"
     ];
     main.provides = ["preferences.experimental"];
     return main;
@@ -9,12 +9,14 @@ define(function(require, exports, module) {
     function main(options, imports, register) {
         var PreferencePanel = imports.PreferencePanel;
         var prefs = imports.preferences;
+        var settings = imports.settings;
         var ui = imports.ui;
+        var c9 = imports.c9;
         
         /***** Initialization *****/
         
         var plugin = new PreferencePanel("Ajax.org", main.consumes, {
-            caption: "Project Settings",
+            caption: "Experimental Features",
             form: true,
             index: 50
         });
@@ -53,20 +55,30 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
         
+        // =0 means the value should be set to 0 to disable otherwise it is enabled
+        // =1 means the value should be set to 1 to enable otherwise it is disabled
         function addExperiment(query, name){
+            var key = query.split("=");
+            var defValue = Number(key[1]); key = key[0];
+            var uniqueId = key.replace(/\//g, "-");
+            
             var parts = name.split("/");
             var obj = {}, current = obj;
             for (var i = 0; i < parts.length; i++) {
                 current[parts[i]] = current = {};
             }
             current.type = "checkbox";
-            current.setting = "state/experiments/" + query.split("=")[0].replace(/\//g, "-");
+            current.setting = "state/experiments/" + uniqueId;
             
             plugin.add(obj);
             
-            // TODO return the value of the query (to be checked in the location or the settings):
-            // =0 means the value should be set to 0 to disable otherwise it is enabled
-            // =1 means the value should be set to 1 to enable otherwise it is disabled
+            var idx = c9.location.indexOf(query);
+            var enabled = defValue == 1 ? idx > -1 : idx === -1;
+            
+            if (!enabled)
+                enabled = settings.getBool("state/experiments/" + uniqueId);
+            
+            return enabled;
         }
         
         /***** Lifecycle *****/
