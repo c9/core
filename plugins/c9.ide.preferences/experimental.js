@@ -50,7 +50,7 @@ define(function(require, exports, module) {
             drawn = true;
             
             intro.$int.innerHTML = 
-                '<h1>Experimental Features</h1><p>Cloud9 is continuously in '
+                '<h1>Experimental Features</h1><p style="white-space:normal">Cloud9 is continuously in '
                 + 'development. New features in alpha or beta are first hidden '
                 + 'and can be enabled via this page. <i>Use at your own risk</i></p>';
         }
