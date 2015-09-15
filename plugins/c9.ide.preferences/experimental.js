@@ -18,7 +18,7 @@ define(function(require, exports, module) {
         var plugin = new PreferencePanel("Ajax.org", main.consumes, {
             caption: "Experimental",
             form: true,
-            index: 50
+            index: 500
         });
         var emit = plugin.getEmitter();
         emit.setMaxListeners(1000);
@@ -50,7 +50,7 @@ define(function(require, exports, module) {
             drawn = true;
             
             intro.$int.innerHTML = 
-                '<h1>Experimental Features</h1><p style="white-space:normal">Cloud9 is continuously in '
+                '<h1>Experimental Features (reload to apply changes)</h1><p style="white-space:normal">Cloud9 is continuously in '
                 + 'development. New features in alpha or beta are first hidden '
                 + 'and can be enabled via this page. <i>Use at your own risk</i></p>';
         }
@@ -74,17 +74,22 @@ define(function(require, exports, module) {
                 current[parts[i]] = current = {};
             }
             current.type = "checkbox";
-            current.setting = "state/experiments/" + uniqueId;
+            current.setting = "state/experiments/@" + uniqueId;
             
             plugin.add(obj, plugin);
             
-            var idx = c9.location.indexOf(query);
-            var enabled = defValue == 1 ? idx > -1 : idx === -1;
+            settings.setDefaults("state/experiments", [[uniqueId, !defValue]]);
             
-            if (!enabled)
-                enabled = settings.getBool("state/experiments/" + uniqueId);
+            // return value from url if present, otherwise return the setting
+            var idx = c9.location.indexOf(key + "=");
+            if (idx !== -1) {
+                if (c9.location.indexOf(key + "=0"))
+                    return false;
+                if (c9.location.indexOf(key + "=1"))
+                    return true;
+            }
             
-            return enabled;
+            return settings.getBool(current.setting);
         }
         
         /***** Lifecycle *****/
