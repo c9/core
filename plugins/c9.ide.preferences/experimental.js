@@ -16,7 +16,7 @@ define(function(require, exports, module) {
         /***** Initialization *****/
         
         var plugin = new PreferencePanel("Ajax.org", main.consumes, {
-            caption: "Experimental Features",
+            caption: "Experimental",
             form: true,
             index: 50
         });
@@ -57,20 +57,24 @@ define(function(require, exports, module) {
         
         // =0 means the value should be set to 0 to disable otherwise it is enabled
         // =1 means the value should be set to 1 to enable otherwise it is disabled
+        var found = {};
         function addExperiment(query, name){
+            if (found[name]) return;
+            found[name] = true;
+            
             var key = query.split("=");
             var defValue = Number(key[1]); key = key[0];
             var uniqueId = key.replace(/\//g, "-");
             
             var parts = name.split("/");
-            var obj = {}, current = obj;
+            var current, obj = { "Experimental": current = {} };
             for (var i = 0; i < parts.length; i++) {
                 current[parts[i]] = current = {};
             }
             current.type = "checkbox";
             current.setting = "state/experiments/" + uniqueId;
             
-            plugin.add(obj);
+            plugin.add(obj, plugin);
             
             var idx = c9.location.indexOf(query);
             var enabled = defValue == 1 ? idx > -1 : idx === -1;
