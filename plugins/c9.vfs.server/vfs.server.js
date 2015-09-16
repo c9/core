@@ -1,7 +1,5 @@
 "use strict";
 
-var superagent = require("superagent");
-
 plugin.consumes = [
     "api",
     "passport",
@@ -338,7 +336,7 @@ function plugin(options, imports, register) {
                 if (err) return console.log("Error logging activity", err.stack || err);
             });
 
-            superagent
+            analytics.superagent && analytics.superagent
                 .post(options.apiBaseUrl + "/metric/usage/" + req.params.pid + "?access_token=" + req.query.access_token)
                 .end(function() {});
                 
