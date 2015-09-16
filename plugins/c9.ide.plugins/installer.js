@@ -1,6 +1,7 @@
 define(function(require, exports, module) {
     main.consumes = [
-        "Plugin", "proc", "c9", "pubsub", "auth", "util", "installer"
+        "Plugin", "proc", "c9", "pubsub", "auth", "util", "installer",
+        "preferences.experimental"
     ];
     main.provides = ["plugin.installer"];
     return main;
@@ -13,6 +14,7 @@ define(function(require, exports, module) {
         var auth = imports.auth;
         var pubsub = imports.pubsub;
         var installer = imports.installer;
+        var experimental = imports["preferences.experimental"];
         
         var async = require("async");
         
@@ -25,7 +27,7 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
         
-        var HASSDK = c9.location.indexOf("sdk=0") === -1;
+        var HASSDK = experimental.addExperiment("sdk=0", "SDK/Load Custom Plugins");
         
         var installing;
         

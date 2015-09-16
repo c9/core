@@ -1,7 +1,8 @@
 /*global requirejs*/
 define(function(require, exports, module) {
     main.consumes = [
-        "Plugin", "vfs", "c9", "plugin.installer", "fs", "auth"
+        "Plugin", "vfs", "c9", "plugin.installer", "fs", "auth",
+        "preferences.experimental"
     ];
     main.provides = ["plugin.loader"];
     return main;
@@ -13,6 +14,7 @@ define(function(require, exports, module) {
         var fs = imports.fs;
         var auth = imports.auth;
         var installer = imports["plugin.installer"];
+        var experimental = imports["preferences.experimental"];
         
         var dirname = require("path").dirname;
         var join = require("path").join;
@@ -26,8 +28,8 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         // var emit = plugin.getEmitter();
         
-        var ENABLED = (c9.location.indexOf("plugins=0") === -1);
-        var HASSDK = (c9.location.indexOf("sdk=0") === -1);
+        var ENABLED = experimental.addExperiment("plugins=0", "SDK/Load Plugins From Workspace");
+        var HASSDK = experimental.addExperiment("sdk=0", "SDK/Load Custom Plugins");
         
         var plugins = options.plugins;
         var loadFromDisk = options.loadFromDisk

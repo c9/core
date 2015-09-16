@@ -395,7 +395,7 @@ define(function(require, exports, module) {
             hash[key] = value;
             
             // Tell everyone this property changed
-            emit(parts.join("/"));
+            emit(parts.join("/"), value);
             // Tell everyone it's parent changed
             emit(query, value);
             
