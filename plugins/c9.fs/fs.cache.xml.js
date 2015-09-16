@@ -633,7 +633,7 @@ define(function(require, exports, module) {
                     model.collapse(all[i]);
             }
             model.projectDir = {
-                label: c9.projectName, 
+                label: options.rootLabel || c9.projectName,
                 isFolder: true,
                 path: "/",
                 status: "pending",
