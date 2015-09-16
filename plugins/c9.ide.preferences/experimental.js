@@ -83,9 +83,9 @@ define(function(require, exports, module) {
             // return value from url if present, otherwise return the setting
             var idx = c9.location.indexOf(key + "=");
             if (idx !== -1) {
-                if (c9.location.indexOf(key + "=0"))
+                if (c9.location.indexOf(key + "=0") != -1)
                     return false;
-                if (c9.location.indexOf(key + "=1"))
+                if (c9.location.indexOf(key + "=1") != -1)
                     return true;
             }
             
