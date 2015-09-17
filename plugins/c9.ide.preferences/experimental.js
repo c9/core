@@ -61,9 +61,6 @@ define(function(require, exports, module) {
         // =1 means the value should be set to 1 to enable otherwise it is disabled
         var found = {};
         function addExperiment(query, name){
-            if (found[name]) return;
-            found[name] = true;
-            
             var key = query.split("=");
             var defValue = Number(key[1]); key = key[0];
             var uniqueId = key.replace(/\//g, "-");
@@ -76,7 +73,9 @@ define(function(require, exports, module) {
             current.type = "checkbox";
             current.setting = "state/experiments/@" + uniqueId;
             
-            plugin.add(obj, plugin);
+            if (!found[name])
+                plugin.add(obj, plugin);
+            found[name] = true;
             
             settings.setDefaults("state/experiments", [[uniqueId, !defValue]]);
             
