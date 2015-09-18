@@ -125,6 +125,7 @@ function plugin(options, imports, register) {
             } catch (e) {
                 console.error("Cannot send error as JSON: ", error);
                 error.message = "Unspecified error";
+                error.scope = null;
             }
             res.json({ error: error }, null, statusCode);
         // plain text
