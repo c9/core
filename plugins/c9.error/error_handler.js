@@ -120,6 +120,12 @@ function plugin(options, imports, register) {
             };
 
             for (var prop in err) error[prop] = err[prop];
+            try {
+                JSON.stringify(error);
+            } catch (e) {
+                console.error("Cannot send error as JSON: ", error);
+                error = "Unspecified error";
+            }
             res.json({ error: error }, null, statusCode);
         // plain text
         } else {
