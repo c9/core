@@ -62,6 +62,8 @@ var statusCodes = {
     510: "Not Extended",
     511: "Network Authentication Required"
 };
+
+var NICE_USER_ERROR_MSG = "Something went wrong. Please retry in a few minutes and contact support if it continues to occur";
  
 function plugin(options, imports, register) {
     var connect = imports.connect;
@@ -104,7 +106,7 @@ function plugin(options, imports, register) {
 
             res.setHeader('Content-Type', 'text/html; charset=utf-8');
             res.render(path, {
-                title: statusCodes[statusCode] || "Unspecified Error",
+                title: statusCodes[statusCode] || NICE_USER_ERROR_MSG,
                 scope: options.scope || "",
                 showStackTrace: showStackTrace,
                 stack: stack,
@@ -120,6 +122,13 @@ function plugin(options, imports, register) {
             };
 
             for (var prop in err) error[prop] = err[prop];
+            try {
+                JSON.stringify(error);
+            } catch (e) {
+                console.error("Cannot send error as JSON: ", error);
+                error.message = NICE_USER_ERROR_MSG;
+                error.scope = null;
+            }
             res.json({ error: error }, null, statusCode);
         // plain text
         } else {
