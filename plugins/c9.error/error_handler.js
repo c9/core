@@ -95,6 +95,7 @@ function plugin(options, imports, register) {
 
         if (isNaN(code)) return 500;
         if (code < 400) return 500;
+        
         return code;
     }
 
@@ -113,6 +114,7 @@ function plugin(options, imports, register) {
 
         if (/json/.test(accept)) {
             var error = {
+                code: statusCode,
                 message: err.message,
                 hostname: options.hostname,
                 scope: options.scope,
@@ -133,10 +135,10 @@ function plugin(options, imports, register) {
             }, null, statusCode);
         }
 
-
         var path = errorPages[statusCode] ? __dirname + "/views/error-" + statusCode + ".html.ejs" : __dirname + "/views/error.html.ejs";
 
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        
         res.render(path, {
             title: statusCodes[statusCode] || NICE_USER_ERROR_MSG,
             scope: options.scope || "",
