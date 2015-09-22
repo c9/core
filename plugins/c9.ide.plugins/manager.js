@@ -105,7 +105,7 @@ define(function(require, exports, module) {
         });
         // var emit = plugin.getEmitter();
 
-        var HASSDK = experimental.addExperiment("sdk=0", "SDK/Load Custom Plugins");
+        var HASSDK = experimental.addExperiment("sdk=1", "SDK/Load Custom Plugins");
 
         var model, datagrid, filterbox;
         var btnUninstall, btnReport, btnReadme, btnCloud9, btnReload;
