@@ -1530,8 +1530,8 @@ apf.item  = function(struct, tagName){
         //@todo Anim effect here?
         
         this.dispatchEvent("click", {
-            xmlContext : this.parentNode.xmlReference,
-            opener     : this.parentNode.opener
+            xmlContext : (this.parentNode || 0).xmlReference,
+            opener     : (this.parentNode || 0).opener
         });
         
         
