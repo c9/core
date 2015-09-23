@@ -109,7 +109,7 @@ function plugin(options, imports, register) {
 
         if (isDev(options.mode))
             stack = err.stack || err.message || err.toString();
-
+            
         var accept = req.headers.accept || '';
 
         if (/json/.test(accept)) {
@@ -143,7 +143,7 @@ function plugin(options, imports, register) {
             title: statusCodes[statusCode] || NICE_USER_ERROR_MSG,
             scope: options.scope || "",
             showStackTrace: showStackTrace,
-            stack: stack.split('\n').slice(1),
+            stack: stack,
             statusCode: statusCode,
             error: err.toString()
         }, next);
