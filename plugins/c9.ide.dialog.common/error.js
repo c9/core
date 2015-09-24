@@ -84,6 +84,22 @@ define(function(require, exports, module) {
             
             return b1.left + b1.width + ((b2.left - b1.left - b1.width)/2);
         }
+        
+        function getMessageString(message) {
+            var messageString;
+            if (typeof message == "string") {
+                messageString = apf.escapeXML(message);
+            }
+            else {
+                if (message.message)
+                    messageString = apf.escapeXML(message.message);
+                else if (message.html)
+                    messageString = message.html;
+                else
+                    messageString = "Error: " + message.toString();
+            }
+            return messageString
+        }
 
         function show(message, timeout) {
             // Error message container
@@ -105,23 +121,11 @@ define(function(require, exports, module) {
                     return console.error("empty error message", message);
                 }
                 
-                console.error("Error:", 
-                    message.stack || message.html || message.message || message);
+                console.error("Error dialog shown: ", getMessageString(message));
             }
             
             hide(function() {
-                var messageString;
-                if (typeof message == "string") {
-                    messageString = apf.escapeXML(message);
-                }
-                else {
-                    if (message.message)
-                        messageString = apf.escapeXML(message.message);
-                    else if (message.html)
-                        messageString = message.html;
-                    else
-                        messageString = "Error: " + message.toString();
-                }
+                var messageString = getMessageString(message);
                 error.innerHTML = "<div><u class='close'></u>" 
                     + messageString + "</div>";
                     
