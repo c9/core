@@ -190,7 +190,7 @@ EventEmitter.prototype.on = EventEmitter.prototype.addListener;
  * ```
  */
 
-EventEmitter.prototype.once = function(type, listener) {
+EventEmitter.prototype.once = function(type, listener, plugin) {
     var self = this;
     
     var wrapped = function() {
@@ -199,7 +199,7 @@ EventEmitter.prototype.once = function(type, listener) {
     }
     wrapped.listener = listener;
     
-    self.on(type, wrapped);
+    self.on(type, wrapped, plugin);
 
     return this;
 };

@@ -108,6 +108,8 @@
         "c9.ide.save": "#e00549cb0f",
         "c9.ide.scm": "#0bccfb982b",
         "c9.ide.terminal.monitor": "#b76f1c9f24",
+        "c9.ide.test": "#bf476acc57",
+        "c9.ide.test.mocha": "#3f96974268",
         "c9.ide.theme.flat": "#2de8414db7",
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
