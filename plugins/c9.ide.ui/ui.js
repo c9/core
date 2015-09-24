@@ -114,7 +114,6 @@ define(function(require, module, exports) {
                 };
             }
             wrap(apf.item.prototype, "checked", false);
-            wrap(apf.item.prototype, "selected", false);
             wrap(apf.spinner.prototype, "value", true);
             wrap(apf.group.prototype, "value", false);
             wrap(apf.checkbox.prototype, "value", false);
