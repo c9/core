@@ -240,9 +240,13 @@ define(function(require, exports, module) {
                                 value: options.path 
                                     ? createBind(options.path) 
                                     : (options.defaultValue || ""),
-                                min: options.min,
-                                max: options.max,
-                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
+                                min: options.min || 0,
+                                max: options.max || 10,
+                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1,
+                                onafterchange: function(e) {
+                                    if (options.onchange)
+                                        options.onchange({ value: e.value });
+                                }, 
                             })
                         ];
                     break;
@@ -254,16 +258,24 @@ define(function(require, exports, module) {
                                     : (options.defaultCheckboxValue || ""),
                                 width: width, maxwidth: maxwidth, 
                                 label: name + ":",
-                                skin: "checkbox_black"
+                                skin: "checkbox_black",
+                                onafterchange: function(e) {
+                                    if (options.onchange)
+                                        options.onchange({ value: e.value, type: "checkbox" });
+                                }, 
                             }),
                             new ui.spinner({
                                 width: options.width || widths["checked-spinner"],
                                 value: options.path 
                                     ? createBind(options.path) 
                                     : (options.defaultValue || ""),
-                                min: options.min,
-                                max: options.max,
-                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
+                                min: options.min || 0,
+                                max: options.max || 10,
+                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1,
+                                onafterchange: function(e) {
+                                    if (options.onchange)
+                                        options.onchange({ value: e.value, type: "spinner" });
+                                }, 
                             })
                         ];
                     break;
@@ -275,7 +287,11 @@ define(function(require, exports, module) {
                                     : (options.defaultValue || ""),
                                 width: options.width || widths["checked-single"], 
                                 label: name,
-                                skin: "checkbox_black"
+                                skin: "checkbox_black",
+                                onafterchange: function(e){
+                                    if (options.onchange)
+                                        options.onchange({ value: e.value });
+                                } 
                             })
                         ];
                     break;
