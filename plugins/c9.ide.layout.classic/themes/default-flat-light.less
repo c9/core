@@ -22,23 +22,23 @@
 @border-highlight: transparent;
 @border-highlight-medium: transparent;
 @border-highlight-strong: transparent;
-@border-highlight-dark: darken(#dedede, @darken-borders-dark);
-@border-highlight-dark-medium: darken(#dedede, @darken-borders-dark);
+@border-highlight-dark: darken(#1c1c1c, @darken-borders-dark);
+@border-highlight-dark-medium: darken(#1c1c1c, @darken-borders-dark);
 
-@color: darken(#333333, @darken-font);
-@chrome-background: darken(#f1f1f1, @darken-chrome); //darken(#f1f1f1, @darken-chrome);
+@color: darken(#e0e3e8, @darken-font);
+@chrome-background: darken(#252525, @darken-chrome); //darken(#252525, @darken-chrome);
 
-@selected-color: darken(#333, @darken-chrome);
+@selected-color: darken(#e0e3e8, @darken-chrome);
 @selected-background: darken(#eaeaea, @darken-chrome);
 
-@selected-hover-color: darken(#333, @darken-chrome);
+@selected-hover-color: darken(#e0e3e8, @darken-chrome);
 @selected-hover-background: darken(#efefef, @darken-chrome);;
 
 @selected-focus-color: darken(#fff, @darken-chrome);
 @selected-focus-background: darken(#63acff, @darken-chrome); //darken(#73AEE4, @darken-chrome); //darken(#748512, @darken-chrome); //darken(#008be8, @darken-chrome); //B8BE1B
 
 @highlight-color: darken(#2882BE, @darken-chrome);
-@highlight-selected-color: darken(#f1f1f1, @darken-chrome);
+@highlight-selected-color: darken(#252525, @darken-chrome);
 
 @empty-message-color: darken(#333, @darken-font);
 @inactive-font-color: #BBBBBB;
@@ -48,9 +48,9 @@
 @general-smoothing: false;
 
 // Ace
-@ace-cloud9-day-gutter: darken(#f1f1f1, @darken-chrome);
+@ace-cloud9-day-gutter: darken(#252525, @darken-chrome);
 @ace-cloud9-day-gutter-color: darken(#7c7c7c, @darken-chrome);
-@ace-cloud9-day-background: darken(#fbfbfb, @darken-chrome);
+@ace-cloud9-day-background: darken(#303130, @darken-chrome);
 @ace-cloud9-night-gutter: darken(#303130, @darken-chrome);
 @ace-cloud9-night-background: darken(#181818, @darken-chrome);
 @ace-cloud9-night-active-line: darken(#292929, @darken-chrome);
@@ -67,7 +67,7 @@
 @ace-status-icon-image-height: 69px;
 
 @ace-status-label-hover-decoration: none;
-@ace-status-label-hover-color: darken(#333, @darken-chrome);
+@ace-status-label-hover-color: darken(#e0e3e8, @darken-chrome);
 @ace-status-label-active-color: darken(#63acff, @darken-chrome);
 
 @ace-info: "@{theme-image-path}/ace_info_flat_light.png";
@@ -97,14 +97,14 @@
 @ace-dark-stack: "@{theme-icon-path}/debugger/stack_co_flat_light.png";
 
 // Panel Colors
-@panel-background: darken(#fbfbfb, @darken-chrome);
+@panel-background: darken(#303130, @darken-chrome);
 @panel-bar-border: @border-highlight-dark;
 @panel-bar-background: @chrome-background;
-@panel-button-color: darken(#333333, @darken-font);
-@panel-button-text-shadow: 0 0 1px white;
-@panel-button-hover: darken(#E6E6E6, @darken-chrome);
+@panel-button-color: darken(#e0e3e8, @darken-font);
+@panel-button-text-shadow: none;
+@panel-button-hover: darken(#303130, @darken-chrome);
 @panel-button-active-background: @panel-background;
-@panel-button-active-color: darken(#333, @darken-font);
+@panel-button-active-color: darken(#fff, @darken-font);
 @panel-button-flat: true;
 
 @panel-border-color: @border-highlight-dark-medium;
@@ -124,15 +124,15 @@
 @collab-notification-border-radius: 40px;
 @collab-notification-box-shadow: 0;
 @collab-notification-item-box-shadow: none;
-@collab-notification-item-border-bottom: 1px solid darken(#F0F0F0, @darken-font);
+@collab-notification-item-border-bottom: 1px solid darken(#1d1d1d, @darken-font);
 @collab-notification-item-padding: 0 10px 0 50px;
-@collab-notification-item-color: darken(#333, @darken-chrome);
+@collab-notification-item-color: darken(#e0e3e8, @darken-chrome);
 @collab-notification-item-font-size: 11px;
 @collab-notification-button-padding: 7px 12px 6px;
 @collab-notification-button-line-height: 5px;
 @collab-notification-button-top: 1px;
 
-@collab-tooltip-color: #333;
+@collab-tooltip-color: #e0e3e8;
 @collab-tooltip-background: #FFF;
 @collab-tooltip-border-radius: 0;
 @collab-tooltip-border: 0;
@@ -149,16 +149,16 @@
 @collab-access-control-box-shadow: none;
 @collab-tree-access-control-background: @collab-access-control-background;
 @collab-tree-access-control-box-shadow: none;
-@collab-access-control-active-color: darken(#F1F1F1, @darken-font);
+@collab-access-control-active-color: darken(#252525, @darken-font);
 @collab-tree-focus-access-control-active-gradient: @collab-access-control-inactive-gradient;
 @collab-access-control-inactive-color: darken(rgba(0, 0, 0, 0.15), @darken-font);
-@collab-access-control-inactive-box-shadow: 1px 1px 0 0 darken(#DEDEDE, @darken-font) inset, 0 -1px 0 0 darken(#DEDEDE, @darken-font) inset;
-@collab-access-control-inactive-box-shadow-right: 0 1px 0 0 darken(#DEDEDE, @darken-font) inset, -1px -1px 0 0 darken(#DEDEDE, @darken-font) inset;
-@collab-access-control-inactive-gradient: linear-gradient(top, #F1F1F1 0%, #F1F1F1 100%);
-@collab-tree-focus-access-control-color: darken(#F1F1F1, @darken-font);
+@collab-access-control-inactive-box-shadow: 1px 1px 0 0 darken(#1c1c1c, @darken-font) inset, 0 -1px 0 0 darken(#1c1c1c, @darken-font) inset;
+@collab-access-control-inactive-box-shadow-right: 0 1px 0 0 darken(#1c1c1c, @darken-font) inset, -1px -1px 0 0 darken(#1c1c1c, @darken-font) inset;
+@collab-access-control-inactive-gradient: linear-gradient(top, #252525 0%, #252525 100%);
+@collab-tree-focus-access-control-color: darken(#252525, @darken-font);
 @collab-access-control-flat: true;
 @collab-tree-access-control-disabled-background: darken(#63acff, @darken-chrome);
-@collab-access-control-disabled-color: darken(#F1F1F1, @darken-chrome);
+@collab-access-control-disabled-color: darken(#252525, @darken-chrome);
 
 @collab-tree-font-family: @general-font-family;
 @collab-tree-font-size: 11px;
@@ -171,26 +171,26 @@
 @collab-tree-kickout-image-width: 12px;
 @collab-tree-kickout-image-height: 16px;
 
-@collab-chat-background: darken(#FBFBFB, @darken-font);
+@collab-chat-background: darken(#303130, @darken-font);
 @collab-chat-font-size: 12px;
 @collab-chat-item-padding: 10px 10px 10px 12px;
-@collab-chat-item-border-bottom: 1px solid darken(#F0F0F0, @darken-font);
+@collab-chat-item-border-bottom: 1px solid darken(#1d1d1d, @darken-font);
 @collab-chat-item-border-top: 0;
-@collab-chat-author-color: darken(#333, @darken-font);
+@collab-chat-author-color: darken(#e0e3e8, @darken-font);
 @collab-chat-color-size: 3px;
-@collab-chat-message-color: darken(#333, @darken-font);
-@collab-chat-time-color: darken(#333, @darken-font);
+@collab-chat-message-color: darken(#e0e3e8, @darken-font);
+@collab-chat-time-color: darken(#e0e3e8, @darken-font);
 @collab-chat-time-font-weight: bold;
 @collab-chat-time-text-shadow: none;
 @collab-chat-time-right: 10px;
 @collab-chat-time-top: 10px;
-@collab-chat-input-color: darken(#333, @darken-font);
-@collab-chat-input-background: darken(#FBFBFB, @darken-font);
-@collab-chat-input-border-color: darken(#DEDEDE, @darken-font);
+@collab-chat-input-color: darken(#e0e3e8, @darken-font);
+@collab-chat-input-background: darken(#303130, @darken-font);
+@collab-chat-input-border-color: darken(#1c1c1c, @darken-font);
 @collab-chat-input-box-shadow: none;
 @collab-chat-input-font-smoothing: false;
 @collab-chat-input-selection-color: darken(#b5d5ff, @darken-font);
-@collab-chat-input-cursor-color: darken(#333, @darken-font);
+@collab-chat-input-cursor-color: darken(#e0e3e8, @darken-font);
 
 // Bubble
 @bubble-border: 1px solid #DEDEDE;
@@ -215,8 +215,8 @@
 @time-slider-font-family: @general-font-family;
 @time-slider-font-size: 12px;
 @time-slider-color: darken(#AAA, @darken-chrome);
-@time-slider-timer-color: darken(#333, @darken-chrome);
-@time-slider-saved-color: darken(#333, @darken-chrome);
+@time-slider-timer-color: darken(#e0e3e8, @darken-chrome);
+@time-slider-saved-color: darken(#e0e3e8, @darken-chrome);
 @time-slider-info-top: 14px;
 @time-slider-info-left: 70px;
 @time-slider-button-cursor: pointer;
@@ -244,7 +244,7 @@
 
 @time-slider-bar-margin-left: 70px;
 @time-slider-bar-margin-right: 145px;
-@time-slider-bar-background: darken(#F0F0F0, @darken-chrome);
+@time-slider-bar-background: darken(#1d1d1d, @darken-chrome);
 @time-slider-bar-border-radius: 4px;
 @time-slider-bar-box-shadow: none;
 @time-slider-bar-progress-gradient: linear-gradient(bottom, #98c878 0%, #98c878 100%);
@@ -265,7 +265,7 @@
 @time-slider-handle-height: 12px;
 @time-slider-handle-border-radius: 14px;
 @time-slider-handle-box-shadow: none;
-@time-slider-handle-border: 1px solid darken(#DEDEDE, @darken-chrome);
+@time-slider-handle-border: 1px solid darken(#1c1c1c, @darken-chrome);
 
 @time-slider-stepper-basic: true;
 @time-slider-stepper-border: 0;
@@ -314,14 +314,14 @@
 @time-slider-revert-box-shadow: none;
 @time-slider-revert-border-radius: 3px;
 @time-slider-revert-gradient: linear-gradient(top, #98c878 0%, #98c878 100%);
-@time-slider-revert-color: darken(#F1F1F1, @darken-chrome);
+@time-slider-revert-color: darken(#252525, @darken-chrome);
 @time-slider-revert-text-shadow: none;
 @time-slider-revert-top: 38px;
 @time-slider-revert-right: 23px;
 @time-slider-revert-padding: 2px 1px 0 0;
 
 @time-slider-revert-disabled-box-shadow: none;
-@time-slider-revert-disabled-gradient: linear-gradient(right, #F0F0F0 0%, #F0F0F0 100%);
+@time-slider-revert-disabled-gradient: linear-gradient(right, #1d1d1d 0%, #1d1d1d 100%);
 @time-slider-revert-disabled-color: darken(#CBCBCB, @darken-chrome);
 @time-slider-revert-hover-gradient: linear-gradient(top, #A5D288 0%, #A5D288 100%);
 @time-slider-revert-active-box-shadow: none;
@@ -336,7 +336,7 @@
 @time-slider-close-active-position: -28px 0;
 
 // Pane
-@pane-background : darken(#fbfbfb, @darken-chrome);
+@pane-background : darken(#303130, @darken-chrome);
 @pane-button-container-height: 32px;
 @pane-button-container-inner-height: 27px;
 @pane-button-container-padding: 5px 6px 0 23px;
@@ -345,8 +345,8 @@
 @pane-button-font-family: @general-font-family;
 @pane-button-font-size: 13px;
 @pane-button-background: darken(#FCFCFC, @darken-chrome); //darken(#D6D6D6, @darken-chrome); //darken(#D8D8D8, @darken-chrome);
-@pane-button-color: darken(#333, @darken-font);
-@pane-button-active-color: darken(#333, @darken-font);
+@pane-button-color: darken(#e0e3e8, @darken-font);
+@pane-button-active-color: darken(#e0e3e8, @darken-font);
 @pane-button-textshadow: none;
 @pane-button-hover-background: darken(#EEE, @darken-chrome);
 @pane-button-hover-color: darken(rgb(173, 173, 173), @darken-font);
@@ -518,17 +518,17 @@
 @menu-button-minimized-hover-highlight: darken(#999, @darken-chrome);
 
 @menu-button-padding: 13px 9px 0 9px;
-@menu-button-color: darken(#333, @darken-font);
+@menu-button-color: darken(#e0e3e8, @darken-font);
 @menu-button-font-family: @general-font-family;
 @menu-button-font-size: @general-font-size;
 @menu-button-text-shadow: 0px 0px 0px transparent;
-@menu-button-hover-color: darken(#333, @darken-chrome);
-@menu-button-hover-background: darken(#E6E6E6, @darken-chrome);
+@menu-button-hover-color: darken(#e0e3e8, @darken-chrome);
+@menu-button-hover-background: darken(#303130, @darken-chrome);
 @menu-button-hover-box-shadow: none;
-@menu-button-active-background: darken(#FFFFFF, @darken-chrome);
+@menu-button-active-background: darken(#494949, @darken-chrome);
 @menu-button-active-font-weight: normal;
 @menu-button-active-box-shadow: 0px 0px 10px 0px darken(rgba(0, 0, 0, 0.09), @darken-chrome);
-@menu-button-active-border: 1px solid darken(#DEDEDE, @darken-chrome);
+@menu-button-active-border: 1px solid darken(#1c1c1c, @darken-chrome);
 @menu-button-active-border-width: 0 1px;
 @menu-button-active-padding: 13px 8px 0 8px;
 @menu-button-disabled-color: darken(#BDBDBD, @darken-chrome);
@@ -558,10 +558,10 @@
 @menu-line-height: 14px;
 @menu-ver-padding: 7px;
 @menu-border-radius: 0 4px 4px 4px;
-@menu-color: darken(#333, @darken-font);
+@menu-color: darken(#e0e3e8, @darken-font);
 @menu-text-shadow: none;
 @menu-background: @menu-button-active-background;
-@menu-border-color: darken(#dfdfdf, @darken-chrome);
+@menu-border-color: darken(#1d1d1d, @darken-chrome);
 @menu-box-shadow: 0px 0px 10px 0px darken(rgba(0, 0, 0, 0.09), @darken-chrome);
 @menu-item-padding: 4px 22px 4px 26px;
 @menu-item-check-left: 6px;
@@ -575,7 +575,7 @@
 @menu-item-hover-background: @selected-focus-background;
 @menu-item-hover-color: @selected-focus-color;
 @menu-item-disabled-color: darken(#9C9C9C, @darken-chrome);
-@menu-divider-top-color: darken(#f1f1f1, @darken-chrome);
+@menu-divider-top-color: darken(#252525, @darken-chrome);
 @menu-divider-bottom-color: transparent;
 @menu-divider-margin: 6px 9px;
 
@@ -584,10 +584,10 @@
 @dialog-shadow: none;
 @dialog-background-color: darken(#FEFEFE, @darken-chrome);
 
-@dialog-header-color: darken(#333, @darken-chrome);
+@dialog-header-color: darken(#e0e3e8, @darken-chrome);
 @dialog-header-height: 52px;
-@dialog-header-gradient: linear-gradient(top, #fbfbfb 0%, #fbfbfb 100%);
-@dialog-header-bottom-border: 1px solid darken(#DEDEDE, @darken-chrome);
+@dialog-header-gradient: linear-gradient(top, #303130 0%, #303130 100%);
+@dialog-header-bottom-border: 1px solid darken(#1c1c1c, @darken-chrome);
 @dialog-header-box-shadow: none;
 @dialog-header-padding: 20px 20px;
 @dialog-header-font-family: @general-font-family;
@@ -621,7 +621,7 @@
 @filesave-inner-padding-top: 10px;
 @filesave-inner-padding-right: 20px;
 @filesave-inner-padding-bottom: 20px;
-@filesave-tree-border: 1px solid darken(#dedede, @darken-chrome);
+@filesave-tree-border: 1px solid darken(#1c1c1c, @darken-chrome);
 
 // Error Dialog
 @error-background: rgb(206, 56, 8);
@@ -657,16 +657,16 @@
 @theme-switch-gradient: linear-gradient(top, #3dc469 0%, #3dc469 100%);
 
 // Frame
-@frame-border-bottom: darken(#dedede, @darken-chrome);
+@frame-border-bottom: darken(#1c1c1c, @darken-chrome);
 @frame-min-button: "@{theme-image-path}/tree_close_arrow_small_dark_flat_light.png";
 @frame-close-button: "close_tab_btn_flat_light.png";
 
 @frame-title-height: 25px;
 @frame-title-padding: 4px 3px;
 @frame-title-font-size: 12px;
-@frame-title-color: darken(#333, @darken-chrome);
-@frame-title-background: darken(#f1f1f1, @darken-chrome);
-@frame-title-border-bottom: darken(#dedede, @darken-chrome);
+@frame-title-color: darken(#e0e3e8, @darken-chrome);
+@frame-title-background: darken(#252525, @darken-chrome);
+@frame-title-border-bottom: darken(#1c1c1c, @darken-chrome);
 @frame-title-border-top: transparent;
 @frame-title-gradient-start: @frame-title-background;
 @frame-title-gradient-stop: @frame-title-background;
@@ -721,14 +721,14 @@
 @breakpoint-list-checkbox-image: "checkbox_flat_light.png";
 @breakpoint-list-checkbox-image-width: 22px;
 @breakpoint-list-checkbox-image-height: 162px;
-@breakpoint-list-color: darken(#333, @darken-chrome);
+@breakpoint-list-color: darken(#e0e3e8, @darken-chrome);
 @breakpoint-list-code-color: darken(#1E97BD, @darken-chrome);
 @breakpoint-list-code-hover-color: @breakpoint-list-code-color;
 @breakpoint-list-item-height: 51px;
-@breakpoint-list-item-border-bottom: darken(#F0F0F0, @darken-chrome);
+@breakpoint-list-item-border-bottom: darken(#1d1d1d, @darken-chrome);
 @breakpoint-list-item-border-top: transparent;
 @breakpoint-list-item-padding: 1px 10px 0 7px;
-@breakpoint-list-item-hover-color: darken(#333, @darken-chrome);
+@breakpoint-list-item-hover-color: darken(#e0e3e8, @darken-chrome);
 @breakpoint-list-item-hover-background: darken(#F6F6F6, @darken-chrome);
 @breakpoint-list-item-hover-border-top: transparent;
 
@@ -757,8 +757,8 @@
 @liveinspect-dark-null: darken(rgb(200,200,200), @darken-chrome);
 
 // Immediate
-@immediate-row-border-color: darken(#ECECEC, @darken-chrome);
-@immediate-return: darken(#333, @darken-chrome);
+@immediate-row-border-color: darken(#1c1c1c, @darken-chrome);
+@immediate-return: darken(#e0e3e8, @darken-chrome);
 @immediate-warn: darken(#C09305, @darken-chrome);
 @immediate-error: red;
 @immediate-property: darken(#C06EC4, @darken-chrome);
@@ -773,7 +773,7 @@
 @immediate-font-smoothing: false;
 
 @immediate-dark-row-border-color: darken(rgb(29, 28, 28), @darken-chrome);
-@immediate-dark-return: darken(#f1f1f1, @darken-chrome);
+@immediate-dark-return: darken(#252525, @darken-chrome);
 @immediate-dark-warn: yellow;
 @immediate-dark-error: red;
 @immediate-dark-property: darken(#BEDB18, @darken-chrome);
@@ -791,30 +791,30 @@
 @gutter-tooltip-shadow: @language-tooltip-box-shadow;
 @gutter-tooltip-background: @language-tooltip-background;
 @gutter-tooltip-border: @language-tooltip-border-color;
-@gutter-tooltip-color: darken(#333, @darken-chrome);
+@gutter-tooltip-color: darken(#e0e3e8, @darken-chrome);
 @gutter-tooltip-font-smoothing: false;
 
 @gutter-tooltip-dark-shadow: 1px 1px 6px darken(rgba(0, 0, 0, 0.8), @darken-chrome);
 @gutter-tooltip-dark-background: darken(#FFF399, @darken-chrome);
 @gutter-tooltip-dark-border: black;
-@gutter-tooltip-dark-color: darken(#333, @darken-chrome);
+@gutter-tooltip-dark-color: darken(#e0e3e8, @darken-chrome);
 @gutter-tooltip-dark-font-smoothing: true;
 
 // Splitter
-@splitter-vertical-line-color: darken(#DEDEDE, @darken-chrome);
-@splitter-vertical-dark-line-color: darken(#DEDEDE, @darken-chrome);
-@splitter-horizontal-line-color: darken(#DEDEDE, @darken-chrome);
-@splitter-top-divider-color: darken(#DEDEDE, @darken-chrome);
-@splitter-left-divider-color: darken(#DEDEDE, @darken-chrome);
+@splitter-vertical-line-color: darken(#1c1c1c, @darken-chrome);
+@splitter-vertical-dark-line-color: darken(#1c1c1c, @darken-chrome);
+@splitter-horizontal-line-color: darken(#1c1c1c, @darken-chrome);
+@splitter-top-divider-color: darken(#1c1c1c, @darken-chrome);
+@splitter-left-divider-color: darken(#1c1c1c, @darken-chrome);
 @splitter-highlight: transparent;
 
 // Spinner
-@spinner-color: darken(#333, @darken-chrome);
+@spinner-color: darken(#e0e3e8, @darken-chrome);
 @spinner-plus: "spinner_plus_dark.png";
 @spinner-min: "spinner_min_dark.png";
 @spinner-background: darken(#FFF, @darken-chrome);
-@spinner-border-color: darken(#DEDEDE, @darken-chrome);
-@spinner-focus-border-color: darken(#DEDEDE, @darken-chrome);
+@spinner-border-color: darken(#1c1c1c, @darken-chrome);
+@spinner-focus-border-color: darken(#1c1c1c, @darken-chrome);
 @spinner-focus-box-shadow: none;
 @spinner-button-hover-background: darken(rgba(0,0,0,0.1), @darken-chrome);
 
@@ -826,9 +826,9 @@
 @textarea-box-shadow: none;
 @textarea-font-family: @general-font-family;
 @textarea-font-size: 12px;
-@textarea-color: #333;
-@textarea-border: 1px solid #DEDEDE;
-@textarea-disabled-border: 1px solid #DEDEDE;
+@textarea-color: #e0e3e8;
+@textarea-border: 1px solid #1c1c1c;
+@textarea-disabled-border: 1px solid #1c1c1c;
 @textarea-disabled-color: #CCC;
 
 // Button - Default
@@ -844,7 +844,7 @@
 @button-cursor: pointer;
 
 // Grey
-@button-grey-color: darken(#ffffff, @darken-chrome);
+@button-grey-color: darken(#494949, @darken-chrome);
 @button-grey-text-shadow: none;
 
 @button-grey-idle-gradient: linear-gradient(bottom, #767676 0%, #767676 100%);
@@ -998,7 +998,7 @@
 @checkbox-label-padding: 4px 3px 2px 8px;
 
 // Checkbox - Black
-@checkbox-black-color: darken(#333, @darken-chrome);
+@checkbox-black-color: darken(#e0e3e8, @darken-chrome);
 @checkbox-black-image: "checkbox_flat_light.png";
 @checkbox-black-image-width: 22px;
 @checkbox-black-image-height: 162px;
@@ -1025,7 +1025,7 @@
 @tree-row-height: 22px;
 @tree-first-row-margin-right: 40px;
 
-@tree-heading-color: darken(#333, @darken-chrome);
+@tree-heading-color: darken(#e0e3e8, @darken-chrome);
 @tree-heading-text-shadow: none;
 
 @tree-editor-color: darken(#101010, @darken-chrome);
@@ -1059,36 +1059,36 @@
 // Textbox
 @textbox-close-button: "btnclose_flat_light.png";
 
-@textbox-color: darken(#333, @darken-chrome); //darken(#333333, @darken-chrome);
+@textbox-color: darken(#e0e3e8, @darken-chrome); //darken(#e0e3e8, @darken-chrome);
 @textbox-background: darken(#fff, @darken-chrome); //darken(#F2F2F2, @darken-chrome);
 @textbox-box-shadow: none;
-@textbox-border-color: darken(#dedede, @darken-chrome);
+@textbox-border-color: darken(#1c1c1c, @darken-chrome);
 @textbox-initial-color: darken(#A5A5A5, @darken-chrome);
-@textbox-initial-text-shadow: 0 1px 0 darken(#FFFFFF, @darken-chrome);
+@textbox-initial-text-shadow: 0 1px 0 darken(#494949, @darken-chrome);
 @textbox-disabled-color: gray;
 @textbox-disabled-background: darken(rgb(216, 216, 216), @darken-chrome);
 
 // Textbox - Simple
-@tbsimple-border: 1px solid #DEDEDE;
+@tbsimple-border: 1px solid #1c1c1c;
 @tbsimple-border-radius: 3px;
 @tbsimple-gradient: linear-gradient(center bottom, #FFF 50%, #FFF 100%);
-@tbsimple-color: #333333;
+@tbsimple-color: #e0e3e8;
 @tbsimple-font-family: @general-font-family;
 @tbsimple-font-size: 12px;
 @tbsimple-box-shadow: none;
-@tbsimple-disabled-gradient: linear-gradient(center bottom, #F0F0F0 0%, #F0F0F0 40%);
+@tbsimple-disabled-gradient: linear-gradient(center bottom, #1d1d1d 0%, #1d1d1d 40%);
 
 // Preview
 @preview-bar-box-shadow: none;
-@preview-bar-background-color: darken(#F1F1F1, @darken-chrome);
+@preview-bar-background-color: darken(#252525, @darken-chrome);
 @preview-bar-border-top: 0;
 @preview-bar-height: 37px;
 
 @preview-chooser-arrow: "arrow_down_black.png";
-@preview-chooser-box-shadow: inset 1px 0 darken(#DEDEDE, @darken-chrome);
-@preview-chooser-color: darken(#333, @darken-chrome);
-@preview-chooser-background: darken(#f7f7f7, @darken-chrome);
-@preview-chooser-over-background: darken(#f0f0f0, @darken-chrome);
+@preview-chooser-box-shadow: inset 1px 0 darken(#1c1c1c, @darken-chrome);
+@preview-chooser-color: darken(#e0e3e8, @darken-chrome);
+@preview-chooser-background: darken(#303130, @darken-chrome);
+@preview-chooser-over-background: darken(#1d1d1d, @darken-chrome);
 @preview-chooser-active-background: darken(#EDEDED, @darken-chrome);
 @preview-chooser-font-family: @general-font-family;
 @preview-chooser-font-size: 12px;
@@ -1127,21 +1127,21 @@
 @preference-menu-button-icon-top: 7px;
 @preference-menu-button-icon-height: 25px;
 
-@preferences-nav-border-color: darken(#DEDEDE, @darken-chrome);
-@preferences-nav-background: darken(#FBFBFB, @darken-chrome);
+@preferences-nav-border-color: darken(#1c1c1c, @darken-chrome);
+@preferences-nav-background: darken(#303130, @darken-chrome);
 @preferences-nav-shadow-color: transparent;
-@preferences-nav-main-color: darken(#333, @darken-chrome);
+@preferences-nav-main-color: darken(#e0e3e8, @darken-chrome);
 @preferences-nav-main-padding: 10px 15px 10px 26px;
 @preferences-nav-main-toggle-top: 11px;
 @preferences-nav-main-font-smoothing: true;
 @preferences-nav-main-border-color: darken(#9E9E9E, @darken-chrome);
-@preferences-nav-main-hover-color: darken(#333, @darken-chrome);
+@preferences-nav-main-hover-color: darken(#e0e3e8, @darken-chrome);
 @preferences-nav-main-hover-background: @selected-background;
 @preferences-nav-active-area-background: @preferences-nav-background;
 @preferences-nav-main-active-color: @selected-focus-color;
 @preferences-nav-main-active-background: darken(@selected-focus-background, @darken-chrome);
 @preferences-nav-main-active-text-shadow: none;
-@preferences-nav-sub-color: darken(#333, @darken-chrome);
+@preferences-nav-sub-color: darken(#e0e3e8, @darken-chrome);
 @preferences-sub-border-bottom: 0;
 @preferences-nav-font-weight: bold;
 @preferences-nav-link-color: darken(#555, @darken-chrome);
@@ -1149,18 +1149,18 @@
 @preferences-nav-link-active-color: darken(#197AD1, @darken-chrome);
 
 @preferences-text-shadow: none;
-@preferences-background: darken(#FBFBFB, @darken-chrome);
-@preferences-border-top-color: darken(#DEDEDE, @darken-chrome);
+@preferences-background: darken(#303130, @darken-chrome);
+@preferences-border-top-color: darken(#1c1c1c, @darken-chrome);
 @preferences-border-top-color-light: transparent;
 @preferences-border-bottom-color: transparent;
-@preferences-header-color: darken(#333, @darken-chrome);
+@preferences-header-color: darken(#e0e3e8, @darken-chrome);
 @preferences-header-padding: 20px;
 @preferences-header-font-size: 16px;
 @preferences-header-background: @preferences-background;
-@preferences-header-border-top-color: darken(#DEDEDE, @darken-chrome);
+@preferences-header-border-top-color: darken(#1c1c1c, @darken-chrome);
 @preferences-header-border-bottom-color: @preferences-header-border-top-color;
 @preferences-form-border-bottom-color: @preferences-header-border-bottom-color;
-@preferences-form-label-color: darken(#333, @darken-chrome);
+@preferences-form-label-color: darken(#e0e3e8, @darken-chrome);
 @preferences-form-label-font-smoothing: false;
 
 @preferences-header-margin: -10px -10px 10px -10px;
@@ -1177,13 +1177,13 @@
 @preferences-datagrid-header-hover-background: #848484;
 @preferences-datagrid-header-hover-color: #FFF;
 @preferences-datagrid-background: darken(#FFF, @darken-chrome);
-@preferences-datagrid-border: darken(#DEDEDE, @darken-chrome);
+@preferences-datagrid-border: darken(#1c1c1c, @darken-chrome);
 @preferences-datagrid-border-radius: 4px;
 @preferences-datagrid-font-family: @general-font-family;
 @preferences-datagrid-font-size: @general-font-size;
-@preferences-datagrid-color: darken(#333333, @darken-chrome);
+@preferences-datagrid-color: darken(#e0e3e8, @darken-chrome);
 @preferences-datagrid-box-shadow: none;
-@preferences-datagrid-focus-border: darken(#DEDEDE, @darken-chrome);
+@preferences-datagrid-focus-border: darken(#1c1c1c, @darken-chrome);
 @preferences-datagrid-group-background: darken(#EEEEEE, @darken-chrome);
 @preferences-datagrid-group-box-shadow: none;
 @preferences-datagrid-group-first-child-box-shadow: none;
@@ -1195,7 +1195,7 @@
 @preferences-intro-padding: 12px 12px 32px 12px;
 @preferences-intro-title-text-shadow: none;
 @preferences-intro-title-padding: 8px 0 6px 47px;
-@preferences-intro-color: darken(#333, @darken-chrome);
+@preferences-intro-color: darken(#e0e3e8, @darken-chrome);
 @preferences-intro-icon-left: 8px;
 @preferences-intro-icon-top: 7px;
 @preferences-intro-icon-width: 26px;
@@ -1230,9 +1230,9 @@
 @dropdown-black-font-family: @general-font-family;
 @dropdown-black-font-size: 13px;
 @dropdown-black-button-width: 24px;
-@dropdown-black-color: darken(#333, @darken-chrome);
+@dropdown-black-color: darken(#e0e3e8, @darken-chrome);
 @dropdown-black-selected-color: @selected-focus-background;
-@dropdown-black-border-color: darken(#DEDEDE, @darken-chrome);
+@dropdown-black-border-color: darken(#1c1c1c, @darken-chrome);
 @dropdown-black-background: darken(#FFF, @darken-chrome);
 @dropdown-black-divider-left: darken(#DDD, @darken-chrome);
 @dropdown-black-divider-right: transparent;
@@ -1272,9 +1272,9 @@
 
 @tooltip-label-gradient: linear-gradient(bottom, @chrome-background 0%, @chrome-background 100%);
 @tooltip-label-background-color: @chrome-background;
-@tooltip-label-border: 1px solid darken(#DEDEDE, @darken-chrome);
+@tooltip-label-border: 1px solid darken(#1c1c1c, @darken-chrome);
 @tooltip-label-box-shadow: 0 1px 0 0 rgba(255,255,255,.2) inset;
-@tooltip-label-color: darken(#333, @darken-chrome);
+@tooltip-label-color: darken(#e0e3e8, @darken-chrome);
 @tooltip-label-padding: 2px 7px 0 7px;
 @tooltip-label-font-size: 11px;
 @tooltip-label-font-family: @general-font-family;
@@ -1287,12 +1287,12 @@
 @checkbox-holder-divider-border-left: 1px solid transparent;
 @checkbox-holder-divider-box-shadow: none;
 @checkbox-holder-box-border-radius: 3px;
-@checkbox-holder-box-hover-box-shadow: 0px 1px #DEDEDE inset, 1px 0px #DEDEDE inset, -1px 0px #DEDEDE inset, 0px -1px #DEDEDE inset, 0 0 0 1000px #ffffff inset;
+@checkbox-holder-box-hover-box-shadow: 0px 1px #1c1c1c inset, 1px 0px #1c1c1c inset, -1px 0px #1c1c1c inset, 0px -1px #1c1c1c inset, 0 0 0 1000px #494949 inset;
 
 // Label
 @label-font-family: @general-font-family;
 @label-font-size: @general-font-size;
-@label-color: darken(#333, @darken-chrome);
+@label-color: darken(#e0e3e8, @darken-chrome);
 
 // Goto Line - Dark
 @gotoline-background-dark: darken(#353637, @darken-chrome);
@@ -1314,11 +1314,11 @@
 // Goto Line - Light
 @gotoline-background: darken(#FFF, @darken-chrome);
 @gotoline-box-shadow: 0 0 10px darken(rgba(0, 0, 0, 0.09), @darken-chrome);
-@gotoline-border: 1px solid #DEDEDE;
+@gotoline-border: 1px solid #1c1c1c;
 @gotoline-border-radius: 0px 3px 3px 0;
 
 @gotoline-list-background: linear-gradient(center bottom, darken(#FCFCFC, @darken-chrome) 0%, darken(#FCFCFC, @darken-chrome) 100%);
-@gotoline-list-color: darken(#333, @darken-chrome);
+@gotoline-list-color: darken(#e0e3e8, @darken-chrome);
 @gotoline-list-border-color: darken(#F6F6F6, @darken-chrome);
 @gotoline-list-border-width: 1px;
 @gotoline-list-border-radius: 3px;
@@ -1330,15 +1330,15 @@
 @gotoline-input-box-shadow: none;
 
 // Complete - light
-@language-tooltip-color: darken(#333, @darken-chrome);
+@language-tooltip-color: darken(#e0e3e8, @darken-chrome);
 @language-tooltip-background: darken(#F9F2AD, @darken-chrome);
 @language-tooltip-border-color: darken(#E7DE81, @darken-chrome);
 @language-tooltip-box-shadow: 0 0 3px darken(rgba(119, 119, 119, 0.23), @darken-chrome);
 @language-tooltip-text-shadow: 0;
 
-@complete-color: darken(#333, @darken-chrome);
+@complete-color: darken(#e0e3e8, @darken-chrome);
 @complete-background: darken(#FFF, @darken-chrome);
-@complete-border-color: darken(#DEDEDE, @darken-chrome);
+@complete-border-color: darken(#1c1c1c, @darken-chrome);
 @complete-inner-border-color: transparent;
 @complete-box-shadow: 0 0 7px darken(rgba(119, 119, 119, 0.2), @darken-chrome);
 
@@ -1365,7 +1365,7 @@
 @language-tooltip-dark-box-shadow: 0 1px 1px darken(rgba(0,0,0,.4), @darken-chrome);
 @language-tooltip-dark-text-shadow: 0 1px 0 darken(rgba(0,0,0,0.21), @darken-chrome);
 
-@complete-dark-color: darken(#f1f1f1, @darken-chrome);
+@complete-dark-color: darken(#252525, @darken-chrome);
 @complete-dark-background: darken(#303130, @darken-chrome);
 @complete-dark-border-color: black;
 @complete-dark-inner-border-color: darken(rgba(255,255,255,0.06), @darken-chrome);
@@ -1374,17 +1374,17 @@
 @complete-dark-match: darken(#9FB814, @darken-chrome);
 @complete-dark-selected-match: darken(rgb(184, 206, 115), @darken-chrome);
 @complete-dark-selected-match-text-overflow: 0px 1px darken(rgba(0,0,0,0.3), @darken-chrome);
-@complete-dark-selected-color: darken(#f1f1f1, @darken-chrome);
+@complete-dark-selected-color: darken(#252525, @darken-chrome);
 @complete-dark-selected-background: darken(#748512, @darken-chrome);
-@complete-dark-hover-color: darken(#f1f1f1, @darken-chrome);
+@complete-dark-hover-color: darken(#252525, @darken-chrome);
 @complete-dark-hover-background: darken(#252525, @darken-chrome);
 
-@complete-dark-docs-color: darken(#FFFFFF, @darken-chrome);
+@complete-dark-docs-color: darken(#494949, @darken-chrome);
 @complete-dark-docs-background: darken(#636363, @darken-chrome);
 
 @complete-dark-activeparamindent: darken(rgba(0, 0, 0, 0), @darken-chrome);
-@complete-dark-activeparam: darken(#FFFFFF, @darken-chrome);
-@complete-dark-paramhelp: darken(#FFFFFF, @darken-chrome);
+@complete-dark-activeparam: darken(#494949, @darken-chrome);
+@complete-dark-paramhelp: darken(#494949, @darken-chrome);
 
 // Complete Icons
 @complete-icon-event: "@{image-path}/event_flat_light.png";
@@ -1398,7 +1398,7 @@
 @welcome-color: #31a6d7;
 @welcome-background: darken(#F8FDFF, @darken-chrome);
 @welcome-top-border: darken(rgba(0,0,0, 0.06), @darken-chrome);
-@welcome-color: darken(#333333, @darken-chrome);
+@welcome-color: darken(#e0e3e8, @darken-chrome);
 @welcome-font-smoothing: false;
 @welcome-highlight-color: @highlight-color;
 @welcome-panel-border-color: darken(rgba(0, 0, 0, 0.04), @darken-chrome);
@@ -1408,7 +1408,7 @@
 @welcome-logo-image-height: 100px;
 @welcome-alter-widgets: false;
 @welcome-heading-color: gray;
-@welcome-heading-border-bottom: 1px solid #DEDEDE;
+@welcome-heading-border-bottom: 1px solid #1c1c1c;
 
 // Output
 @output-toolbar-height: 40px;
@@ -1420,16 +1420,16 @@
 @output-divider-color: transparent;
 @output-divider-width: 10px;
 @output-label-padding: 3px 0 0 4px;
-@output-label-color: darken(#333, @darken-chrome);
+@output-label-color: darken(#e0e3e8, @darken-chrome);
 @output-font-smoothing: false;
 
-@output-textbox-color: darken(#333, @darken-chrome);
+@output-textbox-color: darken(#e0e3e8, @darken-chrome);
 @output-textbox-background-color: rgba(114, 133, 153, 0.49);
 @output-textbox-border-radius: 4px;
 @output-textbox-initial-color: darken(transparent, @darken-chrome); //#89929E
 @output-textbox-hover-background: @output-textbox-background-color;
 @output-textbox-active-background: @output-textbox-background-color;
-@output-textbox-active-color: darken(#333, @darken-chrome);
+@output-textbox-active-color: darken(#e0e3e8, @darken-chrome);
 @output-textbox-margin-top: 1px;
 @output-textbox-padding: 2px 6px 2px 7px; 
 
@@ -1463,7 +1463,7 @@
 @share-width: 570px;
 @share-height: 613px;
 @share-padding: 20px;
-@share-container-border: 1px solid darken(#DEDEDE, @darken-chrome);
+@share-container-border: 1px solid darken(#1c1c1c, @darken-chrome);
 @share-container-box-shadow: none;
 @share-container-border-radius: 3px;
 @share-links-padding: 10px 15px 0 15px;
@@ -1473,21 +1473,21 @@
 @share-label-font-family: @general-font-family;
 @share-label-font-size: @general-font-size;
 @share-label-font-weight: bold;
-@share-label-color: darken(#333, @darken-chrome);
-@share-label-subhead-color: darken(#333, @darken-chrome);
+@share-label-color: darken(#e0e3e8, @darken-chrome);
+@share-label-subhead-color: darken(#e0e3e8, @darken-chrome);
 @share-label-subhead-width: 119px;
 @share-label-subhead-font-weight: normal;
 @share-label-subhead-margin-top: 7px;
 @share-link-background: darken(#FFF, @darken-chrome);
 @share-link-padding: 6px 10px;
-@share-link-border: 1px solid darken(#DEDEDE, @darken-chrome);
+@share-link-border: 1px solid darken(#1c1c1c, @darken-chrome);
 @share-link-border-radius: 3px;
 @share-link-box-shadow: none;
-@share-link-color: darken(#333, @darken-chrome);
+@share-link-color: darken(#e0e3e8, @darken-chrome);
 @share-link-width: 271px;
 @share-link-margin: 0 0 10px 0;
 @share-checkbox-margin: 2px 0 0 10px;
-@share-members-border: 1px solid darken(#DEDEDE, @darken-chrome);
+@share-members-border: 1px solid darken(#1c1c1c, @darken-chrome);
 @share-members-box-shadow: none;
 @share-members-border-radius: 3px;
 @share-members-margin: 10px 0 10px 0;
@@ -1510,10 +1510,10 @@
 
 // ImgEditor
 @imgeditor-toolbar-padding-top: 3px;
-@imgeditor-toolbar-background: darken(#F1F1F1, @darken-chrome);
+@imgeditor-toolbar-background: darken(#252525, @darken-chrome);
 @imgeditor-toolbar-shadow: none;
-@imgeditor-toolbar-border-color: darken(#DEDEDE, @darken-chrome);
-@imgeditor-toolbar-label-color: darken(#333, @darken-chrome);
+@imgeditor-toolbar-border-color: darken(#1c1c1c, @darken-chrome);
+@imgeditor-toolbar-label-color: darken(#e0e3e8, @darken-chrome);
 @imgeditor-background: darken(#E8E8E8, @darken-chrome);
 @imgeditor-dropdown-height: 21px;
 @imgeditor-dropdown-label-padding: 4px 0px 5px 7px;
@@ -1588,36 +1588,36 @@
 @upload-win-width: 480px;
 @upload-win-target-margin: 26px 0 20px 0;
 @upload-win-target-font-size: @general-font-size;
-@upload-win-target-color: darken(#333, @darken-chrome);
+@upload-win-target-color: darken(#e0e3e8, @darken-chrome);
 @upload-win-buttons-height: 30px;
 @upload-win-buttons-margin: 0 0 20px 0;
 
 @upload-frame-box-shadow: none;
-@upload-frame-border-top: 1px solid #DEDEDE;
-@upload-frame-item-color: #333;
+@upload-frame-border-top: 1px solid #1c1c1c;
+@upload-frame-item-color: #e0e3e8;
 
 // Mount
 @mount-container-padding: 5px 0 0 0;
 @mount-loading-background: rgba(0, 0, 0, 0.17);
-@mount-loading-color: #333;
+@mount-loading-color: #e0e3e8;
 
 // Installer
 @installer-font-smoothing: true;
 @installer-background: transparent;
 @installer-border-top: 0;
 @installer-box-shadow: none;
-@installer-color: #333;
+@installer-color: #e0e3e8;
 @installer-text-shadow: none;
 @installer-font-family: @general-font-family;
 
-@installer-log-color: #333;
+@installer-log-color: #e0e3e8;
 @installer-log-gradient: linear-gradient(top, #DFEFF9 0%, #DFEFF9 100%);
 @installer-log-border: 0;
 @installer-log-border-color: white;
 @installer-log-border-radius: 3px;
 @installer-log-box-shadow: none;
-@installer-log-checkbox-color: #333;
-@installer-log-progress-color: #333;
+@installer-log-checkbox-color: #e0e3e8;
+@installer-log-progress-color: #e0e3e8;
 
 // Notification
 @notify-close-image: "@{image-path}/close_tab_btn_flat_light.png";
@@ -1629,9 +1629,9 @@
 
 // Terminal Message
 @terminal-message-gradient: linear-gradient(to bottom, #FFF 0%, #FFF 100%);
-@terminal-message-border: 1px solid #DEDEDE;
+@terminal-message-border: 1px solid #1c1c1c;
 @terminal-message-border-radius: 3px;
-@terminal-message-color: #333; 
+@terminal-message-color: #e0e3e8; 
 @terminal-message-font-family: @general-font-family;
 @terminal-message-font-size: 12px;
 @terminal-message-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.09);
