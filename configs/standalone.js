@@ -184,6 +184,7 @@ module.exports = function(config, optimist) {
         "./c9.vfs.server/cache",
         "./c9.vfs.server/download",
         "./c9.vfs.server/filelist",
+        "./c9.vfs.server/fetchcache",
         "./c9.vfs.server/statics",
         "./c9.analytics/mock_analytics",
         "./c9.metrics/mock_metrics",
