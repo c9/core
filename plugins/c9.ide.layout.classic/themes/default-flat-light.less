@@ -28,24 +28,24 @@
 @color: darken(#e0e3e8, @darken-font);
 @chrome-background: darken(#252525, @darken-chrome); //darken(#252525, @darken-chrome);
 
-@selected-color: darken(#e0e3e8, @darken-chrome);
-@selected-background: darken(#eaeaea, @darken-chrome);
+@selected-color: darken(#f1f1f1, @darken-font);
+@selected-background: darken(#252525, @darken-chrome);
 
-@selected-hover-color: darken(#e0e3e8, @darken-chrome);
-@selected-hover-background: darken(#efefef, @darken-chrome);;
+@selected-hover-color: darken(#f1f1f1, @darken-font);
+@selected-hover-background: darken(#2B2B2B, @darken-chrome);
 
-@selected-focus-color: darken(#fff, @darken-chrome);
-@selected-focus-background: darken(#63acff, @darken-chrome); //darken(#73AEE4, @darken-chrome); //darken(#748512, @darken-chrome); //darken(#008be8, @darken-chrome); //B8BE1B
+@selected-focus-color: darken(#f1f1f1, @darken-font);
+@selected-focus-background: darken(#748512, @darken-chrome);
 
-@highlight-color: darken(#2882BE, @darken-chrome);
-@highlight-selected-color: darken(#252525, @darken-chrome);
+@highlight-color: darken(#bacf41, @darken-font);
+@highlight-selected-color: darken(#f1f1f1, @darken-font);
 
 @empty-message-color: darken(#333, @darken-font);
 @inactive-font-color: #BBBBBB;
 
 @general-font-family: Helvetica, Arial, sans-serif;
 @general-font-size: 13px;
-@general-smoothing: false;
+@general-smoothing: true;
 
 // Ace
 @ace-cloud9-day-gutter: darken(#252525, @darken-chrome);
@@ -566,16 +566,16 @@
 @menu-item-padding: 4px 22px 4px 26px;
 @menu-item-check-left: 6px;
 @menu-item-arrow-right: 11px;
-@menu-item-arrow-background: url("@{image-path}/@{menu-arrow}") no-repeat right 0;
+@menu-item-arrow-background: url("@{image-path}/@{menu-arrow}") no-repeat right -15px;
 @menu-item-arrow-hover-background: url("@{image-path}/@{menu-arrow}") no-repeat right -15px;
-@menu-item-radio-background: url("@{image-path}/@{menu-radio}") no-repeat 0 0;
+@menu-item-radio-background: url("@{image-path}/@{menu-radio}") no-repeat 0 -16px;
 @menu-item-radio-hover-background: url("@{image-path}/@{menu-radio}") no-repeat 0 -16px;
-@menu-item-check-background: url("@{image-path}/@{menu-check}") no-repeat 0 0;
+@menu-item-check-background: url("@{image-path}/@{menu-check}") no-repeat 0 -16px;
 @menu-item-check-hover-background: url("@{image-path}/@{menu-check}") no-repeat 0 -16px;
 @menu-item-hover-background: @selected-focus-background;
 @menu-item-hover-color: @selected-focus-color;
 @menu-item-disabled-color: darken(#9C9C9C, @darken-chrome);
-@menu-divider-top-color: darken(#252525, @darken-chrome);
+@menu-divider-top-color: darken(#353535, @darken-chrome);
 @menu-divider-bottom-color: transparent;
 @menu-divider-margin: 6px 9px;
 
