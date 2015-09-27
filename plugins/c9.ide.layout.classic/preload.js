@@ -23,14 +23,15 @@ define(function(require, exports, module) {
             "dark-gray"  : "",
             "light-gray" : "",
             "light"      : "",
-            "flat-light" : ""
+            "flat-light" : "",
+            "flat-dark" : ""
         };
 
         /***** Methods *****/
         
         function preload(callback) {
             settings.setDefaults("user/general", [
-                ["skin", options.defaultTheme || "dark"] // "flat-light"
+                ["skin", options.defaultTheme || "flat-dark"]
             ]);
             if (!packed || options.loadTheme) return callback();
             try {

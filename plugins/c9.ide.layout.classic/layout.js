@@ -25,6 +25,7 @@ define(function(require, exports, module) {
         require("text!./themes/default-light-gray.less");
         require("text!./themes/default-light.less");
         require("text!./themes/default-flat-light.less");
+        require("text!./themes/default-flat-dark.less");
         
         /***** Initialization *****/
         
@@ -144,7 +145,8 @@ define(function(require, exports, module) {
             "dark-gray": 1, 
             "light-gray": 1, 
             "light": 1,
-            "flat-light": 1 
+            "flat-light": 1, 
+            "flat-dark": 1
         };
         
         function updateTheme(noquestion, type) {
@@ -221,7 +223,7 @@ define(function(require, exports, module) {
                 "Click Yes to change the theme or No to keep the current theme.",
                 function(){ // yes
                     ignoreTheme = true;
-                    var theme = {"dark": "dark", "light": "flat-light"}[kind];
+                    var theme = {"dark": "flat-dark", "light": "flat-light"}[kind];
                     settings.set("user/general/@skin", theme);
                     updateTheme(false, type);
                     ignoreTheme = false;

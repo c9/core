@@ -59,6 +59,7 @@ define(function(require, exports, module) {
         
         var defaults = {
             "flat-light" : ["#eaf0f7", "#000000", "#bed1e3", false], 
+            "flat-dark"  : ["#153649", "#FFFFFF", "#515D77", true],
             "light" : ["rgb(248, 248, 231)", "#000000", "rgb(137, 193, 253)", false], 
             "light-gray" : ["rgb(248, 248, 231)", "#000000", "rgb(137, 193, 253)", false], 
             "dark"  : ["#153649", "#FFFFFF", "#515D77", true],

@@ -52,7 +52,7 @@ define(function(require, exports, module) {
             
             var list = getThemes();
             
-            var rb1, rb2, rb3, rb4, rb5;
+            var rb1, rb2, rb3, rb4, rb5, rb6;
             plugin.form.add([
                 {
                     type: "custom",
@@ -80,6 +80,12 @@ define(function(require, exports, module) {
                             }),
                             new ui.bar({
                                 childNodes: [
+                                    rb6 = new ui.radiobutton({ 
+                                        group: "theme-color", 
+                                        class: "themepicker", 
+                                        style: "background:#252525;", 
+                                        value: "flat-dark"
+                                    }),
                                     rb5 = new ui.radiobutton({ 
                                         group: "theme-color", 
                                         class: "themepicker", 
@@ -154,7 +160,7 @@ define(function(require, exports, module) {
                 settings.set("user/general/@skin", e.value);
             };
             var setTheme = function(e) {
-                [rb1, rb2, rb5].some(function(rb) {
+                [rb1, rb2, rb5, rb6].some(function(rb) {
                     if (rb.value == e.value) {
                         rb.select();
                         return true;
