@@ -125,56 +125,66 @@
 }
 
 .dgLikeContaier {
-    background-color: #393939;
-    border: @filesave-tree-border;
+    background-color: @element-background;
+    border: 1px solid @element-background;
     box-shadow: none;
 }
 
 .cboffline{
-    background: #323232;
-    border: 1px solid #323232;
+    background: @element-background;
+    border: 1px solid @element-background;
 }
 .cboffline:after{
-    background: #dadada;
-    border: 1px solid #dadada;
+    background: @element-chrome-highlight;
+    border: 1px solid @element-chrome-highlight;
 }
 .cbofflineChecked{
-    background: #323232;
-    border-color: #323232;
+    background: @element-background;
+    border-color: @element-background;
 }
 .cbofflineChecked:after{
     border-color: #97c974;
     background-color: #97c974;
 }
 .cboffline:hover{
-    background: #2F2F2F;
+    background: @element-background-hover;
 }
 
 .spinner{
-    border: 1px solid #323232;
-    background: #323232;
+    border: 1px solid @element-background;
+    background: @element-background;
 }
 
 .spinner .buttons .minus{
     font-size: 16px;
     padding: 4px 9px;
     color: #767676;
-    border-right: 1px solid #3f3f3f;
+    border-right: 1px solid @element-border;
 }
 .spinner .buttons .plus{
     font-size: 15px;
     padding: 4px 7px;
     color: #767676;
-    border-left: 1px solid #3f3f3f;
+    border-left: 1px solid @element-border;
 }
 .spinner .buttons .minus:hover{
-    background: #2F2F2F;
+    background: @element-background-hover;
     color: #f07272;
 }
 .spinner .buttons .plus:hover{
-    background: #2F2F2F;
+    background: @element-background-hover;
     color: #98c878;
 }
+
+.searchbox .sbtb_middle:hover, 
+.searchboxFocus .sbtb_middle,
+.bar-preferences .tbsimpleFocus,
+.tbsimpleFocus,
+.tbsimple:hover{
+    background: @element-background-hover;
+    border: 1px solid transparent;
+}
+
 
 @media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
     

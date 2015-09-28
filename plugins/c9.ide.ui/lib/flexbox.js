@@ -406,6 +406,7 @@ apf.vbox = function(struct, tagName) {
                         this.$altExt.appendChild(this.$ext);
                         this.$altExt.style.boxSizing = "border-box";
                         this.$altExt.style.display = apf.CSS_DISPLAY_FLEX;
+                        this.$altExt.style.flexDirection = this.parentNode.$vbox ? "column" : "row";
                         this.$altExt.style[apf.CSSPREFIX + "BoxOrient"] = "vertical";
                         this.$ext.style[apf.CSS_FLEX_PROP] = 1;
                         var size = this.parentNode.$vbox ? "height" : "width";

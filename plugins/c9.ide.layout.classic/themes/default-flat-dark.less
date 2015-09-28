@@ -582,7 +582,7 @@
 // Dialog
 @dialog-border-radius: 4px;
 @dialog-shadow: none;
-@dialog-background-color: darken(#3f3f3f, @darken-chrome);
+@dialog-background-color: darken(@element-border, @darken-chrome);
 
 @dialog-header-color: darken(#e0e3e8, @darken-chrome);
 @dialog-header-height: 52px;
@@ -594,13 +594,13 @@
 @dialog-header-font-size: 16px;
 @dialog-header-font-weight: normal;
 
-@dialog-content-background: darken(#3f3f3f, @darken-chrome);
+@dialog-content-background: darken(@element-border, @darken-chrome);
 @dialog-content-dark-background-color: @dialog-content-background;
 @dialog-content-dark-gradient: linear-gradient(top, transparent 0%, transparent 100%);
 @dialog-content-dark-border-top: 0;
 
 @dialog-footer-height: 40px;
-@dialog-footer-background: darken(#3f3f3f, @darken-chrome);
+@dialog-footer-background: darken(@element-border, @darken-chrome);
 @dialog-footer-shadow: none;
 
 @dialog-button-background-position-hover: -14px 0;
@@ -812,8 +812,8 @@
 @spinner-color: darken(#e0e3e8, @darken-chrome);
 @spinner-plus: "spinner_plus_dark.png";
 @spinner-min: "spinner_min_dark.png";
-@spinner-background: darken(#323232, @darken-chrome);
-@spinner-border-color: darken(#323232, @darken-chrome);
+@spinner-background: darken(@element-background, @darken-chrome);
+@spinner-border-color: darken(@element-background, @darken-chrome);
 @spinner-focus-border-color: darken(#1c1c1c, @darken-chrome);
 @spinner-focus-box-shadow: none;
 @spinner-button-hover-background: darken(rgba(0,0,0,0.1), @darken-chrome);
@@ -822,7 +822,7 @@
 @textarea-line-height: 18px;
 @textarea-padding: 10px;
 @textarea-border-radius: 4px;
-@textarea-gradient: linear-gradient(center, #323232 50%, #323232 100%);
+@textarea-gradient: linear-gradient(center, @element-background 50%, @element-background 100%);
 @textarea-box-shadow: none;
 @textarea-font-family: @general-font-family;
 @textarea-font-size: 12px;
@@ -1060,9 +1060,9 @@
 @textbox-close-button: "btnclose_flat_light.png";
 
 @textbox-color: darken(#cecece, @darken-chrome); //darken(#e0e3e8, @darken-chrome);
-@textbox-background: darken(#393939, @darken-chrome); //darken(#F2F2F2, @darken-chrome);
+@textbox-background: @element-background;
 @textbox-box-shadow: none;
-@textbox-border-color: darken(#252625, @darken-chrome);
+@textbox-border-color: transparent;
 @textbox-initial-color: darken(#828282, @darken-chrome);
 @textbox-initial-text-shadow: none;
 @textbox-disabled-color: darken(#555, @darken-chrome);
@@ -1127,7 +1127,7 @@
 @preference-menu-button-icon-top: 7px;
 @preference-menu-button-icon-height: 25px;
 
-@preferences-nav-border: 0px solid darken(#3f3f3f, @darken-chrome);
+@preferences-nav-border: 0px solid darken(@element-border, @darken-chrome);
 @preferences-nav-background: darken(#303130, @darken-chrome);
 @preferences-nav-shadow-color: transparent;
 @preferences-nav-main-color: darken(#e0e3e8, @darken-chrome);
@@ -1149,7 +1149,7 @@
 @preferences-nav-link-active-color: @highlight-color;
 
 @preferences-text-shadow: none;
-@preferences-background: darken(#3f3f3f, @darken-chrome);
+@preferences-background: darken(@element-border, @darken-chrome);
 @preferences-border-top-color: transparent;
 @preferences-border-top-color-light: transparent;
 @preferences-border-bottom-color: transparent;
@@ -1192,7 +1192,7 @@
 @preferences-datagrid-highlight-column-color: transparent;
 
 @preferences-filter-box-background: lightgrey;
-@preferences-intro-padding: 12px 12px 32px 12px;
+@preferences-intro-padding: 12px;
 @preferences-intro-title-text-shadow: none;
 @preferences-intro-title-padding: 8px 0 6px 47px;
 @preferences-intro-color: darken(#e0e3e8, @darken-chrome);
@@ -1230,18 +1230,18 @@
 @dropdown-black-font-family: @general-font-family;
 @dropdown-black-font-size: 13px;
 @dropdown-black-button-width: 24px;
-@dropdown-black-color: darken(#c0dabe, @darken-chrome);
+@dropdown-black-color: darken(@element-highlight-color, @darken-chrome);
 @dropdown-black-selected-color: darken(#D8FC68, @darken-chrome);
 @dropdown-black-border-color: transparent;
-@dropdown-black-background: darken(#323232, @darken-chrome);
-@dropdown-black-divider-left: darken(#3f3f3f, @darken-chrome);
+@dropdown-black-background: darken(@element-background, @darken-chrome);
+@dropdown-black-divider-left: darken(@element-border, @darken-chrome);
 @dropdown-black-divider-right: transparent;
 @dropdown-black-box-shadow: none;
 @dropdown-black-container-shadow: none;
-@dropdown-black-gradient-start: darken(#323232, @darken-chrome);
-@dropdown-black-gradient-stop: darken(#323232, @darken-chrome);
-@dropdown-black-hover-gradient-start: darken(#2F2F2F, @darken-chrome);
-@dropdown-black-hover-gradient-stop: darken(#2F2F2F, @darken-chrome);
+@dropdown-black-gradient-start: darken(@element-background, @darken-chrome);
+@dropdown-black-gradient-stop: darken(@element-background, @darken-chrome);
+@dropdown-black-hover-gradient-start: darken(@element-background-hover, @darken-chrome);
+@dropdown-black-hover-gradient-stop: darken(@element-background-hover, @darken-chrome);
 @dropdown-black-active-gradient-start: darken(#2d2d2d, @darken-chrome);
 @dropdown-black-active-gradient-stop: darken(#2d2d2d, @darken-chrome);
 
@@ -1711,3 +1711,12 @@
 @form-bar-box-shadow: 0 1px @border-highlight;
 
 @panel-settings-changes-top: 46px;
+
+/*******/
+
+@element-background: #303030;
+@element-border: #3f3f3f;
+@element-chrome-highlight: #dadada;
+@element-chrome-text-color: #767676;
+@element-highlight-color: #c0dabe;
+@element-background-hover: #282828;
