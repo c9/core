@@ -812,8 +812,8 @@
 @spinner-color: darken(#e0e3e8, @darken-chrome);
 @spinner-plus: "spinner_plus_dark.png";
 @spinner-min: "spinner_min_dark.png";
-@spinner-background: darken(#FFF, @darken-chrome);
-@spinner-border-color: darken(#1c1c1c, @darken-chrome);
+@spinner-background: darken(#323232, @darken-chrome);
+@spinner-border-color: darken(#323232, @darken-chrome);
 @spinner-focus-border-color: darken(#1c1c1c, @darken-chrome);
 @spinner-focus-box-shadow: none;
 @spinner-button-hover-background: darken(rgba(0,0,0,0.1), @darken-chrome);
@@ -822,7 +822,7 @@
 @textarea-line-height: 18px;
 @textarea-padding: 10px;
 @textarea-border-radius: 4px;
-@textarea-gradient: linear-gradient(center, white 50%, white 100%);
+@textarea-gradient: linear-gradient(center, #323232 50%, #323232 100%);
 @textarea-box-shadow: none;
 @textarea-font-family: @general-font-family;
 @textarea-font-size: 12px;
@@ -1127,7 +1127,7 @@
 @preference-menu-button-icon-top: 7px;
 @preference-menu-button-icon-height: 25px;
 
-@preferences-nav-border-color: darken(#1c1c1c, @darken-chrome);
+@preferences-nav-border: 0px solid darken(#3f3f3f, @darken-chrome);
 @preferences-nav-background: darken(#303130, @darken-chrome);
 @preferences-nav-shadow-color: transparent;
 @preferences-nav-main-color: darken(#e0e3e8, @darken-chrome);
@@ -1144,20 +1144,20 @@
 @preferences-nav-sub-color: darken(#e0e3e8, @darken-chrome);
 @preferences-sub-border-bottom: 0;
 @preferences-nav-font-weight: bold;
-@preferences-nav-link-color: darken(#555, @darken-chrome);
-@preferences-nav-link-hover-background: darken(rgba(0, 0, 0, 0.07), @darken-chrome);
-@preferences-nav-link-active-color: darken(#197AD1, @darken-chrome);
+@preferences-nav-link-color: darken(#8E8E8E, @darken-chrome);
+@preferences-nav-link-hover-background: @selected-background;
+@preferences-nav-link-active-color: @highlight-color;
 
 @preferences-text-shadow: none;
-@preferences-background: darken(#303130, @darken-chrome);
-@preferences-border-top-color: darken(#1c1c1c, @darken-chrome);
+@preferences-background: darken(#3f3f3f, @darken-chrome);
+@preferences-border-top-color: transparent;
 @preferences-border-top-color-light: transparent;
 @preferences-border-bottom-color: transparent;
 @preferences-header-color: darken(#e0e3e8, @darken-chrome);
 @preferences-header-padding: 20px;
 @preferences-header-font-size: 16px;
-@preferences-header-background: @preferences-background;
-@preferences-header-border-top-color: darken(#1c1c1c, @darken-chrome);
+@preferences-header-background: darken(#303130, @darken-chrome);;
+@preferences-header-border-top-color: transparent;
 @preferences-header-border-bottom-color: @preferences-header-border-top-color;
 @preferences-form-border-bottom-color: @preferences-header-border-bottom-color;
 @preferences-form-label-color: darken(#e0e3e8, @darken-chrome);
@@ -1201,7 +1201,7 @@
 @preferences-intro-icon-width: 26px;
 @preferences-intro-icon-height: 26px;
 @preferences-intro-text-margin: 0 0 8px 47px;
-@preferences-intro-link-color: darken(#739b59, @darken-chrome);
+@preferences-intro-link-color: @highlight-color;
 @preferences-intro-hint-color: darken(#7b7b7b, @darken-chrome);
 @preferences-intro-hint-text-shadow: none;
 @preferences-intro-border-bottom-color: @preferences-form-border-bottom-color;
@@ -1230,20 +1230,20 @@
 @dropdown-black-font-family: @general-font-family;
 @dropdown-black-font-size: 13px;
 @dropdown-black-button-width: 24px;
-@dropdown-black-color: darken(#e0e3e8, @darken-chrome);
-@dropdown-black-selected-color: @selected-focus-background;
-@dropdown-black-border-color: darken(#1c1c1c, @darken-chrome);
-@dropdown-black-background: darken(#FFF, @darken-chrome);
-@dropdown-black-divider-left: darken(#DDD, @darken-chrome);
+@dropdown-black-color: darken(#c0dabe, @darken-chrome);
+@dropdown-black-selected-color: darken(#D8FC68, @darken-chrome);
+@dropdown-black-border-color: transparent;
+@dropdown-black-background: darken(#323232, @darken-chrome);
+@dropdown-black-divider-left: darken(#3f3f3f, @darken-chrome);
 @dropdown-black-divider-right: transparent;
 @dropdown-black-box-shadow: none;
 @dropdown-black-container-shadow: none;
-@dropdown-black-gradient-start: darken(#FFF, @darken-chrome);
-@dropdown-black-gradient-stop: darken(#FFF, @darken-chrome);
-@dropdown-black-hover-gradient-start: darken(#F6F6F6, @darken-chrome);
-@dropdown-black-hover-gradient-stop: darken(#F6F6F6, @darken-chrome);
-@dropdown-black-active-gradient-start: darken(#FFF, @darken-chrome);
-@dropdown-black-active-gradient-stop: darken(#FFF, @darken-chrome);
+@dropdown-black-gradient-start: darken(#323232, @darken-chrome);
+@dropdown-black-gradient-stop: darken(#323232, @darken-chrome);
+@dropdown-black-hover-gradient-start: darken(#2F2F2F, @darken-chrome);
+@dropdown-black-hover-gradient-stop: darken(#2F2F2F, @darken-chrome);
+@dropdown-black-active-gradient-start: darken(#2d2d2d, @darken-chrome);
+@dropdown-black-active-gradient-stop: darken(#2d2d2d, @darken-chrome);
 
 @dropdown-glossy-list-font-family: @general-font-family;
 @dropdown-glossy-list-font-size: 12px;
