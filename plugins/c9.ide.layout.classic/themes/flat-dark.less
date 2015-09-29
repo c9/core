@@ -143,8 +143,8 @@
     border-color: @element-background;
 }
 .cbofflineChecked:after{
-    border-color: #97c974;
-    background-color: #97c974;
+    border-color: @selected-focus-background;
+    background-color: @selected-focus-background;
 }
 .cboffline:hover{
     background: @element-background-hover;
@@ -176,6 +176,17 @@
     color: #98c878;
 }
 
+.searchbox .ace_editor{
+    .font-smoothing(true);
+}
+
+.searchbox .ace-tm .ace_cursor{
+    color: @textbox-color;
+}
+
+.bar-preferences .taFocus, 
+.bar-preferences .ta:hover,
+.taFocus, .ta:hover,
 .searchbox .sbtb_middle:hover, 
 .searchboxFocus .sbtb_middle,
 .bar-preferences .tbsimpleFocus,
@@ -185,6 +196,18 @@
     border: 1px solid transparent;
 }
 
+.panel-bar .searchbox .sbtb_middle{
+    background: #232323;
+}
+
+.panel-bar .searchbox .sbtb_middle:hover, 
+.panel-bar .searchboxFocus .sbtb_middle {
+    background: #202020;
+}
+
+.has_apf .bar-preferences .blackdg{
+    border: 0;
+}
 
 @media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
     
