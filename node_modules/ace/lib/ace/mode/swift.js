@@ -26,7 +26,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *
  * ***** END LICENSE BLOCK ***** */
 
 /*
@@ -38,20 +37,23 @@ define(function(require, exports, module) {
 
 var oop = require("../lib/oop");
 var TextMode = require("./text").Mode;
-var RustHighlightRules = require("./rust_highlight_rules").RustHighlightRules;
+var HighlightRules = require("./swift_highlight_rules").HighlightRules;
+var CstyleBehaviour = require("./behaviour/cstyle").CstyleBehaviour;
 // TODO: pick appropriate fold mode
 var FoldMode = require("./folding/cstyle").FoldMode;
 
 var Mode = function() {
-    this.HighlightRules = RustHighlightRules;
+    this.HighlightRules = HighlightRules;
     this.foldingRules = new FoldMode();
+    this.$behaviour = new CstyleBehaviour();
 };
 oop.inherits(Mode, TextMode);
 
 (function() {
     this.lineCommentStart = "//";
     this.blockComment = {start: "/*", end: "*/", nestable: true};
-    this.$id = "ace/mode/rust";
+    
+    this.$id = "ace/mode/swift"
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
