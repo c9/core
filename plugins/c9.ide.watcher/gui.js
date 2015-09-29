@@ -394,6 +394,7 @@ define(function(require, exports, module) {
                 changeDialog = filechange.show(
                     "File Changed",
                     path + " has been changed on disk.",
+                    null,
                     no,
                     yes,
                     function(all) { // Merge

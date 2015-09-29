@@ -218,7 +218,6 @@ module.exports = function(options) {
             nak: options.nakBin || "~/.c9/node_modules/nak/bin/nak",
             node: options.nodeBin,
             local: options.local,
-            installPath: options.installPath
         },
         {
             packagePath: "plugins/c9.ide.find.infiles/findinfiles",
@@ -277,7 +276,7 @@ module.exports = function(options) {
         
         // VFS
         "plugins/c9.fs/proc",
-        "plugins/c9.fs/proc.apigen",
+        "plugins/c9.fs/proc.apigen", // used only by disabled deploy plugins
         "plugins/c9.fs/net",
         {
             packagePath: "plugins/c9.fs/fs",
@@ -687,6 +686,7 @@ module.exports = function(options) {
             basePath: workspaceDir,
             local: options.local
         },
+        "plugins/c9.ide.preferences/experimental",
         {
             packagePath: "plugins/c9.ide.login/login",
             staticPrefix: staticPrefix + "/plugins/c9.ide.login",
@@ -703,6 +703,14 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.collab/notifications/bubble",
             staticPrefix: staticPrefix + "/plugins/c9.ide.collab/notifications"
         },
+        
+        // git integration
+        "plugins/c9.ide.scm/scm",
+        "plugins/c9.ide.scm/scmpanel",
+        "plugins/c9.ide.scm/detail",
+        "plugins/c9.ide.scm/log",
+        "plugins/c9.ide.scm/git",
+        "plugins/c9.ide.scm/editor",
     ];
     
     if (!options.sdk) {
@@ -723,12 +731,6 @@ module.exports = function(options) {
         );
     }
 
-    if (options.standalone || options.local) {
-        plugins.push(
-            "plugins/c9.ide.scm/status",
-            "plugins/c9.ide.scm/editor"
-        );
-    }
     
     if (packaging || !devel) {
         plugins.push({

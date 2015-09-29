@@ -28,19 +28,27 @@ define(function(require, module, exports) {
         
         /***** Methods *****/
         
-        function show(title, header, onlocal, onremote, onmerge, options) {
+        function show(title, header, body, onlocal, onremote, onmerge, options) {
+            options = options || {};
             return plugin.queue(function(){
                 plugin.title = title;
                 plugin.heading = util.escapeXml(header);
+                if (body) plugin.body = util.escapeXml(body);
                 
                 var cb = plugin.getElement("applyall");
                 cb.uncheck();
                 cb.setAttribute("visible", options.all !== false);
                 
+                if (options.merge) {
+                    var mergeBoth = plugin.getElement("mergeboth");
+                    if (options.merge.caption) mergeBoth.setAttribute("caption", options.merge.caption);
+                }
+                
+                
                 plugin.update([
                     { id: "keepmine",  onclick: function(){ plugin.hide(); onlocal(cb.value); } },
                     { id: "useremote", onclick: function(){ plugin.hide(); onremote(cb.value); } },
-                    { id: "mergeboth", visible: options.merge, onclick: function(){ plugin.hide(); onmerge(cb.value); } }
+                    { id: "mergeboth", visible: !!options.merge, onclick: function(){ plugin.hide(); onmerge(cb.value); } }
                 ]);
             });
         }

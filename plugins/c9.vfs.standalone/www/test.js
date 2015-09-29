@@ -4,8 +4,9 @@ require([
     "lib/chai/chai", 
     "text!plugins/c9.ide.layout.classic/skins.xml", 
     "events",
-    "text!/static/standalone/skin/default/dark.css"
-], function (chai, skin, events, theme) {
+    "text!/static/standalone/skin/default/dark.css",
+    "lib/architect/architect"
+], function (chai, skin, events, theme, architect) {
     "use strict";
     var expect = chai.expect;
     var EventEmitter = events.EventEmitter;
@@ -476,10 +477,16 @@ require([
                 var x = new EventEmitter();
                 return x;
             })(),
+            "scm": (function(){
+                var x = new EventEmitter();
+                x.register = function(){};
+                x.unregister = function(){};
+                return x;
+            })(),
         });
     };
     
-    expect.setupArchitectTest = function(config, architect, options) {
+    expect.setupArchitectTest = function(config, _, options) {
         if (options && options.mockPlugins) {
             config.push({
                 consumes: [],
@@ -490,23 +497,22 @@ require([
         architect.resolveConfig(config, function(err, config) {
             /*global describe it before after = */
             if (err) throw err;
-            var app = window.app = architect.createApp(config, function(err, app) {
+            var app = architect.createApp(config, function(err, app) {
                 if (err && err.unresolved && !config.unresolved) {
                     console.warn("Adding mock services for " + err.unresolved);
                     config.unresolved = err.unresolved;
-                    expect.setupArchitectTest(config, architect, {
+                    return expect.setupArchitectTest(config, architect, {
                         mockPlugins: config.unresolved
                     });
-                    return;
                 }
-                
-                describe('app', function() {
-                    it('should load test app', function(done) {
-                        expect(err).not.ok;
-                        done();
+                if (typeof describe == "function") {
+                    describe('app', function() {
+                        it('should load test app', function(done) {
+                            expect(err).not.ok;
+                            done();
+                        });
                     });
-                });
-            
+                }
                 onload && onload();
                 
             });
@@ -518,7 +524,9 @@ require([
                 app.rerun = function() {
                     expect.setupArchitectTest(config, architect);
                 };
+                window.app = app;
             }
+            return app;
         });
     };
         

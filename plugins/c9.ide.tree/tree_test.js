@@ -104,16 +104,12 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         
         describe('tree', function() {
             before(function(done) {
-                tree.getElement("winFilesViewer", function(win) {
-                    win.$ext.style.position = "fixed";
-                    win.$ext.style.top = "75px";
-                    win.$ext.style.right = "20px";
-                    win.$ext.style.bottom = "20px";
-                    win.$ext.style.width = "200px";
-                    win.show();
+                tree.getElement("container", function(container_) {
+                    container = container_;
+                    container.$ext.style.height = "500px";
+                    container.$ext.style.width = "200px";
                     tree.tree.resize();
                     
-                    container = tree.getElement("container");
                     
                     done();
                 });

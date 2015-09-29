@@ -125,6 +125,7 @@ module.exports = function(config, optimist) {
         },
         {
             packagePath: "./c9.error/error_handler",
+            mode: config.mode,
             scope: "standalone",
             hostname: config.hostname
         },

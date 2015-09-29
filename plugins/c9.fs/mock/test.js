@@ -14,6 +14,16 @@ var Student = (function () {
     return Student;
 })();
 
+var options = {x: 1}
+function d(a) {
+    var options = {x: 2}
+    function e(a) {
+        var options = {x: 2}
+        console.log(1)
+    }
+    e()
+}
+d()
 /**
  * A greeter().
  */

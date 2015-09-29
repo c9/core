@@ -41,6 +41,7 @@
 @highlight-selected-color: #f1f1f1;
 
 @empty-message-color: darken(#333, @darken-font);
+@inactive-font-color: #636363;
 
 @general-font-family: Arial, Helvetica, sans-serif;
 @general-font-size: 12px;
@@ -1025,7 +1026,7 @@
 @tree-first-row-margin-right: 20px;
 
 @tree-heading-color: darken(#747474, @darken-chrome);
-@tree-heading-text-shadow: 0 1px rgb(26, 26, 26);
+@tree-heading-text-shadow: none;
 
 @tree-editor-color: darken(#101010, @darken-chrome);
 @tree-editor-background: darken(rgb(245, 247, 234), @darken-chrome);
@@ -1685,4 +1686,29 @@
 @stats-menu-info-border: 0;
 @stats-menu-info-box-shadow: none;
 
+
 @coverage-button-font-size: 14px;
+
+@detail-label-color: #333333;
+@detail-label-background: #F6F6F6;
+@detail-label-margin: 2px 0 0 67px;
+@detail-label-border-bottom: 1px solid rgb(182, 182, 182);
+@detail-label-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06), 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+
+@detail-label-hash-border: 1px solid #DDDE33;
+@detail-label-hash-color: @highlight-color;
+@detail-label-hash-background: #f9f796;
+
+@log-hash-color: @detail-label-hash-color;
+@log-hash-background: @detail-label-hash-background;
+@log-hash-border: @detail-label-hash-border;
+
+@diff-toolbar-buttons-background: @border-highlight;
+@diff-toolbar-buttons-border: none;
+
+@form-bar-padding: 10px 35px 10px 10px;
+@form-bar-background: @menu-button-active-background;
+@form-bar-border-bottom: 1px solid black;
+@form-bar-box-shadow: 0 1px @border-highlight;
+
+@panel-settings-changes-top: 33px;

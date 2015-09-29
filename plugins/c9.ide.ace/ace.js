@@ -2047,7 +2047,7 @@ define(function(require, exports, module) {
             function getOption(name, c9Session) {
                 var session = (c9Session || currentSession).session;
                 
-                if (name == "synax")
+                if (name == "syntax")
                     return session && session.syntax;
                 else if (name == "useWrapMode")
                     return session && session.getOption("wrap") !== "off";

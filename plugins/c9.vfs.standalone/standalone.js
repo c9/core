@@ -91,13 +91,8 @@ function plugin(options, imports, register) {
             }, 
         }
     }, function(req, res, next) {
-        var configType = null;
-        if (req.params.workspacetype)
-            configType = "workspace-" + req.params.workspacetype;
-        else if (req.params.devel)
-            configType = "devel";
 
-        var configName = getConfigName(configType, options);
+        var configName = getConfigName(req.params, options);
 
         var collab = options.collab && req.params.collab !== 0 && req.params.nocollab != 1;
         var opts = extend({}, options);
@@ -118,7 +113,7 @@ function plugin(options, imports, register) {
         opts.options.debug = req.params.debug !== undefined;
         res.setHeader("Cache-Control", "no-cache, no-store");
         res.render(__dirname + "/views/standalone.html.ejs", {
-            architectConfig: getConfig(configType, opts),
+            architectConfig: getConfig(configName, opts),
             configName: configName,
             packed: opts.packed,
             version: opts.version
@@ -284,8 +279,12 @@ function plugin(options, imports, register) {
 
 function getConfigName(requested, options) {
     var name;
-    if (requested) {
-        name = requested;
+    if (requested && requested.workspacetype) {
+        name = requested.workspacetype;
+        if (name == "readonly" || name == "ro")
+            name = "default-ro";
+        else
+            name = "workspace-" + name;
     }
     else if (options.workspaceType) {
         name = "workspace-" + options.workspaceType;
@@ -307,8 +306,8 @@ function getConfigName(requested, options) {
     return name;
 }
 
-function getConfig(requested, options) {
-    var filename = __dirname + "/../../configs/client-" + getConfigName(requested, options) + ".js";
+function getConfig(configName, options) {
+    var filename = __dirname + "/../../configs/client-" + configName + ".js";
 
     var installPath = options.settingDir || options.installPath || "";
     var workspaceDir = options.options.workspaceDir;

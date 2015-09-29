@@ -3,7 +3,8 @@ define(function(require, exports, module) {
     main.consumes = [
         "PreferencePanel", "settings", "ui", "util", "Form", "ext", "c9",
         "dialog.alert", "dialog.confirm", "layout", "proc", "menus", "commands",
-        "dialog.error", "tree.favorites", "fs", "tree", "plugin.debug"
+        "dialog.error", "tree.favorites", "fs", "tree", "plugin.debug",
+        "preferences.experimental"
     ];
     main.provides = ["plugin.manager"];
     return main;
@@ -56,6 +57,7 @@ define(function(require, exports, module) {
         var showError = imports["dialog.error"].show;
         var favs = imports["tree.favorites"];
         var pluginDebug = imports["plugin.debug"];
+        var experimental = imports["preferences.experimental"];
 
         var search = require("../c9.ide.navigate/search");
         var Tree = require("ace_tree/tree");
@@ -103,7 +105,7 @@ define(function(require, exports, module) {
         });
         // var emit = plugin.getEmitter();
 
-        var HASSDK = c9.location.indexOf("sdk=0") === -1;
+        var HASSDK = experimental.addExperiment("sdk=1", "SDK/Load Custom Plugins");
 
         var model, datagrid, filterbox;
         var btnUninstall, btnReport, btnReadme, btnCloud9, btnReload;

@@ -7,8 +7,7 @@
         <a:main container="div[2]" caption="div[1]/span" buttons="div[1]/div">
             <div class="frame">
                 <div class="title"><div class="buttons"/><span>-</span></div>
-                <div class="body">
-                </div>
+                <div class="body"></div>
             </div>
         </a:main>
         <a:button>

@@ -111,7 +111,7 @@ function plugin(options, imports, register) {
             var version = req.params.version;
             var user = req.user;
             
-            trackActivity(user, req.cookies);
+            trackActivity(user, req);
             
             if (version != kaefer.version.protocol) {
                 var err = new error.PreconditionFailed("Wrong VFS protocol version. Expected version '" + kaefer.version.protocol + "' but found '" + version + "'");
@@ -201,7 +201,7 @@ function plugin(options, imports, register) {
             var path = req.params.path;
             var user = req.user;
             
-            trackActivity(user, req.cookies);
+            trackActivity(user, req);
             
             if (path.indexOf("../") !== -1)
                 return next(new error.BadRequest("invalid path"));
@@ -286,7 +286,7 @@ function plugin(options, imports, register) {
             }
             // TODO: use an interval to make sure this fires
             //       even when this REST api is not used for a day
-            trackActivity(entry.user, req.cookies);
+            trackActivity(entry.user, req);
             entry.vfs.handleRest(scope, path, req, res, next);
         }
     ]);
@@ -320,24 +320,26 @@ function plugin(options, imports, register) {
         }
     ]);
     
-    function trackActivity(user, cookies) {
+    function trackActivity(user, req) {
         if (user.id === -1)
             return;
 
         if (new Date(user.lastVfsAccess).getDate() != new Date().getDate() || 
             Date.now() > user.lastVfsAccess + VFS_ACTIVITY_WINDOW) {
-
-            // Alias anonymous id, identify, and track activity;
-            // wait for a flush between each step; see
-            // https://segment.com/docs/integrations/mixpanel/#server-side
+                
+            // Keeping this temporarily to be replaced by API request only
             async.series([
-                analytics.aliasClean.bind(analytics, cookies.mixpanelAnonymousId, user.id),
+                analytics.aliasClean.bind(analytics, req.cookies.mixpanelAnonymousId, user.id),
                 analytics.identifyClean.bind(analytics, user, {}),
                 analytics.trackClean.bind(analytics, user, "VFS is active", { uid: user.id }),
             ], function(err) {
                 if (err) return console.log("Error logging activity", err.stack || err);
             });
 
+            analytics.superagent && analytics.superagent
+                .post(options.apiBaseUrl + "/metric/usage/" + req.params.pid + "?access_token=" + req.query.access_token)
+                .end(function() {});
+                
             user.lastVfsAccess = Date.now();
             user.save(function() {});
         }
