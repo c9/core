@@ -902,11 +902,19 @@ define(function(require, exports, module) {
                 function setTabColor(){
                     var bg = settings.get("user/terminal/@backgroundColor");
                     var shade = util.shadeColor(bg, 0.75);
-                    doc.tab.backgroundColor = shade.isLight ? bg : shade.color;
+                    var skinName = settings.get("user/general/@skin");
+                    var isLight = ~skinName.indexOf("flat") || shade.isLight;
+                    doc.tab.backgroundColor = isLight ? bg : shade.color;
                     
-                    if (shade.isLight) {
-                        doc.tab.classList.remove("dark");
-                        container.className = "c9terminalcontainer";
+                    if (isLight) {
+                        if (~skinName.indexOf("flat") && !shade.isLight) {
+                            doc.tab.classList.add("dark");
+                            container.className = "c9terminalcontainer flat-dark";
+                        }
+                        else {
+                            doc.tab.classList.remove("dark");
+                            container.className = "c9terminalcontainer";
+                        }
                     }
                     else {
                         doc.tab.classList.add("dark");

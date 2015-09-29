@@ -11,12 +11,12 @@
 }
 
 .output .toolbar .c9-toolbarbutton-glossyOver{
-    border: 1px solid #c2c8ca !important;
-    background: rgba(255,255,255, 0.4) !important;
+    border: 1px solid transparent !important;
+    background: rgba(255,255,255, 0.1) !important;
 }
 .output .toolbar .c9-toolbarbutton-glossyDown{
-    border: 1px solid #c2c8ca !important;
-    background: rgba(255,255,255, 0.6) !important;
+    border: 1px solid transparent !important;
+    background: rgba(255,255,255, 0.14) !important;
 }
 
 .envcontainer {
@@ -180,7 +180,13 @@
     .font-smoothing(true);
 }
 
-.searchbox .ace-tm .ace_cursor{
+.searchbox .ace-tm .ace_marker-layer .ace_selected-word {
+    display: none;
+}
+.searchbox .ace-tm .ace_marker-layer .ace_selection {
+    background: rgb(119, 130, 49);
+}
+.searchbox .ace-tm .ace_cursor {
     color: @textbox-color;
 }
 
@@ -193,7 +199,7 @@
 .tbsimpleFocus,
 .tbsimple:hover{
     background: @element-background-hover;
-    border: 1px solid transparent;
+    border-color: transparent;
 }
 
 .panel-bar .searchbox .sbtb_middle{
