@@ -218,7 +218,6 @@ module.exports = function(options) {
             nak: options.nakBin || "~/.c9/node_modules/nak/bin/nak",
             node: options.nodeBin,
             local: options.local,
-            installPath: options.installPath
         },
         {
             packagePath: "plugins/c9.ide.find.infiles/findinfiles",
@@ -277,7 +276,7 @@ module.exports = function(options) {
         
         // VFS
         "plugins/c9.fs/proc",
-        "plugins/c9.fs/proc.apigen",
+        "plugins/c9.fs/proc.apigen", // used only by disabled deploy plugins
         "plugins/c9.fs/net",
         {
             packagePath: "plugins/c9.fs/fs",
