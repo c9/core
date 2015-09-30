@@ -1,3 +1,8 @@
+/**
+ * This error handler is for server side error logging.
+ * 
+ **/
+ 
 "use strict";
 
 plugin.consumes = ["raygun"];

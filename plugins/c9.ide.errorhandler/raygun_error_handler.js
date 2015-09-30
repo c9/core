@@ -1,5 +1,7 @@
 /**
- * This error handler catches window.onerror and sends them to raygun.io
+ * This error handler is for client side error logging
+ * It also automatically catches window.onerror and sends them to raygun.io
+ * You can also import it and call .log to manually send an error
  *
  * @extends Plugin
  * @singleton
