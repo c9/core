@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     "use strict";
 
-    main.consumes = ["Plugin", "ui", "metrics"];
+    main.consumes = ["Plugin", "ui", "metrics", "error_handler"];
     main.provides = ["dialog.error"];
     return main;
 
@@ -9,6 +9,7 @@ define(function(require, exports, module) {
         var Plugin = imports.Plugin;
         var ui = imports.ui;
         var metrics = imports.metrics;
+        var errorHandler = imports.error_handler;
         
         /***** Initialization *****/
         
@@ -121,7 +122,10 @@ define(function(require, exports, module) {
                     return console.error("empty error message", message);
                 }
                 
-                console.error("Error dialog shown: ", getMessageString(message));
+                errorHandler.log(new Error("Error dialog shown"), {
+                    message: message, 
+                    messageString: getMessageString(message),
+                });
             }
             
             hide(function() {
