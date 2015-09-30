@@ -115,12 +115,12 @@ define(function(require, exports, module) {
                 + (message.className ? message.className : "");
             
             if (!message.noError) {
-                metrics.increment("dialog.error");
-                
                 if (!message) {
                     console.trace();
                     return console.error("empty error message", message);
                 }
+                
+                metrics.increment("dialog.error");
                 
                 errorHandler.log(new Error("Error dialog shown"), {
                     message: message, 
