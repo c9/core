@@ -577,6 +577,7 @@ apf.vsplitbox = function(struct, tagName) {
                     if (isPercentage) {
                         fNode.$ext.style.height = "";
                         fNode.$ext.style.bottom = (100 - parseFloat(fNode.height)) + "%";
+                        lNode.$ext.style.height = "";
                     }
                     
                     if (this.$handle) {
