@@ -122,7 +122,8 @@ module.exports = function(options) {
             servers: options.vfsServers,
             updateServers: hosted,
             strictRegion: options.strictRegion
-                || options.mode === "beta" && "beta"
+                || options.mode === "beta" && "beta",
+            ignoreProtocolVersion: options.ignoreProtocolVersion,
         },
         {
             packagePath: "plugins/c9.ide.auth/auth",
