@@ -361,7 +361,7 @@ var server = {
                     }
                 }
                 
-                if (p.staticPrefix && options.windowLocation && options.packed) {
+                if (p.staticPrefix && options.windowLocation && (options.packed || isRemote)) {
                     p.staticPrefix = p.staticPrefix.replace(/^\/static/, options.windowLocation);
                 }
             }
@@ -392,6 +392,10 @@ var server = {
                     plugins = require(configPath).makeLocal(config.plugins, settings);
                     settings.url = config.url;
                 }
+                plugins.forEach(function(p) {
+                    if (p.staticPrefix)
+                        p.staticPrefix = p.staticPrefix.replace(/^https?:\/\/.*?\/static/, "/static");
+                })
                 updateFilePaths(plugins, function(){
                     cb(plugins, settings);
                 });
@@ -415,7 +419,6 @@ var server = {
     openWindow : openWindow,
     parseArgs : parseArgs,
     getRecentWindows: getRecentWindows,
-    listC9Projects: listC9Projects,
     getRemoteWorkspaceConfig: getRemoteWorkspaceConfig
 };
 
@@ -1021,49 +1024,6 @@ function loadData(url, callback) {
         callback(e);
     };
     xhr.send("");
-}
-
-// TODO add proper api to c9 server
-function listC9Projects(user, callback) {
-    if (!user)
-        return callback(null, []);
-        
-    var url = "https://c9.io/" + user.name;
-    loadData(url, function(err, result) {
-        if (err) return callback(err);
-        var ownProjects = [];
-        var sharedProjects = [];
-        try {
-            var pids = Object.create(null);
-            JSON.parse(result.match(/projects:\s*(.*),/)[1]).forEach(function(x) {
-                var userName = x.owner_username || user.name;
-                
-                var project = {
-                    name: userName + "/" + x.name,
-                    projectName: x.name,
-                    pid: x.pid,
-                    isRemote: true,
-                };
-                
-                if (pids[project.pid])
-                    return;
-                
-                pids[project.pid] = project;
-                
-                if (userName == user.name)
-                    ownProjects.push(project);
-                else
-                    sharedProjects.push(project);
-            });
-        } catch(e) {
-            console.error(e);
-            return callback(e);
-        }
-        callback(null, {
-            shared: sharedProjects,
-            own: ownProjects
-        });
-    });
 }
 
 function getRemoteWorkspaceConfig(projectName, callback) {

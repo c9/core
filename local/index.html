@@ -271,7 +271,7 @@
         function loadRequireJsConfig(cb) {
             var requirejs = window.requirejs;
             window.require = requirejs;
-            requirejs.setConfig = requirejs.config;
+            requirejs.setConfig = requirejs.setConfig || requirejs.config;
             requirejs.config = function(config) {
                 config.baseUrl = requirejsBaseUrl + (config.baseUrl || "");
                 if (config.paths) {
@@ -293,7 +293,7 @@
                 require.packaged = true;
             if (!packed || devel) {
                 packageIsLoading = true;
-                loadScript("plugins/c9.vfs.standalone/www/require.js", function() {
+                loadScript("node_modules/architect-build/build_support/mini_require.js", function() {
                     removeNwRequire();
                     startIde();
                     packageIsLoading = false;

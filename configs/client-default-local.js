@@ -84,6 +84,9 @@ module.exports.makeLocal = function(config, options) {
             config[i].autoInit = false;
         } else if (config[i].packagePath == "plugins/c9.ide.tree/tree") {
             config[i].defaultExpanded = !config.hosted;
+        } else if (config[i].packagePath == "plugins/c9.ide.errorhandler/raygun_error_handler") {
+            // TODO fix cycle introduced by local/info and raygun_error_handler
+            config[i].packagePath = "plugins/c9.ide.errorhandler/simple_error_handler";
         }
     }
 
@@ -127,9 +130,13 @@ module.exports.makeLocal = function(config, options) {
             contents: options.project.contents,
             descr: options.project.descr
         }
-    }].filter(Boolean);
+    },
+    c9Ws && "plugins/c9.ide.analytics/mock_analytics",
+    ].filter(Boolean);
 
-    var excludes = c9Ws ? {} : {
+    var excludes = c9Ws ? {
+        "plugins/c9.ide.analytics/analytics": true,
+    } : {
         "plugins/c9.ide.newresource/open": true,
         "plugins/c9.ide.info/info": true,
         // "plugins/c9.ide.login/login": true,
