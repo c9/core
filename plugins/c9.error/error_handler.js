@@ -115,14 +115,13 @@ function plugin(options, imports, register) {
         if (/json/.test(accept)) {
             var error = {
                 code: statusCode,
-                message: err.message,
                 hostname: options.hostname,
                 scope: options.scope,
                 stack: stack
             };
             
             var allowedErrorKeys = [
-                "message", "projectState", "premium", "retryIn", "progress", 
+                "message", "projectState", "premium", "retryIn", "progress",
                 "oldHost", "blocked"
             ];
             
