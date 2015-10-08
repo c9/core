@@ -127,10 +127,10 @@ define(function(require, exports, module) {
             }
             
             if (command.isAvailable && !command.isAvailable(editor, args, e))
-                return; //Disable commands for other contexts
+                return; // Disable commands for other contexts
 
             if (command.findEditor)
-                editor = command.findEditor(editor);
+                editor = command.findEditor(editor, e);
             
             if (editor && editor.$readOnly && !command.readOnly)
                 return false;
