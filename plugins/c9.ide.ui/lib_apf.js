@@ -33568,6 +33568,8 @@ apf.splitbutton = function(struct, tagName) {
         var _self = this;
         this.$ext = this.$pHtmlNode.appendChild(document.createElement("div"));
         this.$ext.className = "splitbutton";
+        if (this.getAttribute("style"))
+            this.$ext.setAttribute("style", this.getAttribute("style"));
 
         var skin = this["button-skin"] || this.getAttribute("skin") || this.localName;
 
