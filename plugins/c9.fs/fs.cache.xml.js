@@ -292,29 +292,33 @@ define(function(require, exports, module) {
                 // Validation
                 var toNode = findNode(newPath);
                 
-                if (parent) { // Dir is in cache
-                    if (toNode)
-                        deleteNode(toNode);
+                deleteNode(node, true);
+                if (toNode)
+                    deleteNode(toNode, true);
                 
-                    createNode(newPath, null, node); // Move node
-                    recurPathUpdate(node, oldPath, newPath);
+                createNode(newPath, null, node); // Move node
+                recurPathUpdate(node, oldPath, newPath);
+                
+                e.undo = function(){
+                    if (!parent) {
+                        var tmpParent = node;
+                        while (node.parent && tmpParent.parent.status == "pending")
+                            tmpParent = tmpParent.parent;
+                        if (tmpParent)
+                            deleteNode(tmpParent, true);
+                    }
+                    deleteNode(node, true);
+                    if (toNode)
+                        createNode(newPath, null, toNode);
                     
-                    e.undo = function(){
-                        createNode(oldPath, null, node);
-                        recurPathUpdate(node, newPath, oldPath);
-                        
-                        if (toNode)
-                            createNode(newPath, null, toNode);
-                    };
-                    e.confirm = function() {
-                        if (node.status === "predicted")
-                            node.status = "loaded";
-                    };
-                    node.status = "predicted";
-                }
-                else {
-                    removeSingleNode(e);
-                }
+                    createNode(oldPath, null, node);
+                    recurPathUpdate(node, newPath, oldPath);
+                };
+                e.confirm = function() {
+                    if (node.status === "predicted")
+                        node.status = "loaded";
+                };
+                node.status = "predicted";
             }, plugin);
             fs.on("afterRename", afterHandler, plugin);
             
@@ -553,10 +557,6 @@ define(function(require, exports, module) {
                     node.status = "loaded";
                 }
 
-                if (isFolder && !node.map)
-                    node.map = {};
-                else if (!isFolder && node.map)
-                    delete node.map;
                 if (stat.size != undefined)
                     node.size = stat.size;
                 if (stat.mtime != undefined)
@@ -565,6 +565,11 @@ define(function(require, exports, module) {
                     node.link = stat.fullPath;
                 node.isFolder = isFolder;
             }
+            
+            if (node.isFolder && !node.map)
+                node.map = {};
+            else if (!node.isFolder && node.map)
+                delete node.map;
             
             node.children = null;
             
