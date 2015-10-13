@@ -33555,7 +33555,9 @@ apf.splitbutton = function(struct, tagName) {
                     var diff = apf.getAbsolutePosition(split.$button2.$ext)[0]
                         - apf.getAbsolutePosition(split.$button1.$ext)[0];
 
-                    this.$ext.style.marginLeft = "-" + diff + "px";
+                    this.$ext.style.marginLeft = ~this.$ext.className.indexOf("moveleft") 
+                        ? 0
+                        : "-" + diff + "px";
                 });
                 menu.$splitInited = true;
             }
