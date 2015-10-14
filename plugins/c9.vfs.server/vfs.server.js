@@ -327,15 +327,6 @@ function plugin(options, imports, register) {
         if (new Date(user.lastVfsAccess).getDate() != new Date().getDate() || 
             Date.now() > user.lastVfsAccess + VFS_ACTIVITY_WINDOW) {
                 
-            // Keeping this temporarily to be replaced by API request only
-            async.series([
-                analytics.aliasClean.bind(analytics, req.cookies.mixpanelAnonymousId, user.id),
-                analytics.identifyClean.bind(analytics, user, {}),
-                analytics.trackClean.bind(analytics, user, "VFS is active", { uid: user.id }),
-            ], function(err) {
-                if (err) return console.log("Error logging activity", err.stack || err);
-            });
-
             analytics.superagent && analytics.superagent
                 .post(options.apiBaseUrl + "/metric/usage/" + req.params.pid + "?access_token=" + req.query.access_token)
                 .end(function() {});
