@@ -711,20 +711,7 @@ module.exports = function(options) {
         "plugins/c9.ide.scm/detail",
         "plugins/c9.ide.scm/log",
         "plugins/c9.ide.scm/git",
-        "plugins/c9.ide.scm/editor",
-        
-        // DO NOT COMMIT
-        {
-            packagePath: "plugins/salesforce.sync/plugin",
-            staticPrefix: staticPrefix + "/plugins/salesforce.sync"
-        },
-        // "plugins/salesforce.sync/test",
-        "plugins/salesforce.sync/api-standalone",
-        // "plugins/salesforce.sync/immediateapex",
-        // "plugins/salesforce.sync/immediatequery",
-        // "plugins/salesforce.sync/preview_visualforce",
-        // "plugins/salesforce.sync/preview_lightning",
-        // "plugins/salesforce.language/apex_language"
+        "plugins/c9.ide.scm/editor"
     ];
     
     if (!options.sdk) {
