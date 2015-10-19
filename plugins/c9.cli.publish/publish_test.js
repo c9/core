@@ -62,7 +62,7 @@ describe("cli.publish", function(){
           "description": "",
           "star_count": 0,
           "star_total": 0,
-            
+          
           "installs": 0,
           "screenshots": [
             // TODO Screenshots are broken
@@ -89,6 +89,14 @@ describe("cli.publish", function(){
                 packageJson = fs.readFileSync(packagePath, "utf8");
                 readmeMD = fs.readFileSync(readmePath, "utf8");
                 
+                done();
+            });
+        });
+        
+        it("should be fine if json.permissions is missing as it defaults to world", function(done){
+            fs.writeFileSync(packagePath, packageJson.replace(/"permissions[\s\S]*?\],/, ""));
+            runCLI("publish", ["major"], function(err, stdout, stderr){
+                assert(!err, err);
                 done();
             });
         });
@@ -139,6 +147,16 @@ describe("cli.publish", function(){
             fs.writeFileSync(packagePath, packageJson.replace(/"categories[\s\S]*?\],/, ""));
             runCLI("publish", ["major"], function(err, stdout, stderr){
                 expect(stderr).to.match(/ERROR: At least one category is required in package.json/);
+                done();
+            });
+        });
+        it("should fail if json.permissions is not org or world", function(done){
+            var parsedJson = JSON.parse(packageJson);
+            parsedJson.permissions = "notvalid";
+            fs.writeFileSync(packagePath, JSON.stringify(parsedJson));
+            runCLI("publish", ["major"], function(err, stdout, stderr){
+                console.log("stdout: ", stdout)
+                expect(stderr).to.match(/ERROR: Permissions must be/);
                 done();
             });
         });

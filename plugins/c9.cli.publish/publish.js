@@ -234,6 +234,12 @@ define(function(require, exports, module) {
             return (verbose ? JSON.stringify(err, 4, "    ") : (typeof err == "string" ? err : err.message));
         }
         
+        function addMissingValues(json) {
+            json.permissions = json.permissions || "world";
+            
+            return json;
+        }
+        
         function validateConfig(json) {
             var cwd = process.cwd();
             
@@ -255,6 +261,8 @@ define(function(require, exports, module) {
                 return new Error("ERROR: Missing repository.url property in package.json");
             if (!json.categories || json.categories.length == 0)
                 return new Error("ERROR: At least one category is required in package.json");
+            if (!json.permissions || !json.permissions.match(/org|world/)) 
+                return new Error("ERROR: Permissions must be 'org' or 'world'");
         }
         
         function publish(options, callback) {
@@ -273,6 +281,11 @@ define(function(require, exports, module) {
                     return callback(new Error("ERROR: Could not parse package.json: ", e.message)); 
                 }
                 
+                console.log("Permissions are: ", json.permissions);
+                console.log("Data is: ", data);
+                json = addMissingValues(json);
+                
+                console.log("Permissions are: ", json.permissions);
                 var validationError = validateConfig(json);
                 if (validationError) return callback(validationError);
                 
@@ -694,7 +707,7 @@ define(function(require, exports, module) {
                                         description: description,
                                         owner_type: "user", // @TODO implement this when adding orgs
                                         owner_id: parseInt(user.id),
-                                        permissions: json.permissions || "world",
+                                        permissions: json.permissions,
                                         categories: json.categories,
                                         repository: json.repository,
                                         longname: json.longname,
