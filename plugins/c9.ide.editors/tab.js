@@ -7,6 +7,7 @@ define(function(require, module, exports) {
         var Plugin = imports.Plugin;
         var Document = imports.Document;
         var ui = imports.ui;
+        var alert = imports["dialog.alert"].show;
         
         var stylesheet = ui.createStylesheet();
         
@@ -249,7 +250,7 @@ define(function(require, module, exports) {
                 // var lastType = tab.editorType;
                 amlPane.cloud9pane.createEditor(type, function(err, editor) {
                     var info = {};
-                    if (editor.isValid(amlTab.document, info) === false) {
+                    if (editor.isValid(amlTab.cloud9tab.document, info) === false) {
                         alert(
                             info.title || "Could not switch editor",
                             info.head || "Could not switch editor because this document is invalid.",

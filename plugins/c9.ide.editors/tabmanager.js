@@ -186,13 +186,8 @@ define(function(require, module, exports) {
                     group = node.group;
                     
                     var path = focussedTab && focussedTab.path || "";
-                    var ext = path.substr(path.lastIndexOf(".") + 1);
-                    
                     var type = node.value;
-                    var extensions = editors.findEditor(type).fileExtensions;
-                    var isAvailable = editors.defaultEditor == type 
-                        || extensions.indexOf(ext.toLowerCase()) > -1
-                        || !extensions.length;
+                    var isAvailable = editors.editorSupportsFile(type, path);
         
                     node.setAttribute("disabled", !isAvailable);
                 });
