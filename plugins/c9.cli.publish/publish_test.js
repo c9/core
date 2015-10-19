@@ -2,8 +2,6 @@
 "use strict";
 "use server";
 
-"use blacklist";
-
 require("c9/inline-mocha")(module);
 
 if (typeof define === "undefined") {
@@ -113,6 +111,13 @@ describe("cli.publish", function(){
             fs.writeFileSync(packagePath, packageJson.replace('"name": "c9.ide.example",', ''));
             runCLI("publish", ["major"], function(err, stdout, stderr){
                 expect(stderr).to.match(/ERROR: Missing name property in package.json/);
+                done();
+            });
+        });
+        it("should fail if the name in the package.json contains invalid characters", function(done){
+            fs.writeFileSync(packagePath, packageJson.replace('c9.ide.example', 'c9-ide-example'));
+            runCLI("publish", ["major"], function(err, stdout, stderr){
+                expect(stderr).to.match(/ERROR: Package name can only contain/);
                 done();
             });
         });
