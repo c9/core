@@ -951,6 +951,9 @@ define(function(require, exports, module) {
                 aml = new ui.menu({
                     id: options.id,
                     zindex: options.zindex,
+                    visible: options.visible,
+                    width: options.width,
+                    height: options.height,
                     "onprop.visible" : function(e) {
                         emit(e.value ? "show" : "hide", lastCoords);
                         checkItems.call(this, e);
@@ -1057,6 +1060,18 @@ define(function(require, exports, module) {
                  */
                 get zindex(){ return aml && ui.getStyle(aml.$ext, "z-index"); },
                 set zindex(value) { aml && aml.setAttribute("zindex", value); },
+                /**
+                 * Specifies the width of the menu
+                 * @property {Number} width
+                 */
+                get width(){ return aml && aml.getWidth(); },
+                set width(value) { aml && aml.setAttribute("width", value); },
+                /**
+                 * Specifies the height of the menu
+                 * @property {Number} height
+                 */
+                get height(){ return aml && aml.getHeight(); },
+                set height(value) { aml && aml.setAttribute("height", value); },
                 /**
                  * The menu items appended to this menu
                  * @property {MenuItem[]} items

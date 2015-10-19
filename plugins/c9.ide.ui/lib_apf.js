@@ -33555,7 +33555,9 @@ apf.splitbutton = function(struct, tagName) {
                     var diff = apf.getAbsolutePosition(split.$button2.$ext)[0]
                         - apf.getAbsolutePosition(split.$button1.$ext)[0];
 
-                    this.$ext.style.marginLeft = "-" + diff + "px";
+                    this.$ext.style.marginLeft = ~this.$ext.className.indexOf("moveleft") 
+                        ? 0
+                        : "-" + diff + "px";
                 });
                 menu.$splitInited = true;
             }
@@ -33568,6 +33570,8 @@ apf.splitbutton = function(struct, tagName) {
         var _self = this;
         this.$ext = this.$pHtmlNode.appendChild(document.createElement("div"));
         this.$ext.className = "splitbutton";
+        if (this.getAttribute("style"))
+            this.$ext.setAttribute("style", this.getAttribute("style"));
 
         var skin = this["button-skin"] || this.getAttribute("skin") || this.localName;
 
