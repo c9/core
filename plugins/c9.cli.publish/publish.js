@@ -44,6 +44,7 @@ define(function(require, exports, module) {
         var force = false;
         var dryRun = false;
         var createTag = false;
+        var compress = false;
         
         // Set up basic auth for api if needed
         if (BASICAUTH) api.basicAuth = BASICAUTH;
@@ -85,6 +86,11 @@ define(function(require, exports, module) {
                         "alias": "t",
                         "default": false,
                         "boolean": true
+                    },
+                    "compress" : {
+                        "description": "Minify output with uglify.js",
+                        "default": true,
+                        "boolean": true
                     }
                 },
                 check: function(argv) {
@@ -125,9 +131,17 @@ define(function(require, exports, module) {
                         "alias": "d",
                         "default": false,
                         "boolean": true
+                    },
+                    "compress" : {
+                        "description": "Minify output with uglify.js",
+                        "default": false,
+                        "boolean": true
                     }
                 },
                 exec: function(argv) {
+                    compress = argv["compress"];
+                    verbose = argv["verbose"];
+                    force = argv["force"];
                     if (argv["devel"]) {
                         var code = function(argument) {
                             /* TODO explain */
@@ -159,13 +173,14 @@ define(function(require, exports, module) {
                     } 
                     else {
                         dryRun = true;
-                        publish({local: true}, function(err){
+                        publish({local: true}, function(err, result){
                             if (err) {
                                 console.error(err);
                                 if (!verbose)
                                     console.error("\nTry running with --verbose flag for more information");
                                 process.exit(1);
                             }
+                            console.log("Done!");
                         });
                     }
                 }
@@ -186,6 +201,7 @@ define(function(require, exports, module) {
                 check: function(argv) {},
                 exec: function(argv) {
                     verbose = argv["verbose"];
+                    compress = argv["compress"];
                     
                     unpublish(
                         function(err, data){
@@ -574,7 +590,7 @@ define(function(require, exports, module) {
                                 enableBrowser: true,
                                 includeConfig: false,
                                 noArchitect: true,
-                                compress: !dryRun,
+                                compress: compress,
                                 obfuscate: true,
                                 oneLine: true,
                                 filter: [],
