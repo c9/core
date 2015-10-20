@@ -26,7 +26,7 @@
         "mkdirp": "~0.3.5",
         "msgpack-js": "~0.1.1",
         "msgpack-js-browser": "~0.1.4",
-        "nak": "",
+        "nak": "git://github.com/cloud9ide/nak.git#719f2188ec1d8e4ce553286e80737d7e6434d777",
         "netutil": "~0.0.2",
         "optimist": "~0.6.0",
         "qs": "0.6.6",

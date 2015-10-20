@@ -705,6 +705,20 @@ module.exports = function(options) {
             staticPrefix: staticPrefix + "/plugins/c9.ide.collab/notifications"
         },
         
+        // Test
+        "plugins/c9.ide.test/test",
+        "plugins/c9.ide.test/testpanel",
+        "plugins/c9.ide.test/testrunner",
+        {
+            packagePath: "plugins/c9.ide.test/all",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.test"
+        },
+        "plugins/c9.ide.test/results",
+        "plugins/c9.ide.test/coverage",
+        "plugins/c9.ide.test/coverageview",
+        
+        "plugins/c9.ide.test.mocha/mocha",
+        
         // git integration
         "plugins/c9.ide.scm/scm",
         "plugins/c9.ide.scm/scmpanel",
@@ -714,24 +728,6 @@ module.exports = function(options) {
         "plugins/c9.ide.scm/editor"
     ];
     
-    if (!options.sdk) {
-        plugins.push(
-            // Test
-            "plugins/c9.ide.test/test",
-            "plugins/c9.ide.test/testpanel",
-            "plugins/c9.ide.test/testrunner",
-            {
-                packagePath: "plugins/c9.ide.test/all",
-                staticPrefix: staticPrefix + "/plugins/c9.ide.test"
-            },
-            "plugins/c9.ide.test/results",
-            "plugins/c9.ide.test/coverage",
-            "plugins/c9.ide.test/coverageview",
-            
-            "plugins/c9.ide.test.mocha/mocha"
-        );
-    }
-
     
     if (packaging || !devel) {
         plugins.push({
