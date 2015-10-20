@@ -23,15 +23,13 @@ var DEFAULT_CONFIG = "s";
 var DEFAULT_SETTINGS = getDefaultSettings();
 
 var shortcuts = {
-    "dev"  : ["ide", "preview", "vfs", "api", "sapi", "proxy", "redis", "profile", "oldclient", "homepage", "apps-proxy", "-s", "devel"],
-    "onlinedev" : ["ide", "preview", "vfs", "api", "proxy", "oldclient", "homepage", "apps-proxy", "profile", "worker", "-s", "onlinedev"],
-    "bill" : ["ide", "preview", "vfs", "api", "proxy", "oldclient", "homepage", "apps-proxy", "profile", "-s", "billing"],
-    "beta" : ["ide", "preview", "vfs", "proxy", "-s", "beta"],
-    "ci"   : ["ide", "preview", "vfs", "proxy", "-s", "ci"],
-    "s"    : ["standalone", "-s", "standalone"]
+    "dev":       ["ide", "preview", "user-content", "vfs", "api", "sapi", "proxy", "redis", "profile", "oldclient", "homepage", "apps-proxy", "-s", "devel"],
+    "onlinedev": ["ide", "preview", "user-content", "vfs", "api", "proxy", "oldclient", "homepage", "apps-proxy", "profile", "worker", "-s", "onlinedev"],
+    "beta":      ["ide", "preview", "user-content", "vfs", "proxy", "-s", "beta"],
+    "s":         ["standalone", "-s", "standalone"]
 };
 shortcuts.odev = shortcuts.onlinedev; // For backwards compatibility, if you see this in 2016 remove this line
-var delayLoadConfigs = ["preview", "api", "oldclient", "apps-proxy", "worker"];
+var delayLoadConfigs = ["preview", "user-content", "api", "oldclient", "apps-proxy", "worker"];
 
 module.exports = main;
 
