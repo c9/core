@@ -347,7 +347,7 @@ define(function(require, exports, module) {
              * @param {String}   path            the path of the directory to get the listing from
              * @param {Function} callback        called after the file listing is read
              * @param {Error}    callback.err    the error information returned by the operation
-             * @param {String[]} callback.files  a list of strings containing the filenames of the files in the directory
+             * @param {Stat[]} callback.files    a list of stat objects (See fs.stat) containing the file information of the files in the directory
              * @fires error
              */
             readdir: api.readdir,
