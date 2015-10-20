@@ -421,8 +421,8 @@ define(function(require, exports, module) {
                     });
                 }
                 
-                if (options.name) {
-                    node.setAttribute("id", options.name);
+                if (options.id || options.name) {
+                    node.setAttribute("id", options.id || options.name);
                     elements[node.name] = node;
                 }
                 
