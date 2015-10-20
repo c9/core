@@ -1,7 +1,7 @@
 {
     "name": "c9",
     "description": "New Cloud9 Client",
-    "version": "3.1.23",
+    "version": "3.1.34",
     "author": "Ajax.org B.V. <info@ajax.org>",
     "private": true,
     "main": "bin/c9",
@@ -62,7 +62,7 @@
         "c9.ide.language.html.diff": "#24f3608d26",
         "c9.ide.language.javascript": "#2b77bdb96a",
         "c9.ide.language.javascript.immediate": "#0535804ada",
-        "c9.ide.language.javascript.eslint": "#df7e424b54",
+        "c9.ide.language.javascript.eslint": "#3ec4557969",
         "c9.ide.language.javascript.tern": "#40cf04bded",
         "c9.ide.language.javascript.infer": "#8478e3c702",
         "c9.ide.language.jsonalyzer": "#8401c240b3",

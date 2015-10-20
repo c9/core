@@ -712,7 +712,7 @@ module.exports = function(options) {
         "plugins/c9.ide.scm/log",
         "plugins/c9.ide.scm/git",
         "plugins/c9.ide.scm/editor",
-        "plugins/c9.ide.scm/mergetool",
+        "plugins/c9.ide.scm/mergetool"
     ];
     
     if (!options.sdk) {
