@@ -278,9 +278,9 @@ define(function(require, exports, module) {
             tree.renderer.on("scrollbarVisibilityChanged", updateScrollBarSize);
             tree.renderer.on("resize", updateScrollBarSize);
             function updateScrollBarSize() {
-                var w = tree.renderer.scrollBarV.getWidth();
+                var scrollBarV = tree.renderer.scrollBarV;
+                var w = scrollBarV.isVisible ? scrollBarV.getWidth() : 0;
                 btnTreeSettings.$ext.style.marginRight = Math.max(w - 2,  0) + "px";
-                tree.renderer.scroller.style.right = Math.max(w, 10) + "px";
             }
             
             tree.on("drop", function(e) {
