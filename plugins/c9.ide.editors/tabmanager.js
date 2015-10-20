@@ -1070,7 +1070,7 @@ define(function(require, module, exports) {
                 options.document.title = basename(path);
                 options.document.tooltip = path;
             }
-            if (typeof options.value == "string")
+            if (typeof options.value == "string" && !options.newOnError)
                 options.document.value = options.value;
             // if (options.document.filter === undefined)
             //     options.document.filter = true;
@@ -1086,7 +1086,7 @@ define(function(require, module, exports) {
             var doc = options.document;
             var loadFromDisk = path 
               && (!doc || doc.value === undefined) 
-              && options.value === undefined
+              && (options.value === undefined || options.newOnError)
               // autoload to false prevents loading data, used by image editor
               && (!editor || editor.autoload !== false);
             
