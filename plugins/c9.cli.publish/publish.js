@@ -114,7 +114,7 @@ define(function(require, exports, module) {
                                 process.exit(1);
                             }
                             else if (!dryRun) {
-                                console.log("Succesfully published version", data.version);
+                                console.log("Successfully published version", data.version);
                                 process.exit(0);
                             }
                         });
@@ -210,7 +210,7 @@ define(function(require, exports, module) {
                                 process.exit(1);
                             }
                             else {
-                                console.log("Succesfully disabled package");
+                                console.log("Successfully disabled package");
                                 process.exit(0);
                             }
                         });
@@ -250,6 +250,37 @@ define(function(require, exports, module) {
             return (verbose ? JSON.stringify(err, 4, "    ") : (typeof err == "string" ? err : err.message));
         }
         
+        function addMissingValues(json) {
+            json.permissions = json.permissions || "world";
+            
+            return json;
+        }
+        
+        function validateConfig(json) {
+            var cwd = process.cwd();
+            
+            // Basic Validation
+            if (json.private)
+                return new Error("ERROR: Private flag in package.json prevents from publishing");
+            if (!json.name)
+                return new Error("ERROR: Missing name property in package.json");
+            if (!json.name.match(/^[\w\._]+$/))
+                return new Error("ERROR: Package name can only contain Alphanumeric characters, periods and underscores");
+            if (basename(cwd) != json.name) {
+                console.warn("WARNING: The name property in package.json is not equal to the directory name, which is " + basename(cwd));
+                if (!force)
+                    return new Error("Use --force to ignore this warning.");
+            }
+            if (!json.repository)
+                return new Error("ERROR: Missing repository property in package.json");
+            if (!json.repository.url)
+                return new Error("ERROR: Missing repository.url property in package.json");
+            if (!json.categories || json.categories.length == 0)
+                return new Error("ERROR: At least one category is required in package.json");
+            if (!json.permissions || !json.permissions.match(/org|world/)) 
+                return new Error("ERROR: Permissions must be 'org' or 'world'");
+        }
+        
         function publish(options, callback) {
             if (typeof options != "object")
                 options = {version: options};
@@ -266,22 +297,13 @@ define(function(require, exports, module) {
                     return callback(new Error("ERROR: Could not parse package.json: ", e.message)); 
                 }
                 
-                // Basic Validation
-                if (json.private)
-                    return callback(new Error("ERROR: Private flag in package.json prevents from publishing"));
-                if (!json.name)
-                    return callback(new Error("ERROR: Missing name property in package.json"));
-                if (basename(cwd) != json.name) {
-                    console.warn("WARNING: The name property in package.json is not equal to the directory name, which is " + basename(cwd));
-                    if (!force)
-                        return callback(new Error("Use --force to ignore this warning."));
-                }
-                if (!json.repository)
-                    return callback(new Error("ERROR: Missing repository property in package.json"));
-                if (!json.repository.url)
-                    return callback(new Error("ERROR: Missing repository.url property in package.json"));
-                if (!json.categories || json.categories.length == 0)
-                    return callback(new Error("ERROR: At least one category is required in package.json"));
+                console.log("Permissions are: ", json.permissions);
+                console.log("Data is: ", data);
+                json = addMissingValues(json);
+                
+                console.log("Permissions are: ", json.permissions);
+                var validationError = validateConfig(json);
+                if (validationError) return callback(validationError);
                 
                 var description = json.description;
                 
@@ -701,7 +723,7 @@ define(function(require, exports, module) {
                                         description: description,
                                         owner_type: "user", // @TODO implement this when adding orgs
                                         owner_id: parseInt(user.id),
-                                        permissions: json.permissions || "world",
+                                        permissions: json.permissions,
                                         categories: json.categories,
                                         repository: json.repository,
                                         longname: json.longname,
@@ -710,9 +732,10 @@ define(function(require, exports, module) {
                                         pricing: json.pricing || {}
                                     }
                                 }, function(err, pkg){
-                                    if (err) 
+                                    if (err) {
                                         return callback(new Error("ERROR: Failed to upload new package to API - " 
                                             + stringifyError(err)));
+                                    }
                                     
                                     next(pkg);
                                 });
