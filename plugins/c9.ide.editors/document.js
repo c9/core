@@ -386,8 +386,8 @@ define(function(require, module, exports) {
                 },
                 set value(v) { 
                     value = recentValue = v;
-                    hasValue = true;
                     emit("setValue", { value: v });
+                    hasValue = true;
                 },
                 /**
                  * The last serialized value that was either set or retrieved.
