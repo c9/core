@@ -60,9 +60,6 @@ EventEmitter.prototype.emit = function(type) {
     if (!this._events) 
         return;
 
-    if (arguments[2] === true)
-        throw new Error("Please use emit.sticky() instead of passing sticky=true for event: " + type);
-    
     var handler = this._events[type];
     if (!handler) 
         return;
