@@ -706,7 +706,9 @@ module.exports = function(options) {
         },
         
         // Test
-        "plugins/c9.ide.test/test",
+        {
+            packagePath: "plugins/c9.ide.test/test"
+        },
         "plugins/c9.ide.test/testpanel",
         "plugins/c9.ide.test/testrunner",
         {
