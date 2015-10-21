@@ -942,6 +942,10 @@ define(function(require, exports, module) {
                 return item;
             }
             
+            function remove(item){
+                aml.removeChild(item.aml);
+            }
+            
             function show(x, y) {
                 lastCoords = { x : x, y : y };
                 aml.display(x, y);
@@ -1117,6 +1121,12 @@ define(function(require, exports, module) {
                  * @param {MenuItem} item  The item to add to this menu.
                  */
                 append: append,
+                
+                /**
+                 * Remove a menu item from this menu
+                 * @param {MenuItem} item  The item to remove from this menu.
+                 */
+                remove: remove,
                 
                 /**
                  * Show the menu at the specified position
