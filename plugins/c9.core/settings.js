@@ -423,7 +423,7 @@ define(function(require, exports, module) {
         function getJson(query) {
             var json = get(query, true);
             
-            if (query.indexOf("json()") == -1)
+            if (query.indexOf("json()") == -1 && json["json()"])
                 json = json["json()"];
             
             if (typeof json === "object")
