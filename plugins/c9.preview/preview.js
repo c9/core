@@ -5,7 +5,9 @@ define(function(require, exports, module) {
         "session",
         "db",
         "c9.login",
-        "preview.handler"
+        "preview.handler",
+        "user-content.redirect",
+        "connect.remote-address"
     ];
     main.provides = [];
     return main;
@@ -18,6 +20,7 @@ define(function(require, exports, module) {
         var db = imports.db;
         var ensureLoggedIn = imports["c9.login"].ensureLoggedIn();
         var handler = imports["preview.handler"];
+        var userContent = imports["user-content.redirect"];
         
         var frontdoor = require("frontdoor");
         var error = require("http-error");
@@ -33,6 +36,8 @@ define(function(require, exports, module) {
             res.setHeader("X-Content-Type-Options", "nosniff");
             next();
         });
+        
+        api.use(userContent.redirectPreview());
         
         session.use(api);
         
