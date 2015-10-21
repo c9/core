@@ -423,7 +423,7 @@ define(function(require, exports, module) {
         function getJson(query) {
             var json = get(query, true);
             
-            if (query.indexOf("json()") == -1 && json["json()"])
+            if (query.indexOf("@") == -1 && query.indexOf("json()") == -1)
                 json = json["json()"];
             
             if (typeof json === "object")
@@ -434,6 +434,7 @@ define(function(require, exports, module) {
                     return JSON.parse(json);
                 } catch (e) {}
             }
+            
             // do not return null or undefined so that getJson(query).foo never throws
             return false;
         }
