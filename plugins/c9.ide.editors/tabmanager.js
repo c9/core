@@ -178,7 +178,7 @@ define(function(require, module, exports) {
                 if (!editors.findEditor(e.value).fileExtensions.length)
                     openEditor(e.value, true, function(){});
                 else if (focussedTab)
-                    focussedTab.switchEditor(e.value, function(){});
+                    switchEditor(focussedTab, e.value, function(){});
             });
             editors.on("menuShow", function(e) {
                 var group, editor = focussedTab && focussedTab.editor;
@@ -1405,6 +1405,13 @@ define(function(require, module, exports) {
             return true;
         }
         
+        function switchEditor(tab, type, callback) {
+            tab.switchEditor(type, function(){
+                emit("switchEditor", { tab: tab });
+                callback.apply(this, arguments);
+            });
+        }
+        
         /**** Support for state preservation ****/
     
         function pauseTabResize(){
@@ -1955,6 +1962,11 @@ define(function(require, module, exports) {
              * 
              */
             clone: clone,
+            
+            /**
+             * 
+             */
+            switchEditor: switchEditor,
             
             /**
              * @ignore
