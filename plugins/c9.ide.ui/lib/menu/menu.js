@@ -738,6 +738,8 @@ apf.menu = function(struct, tagName){
      * @param {String} value  The value of the item to select.
      */
     this.select = function(group, value){
+        this.selectedValue = value;
+        
         var nodes = this.childNodes;
         var i, l = nodes.length;
         for (i = 0; i < l; i++) {
@@ -1530,8 +1532,8 @@ apf.item  = function(struct, tagName){
         //@todo Anim effect here?
         
         this.dispatchEvent("click", {
-            xmlContext : this.parentNode.xmlReference,
-            opener     : this.parentNode.opener
+            xmlContext : (this.parentNode || 0).xmlReference,
+            opener     : (this.parentNode || 0).opener
         });
         
         
