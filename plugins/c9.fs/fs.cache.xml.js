@@ -561,8 +561,8 @@ define(function(require, exports, module) {
                     node.size = stat.size;
                 if (stat.mtime != undefined)
                     node.mtime = stat.mtime;
-                if (original_stat || stat.linkErr)
-                    node.link = stat.fullPath || stat.linkErr;
+                if (original_stat)
+                    node.link = stat.fullPath;
                 node.isFolder = isFolder;
             }
             
