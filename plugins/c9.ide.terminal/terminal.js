@@ -258,7 +258,7 @@ define(function(require, exports, module) {
                     ["foregroundColor", colors[1]],
                     ["selectionColor", colors[2]],
                     ["antialiasedfonts", colors[3]],
-                    ["fontfamily", "Ubuntu Mono, Menlo, Consolas, monospace"], //Monaco, 
+                    ["fontfamily", "Ubuntu Mono, Menlo, Consolas, monospace"], // Monaco, 
                     ["fontsize", "12"],
                     ["blinking", "false"],
                     ["scrollback", 10000]
