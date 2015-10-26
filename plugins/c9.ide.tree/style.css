@@ -20,7 +20,7 @@
     color : @selected-color;
 }
 
-.filetree .tree-row.projectRoot, .filetree .tree-row:first-child {
+.filetree .tree-row.projectRoot:first-child {
     margin-right: @tree-first-row-margin-right;
 }
 
