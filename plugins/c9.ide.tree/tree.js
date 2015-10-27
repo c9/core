@@ -277,7 +277,6 @@ define(function(require, exports, module) {
             btnTreeSettings.setAttribute("submenu", mnuFilesSettings);
             tree.renderer.on("scrollbarVisibilityChanged", updateScrollBarSize);
             tree.renderer.on("resize", updateScrollBarSize);
-            tree.renderer.scrollBarV.$minWidth = 10;
             function updateScrollBarSize() {
                 var scrollBarV = tree.renderer.scrollBarV;
                 var w = scrollBarV.isVisible ? scrollBarV.getWidth() : 0;
