@@ -44,7 +44,8 @@ function getDefaultSettings() {
         "prod": "deploy",
         "beta": "beta",
         "dev": "devel",
-        "onlinedev": "onlinedev"
+        "onlinedev": "onlinedev",
+        "test": "test"
     };
     return modes[suffix] || "devel";
 }
