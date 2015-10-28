@@ -132,11 +132,8 @@ define(function(require, module, exports) {
             function removeTab(e) {
                 if (!e.error) { 
                     var tab = findTab(e.path);
-                    if (tab) {
-                        tab.document.meta.$ignoreSave = true;
-                        tab.close();
-                        delete tab.document.meta.$ignoreSave;
-                    }
+                    if (tab)
+                        tab.unload();
                 }
             }
             fs.on("afterUnlink", removeTab);
@@ -145,9 +142,8 @@ define(function(require, module, exports) {
                 var path = e.path;
                 Object.keys(tabs).forEach(function(id) {
                     var tab = tabs[id];
-                    if (tab.path && tab.path.indexOf(path) === 0) {
+                    if (tab.path && tab.path.indexOf(path) === 0)
                         tab.unload();
-                    }
                 });
             });
             // Close a pane when it doesn't open

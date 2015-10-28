@@ -289,6 +289,15 @@ define(function(require, module, exports) {
                 load();
             });
             
+            plugin.on("beforeUnload", function(){
+                if (!plugin.meta.$closing) {
+                    plugin.document.meta.$ignoreSave = true;
+                    close();
+                    delete plugin.document.meta.$ignoreSave;
+                    return false;
+                }
+            });
+            
             plugin.on("unload", function(e) { 
                 closed = true;
                 
