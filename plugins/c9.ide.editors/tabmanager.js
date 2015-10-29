@@ -787,7 +787,10 @@ define(function(require, module, exports) {
                 var pane = list[i], nodes = pane.getTabs();
                 for (var j = nodes.length - 1; j >= 0; j--) {
                     var tab = nodes[j];
-                    if (!soft) tab.unload();
+                    if (!soft) {
+                        tab.meta.$closeSync = true;
+                        tab.unload();
+                    }
                     else {
                         tab.aml.parentNode.removeChild(tab.aml);
                         tab.pane = null;

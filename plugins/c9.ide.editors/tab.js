@@ -280,7 +280,9 @@ define(function(require, module, exports) {
             
             // @todo Explain difference with unload in docs
             function close(noAnim) {
+                if (!amlPane.remove) return false;
                 amlPane.remove(amlTab, null, noAnim);
+                return true;
             }
             
             /***** Lifecycle *****/
@@ -291,10 +293,8 @@ define(function(require, module, exports) {
             
             plugin.on("beforeUnload", function(){
                 if (!plugin.meta.$closing) {
-                    plugin.document.meta.$ignoreSave = true;
-                    close();
-                    delete plugin.document.meta.$ignoreSave;
-                    return false;
+                    if (close())
+                        return false;
                 }
             });
             
