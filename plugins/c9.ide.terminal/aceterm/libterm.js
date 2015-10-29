@@ -26,6 +26,7 @@ define(function(require, exports, module) {
  */
 
 var EventEmitter = require("events").EventEmitter;
+var wc = require("./wc");
 
 var normal = 0
   , escaped = 1
@@ -455,10 +456,34 @@ Terminal.prototype.writeInternal = function(data) {//TODO optimize lines
                 insertY = lines.length - 1;
               }
               
-              if (!this.insertMode)
-                lines[insertY][this.x] = [this.curAttr, ch];
-              else
-                lines[insertY].splice(this.x, 0, [this.curAttr, ch]);
+              var width = ch > "\x7f" ? wc.charWidth(ch.charCodeAt(0)) : 1;
+              line = lines[insertY];
+              var x = this.x;
+              while (line[x] && !line[x][1] && x > 0) {
+                line[x] = [line[x][0], " "];
+                x--;
+              }
+              switch (width) {
+                case 1:
+                  if (!this.insertMode)
+                    line[this.x] = [this.curAttr, ch];
+                  else
+                    line[insertY].splice(this.x, 0, [this.curAttr, ch]);
+                  break;
+                case 0:
+                  if (this.x > 0) this.x--;
+                  line[this.x] = [this.curAttr, line[this.x][1] + ch];
+                  break;
+                case 2:
+                  if (!this.insertMode) {
+                    line[this.x] = [this.curAttr, ch];
+                    line[this.x + 1] = [this.curAttr, "\x00"];
+                  } else {
+                    line[insertY].splice(this.x, 0, [this.curAttr, ch], [this.curAttr, ""]);
+                  }
+                  this.x++;
+                  break;
+              }
 
               this.x++;
               this.updateRange(this.y);
@@ -680,6 +705,9 @@ Terminal.prototype.writeInternal = function(data) {//TODO optimize lines
               // change log file
               break;
             case 50:
+              var args = this.params[1].match(/CursorShape=(.)/i);
+              var shape = ['BLOCK', 'BEAM', 'UNDERLINE'][parseInt(args && args[1]) || 0];
+              // TODO cursor shape
               // dynamic font
               break;
             case 51:

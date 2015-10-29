@@ -10,13 +10,13 @@
 }
 .errorlabel.anim, .disconnectlabel.anim{
     transition: top 0.2s;
-    -moz-transition: top 0.2s; /* Gecko */
     -webkit-transition: top 0.2s; /* Safari */
+    transition: top 0.2s;
 }
 .errorlabel.fade-in{
     transition: opacity 0.2s;
-    -moz-transition: opacity 0.2s; /* Gecko */
     -webkit-transition: opacity 0.2s; /* Safari */
+    transition: opacity 0.2s;
 }
 .errorlabel div{
     background: @error-background;
@@ -30,6 +30,10 @@
     word-wrap: break-word;
     max-width: 100%;
     pointer-events: auto;
+}
+.infolabel.errorlabel div{
+    background: @dialog-background-color;
+    color: @label-color;
 }
 .errorlabel.fade-in div{
     border-radius: 3px;

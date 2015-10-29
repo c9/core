@@ -65,7 +65,7 @@ var HtmlHighlightRules = function() {
             include : "tag_whitespace"
         }, {
             token : "entity.other.attribute-name.xml",
-            regex : "[-_a-zA-Z0-9:]+"
+            regex : "[-_a-zA-Z0-9:.]+"
         }, {
             token : "keyword.operator.attribute-equals.xml",
             regex : "=",
@@ -89,7 +89,7 @@ var HtmlHighlightRules = function() {
                 return ["meta.tag.punctuation." + (start == "<" ? "" : "end-") + "tag-open.xml",
                     "meta.tag" + (group ? "." + group : "") + ".tag-name.xml"];
             },
-            regex : "(</?)([-_a-zA-Z0-9:]+)",
+            regex : "(</?)([-_a-zA-Z0-9:.]+)",
             next: "tag_stuff"
         }],
         tag_stuff: [
@@ -99,7 +99,7 @@ var HtmlHighlightRules = function() {
     });
 
     this.embedTagRules(CssHighlightRules, "css-", "style");
-    this.embedTagRules(JavaScriptHighlightRules, "js-", "script");
+    this.embedTagRules(new JavaScriptHighlightRules({noJSX: true}).getRules(), "js-", "script");
 
     if (this.constructor === HtmlHighlightRules)
         this.normalizeRules();

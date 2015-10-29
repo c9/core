@@ -1,6 +1,7 @@
 var join = require("path").join;
 
 module.exports = function(options) {
+    options.collab = false;
     var config = require("./client-default")(options);
     return module.exports.makeLocal(config, options);
 };
@@ -83,6 +84,9 @@ module.exports.makeLocal = function(config, options) {
             config[i].autoInit = false;
         } else if (config[i].packagePath == "plugins/c9.ide.tree/tree") {
             config[i].defaultExpanded = !config.hosted;
+        } else if (config[i].packagePath == "plugins/c9.ide.errorhandler/raygun_error_handler") {
+            // TODO fix cycle introduced by local/info and raygun_error_handler
+            config[i].packagePath = "plugins/c9.ide.errorhandler/simple_error_handler";
         }
     }
 
@@ -126,26 +130,16 @@ module.exports.makeLocal = function(config, options) {
             contents: options.project.contents,
             descr: options.project.descr
         }
-    }].filter(Boolean);
+    },
+    c9Ws && "plugins/c9.ide.analytics/mock_analytics",
+    ].filter(Boolean);
 
-    var excludes = c9Ws ? {} : {
+    var excludes = c9Ws ? {
+        "plugins/c9.ide.analytics/analytics": true,
+    } : {
         "plugins/c9.ide.newresource/open": true,
         "plugins/c9.ide.info/info": true,
         // "plugins/c9.ide.login/login": true,
-        "plugins/c9.ide.collab/connect": true,
-        "plugins/c9.ide.collab/collab": true,
-        "plugins/c9.ide.collab/collabpanel": true,
-        "plugins/c9.ide.collab/workspace": true,
-        "plugins/c9.ide.collab/util": true,
-        "plugins/c9.ide.collab/ot/document": true,
-        "plugins/c9.ide.collab/cursor_layer": true,
-        "plugins/c9.ide.collab/author_layer": true,
-        "plugins/c9.ide.collab/timeslider/timeslider": true,
-        "plugins/c9.ide.notifications/notifications": true,
-        "plugins/c9.ide.collab/members/members_panel": true,
-        "plugins/c9.ide.collab/share/share": true,
-        "plugins/c9.ide.collab/members/members": true,
-        "plugins/c9.ide.collab/chat/chat": true,
         "plugins/c9.ide.feedback/nps": true,
         "plugins/c9.ide.download/download": true
     };

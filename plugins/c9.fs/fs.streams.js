@@ -3,10 +3,14 @@ define(function(require, exports, module) {
 var Stream = require("stream").Stream;
 var PATH = require("path");
 
-return function(vfs, base, baseProc) {
+return function(vfs, base, baseProc, cli) {
 
     var resolvePath = function(path, basePath) { 
-        if (path.charAt(0) == "~") return path;
+        if (path.charAt(0) == "~") {
+            if (cli)
+                return process.env.HOME + "/" + path.substr(1);
+            return path;
+        }
 
         if (!basePath)
             basePath = base;
@@ -20,7 +24,7 @@ return function(vfs, base, baseProc) {
     };
 
     function readFile(path, encoding, callback) {
-        if (!callback) {
+        if (!callback || typeof encoding == "function") {
             callback = encoding;
             encoding = null;
         }
@@ -28,7 +32,7 @@ return function(vfs, base, baseProc) {
         var options = {};
         if (encoding)
             options.encoding = encoding;
-
+            
         vfs.readfile(resolvePath(path), options, function(err, meta) {
             if (err)
                 return callback(err);
@@ -54,7 +58,7 @@ return function(vfs, base, baseProc) {
     }
 
     function writeFile(path, data, encoding, callback) {
-        if (!callback) {
+        if (!callback || typeof encoding == "function") {
             callback = encoding;
             encoding = null;
         }

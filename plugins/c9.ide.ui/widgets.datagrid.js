@@ -16,9 +16,10 @@ define(function(require, exports, module) {
             if (!options) throw new Error("options are required");
             
             if (!options.baseName)
-                options.baseName = "tree";
+                options.baseName = "datagrid";
+                
             if (!options.theme)
-                options.theme = "blackdg";
+                options.theme = "blackdg ace-tree-" + options.baseName;
             
             var model = new TreeModel();
             model.columns = options.columns;
@@ -28,11 +29,9 @@ define(function(require, exports, module) {
             // var emit = plugin.getEmitter();
             if (baseclass) plugin.baseclass();
             
-            var acetree = plugin.acetree;
-            
             if (!options.rowHeight) {
                 layout.on("eachTheme", function(e){
-                    var cls = "." + plugin.theme + " .row";
+                    var cls = "." + options.theme.replace(/ /g, " .") + " .row";
                     var height = parseInt(ui.getStyleRule(cls, "height"), 10) || 23;
                     // model.rowHeightInner = height - 1;
                     model.rowHeight = height;
@@ -57,12 +56,14 @@ define(function(require, exports, module) {
                  */
                 get columns(){ throw new Error("Columns can only be set.") },
                 set columns(c){
-                    if (!acetree) return;
-                    
                     model.columns = c;
-                    acetree.renderer.setDataProvider(model);
+                    if (plugin.acetree)
+                        plugin.acetree.renderer.setDataProvider(model);
                 }
             });
+            
+            if (!baseclass)
+                plugin.load(null, options.baseName || "datagrid");
             
             return plugin;
         }

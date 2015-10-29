@@ -30,6 +30,7 @@ define(function(require, exports, module) {
         var showError = imports["dialog.error"].show;
         
         var Tree = require("ace_tree/tree");
+        var Tooltip = require("ace_tree/tooltip");
         var TreeEditor = require("ace_tree/edit");
         var markup = require("text!./tree.xml");
         
@@ -211,7 +212,7 @@ define(function(require, exports, module) {
             layout.on("eachTheme", function(e){
                 var height = parseInt(ui.getStyleRule(".filetree .tree-row", "height"), 10) || 22;
                 fsCache.model.rowHeightInner = height;
-                fsCache.model.rowHeight = height + 1;
+                fsCache.model.rowHeight = height;
                 
                 if (e.changed && tree) (tree).resize(true);
             });
@@ -237,6 +238,8 @@ define(function(require, exports, module) {
             tree.setDataProvider(fsCache.model);
             tree.setOption("enableDragDrop", true);
             
+            // tree.tooltip = new Tooltip(tree);
+            
             fsCache.model.$indentSize = 12;
             fsCache.model.getIconHTML = function(node) {
                 var icon = node.isFolder ? "folder" : util.getFileIcon(node.label);
@@ -247,7 +250,7 @@ define(function(require, exports, module) {
             fsCache.model.getTooltipText = function(node) {
                 var size = node.size;
                 return node.label + (node.link ? " => " + node.link  + "\n" : "")
-                    + (size ? " | " + (
+                    + (size != undefined && !node.isFolder ? " | " + (
                         size < 0x400 ? size + " bytes" :
                         size < 0x100000 ? (size / 0x400).toFixed(2) + "KB" :
                             (size / 0x100000).toFixed(2) + "MB"
@@ -883,7 +886,7 @@ define(function(require, exports, module) {
         
             if (!scrollTimer) {
                 scrollTimer = setTimeout(function() {
-                    settings.set("state/projecttree/@scrollpos", 
+                    tree && settings.set("state/projecttree/@scrollpos", 
                         tree.provider.getScrollTop());
                     scrollTimer = null;
                 }, 1000);
@@ -899,7 +902,7 @@ define(function(require, exports, module) {
                     emit.sticky("ready");
                 };
                 
-                if (c9.connected) { //was c9.inited
+                if (c9.connected) { // was c9.inited
                     setTimeout(function() {
                         loadProjectTree(null, done);
                     }, 200);

@@ -1,11 +1,12 @@
 define(function(require, module, exports) {
-    main.consumes = ["Dialog", "util", "dialog.alert"];
+    main.consumes = ["Dialog", "util", "dialog.alert", "metrics"];
     main.provides = ["dialog.alert_internal"];
     return main;
     
     function main(options, imports, register) {
         var Dialog = imports.Dialog;
         var util = imports.util;
+        var metrics = imports.metrics;
         var alertWrapper = imports["dialog.alert"];
         
         /***** Initialization *****/
@@ -25,6 +26,8 @@ define(function(require, module, exports) {
         /***** Methods *****/
         
         function show(title, header, msg, onhide, options) {
+            metrics.increment("dialog.error");
+            
             return plugin.queue(function(){
                 if (header === undefined) {
                     plugin.title = "Notice";
@@ -34,7 +37,7 @@ define(function(require, module, exports) {
                 else {
                     plugin.title = title;
                 }
-                plugin.heading = util.escapeXml(header);
+                plugin.heading = options && options.isHTML ? header : util.escapeXml(header);
                 plugin.body = options && options.isHTML ? msg : (util.escapeXml(msg) || "")
                     .replace(/\n/g, "<br />")
                     .replace(/(https?:\/\/[^\s]*\b)/g, "<a href='$1' target='_blank'>$1</a>");

@@ -45,7 +45,8 @@ define(function(require, exports, module) {
                     else
                         skins = skins ? skins.split(/,\s*/) : [];
                     
-                    build.buildConfig(config, pathConfig, save(["config", path.basename(config) + ".js"], function next() {
+                    build.buildConfig(config, pathConfig, save(["config", path.basename(config) + ".js"], function next(err) {
+                        if (err) return done(err);
                         var skin = skins.pop();
                         if (!skin) return buildConfig();
                         build.buildSkin(config, skin, pathConfig, save(["skin", config, skin + ".css"], next));
@@ -147,7 +148,7 @@ define(function(require, exports, module) {
             
             function done(err) {
                 if (err) {
-                    console.error(err);
+                    console.error(err, err.stack);
                     process.exit(1);
                 }
                 pending--;
@@ -155,32 +156,82 @@ define(function(require, exports, module) {
                     process.exit();
             }
         });
+        
         function listAceModules(pathConfig, cb) {
-            // build async loaded ace modules
-            var aceModules = ["vim", "emacs", "sublime"].map(function(x) {
-                return "plugins/c9.ide.ace.keymaps/" + x + "/keymap";
-            });
-            var acePath = __dirname + "/../../node_modules/ace/lib/ace";
-            function addAceModules(type, excludePattern) {
-                var files = fs.readdirSync(acePath + "/" + type);
-                files.filter(function(p) {
-                    return !excludePattern.test(p) && !/[\s#]/.test(p) && /.*\.js$/.test(p);
-                }).forEach(function(p) {
-                    aceModules.push("ace/" + type + "/" + p.slice(0, -3));
+            var result = [
+                "plugins/c9.ide.ace.keymaps/vim/keymap",
+                "plugins/c9.ide.ace.keymaps/emacs/keymap",
+                "plugins/c9.ide.ace.keymaps/sublime/keymap",
+            ];
+            
+            // FIXME: this could be resolved via pathConfig:
+            var pathMap = {
+                "ace": __dirname + "/../../node_modules/ace/lib/ace",
+                "plugins": __dirname + "/../../plugins",
+                "plugins/salesforce.language": __dirname + "/../../node_modules/salesforce.language"
+            };
+            
+            var packages = [
+                "ace",
+                "plugins/salesforce.language",
+            ];
+
+            function toFsPath(id) {
+                var testPath = id, tail = "";
+                while (testPath) {
+                    if (pathMap[testPath])
+                        return pathMap[testPath] + tail;
+                    var i = testPath.lastIndexOf("/");
+                    if (i === -1) break;
+                    tail = testPath.substr(i) + tail;
+                    testPath = testPath.slice(0, i);
+                }
+                throw new Error("Cannot map path " + id);
+            }
+            
+            function readPackage(name, type, excludePattern) {
+                if (!excludePattern)
+                    excludePattern = /_test/;
+                
+                var targetPath = name + "/" + type;
+                var sourcePath = toFsPath(targetPath);
+                
+                try {
+                    var files = fs.readdirSync(sourcePath);
+                } catch (e) {
+                    if (e.code === "ENOENT") return;
+                    else throw e;
+                }
+                
+                files = files.filter(function(p) {
+                    return !excludePattern.test(p)
+                        && !/[\s#]/.test(p)
+                        && /\.js$/.test(p);
+                });
+                
+                files.forEach(function(p) {
+                    result.push(targetPath + "/" + p.replace(/.js$/, ""));
                 });
             }
-            addAceModules("mode", /_highlight_rules|_test|_worker|xml_util|_outdent|behaviour|completions/);
-            addAceModules("theme", /_test/);
-            addAceModules("ext", /_test/);
-            addAceModules("snippets", /_test/);
+            
+            packages.forEach(function(name) {
+                var isAce = (name === "ace");
+                var modesExcludePattern = /_highlight_rules|_test|_worker|xml_util|_outdent|behaviour|completions/;
+                
+                readPackage(name, (isAce ? "mode" : "modes"), modesExcludePattern);
+                readPackage(name, (isAce ? "theme" : "themes"));
+                readPackage(name, "ext");
+                readPackage(name, "snippets");
+            });
             
             function take() {
-                var p = aceModules.pop();
-                console.log("building ", p, aceModules.length);
-                cb(p, aceModules.length && take);
+                var p = result.pop();
+                console.log("building ", p, result.length);
+                cb(p, result.length && take);
             }
             take();
         }
+        
         function copyStaticResources(usedPlugins, pathConfig, next) {
             var moduleDeps = require("architect-build/module-deps");
             var copy = require('architect-build/copy');
@@ -192,6 +243,10 @@ define(function(require, exports, module) {
                 var absPath = moduleDeps.resolveModulePath(p, pathConfig.pathMap);
                 if (/^\/lib\/ace/.test(p)) 
                     return;
+                if (!cache.files) {
+                    console.error("Config is empty");
+                    process.exit(1);
+                }
                 copy(absPath, root + "/static/" + p, {
                     include: /^(libmarkdown.js|runners_list.js|builders_list.js|bootstrap.js)$/,
                     exclude: function(name, dir) {
@@ -201,6 +256,10 @@ define(function(require, exports, module) {
                                 return false;
                             }
                         }
+                        if (name == "node_modules" && /plugins\/[^\/\\]+/.test(dir))
+                            return true;
+                        if (/^(LICENSE|README.md)$/.test(name))
+                            return true;
                         return /\.(jsx?|css|less|xml|ejs|prv|pub|sh)$|(^|[/])^(mock|example|\.[^/]*|package.json)[/]?$/.test(name);
                     },
                     onDir: function(e) { console.log("\x1b [1A\x1b[0K" + e) }

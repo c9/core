@@ -37,34 +37,36 @@ define(function(require, module, exports) {
                 var metadata = options.metadata;
                 
                 plugin.title = title;
-                plugin.heading = util.escapeXml(header);
-                plugin.body = util.escapeXml(msg).replace(/\n/g, "<br />");
+                plugin.heading = options && options.isHTML ? header : util.escapeXml(header);
+                plugin.body = options && options.isHTML ? msg : util.escapeXml(msg).replace(/\n/g, "<br>");
                 
                 plugin.allowClose = cancel;
                 
-                var gotYes = false;
+                var gotYesNo = false;
                 plugin.once("hide", function(){
-                    !gotYes && cancel && onNo(false, true, metadata);
+                    !gotYesNo && cancel && onNo(false, true, metadata);
                 });
                 
                 plugin.update([
                     { id: "cancel", visible: cancel, onclick: function(){ plugin.hide(); } },
                     { id: "dontask", visible: showDontAsk }, 
                     { id: "yestoall", visible: all, onclick: function(){ 
-                        gotYes = true; 
+                        gotYesNo = true; 
                         plugin.hide(); 
                         onYes(true, metadata); 
                     }},
                     { id: "notoall", visible: all, onclick: function(){ 
+                        gotYesNo = true;
                         plugin.hide(); 
                         onNo(true, false, metadata); 
                     }},
                     { id: "yes", onclick: function(){ 
-                        gotYes = true; 
+                        gotYesNo = true; 
                         plugin.hide(); 
                         onYes(false, metadata); 
                     }},
                     { id: "no", onclick: function(){ 
+                        gotYesNo = true;
                         plugin.hide(); 
                         onNo(false, false, metadata); 
                     }}

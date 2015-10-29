@@ -9,7 +9,7 @@ if (process.platform == "win32") {
     if (!process.env.HOME)
         process.env.HOME = process.env.HOMEDRIVE + process.env.HOMEPATH;
     // add cloud9 cygwin to path
-    var msysBin = join(process.execPath, "/../../msys/bin");
+    var msysBin = join(process.env.HOME, ".c9", "msys/bin");
     process.env.Path = msysBin + ";" + process.env.path;
     process.env.C9_BASH_BIN = msysBin + "/bash.exe";
     process.env.CYGWIN = "nodosfilewarning " + (process.env.CYGWIN || "");
@@ -34,7 +34,7 @@ if (installPath === "/Library/Application Support/Cloud9"
     installPath = join(process.env.HOME, installPath);
 
 var nodePath = process.platform == "win32"
-    ? join(process.execPath, "..\\node.exe")
+    ? join(installPath, "node.exe")
     : installPath + "/node/bin/node";
 
 var logStream;
@@ -361,7 +361,7 @@ var server = {
                     }
                 }
                 
-                if (p.staticPrefix && options.windowLocation && options.packed) {
+                if (p.staticPrefix && options.windowLocation && (options.packed || isRemote)) {
                     p.staticPrefix = p.staticPrefix.replace(/^\/static/, options.windowLocation);
                 }
             }
@@ -392,6 +392,10 @@ var server = {
                     plugins = require(configPath).makeLocal(config.plugins, settings);
                     settings.url = config.url;
                 }
+                plugins.forEach(function(p) {
+                    if (p.staticPrefix)
+                        p.staticPrefix = p.staticPrefix.replace(/^https?:\/\/.*?\/static/, "/static");
+                })
                 updateFilePaths(plugins, function(){
                     cb(plugins, settings);
                 });
@@ -415,7 +419,6 @@ var server = {
     openWindow : openWindow,
     parseArgs : parseArgs,
     getRecentWindows: getRecentWindows,
-    listC9Projects: listC9Projects,
     getRemoteWorkspaceConfig: getRemoteWorkspaceConfig
 };
 
@@ -613,12 +616,18 @@ function registerWindow(win, id) {
     
     allWindows[id] = win;
     activeWindowId = id;
-    win.on("close", function() {
+    function mainCloseHandler() {
         if (win.listeners("close").length == 1) {
             onClose(id);
             win.close(true);
         }
+    }
+    // make sure only one mainCloseHandler is attached even after calling win.reload()
+    win.listeners("close").forEach(function(f) {
+        if (f.name == "mainCloseHandler")
+            win.removeListener("close", f);
     });
+    win.on("close", mainCloseHandler);
     win.on("focus", function() {
         onFocus(id);
     });
@@ -1015,49 +1024,6 @@ function loadData(url, callback) {
         callback(e);
     };
     xhr.send("");
-}
-
-// TODO add proper api to c9 server
-function listC9Projects(user, callback) {
-    if (!user)
-        return callback(null, []);
-        
-    var url = "https://c9.io/" + user.name;
-    loadData(url, function(err, result) {
-        if (err) return callback(err);
-        var ownProjects = [];
-        var sharedProjects = [];
-        try {
-            var pids = Object.create(null);
-            JSON.parse(result.match(/projects:\s*(.*),/)[1]).forEach(function(x) {
-                var userName = x.owner_username || user.name;
-                
-                var project = {
-                    name: userName + "/" + x.name,
-                    projectName: x.name,
-                    pid: x.pid,
-                    isRemote: true,
-                };
-                
-                if (pids[project.pid])
-                    return;
-                
-                pids[project.pid] = project;
-                
-                if (userName == user.name)
-                    ownProjects.push(project);
-                else
-                    sharedProjects.push(project);
-            });
-        } catch(e) {
-            console.error(e);
-            return callback(e);
-        }
-        callback(null, {
-            shared: sharedProjects,
-            own: ownProjects
-        });
-    });
 }
 
 function getRemoteWorkspaceConfig(projectName, callback) {

@@ -1,0 +1,22 @@
+{
+  "name": "c9.ide.example3",
+  "description": "Cloud9 Custom Example Plguin",
+  "version": "1.3.0",
+  "author": "Ajax.org B.V. <info@ajax.org>",
+  "contributors": [
+    {
+      "name": "Ruben Daniels",
+      "email": "ruben@c9.io"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/c9/newclient.git"
+  },
+  "plugins": {},
+  "installer": "install.js",
+  "categories": [
+    "misc"
+  ],
+  "licenses": []
+}

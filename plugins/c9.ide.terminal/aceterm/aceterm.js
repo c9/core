@@ -113,8 +113,11 @@ define(function(require, exports, module) {
             for (var l = Math.min(line.length, term.cols); l--;)
                 if (line[l][1])
                     break;
-            for (var i = 0; i <= l; i++)
-                str += line[i][1] || " ";
+            for (var i = 0; i <= l; i++) {
+                var ch = line[i][1];
+                if (ch != "\x00")
+                    str += line[i][1] || " ";
+            }
 
             if (newLineChar && !line.wrapped)
                 str += newLineChar;
@@ -518,7 +521,7 @@ define(function(require, exports, module) {
                     flags = data >> 18;
 
                     if (flags & 1) {
-                        if (this.allowBoldFonts)
+                        if (this.$fontMetrics.allowBoldFonts)
                             out += 'font-weight:bold;';
                         // see: XTerm*boldColors
                         if (fgColor < 8)
@@ -546,7 +549,7 @@ define(function(require, exports, module) {
     
             
             if (ch <= ' ')
-                out += '\xa0';
+                out += ch == "\x00" ? "" : "\xa0";
             else if (ch == '&')
                 out += '&#38;';
             else if (ch == '<')

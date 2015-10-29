@@ -1,3 +1,6 @@
+ecmaFeatures:
+    jsx: true
+
 env:
     node: true
     browser: true
@@ -5,6 +8,7 @@ env:
     builtin: true
     mocha: true
     jasmine: false
+    es6: false
 
 rules:
     handle-callback-err: 1
@@ -23,7 +27,6 @@ rules:
     no-irregular-whitespace: 3
     no-negated-in-lhs: 1
     no-regex-spaces: 3
-    no-reserved-keys: 3
     no-unreachable: 1
     use-isnan: 2
     valid-typeof: 1
@@ -42,5 +45,8 @@ rules:
     
     default-case: 3
     space-after-keywords: [1, "always"]
+    space-in-parens: [1, "never"]
+    space-return-throw-case: [1, "always"]
+    // space-before-function-paren: [3, {"named": "never", "anonymous": "never"}]
     spaced-line-comment: 3
     // valid-jsdoc: [1, { requireReturn: false, requireParamDescription: false, prefer: { "return": "return" } }]

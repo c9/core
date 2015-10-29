@@ -12,6 +12,12 @@
     color         : @menu-button-color;
     padding       : @menu-button-padding;
     text-shadow   : @menu-button-text-shadow;
+    
+    
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
 
 .c9-menu-btnOver {
@@ -42,11 +48,6 @@
 }*/
 .c9-menu-btnDown.submenu{
     z-index : 100000000;
-}
-
-.hbox > DIV > .c9-menu-btn {
-    height : 25px;
-    margin: 0 !important;
 }
 
 .c9-menu-btnDisabled.c9-menu-btn .c9-label {

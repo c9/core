@@ -1,5 +1,5 @@
 define(function(require, module, exports) {
-    main.consumes = ["Plugin", "layout", "settings", "anims", "ui"];
+    main.consumes = ["Plugin", "layout", "settings", "anims", "ui", "menus"];
     main.provides = ["panels.Area"];
     return main;
 
@@ -8,6 +8,7 @@ define(function(require, module, exports) {
         var layout = imports.layout;
         var anims = imports.anims;
         var ui = imports.ui;
+        var menus = imports.menus;
         var settings = imports.settings;
         
         var uCaseFirst = require("c9/string").uCaseFirst;
@@ -42,6 +43,23 @@ define(function(require, module, exports) {
                 
                 column.setWidth(CURWIDTH);
                 column.setAttribute("class", where);
+                
+                bar.oncontextmenu = function(e) {
+                    var menu = menus.get("Window").menu;
+                    menu.display(e.x, e.y);
+                    menu.childNodes.forEach(function(x) {
+                        if (x.visible && !x.panel) {
+                            x.hide();
+                            menu.on("prop.visible", function show(e) {
+                                if (!e.value) {
+                                    menu.off("prop.visible", show);
+                                    x.show();
+                                }
+                            });
+                        }
+                    });
+                    return false;
+                };
                 
                 // Prevent scrolling
                 column.$int.addEventListener("scroll", function(e){ 

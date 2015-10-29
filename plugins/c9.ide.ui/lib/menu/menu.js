@@ -954,10 +954,19 @@ apf.menu = function(struct, tagName){
     };
     
     this.$initChildren = function() {
-        this.childNodes.forEach(function(amlNode) {
+        var ch = this.childNodes;
+        for (var i = 0; i < ch.length; i++) {
+            var amlNode = ch[i];
             if (!amlNode.$amlLoaded)
                 amlNode.dispatchEvent("DOMNodeInsertedIntoDocument");
-        });
+            // sometimes DOMNodeInsertedIntoDocument event handler puts $ext at the end of the popup
+            if (!amlNode.previousSibling || !amlNode.previousSibling.$ext || !amlNode.$ext)
+                continue;
+            if (amlNode.$ext.previousSibling == amlNode.previousSibling.$ext)
+                continue;
+            if (amlNode.$ext.parentNode == amlNode.previousSibling.$ext.parentNode)
+                amlNode.$ext.parentNode.insertBefore(amlNode.$ext, amlNode.previousSibling.$ext.nextSibling);
+        }
     };
     var insertBefore = this.insertBefore;
     this.insertBefore = function(node, beforeNode) {

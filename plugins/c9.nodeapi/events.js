@@ -146,7 +146,7 @@ EventEmitter.prototype.addListener = function(type, listener, plugin) {
 
             if (m && m > 0 && eventList.length > m) {
                 eventList.warned = true;
-                console.error('(node) warning: possible EventEmitter memory '
+                console.error('warning: possible EventEmitter memory '
                     + 'leak detected. " + eventList.length + " listeners of type "' + type + '" added. '
                     + 'Use emitter.setMaxListeners() to increase limit.'
                 );

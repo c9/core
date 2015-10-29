@@ -7,11 +7,14 @@ define(function(require, exports, module) {
         var vfs = imports.vfs;
         var Plugin = imports.Plugin;
         
+        var ProcessToPty = require("./proc2pty");
+        
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
         
+        var installMode;
         var tmuxName = options.tmuxName;
         
         /***** Register and define API *****/
@@ -171,6 +174,15 @@ define(function(require, exports, module) {
          * @singleton
          **/
         plugin.freezePublicAPI({
+            /**
+             * @ignore
+             */
+            get installMode(){ return installMode; },
+            set installMode(_vfs) {
+                vfs = _vfs || imports.vfs;
+                installMode = _vfs ? true : false;
+            },
+            
             _events: [
                 /**
                  * @event beforeSpawn Fires right before a file is executed
@@ -334,6 +346,14 @@ define(function(require, exports, module) {
              * @fires afterPty
              */
             pty: function(path, options, callback) {
+                if (installMode || options.fakePty) {
+                    plugin.spawn(path, options, function(err, process){
+                        if (err) return callback(err);
+                        callback(null, new ProcessToPty(process));
+                    });
+                    return;
+                }
+                
                 emit("beforePty", {path: path, options: options});
                 
                 if (!options.encoding)
@@ -489,6 +509,12 @@ define(function(require, exports, module) {
                         });
                     });
                 }
+            },
+            /**
+             * @ignore
+             */
+            killtree: function(pid, options, callback) {
+                vfs.killtree(pid, options, callback);
             }
         });
         

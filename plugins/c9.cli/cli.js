@@ -7,6 +7,9 @@ define(function(require, exports, module) {
         var Plugin = imports.Plugin;
         var cmd = imports.cli_commands;
 
+        var fs = require("fs");
+        var resolve = require("path").resolve;
+
         var optimist;
         
         /***** Initialization *****/
@@ -21,7 +24,7 @@ define(function(require, exports, module) {
             var module;
             var argv;
             
-            process.argv.some(function(n){
+            process.argv.slice(2).some(function(n) {
                 if (!n.match(/^[-\/]/) && n != "node") {
                     module = n;
                     return true;
@@ -29,14 +32,26 @@ define(function(require, exports, module) {
                 return false;
             });
             
-            if (!commands[module] && process.argv.length > 2 && process.argv.every(function(n){ return !n.match(/^--/)})) {
-                process.argv.splice(2, 0, "open");
-                module = "open";
+            if (!commands[module] && process.argv.length > 2) {
+                for (var i = 2; i < process.argv.length; i++) {
+                    if (process.argv[i].charAt(0) == "-") continue;
+                    var path = resolve(process.argv[i]);
+                    if (fs.existsSync(path)) {
+                        process.argv.splice(2, 0, "open");
+                        module = "open";
+                    }
+                    break;
+                }
             }
             
             optimist = require('optimist');
             
             if (!module || !commands[module]) {
+                if (process.argv.indexOf("--version") != -1) {
+                    console.log(require("../../package.json").version);
+                    process.exit(0);
+                }
+                
                 argv = optimist
                     .usage("The Cloud9 CLI.\nUsage: c9 [--verbose] <command> [<args>]\n\n"
                             + "The most commonly used c9 commands are:\n" 
@@ -67,6 +82,12 @@ define(function(require, exports, module) {
             argv = optimist
                 .usage("The Cloud9 CLI.\nUsage: c9 " + module + " [--help] " + def.usage)
                 .options(def.options);
+            
+            if (argv.argv.help)
+                argv = argv.check(function(){
+                    if (argv.help)
+                        throw new Error("Help Requested");
+                });
             if (def.check) 
                 argv = argv.check(def.check);
             argv = argv.argv;

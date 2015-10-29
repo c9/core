@@ -7,13 +7,18 @@ module.exports = function(manifest, installPath) {
     }
     
     var path = require("path");
+    var os = require("os");
     var runners = require("../plugins/c9.ide.run/runners_list").local;
     var builders = require("../plugins/c9.ide.run.build/builders_list");
     
     var workspaceDir = path.resolve(__dirname + "/../");
+    var sdk = !manifest.sdk;
+    var win32 = process.platform == "win32";
     
-    if (process.platform == "win32" && process.env.HOME === undefined) {
+    if (win32 && process.env.HOME === undefined) {
         process.env.HOME = process.env.HOMEDRIVE + process.env.HOMEPATH;
+        if (!/msys\/bin|Git\/bin/.test(process.env.PATH))
+            process.env.PATH = path.join(process.env.HOME, ".c9", "msys/bin") + ";" + process.env.PATH;
     }
     
     var home = process.env.HOME;
@@ -24,9 +29,11 @@ module.exports = function(manifest, installPath) {
     var correctedInstallPath = installPath.substr(0, home.length) == home
         ? "~" + installPath.substr(home.length)
         : installPath;
+    var inContainer = os.hostname().match(/-\d+$/);
     
     var config = {
         standalone: true,
+        startBridge: true,
         manifest: manifest,
         workspaceDir: workspaceDir,
         projectName: path.basename(workspaceDir),
@@ -37,15 +44,17 @@ module.exports = function(manifest, installPath) {
         home: home,
         uid: "-1",
         dev: true,
+        sdk: sdk,
         pid: process.pid,
         port: process.env.PORT || 8181,
-        host: process.env.IP || "0.0.0.0",
+        host: process.env.IP || (inContainer ? "0.0.0.0" : "127.0.0.1"),
         testing: false,
         platform: process.platform,
+        arch: process.arch,
         tmux: path.join(installPath, "bin/tmux"),
         nakBin: path.join(__dirname, "../node_modules/nak/bin/nak"),
         bashBin: "bash",
-        nodeBin: [process.execPath],
+        nodeBin: [path.join(installPath, win32 ? "node.exe" : "node/bin/node"), process.execPath],
         installPath: installPath,
         correctedInstallPath: correctedInstallPath,
         staticPrefix: "/static",
@@ -129,7 +138,7 @@ module.exports = function(manifest, installPath) {
         pricing: { containers: [] },
         zuora: {},
         localExtend: true,
-        extendDirectory: __dirname + "/../plugins/c9.vfs.extend"
+        extendDirectory: __dirname + "/../plugins"
     };
 
     config.extendOptions = {

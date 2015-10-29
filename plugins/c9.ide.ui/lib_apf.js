@@ -6112,7 +6112,7 @@ apf.zmanager = function(){
             level: 100000
         },
         "popup" : {
-            level: 200000
+            level: 195000
         },
         "notifier" : {
             level: 300000
@@ -9016,6 +9016,9 @@ var modules = {
     boxFlex: function(oHtml, value, center) {
         oHtml.style[apf.CSS_FLEX_PROP] = value;
     },
+    boxFlexGrow: function(oHtml, value, center) {
+        oHtml.style[apf.CSS_FLEX_PROP + "-grow"] = value;
+    },
     "height-rsz": function(oHtml, value, center) {
         oHtml.style.height = value + PX;
         if (apf.hasSingleResizeEvent && apf.layout.$onresize)
@@ -9680,7 +9683,7 @@ var ID = "id",
             for (j = rules.length - 1; j >= 0; j--) {
                 var rule = rules[j];
 
-                if (!rule.style || !rule.selectorText.match("\." + className + "$"))
+                if (!rule.style || !(rule.selectorText || "").match("\." + className + "$"))
                     continue;
 
                 for (style in rule.style) {
@@ -20272,6 +20275,9 @@ apf.Interactive = function(){
         
         doResize(e);
         
+        if (_self.dispatchEvent)
+            _self.dispatchEvent("resize");
+        
         //overThreshold = true;
     }
     
@@ -29357,7 +29363,7 @@ apf.aml.setElement("colorbox", apf.colorbox);
  * @private
  */
 apf.WinServer = {
-    count: 900000,
+    count: 150000,
     wins: [],
 
     setTop: function(win, norecur) {
@@ -33561,6 +33567,7 @@ apf.splitbutton = function(struct, tagName) {
     this.$draw = function(){
         var _self = this;
         this.$ext = this.$pHtmlNode.appendChild(document.createElement("div"));
+        this.$ext.className = "splitbutton";
 
         var skin = this["button-skin"] || this.getAttribute("skin") || this.localName;
 
@@ -33585,6 +33592,9 @@ apf.splitbutton = function(struct, tagName) {
                 _self.$button2.$setState("Out", {});
 
                 _self.dispatchEvent("mouseout", { button: this });
+            },
+            onmousedown: function() {
+                _self.dispatchEvent("mousedown", { button: this });
             },
             onclick: function(e) {
                 _self.dispatchEvent("click");
@@ -33614,6 +33624,9 @@ apf.splitbutton = function(struct, tagName) {
                 }
 
                 _self.dispatchEvent("mouseout", { button: this });
+            },
+            onmousedown: function() {
+                _self.dispatchEvent("mousedown", { button: this });
             },
             onclick: function(e) {
                 _self.dispatchEvent("split.click", e);

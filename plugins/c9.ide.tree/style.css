@@ -9,7 +9,7 @@
     background : transparent;
     color : @color;
     border-radius: 3px;
-    margin: 1px 0px 0px 10px;
+    margin: 0px 0px 0px 10px;
     padding-left: 6px;
     height: @tree-row-height;
 }
@@ -107,11 +107,11 @@
 .filetree .favorite{
     opacity : 0.5;
 }
-.filetree .extrainfo{
-    color : rgb(92, 92, 92);
+.ace_tree .extrainfo{
+    color : @tree-extrainfo-color;
 }
-.filetree.ace_tree_focus .selected .extrainfo{
-    color : #CCCCCC;
+.ace_tree.ace_tree_focus .selected .extrainfo{
+    color : @tree-focus-selected-extrainfo-color;
 }
 
 .filetree .tree-row.dragAppendUpload .filetree-icon {
@@ -200,18 +200,18 @@
     -webkit-flex: 1;
 }
 
-.filetree .heading{
+.ace_tree .heading{
     font-variant: small-caps;
     font-size: 16px;
     margin-top: 0px;
-    margin-bottom: 3px;
+    margin-bottom: 0px;
     color: @tree-heading-color;
     text-shadow: @tree-heading-text-shadow;
     line-height: 0;
 }
-.filetree .heading .toggler{
-    display : none;
+.ace_tree .heading .toggler{
+    display : none !important;
 }
-.filetree .heading .filetree-icon{
-    display : none;
+.ace_tree .heading .ace_tree-icon, .ace_tree .heading .filetree-icon{
+    display : none !important;
 }

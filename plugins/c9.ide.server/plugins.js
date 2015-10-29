@@ -19,6 +19,7 @@ define(function(require, exports, module) {
         
         var whitelist = options.whitelist;
         var blacklist = options.blacklist;
+        var externalPlugins = options.externalPlugins || [];
         
         /***** Initialization *****/
         
@@ -33,7 +34,7 @@ define(function(require, exports, module) {
                 ace: "lib/ace/lib/ace",
                 ace_tree: "lib/ace_tree/lib/ace_tree",
                 treehugger: "lib/treehugger/lib/treehugger",
-                acorn: "lib/treehugger/lib/treehugger/js",
+                acorn: "lib/treehugger/lib/acorn",
                 tern: "lib/tern",
                 tern_from_ts: "lib/tern_from_ts",
                 ui: "lib/ui",
@@ -81,6 +82,13 @@ define(function(require, exports, module) {
                     mount: "/lib/ace",
                     rjs: requirePaths
                 }]);
+
+                statics.addStatics(externalPlugins.map(function(plugin) {
+                    return {
+                        path: __dirname + "/../../node_modules/" + plugin,
+                        mount: "/plugins/" + plugin
+                    };
+                }));
                 
                 statics.addStatics(fs.readdirSync(__dirname + "/../")
                     .filter(function(path) {

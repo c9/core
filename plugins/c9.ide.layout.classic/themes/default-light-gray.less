@@ -41,6 +41,7 @@
 @highlight-selected-color: #f1f1f1;
 
 @empty-message-color: darken(#333, @darken-font);
+@inactive-font-color: #636363;
 
 @general-font-family: Arial, Helvetica, sans-serif;
 @general-font-size: 12px;
@@ -369,7 +370,7 @@
 @pane-button-save-height: 15px;
 @pane-button-save-right: -5px;
 @pane-button-save-top: 4px;
-@pane-button-save-animation: loading-spinner 1.2s linear 0s infinite normal;
+@pane-button-save-animation: loading-spinner 1.2s steps(11) infinite;
 @pane-button-close-image: "@{image-path}/close_tab_btn.png";
 @pane-button-close-image-width: 42px;
 @pane-button-close-image-height: 28px;
@@ -705,6 +706,7 @@
 @datagrid-row-padding: 2px 0 2px 4px;
 @datagrid-row-height: 18px;
 @datagrid-row-toggler: -1px 4px -3px 3px;
+@datagrid-row-toggler-loading: 1px;
 
 @datagrid-editor-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.5) inset;
 
@@ -1024,7 +1026,7 @@
 @tree-first-row-margin-right: 20px;
 
 @tree-heading-color: darken(#747474, @darken-chrome);
-@tree-heading-text-shadow: 0 1px rgb(26, 26, 26);
+@tree-heading-text-shadow: none;
 
 @tree-editor-color: darken(#101010, @darken-chrome);
 @tree-editor-background: darken(rgb(245, 247, 234), @darken-chrome);
@@ -1041,6 +1043,9 @@
 @tree-selected-background-alternative: @selected-focus-background;
 @tree-selected-color-alternative: @selected-focus-color;
 @tree-folder-icon-alternative: @tree-folder-icon;
+
+@tree-extrainfo-color: rgb(92, 92, 92);
+@tree-focus-selected-extrainfo-color: #ccc;
 
 // Open Files
 @openfiles-icon-margin: 1px 3px 0 3px;
@@ -1680,3 +1685,30 @@
 @stats-menu-info-background: #F9F9F9;
 @stats-menu-info-border: 0;
 @stats-menu-info-box-shadow: none;
+
+
+@coverage-button-font-size: 14px;
+
+@detail-label-color: #333333;
+@detail-label-background: #F6F6F6;
+@detail-label-margin: 2px 0 0 67px;
+@detail-label-border-bottom: 1px solid rgb(182, 182, 182);
+@detail-label-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06), 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+
+@detail-label-hash-border: 1px solid #DDDE33;
+@detail-label-hash-color: @highlight-color;
+@detail-label-hash-background: #f9f796;
+
+@log-hash-color: @detail-label-hash-color;
+@log-hash-background: @detail-label-hash-background;
+@log-hash-border: @detail-label-hash-border;
+
+@diff-toolbar-buttons-background: @border-highlight;
+@diff-toolbar-buttons-border: none;
+
+@form-bar-padding: 10px 35px 10px 10px;
+@form-bar-background: @menu-button-active-background;
+@form-bar-border-bottom: 1px solid black;
+@form-bar-box-shadow: 0 1px @border-highlight;
+
+@panel-settings-changes-top: 33px;

@@ -271,7 +271,7 @@
         function loadRequireJsConfig(cb) {
             var requirejs = window.requirejs;
             window.require = requirejs;
-            requirejs.setConfig = requirejs.config;
+            requirejs.setConfig = requirejs.setConfig || requirejs.config;
             requirejs.config = function(config) {
                 config.baseUrl = requirejsBaseUrl + (config.baseUrl || "");
                 if (config.paths) {
@@ -293,7 +293,7 @@
                 require.packaged = true;
             if (!packed || devel) {
                 packageIsLoading = true;
-                loadScript("plugins/c9.vfs.standalone/www/require.js", function() {
+                loadScript("node_modules/architect-build/build_support/mini_require.js", function() {
                     removeNwRequire();
                     startIde();
                     packageIsLoading = false;
@@ -326,9 +326,17 @@
         
         //::dev:{*/
         function $rebuild() {
+            var progressMsg = document.getElementById("progress-msg");
             if (!window.rebuildProc) {
-                if (document.getElementById("progress-msg"))
-                    document.getElementById("progress-msg").firstChild.data = "Rebuilding";
+                if (sessionStorage.triedToReload) {
+                    win.showDevTools();
+                    progressMsg.textContent = "there were errors starting application";
+                    return 
+                }
+                sessionStorage.triedToReload = 1;
+                
+                if (progressMsg)
+                    progressMsg.firstChild.data = "Rebuilding";
                 var proc = window.rebuildProc = spawn("bash", ["./scripts/makelocal.sh", "--quick"]);
                 proc = spawn("bash", ["../scripts/makelocal.sh"], {cwd: server.__dirname});
                 proc.stdout.on("data", function(d) { console.log(d + "") });
@@ -428,7 +436,11 @@
                         fatalError(err);
                     });
                     
-                    app.on("service", function(name, plugin){
+                    app.on("service", function(name, plugin) {
+                        if (name == "plugin.loader" || name == "plugin.installer" || name == "plugin.debug" || name == "plugin.manager")
+                            plugin.architect = app; // TODO why we rename app to architect?
+                        if (name == "c9")
+                            plugin.startLoadTime = start;
                         if (!plugin.name)
                             plugin.name = name;
                     });

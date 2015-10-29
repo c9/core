@@ -1,6 +1,5 @@
 var assert = require("assert");
 
-
 module.exports = function(options) {
     assert(options.staticPrefix, "Option 'staticPrefix' must be set");
     assert(options.workspaceDir, "Option 'workspaceDir' must be set");
@@ -8,13 +7,24 @@ module.exports = function(options) {
     assert(options.workspaceName, "Option 'workspaceName' must be set");
     assert(options.home, "Option 'home' must be set");
     assert(options.platform, "Option 'platform' must be set");
+    
+    // normalize workspacedir and home paths
+    function normalize(path) {
+        path = path.replace(/([^/])\/$/, "$1");
+        if (options.platform == "win32")
+            path = path.replace(/\\/g, "/");
+        return path;
+    }
+    options.workspaceDir = normalize(options.workspaceDir);
+    options.installPath = normalize(options.installPath);
+    options.home = normalize(options.home);
 
     var workspaceDir = options.workspaceDir;
     var debug = options.debug !== undefined ? options.debug : false;
+    
     var collab = options.collab;
     var packaging = options.packaging;
     var staticPrefix = options.staticPrefix;
-    var ssh = options.ssh;
 
     var nodeBin = options.nodeBin || ["node"];
     var nodePath = options.nodePath || "";
@@ -48,6 +58,7 @@ module.exports = function(options) {
             env: options.env || "devel",
             home: options.home,
             platform: options.platform,
+            arch: options.arch,
             installed: options.installed,
             projectId: options.project.id,
             projectName: options.projectName || "Project",
@@ -72,7 +83,8 @@ module.exports = function(options) {
         "plugins/c9.core/util",
         {
             packagePath: "plugins/c9.ide.plugins/loader",
-            plugins: options.plugins || []
+            plugins: options.plugins || [],
+            loadFromDisk: options.standalone
         },
         {
             packagePath: "plugins/c9.ide.plugins/installer",
@@ -86,14 +98,17 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.plugins/debug"
         },
         {
-            packagePath: "plugins/c9.ide.plugins/market"
+            packagePath: "plugins/c9.ide.plugins/packages"
+        },
+        {
+            packagePath: "plugins/c9.ide.plugins/test",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.plugins"
         },
         
         // VFS
         "plugins/c9.vfs.client/vfs.ping",
         {
             packagePath: "plugins/c9.vfs.client/vfs_client",
-            withInstall: false,
             debug: debug,
             installPath: options.installPath,
             dashboardUrl: options.dashboardUrl,
@@ -105,7 +120,10 @@ module.exports = function(options) {
             region: options.region,
             pid: options.project.id,
             servers: options.vfsServers,
-            updateServers: hosted
+            updateServers: hosted,
+            strictRegion: options.strictRegion
+                || options.mode === "beta" && "beta",
+            ignoreProtocolVersion: options.ignoreProtocolVersion,
         },
         {
             packagePath: "plugins/c9.ide.auth/auth",
@@ -157,6 +175,10 @@ module.exports = function(options) {
             staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
             defaultShow: options.local
         },
+        {
+            packagePath: "plugins/c9.ide.metrics/metrics",
+            hosted: hosted
+        },
 
         // Ace && Commands
         "plugins/c9.ide.keys/commands",
@@ -197,7 +219,6 @@ module.exports = function(options) {
             nak: options.nakBin || "~/.c9/node_modules/nak/bin/nak",
             node: options.nodeBin,
             local: options.local,
-            installPath: options.installPath
         },
         {
             packagePath: "plugins/c9.ide.find.infiles/findinfiles",
@@ -220,9 +241,13 @@ module.exports = function(options) {
             autoInit: !options.local
         },
         "plugins/c9.ide.ui/forms",
-        "plugins/c9.ide.ui/widgets.list",
+        {
+            packagePath: "plugins/c9.ide.ui/widgets.list",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
+        },
         "plugins/c9.ide.ui/widgets.tree",
         "plugins/c9.ide.ui/widgets.datagrid",
+        "plugins/c9.ide.ui/widgets.terminal",
         "plugins/c9.ide.ui/focus",
         "plugins/c9.ide.ui/lib_apf",
         
@@ -233,6 +258,7 @@ module.exports = function(options) {
         "plugins/c9.ide.dialog.common/filechange",
         "plugins/c9.ide.dialog.common/fileoverwrite",
         "plugins/c9.ide.dialog.common/fileremove",
+        "plugins/c9.ide.dialog.common/info",
         "plugins/c9.ide.dialog.common/question",
         {
             packagePath: "plugins/c9.ide.dialog.common/error",
@@ -251,7 +277,7 @@ module.exports = function(options) {
         
         // VFS
         "plugins/c9.fs/proc",
-        "plugins/c9.fs/proc.apigen",
+        "plugins/c9.fs/proc.apigen", // used only by disabled deploy plugins
         "plugins/c9.fs/net",
         {
             packagePath: "plugins/c9.fs/fs",
@@ -277,10 +303,14 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.language/language",
             workspaceDir: workspaceDir,
+            staticPrefix: hosted && !options.packed
+                ? options.ideBaseUrl + "/uph" + staticPrefix
+                : staticPrefix,
             workerPrefix: options.CORSWorkerPrefix // "/static/standalone/worker"
         },
         "plugins/c9.ide.language/keyhandler",
         "plugins/c9.ide.language/complete",
+        "plugins/c9.ide.language/quickfix",
         "plugins/c9.ide.language/marker",
         "plugins/c9.ide.language/refactor",
         "plugins/c9.ide.language/tooltip",
@@ -352,9 +382,13 @@ module.exports = function(options) {
         "plugins/c9.ide.immediate/evaluator",
         "plugins/c9.ide.immediate/evaluators/browserjs",
         "plugins/c9.ide.immediate/evaluators/debugnode",
+        // "plugins/c9.ide.immediate/evaluators/bash",
         "plugins/c9.ide.run.debug/variables",
         "plugins/c9.ide.run.debug/watches",
         "plugins/c9.ide.run.debug/liveinspect",
+
+        "plugins/c9.ide.run.debug.xdebug/xdebug",
+        "plugins/c9.ide.run.debug/debuggers/gdb/gdbdebugger",
         
         // Console
         {
@@ -390,7 +424,34 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.console/console",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
+            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
+            defaultState: options.project.scmurl ? {
+                type: "pane", 
+                nodes: [{
+                    type: "tab",
+                    editorType: "terminal",
+                    active: "true",
+                    document: {
+                        changed: false,
+                        meta: {
+                            timestamp: Date.now()
+                        },
+                        filter: true,
+                        title: "bash - \"Cloning ...\"",
+                        tooltip: "bash - \"Cloning ...\"",
+                        terminal: {
+                            id: "clone",
+                            cwd: ""
+                        }
+                    }
+                }, {
+                    type: "tab",
+                    editorType: "immediate",
+                    document: {
+                        title: "Immediate"
+                    }
+                }]
+            } : null
         },
         
         // Layout & Panels
@@ -404,7 +465,7 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.layout.classic/preload",
             themePrefix: options.themePrefix,
-            defaultTheme: "dark"
+            defaultTheme: options.defaultTheme || "dark"
         },
         {
             packagePath: "plugins/c9.ide.tree/tree",
@@ -422,12 +483,14 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.mount/ftp",
             curlftpfsBin: options.mount.curlftpfsBin,
-            fusermountBin: options.mount.fusermountBin
+            fusermountBin: options.mount.fusermountBin,
+            ssh: options.ssh
         },
         {
             packagePath: "plugins/c9.ide.mount/sftp",
             sshfsBin: options.mount.sshfsBin,
-            fusermountBin: options.mount.fusermountBin
+            fusermountBin: options.mount.fusermountBin,
+            ssh: options.ssh
         },
         {
             packagePath: "plugins/c9.ide.upload/dragdrop",
@@ -463,7 +526,35 @@ module.exports = function(options) {
         },
         "plugins/c9.ide.panels/panel",
         "plugins/c9.ide.panels/area",
-        "plugins/c9.ide.installer/installer_mock",
+        "plugins/c9.ide.processlist/processlist",
+        
+        // Installer
+        {
+            packagePath: "plugins/c9.ide.installer/gui",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
+        },
+        "plugins/c9.automate/automate",
+        "plugins/c9.ide.installer/commands/centos",
+        "plugins/c9.ide.installer/commands/darwin",
+        "plugins/c9.ide.installer/commands/bash",
+        "plugins/c9.ide.installer/commands/npm",
+        "plugins/c9.ide.installer/commands/npm-g",
+        "plugins/c9.ide.installer/commands/pip",
+        "plugins/c9.ide.installer/commands/gem",
+        "plugins/c9.ide.installer/commands/zip",
+        "plugins/c9.ide.installer/commands/symlink",
+        "plugins/c9.ide.installer/commands/message",
+        {
+            packagePath: "plugins/c9.ide.installer/commands/tar.gz",
+            bashBin: options.bashBin
+        },
+        "plugins/c9.ide.installer/commands/ubuntu",
+        {
+            packagePath: "plugins/c9.ide.installer/installer",
+            homeDir: options.homeDir,
+            installSelfCheck: true,
+            installPath: options.installPath
+        },
         
         // Previewer
         {
@@ -501,6 +592,8 @@ module.exports = function(options) {
         "plugins/c9.ide.format/formatters/jsbeautify",
         
         // Other
+        "plugins/c9.ide.download/download",
+        
         {
             packagePath: "plugins/c9.ide.info/info",
             installPath: options.installPath,
@@ -537,7 +630,6 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.cli.bridge/bridge",
-            port: 17123,
             startBridge: options.startBridge
         },
         {
@@ -555,7 +647,8 @@ module.exports = function(options) {
             staticPrefix: staticPrefix + "/plugins/c9.ide.help"
         },
         {
-            packagePath: "plugins/c9.ide.configuration/configure"
+            packagePath: "plugins/c9.ide.configuration/configure",
+            dashboardUrl: options.dashboardUrl,
         },
         "plugins/c9.ide.save/save",
         "plugins/c9.ide.recentfiles/recentfiles",
@@ -594,6 +687,7 @@ module.exports = function(options) {
             basePath: workspaceDir,
             local: options.local
         },
+        "plugins/c9.ide.preferences/experimental",
         {
             packagePath: "plugins/c9.ide.login/login",
             staticPrefix: staticPrefix + "/plugins/c9.ide.login",
@@ -610,7 +704,34 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.collab/notifications/bubble",
             staticPrefix: staticPrefix + "/plugins/c9.ide.collab/notifications"
         },
+        
+        // git integration
+        "plugins/c9.ide.scm/scm",
+        "plugins/c9.ide.scm/scmpanel",
+        "plugins/c9.ide.scm/detail",
+        "plugins/c9.ide.scm/log",
+        "plugins/c9.ide.scm/git",
+        "plugins/c9.ide.scm/editor",
     ];
+    
+    if (!options.sdk) {
+        plugins.push(
+            // Test
+            "plugins/c9.ide.test/test",
+            "plugins/c9.ide.test/testpanel",
+            "plugins/c9.ide.test/testrunner",
+            {
+                packagePath: "plugins/c9.ide.test/all",
+                staticPrefix: staticPrefix + "/plugins/c9.ide.test"
+            },
+            "plugins/c9.ide.test/results",
+            "plugins/c9.ide.test/coverage",
+            "plugins/c9.ide.test/coverageview",
+            
+            "plugins/c9.ide.test.mocha/mocha"
+        );
+    }
+
     
     if (packaging || !devel) {
         plugins.push({
@@ -626,6 +747,9 @@ module.exports = function(options) {
             version: options.manifest.version,
             revision: options.manifest.revision
         });
+    }
+    if (!hosted) {
+        plugins.push("plugins/c9.ide.analytics/mock_analytics");
     }
     
     // Collab

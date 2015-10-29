@@ -23,7 +23,7 @@ define(function(require, exports, module) {
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
-        // var emit = plugin.getEmitter();
+        var emit = plugin.getEmitter();
         
         var removedPaths, changedPaths;
         var deleteDialog, changeDialog, initialFocus;
@@ -102,6 +102,9 @@ define(function(require, exports, module) {
             
             save.on("beforeSave", function(e) {
                 e.document.meta.$savingValue = e.save;
+                if (e.tab.classList.contains("conflict")) {
+                    showChangeDialog(e.tab);
+                }
             }, plugin);
             
             save.on("afterSave", function(e) {
@@ -120,12 +123,9 @@ define(function(require, exports, module) {
             watcher.on("change", function(e) {
                 var tab = tabManager.findTab(e.path);
                 if (tab) {
-                    if (collabEnabled && tab.editorType == "ace") {
-                        // Collab is supposed to handle this change
-                        // TODO make this a setting
-                        console.warn("[watchers] change ignored because of Collab", e.path);
+                    // If collab picks this up and handles the change it will return false 
+                    if (emit("docChange", {tab: tab}) === false)
                         return;
-                    }
                     
                     addChangedTab(tab, e.type === "change");
                 }
@@ -229,8 +229,12 @@ define(function(require, exports, module) {
                 if (!tabManager.findTab(path)) // drat! tab is gone
                     return;
                 
-                // Show dialog
-                showChangeDialog();
+                // Show dialogs for changed tabs
+                for (var changedPath in changedPaths) {
+                    tab = changedPaths[changedPath].tab;
+                    data = changedPaths[changedPath].data;
+                    showChangeDialog(tab, data);
+                }
             }
             
             function checkByStatOrContents() {
@@ -309,11 +313,8 @@ define(function(require, exports, module) {
             doc.meta.$mergeRoot = data;
             
             // If the value on disk is the same as in the document, set the bookmark
-            if (mergedValue == data) {
-                doc.undoManager.once("change", function(){
-                    doc.undoManager.bookmark();
-                });
-            }
+            if (mergedValue == data)
+                doc.undoManager.bookmark();
             
             return true;
         }
@@ -370,9 +371,7 @@ define(function(require, exports, module) {
                 else {
                     changedPaths[path].tab.document.undoManager.bookmark(-2);
                     changedPaths[path].resolve();
-                    showChangeDialog();
                 }
-                
                 checkEmptyQueue();
             }
             
@@ -385,7 +384,6 @@ define(function(require, exports, module) {
                 else {
                     getLatestValue(path, function(err, path, data) {
                         updateChangedPath(err, path, data);
-                        showChangeDialog();
                     });
                 }
                 
@@ -396,6 +394,7 @@ define(function(require, exports, module) {
                 changeDialog = filechange.show(
                     "File Changed",
                     path + " has been changed on disk.",
+                    null,
                     no,
                     yes,
                     function(all) { // Merge
@@ -411,7 +410,6 @@ define(function(require, exports, module) {
         
                             getLatestValue(path, function(err, path, data) {
                                 mergeChangedPath(err, path, data);
-                                showChangeDialog();
                             });
                         }
                         

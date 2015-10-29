@@ -1,13 +1,15 @@
 define(function(require, exports, module) {
     "use strict";
 
-    main.consumes = ["Plugin", "ui"];
+    main.consumes = ["Plugin", "ui", "metrics", "error_handler"];
     main.provides = ["dialog.error"];
     return main;
 
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var ui = imports.ui;
+        var metrics = imports.metrics;
+        var errorHandler = imports.error_handler;
         
         /***** Initialization *****/
         
@@ -18,6 +20,7 @@ define(function(require, exports, module) {
         var lastCookie = 0;
         var offset = 0;
         var error, hideTimeout, disconnect;
+        var lastClassname;
         
         var DISCONNECTDELAY = 1000;
         
@@ -82,39 +85,51 @@ define(function(require, exports, module) {
             
             return b1.left + b1.width + ((b2.left - b1.left - b1.width)/2);
         }
+        
+        function getMessageString(message) {
+            var messageString;
+            if (typeof message == "string") {
+                messageString = apf.escapeXML(message);
+            }
+            else {
+                if (message.message)
+                    messageString = apf.escapeXML(message.message);
+                else if (message.html)
+                    messageString = message.html;
+                else
+                    messageString = "Error: " + message.toString();
+            }
+            return messageString
+        }
 
         function show(message, timeout) {
             // Error message container
             if (!error) {
                 error = document.body.appendChild(document.createElement("div"));
-                error.className = "errorlabel";
                 error.addEventListener("mouseup", function(e) {
                     if (e.target.tagName == "U")
                         hide();
                 });
             }
+            error.className = "errorlabel "
+                + (message.className ? message.className : "");
             
-            if (!message) {
-                console.trace();
-                return console.error("empty error message", message);
+            if (!message.noError) {
+                if (!message) {
+                    console.trace();
+                    return console.error("empty error message", message);
+                }
+                
+                metrics.increment("dialog.error");
+                
+                errorHandler.log(new Error("Error dialog shown"), {
+                    message: message, 
+                    messageString: getMessageString(message),
+                });
             }
             
-            console.error("Error:", 
-                message.stack || message.html || message.message || message);
-            
-            hide(function () {
-                var messageString;
-                if (typeof message == "string") {
-                    messageString = apf.escapeXML(message);
-                }
-                else {
-                    if (message.message)
-                        messageString = apf.escapeXML(message.message);
-                    else if (message.html)
-                        messageString = message.html;
-                    else
-                        messageString = "Error: " + message.toString();
-                }
+            hide(function() {
+                var messageString = getMessageString(message);
                 error.innerHTML = "<div><u class='close'></u>" 
                     + messageString + "</div>";
                     
@@ -124,8 +139,10 @@ define(function(require, exports, module) {
                 error.firstChild.style.marginLeft = Math.max(0, (getCenterX() - (error.firstChild.offsetWidth / 2))) + "px";
                 
                 // Start anim
+                lastClassname = message.className;
                 setTimeout(function() {
-                    error.className = "errorlabel anim " + (offset > 0 ? "fade-in" : "");
+                    error.className = "errorlabel anim " + (offset > 0 ? "fade-in" : "") 
+                        + " " + (message.className || "");
                     error.style.top = (offset + topPx) + "px";
                     error.style.opacity = 1;
                 }, 10);
@@ -147,7 +164,8 @@ define(function(require, exports, module) {
             if (!error || error.style.display === "none")
                 return callback && callback();
             
-            error.className = "errorlabel anim " + (offset > 0 ? "fade-in" : "");
+            error.className = "errorlabel anim " + (offset > 0 ? "fade-in " : " ")
+                + (lastClassname ? lastClassname : "");
             if (offset > 0)
                 error.style.opacity = 0;
             else
@@ -255,6 +273,10 @@ define(function(require, exports, module) {
             get vfs(){ throw new Error("Permission Denied"); },
             set vfs(v){ initDisconnectEvents(v); },
             
+            get visible() {
+                return error && error.style.display !== "none" && error.className;
+            },
+            
             /**
              * 
              */
@@ -267,12 +289,16 @@ define(function(require, exports, module) {
             
             /**
              * Displays an error message in the main error reporting UI.
-             * @param {String} message  The message to display.
+             * @param {String} message     The message to display.
+             * @param {Number} [timeout]   A custom timeout for this error to hide, or -1 for no hiding.
+             * @returns a cookie for use with hide()
              */
             show: show,
             
             /**
              * Hides the main error reporting UI.
+             * 
+             * @param [cookie] A cookie indicating the popup to hide
              */
             hide: hide,
         });

@@ -35,6 +35,7 @@
                 app.on("ready", function(){
                     // if (app.services.c9.debug)
                         window.app = app.services;
+                    app.services.c9.ready();
                 });
             });
         });

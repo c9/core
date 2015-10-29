@@ -69,7 +69,7 @@ define(function(require, exports, module) {
                 name: "cancelBrowserAction",
                 group: "ignore",
                 bindKey: {
-                    mac: "Command-S|Cmd-R",
+                    mac: "Cmd-S|Cmd-R|Cmd-[|Cmd-]",
                     win: "Ctrl-S|Ctrl-R|Alt-Left|Alt-Right",
                     position: -10000
                 },
@@ -104,6 +104,8 @@ define(function(require, exports, module) {
         }, 500);
         
         function exec(command, editor, args, e) {
+            var sCommand = command;
+            
             if (!editor || editor.fake)
                 editor = emit("getEditor");
             
@@ -119,14 +121,16 @@ define(function(require, exports, module) {
             if (typeof command === 'string')
                 command = commands[command];
             
-            if (!command)
+            if (!command) {
+                console.warn("Could not find command ", sCommand);
                 return false;
+            }
             
             if (command.isAvailable && !command.isAvailable(editor, args, e))
-                return; //Disable commands for other contexts
+                return; // Disable commands for other contexts
 
             if (command.findEditor)
-                editor = command.findEditor(editor);
+                editor = command.findEditor(editor, e);
             
             if (editor && editor.$readOnly && !command.readOnly)
                 return false;
@@ -245,7 +249,7 @@ define(function(require, exports, module) {
         
         function setDefault(name, keys) {
             var command = commands[name];
-            
+            if (!command) return;
             // If bind key is not yet overridden by a custom one
             if (plugin.commandManager[name] == command.bindKey[platform])
                 bindKey(keys[platform], command);
@@ -315,7 +319,6 @@ define(function(require, exports, module) {
                     passEvent: true,
                     exec: function(){}
                 },
-                commands.togglepreferences,
                 commands.openpreferences,
                 commands.passKeysToBrowser,
                 commands.find,
@@ -339,10 +342,10 @@ define(function(require, exports, module) {
                 commands.previoustab,
                 commands.nextpane,
                 commands.previouspane,
-                commands.exit || {},
-                commands.hidesearchreplace || {},
-                commands.hidesearchinfiles || {},
-                commands.toggleconsole || {},
+                commands.exit,
+                commands.hidesearchreplace,
+                commands.hidesearchinfiles,
+                commands.toggleconsole,
                 commands.runlast,
                 commands.run,
                 commands.resume,
@@ -355,8 +358,19 @@ define(function(require, exports, module) {
                 commands.new,
                 commands.build,
                 commands.switchterminal,
-                commands.findinfiles
-            ];
+                commands.findinfiles,
+                commands.tab1,
+                commands.tab2,
+                commands.tab3,
+                commands.tab4,
+                commands.tab5,
+                commands.tab6,
+                commands.tab7,
+                commands.tab8,
+                commands.tab9,
+                commands.tab0,
+                commands.reopenLastTab,
+            ].filter(Boolean);
         }
         
         function getExceptionBindings(){

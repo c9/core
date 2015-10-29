@@ -1,5 +1,5 @@
 "use client";
-"use mocha";
+
 
 define(function(require, exports, module) {
     main.consumes = ["plugin.test", "myplugin"];
@@ -21,7 +21,7 @@ define(function(require, exports, module) {
         
         /***** Initialization *****/
         
-        describe("The module", function(){
+        describe(myplugin.name, function(){
             this.timeout(2000);
             
             beforeEach(function() {

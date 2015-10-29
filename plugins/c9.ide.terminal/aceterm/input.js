@@ -206,7 +206,7 @@ define(function(require, exports, module) {
         }]);
         
         ace.onPaste = function(text) {
-            this.send(text);
+            this.send(text.replace(/\r\n/g, "\n"));
         };
         
         ace.setKeyboardHandler(this);

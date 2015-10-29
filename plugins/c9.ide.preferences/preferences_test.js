@@ -185,10 +185,12 @@ require([
                });
            });
            
-           after(function(done) {
-               document.body.style.marginBottom = "";
-               done();
-           });
+           if (!onload.remain) {
+               after(function(done) {
+                   document.body.style.marginBottom = "";
+                   done();
+               });
+           }
         });
         
         onload && onload();

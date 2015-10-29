@@ -48,7 +48,7 @@ function plugin(options, imports, register) {
     imports.connect.use(api);
     
     api.get("/", function(req, res, next) {
-        res.writeHead(302, { "Location": "/ide.html" });
+        res.writeHead(302, { "Location": options.sdk ? "/ide.html" : "/static/places.html" });
         res.end();
     });
     
@@ -91,18 +91,8 @@ function plugin(options, imports, register) {
             }, 
         }
     }, function(req, res, next) {
-        var configType = null;
-        if (req.params.workspacetype)
-            configType = "workspace-" + req.params.workspacetype;
-        else if (req.params.devel)
-            configType = "devel";
 
-        var configName = getConfigName(configType, options);
-        var cdn = options.options.cdn;
-        options.options.themePrefix = "/static/" + cdn.version + "/skin/" + configName;
-        options.options.workerPrefix = "/static/" + cdn.version + "/worker";
-        if (req.params.packed == 1)
-            options.options.CORSWorkerPrefix = "/static/" + cdn.version + "/worker";
+        var configName = getConfigName(req.params, options);
 
         var collab = options.collab && req.params.collab !== 0 && req.params.nocollab != 1;
         var opts = extend({}, options);
@@ -110,15 +100,20 @@ function plugin(options, imports, register) {
         if (req.params.packed == 1)
             opts.packed = opts.options.packed = true;
         
+        var cdn = options.options.cdn;
+        options.options.themePrefix = "/static/" + cdn.version + "/skin/" + configName;
+        options.options.workerPrefix = "/static/" + cdn.version + "/worker";
+        options.options.CORSWorkerPrefix = opts.packed ? "/static/" + cdn.version + "/worker" : "";
+        
         api.updatConfig(opts.options, {
             w: req.params.w,
             token: req.params.token
         });
         
-        opts.options.debug = req.params.debug;
+        opts.options.debug = req.params.debug !== undefined;
         res.setHeader("Cache-Control", "no-cache, no-store");
         res.render(__dirname + "/views/standalone.html.ejs", {
-            architectConfig: getConfig(configType, opts),
+            architectConfig: getConfig(configName, opts),
             configName: configName,
             packed: opts.packed,
             version: opts.version
@@ -156,6 +151,14 @@ function plugin(options, imports, register) {
         res.writeHead(200, {"Content-Type": "application/javascript"});
         res.end("define(function(require, exports, module) { return '" 
             + options.workspaceDir + "'; });");
+    });
+    api.get("/vfs-home", function(req, res, next) {
+        if (!options.options.testing)
+            return next();
+            
+        res.writeHead(200, {"Content-Type": "application/javascript"});
+        res.end("define(function(require, exports, module) { return '" 
+            + process.env.HOME + "'; });");
     });
 
     api.get("/update", function(req, res, next) {
@@ -226,7 +229,7 @@ function plugin(options, imports, register) {
             options._projects = [options.workspaceDir];
         }
         var wd = options._projects[pid] || options._projects[0];
-        console.log(user)
+        
         return {
             workspaceDir: wd,
             extendOptions: {
@@ -276,8 +279,12 @@ function plugin(options, imports, register) {
 
 function getConfigName(requested, options) {
     var name;
-    if (requested) {
-        name = requested;
+    if (requested && requested.workspacetype) {
+        name = requested.workspacetype;
+        if (name == "readonly" || name == "ro")
+            name = "default-ro";
+        else
+            name = "workspace-" + name;
     }
     else if (options.workspaceType) {
         name = "workspace-" + options.workspaceType;
@@ -299,8 +306,8 @@ function getConfigName(requested, options) {
     return name;
 }
 
-function getConfig(requested, options) {
-    var filename = __dirname + "/../../configs/client-" + getConfigName(requested, options) + ".js";
+function getConfig(configName, options) {
+    var filename = __dirname + "/../../configs/client-" + configName + ".js";
 
     var installPath = options.settingDir || options.installPath || "";
     var workspaceDir = options.options.workspaceDir;
@@ -316,7 +323,6 @@ function getConfig(requested, options) {
         try {
             data = fs.readFileSync(settings[type], "utf8");
         } catch (e) {
-            console.log(e);
         }
         settings[type] = data;
     }

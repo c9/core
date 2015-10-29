@@ -17,7 +17,7 @@ module.exports = function(config) {
         }, {
             packagePath: "connect-architect/connect.cors"
         }, {
-            packagePath: "connect-architect/connect.logger"
+            packagePath: "./c9.logger/stdout-logger"
         }, {
             packagePath: "./c9.core/ext"
         }, {

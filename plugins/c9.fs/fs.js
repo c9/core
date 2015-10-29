@@ -18,7 +18,7 @@ define(function(require, exports, module) {
         var vfs = imports.vfs;
         var Plugin = imports.Plugin;
         
-        var stream = require("./fs.streams")(vfs, options.base, options.baseProc);
+        var stream = require("./fs.streams")(vfs, options.base, options.baseProc, options.cli);
         var xhr = options.cli ? stream : require("./fs.xhr")(vfs.rest);
         var uCaseFirst = require("c9/string").uCaseFirst;
         
@@ -54,6 +54,8 @@ define(function(require, exports, module) {
             if (loaded) return false;
             loaded = true;
             
+            if (options.cli)
+                plugin.on("error", function(e){ }); // Prevent exception
         }
         
         function wrap(name, fn) {
@@ -62,13 +64,14 @@ define(function(require, exports, module) {
                 
                 if (typeof args[args.length - 1] != "function")
                     throw new Error("Missing callback for " + name);
-                    
-                if (!/^[!~/]/.test(path)) {
-                    var e = new Error("Invalid path passed to fs");
-                    e.data = { name: name, path: path };
-                    setTimeout(function() { throw e });
-                    return args[args.length - 1](e);
-                }
+                
+                // // TODO disabled to not break local version on windows
+                // if (!/^[!~/]/.test(path)) {
+                //     var e = new Error("Invalid path passed to fs " + name);
+                //     e.data = { name: name, path: path };
+                //     setTimeout(function() { throw e });
+                //     return args[args.length - 1](e);
+                // }
 
                 var original_callback = args.pop();
                 
@@ -104,6 +107,7 @@ define(function(require, exports, module) {
                 original_callback.__cb__ = cb;
 
                 var event = { path: path, args: args, fn: fn };
+                
                 if (emit("before" + uCaseFirst(name), event) === false)
                     return false;
 

@@ -463,7 +463,9 @@ function isPrimitive(arg) {
 exports.isPrimitive = isPrimitive;
 
 function isBuffer(arg) {
-  return arg instanceof Buffer;
+  // Not relevant outside of node
+  // return arg instanceof Buffer;
+  return false;
 }
 exports.isBuffer = isBuffer;
 

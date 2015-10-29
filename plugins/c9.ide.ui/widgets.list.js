@@ -19,7 +19,7 @@ define(function(require, exports, module) {
         };
         
         ui.on("load", function(){
-            ui.insertCss(require("text!./widgets.less"), ui);
+            ui.insertCss(require("text!./widgets.less"), options.staticPrefix, ui);
         });
         
         /***** Constructors *****/
@@ -34,6 +34,7 @@ define(function(require, exports, module) {
             var acetree;
             var model;
             var redirectEvents;
+            var filterRoot;
             var meta = {};
             var dataType = options.model ? "object" : options.dataType;
             var excludedEvents = { 
@@ -56,6 +57,7 @@ define(function(require, exports, module) {
                     ? new TreeModel()
                     : new ListModel());
                 model.filterCaseInsensitive = true;
+                model.$sortNodes = false;
                 
                 if (!options.rowHeight)
                     options.rowHeight = 23;
@@ -78,14 +80,18 @@ define(function(require, exports, module) {
                 redirectEvents = {
                     scroll: model,
                     scrollbarVisibilityChanged: acetree.renderer,
+                    afterRender: acetree.renderer,
                     resize: acetree.renderer,
+                    afterRender: acetree.renderer,
                     expand: model,
-                    collapse: model
+                    collapse: model,
+                    check: model,
+                    uncheck: model
                 };
                 
                 emit.sticky("draw");
             }
-
+            
             plugin.on("load", function(){
                 if (options.container)
                     plugin.attachTo(options.container);
@@ -257,21 +263,51 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
+                get enableCheckboxes(){ return model.getCheckboxHTML ? true : false; },
+                set enableCheckboxes(value){
+                    model.getCheckboxHTML = value 
+                        ? function(node){
+                            return "<span class='checkbox " 
+                                + (node.isChecked == -1 
+                                    ? "half-checked " 
+                                    : (node.isChecked ? "checked " : ""))
+                                + "'></span>";
+                        }
+                        : null;
+                    
+                    if (value) {
+                        acetree.commands.bindKey("Space", function(e) {
+                            var nodes = acetree.selection.getSelectedNodes();
+                            var node = acetree.selection.getCursor();
+                            node.isChecked = !node.isChecked;
+                            nodes.forEach(function(n){ n.isChecked = node.isChecked });
+                            model._signal(node.isChecked ? "check" : "uncheck", nodes);
+                            model._signal("change");
+                        });
+                    }
+                    else {
+                        acetree.commands.bindKey("Space", null);
+                    }
+                },
+                /**
+                 * 
+                 */
                 get filterKeyword(){ return model.keyword; },
                 set filterKeyword(value){
                     model.keyword = value;
                     if (!model.keyword) {
+                        filterRoot = null;
                         model.reKeyword = null;
                         model.setRoot(model.cachedRoot);
                     }
                     else {
                         model.reKeyword = new RegExp("(" 
                             + util.escapeRegExp(model.keyword) + ")", 'i');
-                        var root = search.treeSearch(
+                        filterRoot = search.treeSearch(
                             model.cachedRoot.items || model.cachedRoot, 
                             model.keyword, model.filterCaseInsensitive,
                             null, null, model.indexProperty);
-                        model.setRoot(root);
+                        model.setRoot(filterRoot);
                     }
                 },
                 /**
@@ -342,8 +378,13 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
+                get getCheckboxHTML(){ return model.getCheckboxHTML; },
+                set getCheckboxHTML(fn){ model.getCheckboxHTML = fn; },
+                /**
+                 * 
+                 */
                 get sort(){ return model.sort; },
-                set sort(fn){ 
+                set sort(fn){
                     model.$sortNodes = fn ? true : false;
                     model.$sorted = fn ? true : false;
                     model.sort = fn; 
@@ -418,6 +459,18 @@ define(function(require, exports, module) {
                      */
                     "afterRename",
                     /**
+                     * @event afterRender Fires 
+                     */
+                    "afterRender",
+                    /**
+                     * @event check Fires 
+                     */
+                    "check",
+                    /**
+                     * @event uncheck Fires 
+                     */
+                    "uncheck",
+                    /**
                      * @event select Fires 
                      */
                     "select",
@@ -467,6 +520,12 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
+                blur: function(){
+                    return acetree.blur();
+                },
+                /**
+                 * 
+                 */
                 startRename: function(node, column){
                     return acetree.edit.startRename(node, column);
                 },
@@ -497,6 +556,22 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
+                check: function(node, half){
+                    node.isChecked = half ? -1 : true;
+                    model._signal("check", node);
+                    model._signal("change");
+                },
+                /**
+                 * 
+                 */
+                uncheck: function(node){
+                    node.isChecked = false;
+                    model._signal("uncheck", node);
+                    model._signal("change");
+                },
+                /**
+                 * 
+                 */
                 getNodeAtIndex: function(idx){
                     return model.getNodeAtIndex(idx);
                 },
@@ -510,7 +585,7 @@ define(function(require, exports, module) {
                  * 
                  */
                 refresh: function(){
-                    plugin.setRoot(plugin.root);
+                    model.setRoot(filterRoot || plugin.root);
                 },
                 /**
                  * 
@@ -531,7 +606,8 @@ define(function(require, exports, module) {
                 }
             });
             
-            plugin.load(null, options.baseName || "list");
+            if (!baseclass)
+                plugin.load(null, options.baseName || "list");
             
             return plugin;
         }

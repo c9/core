@@ -1,5 +1,20 @@
 #!/bin/bash -e
 
+set -e
+has() {
+  type "$1" > /dev/null 2>&1
+  return $?
+}
+
+if has "curl"; then
+  DOWNLOAD="curl -L "
+elif has "wget"; then
+  DOWNLOAD="wget -O - "
+else
+  echo "Error: you need curl or wget to proceed" >&2;
+  exit 1
+fi
+
 cd `dirname $0`/..
 SOURCE=`pwd`
 
@@ -13,6 +28,7 @@ case "$uname" in
     FreeBSD\ *) os=freebsd ;;
     CYGWIN*) os=windows ;;
     MINGW*) os=windows ;;
+    MSYS_NT*) os=windows ;;
 esac
 case "$uname" in
     *x86_64*) arch=x64 ;;
@@ -28,6 +44,9 @@ blue=$'\e[01;34m'
 magenta=$'\e[01;35m'
 resetColor=$'\e[0m'
 
+NO_PULL=
+NO_GLOBAL_INSTALL=
+FORCE=
 
 updatePackage() {
     name=$1
@@ -63,7 +82,7 @@ updatePackage() {
 }
 
 updateAllPackages() {
-    c9packages=`"$NODE" -e 'console.log(Object.keys(require("./package.json").c9plugins).join(" "))'`;
+    c9packages=(`"$NODE" -e 'console.log(Object.keys(require("./package.json").c9plugins).join(" "))'`)
     count=${#c9packages[@]}
     i=0
     for m in ${c9packages[@]}; do echo $m; 
@@ -76,7 +95,7 @@ updateAllPackages() {
 updateNodeModules() {
     echo "${magenta}--- Running npm install --------------------------------------------${resetColor}"
     safeInstall(){
-        deps=`"$NODE" -e 'console.log(Object.keys(require("./package.json").dependencies).join(" "))'`; 
+        deps=(`"$NODE" -e 'console.log(Object.keys(require("./package.json").dependencies).join(" "))'`)
         for m in $deps; do echo $m; 
             "$NPM" install --loglevel warn $m || true
         done
@@ -86,27 +105,67 @@ updateNodeModules() {
 }
 
 updateCore() {
+    if [ "$NO_PULL" ]; then 
+        return 0;
+    fi
+    
+    # without this git merge fails on windows
+    mv ./scripts/install-sdk.sh  ./scripts/.install-sdk-tmp.sh 
+    cp ./scripts/.install-sdk-tmp.sh ./scripts/install-sdk.sh
+    git checkout -- ./scripts/install-sdk.sh
+
     git remote add c9 https://github.com/c9/core 2> /dev/null || true
     git fetch c9
     git merge c9/master --ff-only || \
         echo "${yellow}Couldn't automatically update sdk core ${resetColor}"
+
+    ## TODO use fetched script?
+    # oldScript="$(cat ./scripts/install-sdk.sh)"
+    # newScript="$(cat ./scripts/install-sdk.sh)"
+    # if ! [ "$oldScript" == "$newScript" ]; then
+    #     ./scripts/install-sdk.sh --no-pull
+    #     exit
+    # fi
 }
+
+
 
 installGlobalDeps() {
     if ! [[ -f ~/.c9/installed ]]; then
-        curl https://raw.githubusercontent.com/c9/install/master/install.sh | bash
+        if [[ $os == "windows" ]]; then
+            URL=https://raw.githubusercontent.com/cloud9ide/sdk-deps-win32
+        else
+            URL=https://raw.githubusercontent.com/c9/install
+        fi    
+        $DOWNLOAD $URL/master/install.sh | bash
     fi
 }
 
 ############################################################################
+export C9_DIR="$HOME"/.c9
+if ! [[ `which npm` ]]; then
+    if [[ $os == "windows" ]]; then
+        export PATH="$C9_DIR:$C9_DIR/node_modules/.bin:$PATH"
+    else
+        export PATH="$C9_DIR/node/bin:$C9_DIR/node_modules/.bin:$PATH"
+    fi
+fi
 NPM=npm
 NODE=node
 
+# cleanup build cache since c9.static doesn't do this automatically yet
+rm -rf ./build/standalone
+
+# pull the latest version
 updateCore || true
 
 installGlobalDeps
 updateAllPackages
 updateNodeModules
 
+echo -e "c9.*\n.gitignore" >  plugins/.gitignore
+echo -e "nak\n.gitignore" >  node_modules/.gitignore
+
 echo "Success!"
-echo "run '${yellow}node server.js -p 8181 -l 0.0.0.0 -a :${resetColor}' to launch Cloud9"
+
+echo "run '${yellow}node server.js -p 8080 -a :${resetColor}' to launch Cloud9"

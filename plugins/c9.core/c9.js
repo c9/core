@@ -24,6 +24,7 @@ define(function(require, module, exports) {
 
         var loaded = false;
         var loggedIn = false;
+        var isReady = false;
         var state = 0;
         
         var STORAGE = 1 << 1;
@@ -109,6 +110,7 @@ define(function(require, module, exports) {
         }
 
         function ready(){
+            isReady = true;
             emit.sticky("ready");
         }
         
@@ -284,6 +286,10 @@ define(function(require, module, exports) {
              */
             get startLoadTime(){ return startLoadTime; },
             set startLoadTime(v){ startLoadTime = v; },
+            /**
+             * 
+             */
+            get isReady(){ return isReady; },
             
             _events: [
                 /**

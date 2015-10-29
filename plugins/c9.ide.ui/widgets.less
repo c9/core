@@ -1,7 +1,7 @@
 .custom-tree.ace_tree {
     background: transparent;
     border: none;
-    font: 11px Tahoma, Arial;
+    // font: @general-font-size @general-font-family;
     .font-smoothing(@tree-font-smoothing)
 }
 
@@ -9,13 +9,17 @@
     background : transparent;
     color : @color;
     border-radius: 3px;
-    margin: 1px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
     padding-left: 6px;
     height: @tree-row-height;
 }
 .custom-tree.ace_tree.ace-tree-list .tree-row {
     margin: 1px 0px 0px 0px;
     padding-left: 0;
+}
+.custom-tree.ace_tree .tree-row.heading {
+    color: @tree-heading-color;
+    text-shadow: @tree-heading-text-shadow;
 }
 
 .custom-tree.ace_tree .tree-row.selected {
@@ -41,6 +45,25 @@
     white-space: normal;
     color: #BBB;
     line-height: 1.5em;
+}
+
+.ace_tree .tree-row .checkbox{
+    outline: 1px solid rgba(255, 255, 255, 0.35);
+    background: #2D2D2D;
+    width: 13px;
+    height: 13px;
+    margin: 1px 5px 0 0px;
+    display: inline-block;
+    vertical-align: middle;
+    pointer-events: auto;
+}
+.ace_tree .tree-row .checkbox.checked{
+    background-image: url("@{image-path}/@{menu-check}");
+    background-position: -2px -18px;
+}
+.ace_tree .tree-row .checkbox.half-checked{
+    background-color: #565656;
+    background-position: -2px -18px;
 }
 
 .custom-tree.ace_tree .tree-row .toggler{

@@ -8,9 +8,7 @@ define(function(require, module, exports) {
         require("plugins/c9.ide.ui/codebox")(imports.apf);
         var settings;
 
-        var packed = require("text!./style.css").length === 0;
-        var less = require("./lib_less1.5");
-        if (less) less.async = true;
+        var packed = require("text!./style.less").length === 0;
         var packedThemes = packed || options.packedThemes !== false;
 
         /***** Initialization *****/
@@ -39,6 +37,12 @@ define(function(require, module, exports) {
             };
             apf.Class.prototype.emit = apf.Class.prototype.dispatchEvent;
             apf.Class.prototype.off = apf.Class.prototype.removeEventListener;
+            
+            Object.defineProperty(apf.Class.prototype, '$html', {
+                get: function() { return this.$int || this.$container || this.$ext; },
+                enumerable: false,
+                configurable: false
+            });
             
             apf.preProcessCSS = insertLess;
             
@@ -120,7 +124,7 @@ define(function(require, module, exports) {
          "list", "tab", "textbox", "textarea", "radiobutton", "checkbox", "page",
          "splitter", "hsplitbox", "vsplitbox", "group", "img", "label", "spinner",
          "dropdown", "BindingColumnRule", "datagrid", "hbox", "vbox", "colorbox",
-         "frame", "password", "modalwindow", "filler"].forEach(function(tag) {
+         "frame", "password", "modalwindow", "filler", "splitbutton"].forEach(function(tag) {
              plugin[tag] = function(struct) {
                  return new apf[tag](struct);
              };
@@ -161,28 +165,30 @@ define(function(require, module, exports) {
                     throw new Error("Can't add dynamic less library in packed mode!");
                 if (packedThemes) return;
             }
-                
             // use dynamic require because we don't want this in the packed version
-            var parser = new less.Parser({
-                filename: filename
-            });
-            
-            // Parse Less Code
-            var baseLib = "@base-path : \"" + staticPrefix + "\";\n"
-                + "@image-path : \"" + staticPrefix + "/images\";\n"
-                + "@icon-path : \"" + staticPrefix + "/icons\";\n";
-            
-            var code = baseLib + "\n" + cssLibs.join("\n") + "\n" + css;
-            parser.parse(code, function (e, tree) {
-                if (e)
-                    return callback(e);
-                    
-                // Add css to the DOM
-                var style = createStyleSheet(tree.toCSS({
-                    relativeUrls: true,
-                    rootpath: staticPrefix || ""
-                }));
-                callback(null, style);
+            require(["./lib_less1.5"], function(less) {
+                if (less) less.async = true;
+                var parser = new less.Parser({
+                    filename: filename
+                });
+                
+                // Parse Less Code
+                var baseLib = "@base-path : \"" + staticPrefix + "\";\n"
+                    + "@image-path : \"" + staticPrefix + "/images\";\n"
+                    + "@icon-path : \"" + staticPrefix + "/icons\";\n";
+                
+                var code = baseLib + "\n" + cssLibs.join("\n") + "\n" + css;
+                parser.parse(code, function (e, tree) {
+                    if (e)
+                        return callback(e);
+                        
+                    // Add css to the DOM
+                    var style = createStyleSheet(tree.toCSS({
+                        relativeUrls: true,
+                        rootpath: staticPrefix || ""
+                    }));
+                    callback(null, style);
+                });
             });
         }
         
@@ -286,8 +292,6 @@ define(function(require, module, exports) {
         }
         
         function insertByIndex(parent, item, index, plugin) {
-            item.$position = index;
-    
             var beforeNode, diff = 100000000, nodes = parent.childNodes;
             for (var i = 0, l = nodes.length; i < l; i++) {
                 var d = nodes[i].$position - index;
@@ -296,13 +300,34 @@ define(function(require, module, exports) {
                     diff = d;
                 }
             }
-    
-            var node = parent.insertBefore(item, beforeNode);
             
-            if (plugin !== false)
-                plugin.addElement(node);
+            if (typeof item == "string") {
+                var bar = new apf.bar({htmlNode: document.createElement("div")});
+                bar.insertMarkup(item, { callback: function(){} });
+                item = bar.childNodes.slice();
+                bar.childNodes.length = 0;
+                bar.destroy();
+            }
             
-            return node;
+            if (Array.isArray(item)) {
+                for (var i = 0; i < item.length; i++) {
+                    var node = parent.insertBefore(item[i], beforeNode);
+                    node.$position = index;
+                    
+                    if (plugin !== false)
+                        plugin.addElement(node);
+                    
+                }
+                return item[0];
+            } else {
+                var node = parent.insertBefore(item, beforeNode);
+                node.$position = index;
+                
+                if (plugin !== false)
+                    plugin.addElement(node);
+                
+                return node;
+            }
         }
         
         function addClass(html, name) {

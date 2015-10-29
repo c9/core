@@ -128,6 +128,7 @@ Vfs.prototype._watchConnection = function(pid) {
     function onStderr(data) {
         // @todo collab stderr logs
         console.log("VFS stderr [" + pid + "]: " + data);
+        that.logger.log({message: data.toString(), pid: pid});
     }
     
     master.on("disconnect", onError);
@@ -146,8 +147,8 @@ Vfs.prototype._createEngine = function(vfs, options) {
     var that = this;
     
     var engine = new eio.Server({
-        pingTimeout: 5000,
-        pingInterval: 15000,
+        pingTimeout: 60000,
+        pingInterval: 25000,
         transports: ["polling", "websocket"],
         allowUpgrades: true,
         cookie: false

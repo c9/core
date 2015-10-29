@@ -102,6 +102,9 @@ define(function(require, exports, module) {
                 }
             });
             
+            if (!baseclass)
+                plugin.load(null, options.baseName || "tree");
+            
             return plugin;
         }
         

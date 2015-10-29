@@ -40,13 +40,14 @@ define(function(require, exports, module) {
         var lang = require("ace/lib/lang");
         var Range = require("ace/range").Range;
         var config = require("ace/config");
-        var AceEditor = require("ace/editor").Editor;
         var Document = require("ace/document").Document;
+        var AceEditor = require("ace/editor").Editor;
         var EditSession = require("ace/edit_session").EditSession;
+        var UndoManager = require("ace/undomanager").UndoManager;
+        var whitespaceUtil = require("ace/ext/whitespace");
         var defaultCommands = require("ace/commands/default_commands").commands;
         var VirtualRenderer = require("ace/virtual_renderer").VirtualRenderer;
         var multiSelectCommands = require("ace/multi_select").commands;
-        var whitespaceUtil = require("ace/ext/whitespace");
         
         // enable multiselect
         require("ace/multi_select");
@@ -90,7 +91,8 @@ define(function(require, exports, module) {
         
         var isMinimal = options.minimal;
         var themeLoaded = {};
-        var lastTheme, grpSyntax; 
+        var themeCounter = 100;
+        var lastTheme, grpSyntax, grpThemes;
         
         var theme;
         var skin = settings.get("user/general/@skin");
@@ -140,20 +142,11 @@ define(function(require, exports, module) {
         
         function setTheme(path, isPreview, fromServer, $err) {
             // Get Theme or wait for theme to load
-            try{
-                theme = fromServer || require(path);
-                
-                // fixes a problem with Ace architect loading /lib/ace
-                // creating a conflict with themes
-                if (theme.isDark === undefined)
-                    throw new Error();
-            }
-            catch (e) {
-                // not checking this can create infinite loop in build
-                $err || require([path], function(){
-                    setTheme(path, isPreview, fromServer, true);
+            theme = fromServer;
+            if (!theme) {
+                return $err || config.loadModule(path, function(m) {
+                    setTheme(path, isPreview, m, true);
                 });
-                return;
             }
             
             if (!isPreview) {
@@ -278,99 +271,184 @@ define(function(require, exports, module) {
         /***** Undo Manager *****/
         
         function AceUndoManager(undoManager, session) {
+            var state = undoManager.getState();
             this.$session = session;
             this.$undo = undoManager;
-            var _self = this;
-            var Item = this.Item;
-            this.$undo.on("itemFind", function(e) {
-                return Item(_self, e.state);
-            });
+            this.$aceUndo = new UndoManager();
+            this.$aceUndo.c9UndoProxy = undoManager;
+            undoManager.$aceUndo = this.$aceUndo;
+            undoManager.add = this.add;
+            undoManager.addSelection = this.addSelection;
+            undoManager.undo = this.undo;
+            undoManager.redo = this.redo;
+            undoManager.reset = this.reset;
+            undoManager.canUndo = this.canUndo;
+            undoManager.canRedo = this.canRedo;
+            undoManager.getState = this.getState;
+            undoManager.setState = this.setState;
+            undoManager.bookmark = this.bookmarkPosition;
+            undoManager.isAtBookmark = this.isAtBookmark;
+            undoManager.__defineGetter__("position", this.getPosition);
+            undoManager.__defineGetter__("length", this.getLength);
+            undoManager._emit = this._emit = undoManager.getEmitter();
+            
+            this.deleyedEmit = lang.delayedCall(this._emit.bind(null, "change"))
+                .schedule.bind(null, 0);
+            this.setState(state, true);
+        }
+        function updateDeltas(deltas) {
+            if (deltas[0] && deltas[0].deltas) {
+                var oldDeltas = deltas.slice();
+                deltas.length = 0;
+                oldDeltas.forEach(function(x) {
+                    deltas.push.apply(deltas, x.deltas);
+                });
+            }
+            return deltas;
         }
         AceUndoManager.prototype = {
-            Item: function(_self, deltas) {
-                return {
-                    undo: function(){
-                        _self.$session.session.undoChanges(deltas, _self.dontSelect);
-                    },
-                    redo: function(){
-                        _self.$session.session.redoChanges(deltas, _self.dontSelect);
-                    },
-                    getState: function(){ 
-                        return deltas.filter(function (d) {
-                            return d.group != "fold";
-                        });
-                    }
-                };
+            add: function(delta, doc) {
+                this.$aceUndo.add(delta, doc);
+                this._emit("change");
             },
-            
-            execute: function(options) {
-                if (options.merge && this.lastDeltas) {
-                    this.lastDeltas.push.apply(this.lastDeltas, options.args[0]);
-                } else {
-                    this.lastDeltas = options.args[0];
-                    this.$undo.add(this.Item(this, this.lastDeltas));
-                }
+            addSelection: function(range, rev) {
+                this.$aceUndo.addSelection(range, rev);
             },
-
             undo: function(dontSelect) {
-                this.dontSelect = dontSelect;
-                this.$undo.undo();
+                this.$aceUndo.undo(dontSelect);
+                this._emit("change");
             },
             redo: function(dontSelect) {
-                this.dontSelect = dontSelect;
-                this.$undo.redo();
+                this.$aceUndo.redo(dontSelect);
+                this._emit("change");
             },
             reset: function(){
-                this.$undo.reset();
+                this.$aceUndo.reset();
+                this._emit("change");
             },
-            hasUndo: function() {
-                return this.$undo.length > this.$undo.position + 1;
+            canUndo: function() {
+                return this.$aceUndo.canUndo();
             },
-            hasRedo: function() {
-                return this.$undo.length <= this.$undo.position + 1;
+            canRedo: function() {
+                return this.$aceUndo.canRedo();
             },
-            get $undoStack() {
-                return this.$undo.stack.slice(0, this.$undo.position + 1)
-                    .map(function(e){ return e.getState ? e.getState() : e });
+            clearUndo: function() {
+                this.$aceUndo.$undoStack = [];
+                this._emit("change");
+            },
+            clearRedo: function() {
+                this.$aceUndo.$redoStack = [];
+                this._emit("change");
+            },
+            startNewGroup: function() {
+                return this.$aceUndo.startNewGroup();
+            },
+            markIgnored: function(from, to) {
+                return this.$aceUndo.markIgnored(from, to);
+            },
+            getState: function() {
+                var aceUndo = this.$aceUndo;
+                var mark = -2;
+                var aceMark = aceUndo.mark;
+                var stack = [];
+                function transform(deltaSet) {
+                    if (!deltaSet || !deltaSet.filter) {
+                        errorHandler.reportError("Misformed ace delta", {
+                            delta: deltaSet
+                        });
+                        return;
+                    }
+                    var newDelta = deltaSet.filter(function(d) {
+                        if (d.id == aceMark) mark = stack.length;
+                        return d.action == "insert" || d.action == "remove";
+                    });
+                    if (newDelta.length)
+                        stack.push(newDelta);
+                }
+                aceUndo.$undoStack.forEach(transform);
+                var pos = stack.length - 1;
+                if (pos == -1 && aceUndo.isAtBookmark())
+                    mark = pos;
+                if (aceUndo.$redoStackBaseRev == aceUndo.$rev)
+                    aceUndo.$redoStack.forEach(transform);
+                return {
+                    mark: mark,
+                    position: pos,
+                    stack: stack
+                };
+            },
+            setState: function(e, silent) {
+                var aceUndo = this.$aceUndo;
+                var stack = e.stack || [];
+                var marked = stack[e.mark] && stack[e.mark][0];
+                var pos = e.position + 1;
+                var undo = stack.slice(0, pos);
+                var redo = stack.slice(pos);
+                var maxRev = aceUndo.$maxRev;
+                function check(x) {
+                    if (!x.length) return false;
+                    if (!x[0].id || x[0].id < maxRev) {
+                        x[0].id = maxRev++;
+                    } else {
+                        maxRev = x[0].id;
+                    }
+                    return true;
+                }
+                aceUndo.$undoStack = undo.map(updateDeltas).filter(check);
+                aceUndo.$redoStack = redo.map(updateDeltas).filter(check);
+                
+                var lastDeltaGroup = stack[stack.length - 1];
+                var lastRev = lastDeltaGroup && lastDeltaGroup[0] && lastDeltaGroup[0].id || 0;
+                aceUndo.$rev = lastRev;
+                aceUndo.$redoStackBaseRev = aceUndo.$rev;
+                aceUndo.$maxRev = Math.max(maxRev, lastRev);
+                var markedRev = marked && marked.id;
+                if (markedRev != null)
+                    this.$aceUndo.bookmark(markedRev);
+                else if (e.mark == e.position)
+                    this.$aceUndo.bookmark();
+                else
+                    this.$aceUndo.bookmark(-1);
+                silent || this._emit("change");
+            },
+            isAtBookmark: function() {
+                return this.$aceUndo.isAtBookmark();
+            },
+            bookmark: function(rev) {
+                this.$aceUndo.bookmark(rev);
+                this._emit("change");
+            },
+            bookmarkPosition: function(index) {
+                if (index > -1) {
+                    var stack = this.$aceUndo.$undoStack;
+                    if (index >= stack.length) {
+                        index -= stack.length;
+                        stack = this.$aceUndo.$redoStack;
+                        index = stack.length - index;
+                    }
+                    var deltaSet = stack[index];
+                    var rev = deltaSet && deltaSet[0] && deltaSet[0].id;
+                    if (rev == null) rev = -1;
+                    this.$aceUndo.bookmark(rev);
+                } else if (index == -1) {
+                    this.$aceUndo.bookmark(0);
+                } else {
+                    this.$aceUndo.bookmark(index);
+                }
+                this._emit("change");
+            },
+            addSession: function(session) {
+                this.$aceUndo.addSession(session);
+            },
+            getPosition: function() {
+                var aceUndo = this.$aceUndo;
+                return aceUndo.$undoStack.length - 1;
+            },
+            getLength: function() {
+                var aceUndo = this.$aceUndo;
+                return aceUndo.$undoStack.length + aceUndo.$redoStack.length;
             }
         };
-        
-        function UndoManagerProxy(undoManager, session) {
-            this.$u = undoManager;
-            this.$doc = session;
-        }
-        
-        (function() {
-            this.execute = function(options) {
-                this.$u.execute(options);
-            };
-        
-            this.undo = function() {
-                var selectionRange = this.$u.undo(true);
-                if (selectionRange) {
-                    this.$doc.selection.setSelectionRange(selectionRange);
-                }
-            };
-        
-            this.redo = function() {
-                var selectionRange = this.$u.redo(true);
-                if (selectionRange) {
-                    this.$doc.selection.setSelectionRange(selectionRange);
-                }
-            };
-        
-            this.reset = function() {
-                this.$u.reset();
-            };
-        
-            this.hasUndo = function() {
-                return this.$u.hasUndo();
-            };
-        
-            this.hasRedo = function() {
-                return this.$u.hasRedo();
-            };
-        }).call(UndoManagerProxy.prototype);
         
         /***** Generic Load *****/
         
@@ -534,14 +612,14 @@ define(function(require, exports, module) {
                         editor = apf.activeElement;
                     if (!isAce(editor, true))
                         return false;
-                    if (!editor.ace.commands.byName[command.name])
+                    if (!editor.ace.commands.byName[command.name] && !command.shared)
                         return false;
                     
                     return isAvailable ? isAvailable(editor.ace) : true;
                 };
     
-                command.findEditor = function(editor) {
-                    if (apf.activeElement && apf.activeElement.ace && apf.activeElement.ace.isFocused())
+                command.findEditor = function(editor, e) {
+                    if (e && apf.activeElement && apf.activeElement.ace && apf.activeElement.ace.isFocused())
                         return apf.activeElement.ace;
                     return editor && editor.ace || editor;
                 };
@@ -582,7 +660,29 @@ define(function(require, exports, module) {
             commands.addCommand(commands.commands.togglerecording, handle);
             commands.addCommand(commands.commands.replaymacro, handle);
             
+            // when event for cmd-z in textarea is not canceled 
+            // chrome tries to find another textarea with pending undo and focus it
+            // we do not want this to happen when ace instance is focused
             commands.addCommand(fnWrap({
+                name: "cancelBrowserUndoInAce",
+                bindKey: {
+                    mac: "Cmd-Z|Cmd-Shift-Z|Cmd-Y",
+                    win: "Ctrl-Z|Ctrl-Shift-Z|Ctrl-Y",
+                    position: -10000
+                },
+                group: "ignore",
+                exec: function(e) {},
+                readOnly: true,
+                shared: true
+            }), handle);
+            function sharedCommand(command) {
+                command.isAvailable = function(editor) {
+                    return editor && editor.type == "ace";
+                };
+                command.group = "Code Editor";
+                return command;
+            }
+            commands.addCommand(sharedCommand({
                 name: "syntax",
                 exec: function(_, syntax) {
                     if (typeof syntax == "object")
@@ -597,7 +697,7 @@ define(function(require, exports, module) {
                 commands: modes.caption
             }), handle);
             
-            commands.addCommand(fnWrap({
+            commands.addCommand(sharedCommand({
                 name: "largerfont",
                 bindKey: { mac : "Command-+|Command-=", win : "Ctrl-+|Ctrl-=" },
                 exec: function(e) {
@@ -606,7 +706,7 @@ define(function(require, exports, module) {
                 }
             }), handle);
     
-            commands.addCommand(fnWrap({
+            commands.addCommand(sharedCommand({
                 name: "smallerfont",
                 bindKey: { mac : "Command--", win : "Ctrl--" },
                 exec: function(e) {
@@ -615,16 +715,13 @@ define(function(require, exports, module) {
                 }
             }), handle);
             
-            commands.addCommand({
+            commands.addCommand(sharedCommand({
                 name: "toggleWordWrap",
                 bindKey: {win: "Ctrl-Q", mac: "Ctrl-W"},
                 exec: function(editor) {
                     editor.setOption("wrap",  editor.getOption("wrap") == "off");
-                }, 
-                isAvailable: function(editor) {
-                    return editor && editor.type == "ace";
                 }
-            }, handle);
+            }), handle);
         }
         
         /***** Preferences *****/
@@ -794,7 +891,11 @@ define(function(require, exports, module) {
                                { caption : "Timed",  value : "true" }
                            ],
                            position: 14000
-                        }
+                        },
+                        "Enable Wrapping For New Documents" : {
+                            type: "checkbox",
+                            path: "user/ace/@useWrapMode"
+                        },
                     }
                 }
             }, handle);
@@ -1070,69 +1171,90 @@ define(function(require, exports, module) {
             
             /**** Themes ****/
             
-            var grpThemes = new ui.group();
-            var mnuThemes = new ui.menu({
+            grpThemes = new ui.group();
+            
+            menus.addItemByPath("View/Themes/", new ui.menu({
                 "onprop.visible" : function(e) {
                     if (e.value)
                         grpThemes.setValue(settings.get("user/ace/@theme"));
                 }
-            });
-            menus.addItemByPath("View/Themes/", mnuThemes, 350000, handle);
+            }), 350000, handle);
             
-            var preview;
-            var setMenuThemeDelayed = lang.delayedCall(function(){
-                setMenuTheme(preview, true);
-            }, 150);
-            function setMenuTheme(path, isPreview) {
-                setTheme(path || settings.get("user/ace/@theme"), isPreview);
-            }
-            
-            function addThemeMenu(name, path, index) {
-                menus.addItemByPath("View/Themes/" + name, new ui.item({
-                    type: "radio",
-                    value: path || themes[name],
-                    group: grpThemes,
-                    
-                    onmouseover: function(e) {
-                        preview = this.value;
-                        setMenuThemeDelayed.schedule();
-                    },
-                    
-                    onmouseout: function(e) {
-                        preview = null;
-                        setMenuThemeDelayed.schedule();
-                    },
-    
-                    onclick: function(e) {
-                        setMenuTheme(e.currentTarget.value);
-                    }
-                }), index, handle);
-            }
-        
             // Create Theme Menus
-            var mainCounter = 100;
             for (var name in themes) {
                 if (themes[name] instanceof Array) {
                     
                     // Add Menu Item (for submenu)
-                    menus.addItemByPath("View/Themes/" + name + "/", null, mainCounter++, handle);
+                    menus.addItemByPath("View/Themes/" + name + "/", null, themeCounter++, handle);
                     
                     themes[name].forEach(function (n) {
                         // Add Menu Item
                         var themeprop = Object.keys(n)[0];
-                        addThemeMenu(name + "/" + themeprop, n[themeprop]);
+                        addThemeMenu(name + "/" + themeprop, n[themeprop], -1);
                     });
                 }
                 else {
                     // Add Menu Item
-                    addThemeMenu(name, null, mainCounter++);
+                    addThemeMenu(name, null, themeCounter++);
                 }
             }
+            
+            /**** Syntax ****/
             
             grpSyntax = new ui.group();
             handle.addElement(grpNewline, grpSyntax, grpThemes);
         }
         
+        var preview;
+        var setMenuThemeDelayed = lang.delayedCall(function(){
+            setMenuTheme(preview, true);
+        }, 150);
+        function setMenuTheme(path, isPreview) {
+            setTheme(path || settings.get("user/ace/@theme"), isPreview);
+        }
+        function addThemeMenu(name, path, index, plugin) {
+            menus.addItemByPath("View/Themes/" + name, new ui.item({
+                type: "radio",
+                value: path || themes[name],
+                group: grpThemes,
+                
+                onmouseover: function(e) {
+                    preview = this.value;
+                    setMenuThemeDelayed.schedule();
+                },
+                
+                onmouseout: function(e) {
+                    preview = null;
+                    setMenuThemeDelayed.schedule();
+                },
+
+                onclick: function(e) {
+                    setMenuTheme(e.currentTarget.value);
+                }
+            }), index == -1 ? undefined : index || themeCounter++, plugin || handle);
+        }
+        function addTheme(css, plugin){
+            var theme = { cssText: css };
+            var firstLine = css.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
+            firstLine.split(";").forEach(function(n){
+                if (!n) return;
+                var info = n.split(":");
+                theme[info[0].trim()] = info[1].trim();
+            });
+            theme.isDark = theme.isDark == "true";
+                
+            themes[theme.name] = theme;
+            
+            ui.insertCss(exports.cssText, plugin);
+            addThemeMenu(theme.name, theme, null, plugin);
+            
+            handleEmit("addTheme");
+            
+            plugin.addOther(function(){
+                delete themes[theme.name];
+                handleEmit("removeTheme");
+            });
+        }
 
         function rebuildSyntaxMenu() {
             menus.remove("View/Syntax/");
@@ -1175,22 +1297,39 @@ define(function(require, exports, module) {
             }
         }
         
-        var updateSyntaxMenu = lang.delayedCall(rebuildSyntaxMenu, 50);
+        var updateSyntaxMenu = lang.delayedCall(function() {
+            rebuildSyntaxMenu();
+            tabs.getTabs().forEach(function(tab) {
+                if (tab.editorType == "ace") {
+                    var c9Session = tab.document.getSession();
+                    if (c9Session && c9Session.session) {
+                        var syntax = getSyntax(c9Session, tab.path);
+                        if (syntax)
+                            c9Session.setOption("syntax", syntax);
+                    }
+                }
+            });
+        }, 50);
         
         /***** Syntax *****/
         
         function defineSyntax(opts) {
             if (!opts.name || !opts.caption)
                 throw new Error("malformed syntax definition");
+            
             var name = opts.name;
             modes.byCaption[opts.caption] = opts;
             modes.byName[name] = opts;
             
+            opts.order = opts.order || 0;
             if (!opts.extensions)
                 opts.extensions = "";
+                
             opts.extensions.split("|").forEach(function(ext) {
                 modes.extensions[ext] = name;
             });
+            
+            
             updateSyntaxMenu.schedule();
         }
         
@@ -1199,9 +1338,11 @@ define(function(require, exports, module) {
             var extPos = fileName.lastIndexOf(".") + 1;
             if (extPos)
                 return fileName.substr(extPos).toLowerCase();
+            
             // special case for new files
             if (/^Untitled\d+$/.test(fileName))
                 fileName = fileName.replace(/\d+/, "");
+            
             return "^" + fileName;
         }
         
@@ -1234,7 +1375,7 @@ define(function(require, exports, module) {
         }
         
         function getMode(syntax) {
-            syntax = (syntax || "text").toLowerCase();
+            syntax = (syntax || settings.get("project/ace/@defaultSyntax") || "text").toLowerCase();
             if (syntax.indexOf("/") == -1)
                 syntax = "ace/mode/" + syntax;
     
@@ -1277,7 +1418,7 @@ define(function(require, exports, module) {
                 syntax = "json";
             }
             else if (/\.(bashrc|inputrc)$/.test(path)) {
-                syntax = "bash";
+                syntax = "sh";
             }
             else if (/\.(git(attributes|config|ignore)|npmrc)$/.test(path)) {
                 syntax = "ini";
@@ -1308,8 +1449,7 @@ define(function(require, exports, module) {
             if (!undoManager)
                 undoManager = session.getUndoManager();
             if (undoManager) {
-                var undoManagerProxy = new UndoManagerProxy(undoManager, s);
-                s.setUndoManager(undoManagerProxy);
+                s.setUndoManager(undoManager);
             }
     
             // Overwrite the default $informUndoManager function such that new deltas
@@ -1481,7 +1621,7 @@ define(function(require, exports, module) {
             /**
              * Set the theme for ace.
              * 
-             * Here's a list of known themes:
+             * Here's a list of default themes:
              * 
              * * ace/theme/ambiance
              * * ace/theme/chrome
@@ -1527,10 +1667,15 @@ define(function(require, exports, module) {
              * @param {Object}  syntax
              * @param {Object}  syntax.caption        Caption to display in the menu
              * @param {Number}  syntax.order          order in the menu
-             * @param {String}  syntax.id             The path to corresponding ace language mode. (if doesn't contain "/" assumed to be from "ace/mode/<id>")
+             * @param {String}  syntax.name           The path to corresponding ace language mode. (if doesn't contain "/" assumed to be from "ace/mode/<name>")
              * @param {String}  syntax.extensions     file extensions in the form "ext1|ext2|^filename". this is case-insensitive
              */
             defineSyntax: defineSyntax,
+            
+            /**
+             * @ignore
+             */
+            getSyntaxForPath: getSyntaxForPath,
             
             /**
              * @ignore this is used by statusbar
@@ -1539,6 +1684,13 @@ define(function(require, exports, module) {
                 var mode = modes.byName[syntax];
                 return mode && mode.caption || "Text";
             },
+            
+            /**
+             * Adds a menu item for a new theme
+             * @param {String} css
+             * @param {Plugin} plugin
+             */
+            addTheme: addTheme,
             
             /**
              * @ignore
@@ -1895,7 +2047,7 @@ define(function(require, exports, module) {
             function getOption(name, c9Session) {
                 var session = (c9Session || currentSession).session;
                 
-                if (name == "synax")
+                if (name == "syntax")
                     return session && session.syntax;
                 else if (name == "useWrapMode")
                     return session && session.getOption("wrap") !== "off";
@@ -2066,12 +2218,12 @@ define(function(require, exports, module) {
                 bgStyle.bottom = upload ? "" : 0;
             }
         
-            function detectSettingsOnLoad(c9Session) {
+            function detectSettingsOnLoad(c9Session, doc) {
                 var session = c9Session.session;
                 if (settings.get("project/ace/@guessTabSize"))
                     whitespaceUtil.detectIndentation(session);
                 if (!session.syntax) {
-                    var syntax = detectSyntax(c9Session);
+                    var syntax = detectSyntax(c9Session, doc && doc.tab && doc.tab.path);
                     if (syntax)
                         setSyntax(c9Session, syntax, true);
                 }
@@ -2103,9 +2255,9 @@ define(function(require, exports, module) {
                 var c9Session = doc.getSession();
                 
                 // if load starts from another editor type
-                // tabmanager will show as instantly
+                // tabmanager will show us instantly
                 // so we need to show progress bar instantly
-                progress.noFadeIn = !currentDocument;
+                progress.noFadeIn = !currentDocument || !currentDocument.tab.active;
                 
                 // Value Retrieval
                 doc.on("getValue", function get(e) {
@@ -2128,7 +2280,7 @@ define(function(require, exports, module) {
                         // aceSession.doc.setValue(e.value || "");
                     } else {
                         aceSession.setValue(e.value || "");
-                        detectSettingsOnLoad(c9Session);
+                        detectSettingsOnLoad(c9Session, doc);
                         hideProgress();
                     }
                     
@@ -2240,7 +2392,7 @@ define(function(require, exports, module) {
                     setState(doc, e.state);
                 
                 if (doc.meta.newfile) {
-                    detectSettingsOnLoad(c9Session);
+                    detectSettingsOnLoad(c9Session, doc);
                     aceSession.on("change", function detectIndentation() {
                         if (aceSession.$guessTabSize) {
                             if (aceSession.getLength() <= 2) return;
@@ -2251,7 +2403,7 @@ define(function(require, exports, module) {
                         aceSession.off("change", detectIndentation);
                     });
                 } else if (doc.hasValue()) {
-                    detectSettingsOnLoad(c9Session);
+                    detectSettingsOnLoad(c9Session, doc);
                 }
                 
                 // Create the ace like undo manager that proxies to 

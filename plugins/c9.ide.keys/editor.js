@@ -2,7 +2,7 @@ define(function(require, exports, module) {
     main.consumes = [
         "PreferencePanel", "commands", "settings", "ui", "util", "Form",
         "c9", "dialog.alert", "tabManager", "save", "dialog.confirm", "layout",
-        "preferences", "menus"
+        "menus"
     ];
     main.provides = ["preferences.keybindings"];
     return main;
@@ -12,7 +12,6 @@ define(function(require, exports, module) {
         var commands = imports.commands;
         var settings = imports.settings;
         var layout = imports.layout;
-        var preferences = imports.preferences;
         var ui = imports.ui;
         var c9 = imports.c9;
         var util = imports.util;
@@ -32,12 +31,14 @@ define(function(require, exports, module) {
         
         var plugin = new PreferencePanel("Ajax.org", main.consumes, {
             caption: "Keybindings",
-            className: "keybindings",
+            className: "keybindings flatform",
             form: true,
             noscroll: true,
             index: 200
         });
         // var emit = plugin.getEmitter();
+        
+        var customKeymaps = {};
         
         var model, datagrid, changed, container, filterbox;
         var appliedCustomSets, intro, reloading;
@@ -57,6 +58,15 @@ define(function(require, exports, module) {
                     reloadModel();
                 }
             }, plugin);
+            
+            settings.on("user/ace/@keyboardmode", function(){
+                var mode = settings.getJson("user/ace/@keyboardmode");
+                if (customKeymaps[mode]) {
+                    settings.set("user/ace/@keyboardmode", "default");
+                    settings.setJson("user/key-bindings", customKeymaps[mode]);
+                    updateCommandsFromSettings();
+                }
+            });
             
             settings.on("read", function(e) {
                 updateCommandsFromSettings();
@@ -185,6 +195,7 @@ define(function(require, exports, module) {
                     title: "Keyboard Mode",
                     type: "dropdown",
                     path: "user/ace/@keyboardmode",
+                    name: "kbmode",
                     items: [
                         { caption: "Default", value: "default" },
                         { caption: "Vim", value: "vim" },
@@ -211,7 +222,7 @@ define(function(require, exports, module) {
                     node: container = new ui.bar({
                         anchors: "269 0 0 0",
                         "class" : "keybindings",
-                        style: "padding:44px 10px 10px 10px;position:relative"
+                        style: "padding:44px 10px 10px 10px"
                     })
                 }
             ], commands);
@@ -339,9 +350,12 @@ define(function(require, exports, module) {
                 
                 // Add key
                 commands.bindKey(lastKey, commands.commands[name]);
+                var keys = {};
+                keys[commands.platform] = (node.actualKeys || node.keys).split("|");
+                
                 var n = {
                     command: node.name,
-                    keys: (node.actualKeys || node.keys).split("|")
+                    keys: keys
                 };
                 
                 var cmds = settings.getJson("user/key-bindings") || [];
@@ -378,6 +392,8 @@ define(function(require, exports, module) {
                         if (!cmd || !cmd.command)
                             return;
                         var keys = cmd.keys;
+                        if (typeof keys == "object" && keys[commands.platform])
+                            keys = keys[commands.platform];
                         if (Array.isArray(keys))
                             keys = keys.join("|");
                         if (typeof keys == "string")
@@ -473,7 +489,7 @@ define(function(require, exports, module) {
             }).join(",\n");
             
             if (!keys.length)
-                value += '    // { "command": "nexttab", "keys": ["Ctrl-Tab"] }';
+                value += '    // { "command": "nexttab", "keys": { win: "Ctrl-Tab", mac: "Cmd-Tab" } }';
             
             value += "\n]";
             
@@ -496,6 +512,46 @@ define(function(require, exports, module) {
             }
         }
         
+        function addCustomKeymap(name, keymap, plugin){
+            customKeymaps[name] = keymap;
+            
+            if (!Object.keys(customKeymaps).length) {
+                menus.addItemByPath("Edit/Keyboard Mode/~", 
+                    new ui.divider(), 10000, plugin);
+            }
+            
+            menus.addItemByPath("Edit/Keyboard Mode/" + name, new ui.item({
+                type: "radio",
+                value: name.toLowerCase(), 
+                onclick: function(e) {
+                    settings.set("user/ace/@keyboardmode", name);
+                }
+            }), 10000 + Object.keys(customKeymaps).length, plugin);
+            
+            plugin.addOther(function(){ delete customKeymaps[name]; });
+            
+            if (plugin.visible)
+                updateKeymaps();
+        }
+        
+        function updateKeymaps(){
+            var items = [
+                { caption: "Default", value: "default" },
+                { caption: "Vim", value: "vim" },
+                { caption: "Emacs", value: "emacs" },
+                { caption: "Sublime", value: "sublime" }
+            ];
+            
+            for (var name in customKeymaps) {
+                items.push({ caption: name, value: name });
+            }
+            
+            plugin.form.update([{
+                id: "kbmode",
+                items: items
+            }])
+        }
+        
         /***** Lifecycle *****/
         
         plugin.on("load", function() {
@@ -505,20 +561,26 @@ define(function(require, exports, module) {
             draw(e);
         });
         plugin.on("activate", function(e) {
-            datagrid && datagrid.resize();
+            if (!drawn) return;
+            
+            datagrid.resize();
+            updateKeymaps();
         });
         plugin.on("resize", function(e) {
             datagrid && datagrid.resize();
         });
-        plugin.on("enable", function() {
-            
-        });
-        plugin.on("disable", function() {
-            
-        });
         plugin.on("unload", function() {
             loaded = false;
             drawn = false;
+            
+            model = null;
+            datagrid = null;
+            changed = null;
+            container = null;
+            filterbox = null;
+            appliedCustomSets = null;
+            intro = null;
+            reloading = null;
         });
         
         /***** Register and define API *****/
@@ -530,7 +592,12 @@ define(function(require, exports, module) {
             /**
              * 
              */
-            editUserKeys: editUserKeys
+            editUserKeys: editUserKeys,
+            
+            /**
+             * 
+             */
+            addCustomKeymap: addCustomKeymap
         });
         
         register(null, { 

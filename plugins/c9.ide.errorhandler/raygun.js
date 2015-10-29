@@ -1420,8 +1420,23 @@ window.TraceKit = TraceKit;
   var blackListedErrors = {
     'Error with empty message': {},
     'Script error.': {},
-    'DealPly is not defined': { factor: 10e5 }
+    'DealPly is not defined': { factor: 10e5 },
+    "Cannot read property 'style' of null": { factor: 10e3 },
+    "Project with id '<id>' does not exist": { factor: 10e2 },
   };
+  var groupedErrors = [{
+    regex: /^((?:Project|User) with id ')(\d+)(' does not exist)/i,
+    pullOut: { 1: 'id' }
+  }, {
+    regex: /^(Failed to execute 'send' on 'XMLHttpRequest': Failed to load)([\s\S]*)/i,
+    pullOut: { 1: 'url' }
+  }, {
+    regex: /^(Cannot GET \/)([\s\S]*)/i,
+    pullOut: { 1: 'url' }
+  }, {
+    regex: /^(Error whilst parsing: Unexpected end whilst parsing (?:xpath|xml|string))([\s\S]*)/i,
+    pullOut: { 1: 'apfStuff' }
+  }];
   function processUnhandledException(stackTrace, options) {
     var stack = [],
         qs = {};
@@ -1477,6 +1492,23 @@ window.TraceKit = TraceKit;
     
     // c9!
     var message = custom_message || stackTrace.message || options.status || 'Error with empty message';
+    
+    groupedErrors.some(function(g) {
+      if (g.regex.test(message)) {
+        var parts = message.split(g.regex);
+        message = "";
+        parts.forEach(function(p, i) {
+          if (g.pullOut[i - 1]) {
+            finalCustomData[g.pullOut[i - 1]] = p;
+            message += "<" + g.pullOut[i - 1] + ">";
+          } else {
+            message += p;
+          }
+        });
+        return true;
+      }
+    });
+    
     if (blackListedErrors.hasOwnProperty(message)) {
         var count = (blackListedErrors[message].count || 0) + 1;
         blackListedErrors[message].count = count;

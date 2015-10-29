@@ -41,6 +41,7 @@
 @highlight-selected-color: darken(#f1f1f1, @darken-chrome);
 
 @empty-message-color: darken(#333, @darken-font);
+@inactive-font-color: #BBBBBB;
 
 @general-font-family: Helvetica, Arial, sans-serif;
 @general-font-size: 13px;
@@ -363,13 +364,13 @@
 @pane-button-running-top: 6px;
 @pane-button-running-animation: rotation 2s infinite steps(16);
 @pane-button-save-image: "@{image-path}/tab-save-spinner-active_flat_light.png";
-@pane-button-save-image-width: 360px;
+@pane-button-save-image-width: 336px;
 @pane-button-save-image-height: 14px;
 @pane-button-save-width: 14px;
 @pane-button-save-height: 14px;
 @pane-button-save-right: -9px;
 @pane-button-save-top: 7px;
-@pane-button-save-animation: loading-24-spinner 1.2s linear 0s infinite normal;
+@pane-button-save-animation: loading-24-spinner 1.2s steps(24) infinite;
 @pane-button-close-image: "@{image-path}/close_tab_btn_flat_light.png";
 @pane-button-close-image-width: 42px;
 @pane-button-close-image-height: 28px;
@@ -705,6 +706,7 @@
 @datagrid-row-padding: 5px 0 5px 7px;
 @datagrid-row-height: 24px;
 @datagrid-row-toggler: -1px 4px -3px -2px;
+@datagrid-row-toggler-loading: -4px;
 
 @datagrid-editor-box-shadow: none;
 
@@ -1041,6 +1043,9 @@
 @tree-selected-background-alternative: @selected-focus-background;
 @tree-selected-color-alternative: @selected-focus-color;
 @tree-folder-icon-alternative: @tree-folder-icon;
+
+@tree-extrainfo-color: #CCC;
+@tree-focus-selected-extrainfo-color: #CCC;
 
 // Open Files
 @openfiles-icon-margin: -2px 2px 0 3px;
@@ -1527,7 +1532,7 @@
 // Toolbar
 @toolbar-height: 30px;
 
-@toolbar-button-padding-top: 7px;
+@toolbar-button-padding-top: 9px;
 @toolbar-button-width: 31px;
 @toolbar-button-height: 31px;
 @toolbar-button-icon-width: 18px;
@@ -1538,7 +1543,7 @@
 
 // Debug Pane
 @debug-pane-scroller-top: 32px;
-@debug-pane-scroller-bottom: 30px;
+@debug-pane-scroller-bottom: 32px;
 @debug-pane-toolbar-bottom-border-top: 1px solid @border-highlight-dark;
 @debug-pane-toolbar-bottom-border-bottom: 0;
 @debug-pane-toolbar-bottom-button-height: 30px;
@@ -1680,3 +1685,29 @@
 @stats-menu-info-background: #F9F9F9;
 @stats-menu-info-border: 0;
 @stats-menu-info-box-shadow: none;
+
+@coverage-button-font-size: 25px;
+
+@detail-label-color: #333333;
+@detail-label-background: #F6F6F6;
+@detail-label-margin: 1px 0 0 67px;
+@detail-label-border-bottom: none;
+@detail-label-box-shadow: none;
+
+@detail-label-hash-border: 1px solid #DDDE33;
+@detail-label-hash-color: #333;
+@detail-label-hash-background: #f9f796;
+
+@log-hash-color: #333;
+@log-hash-background: rgb(249, 247, 150);
+@log-hash-border: 1px solid #DDDE33;
+
+@diff-toolbar-buttons-background: #F9F9F9;
+@diff-toolbar-buttons-border: 1px solid @border-highlight-dark;
+
+@form-bar-padding: 10px 50px 10px 10px;
+@form-bar-background: @menu-button-active-background;
+@form-bar-border-bottom: 1px solid black;
+@form-bar-box-shadow: 0 1px @border-highlight;
+
+@panel-settings-changes-top: 46px;

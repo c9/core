@@ -14,38 +14,56 @@ return function(_request) {
         }, callback);
     }
     
-    function readFile(path, encoding, callback, progress, metadata) {
+    function _readFile(path, encoding, callback, progress, metadata) {
         if (typeof encoding == "function") {
             progress = callback;
             callback = encoding;
             encoding = null;
         }
-    
-        if (path == "/") {
+        // Make sure the path doesn't have a trailing /
+        // It would then be interpreted as a directory
+        if (path.substr(-1) == "/")
+            path = path.substr(0, path.length - 1);
+        
+        if (!path) {
             var err = new Error("Cannot read root as file");
             err.code = "EISDIR";
             return callback(err);
         }
         
-        // Make sure the path doesn't have a trailing /
-        // It would then be interpreted as a directory
-        if (path.substr(-1) == "/")
-            path = path.substr(0, path.length - 1);
-    
         var headers = metadata ? { "x-request-metadata" : "true" } : null;
-        return request("GET", path, "", callback, progress, false, headers);
+        return request("GET", path, "", function(err, data, res) {
+            if (err)
+                return metadata ? callback(err, null, null, res) : callback(err, null, res);
+            var hasMetadata = res.headers["x-metadata-length"] != undefined;            
+            if (metadata || hasMetadata) {
+                var ml = parseInt(res.headers["x-metadata-length"], 10) || 0;
+                var ln = data.length;
+                if (!metadata) {
+                    var $reqHeaders = res.$reqHeaders;
+                    var message = "Unexpected metadata ";
+                    if ($reqHeaders)
+                        message += ($reqHeaders == headers) + $reqHeaders["x-request-metadata"];
+                    console.error($reqHeaders, headers, message);
+                    setTimeout(function() { throw new Error(message); });
+                    return callback(err, data.substr(0, ln - ml), res);
+                }
+                callback(err, data.substr(0, ln - ml), ml && data.substr(-1 * ml) || "", res);
+            } else {
+                callback(err, data, res);
+            }
+        }, progress, false, headers);
+    }
+    
+    function readFile(path, encoding, callback, progress, _metadata) {
+        // TODO remove this debugging code once we find why metadata was shown as file contents
+        if (_metadata != undefined)
+            throw new Error("attempt to call readfile with metadata");
+        return _readFile(path, encoding, callback, progress, false);
     }
     
     function readFileWithMetadata(path, encoding, callback, progress) {
-        return readFile(path, encoding, function(err, data, res) {
-            if (err) return callback(err, null, null, res);
-            
-            // var cl = parseInt(res.headers["x-content-length"], 10) || data.length;
-            var ml = parseInt(res.headers["x-metadata-length"], 10) || 0;
-            var ln = data.length;
-            
-            callback(err, data.substr(0, ln - ml), ml && data.substr(-1 * ml) || "", res);
-        }, progress, true);
+        return _readFile(path, encoding, callback, progress, true);
     }
     
     function writeFile(path, data, sync, callback, progress) {

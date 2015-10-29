@@ -5,7 +5,9 @@ define(function(require, exports, module) {
         "connect.render",
         "connect.render.ejs",
         "connect.redirect",
-        "connect.static"
+        "connect.static",
+        "error.logger",
+        "metrics"
     ];
     main.provides = ["preview.handler"];
     return main;
@@ -15,8 +17,10 @@ define(function(require, exports, module) {
         var https = require("https");
         var http = require("http");
         var mime = require("mime");
+        var metrics = imports.metrics;
         var parseUrl = require("url").parse;
         var debug = require("debug")("preview");
+        var logError = imports["error.logger"].warn;
         
         var staticPrefix = imports["connect.static"].getStaticPrefix();
         
@@ -134,7 +138,7 @@ define(function(require, exports, module) {
                 var path = req.params.path;
                 var url = req.proxyUrl + path;
                 if (req.session.token)
-                    url += "?access_token=" + encodeURIComponent(req.session.token);
+                    url += "?access_token=" + encodeURIComponent(req.session.token.id || req.session.token);
 
                 var parsedUrl = parseUrl(url);
                 var httpModule = parsedUrl.protocol == "https:" ? https : http;
@@ -145,7 +149,6 @@ define(function(require, exports, module) {
                 var isDir = path[path.length-1] == "/";
                 if (isDir || parsedUrl.pathname.match(/\.html?$/i)) {
                     req.headers["accept-encoding"] = "identity";
-                    delete req.headers["if-none-match"];
                     delete req.headers["if-range"];
                 } else {
                     req.headers["accept-encoding"] = "gzip";
@@ -167,6 +170,7 @@ define(function(require, exports, module) {
                     else
                         serveFile(request);
                 }).on("error", function(err) {
+                    metrics.increment("preview.failed.error");
                     next(err); 
                 });
                 
@@ -304,14 +308,23 @@ define(function(require, exports, module) {
                         if (data)
                             buffer += data;
                         
-                        if (shouldInject)
-                            buffer = generateInstrumentedHTML(buffer) || "";
+                        if (shouldInject) {
+                            try {
+                                buffer = generateInstrumentedHTML(buffer) || "";
+                            } catch(e) {
+                                // don't intrument if it fails
+                                logError(new Error("HTML instrumentation failed"), {
+                                    exception: e
+                                });
+                            }
+                        }
                         data = new Buffer(buffer);
                         res.writeHead(200, {
                             "content-length": data.length + inject.length,
                             "content-type": request.headers["content-type"],
                             "etag": request.headers.etag,
                             "date": request.headers.date,
+                            "x-robots-tag": "noindex, nofollow",
                             "access-control-allow-origin": "https://ide." + ideHost
                         });
                         res.write(data);
@@ -322,6 +335,9 @@ define(function(require, exports, module) {
                 
                 function serveFile(request) {
                     debug("forward file %s", request.url);
+                    request.headers["x-robots-tag"] = "noindex, nofollow";
+                    if (!request.headers["Cache-Control"])
+                        request.headers["Cache-Control"] = "max-age=31536000,no-cache";
                     res.writeHead(request.statusCode, request.headers);
                     request.pipe(res);
                 }

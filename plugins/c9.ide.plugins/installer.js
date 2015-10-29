@@ -1,6 +1,7 @@
 define(function(require, exports, module) {
     main.consumes = [
-        "Plugin", "proc", "c9", "pubsub", "auth"
+        "Plugin", "proc", "c9", "pubsub", "auth", "util", "installer",
+        "preferences.experimental"
     ];
     main.provides = ["plugin.installer"];
     return main;
@@ -8,21 +9,26 @@ define(function(require, exports, module) {
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var c9 = imports.c9;
+        var util = imports.util;
         var proc = imports.proc;
         var auth = imports.auth;
         var pubsub = imports.pubsub;
+        var installer = imports.installer;
+        var experimental = imports["preferences.experimental"];
         
+        var async = require("async");
+        
+        var escapeShell = util.escapeShell;
         var updates = options.updates;
         var architect;
         
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
-        // var emit = plugin.getEmitter();
+        var emit = plugin.getEmitter();
         
-        var HASSDK = c9.location.indexOf("sdk=0") === -1;
+        var HASSDK = experimental.addExperiment("sdk=0", "SDK/Load Custom Plugins");
         
-        var queue = [];
         var installing;
         
         var loaded = false;
@@ -67,87 +73,81 @@ define(function(require, exports, module) {
             //     return;
             // }
             
-            if (!config.length) return;
+            if (!config.length) 
+                return callback && callback();
             
-            var found = {};
-            config.forEach(function(item){
-                if (!found[item.packageName])
-                    found[item.packageName] = true;
-                else return;
-                
-                queue.push({ name: item.packageName, version: item.version });
-                
-                if (installing)
-                    installing.push(item);
-            });
-            
-            if (installing) return;
-            installing = config;
-            
-            var i = 0;
-            function next(err){
-                if (err) console.log(err);
-                
-                if (!queue[i]) {
-                    installing = false; queue = [];
-                    architect.loadAdditionalPlugins(config, callback);
-                    return;
-                }
-                
-                installPlugin(queue[i].name, queue[i].version, next);
-                i++;
+            // Only run one installer at a time
+            if (installing) {
+                return plugin.once("finished", function(){
+                    installPlugins(config, callback);
+                });
             }
             
-            next();
+            installing = true;
+            
+            var found = {}, packages = [];
+            config.forEach(function(item){
+                if (typeof item === "string") {
+                    item = { name: item, version: null };
+                }
+                
+                if (found[item.name]) return;
+                found[item.name] = true;
+                
+                packages.push({ name: item.name, version: item.version });
+            });
+            
+            async.eachSeries(packages, function(pkg, next){
+                installPlugin(pkg.name, pkg.version, next);
+            }, function(err){
+                installing = false;
+                emit("finished");
+                
+                if (err) {
+                    console.error(err.message);
+                    return callback && callback(err);
+                }
+                
+                architect.loadAdditionalPlugins(config, callback);
+            });
         }
         
         function installPlugin(name, version, callback){
-            proc.spawn("bash", {
-                args: ["-c", ["c9", "install", "--local", "--force", "--accessToken=" + auth.accessToken, name + "@" + version].join(" ")]
-            }, function(err, process){
-                if (err) return callback(err);
+            // Headless installation of the plugin
+            installer.createSession(name, version, function(session, options){
+                var cmd = [
+                    "c9",
+                    "install",
+                    "--local",
+                    "--force",
+                    "--accessToken=" + auth.accessToken,
+                ];
                 
-                process.stdout.on("data", function(c){
-                    console.log(c);
-                });
-                process.stderr.on("data", function(c){
-                    console.error(c);
+                if (version == null)
+                    cmd.push(escapeShell(name));
+                else
+                    cmd.push(escapeShell(name + "@" + version));
+                
+                session.install({
+                    "bash": cmd.join(" ")
                 });
                 
-                process.on("exit", function(code){
-                    if (code) {
-                        var error = new Error(err);
-                        error.code = code;
-                        return callback(error);
-                    }
-                    callback();
-                });
-            });
+                // Force to start immediately
+                session.start(callback, true);
+            }, function(){}, 2); // Force to not be administered
         }
         
         function uninstallPlugin(name, callback){
-            proc.spawn("c9", {
-                args: ["remove", "--local", "--force", "--accessToken=" + auth.accessToken, name]
-            }, function(err, process){
-                if (err) return callback(err);
-                
-                var res = null;
-                process.stdout.on("data", function(c){
-                    res = c.toString("utf8");
-                });
-                process.stderr.on("data", function(c){
-                    err = c.toString("utf8");
+            // Headless uninstallation of the plugin
+            installer.createSession(name, -1, function(session, options){
+                session.install({
+                    "bash": "c9 remove --local --force --accessToken=" + auth.accessToken
+                        + " " + escapeShell(name)
                 });
                 
-                process.on("exit", function(code){
-                    if (code) {
-                        var error = new Error(err);
-                        error.code = code;
-                        return callback(error);
-                    }
-                    callback(null, res);
-                });
-            });
+                // Force to start immediately
+                session.start(callback, true);
+            }, function(){}, 2); // Force to not be administered
         }
         
         /***** Lifecycle *****/
@@ -155,16 +155,9 @@ define(function(require, exports, module) {
         plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function() {
-            
-        });
-        plugin.on("disable", function() {
-            
-        });
         plugin.on("unload", function() {
             loaded = false;
             installing = false;
-            queue = [];
         });
         
         /***** Register and define API *****/
@@ -183,6 +176,11 @@ define(function(require, exports, module) {
              * 
              */
             installPlugins: installPlugins,
+            
+            /**
+             * 
+             */
+            installPlugin: installPlugin,
             
             /**
              * 

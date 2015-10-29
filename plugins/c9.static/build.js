@@ -237,6 +237,14 @@ function main(options, imports, register) {
         if (module == "plugins/c9.ide.language/worker") {
             // jsonalyzer is missing in built version of local
             var jsonalyzer = require("../c9.ide.language.jsonalyzer/default_plugins");
+            var extraPackages = [
+                "plugins/c9.ide.test.mocha/mocha_outline_worker",
+                "plugins/@smartface/smartface.language/loadInclude"
+            ];
+            try {
+                extraPackages = extraPackages.concat(require("lib/salesforce.language/__worker__"));
+            } catch(e) {}
+            // TODO find a saner method for managing files loaded in language worker
             modules = [
                 "plugins/c9.ide.language/worker",
                 "plugins/c9.ide.language.generic/local_completer",
@@ -261,8 +269,11 @@ function main(options, imports, register) {
                 "plugins/c9.ide.language.javascript.tern/worker/tern_worker",
                 "plugins/c9.ide.language.javascript.tern/worker/architect_resolver_worker",
                 "plugins/c9.ide.language.javascript.eslint/worker/eslint_worker",
-            ].concat(jsonalyzer.handlersWorker).concat(jsonalyzer.helpersWorker);
-        } 
+            ]
+            .concat(jsonalyzer.handlersWorker)
+            .concat(jsonalyzer.helpersWorker)
+            .concat(extraPackages);
+        }
 
         build(modules, {
             cache: cache,

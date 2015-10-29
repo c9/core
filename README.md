@@ -2,7 +2,7 @@ Cloud9 3.0 SDK for Plugin Development
 ======================================
 
 This is the core repository for the Cloud9 v3 SDK. The SDK allows you to run a version of Cloud9 that allows you to develop plugins and create a custom IDE based on Cloud9.
-
+ 
 #### Project Status: *ALPHA*
 
 During the alpha stage, expect many things to break, not work or simply fail.
@@ -11,7 +11,7 @@ During the alpha stage, expect many things to break, not work or simply fail.
 
 The best and easiest way to create plugins is on c9.io. Please check out this tutorial for how to [get started writing plugins.](http://cloud9-sdk.readme.io/v0.1/docs/getting-started-with-cloud9-plugins)
 
-We also have a tutorial for how to get started working on the core plugins. [Check out that tutorial here.](http://cloud9-sdk.readme.io/v0.1/docs/contributing-to-existing-packages)
+We also have a tutorial for how to get started working on the core plugins. [Check out that tutorial here.](http://cloud9-sdk.readme.io/v0.1/docs/contributing-to-cloud9)
 
 #### Documentation ####
 
@@ -23,14 +23,14 @@ We have several documentation resources for you:
     <tr><th>User documentation</th><td>http://docs.c9.io</td></tr>
 </table>
 
-Please joing the mailinglist to get support or give support to the growing community of plugin developers:
+Please join the mailinglist to get support or give support to the growing community of plugin developers:
 https://groups.google.com/forum/#!forum/cloud9-sdk
 
 #### Installation ####
 
 Follow these steps to install the SDK:
 
-    git clone git@github.com:c9/core.git c9sdk
+    git clone git://github.com/c9/core.git c9sdk
     cd c9sdk
     scripts/install-sdk.sh
     
@@ -39,7 +39,7 @@ To update the SDK to the latest version run:
     git pull origin master
     scripts/install-sdk.sh
     
-Please note that Cloud9 v3 currently requires Node.js 0.10. We are working on 0.12 support and will change this message when we do.
+Please note that Cloud9 v3 currently requires Node.js 0.12 or 0.10.
 
 #### Starting Cloud9 ####
 
@@ -65,6 +65,18 @@ The following options can be used:
     --no-cache       Don't use the cached version of CSS
 
 Now visit [http://localhost:8181/ide.html](http://localhost:8181/ide.html) to load Cloud9.
+
+#### Running Tests ####
+
+Run server side tests with:
+    
+    npm run test
+    
+Run client side tests with:
+
+    npm run ctest
+    
+Then visit [http://localhost:8181/static/test](http://localhost:8181/static/test) in your browser.
 
 #### Contributing ####
 

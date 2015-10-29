@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-    main.consumes = ["Plugin", "c9", "menus", "layout", "ui", "http", "tabManager"];
+    main.consumes = ["Plugin", "c9", "menus", "layout", "ui", "http"];
     main.provides = ["help"];
     return main;
 
@@ -9,7 +9,6 @@ define(function(require, exports, module) {
         var http = imports.http;
         var ui = imports.ui;
         var menus = imports.menus;
-        var tabs = imports.tabManager;
         
         var markup = require("text!./help.xml");
         var css = require("text!./style.css");
@@ -27,7 +26,7 @@ define(function(require, exports, module) {
             loaded = true;
             
             var mnuHelp = new ui.menu();
-            menus.addItemByPath("Help/", mnuHelp, 900, plugin);
+            menus.addItemByPath("Support/", mnuHelp, 900, plugin);
             
             // var parent = layout.findParent(plugin);
             // ui.insertByIndex(parent, menus.get("Help").item, 500, plugin);
@@ -41,48 +40,43 @@ define(function(require, exports, module) {
             }), 100, plugin);
 
             var c = 0;
-            menus.addItemByPath("Help/Welcome", new ui.item({ 
-                onclick: function(){ tabs.openEditor("welcome", true, function(){}) }
-            }), c += 100, plugin);
-            menus.addItemByPath("Help/IDE Status", new ui.item({ 
+            menus.addItemByPath("Support/Status Page", new ui.item({ 
                 onclick: function(){window.open('http://status.c9.io'); }
             }), c += 100, plugin);
 
-            // menus.addItemByPath("Help/~", new ui.divider(), c += 100, plugin);
+            // menus.addItemByPath("Support/~", new ui.divider(), c += 100, plugin);
             // ide.addEventListener("hook.ext/keybindings_default/keybindings_default", function(c, e) {
-            //     menus.addItemByPath("Help/Keyboard Shortcuts", new ui.item({ onclick : function(){ e.ext.keybindings(); }}), c);
+            //     menus.addItemByPath("Support/Keyboard Shortcuts", new ui.item({ onclick : function(){ e.ext.keybindings(); }}), c);
             // }.bind(this, c += 100), plugin);
-            menus.addItemByPath("Help/~", new ui.divider(), c += 100, plugin);
+            menus.addItemByPath("Support/~", new ui.divider(), c += 100, plugin);
 
-            menus.addItemByPath("Help/Support/", null, c += 100, plugin);
-            menus.addItemByPath("Help/~", new ui.divider(), c += 100, plugin);
-            menus.addItemByPath("Help/Learning/", null, c += 100, plugin);
-            menus.addItemByPath("Help/~", new ui.divider(), c += 100, plugin);
-            menus.addItemByPath("Help/Get in Touch/", null, c += 100, plugin);
+            menus.addItemByPath("Support/Learning/", null, c += 100, plugin);
+            menus.addItemByPath("Support/Get Help/", null, c += 100, plugin);
+            menus.addItemByPath("Support/Get in Touch/", null, c += 100, plugin);
 
             c = 0;
-            menus.addItemByPath("Help/Learning/Cloud9 Documentation", new ui.item({ 
+            menus.addItemByPath("Support/Learning/Cloud9 Documentation", new ui.item({ 
                 onclick: function(){ 
                     window.open("https://docs.c9.io"); 
                 }
             }), c += 100, plugin);
-            menus.addItemByPath("Help/Learning/YouTube Channel for Cloud9", new ui.item({ 
+            menus.addItemByPath("Support/Learning/YouTube Channel for Cloud9", new ui.item({ 
                 onclick: function(){ 
                     window.open('http://www.youtube.com/user/c9ide/videos?view=pl'); 
                 }
             }), c += 100, plugin);
 
             c = 0;
-            menus.addItemByPath("Help/Get in Touch/Blog", new ui.item({ 
+            menus.addItemByPath("Support/Get in Touch/Blog", new ui.item({ 
                 onclick: function(){ window.open('https://blog.c9.io/'); }
             }), c += 100, plugin);
-            menus.addItemByPath("Help/Get in Touch/Twitter (for Cloud9 Support)", new ui.item({ 
+            menus.addItemByPath("Support/Get in Touch/Twitter (for Cloud9 Support)", new ui.item({ 
                 onclick: function(){ window.open('https://twitter.com/C9Support'); }
             }), c += 100, plugin);
-            menus.addItemByPath("Help/Get in Touch/Twitter (for general Cloud9 tweets)", new ui.item({ 
+            menus.addItemByPath("Support/Get in Touch/Twitter (for general Cloud9 tweets)", new ui.item({ 
                 onclick: function(){ window.open('https://twitter.com/Cloud9IDE'); }
             }), c += 100, plugin);
-            menus.addItemByPath("Help/Get in Touch/Facebook", new ui.item({ 
+            menus.addItemByPath("Support/Get in Touch/Facebook", new ui.item({ 
                 onclick: function(){ window.open('https://www.facebook.com/Cloud9IDE'); }
             }), c += 100, plugin);
 
@@ -173,7 +167,10 @@ define(function(require, exports, module) {
          * @singleton
          **/
         plugin.freezePublicAPI({
-            
+            /**
+             * Shows Cloud9 about dialog 
+             */
+            showAbout: showAbout
         });
         
         register(null, {

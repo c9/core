@@ -395,7 +395,7 @@ define(function(require, exports, module) {
             hash[key] = value;
             
             // Tell everyone this property changed
-            emit(parts.join("/"));
+            emit(parts.join("/"), value);
             // Tell everyone it's parent changed
             emit(query, value);
             
@@ -425,16 +425,16 @@ define(function(require, exports, module) {
             if (query.indexOf("json()") == -1)
                 json = json["json()"];
             
-            if (typeof json == "object")
+            if (typeof json === "object")
                 return JSON.parse(JSON.stringify(json));
-                
-            try {
-                var obj = JSON.parse(json);
-                return obj;
+            
+            if (typeof json === "string") {
+                try {
+                    return JSON.parse(json);
+                } catch (e) {}
             }
-            catch (e) {
-                return false;
-            }
+            // do not return null or undefined so that getJson(query).foo never throws
+            return false;
         }
         
         function getBool(query) {

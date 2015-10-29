@@ -40,7 +40,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
 
         describe('net', function() {
             describe('connect()', function() {
-                this.timeout(10000);
+                this.timeout(30000);
                 
                 it("should connect to a port", function(done) {
                     var code = 

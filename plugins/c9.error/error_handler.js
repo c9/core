@@ -1,8 +1,10 @@
 "use strict";
 
+var errors = require("http-error");
+
 plugin.consumes = [
     "connect",
-    "connect.static", 
+    "connect.static",
     "connect.render",
     "connect.render.ejs"
 ];
@@ -12,8 +14,13 @@ plugin.provides = [
 
 module.exports = plugin;
 
-var errorPages = { 404: 1, 401: 1, 500: 1, 503: 1};
- 
+var errorPages = {
+    404: 1,
+    401: 1,
+    500: 1,
+    503: 1
+};
+
 var statusCodes = {
     400: "Bad Request",
     401: "Unauthorized",
@@ -60,14 +67,20 @@ var statusCodes = {
     510: "Not Extended",
     511: "Network Authentication Required"
 };
- 
+
+var NICE_USER_ERROR_MSG = "Something went wrong. Please retry in a few minutes and contact support if it continues to occur";
+
 function plugin(options, imports, register) {
     var connect = imports.connect;
     var showStackTrace = false;
 
     var frontdoor = require("frontdoor");
     var statics = imports["connect.static"];
-    
+
+    function isDev(mode) {
+        return /^(onlinedev|devel)$/.test(mode);
+    }
+
     // serve index.html
     statics.addStatics([{
         path: __dirname + "/www",
@@ -76,51 +89,73 @@ function plugin(options, imports, register) {
 
     // make sure res.json is available
     connect.useStart(frontdoor.middleware.jsonWriter());
-    
+
+    function sanitizeErrorCode(code) {
+        code = parseInt(code, 10);
+
+        if (isNaN(code)) return 500;
+        if (code < 400) return 500;
+        
+        return code;
+    }
+
+
     connect.useError(function(err, req, res, next) {
-        var statusCode = parseInt(err.code || err.status || res.statusCode, 10) || 500;
+        if (typeof err == "string")
+            err = new errors.InternalServerError(err);
 
-        if (statusCode < 400)
-            statusCode = 500;
+        var statusCode = sanitizeErrorCode(err.code || err.status || res.statusCode);
+        var stack;
 
-        if (statusCode < 100)
-            statusCode = 500;
-
-        var stack = err.stack || err.message || err.toString();
-        console.error(stack);
-        var accept = req.headers.accept || '';
-        // html
-        if (~accept.indexOf('html')) {
-            stack = stack.split('\n').slice(1);
+        if (isDev(options.mode))
+            stack = err.stack || err.message || err.toString();
             
-            var path = errorPages[statusCode]
-                ? __dirname + "/views/error-" + statusCode + ".html.ejs"
-                : __dirname + "/views/error.html.ejs";
+        var accept = req.headers.accept || '';
 
-            res.setHeader('Content-Type', 'text/html; charset=utf-8');
-            res.render(path, {
-                title: statusCodes[statusCode] || "Unspecified Error",
-                scope: options.scope || "",
-                showStackTrace: showStackTrace,
-                stack: stack,
-                statusCode: statusCode,
-                error: err.toString()
-            }, next);
-        // json
-        } else if (~accept.indexOf('json')) {
+        if (/json/.test(accept)) {
             var error = {
-                message: err.message,
+                code: statusCode,
                 hostname: options.hostname,
-                scope: options.scope
+                scope: options.scope,
+                stack: stack
             };
+            
+            var allowedErrorKeys = [
+                "message", "projectState", "premium", "retryIn", "progress",
+                "oldHost", "blocked"
+            ];
+            
+            allowedErrorKeys.forEach(function(key) {
+                if (err.hasOwnProperty(key))
+                    error[key] = err[key];
+            });
 
-            for (var prop in err) error[prop] = err[prop];
-            res.json({ error: error }, null, statusCode);
-        // plain text
-        } else {
-            res.writeHead(statusCode, { 'Content-Type': 'text/plain' });
-            res.end(stack);
+            try {
+                JSON.stringify(error);
+            }
+            catch (e) {
+                console.error("Cannot send error as JSON: ", error);
+                error.message = NICE_USER_ERROR_MSG;
+                error.scope = null;
+            }
+
+            return res.json({
+                error: error
+            }, null, statusCode);
         }
+
+        var path = errorPages[statusCode] ? __dirname + "/views/error-" + statusCode + ".html.ejs" : __dirname + "/views/error.html.ejs";
+
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        
+        res.render(path, {
+            title: statusCodes[statusCode] || NICE_USER_ERROR_MSG,
+            scope: options.scope || "",
+            showStackTrace: showStackTrace,
+            stack: stack,
+            statusCode: statusCode,
+            error: err.toString()
+        }, next);
     });
 
     register(null, {

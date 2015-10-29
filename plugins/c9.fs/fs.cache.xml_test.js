@@ -25,15 +25,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
         "plugins/c9.ide.ui/lib_apf",
         "plugins/c9.fs/fs.cache.xml",
         {
-            consumes: [],
-            provides: ["watcher"],
-            setup: function(options, imports, register) {
-                register(null, {
-                    watcher: new EventEmitter()
-                });
-            }
-        },
-        {
             packagePath: "plugins/c9.fs/fs",
             baseProc: baseProc
         },
@@ -41,14 +32,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
-         // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "auth.bootstrap", "info", "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["fs.cache", "fs", "proc", "watcher"],
             provides: [],

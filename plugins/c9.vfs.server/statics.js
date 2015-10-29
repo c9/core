@@ -81,7 +81,12 @@ function main(options, imports, register) {
                 "main": "msgpack.js"
             }]
         }]);
-        
+    
+        statics.addStatics([{
+            path: dirname(require.resolve("architect-build/build_support/mini_require")),
+            mount: "/"
+        }]);
+
     }
     
     /***** Lifecycle *****/

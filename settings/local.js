@@ -47,9 +47,9 @@ module.exports = function(manifest, installPath, settingDir) {
     // config.update.port = "8888"
     // config.update.host = "http"
     
-    config.nodeBin = [process.platform == "win32"
-        ? path.join(process.execPath, "..\\node.exe")
-        : path.join(installPath, "node/bin/node")];
+    // config.nodeBin = [process.platform == "win32"
+    //     ? path.join(process.execPath, "..\\node.exe")
+    //     : path.join(installPath, "node/bin/node")];
     config.bashBin = process.platform == "win32"
         ? process.env.C9_BASH_BIN || "C:\\cygwin\\bin\\bash.exe"
         : "/bin/bash";

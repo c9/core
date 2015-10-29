@@ -11,7 +11,7 @@ define(function(require, exports, module) {
     function main(options, imports, register) {
         var c9 = imports.c9;
         var Plugin = imports.Plugin;
-        var _ = require("lodash");
+        var normalize = require("path").normalize;
 
         var plugin = new Plugin("Ajax.org", main.consumes);
 
@@ -209,6 +209,14 @@ define(function(require, exports, module) {
             return JSON.stringify(sortByKeys(obj), replacer, spaces);
         };
         
+        plugin.safeParseJson = function(strJson, cb){
+            // Remove comments
+            var data = strJson.replace(/(^|\n)\s*\/\/.*/g, "");
+                
+            try { return JSON.parse(data); }
+            catch (e) { cb(e); return false; }
+        }
+        
         /**
          * 
          */
@@ -267,10 +275,37 @@ define(function(require, exports, module) {
                 + md5Email + "?s=" + size + "&d="  + (defaultImage || "retro");
         };
         
-        var reHome = new RegExp("^" + plugin.escapeRegExp(c9.home || "/home/ubuntu"));
+        var reHome, reWorkspace, homeSub;
+        plugin.$initPaths = function(home, workspaceDir) {
+            reHome = new RegExp("^" + plugin.escapeRegExp(home) + "(/|/?$)");
+            var wd = workspaceDir.replace(/\/?$/, "");
+            reWorkspace = new RegExp("^" + plugin.escapeRegExp(wd) + "(/|/?$)");
+            homeSub = "~/";
+            if (home == workspaceDir) {
+                reHome = new RegExp("^(" + plugin.escapeRegExp(home) + "|~)(/|/?$)");
+                homeSub = "/";
+                reWorkspace = null;
+            } else if (reHome.test(workspaceDir)) {
+                reWorkspace = new RegExp("^" +
+                    plugin.escapeRegExp(workspaceDir.replace(reHome, "~/")) + "(/|/?$)"
+                );
+            } else if (reWorkspace.test(home)) {
+                reHome = new RegExp("^(" + plugin.escapeRegExp(home) + "|~)(/|/?$)");
+                homeSub = home.replace(reWorkspace, "/").replace(/\/?$/, "/");
+                reWorkspace = null;
+            }
+        };
+        plugin.$initPaths(c9.home || "/home/ubuntu", c9.workspaceDir || "/");
+        
         plugin.normalizePath = function(path){
-            if (!path || path.charAt(0) == "~") return path;
-            return (path.replace(/^[\/]+/, "/")).replace(reHome, "~");
+            if (!path) return "";
+            if (reHome) {
+                path = path.replace(reHome, homeSub);
+                if (reWorkspace) {
+                    path = path.replace(reWorkspace, "/");
+                }
+            }
+            return normalize(path);
         };
         
         /**
@@ -340,16 +375,16 @@ define(function(require, exports, module) {
         };
 
         plugin.escapeShell = function(cmd) {
-            var re = /([\#\&\;\`\|\*\?<>\^\(\)\[\]\{\}\$\,\x0A\xFF\' \"])/g;
+            var re = /([\#\&\;\`\|\*\?<>\^\(\)\[\]\{\}\$\,\x0A\xFF\' \"\\])/g;
             return cmd.replace(re, "\\$1");//.replace(/^~/, "\\~");
         };
-
-        var cloneObject = plugin.cloneObject = function(obj) {
+        
+        var cloneObject = plugin.cloneObject = function(obj, shallow) {
             if (obj === null || typeof obj !== "object")
                 return obj;
             var copy = Array.isArray(obj) ? [] : {};
             Object.keys(obj).forEach(function(k) {
-                copy[k] = cloneObject(obj[k]);
+                copy[k] = shallow ? obj[k] : cloneObject(obj[k]);
             });
             return copy;
         };

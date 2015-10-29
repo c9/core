@@ -141,7 +141,7 @@ define(function(require, module, exports) {
                 
                 var height = parseInt(ui.getStyleRule(".filetree .tree-row", "height"), 10);
                 model.rowHeightInner = height;
-                model.rowHeight = height + 1;
+                model.rowHeight = height;
                 model.indent = 12;
                 model.getIconHTML = getIconHTML;
                 
