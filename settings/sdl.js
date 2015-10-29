@@ -1,4 +1,5 @@
 module.exports = function (manifest, installPath) {
+
     if (!manifest) {
         manifest = require(__dirname + "/../package.json");
         manifest.revision =
@@ -30,7 +31,20 @@ module.exports = function (manifest, installPath) {
      */
     var builders = require("../plugins/c9.ide.run.build/builders_list");
 
+    /**
+     * delete unwanted builders
+     */
+    delete builders['CoffeeScript'];
+    delete builders['less'];
+    delete builders['SASS (scss)'];
+    delete builders['stylus'];
+    delete builders['typescript'];
+    /**
+     * end unwanted builder
+     */
+
     var workspaceDir = path.resolve(__dirname + "/../");
+    //console.log(workspaceDir);
     var sdk = !manifest.sdk;
     var win32 = process.platform == "win32";
 
@@ -51,6 +65,8 @@ module.exports = function (manifest, installPath) {
     var inContainer = os.hostname().match(/-\d+$/);
 
     var config = {
+        local: false,
+        domains: 'local.c9ide.com',
         standalone: true,
         startBridge: true,
         manifest: manifest,
@@ -78,9 +94,9 @@ module.exports = function (manifest, installPath) {
         correctedInstallPath: correctedInstallPath,
         staticPrefix: "/static",
         projectUrl: "/workspace",
-        ideBaseUrl: "http://c9.io",
-        previewUrl: "/preview",
-        dashboardUrl: "https://c9.io/dashboard.html",
+        ideBaseUrl: "http://local.c9ide.com",
+        previewUrl: "http://local.c9ide.com/",
+        dashboardUrl: "http://local.c9ide.com/dashboard.html",
         apiUrl: "https://api.c9.dev",
         homeUrl: "/home",
         collab: false,
@@ -92,7 +108,14 @@ module.exports = function (manifest, installPath) {
         isAdmin: true,
         runners: runners,
         builders: builders,
+        //"plugins/c9.ide.run/gui": {
+        //    packagePath: "plugins/c9.ide.run/gui",
+        //    defaultConfigs: {enable:false}
+        //},
         themePrefix: "/static/standalone/skin",
+        c9:{
+          hostname:'local.c9ide.com'
+        },
         cdn: {
             version: "standalone",
             cacheDir: __dirname + "/../build",

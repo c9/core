@@ -1,7 +1,7 @@
 module.exports = function(config, optimist) {
-    
+
     var path = require("path");
-    
+
     if (!optimist.local) {
         optimist
             .boolean("t")
@@ -42,16 +42,16 @@ module.exports = function(config, optimist) {
             .describe("inProcessLocalFs", "Whether to run localfs in same process for debugging.")
             .default("inProcessLocalFs", config.inProcessLocalFs);
     }
-    
+
     var argv = optimist.argv;
     if (argv.help)
         return null;
-    
+
     var testing = argv.t;
     var baseProc = path.normalize(testing
         ? __dirname + "/../plugins/c9.fs/mock"
         : argv.w || (__dirname + "/../"));
-    
+
     // if (testing && !argv["setting-path"])
     //     argv["setting-path"] = "/tmp/.c9";
 
@@ -65,27 +65,27 @@ module.exports = function(config, optimist) {
     var debug = argv.d;
     var readonly = argv.readonly;
     var startBridge = argv.b;
-    
+
     config.port = port || argv.port;
     config.host = host || argv.listen;
-    
+
     if (argv.collab != null)
         config.collab = argv.collab;
-    
+
     var workspaceType = argv.workspacetype || null;
-    
+
     if (argv.hosted)
         config.client_config = "default-hosted";
-    
+
     config.workspaceDir = baseProc;
     config.settingDir = argv["setting-path"];
     config.projectName = path.basename(baseProc);
     config.testing = testing;
     config.debug = debug;
-    
+
     if (!config.startBridge)
         config.startBridge = startBridge;
-    
+
     if (testing && argv.k)
         require("child_process").exec("tmux -L cloud91.9 kill-server", function(){});
 
@@ -136,9 +136,9 @@ module.exports = function(config, optimist) {
         "connect-architect/connect.cors",
         "./c9.connect.favicon/favicon",
         // "./c9.logger/stdout-logger",
-        
+
         "./c9.core/ext",
-        
+
         {
             packagePath: "./c9.ide.server/plugins",
             // allow everything in standalone mode
@@ -221,7 +221,7 @@ module.exports = function(config, optimist) {
         /* ### END #*/
         }
     ];
-    
+
     if (config.collab && !config.mode && !config.local) {
         try {
             var addApi = require("./api.standalone").addApi;
@@ -230,7 +230,7 @@ module.exports = function(config, optimist) {
             plugins = addApi(plugins, config);
         }
     }
-    
+
     return plugins;
 };
 
