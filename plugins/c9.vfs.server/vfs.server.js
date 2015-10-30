@@ -36,7 +36,6 @@ function plugin(options, imports, register) {
     var connect = imports.connect;
     var render = imports["connect.render"];
     var analytics = imports["analytics"];
-    var async = require("async");
     
     var Types = require("frontdoor").Types;
     var error = require("http-error");
