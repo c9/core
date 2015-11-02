@@ -5,7 +5,6 @@ define(function(require, exports, module) {
     main.provides = ["vfs.cache"];
     return main;
 
-
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var connectVfs = imports["vfs.connect"].connect;
@@ -58,6 +57,7 @@ define(function(require, exports, module) {
                     entry.emit("loaded");
                     
                     cache[vfsid] = entry;
+                    entry.keepalive();
 
                     vfs.on("destroy", function() {
                         remove(vfsid);
@@ -126,7 +126,6 @@ define(function(require, exports, module) {
             };
             
             entry.keepalive = function() {
-                clearTimeout(timer);
                 startTimer();
             };
             
@@ -139,7 +138,6 @@ define(function(require, exports, module) {
                 }, maxAge);
             }
             
-            startTimer();
             return entry;
         }
 
