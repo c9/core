@@ -356,6 +356,13 @@ define(function(require, exports, module) {
                 }
             });
         });
+        handle.on("unload", function(){
+            mnuTerminal = null;
+            lastEditor = null;
+            lastTerminal = null;
+            shownDotsHelp = null;
+            installPrompted = null;
+        });
         
         handle.draw = function(){
             ui.insertMarkup(null, markupMenu, handle);
