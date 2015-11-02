@@ -77,7 +77,7 @@ module.exports = function(c9, proc, installPath, shell) {
             meta.process.stderr.on("data", function(data) {
                 errBuffer += data.toString();
             });
-            meta.process.on("exit", function() {
+            meta.process.on("close", function() {
                 if (!buffer && !errBuffer && options.retries < 4) {
                     // tmux doesn't produce any output if two instances are invoked at the same time
                     return setTimeout(function() {
@@ -207,6 +207,9 @@ module.exports = function(c9, proc, installPath, shell) {
                 delete session.pty;
             };
             
+            pty.on("close", function(){
+                pty.closed = true;
+            });
             session.pty.on("exit", function(){
                 if (!disregarded) {
                     session.connected = false;

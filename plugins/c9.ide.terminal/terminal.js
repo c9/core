@@ -955,7 +955,8 @@ define(function(require, exports, module) {
                 
                 if (isOutputTerminal) {
                     session.connect = function(){
-                        session.connect = function(){};
+                        if (session.pty && !session.pty.closed)
+                            return;
                         
                         // Connect to a new or attach to an existing tmux session
                         createTerminal(session, e.state);
