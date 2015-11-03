@@ -84,8 +84,11 @@ module.exports = function(c9, proc, installPath, shell) {
                         getOutputHistory(options, cb);
                     }, options.retries * 100 + 300);
                 }
-                if (buffer)
-                    buffer = buffer.replace(/\s*\x1b\[1mPane is dead\x1b\[0m\s*$/, "\n");
+                if (buffer) {
+                    var i = buffer.search(/\x1b\[1mPane is dead\x1b\[0m\s*$/);
+                    if (i != -1)
+                        buffer = buffer.slice(0, i).replace(/\s*$/, "\n");
+                }
                 cb(errBuffer, buffer);
             });
         });
