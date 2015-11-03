@@ -25,7 +25,6 @@ define(function(require, module, exports) {
                     return false;
                 
                 var item = stack[position];
-                if (!item) return;
                 if (!item.undo)
                     item = stack[position] = findItem(item);
                 position--;
@@ -44,7 +43,6 @@ define(function(require, module, exports) {
                 
                 position++;
                 var item = stack[position];
-                if (!item) return;
                 if (!item.redo)
                     item = stack[position] = findItem(item);
                 item.redo();
@@ -121,7 +119,7 @@ define(function(require, module, exports) {
                     stack: stack
                         .filter(function(item){ return item; })
                         .map(function(item) {
-                            return item && item.getState ? item.getState() : item;
+                            return item.getState ? item.getState() : item;
                         })
                 };
             }
@@ -143,7 +141,7 @@ define(function(require, module, exports) {
                 return emit("itemFind", { state: compressedItem });
             }
             
-            function reset(keepChange){
+            function reset(){
                 if (position == -1)
                     return;
 
