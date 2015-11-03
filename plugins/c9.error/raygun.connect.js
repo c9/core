@@ -61,11 +61,8 @@ function plugin(options, imports, register) {
 
         var domain = socket._httpMessage && socket._httpMessage.domain;
         var req = domain && domain.members[0];
-        if (req && req.url) {
-            metrics.increment("request.timeout");
+        if (req && req.url)
             sendRequestWarning(new Error("Request timed out: " + req.url), req);
-        }
-        
     });
     
     function sendRequestError(err, req) {

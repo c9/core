@@ -183,6 +183,8 @@ define(function(require, module, exports) {
         });
         plugin.on("unload", function(){
             loaded = false;
+            defaultEditor = null;
+            group = null;
         });
         
         /***** Register and define API *****/
