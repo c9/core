@@ -209,9 +209,6 @@ module.exports = function(c9, proc, installPath, shell) {
                 delete session.pty;
             };
             
-            pty.on("close", function(){
-                pty.closed = true;
-            });
             session.pty.on("exit", function(){
                 if (!disregarded) {
                     session.connected = false;
