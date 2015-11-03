@@ -100,12 +100,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 return tab.pane.aml.getPage("editor::" + tab.editorType).$ext;
         });
         
-        predictor.on("mispredict", function(e) {
-            console.error("MISPREDICTED", e)
-            delete e.session;
-            throw new Error("MISPREDICTED: " + JSON.stringify(e));
-        });
-        
         describe('terminal.predict_echo', function() {
             this.timeout(30000);
                 
@@ -145,13 +139,25 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                     afterPrompt(function() { setTimeout(init); });
                     
                     function init() {
+                        afterPrompt(function() { setTimeout(start); });
                         // Make sure we have a prompt with a dollar for tests
-                        afterPrompt(function() { done() });
-                        editor.ace.onTextInput("PS1='. $ '\n");
-                        //editor.ace.onTextInput("ssh lennart\n");
-                        //editor.ace.onTextInput("ssh ubuntu@ci.c9.io\n");
+                        // And terminal won't send rename commands in the middle of the test
+                        // TODO: do we need to handle rename sequence in predict_echo instead?
+                        editor.ace.onTextInput("PS1='. $ ';"
+                            + "tmux setw automatic-rename off;"
+                            + "printf '\\x1b]0;predict echo\\x07'\n");
+                        // editor.ace.onTextInput("ssh lennart\n");
+                        // editor.ace.onTextInput("ssh ubuntu@ci.c9.io\n");
                     }
                 });
+                function start() {
+                    predictor.on("mispredict", function(e) {
+                        console.error("MISPREDICTED", e)
+                        delete e.session;
+                        throw new Error("MISPREDICTED: " + JSON.stringify(e));
+                    });
+                    setTimeout(done)
+                }
             }
             
             function peek(offset) {
@@ -528,7 +534,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                     afterPredict(":", function() {
                         afterPrompt(done);
                         send("\r");
-                    })
+                    });
                     sendAll("echo".split(""), function() {
                         send(INPUT_BACKSPACE);
                         send(INPUT_BACKSPACE);
