@@ -456,20 +456,25 @@ define(function(require, exports, module) {
                         case "dropdown":
                             var dropdown = el.lastChild;
                             
-                            var data = item.items.map(function(item) {
-                                return "<item value='" + item.value 
-                                  + "'><![CDATA[" + item.caption + "]]></item>";
-                            }).join("");
-                            if (data) {
-                                setTimeout(function(){
-                                    dropdown.$model.load("<items>" + data + "</items>");
-                                    
+                            if (item.items) {
+                                var data = item.items.map(function(item) {
+                                    return "<item value='" + item.value 
+                                      + "'><![CDATA[" + item.caption + "]]></item>";
+                                }).join("");
+                                if (data) {
                                     setTimeout(function(){
-                                        var value = item.value || dropdown.value;
-                                        dropdown.value = -999;
-                                        dropdown.setAttribute("value", value);
+                                        dropdown.$model.load("<items>" + data + "</items>");
+                                        
+                                        setTimeout(function(){
+                                            var value = item.value || dropdown.value;
+                                            dropdown.value = -999;
+                                            dropdown.setAttribute("value", value);
+                                        });
                                     });
-                                });
+                                }
+                            }
+                            else if (item.value) {
+                                dropdown.setAttribute("value", item.value);
                             }
                         break;
                         default:

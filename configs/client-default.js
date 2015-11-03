@@ -721,6 +721,8 @@ module.exports = function(options) {
         
         "plugins/c9.ide.test.mocha/mocha",
         
+        "plugins/salesforce.sync/package.editor",
+        
         // git integration
         "plugins/c9.ide.scm/scm",
         "plugins/c9.ide.scm/scmpanel",

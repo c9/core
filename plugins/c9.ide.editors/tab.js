@@ -258,6 +258,8 @@ define(function(require, module, exports) {
                         );
                         return;
                     }
+                    
+                    var currentValue = plugin.document.value;
             
                     editorType = type;
                     amlTab.setAttribute("type", "editor::" + type);
@@ -265,6 +267,11 @@ define(function(require, module, exports) {
                     if (amlPane.getPage() == amlTab) {
                         amlPane.activepage = -1;
                         amlPane.set(amlTab);
+                        
+                        plugin.document.value = currentValue;
+                        // TODO undo managers for different editors conflict
+                        // however, resetting removes changed state
+                        // plugin.document.undoManager.reset();
                     }
                     
                     callback();
