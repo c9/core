@@ -134,9 +134,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                     session = editor.ace.getSession().c9session;
                     send = session.send;
 
-                    if (peek(-2) === "$") // maybe there already was a prompt
-                        return init();
-                    afterPrompt(function() { setTimeout(init); });
+                    setTimeout(init);
                     
                     function init() {
                         afterPrompt(function() { setTimeout(start); });

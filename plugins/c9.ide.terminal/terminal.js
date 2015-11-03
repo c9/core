@@ -668,6 +668,7 @@ define(function(require, exports, module) {
                 var queue = "";
                 var warned = false;
                 var timer = null;
+                var initialConnect = true;
 
                 function send(data) {
                     if (!(c9.status & c9.NETWORK))
@@ -680,7 +681,7 @@ define(function(require, exports, module) {
                         timer = setTimeout(function() {
                             timer = null;
                             if (!session.connected)
-                                return warnConnection();
+                                return initialConnect || warnConnection();
                             // Send data to stdin of tmux process
                             session.pty.write(queue);
                             queue = "";
@@ -746,6 +747,11 @@ define(function(require, exports, module) {
                                 tab: session.tab 
                             });
                             loadHistory(session);
+                            initialConnect = false;
+                            if (queue) {
+                                session.pty.write(queue);
+                                queue = "";
+                            }
                         }
                     });
                 });
