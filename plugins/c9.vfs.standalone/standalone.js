@@ -192,7 +192,7 @@ function plugin(options, imports, register) {
     api.get("/test/all.json", function(req, res, next) {
         var base = __dirname + "/../../";
         var blacklistfile = base + "/test/blacklist.txt";
-        var filefinder = require(base + "/test/filefinder.js");
+        var filefinder = require(base + "/test/lib/filefinder.js");
         filefinder.find(base, "plugins", ".*_test.js", blacklistfile, function(err, result) {
             result.all = result.list.concat(result.blacklist);
             async.filterSeries(result.list, function(file, next) {
