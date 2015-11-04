@@ -109,7 +109,7 @@ define(function(require, exports, module) {
         
         function logout(redirect) {
             redirect = redirect || window.location.href;
-            window.location.href = ideBaseUrl + "/auth/signout?redirect=" + encodeURIComponent(redirect);
+            window.location.href = ideBaseUrl + "/api/nc/logout?redirect=" + encodeURIComponent(redirect);
         }
         
         function createLoopDetector(count, duration) {
