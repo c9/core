@@ -41,10 +41,12 @@ function getDefaultSettings() {
     
     var suffix = hostname.trim().split("-").pop() || "";
     var modes = {
+        "workflowstaging": "workflow-staging",
         "prod": "deploy",
         "beta": "beta",
         "dev": "devel",
-        "onlinedev": "onlinedev"
+        "onlinedev": "onlinedev",
+        "test": "test"
     };
     return modes[suffix] || "devel";
 }
