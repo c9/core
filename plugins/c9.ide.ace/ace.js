@@ -618,8 +618,8 @@ define(function(require, exports, module) {
                     return isAvailable ? isAvailable(editor.ace) : true;
                 };
     
-                command.findEditor = function(editor) {
-                    if (apf.activeElement && apf.activeElement.ace && apf.activeElement.ace.isFocused())
+                command.findEditor = function(editor, e) {
+                    if (e && apf.activeElement && apf.activeElement.ace && apf.activeElement.ace.isFocused())
                         return apf.activeElement.ace;
                     return editor && editor.ace || editor;
                 };

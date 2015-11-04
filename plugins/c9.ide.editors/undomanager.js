@@ -116,9 +116,11 @@ define(function(require, module, exports) {
                 return {
                     mark: mark,
                     position: position,
-                    stack: stack.map(function(item) {
-                        return item.getState ? item.getState() : item;
-                    })
+                    stack: stack
+                        .filter(function(item){ return item; })
+                        .map(function(item) {
+                            return item.getState ? item.getState() : item;
+                        })
                 };
             }
             

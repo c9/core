@@ -10,6 +10,9 @@ define(function(require, module, exports) {
         var Plugin = imports.Plugin;
         var menus = imports.menus;
         
+        var extname = require("path").extname;
+        var basename = require("path").basename;
+        
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
@@ -54,9 +57,20 @@ define(function(require, module, exports) {
             return editor;
         }
         
+        function editorSupportsFile(type, path) {
+            var extensions = findEditor(type).fileExtensions;
+            var ext = extname(path).substr(1).toLowerCase();
+            var filename = basename(path).toLowerCase();
+            return ~extensions.indexOf(path)
+                || ~extensions.indexOf(filename)
+                || ~extensions.indexOf(ext) ? true : false;
+        }
+        
         function findEditorByFilename(fn) {
-            var ext = fn.substr(fn.lastIndexOf(".") + 1).toLowerCase();
+            var ext = extname(fn).substr(1).toLowerCase();
+            var filename = basename(fn).toLowerCase();
             var editor = fileExtensions[fn] && fileExtensions[fn][0]
+                || fileExtensions[filename] && fileExtensions[filename][0]
                 || fileExtensions[ext] && fileExtensions[ext][0]
                 || defaultEditor;
             
@@ -169,6 +183,8 @@ define(function(require, module, exports) {
         });
         plugin.on("unload", function(){
             loaded = false;
+            defaultEditor = null;
+            group = null;
         });
         
         /***** Register and define API *****/
@@ -244,6 +260,11 @@ define(function(require, module, exports) {
              * @return {Function}
              */
             findEditorByFilename: findEditorByFilename,
+            
+            /**
+             * 
+             */
+            editorSupportsFile: editorSupportsFile,
             
             /**
              * Create an editor instance based on it's type

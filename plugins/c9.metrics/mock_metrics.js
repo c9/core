@@ -13,7 +13,8 @@ function plugin(options, imports, register) {
      register(null, {
         "metrics": {
             log: function() {},
-            increment: function() {}
+            increment: function() {},
+            timing: function() {}
         }
     });
 }

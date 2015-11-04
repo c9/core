@@ -530,8 +530,8 @@ define(function(require, exports, module) {
                 });
             }
             
-            function cleanUp(keepElements) {
-                if (!keepElements) {
+            function cleanUp(what) {
+                if (!what || ~what.indexOf("elements")) {
                     // Loop through elements
                     elements.forEach(function(element) {
                         element.destroy(true, true);
@@ -542,33 +542,36 @@ define(function(require, exports, module) {
                 }
                 
                 // Loop through events
-                events.forEach(function(eventRecord) {
-                    var event = eventRegistry[eventRecord[0]];
-                    if (!event) return; // this happens with mock plugins during testing
-                    var type = eventRecord[1];
-                    var id = eventRecord[2];
-                    var _events = event._events;
-                    var eventList = _events && _events[type];
-                    if (typeof eventList == "function") {
-                        if (eventList.listenerId == id)
-                            event.off(type, eventList);
-                    } else if (Array.isArray(eventList)) {
-                        eventList.some(function(listener) {
-                            if (listener.listenerId != id) return;
-                            event.off(type, listener);
-                            return true;
-                        });
-                    }
-                });
-                events = [];
+                if (!what || ~what.indexOf("events")) {
+                    events.forEach(function(eventRecord) {
+                        var event = eventRegistry[eventRecord[0]];
+                        if (!event) return; // this happens with mock plugins during testing
+                        var type = eventRecord[1];
+                        var id = eventRecord[2];
+                        var _events = event._events;
+                        var eventList = _events && _events[type];
+                        if (typeof eventList == "function") {
+                            if (eventList.listenerId == id)
+                                event.off(type, eventList);
+                        } else if (Array.isArray(eventList)) {
+                            eventList.some(function(listener) {
+                                if (listener.listenerId != id) return;
+                                event.off(type, listener);
+                                return true;
+                            });
+                        }
+                    });
+                    events = [];
+                    onNewEvents = {};
+                }
                 
                 // Loop through other
-                other.forEach(function(o) {
-                    o();
-                });
-                other = [];
-                
-                onNewEvents = {};
+                if (!what || ~what.indexOf("other")) {
+                    other.forEach(function(o) {
+                        o();
+                    });
+                    other = [];
+                }
             }
             
             function setAPIKey(apikey){

@@ -305,6 +305,9 @@
 .filetree .tree-row > span.caption {
     margin-left: 4px;
 }
+.filetree .tree-row.heading > span.caption {
+    margin-left: 0;
+}
 
 .toolbar-top.basic .c9-menu-btnDown.scripts{
     border: 0;
@@ -417,6 +420,8 @@
 .has_apf .toolbar-top .sbtb_middle{
     height: auto;
     padding: 4px 25px 3px 5px;
+    border: 0;
+    margin-right: 1px;
 }
 
 .top-test-panel{
@@ -424,8 +429,26 @@
     box-shadow: none;
 }
 
-.runner-form-header{
-    border-bottom: 1px solid @border-highlight-dark;
+body .runner-form-header{
+    background: whitesmoke;
+}
+
+.runtestbtn .icon{
+    background-position: 1px 2px;
+    height: 22px;
+}
+
+.coverage-toolbar{
+    background-color:#f7f7f7;
+    border-bottom: 1px solid #ECECEC;
+    box-sizing: border-box;
+}
+.coverage-toolbar .label{
+    padding:7px;
+}
+.coverage-toolbar .black_dropdown{
+    margin: 0 !important;
+    min-height: 28px !important;
 }
 
 @media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
@@ -482,5 +505,8 @@
     }
     .c9-toolbarbutton-glossy .c9-icon {
         height: 19px;
+    }
+    .runtestbtn .icon{
+        height: 21px;
     }
 }
