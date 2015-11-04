@@ -748,7 +748,10 @@ module.exports = function(options) {
         });
     }
     if (!hosted) {
-        plugins.push("plugins/c9.ide.analytics/mock_analytics");
+        plugins.push(
+            "plugins/c9.ide.analytics/mock_analytics",
+            "plugins/c9.ide.services/linked-services-mock"
+        );
     }
     
     // Collab
