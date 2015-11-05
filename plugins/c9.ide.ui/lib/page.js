@@ -1205,6 +1205,8 @@ apf.BaseTab = function(){
                     node.$button.style.zIndex = 0;
             }
             
+            if (!(node.relPage || node).$ext) return onfinish();
+            
             if (pages.length == 1)
                 (node.relPage || node).$ext.style.display = "none";
             
