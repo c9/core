@@ -105,7 +105,9 @@ define(function(require, exports, module) {
         });
         // var emit = plugin.getEmitter();
 
-        var HASSDK = experimental.addExperiment("sdk=1", "SDK/Load Custom Plugins");
+        // var HASSDK = experimental.addExperiment("sdk=0", "SDK/Load Custom Plugins");
+        var ENABLED = c9.location.indexOf("debug=2") > -1;
+        var MANAGER = experimental.addExperiment("plugin-manager=1", "SDK/Plugin Manager");
 
         var model, datagrid, filterbox;
         var btnUninstall, btnReport, btnReadme, btnCloud9, btnReload;
@@ -115,7 +117,7 @@ define(function(require, exports, module) {
             if (loaded) return false;
             loaded = true;
 
-            if (!HASSDK) return;
+            if (!MANAGER && !ENABLED) return;
 
             // @TODO enable/disable plugins -> move to ext
 

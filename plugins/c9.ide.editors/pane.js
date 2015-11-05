@@ -108,10 +108,16 @@ define(function(require, module, exports) {
                         }
                         else {
                             tab.aml.on("afterclose", function(){
-                                setTimeout(function(){
+                                if (tab.meta.$closeSync) {
                                     tab.unload(e);
                                     closing--;
-                                });
+                                }
+                                else {
+                                    setTimeout(function(){
+                                        tab.unload(e);
+                                        closing--;
+                                    });
+                                }
                             });
                         }
                     },

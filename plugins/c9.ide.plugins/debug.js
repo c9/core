@@ -183,6 +183,9 @@ define(function(require, exports, module) {
                                     cfg.staticPrefix = host + join(base, name);
                                     cfg.apikey = "0000000000000000000000000000=";
                                     
+                                    // Set version for package manager
+                                    cfg.version = options.version;
+                                    
                                     config.push(cfg);
                                     plugins.push(name + "/" + path);
                                 });
