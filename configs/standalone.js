@@ -132,7 +132,10 @@ module.exports = function(config, optimist) {
         "connect-architect/connect.remote-address",
         "connect-architect/connect.render",
         "connect-architect/connect.render.ejs",
-        "connect-architect/connect.redirect",
+        {
+            packagePath: "connect-architect/connect.redirect",
+            trustedDomainsRe: /.*/,
+        }, 
         "connect-architect/connect.cors",
         "./c9.connect.favicon/favicon",
         // "./c9.logger/stdout-logger",
