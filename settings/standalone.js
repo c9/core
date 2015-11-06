@@ -15,8 +15,9 @@ module.exports = function(manifest, installPath) {
     var sdk = !manifest.sdk;
     var win32 = process.platform == "win32";
     
-    if (win32 && process.env.HOME === undefined) {
-        process.env.HOME = process.env.HOMEDRIVE + process.env.HOMEPATH;
+    if (win32) {
+        if (process.env.HOME === undefined)
+            process.env.HOME = process.env.HOMEDRIVE + process.env.HOMEPATH;
         if (!/msys\/bin|Git\/bin/.test(process.env.PATH))
             process.env.PATH = path.join(process.env.HOME, ".c9", "msys/bin") + ";" + process.env.PATH;
     }
