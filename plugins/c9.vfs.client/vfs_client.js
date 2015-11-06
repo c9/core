@@ -94,9 +94,7 @@ define(function(require, exports, module) {
             connection.on("disconnect", onDisconnect);
             connection.on("connect", onConnect);
 
-            reconnect(function(err) {
-                connection.connect();
-            });
+            reconnectNow();
             
             function connectEngine() {
                 if (auth.accessToken) {
@@ -203,6 +201,12 @@ define(function(require, exports, module) {
                 + (isfile ? "&isfile=1" : ""));
         }
 
+        function reconnectNow() {
+            reconnect(function(_err) {
+                connection.connect();
+            });
+        }
+        
         function reconnect(callback) {
             connection.socket.setSocket(null);
             
@@ -293,10 +297,7 @@ define(function(require, exports, module) {
                 function callback(shouldReconnect) {
                     if (shouldReconnect) {
                         vfsEndpoint.clearCache();
-                        reconnect(function(err) {
-                            if (err) return console.log(err);
-                            connection.connect();
-                        });
+                        reconnectNow();
                         return;
                     }
                     
@@ -383,11 +384,7 @@ define(function(require, exports, module) {
             rest: rest,
             download: download,
             url: vfsUrl,
-            reconnect: function() {
-                reconnect(function(_err) {
-                    connection.connect();
-                });
-            },
+            reconnect: reconnectNow,
 
             // File management
             resolve: vfsCall.bind(null, "resolve"),
