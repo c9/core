@@ -55,7 +55,6 @@ define(function(require, exports, module) {
         errorDialog.vfs = plugin;
         
         var buffer = [];
-        var withInstall = options.withInstall;
         var dashboardUrl = options.dashboardUrl;
         var region, vfsBaseUrl, homeUrl, projectUrl, pingUrl, serviceUrl;
         var eioOptions, connection, consumer, vfs;
@@ -384,6 +383,11 @@ define(function(require, exports, module) {
             rest: rest,
             download: download,
             url: vfsUrl,
+            reconnect: function() {
+                reconnect(function(_err) {
+                    connection.connect();
+                });
+            },
 
             // File management
             resolve: vfsCall.bind(null, "resolve"),
