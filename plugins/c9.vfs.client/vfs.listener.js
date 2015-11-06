@@ -5,7 +5,7 @@ define(function(require, exports, module) {
     "use strict";
     
     main.consumes = [
-        "Plugin", "pubsub", "vfs", "metrics"
+        "Plugin", "pubsub", "vfs", "metrics", "vfs.endpoint"
     ];
     main.provides = ["vfs.listener"];
     return main;
@@ -14,6 +14,7 @@ define(function(require, exports, module) {
         var Plugin = imports.Plugin;
         var pubsub = imports.pubsub;
         var vfs = imports.vfs;
+        var vfsEndpoint = imports["vfs.endpoint"];
         var metrics = imports.metrics;
 
         /***** Initialization *****/
@@ -30,6 +31,8 @@ define(function(require, exports, module) {
                 
                 if (m.action == "state_changed") {
                     metrics.increment("vfs.state_changed", 1, true);
+                    
+                    vfsEndpoint.clearCache();
                     vfs.reconnect();
                 }
             });
