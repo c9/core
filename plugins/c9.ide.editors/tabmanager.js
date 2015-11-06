@@ -132,11 +132,8 @@ define(function(require, module, exports) {
             function removeTab(e) {
                 if (!e.error) { 
                     var tab = findTab(e.path);
-                    if (tab) {
-                        tab.document.meta.$ignoreSave = true;
-                        tab.close();
-                        delete tab.document.meta.$ignoreSave;
-                    }
+                    if (tab)
+                        tab.unload();
                 }
             }
             fs.on("afterUnlink", removeTab);
@@ -145,9 +142,8 @@ define(function(require, module, exports) {
                 var path = e.path;
                 Object.keys(tabs).forEach(function(id) {
                     var tab = tabs[id];
-                    if (tab.path && tab.path.indexOf(path) === 0) {
+                    if (tab.path && tab.path.indexOf(path) === 0)
                         tab.unload();
-                    }
                 });
             });
             // Close a pane when it doesn't open
@@ -178,7 +174,7 @@ define(function(require, module, exports) {
                 if (!editors.findEditor(e.value).fileExtensions.length)
                     openEditor(e.value, true, function(){});
                 else if (focussedTab)
-                    focussedTab.switchEditor(e.value, function(){});
+                    switchEditor(focussedTab, e.value, function(){});
             });
             editors.on("menuShow", function(e) {
                 var group, editor = focussedTab && focussedTab.editor;
@@ -186,13 +182,8 @@ define(function(require, module, exports) {
                     group = node.group;
                     
                     var path = focussedTab && focussedTab.path || "";
-                    var ext = path.substr(path.lastIndexOf(".") + 1);
-                    
                     var type = node.value;
-                    var extensions = editors.findEditor(type).fileExtensions;
-                    var isAvailable = editors.defaultEditor == type 
-                        || extensions.indexOf(ext.toLowerCase()) > -1
-                        || !extensions.length;
+                    var isAvailable = editors.editorSupportsFile(type, path);
         
                     node.setAttribute("disabled", !isAvailable);
                 });
@@ -796,7 +787,10 @@ define(function(require, module, exports) {
                 var pane = list[i], nodes = pane.getTabs();
                 for (var j = nodes.length - 1; j >= 0; j--) {
                     var tab = nodes[j];
-                    if (!soft) tab.unload();
+                    if (!soft) {
+                        tab.meta.$closeSync = true;
+                        tab.unload();
+                    }
                     else {
                         tab.aml.parentNode.removeChild(tab.aml);
                         tab.pane = null;
@@ -1075,7 +1069,7 @@ define(function(require, module, exports) {
                 options.document.title = basename(path);
                 options.document.tooltip = path;
             }
-            if (typeof options.value == "string")
+            if (typeof options.value == "string" && !options.newOnError)
                 options.document.value = options.value;
             // if (options.document.filter === undefined)
             //     options.document.filter = true;
@@ -1091,7 +1085,7 @@ define(function(require, module, exports) {
             var doc = options.document;
             var loadFromDisk = path 
               && (!doc || doc.value === undefined) 
-              && options.value === undefined
+              && (options.value === undefined || options.newOnError)
               // autoload to false prevents loading data, used by image editor
               && (!editor || editor.autoload !== false);
             
@@ -1408,6 +1402,13 @@ define(function(require, module, exports) {
 
             previewTab = null;
             return true;
+        }
+        
+        function switchEditor(tab, type, callback) {
+            tab.switchEditor(type, function(){
+                emit("switchEditor", { tab: tab });
+                callback.apply(this, arguments);
+            });
         }
         
         /**** Support for state preservation ****/
@@ -1960,6 +1961,11 @@ define(function(require, module, exports) {
              * 
              */
             clone: clone,
+            
+            /**
+             * 
+             */
+            switchEditor: switchEditor,
             
             /**
              * @ignore

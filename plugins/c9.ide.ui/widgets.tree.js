@@ -16,8 +16,9 @@ define(function(require, exports, module) {
             if (!options.baseName)
                 options.baseName = "tree";
             
-            if (!options.model) {
-                var model = new TreeModel();
+            var model = options.model;
+            if (!model) {
+                model = new TreeModel();
                 options.model = model;
             }
             

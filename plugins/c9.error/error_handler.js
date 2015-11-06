@@ -115,11 +115,20 @@ function plugin(options, imports, register) {
         if (/json/.test(accept)) {
             var error = {
                 code: statusCode,
-                message: err.message,
                 hostname: options.hostname,
                 scope: options.scope,
-                stack: stack,
+                stack: stack
             };
+            
+            var allowedErrorKeys = [
+                "message", "projectState", "premium", "retryIn", "progress",
+                "oldHost", "blocked"
+            ];
+            
+            allowedErrorKeys.forEach(function(key) {
+                if (err.hasOwnProperty(key))
+                    error[key] = err[key];
+            });
 
             try {
                 JSON.stringify(error);

@@ -240,9 +240,13 @@ define(function(require, exports, module) {
                                 value: options.path 
                                     ? createBind(options.path) 
                                     : (options.defaultValue || ""),
-                                min: options.min,
-                                max: options.max,
-                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
+                                min: options.min || 0,
+                                max: options.max || 10,
+                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1,
+                                onafterchange: function(e) {
+                                    if (options.onchange)
+                                        options.onchange({ value: e.value });
+                                }, 
                             })
                         ];
                     break;
@@ -254,16 +258,24 @@ define(function(require, exports, module) {
                                     : (options.defaultCheckboxValue || ""),
                                 width: width, maxwidth: maxwidth, 
                                 label: name + ":",
-                                skin: "checkbox_black"
+                                skin: "checkbox_black",
+                                onafterchange: function(e) {
+                                    if (options.onchange)
+                                        options.onchange({ value: e.value, type: "checkbox" });
+                                }, 
                             }),
                             new ui.spinner({
                                 width: options.width || widths["checked-spinner"],
                                 value: options.path 
                                     ? createBind(options.path) 
                                     : (options.defaultValue || ""),
-                                min: options.min,
-                                max: options.max,
-                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
+                                min: options.min || 0,
+                                max: options.max || 10,
+                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1,
+                                onafterchange: function(e) {
+                                    if (options.onchange)
+                                        options.onchange({ value: e.value, type: "spinner" });
+                                }, 
                             })
                         ];
                     break;
@@ -275,7 +287,11 @@ define(function(require, exports, module) {
                                     : (options.defaultValue || ""),
                                 width: options.width || widths["checked-single"], 
                                 label: name,
-                                skin: "checkbox_black"
+                                skin: "checkbox_black",
+                                onafterchange: function(e){
+                                    if (options.onchange)
+                                        options.onchange({ value: e.value });
+                                } 
                             })
                         ];
                     break;
@@ -421,8 +437,8 @@ define(function(require, exports, module) {
                     });
                 }
                 
-                if (options.name) {
-                    node.setAttribute("id", options.name);
+                if (options.id || options.name) {
+                    node.setAttribute("id", options.id || options.name);
                     elements[node.name] = node;
                 }
                 
@@ -440,20 +456,25 @@ define(function(require, exports, module) {
                         case "dropdown":
                             var dropdown = el.lastChild;
                             
-                            var data = item.items.map(function(item) {
-                                return "<item value='" + item.value 
-                                  + "'><![CDATA[" + item.caption + "]]></item>";
-                            }).join("");
-                            if (data) {
-                                setTimeout(function(){
-                                    dropdown.$model.load("<items>" + data + "</items>");
-                                    
+                            if (item.items) {
+                                var data = item.items.map(function(item) {
+                                    return "<item value='" + item.value 
+                                      + "'><![CDATA[" + item.caption + "]]></item>";
+                                }).join("");
+                                if (data) {
                                     setTimeout(function(){
-                                        var value = item.value || dropdown.value;
-                                        dropdown.value = -999;
-                                        dropdown.setAttribute("value", value);
+                                        dropdown.$model.load("<items>" + data + "</items>");
+                                        
+                                        setTimeout(function(){
+                                            var value = item.value || dropdown.value;
+                                            dropdown.value = -999;
+                                            dropdown.setAttribute("value", value);
+                                        });
                                     });
-                                });
+                                }
+                            }
+                            else if (item.value) {
+                                dropdown.setAttribute("value", item.value);
                             }
                         break;
                         default:
@@ -478,8 +499,8 @@ define(function(require, exports, module) {
                     htmlNode = htmlNode.$int;
                 }
                 // if we have apf node, make sure apf child-parent links do not get broken
-                if (htmlNode.host && container.host) {
-                    htmlNode.host.insertBefore(container.host, beforeNode && beforeNode.host);
+                if (htmlNode.host) {
+                    htmlNode.host.insertBefore(container, beforeNode && beforeNode.host);
                 } else {
                     htmlNode.insertBefore(container.$ext, beforeNode || null);
                 }

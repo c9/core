@@ -55,6 +55,7 @@ define(function(require, module, exports) {
             
             function setBookmarkedValue(value, cleansed) {
                 if (plugin.value == value) {
+                    recentValue = value;
                     undoManager.bookmark();
                     return;
                 }

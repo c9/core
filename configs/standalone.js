@@ -132,7 +132,10 @@ module.exports = function(config, optimist) {
         "connect-architect/connect.remote-address",
         "connect-architect/connect.render",
         "connect-architect/connect.render.ejs",
-        "connect-architect/connect.redirect",
+        {
+            packagePath: "connect-architect/connect.redirect",
+            trustedDomainsRe: /.*/,
+        }, 
         "connect-architect/connect.cors",
         "./c9.connect.favicon/favicon",
         // "./c9.logger/stdout-logger",
@@ -155,7 +158,9 @@ module.exports = function(config, optimist) {
                 "c9.cli.bridge": true,
                 "c9.nodeapi": true,
                 "c9.ide.experiment": true,
-                "saucelabs.preview": true
+                "saucelabs.preview": true,
+                "salesforce.sync": true,
+                "salesforce.language": true
             }
         },
         "./c9.preview/statics",
@@ -184,6 +189,7 @@ module.exports = function(config, optimist) {
         "./c9.vfs.server/cache",
         "./c9.vfs.server/download",
         "./c9.vfs.server/filelist",
+        "./c9.vfs.server/fetchcache",
         "./c9.vfs.server/statics",
         "./c9.analytics/mock_analytics",
         "./c9.metrics/mock_metrics",

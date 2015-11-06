@@ -44,6 +44,7 @@ define(function(require, exports, module) {
             options.updateServers = false;
             
         var strictRegion = query.region || options.strictRegion;
+        var ignoreProtocolVersion = options.ignoreProtocolVersion;
         var region = strictRegion || options.region;
 
         var servers;
@@ -319,7 +320,7 @@ define(function(require, exports, module) {
                 return isBetaServer === isBetaClient;
             });
             servers = servers.filter(function(s) {
-                return s.version == undefined || s.version == version;
+                return ignoreProtocolVersion || s.version == undefined || s.version == version;
             });
             return servers.sort(function(a, b) {
                 if (a.region == b.region) {

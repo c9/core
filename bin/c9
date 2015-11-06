@@ -6,8 +6,6 @@ var architect = require("architect");
 // Add ability to load AMD modules
 require("amd-loader");
 
-var verbose = process.argv.indexOf("--verbose") + 1 
-    || process.argv.indexOf("-v") + 1;
 
 architect.resolveConfig(require("../configs/cli.js")(),
   __dirname + "/../plugins", function (err, config) {

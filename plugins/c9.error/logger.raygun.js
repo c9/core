@@ -1,3 +1,8 @@
+/**
+ * This error handler is for server side error logging.
+ * 
+ **/
+ 
 "use strict";
 
 plugin.consumes = ["raygun"];
@@ -9,6 +14,8 @@ function plugin(options, imports, register) {
     var raygun = imports.raygun;
     
     function error(err, customData, user) {
+        if (typeof err == "string")
+            err = new Error(err);
         if (typeof err === "string") {
             err = new Error(err);
         }
@@ -17,6 +24,8 @@ function plugin(options, imports, register) {
     }
     
     function warn(err, customData, user) {
+        if (typeof err == "string")
+            err = new Error(err);
         raygun.warningClient.setUser(user);
         raygun.warningClient.send(err, customData);
     }

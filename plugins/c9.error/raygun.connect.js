@@ -4,7 +4,7 @@ var domain = require("domain");
 var url = require("url");
 var _ = require("lodash");
 
-plugin.consumes = ["raygun", "connect", "http", "connect.remote-address"];
+plugin.consumes = ["raygun", "connect", "http", "connect.remote-address", "metrics"];
 plugin.provides = ["raygun.connect"];
 
 module.exports = plugin;
@@ -15,6 +15,7 @@ function plugin(options, imports, register) {
     var warningClient = raygun.warningClient;
     var connect = imports.connect;
     var server = imports.http.getServer();
+    var metrics = imports.metrics;
 
     errorClient.user = warningClient.user = function(req) {
         return (req && req.user) ? req.user.name : "";
@@ -62,7 +63,6 @@ function plugin(options, imports, register) {
         var req = domain && domain.members[0];
         if (req && req.url)
             sendRequestWarning(new Error("Request timed out: " + req.url), req);
-        
     });
     
     function sendRequestError(err, req) {

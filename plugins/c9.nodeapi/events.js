@@ -60,9 +60,6 @@ EventEmitter.prototype.emit = function(type) {
     if (!this._events) 
         return;
 
-    if (arguments[2] === true)
-        throw new Error("Please use emit.sticky() instead of passing sticky=true for event: " + type);
-    
     var handler = this._events[type];
     if (!handler) 
         return;
@@ -190,7 +187,7 @@ EventEmitter.prototype.on = EventEmitter.prototype.addListener;
  * ```
  */
 
-EventEmitter.prototype.once = function(type, listener) {
+EventEmitter.prototype.once = function(type, listener, plugin) {
     var self = this;
     
     var wrapped = function() {
@@ -199,7 +196,7 @@ EventEmitter.prototype.once = function(type, listener) {
     }
     wrapped.listener = listener;
     
-    self.on(type, wrapped);
+    self.on(type, wrapped, plugin);
 
     return this;
 };

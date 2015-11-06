@@ -137,7 +137,7 @@ define(function(require, exports, module) {
 
         function signout() {
             vfsEndpoint.clearCache();
-            auth.logout(function() { location.href = ideBaseUrl; });
+            auth.logout(ideBaseUrl);
         }
 
         function onReLogin() {
@@ -147,9 +147,7 @@ define(function(require, exports, module) {
                   "Please hit OK to reload the IDE.",
                   function() {
                       vfsEndpoint.clearCache();
-                       auth.logout(function() {
-                          document.location.reload();
-                      });
+                       auth.logout();
                   });
             }
         }

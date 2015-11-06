@@ -1,14 +1,18 @@
 define(function(require, exports, module) {
     "use strict";
     
-    main.consumes = ["Plugin", "vfs.connect"];
+    main.consumes = [
+        "Plugin",
+        "vfs.connect",
+        "metrics"
+    ];
     main.provides = ["vfs.cache"];
     return main;
-
 
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var connectVfs = imports["vfs.connect"].connect;
+        var metrics = imports.metrics;
 
         var async = require("async");
         var uid = require("c9/uid");
@@ -54,10 +58,12 @@ define(function(require, exports, module) {
                     if (err) return done(err);
                     
                     entry.connectTime = Date.now() - entry.startTime;
+                    metrics.timing("vfs.connect.time", entry.connectTime);
                     
                     entry.emit("loaded");
                     
                     cache[vfsid] = entry;
+                    entry.keepalive();
 
                     vfs.on("destroy", function() {
                         remove(vfsid);
@@ -126,7 +132,6 @@ define(function(require, exports, module) {
             };
             
             entry.keepalive = function() {
-                clearTimeout(timer);
                 startTimer();
             };
             
@@ -139,7 +144,6 @@ define(function(require, exports, module) {
                 }, maxAge);
             }
             
-            startTimer();
             return entry;
         }
 

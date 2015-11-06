@@ -56,20 +56,20 @@ define(function(require, exports, module) {
                 removeSingleNode(e);
             });
             
-            watcher.on("change", function(e) {
-                onstat({path: e.path, result: [null, e.stat]});
+            watcher.on("change.all", function(e) {
+                onstat({ path: e.path, result: [null, e.stat] });
             });
             
-            watcher.on("directory", function(e) {
+            watcher.on("directory.all", function(e) {
                 // @todo make onreaddir incremental
-                onreaddir({path: e.path, result: [null, e.files]});
+                onreaddir({ path: e.path, result: [null, e.files] });
             });
             
             // Read
             fs.on("beforeReaddir", function (e) {
                 var node = findNode(e.path);
                 if (!node) 
-                    return; //Parent is not visible
+                    return; // Parent is not visible
                 
                 // Indicate this directory is being read
                 model.setAttribute(node, "status", "loading");
@@ -147,6 +147,8 @@ define(function(require, exports, module) {
             fs.on("afterReaddir", onreaddir, plugin);
             
             function onstat(e) {
+                var stat;
+                
                 if (!e.error) {
                     // update cache
                     var there = true;
@@ -168,14 +170,14 @@ define(function(require, exports, module) {
                                 deleteNode(node);
                         }
                         else {
-                            var stat = e.result[1];
+                            stat = e.result[1];
                             if (typeof stat != "object")
                                 stat = null;
                             createNode(e.path, stat);
                         }
                     }
                     else if (there) {
-                        var stat = e.result[1];
+                        stat = e.result[1];
                         if (typeof stat != "object")
                             stat = null;
                         createNode(e.path, stat, node);
@@ -202,18 +204,19 @@ define(function(require, exports, module) {
             
             function addSingleNode(e, isFolder, linkInfo) {
                 var node = findNode(e.path);
-                if (node) return; //Node already exists
+                if (node) return; // Node already exists
                 
                 if (!showHidden && isFileHidden(e.path))
                     return;
                 
                 var parent = findNode(dirname(e.path));
-                if (parent) { //Dir is in cache
+                if (parent) { // Dir is in cache
                     var stat = isFolder 
-                        ? {mime : "folder"} 
+                        ? { mime : "folder" } 
                         : (linkInfo
-                            ? {link: true, linkStat: {fullPath: linkInfo}}
-                            : null);
+                            ? { link: true, linkStat: { fullPath: linkInfo } }
+                            : {});
+                    stat.mtime = Math.floor(Date.now() / 1000);
                     node = createNode(e.path, stat);
 
                     emit("add", {path : e.path, node : node});
@@ -292,29 +295,33 @@ define(function(require, exports, module) {
                 // Validation
                 var toNode = findNode(newPath);
                 
-                if (parent) { // Dir is in cache
-                    if (toNode)
-                        deleteNode(toNode);
+                deleteNode(node, true);
+                if (toNode)
+                    deleteNode(toNode, true);
                 
-                    createNode(newPath, null, node); // Move node
-                    recurPathUpdate(node, oldPath, newPath);
+                createNode(newPath, null, node); // Move node
+                recurPathUpdate(node, oldPath, newPath);
+                
+                e.undo = function(){
+                    if (!parent) {
+                        var tmpParent = node;
+                        while (node.parent && tmpParent.parent.status == "pending")
+                            tmpParent = tmpParent.parent;
+                        if (tmpParent)
+                            deleteNode(tmpParent, true);
+                    }
+                    deleteNode(node, true);
+                    if (toNode)
+                        createNode(newPath, null, toNode);
                     
-                    e.undo = function(){
-                        createNode(oldPath, null, node);
-                        recurPathUpdate(node, newPath, oldPath);
-                        
-                        if (toNode)
-                            createNode(newPath, null, toNode);
-                    };
-                    e.confirm = function() {
-                        if (node.status === "predicted")
-                            node.status = "loaded";
-                    };
-                    node.status = "predicted";
-                }
-                else {
-                    removeSingleNode(e);
-                }
+                    createNode(oldPath, null, node);
+                    recurPathUpdate(node, newPath, oldPath);
+                };
+                e.confirm = function() {
+                    if (node.status === "predicted")
+                        node.status = "loaded";
+                };
+                node.status = "predicted";
             }, plugin);
             fs.on("afterRename", afterHandler, plugin);
             
@@ -553,18 +560,22 @@ define(function(require, exports, module) {
                     node.status = "loaded";
                 }
 
-                if (isFolder && !node.map)
-                    node.map = {};
-                else if (!isFolder && node.map)
-                    delete node.map;
                 if (stat.size != undefined)
                     node.size = stat.size;
                 if (stat.mtime != undefined)
                     node.mtime = stat.mtime;
-                if (original_stat)
-                    node.link = stat.fullPath;
-                node.isFolder = isFolder;
+                if (original_stat || stat.linkErr)
+                    node.link = stat.fullPath || stat.linkErr;
+                if (isFolder)
+                    node.isFolder = isFolder;
+                else
+                    delete node.isFolder;
             }
+            
+            if (node.isFolder && !node.map)
+                node.map = {};
+            else if (!node.isFolder && node.map)
+                delete node.map;
             
             node.children = null;
             
@@ -731,6 +742,10 @@ define(function(require, exports, module) {
         });
         plugin.on("unload", function(){
             loaded = false;
+            showHidden = false;
+            hiddenFilePattern = "";
+            hiddenFileRe = /^$/;
+            orphans = {};
         });
         
         /***** Register and define API *****/
