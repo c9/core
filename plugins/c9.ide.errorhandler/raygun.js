@@ -165,6 +165,7 @@ TraceKit.report = (function reportModuleWrapper() {
         else
         {
         if (lastExceptionStack) {
+            errorObj = lastException;
             TraceKit.computeStackTrace.augmentStackTraceWithInitialElement(lastExceptionStack, url, lineNo, message);
             stack = lastExceptionStack;
             lastExceptionStack = null;
@@ -187,7 +188,7 @@ TraceKit.report = (function reportModuleWrapper() {
         }
         }
 
-        notifyHandlers(stack, 'from window.onerror');
+        notifyHandlers(stack, 'from window.onerror', {errorObj: errorObj});
 
         if (_oldOnerrorHandler) {
             return _oldOnerrorHandler.apply(this, arguments);
@@ -201,7 +202,7 @@ TraceKit.report = (function reportModuleWrapper() {
      * @param {Error} ex
      */
     function report(ex) {
-        var args = _slice.call(arguments, 1);
+        var args = _slice.call(arguments, 0);
         if (lastExceptionStack) {
             if (lastException === ex) {
                 return; // already caught by an inner catch block, ignore
@@ -1423,6 +1424,7 @@ window.TraceKit = TraceKit;
     'DealPly is not defined': { factor: 10e5 },
     "Cannot read property 'style' of null": { factor: 10e3 },
     "Project with id '<id>' does not exist": { factor: 10e2 },
+    "Workspace not found": { factor: 10e2 },
   };
   var groupedErrors = [{
     regex: /^((?:Project|User) with id ')(\d+)(' does not exist)/i,
@@ -1462,13 +1464,13 @@ window.TraceKit = TraceKit;
       });
     }
 
-    if (options === undefined) {
+    if (!options) {
       options = {};
     }
 
     if (isEmpty(options.customData)) {
       if (typeof _customData === 'function') {
-        options.customData = _customData();
+        options.customData = _customData(options.errorObj);
       } else {
         options.customData = _customData;
       }

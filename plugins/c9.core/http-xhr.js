@@ -83,13 +83,12 @@ define(function(require, module, exports) {
             }
             
             var timer;
-            var timedout = false;
             if (timeout) {
                 timer = setTimeout(function() {
-                    timedout = true;
                     xhr.abort();
                     var err = new Error("Timeout");
                     err.code = "ETIMEOUT";
+                    err.data = {url: url, query: options.query};
                     done(err);
                 }, timeout);
             }
