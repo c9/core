@@ -62,7 +62,8 @@ define(function(require, exports, module) {
         var found = {};
         function addExperiment(query, name){
             var key = query.split("=");
-            var defValue = Number(key[1]); key = key[0];
+            var defValue = Number(key[1]);
+            key = key[0];
             var uniqueId = key.replace(/\//g, "-");
             
             var parts = name.split("/");
@@ -116,7 +117,12 @@ define(function(require, exports, module) {
             ],
             
             /**
+             * Define a new experimental feature.
              * 
+             * @param {String} query   e.g. foo=0 for a feature 'foo' that is enabled by default,
+             *                         or bar=1 for a feature 'bar' that is disabled by default
+             *                      
+             * @param {String} name    the name of this setting in the UI, e.g. SDK/Plugin Manager
              */
             addExperiment: addExperiment
         });
