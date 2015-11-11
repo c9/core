@@ -52,7 +52,7 @@ define(function(require, exports, module) {
             intro.$int.innerHTML = 
                 '<h1>Experimental Features (reload to apply changes)</h1><p style="white-space:normal">Cloud9 is continuously in '
                 + 'development. New features in alpha or beta are first hidden '
-                + 'and can be enabled via this page. <i>Use at your own risk</i></p>';
+                + 'and can be enabled via this page. <i>Use at your own risk</i>.</p>';
         }
         
         /***** Methods *****/
