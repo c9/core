@@ -106,7 +106,7 @@ define(function(require, exports, module) {
         // var emit = plugin.getEmitter();
 
         var ENABLED = c9.location.indexOf("debug=2") > -1;
-        var MANAGER = experimental.addExperiment("plugin-manager=1", "SDK/Plugin Manager");
+        var MANAGER = experimental.addExperiment("plugin-manager", false, "SDK/Plugin Manager");
 
         var model, datagrid, filterbox;
         var btnUninstall, btnReport, btnReadme, btnCloud9, btnReload;
