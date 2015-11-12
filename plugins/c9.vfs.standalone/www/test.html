@@ -293,19 +293,30 @@
             
             c9Test.last = test;
             mocha.suite.suites.length = 0;
-            var app = window.app;
-            if (app && app.services && app.services.ext)
-                app.services.ext.unloadAllPlugins();
+            function unloadApp() {
+                var app = window.app;
+                window.app = null;
+                try {
+                    if (app && app.services && app.services.ext)
+                        app.services.ext.unloadAllPlugins();
+                } catch(e) {
+                    callback && callback(e, getReport());
+                    return e;
+                }
+            }
+            
+            if (unloadApp()) return;
             
             setupDom(test);
             cleanupRequireModules();
             lastDone = function(err, res) {
                 lastDone = null;
+                if (!onload.remain && unloadApp()) return;
                 callback && callback(err, res || getReport());
             };
             
             safeDisconnect(function() {
-                app = null;
+                window.app = null;
                 if (typeof test == "function") {
                     test();
                     if (!running) onload();
