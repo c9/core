@@ -38,17 +38,17 @@ define(function(require, exports, module) {
         
         terminal.on("create", function(e) {
             var ace = e.editor.ace;
-            if (!ace)
-                return;
+            if (!ace) return;
+                
             ace.hoverLink = new HoverLink(ace);
             ace.hoverLink.on("open", showMenu);
-        });
+        }, plugin);
         
         function createMenu(e) {
             if (menu)
                 return;
             
-            var submenu = new Menu({ 
+            var submenu = new Menu({
                 items: [
                     new MenuItem({ value: "path", caption: "Copy Path" }),
                     new MenuItem({ value: "directory", caption: "Copy Directory" }),
@@ -71,9 +71,6 @@ define(function(require, exports, module) {
                             ? "Unable to access via preview" 
                             : BASEPATH + info.path });
                     }
-                    // else if (e.value == "github") {
-                        
-                    // }
                 }
             }, plugin);
             
@@ -92,7 +89,6 @@ define(function(require, exports, module) {
                 new MenuItem({ caption: "Copy Special", submenu: submenu }),
                 new Divider(),
                 new MenuItem({ value: "reveal", caption: "Reveal in File Tree" })
-                // new MenuItem({ caption: "Open in GitHub" }),
             ];
             
             menu = new Menu({
@@ -168,7 +164,8 @@ define(function(require, exports, module) {
                     window.open(href);
                 else
                     commands.exec("preview", null, { path: href });
-            } else if (e.type == "path") {
+            }
+            else if (e.type == "path") {
                 var info = buildPath(e);
                 var path = info.path;
                 

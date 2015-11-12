@@ -298,10 +298,10 @@ var HoverLink = function(editor) {
             match.value = value.replace(/['">)}\].,;:]+$/, "");
         }
         else if (/^[ab]?\//.test(value) && /^([+\-]{3}|diff)/.test(line)) { // diff
-                match.type = "path";
-                match.basePath = "";
-                match.start++;
-                match.value = value.substr(2);
+            match.type = "path";
+            match.basePath = "";
+            match.start++;
+            match.value = value.substr(2);
         }
         else if (prompt.command === "git") { // git status
             var prefix = line.substr(0, match.start);
@@ -378,6 +378,9 @@ var HoverLink = function(editor) {
     };
 
     this.onMouseMove = function(e) {
+        if (e.shiftKey || e.ctrlKey || e.metaKey)
+            return this.clear();
+        
         if (this.editor.$mouseHandler.isMousePressed) {
             if (!this.editor.selection.isEmpty())
                 this.clear();
