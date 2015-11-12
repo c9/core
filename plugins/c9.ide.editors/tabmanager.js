@@ -1345,6 +1345,8 @@ define(function(require, module, exports) {
         }
 
         function cancelPreview(keep) {
+            var lastFocussedTab = focussedTab;
+            
             // Unload last preview tab
             if (lastPreviewTab) {
                 lastPreviewTab.unload();
@@ -1364,11 +1366,13 @@ define(function(require, module, exports) {
                 delete previewTab.document.meta.existing;
             }
             else {
-                previewTab.unload();
+                var tab = previewTab;
+                previewTab = null;
+                tab.unload(); // TODO this focusses the last tab. If there is a speed concern, fix this.
             }
             
             previewTab = null;
-            focussedTab && focussedTab.activate();
+            lastFocussedTab && lastFocussedTab.activate();
             return false;
         }
         

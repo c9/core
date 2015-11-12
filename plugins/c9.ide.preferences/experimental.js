@@ -1,17 +1,16 @@
 define(function(require, exports, module) {
     main.consumes = [
-        "PreferencePanel", "ui", "dialog.confirm", "settings",
-        "preferences", "c9"
+        "PreferencePanel", "ui", "dialog.alert", "settings", "c9"
     ];
     main.provides = ["preferences.experimental"];
     return main;
 
     function main(options, imports, register) {
         var PreferencePanel = imports.PreferencePanel;
-        var prefs = imports.preferences;
         var settings = imports.settings;
         var ui = imports.ui;
         var c9 = imports.c9;
+        var alert = imports["dialog.alert"].show;
         
         /***** Initialization *****/
         
@@ -23,7 +22,7 @@ define(function(require, exports, module) {
         var emit = plugin.getEmitter();
         emit.setMaxListeners(1000);
         
-        var intro;
+        var intro, hasAlerted;
         
         var loaded = false;
         function load() {
@@ -71,6 +70,14 @@ define(function(require, exports, module) {
             }
             current.type = "checkbox";
             current.setting = "state/experiments/@" + uniqueId;
+            current.onchange = function(e){
+                if (!hasAlerted) {
+                    alert("Refresh Needed", 
+                        "Please Refresh Cloud9 To Activate This Change",
+                        "To see the effect of this change, please refresh Cloud9.");
+                    hasAlerted = true;
+                }
+            };
             
             if (!found[name])
                 plugin.add(obj, plugin);
