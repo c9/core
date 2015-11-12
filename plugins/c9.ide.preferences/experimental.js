@@ -77,7 +77,7 @@ define(function(require, exports, module) {
                         "To see the effect of this change, please refresh Cloud9.");
                     hasAlerted = true;
                 }
-            }
+            };
             
             if (!found[name])
                 plugin.add(obj, plugin);
