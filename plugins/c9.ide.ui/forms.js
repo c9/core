@@ -190,8 +190,11 @@ define(function(require, exports, module) {
                                     ? createBind(options.path) 
                                     : (options.defaultValue || ""),
                                 values: options.values,
-                                skin: "cboffline"
-                                // width: "55"
+                                skin: "cboffline",
+                                onafterchange: function(e) {
+                                    if (options.onchange)
+                                        options.onchange({ value: e.value });
+                                }
                             })
                         ];
                     break;
