@@ -100,6 +100,9 @@ var HoverLink = function(editor) {
     };
     
     this.onClick = function(e) {
+        if (!this.editor.isFocused())
+            return;
+        
         if (this.link && this.isOpen) { // && this.link.isFocused
             if (this.editor.selection.isEmpty()) {
                 this.editor.selection.setSelectionRange(this.range);
@@ -378,7 +381,7 @@ var HoverLink = function(editor) {
     };
 
     this.onMouseMove = function(e) {
-        if (e.shiftKey || e.ctrlKey || e.metaKey)
+        if (e.shiftKey || e.ctrlKey || e.metaKey || !this.editor.isFocused())
             return this.clear();
         
         if (this.editor.$mouseHandler.isMousePressed) {
