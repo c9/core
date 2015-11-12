@@ -322,6 +322,7 @@ module.exports = function(options) {
         "plugins/c9.ide.language.javascript.immediate/immediate",
         "plugins/c9.ide.language.javascript.infer/jsinfer",
         "plugins/c9.ide.language.javascript.tern/tern",
+        "plugins/c9.ide.language.javascript.tern/ui",
         "plugins/c9.ide.language.javascript.tern/architect_resolver",
         "plugins/c9.ide.language.javascript.eslint/eslint",
         {
