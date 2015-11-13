@@ -20,31 +20,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 </head>
 <body>
-    <%
-        var plugins = architectConfig;
-        var theme = "flat-light", html;
-        plugins.some(function(n){ 
-            if (n.packagePath == "plugins/c9.core/settings") {
-                if (n.html) html = n.html;
-                
-                try { var settings = JSON.parse(n.settings.user); }
-                catch(e) { return; }
-                
-                theme = settings.general["@skin"];
-                return true;
-            }
-        });
-        
-        if (!html) {
-            var isDark = theme.indexOf("dark") > -1;
-            %><% include ../../c9.ide.server/views/basic-loading.html %><%
-        }
-        else {
-            %><div id="loadingide" class="<%-: theme + (isDark ? " dark" : "") %>">
-                <%-: html %>
-            </div><%
-        }
-    %>
+    <% include ../../c9.ide.server/views/load-screen.ejs %>
 
     <% if (packed) { %>
         <script src="/static/<%=version%>/config/<%=configName%>.js"></script>

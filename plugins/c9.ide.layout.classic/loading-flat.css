@@ -111,7 +111,7 @@ HTML.loading.dark{
     text-decoration: underline;
 }
 
-.status {
+#loadingide .status {
     position: absolute;
     left: 50%;
     margin-left: -100px;
@@ -121,7 +121,7 @@ HTML.loading.dark{
     margin-top: 200px;
 }
 
-.cool-message {
+#loadingide .cool-message {
     display: block;
     font-family: Arial;
     font-size: 30px;
@@ -135,11 +135,11 @@ HTML.loading.dark{
     margin-left: -500px;
     margin-top: 250px;
 }
-.dark .cool-message {
+#loadingide.dark .cool-message {
     color: #757575;
 }
 
-.spinner {
+#loadingide .spinner {
     background: url(images/running_flat_light@2x.png);
     background-size: 300px 20px;
     animation: rotation 0.6s infinite steps(16);
