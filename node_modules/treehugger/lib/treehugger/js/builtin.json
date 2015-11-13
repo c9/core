@@ -1,0 +1,161 @@
+{
+    "Object": {
+        "guid": "es5:Object",
+        "properties": {
+            "_prototype": [{
+                "properties": {
+                    "_toString": [{
+                        "guid": "es5:Object/prototype/toString",
+                        "returnValue": "es5:String"
+                    }],
+                    "_hasOwnProperty": [{
+                        "guid": "es5:Object/prototype/hasOwnProperty",
+                        "returnValue": "es5:Boolean"
+                    }],
+                    "_isPrototypeOf": [{
+                        "guid": "es5:Object/prototype/isPrototypeOf",
+                        "returnValue": "es5:Boolean"
+                    }]
+                }
+            }],
+            "_create": [{
+                "guid": "es5:Object/create",
+                "returnValue": null
+            }]
+        }
+    },
+    "String": {
+        "guid": "es5:String",
+        "doc": "EcmaScript String constructor",
+        "properties": {
+            "_prototype": [{
+                "guid": "es5:String/prototype",
+                "doc": "EcmaScript String object",
+                "properties": {
+                    "_length": ["es5:Number"],
+                    "___proto__": ["es5:Object"]
+                }
+            }]
+        }
+    },
+    "Number": {
+        "guid": "es5:Number",
+        "doc": "EcmaScript Number constructor",
+        "properties": {
+            "_prototype": [{
+                "guid": "es5:Number/prototype",
+                "doc": "EcmaScript Number object",
+                "properties": {
+                    "___proto__": ["es5:Object"],
+                    "_toExponential": [{
+                        "guid": "es5:Number/prototype/toExponential",
+                        "returnValue": "es5:String"
+                    }],
+                    "_toFixed": [{
+                        "guid": "es5:Number/prototype/toFixed",
+                        "returnValue": "es5:String"
+                    }],
+                    "_toLocaleString": [{
+                        "guid": "es5:Number/prototype/toLocaleString",
+                        "returnValue": "es5:String"
+                    }]
+                }
+            }]
+        }
+    },
+    "Boolean": {
+        "guid": "es5:Boolean",
+        "properties": {
+            "_prototype": [{
+                "properties": {
+                    "___proto__": ["es5:Object"]
+                }
+            }]
+        }
+    },
+    "Function": {
+        "guid": "es5:Function",
+        "properties": {
+            "_prototype": [{
+                "properties": {
+                    "_call": [{
+                        "guid": "es5:Function/prototype/call",
+                        "returnValue": null
+                    }],
+                    "_apply": [{
+                        "guid": "es5:Function/prototype/apply",
+                        "returnValue": null
+                    }],
+                    "_toSource": [{
+                        "guid": "es5:Function/prototype/toSource",
+                        "returnValue": null
+                    }],
+                    "___proto__": ["es5:Object"]
+                }
+            }]
+        }
+    },
+    "Array": {
+        "guid": "es5:Array",
+        "properties": {
+            "_prototype": [{
+                "properties": {
+                    "_push": [{
+                        "guid": "es5:Array/prototype/push",
+                        "returnValue": null
+                    }],
+                    "_concat": [{
+                        "guid": "es5:Array/prototype/concat",
+                        "returnValue": null
+                    }],
+                    "_slice": [{
+                        "guid": "es5:Array/prototype/slice",
+                        "returnValue": null
+                    }],
+                    "_splice": [{
+                        "guid": "es5:Array/prototype/splice",
+                        "returnValue": null
+                    }]
+                }
+            }]
+        }
+    },
+    "console": {
+        "guid": "es5:console",
+        "doc": "Console object, for debugging",
+        "properties": {
+            "_log": [{
+                "guid": "es5:console/log",
+                "doc": "Prints its arguments to the debug console",
+                "returnValue": null
+            }]
+        }
+    },
+    "JSON": {
+        "guid": "es5:JSON",
+        "doc": "JSON API",
+        "properties": {
+            "_parse": [{
+                "guid": "es5:JSON/parse",
+                "doc": "Parses a JSON string and turns it into a Javascript object",
+                "returnValue": "es5:Object"
+            }],
+            "_stringify": [{
+                "guid": "es5:JSON/stringify",
+                "doc": "Serializes a Javascript object to a JSON-encoded string",
+                "returnValue": "es5:String"
+            }]
+        }
+    },
+    "document": {
+        "guid": "es5:document",
+        "doc": "Window's document object",
+        "properties": {
+            "_createElement": [{
+                "guid": "es5:document/createElement",
+                "doc": "Parses a JSON string and turns it into a Javascript object",
+                "returnValue": "es5:Object"
+            }]
+        }
+    }
+}

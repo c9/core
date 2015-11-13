@@ -1,0 +1,150 @@
+.bk-window {
+    position : relative;
+    overflow : hidden;
+    z-index  : 10000;
+
+    border-radius: @dialog-border-radius;
+    box-shadow: @dialog-shadow;
+    
+    color: @dialog-content-color;
+    background: @dialog-background-color; /* Especially for retina */
+}
+
+.win-deploy-target.bk-window {
+    overflow: visible;
+}
+
+.bk-window .bk-header {
+    position : relative;
+    overflow : hidden;
+    height   : @dialog-header-height;
+    .gradient(~"@{dialog-header-gradient}");
+    border-radius : @dialog-border-radius @dialog-border-radius 0 0;
+    border-bottom : @dialog-header-bottom-border; 
+    box-shadow : @dialog-header-box-shadow;
+    
+    padding: @dialog-header-padding;
+    box-sizing: border-box;
+    font-family: @dialog-header-font-family;
+    font-size: @dialog-header-font-size;
+    line-height: 16px;
+    font-weight: @dialog-header-font-weight;
+    color: @dialog-header-color;
+    cursor: default;
+}
+
+.bk-window .bk-header .buttons {
+    position: absolute;
+    right: @dialog-button-right;
+    top: @dialog-button-top;
+}
+
+.bk-window .bk-header .buttons .close {
+    .image-2x("@{image-path}/@{dialog-close-url}", @dialog-close-width, @dialog-close-height, no-repeat);
+    width: @dialog-button-width;
+    height: @dialog-button-height;
+}
+
+.bk-window .bk-header .buttons .close.hover {
+    background-position: @dialog-button-background-position-hover;
+}
+.bk-window .bk-header .buttons .close.down {
+    background-position: @dialog-button-background-position-active;
+}
+
+.bk-window .bk-container h3{
+    word-wrap: break-word;
+}
+
+.bk-window .bk-container {
+    position: absolute;
+    top: @dialog-header-height;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+.bk-window.dark .bk-container {
+    top: @dialog-header-height;
+}
+.bk-window.relative .bk-container {
+    position: relative;
+    top: 0;
+}
+
+.bk-window .bk-content {
+    background: @dialog-content-background;
+    position: absolute;
+    top: @dialog-header-height;
+    bottom: @dialog-footer-height;
+    left: 0;
+    right: 0;
+    z-index: 0;
+}
+.bk-window.dark .bk-content {
+    top: @dialog-header-height;
+}
+
+.bk-window.dark .bk-content{
+    background-color : @dialog-content-dark-background-color;
+    .gradient(~"@{dialog-content-dark-gradient}");
+    
+    border-top : @dialog-content-dark-border-top;
+}
+
+.bk-window .bk-win-footer {
+    background: @dialog-footer-background;
+    box-shadow: @dialog-footer-shadow;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: @dialog-footer-height;
+    position: absolute;
+
+    border-radius: 0 0 @dialog-border-radius @dialog-border-radius;
+    z-index: 0;
+}
+
+.bk-window.nofooter .bk-win-footer {
+    display: none;
+}
+
+.bk-window-cover {
+    background:url("@{image-path}/bg-overlay.png") repeat 0 0;
+    opacity: 1;
+}
+
+.bk-window-cover .header {
+    background: url("@{image-path}/cover-heaeder.png") repeat-x 0 0;
+    height: 12px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+.bk-window-cover .logo {
+    background: url("@{image-path}/cover-logo.png") no-repeat 0 0;
+    width: 215px;
+    height: 44px;
+    position: absolute;
+    right: 20px;
+    top: 25px;
+}
+    
+.bk-window.dialog .bk-container{
+    display: flex;
+    flex-direction: column;
+}
+.bk-window.dialog .bk-container > div:first-child{
+    flex: 1;
+    position: relative;
+}
+
+.bk-window.wizard .bk-container > div:first-child > div{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+}

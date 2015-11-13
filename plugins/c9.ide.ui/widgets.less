@@ -1,0 +1,179 @@
+.custom-tree.ace_tree {
+    background: transparent;
+    border: none;
+    // font: @general-font-size @general-font-family;
+    .font-smoothing(@tree-font-smoothing)
+}
+
+.custom-tree.ace_tree .tree-row {
+    background : transparent;
+    color : @color;
+    border-radius: 3px;
+    margin: 0px 0px 0px 0px;
+    padding-left: 6px;
+    height: @tree-row-height;
+}
+.custom-tree.ace_tree.ace-tree-list .tree-row {
+    margin: 1px 0px 0px 0px;
+    padding-left: 0;
+}
+.custom-tree.ace_tree .tree-row.heading {
+    color: @tree-heading-color;
+    text-shadow: @tree-heading-text-shadow;
+}
+
+.custom-tree.ace_tree .tree-row.selected {
+    background: @selected-background;
+    border-color: transparent;
+    color : @selected-color;
+}
+
+.custom-tree.ace_tree_focus .tree-row.selected {
+    background: @selected-focus-background;
+    color: @selected-focus-color;
+}
+
+.custom-tree.ace_tree .message {
+    border : 0;
+    padding : 3px;
+    text-align : center;
+    background : transparent;
+    font-size: 11px;
+    
+    margin: 20px 10px 0 10px;
+    word-wrap: break-word;
+    white-space: normal;
+    color: #BBB;
+    line-height: 1.5em;
+}
+
+.ace_tree .tree-row .checkbox{
+    outline: 1px solid rgba(255, 255, 255, 0.35);
+    background: #2D2D2D;
+    width: 13px;
+    height: 13px;
+    margin: 1px 5px 0 0px;
+    display: inline-block;
+    vertical-align: middle;
+    pointer-events: auto;
+}
+.ace_tree .tree-row .checkbox.checked{
+    background-image: url("@{image-path}/@{menu-check}");
+    background-position: -2px -18px;
+}
+.ace_tree .tree-row .checkbox.half-checked{
+    background-color: #565656;
+    background-position: -2px -18px;
+}
+
+.custom-tree.ace_tree .tree-row .toggler{
+    .image-2x("@{tree-arrow}", 20px, 10px);
+    margin: 0 1px 0 0;
+}
+
+.custom-tree.ace_tree_focus .tree-row.selected .toggler{
+    .image-2x("@{tree-arrow-focus-selected}", 20px, 10px);
+}
+
+.custom-tree.ace_tree .tree-row > span {    
+    vertical-align: middle;
+    padding: @tree-row-padding;
+    line-height: 20px;
+    display: inline-block;
+}
+
+.custom-tree .ace_tree-icon {
+    width: 16px;
+    height: 16px;
+    padding: 0px;
+    margin: 0px 3px 0 1px;
+    background-repeat: no-repeat;
+}
+
+.loading .ace_tree-icon,
+.loading-icon {
+    .image-2x("@{tree-spinner}", @tree-spinner-width, @tree-spinner-height);
+}
+
+.loading.selected .ace_tree-icon,
+.selected .loading-icon {
+    .image-2x("@{tree-focus-spinner}", @tree-spinner-width, @tree-spinner-height);
+}
+        
+.custom-tree.ace_tree_focus .loading.selected .ace_tree-icon,
+.custom-tree.ace_tree_focus .selected .loading-icon {
+    .image-2x("@{tree-selected-focus-spinner}", @tree-spinner-width, @tree-spinner-height);
+}
+
+.tree-row.dragAppendUpload -icon {
+    background-image : url("@{image-path}/@{tree-upload}");
+    background-position: -5px -1px;
+}
+
+.ace_treeDragImage.copy:after {
+    content: "+";
+    background: fade(@selected-focus-background, 92%);
+    border: 1px @selected-focus-background solid;
+    position: absolute;
+    right: -6px;
+    bottom: -6px;
+    color: @selected-focus-color;
+    font-size: 14px;
+    border-radius: 8px;
+    width: 14px;
+    height: 13px;
+    text-align: center;
+    line-height: 13px;
+    font-weight: bold;
+    font-family: monospace;
+    background: -webkit-radial-gradient(5px 5px, circle, rgb(126, 143, 28), rgb(76, 93, 0));
+    background: radial-gradient(5px 5px, circle,  rgb(126, 143, 28), rgb(76, 93, 0));
+    box-shadow: 0px 0px 7px 0px #000;
+}
+.ace_treeDragImage .toggler {
+    pointer-events: none;
+}
+
+.custom-tree.ace_tree_DragOver .tree-row.selected {
+    background: fade(@selected-background, 60%);
+}
+.custom-tree.ace_tree_DragOver .tree-row.dropTarget {
+    background: @selected-focus-background;
+    box-shadow: 1px 1px fade(@selected-focus-background, 60%) inset;
+    color: @selected-color;
+    border-radius: 3px;
+    .box-sizing(border-box);
+    margin-right: 5px;
+}
+
+.dragHighlight {
+    position: absolute;
+    border: solid 1px fade(@selected-focus-background, 60%);    
+    border-right: rgba(0, 0, 0, 0);
+    border-top: rgba(0, 0, 0, 0);
+    background: fade(@selected-focus-background, 10%);
+}
+
+.dragArrow {
+    position: absolute;
+    border: 1px solid @selected-focus-background;
+    margin-top: 2px;
+}
+.dragArrow::before {
+    content:"";
+    background: @selected-focus-background;
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 4px;
+}
+
+.custom-tree.ace_tree-editor {
+    color: @tree-editor-color;
+    background-color: @tree-editor-background;
+    border: 1px solid @tree-editor-border-color;
+    height: @tree-editor-height !important;
+    margin-top: @tree-editor-margin-top !important;
+}

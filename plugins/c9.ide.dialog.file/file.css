@@ -1,0 +1,42 @@
+.tb_textbox .directory {
+    padding-left: 7px;
+    font-size: 11px;
+    color: #bababa;
+    text-shadow: rgba(255, 255, 255, 1) 0px 1px 0px;
+}
+
+.trDgLike .item-fix:nth-child(4n-1) {
+    background-color: #f1f0f1;
+}
+.trDgLike .item-fix:nth-child(4n+1) {
+    background-color: #fefdfe;
+}
+
+.trDgLike .item-fix.root {
+    background-color: #fefdfe;
+}
+
+.dgLikeContaier {
+    background-color: rgba(255, 255, 255, 0.04);
+    border: @filesave-tree-border;
+    box-shadow: 1px 1px rgba(255,255,255,0.06), inset 1px 1px rgba(255,255,255,0.06);
+    color: #333333;
+    cursor: default;
+    font-family: Tahoma, Arial;
+    font-size: 8pt;
+    overflow: hidden;
+    position: relative;
+    border-radius:3px;
+}
+
+.hidefiles .file_item {
+    display: none;
+}
+
+.filesave-inner-padding{
+    position: absolute;
+    left: @filesave-inner-padding-left;
+    top: @filesave-inner-padding-top;
+    right: @filesave-inner-padding-right;
+    bottom: @filesave-inner-padding-bottom;
+}

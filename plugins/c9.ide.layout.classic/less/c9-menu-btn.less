@@ -1,0 +1,119 @@
+.c9-menu-btn {
+    height             : 100%;
+    box-sizing         : border-box;
+    overflow           : visible;
+    cursor             : default;
+    position           : relative;
+    display            : inline-block;
+
+    font-family   : @menu-button-font-family;
+    font-size     : @menu-button-font-size;
+    line-height   : 14px;
+    color         : @menu-button-color;
+    padding       : @menu-button-padding;
+    text-shadow   : @menu-button-text-shadow;
+    
+    
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+.c9-menu-btnOver {
+    background-color: @menu-button-hover-background;
+    box-shadow:  @menu-button-hover-box-shadow;
+    color: @menu-button-hover-color;
+}
+
+.c9-menu-btnDown {
+    font-weight: @menu-button-active-font-weight;
+    background-color: @menu-button-active-background;
+    box-shadow: @menu-button-active-box-shadow;
+    border: @menu-button-active-border;
+    border-width: @menu-button-active-border-width;
+    padding: @menu-button-active-padding;
+}
+
+/* Why are we using an extra div here??? */
+/*.c9-menu-btnDown .c9-fix {
+    height           : 3px;
+    position         : absolute;
+    display          : none;
+    bottom           : -1px;
+    left             : 1px;
+    right            : 1px;
+    background-color : #1c1c1c;
+    z-index          : 20000101;
+}*/
+.c9-menu-btnDown.submenu{
+    z-index : 100000000;
+}
+
+.c9-menu-btnDisabled.c9-menu-btn .c9-label {
+    color: @menu-button-disabled-color;
+}
+
+.c9-menu-btn .icon {
+    .image-2x("@{image-path}/@{c9-repeat-x}", 32px, 1500px);
+    background-repeat : no-repeat;
+    position: absolute;
+    left: 4px;
+    right: 0;
+    top: 4px;
+    bottom: 0;
+    display: none;
+}
+
+.c9-menu-btn.nosize .icon { background-size: auto !important; }
+
+.c9-menu-btn.preferences{
+    padding: @preference-menu-button-padding !important;
+    margin-left: @preference-menu-button-margin-left;
+}
+
+.c9-menu-btn.preferences .icon {
+    background-position: 50% -364px;
+    display : block;
+    top: @preference-menu-button-icon-top !important;
+    height: @preference-menu-button-icon-height !important;
+}
+.c9-menu-btn.share .icon {
+    background-position: 50% -1367px;
+    display : block;
+}
+.c9-menu-btn.notifications .icon {
+    background-position: 50% -1400px;
+    display : block;
+}
+
+.c9-menu-btnIcon{
+    padding-left : 24px;
+}
+.c9-menu-btnIcon .icon{
+    display : block;
+}
+.c9-menu-btnEmpty{
+    padding-left : 7px;
+}
+.c9-menu-btnEmpty .icon{
+    left: 0;
+    top: 0;
+}
+
+.c9-menu-btnDisabled{
+    color: gray;
+}
+
+.c9-menu-btn.c9btn{
+    min-width: 12px;
+    font-weight: bold;
+    background-position: 2px 50%;
+}
+.c9-menu-btn.c9btn.update{
+    color: #BFD34F;
+}
+.c9-menu-btn.c9btn.offline{
+    color: #d22a3f;
+    text-shadow: 0 1px black;
+}

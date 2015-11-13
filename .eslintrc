@@ -1,0 +1,52 @@
+ecmaFeatures:
+    jsx: true
+
+env:
+    node: true
+    browser: true
+    amd: true
+    builtin: true
+    mocha: true
+    jasmine: false
+    es6: false
+
+rules:
+    handle-callback-err: 1
+    no-debugger: 1
+    no-undef: 1
+    no-inner-declarations: [1, "functions"]
+    no-native-reassign: 1
+    no-new-func: 1
+    no-new-wrappers: 1
+    no-cond-assign: [1, "except-parens"]
+    no-debugger: 3
+    no-dupe-keys: 3
+    no-eval: 3
+    no-func-assign: 1
+    no-invalid-regexp: 1
+    no-irregular-whitespace: 3
+    no-negated-in-lhs: 1
+    no-regex-spaces: 3
+    no-unreachable: 1
+    use-isnan: 2
+    valid-typeof: 1
+    no-redeclare: 3
+    no-with: 1
+    radix: 3
+    no-delete-var: 2
+    no-label-var: 3
+    no-shadow-restricted-names: 2
+    handle-callback-err: 1
+    no-new-require: 2
+    no-unused-vars: [3, {vars: "all", args: "none"}]
+    no-undef: 1
+    semi: 3
+    no-extra-semi: 3
+    
+    default-case: 3
+    space-after-keywords: [1, "always"]
+    space-in-parens: [1, "never"]
+    space-return-throw-case: [1, "always"]
+    // space-before-function-paren: [3, {"named": "never", "anonymous": "never"}]
+    spaced-line-comment: 3
+    // valid-jsdoc: [1, { requireReturn: false, requireParamDescription: false, prefer: { "return": "return" } }]

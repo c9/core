@@ -1,0 +1,16 @@
+body .splitbutton .arrow {
+    .image-2x("@{image-path}/@{dropdown-black-image}", @dropdown-black-image-width, @dropdown-black-image-height);
+    background-position: @dropdown-black-background-position;
+    width: 18px;
+    min-width: 10px !important;
+}
+
+.splitbutton>div:first-child:after {
+    content: "";
+    display: block;
+    border-left: 1px solid @border-highlight-dark;
+    position: absolute;
+    right: 0;
+    top: 4px;
+    bottom: 4px;
+}

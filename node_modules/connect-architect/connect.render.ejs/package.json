@@ -1,0 +1,16 @@
+{
+    "name": "connect.render.ejs",
+    "version": "0.0.1",
+
+    "main": "./render-ejs.js",
+    "private": true,
+
+    "plugin": {
+        "provides": [
+            "connect.render.ejs"
+        ],
+        "consumes": [
+            "connect.render"
+        ]
+    }
+}

@@ -1,0 +1,7 @@
+define(function(require, exports, module) {
+
+// on each backwards incompatible protocol change the version number must be
+// increased
+exports.protocol = 11;
+
+});

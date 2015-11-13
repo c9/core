@@ -1,0 +1,387 @@
+.bar-preferences > div{
+    font-family : @general-font-family;
+    font-size: @general-font-size;
+}
+
+/******* NAVIGATION ********/
+
+.bar-preferences .navigation{
+    padding : 15px 0 0 0;
+    border-right : @preferences-nav-border;
+    
+    background: @preferences-nav-background;
+    .box-shadow(~"0 1px 0 0 @{preferences-nav-shadow-color} inset");
+    z-index: 1;
+    box-sizing: border-box;
+}
+.bar-preferences .navigation a{
+    display : block;
+    color : @preferences-nav-link-color;
+    text-decoration : none;
+    margin-top : 2px;
+    padding: 3px 8px 3px 8px;
+    margin-left: -8px;
+    margin-right: 0;
+}
+.bar-preferences .navigation .level3 a:hover{
+    border-radius : 3px;
+    background : @preferences-nav-link-hover-background;
+    cursor : pointer;
+}
+.bar-preferences .navigation .current a{
+    color : @preferences-nav-link-active-color;
+}
+.bar-preferences .navigation .level1{
+    margin-bottom: 5px;
+}
+.bar-preferences .navigation .level1>blockquote {
+    padding-left : 25px;
+}
+.bar-preferences .navigation .level1>a {
+    font-weight: bold;
+    margin-left: 0;
+    /* margin-bottom: 13px; */
+    margin-right: 0;
+    font-size: 10px;
+    color: @preferences-nav-main-color;
+    /* border-bottom: 1px dotted @preferences-nav-main-border-color; */
+    /* padding-bottom: 5px; */
+    padding-left: 0;
+    /* margin-top: -6px; */
+    text-transform: uppercase;
+    padding: @preferences-nav-main-padding;
+    /* font-weight: normal; */
+    position: relative;
+    .font-smoothing(@preferences-nav-main-font-smoothing);
+}
+.bar-preferences .navigation .level1 > a:after {
+    .image-2x("@{tree-arrow}", 20px, 10px);
+    content: "";
+    position: absolute;
+    left: 13px;
+    width: 9px;
+    height: 13px;
+    top: @preferences-nav-main-toggle-top;
+    opacity: 0.7;
+}
+
+.bar-preferences .navigation .level1:first-child>a {
+    margin-top: 0px;
+}
+.bar-preferences .navigation .level1>a:hover{
+    color : @preferences-nav-main-hover-color;
+    cursor : pointer;
+    background : @preferences-nav-main-hover-background;
+}
+.bar-preferences .navigation .level1.active {
+    background: @preferences-nav-active-area-background;
+}
+.bar-preferences .navigation .level1.active>a:hover {
+    cursor : default;
+}
+.bar-preferences .navigation .level1.active>a {
+    color: @preferences-nav-main-active-color;
+    background: @preferences-nav-main-active-background;
+    text-shadow: @preferences-nav-main-active-text-shadow;
+}
+.bar-preferences .navigation .level1.active > a:after {
+    .image-2x("@{tree-arrow-focus-selected}", 20px, 10px);
+}
+.bar-preferences .navigation .level1.active > a:after {
+    opacity: 1;
+    background-position : -11px 0;
+}
+.bar-preferences .navigation .level2>span{
+    text-transform: uppercase;
+    color : @preferences-nav-sub-color;
+    font-size : 9px;
+    font-weight: @preferences-nav-font-weight;
+    padding-bottom : 3px;
+    cursor : default;
+    display: block;
+}
+.bar-preferences .navigation blockquote{
+    padding : 0 0 10px 0;
+    margin : 0 0 15px 0;
+}
+.bar-preferences .navigation .level1>blockquote{
+    margin : 10px 10px 0 0;
+    padding-bottom : 0;
+    overflow : hidden;
+    position : relative;
+}
+.bar-preferences .navigation .level1>blockquote>:first-child{
+    /*border-top: 6px solid transparent;*/
+    margin-top : 6px;
+}
+.bar-preferences .navigation .level1>blockquote>:last-child{
+    margin-bottom : 0;
+}
+.bar-preferences .navigation .level2>blockquote{
+    border-bottom : @preferences-sub-border-bottom;
+}
+.bar-preferences .navigation .level2:last-child>blockquote{
+    border-bottom: 0;
+    margin-bottom: 0;
+}
+.bar-preferences .navigation:last-child{
+    border-bottom : 0;
+}
+
+/******* FORM ********/
+
+.bar-preferences .container .header{
+    padding : @preferences-header-padding;
+    font-size : @preferences-header-font-size;
+    color : @preferences-header-color;
+    border-bottom : 1px solid @preferences-header-border-bottom-color;
+    background-color : @preferences-header-background;
+    /*border-top : 1px solid @preferences-header-border-top-color;*/
+    margin: @preferences-header-margin;
+}
+.bar-preferences .container>.hsplitbox, .bar-preferences .container>.basic{
+    background : @preferences-background;
+    border-bottom : 1px solid @preferences-border-bottom-color;
+    border-top : 1px solid @preferences-border-top-color;
+    padding: @preferences-section-padding;
+}
+.bar-preferences .keybindings{
+    min-height: 250px;
+}
+.bar-preferences .flatform .container > .hsplitbox, 
+.bar-preferences .flatform .container > .basic{
+    border-top : 1px solid @preferences-border-top-color-light;
+    box-sizing: border-box;
+}
+.bar-preferences .keybindings .intro when(@preferences-flat){
+    margin-bottom: 8px !important;
+}
+.bar-preferences .flatform .container > .hsplitbox:last-child when(@preferences-flat){
+    height: 49px !important;
+}
+.bar-preferences .container>.hsplitbox:last-child{
+    border-bottom: 1px solid @preferences-form-border-bottom-color;
+}
+.bar-preferences .container>.basic:first-child{
+    border-top: none;
+    border-bottom: 1px solid @preferences-intro-border-bottom-color;
+    margin-bottom: -1px;
+    z-index: 1000;
+    padding: @preferences-intro-padding !important;
+}
+.bar-preferences .label, .bar-preferences .cbcontainer span, .bar-preferences .cbblack.cbcontainer span{
+    color : @preferences-form-label-color;
+    font-size : 12px;
+    text-overflow : ellipsis;
+    .font-smoothing(@preferences-form-label-font-smoothing);
+}
+.bar-preferences .blackbutton{
+    min-height: @preferences-button-height;
+    margin-top: @preferences-button-margin-top;
+}
+.bar-preferences .cboffline{
+    margin-top: @preferences-checkbox-margin-top;
+}
+.bar-preferences .tbcolor{
+    margin-top: @preferences-color-margin-top;
+}
+.bar-preferences .tbsimple{
+    background: @spinner-background;
+    border: 1px solid @spinner-border-color;
+    height: 15px;
+    color: @spinner-color;
+    padding: @preferences-textbox-padding;
+    .font-smoothing(true);
+    border-radius: @preferences-textbox-border-radius;
+    font-family: @preferences-textbox-font-family;
+    font-size: @preferences-textbox-font-size;
+}
+.bar-preferences .tbsimpleFocus{
+    border : 1px solid @spinner-focus-border-color;
+    box-shadow: @spinner-focus-box-shadow;
+}
+.bar-preferences .ta{
+    background: @spinner-background;
+    border: 1px solid @spinner-border-color;
+    padding: @textarea-padding;
+    color: @spinner-color;
+    .box-shadow(~"none");
+    line-height: @textarea-line-height;
+    border-radius: @textarea-border-radius;
+}
+.bar-preferences .taFocus{
+    border : 1px solid @spinner-focus-border-color;
+    box-shadow: @spinner-focus-box-shadow;
+}
+.bar-preferences .lineselect div{
+    padding : 4px;
+    cursor : pointer;
+    color : #DDD;
+}
+.bar-preferences .lineselect .selected{
+    color : #5dadf4;
+}
+.bar-preferences .black_dropdown{
+    margin-top : @preferences-dropdown-margin-top;
+}
+.bar-preferences .spinner{
+    margin-top : @preferences-spinner-margin-top;
+}
+.bar-preferences .ta{
+    margin-top : @preferences-ta-margin-top;
+}
+.bar-preferences .tbsimple{
+    margin-top : @preferences-textbox-margin-top;
+}
+
+.bar-preferences .vsplitbox, .bar-preferences .hsplitbox{
+    position : relative;
+}
+
+.bar-preferences {
+    position         : relative;
+    overflow-y       : hidden;
+    overflow-x       : hidden;
+    /*background-image : url("@{image-path}/panelbg.png");*/
+    color            : #ddd;
+    font-family      : Tahoma, Arial;
+    font-size        : 12px;
+    /*text-shadow : rgba(255, 255, 255, 0.8) 0px 1px 0px;*/
+    text-shadow      : @preferences-text-shadow;
+    background       : @preferences-background;
+}
+.prefpanel{
+    background : @preferences-background;
+}
+
+.bar-preferences .header {
+}
+
+.bar-preferences .cbcontainer {
+}
+
+.bar-preferences .cbcontainer .checkbox {
+}
+
+
+.has_apf .bar-preferences .blackdg{
+    background : @preferences-datagrid-background;
+    border : 1px solid @preferences-datagrid-border;
+    color : @preferences-datagrid-color;
+    box-shadow: @preferences-datagrid-box-shadow;
+    text-shadow: none;
+    border-radius: @preferences-datagrid-border-radius;
+    font-family: @preferences-datagrid-font-family;
+    font-size: @preferences-datagrid-font-size;
+    padding-bottom: @preferences-datagrid-border-radius;
+}
+.bar-preferences .blackdg .tree-headings {
+    background: @preferences-datagrid-header-background;
+    .font-smoothing(@preferences-datagrid-font-smoothing);
+    font-weight: @preferences-datagrid-header-font-weight;
+    border-bottom: @preferences-datagrid-header-border-bottom;
+}
+.bar-preferences .blackdg .tree-headings > .tree-column{
+    padding: @preferences-datagrid-header-padding;
+    color: @preferences-datagrid-header-color;
+}
+.bar-preferences .blackdg .tree-headings > .tree-column:hover{
+    background: @preferences-datagrid-header-hover-background;
+    color: @preferences-datagrid-header-hover-color;
+}
+.bar-preferences .blackdg .tree-headers{
+    height: @preferences-datagrid-row-height;
+}
+.bar-preferences .blackdg .tree-row{
+    height: @preferences-datagrid-row-height;
+}
+.bar-preferences .blackdg .tree-row.selected{
+    .font-smoothing(@preferences-datagrid-font-smoothing);
+}
+.bar-preferences .blackdg .tree-row > .tree-column{
+    padding: @preferences-datagrid-cell-padding;
+}
+
+.bar-preferences .blackdgFocus{
+    border : 1px solid @preferences-datagrid-focus-border;
+}
+.bar-preferences .blackdg .group{
+    background: @preferences-datagrid-group-background;
+    box-shadow: @preferences-datagrid-group-box-shadow;
+    font-weight: @preferences-datagrid-group-font-weight
+}
+.bar-preferences .blackdg .group .toggler{
+    top: @preferences-datagrid-group-toggler-top;
+    position: relative;
+}
+
+.bar-preferences .blackdg .group:first-child{
+    box-shadow: @preferences-datagrid-group-first-child-box-shadow;
+}
+.bar-preferences .keybindings .blackdg .tree-row>span:nth-child(2){
+    background: @preferences-datagrid-highlight-column-color;
+}
+.bar-preferences .keybindings .blackdg .tree-row>span{
+    height: 100%;
+}
+.bar-preferences .blackdg strong{
+    color: @highlight-color;
+    font-weight: normal;
+}
+.bar-preferences .blackdg .ace_wrapper{
+    margin: -1px 0 0 0px;
+}
+.bar-preferences .blackdg .ace_tree-editor .ace_content{
+    margin: 1px 0 0 1px !important;
+}
+.bar-preferences .blackdg .ace-tm .ace_marker-layer .ace_active-line{
+    background: transparent;
+}
+.bar-preferences .keybindings .blackdg .ace_tree_cells .group>span:nth-child(2) {
+    background: none;
+}
+.bar-preferences.tb_console.tb_textboxInitial .sbtb_middle{
+    background: @preferences-filter-box-background;
+}
+
+.prefpanel h1 {
+    padding: @preferences-intro-title-padding;
+    font-size: 19px;
+    position: relative;
+    margin: 0 0 10px 0;
+    font-weight: normal;
+    text-shadow: @preferences-intro-title-text-shadow;
+}
+
+.prefpanel h1:after {
+    .image-2x("/static/plugins/c9.ide.layout.classic/images/@{c9-repeat-x}", 32px, 1500px, 'repeat-x');
+    background-position: 50% -364px;
+    content: "";
+    position: absolute;
+    left: @preferences-intro-icon-left;
+    width: @preferences-intro-icon-width;
+    height: @preferences-intro-icon-height;
+    top: @preferences-intro-icon-top;
+}
+
+.prefpanel .intro{
+    white-space: nowrap;
+    color: @preferences-intro-color;
+}
+
+.prefpanel .intro p {
+    margin: @preferences-intro-text-margin;
+}
+
+.prefpanel a {
+    color: @preferences-intro-link-color;
+    text-decoration : none;
+}
+.prefpanel a:hover {
+    text-decoration : underline;
+}
+
+.prefpanel .intro p.hint {
+    color: @preferences-intro-hint-color;
+    text-shadow: @preferences-intro-hint-text-shadow;
+}

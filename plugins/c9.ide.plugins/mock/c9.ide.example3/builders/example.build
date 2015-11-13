@@ -1,0 +1,8 @@
+// Create a custom Cloud9 build system - similar to the Sublime build system
+// For more information see https://docs.c9.io/custom_runners.html
+{
+    "cmd" : ["ls", "$file", "$args"],
+    "env" : {},
+    "info" : "Building $project_path/$file_name",
+    "selector": "source.ext"
+}

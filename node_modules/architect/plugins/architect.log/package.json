@@ -1,0 +1,13 @@
+{
+    "name": "architect.log",
+    "version": "0.0.1",
+
+    "main": "./log-service",
+
+    "plugin": {
+        "module": "./log-service",
+        "provides": [
+            "log"
+        ]
+    }
+}

@@ -1,0 +1,67 @@
+
+.cbcontainer {
+    padding    : 2px 2px 2px 16px;
+    position   : relative;
+    overflow   : visible;
+    color      : #333;
+}
+
+.cbcontainer span {
+    font-family : @checkbox-font-family;
+    font-size   : @checkbox-font-size;
+    cursor      : default;
+    padding     : @checkbox-label-padding;
+    position    : relative;
+    top         : -2px;
+    overflow    : visible;
+    display     : inline-block;
+    line-height : 13px;
+    white-space        : nowrap;
+    text-overflow      : ellipsis;
+}
+
+.cbcontainerFocus span {
+    padding : 0px 2px 1px 2px;
+    border  : 1px dotted #BBB;
+}
+
+.cbbasic.cbcontainerChecked.cbcontainerDown.cbcontainerFocus .checkbox {
+    background-position : 0 -48px;
+}
+
+.cbcontainer .checkbox {
+    width      : 12px;
+    height     : 12px;
+    overflow   : hidden;
+    position   : absolute;
+    left       : 2px;
+    top        : 2px;
+    background : url("@{image-path}/checkbox.png") no-repeat 0 -12px;
+}
+
+.cbcontainerDown .checkbox {
+    background-position : 0 -36px;
+}
+
+.cbcontainerChecked .checkbox {
+    background-position : 0 -24px;
+}
+
+.cbcontainerError span {
+    background-color : #ffb500;
+    color            : #fbfbfb;
+}
+
+.cbcontainerDisabled .checkbox {
+    background-position : 0 -0px;
+}
+
+.cbcontainerDisabled span {
+    color : #bebebe;
+}
+    
+
+.cbcontainer span {
+    top : -2px;
+}
+    

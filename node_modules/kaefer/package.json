@@ -1,0 +1,26 @@
+{
+    "name": "kaefer",
+    "version": "0.1.0",
+    "description": "Reliable transport on top of engine.io",
+    "author": "Cloud9 Inc. <info@c9.io>",
+    "contributors": [{
+        "name": "Fabian Jakobs",
+        "email": "fabian@c9.io"
+    }],
+    "dependencies": {
+        "engine.io": "~1.5.1",
+        "engine.io-client": "~1.5.1",
+        "amd-loader": "*"
+    },
+    "devDependencies": {
+        "smith": "~0.1.22",
+        "vfs-local": "~0.3.13",
+        "mocha": "~1.8.2",
+        "sinon": "~1.7.3",
+        "chai": "~1.8.1",
+        "async": "~0.2.7"
+    },
+    "scripts": {
+        "test": "make test && make test-integration"
+    }
+}

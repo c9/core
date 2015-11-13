@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Cloud9</title>
+</head>
+<body>
+    <script src="html2canvas.js"></script>
+    <script src="/build/client.js"></script>
+    <script>
+        //Architect Boot Loader        
+        require(["lib/architect/architect"], function (architect) {
+            architect.resolveConfig(require.plugins, function (err, config) {
+                if (err) throw err;
+                architect.createApp(config, function(err, app){
+                    if (err) throw err;
+                    
+                    app.on("error", function(name){
+                        debugger;
+                    });
+                    app.on("service", function(name){
+                        console.log("Loaded " + name)
+                    })
+
+                    app.services.c9.ready();
+                    
+                    if (location.href.indexOf("devel") > -1) {
+                        ["/install.sh", "/package.json", "/README.md", "/server.js"].forEach(function(file){
+                            app.services.tabs.openFile(file,function(){});
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

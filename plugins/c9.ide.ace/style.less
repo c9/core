@@ -1,0 +1,252 @@
+.ace_editor {
+    overflow: hidden;
+}
+
+.ace-cloud9-night{
+    background: @ace-cloud9-night-background !important;
+}
+.ace-cloud9-night .ace_gutter{
+    background: @ace-cloud9-night-gutter !important;
+}
+.ace-cloud9-night .ace_marker-layer .ace_active-line {
+    background: @ace-cloud9-night-active-line !important;
+}
+.ace-cloud9-day{
+    background: @ace-cloud9-day-background !important;
+}
+.ace-cloud9-day .ace_gutter{
+    background: @ace-cloud9-day-gutter !important;
+}
+
+.ace-cloud9-day .ace_gutter-layer{
+    box-shadow: @ace-gutter-shadow;
+}
+
+.ace_gutter-active-line{
+    z-index : -1;
+}
+
+.dark .ace_gutter .ace_gutter_active_line {
+    background-color: rgba(255, 255, 255, 0.07);
+}
+
+.ace_scroller.ace_scroll-left {
+    box-shadow: none !important;
+}
+
+.scroll_shadow {
+    top: 0;
+    bottom: 0;
+    width: 16px;
+    position: absolute;
+    border-top-left-radius: 4px;
+    pointer-events: none;
+}
+
+.ace_scroller.ace_scroll-left > .scroll_shadow {
+    box-shadow: 17px 0 16px -16px rgba(0, 0, 0, 0.4) inset;
+    z-index: 100000;
+}
+
+.ace_corner {
+    top: 0;
+    /*added by js*/
+    /* background: radial-gradient(at 5px 5px, rgba(240, 240, 240, 0) 5.5px, rgb(240, 240, 240) 6px);*/
+    position: absolute;
+    width: 6px;
+    height: 6px;
+}
+
+.ace_editor .ace_printMargin {
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    background-color: rgb(191, 191, 191);
+}
+
+.ace_layer {
+  z-index: 0;
+}
+
+.ace_marker-layer .ace_step, .ace_marker-layer .ace_stack {
+  position: absolute;
+  z-index: 3;
+}
+
+.aceDisabled {
+    border: 1px solid #c3c3c3;
+    color: #bebebe;
+}
+
+.aceError{
+    border: 1px solid #ffb500;
+    padding : 5px;
+}
+
+/* Gutter Icons - LIGHT */
+
+.ace_gutter-layer .ace_gutter-cell {
+    background-repeat: no-repeat;
+}
+
+.ace_gutter-layer .ace_gutter-cell.ace_error {
+    .image-2x(@ace-error, 16px, 16px, no-repeat);
+    background-position: 3px 0px;
+}
+.ace_gutter-layer .ace_gutter-cell.ace_warning {
+    .image-2x(@ace-warning, 16px, 16px, no-repeat);
+    background-position: 3px 0px;
+}
+.ace_gutter-layer .ace_gutter-cell.ace_info when not (@ace-info = "") {
+    .image-2x(@ace-info, 16px, 16px, no-repeat);
+}
+.ace_gutter-layer .ace_gutter-cell.ace_breakpoint {
+    .image-2x(@ace-breakpoint, 16px, 16px, no-repeat);
+    background-position: 3px center;
+}
+.ace_gutter-layer .ace_breakpoint.disabled {
+    .image-2x(@ace-breakpoint-disabled, 16px, 16px, no-repeat);
+}
+.ace_gutter-layer .ace_breakpoint.condition {
+    .image-2x(@ace-breakpoint-condition, 16px, 16px, no-repeat);
+}
+.ace_gutter-layer .ace_breakpoint.invalid {
+    .image-2x(@ace-breakpoint-invalid, 16px, 16px, no-repeat);
+}
+.ace_gutter-layer .ace_breakpoint.disabled.condition {
+    .image-2x(@ace-breakpoint-disabled-condition, 16px, 16px, no-repeat);
+}
+.ace_gutter-layer .ace_gutter-cell.ace_breakpoint.step {
+    .image-2x(@ace-breakpoint-step, 16px, 16px, no-repeat);
+    background-position: 3px center;
+}
+.ace_gutter-layer .ace_gutter-cell.ace_breakpoint.condition.step {
+    .image-2x(@ace-breakpoint-condition-step, 16px, 16px, no-repeat);
+    background-position: 3px center;
+}
+.ace_gutter-layer .ace_gutter-cell.step {
+    .image-2x(@ace-step, 16px, 16px, no-repeat);
+    background-position: 3px center;
+}
+.ace_gutter-layer .ace_gutter-cell.stack {
+    .image-2x(@ace-stack, 16px, 16px, no-repeat);
+    background-position: 3px center;
+}
+
+/* Gutter Icons - DARK */
+
+.ace_dark .ace_gutter-layer .ace_gutter-cell.ace_error {
+    .image-2x(@ace-dark-error, 16px, 16px no-repeat);
+    background-position: 3px 0px;
+}
+.ace_dark .ace_gutter-layer .ace_gutter-cell.ace_warning {
+    .image-2x(@ace-dark-warning, 16px, 16px no-repeat);
+    background-position: 3px 0px;
+}
+.ace_dark .ace_gutter-layer .ace_gutter-cell.ace_breakpoint {
+    .image-2x(@ace-dark-breakpoint, 16px, 16px, no-repeat);
+}
+.ace_dark .ace_gutter-layer .ace_breakpoint.disabled {
+    .image-2x(@ace-dark-breakpoint-disabled, 16px, 16px, no-repeat);
+}
+.ace_dark .ace_gutter-layer .ace_breakpoint.condition {
+    /* @TODO */
+    .image-2x(@ace-dark-breakpoint-condition, 16px, 16px, no-repeat);
+}
+.ace_dark .ace_gutter-layer .ace_breakpoint.invalid {
+    .image-2x(@ace-dark-breakpoint-invalid, 16px, 16px, no-repeat);
+}
+.ace_dark .ace_gutter-layer .ace_breakpoint.disabled.condition {
+    /* @TODO */
+    .image-2x(@ace-dark-breakpoint-disabled-condition, 16px, 16px, no-repeat);
+}
+.ace_dark .ace_gutter-layer .ace_gutter-cell.ace_breakpoint.step {
+    .image-2x(@ace-dark-breakpoint-step, 16px, 16px, no-repeat);
+}
+.ace_dark .ace_gutter-layer .ace_gutter-cell.ace_breakpoint.disabled.step {
+    .image-2x(@ace-dark-breakpoint-disabled-step, 16px, 16px, no-repeat);
+}
+.ace_dark .ace_gutter-layer .ace_gutter-cell.ace_breakpoint.condition.step {
+    /* @TODO */
+    .image-2x(@ace-dark-breakpoint-condition-step, 16px, 16px, no-repeat);
+    background-position: 4px center;
+}
+.ace_dark .ace_gutter-layer .ace_gutter-cell.step {
+    .image-2x(@ace-dark-step, 16px, 16px, no-repeat);
+}
+.ace_dark .ace_gutter-layer .ace_gutter-cell.stack {
+    /* @TODO */
+    .image-2x(@ace-dark-stack, 16px, 16px, no-repeat);
+    background-position: 4px center;
+}
+
+/* Themes */
+
+.ace-solarized-light .fm-window .fm-content,
+.fm-window .fm-header .hcontent {
+    background-color: rgba(220, 220, 220, 0.73);
+}
+
+.ace_tooltip {
+    padding : 3px 5px 2px 5px !important;
+    line-height : 1.3em;
+    font-family : Arial, sans-serif;
+    box-shadow : @gutter-tooltip-shadow !important;
+    background : @gutter-tooltip-background !important;
+    border : 1px solid @gutter-tooltip-border;
+    color : @gutter-tooltip-color;
+    .font-smoothing(@gutter-tooltip-font-smoothing);
+}
+.ace_dark .ace_tooltip {
+    box-shadow : @gutter-tooltip-dark-shadow !important;
+    background : @gutter-tooltip-dark-background !important;
+    border : 1px solid @gutter-tooltip-dark-border;
+    color : @gutter-tooltip-dark-color;
+    .font-smoothing(@gutter-tooltip-dark-font-smoothing);
+}
+
+.ace_progress {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+
+    /*.gradien("~linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%)");*/
+    margin-top: -4px;
+    z-index: -1;
+}
+/*.dark .ace_progress{*/
+/*    .gradient(~"linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%)");*/
+/*}*/
+.ace_progress.upload{
+    top: 1px;
+    left: 0px;
+    right: 0px;
+    height: 1px;
+    margin-top: 0;
+    z-index: 1000;
+    background: none;
+}
+
+.ace_progress div {
+    width: 10%;
+    height: 100%;
+    .gradient(~"linear-gradient(to right, rgba(40, 130, 190, 0) 0%,rgba(40, 130, 190, 1) 100%)");
+}
+.dark .ace_progress div{
+    .gradient(~"linear-gradient(to right, rgba(113,170,12,0) 0%,rgba(113,170,12,1) 100%)");
+}
+
+
+.ace_link_marker {
+    position: absolute;
+    color: blue;
+    border-bottom: 1px dotted rgba(0,0,0,0.4);
+    z-index: 20;
+    cursor: pointer;
+    margin-top : -1px;
+}
+.dark .ace_link_marker {
+    border-bottom: 1px dotted rgba(255,255,255,0.4);
+}

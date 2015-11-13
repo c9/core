@@ -1,0 +1,18 @@
+HTML,
+H1 {
+  background: orange;
+  color: white;
+  padding: 15px;
+  font-size : 30px;
+  border-radius: 6px;
+  margin: 21px;
+}
+
+HTML{
+  background: brown url("example.png");
+  margin : 10px;
+}
+
+#hi{
+    border: 2px solid red;
+}

@@ -1,0 +1,44 @@
+.btn_console_open {
+    overflow: hidden;
+    cursor: default;
+    position: relative;
+    height: 31px;
+    width: 18px;
+    padding: 6px 4px 8px 5px;
+    .user-select(none);
+}
+
+.btn_console_open span{
+    border: 1px solid @button-toggle-border;
+    background: @button-toggle-background;
+    height: 13px;
+    width: 7px;
+    display : block;
+    .box-shadow(~"0 1px @{border-highlight-strong}");
+}
+
+.btn_console_open span:after {
+    .gradient(~"linear-gradient(top, @{button-toggle-outset-2} 0%, @{button-toggle-outset-3} 100%)");
+    .box-shadow(~"0 1px @{button-toggle-outset-1} inset, 0 -1px @{button-toggle-divider}");
+    content: "";
+    width: 7px;
+    height: 6px;
+    display : block;
+    margin-top : 7px;
+}
+
+.btn_console_open:hover span:after {
+    .gradient(~"linear-gradient(top, @{button-toggle-hover-outset-2} 0%, @{button-toggle-hover-outset-3} 100%)");
+    .box-shadow(~"0 1px @{button-toggle-hover-outset-1} inset, 0 -1px @{button-toggle-divider}");
+}
+.btn_console_openDown span:after  {
+    .box-shadow(~"0 1px @{button-toggle-outset-1} inset, 0 1px @{button-toggle-divider}");
+    margin-top : 0px;
+}
+.btn_console_openDown:hover span:after  {
+    .gradient(~"linear-gradient(top, @{button-toggle-hover-outset-2} 0%, @{button-toggle-hover-outset-3} 100%)");
+    .box-shadow(~"0 1px @{button-toggle-hover-outset-1} inset, 0 1px @{button-toggle-divider}");
+}
+.btn_console_open.btnDisabled {
+    cursor: default;
+}

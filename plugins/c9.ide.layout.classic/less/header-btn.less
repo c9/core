@@ -1,0 +1,69 @@
+
+.header-btn {
+    height              : 16px !important;
+    width               : 23px;
+    overflow            : hidden;
+    cursor              : pointer;
+    position            : absolute;
+    cursor              : default;
+    .image-2x("@{image-path}/@{c9-no-repeat}", @c9-no-repeat-width, @c9-no-repeat-height);
+    background-repeat   : no-repeat;
+    top                 : 5px;
+    z-index             : 1000;
+    .user-select(none);
+}
+.panel-settings {
+    background-position: @tree-settings-background;
+    right: @tree-settings-right;
+    top: @tree-settings-top;
+}
+.panel-settings:hover,
+.panel-settings.header-btnDown {
+    background-position: @tree-settings-hover-background;
+}
+.c9-header-plus {
+    background-position: 0px -294px;
+    right:31px;
+}
+.deploy.c9-header-plus {
+    right: 1px;
+}
+
+.c9-header-plus.header-btnOver {
+    background-position: -30px -294px;
+}
+.c9-header-plus.header-btnDisabled {
+    background-position: -60px -294px;
+}
+.c9-header-minus {
+    background-position: 0px -320px;
+    right: 1px;
+    top: 0;
+}
+
+.deploy.c9-header-minus {
+    right: -30px;
+}
+
+.c9-header-minus.header-btnOver {
+    background-position: -30px -320px;
+}
+.c9-header-minus.header-btnDisabled {
+    background-position: -60px -320px;
+}
+.c9-header-divider:before {
+    background: url("@{image-path}/@{c9-no-repeat}") no-repeat -100px -293px;
+    content: "";
+    display: block;
+    height: 26px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 2px;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+    

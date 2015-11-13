@@ -1,0 +1,21 @@
+.notificationlabel{
+    .font-smoothing(true);
+    position: relative;
+}
+.notificationlabel u.close{
+    .image-2x(@notify-close-image, @notify-close-image-width, @notify-close-image-height);
+    background-position: @notify-close-image-idle;
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    cursor: pointer;
+    z-index: 10000;
+}
+.notificationlabel u.close:hover{
+    background-position: @notify-close-image-hover;
+}
+.notificationlabel u.close:active{
+    background-position: @notify-close-image-active;
+}

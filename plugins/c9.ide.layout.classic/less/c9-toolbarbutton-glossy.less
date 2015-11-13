@@ -1,0 +1,127 @@
+.c9-toolbarbutton-glossy {
+    border : 1px solid transparent;
+    color: @button-glossy-color;
+    cursor: default;
+    position: relative;
+    border-radius: 3px;
+    height: 21px;
+}
+.c9-toolbarbutton-glossyOver {
+    border: 1px solid @button-glossy-hover-border-color;
+    .gradient(~"linear-gradient(top, @{button-glossy-hover-background-1} 0%, @{button-glossy-hover-background-2} 55%, @{button-glossy-hover-background-3} 55%, @{button-glossy-hover-background-4} 100%)");
+    .box-shadow(~"inset 1px 1px @{button-glossy-hover-shadow-color}, inset -1px -1px @{button-glossy-hover-shadow-color}");
+    text-shadow: @button-glossy-hover-text-shadow;
+}
+.c9-toolbarbutton-glossyDown, .c9-toolbarbutton-glossyActive {
+    border: 1px solid @button-glossy-active-border-color;
+    .gradient(~"linear-gradient(top, @{button-glossy-active-background-1} 0%, @{button-glossy-active-background-2} 55%, @{button-glossy-active-background-3} 55%, @{button-glossy-active-background-4} 100%)");
+    .box-shadow(~"inset 1px 1px @{button-glossy-active-shadow-color}, inset -1px -1px @{button-glossy-active-shadow-color}");
+    text-shadow: @button-glossy-active-text-shadow;
+}
+.c9-toolbarbutton-glossyDisabled{
+    color : @button-glossy-disabled-color;
+    text-shadow : @button-glossy-disabled-text-shadow;
+}
+
+.c9-toolbarbutton-glossy .c9-label {
+    line-height: 21px;
+    margin-right: 4px;
+    padding: 0 3px 0 7px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.c9-toolbarbutton-glossy .c9-icon {
+    z-index: 100;
+    display: none;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    height: 19px;
+    left: 2px;
+    position: absolute;
+    top: 1px;
+    width: 23px;
+}
+.c9-toolbarbutton-glossyIcon .c9-icon {
+    display: block;
+}
+.c9-toolbarbutton-glossyIcon .c9-label {
+    padding: 0px 3px 0 22px;
+}
+.c9-toolbarbutton-glossyIcon.c9-toolbarbutton-glossyEmpty {
+    width : 23px;
+}
+.c9-toolbarbutton-glossyIcon.c9-toolbarbutton-glossyEmpty .c9-label{
+    display : none;
+}
+
+.btnSave .c9-icon {
+    background-image: none !important;
+    border: 1px solid #1C1C1C;
+    border-radius: 50%;
+    box-shadow: 0 1px 0 0 rgba(255,255,255,.2) inset;
+    height: 4px;
+    left: auto;
+    right: 4px;
+    top: 9px;
+    width: 4px;
+    position : absolute;
+    display : block;
+}
+.btnSave .c9-label {
+    padding-right: 4px;
+}
+
+.c9-toolbarbutton-glossy.saving .c9-label,
+.c9-toolbarbutton-glossy.saved .c9-label {
+    background-position: 0 -523px;
+    font-size: 9px;
+    line-height: 24px;
+    padding: 0 15px 0 10px;
+    text-transform: uppercase;
+}
+.c9-toolbarbutton-glossy.saving .c9-label:after,
+.c9-toolbarbutton-glossy.saved .c9-label:after {
+    background-position: -476px -523px;
+}
+.c9-toolbarbutton-glossy.saving .c9-icon {
+    background-color: #85C410;
+    right: 10px;
+    -webkit-animation: saving .4s linear 0 infinite;
+       -moz-animation: saving .4s linear 0 infinite;
+            animation: saving .4s linear 0 infinite;
+}
+.c9-toolbarbutton-glossy.saved .c9-icon {
+    background-color: #85C410;
+    right: 10px;
+}
+.c9-toolbarbutton-glossy.error .c9-icon {
+    background-color: red;
+    right: 10px;
+}
+.c9-toolbarbutton-glossy.save .c9-icon {
+    background-color: #D01616;
+    right: 10px;
+}
+.c9-toolbarbutton-glossy.save .c9-label {
+    font-size: 9px;
+    padding: 0 16px 0 8px;
+    right: 14px;
+    text-transform: uppercase;
+}
+.c9-toolbarbutton-glossy.disabled .c9-icon{
+    background-color: white;
+    opacity: .2;
+}
+.c9-toolbarbutton-glossyDisabled.light .c9-icon{
+    opacity: .2;
+}
+
+.c9-toolbarbutton-glossy.bug .c9-icon{
+    background-position: 0 -38px;
+}
+
+.c9-toolbarbutton-glossyDown.bug .c9-icon, .c9-toolbarbutton-glossyOver.bug .c9-icon{
+    background-position: 0 0;
+}
