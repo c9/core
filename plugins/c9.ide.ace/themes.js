@@ -14,7 +14,7 @@ define(function(require, exports, module) {
         var settings = imports.settings;
         var experimental = imports["preferences.experimental"];
         
-        var FLATDARK = experimental.addExperiment("flat-dark=1", "UI/Flat Dark Theme");
+        var FLATDARK = experimental.addExperiment("flat-dark", false, "UI/Flat Dark Theme");
         
         /***** Initialization *****/
         
