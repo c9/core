@@ -108,15 +108,26 @@
             
             var tests = [];
             var stats = this.stats;
+            mocha.lastReport = null;
             mocha.report = { stats: stats, tests: tests };
+            mocha.getReport = function() {
+                return {
+                    stats: JSON.parse(JSON.stringify(stats)),
+                    tests: tests.map(clean)
+                };
+            };
         
             runner.on('test end', function(test) {
                 stats.percent = stats.tests / runner.total * 100 | 0;
-                tests.push(clean(test));
+                tests.push(test);
             });
 
             runner.on('end', function() {
-                console.log(JSON.stringify(mocha.report, null, 4));
+                // tests might generate errors after they finished running
+                // e.g. using on instead of once can call done second time during app unload
+                // so we save the report at the time when test runner ended.
+                mocha.lastReport = mocha.getReport();
+                console.log(mocha.report);
             });
             
             function parseError(err) {
@@ -252,7 +263,7 @@
         }
         
         function getReport() {
-            return mocha.report;
+            return mocha.lastReport;
         }
         
         function safeDisconnect(cb) {
