@@ -1,7 +1,12 @@
-HTML{
+HTML.loading{
     background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(251,251,251,1) 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(251,251,251,1) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(251,251,251,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+HTML.loading.dark{
+    background: -moz-linear-gradient(top,  rgba(37,37,37,1) 0%, rgba(35,35,35,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(37,37,37,1) 0%,rgba(35,35,35,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(37,37,37,1) 0%,rgba(35,35,35,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 #loadingide {
@@ -21,7 +26,6 @@ HTML{
 }
 #loadingide.dark {
     background-image: url(images/c9-logo-white.png);
-    /*background-color: #222222;*/
 }
 
 @media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
@@ -130,6 +134,9 @@ HTML{
     text-align: center;
     margin-left: -500px;
     margin-top: 250px;
+}
+.dark .cool-message {
+    color: #757575;
 }
 
 .spinner {
