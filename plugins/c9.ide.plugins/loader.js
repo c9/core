@@ -28,8 +28,8 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         // var emit = plugin.getEmitter();
         
-        var ENABLED = experimental.addExperiment("plugins=0", "SDK/Load Plugins From Workspace");
-        var HASSDK = experimental.addExperiment("sdk=0", "SDK/Load Custom Plugins");
+        var ENABLED = experimental.addExperiment("plugins", false, "SDK/Load Plugins From Workspace");
+        var HASSDK = experimental.addExperiment("sdk", false, "SDK/Load Custom Plugins");
         
         var plugins = options.plugins;
         var loadFromDisk = options.loadFromDisk
