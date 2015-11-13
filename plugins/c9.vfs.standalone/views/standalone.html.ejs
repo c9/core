@@ -36,7 +36,7 @@
         });
         
         if (!html) {
-            var isDark = true; //theme.indexOf("dark") > -1;
+            var isDark = theme.indexOf("dark") > -1;
             %><% include ../../c9.ide.server/views/basic-loading.html %><%
         }
         else {
@@ -64,7 +64,6 @@
             nativeRequire("nw.gui").Window.get().show();
         
         require(["lib/architect/architect"], function (architect) {
-            return; // DO NOT COMMIT
             plugins.push({
                 consumes: [],
                 provides: ["auth.bootstrap"],
