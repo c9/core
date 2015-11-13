@@ -406,9 +406,9 @@ require([
             "dialog.fileremove": {show: function() {}},
             "dialog.fileoverwrite": {show: function() {}},
             "dialog.error": {
-                showError: function(msg) {
-                    console.warn(msg);
-                }
+                showError: function(msg) { console.warn(msg); },
+                show: function(msg) { console.warn(msg); },
+                hide: function(msg) { },
             },
             "installer": { createSession : function(){}, reinstall: function(){}, isInstalled: function(){ return true; } },
             "run.gui": { getElement : function(){} },
