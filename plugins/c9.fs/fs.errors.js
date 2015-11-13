@@ -51,7 +51,6 @@ define(function(require, exports, module) {
             "ENOTDIR"       : "{Totype|type} {to|filename} is not a directory",
             "EEXIST"        : "{Totype|type} {to|filename} already exists",
             "EACCES"        : "Access denied acccessing this {type}",
-            "ENOSPC"        : "Your disk is full. Please create more space. Could not write {filename}",
             "EDISCONNECT"   : "The connection went away. Please try again.",
             "ENOTCONNECTED" : "You are disconnected. "
                 + "Please check your connection and try again"
@@ -82,7 +81,6 @@ define(function(require, exports, module) {
         
         fs.on("userError", function(e) {
             if (!m[e.name]) return;
-            if (e.error.code == "EEXIST") return;
             
             var args = e.args;
             var path = args[0];
