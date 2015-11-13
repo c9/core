@@ -27,7 +27,7 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
         
-        var HASSDK = experimental.addExperiment("sdk=0", "SDK/Load Custom Plugins");
+        var HASSDK = experimental.addExperiment("sdk", false, "SDK/Load Custom Plugins");
         
         var installing;
         

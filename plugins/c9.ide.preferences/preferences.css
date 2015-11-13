@@ -7,7 +7,7 @@
 
 .bar-preferences .navigation{
     padding : 15px 0 0 0;
-    border-right : 1px solid @preferences-nav-border-color;
+    border-right : @preferences-nav-border;
     
     background: @preferences-nav-background;
     .box-shadow(~"0 1px 0 0 @{preferences-nav-shadow-color} inset");

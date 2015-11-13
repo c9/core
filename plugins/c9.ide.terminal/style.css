@@ -33,10 +33,12 @@
     color: #fff;
     outline: none;
 }
-.c9terminal .c9terminalcontainer.dark .terminal .reverse-video {
+.c9terminal .c9terminalcontainer.dark .terminal .reverse-video,
+.c9terminal .c9terminalcontainer.flat-dark .terminal .reverse-video{
     outline : 1px solid rgba(255,255,255,0.4);
 }
-.c9terminalFocus .c9terminalcontainer.dark .terminal .reverse-video {
+.c9terminalFocus .c9terminalcontainer.dark .terminal .reverse-video,
+.c9terminalFocus .c9terminalcontainer.flat-dark .terminal .reverse-video {
     outline: none;
     background-color: #f0f0f0;
     color: #000;

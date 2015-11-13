@@ -18,18 +18,18 @@
           class     = "filesave-inner-padding"
           padding   = "5">
             <div>
-              <a:hsplitbox
-                id        = "boxFilename"
-                align     = "center"
-                padding   = "5"
-                height    = "28" >
-                  <a:label class="lblFilename" width="70" margin="5 0 0 0">Filename:</a:label>
-                  <a:textbox
-                    id           = "txtFilename"
-                    flex         = "7"
-                    class        = "ace_searchbox tb_textbox searchbox searchTxt tb_console tb_textboxInitial"
-                    focusselect  = "true" />
-              </a:hsplitbox>
+                <a:hsplitbox
+                  id        = "boxFilename"
+                  align     = "center"
+                  padding   = "5"
+                  height    = "28" >
+                    <a:label class="lblFilename" width="70" margin="5 0 0 0">Filename:</a:label>
+                    <a:textbox
+                      id           = "txtFilename"
+                      flex         = "7"
+                      class        = "ace_searchbox tb_textbox searchbox searchTxt tb_console tb_textboxInitial"
+                      focusselect  = "true" />
+                </a:hsplitbox>
             </div>
             
             <div class="dgLikeContaier" margin="5 0 5 0" flex="1">
@@ -50,7 +50,7 @@
                   focusselect  = "true" />
             </a:hbox>
             
-            <a:hbox edge="23 0 0" pack="end" padding="8">
+            <a:hbox edge="13 0 0" pack="end" padding="8">
                   <!--class    = "btnIconOnly smallCaption newFolder"-->
                 <a:button
                   id       = "btnCreateFolder"

@@ -167,7 +167,6 @@ define(function(require, exports, module) {
                     title: "Introduction",
                     position: 1,
                     node: intro = new ui.bar({
-                        height: 149,
                         "class" : "intro",
                         style: "padding:12px;position:relative;"
                     })

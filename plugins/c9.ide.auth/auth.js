@@ -107,20 +107,9 @@ define(function(require, exports, module) {
             }) || true;
         }
         
-        function logout(callback) {
-            accessToken = "invalid";
-            loggingIn = false;
-
-            http.request("/_auth/logout", function(err1) {
-                http.request(ideBaseUrl + "/auth/signout", {
-                    method: "POST",
-                    withCredentials: true
-                }, function(err2) {
-                    loggedIn = false;
-                    emit("logout", {uid: uid, newUid: ANONYMOUS});
-                    callback && callback(err1 || err2);
-                });
-            });
+        function logout(redirect) {
+            redirect = redirect || window.location.href;
+            window.location.href = ideBaseUrl + "/api/nc/logout?redirect=" + encodeURIComponent(redirect);
         }
         
         function createLoopDetector(count, duration) {

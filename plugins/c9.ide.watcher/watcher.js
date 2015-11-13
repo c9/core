@@ -188,6 +188,7 @@ define(function(require, exports, module) {
                 
                 function fireWatcherEvent(eventSuffix) {
                     if (event == "error") {
+                        if (eventSuffix != ".all") return;
                         // console.error("[watchers] received error for", path, err, stat);
                     }
                     else if (event == "delete") {

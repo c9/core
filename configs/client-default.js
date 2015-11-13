@@ -462,6 +462,7 @@ module.exports = function(options) {
             cdn: options.useCdn
         },
         "plugins/c9.ide.theme.flat/flat-light",
+        "plugins/c9.ide.theme.flat/flat-dark",
         {
             packagePath: "plugins/c9.ide.layout.classic/preload",
             themePrefix: options.themePrefix,

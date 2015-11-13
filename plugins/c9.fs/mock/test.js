@@ -38,4 +38,4 @@ var i = 0;
 console.log(greeter(user), Date.now(), i++);
 setInterval(function(){
     console.log(greeter(user), Date.now(), i++);
-}, 10000);
+}, 1000);

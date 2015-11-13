@@ -30,7 +30,7 @@ define(function(require, exports, module) {
         var BASEPATH = options.previewUrl;
         
         var plugin = new Plugin("Ajax.org", main.consumes);
-        var menu, lastLink;
+        var menuPath, lastLink;
         
         var reHome = new RegExp("^" + util.escapeRegExp(c9.home));
         
@@ -38,17 +38,17 @@ define(function(require, exports, module) {
         
         terminal.on("create", function(e) {
             var ace = e.editor.ace;
-            if (!ace)
-                return;
+            if (!ace) return;
+                
             ace.hoverLink = new HoverLink(ace);
             ace.hoverLink.on("open", showMenu);
-        });
+        }, plugin);
         
-        function createMenu(e) {
-            if (menu)
+        function createMenu() {
+            if (menuPath)
                 return;
             
-            var submenu = new Menu({ 
+            var submenu = new Menu({
                 items: [
                     new MenuItem({ value: "path", caption: "Copy Path" }),
                     new MenuItem({ value: "directory", caption: "Copy Directory" }),
@@ -71,9 +71,6 @@ define(function(require, exports, module) {
                             ? "Unable to access via preview" 
                             : BASEPATH + info.path });
                     }
-                    // else if (e.value == "github") {
-                        
-                    // }
                 }
             }, plugin);
             
@@ -92,10 +89,9 @@ define(function(require, exports, module) {
                 new MenuItem({ caption: "Copy Special", submenu: submenu }),
                 new Divider(),
                 new MenuItem({ value: "reveal", caption: "Reveal in File Tree" })
-                // new MenuItem({ caption: "Open in GitHub" }),
             ];
             
-            menu = new Menu({
+            menuPath = new Menu({
                 items: menuItems,
                 onitemclick: function(e) {
                     var info = buildPath(lastLink, true);
@@ -121,91 +117,116 @@ define(function(require, exports, module) {
                 }
             }, plugin);
         }
+        
+        var menuLink;
+        function createLinkMenu(){
+            menuLink = new Menu({
+                items: [
+                    new MenuItem({ value: "open", caption: "Open" }),
+                    new MenuItem({ value: "open-in-preview", caption: "Open In Preview" }),
+                    new MenuItem({ value: "copy", caption: "Copy" }),
+                ],
+                onitemclick: function(e) {
+                    if (e.value == "open")
+                        openLink(lastLink.value);
+                    if (e.value == "open-in-preview")
+                        openLink(lastLink.value, true);
+                    else if (e.value == "copy")
+                        commands.exec("copy", null, { data: lastLink.value });
+                }
+            }, plugin);
+        }
             
         /***** Methods *****/
         
         function showMenu(e) {
-            if (e.type == "link" && (tabManager.focussedTab || 0).editorType)
-                return open(e);
             if (e.action == "open")
                 return open(e);
             
-            createMenu(e);
-            
             lastLink = e;
             
-            menu.once("show", function(){
-                var isGit = e && e.command === "git";
-                var items = menu.items;
-                for (var i = 0; i < 6; i++) {
-                    items[i].aml.visible = -1;
-                    items[i][isGit ? "show" : "hide"]();
-                }
-            });
+            var menu;
+            if (e.type == "link" && (tabManager.focussedTab || 0).editorType) {
+                createLinkMenu();
+                menu = menuLink;
+            }
+            else {
+                createMenu();
+                menuPath.once("show", function(){
+                    var isGit = e && e.command === "git";
+                    var items = menuPath.items;
+                    for (var i = 0; i < 6; i++) {
+                        items[i].aml.visible = -1;
+                        items[i][isGit ? "show" : "hide"]();
+                    }
+                });
+                
+                var ace = e.editor;
+                menuPath.once("hide", function(){
+                    ace.selection.clearSelection();
+                });
+                
+                menu = menuPath;
+            }
             
             menu.show(e.x, e.y);
-            
-            var ace = e.editor;
-            menu.once("hide", function(){
-                ace.selection.clearSelection();
-            });
         }
         
-        function open(e, cb) {
-            if (typeof e == "string")
-                e = {type: "path", value: e};
-                
-            if (e.type == "link") {
-                var href = e.value;
-                if (!/(https?|ftp|file):/.test(href)) {
-                    href = "http://" + href;
-                }
-                href = href.replace(/(^https?:\/\/)(0.0.0.0|localhost)(?=:|\/|$)/, function(_, protocol, host) {
-                    host = c9.hostname || window.location.host;
-                    return protocol + host.replace(/:\d+/, "");
-                });
-                if (e.metaKey || e.ctrlKey)
-                    window.open(href);
-                else
-                    commands.exec("preview", null, { path: href });
-            } else if (e.type == "path") {
-                var info = buildPath(e);
-                var path = info.path;
-                
-                var m = /:(\d*)(?::(\d*))?$/.exec(path);
-                var jump = {};
-                if (m) {
-                    if (m[1])
-                        jump.row = parseInt(m[1], 10) - 1;
-                    if (m[2])
-                        jump.column = parseInt(m[2], 10);
-                    path = path.slice(0, m.index);
-                }
-                
-                // Make sure home dir is marked correctly
-                path = path.replace(reHome, "~");
-                if (path[0] != "/") path = "/" + path;
-                
-                fs.stat(path, function(err, stat) {
-                    if (err) {
-                        return commands.exec("navigate", null, { keyword: path });
-                    }
-                    if (stat.linkStat)
-                        stat = stat.linkStat;
-                    if (/directory/.test(stat.mime)) {
-                        return tabbehavior.revealtab({path: path});
-                    }
-                    tabManager.open({
-                        path: path,
-                        focus: true,
-                        document: {
-                            ace: {
-                                jump: jump
-                            }
-                        }
-                    }, cb);
-                });
+        function openLink(href, inPreview){
+            if (!/^(https?|ftp|file):/.test(href)) {
+                href = "http://" + href;
             }
+            href = href.replace(/(^https?:\/\/)(0.0.0.0|localhost)(?=:|\/|$)/, function(_, protocol, host) {
+                host = c9.hostname || window.location.host;
+                return protocol + host.replace(/:\d+/, "");
+            });
+            
+            if (inPreview)
+                commands.exec("preview", null, { path: href });
+            else
+                window.open(href);
+        }
+        
+        function open(e) {
+            if (e.type == "link") 
+                return openLink(e.value);
+                
+            var info = buildPath(e);
+            var path = info.path;
+            
+            var m = /:(\d*)(?::(\d*))?$/.exec(path);
+            var jump = {};
+            if (m) {
+                if (m[1])
+                    jump.row = parseInt(m[1], 10) - 1;
+                if (m[2])
+                    jump.column = parseInt(m[2], 10);
+                path = path.slice(0, m.index);
+            }
+            
+            // Make sure home dir is marked correctly
+            path = path.replace(reHome, "~");
+            if (path[0] != "/") path = "/" + path;
+            
+            fs.stat(path, function(err, stat) {
+                if (err) {
+                    return commands.exec("navigate", null, { keyword: path });
+                }
+                if (stat.linkStat)
+                    stat = stat.linkStat;
+                if (/directory/.test(stat.mime)) {
+                    return tabbehavior.revealtab({path: path});
+                }
+                tabManager.open({
+                    path: path,
+                    focus: true,
+                    document: {
+                        ace: {
+                            jump: jump
+                        }
+                    }
+                }, function(){});
+            });
         }
         
         function buildPath(e) {

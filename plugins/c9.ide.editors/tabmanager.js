@@ -132,11 +132,8 @@ define(function(require, module, exports) {
             function removeTab(e) {
                 if (!e.error) { 
                     var tab = findTab(e.path);
-                    if (tab) {
-                        tab.document.meta.$ignoreSave = true;
-                        tab.close();
-                        delete tab.document.meta.$ignoreSave;
-                    }
+                    if (tab)
+                        tab.unload();
                 }
             }
             fs.on("afterUnlink", removeTab);
@@ -145,9 +142,8 @@ define(function(require, module, exports) {
                 var path = e.path;
                 Object.keys(tabs).forEach(function(id) {
                     var tab = tabs[id];
-                    if (tab.path && tab.path.indexOf(path) === 0) {
+                    if (tab.path && tab.path.indexOf(path) === 0)
                         tab.unload();
-                    }
                 });
             });
             // Close a pane when it doesn't open
@@ -791,7 +787,10 @@ define(function(require, module, exports) {
                 var pane = list[i], nodes = pane.getTabs();
                 for (var j = nodes.length - 1; j >= 0; j--) {
                     var tab = nodes[j];
-                    if (!soft) tab.unload();
+                    if (!soft) {
+                        tab.meta.$closeSync = true;
+                        tab.unload();
+                    }
                     else {
                         tab.aml.parentNode.removeChild(tab.aml);
                         tab.pane = null;
@@ -1346,6 +1345,8 @@ define(function(require, module, exports) {
         }
 
         function cancelPreview(keep) {
+            var lastFocussedTab = focussedTab;
+            
             // Unload last preview tab
             if (lastPreviewTab) {
                 lastPreviewTab.unload();
@@ -1365,11 +1366,13 @@ define(function(require, module, exports) {
                 delete previewTab.document.meta.existing;
             }
             else {
-                previewTab.unload();
+                var tab = previewTab;
+                previewTab = null;
+                tab.unload(); // TODO this focusses the last tab. If there is a speed concern, fix this.
             }
             
             previewTab = null;
-            focussedTab && focussedTab.activate();
+            lastFocussedTab && lastFocussedTab.activate();
             return false;
         }
         

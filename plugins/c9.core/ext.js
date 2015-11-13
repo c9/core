@@ -530,7 +530,7 @@ define(function(require, exports, module) {
                 });
             }
             
-            function cleanUp(what) {
+            function cleanUp(what, otherPlugin) {
                 if (!what || ~what.indexOf("elements")) {
                     // Loop through elements
                     elements.forEach(function(element) {
@@ -546,6 +546,7 @@ define(function(require, exports, module) {
                     events.forEach(function(eventRecord) {
                         var event = eventRegistry[eventRecord[0]];
                         if (!event) return; // this happens with mock plugins during testing
+                        if (otherPlugin && otherPlugin.name != event.name) return;
                         var type = eventRecord[1];
                         var id = eventRecord[2];
                         var _events = event._events;

@@ -31,7 +31,7 @@ define(function(require, exports, module) {
         var emit = handle.getEmitter();
         emit.setMaxListeners(1000);
         
-        var HASSDK = experimental.addExperiment("sdk=0", "SDK/Load Custom Plugins");
+        var HASSDK = experimental.addExperiment("sdk", false, "SDK/Load Custom Plugins");
         
         function focusOpenPackages(){
             var pages = tabs.getTabs();

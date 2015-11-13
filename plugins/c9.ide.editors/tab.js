@@ -280,13 +280,22 @@ define(function(require, module, exports) {
             
             // @todo Explain difference with unload in docs
             function close(noAnim) {
+                if (!amlPane.remove) return false;
                 amlPane.remove(amlTab, null, noAnim);
+                return true;
             }
             
             /***** Lifecycle *****/
             
             plugin.on("load", function(){ 
                 load();
+            });
+            
+            plugin.on("beforeUnload", function(){
+                if (!plugin.meta.$closing) {
+                    if (close())
+                        return false;
+                }
             });
             
             plugin.on("unload", function(e) { 

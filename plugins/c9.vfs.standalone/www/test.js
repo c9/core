@@ -8,6 +8,7 @@ require([
     "lib/architect/architect"
 ], function (chai, skin, events, theme, architect) {
     "use strict";
+    chai.Assertion.includeStack = true; // enable stack trace in errors
     var expect = chai.expect;
     var EventEmitter = events.EventEmitter;
 

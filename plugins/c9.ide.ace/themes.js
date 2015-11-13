@@ -1,6 +1,7 @@
 define(function(require, exports, module) {
     main.consumes = [
-        "PreferencePanel", "ace", "ui", "configure", "settings"
+        "PreferencePanel", "ace", "ui", "configure", "settings", 
+        "preferences.experimental"
     ];
     main.provides = ["preferences.themes"];
     return main;
@@ -11,6 +12,9 @@ define(function(require, exports, module) {
         var ace = imports.ace;
         var configure = imports.configure;
         var settings = imports.settings;
+        var experimental = imports["preferences.experimental"];
+        
+        var FLATDARK = experimental.addExperiment("flat-dark=1", "UI/Flat Dark Theme");
         
         /***** Initialization *****/
         
@@ -52,7 +56,24 @@ define(function(require, exports, module) {
             
             var list = getThemes();
             
-            var rb1, rb2, rb3, rb4, rb5;
+            var rb1, rb2, rb3, rb4, rb5, rb6;
+            
+            var flatThemes = []
+            rb6 = new ui.radiobutton({ 
+                group: "theme-color", 
+                class: "themepicker", 
+                style: "background:#252525;", 
+                value: "flat-dark"
+            });
+            rb5 = new ui.radiobutton({ 
+                group: "theme-color", 
+                class: "themepicker", 
+                style: "background:#dcdbdb;", 
+                value: "flat-light"
+            });
+            if (FLATDARK) flatThemes.push(rb6);
+            flatThemes.push(rb5);
+            
             plugin.form.add([
                 {
                     type: "custom",
@@ -79,14 +100,7 @@ define(function(require, exports, module) {
                                 style: "padding-top:5px" 
                             }),
                             new ui.bar({
-                                childNodes: [
-                                    rb5 = new ui.radiobutton({ 
-                                        group: "theme-color", 
-                                        class: "themepicker", 
-                                        style: "background:#dcdbdb;", 
-                                        value: "flat-light"
-                                    })
-                                ]
+                                childNodes: flatThemes
                             })
                         ]
                     })
@@ -154,7 +168,7 @@ define(function(require, exports, module) {
                 settings.set("user/general/@skin", e.value);
             };
             var setTheme = function(e) {
-                [rb1, rb2, rb5].some(function(rb) {
+                [rb1, rb2, rb5, rb6].some(function(rb) {
                     if (rb.value == e.value) {
                         rb.select();
                         return true;

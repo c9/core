@@ -391,11 +391,11 @@
 @pane-button-right: -42px -125px; //-126px;
 @pane-button-left-active: 0 -125px; //-126px;
 @pane-button-right-active: -42px -125px; //-126px;
-@pane-button-mask-left: 0 -96px; //-95px;
-@pane-button-mask-right: -42px -96px; //-95px;
+@pane-button-mask-left: 0 -95px; //-95px;
+@pane-button-mask-right: -42px -95px; //-95px;
 
-@pane-button-dark-mask-left: 0 -94px; //-95px;
-@pane-button-dark-mask-right: -42px -94px; //-95px;
+@pane-button-dark-mask-left: 0 -95px; //-95px;
+@pane-button-dark-mask-right: -42px -95px; //-95px;
 
 @pane-button-dark-middle-active: @pane-button-middle;
 @pane-button-dark-left-active: @pane-button-left-active;
@@ -594,6 +594,7 @@
 @dialog-header-font-size: 16px;
 @dialog-header-font-weight: normal;
 
+@dialog-content-color: #222;
 @dialog-content-background: darken(#FEFEFE, @darken-chrome);
 @dialog-content-dark-background-color: @dialog-content-background;
 @dialog-content-dark-gradient: linear-gradient(top, transparent 0%, transparent 100%);
@@ -1127,7 +1128,7 @@
 @preference-menu-button-icon-top: 7px;
 @preference-menu-button-icon-height: 25px;
 
-@preferences-nav-border-color: darken(#DEDEDE, @darken-chrome);
+@preferences-nav-border: 1px solid darken(#DEDEDE, @darken-chrome);
 @preferences-nav-background: darken(#FBFBFB, @darken-chrome);
 @preferences-nav-shadow-color: transparent;
 @preferences-nav-main-color: darken(#333, @darken-chrome);
@@ -1192,7 +1193,7 @@
 @preferences-datagrid-highlight-column-color: transparent;
 
 @preferences-filter-box-background: lightgrey;
-@preferences-intro-padding: 12px 12px 32px 12px;
+@preferences-intro-padding: 12px;
 @preferences-intro-title-text-shadow: none;
 @preferences-intro-title-padding: 8px 0 6px 47px;
 @preferences-intro-color: darken(#333, @darken-chrome);
