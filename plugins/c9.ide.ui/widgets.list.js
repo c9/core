@@ -34,7 +34,7 @@ define(function(require, exports, module) {
             var acetree;
             var model;
             var redirectEvents;
-            var filterRoot;
+            var fRoot;
             var meta = {};
             var dataType = options.model ? "object" : options.dataType;
             var excludedEvents = { 
@@ -296,18 +296,20 @@ define(function(require, exports, module) {
                 set filterKeyword(value){
                     model.keyword = value;
                     if (!model.keyword) {
-                        filterRoot = null;
+                        fRoot = null;
                         model.reKeyword = null;
                         model.setRoot(model.cachedRoot);
                     }
                     else {
                         model.reKeyword = new RegExp("(" 
                             + util.escapeRegExp(model.keyword) + ")", 'i');
-                        filterRoot = search.treeSearch(
-                            model.cachedRoot.items || model.cachedRoot, 
+                        fRoot = search.treeSearch(
+                            model.filterRoot 
+                                ? model.filterRoot.items || model.filterRoot
+                                : model.cachedRoot.items || model.cachedRoot, 
                             model.keyword, model.filterCaseInsensitive,
-                            null, null, model.indexProperty);
-                        model.setRoot(filterRoot);
+                            null, null, model.filterProperty);
+                        model.setRoot(fRoot);
                     }
                 },
                 /**
@@ -320,6 +322,11 @@ define(function(require, exports, module) {
                  */
                 get filterProperty(){ return model.filterProperty; },
                 set filterProperty(value){ model.filterProperty = value; },
+                /**
+                 * 
+                 */
+                get filterRoot(){ return model.filterRoot; },
+                set filterRoot(value){ model.filterRoot = value; },
                 /**
                  * 
                  */
@@ -590,7 +597,7 @@ define(function(require, exports, module) {
                  * 
                  */
                 refresh: function(){
-                    model.setRoot(filterRoot || plugin.root);
+                    model.setRoot(fRoot || plugin.root);
                 },
                 /**
                  * 
