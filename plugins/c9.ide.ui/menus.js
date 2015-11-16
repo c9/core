@@ -965,7 +965,7 @@ define(function(require, exports, module) {
                         checkItems.call(this, e);
                     },
                     "onitemclick" : function(e) {
-                        emit("itemclick", { value : e.value });
+                        emit("itemclick", { value : e.value, item: e.relatedNode });
                     }
                 });
                 aml.cloud9menu = plugin;
