@@ -397,6 +397,11 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
+                get getTooltipText(){ return model.getTooltipText; },
+                set getTooltipText(fn){ model.getTooltipText = fn; },
+                /**
+                 * 
+                 */
                 get getIndex(){ return model.getIndex; },
                 set getIndex(fn){ model.getIndex = fn; },
                 

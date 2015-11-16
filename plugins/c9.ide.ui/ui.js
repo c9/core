@@ -124,7 +124,7 @@ define(function(require, module, exports) {
          "list", "tab", "textbox", "textarea", "radiobutton", "checkbox", "page",
          "splitter", "hsplitbox", "vsplitbox", "group", "img", "label", "spinner",
          "dropdown", "BindingColumnRule", "datagrid", "hbox", "vbox", "colorbox",
-         "frame", "password", "modalwindow", "filler", "splitbutton"].forEach(function(tag) {
+         "frame", "password", "modalwindow", "filler", "splitbutton", "codebox"].forEach(function(tag) {
              plugin[tag] = function(struct) {
                  return new apf[tag](struct);
              };
