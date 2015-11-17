@@ -1,7 +1,7 @@
 {
     "name": "c9",
     "description": "New Cloud9 Client",
-    "version": "3.1.389",
+    "version": "3.1.404",
     "author": "Ajax.org B.V. <info@ajax.org>",
     "private": true,
     "main": "bin/c9",
@@ -10,7 +10,7 @@
         "url": "http://github.com/c9/core.git"
     },
     "dependencies": {
-        "acorn": ">=0.11.0",
+        "acorn": "2.5.2",
         "async": "^0.9.0",
         "base64id": "~0.1.0",
         "connect": "~2.12.0",
@@ -42,7 +42,7 @@
         "read": "~1.0.5",
         "form-data": "~0.2.0",
         "chai": "~1.5.0",
-        "mocha": "~2.3.3"
+        "mocha": "1.8.2"
     },
     "devDependencies": {},
     "licenses": [],
@@ -66,7 +66,7 @@
         "c9.ide.language.javascript.tern": "#40cf04bded",
         "c9.ide.language.javascript.infer": "#8478e3c702",
         "c9.ide.language.jsonalyzer": "#8401c240b3",
-        "c9.ide.collab": "#7d0423e652",
+        "c9.ide.collab": "#9915f10460",
         "c9.ide.local": "#a6e689e33b",
         "c9.ide.find": "#35379124ca",
         "c9.ide.find.infiles": "#c3bf17286d",
@@ -108,8 +108,8 @@
         "c9.ide.save": "#5118b30230",
         "c9.ide.scm": "#2c9f82f7f1",
         "c9.ide.terminal.monitor": "#35afa7f97f",
-        "c9.ide.test": "#f3e5dad5cc",
-        "c9.ide.test.mocha": "#586fb0cdc2",
+        "c9.ide.test": "#df1fa14185",
+        "c9.ide.test.mocha": "#2044b40374",
         "c9.ide.theme.flat": "#92cda0fb40",
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
