@@ -29,7 +29,12 @@ var shortcuts = {
     "s":         ["standalone", "-s", "standalone"]
 };
 shortcuts.odev = shortcuts.onlinedev; // For backwards compatibility, if you see this in 2016 remove this line
-var delayLoadConfigs = ["preview", "user-content", "api", "oldclient", "apps-proxy", "worker"];
+var delayLoadConfigs = [
+    // Services that are usually not immediately needed
+    "preview", "user-content", "api", "apps-proxy", "worker",
+    // Services that are very slow to load, blocking others
+    "profile",
+];
 
 module.exports = main;
 
