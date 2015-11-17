@@ -94,7 +94,7 @@
         /*::dev::*/ }
         
         // have to use this since new-instance windows have wrong root module path
-        var __dirname = unescape(document.baseURI).substr(
+        var __dirname = decodeURIComponent(document.baseURI).substr(
             "file://".length + (process.platform == "win32" ? 1 : 0)
         ).replace(/\/*$/, "/local");
         
@@ -109,7 +109,7 @@
 
         var server = require(__dirname + "/server.js");
         var windowManager = server.windowManager;
-        windowManager.registerWindow(win, unescape(/id=([^&#?=]+)/.exec(window.location)[1]));
+        windowManager.registerWindow(win, decodeURIComponent(/id=([^&#?=]+)/.exec(window.location)[1]));
         
         var performance = window.performance;
         var time = {
