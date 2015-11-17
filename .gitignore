@@ -68,6 +68,8 @@ plugins/c9.account.*/node_modules/
 
 test/selenium/notify/
 test/selenium/results/
+testresults
+cfresult
 
 .c9revisions
 .settings
