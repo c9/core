@@ -521,7 +521,10 @@ define(function(require, exports, module) {
                  */
                 setRoot: function(root){
                     model.cachedRoot = root;
-                    return model.setRoot(root);
+                    if (model.keyword)
+                        plugin.filterKeyword = model.keyword;
+                    else
+                        return model.setRoot(root);
                 },
                 /**
                  * 
