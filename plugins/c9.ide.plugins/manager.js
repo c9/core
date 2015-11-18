@@ -96,18 +96,18 @@ define(function(require, exports, module) {
 
         /***** Initialization *****/
 
+        var ENABLED = c9.location.indexOf("debug=2") > -1
+            || experimental.addExperiment("plugin-manager", false, "SDK/Plugin Manager");
+
         var plugin = new PreferencePanel("Ajax.org", main.consumes, {
             caption: "Plugin Manager",
             className: "plugins",
             form: false,
             noscroll: true,
-            index: 200
+            index: 200,
+            visible: ENABLED,
         });
         // var emit = plugin.getEmitter();
-
-        // var HASSDK = experimental.addExperiment("sdk=0", "SDK/Load Custom Plugins");
-        var ENABLED = c9.location.indexOf("debug=2") > -1;
-        var MANAGER = experimental.addExperiment("plugin-manager=1", "SDK/Plugin Manager");
 
         var model, datagrid, filterbox;
         var btnUninstall, btnReport, btnReadme, btnCloud9, btnReload;
@@ -117,7 +117,7 @@ define(function(require, exports, module) {
             if (loaded) return false;
             loaded = true;
 
-            if (!MANAGER && !ENABLED) return;
+            if (!ENABLED) return;
 
             // @TODO enable/disable plugins -> move to ext
 

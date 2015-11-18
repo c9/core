@@ -304,7 +304,7 @@ define(function(require, module, exports) {
                 if (rule)
                     ui.removeStyleRule(rule, stylesheet);
                 // If there are no more pages left, reset location
-                var last = amlPane.getPages().length === 0;
+                var last = e && e.last || amlPane.getPages().length === 0;
                 if (last)
                     apf.setStyleClass(amlPane.$ext, "empty");
 

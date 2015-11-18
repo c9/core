@@ -50,7 +50,7 @@ define(function(require, exports, module) {
             intro.$int.innerHTML = 
                 '<h1>Experimental Features (reload to apply changes)</h1><p style="white-space:normal">Cloud9 is continuously in '
                 + 'development. New features in alpha or beta are first hidden '
-                + 'and can be enabled via this page. <i>Use at your own risk</i></p>';
+                + 'and can be enabled via this page. <i>Use at your own risk</i>.</p>';
         }
         
         /***** Methods *****/
@@ -58,12 +58,10 @@ define(function(require, exports, module) {
         // =0 means the value should be set to 0 to disable otherwise it is enabled
         // =1 means the value should be set to 1 to enable otherwise it is disabled
         var found = {};
-        function addExperiment(query, name){
-            var key = query.split("=");
-            var defValue = Number(key[1]); key = key[0];
-            var uniqueId = key.replace(/\//g, "-");
+        function addExperiment(name, defaultValue, caption){
+            var uniqueId = name.replace(/\//g, "-");
             
-            var parts = name.split("/");
+            var parts = caption.split("/");
             var current, obj = { "Experimental": current = {} };
             for (var i = 0; i < parts.length; i++) {
                 current[parts[i]] = current = {};
@@ -79,18 +77,18 @@ define(function(require, exports, module) {
                 }
             };
             
-            if (!found[name])
+            if (!found[caption])
                 plugin.add(obj, plugin);
-            found[name] = true;
+            found[caption] = true;
             
-            settings.setDefaults("state/experiments", [[uniqueId, !defValue]]);
+            settings.setDefaults("state/experiments", [[uniqueId, Number(defaultValue)]]);
             
             // return value from url if present, otherwise return the setting
-            var idx = c9.location.indexOf(key + "=");
+            var idx = c9.location.indexOf(name + "=");
             if (idx !== -1) {
-                if (c9.location.indexOf(key + "=0") != -1)
+                if (c9.location.indexOf(name + "=0") != -1)
                     return false;
-                if (c9.location.indexOf(key + "=1") != -1)
+                if (c9.location.indexOf(name + "=1") != -1)
                     return true;
             }
             
@@ -122,7 +120,15 @@ define(function(require, exports, module) {
             ],
             
             /**
+             * Define a new experimental feature.
              * 
+             * @param {String} name            The internal name of this experiment, e.g. foo
+             * 
+             * @param {Boolean} defaultValue   The default state of this experiment when not configure
+             *                      
+             * @param {String} caption         The name of this setting in the UI, e.g. SDK/Plugin Manager
+             * 
+             * @return {Boolean} true if this experiment is currently enabled
              */
             addExperiment: addExperiment
         });

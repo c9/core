@@ -18,6 +18,7 @@ define(function(require, module, exports) {
             var caption = options.caption;
             var noscroll = options.noscroll;
             var className = options.className || "";
+            var visible = options.visible == null || options.visible;
             var index = options.index || 100;
             var headings = {};
             var subHeadings = {};
@@ -240,6 +241,8 @@ define(function(require, module, exports) {
             /***** LifeCycle *****/
             
             plugin.on("load", function(){
+                if (!visible) return;
+                
                 navHtml = prefs.addNavigation(caption, index, null, plugin);
                 navHtml.addEventListener("mousedown", function(){
                     prefs.activate(plugin);

@@ -103,22 +103,29 @@ define(function(require, module, exports) {
                         emit("afterClose", event);
                         
                         if (tab.aml.$amlDestroyed) {
-                            tab.unload(e);
+                            tab.unload(event);
                             closing--;
+                        }
+                        else if (tab.meta.$skipAnimation) {
+                            closeNow();
                         }
                         else {
                             tab.aml.on("afterclose", function(){
-                                if (tab.meta.$closeSync) {
-                                    tab.unload(e);
-                                    closing--;
-                                }
-                                else {
-                                    setTimeout(function(){
-                                        tab.unload(e);
-                                        closing--;
-                                    });
-                                }
+                                closeNow();
                             });
+                        }
+                        
+                        function closeNow(){
+                            if (tab.meta.$closeSync) {
+                                tab.unload(event);
+                                closing--;
+                            }
+                            else {
+                                setTimeout(function(){
+                                    tab.unload(event);
+                                    closing--;
+                                });
+                            }
                         }
                     },
                     overactivetab: true,
