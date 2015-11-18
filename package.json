@@ -1,7 +1,7 @@
 {
     "name": "c9",
     "description": "New Cloud9 Client",
-    "version": "3.1.409",
+    "version": "3.1.423",
     "author": "Ajax.org B.V. <info@ajax.org>",
     "private": true,
     "main": "bin/c9",
@@ -78,7 +78,7 @@
         "c9.ide.ace.keymaps": "#e8d5eedc37",
         "c9.ide.ace.repl": "#4b88a85b7b",
         "c9.ide.ace.split": "#0ae0151c78",
-        "c9.ide.ace.statusbar": "#2155083cf6",
+        "c9.ide.ace.statusbar": "#3aab0b67e0",
         "c9.ide.ace.stripws": "#cf0f42ac59",
         "c9.ide.behaviors": "#5ae88f87e1",
         "c9.ide.closeconfirmation": "#cee4674141",
@@ -102,18 +102,18 @@
         "c9.ide.recentfiles": "#7c099abf40",
         "c9.ide.remote": "#301d2ab519",
         "c9.ide.processlist": "#2b12cd1bdd",
-        "c9.ide.run": "#4b031257ee",
+        "c9.ide.run": "#c0b6677da6",
         "c9.ide.run.build": "#0598fff697",
-        "c9.ide.run.debug.xdebug": "#891f40a245",
+        "c9.ide.run.debug.xdebug": "#c4d852533c",
         "c9.ide.save": "#5118b30230",
         "c9.ide.scm": "#64465c2eaa",
         "c9.ide.terminal.monitor": "#35afa7f97f",
-        "c9.ide.test": "#39de4af558",
-        "c9.ide.test.mocha": "#2044b40374",
+        "c9.ide.test": "#520fa1e6c5",
+        "c9.ide.test.mocha": "#7844e1dc83",
         "c9.ide.theme.flat": "#92cda0fb40",
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
         "c9.ide.upload": "#0bd010d3dc",
-        "c9.ide.welcome": "#412fe300da"
+        "c9.ide.welcome": "#7450aebef6"
     }
 }
