@@ -1,3 +1,9 @@
+/**
+ * unpacked_helper speeds up the unpacked version of Cloud9
+ * by using more parallel connections and avoiding
+ * subsubdomains on dogfooding (e.g., ide.dev-lennartcl.c9.io, where
+ * Chrome doesn't support any caching).
+ */
 "use strict";
 
 plugin.consumes = [
@@ -18,20 +24,11 @@ function plugin(options, imports, register) {
     assert(ideBaseUrl, "ideBaseUrl must be set");
     
     var balancers = [
-        baseUrl + "/uph",
+        baseUrl + "/_unp",
+        baseUrl + ":8080/_unp",
+        baseUrl + ":8081/_unp",
+        baseUrl + ":8082/_unp",
     ];
-    /* UNDONE: for now we put all static content on one domain
-               because of reports of CORS errors
-    if (!options.avoidSubdomains)
-        balancers.push(
-            ideBaseUrl
-            // We could include others but dogfooding URLs like
-            // vfs.newclient-lennartcl.c9.io don't have a cert, so
-            // let's not
-            // apiBaseUrl + "/uph",
-            // vfsBaseUrl + "/uph"
-        );
-    */
     
     connectStatic.getRequireJsConfig().baseUrlLoadBalancers = balancers;
     assert(connectStatic.getRequireJsConfig().baseUrlLoadBalancers);
