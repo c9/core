@@ -130,7 +130,7 @@ function plugin(options, imports, register) {
                 pid: 1
             };
             req.session = {};
-            next();
+            api.authenticate()(req, res, next);
         },
         previewHandler.getProxyUrl(function() {
             return {
