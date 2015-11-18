@@ -615,7 +615,10 @@ define(function(require, exports, module) {
                  * 
                  */
                 refresh: function(){
-                    model.setRoot(fRoot || plugin.root);
+                    if (model.keyword)
+                        plugin.filterKeyword = model.keyword;
+                    else
+                        model.setRoot(plugin.root);
                 },
                 /**
                  * 
