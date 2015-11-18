@@ -25,6 +25,7 @@ function plugin(options, imports, register) {
     
     var balancers = [
         baseUrl + "/_unp",
+        baseUrl + ":8080/_unp",
         baseUrl + ":8081/_unp",
         baseUrl + ":8082/_unp",
     ];
