@@ -254,6 +254,16 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
+                get enableVariableHeight(){ return model.getItemHeight; },
+                set enableVariableHeight(value){ 
+                    if (!value) throw new Error("Unable to remove variable height");
+                    
+                    var variableHeightRowMixin = model.constructor.variableHeightRowMixin;
+                    variableHeightRowMixin.apply(model);
+                },
+                /**
+                 * 
+                 */
                 get enableRename(){ return acetree.edit ? true : false; },
                 set enableRename(value){ 
                     acetree.edit = value 
@@ -411,6 +421,11 @@ define(function(require, exports, module) {
                  */
                 get getIndex(){ return model.getIndex; },
                 set getIndex(fn){ model.getIndex = fn; },
+                /**
+                 * 
+                 */
+                get getItemHeight(){ return model.getItemHeight; },
+                set getItemHeight(fn){ model.getItemHeight = fn; },
                 
                  // Events
                 _events: [
