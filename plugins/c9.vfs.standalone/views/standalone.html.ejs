@@ -109,6 +109,9 @@
                     app.services.c9.totalLoadTime = Date.now() - start;
 
                     console.warn("Total Load Time: ", Date.now() - start);
+                    
+                    if (window.hideLoader)
+                        window.hideLoader();
                 }
             });
         });
