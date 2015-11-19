@@ -101,10 +101,6 @@
 
                 // For Development only
                 function done(){
-                    clearInterval(window.dotsAnim); // stop the dots animation
-                    var loader = document.getElementById("loadingide");
-                    loader.parentNode.removeChild(loader);
-
                     app.services.c9.ready();
                     app.services.c9.totalLoadTime = Date.now() - start;
 
