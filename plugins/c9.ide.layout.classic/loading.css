@@ -1,0 +1,88 @@
+#loadingide {
+    background-image: url(images/loading-logo.png);
+    background-repeat: no-repeat;
+    background-color: #222222;
+    background-position: 50% 40%;
+    font-style: normal;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    text-align: center;
+    z-index: 200000;
+    left: 0;
+    top: 0;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+@media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
+    #loadingide {
+        background-image: url(images/loading-logo@2x.png);
+        background-size: 514px 431px;
+    }
+}
+
+#loadingide .loading-progress {
+    font-family: Myriad Pro, Arial;
+    font-size: 18px;
+    color: #9b9b9b;
+    height: 37px;
+    position: absolute;
+    margin: 0 auto;
+    bottom: 10%;
+    width: 100%;
+}
+#progress-msg {
+    position: relative;
+    width: 250px;
+    margin: 0 auto;
+}
+#loadingide .loading-msg {
+    color: #6d6d6d;
+    font-size : 14px;
+    margin-top : 15px;
+}
+#loadingide .footer {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 11px;
+    text-shadow: 0 1px 0 #000;
+    filter: dropshadow(color=#000, offx=0, offy=1);
+    color: #818181;
+    position:absolute;
+    bottom:5px;
+    right:10px;
+    text-align: right;
+    margin: 0;
+}
+#loadingide .footer, .footer > a:link, a:visited, a:active {
+    color: #909090;
+    text-decoration: none;
+}
+#loadingide .footer > a:hover {
+    color: #f1f1f1;
+    text-decoration: underline;
+}
+#loadingide #dots {
+    width: 30px;
+    display: inline-block;
+    text-align: left;
+    margin-right: -30px;
+}
+#errorMessage {
+    display: block;
+    color: #c41117;
+    text-shadow: 0 1px 0 #eee;
+    background: rgba(255, 0, 0, 0.04);
+    padding: 10px;
+    margin: 50px auto;
+    border-radius: 10px;
+
+    font-size: 15px;
+    text-align: center;
+    width: 560px;
+    line-height: 25px;
+}
+#errorMessage a {
+    font-size: 15px;
+    color: #720c10;
+    text-decoration: underline;
+}
