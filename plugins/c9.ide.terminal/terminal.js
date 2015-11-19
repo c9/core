@@ -262,7 +262,7 @@ define(function(require, exports, module) {
                     ["fontfamily", "Ubuntu Mono, Menlo, Consolas, monospace"], // Monaco, 
                     ["fontsize", "12"],
                     ["blinking", "false"],
-                    ["scrollback", 10000]
+                    ["scrollback", 1000]
                 ]);
                 
                 setSettings();

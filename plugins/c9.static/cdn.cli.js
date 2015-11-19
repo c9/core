@@ -248,7 +248,7 @@ define(function(require, exports, module) {
                     process.exit(1);
                 }
                 copy(absPath, root + "/static/" + p, {
-                    include: /^(libmarkdown.js|runners_list.js|builders_list.js|bootstrap.js)$/,
+                    include: /^(remarkable.min.js|runners_list.js|builders_list.js|bootstrap.js)$/,
                     exclude: function(name, dir) {
                         if (/\.css$/.test(name)) {
                             if (!cache.files[dir + "/" + name]) {
