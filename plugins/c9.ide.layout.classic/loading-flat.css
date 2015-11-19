@@ -1,9 +1,9 @@
-HTML.loading{
+BODY.loading{
     background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(251,251,251,1) 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(251,251,251,1) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(251,251,251,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-HTML.loading.dark{
+BODY.loading.dark{
     background: -moz-linear-gradient(top,  rgba(37,37,37,1) 0%, rgba(35,35,35,1) 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top,  rgba(37,37,37,1) 0%,rgba(35,35,35,1) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom,  rgba(37,37,37,1) 0%,rgba(35,35,35,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
