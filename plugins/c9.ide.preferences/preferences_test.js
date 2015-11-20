@@ -96,6 +96,8 @@ require([
         });
         
         describe('preferences', function() {
+            this.timeout(20000);
+            
             before(function(done) {
                 apf.config.setProperty("allow-select", false);
                 apf.config.setProperty("allow-blur", false);
@@ -113,7 +115,6 @@ require([
             var plugin = new Plugin();
             
             describe("addSettings", function(){
-                this.timeout(10000);
                 
                 it('should open a pane with just an editor', function(done) {
                     settings.set("user/general/keybindings/@preset", "custom");
@@ -173,8 +174,6 @@ require([
                 });
             });
             describe("unload()", function(){
-               this.timeout(10000)
-               
                it('should unload the preferences', function(done) {
                    general.unload();
                    prefs.unload();

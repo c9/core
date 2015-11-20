@@ -89,6 +89,8 @@ require(["lib/architect/architect", "lib/chai/chai"],
         });
         
         describe('tabs', function() {
+            this.timeout(20000);
+            
             before(function(done) {
                 apf.config.setProperty("allow-select", false);
                 apf.config.setProperty("allow-blur", false);

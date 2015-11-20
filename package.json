@@ -63,12 +63,12 @@
         "c9.ide.language.javascript": "#2b77bdb96a",
         "c9.ide.language.javascript.immediate": "#0535804ada",
         "c9.ide.language.javascript.eslint": "#3ec4557969",
-        "c9.ide.language.javascript.tern": "#40cf04bded",
+        "c9.ide.language.javascript.tern": "#468cc173c4",
         "c9.ide.language.javascript.infer": "#8478e3c702",
         "c9.ide.language.jsonalyzer": "#8401c240b3",
         "c9.ide.collab": "#5d9400830d",
         "c9.ide.local": "#a6e689e33b",
-        "c9.ide.find": "#35379124ca",
+        "c9.ide.find": "#e33fbaed2f",
         "c9.ide.find.infiles": "#c3bf17286d",
         "c9.ide.find.replace": "#8cbce45290",
         "c9.ide.run.debug": "#dbe6c81252",
@@ -105,7 +105,7 @@
         "c9.ide.run": "#c0b6677da6",
         "c9.ide.run.build": "#0598fff697",
         "c9.ide.run.debug.xdebug": "#5c004d2d75",
-        "c9.ide.save": "#5118b30230",
+        "c9.ide.save": "#a2820d0ea1",
         "c9.ide.scm": "#27ac592b33",
         "c9.ide.terminal.monitor": "#35afa7f97f",
         "c9.ide.test": "#93be8f1f26",
@@ -114,6 +114,6 @@
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
         "c9.ide.upload": "#0bd010d3dc",
-        "c9.ide.welcome": "#7450aebef6"
+        "c9.ide.welcome": "#437071b819"
     }
 }
