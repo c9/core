@@ -8,7 +8,7 @@ define(function(require, exports, module) {
         var c9 = imports.c9;
         var ext = imports.ext;
         
-        var JSONStream = require("./json-stream");
+        var JSONStream = require("json-stream");
 
         /***** Initialization *****/
 
