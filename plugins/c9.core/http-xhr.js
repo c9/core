@@ -88,7 +88,7 @@ define(function(require, module, exports) {
                     xhr.abort();
                     var err = new Error("Timeout");
                     err.code = "ETIMEOUT";
-                    err.data = {url: url, query: options.query};
+                    err.data = {url: url, query: options.query, timeout: timeout};
                     done(err);
                 }, timeout);
             }
