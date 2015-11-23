@@ -1,5 +1,6 @@
 /*global describe it before beforeEach*/
 
+"use blacklist";
 "use client";
 
 require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai) {
