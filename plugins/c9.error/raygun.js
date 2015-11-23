@@ -61,7 +61,7 @@ function plugin(options, imports, register) {
             errorClient: clients.error,
             warningClient: clients.warning,
             customClient: function(name) {
-                return client[name];
+                return clients[name];
             },
             customData: customData
         }
