@@ -568,8 +568,8 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                scrollIntoView: function(anchor, lead, offset){ 
-                    return acetree.renderer.scrollCaretIntoView(anchor, lead, offset);
+                scrollIntoView: function(anchor, offset){ 
+                    return acetree.renderer.scrollCaretIntoView(anchor, offset);
                 },
                 /**
                  * 
