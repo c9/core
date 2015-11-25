@@ -40,7 +40,8 @@ define(function(require, exports, module) {
                         e.respond(null, true);
                         break;
                     default:
-                        console.error("Unknown Bridge Command: ", message.type);
+                        if (message.type)
+                            console.error("Unknown Bridge Command: ", message.type);
                         break;
                 }
             }, plugin);
