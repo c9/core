@@ -341,15 +341,6 @@ define(function(require, exports, module) {
                 }
             }), 300, plugin);
             
-            mnuFilesSettings.on("prop.visible", function(e) {
-                
-            }, plugin);
-            
-            // todo
-            winFilesViewer.on("prop.visible", function(e) {
-                
-            }, plugin);
-    
             // After an item in the tree has been clicked on, this saves that
             // selection in the settings model
             // @todo optimize this with a timeout if needed
@@ -612,7 +603,7 @@ define(function(require, exports, module) {
                     if (!hasNetwork && !item.enableOffline) {
                         disabled = true;
                     }
-                    else if (item.write == c9.readonly) {
+                    else if (item.write && c9.readonly) {
                         disabled = true;
                     }
                     else if (match == "clipboard") {
