@@ -1,5 +1,6 @@
 /*global describe it before beforeEach*/
 
+"use blacklist";
 "use client";
 
 require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai) {
@@ -40,7 +41,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         var c9 = imports.c9;
 
         describe('vfs', function() {
-            this.timeout(20000);
+            this.timeout(30000);
             
             beforeEach(function(done) {
                 if (vfs.connected)
