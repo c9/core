@@ -808,11 +808,9 @@ module.exports = function(options) {
         
         // git integration
         "plugins/c9.ide.scm/scm",
-        "plugins/c9.ide.scm/scm.button",
-        // "plugins/c9.ide.scm/scm.commit",
+        "plugins/c9.ide.scm/scm.commit",
         "plugins/c9.ide.scm/scm.branches",
         "plugins/c9.ide.scm/dialog.localchanges",
-        "plugins/c9.ide.scm/dialog.commit",
         "plugins/c9.ide.scm/scm.log",
         "plugins/c9.ide.scm/scmpanel",
         "plugins/c9.ide.scm/detail",
