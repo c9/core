@@ -382,6 +382,11 @@ define(function(require, module, exports) {
                  */
                 get button(){ return button; },
                 
+                /**
+                 * 
+                 */
+                get active(){ return panels.isActive(plugin.name); },
+                
                 _events: [
                     /**
                      * Fires when the panel is drawn.
