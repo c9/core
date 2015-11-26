@@ -16,39 +16,11 @@
         window.isLocalVersion = nRequire ? true : false;
         window.require        = undefined;
     </script>
-    <link rel="stylesheet" type="text/css" href="/static/plugins/c9.ide.layout.classic/loading.css" />
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> 
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 </head>
 <body>
-    <div id="loadingide">
-        <div id="content" class="loading-progress">
-            <div id="progress-msg">
-                Loading your workspace <span id="dots"></span>
-            </div>
-            <div class="loading-seperator"></div>
-            <div class="loading-msg">It will be just as you left it</div>
-            
-            <div class="ui-progress-bar ui-container" id="progress_bar">
-                <div class="ui-progress" style="width: 7%;">
-                  <span class="ui-label" style="display:none;"></span>
-                </div>
-            </div>
-        </div>
-        <div class="footer">
-            <a href="https://docs.c9.io">Documentation</a> | 
-            <a href="http://status.c9.io">Server Status</a> | 
-            <a href="http://support.c9.io">Support</a>
-        </div>
-    </div>
-
-    <script type="text/javascript">
-        var dots = document.getElementById("dots");
-        var cnt  = 0;
-        window.dotsAnim = setInterval(function () {
-            dots.textContent = "...".slice(0, (++cnt)%4);
-        }, 500);
-    </script>
+    <% include ../../c9.ide.server/views/load-screen.ejs %>
 
     <% if (packed) { %>
         <script src="/static/<%=version%>/config/<%=configName%>.js"></script>
@@ -58,7 +30,7 @@
     <% } %>
     <script>
         var plugins = <%-: architectConfig | JSONToJS %>;
-        var start   = Date.now();
+        var start = Date.now();
         
         <% if (packed) { %>
             require.MODULE_LOAD_URL = "/static/standalone/modules"
@@ -129,14 +101,13 @@
 
                 // For Development only
                 function done(){
-                    clearInterval(window.dotsAnim); // stop the dots animation
-                    var loader = document.getElementById("loadingide");
-                    loader.parentNode.removeChild(loader);
-
                     app.services.c9.ready();
                     app.services.c9.totalLoadTime = Date.now() - start;
 
                     console.warn("Total Load Time: ", Date.now() - start);
+                    
+                    if (window.hideLoader)
+                        window.hideLoader();
                 }
             });
         });
