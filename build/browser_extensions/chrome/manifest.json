@@ -1,7 +1,7 @@
 {
    "app": {
       "launch": {
-         "web_url": "http://c9.io/"
+         "web_url": "http://c9.io/#1page"
       },
       "urls": [
         "https://c9.io/", "https://www.c9.io/", "https://ide.c9.io/", 
