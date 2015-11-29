@@ -665,13 +665,7 @@ define(function(require, exports, module) {
         }
 
         function reload(name) {
-            var key = commands.getHotkey("reloadLastPlugin");
-            if (commands.platform == "mac")
-                key = apf.hotkeys.toMacNotation(key);
-            if (!getLastReloaded())
-                showInfo("Reloaded " + name + ". Press " + key + " to reload again.", 3000);
-            else
-                showInfo("Reloaded " + name + ".", 1000);
+            showReloadTip();
                 
             var href = document.location.href.replace(/[?&]reload=[^&]+/, "")
                 + (document.location.href.match(/\?/) ? "&" : "?")
@@ -685,6 +679,19 @@ define(function(require, exports, module) {
                 pluginDebug.reloadPackage(plugin);
                 return;
             }
+        }
+        
+        function showReloadTip() {
+            if (options.devel) {
+                var key = commands.getHotkey("reloadLastPlugin");
+                if (commands.platform == "mac")
+                    key = apf.hotkeys.toMacNotation(key);
+                if (!getLastReloaded()) {
+                    showInfo("Reloaded " + name + ". Press " + key + " to reload again.", 3000);
+                    return;
+                }
+            }
+            showInfo("Reloaded " + name + ".", 1000);
         }
         
         function getLastReloaded() {
