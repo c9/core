@@ -142,7 +142,9 @@ define(function(require, exports, module) {
                 hint: "reload plugin last reloaded in plugin manager",
                 exec: function() {
                     var name = getLastReloaded();
-                    name && reload(name);
+                    if (!name)
+                        return commands.exec("reloadPlugin", null, { panel: plugin });
+                    reload(name);
                 }
             }, plugin);
             
