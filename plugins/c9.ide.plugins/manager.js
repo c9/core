@@ -688,7 +688,7 @@ define(function(require, exports, module) {
         }
         
         function getLastReloaded() {
-            return qs.parse(document.location.href.substr(1)).reload;
+            return qs.parse(document.location.search.substr(1)).reload;
         }
 
         /***** Lifecycle *****/
