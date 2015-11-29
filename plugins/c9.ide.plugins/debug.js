@@ -2,7 +2,7 @@
 define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "vfs", "fs", "plugin.loader", "c9", "ext", "watcher",
-        "dialog.notification", "ui", "menus", "commands", "settings", "auth",
+        "dialog.notification", "dialog.info", "ui", "menus", "commands", "settings", "auth",
         "installer", "find", "util", "preferences.experimental"
     ];
     main.provides = ["plugin.debug"];
@@ -26,6 +26,7 @@ define(function(require, exports, module) {
         var loader = imports["plugin.loader"];
         var notify = imports["dialog.notification"].show;
         var experimental = imports["preferences.experimental"];
+        var showInfo = imports["dialog.info"].show;
         
         var dirname = require("path").dirname;
         var basename = require("path").basename;
@@ -98,7 +99,7 @@ define(function(require, exports, module) {
             });
             
             commands.addCommand({
-                name: "restartplugin",
+                name: "reloadCustomPlugin",
                 group: "Plugins",
                 bindKey: { 
                     mac: "Command-Enter", 
@@ -109,8 +110,8 @@ define(function(require, exports, module) {
                 }
             }, plugin);
             
-            menus.addItemByPath("Tools/Developer/Restart Plugin", new ui.item({
-                command: "restartplugin"
+            menus.addItemByPath("Tools/Developer/Reload Custom Plugin", new ui.item({
+                command: "reloadCustomPlugin"
             }), 1000, plugin);
         }
         
@@ -492,6 +493,11 @@ define(function(require, exports, module) {
             
             var path = list[list.length - 1];
             reloadPackage(path.replace(/^~\/\.c9\//, ""));
+            
+            // Avoid confusion with "Reload Last Plugin"
+            var href = document.location.href.replace(/[?&]reload=[^&]+/, "");
+            window.history.replaceState(window.history.state, null, href);
+            showInfo("Reloaded " + path + ".", 1000);
         }
         
         /***** Lifecycle *****/
