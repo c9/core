@@ -97,7 +97,11 @@ define(function(require, exports, module) {
         /***** Initialization *****/
 
         var ENABLED = c9.location.indexOf("debug=2") > -1
-            || experimental.addExperiment("plugin-manager", false, "SDK/Plugin Manager");
+            || experimental.addExperiment(
+                  "plugin-manager",
+                  options.defaultEnabled,
+                  "SDK/Plugin Manager"
+               );
 
         var plugin = new PreferencePanel("Ajax.org", main.consumes, {
             caption: "Plugin Manager",
