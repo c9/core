@@ -3,6 +3,7 @@
 main.consumes = [
     "connect",
     "connect.cors",
+    "connect.static",
     "cdn.build"
 ];
 main.provides = [];
@@ -12,6 +13,7 @@ module.exports = main;
 function main(options, imports, register) {
     var connect = imports.connect;
     var build = imports["cdn.build"];
+    var connectStatic = imports["connect.static"];
     
     var fs = require("fs");
     var path = require("path");
@@ -28,7 +30,121 @@ function main(options, imports, register) {
     
     var section = api.section("static");
     
-    //section.use(foreverCache());
+    var resolveModulePath = require("architect-build/module-deps").resolveModulePath;
+    connectStatic.getRequireJsConfig().useCache = options.useBrowserCache;
+    section.post("/__check__", [function(req, res, next) {
+        req.params.hash = "any";
+        next();
+    }, prepare, function(req, res, next) {
+        function FsQ() {
+            this.buffer = [];
+            this.process = function() {};
+            this.active = 0;
+            this.ended = false;
+            this.maxActive = 100;
+        }
+        FsQ.prototype.write = function(arr) {
+            this.buffer.push.apply(this.buffer, arr);
+            this.take();
+        };
+        FsQ.prototype.take = function(arr) {
+            while (this.buffer.length && this.active < this.maxActive) {
+                this.process(this.buffer.pop());
+                this.active++;
+            }
+        };
+        FsQ.prototype.oneDone = function() {
+            this.active--;
+            if (!this.active)
+                this.take();
+            if (!this.active && this.ended)
+                this.end();
+        };
+
+        res.writeHead(200, {
+            "Content-Type": "application/javascript",
+            "Cache-Control": "no-cache, no-store"
+        });
+        req.setEncoding("utf8");
+        
+        var buffer = "";
+        var t = Date.now();
+        var q = new FsQ();
+        var skinChanged = false;
+        var requestedSkin = "";
+        var requestedSkinChanged = false;
+        q.process = function(e) {
+            var parts = e.split(" ");
+            var id = parts[1];
+            var etag = parts[0];
+            var path = resolveModulePath(id, req.pathConfig.pathMap);
+            
+            if (path == id && !/^(\/|\w:)/.test(path)) {
+                path = build.cacheDir + "/" + path;
+                if (/^\w+\/skin\//.test(id))
+                    requestedSkin = id;
+            }
+            
+            fs.stat(path, function(err, s) {
+                if (!err) {
+                    var mt = s.mtime.valueOf();
+                    var etagNew = '"' + s.size +"-" +  mt + '"';
+                    if (etag !== etagNew) {
+                        err = true;
+                    }
+                } 
+                
+                if (err) {
+                    if (!skinChanged && /\.(css|less)/.test(id))
+                        skinChanged = true;
+                    if (requestedSkin == id)
+                        requestedSkinChanged = true;
+                    res.write(id + "\n");
+                }
+                q.oneDone();
+            });
+        };
+        q.end = function() {
+            if (!q.buffer.length && !q.active) {
+                console.log(skinChanged, requestedSkinChanged, requestedSkin)
+                if (skinChanged && !requestedSkinChanged && requestedSkin) {
+                    res.write(requestedSkin + "\n");
+                    console.info("Deleting old skin", requestedSkin);
+                    return fs.unlink(build.cacheDir + "/" + requestedSkin, function() {
+                        skinChanged = false;
+                        q.end();
+                    });
+                }
+                res.write("\n");
+                res.end();
+                console.info("Checking cache state took:", t - Date.now(), "ms");
+            }
+            else {
+                q.ended = true;
+            }
+        };
+        function onData(e) {
+            var parts = (buffer + e).split("\n");
+            buffer = parts.pop();
+            q.write(parts);
+            // console.log(i++);
+        }
+        function onEnd(e) {
+            console.log("end", t - Date.now());
+            q.end();
+        }
+        
+        if (req.body) {
+            // TODO disable automatic buffering in connect
+            onData(Object.keys(req.body)[0]);
+            onEnd();
+        } else {
+            req.on("end", onEnd);
+            req.on("data", onData);
+        }
+    }]);
+    
+    // section.use(foreverCache());
     section.use(imports["connect.cors"].cors("*"));
     section.use(connect.getModule().compress());
     
@@ -103,6 +219,8 @@ function main(options, imports, register) {
                     type = "text/css";
                 
                 res.setHeader("Content-Type", type);
+                var mtime = Date.now();
+                res.setHeader("ETAG", '"' + Buffer.byteLength(code) + "-" + mtime + '"');
                 res.statusCode = 200;
                 res.end(code);
                 
@@ -114,9 +232,11 @@ function main(options, imports, register) {
                     
                     atomic.writeFile(filename, code, "utf8", function(err) {
                         if (err)
-                            console.error("Caching file", filename, "failed", err);
-                        else
-                            console.log("File cached at", filename);
+                            return console.error("Caching file", filename, "failed", err);
+                        
+                        console.log("File cached at", filename);
+                        // set utime to have consistent etag
+                        fs.utimes(filename, mtime, mtime, function() {});
                     });
                 });
             });
