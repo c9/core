@@ -101,7 +101,7 @@ define(function(require, exports, module) {
         var ENABLED = c9.location.indexOf("debug=2") > -1
             || experimental.addExperiment(
                   "plugin-manager",
-                  options.defaultEnabled,
+                  options.devel,
                   "SDK/Plugin Manager"
                );
 
@@ -136,37 +136,39 @@ define(function(require, exports, module) {
             //     updateCommandsFromSettings();
             // }, plugin);
             
-            commands.addCommand({
-                name: "reloadLastPlugin",
-                bindKey: {mac: "F4", win: "F4"},
-                hint: "reload plugin last reloaded in plugin manager",
-                exec: function() {
-                    var name = getLastReloaded();
-                    if (!name)
-                        return commands.exec("reloadPlugin", null, { panel: plugin });
-                    reload(name);
-                }
-            }, plugin);
             
-            commands.addCommand({
-                name: "reloadPlugin",
-                group: "Plugins",
-                exec: function(){ 
-                    commands.exec("openpreferences", null, { panel: plugin });
-                }
-            }, plugin);
-            
-            menus.addItemByPath("Tools/~", new ui.divider(), 100000, plugin);
-            menus.addItemByPath("Tools/Developer", null, 100100, plugin);
-
-            menus.addItemByPath("Tools/Developer/Reload Built-in Plugin...", new ui.item({
-                command: "reloadPlugin"
-            }), 1100, plugin);
-            
-            menus.addItemByPath("Tools/Developer/Reload Last Plugin", new ui.item({
-                command: "reloadLastPlugin",
-                isAvailable: getLastReloaded
-            }), 1200, plugin);
+            if (options.devel) {
+                commands.addCommand({
+                    name: "reloadLastPlugin",
+                    bindKey: {mac: "F4", win: "F4"},
+                    hint: "reload plugin last reloaded in plugin manager",
+                    exec: function() {
+                        var name = getLastReloaded();
+                        if (!name)
+                            return commands.exec("reloadPlugin", null, { panel: plugin });
+                        reload(name);
+                    }
+                }, plugin);
+                commands.addCommand({
+                    name: "reloadPlugin",
+                    group: "Plugins",
+                    exec: function(){ 
+                        commands.exec("openpreferences", null, { panel: plugin });
+                    }
+                }, plugin);
+                
+                menus.addItemByPath("Tools/~", new ui.divider(), 100000, plugin);
+                menus.addItemByPath("Tools/Developer", null, 100100, plugin);
+    
+                menus.addItemByPath("Tools/Developer/Reload Built-in Plugin...", new ui.item({
+                    command: "reloadPlugin"
+                }), 1100, plugin);
+                
+                menus.addItemByPath("Tools/Developer/Reload Last Plugin", new ui.item({
+                    command: "reloadLastPlugin",
+                    isAvailable: getLastReloaded
+                }), 1200, plugin);
+            }
 
             menus.addItemByPath("File/New Plugin", null, 210, plugin);
             Object.keys(TEMPLATES).forEach(function(name){

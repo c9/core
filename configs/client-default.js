@@ -93,7 +93,7 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.plugins/manager",
             staticPrefix: staticPrefix + "/plugins/c9.ide.plugins",
-            defaultEnabled: devel
+            devel: devel
         },
         {
             packagePath: "plugins/c9.ide.plugins/debug"
