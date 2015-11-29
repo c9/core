@@ -154,6 +154,9 @@ define(function(require, exports, module) {
                 }
             }, plugin);
             
+            menus.addItemByPath("Tools/~", new ui.divider(), 100000, plugin);
+            menus.addItemByPath("Tools/Developer", null, 100100, plugin);
+
             menus.addItemByPath("Tools/Developer/Reload Built-in Plugin...", new ui.item({
                 command: "reloadPlugin"
             }), 1100, plugin);
