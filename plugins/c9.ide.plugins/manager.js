@@ -666,10 +666,9 @@ define(function(require, exports, module) {
 
         function reload(name) {
             showReloadTip();
-                
-            var href = document.location.href.replace(/[?&]reload=[^&]+/, "")
-                + (document.location.href.match(/\?/) ? "&" : "?")
-                + "reload=" + name;
+            
+            var href = document.location.href.replace(/[?&]reload=[^&]+/, "");
+            href += (href.match(/\?/) ? "&" : "?") + "reload=" + name;
             window.history.replaceState(window.history.state, null, href);
             
             for (var plugin in architect.lut) {
