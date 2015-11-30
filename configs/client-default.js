@@ -819,7 +819,7 @@ module.exports = function(options) {
         "plugins/c9.ide.scm/detail",
         // "plugins/c9.ide.scm/log",
         "plugins/c9.ide.scm/git",
-        "plugins/c9.ide.scm/diff.sidebyside",
+        "plugins/c9.ide.scm/diff.split",
         "plugins/c9.ide.scm/mergetool"
 
         // // git integration v1
