@@ -807,8 +807,11 @@ module.exports = function(options) {
         "plugins/c9.ide.test.mocha/mocha",
         
         // git integration
+        {
+            packagePath: "plugins/c9.ide.scm/scm.commit",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.scm"
+        },
         "plugins/c9.ide.scm/scm",
-        "plugins/c9.ide.scm/scm.commit",
         "plugins/c9.ide.scm/scm.branches",
         "plugins/c9.ide.scm/dialog.localchanges",
         "plugins/c9.ide.scm/scm.log",
@@ -816,8 +819,8 @@ module.exports = function(options) {
         "plugins/c9.ide.scm/detail",
         // "plugins/c9.ide.scm/log",
         "plugins/c9.ide.scm/git",
-        "plugins/c9.ide.scm/editor",
-        "plugins/c9.ide.scm/mergetool",
+        "plugins/c9.ide.scm/diff.sidebyside",
+        "plugins/c9.ide.scm/mergetool"
 
         // // git integration v1
         // "plugins/c9.ide.scm/v1/scm",
