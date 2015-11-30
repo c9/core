@@ -83,6 +83,9 @@ module.exports = function (vfs, options, register) {
             api.onData(e);
         };
         registerClient(stream);
+        api.onConnect({ write: function(e) { 
+            stream.emit("data", e) }
+        });
         var unixServer = net.createServer(registerClient);
         unixServer.listen(SOCKET);
         
