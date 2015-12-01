@@ -325,12 +325,10 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.language.javascript.tern/tern",
             plugins: {
                 angular: "tern/plugin/angular",
-                commonjs: "tern/plugin/commonjs",
                 doc_comment: "tern/plugin/doc_comment",
                 es_modules: "tern/plugin/es_modules",
                 modules: "tern/plugin/modules",
                 node: "tern/plugin/node",
-                node_resolve: "tern/plugin/node_resolve",
                 requirejs: "tern/plugin/requirejs",
                 architect_resolver: "./architect_resolver_worker",
             },
