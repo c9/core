@@ -323,40 +323,38 @@ module.exports = function(options) {
         "plugins/c9.ide.language.javascript.infer/jsinfer",
         {
             packagePath: "plugins/c9.ide.language.javascript.tern/tern",
-            tern: {
-                plugins: {
-                    angular: "tern/plugin/angular",
-                    commonjs: "tern/plugin/commonjs",
-                    doc_comment: "tern/plugin/doc_comment",
-                    es_modules: "tern/plugin/es_modules",
-                    modules: "tern/plugin/modules",
-                    node: "tern/plugin/node",
-                    node_resolve: "tern/plugin/node_resolve",
-                    requirejs: "tern/plugin/requirejs",
-                    architect_resolver: "./architect_resolver_worker",
-                },
-                defs: [{
-                    name: "ecma5",
-                    enabled: true,
-                    path: "lib/tern/defs/ecma5.json"
-                }, {
-                    name: "jQuery",
-                    enabled: true,
-                    path: "lib/tern/defs/jquery.json"
-                }, {
-                    name: "browser",
-                    enabled: true,
-                    path: "lib/tern/defs/browser.json"
-                }, {
-                    name: "underscore",
-                    enabled: false,
-                    path: "lib/tern/defs/underscore.json"
-                }, {
-                    name: "chai",
-                    enabled: false,
-                    path: "tern/defs/chai.json"
-                }]
-            }
+            plugins: {
+                angular: "tern/plugin/angular",
+                commonjs: "tern/plugin/commonjs",
+                doc_comment: "tern/plugin/doc_comment",
+                es_modules: "tern/plugin/es_modules",
+                modules: "tern/plugin/modules",
+                node: "tern/plugin/node",
+                node_resolve: "tern/plugin/node_resolve",
+                requirejs: "tern/plugin/requirejs",
+                architect_resolver: "./architect_resolver_worker",
+            },
+            defs: [{
+                name: "ecma5",
+                enabled: true,
+                path: "lib/tern/defs/ecma5.json"
+            }, {
+                name: "jQuery",
+                enabled: true,
+                path: "lib/tern/defs/jquery.json"
+            }, {
+                name: "browser",
+                enabled: true,
+                path: "lib/tern/defs/browser.json"
+            }, {
+                name: "underscore",
+                enabled: false,
+                path: "lib/tern/defs/underscore.json"
+            }, {
+                name: "chai",
+                enabled: false,
+                path: "tern/defs/chai.json"
+            }]
         },
         "plugins/c9.ide.language.javascript.tern/ui",
         "plugins/c9.ide.language.javascript.tern/architect_resolver",
