@@ -325,8 +325,6 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.language.javascript.tern/tern",
             tern: {
                 plugins: {
-                    // UNDONE: doesn't normally exist; should be added by config
-                    // smartface: "plugins/smartface/loadInclude.js",
                     angular: "tern/plugin/angular",
                     commonjs: "tern/plugin/commonjs",
                     doc_comment: "tern/plugin/doc_comment",
