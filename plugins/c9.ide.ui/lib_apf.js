@@ -35299,8 +35299,8 @@ apf.textbox = function(struct, tagName) {
         var v;
         
         if (this.isHTMLBox) { 
-            if (this.$input.innerText)
-                v = this.$input.innerText;
+            if (this.$input.textContent)
+                v = this.$input.textContent;
             else {
                 //Chrome has a bug, innerText is cleared when display property is changed
                 v = apf.html_entity_decode(this.$input.innerHTML
