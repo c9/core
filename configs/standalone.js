@@ -40,7 +40,8 @@ module.exports = function(config, optimist) {
             .describe("setting-path", "The path to store the settings.")
             .boolean("inProcessLocalFs")
             .describe("inProcessLocalFs", "Whether to run localfs in same process for debugging.")
-            .default("inProcessLocalFs", config.inProcessLocalFs);
+            .default("inProcessLocalFs", config.inProcessLocalFs)
+            .boolean("useBrowserCache");
     }
     
     var argv = optimist.argv;
@@ -215,6 +216,7 @@ module.exports = function(config, optimist) {
         /* ### BEGIN #*/
         }, {
             packagePath: "./c9.static/cdn",
+            useBrowserCache: argv.useBrowserCache,
             cacheFiles: argv.cache
         }, {
             packagePath: "./c9.static/build",

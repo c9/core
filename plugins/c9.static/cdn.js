@@ -70,9 +70,9 @@ function main(options, imports, register) {
         var buffer = "";
         var t = Date.now();
         var q = new FsQ();
-        var skinChanged = false;
+        var skinChanged = 0;
         var requestedSkin = "";
-        var requestedSkinChanged = false;
+        var requestedSkinChanged = -1;
         q.process = function(e) {
             var parts = e.split(" ");
             var id = parts[1];
@@ -96,9 +96,9 @@ function main(options, imports, register) {
                 
                 if (err) {
                     if (!skinChanged && /\.(css|less)/.test(id))
-                        skinChanged = true;
+                        skinChanged = s ? s.mtime.valueOf() : Infinity;
                     if (requestedSkin == id)
-                        requestedSkinChanged = true;
+                        requestedSkinChanged = s ? s.mtime.valueOf() : 0;
                     res.write(id + "\n");
                 }
                 q.oneDone();
@@ -106,12 +106,11 @@ function main(options, imports, register) {
         };
         q.end = function() {
             if (!q.buffer.length && !q.active) {
-                console.log(skinChanged, requestedSkinChanged, requestedSkin)
-                if (skinChanged && !requestedSkinChanged && requestedSkin) {
+                if (skinChanged >= requestedSkinChanged && requestedSkin) {
                     res.write(requestedSkin + "\n");
                     console.info("Deleting old skin", requestedSkin);
                     return fs.unlink(build.cacheDir + "/" + requestedSkin, function() {
-                        skinChanged = false;
+                        requestedSkin = "";
                         q.end();
                     });
                 }
