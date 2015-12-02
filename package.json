@@ -55,7 +55,7 @@
         "c9"
     ],
     "c9plugins": {
-        "c9.ide.language": "#fff9c75928",
+        "c9.ide.language": "#1d4d9fa21a",
         "c9.ide.language.css": "#be07d72209",
         "c9.ide.language.generic": "#92210f5a48",
         "c9.ide.language.html": "#22fdc74869",
@@ -109,7 +109,7 @@
         "c9.ide.run.build": "#0598fff697",
         "c9.ide.run.debug.xdebug": "#9956689819",
         "c9.ide.save": "#4cda35bfdb",
-        "c9.ide.scm": "#db755ee6b5",
+        "c9.ide.scm": "#22af54d32d",
         "c9.ide.terminal.monitor": "#1a4092ede2",
         "c9.ide.test": "#102942ae4e",
         "c9.ide.test.mocha": "#fc053b23d2",
