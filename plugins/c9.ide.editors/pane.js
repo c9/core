@@ -585,32 +585,34 @@ define(function(require, module, exports) {
                     next = next.selectNodes("tab|hsplitbox|vsplitbox")[op]();
                 }
                 
-                // move all pages to another pane
-                getTabs().forEach(function(tab) {
-                    tab.attachTo(next.cloud9pane, null, true);
-                });
-    
-                // destroy aml element
-                amlPane.destroy(true, true);
-                
-                // Clean up tree
-                if (last) {
-                    var place = parent.nextSibling;
-                    var grandpa = parent.parentNode;
-                    parent.removeChild(last);
-                    if (parent != options.container)
-                        parent.destroy(true, true);
-                    grandpa.insertBefore(last, place);
+                if (next) {
+                    // move all pages to another pane
+                    getTabs().forEach(function(tab) {
+                        tab.attachTo(next.cloud9pane, null, true);
+                    });
+        
+                    // destroy aml element
+                    amlPane.destroy(true, true);
                     
-                    queue = [grandpa]
-                    
-                    var size = grandpa.$vbox ? "height" : "width";
-                    last.setAttribute(size, parent[size]);
-                    size = grandpa.$vbox ? "width" : "height";
-                    last.setAttribute(size, "");
-                }
-                else {
-                    queue = [parent];
+                    // Clean up tree
+                    if (last) {
+                        var place = parent.nextSibling;
+                        var grandpa = parent.parentNode;
+                        parent.removeChild(last);
+                        if (parent != options.container)
+                            parent.destroy(true, true);
+                        grandpa.insertBefore(last, place);
+                        
+                        queue = [grandpa]
+                        
+                        var size = grandpa.$vbox ? "height" : "width";
+                        last.setAttribute(size, parent[size]);
+                        size = grandpa.$vbox ? "width" : "height";
+                        last.setAttribute(size, "");
+                    }
+                    else {
+                        queue = [parent];
+                    }
                 }
                 
                 if (last && last.parentNode.localName == "bar") {
