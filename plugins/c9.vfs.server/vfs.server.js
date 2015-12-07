@@ -331,7 +331,7 @@ function plugin(options, imports, register) {
                 .end(function() {});
                 
             user.lastVfsAccess = Date.now();
-            user.save(function() {});
+            user.save && user.save(function() {});
         }
     }
 
