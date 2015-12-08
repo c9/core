@@ -89,7 +89,9 @@ function main(argv, config, onLoaded) {
     var notDelayed = expanded.filter(function(c) { return delayLoadConfigs.indexOf(c) === -1 });
     
     startConfigs(notDelayed, function() {
-        startConfigs(delayed, function() {});
+        startConfigs(delayed, function() {
+            console.log("Cloud9 is up and running");
+        });
     });
     
     function startConfigs(configs, done) {

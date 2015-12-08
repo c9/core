@@ -243,7 +243,7 @@ define(function(require, module, exports) {
                     else
                         panels.deactivate(plugin.name);
                     
-                    if (tabs.focussedTab && tabs.focussedTab.editor && !panels.showing)
+                    if (tabs.focussedTab && !panels.showing)
                         tabs.focussedTab.editor.focus();
                 }
             }
