@@ -162,7 +162,7 @@ require([
                 return prefs;
             })(),
             analytics: {
-                addTrait: function() {}
+                addTraits: function() {}
             },
             commands: (function(){
                 var commands = {};
