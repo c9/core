@@ -45,7 +45,7 @@ define(function(require, exports, module) {
                         "Cloud9 will be reloaded in order to activate the changes.", 
                         function() { 
                             setTimeout(function() { 
-                                window.location.reload()
+                                window.location.reload();
                             }, 500); 
                         }
                     ); 
