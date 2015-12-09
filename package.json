@@ -34,7 +34,7 @@
         "send": "~0.1.4",
         "simple-mime": "~0.0.8",
         "tern": "git://github.com/cloud9ide/tern.git#39015d544d4c00c7899fea4c95c2e5bc2720e68e",
-        "tern_from_ts": "git://github.com/cloud9ide/tern_from_ts.git#c0066b01ea5bbbf2243b7f75d7e74b8e73c24123",
+        "tern_from_ts": "git://github.com/cloud9ide/tern_from_ts.git#351c6e9bdb973a64090f91da60e53c9171a69b18",
         "through": "2.2.0",
         "tmp": "~0.0.20",
         "uglify-js": "2.4.16",
