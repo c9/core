@@ -264,6 +264,7 @@ function main(options, imports, register) {
                 "plugins/c9.ide.language.javascript.infer/infer_jumptodef",
                 "plugins/c9.ide.language.javascript.infer/infer_tooltip",
                 "plugins/c9.ide.language.javascript.infer/infer_completer",
+                "plugins/c9.ide.language.python/python",
                 "plugins/c9.ide.language.html/html_completer",
                 "plugins/c9.ide.language.css/css_handler",
                 "plugins/c9.ide.language.javascript.tern/worker/tern_worker",
