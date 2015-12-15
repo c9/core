@@ -96,6 +96,11 @@ function main(argv, config, onLoaded) {
     var delayed = expanded.filter(function(c) { return delayLoadConfigs.indexOf(c) !== -1 });
     var notDelayed = expanded.filter(function(c) { return delayLoadConfigs.indexOf(c) === -1 });
     
+    if (options.argv["force-sudo"])
+        return child_process.execFile("sudo", ["echo -n"], main.bind(null, argv.filter(function(a) {
+            return a !== "--force-sudo";
+        }), config, onLoaded));
+    
     startConfigs(notDelayed, function() {
         startConfigs(delayed, function() {});
     });
