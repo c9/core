@@ -12,6 +12,7 @@ var optimist = require("optimist");
 var async = require("async");
 var os = require("os");
 var urls = require("c9/urls");
+var child_process = require("child_process");
 require("c9/setup_paths.js");
 
 if (process.version.match(/^v0/) && parseFloat(process.version.substr(3)) < 10) {
@@ -26,8 +27,14 @@ var shortcuts = {
     "dev":       ["ide", "preview", "user-content", "vfs", "api", "sapi", "proxy", "redis", "profile", "oldclient", "homepage", "apps-proxy", "-s", "devel"],
     "onlinedev": ["ide", "preview", "user-content", "vfs", "api", "proxy", "oldclient", "homepage", "apps-proxy", "profile", "worker", "-s", "onlinedev"],
     "beta":      ["ide", "preview", "user-content", "vfs", "proxy", "-s", "beta"],
-    "s":         ["standalone", "-s", "standalone"]
+    "s":         ["standalone", "-s", "standalone"],
 };
+shortcuts.localdev = shortcuts.dev.concat(
+    "-s", "beta",
+    "--ide.packed", "false",
+    "--ide.cdn", "false", "--homepage.cdn", "false",
+    "--force-sudo"
+);
 shortcuts.odev = shortcuts.onlinedev; // For backwards compatibility, if you see this in 2016 remove this line
 var delayLoadConfigs = [
     // Services that are usually not immediately needed
@@ -78,8 +85,9 @@ function main(argv, config, onLoaded) {
         configs = [config || DEFAULT_CONFIG];
     if (options.argv.exclude && !Array.isArray(options.argv.exclude.length))
         options.argv.exclude = [options.argv.exclude];
-    
-    var expanded = expandShortCuts(configs);
+
+    var expanded = expandShortCuts(options.argv._);
+
     if (expanded.length > configs.length)
         return main(expanded.concat(argv.filter(function(arg) {
             return !shortcuts[arg];
