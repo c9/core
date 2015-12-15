@@ -29,7 +29,7 @@ var shortcuts = {
     "beta":      ["ide", "preview", "user-content", "vfs", "proxy", "-s", "beta"],
     "s":         ["standalone", "-s", "standalone"],
 };
-shortcuts.localdev = shortcuts.dev.concat(
+shortcuts.localdev = shortcuts.onlinedev.concat(
     "-s", "beta",
     "--ide.packed", "false",
     "--ide.cdn", "false", "--homepage.cdn", "false",
