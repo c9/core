@@ -88,7 +88,7 @@ function main(argv, config, onLoaded) {
     if (options.argv.exclude && !Array.isArray(options.argv.exclude.length))
         options.argv.exclude = [options.argv.exclude];
 
-    var expanded = expandShortCuts(options.argv._);
+    var expanded = expandShortCuts(configs);
 
     if (expanded.length > configs.length)
         return main(expanded.concat(argv.filter(function(arg) {
