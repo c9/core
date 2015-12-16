@@ -112,7 +112,7 @@ define(function(require, exports, module) {
                 + "</span><span class='path'>"
                 + (command.hint 
                     ? this.replaceStrong(command.hint)
-                    : "No Description")
+                    : "")
                 + "</span></div>");
         };
         
