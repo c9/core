@@ -35,7 +35,8 @@ shortcuts.localdev = shortcuts.onlinedev.concat(
     "--ide.cdn", "false", "--homepage.cdn", "false",
     "--force-sudo",
     "--api.port", "8281",
-    "--infra_port", "8282"
+    "--infra_port", "8282",
+    "--domains", "c9.local"
 );
 shortcuts.odev = shortcuts.onlinedev; // For backwards compatibility, if you see this in 2016 remove this line
 var delayLoadConfigs = [
