@@ -55,7 +55,7 @@
         "c9"
     ],
     "c9plugins": {
-        "c9.ide.language": "#c2740d0254",
+        "c9.ide.language": "#842f2035be",
         "c9.ide.language.css": "#a649f2a710",
         "c9.ide.language.generic": "#77d43cfaf0",
         "c9.ide.language.html": "#0f4078c187",
@@ -86,11 +86,12 @@
         "c9.ide.dialog.wizard": "#7667ec79a8",
         "c9.ide.fontawesome": "#781602c5d8",
         "c9.ide.format": "#5ec97fb083",
-        "c9.ide.help.support": "#0c311f7165",
+        "c9.ide.help.support": "#870494064f",
         "c9.ide.imgeditor": "#612e75ef4f",
         "c9.ide.immediate": "#a962119bec",
         "c9.ide.installer": "#0fde9f0067",
-        "c9.ide.mount": "#b9a5a2d45c",
+        "c9.ide.language.python": "#undefined",
+        "c9.ide.mount": "#8fb263e308",
         "c9.ide.navigate": "#38ae100ea1",
         "c9.ide.newresource": "#981a408a7b",
         "c9.ide.openfiles": "#7fa4a97fed",
@@ -114,6 +115,6 @@
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
         "c9.ide.upload": "#0bd010d3dc",
-        "c9.ide.welcome": "#4a53636aea"
+        "c9.ide.welcome": "#f42e833148"
     }
 }
