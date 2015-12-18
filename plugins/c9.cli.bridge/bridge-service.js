@@ -10,7 +10,7 @@ module.exports = function (vfs, options, register) {
 
     function createListenClient(api){
         var client = net.connect(SOCKET, function(data){
-            if (data) api.onData(data);
+            api.onConnect(client);
         });
         client.setEncoding("utf8");
         client.unref();
@@ -36,7 +36,6 @@ module.exports = function (vfs, options, register) {
             createListenServer(api);
         });
         
-        api.onConnect(client);
         
         api.disconnect = function(){
             client.end();
@@ -45,24 +44,49 @@ module.exports = function (vfs, options, register) {
         return client;
     }
     
-    function createListenServer(api){ 
-        // var timeout = setTimeout(function(){
-        //     unixServer.close();
-        // }, 500);
-    
-        var unixServer = net.createServer(function(client) {
-            client.setEncoding("utf8");
+    function createListenServer(api){
+        function broadcast(data, client) {
+            clients.forEach(function(c) {
+                if (c != client)
+                    c.write(data);
+            });
+        }
+        function registerClient(client) {
+            if (client.setEncoding)
+                client.setEncoding("utf8");
             
             client.on("data", function(data){
-                if (data) api.onData(data);
+                // TODO add a way for sending message to one client
+                broadcast(data, client);
             });
+            function cleanup(e) {
+                var i = clients.indexOf(client);
+                if (i != -1)
+                    clients.splice(i, 1);
+
+                client.removeListener("end", cleanup);
+                client.removeListener("error", cleanup);
+            }
+            client.on("end", cleanup);
+            client.on("error", cleanup);
             
-            client.on("error", function(data){
-                // console.error("ERROR", api.id, data);
-            });
-            
-            api.onConnect(client);
+
+            clients.push(client);
+        }
+
+        api
+        var clients = [];
+        var stream = new Stream();
+        stream.readable = true;
+        stream.writable = true;
+        stream.write = function(e) {
+            api.onData(e);
+        };
+        registerClient(stream);
+        api.onConnect({ write: function(e) { 
+            stream.emit("data", e) }
         });
+        var unixServer = net.createServer(registerClient);
         unixServer.listen(SOCKET);
         
         unixServer.on("error", function(err){
@@ -85,6 +109,9 @@ module.exports = function (vfs, options, register) {
             stream = new Stream();
             stream.readable = true;
             stream.writable = true;
+            stream.write = function(data){
+                if (client) client.write(data);
+            };
             
             var client;
             var sent = false;
@@ -107,10 +134,6 @@ module.exports = function (vfs, options, register) {
             
             // createListenServer
             createListenClient(api);
-            
-            stream.write = function(data){
-                if (client) client.write(data);
-            };
         },
         
         disconnect: function(){

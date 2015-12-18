@@ -585,11 +585,12 @@ define(function(require, module, exports) {
                     next = next.selectNodes("tab|hsplitbox|vsplitbox")[op]();
                 }
                 
-                // move all pages to another pane
-                getTabs().forEach(function(tab) {
-                    tab.attachTo(next.cloud9pane, null, true);
-                });
-    
+                if (next) {
+                    // move all pages to another pane if there is one
+                    getTabs().forEach(function(tab) {
+                        tab.attachTo(next.cloud9pane, null, true);
+                    });
+                }
                 // destroy aml element
                 amlPane.destroy(true, true);
                 

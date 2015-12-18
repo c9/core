@@ -1,5 +1,6 @@
 /*global describe it before*/
 
+"use blacklist";
 "use client";
 
 require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"], 

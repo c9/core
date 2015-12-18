@@ -259,9 +259,16 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     ace.setTheme(theme);
                 });
                 it('should allow setting useWrapMode', function(done) {
-                    doc.value = "a very long string to be wrapped a very long string to be wrapped a very long string to be wrapped a very long string to be wrapped a very long string to be wrapped a very long string to be wrapped a very long string to be wrapped a very long string to be wrapped a very long string to be wrapped a very long string to be wrapped a very long string to be wrapped a very long string to be wrapped a very long string to be wrapped a very long string to be wrapped a very long string to be wrapped a very long string to be wrapped ";
+                    var charW = editor.ace.renderer.layerConfig.characterWidth;
+                    expect(charW).to.ok;
+                    bar.$ext.style.width = 150 * charW  + "px"
+                    
+                    doc.value = Array(17).join("a very long string to be wrapped ");
                     
                     render();
+                    
+                    
+                    bar.$ext.style.width = "1000px";
                     
                     expect(document.querySelector(".ace_gutter-cell").offsetHeight).to.equal(lineHeight);
                     editor.setOption("useWrapMode", true);

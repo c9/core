@@ -14,7 +14,7 @@ define(function(require, exports, module) {
 
         plugin.freezePublicAPI({
             log: function() {},
-            addTrait: function() {},
+            updateTraits: function() {},
             alias: function() {},
             identify: function() {},
             track: function() {},

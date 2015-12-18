@@ -70,8 +70,7 @@ define(function(require, exports, module) {
             current.setting = "state/experiments/@" + uniqueId;
             current.onchange = function(e){
                 if (!hasAlerted) {
-                    alert("Refresh Needed", 
-                        "Please Refresh Cloud9 To Activate This Change",
+                    alert("Experimental Features",
                         "To see the effect of this change, please refresh Cloud9.");
                     hasAlerted = true;
                 }

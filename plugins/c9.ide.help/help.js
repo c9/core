@@ -50,6 +50,11 @@ define(function(require, exports, module) {
             // }.bind(this, c += 100), plugin);
             menus.addItemByPath("Support/~", new ui.divider(), c += 100, plugin);
 
+            menus.addItemByPath("Support/Cloud9 Community", new ui.item({ 
+                onclick: function(){ 
+                    window.open("https://community.c9.io"); 
+                }
+            }), c += 100, plugin);
             menus.addItemByPath("Support/Learning/", null, c += 100, plugin);
             menus.addItemByPath("Support/Get Help/", null, c += 100, plugin);
             menus.addItemByPath("Support/Get in Touch/", null, c += 100, plugin);

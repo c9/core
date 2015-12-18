@@ -32,7 +32,7 @@ module.exports = function(options) {
     var runners = options.runners || {};
     var builders = options.builders || {};
     var hosted = !options.local && !options.dev;
-    var devel = options.standalone && !options.local || options.mode === "devel" || options.dev;
+    var devel = options.standalone && !options.local || options.mode === "devel" || options.mode == "onlinedev" || options.dev;
     
     var localExtendFiles = options.localExtend || options.standalone;
     // allow extend code access only to C9-deveoped plugins
@@ -92,7 +92,8 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.plugins/manager",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.plugins"
+            staticPrefix: staticPrefix + "/plugins/c9.ide.plugins",
+            devel: devel
         },
         {
             packagePath: "plugins/c9.ide.plugins/debug"
