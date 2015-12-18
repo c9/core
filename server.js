@@ -36,6 +36,7 @@ shortcuts.localdev = shortcuts.onlinedev.concat(
     "--force-sudo",
     "--api.port", "8281",
     "--infra_port", "8282",
+    "--api_url", "http://127.0.0.1:8281",
     "--domains", "c9.local"
 );
 shortcuts.odev = shortcuts.onlinedev; // For backwards compatibility, if you see this in 2016 remove this line
