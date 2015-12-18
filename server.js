@@ -79,6 +79,7 @@ function main(argv, config, onLoaded) {
         .describe("dump", "dump config file as JSON")
         .describe("domains", "Primary and any secondary top-level domains to use (e.g, c9.io,c9.dev)")
         .describe("exclude", "Exclude specified service")
+        .describe("include", "Include only specified service")
         .default("domains", inContainer && process.env.C9_HOSTNAME || process.env.C9_DOMAINS)
         .boolean("help")
         .describe("help", "Show command line options.");
@@ -96,6 +97,9 @@ function main(argv, config, onLoaded) {
             return !shortcuts[arg];
         })), config, onLoaded);
 
+    if (options.argv.include)
+        expanded = [].concat(options.argv.include);
+    
     var delayed = expanded.filter(function(c) { return delayLoadConfigs.indexOf(c) !== -1 });
     var notDelayed = expanded.filter(function(c) { return delayLoadConfigs.indexOf(c) === -1 });
     
