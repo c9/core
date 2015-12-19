@@ -38,7 +38,7 @@ shortcuts.localdev = shortcuts.onlinedev.concat([
     "--helpWithSudo",
     "--api.port", "8281",
     "--infra_port", "8282",
-    "--api_url", "http://127.0.0.1:8281",
+    "--api_url", "http://api.c9.local:8281",
     "--domains", "c9.local",
     "--cdn.abbreviateVersion", "true",
 ]);
