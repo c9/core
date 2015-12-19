@@ -29,7 +29,7 @@ var shortcuts = {
     "beta":      ["ide", "preview", "user-content", "vfs", "proxy", "-s", "beta"],
     "s":         ["standalone", "-s", "standalone"],
 };
-shortcuts.localdev = shortcuts.onlinedev.concat(
+shortcuts.localdev = shortcuts.onlinedev.concat([
     "-s", "beta",
     "--ide.packed", "false",
     "--ide.cdn", "false", "--homepage.cdn", "false",
@@ -37,8 +37,9 @@ shortcuts.localdev = shortcuts.onlinedev.concat(
     "--api.port", "8281",
     "--infra_port", "8282",
     "--api_url", "http://127.0.0.1:8281",
-    "--domains", "c9.local"
-);
+    "--domains", "c9.local",
+    "--cdn.abbreviateVersion", "true",
+]);
 shortcuts.odev = shortcuts.onlinedev; // For backwards compatibility, if you see this in 2016 remove this line
 var delayLoadConfigs = [
     // Services that are usually not immediately needed
