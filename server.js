@@ -32,8 +32,10 @@ var shortcuts = {
 shortcuts.localdev = shortcuts.onlinedev.concat([
     "-s", "beta",
     "--ide.packed", "false",
-    "--ide.cdn", "false", "--homepage.cdn", "false",
-    "--force-sudo",
+    "--ide.cdn", "false",
+    "--ide.forceDev", "true",
+    "--homepage.cdn", "false",
+    "--helpWithSudo",
     "--api.port", "8281",
     "--infra_port", "8282",
     "--api_url", "http://127.0.0.1:8281",
@@ -105,9 +107,9 @@ function main(argv, config, onLoaded) {
     var delayed = expanded.filter(function(c) { return delayLoadConfigs.indexOf(c) !== -1 });
     var notDelayed = expanded.filter(function(c) { return delayLoadConfigs.indexOf(c) === -1 });
     
-    if (options.argv["force-sudo"])
+    if (options.helpWithSudo)
         return child_process.execFile("sudo", ["echo -n"], main.bind(null, argv.filter(function(a) {
-            return a !== "--force-sudo";
+            return a !== "--helpWithSudo";
         }), config, onLoaded));
     
     startConfigs(notDelayed, function() {
