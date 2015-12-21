@@ -5,7 +5,7 @@ define(function(require, exports, module) {
     "use strict";
     
     main.consumes = [
-        "Plugin", "pubsub", "vfs", "metrics", "vfs.endpoint"
+        "Plugin", "pubsub", "vfs", "metrics", "vfs.endpoint", "dialog.alert"
     ];
     main.provides = ["vfs.listener"];
     return main;
@@ -16,6 +16,7 @@ define(function(require, exports, module) {
         var vfs = imports.vfs;
         var vfsEndpoint = imports["vfs.endpoint"];
         var metrics = imports.metrics;
+        var showAlert = imports["dialog.alert"].show;
 
         /***** Initialization *****/
         
@@ -34,6 +35,20 @@ define(function(require, exports, module) {
                     
                     vfsEndpoint.clearCache();
                     vfs.reconnect();
+                }
+                else if (m.action == "remote_changed") {
+                    metrics.increment("vfs.remote_changed", 1, true);
+                    vfsEndpoint.clearCache();
+                    
+                    showAlert("Workspace configuration changed!",
+                        "The configuration of this workspace has changed.",
+                        "Cloud9 will be reloaded in order to activate the changes.", 
+                        function() { 
+                            setTimeout(function() { 
+                                window.location.reload();
+                            }, 500); 
+                        }
+                    ); 
                 }
             });
         }
