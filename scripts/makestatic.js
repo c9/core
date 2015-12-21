@@ -76,7 +76,7 @@ function main(config, settings, options, callback) {
         })
         .concat({
             consumes: [],
-            provides: ["cdn.build", "db", "health"],
+            provides: ["cdn.build", "db", "redis", "health"],
             setup: function(options, imports, register) {
                 register(null, {
                     "cdn.build": {},
@@ -87,6 +87,7 @@ function main(config, settings, options, callback) {
                             }
                         }
                     }, 
+                    "redis": {},
                     "health": { 
                         addCheck: function() {}
                     }
