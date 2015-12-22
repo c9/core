@@ -394,6 +394,11 @@ require([
                     return callback ? callback(null, ws) : ws;
                 }
             },
+            "preferences.experimental": {
+                addExperiment: function() {
+                    return false;
+                }
+            },
             "ace.gotoline": {},
             "ace.stripws": {
                 disable: function(){},

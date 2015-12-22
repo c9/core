@@ -1,7 +1,7 @@
 {
     "name": "c9",
     "description": "New Cloud9 Client",
-    "version": "3.1.773",
+    "version": "3.1.822",
     "author": "Ajax.org B.V. <info@ajax.org>",
     "private": true,
     "main": "bin/c9",
@@ -55,7 +55,7 @@
         "c9"
     ],
     "c9plugins": {
-        "c9.ide.language": "#a0cbe67003",
+        "c9.ide.language": "#9bd9e99520",
         "c9.ide.language.css": "#a649f2a710",
         "c9.ide.language.generic": "#77d43cfaf0",
         "c9.ide.language.html": "#0f4078c187",
@@ -63,9 +63,9 @@
         "c9.ide.language.javascript": "#2b77bdb96a",
         "c9.ide.language.javascript.immediate": "#0535804ada",
         "c9.ide.language.javascript.eslint": "#3ec4557969",
-        "c9.ide.language.javascript.tern": "#468cc173c4",
-        "c9.ide.language.javascript.infer": "#8478e3c702",
-        "c9.ide.language.jsonalyzer": "#45453961d9",
+        "c9.ide.language.javascript.tern": "#213b54a899",
+        "c9.ide.language.javascript.infer": "#99cf41f8bc",
+        "c9.ide.language.jsonalyzer": "#492c4b0956",
         "c9.ide.collab": "#30efed939e",
         "c9.ide.local": "#a6e689e33b",
         "c9.ide.find": "#e33fbaed2f",
@@ -90,8 +90,8 @@
         "c9.ide.imgeditor": "#612e75ef4f",
         "c9.ide.immediate": "#a962119bec",
         "c9.ide.installer": "#0fde9f0067",
-        "c9.ide.language.python": "#undefined",
-        "c9.ide.mount": "#c4b3a1e4b7",
+        "c9.ide.language.python": "#20c876d856",
+        "c9.ide.mount": "#befb8188d5",
         "c9.ide.navigate": "#c191d9b92f",
         "c9.ide.newresource": "#981a408a7b",
         "c9.ide.openfiles": "#7fa4a97fed",
@@ -103,10 +103,10 @@
         "c9.ide.recentfiles": "#7c099abf40",
         "c9.ide.remote": "#301d2ab519",
         "c9.ide.processlist": "#2b12cd1bdd",
-        "c9.ide.run": "#0aee352839",
+        "c9.ide.run": "#f39a46d09e",
         "c9.ide.run.build": "#0598fff697",
         "c9.ide.run.debug.xdebug": "#70aeb327c0",
-        "c9.ide.save": "#a2820d0ea1",
+        "c9.ide.save": "#9461acd953",
         "c9.ide.scm": "#27ac592b33",
         "c9.ide.terminal.monitor": "#2332e52331",
         "c9.ide.test": "#5b4c724bf6",
@@ -115,6 +115,6 @@
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
         "c9.ide.upload": "#0bd010d3dc",
-        "c9.ide.welcome": "#4a53636aea"
+        "c9.ide.welcome": "#2e8792e2fc"
     }
 }
