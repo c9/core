@@ -91,7 +91,7 @@
         "c9.ide.immediate": "#a962119bec",
         "c9.ide.installer": "#0fde9f0067",
         "c9.ide.language.python": "#20c876d856",
-        "c9.ide.mount": "#edd7757dcc",
+        "c9.ide.mount": "#befb8188d5",
         "c9.ide.navigate": "#38ae100ea1",
         "c9.ide.newresource": "#981a408a7b",
         "c9.ide.openfiles": "#7fa4a97fed",
@@ -106,7 +106,7 @@
         "c9.ide.run": "#f39a46d09e",
         "c9.ide.run.build": "#0598fff697",
         "c9.ide.run.debug.xdebug": "#70aeb327c0",
-        "c9.ide.save": "#8d80c99b21",
+        "c9.ide.save": "#9461acd953",
         "c9.ide.scm": "#930a9e6f00",
         "c9.ide.terminal.monitor": "#2332e52331",
         "c9.ide.test": "#5b4c724bf6",
@@ -115,6 +115,6 @@
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
         "c9.ide.upload": "#0bd010d3dc",
-        "c9.ide.welcome": "#7259b40eaf"
+        "c9.ide.welcome": "#2e8792e2fc"
     }
 }
