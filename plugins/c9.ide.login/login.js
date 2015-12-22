@@ -93,7 +93,7 @@ define(function(require, exports, module) {
                 onclick: function() { window.open(accountUrl); }
             }), c += 100, plugin);
             menus.addItemByPath(name + "/Home", new ui.item({
-                onclick: function() { window.open(ideBaseUrl); }
+                onclick: function() { window.open(ideBaseUrl + "?redirect=0"); }
             }), c += 100, plugin);
 
             if (!options.noLogout) {
