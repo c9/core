@@ -1101,6 +1101,11 @@ define(function(require, module, exports) {
                     tab.classList.add("error");
                     tab.document.meta.error = true;
                     
+                    if (tab.document.meta.closeOnError) {
+                        tab.close();
+                        return callback && callback(err);
+                    }
+                    
                     alert("Error opening file", 
                         "Could not open file: " + tab.path,
                         err.code == "ENOENT"
