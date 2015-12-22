@@ -1,0 +1,1 @@
+../plugins/smf.core/configs/client-workspace-smartface.js

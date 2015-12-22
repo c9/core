@@ -32,6 +32,9 @@ module.exports = function(config, optimist) {
             .boolean("hosted")
             .describe("hosted", "Use default config of the hosted version")
             .default("hosted", false)
+            .boolean("smf")
+            .describe("smf", "Start Smartface SDK")
+            .default("smf", false)
             .describe("auth", "Basic Auth username:password")
             .describe("collab", "Whether to enable collab.")
             .default("collab", config.collab)
@@ -78,6 +81,9 @@ module.exports = function(config, optimist) {
     if (argv.hosted)
         config.client_config = "default-hosted";
     
+    if (argv.smf)
+        config.client_config = "workspace-smartface";
+        
     config.workspaceDir = baseProc;
     config.settingDir = argv["setting-path"];
     config.projectName = path.basename(baseProc);
@@ -162,7 +168,14 @@ module.exports = function(config, optimist) {
                 "saucelabs.preview": true,
                 "salesforce.sync": true,
                 "salesforce.language": true
-            }
+            },
+            externalPlugins: [
+                "@smartface/smartface.about",
+                "@smartface/smartface.ide.theme",
+                "@smartface/smartface.language",
+                "@smartface/smartface.publish.wizard",
+                "@smartface/smartface.welcome"
+            ]
         },
         "./c9.preview/statics",
         "./c9.nodeapi/nodeapi",
