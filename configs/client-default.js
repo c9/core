@@ -382,6 +382,7 @@ module.exports = function(options) {
                 name: "browser",
                 enabled: true,
                 experimental: false,
+                firstClass: true,
                 path: "lib/tern/defs/browser.json"
             }, {
                 name: "underscore",
