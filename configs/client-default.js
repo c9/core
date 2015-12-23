@@ -393,7 +393,7 @@ module.exports = function(options) {
                 name: "chai",
                 enabled: false,
                 experimental: false,
-                path: "tern/defs/chai.json"
+                path: "lib/tern/defs/chai.json"
             }]
         },
         "plugins/c9.ide.language.javascript.tern/ui",
