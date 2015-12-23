@@ -370,22 +370,28 @@ module.exports = function(options) {
             defs: [{
                 name: "ecma5",
                 enabled: true,
+                experimental: false,
+                firstClass: true,
                 path: "lib/tern/defs/ecma5.json"
             }, {
                 name: "jQuery",
                 enabled: true,
+                experimental: false,
                 path: "lib/tern/defs/jquery.json"
             }, {
                 name: "browser",
                 enabled: true,
+                experimental: false,
                 path: "lib/tern/defs/browser.json"
             }, {
                 name: "underscore",
                 enabled: false,
+                experimental: false,
                 path: "lib/tern/defs/underscore.json"
             }, {
                 name: "chai",
                 enabled: false,
+                experimental: false,
                 path: "tern/defs/chai.json"
             }]
         },
