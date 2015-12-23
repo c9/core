@@ -164,6 +164,38 @@ module.exports = {
         });
     },
     
+    "test router: decode parameter in body with defaults": function(next) {
+        var route = new Route("/user", {
+            params: {
+                scm: {
+                    type: /^(git|hg)?$/,
+                    optional: true,
+                    default: "git",
+                    source: "body"
+                }
+            }
+        }, sinon.stub());
+        
+        var req = {
+            match: "match",
+            parsedUrl: { query: "" },
+            body: { }
+        };
+        var res = {};
+        
+        route.decodeParams(req, res, function(err, result) {
+            assert.equal(err, null);
+            assert.equal(req.params.scm, "git");
+            
+            req.body.scm = null; // should be treated the same as undefined
+            route.decodeParams(req, res, function(err, result) {
+                assert.equal(err, null);
+                assert.equal(req.params.scm, "git");
+                next();
+            });
+        });
+    },
+    
     "test router: optional number argument can be falsy": function(next) {
         var route = new Route("/user", {
             params: {

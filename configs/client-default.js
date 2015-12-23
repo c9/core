@@ -392,6 +392,7 @@ module.exports = function(options) {
         "plugins/c9.ide.language.javascript.tern/ui",
         "plugins/c9.ide.language.javascript.tern/architect_resolver",
         "plugins/c9.ide.language.javascript.eslint/eslint",
+        "plugins/c9.ide.language.python/python",
         {
             packagePath: "plugins/c9.ide.language.jsonalyzer/jsonalyzer",
             extendToken: extendToken,

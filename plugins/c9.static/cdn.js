@@ -70,9 +70,8 @@ function main(options, imports, register) {
         var buffer = "";
         var t = Date.now();
         var q = new FsQ();
-        var skinChanged = 0;
-        var requestedSkin = "";
-        var requestedSkinChanged = -1;
+        var lastCssChange = 0;
+        var compiledSkins = {};
         q.process = function(e) {
             var parts = e.split(" ");
             var id = parts[1];
@@ -81,8 +80,9 @@ function main(options, imports, register) {
             
             if (path == id && !/^(\/|\w:)/.test(path)) {
                 path = build.cacheDir + "/" + path;
-                if (/^\w+\/skin\//.test(id))
-                    requestedSkin = id;
+                if (/^\w+\/skin\//.test(id)) {
+                    compiledSkins[id] = -1;
+                }
             }
             
             fs.stat(path, function(err, s) {
@@ -94,11 +94,12 @@ function main(options, imports, register) {
                     }
                 } 
                 
-                if (err) {
-                    if (!skinChanged && /\.(css|less)/.test(id))
-                        skinChanged = s ? s.mtime.valueOf() : Infinity;
-                    if (requestedSkin == id)
-                        requestedSkinChanged = s ? s.mtime.valueOf() : 0;
+                if (compiledSkins[id]) {
+                    compiledSkins[id] = mt || -1;
+                }
+                else if (err) {
+                    if (/\.(css|less)/.test(id))
+                        lastCssChange = Math.max(lastCssChange, s ? s.mtime.valueOf() : Infinity);
                     res.write(id + "\n");
                 }
                 q.oneDone();
@@ -106,12 +107,14 @@ function main(options, imports, register) {
         };
         q.end = function() {
             if (!q.buffer.length && !q.active) {
-                if (skinChanged >= requestedSkinChanged && requestedSkin) {
-                    res.write(requestedSkin + "\n");
-                    console.info("Deleting old skin", requestedSkin);
-                    return fs.unlink(build.cacheDir + "/" + requestedSkin, function() {
-                        requestedSkin = "";
-                        q.end();
+                if (compiledSkins) {
+                    Object.keys(compiledSkins).forEach(function(key) {
+                        if (compiledSkins[key] < lastCssChange) {
+                            res.write(key + "\n");
+                            fs.unlink(build.cacheDir + "/" + key, function() {
+                                console.info("Deleting old skin", key);
+                            });
+                        }
                     });
                 }
                 res.write("\n");
@@ -218,7 +221,7 @@ function main(options, imports, register) {
                     type = "text/css";
                 
                 res.setHeader("Content-Type", type);
-                var mtime = Date.now();
+                var mtime = Math.floor(Date.now() / 1000) * 1000;
                 res.setHeader("ETAG", '"' + Buffer.byteLength(code) + "-" + mtime + '"');
                 res.statusCode = 200;
                 res.end(code);
@@ -235,7 +238,9 @@ function main(options, imports, register) {
                         
                         console.log("File cached at", filename);
                         // set utime to have consistent etag
-                        fs.utimes(filename, mtime, mtime, function() {});
+                        fs.utimes(filename, mtime/1000, mtime/1000, function(e) {
+                            if (e) console.error(e);
+                        });
                     });
                 });
             });

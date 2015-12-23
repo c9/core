@@ -3,6 +3,15 @@ define(function(require, exports, module) {
     module.exports = function initInput(ace) {
         var HashHandler = require("ace/keyboard/hash_handler").HashHandler;
         var KEY_MODS = require("ace/lib/keys").KEY_MODS;
+        var TERM_MODS = {
+            "shift-"           : 2,
+            "alt-"             : 3,
+            "alt-shift-"       : 4,
+            "ctrl-"            : 5,
+            "ctrl-shift-"      : 6,
+            "ctrl-alt-"        : 7,
+            "ctrl-alt-shift-"  : 8,
+        };
         var specialKeys = new HashHandler();
         // http://www.math.utah.edu/docs/info/features_7.html
         specialKeys.bindKeys({
@@ -19,9 +28,7 @@ define(function(require, exports, module) {
             "Return"            : '\r',
             "Escape"            : '\x1b',
             "Left"              : '\x1b[D',
-            "Ctrl-Left"         : '\x1b[5D',
             "Right"             : '\x1b[C',
-            "Ctrl-Right"        : '\x1b[5C',
             "Up"                : '\x1b[A',
             "Down"              : '\x1b[B',
             "Delete"            : '\x1b[3~',
@@ -50,25 +57,25 @@ define(function(require, exports, module) {
             name: "\u001bb" // "alt-b"
         }, {
             bindKey: {win: "Ctrl-right", mac: "Option-right"},
-            name: "\u001bf" //"alt-b"
+            name: "\u001bf" // "alt-b"
         }, {
             bindKey: {win: "Ctrl-Delete", mac: "Option-Delete"},
-            name: "\u001bd" //"alt-d"
+            name: "\u001bd" // "alt-d"
         }, {
             bindKey: {win: "Ctrl-Backspace", mac: "Option-Backspace"},
-            name: "\x1b\x7f" //"alt-backspace"
+            name: "\x1b\x7f" // "alt-backspace"
         }, {
             bindKey: {win: "Ctrl-Delete", mac: "Option-Delete"},
-            name: "\u001bd" //"alt-d"
+            name: "\u001bd" // "alt-d"
         }, {
-            bindKey: {win: "Alt-Backspace", mac: "Ctrl-Backspace"},
-            name: "\u0017" //"ctrl-w"
+            bindKey: {win: "Alt-Backspace|Shift-Backspace", mac: "Ctrl-Backspace|Shift-Backspace"},
+            name: "\u0015" // "ctrl-u"
         }, {
-            bindKey: {win: "Alt-Backspace", mac: "Ctrl-Backspace"},
-            name: "\u0017" //"ctrl-w"
+            bindKey: {win: "Alt-Delete|Shift-Delete", mac: "Ctrl-Delete|Shift-Delete"},
+            name: "\u000b" // "ctrl-k"
         }, {
             bindKey: {win: "Ctrl-z", mac: "Cmd-z"},
-            name: "\u0018\u0015" //"ctrl-x ctrl-u"
+            name: "\u0018\u0015" // "ctrl-x ctrl-u"
         }];
         
         specialKeys.addCommands(aliases);
@@ -130,7 +137,11 @@ define(function(require, exports, module) {
             }
             if (term.applicationKeypad) {
                 if (applicationKeys[keyString]) {
-                    this.send(applicationKeys[keyString]);
+                    var mod = TERM_MODS[KEY_MODS[hashId]];
+                    var str = applicationKeys[keyString];
+                    if (mod)
+                        str = "\u001b[1;" + mod + str.slice(-1);
+                    this.send(str);
                     return {command: "null"};
                 }
             }

@@ -162,7 +162,7 @@ require([
                 return prefs;
             })(),
             analytics: {
-                addTrait: function() {}
+                updateTraits: function() {}
             },
             commands: (function(){
                 var commands = {};
@@ -392,6 +392,11 @@ require([
                 getWorkspace: function(callback) { 
                     var ws = { id: 2 };
                     return callback ? callback(null, ws) : ws;
+                }
+            },
+            "preferences.experimental": {
+                addExperiment: function() {
+                    return false;
                 }
             },
             "ace.gotoline": {},
