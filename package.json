@@ -55,12 +55,12 @@
         "c9"
     ],
     "c9plugins": {
-        "c9.ide.language": "#9cfa1ec76d",
+        "c9.ide.language": "#a18027a377",
         "c9.ide.language.css": "#a649f2a710",
         "c9.ide.language.generic": "#77d43cfaf0",
         "c9.ide.language.html": "#0f4078c187",
         "c9.ide.language.html.diff": "#24f3608d26",
-        "c9.ide.language.javascript": "#2b77bdb96a",
+        "c9.ide.language.javascript": "#a408fdb83e",
         "c9.ide.language.javascript.immediate": "#0535804ada",
         "c9.ide.language.javascript.eslint": "#3ec4557969",
         "c9.ide.language.javascript.tern": "#213b54a899",
