@@ -265,7 +265,7 @@ function main(options, imports, register) {
                 "plugins/c9.ide.language.javascript.infer/infer_tooltip",
                 "plugins/c9.ide.language.javascript.infer/infer_completer",
                 "plugins/c9.ide.language.python/worker/python_linter",
-                "plugins/c9.ide.language.python/worker/python_worker",
+                "plugins/c9.ide.language.python/worker/python_completer",
                 "plugins/c9.ide.language.python/worker/python_jsonalyzer",
                 "plugins/c9.ide.language.html/html_completer",
                 "plugins/c9.ide.language.css/css_handler",
