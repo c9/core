@@ -120,12 +120,6 @@ module.exports = function(manifest, installPath) {
                 integrations: {
                     "All": true
                 }
-            },
-            treasureData: {
-                tdWriteKey: "12346",
-                tdDb: "test_db",
-                tdAgentHost: "localhost",
-                tdAgentPort: 24224
             }
         },
         raygun: {
