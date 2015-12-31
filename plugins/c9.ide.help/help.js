@@ -52,7 +52,7 @@ define(function(require, exports, module) {
                 }
             }), c += 100, plugin);
             
-            menus.addItemByPath("Support/~", new ui.divider(), c += 100, plugin);
+            menus.addItemByPath("Support/~", new ui.divider(), c += 300, plugin);
             
             menus.addItemByPath("Support/Read Documentation", new ui.item({ 
                 onclick: function(){ 
