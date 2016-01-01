@@ -68,10 +68,10 @@ define(function(require, exports, module) {
             bindKey: {win: "Ctrl-Delete", mac: "Option-Delete"},
             name: "\u001bd" // "alt-d"
         }, {
-            bindKey: {win: "Alt-Backspace|Shift-Backspace", mac: "Ctrl-Backspace|Shift-Backspace"},
+            bindKey: {win: "Alt-Backspace", mac: "Ctrl-Backspace"},
             name: "\u0015" // "ctrl-u"
         }, {
-            bindKey: {win: "Alt-Delete|Shift-Delete", mac: "Ctrl-Delete|Shift-Delete"},
+            bindKey: {win: "Alt-Delete", mac: "Ctrl-Delete"},
             name: "\u000b" // "ctrl-k"
         }, {
             bindKey: {win: "Ctrl-z", mac: "Cmd-z"},
