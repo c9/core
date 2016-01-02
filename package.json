@@ -55,7 +55,7 @@
         "c9"
     ],
     "c9plugins": {
-        "c9.ide.language": "#8ea21252f9",
+        "c9.ide.language": "#3fa81b5733",
         "c9.ide.language.css": "#36150db526",
         "c9.ide.language.generic": "#365368d108",
         "c9.ide.language.html": "#e7b5ab7ff8",
@@ -64,7 +64,7 @@
         "c9.ide.language.javascript.immediate": "#3e4f50e694",
         "c9.ide.language.javascript.eslint": "#b3a4891ca7",
         "c9.ide.language.javascript.tern": "#a70b174dd2",
-        "c9.ide.language.javascript.infer": "#eb47321a90",
+        "c9.ide.language.javascript.infer": "#9654ac0309",
         "c9.ide.language.jsonalyzer": "#2ebf2b73d6",
         "c9.ide.collab": "#10c224f9b8",
         "c9.ide.local": "#a6e689e33b",
@@ -90,7 +90,7 @@
         "c9.ide.imgeditor": "#612e75ef4f",
         "c9.ide.immediate": "#a962119bec",
         "c9.ide.installer": "#0fde9f0067",
-        "c9.ide.language.python": "#1aff4e417e",
+        "c9.ide.language.python": "#9176e715fa",
         "c9.ide.mount": "#befb8188d5",
         "c9.ide.navigate": "#38ae100ea1",
         "c9.ide.newresource": "#981a408a7b",
