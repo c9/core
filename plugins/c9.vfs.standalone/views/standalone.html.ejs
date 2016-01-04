@@ -109,6 +109,9 @@
                     if (window.hideLoader)
                         window.hideLoader();
                 }
+            }, function loadError(mod) {
+                if (mod.id === "plugins/c9.ide.clipboard/html5")
+                    return alert("Unable to load html5.js.\n\nThis may be caused by a false positive in your virus scanner. Please try reloading with ?packed=1 added to the URL.");
             });
         });
     </script>
