@@ -1,6 +1,9 @@
 <html>
   <head>
-    <meta charset='utf-8'> 
+    <meta charset='utf-8'>
+    <meta id="page-data"
+        data-retry-in="<%= retryIn %>"
+    >
     <title><%=title%></title>
     <link rel="stylesheet" type="text/css" href="<%=staticPrefix%>/error_handler/style.css" />
   </head>
@@ -17,9 +20,11 @@
       <a href="https://c9.io">Home</a>
     </div>
     <script>
+        var data = document.getElementById("page-data").dataset;
+        
         setTimeout(function() {
             window.location.reload();
-        }, <%=retryIn%>)
+        }, parseInt(data.retryIn, 10))
     </script>
     
   </body>
