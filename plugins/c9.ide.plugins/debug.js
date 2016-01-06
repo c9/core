@@ -43,7 +43,7 @@ define(function(require, exports, module) {
         var plugins = [];
         
         var ENABLED = c9.location.indexOf("debug=2") > -1;
-        var HASSDK = experimental.addExperiment("sdk", false, "SDK/Load Custom Plugins");;
+        var HASSDK = ENABLED || experimental.addExperiment("sdk", false, "SDK/Load Custom Plugins");
         
         var reParts = /^(builders|keymaps|modes|outline|runners|snippets|themes)\/(.*)/;
         var reModule = /(?:_highlight_rules|_test|_worker|_fold|_behaviou?r)\.js$/;
