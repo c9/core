@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-    main.consumes = ["Plugin", "c9", "menus", "layout", "ui", "http"];
+    main.consumes = ["Plugin", "c9", "menus", "layout", "ui", "http", "c9.analytics"];
     main.provides = ["help"];
     return main;
 
@@ -9,6 +9,7 @@ define(function(require, exports, module) {
         var http = imports.http;
         var ui = imports.ui;
         var menus = imports.menus;
+        var analytics = imports["c9.analytics"];
         
         var markup = require("text!./help.xml");
         var css = require("text!./style.css");
@@ -48,6 +49,7 @@ define(function(require, exports, module) {
 
             menus.addItemByPath("Support/Get Help (Community)", new ui.item({ 
                 onclick: function(){ 
+                    analytics.track("Visited Cloud9 Community");
                     window.open("https://community.c9.io"); 
                 }
             }), c += 100, plugin);
@@ -56,7 +58,7 @@ define(function(require, exports, module) {
             
             menus.addItemByPath("Support/Read Documentation", new ui.item({ 
                 onclick: function(){ 
-                    window.open("https://docs.c9.io"); 
+                    window.open("https://docs.c9.io/docs"); 
                 }
             }), c += 100, plugin);
             menus.addItemByPath("Support/Request a Feature", new ui.item({
