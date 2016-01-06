@@ -53,16 +53,7 @@ module.exports.makeLocal = function(config, options) {
             config[i].path = join(settingDir, "/metadata");
             config[i].changeCheckInterval = 2000;
         }
-        else if (config[i].packagePath == "plugins/c9.ide.feedback/feedback") {
-            config[i].screenshotSupport = false;
-        }
-        // else if (config[i].packagePath == "plugins/c9.ide.feedback/feedback") {
-        //     config[i] = {
-        //         packagePath : "plugins/c9.ide.help/help",
-        //         staticPrefix : options.staticPrefix + "/plugins/c9.ide.help"
-        //     };
-        // }
-        
+
         else if (config[i].packagePath == "plugins/c9.core/c9") {
             config[i].local = true;
         }
@@ -138,7 +129,6 @@ module.exports.makeLocal = function(config, options) {
         "plugins/c9.ide.newresource/open": true,
         "plugins/c9.ide.info/info": true,
         // "plugins/c9.ide.login/login": true,
-        "plugins/c9.ide.feedback/nps": true,
         "plugins/c9.ide.download/download": true
     };
 

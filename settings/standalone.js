@@ -94,9 +94,6 @@ module.exports = function(manifest, installPath) {
             },
             assumeConnected: true
         },
-        feedback: {
-            userSnapApiKey: "a83fc136-1bc4-4ab8-8158-e750c30873b5"
-        },
         support: {
             userSnapApiKey: "e3d3b232-1c21-4961-b73d-fbc8dc7be1c3"
         },
