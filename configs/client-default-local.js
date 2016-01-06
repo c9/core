@@ -76,8 +76,6 @@ module.exports.makeLocal = function(config, options) {
             config[i].projectConfigPath = join(settingDir, "");
             config[i].userConfigPath = join(settingDir, "");
             config[i].stateConfigPath = join(settingDir, "");
-        } else if (config[i].packagePath == "plugins/c9.ide.log/log" && !c9Ws) {
-            config[i].source = "desktop";
         } else if (config[i].packagePath == "plugins/c9.ide.info/info" && c9Ws) {
             config[i].packagePath = "plugins/c9.ide.local/info";
         } else if (config[i].packagePath == "plugins/c9.ide.ui/menus" && c9Ws) {
