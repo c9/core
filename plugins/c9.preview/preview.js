@@ -21,6 +21,7 @@ define(function(require, exports, module) {
         var userContent = imports["user-content.redirect"];
         var getVfsServers = imports["vfs.serverlist"].getServers;
         
+        
         var frontdoor = require("frontdoor");
         var error = require("http-error");
         var requestTimeout = require("c9/request_timeout");
@@ -50,6 +51,7 @@ define(function(require, exports, module) {
             }
         }, [
             requestTimeout(15*60*1000),
+            require("./lib/middleware/sanitize-path-param"),
             handler.getProjectSession(),
             handler.getRole(db),
             handler.getProxyUrl(function() {
