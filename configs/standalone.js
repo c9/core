@@ -162,7 +162,14 @@ module.exports = function(config, optimist) {
                 "saucelabs.preview": true,
                 "salesforce.sync": true,
                 "salesforce.language": true
-            }
+            },
+            externalPlugins: [
+                "@smartface/smartface.about",
+                "@smartface/smartface.ide.theme",
+                "@smartface/smartface.language",
+                "@smartface/smartface.publish.wizard",
+                "@smartface/smartface.welcome"
+            ]
         },
         "./c9.preview/statics",
         "./c9.nodeapi/nodeapi",
