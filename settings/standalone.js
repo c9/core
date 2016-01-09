@@ -63,7 +63,7 @@ module.exports = function(manifest, installPath) {
         ideBaseUrl: "http://c9.io",
         previewUrl: "/preview",
         dashboardUrl: "https://c9.io/dashboard.html",
-        apiUrl: "https://api.c9.dev",
+        apiUrl: "/api",
         homeUrl: "/home",
         collab: false,
         installed: true,
