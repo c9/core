@@ -122,10 +122,10 @@ define(function(require, exports, module) {
                 
                 metrics.increment("dialog.error");
                 
-                errorHandler.log(new Error("Error dialog shown"), {
-                    message: message, 
-                    messageString: getMessageString(message),
-                });
+                // errorHandler.log(new Error("Error dialog shown"), {
+                //     message: message, 
+                //     messageString: getMessageString(message),
+                // });
             }
             
             hide(function() {
