@@ -20,6 +20,7 @@
         "engine.io": "1.5.3",
         "engine.io-client": "1.5.3",
         "eslint": "git://github.com/cloud9ide/eslint.git#dc500e81162bf0cb4747a4a415c121b0c46975cb",
+        "jsonm": "1.0.6",
         "http-error": "~0.0.5",
         "less": "^2.4.0",
         "mime": "~1.2.9",
