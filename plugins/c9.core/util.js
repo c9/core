@@ -402,7 +402,12 @@ define(function(require, exports, module) {
                 setTimeout(callback, 17);
             };
         
-        plugin.freezePublicAPI({});
+        plugin.freezePublicAPI({
+            get supportedIcons(){ return SupportedIcons; },
+            set supportedIcons(value){ SupportedIcons = value; },
+            get contentTypes(){ return contentTypes; },
+            set contentTypes(value){ contentTypes = value; }
+        });
         
         register(null, {
             util: plugin
