@@ -629,6 +629,14 @@ define(function(require, exports, module) {
                     });
                 } else if (key === "children" || key === "isSelected") {
                     prop = null;
+                } else if (Object.prototype.toString.call(node[key]) == "[object Date]") {
+                    // why Date ends up here?
+                    reportError(new Error("Date in fs cache"), {
+                        key: key,
+                        value: node[key],
+                        path: node.path,
+                        hasParentProp: !!node.parent,
+                    });
                 } else {
                     prop = lang.deepCopy(node[key]);
                 }
@@ -637,9 +645,9 @@ define(function(require, exports, module) {
             return copy;
         }
         
-        function clear(){
+        function clear() {
             var all = model.visibleItems;
-            for (var i = all.length; i--; ) {
+            for (var i = all.length; i--;) {
                 if (model.isOpen(all[i]))
                     model.collapse(all[i]);
             }

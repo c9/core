@@ -63,7 +63,7 @@ module.exports = function(manifest, installPath) {
         ideBaseUrl: "http://c9.io",
         previewUrl: "/preview",
         dashboardUrl: "https://c9.io/dashboard.html",
-        apiUrl: "https://api.c9.dev",
+        apiUrl: "/api",
         homeUrl: "/home",
         collab: false,
         installed: true,
@@ -94,9 +94,6 @@ module.exports = function(manifest, installPath) {
             },
             assumeConnected: true
         },
-        feedback: {
-            userSnapApiKey: "a83fc136-1bc4-4ab8-8158-e750c30873b5"
-        },
         support: {
             userSnapApiKey: "e3d3b232-1c21-4961-b73d-fbc8dc7be1c3"
         },
@@ -120,12 +117,6 @@ module.exports = function(manifest, installPath) {
                 integrations: {
                     "All": true
                 }
-            },
-            treasureData: {
-                tdWriteKey: "12346",
-                tdDb: "test_db",
-                tdAgentHost: "localhost",
-                tdAgentPort: 24224
             }
         },
         raygun: {

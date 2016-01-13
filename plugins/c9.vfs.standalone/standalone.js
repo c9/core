@@ -183,7 +183,6 @@ function plugin(options, imports, register) {
 
     api.get("/configs/require_config.js", function(req, res, next) {
         var config = res.getOptions().requirejsConfig || {};
-        config.waitSeconds = 240;
         
         res.writeHead(200, {"Content-Type": "application/javascript"});
         res.end("requirejs.config(" + JSON.stringify(config) + ");");
@@ -212,6 +211,54 @@ function plugin(options, imports, register) {
     
     api.get("/api.json", {name: "api"}, frontdoor.middleware.describeApi(api));
 
+    api.get("/api/project/:pid/persistent/:apikey", {
+        params: {
+            pid: { type: "number" },
+            apikey: { type: "string" }
+        }
+    }, persistentDataApiMock);
+    api.put("/api/project/:pid/persistent/:apikey", {
+        params: {
+            data: { type: "string", source: "body" },
+            pid: { type: "number" },
+            apikey: { type: "string" },
+        }
+    }, persistentDataApiMock);
+    api.get("/api/user/persistent/:apikey", {
+        params: {
+            apikey: { type: "string" }
+        }
+    }, persistentDataApiMock);
+    api.put("/api/user/persistent/:apikey", {
+        params: {
+            data: { type: "string", source: "body" },
+            apikey: { type: "string" },
+        }
+    }, persistentDataApiMock);
+    
+    function persistentDataApiMock(req, res, next) {
+        var name = (req.params.pid || 0) + "-" + req.params.apikey;
+        var data = req.params.data;
+        console.log(name, data)
+        if (/[^\w+=\-]/.test(name))
+            return next(new Error("Invalid apikey"));
+        var path = join(options.installPath, ".c9", "persistent");
+        var method = req.method.toLowerCase()
+        if (method == "get") {
+            res.writeHead(200, {"Content-Type": "application/octet-stream"});
+            var stream = fs.createReadStream(path + "/" + name);
+            stream.pipe(res);
+        } else if (method == "put") {
+            require("mkdirp")(path, function(e) {
+                fs.writeFile(path + "/" + name, data, "", function(err) {
+                    if (err) return next(err);
+                    res.writeHead(200, {"Content-Type": "application/octet-stream"});
+                    res.end("");
+                });
+            });
+        }
+    }
+    
     // fake authentication
     api.authenticate = api.authenticate || function() {
         return function(req, res, next) { 

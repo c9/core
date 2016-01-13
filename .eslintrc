@@ -48,5 +48,5 @@ rules:
     space-in-parens: [1, "never"]
     space-return-throw-case: [1, "always"]
     // space-before-function-paren: [3, {"named": "never", "anonymous": "never"}]
-    spaced-line-comment: 3
+    spaced-comment: 3
     // valid-jsdoc: [1, { requireReturn: false, requireParamDescription: false, prefer: { "return": "return" } }]

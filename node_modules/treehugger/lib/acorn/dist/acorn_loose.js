@@ -1,8 +1,9 @@
 define(["require", "exports", "module", "./acorn"], function(require, exports, module) {
+
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}(g.acorn || (g.acorn = {})).loose = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/src\\index.js":[function(_dereq_,module,exports){
 "use strict";
 
-module.exports = typeof acorn != "undefined" ? acorn : _dereq_("./acorn");
+module.exports = typeof acorn != 'undefined' ? acorn : require("./acorn");
 
 },{}],"/src\\loose\\expression.js":[function(_dereq_,module,exports){
 "use strict";
@@ -15,25 +16,16 @@ var _ = _dereq_("..");
 
 var lp = _state.LooseParser.prototype;
 
-lp.checkLVal = function (expr, binding) {
+lp.checkLVal = function (expr) {
   if (!expr) return expr;
   switch (expr.type) {
     case "Identifier":
-      return expr;
-
     case "MemberExpression":
-      return binding ? this.dummyIdent() : expr;
+      return expr;
 
     case "ParenthesizedExpression":
-      expr.expression = this.checkLVal(expr.expression, binding);
+      expr.expression = this.checkLVal(expr.expression);
       return expr;
-
-    // FIXME recursively check contents
-    case "ObjectPattern":
-    case "ArrayPattern":
-    case "RestElement":
-    case "AssignmentPattern":
-      if (this.options.ecmaVersion >= 6) return expr;
 
     default:
       return this.dummyIdent();
@@ -200,6 +192,17 @@ lp.parseExprAtom = function () {
       return this.finishNode(node, type);
 
     case _.tokTypes.name:
+      // quick hack to allow async and await
+      if (this.tok.value == "async" && /^[ \t]+function\b/.test(this.input.slice(this.tok.end))) {
+        node = this.startNode();
+        this.next();
+        return this.parseExprAtom();
+      }
+      if (this.tok.value == "await" && /^[ \t]+[\w\x1f-\uffff]/.test(this.input.slice(this.tok.end))) {
+        node = this.startNode();
+        this.next();
+        return this.parseExprAtom();
+      }
       var start = this.storeCurrentPos();
       var id = this.parseIdent();
       return this.eat(_.tokTypes.arrow) ? this.parseArrowExpression(this.startNodeAt(start), [id]) : id;
@@ -440,32 +443,29 @@ lp.initFunction = function (node) {
 // if possible.
 
 lp.toAssignable = function (node, binding) {
-  if (this.options.ecmaVersion >= 6 && node) {
-    switch (node.type) {
-      case "ObjectExpression":
-        node.type = "ObjectPattern";
-        var props = node.properties;
-        for (var i = 0; i < props.length; i++) {
-          this.toAssignable(props[i].value, binding);
-        }break;
-
-      case "ArrayExpression":
-        node.type = "ArrayPattern";
-        this.toAssignableList(node.elements, binding);
-        break;
-
-      case "SpreadElement":
-        node.type = "RestElement";
-        node.argument = this.toAssignable(node.argument, binding);
-        break;
-
-      case "AssignmentExpression":
-        node.type = "AssignmentPattern";
-        delete node.operator;
-        break;
+  if (!node || node.type == "Identifier" || node.type == "MemberExpression" && !binding) {} else if (node.type == "ParenthesizedExpression") {
+    node.expression = this.toAssignable(node.expression, binding);
+  } else if (this.options.ecmaVersion < 6) {
+    return this.dummyIdent();
+  } else if (node.type == "ObjectExpression") {
+    node.type = "ObjectPattern";
+    var props = node.properties;
+    for (var i = 0; i < props.length; i++) {
+      props[i].value = this.toAssignable(props[i].value, binding);
     }
+  } else if (node.type == "ArrayExpression") {
+    node.type = "ArrayPattern";
+    this.toAssignableList(node.elements, binding);
+  } else if (node.type == "SpreadElement") {
+    node.type = "RestElement";
+    node.argument = this.toAssignable(node.argument, binding);
+  } else if (node.type == "AssignmentExpression") {
+    node.type = "AssignmentPattern";
+    delete node.operator;
+  } else {
+    return this.dummyIdent();
   }
-  return this.checkLVal(node, binding);
+  return node;
 };
 
 lp.toAssignableList = function (exprList, binding) {
@@ -527,6 +527,8 @@ lp.parseExprList = function (close, allowEmpty) {
   return elts;
 };
 
+// Okay
+
 },{"..":"/src\\index.js","./parseutil":"/src\\loose\\parseutil.js","./state":"/src\\loose\\state.js"}],"/src\\loose\\index.js":[function(_dereq_,module,exports){
 // Acorn: Loose parser
 //
@@ -579,6 +581,7 @@ _dereq_("./statement");
 _dereq_("./expression");
 
 exports.LooseParser = _state.LooseParser;
+exports.pluginsLoose = _state.pluginsLoose;
 
 acorn.defaultOptions.tabSize = 4;
 
@@ -590,6 +593,7 @@ function parse_dammit(input, options) {
 
 acorn.parse_dammit = parse_dammit;
 acorn.LooseParser = _state.LooseParser;
+acorn.pluginsLoose = _state.pluginsLoose;
 
 },{"..":"/src\\index.js","./expression":"/src\\loose\\expression.js","./state":"/src\\loose\\state.js","./statement":"/src\\loose\\statement.js","./tokenize":"/src\\loose\\tokenize.js"}],"/src\\loose\\parseutil.js":[function(_dereq_,module,exports){
 "use strict";
@@ -610,9 +614,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var _ = _dereq_("..");
 
+// Registered plugins
+var pluginsLoose = {};
+
+exports.pluginsLoose = pluginsLoose;
+
 var LooseParser = (function () {
   function LooseParser(input, options) {
-    _classCallCheck(this, LooseParser);
+
 
     this.toks = _.tokenizer(input, options);
     this.options = this.toks.options;
@@ -627,6 +636,9 @@ var LooseParser = (function () {
     this.curIndent = 0;
     this.curLineStart = 0;
     this.nextLineStart = this.lineEnd(this.curLineStart) + 1;
+    // Load plugins
+    this.options.pluginsLoose = options.pluginsLoose || {};
+    this.loadPlugins(this.options.pluginsLoose);
   }
 
   LooseParser.prototype.startNode = function startNode() {
@@ -653,10 +665,26 @@ var LooseParser = (function () {
     return node;
   };
 
-  LooseParser.prototype.dummyIdent = function dummyIdent() {
+  LooseParser.prototype.dummyNode = function dummyNode(type) {
     var dummy = this.startNode();
+    dummy.type = type;
+    dummy.end = dummy.start;
+    if (this.options.locations) dummy.loc.end = dummy.loc.start;
+    if (this.options.ranges) dummy.range[1] = dummy.start;
+    this.last = { type: _.tokTypes.name, start: dummy.start, end: dummy.start, loc: dummy.loc };
+    return dummy;
+  };
+
+  LooseParser.prototype.dummyIdent = function dummyIdent() {
+    var dummy = this.dummyNode("Identifier");
     dummy.name = "✖";
-    return this.finishNode(dummy, "Identifier");
+    return dummy;
+  };
+
+  LooseParser.prototype.dummyString = function dummyString() {
+    var dummy = this.dummyNode("Literal");
+    dummy.value = dummy.raw = "✖";
+    return dummy;
   };
 
   LooseParser.prototype.eat = function eat(type) {
@@ -730,6 +758,18 @@ var LooseParser = (function () {
       if (ch !== 9 && ch !== 32) return false;
     }
     return true;
+  };
+
+  LooseParser.prototype.extend = function extend(name, f) {
+    this[name] = f(this[name]);
+  };
+
+  LooseParser.prototype.loadPlugins = function loadPlugins(pluginConfigs) {
+    for (var _name in pluginConfigs) {
+      var plugin = pluginsLoose[_name];
+      if (!plugin) throw new Error("Plugin '" + _name + "' not found");
+      plugin(this, pluginConfigs[_name]);
+    }
   };
 
   return LooseParser;
@@ -870,7 +910,6 @@ lp.parseStatement = function () {
         this.expect(_.tokTypes.parenL);
         clause.param = this.toAssignable(this.parseExprAtom(), true);
         this.expect(_.tokTypes.parenR);
-        clause.guard = null;
         clause.body = this.parseBlock();
         node.handler = this.finishNode(clause, "CatchClause");
       }
@@ -1104,7 +1143,7 @@ lp.parseImport = function () {
       this.eat(_.tokTypes.comma);
     }
     node.specifiers = this.parseImportSpecifierList();
-    node.source = this.eatContextual("from") ? this.parseExprAtom() : null;
+    node.source = this.eatContextual("from") && this.tok.type == _.tokTypes.string ? this.parseExprAtom() : this.dummyString();
     if (elt) node.specifiers.unshift(elt);
   }
   this.semicolon();
@@ -1128,7 +1167,7 @@ lp.parseImportSpecifierList = function () {
     while (!this.closes(_.tokTypes.braceR, indent + (this.curLineStart <= continuedLine ? 1 : 0), line)) {
       var elt = this.startNode();
       if (this.eat(_.tokTypes.star)) {
-        if (this.eatContextual("as")) elt.local = this.parseIdent();
+        elt.local = this.eatContextual("as") ? this.parseIdent() : this.dummyIdent();
         this.finishNode(elt, "ImportNamespaceSpecifier");
       } else {
         if (this.isContextual("from")) break;
@@ -1276,5 +1315,4 @@ lp.lookAhead = function (n) {
 
 },{"..":"/src\\index.js","./state":"/src\\loose\\state.js"}]},{},["/src\\loose\\index.js"])("/src\\loose\\index.js")
 });
-
-})
+});
