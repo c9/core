@@ -26,6 +26,7 @@ define(function(require, exports, module) {
         var plugin = new Panel("Ajax.org", main.consumes, {
             index: options.index || 300,
             caption: "Commands",
+            buttonCSSClass: "commands",
             minWidth: 150,
             autohide: true,
             where: options.where || "left"
