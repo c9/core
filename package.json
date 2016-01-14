@@ -91,6 +91,7 @@
         "c9.ide.immediate": "#a962119bec",
         "c9.ide.installer": "#0fde9f0067",
         "c9.ide.language.python": "#85edff7f88",
+        "c9.ide.language.go": "#undefined",
         "c9.ide.mount": "#befb8188d5",
         "c9.ide.navigate": "#38ae100ea1",
         "c9.ide.newresource": "#981a408a7b",
