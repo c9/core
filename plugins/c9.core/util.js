@@ -57,7 +57,8 @@ define(function(require, exports, module) {
             "text/x-csharp": "page_white_csharp",
             "text/x-java-source": "page_white_cup",
             "text/x-markdown": "page_white_text",
-            "text/x-xquery": "page_white_code"
+            "text/x-xquery": "page_white_code",
+            "text/x-go": "page_white_code",
         };
         
         var contentTypes = {
@@ -87,6 +88,7 @@ define(function(require, exports, module) {
             "xhtml": "application/xhtml+xml",
             "coffee": "text/x-script.coffeescript",
             "py": "text/x-script.python",
+            "go": "text/x-go",
             "java": "text/x-java-source",
             "logic": "text/x-logiql",
         
