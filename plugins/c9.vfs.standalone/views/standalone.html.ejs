@@ -2,13 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta id="page-data"
-        data-static-prefix="<%= staticPrefix %>"
-        data-architect-config="<%= JSON.stringify(architectConfig, null, 2) %>"
-    >
-
     <title>Cloud9</title>
-    
     <script>
         // For node-webkit
         var nRequire = window.require; 
@@ -35,9 +29,7 @@
         <script src="/configs/require_config.js"></script>
     <% } %>
     <script>
-        var data = document.getElementById("page-data").dataset;
-        var plugins = JSON.parse(data.architectConfig);
-
+        var plugins = <%-: architectConfig | JSONToJS %>;
         var start = Date.now();
         
         <% if (packed) { %>

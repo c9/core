@@ -326,8 +326,9 @@ module.exports = function(options) {
         "plugins/c9.ide.language.javascript.eslint/eslint",
         {
             packagePath: "plugins/c9.ide.language.python/python",
-            pythonPath:  "/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python3.4/dist-packages",
+            pythonPath:  "/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python3.4/dist-packages:/usr/local/lib/python3.5/dist-packages",
         },
+        "plugins/c9.ide.language.go/go",
         {
             packagePath: "plugins/c9.ide.language.jsonalyzer/jsonalyzer",
             extendToken: extendToken,
