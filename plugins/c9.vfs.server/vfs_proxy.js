@@ -47,7 +47,7 @@ module.exports = function(methods, vfsHome, vfsWorkspace) {
             });
             args[1] = options;
             
-            if (path.charAt(0) == "~") {
+            if (typeof path == "string" && path.charAt(0) == "~") {
                 args[0] = substituteTilde(path);
                     
                 vfsHome[name].apply(vfsHome, args);
