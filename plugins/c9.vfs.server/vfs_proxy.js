@@ -34,7 +34,7 @@ module.exports = function(methods, vfsHome, vfsWorkspace) {
     
     function wrap(name, excluded) {
         if (excluded) {
-            return function(){
+            return function() {
                 vfsWorkspace[name].apply(vfsWorkspace, arguments);
             };
         }
@@ -43,7 +43,8 @@ module.exports = function(methods, vfsHome, vfsWorkspace) {
             var args = Array.prototype.slice.call(arguments);
             
             PATH_OPTIONS.forEach(function(o) {
-                options[o] = options[o] && substituteTilde(options[o]);
+                if (options[o] && typeof options[o] == "string")
+                    options[o] = substituteTilde(options[o]);
             });
             args[1] = options;
             
