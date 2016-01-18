@@ -84,6 +84,7 @@ function main(argv, config, onLoaded) {
         .describe("domains", "Primary and any secondary top-level domains to use (e.g, c9.io,c9.dev)")
         .describe("exclude", "Exclude specified service")
         .describe("include", "Include only specified service")
+        .describe("helpWithSudo", "Ask for sudo password on startup")
         .default("domains", inContainer && process.env.C9_HOSTNAME || process.env.C9_DOMAINS)
         .boolean("help")
         .describe("help", "Show command line options.");
@@ -107,7 +108,7 @@ function main(argv, config, onLoaded) {
     var delayed = expanded.filter(function(c) { return delayLoadConfigs.indexOf(c) !== -1 });
     var notDelayed = expanded.filter(function(c) { return delayLoadConfigs.indexOf(c) === -1 });
     
-    if (options.helpWithSudo)
+    if (options.argv.helpWithSudo)
         return child_process.execFile("sudo", ["echo -n"], main.bind(null, argv.filter(function(a) {
             return a !== "--helpWithSudo";
         }), config, onLoaded));
