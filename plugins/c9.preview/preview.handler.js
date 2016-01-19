@@ -212,7 +212,8 @@ define(function(require, exports, module) {
                         } else if (body.indexOf("ENOENT") !== -1 || statusCode == 404) {
                             next(new error.NotFound("File '" + path + "' could not be found!"));
                         } else {
-                            delete req.session.ws[req.ws];
+                            if (req.session.ws)
+                                delete req.session.ws[req.ws];
                             
                             var json;
                             try {

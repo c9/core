@@ -168,6 +168,8 @@ function plugin(options, imports, register) {
         });
         var path = resolve(__dirname + "/../../build/output/latest.tar.gz");
         fs.readlink(path, function(err, target) {
+            if (err) return next(err);
+            
             res.end((target || "").split(".")[0]);
         });
     });
@@ -176,9 +178,19 @@ function plugin(options, imports, register) {
         var filename = req.params.path;
         var path = resolve(__dirname + "/../../build/output/" + filename);
         
-        res.writeHead(200, {"Content-Type": "application/octet-stream"});
         var stream = fs.createReadStream(path);
-        stream.pipe(res);
+        stream.on("error", function(err) {
+            next(err);
+        });
+        stream.on("data", function(data) {
+            if (!res.headersSent)
+                res.writeHead(200, {"Content-Type": "application/octet-stream"});
+                
+            res.write(data);
+        });
+        stream.on("end", function(data) {
+            res.end();
+        });
     });
 
     api.get("/configs/require_config.js", function(req, res, next) {
