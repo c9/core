@@ -122,7 +122,7 @@ function plugin(options, imports, register) {
             
             var allowedErrorKeys = [
                 "message", "projectState", "premium", "retryIn", "progress",
-                "oldHost", "blocked", "className", "errors"
+                "oldHost", "blocked", "className", "errors", "sub_type"
             ];
             
             allowedErrorKeys.forEach(function(key) {
