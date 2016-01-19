@@ -16,7 +16,8 @@ function plugin(options, imports, register) {
             track: function() {},
             identify: function() {},
             logClean: function() {},
-            trackClean: function() {}
+            trackClean: function() {},
+            identifyClean: function() {},
         }
     });
 }
