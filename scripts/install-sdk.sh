@@ -51,7 +51,8 @@ FORCE=
 updatePackage() {
     name=$1
     
-    REPO=https://github.com/c9/$name
+    REPO=$2$name
+    
     echo "${green}checking out ${resetColor}$REPO"
     
     if ! [[ -d ./plugins/$name ]]; then
@@ -65,7 +66,7 @@ updatePackage() {
         git remote add origin $REPO
     fi
     
-    version=`"$NODE" -e 'console.log((require("../../package.json").c9plugins["'$name'"].substr(1) || "origin/master"))'`;
+    version=`"$NODE" -e 'var package = require("../../package.json");console.log(package.c9plugins["'$name'"] ? package.c9plugins["'$name'"].substr(1) : package.devPlugins["'$name'"] ? package.devPlugins["'$name'"].substr(1) : "origin/master")'`;
     rev=`git rev-parse --revs-only $version`
     
     if [ "$rev" == "" ]; then
@@ -88,7 +89,19 @@ updateAllPackages() {
     for m in ${c9packages[@]}; do echo $m; 
         i=$(($i + 1))
         echo "updating plugin ${blue}$i${resetColor} of ${blue}$count${resetColor}"
-        updatePackage $m
+        updatePackage $m https://github.com/c9/
+    done
+}
+
+updateAllDevPackages() {
+    c9packages=(`"$NODE" -e 'console.log(Object.keys(require("./package.json").devPlugins).join(" "))'`)
+    githubUser=(`"$NODE" -e 'console.log(require("./package.json").devUser || "c9")'`)
+    count=${#c9packages[@]}
+    i=0
+    for m in ${c9packages[@]}; do echo $m; 
+        i=$(($i + 1))
+        echo "updating plugin ${blue}$i${resetColor} of ${blue}$count${resetColor}"
+        updatePackage $m https://github.com/$githubUser/
     done
 }
 
@@ -110,9 +123,9 @@ updateCore() {
     fi
     
     # without this git merge fails on windows
-    mv ./scripts/install-sdk.sh  ./scripts/.install-sdk-tmp.sh 
-    cp ./scripts/.install-sdk-tmp.sh ./scripts/install-sdk.sh
-    git checkout -- ./scripts/install-sdk.sh
+    #mv ./scripts/install-sdk.sh  ./scripts/.install-sdk-tmp.sh 
+    #cp ./scripts/.install-sdk-tmp.sh ./scripts/install-sdk.sh
+    #git checkout -- ./scripts/install-sdk.sh
 
     git remote add c9 https://github.com/c9/core 2> /dev/null || true
     git fetch c9
@@ -161,6 +174,7 @@ updateCore || true
 
 installGlobalDeps
 updateAllPackages
+updateAllDevPackages
 updateNodeModules
 
 echo -e "c9.*\n.gitignore" >  plugins/.gitignore
