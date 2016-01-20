@@ -58,8 +58,8 @@
     "c9plugins": {
         "c9.ide.language": "#9bce2ffab1",
         "c9.ide.language.css": "#be07d72209",
-        "c9.ide.language.generic": "#352dca59a6",
-        "c9.ide.language.html": "#4f4d47a8bf",
+        "c9.ide.language.generic": "#440f912dd9",
+        "c9.ide.language.html": "#92d440980d",
         "c9.ide.language.html.diff": "#24f3608d26",
         "c9.ide.language.javascript": "#07fd057023",
         "c9.ide.language.javascript.immediate": "#c8b1e5767a",
