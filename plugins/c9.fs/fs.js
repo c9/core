@@ -21,6 +21,7 @@ define(function(require, exports, module) {
         var stream = require("./fs.streams")(vfs, options.base, options.baseProc, options.cli);
         var xhr = options.cli ? stream : require("./fs.xhr")(vfs.rest);
         var uCaseFirst = require("c9/string").uCaseFirst;
+        var normalize = require("path").normalize;
         
         var api = {
             readFile: xhr.readFile,
@@ -64,6 +65,11 @@ define(function(require, exports, module) {
                 
                 if (typeof args[args.length - 1] != "function")
                     throw new Error("Missing callback for " + name);
+                
+                path = args[0] = normalize(path);
+                if (name == "rename" || name == "copy" || name == "symlink") {
+                    args[1] = normalize(args[1]);
+                }
                 
                 // // TODO disabled to not break local version on windows
                 // if (!/^[!~/]/.test(path)) {
