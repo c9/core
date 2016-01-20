@@ -83,6 +83,9 @@ module.exports = function(vfs, options) {
 
          if (!options.file)
              return callback(new error.Forbidden("Option 'file' is missing"));
+             
+         if (typeof options.file != "string")
+             return callback(new error.Forbidden("Invalid option 'file'"));
 
         if (extendDirectory) {
             var file = options.file = path.normalize(path.join(extendDirectory, options.file));
