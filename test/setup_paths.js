@@ -12,7 +12,8 @@ modules._resolveFilename = function(request, parent) {
     // Ensure client extensions can be loaded
     request = request.replace(/^ext\//, "ext.")
             .replace(/^core\//, "cloud9.core/www/core/")
-            .replace(/^lib\/chai\//, "chai/");
+            .replace(/^lib\/chai\//, "chai/")
+            .replace(/^lib\/jsonm\//, "jsonm/");
     // Add the extra paths
     extraPaths.forEach(function(p) {
         if (parent.paths.indexOf(p) === -1)

@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-    main.consumes = ["Plugin", "c9", "menus", "layout", "ui", "http"];
+    main.consumes = ["Plugin", "c9", "menus", "layout", "ui", "http", "c9.analytics"];
     main.provides = ["help"];
     return main;
 
@@ -9,6 +9,7 @@ define(function(require, exports, module) {
         var http = imports.http;
         var ui = imports.ui;
         var menus = imports.menus;
+        var analytics = imports["c9.analytics"];
         
         var markup = require("text!./help.xml");
         var css = require("text!./style.css");
@@ -40,50 +41,39 @@ define(function(require, exports, module) {
             }), 100, plugin);
 
             var c = 0;
-            menus.addItemByPath("Support/Status Page", new ui.item({ 
+            menus.addItemByPath("Support/Check Cloud9 Status", new ui.item({ 
                 onclick: function(){window.open('http://status.c9.io'); }
             }), c += 100, plugin);
 
-            // menus.addItemByPath("Support/~", new ui.divider(), c += 100, plugin);
-            // ide.addEventListener("hook.ext/keybindings_default/keybindings_default", function(c, e) {
-            //     menus.addItemByPath("Support/Keyboard Shortcuts", new ui.item({ onclick : function(){ e.ext.keybindings(); }}), c);
-            // }.bind(this, c += 100), plugin);
             menus.addItemByPath("Support/~", new ui.divider(), c += 100, plugin);
 
-            menus.addItemByPath("Support/Cloud9 Community", new ui.item({ 
+            menus.addItemByPath("Support/Get Help (Community)", new ui.item({ 
                 onclick: function(){ 
+                    analytics.track("Visited Cloud9 Community");
                     window.open("https://community.c9.io"); 
                 }
             }), c += 100, plugin);
-            menus.addItemByPath("Support/Learning/", null, c += 100, plugin);
-            menus.addItemByPath("Support/Get Help/", null, c += 100, plugin);
-            menus.addItemByPath("Support/Get in Touch/", null, c += 100, plugin);
-
-            c = 0;
-            menus.addItemByPath("Support/Learning/Cloud9 Documentation", new ui.item({ 
+            
+            menus.addItemByPath("Support/~", new ui.divider(), c += 300, plugin);
+            
+            menus.addItemByPath("Support/Read Documentation", new ui.item({ 
                 onclick: function(){ 
-                    window.open("https://docs.c9.io"); 
+                    window.open("https://docs.c9.io/docs"); 
                 }
             }), c += 100, plugin);
-            menus.addItemByPath("Support/Learning/YouTube Channel for Cloud9", new ui.item({ 
+            menus.addItemByPath("Support/Request a Feature", new ui.item({
+                onclick: function() {
+                    // draw();
+                    window.open('https://community.c9.io/c/feature-requests');
+                }
+            }), c += 100, plugin);
+            menus.addItemByPath("Support/Go To YouTube Channel", new ui.item({ 
                 onclick: function(){ 
                     window.open('http://www.youtube.com/user/c9ide/videos?view=pl'); 
                 }
             }), c += 100, plugin);
 
             c = 0;
-            menus.addItemByPath("Support/Get in Touch/Blog", new ui.item({ 
-                onclick: function(){ window.open('https://blog.c9.io/'); }
-            }), c += 100, plugin);
-            menus.addItemByPath("Support/Get in Touch/Twitter (for Cloud9 Support)", new ui.item({ 
-                onclick: function(){ window.open('https://twitter.com/C9Support'); }
-            }), c += 100, plugin);
-            menus.addItemByPath("Support/Get in Touch/Twitter (for general Cloud9 tweets)", new ui.item({ 
-                onclick: function(){ window.open('https://twitter.com/Cloud9IDE'); }
-            }), c += 100, plugin);
-            menus.addItemByPath("Support/Get in Touch/Facebook", new ui.item({ 
-                onclick: function(){ window.open('https://www.facebook.com/Cloud9IDE'); }
-            }), c += 100, plugin);
 
             if (c9.hosted || c9.local) {
                 c9.on("state.change", fetchBlog);

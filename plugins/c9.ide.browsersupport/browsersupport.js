@@ -9,6 +9,7 @@ define(function(require, exports, module) {
         var Plugin = imports.Plugin;
         
         require("ace/lib/es5-shim");
+        require("ace/lib/es6-shim");
         var useragent = require("ace/lib/useragent");
         var dom = require("ace/lib/dom");
         

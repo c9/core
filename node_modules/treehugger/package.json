@@ -13,6 +13,10 @@
     "url" : "http://github.com/ajaxorg/treehugger.git" 
   },  
   "engines" : {
-     "node" : ">= 0.4.0"
+    "node" : ">= 0.4.0"
+  },
+  "scripts": {
+    "test": "node lib/treehugger/js/parse_test.js",
+    "acorn": "node ../acorn/bin/build-acorn.js ; mv ../acorn/dist/* lib/acorn/dist"
   }
 }

@@ -598,7 +598,7 @@ define(function(require, exports, module) {
                 
                 api[type].get("persistent/" + apiKey, function(err, data){
                     if (err) return callback(err);
-                    try { callback(null, JSON.stringify(data)); }
+                    try { callback(null, JSON.parse(data)); }
                     catch(e){ return callback(e); }
                 });
             }
@@ -613,7 +613,11 @@ define(function(require, exports, module) {
                 else if (context == "workspace") type = "project";
                 else throw new Error("Unsupported context: " + context);
                 
-                api[type].put("persistent/" + apiKey, { data: JSON.stringify(data) }, callback);
+                api[type].put("persistent/" + apiKey, { 
+                    body: {
+                        data: JSON.stringify(data)
+                    }
+                }, callback);
             }
             
             /***** Register and define API *****/

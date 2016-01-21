@@ -210,6 +210,7 @@ window.onmessage = function(e) {
     else if (msg.init) {
         window.initBaseUrls(msg.tlns);
         require("ace/lib/es5-shim");
+        require("ace/lib/es6-shim");
         sender = window.sender = window.initSender();
         var clazz = require(msg.module)[msg.classname];
         main = window.main = new clazz(sender);
