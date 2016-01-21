@@ -91,9 +91,9 @@
         "c9.ide.imgeditor": "#612e75ef4f",
         "c9.ide.immediate": "#a962119bec",
         "c9.ide.installer": "#0fde9f0067",
-        "c9.ide.language.python": "#e30d1a9a50",
+        "c9.ide.language.python": "#eec6b33c70",
         "c9.ide.language.go": "#a023f576ae",
-        "c9.ide.mount": "#915b3d20be",
+        "c9.ide.mount": "#9014f13dc5",
         "c9.ide.navigate": "#38ae100ea1",
         "c9.ide.newresource": "#981a408a7b",
         "c9.ide.openfiles": "#358ac94915",
@@ -117,6 +117,6 @@
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
         "c9.ide.upload": "#0bd010d3dc",
-        "c9.ide.welcome": "#2e8792e2fc"
+        "c9.ide.welcome": "#772d059e8c"
     }
 }
