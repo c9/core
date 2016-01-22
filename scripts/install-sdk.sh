@@ -110,8 +110,9 @@ updateCore() {
     fi
     
     # without this git merge fails on windows
-    mv ./scripts/install-sdk.sh  ./scripts/.install-sdk-tmp.sh 
-    cp ./scripts/.install-sdk-tmp.sh ./scripts/install-sdk.sh
+    mv ./scripts/install-sdk.sh  './scripts/.#install-sdk-tmp.sh'
+    rm ./scripts/.install-sdk-tmp.sh 
+    cp './scripts/.#install-sdk-tmp.sh' ./scripts/install-sdk.sh
     git checkout -- ./scripts/install-sdk.sh
 
     git remote add c9 https://github.com/c9/core 2> /dev/null || true
