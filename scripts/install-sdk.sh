@@ -94,7 +94,7 @@ updateAllPackages() {
 }
 
 updateAllDevPackages() {
-    c9packages=(`"$NODE" -e 'console.log(Object.keys(require("./package.json").devPlugins).join(" "))'`)
+    c9packages=(`"$NODE" -e 'console.log(Object.keys(require("./package.json").devPlugins || {}).join(" "))'`)
     githubUser=(`"$NODE" -e 'console.log(require("./package.json").devUser || "c9")'`)
     count=${#c9packages[@]}
     i=0
@@ -123,9 +123,10 @@ updateCore() {
     fi
     
     # without this git merge fails on windows
-    #mv ./scripts/install-sdk.sh  ./scripts/.install-sdk-tmp.sh 
-    #cp ./scripts/.install-sdk-tmp.sh ./scripts/install-sdk.sh
-    #git checkout -- ./scripts/install-sdk.sh
+    mv ./scripts/install-sdk.sh  './scripts/.#install-sdk-tmp.sh'
+    rm ./scripts/.install-sdk-tmp.sh 
+    cp './scripts/.#install-sdk-tmp.sh' ./scripts/install-sdk.sh
+    git checkout -- ./scripts/install-sdk.sh
 
     git remote add c9 https://github.com/c9/core 2> /dev/null || true
     git fetch c9
