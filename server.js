@@ -46,7 +46,7 @@ shortcuts.localdev = shortcuts.onlinedev.concat([
 shortcuts.odev = shortcuts.onlinedev; // For backwards compatibility, if you see this in 2016 remove this line
 var delayLoadConfigs = [
     // Services that are usually not immediately needed
-    "preview", "user-content", "api", "apps-proxy", "worker",
+    "preview", "user-content", "apps-proxy", "worker", "homepage",
     // Services that are very slow to load, blocking others
     "profile",
 ];

@@ -55,8 +55,6 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
         
-        // =0 means the value should be set to 0 to disable otherwise it is enabled
-        // =1 means the value should be set to 1 to enable otherwise it is disabled
         var found = {};
         function addExperiment(name, defaultValue, caption){
             var uniqueId = name.replace(/\//g, "-");
@@ -105,6 +103,7 @@ define(function(require, exports, module) {
         plugin.on("unload", function() {
             loaded = false;
             drawn = false;
+            hasAlerted = false;
             intro = null;
         });
         
