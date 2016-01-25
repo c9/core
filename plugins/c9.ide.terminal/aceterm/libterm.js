@@ -301,8 +301,10 @@ Terminal.prototype.scroll = function() {//TODO optimize lines
   var row;
 
   if (++this.ybase === Terminal.scrollback) {
-    this.ybase = this.ybase / 2 | 0;
-    this.lines = this.lines.slice(-(this.ybase + this.rows) + 1);
+    var lineCount = this.ybase / 2 | 0;
+    this.emit("discardOldScrollback", lineCount);
+    this.ybase -= lineCount;
+    this.lines = this.lines.slice(lineCount);
   }
 
   this.ydisp = this.ybase;
