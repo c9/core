@@ -431,7 +431,7 @@ define(function(require, module, exports) {
                  */
                 get backgroundColor(){ return bg },
                 set backgroundColor(v) {
-                    bg = v;
+                    bg = v || "";
                     if (!rule) 
                         return initStyleSheet(fg, bg);
                     ui.setStyleRule(rule, "background-color", bg, stylesheet);

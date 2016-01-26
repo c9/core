@@ -1,6 +1,7 @@
 /*global describe it before after beforeEach afterEach define*/
 "use strict";
 "use server";
+"use blacklist";
 
 require("c9/inline-mocha")(module);
 
