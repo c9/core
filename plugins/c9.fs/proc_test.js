@@ -37,7 +37,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
 
         describe('proc', function() {
             describe('spawn()', function() {
-                this.timeout(10000);
+                this.timeout(4000);
                 
                 it("should spawn a child process", function(done) {
                     var args = ["-e", "process.stdin.pipe(process.stdout);try{process.stdin.resume()}catch(e) {};"];
@@ -108,7 +108,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 this.timeout(30000);
                 
                 it("Terminal Test", function(done) {
-                    var look = /\]0;.*\-\-color=auto/;
+                    var look = "--color=auto";
                     
                     var args = ["-is"];
                     proc.pty("bash", {
@@ -124,14 +124,13 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                         var hadRows = false;
                         
                         pty.on("data", function(data) {
-                            
                             if (typeof data == "object" && data.rows) {
                                 expect(data).property("rows").is.equal(80);
                                 expect(data).property("cols").is.equal(80);
                                 hadRows = true;
                             } else {
                                 stdout.push(data);
-                                if (hadRows && stdout.join("").match(look) > -1)
+                                if (hadRows && stdout.join("").indexOf(look) > -1)
                                     pty.kill();
                             }
                         });
