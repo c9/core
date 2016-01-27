@@ -574,7 +574,10 @@ define(function(require, exports, module) {
                     node.contenttype = stat.mime || util.getContentType(name);
                     node.status = "loaded";
                 }
-
+                if (typeof stat.mtime !== "number" && stat.mtime) {
+                    // TODO fix localfs to not send date objects here
+                    stat.mtime = +stat.mtime;
+                }
                 if (stat.size != undefined)
                     node.size = stat.size;
                 if (stat.mtime != undefined)
@@ -594,14 +597,6 @@ define(function(require, exports, module) {
             
             node.children = null;
             
-            if (typeof node.mtime !== "number" && node.mtime) {
-                // why Date ends up here?
-                reportError(new Error("Date in fs cache"), {
-                    stat: stat,
-                    mtime: node.mtime,
-                    path: node.path
-                });
-            }
             if (!updating) {
                 if (!modified.length)
                     modified.push(parent);

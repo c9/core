@@ -1,6 +1,7 @@
 define(function(require, exports, module) {
     var isWindows = require("ace/lib/useragent").isWindows;
     module.exports = function initInput(ace) {
+        // use showkey --ascii to test
         var HashHandler = require("ace/keyboard/hash_handler").HashHandler;
         var KEY_MODS = require("ace/lib/keys").KEY_MODS;
         var TERM_MODS = {
@@ -98,7 +99,7 @@ define(function(require, exports, module) {
             if (isControl) {
                 if (keyCode >= 65 && keyCode <= 90) {
                     key = String.fromCharCode(keyCode - 64);
-                } else if (keyCode === 32) {
+                } else if (keyCode === 32 || keyCode == 192) {
                     // NUL
                     key = String.fromCharCode(0);
                 } else if (keyCode >= 51 && keyCode <= 55) {
@@ -116,6 +117,9 @@ define(function(require, exports, module) {
                 } else if (keyCode === 189 || keyCode === 173) {
                     // _
                     key = String.fromCharCode(31);
+                } else if (keyCode === 220) {
+                    // SIGQUIT
+                    key = String.fromCharCode(28);
                 }
             } else if (isMeta) {
                 if (keyCode >= 65 && keyCode <= 90) {
