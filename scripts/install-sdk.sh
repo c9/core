@@ -61,7 +61,7 @@ updatePackage() {
     
     REPO=https://github.com/$GITHUBOWNER/$name
     
-    echo "${green}checking out ${resetColor}$REPO/tree/${red}#$version${resetColor}"
+    echo "${green}checking out ${resetColor}$REPO/tree/${red}$version${resetColor}"
     
     if ! [[ -d ./plugins/$name ]]; then
         mkdir -p ./plugins/$name
