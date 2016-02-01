@@ -50,10 +50,18 @@ FORCE=
 
 updatePackage() {
     name=$1
+    packageData=`"$NODE" -e 'var package = require("./package.json");console.log(package.c9plugins["'$name'"] ? package.c9plugins["'$name'"].substr(1) : package.devPlugins["'$name'"] ? package.devPlugins["'$name'"].substr(1) : "origin/master")'`;
+    GITHUBOWNER=c9
+    ID=(${packageData//@/ });
+    version=${ID[0]};
     
-    REPO=$2$name
+    if [[ ${ID[1]} ]]; then
+        GITHUBOWNER=${ID[1]}
+    fi
     
-    echo "${green}checking out ${resetColor}$REPO"
+    REPO=https://github.com/$GITHUBOWNER/$name
+    
+    echo "${green}checking out ${resetColor}$REPO${red}#$version${resetColor}"
     
     if ! [[ -d ./plugins/$name ]]; then
         mkdir -p ./plugins/$name
@@ -66,7 +74,6 @@ updatePackage() {
         git remote add origin $REPO
     fi
     
-    version=`"$NODE" -e 'var package = require("../../package.json");console.log(package.c9plugins["'$name'"] ? package.c9plugins["'$name'"].substr(1) : package.devPlugins["'$name'"] ? package.devPlugins["'$name'"].substr(1) : "origin/master")'`;
     rev=`git rev-parse --revs-only $version`
     
     if [ "$rev" == "" ]; then
@@ -82,6 +89,7 @@ updatePackage() {
     popd
 }
 
+
 updateAllPackages() {
     c9packages=(`"$NODE" -e 'console.log(Object.keys(require("./package.json").c9plugins).join(" "))'`)
     count=${#c9packages[@]}
@@ -89,19 +97,7 @@ updateAllPackages() {
     for m in ${c9packages[@]}; do echo $m; 
         i=$(($i + 1))
         echo "updating plugin ${blue}$i${resetColor} of ${blue}$count${resetColor}"
-        updatePackage $m https://github.com/c9/
-    done
-}
-
-updateAllDevPackages() {
-    c9packages=(`"$NODE" -e 'console.log(Object.keys(require("./package.json").devPlugins || {}).join(" "))'`)
-    githubUser=(`"$NODE" -e 'console.log(require("./package.json").devUser || "c9")'`)
-    count=${#c9packages[@]}
-    i=0
-    for m in ${c9packages[@]}; do echo $m; 
-        i=$(($i + 1))
-        echo "updating plugin ${blue}$i${resetColor} of ${blue}$count${resetColor}"
-        updatePackage $m https://github.com/$githubUser/
+        updatePackage $m
     done
 }
 
@@ -175,7 +171,6 @@ updateCore || true
 
 installGlobalDeps
 updateAllPackages
-updateAllDevPackages
 updateNodeModules
 
 echo -e "c9.*\n.gitignore" >  plugins/.gitignore
