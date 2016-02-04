@@ -1,6 +1,6 @@
 FROM debian:8.2
 
-MAINTAINER Fabian Jakobs <fabian@c9.io>
+MAINTAINER Cloud9 IDE, Inc. <info@c9.io>
 ENV DEBIAN_FRONTEND noninteractive
 
 # ubuntu user
