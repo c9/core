@@ -374,8 +374,8 @@ define(function(require, exports, module) {
         function recallVfs() {
             var vfs;
             try {
-                vfs = JSON.parse(lastVfs || window.sessionStorage.getItem("vfsid"));
-                if (!lastVfs) {
+                vfs = JSON.parse(lastVfs || window.sessionStorage.getItem("vfsid") || null);
+                if (!lastVfs && vfs) {
                     window.sessionStorage.removeItem("vfsid");
                     lastVfs = JSON.stringify(vfs);
                 }

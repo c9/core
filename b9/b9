@@ -1,0 +1,100 @@
+#!/bin/bash
+
+set -e
+
+SCRIPT_NAME=$BASH_SOURCE
+if [ -h $SCRIPT_NAME ]; then SCRIPT_NAME=$(readlink $SCRIPT_NAME); fi
+
+cd $(dirname $SCRIPT_NAME)
+
+B9_DIR=$(pwd)
+C9_DIR=$B9_DIR/..
+B9=$B9_DIR/b9
+
+source ./lib/_init.sh 
+
+NODEJS=$(_b9_init_nodejs)
+NPM=$(_b9_init_npm)
+
+TMPDIR=$(_b9_init_temp)
+TMP=$TMPDIR
+TEMP=$TMPDIR
+
+DEBUG=""
+
+for MODULE in ./lib/*.sh; do
+    [ $MODULE == "./lib/_init.sh" ] && continue
+    source $MODULE
+done
+
+usage() {
+    echo "Usage: $B9 [global options ...] COMMAND [commands options...]"
+    echo
+    echo "Cloud9 build tool"
+    echo
+    echo "Global options:"
+    echo "    --help                      show this help message"
+    echo "    --debug                     trace bash commands"
+    echo
+    echo "Commands:"
+    echo
+    echo "[Deployment]"
+    echo "    package                     Package and upload version of Cloud9"
+    echo "    deploy                      Deploy a Cloud9 version"
+    echo ""
+    echo "[Internal]"
+    echo "    check                       Run b9 tests"
+    echo "    exec COMMAND [ARGS]         Run arbitrary b9 function"
+    echo
+    exit 1
+}
+
+for ARG in "$@"; do
+    case $ARG in
+        --help|-h)
+            usage
+            ;;
+        --debug)
+            DEBUG="--debug"
+            B9="$B9 --debug"
+            shift
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+ORIGINAL_COMMAND=$1
+case $ORIGINAL_COMMAND in
+    package)
+        COMMAND=b9_package
+        ;;
+    deploy)
+        COMMAND=b9_deploy
+        ;;
+    prepare)
+        COMMAND=b9_prepare
+        ;;
+    check)
+        COMMAND=b9_check
+        ;;
+    exec) # for debugging only!
+        shift
+        COMMAND=$1
+        ;;
+    "")
+        usage
+        ;;
+    *)
+        echo "Invalid command. See $B9 --help for usage."
+        exit 1
+        ;;
+esac
+shift
+
+if [ "$DEBUG" ]; then
+    set -x
+fi
+
+$COMMAND "$@"

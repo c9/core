@@ -489,27 +489,51 @@ require([
                 x.unregister = function(){};
                 return x;
             })(),
+            "immediate": (function(){
+                var x = new EventEmitter();
+                x.register = function(){};
+                x.unregister = function(){};
+                return x;
+            })(),
+            "c9.analytics": (function(){
+                var x = new EventEmitter();
+                x.register = function(){};
+                x.unregister = function(){};
+                return x;
+            })(),
         });
     };
     
     expect.setupArchitectTest = function(config, _, options) {
         if (options && options.mockPlugins) {
             config.push({
-                consumes: [],
+                consumes: options.existingPlugins || [],
                 provides: options.mockPlugins,
                 setup: expect.html.mocked
             });
         }
         architect.resolveConfig(config, function(err, config) {
-            /*global describe it before after = */
+            /*global describe it before after */
             if (err) throw err;
             var app = architect.createApp(config, function(err, app) {
                 if (err && err.unresolved && !config.unresolved) {
-                    console.warn("Adding mock services for " + err.unresolved);
-                    config.unresolved = err.unresolved;
-                    return expect.setupArchitectTest(config, architect, {
-                        mockPlugins: config.unresolved
+                    expect.html.mocked({}, {}, function(a, mockServices) { 
+                        err.missingMock = err.unresolved.filter(function(x) {
+                            return !mockServices[x];
+                        });
+                        config.unresolved = err.unresolved.filter(function(x) {
+                            return mockServices[x];
+                        });
                     });
+                    if (err.missingMock.length) {
+                        console.error("Missing mock services for " + err.missingMock);
+                    } else {
+                        console.warn("Adding mock services for " + err.unresolved);
+                        return expect.setupArchitectTest(config, architect, {
+                            mockPlugins: config.unresolved,
+                            existingPlugins: err.resolved
+                        });
+                    }
                 }
                 if (typeof describe == "function") {
                     describe('app', function() {

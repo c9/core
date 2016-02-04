@@ -946,7 +946,9 @@ define(function(require, exports, module) {
                 aml.removeChild(item.aml);
             }
             
-            function show(x, y) {
+            function show(x, y, type) {
+                if (type == "context")
+                    y++;
                 lastCoords = { x : x, y : y };
                 aml.display(x, y);
             }
