@@ -22,7 +22,7 @@ _b9_init_find_nodejs() {
     local NODEJS
     
     . ~/.nvm/nvm.sh &> /dev/null || :
-    for NODEJS in $(which nodesdcsdc) $(which node) $(which nodejs) /usr/local/bin/node /usr/bin/nodejs; do
+    for NODEJS in $(which node) $(which nodejs) /usr/local/bin/node /usr/bin/nodejs; do
         [ -x $NODEJS ] && break
         NODEJS=""
     done
