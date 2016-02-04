@@ -38,6 +38,7 @@ _b9_init_nodejs() {
 _b9_init_npm() {
     local NPM
     
+    . ~/.nvm/nvm.sh &> /dev/null || :
     for NPM in $(which npm) /usr/local/bin/npm /usr/bin/npm; do
         [ -x $NPM ] && break
         NPM=""
