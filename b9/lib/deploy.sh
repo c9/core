@@ -222,7 +222,7 @@ _b9_deploy_release_event() {
     local VERSION=$3
     local SERVER_PATTERN=$4
 
-    echo $SERVICES | sed 's/,/\n/g' | xargs -I '{}' -n1 node $B9_DIR/lib/js/release_event.js '{}' $SETTINGS $VERSION $SERVER_PATTERN
+    echo $SERVICES | sed 's/,/\n/g' | xargs -I '{}' -n1 $NODEJS $B9_DIR/lib/js/release_event.js '{}' $SETTINGS $VERSION $SERVER_PATTERN
 }
 
 _b9_deploy_ssh() { 

@@ -7,25 +7,24 @@ if [ -h $SCRIPT_NAME ]; then SCRIPT_NAME=$(readlink $SCRIPT_NAME); fi
 
 cd $(dirname $SCRIPT_NAME)
 
-readonly UNAME=$(id -n -u)
-
-for TMPDIR in /var/lib/docker/tmp /tmp; do
-    TMPDIR=$TMPDIR/$UNAME
-    mkdir -p $TMPDIR && break
-done
-
-TMP=$TMPDIR
-TEMP=$TMPDIR
-
 B9_DIR=$(pwd)
 C9_DIR=$B9_DIR/..
 B9=$B9_DIR/b9
 
+source ./lib/_init.sh 
+
+TMPDIR=$(_b9_init_temp)
+TMP=$TMPDIR
+TEMP=$TMPDIR
+
 DEBUG=""
 
 for MODULE in ./lib/*.sh; do
+    [ $MODULE == "./lib/_init.sh" ] && continue
     source $MODULE
 done
+
+NODEJS=$(_b9_init_find_nodejs)
 
 usage() {
     echo "Usage: $B9 [global options ...] COMMAND [commands options...]"

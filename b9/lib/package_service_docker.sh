@@ -46,7 +46,7 @@ _do_package_docker_node_modules() {
     local NODE_MODULES
     local MODULE
     
-    node $B9_DIR/lib/js/filter_node_modules.js docker --targetFile=$WORKDIR/package.json --source=$SOURCE --settings=$SETTINGS
+    $NODEJS $B9_DIR/lib/js/filter_node_modules.js docker --targetFile=$WORKDIR/package.json --source=$SOURCE --settings=$SETTINGS
     
     NODE_MODULES=$(cat $WORKDIR/package.json | jq -r '.dependencies | keys | @sh')
     
@@ -69,7 +69,7 @@ _do_package_docker_generate_settings() {
     local SOURCE=$2
     local SETTINGS=$3
 
-    node $B9_DIR/lib/js/generate_settings.js docker --targetFile=$WORKDIR/settings/$SETTINGS.js --source=$SOURCE --settings=$SETTINGS
+    $NODEJS $B9_DIR/lib/js/generate_settings.js docker --targetFile=$WORKDIR/settings/$SETTINGS.js --source=$SOURCE --settings=$SETTINGS
 }
 
 _do_package_docker_include_files() {
@@ -83,7 +83,7 @@ _do_package_docker_include_files() {
     
     pushd $WORKDIR &> /dev/null
     
-    BUILD_CONFIG=$(node -e "console.log(JSON.stringify(require('$SOURCE/configs/docker').buildConfig({mode: '$SETTINGS'})))")
+    BUILD_CONFIG=$($NODEJS -e "console.log(JSON.stringify(require('$SOURCE/configs/docker').buildConfig({mode: '$SETTINGS'})))")
     FILE_INCLUDE=$(echo $BUILD_CONFIG | jq -r '.fileInclude | @sh')
     
     for PATTERN in $FILE_INCLUDE; do
@@ -108,7 +108,7 @@ _do_package_docker_copy_plugins() {
     local PLUGINS
     local PLUGIN
 
-    PLUGINS=$(node $B9_DIR/lib/js/list_plugins.js docker --source=$SOURCE --settings=$SETTINGS)
+    PLUGINS=$($NODEJS $B9_DIR/lib/js/list_plugins.js docker --source=$SOURCE --settings=$SETTINGS)
     for PLUGIN in $PLUGINS; do
         cp -a $SOURCE/plugins/$PLUGIN $WORKDIR/plugins
     done
