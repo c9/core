@@ -127,7 +127,7 @@ _b9_deploy_server_list () {
 
 _b9_deploy_one_from_gcs() {
     local NO_CHECK=$1
-    if [ $NO_CHECK == "--no-check" ]; then
+    if [ "$NO_CHECK" == "--no-check" ]; then
         shift
     else
         NO_CHECK=""
