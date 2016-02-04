@@ -1,6 +1,9 @@
 #!/bin/bash
 
 set -e
+set -o pipefail
+
+export CLOUDSDK_PYTHON_SITEPACKAGES=1
 
 SCRIPT_NAME=$BASH_SOURCE
 if [ -h $SCRIPT_NAME ]; then SCRIPT_NAME=$(readlink $SCRIPT_NAME); fi
