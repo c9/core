@@ -16,8 +16,8 @@ B9=$B9_DIR/b9
 
 source ./lib/_init.sh 
 
-NODEJS=$(_b9_init_nodejs)
-NPM=$(_b9_init_npm)
+NODEJS="$(_b9_init_nodejs)"
+NPM="$(_b9_init_npm)"
 
 TMPDIR=$(_b9_init_temp)
 TMP=$TMPDIR
@@ -44,6 +44,7 @@ usage() {
     echo "[Deployment]"
     echo "    package                     Package and upload version of Cloud9"
     echo "    deploy                      Deploy a Cloud9 version"
+    echo "    static                      Package static assets"
     echo ""
     echo "[Internal]"
     echo "    check                       Run b9 tests"
@@ -75,6 +76,9 @@ case $ORIGINAL_COMMAND in
         ;;
     deploy)
         COMMAND=b9_deploy
+        ;;
+    static)
+        COMMAND=b9_static
         ;;
     prepare)
         COMMAND=b9_prepare

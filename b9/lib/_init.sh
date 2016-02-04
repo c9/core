@@ -49,7 +49,7 @@ _b9_init_npm() {
         exit 1
     fi
     
-    echo $NPM
+    echo $NODEJS $NPM
 }
 
 _B9_NODE_HELPER_INITIALIZED=0
