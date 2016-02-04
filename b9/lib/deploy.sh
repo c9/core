@@ -78,7 +78,7 @@ b9_deploy() {
     rm $TMPFILE
 
     SERVER_LIST="$(_b9_deploy_server_list $SERVER_PATTERN $USE_REGEX)"
-    local CMD="$B9 exec _b9_deploy_one_from_${ASSET} $VERSION $SERVICES $SETTINGS $NO_CHECK"
+    local CMD="$B9 exec _b9_deploy_one_from_${ASSET} $NO_CHECK $VERSION $SERVICES $SETTINGS"
     if [ "$DRY_RUN" == "1" ]; then
         CMD="echo $CMD"
     fi
@@ -95,10 +95,10 @@ _b9_deploy_strategy_slow_start() {
     $CMD $(echo "$SERVER_LIST" | head -n1)
     
     # then two
-    echo "$SERVER_LIST" | tail -n +2  | head -n2 | parallel --halt 2 $CMD
+    echo "$SERVER_LIST" | tail -n +2  | head -n2 | parallel --halt 1 $CMD
     
     # then the rest
-    echo "$SERVER_LIST" | tail -n +4 | parallel --halt 2 -j 15 $CMD
+    echo "$SERVER_LIST" | tail -n +4 | parallel --halt 1 -j 15 $CMD
 }
 
 _b9_deploy_strategy_parallel() {
@@ -109,7 +109,7 @@ _b9_deploy_strategy_parallel() {
     $CMD $(echo "$SERVER_LIST" | head -n1)
     
     # then the rest
-    echo "$SERVER_LIST" | tail -n +2 | parallel --halt 2 -j 30 $CMD
+    echo "$SERVER_LIST" | tail -n +2 | parallel --halt 1 -j 30 $CMD
 }
 
 _b9_deploy_strategy_serial() {
@@ -126,6 +126,13 @@ _b9_deploy_server_list () {
 }
 
 _b9_deploy_one_from_gcs() {
+    local NO_CHECK=$1
+    if [ "$NO_CHECK" == "--no-check" ]; then
+        shift
+    else
+        NO_CHECK=""
+    fi
+    
     local VERSION=$1
     local SERVICES=$2
     local SETTINGS=$3
@@ -185,7 +192,7 @@ _b9_deploy_check() {
     local SERVICES=$2
     local SETTINGS=$3
     
-    echo $SERVICES | sed 's/,/\n/g' | parallel --halt 2 -j 0 $B9 exec _b9_deploy_check_one $SERVER $SETTINGS
+    echo $SERVICES | sed 's/,/\n/g' | parallel --halt 1 -j 0 $B9 exec _b9_deploy_check_one $SERVER $SETTINGS
 }
 
 _b9_deploy_check_one() {

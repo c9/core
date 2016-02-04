@@ -60,7 +60,7 @@ b9_package() {
    
     _b9_package_init_git_cache
    
-    VERSION=c9-${TYPE}-${SETTINGS}-$(_b9_get_version $TREEISH)
+    VERSION=$(_b9_get_version $TREEISH $TYPE $SETTINGS)
    
     if [ "$USE_CACHE" == "1" ] && _b9_package_is_cached $STORAGE $VERSION; then
         echo $VERSION
@@ -98,9 +98,11 @@ _d9_package_init_work_dir() {
 
 _b9_get_version() {
     local TREEISH=$1
+    local TYPE=${2:-newclient}
+    local SETTINGS=${3:-all}
     
     pushd $B9_PACKAGE_GIT_CACHE &> /dev/null
-    echo $(git show $TREEISH:package.json | jq -r .version)-$(git rev-parse --short=8 $TREEISH)
+    echo c9-${TYPE}-${SETTINGS}-$(git show $TREEISH:package.json | jq -r .version)-$(git rev-parse --short=8 $TREEISH)
     popd &> /dev/null
 }
 
