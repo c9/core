@@ -35,31 +35,11 @@ _b9_init_nodejs() {
     echo $NODEJS
 }
 
-_b9_init_npm() {
-    local NPM
-    
-    . ~/.nvm/nvm.sh &> /dev/null || :
-    for NPM in $(which npm) /usr/local/bin/npm /usr/bin/npm; do
-        [ -x $NPM ] && break
-        NPM=""
-    done
-    
-    if [ -z "$NPM" ]; then
-        echo "Can't find npm executable" 1>&2
-        exit 1
-    fi
-    
-    echo $NPM
-}
-
 _B9_NODE_HELPER_INITIALIZED=0
 
 _b9_init_node_helper() {
     [ "$_B9_NODE_HELPER_INITIALIZED" == "1" ] && return
     _B9_NODE_HELPER_INITIALIZED=1
     
-    pushd $B9_DIR/lib/js &> /dev/null
-    rm -rf node_modules
-    $NPM install
-    popd &> /dev/null
+    _b9_npm $B9_DIR/lib/js install
 }

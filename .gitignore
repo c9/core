@@ -2,6 +2,7 @@ build/*/
 build/*.zip
 build/*.exe
 build/*.tgz
+b9/lib/js/node_modules/
 docs/generate/lib/node_modules
 plugins/c9.ide.layout.classic/less/*.css
 plugins/c9.vfs.standalone/www/less.html
