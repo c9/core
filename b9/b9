@@ -17,6 +17,7 @@ B9=$B9_DIR/b9
 source ./lib/_init.sh 
 
 NODEJS="$(_b9_init_nodejs)"
+NPM="$(_b9_init_npm)"
 
 TMPDIR=$(_b9_init_temp)
 TMP=$TMPDIR
