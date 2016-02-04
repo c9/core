@@ -137,8 +137,7 @@ _b9_deploy_one_from_gcs() {
     local SERVICES=$2
     local SETTINGS=$3
     local SERVER=$4
-    local NO_CHECK=$5
-    
+
     echo Deploying $VERSION \($SERVICES\) to $SERVER ... >&2
 
     _b9_deploy_upload_from_gcs $VERSION $SERVER
