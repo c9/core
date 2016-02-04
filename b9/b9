@@ -13,6 +13,8 @@ B9=$B9_DIR/b9
 
 source ./lib/_init.sh 
 
+NODEJS=$(_b9_init_find_nodejs)
+
 TMPDIR=$(_b9_init_temp)
 TMP=$TMPDIR
 TEMP=$TMPDIR
@@ -23,8 +25,6 @@ for MODULE in ./lib/*.sh; do
     [ $MODULE == "./lib/_init.sh" ] && continue
     source $MODULE
 done
-
-NODEJS=$(_b9_init_find_nodejs)
 
 usage() {
     echo "Usage: $B9 [global options ...] COMMAND [commands options...]"
