@@ -20,13 +20,6 @@ _d9_package_sync_workdir_docker() {
     popd &> /dev/null
 }
 
-_b9_init_node_helper() {
-    pushd $B9_DIR/lib/js &> /dev/null
-    rm -rf node_modules
-    $NPM install
-    popd &> /dev/null
-}
-
 _b9_package_docker_init_source() {
     local WORKDIR=$1
     local SOURCE=$2

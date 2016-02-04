@@ -50,3 +50,15 @@ _b9_init_npm() {
     
     echo $NPM
 }
+
+_B9_NODE_HELPER_INITIALIZED=0
+
+_b9_init_node_helper() {
+    [ "$_B9_NODE_HELPER_INITIALIZED" == "1" ] && return
+    _B9_NODE_HELPER_INITIALIZED=1
+    
+    pushd $B9_DIR/lib/js &> /dev/null
+    rm -rf node_modules
+    $NPM install
+    popd &> /dev/null
+}
