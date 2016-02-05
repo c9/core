@@ -19,6 +19,7 @@ module.exports.makeLocal = function(config, options) {
         options.projectName = root.substr(root.lastIndexOf("/") + 1);
         options.debug = 2;
         options.env = "local";
+        options.defaultTheme = "dark";
     }
 
     for (var i = config.length - 1; i >= 0; i--) {
