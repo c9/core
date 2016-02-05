@@ -50,7 +50,7 @@ FORCE=
 
 updatePackage() {
     name=$1
-    packageData=`"$NODE" -e 'var package = require("./package.json");console.log(package.c9plugins["'$name'"] ? package.c9plugins["'$name'"].substr(1) : package.devPlugins["'$name'"] ? package.devPlugins["'$name'"].substr(1) : "origin/master")'`;
+    packageData=`"$NODE" -e 'console.log((require("../../package.json").c9plugins["'$name'"].substr(1) || "origin/master"))'`;
     GITHUBOWNER=c9
     ID=(${packageData//@/ });
     version=${ID[0]};
