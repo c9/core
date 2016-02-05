@@ -50,17 +50,29 @@ FORCE=
 
 updatePackage() {
     name=$1
-    packageData=`"$NODE" -e 'console.log((require("../../package.json").c9plugins["'$name'"].substr(1) || "origin/master"))'`;
+    REPO=https://github.com
     GITHUBOWNER=c9
-    ID=(${packageData//@/ });
-    version=${ID[0]};
+    url=`"$NODE" -e 'console.log((require("./package.json").c9plugins["'$name'"].split("#")[0] || "c9"))'`
+    version=`"$NODE" -e 'console.log((require("./package.json").c9plugins["'$name'"].split("#")[1] || "origin/master"))'`
     
-    if [[ ${ID[1]} ]]; then
-        GITHUBOWNER=${ID[1]}
+    versionCheckAlt=(${version//@/ })
+    version=${versionCheckAlt[0]}
+    if [[ ${versionCheckAlt[1]} ]]; then
+        GITHUBOWNER=${versionCheckAlt[1]}
     fi
     
-    REPO=https://github.com/$GITHUBOWNER/$name
-    
+    urlCheckGit=(${url//it@/ })
+    if [[ ${urlCheckGit[1]} ]]; then
+        REPO=$url
+    else
+        urlCheckGit=(${url//:\/\// })
+        if [[ ${urlCheckGit[1]} ]]; then
+            REPO=$url
+        else
+            REPO=$REPO/$GITHUBOWNER/$name
+        fi
+    fi
+
     echo "${green}checking out ${resetColor}$REPO/tree/${red}$version${resetColor}"
     
     if ! [[ -d ./plugins/$name ]]; then
