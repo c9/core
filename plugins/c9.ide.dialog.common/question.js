@@ -40,6 +40,9 @@ define(function(require, module, exports) {
                 plugin.heading = options && options.isHTML ? header : util.escapeXml(header);
                 plugin.body = options && options.isHTML ? msg : util.escapeXml(msg).replace(/\n/g, "<br>");
                 
+                plugin.getElement("yes").setCaption(options.yes || "Yes");
+                plugin.getElement("no").setCaption(options.no || "No");
+                
                 plugin.allowClose = cancel;
                 
                 var gotYesNo = false;
