@@ -7,4 +7,4 @@ build/win32*
 build/Cloud9
 build/sdk
 node_modules/logicblox/build/logicblox/static
-plugins/c9/profile/dist/bundle.js
+plugins/c9.profile/dist/bundle.js
