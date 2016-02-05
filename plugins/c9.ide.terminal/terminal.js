@@ -1006,7 +1006,7 @@ define(function(require, exports, module) {
                                 if (question.dontAsk)
                                     settings.set("user/terminal/noclosequestion", "true");
                             },
-                            { showDontAsk: true, yes: "Close", no: "Abort" });
+                            { showDontAsk: true, yes: "Close", no: "Cancel" });
                         return false;
                     }
                 }, session);

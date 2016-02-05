@@ -190,7 +190,7 @@ define(function(require, exports, module) {
                             function(){},
                             {
                                 yes: "Reset Settings",
-                                no: "Abort"
+                                no: "Cancel"
                             });
                     },
                     position: 90

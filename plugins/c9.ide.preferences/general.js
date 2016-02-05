@@ -69,7 +69,7 @@ define(function(require, exports, module) {
                                     function(){
                                         settings.reset();
                                     }, function(){},
-                                    { yes: "Reset settings", no: "Abort" });
+                                    { yes: "Reset settings", no: "Cancel" });
                             }
                         }
                     },
