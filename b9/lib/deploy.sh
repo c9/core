@@ -216,7 +216,7 @@ _b9_deploy_check_one() {
         SERVICE=${SERVICE//-/_}
     fi
     
-    if ! $C9_DIR/scripts/check-safe-deploy.sh --wait=$WAIT $PORT --server=$HOST --mode=$SETTINGS --service=$SERVICE; then
+    if ! _b9_check_save_deploy --wait=$WAIT $PORT --server=$HOST --mode=$SETTINGS --service=$SERVICE; then
       echo "One or more safe deploy checks failed :(" >&2
       exit 1
     fi
