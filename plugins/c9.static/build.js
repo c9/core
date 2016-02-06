@@ -241,7 +241,8 @@ function main(options, imports, register) {
                 "plugins/c9.ide.test.mocha/mocha_outline_worker",
                 "plugins/@smartface/smartface.language/loadInclude",
                 "plugins/@smartface/smartface.language/warnings_worker.js",
-                "plugins/@smartface/smartface.language/plugincomplete_worker.js"
+                "plugins/@smartface/smartface.language/plugincomplete_worker.js",
+                "plugins/@smartface/smartface.language/emptyTernPlugin"
             ];
             try {
                 extraPackages = extraPackages.concat(require("lib/salesforce.language/__worker__"));
