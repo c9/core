@@ -40,6 +40,7 @@ RUN apt-get install -y haproxy
 RUN apt-get install -y git
 
 ADD files/ssh_config /home/ubuntu/.ssh/config
+RUN chown -R ubuntu:ubuntu /home/ubuntu/.ssh
 
 USER ubuntu
 
