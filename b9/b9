@@ -50,6 +50,8 @@ usage() {
     echo "    check                       Run b9 tests"
     echo "    exec COMMAND [ARGS]         Run arbitrary b9 function"
     echo
+    echo "Environment variables:"
+    echo "B9_GITHUB_SSH_FILE     SSH file to use for downloading from Github"
     exit 1
 }
 
