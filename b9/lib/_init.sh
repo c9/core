@@ -1,3 +1,33 @@
+_b9_init_mode() {
+    local SUFFIX
+    SUFFIX=$(hostname | sed 's/.*-//')
+    local MODE
+
+    case $SUFFIX in
+        prod)
+            MODE=deploy
+            ;;
+        dev)
+            MODE=devel
+            shift
+            ;;
+        test)
+            MODE=test
+            ;;
+        onlinedev)
+            MODE=$SUFFIX
+            ;;
+        *)
+            MODE=devel
+            ;;
+    esac
+
+    if [ ! "$MODE" ]; then
+        MODE=devel
+    fi
+    echo $MODE
+}
+
 _b9_init_temp() {
     local TMPDIR
     local UNAME=$(id -n -u)

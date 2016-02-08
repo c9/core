@@ -16,6 +16,7 @@ B9=$B9_DIR/b9
 
 source ./lib/_init.sh 
 
+MODE=$(_b9_init_mode)
 NODEJS="$(_b9_init_nodejs)"
 NPM="$(_b9_init_npm)"
 
@@ -30,6 +31,10 @@ for MODULE in ./lib/*.sh; do
     source $MODULE
 done
 
+source $C9_DIR/plugins/c9.docker/d9/_testing.sh
+source $C9_DIR/plugins/c9.docker/d9/_redis.sh
+source $C9_DIR/plugins/c9.docker/d9/_settings.sh
+
 usage() {
     echo "Usage: $B9 [global options ...] COMMAND [commands options...]"
     echo
@@ -38,6 +43,9 @@ usage() {
     echo "Global options:"
     echo "    --help                      show this help message"
     echo "    --debug                     trace bash commands"
+    echo "    --settings=MODE, -s=MODE    which settings file to use"
+    echo "    --deploy                    shortcut for '-settings=deploy'; use prod database"
+    echo "    --devel                     shortcut for '-settings=devel'; use devel database"
     echo
     echo "Commands:"
     echo
@@ -63,6 +71,22 @@ for ARG in "$@"; do
         --debug)
             DEBUG="--debug"
             B9="$B9 --debug"
+            shift
+            ;;
+        -s=*|--settings=*)
+            MODE="${ARG#*=}"
+            shift
+            ;;
+        --deploy)
+            MODE=deploy
+            shift
+            ;;
+        --devel)
+            MODE=devel
+            shift
+            ;;
+        --odev|--onlinedev)
+            MODE=onlinedev
             shift
             ;;
         *)

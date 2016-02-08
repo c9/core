@@ -1,8 +1,12 @@
+_b9_check_save_deploy_usage() {
+    echo "Use: check-deploy.sh --service=SERVICE [--server=SERVER] [--wait=WAIT_SECONDS] [--port=PORT]"
+    exit 1
+}
+
 _b9_check_save_deploy() {
     local SERVICE
     local PORT
     local WAIT=default
-    local MODE=deploy
     local SERVER=${SERVER:-localhost}
     
     local P
@@ -11,15 +15,12 @@ _b9_check_save_deploy() {
             --wait=*)
                 WAIT=${P#*=}
                 ;;
-            --mode=*)
-                MODE=${P#*=}
-                ;;
             --server=*)
                 SERVER=${P#*=}
                 ;;
             --service=*)
                 SERVICE=${P#*=}
-                PORT=$(_b9_setting $MODE $SERVICE.port)
+                PORT=$(_do_get_setting $SERVICE.port)
                 ;;
             --port=*)
                 PORT=${P#*=}
@@ -56,9 +57,9 @@ _b9_check_save_deploy() {
         echo "Recent errors in service log that might help debug this:" >&2
         if [ "$SERVICE" ] && [ "$(type -t ssh)" != "function" ]; then
             echo "Warning: ssh function not defined, trying gssh instead"
-            gssh $SERVER ${SERVICE//_/-}/scripts/tail-log.sh $(_b9_setting $MODE $SERVICE.logFile) >&2
+            gssh $SERVER ${SERVICE//_/-}/scripts/tail-log.sh $(_do_get_setting $SERVICE.logFile) >&2
         elif [ "$SERVICE" ]; then
-            ssh $SERVER ${SERVICE//_/-}/scripts/tail-log.sh $(_b9_setting $MODE $SERVICE.logFile) >&2
+            ssh $SERVER ${SERVICE//_/-}/scripts/tail-log.sh $(_do_get_setting $SERVICE.logFile) >&2
         fi
         echo >&2
         
@@ -66,15 +67,4 @@ _b9_check_save_deploy() {
     fi
     
     echo "Confirmed successful deploy to $SERVER!"
-}
-
-_b9_check_save_deploy_usage() {
-    echo "Use: check-deploy.sh --service=SERVICE [--server=SERVER] [--wait=WAIT_SECONDS] [--port=PORT]"
-    exit 1
-}
-
-_b9_setting() {
-    local MODE=$1
-    local SETTING="['"${2//./"']['"}"']"
-    $NODEJS -e "console.log(require('$B9_DIR/../settings/$MODE')()$SETTING)"
 }
