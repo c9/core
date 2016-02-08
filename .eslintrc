@@ -44,9 +44,8 @@ rules:
     no-extra-semi: 3
     
     default-case: 3
-    space-after-keywords: [1, "always"]
+    keyword-spacing: [1, {"before": true, "after": true, "overrides":  { "catch": {"after": "maybe" } }}]
     space-in-parens: [1, "never"]
-    space-return-throw-case: [1, "always"]
     // space-before-function-paren: [3, {"named": "never", "anonymous": "never"}]
     spaced-comment: 3
     // valid-jsdoc: [1, { requireReturn: false, requireParamDescription: false, prefer: { "return": "return" } }]
