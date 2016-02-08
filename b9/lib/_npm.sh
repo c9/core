@@ -3,19 +3,24 @@
 _b9_npm() {
     local WORKDIR=$1
     shift
-    docker run \
-        --rm \
-        -w /home/ubuntu/newclient \
-        -v $WORKDIR:/home/ubuntu/newclient \
-        --sig-proxy -a STDIN -a STDOUT -a STDERR \
-        $(_b9_get_newclient_image) bash -c "
-            echo \"$(_b9_npm_get_github_ssh)\" >> /home/ubuntu/.ssh/id_rsa_deploy
-            chmod 600 /home/ubuntu/.ssh/id_rsa_deploy
-            npm "$@"
-        "
-    # pushd $WORKDIR
-    # npm "$@"
-    # popd
+
+    # TODO run all build steps in a container
+    if [ $(id -u) == "1000" ]; then
+        docker run \
+            --rm \
+            -w /home/ubuntu/newclient \
+            -v $WORKDIR:/home/ubuntu/newclient \
+            --sig-proxy -a STDIN -a STDOUT -a STDERR \
+            $(_b9_get_newclient_image) bash -c "
+                echo \"$(_b9_npm_get_github_ssh)\" >> /home/ubuntu/.ssh/id_rsa_deploy
+                chmod 600 /home/ubuntu/.ssh/id_rsa_deploy
+                npm "$@"
+            "
+    else
+        pushd $WORKDIR &> /dev/null
+        npm "$@"
+        popd &> /dev/null
+    fi
 }
 
 _b9_npm_get_github_ssh() {
