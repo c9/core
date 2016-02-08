@@ -8,7 +8,7 @@ _b9_dockerize_update_base() {
     local VERSION
     
     # build package
-    local TMPFILE=$(tempfile)
+    local TMPFILE=$(mktemp)
     b9_package $TREEISH --type=newclient | tee $TMPFILE
     VERSION=$(cat $TMPFILE | tail -n1)
     rm $TMPFILE
