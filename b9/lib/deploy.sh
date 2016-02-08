@@ -129,7 +129,7 @@ _b9_deploy_one_from_gcs() {
     
     local VERSION=$1
     local SERVICES=$2
-    local SERVER=$4
+    local SERVER=$3
 
     echo Deploying $VERSION \($SERVICES\) to $SERVER ... >&2
 
