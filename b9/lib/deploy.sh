@@ -183,7 +183,7 @@ _b9_deploy_update_services() {
         done
         ~/supervisord_start_script.sh || ~/supervisord_start_script.sh -f || ~/supervisord_start_script.sh -f;
         cd /home/ubuntu/versions;
-        USED_VERSIONS=\$(ls -l | grep -F -- '-> /home/ubuntu/versions' | awk -F'-> ' '{print \$2}');
+        USED_VERSIONS=\$(ls -l /home/ubuntu | grep -F -- '-> /home/ubuntu/versions' | awk -F'-> ' '{print \$2}' | awk -F/ '{print $(NF)}');
         ls -t 2>/dev/null | grep $BUILD_NAME | grep -v -F \"\$USED_VERSIONS\" | tail -n +$TOTAL_VERSIONS_TO_KEEP | xargs sudo rm -rf;"
 }
 
