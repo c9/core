@@ -808,6 +808,10 @@ define(function(require, exports, module) {
                             },
                             function(){ // No
                                 // Do nothing
+                            },
+                            {
+                                yes: "Update",
+                                no: "Not now",
                             });
                     }
                 }
@@ -1002,7 +1006,7 @@ define(function(require, exports, module) {
                                 if (question.dontAsk)
                                     settings.set("user/terminal/noclosequestion", "true");
                             },
-                            { showDontAsk: true });
+                            { showDontAsk: true, yes: "Close", no: "Cancel" });
                         return false;
                     }
                 }, session);

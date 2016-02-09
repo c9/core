@@ -27,6 +27,9 @@ define(function(require, module, exports) {
                 plugin.heading = options && options.isHTML ? header : util.escapeXml(header);
                 plugin.body = options && options.isHTML ? msg : util.escapeXml(msg).replace(/\n/g, "<br>");
                 
+                plugin.getElement("ok").setCaption(options.yes || options.ok || "OK");
+                plugin.getElement("cancel").setCaption(options.no || options.cancel || "Cancel");
+                
                 plugin.update([
                     { id: "ok", onclick: function(){ plugin.hide(); onconfirm(); } },
                     { id: "cancel", onclick: function(){ plugin.hide(); oncancel && oncancel(); } },

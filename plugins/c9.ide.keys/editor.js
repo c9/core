@@ -186,7 +186,12 @@ define(function(require, exports, module) {
                                 settings.set("user/ace/@keyboardmode", "default");
                                 settings.set("user/key-bindings/@platform", "auto");
                                 commands.reset(false, true);
-                            }, function(){});
+                            },
+                            function(){},
+                            {
+                                yes: "Reset Settings",
+                                no: "Cancel"
+                            });
                     },
                     position: 90
                 },
