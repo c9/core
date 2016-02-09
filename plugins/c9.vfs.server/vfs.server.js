@@ -128,8 +128,9 @@ function plugin(options, imports, register) {
                 res.json({
                     pid: pid,
                     uid: user.id,
-                    readonly: entry.vfs.readonly, 
-                    vfsid: entry.vfsid
+                    readonly: entry.vfs.readonly,
+                    vfsid: entry.vfsid,
+                    activation: entry.vfs.activation || {}
                 }, null, 201);
             });
 
