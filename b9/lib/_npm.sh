@@ -18,7 +18,7 @@ _b9_npm() {
             "
     else
         pushd $WORKDIR &> /dev/null
-        npm "$@"
+        $NPM "$@"
         popd &> /dev/null
     fi
 }
