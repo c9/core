@@ -13,7 +13,7 @@ _d9_package_upload_gcs() {
     pushd $WORKDIR/.. &> /dev/null
 
     TMP_TAR=$(mktemp -d b9-package-XXXXXXXXXXXXX --tmpdir=$TMP)/$VERSION.tar.xz
-    tar -cJf --transform s/$(basename $WORKDIR)/$VERSION/ $TMP_TAR $(basename $WORKDIR)
+    tar -cJf --transform "s/^$(basename $WORKDIR)/$VERSION/" $TMP_TAR $(basename $WORKDIR)
     gsutil cp $TMP_TAR gs://cloud9_ci_cache
     mv $TMP_TAR $TMP/$VERSION.tar.xz
     
