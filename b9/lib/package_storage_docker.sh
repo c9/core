@@ -14,7 +14,7 @@ _b9_dockerize_update_base() {
     rm $TMPFILE
     
     # build base image
-    docker build --rm -t /v $TMP:/tmp $B9_DOCKER_REGISTRY/c9:base $B9_DIR/containers/c9
+    docker build -t $B9_DOCKER_REGISTRY/c9:base $B9_DIR/containers/c9
     
     CID=$(docker run -d $B9_DOCKER_REGISTRY/c9:base sleep 1h)
     
