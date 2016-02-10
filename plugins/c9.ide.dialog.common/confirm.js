@@ -30,8 +30,8 @@ define(function(require, module, exports) {
                 plugin.heading = options.isHTML ? header : util.escapeXml(header);
                 plugin.body = options.isHTML ? msg : util.escapeXml(msg).replace(/\n/g, "<br>");
                 
-                plugin.getElement("ok").setCaption(options.yes || options.ok || "OK");
-                plugin.getElement("cancel").setCaption(options.no || options.cancel || "Cancel");
+                plugin.getElement("ok").setCaption(options.yes || "OK");
+                plugin.getElement("cancel").setCaption(options.no || "Cancel");
                 
                 plugin.update([
                     { id: "ok", onclick: function(){ plugin.hide(); onconfirm(); } },
