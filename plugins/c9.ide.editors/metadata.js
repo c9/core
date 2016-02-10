@@ -149,11 +149,6 @@ define(function(require, exports, module) {
                     position: 150,
                     "Meta Data" : {
                         position: 200,
-                        "Store Meta Data of Opened Files" : {
-                            type: "checkbox",
-                            path: "user/metadata/@enabled",
-                            position: 100
-                        },
                         "Maximum of Undo Stack Items in Meta Data" : {
                             type: "spinner",
                             path: "user/metadata/@undolimit",
