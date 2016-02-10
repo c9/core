@@ -128,8 +128,9 @@ function plugin(options, imports, register) {
                 res.json({
                     pid: pid,
                     uid: user.id,
-                    readonly: entry.vfs.readonly, 
-                    vfsid: entry.vfsid
+                    readonly: entry.vfs.readonly,
+                    vfsid: entry.vfsid,
+                    activation: entry.vfs.activation || {}
                 }, null, 201);
             });
 
@@ -331,7 +332,7 @@ function plugin(options, imports, register) {
                 .end(function() {});
                 
             user.lastVfsAccess = Date.now();
-            user.save(function() {});
+            user.save && user.save(function() {});
         }
     }
 

@@ -12,6 +12,7 @@ var optimist = require("optimist");
 var async = require("async");
 var os = require("os");
 var urls = require("c9/urls");
+var hostname = require("c9/hostname");
 var child_process = require("child_process");
 require("c9/setup_paths.js");
 
@@ -45,7 +46,7 @@ shortcuts.localdev = shortcuts.onlinedev.concat([
 shortcuts.odev = shortcuts.onlinedev; // For backwards compatibility, if you see this in 2016 remove this line
 var delayLoadConfigs = [
     // Services that are usually not immediately needed
-    "preview", "user-content", "api", "apps-proxy", "worker",
+    "preview", "user-content", "apps-proxy", "worker", "homepage",
     // Services that are very slow to load, blocking others
     "profile",
 ];
@@ -56,9 +57,7 @@ if (!module.parent)
     main(process.argv.slice(2));
 
 function getDefaultSettings() {
-    var hostname = os.hostname();
-    
-    var suffix = hostname.trim().split("-").pop() || "";
+    var suffix = hostname.parse(os.hostname()).env;
     var modes = {
         "workflowstaging": "workflow-staging",
         "prod": "deploy",

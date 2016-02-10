@@ -12,12 +12,11 @@ function plugin(options, imports, register) {
     
      register(null, {
         "analytics": {
-            log: function() {},
             track: function() {},
             identify: function() {},
-            logClean: function() {},
-            trackClean: function() {},
-            identifyClean: function() {},
+            updateTraits: function() {},
+            alias: function() {},
+            logClean: function() {} // huh??
         }
     });
 }

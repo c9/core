@@ -68,7 +68,8 @@ define(function(require, exports, module) {
                                     + "Cloud9 will return to it's original configuration", 
                                     function(){
                                         settings.reset();
-                                    }, function(){});
+                                    }, function(){},
+                                    { yes: "Reset settings", no: "Cancel" });
                             }
                         }
                     },

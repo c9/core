@@ -19,6 +19,7 @@ module.exports.makeLocal = function(config, options) {
         options.projectName = root.substr(root.lastIndexOf("/") + 1);
         options.debug = 2;
         options.env = "local";
+        options.defaultTheme = "dark";
     }
 
     for (var i = config.length - 1; i >= 0; i--) {
@@ -53,16 +54,7 @@ module.exports.makeLocal = function(config, options) {
             config[i].path = join(settingDir, "/metadata");
             config[i].changeCheckInterval = 2000;
         }
-        else if (config[i].packagePath == "plugins/c9.ide.feedback/feedback") {
-            config[i].screenshotSupport = false;
-        }
-        // else if (config[i].packagePath == "plugins/c9.ide.feedback/feedback") {
-        //     config[i] = {
-        //         packagePath : "plugins/c9.ide.help/help",
-        //         staticPrefix : options.staticPrefix + "/plugins/c9.ide.help"
-        //     };
-        // }
-        
+
         else if (config[i].packagePath == "plugins/c9.core/c9") {
             config[i].local = true;
         }
@@ -76,8 +68,6 @@ module.exports.makeLocal = function(config, options) {
             config[i].projectConfigPath = join(settingDir, "");
             config[i].userConfigPath = join(settingDir, "");
             config[i].stateConfigPath = join(settingDir, "");
-        } else if (config[i].packagePath == "plugins/c9.ide.log/log" && !c9Ws) {
-            config[i].source = "desktop";
         } else if (config[i].packagePath == "plugins/c9.ide.info/info" && c9Ws) {
             config[i].packagePath = "plugins/c9.ide.local/info";
         } else if (config[i].packagePath == "plugins/c9.ide.ui/menus" && c9Ws) {
@@ -140,7 +130,6 @@ module.exports.makeLocal = function(config, options) {
         "plugins/c9.ide.newresource/open": true,
         "plugins/c9.ide.info/info": true,
         // "plugins/c9.ide.login/login": true,
-        "plugins/c9.ide.feedback/nps": true,
         "plugins/c9.ide.download/download": true
     };
 

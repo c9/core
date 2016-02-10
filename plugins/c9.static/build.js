@@ -239,7 +239,10 @@ function main(options, imports, register) {
             var jsonalyzer = require("../c9.ide.language.jsonalyzer/default_plugins");
             var extraPackages = [
                 "plugins/c9.ide.test.mocha/mocha_outline_worker",
-                "plugins/@smartface/smartface.language/loadInclude"
+                "plugins/@smartface/smartface.language/loadInclude",
+                "plugins/@smartface/smartface.language/warnings_worker.js",
+                "plugins/@smartface/smartface.language/plugincomplete_worker.js",
+                "plugins/@smartface/smartface.language/emptyTernPlugin"
             ];
             try {
                 extraPackages = extraPackages.concat(require("lib/salesforce.language/__worker__"));
@@ -267,6 +270,7 @@ function main(options, imports, register) {
                 "plugins/c9.ide.language.python/worker/python_linter",
                 "plugins/c9.ide.language.python/worker/python_completer",
                 "plugins/c9.ide.language.python/worker/python_jsonalyzer",
+                "plugins/c9.ide.language.go/worker/go_completer",
                 "plugins/c9.ide.language.html/html_completer",
                 "plugins/c9.ide.language.css/css_handler",
                 "plugins/c9.ide.language.javascript.tern/worker/tern_worker",

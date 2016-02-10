@@ -2988,10 +2988,11 @@ String.prototype.trim = function(){
  * @param {Number} times Number of times to repeat the String concatenation
  * @type  {String}
  */
-String.prototype.repeat = function(times) {
-    return Array(times + 1).join(this);
-};
-
+if (!String.prototype.repeat) {
+    String.prototype.repeat = function(times) {
+        return Array(times + 1).join(this);
+    };
+}
 /*
  * Count the number of occurences of substring 'str' inside a string
  *

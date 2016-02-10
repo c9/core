@@ -1764,11 +1764,11 @@ define(function(require, exports, module) {
                 
                     // Set Gutter Context Menu
                     if (ui.isChildOf(gutter, target, true)) {
-                        mnuGutter.show(e.x, e.y);
+                        mnuGutter.show(e.x, e.y, "context");
                     }
                     // Set main Ace Context Menu
                     else {
-                        mnuAce.show(e.x, e.y);
+                        mnuAce.show(e.x, e.y, "context");
                     }
                     return false;
                 });

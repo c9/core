@@ -321,13 +321,89 @@ module.exports = function(options) {
         "plugins/c9.ide.language.javascript/javascript",
         "plugins/c9.ide.language.javascript.immediate/immediate",
         "plugins/c9.ide.language.javascript.infer/jsinfer",
-        "plugins/c9.ide.language.javascript.tern/tern",
+        {
+            packagePath: "plugins/c9.ide.language.javascript.tern/tern",
+            plugins: [
+                {
+                    name: "angular",
+                    path: "tern/plugin/angular",
+                    enabled: true,
+                    hidden: false,
+                },
+                {
+                    name: "doc_comment",
+                    path: "tern/plugin/doc_comment",
+                    enabled: true,
+                    hidden: true,
+                },
+                {
+                    name: "es_modules",
+                    path: "tern/plugin/es_modules",
+                    enabled: true,
+                    hidden: true,
+                },
+                {
+                    name: "modules",
+                    path: "tern/plugin/modules",
+                    enabled: true,
+                    hidden: true,
+                },
+                {
+                    name: "node",
+                    path: "tern/plugin/node",
+                    enabled: true,
+                    hidden: false,
+                },
+                {
+                    name: "requirejs",
+                    path: "tern/plugin/requirejs",
+                    enabled: true,
+                    hidden: false,
+                },
+                {
+                    name: "architect_resolver",
+                    path: "./architect_resolver_worker",
+                    enabled: true,
+                    hidden: true,
+                },
+            ],
+            defs: [{
+                name: "ecma5",
+                enabled: true,
+                experimental: false,
+                firstClass: true,
+                path: "lib/tern/defs/ecma5.json"
+            }, {
+                name: "jQuery",
+                enabled: true,
+                experimental: false,
+                path: "lib/tern/defs/jquery.json"
+            }, {
+                name: "browser",
+                enabled: true,
+                experimental: false,
+                firstClass: true,
+                path: "lib/tern/defs/browser.json"
+            }, {
+                name: "underscore",
+                enabled: false,
+                experimental: false,
+                path: "lib/tern/defs/underscore.json"
+            }, {
+                name: "chai",
+                enabled: false,
+                experimental: false,
+                path: "lib/tern/defs/chai.json"
+            }]
+        },
+        "plugins/c9.ide.language.javascript.tern/ui",
         "plugins/c9.ide.language.javascript.tern/architect_resolver",
         "plugins/c9.ide.language.javascript.eslint/eslint",
         {
             packagePath: "plugins/c9.ide.language.python/python",
-            pythonPath:  "/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python3.4/dist-packages",
+            pythonPath:  "/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python3.4/dist-packages:/usr/local/lib/python3.5/dist-packages",
         },
+        "plugins/c9.ide.language.go/go",
         {
             packagePath: "plugins/c9.ide.language.jsonalyzer/jsonalyzer",
             extendToken: extendToken,
@@ -469,7 +545,7 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.layout.classic/preload",
             themePrefix: options.themePrefix,
-            defaultTheme: options.defaultTheme || "dark"
+            defaultTheme: options.defaultTheme || "flat-light"
         },
         {
             packagePath: "plugins/c9.ide.tree/tree",

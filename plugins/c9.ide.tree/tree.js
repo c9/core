@@ -46,6 +46,7 @@ define(function(require, exports, module) {
             index: options.index || 100,
             caption: "Workspace",
             panelCSSClass: "workspace_files",
+            buttonCSSClass: "workspace",
             minWidth: 130,
             where: options.where || "left"
         });

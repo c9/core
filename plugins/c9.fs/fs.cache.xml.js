@@ -216,7 +216,7 @@ define(function(require, exports, module) {
                         : (linkInfo
                             ? { link: true, linkStat: { fullPath: linkInfo } }
                             : {});
-                    stat.mtime = Math.floor(Date.now() / 1000);
+                    stat.mtime = Date.now();
                     node = createNode(e.path, stat);
 
                     emit("add", {path : e.path, node : node});
@@ -464,15 +464,30 @@ define(function(require, exports, module) {
             var parts = path.split("/");
             var node = context || model.root;
             if (!node) {
-                node = orphans[parts[0]]; //model.realRoot || 
+                node = orphans[parts[0]]; // model.realRoot || 
                 if (node) parts.shift();
             }
             
             if (path == "/") parts.shift();
             
+            var up = 0;
+            for (var i = parts.length; i--;) {
+                var p = parts[i];
+                if (!p && i || p === ".") {
+                    parts.splice(i, 1);
+                }
+                else if (p === "..") {
+                    parts.splice(i, 1);
+                    up++;
+                }
+                else if (up) {
+                    parts.splice(i, 1);
+                    up--;
+                }
+            }
+            
             for (var i = 0; i < parts.length; i++) { 
                 var p = parts[i];
-                if (!p && i) continue; // allow paths with trailing /
                 if (node)
                     node = node.map && node.map[p];
                 if (!node)
@@ -559,7 +574,10 @@ define(function(require, exports, module) {
                     node.contenttype = stat.mime || util.getContentType(name);
                     node.status = "loaded";
                 }
-
+                if (typeof stat.mtime !== "number" && stat.mtime) {
+                    // TODO fix localfs to not send date objects here
+                    stat.mtime = +stat.mtime;
+                }
                 if (stat.size != undefined)
                     node.size = stat.size;
                 if (stat.mtime != undefined)
@@ -629,14 +647,6 @@ define(function(require, exports, module) {
                     });
                 } else if (key === "children" || key === "isSelected") {
                     prop = null;
-                } else if (Object.prototype.toString.call(node[key]) == "[object Date]") {
-                    // why Date ends up here?
-                    reportError(new Error("Date in fs cache"), {
-                        key: key,
-                        value: node[key],
-                        path: node.path,
-                        hasParentProp: !!node.parent,
-                    });
                 } else {
                     prop = lang.deepCopy(node[key]);
                 }

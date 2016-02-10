@@ -321,6 +321,7 @@ define(function(require, exports, module) {
                 },
                 commands.openpreferences,
                 commands.passKeysToBrowser,
+                commands.commands,
                 commands.find,
                 commands.openterminal,
                 commands.navigate,

@@ -111,7 +111,7 @@ define(function(require, exports, module) {
                         hide();
                 });
             }
-            error.className = "errorlabel "
+            error.className = "errorlabel c9error "
                 + (message.className ? message.className : "");
             
             if (!message.noError) {
@@ -122,10 +122,10 @@ define(function(require, exports, module) {
                 
                 metrics.increment("dialog.error");
                 
-                errorHandler.log(new Error("Error dialog shown"), {
-                    message: message, 
-                    messageString: getMessageString(message),
-                });
+                // errorHandler.log(new Error("Error dialog shown"), {
+                //     message: message, 
+                //     messageString: getMessageString(message),
+                // });
             }
             
             hide(function() {
@@ -141,7 +141,7 @@ define(function(require, exports, module) {
                 // Start anim
                 lastClassname = message.className;
                 setTimeout(function() {
-                    error.className = "errorlabel anim " + (offset > 0 ? "fade-in" : "") 
+                    error.className = "errorlabel c9error anim " + (offset > 0 ? "fade-in" : "") 
                         + " " + (message.className || "");
                     error.style.top = (offset + topPx) + "px";
                     error.style.opacity = 1;
@@ -164,7 +164,7 @@ define(function(require, exports, module) {
             if (!error || error.style.display === "none")
                 return callback && callback();
             
-            error.className = "errorlabel anim " + (offset > 0 ? "fade-in " : " ")
+            error.className = "errorlabel c9error anim " + (offset > 0 ? "fade-in " : " ")
                 + (lastClassname ? lastClassname : "");
             if (offset > 0)
                 error.style.opacity = 0;
