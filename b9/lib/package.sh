@@ -6,7 +6,6 @@ b9_package_usage() {
     echo "Package and upload a version of Cloud 9"
     echo
     echo "Options:"
-    echo "  --settings=[all|beta|deploy|onlinedev]      (default: all)"
     echo "  --type=[newclient|docker]                   (default: newclient)"
     echo "  --no-cache"
     exit 1
@@ -17,7 +16,7 @@ b9_package() {
     
     local TREEISH=$1
     local TYPE=newclient
-    local SETTINGS=all
+    local SETTINGS=$MODE
     local STORAGE=gcs
     local USE_CACHE=1
     
@@ -27,10 +26,6 @@ b9_package() {
     local ARG
     for ARG in "$@"; do
         case $ARG in
-            --settings=*)
-                SETTINGS="${ARG#*=}"
-                shift
-                ;;
             --type=*)
                 TYPE="${ARG#*=}"
                 shift
@@ -53,11 +48,7 @@ b9_package() {
     local WORKDIR
     
     [ "$TYPE" == "newclient" ] && SETTINGS=all
-    if [ "$TYPE" == "docker" ] && [ "$SETTINGS" == "all" ]; then
-        echo "You must define settings when packaging the docker daemon" 1>&2
-        exit 1
-    fi
-   
+
     _b9_package_init_git_cache
    
     VERSION=$(_b9_get_version $TREEISH $TYPE $SETTINGS)
@@ -71,7 +62,7 @@ b9_package() {
     _d9_package_sync_workdir $TYPE $WORKDIR $VERSION $SETTINGS
     _d9_package_npm_install $WORKDIR
     _d9_package_cleanup_workdir $WORKDIR
-    _d9_package_upload_${STORAGE} $WORKDIR $VERSION
+    _d9_package_upload $STORAGE $WORKDIR $VERSION
     
     echo $VERSION
 }
@@ -90,10 +81,7 @@ _b9_package_init_git_cache() {
 
 _d9_package_init_work_dir() {
     local VERSION=$1
-    local WORK_DIR=$TMP/${VERSION}
-    mkdir -p $WORK_DIR
-    
-    echo $WORK_DIR
+    mktemp -d b9-package-${VERSION}-XXXXXXXXXXXXX --tmpdir=$TMP
 }
 
 _b9_get_version() {
@@ -110,6 +98,10 @@ _b9_package_is_cached() {
     local STORAGE=$1
     local VERSION=$2
     
+    if [ -d $TMP/$VERSION ]; then
+        return
+    fi
+    
     case $STORAGE in
         gcs)
             _b9_package_is_cached_gcs $VERSION
@@ -118,7 +110,7 @@ _b9_package_is_cached() {
             _b9_package_is_cached_docker $VERSION
             ;;
         *)
-            echo "Invalid storage type: $STORAGE"
+            echo "Invalid storage type: $STORAGE" 1>&2
             exit 1
             ;;
     esac
@@ -126,8 +118,8 @@ _b9_package_is_cached() {
 
 _d9_package_upload() {
     local STORAGE=$1
-    local $WORKDIR=$2
-    local $VERSION=$3
+    local WORKDIR=$2
+    local VERSION=$3
 
     case $STORAGE in
         gcs)
@@ -140,6 +132,8 @@ _d9_package_upload() {
             exit 1
             ;;
     esac
+    
+    mv $WORKDIR $TMP/$VERSION
 }
 
 _d9_package_sync_workdir() {
@@ -192,8 +186,13 @@ _d9_package_patch_package_json() {
 }
 
 _do_check_package() {
+    MODE=devel
     b9_package origin/master --type=newclient --no-cache
     b9_package origin/master --type=newclient
-    b9_package origin/master --type=docker --settings=deploy --no-cache
+    
+    MODE=deploy
+    b9_package origin/master --type=docker --no-cache
+    
+    MODE=devel
     b9_package origin/master --docker --no-cache
 }

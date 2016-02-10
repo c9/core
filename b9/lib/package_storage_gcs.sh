@@ -10,14 +10,12 @@ _d9_package_upload_gcs() {
     local TMP_TAR
     local CACHE_FILE
     
-    CACHE_FILE=$(basename $WORKDIR)
-    
     pushd $WORKDIR/.. &> /dev/null
 
-    TMP_TAR=$(mktemp -d b9-package-XXXXXXXXXXXXX --tmpdir=$TMP)/$CACHE_FILE.tar.xz
-    tar -cJf $TMP_TAR $CACHE_FILE
-    gsutil cp $TMP_TAR gs://cloud9_ci_cache
-    mv $TMP_TAR $TMP/$(basename $CACHE_FILE.tar.xz)
+    TMP_TAR=$(mktemp b9-package-XXXXXXXXXXXXX --tmpdir=$TMP --suffix=.tar.xz)
+    tar --transform="s/^$(basename $WORKDIR)/$VERSION/" -cJf $TMP_TAR $(basename $WORKDIR)
+    gsutil cp $TMP_TAR gs://cloud9_ci_cache/$VERSION.tar.xz
+    mv $TMP_TAR $TMP/$VERSION.tar.xz
     
     popd &> /dev/null
 }

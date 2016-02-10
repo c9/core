@@ -4,7 +4,6 @@ b9_deploy_usage() {
     echo "Deploy a Cloud9 version"
     echo
     echo "Options:"
-    echo "  --settings=[all|beta|deploy|onlinedev]                         (default: all)"
     echo "  --strategy=[slow_start|parallel|serial] Deploy strategy to use (default: slow_start)"
     echo "  --regex                                 Interpret server patter as regular expression"
     echo "  --no-check                              skip the health check"
@@ -18,7 +17,6 @@ b9_deploy() {
     local TREEISH=$1 && shift
     local SERVER_PATTERN=$1 && shift
     
-    local SETTINGS=devel
     local DRY_RUN=""
     local ASSET="gcs"
     local USE_REGEX=""
@@ -33,10 +31,6 @@ b9_deploy() {
     local ARG
     for ARG in "$@"; do
         case $ARG in
-            --settings=*)
-                SETTINGS="${ARG#*=}"
-                shift
-                ;;
             --strategy=*)
                 STRATEGY="${ARG#*=}"
                 shift
@@ -72,18 +66,18 @@ b9_deploy() {
     local SERVER_LIST
     local VERSION
     
-    local TMPFILE=$(tempfile)
-    b9_package $TREEISH --settings=$SETTINGS --type=$TYPE | tee $TMPFILE
+    local TMPFILE=$(mktemp --tmpdir=$TMPDIR)
+    b9_package $TREEISH --type=$TYPE | tee $TMPFILE
     VERSION=$(cat $TMPFILE | tail -n1)
     rm $TMPFILE
 
     SERVER_LIST="$(_b9_deploy_server_list $SERVER_PATTERN $USE_REGEX)"
-    local CMD="$B9 exec _b9_deploy_one_from_${ASSET} $NO_CHECK $VERSION $SERVICES $SETTINGS"
+    local CMD="$B9 --settings=$MODE exec _b9_deploy_one_from_${ASSET} $NO_CHECK $VERSION $SERVICES"
     if [ "$DRY_RUN" == "1" ]; then
         CMD="echo $CMD"
     fi
     
-    _b9_deploy_release_event "$SERVICES" $SETTINGS $VERSION $SERVER_PATTERN
+    _b9_deploy_release_event "$SERVICES" $VERSION $SERVER_PATTERN
     _b9_deploy_strategy_${STRATEGY} "$SERVER_LIST" "$CMD"
 }
 
@@ -135,14 +129,13 @@ _b9_deploy_one_from_gcs() {
     
     local VERSION=$1
     local SERVICES=$2
-    local SETTINGS=$3
-    local SERVER=$4
+    local SERVER=$3
 
     echo Deploying $VERSION \($SERVICES\) to $SERVER ... >&2
 
     _b9_deploy_upload_from_gcs $VERSION $SERVER
-    _b9_deploy_update_services $VERSION $SERVICES $SERVER $SETTINGS
-    [ -z "$NO_CHECK" ] && _b9_deploy_check $SERVER $SERVICES $SETTINGS
+    _b9_deploy_update_services $VERSION $SERVICES $SERVER
+    [ -z "$NO_CHECK" ] && _b9_deploy_check $SERVER $SERVICES
 
     echo Deployed $VERSION to $SERVER >&2
 }
@@ -168,9 +161,8 @@ _b9_deploy_update_services() {
     local VERSION=$1
     local SERVICES=$2
     local SERVER=$3
-    local SETTINGS=$4
 
-    local TOTAL_VERSIONS_TO_KEEP=5
+    local TOTAL_VERSIONS_TO_KEEP=7
 
     local VERSIONS_DIR="/home/ubuntu/versions"
     local TARGET_DIR=${VERSIONS_DIR}/$VERSION
@@ -190,15 +182,13 @@ _b9_deploy_update_services() {
 _b9_deploy_check() {
     local SERVER=$1
     local SERVICES=$2
-    local SETTINGS=$3
     
-    echo $SERVICES | sed 's/,/\n/g' | parallel --halt 1 -j 0 $B9 exec _b9_deploy_check_one $SERVER $SETTINGS
+    echo $SERVICES | sed 's/,/\n/g' | parallel --halt 1 -j 0 $B9 exec _b9_deploy_check_one $SERVER
 }
 
 _b9_deploy_check_one() {
     local SERVER=$1
-    local SETTINGS=$2
-    local SERVICE=$3
+    local SERVICE=$2
     
     local HOST
     local PORT
@@ -217,7 +207,7 @@ _b9_deploy_check_one() {
         SERVICE=${SERVICE//-/_}
     fi
     
-    if ! _b9_check_save_deploy --wait=$WAIT $PORT --server=$HOST --mode=$SETTINGS --service=$SERVICE; then
+    if ! _b9_check_save_deploy --wait=$WAIT $PORT --server=$HOST --service=$SERVICE; then
       echo "One or more safe deploy checks failed :(" >&2
       exit 1
     fi
@@ -225,12 +215,11 @@ _b9_deploy_check_one() {
 
 _b9_deploy_release_event() {
     local SERVICES=$1
-    local SETTINGS=$2
-    local VERSION=$3
-    local SERVER_PATTERN=$4
+    local VERSION=$2
+    local SERVER_PATTERN=$3
 
     _b9_init_node_helper
-    echo $SERVICES | sed 's/,/\n/g' | xargs -I '{}' -n1 $NODEJS $B9_DIR/lib/js/release_event.js '{}' $SETTINGS $VERSION $SERVER_PATTERN
+    echo $SERVICES | sed 's/,/\n/g' | xargs -I '{}' -n1 $NODEJS $B9_DIR/lib/js/release_event.js '{}' $MODE $VERSION $SERVER_PATTERN
 }
 
 _b9_deploy_ssh() { 
