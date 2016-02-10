@@ -3743,7 +3743,7 @@ function findCssRule(name, stylesheet, win) {
         var sheets = (win || self).document.styleSheets;
         for (var j = sheets.length - 1; j >= 0; j--) {
             try {
-                var rules = sheets[j][apf.styleSheetRules];
+                var rules = sheets[j][apf.styleSheetRules] || [];
                 for (var i = 0; i < rules.length; i++) {
                     if (nameRe.test(rules.item(i).selectorText)) {
                         return rules.item(i);
