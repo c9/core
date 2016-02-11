@@ -39,9 +39,9 @@ define(function(require, exports, module) {
             
             // Schedule for inspection when tab becomes active
             tabs.on("tabAfterActivate", function(e) {
-                // If disabled don't do anything
-                if (!e.tab.loaded || !settings.getBool("user/metadata/@enabled"))
-                    return;
+                // // If disabled don't do anything
+                // if (!e.tab.loaded || !settings.getBool("user/metadata/@enabled"))
+                //     return;
                 
                 if (e.lastTab)
                     changed[e.lastTab.name] = e.lastTab;
@@ -51,9 +51,9 @@ define(function(require, exports, module) {
             
             // Closing a tab
             tabs.on("tabAfterClose", function (e) {
-                // If disabled don't do anything
-                if (!settings.getBool("user/metadata/@enabled"))
-                    return;
+                // // If disabled don't do anything
+                // if (!settings.getBool("user/metadata/@enabled"))
+                //     return;
                 
                 var doc = e.tab.document;
                 if (!e.tab.path) {
@@ -70,9 +70,9 @@ define(function(require, exports, module) {
             
             // Opening a file
             tabs.on("beforeOpen", function(e) {
-                // If disabled don't do anything
-                if (!settings.getBool("user/metadata/@enabled"))
-                    return;
+                // // If disabled don't do anything
+                // if (!settings.getBool("user/metadata/@enabled"))
+                //     return;
                 
                 // Don't load metadata if document state is defined or value is set
                 if (e.tab.path && e.options.document.filter === false
@@ -110,7 +110,7 @@ define(function(require, exports, module) {
             
             settings.on("read", function(e) {
                 settings.setDefaults("user/metadata", [
-                    ["enabled", "true"],
+                    // ["enabled", "true"],
                     ["undolimit", "100"],
                 ]);
             }, plugin);
@@ -123,9 +123,9 @@ define(function(require, exports, module) {
             
             
             function checkChangedTabs(unload) {
-                // If disabled don't do anything
-                if (!settings.getBool("user/metadata/@enabled"))
-                    return;
+                // // If disabled don't do anything
+                // if (!settings.getBool("user/metadata/@enabled"))
+                //     return;
                 
                 tabs.getPanes().forEach(function(pane) {
                     var tab = pane.getTab();
@@ -149,11 +149,6 @@ define(function(require, exports, module) {
                     position: 150,
                     "Meta Data" : {
                         position: 200,
-                        "Store Meta Data of Opened Files" : {
-                            type: "checkbox",
-                            path: "user/metadata/@enabled",
-                            position: 100
-                        },
                         "Maximum of Undo Stack Items in Meta Data" : {
                             type: "spinner",
                             path: "user/metadata/@undolimit",
