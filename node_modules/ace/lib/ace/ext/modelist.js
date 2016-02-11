@@ -75,6 +75,7 @@ var supportedModes = {
     Elm:         ["elm"],
     Erlang:      ["erl|hrl"],
     Forth:       ["frt|fs|ldr"],
+    Fortran:     ["f|f90"],
     FTL:         ["ftl"],
     Gcode:       ["gcode"],
     Gherkin:     ["feature"],
@@ -135,8 +136,10 @@ var supportedModes = {
     Protobuf:    ["proto"],
     Python:      ["py"],
     R:           ["r"],
+    Razor:       ["cshtml"],
     RDoc:        ["Rd"],
     RHTML:       ["Rhtml"],
+    RST:         ["rst"],
     Ruby:        ["rb|ru|gemspec|rake|^Guardfile|^Rakefile|^Gemfile"],
     Rust:        ["rs"],
     SASS:        ["sass"],
@@ -201,4 +204,4 @@ module.exports = {
     modesByName: modesByName
 };
 
-});
+}); 
