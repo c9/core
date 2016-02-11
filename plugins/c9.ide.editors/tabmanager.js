@@ -220,14 +220,13 @@ define(function(require, module, exports) {
                 }
                 
                 setTimeout(function() {
-                    var wasReady = isReady;
-                    isReady = true;
-                    if (options.testing != 2 && !wasReady) {
-                        // Only fire if we're not testing something else
+                    // Only set the state if we're not testing something else
+                    if (options.testing != 2 && !isReady) {
                         setState(state, !isReady, function(){
                             emit.sticky("ready");
                         });
                     }
+                    isReady = true;
                     
                     showTabs = settings.getBool("user/tabs/@show");
                     toggleButtons(showTabs);
