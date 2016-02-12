@@ -36,6 +36,15 @@ define(function(require, exports, module) {
                     case "open":
                         open(message, e.respond);
                         break;
+                    case "pipe":
+                        createPipe(message, e.respond);
+                        break;
+                    case "pipeData":
+                        updatePipe(message, e.respond);
+                        break;
+                    case "pipeClosed":
+                        closePipe(message, e.respond);
+                        break;
                     case "ping":
                         e.respond(null, true);
                         break;
@@ -66,6 +75,32 @@ define(function(require, exports, module) {
         }
         
         /***** Methods *****/
+        var pipeTab; 
+        var pipeClosed = true;
+        
+        function createPipe(message, callback) {
+            if(pipeClosed)
+            {
+                tabManager.once("ready", function(){
+                    tabManager.open({focus:true, editorType: "ace"}, function(err, tab){
+                        pipeTab = tab;
+                        pipeTab.document.value += "";
+                        pipeClosed = false;
+                    });
+                });  
+            }
+            
+        }
+        
+        function updatePipe(message, callback){
+            console.log(message.data);
+            pipeTab.document.value += message.data.toString();;
+        }
+        
+        function closePipe(message, callback){
+            pipeClosed = true;
+        }
+        
         
         function open(message, callback) {
             var i = -1;
