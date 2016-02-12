@@ -27,7 +27,7 @@ define(function(require, exports, module) {
             cmd.addCommand({
                 name: "open", 
                 info: "     Opens a file or directory.",
-                usage: "[--wait] [--pipe] [--stream] <path>",
+                usage: "[--wait] [--pipe] <path>",
                 options: {
                     "wait": {
                         description: "Wait until the file(s) are closed",
