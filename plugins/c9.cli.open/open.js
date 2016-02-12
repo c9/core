@@ -139,21 +139,34 @@ define(function(require, exports, module) {
         }
         
         function openWithPipe(callback) {
-            var stdin = process.openStdin();
-            var tab;
-            
-            bridge.send({ type: "pipe" }, function(){});
-            
-            stdin.on("data", function(chunk){
-                var textChunk = decoder.write(chunk);
-                bridge.send({ type: "pipeData", data: textChunk}, function(err, message) {
-                    
+            bridge.send({ type: "pipe" }, function(err, response) {
+                if (err) {
+                    console.log(err.message);
+                    return;
+                }
+                
+                var stdin = process.openStdin();
+                var finished = false;
+                stdin.on("data", function(chunk) {
+                    finished = false;
+                    bridge.send({ 
+                        type: "pipeData", 
+                        data: decoder.write(chunk), 
+                        tab: response
+                    }, function(err, message) {
+                        // Dunno why, but this always returns No Response...
+                        // Escaping that error so end users aren't confused...
+                        if (err && err.message !== "No Response") 
+                            console.log(err.message);
+                        finished = true;
+                    });
                 });
-            });
-            
-            stdin.on("end", function(){
-                bridge.send({ type: "pipeClosed"}, function(err, message) {
-                    process.exit(40);
+                stdin.on("end", function() {
+                    (function retry() {
+                        if(finished)
+                            process.exit(40);
+                        setTimeout(retry, 100);
+                    })();
                 });
             });
         }

@@ -42,9 +42,6 @@ define(function(require, exports, module) {
                     case "pipeData":
                         updatePipe(message, e.respond);
                         break;
-                    case "pipeClosed":
-                        closePipe(message, e.respond);
-                        break;
                     case "ping":
                         e.respond(null, true);
                         break;
@@ -75,32 +72,25 @@ define(function(require, exports, module) {
         }
         
         /***** Methods *****/
-        var pipeTab; 
-        var pipeClosed = true;
-        
         function createPipe(message, callback) {
-            if(pipeClosed)
-            {
-                tabManager.once("ready", function(){
-                    tabManager.open({focus:true, editorType: "ace"}, function(err, tab){
-                        pipeTab = tab;
-                        pipeTab.document.value += "";
-                        pipeClosed = false;
-                    });
-                });  
-            }
-            
+            tabManager.once("ready", function(){
+                tabManager.open( {
+                    focus: true, 
+                    editorType: "ace"
+                }, function(err, tab) {
+                    if (err) 
+                        return callback(err);
+                    callback(null, tab.name);
+                });
+            }); 
         }
         
-        function updatePipe(message, callback){
-            console.log(message.data);
-            pipeTab.document.value += message.data.toString();;
+        function updatePipe(message, callback) {
+            tabManager.once("ready", function() {
+                tabManager.findTab(message.tab).document.value += message.data;    
+                callback(null, true);
+            });
         }
-        
-        function closePipe(message, callback){
-            pipeClosed = true;
-        }
-        
         
         function open(message, callback) {
             var i = -1;
