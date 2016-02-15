@@ -37,6 +37,7 @@ define(function(require, exports, module) {
         require("./scrollbar");
         
         // Ace
+        var dom = require("ace/lib/dom");
         var lang = require("ace/lib/lang");
         var Range = require("ace/range").Range;
         var config = require("ace/config");
@@ -144,6 +145,11 @@ define(function(require, exports, module) {
         function setTheme(path, isPreview, fromServer, $err) {
             // Get Theme or wait for theme to load
             theme = fromServer;
+            if (/custom_themes/.test(path)) {
+                theme = themes[path];
+                if (!theme) return;
+                dom.importCssString(theme.cssText, theme.cssClass);
+            }
             if (!theme) {
                 return $err || config.loadModule(path, function(m) {
                     setTheme(path, isPreview, m, true);
@@ -153,6 +159,8 @@ define(function(require, exports, module) {
             if (!isPreview) {
                 if (settings.get("user/ace/@theme") != path) {
                     settings.set("user/ace/@theme", path);
+                    
+                    settings.set("user/ace/@customTheme", theme.customCss);
                     
                     // Emit theme change event
                     var style = (theme.isDark ? "dark" : "light");
@@ -504,7 +512,12 @@ define(function(require, exports, module) {
             settings.on("read", function(e) {
                 settings.setDefaults("user/ace", userSettings);
                 settings.setDefaults("project/ace", projectSettings);
-    
+                
+                // TODO remove when there is a better way of loading custom themes
+                var customTheme = settings.get("user/ace/@customTheme");
+                if (customTheme)
+                    addTheme(customTheme, handle);
+                
                 // pre load custom mime types
                 loadCustomExtensions();
                 
@@ -1243,18 +1256,31 @@ define(function(require, exports, module) {
                 theme[info[0].trim()] = info[1].trim();
             });
             theme.isDark = theme.isDark == "true";
-                
-            themes[theme.name] = theme;
             
-            ui.insertCss(exports.cssText, plugin);
-            addThemeMenu(theme.name, theme, null, plugin);
+            theme.id = "custom_themes/" + theme.name;
+            theme.customCss = css;
+            define.undef(theme.id);
+            define(theme.id, [], theme);
             
-            handleEmit("addTheme");
+            themes[theme.id] = theme;
+            
+            addThemeMenu(theme.name, theme.id, null, plugin);
+            
+            handleEmit("addTheme", theme);
+            
+            if (settings.get("user/ace/@theme") == theme.id)
+                setTheme(theme.id);
             
             plugin.addOther(function(){
-                delete themes[theme.name];
-                handleEmit("removeTheme");
+                removeTheme(theme, true);
             });
+        }
+
+        function removeTheme(theme, silent) {
+            var el = document.getElementById(theme.cssClass);
+            el && el.remove();
+            delete themes[theme.name];
+            silent || handleEmit("removeTheme");
         }
 
         function rebuildSyntaxMenu() {
@@ -1707,7 +1733,7 @@ define(function(require, exports, module) {
         /***** Initialization *****/
         
         function Ace(isBaseclass, exts) {
-            if ( !exts) exts = [];
+            if (!exts) exts = [];
             var plugin = new Editor("Ajax.org", main.consumes, 
                 exts && exts.concat(extensions) || extensions);
             var emit = plugin.getEmitter();
