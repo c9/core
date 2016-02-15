@@ -54,6 +54,19 @@ lp.parseParenExpression = function () {
 };
 
 lp.parseMaybeAssign = function (noIn) {
+  if (this.toks.isContextual("yield")) {
+    var node = this.startNode();
+    this.next();
+    if (this.semicolon() || this.canInsertSemicolon() || this.tok.type != _.tokTypes.star && !this.tok.type.startsExpr) {
+      node.delegate = false;
+      node.argument = null;
+    } else {
+      node.delegate = this.eat(_.tokTypes.star);
+      node.argument = this.parseMaybeAssign();
+    }
+    return this.finishNode(node, "YieldExpression");
+  }
+
   var start = this.storeCurrentPos();
   var left = this.parseMaybeConditional(noIn);
   if (this.tok.type.isAssign) {
@@ -193,7 +206,7 @@ lp.parseExprAtom = function () {
 
     case _.tokTypes.name:
       // quick hack to allow async and await
-      if (this.tok.value == "async" && /^[ \t]+function\b/.test(this.input.slice(this.tok.end))) {
+      if (this.value == "async" && /^[ \t]*(function\b|\(|\w+[ \t]*=>)/.test(this.input.slice(this.tok.end))) {
         node = this.startNode();
         this.next();
         return this.parseExprAtom();
@@ -263,18 +276,6 @@ lp.parseExprAtom = function () {
 
     case _.tokTypes._new:
       return this.parseNew();
-
-    case _.tokTypes._yield:
-      node = this.startNode();
-      this.next();
-      if (this.semicolon() || this.canInsertSemicolon() || this.tok.type != _.tokTypes.star && !this.tok.type.startsExpr) {
-        node.delegate = false;
-        node.argument = null;
-      } else {
-        node.delegate = this.eat(_.tokTypes.star);
-        node.argument = this.parseMaybeAssign();
-      }
-      return this.finishNode(node, "YieldExpression");
 
     case _.tokTypes.backQuote:
       return this.parseTemplate();
@@ -801,7 +802,13 @@ lp.parseTopLevel = function () {
 
 lp.parseStatement = function () {
   var starttype = this.tok.type,
-      node = this.startNode();
+      node = this.startNode(),
+      kind = undefined;
+
+  if (this.toks.isLet()) {
+    starttype = _.tokTypes._var;
+    kind = "let";
+  }
 
   switch (starttype) {
     case _.tokTypes._break:case _.tokTypes._continue:
@@ -832,8 +839,9 @@ lp.parseStatement = function () {
       this.pushCx();
       this.expect(_.tokTypes.parenL);
       if (this.tok.type === _.tokTypes.semi) return this.parseFor(node, null);
-      if (this.tok.type === _.tokTypes._var || this.tok.type === _.tokTypes._let || this.tok.type === _.tokTypes._const) {
-        var _init = this.parseVar(true);
+      var isLet = this.toks.isLet();
+      if (isLet || this.tok.type === _.tokTypes._var || this.tok.type === _.tokTypes._const) {
+        var _init = this.parseVar(true, isLet ? "let" : this.tok.value);
         if (_init.declarations.length === 1 && (this.tok.type === _.tokTypes._in || this.isContextual("of"))) {
           return this.parseForIn(node, _init);
         }
@@ -918,9 +926,8 @@ lp.parseStatement = function () {
       return this.finishNode(node, "TryStatement");
 
     case _.tokTypes._var:
-    case _.tokTypes._let:
     case _.tokTypes._const:
-      return this.parseVar();
+      return this.parseVar(false, kind || this.tok.value);
 
     case _.tokTypes._while:
       this.next();
@@ -1003,9 +1010,9 @@ lp.parseForIn = function (node, init) {
   return this.finishNode(node, type);
 };
 
-lp.parseVar = function (noIn) {
+lp.parseVar = function (noIn, kind) {
   var node = this.startNode();
-  node.kind = this.tok.type.keyword;
+  node.kind = kind;
   this.next();
   node.declarations = [];
   do {
@@ -1114,7 +1121,7 @@ lp.parseExport = function () {
     this.semicolon();
     return this.finishNode(node, "ExportDefaultDeclaration");
   }
-  if (this.tok.type.keyword) {
+  if (this.tok.type.keyword || this.toks.isLet()) {
     node.declaration = this.parseStatement();
     node.specifiers = [];
     node.source = null;
@@ -1298,7 +1305,7 @@ lp.resetTo = function (pos) {
   this.toks.exprAllowed = !ch || /[\[\{\(,;:?\/*=+\-~!|&%^<>]/.test(ch) || /[enwfd]/.test(ch) && /\b(keywords|case|else|return|throw|new|in|(instance|type)of|delete|void)$/.test(this.input.slice(pos - 10, pos));
 
   if (this.options.locations) {
-    this.toks.curLine = 1;
+    this.toks.curLine = 0;
     this.toks.lineStart = _.lineBreakG.lastIndex = 0;
     var match = undefined;
     while ((match = _.lineBreakG.exec(this.input)) && match.index < pos) {

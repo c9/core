@@ -216,7 +216,7 @@ exports.transform = function transform(n) {
         case "ArrowFunctionExpression":
             resultNode = tree.cons("Arrow", [tree.list(n.params.map(function(arg) {
                 return setIdPos(arg, tree.cons("FArg", [id(arg)]));
-            })), tree.list(n.body.body.map(transform))]);
+            })), tree.list(n.body.body ? n.body.body.map(transform) : transform(n.body))]);
             break;
         case "YieldExpression":
             resultNode = tree.cons("Yield", [transform(n.argument)]);
