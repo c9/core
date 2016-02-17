@@ -139,17 +139,34 @@ define(function(require, exports, module) {
         }
         
         function openWithPipe(callback) {
-            bridge.send({ type: "pipe" }, function(err, response) {
+            bridge.send({ type: "pipe" }, function cb(err, response) {
                 if (err) {
-                    console.log(err.message);
-                    return;
+                    if (err.code == "ECONNREFUSED") {
+                        // Seems Cloud9 is not running, lets start it up
+                        startCloud9Local({}, function(success) {
+                            if (success)
+                                bridge.send({ type: "pipe" }, cb);
+                            else {
+                                console.log("Could not start Cloud9. "
+                                    + "Please check your configuration.");
+                                callback(err);
+                                
+                                process.exit(40); // This appears to be needed; let's return something useful
+                            }
+                        });
+                        return;
+                    }
+                    else {
+                        console.log(err.message);
+                        return;
+                    }    
                 }
                 
                 var stdin = process.openStdin();
-                var finished = false;
+                var finished = 0;
                 stdin.on("data", function(chunk) {
-                    finished = false;
-                    bridge.send({ 
+                    finished++;
+                    bridge.send( { 
                         type: "pipeData", 
                         data: decoder.write(chunk), 
                         tab: response
@@ -158,13 +175,13 @@ define(function(require, exports, module) {
                         // Escaping that error so end users aren't confused...
                         if (err && err.message !== "No Response") 
                             console.log(err.message);
-                        finished = true;
+                        finished--;
                     });
                 });
                 stdin.on("end", function() {
                     (function retry() {
-                        if(finished)
-                            process.exit(40);
+                        if(finished === 0)
+                            process.exit();
                         setTimeout(retry, 100);
                     })();
                 });
