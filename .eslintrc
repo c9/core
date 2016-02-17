@@ -69,7 +69,7 @@ rules:
     jsx-indent-props: 1
     jsx-key: 1
     jsx-indent: 1
-    jsx-max-props-per-line: [1, { maximum: 3 }]
+    jsx-max-props-per-line: [1, { maximum: 4 }]
     jsx-no-bind: 1
     jsx-no-duplicate-props: 1
     jsx-no-undef: 1
