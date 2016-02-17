@@ -54,8 +54,6 @@ rules:
     no-did-update-set-state: 1
     no-direct-mutation-state: 1
     no-is-mounted: 1
-    no-set-state: 1
-    no-string-refs: 1
     no-unknown-property: 1
     prefer-es6-class: [1, "never"]
     prop-types: 1
@@ -65,11 +63,10 @@ rules:
     wrap-multilines: 1
     jsx-boolean-value: [1, "always"]
     jsx-equals-spacing: 1
-    jsx-handler-names: 1
     jsx-indent-props: 1
     jsx-key: 1
     jsx-indent: 1
-    jsx-max-props-per-line: [1, { maximum: 4 }]
+    jsx-max-props-per-line: [1, { maximum: 5 }]
     jsx-no-bind: 1
     jsx-no-duplicate-props: 1
     jsx-no-undef: 1
