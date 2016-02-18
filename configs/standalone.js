@@ -194,6 +194,10 @@ module.exports = function(config, optimist) {
         "./c9.vfs.server/statics",
         "./c9.analytics/mock_analytics",
         "./c9.metrics/mock_metrics",
+        {
+            packagePath: "./c9.graceful-shutdown/graceful-shutdown",
+            shutdown_grace_period: 100
+        },
         "./c9.ide.experiment/mock_experiment",
         {
             packagePath: "./c9.vfs.server/vfs.connect.standalone",

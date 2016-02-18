@@ -164,6 +164,12 @@ module.exports = function(options) {
         "plugins/c9.ide.editors/pane",
         "plugins/c9.ide.editors/undomanager",
         
+        {
+            packagePath: "plugins/c9.ide.restore/restore",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
+            ideBaseUrl: options.ideBaseUrl
+        },
+        
         "plugins/c9.ide.newresource/newresource",
         "plugins/c9.ide.newresource/open",
         "plugins/c9.ide.undo/undo",
