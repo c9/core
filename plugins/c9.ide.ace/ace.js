@@ -2545,7 +2545,7 @@ define(function(require, exports, module) {
                 var data = ace.getCopyText();
                 // check if user tries to copy text from line widget
                 if (!data && document.activeElement != ace.textInput.getElement())
-                    data = document.getSelection().toString();
+                    data = document.getSelection().toString().replace(/\xa0/, " ");
                 data && e.clipboardData.setData("text/plain", data);
             });
             plugin.on("paste", function(e) {
