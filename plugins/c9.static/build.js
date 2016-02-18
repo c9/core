@@ -256,7 +256,6 @@ function main(options, imports, register) {
                 "plugins/c9.ide.language.generic/open_files_local_completer",
                 "plugins/c9.ide.language.generic/simple/make",
                 "plugins/c9.ide.language.generic/simple/shell",
-                "plugins/c9.ide.language.generic/simple/php",
                 "plugins/c9.ide.language.javascript/parse",
                 "plugins/c9.ide.language.javascript/scope_analyzer",
                 "plugins/c9.ide.language.javascript/debugger",
