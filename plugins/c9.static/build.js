@@ -271,6 +271,8 @@ function main(options, imports, register) {
                 "plugins/c9.ide.language.python/worker/python_completer",
                 "plugins/c9.ide.language.python/worker/python_jsonalyzer",
                 "plugins/c9.ide.language.go/worker/go_completer",
+                "plugins/c9.ide.language.codeintel/worker/php_completer",
+                "plugins/c9.ide.language.codeintel/worker/codeintel_worker",
                 "plugins/c9.ide.language.html/html_completer",
                 "plugins/c9.ide.language.css/css_handler",
                 "plugins/c9.ide.language.javascript.tern/worker/tern_worker",
