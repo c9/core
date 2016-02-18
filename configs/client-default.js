@@ -546,7 +546,7 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.layout.classic/preload",
             themePrefix: options.themePrefix,
-            defaultTheme: options.defaultTheme || "flat-light"
+            defaultTheme: options.defaultTheme || "dark"
         },
         {
             packagePath: "plugins/c9.ide.tree/tree",
