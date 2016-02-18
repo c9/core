@@ -261,6 +261,7 @@ module.exports = function(options) {
         "plugins/c9.ide.dialog.common/fileremove",
         "plugins/c9.ide.dialog.common/info",
         "plugins/c9.ide.dialog.common/question",
+        "plugins/c9.ide.dialog.common/upsell",
         {
             packagePath: "plugins/c9.ide.dialog.common/error",
             staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
