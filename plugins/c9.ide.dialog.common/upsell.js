@@ -33,8 +33,8 @@ define(function(require, module, exports) {
                 var metadata = options.metadata;
                 
                 title = title || "This is a Premium feature";
-                header = header || "Get Premium Support Now!";
-                msg = msg || 'Help is just a few clicks away. Check out our <a href="https://c9.io/pricing" target="_blank">amazing premium plans</a>.'
+                header = header || "Upgrade to Premium Now!";
+                msg = msg || 'A better, faster, more versatile Cloud9 is just a click away. Check out our <a href="https://c9.io/pricing" target="_blank">amazing premium plans</a>.'
                 
                 plugin.title = title;
                 plugin.heading = options && options.isHTML ? header : util.escapeXml(header);
