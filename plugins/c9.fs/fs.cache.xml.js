@@ -571,7 +571,6 @@ define(function(require, exports, module) {
                 if (isFolder) {
                     node.status = node.status || "pending";
                 } else {
-                    node.contenttype = stat.mime || util.getContentType(name);
                     node.status = "loaded";
                 }
                 if (typeof stat.mtime !== "number" && stat.mtime) {
