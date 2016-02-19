@@ -56,7 +56,7 @@
         "c9"
     ],
     "c9plugins": {
-        "c9.ide.language": "#050c0de5a4",
+        "c9.ide.language": "#4c02a26baf",
         "c9.ide.language.css": "#be07d72209",
         "c9.ide.language.generic": "#a4023db7f6",
         "c9.ide.language.html": "#22fdc74869",
@@ -89,7 +89,7 @@
         "c9.ide.format": "#5ec97fb083",
         "c9.ide.help.support": "#af5c4055b2",
         "c9.ide.imgeditor": "#612e75ef4f",
-        "c9.ide.immediate": "#a962119bec",
+        "c9.ide.immediate": "#19758abe08",
         "c9.ide.installer": "#0fde9f0067",
         "c9.ide.language.python": "#675ddb4c8f",
         "c9.ide.language.go": "#8f6d0beae7",
