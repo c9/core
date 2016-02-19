@@ -285,8 +285,7 @@ define(function(require, exports, module) {
              * 
              * Example:
              * 
-             *     anims.animateMultiple({
-             *         node   : someDiv,
+             *     anims.animate(node, {
              *         width  : "200px",
              *         height : "300px"
              *     }, function(){});
