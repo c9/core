@@ -101,13 +101,23 @@
 
                 // For Development only
                 function done(){
-                    app.services.c9.ready();
-                    app.services.c9.totalLoadTime = Date.now() - start;
+                    var vfs = app.services.vfs;
+                    var c9 = app.services.c9;
+                    
+                    c9.ready();
+                    c9.totalLoadTime = Date.now() - start;
 
                     console.warn("Total Load Time: ", Date.now() - start);
                     
-                    if (window.hideLoader)
-                        window.hideLoader();
+                    if (window.hideLoader) {
+                        if (vfs.connected)
+                            window.hideLoader();
+                        else {
+                            vfs.once("connect", function(){
+                                window.hideLoader();
+                            });
+                        }
+                    }
                 }
             }, function loadError(mod) {
                 if (mod.id === "plugins/c9.ide.clipboard/html5")
