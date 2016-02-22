@@ -21,6 +21,7 @@ b9_package() {
     local USE_CACHE=1
     
     [ -z "$TREEISH" ] && b9_package_usage
+    [[ $TREEISH =~ -- ]] && b9_package_usage
     shift
     
     local ARG
