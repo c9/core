@@ -1,12 +1,16 @@
-BODY.loading{
-    background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(251,251,251,1) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(251,251,251,1) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(251,251,251,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+#loadingcontainer{
+    background: url(images/loadingbgrepeat.png);
+    background-size: 1px 8px;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 200000;
+    left: 0;
+    top: 0;
 }
-BODY.loading.dark{
-    background: -moz-linear-gradient(top,  rgba(37,37,37,1) 0%, rgba(35,35,35,1) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top,  rgba(37,37,37,1) 0%,rgba(35,35,35,1) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom,  rgba(37,37,37,1) 0%,rgba(35,35,35,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+#loadingcontainer.dark{
+    background: url(images/loadingbgrepeat_dark.png);
+    background-size: 1px 8px;
 }
 
 #loadingide {
@@ -16,15 +20,15 @@ BODY.loading.dark{
     font-style: normal;
     height: 100%;
     width: 100%;
-    position: fixed;
-    text-align: center;
+    position: absolute;
     z-index: 200000;
     left: 0;
     top: 0;
+    text-align: center;
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
 }
-#loadingide.dark {
+.dark #loadingide{
     background-image: url(images/c9-logo-white.png);
 }
 
@@ -118,14 +122,14 @@ BODY.loading.dark{
     width: 200px;
     text-align: center;
     top: 57%;
-    margin-top: 200px;
+    margin-top: 0;
 }
 
 #loadingide .cool-message {
     display: block;
     font-family: Arial;
     font-size: 30px;
-    color: #A7A7A7;
+    color: #717171;
     white-space: nowrap;
     position: absolute;
     top: 30%;
@@ -133,7 +137,7 @@ BODY.loading.dark{
     width: 1000px;
     text-align: center;
     margin-left: -500px;
-    margin-top: 250px;
+    margin-top: 350px;
 }
 #loadingide.dark .cool-message {
     color: #757575;
@@ -143,10 +147,14 @@ BODY.loading.dark{
     background: url(images/running_flat_light@2x.png);
     background-size: 300px 20px;
     animation: rotation 0.6s infinite steps(16);
-    width: 20px;
-    height: 20px;
+    width: 20px !important;
+    height: 20px !important;
     background-repeat: no-repeat;
     display: inline-block;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    box-sizing: content-box;
+    border: 0;
 }
 
 @-webkit-keyframes rotation { 0% { -webkit-transform: rotate(0deg); transform: rotate(0deg);  } 100% {-webkit-transform: rotate(359deg); transform: rotate(359deg);}}

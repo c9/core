@@ -25,11 +25,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
     function main(options, imports, register) {
         var util = imports.util;
         
-        describe('getContentType, getFileIcon', function() {
-            it('should retrieve the content type based on a filename', function() {
-                expect(util.getContentType("test.js")).to.equal("application/javascript");
-                expect(util.getContentType("test.html")).to.equal("text/html");
-            });
+        describe('getFileIcon', function() {
             it('should retrieve the icon class name based on a filename', function() {
                 expect(util.getFileIcon("test.js")).to.equal("page_white_code");
                 expect(util.getFileIcon("test.html")).to.equal("html");
