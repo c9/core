@@ -301,7 +301,7 @@ define(function(require, module, exports) {
                     break;
                     case "button":
                         node = new ui.button({
-                            skin: "btn-default-css3",
+                            skin: options.skin || "btn-default-css3",
                             "class"   : options.color ? "btn-" + options.color : "",
                             margin: options.margin,
                             caption: options.caption || "",

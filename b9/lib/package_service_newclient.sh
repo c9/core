@@ -1,4 +1,4 @@
-_d9_package_sync_workdir_newclient() {
+_b9_package_sync_workdir_newclient() {
     local WORKDIR=$1
     local VERSION=$2
     local HASH

@@ -261,6 +261,7 @@ module.exports = function(options) {
         "plugins/c9.ide.dialog.common/fileremove",
         "plugins/c9.ide.dialog.common/info",
         "plugins/c9.ide.dialog.common/question",
+        "plugins/c9.ide.dialog.common/upsell",
         {
             packagePath: "plugins/c9.ide.dialog.common/error",
             staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
@@ -545,7 +546,7 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.layout.classic/preload",
             themePrefix: options.themePrefix,
-            defaultTheme: options.defaultTheme || "flat-light"
+            defaultTheme: options.defaultTheme || "dark"
         },
         {
             packagePath: "plugins/c9.ide.tree/tree",
@@ -648,7 +649,8 @@ module.exports = function(options) {
         "plugins/c9.ide.preview/previewers/raw",
         {
             packagePath: "plugins/c9.ide.preview.browser/browser",
-            local: options.local
+            local: options.local,
+            staticPrefix: staticPrefix + "/plugins/c9.ide.preview.browser"
         },
         {
             packagePath: "plugins/c9.ide.preview.markdown/markdown",

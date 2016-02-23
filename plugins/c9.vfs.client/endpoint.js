@@ -87,7 +87,7 @@ define(function(require, exports, module) {
                 
             // first time take the ones from the options
             var _servers = servers;
-            if (_servers) {
+            if (_servers && _servers.length) {
                 servers = null;
                 return callback(null, _servers);
             }

@@ -245,7 +245,9 @@ function main(options, imports, register) {
                 "plugins/@smartface/smartface.language/emptyTernPlugin"
             ];
             try {
-                extraPackages = extraPackages.concat(require("lib/salesforce.language/__worker__"));
+                extraPackages = extraPackages
+                    .concat(require("lib/salesforce.language/__worker__"))
+                    .concat(require("lib/salesforce.sync/__worker__"));
             } catch(e) {}
             // TODO find a saner method for managing files loaded in language worker
             modules = [

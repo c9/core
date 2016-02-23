@@ -1,4 +1,4 @@
-_d9_package_sync_workdir_docker() {
+_b9_package_sync_workdir_docker() {
     local WORKDIR=$1
     local VERSION=$2
     local SETTINGS=$3
@@ -29,8 +29,8 @@ _b9_package_docker_init_source() {
     rm -rf $WORKDIR
     mkdir -p $SOURCE
     
-    _d9_package_sync_workdir_newclient $SOURCE $VERSION $SETTINGS
-    _d9_package_npm_install $SOURCE
+    _b9_package_sync_workdir_newclient $SOURCE $VERSION $SETTINGS
+    _b9_package_npm_install $SOURCE
 }
 
 _b9_package_docker_init_workdir() {
