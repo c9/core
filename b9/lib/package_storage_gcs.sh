@@ -3,7 +3,7 @@ _b9_package_is_cached_gcs() {
     gsutil ls gs://cloud9_ci_cache/$(basename $VERSION).tar.xz &> /dev/null
 }
 
-_d9_package_upload_gcs() {
+_b9_package_upload_gcs() {
     local WORKDIR=$1
     local VERSION=$2
     
@@ -20,7 +20,7 @@ _d9_package_upload_gcs() {
     popd &> /dev/null
 }
 
-_d9_package_download_gcs() {
+_b9_package_download_gcs() {
     local VERSION=$1
     local CACHE_FILE=$TMP/${VERSION}.tar.xz
     
