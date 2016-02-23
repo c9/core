@@ -148,6 +148,10 @@ require([
                 obj.watch = function(){};
                 return obj;
             })(),
+            "fs.cache": (function(){
+                var obj = new EventEmitter();
+                return obj;
+            })(),
             tooltip: {
                 add: function(){}
             },
@@ -332,6 +336,13 @@ require([
                 
                 return plugin;
             },
+            Dialog: function(developer, deps, options) {
+                var plugin = new imports.Plugin(developer, deps);
+                plugin.freezePublicAPI.baseclass();
+                plugin.freezePublicAPI({});
+                
+                return plugin;
+            },
             tree: (function(){
                 var tree = new EventEmitter();
                 tree.createFolder = function(){};
@@ -429,6 +440,15 @@ require([
                 log: function() {},
                 increment: function() {}
             },
+            MountTab: function(developer, deps, options) {
+                var plugin = new imports.Plugin(developer, deps);
+                plugin.freezePublicAPI.baseclass();
+                plugin.freezePublicAPI({
+                });
+                
+                return plugin;
+            },
+            mount: {},
             error_handler: {
                 log: function() {},
                 reportError: function(){}
