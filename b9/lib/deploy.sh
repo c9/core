@@ -145,7 +145,7 @@ _b9_deploy_upload_from_gcs() {
     local SERVER=$2
 
     local TGZ
-    TGZ=$(_d9_package_download_gcs $VERSION)
+    TGZ=$(_b9_package_download_gcs $VERSION)
     
     local VERSIONS_DIR="/home/ubuntu/versions"
     local TARGET_FILE=${VERSIONS_DIR}/$(basename $TGZ)

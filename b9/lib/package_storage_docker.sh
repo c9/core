@@ -41,7 +41,7 @@ _b9_package_is_cached_docker() {
     _b9_dockerize_has_tag c9 $TAG
 }
 
-_d9_package_upload_docker() {
+_b9_package_upload_docker() {
     local WORKDIR=$1
     local VERSION=$2
 
