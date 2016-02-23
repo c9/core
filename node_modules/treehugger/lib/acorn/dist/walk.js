@@ -368,11 +368,6 @@ base.MethodDefinition = base.Property = function (node, st, c) {
   if (node.computed) c(node.key, st, "Expression");
   c(node.value, st, "Expression");
 };
-base.ComprehensionExpression = function (node, st, c) {
-  for (var i = 0; i < node.blocks.length; i++) {
-    c(node.blocks[i].right, st, "Expression");
-  }c(node.body, st, "Expression");
-};
 
 },{}]},{},["/src\\walk\\index.js"])("/src\\walk\\index.js")
 });
