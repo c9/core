@@ -150,7 +150,7 @@ pp.parseMaybeConditional = function (noIn, refDestructuringErrors) {
 pp.parseExprOps = function (noIn, refDestructuringErrors) {
   var startPos = this.start,
       startLoc = this.startLoc;
-  var expr = this.parseMaybeUnary(refDestructuringErrors);
+  var expr = this.parseMaybeUnary(refDestructuringErrors, false);
   if (this.checkExpressionErrors(refDestructuringErrors)) return expr;
   return this.parseExprOp(expr, startPos, startLoc, -1, noIn);
 };
@@ -165,49 +165,58 @@ pp.parseExprOp = function (left, leftStartPos, leftStartLoc, minPrec, noIn) {
   var prec = this.type.binop;
   if (prec != null && (!noIn || this.type !== _tokentype.types._in)) {
     if (prec > minPrec) {
-      var node = this.startNodeAt(leftStartPos, leftStartLoc);
-      node.left = left;
-      node.operator = this.value;
-      var op = this.type;
+      var logical = this.type === _tokentype.types.logicalOR || this.type === _tokentype.types.logicalAND;
+      var op = this.value;
       this.next();
       var startPos = this.start,
           startLoc = this.startLoc;
-      node.right = this.parseExprOp(this.parseMaybeUnary(), startPos, startLoc, prec, noIn);
-      this.finishNode(node, op === _tokentype.types.logicalOR || op === _tokentype.types.logicalAND ? "LogicalExpression" : "BinaryExpression");
+      var right = this.parseExprOp(this.parseMaybeUnary(null, false), startPos, startLoc, prec, noIn);
+      var node = this.buildBinary(leftStartPos, leftStartLoc, left, right, op, logical);
       return this.parseExprOp(node, leftStartPos, leftStartLoc, minPrec, noIn);
     }
   }
   return left;
 };
 
+pp.buildBinary = function (startPos, startLoc, left, right, op, logical) {
+  var node = this.startNodeAt(startPos, startLoc);
+  node.left = left;
+  node.operator = op;
+  node.right = right;
+  return this.finishNode(node, logical ? "LogicalExpression" : "BinaryExpression");
+};
+
 // Parse unary operators, both prefix and postfix.
 
-pp.parseMaybeUnary = function (refDestructuringErrors) {
+pp.parseMaybeUnary = function (refDestructuringErrors, sawUnary) {
+  var startPos = this.start,
+      startLoc = this.startLoc,
+      expr = undefined;
   if (this.type.prefix) {
     var node = this.startNode(),
         update = this.type === _tokentype.types.incDec;
     node.operator = this.value;
     node.prefix = true;
     this.next();
-    node.argument = this.parseMaybeUnary();
+    node.argument = this.parseMaybeUnary(null, true);
     this.checkExpressionErrors(refDestructuringErrors, true);
-    if (update) this.checkLVal(node.argument);else if (this.strict && node.operator === "delete" && node.argument.type === "Identifier") this.raiseRecoverable(node.start, "Deleting local variable in strict mode");
-    return this.finishNode(node, update ? "UpdateExpression" : "UnaryExpression");
+    if (update) this.checkLVal(node.argument);else if (this.strict && node.operator === "delete" && node.argument.type === "Identifier") this.raiseRecoverable(node.start, "Deleting local variable in strict mode");else sawUnary = true;
+    expr = this.finishNode(node, update ? "UpdateExpression" : "UnaryExpression");
+  } else {
+    expr = this.parseExprSubscripts(refDestructuringErrors);
+    if (this.checkExpressionErrors(refDestructuringErrors)) return expr;
+    while (this.type.postfix && !this.canInsertSemicolon()) {
+      var node = this.startNodeAt(startPos, startLoc);
+      node.operator = this.value;
+      node.prefix = false;
+      node.argument = expr;
+      this.checkLVal(expr);
+      this.next();
+      expr = this.finishNode(node, "UpdateExpression");
+    }
   }
-  var startPos = this.start,
-      startLoc = this.startLoc;
-  var expr = this.parseExprSubscripts(refDestructuringErrors);
-  if (this.checkExpressionErrors(refDestructuringErrors)) return expr;
-  while (this.type.postfix && !this.canInsertSemicolon()) {
-    var node = this.startNodeAt(startPos, startLoc);
-    node.operator = this.value;
-    node.prefix = false;
-    node.argument = expr;
-    this.checkLVal(expr);
-    this.next();
-    expr = this.finishNode(node, "UpdateExpression");
-  }
-  return expr;
+
+  if (!sawUnary && this.eat(_tokentype.types.starstar)) return this.buildBinary(startPos, startLoc, expr, this.parseMaybeUnary(null, false), "**", false);else return expr;
 };
 
 // Parse call, dot, and `[]`-subscript expressions.
@@ -275,6 +284,7 @@ pp.parseExprAtom = function (refDestructuringErrors) {
       if (this.value == "async" && /^[ \t]*(function\b|\(|\w+[ \t]*=>)/.test(this.input.slice(this.end))) {
         node = this.startNode();
         this.next();
+        this.potentialArrowAt = this.start;
         return this.parseExprAtom(refDestructuringErrors);
       }
       if (this.value == "await" && /^[ \t]+[\w\x1f-\uffff]/.test(this.input.slice(this.end))) {
@@ -710,6 +720,7 @@ var reservedWords = {
   3: "abstract boolean byte char class double enum export extends final float goto implements import int interface long native package private protected public short static super synchronized throws transient volatile",
   5: "class enum extends super const export import",
   6: "enum",
+  7: "enum",
   strict: "implements interface let package private protected public static yield",
   strictBind: "eval arguments"
 };
@@ -831,7 +842,7 @@ var _whitespace = _dereq_("./whitespace");
 exports.isNewLine = _whitespace.isNewLine;
 exports.lineBreak = _whitespace.lineBreak;
 exports.lineBreakG = _whitespace.lineBreakG;
-var version = "2.7.1";
+var version = "3.0.2";
 
 exports.version = version;
 // The main exported interface (under `self.acorn` when in the
@@ -1708,6 +1719,9 @@ pp.parseStatement = function (declaration, topLevel) {
     // simply start parsing an expression, and afterwards, if the
     // next token is a colon and the expression was a simple
     // Identifier node, we switch to interpreting it as a label.
+    case _tokentype.types.at:
+      this.next();
+      return this.parseExpression();
     default:
       var maybeName = this.value,
           expr = this.parseExpression();
@@ -2049,8 +2063,15 @@ pp.parseClass = function (node, isStatement) {
   var hadConstructor = false;
   classBody.body = [];
   this.expect(_tokentype.types.braceL);
+  var decorators = [];
   while (!this.eat(_tokentype.types.braceR)) {
     if (this.eat(_tokentype.types.semi)) continue;
+    if (this.type == _tokentype.types.at) {
+      this.next();
+      var expr = this.parseMaybeAssign(true);
+      decorators.push(expr);
+      continue;
+    }
     var method = this.startNode();
     var isGenerator = this.eat(_tokentype.types.star);
     var isMaybeStatic = this.type === _tokentype.types.name && this.value === "static";
@@ -2080,6 +2101,11 @@ pp.parseClass = function (node, isStatement) {
       }
     }
     this.parseClassMethod(classBody, method, isGenerator);
+    if (decorators.length) {
+      var body = method.value.body.body;
+      if (body) body.unshift.apply(body, decorators);
+      decorators = [];
+    }
     if (isGetSet) {
       var paramCount = method.kind === "get" ? 0 : 1;
       if (method.value.params.length !== paramCount) {
@@ -2660,7 +2686,7 @@ pp.readToken_lt_gt = function (code) {
     this.skipSpace();
     return this.nextToken();
   }
-  if (next === 61) size = this.input.charCodeAt(this.pos + 2) === 61 ? 3 : 2;
+  if (next === 61) size = 2;
   return this.finishOp(_tokentype.types.relational, size);
 };
 
@@ -2768,6 +2794,9 @@ pp.getTokenFromCode = function (code) {
     case 126:
       // '~'
       return this.finishOp(_tokentype.types.prefix, 1);
+    case 64:
+      // '@'
+      ++this.pos;return this.finishToken(_tokentype.types.at);
   }
 
   this.raise(this.pos, "Unexpected character '" + codePointToString(code) + "'");
@@ -3191,6 +3220,8 @@ var types = {
   backQuote: new TokenType("`", startsExpr),
   dollarBraceL: new TokenType("${", { beforeExpr: true, startsExpr: true }),
 
+  at: new TokenType("@", { beforeExpr: true, startsExpr: true }),
+
   // Operators. These carry several kinds of properties to help the
   // parser use them properly (the presence of these properties is
   // what categorizes them as operators).
@@ -3221,7 +3252,7 @@ var types = {
   modulo: binop("%", 10),
   star: binop("*", 10),
   slash: binop("/", 10),
-  starstar: binop("**", 11)
+  starstar: new TokenType("**", { beforeExpr: true })
 };
 
 exports.types = types;
