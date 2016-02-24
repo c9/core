@@ -63,7 +63,8 @@ module.exports = function(options) {
             projectId: options.project.id,
             projectName: options.projectName || "Project",
             configName: options.configName,
-            standalone: options.standalone
+            standalone: options.standalone,
+            dashboardUrl: options.dashboardUrl
         },
         {
             packagePath: "plugins/c9.core/settings",
