@@ -4,7 +4,13 @@ var domain = require("domain");
 var url = require("url");
 var _ = require("lodash");
 
-plugin.consumes = ["raygun", "connect", "http", "connect.remote-address", "metrics"];
+plugin.consumes = [
+    "raygun", 
+    "connect", 
+    "http", 
+    "connect.remote-address", 
+    "connect.error"
+];
 plugin.provides = ["raygun.connect"];
 
 module.exports = plugin;
@@ -14,8 +20,12 @@ function plugin(options, imports, register) {
     var errorClient = raygun.errorClient;
     var warningClient = raygun.warningClient;
     var connect = imports.connect;
+    var connectError = imports["connect.error"];
     var server = imports.http.getServer();
-    var metrics = imports.metrics;
+    
+    connectError.on("internalServerError", function(msg) {
+        sendRequestError(msg.err, msg.req);
+    });
 
     errorClient.user = warningClient.user = function(req) {
         return (req && req.user) ? req.user.name : "";
