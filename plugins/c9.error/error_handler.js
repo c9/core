@@ -115,7 +115,7 @@ function plugin(options, imports, register) {
         var accept = req.headers.accept || '';
 
         if (statusCode == 500) {
-            emitter.emit("serverError", {
+            emitter.emit("internalServerError", {
                 err: err,
                 req: req
             });
@@ -169,9 +169,7 @@ function plugin(options, imports, register) {
 
     register(null, {
         "connect.error": {
-            onInternalServerError: function(handler) {
-                emitter.on("serverError", handler);
-            }
+            on: emitter.on.bind(emitter)
         }
     });
 }

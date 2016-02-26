@@ -23,13 +23,9 @@ function plugin(options, imports, register) {
     var connectError = imports["connect.error"];
     var server = imports.http.getServer();
     
-    var noInternalServerErrors = !!options.noInternalServerErrors;
-
-    if (!noInternalServerErrors) {
-        connectError.onInternalServerError(function(msg) {
-            sendRequestError(msg.err, msg.req);
-        });
-    }
+    connectError.on("internalServerError", function(msg) {
+        sendRequestError(msg.err, msg.req);
+    });
 
     errorClient.user = warningClient.user = function(req) {
         return (req && req.user) ? req.user.name : "";
