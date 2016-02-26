@@ -37,6 +37,30 @@ SOURCE=`pwd`
 LOCAL=$SOURCE/local
 APPDIR=$SOURCE/build/webkitbuilds/app.nw
 
+if [ "$os" == "linux" ]; then
+	if [ ! -d $SOURCE/build/webkitbuilds/cache/linux/0.12.3 ]; then
+		mkdir -p $SOURCE/build/webkitbuilds/cache/linux/0.12.3/
+		pushd $SOURCE/build/webkitbuilds/cache/linux/0.12.3
+		wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz
+		tar -zxf nwjs-v0.12.3-linux-x64.tar.gz
+		popd
+	fi
+	DEST="$SOURCE/build/Cloud9-dev-linux"
+	rm -rf "$DEST"
+	mkdir -p $DEST
+	cp -R $SOURCE/build/webkitbuilds/cache/linux/0.12.3/nwjs-v0.12.3-linux-x64/* $DEST
+	cp $SOURCE/build/linux/c9.png $DEST/icon.png
+
+    node --eval "
+        var path = require('path')
+        var p = require('./local/package.json'); 
+        p.main = path.relative('$DEST', '$SOURCE/local/projectManager.html');
+        delete p.dependencies;
+        p.window.icon = 'icon.png';
+        console.log(JSON.stringify(p, null, 2));
+    " > $DEST/package.json
+
+fi
 
 if [ "$os" == "darwin" ]; then
     if [ ! -d $SOURCE/build/webkitbuilds/cache/mac/0.9.3 ]; then
