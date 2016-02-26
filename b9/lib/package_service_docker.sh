@@ -47,7 +47,7 @@ _b9_package_docker_node_modules() {
     local NODE_MODULES
     local MODULE
     
-    $NODEJS $B9_DIR/lib/js/filter_node_modules.js docker --targetFile=$WORKDIR/package.json --source=$SOURCE --settings=$SETTINGS
+    NODE_PATH=$B9_DIR/lib/js/node_modules:$D9_DIR/node_modules:$NODE_PATH $NODEJS $B9_DIR/lib/js/filter_node_modules.js docker --targetFile=$WORKDIR/package.json --source=$SOURCE --settings=$SETTINGS
     
     NODE_MODULES=$(cat $WORKDIR/package.json | jq -r '.dependencies | keys | @sh')
     
