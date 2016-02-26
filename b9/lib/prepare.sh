@@ -47,7 +47,7 @@ _b9_setup_node_modules() {
     local PACKAGE_FILE=$1
     local PACKAGE_PATH=$(dirname $PACKAGE_FILE)
     local PACKAGE=$(cat $PACKAGE_FILE | jq 'del(.version)')
-    local GIT_HASH=$(git log --pretty=oneline -1 -- $PACKAGE_PATH | awk '{ print $1 }')
+    local GIT_HASH=$(git log --pretty=oneline -1 -- $PACKAGE_PATH/node_modules | awk '{ print $1 }')
     local PACKAGE_MD5=$(echo "$PACKAGE -- $GIT_HASH" | md5sum | awk '{print $1}')
     local CACHE_FILE="npm-${PACKAGE_MD5}.tar.xz"
     
