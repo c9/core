@@ -798,11 +798,6 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.test/all",
             staticPrefix: staticPrefix + "/plugins/c9.ide.test"
         },
-        {
-            packagePath: "plugins/c9.ide.restore/restore",
-            ideBaseUrl: options.ideBaseUrl,
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
-        },
         "plugins/c9.ide.test/results",
         "plugins/c9.ide.test/coverage",
         "plugins/c9.ide.test/coverageview",
