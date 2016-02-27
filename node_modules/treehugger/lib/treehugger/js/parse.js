@@ -126,7 +126,7 @@ exports.transform = function transform(n) {
             var fargs = tree.list(n.params.map(function(arg) {
                 return setIdPos(arg, tree.cons("FArg", [id(arg)]));
             }));
-            resultNode = tree.cons("Function", [funName, fargs, tree.list(n.body.body.map(transform))]);
+            resultNode = tree.cons("Function", [funName, fargs, tree.list((n.body.body||[]).map(transform))]);
             break;
         case "LogicalExpression":
         case "BinaryExpression":

@@ -31,80 +31,38 @@ define(function(require, exports, module) {
         };
         
         var SupportedIcons = {
-            "application/xhtml+xml":"html",
-            "text/css": "css",
-            "text/x-scss": "css",
-            "text/x-sass": "css",
-            "text/html":"html",
-            "application/pdf":"page_white_acrobat",
-            "image":"image",
-            "application/xml":"page_white_code_red",
-            "image/svg+xml": "page_white_picture",
-            "text/plain": "page_white_text",
-            "application/javascript": "page_white_code",
-            "application/json": "page_white_code",
-            "text/x-script.python": "page_white_code",
-            "text/x-script.ocaml": "page_white_code",
-            "text/x-script.clojure": "page_white_code",
-            "application/x-httpd-php": "page_white_php",
-            "application/x-sh": "page_white_wrench",
-            "text/x-coldfusion": "page_white_coldfusion",
-            "text/x-script.ruby": "page_white_ruby",
-            "text/x-script.coffeescript": "page_white_cup",
-            "text/cpp": "page_white_cplusplus",
-            "text/x-c": "page_white_c",
-            "text/x-logiql": "logiql",
-            "text/x-csharp": "page_white_csharp",
-            "text/x-java-source": "page_white_cup",
-            "text/x-markdown": "page_white_text",
-            "text/x-xquery": "page_white_code",
-            "text/x-go": "page_white_code",
-        };
-        
-        var contentTypes = {
-            "c9search": "text/x-c9search",
-        
-            "js": "application/javascript",
-            "json": "application/json",
-            "run": "application/javascript",
-            "build": "application/javascript",
-            "css": "text/css",
-            "scss": "text/x-scss",
-            "sass": "text/x-sass",
-        
-            "xml": "application/xml",
-            "rdf": "application/rdf+xml",
-            "rss": "application/rss+xml",
-            "svg": "image/svg+xml",
-            "wsdl": "application/wsdl+xml",
-            "xslt": "application/xslt+xml",
-            "atom": "application/atom+xml",
-            "mathml": "application/mathml+xml",
-            "mml": "application/mathml+xml",
-        
-            "php": "application/x-httpd-php",
-            "phtml": "application/x-httpd-php",
-            "html": "text/html",
-            "xhtml": "application/xhtml+xml",
-            "coffee": "text/x-script.coffeescript",
-            "py": "text/x-script.python",
-            "go": "text/x-go",
-            "java": "text/x-java-source",
-            "logic": "text/x-logiql",
-        
-            "ru": "text/x-script.ruby",
-            "gemspec": "text/x-script.ruby",
-            "rake": "text/x-script.ruby",
-            "rb": "text/x-script.ruby",
-        
-            "c": "text/x-c",
-            "cc": "text/x-c",
-            "cpp": "text/x-c",
-            "cxx": "text/x-c",
-            "h": "text/x-c",
-            "hh": "text/x-c",
-            "hpp": "text/x-c",
-        
+            "c9search": "page_white_magnify",
+            "js": "page_white_code",
+            "jsx": "page_white_code_red",
+            "ts": "page_white_code",
+            "tsx": "page_white_code_red",
+            "json": "page_white_code",
+            "css": "css",
+            "scss": "css",
+            "sass": "css",
+            "less": "css",
+            "xml": "page_white_code_red",
+            "svg": "page_white_picture",
+            "php": "page_white_php",
+            "phtml": "page_white_php",
+            "html": "html",
+            "xhtml": "html",
+            "coffee": "page_white_cup",
+            "py": "page_white_code",
+            "go": "page_white_code",
+            "java": "page_white_cup",
+            "logic": "logiql",
+            "ru": "page_white_ruby",
+            "gemspec": "page_white_ruby",
+            "rake": "page_white_ruby",
+            "rb": "page_white_ruby",
+            "c": "page_white_c",
+            "cc": "page_white_c",
+            "cpp": "page_white_cplusplus",
+            "cxx": "page_white_c",
+            "h": "page_white_h",
+            "hh": "page_white_h",
+            "hpp": "page_white_h",
             "bmp": "image",
             "djv": "image",
             "djvu": "image",
@@ -123,19 +81,32 @@ define(function(require, exports, module) {
             "tiff": "image",
             "xbm": "image",
             "xpm": "image",
-        
-            "clj": "text/x-script.clojure",
-            "ml": "text/x-script.ocaml",
-            "mli": "text/x-script.ocaml",
-            "cfm": "text/x-coldfusion",
-            "sql": "text/x-sql",
-        
-            "sh": "application/x-sh",
-            "bash": "application/x-sh",
-        
-            "xq": "text/x-xquery",
-        
-            "terminal": "terminal"
+            "pdf": "page_white_acrobat",
+            "clj": "page_white_code",
+            "ml": "page_white_code",
+            "mli": "page_white_code",
+            "cfm": "page_white_coldfusion",
+            "sql": "page_white_database",
+            "db": "page_white_database",
+            "sh": "page_white_wrench",
+            "bash": "page_white_wrench",
+            "xq": "page_white_code",
+            "xz": "page_white_zip",
+            "gz": "page_white_zip",
+            "bz": "page_white_zip",
+            "zip": "page_white_zip",
+            "tar": "page_white_zip",
+            "rar": "page_white_compressed",
+            "exe": "page_white_swoosh",
+            "o": "page_white_swoosh",
+            "lnk": "page_white_swoosh",
+            "txt": "page_white_text",
+            "settings": "page_white_gear",
+            "run": "page_white_gear",
+            "build": "page_white_gear",
+            "gitignore": "page_white_gear",
+            "profile": "page_white_gear",
+            "bashrc": "page_white_gear",
         };
         
         plugin.getFileIcon = function(name) {
@@ -144,7 +115,7 @@ define(function(require, exports, module) {
         
             if (name) {
                 ext = name.split(".").pop().toLowerCase();
-                icon = SupportedIcons[contentTypes[ext]] || "page_white_text";
+                icon = SupportedIcons[ext] || "page_white_text";
             }
             return icon;
         };
@@ -167,8 +138,8 @@ define(function(require, exports, module) {
         };
         
         plugin.getContentType = function(filename) {
-            var type = filename.split(".").pop().split("!").pop().toLowerCase() || "";
-            return contentTypes[type] || "text/plain";
+            console.warn("util content type is deprecated");
+            return "text/plain";
         };
         
         // taken from http://xregexp.com/

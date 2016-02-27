@@ -21,6 +21,7 @@ b9_package() {
     local USE_CACHE=1
     
     [ -z "$TREEISH" ] && b9_package_usage
+    [[ $TREEISH =~ -- ]] && b9_package_usage
     shift
     
     local ARG
@@ -58,11 +59,11 @@ b9_package() {
         return
     fi
     
-    WORKDIR=$(_d9_package_init_work_dir $VERSION)
-    _d9_package_sync_workdir $TYPE $WORKDIR $VERSION $SETTINGS
-    _d9_package_npm_install $WORKDIR
-    _d9_package_cleanup_workdir $WORKDIR
-    _d9_package_upload $STORAGE $WORKDIR $VERSION
+    WORKDIR=$(_b9_package_init_work_dir $VERSION)
+    _b9_package_sync_workdir $TYPE $WORKDIR $VERSION $SETTINGS
+    _b9_package_npm_install $WORKDIR
+    _b9_package_cleanup_workdir $WORKDIR
+    _b9_package_upload $STORAGE $WORKDIR $VERSION
     
     echo $VERSION
 }
@@ -79,7 +80,7 @@ _b9_package_init_git_cache() {
     popd &> /dev/null
 }
 
-_d9_package_init_work_dir() {
+_b9_package_init_work_dir() {
     local VERSION=$1
     mktemp -d b9-package-${VERSION}-XXXXXXXXXXXXX --tmpdir=$TMP
 }
@@ -116,17 +117,17 @@ _b9_package_is_cached() {
     esac
 }
 
-_d9_package_upload() {
+_b9_package_upload() {
     local STORAGE=$1
     local WORKDIR=$2
     local VERSION=$3
 
     case $STORAGE in
         gcs)
-            _d9_package_upload_gcs $WORKDIR $VERSION
+            _b9_package_upload_gcs $WORKDIR $VERSION
             ;;
         docker)
-            _d9_package_upload_docker $WORKDIR $VERSION
+            _b9_package_upload_docker $WORKDIR $VERSION
             ;;
         *)
             exit 1
@@ -136,7 +137,7 @@ _d9_package_upload() {
     mv $WORKDIR $TMP/$VERSION
 }
 
-_d9_package_sync_workdir() {
+_b9_package_sync_workdir() {
     local TYPE=$1
     local WORKDIR=$2
     local VERSION=$3
@@ -144,10 +145,10 @@ _d9_package_sync_workdir() {
     
     case $TYPE in
         newclient)
-            _d9_package_sync_workdir_newclient $WORKDIR $VERSION $SETTINGS
+            _b9_package_sync_workdir_newclient $WORKDIR $VERSION $SETTINGS
             ;;
         docker)
-            _d9_package_sync_workdir_docker $WORKDIR $VERSION $SETTINGS
+            _b9_package_sync_workdir_docker $WORKDIR $VERSION $SETTINGS
             ;;
         *)
             exit 1
@@ -155,7 +156,7 @@ _d9_package_sync_workdir() {
     esac
 }
 
-_d9_package_npm_install() {
+_b9_package_npm_install() {
     local WORKDIR=$1
     
     pushd $WORKDIR &> /dev/null
@@ -163,20 +164,20 @@ _d9_package_npm_install() {
     popd &> /dev/null
 }
 
-_d9_package_cleanup_workdir() {
+_b9_package_cleanup_workdir() {
     local WORKDIR=$1
     local REVISION
     [ -z "$WORKDIR" ] && return 1
     
     pushd $WORKDIR &> /dev/null
     
-    _d9_package_patch_package_json
+    _b9_package_patch_package_json
     rm -rf .git build bin local
 
     popd &> /dev/null
 }
 
-_d9_package_patch_package_json() {
+_b9_package_patch_package_json() {
     [ ! -d .git ] && return 0
     
     REVISION=$(git rev-parse HEAD)

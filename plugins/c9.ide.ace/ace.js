@@ -2058,8 +2058,8 @@ define(function(require, exports, module) {
                     else {
                         tab.classList.remove("dark");
                         html.style.boxShadow = skin.indexOf("flat") == -1
-                            "0 1px 0 0 rgba(255, 255, 255, .3) inset"
-                            "";
+                            ? "0 1px 0 0 rgba(255, 255, 255, .3) inset"
+                            : "";
                     }
                     
                     html.style.backgroundColor = theme.bg;
@@ -2104,7 +2104,7 @@ define(function(require, exports, module) {
                     value = false;
                 
                 // Own Implementations
-                switch(name) {
+                switch (name) {
                     case "theme":
                         ace.setTheme(value);
                         return;
@@ -2537,13 +2537,16 @@ define(function(require, exports, module) {
                 
                 var data = ace.getCopyText();
                 ace.onCut();
-                e.clipboardData.setData("text/plain", data);
+                data && e.clipboardData.setData("text/plain", data);
             });
             plugin.on("copy", function(e) {
                 if (e.native) return; // Ace handles this herself
                 
                 var data = ace.getCopyText();
-                e.clipboardData.setData("text/plain", data);
+                // check if user tries to copy text from line widget
+                if (!data && document.activeElement != ace.textInput.getElement())
+                    data = document.getSelection().toString().replace(/\xa0/, " ");
+                data && e.clipboardData.setData("text/plain", data);
             });
             plugin.on("paste", function(e) {
                 if (e.native) return; // Ace handles this herself
@@ -2685,7 +2688,6 @@ define(function(require, exports, module) {
                     else {
                         return handle.theme;
                     }
-                    return theme; 
                 },
                 
                 _events: [

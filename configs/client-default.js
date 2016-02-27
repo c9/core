@@ -63,7 +63,8 @@ module.exports = function(options) {
             projectId: options.project.id,
             projectName: options.projectName || "Project",
             configName: options.configName,
-            standalone: options.standalone
+            standalone: options.standalone,
+            dashboardUrl: options.dashboardUrl
         },
         {
             packagePath: "plugins/c9.core/settings",
@@ -649,7 +650,8 @@ module.exports = function(options) {
         "plugins/c9.ide.preview/previewers/raw",
         {
             packagePath: "plugins/c9.ide.preview.browser/browser",
-            local: options.local
+            local: options.local,
+            staticPrefix: staticPrefix + "/plugins/c9.ide.preview.browser"
         },
         {
             packagePath: "plugins/c9.ide.preview.markdown/markdown",

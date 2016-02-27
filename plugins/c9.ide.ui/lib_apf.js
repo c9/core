@@ -21706,7 +21706,7 @@ apf.window = function(){
         var amlNode = apf.window.activeElement, //apf.findHost(e.srcElement || e.target),
             htmlNode = (e.explicitOriginalTarget || e.srcElement || e.target),
             isTextInput = (ta[htmlNode.tagName]
-              || htmlNode.contentEditable || htmlNode.contentEditable == "true")  //@todo apf3.0 need to loop here?
+              || htmlNode.contentEditable == "true" || htmlNode.contentEditable == "plaintext-only")
               && !htmlNode.disabled
               || amlNode && amlNode.$isTextInput
               && amlNode.$isTextInput(e) && amlNode.disabled < 1;

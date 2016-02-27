@@ -1,4 +1,4 @@
-_d9_package_sync_workdir_docker() {
+_b9_package_sync_workdir_docker() {
     local WORKDIR=$1
     local VERSION=$2
     local SETTINGS=$3
@@ -29,8 +29,8 @@ _b9_package_docker_init_source() {
     rm -rf $WORKDIR
     mkdir -p $SOURCE
     
-    _d9_package_sync_workdir_newclient $SOURCE $VERSION $SETTINGS
-    _d9_package_npm_install $SOURCE
+    _b9_package_sync_workdir_newclient $SOURCE $VERSION $SETTINGS
+    _b9_package_npm_install $SOURCE
 }
 
 _b9_package_docker_init_workdir() {
@@ -47,7 +47,7 @@ _b9_package_docker_node_modules() {
     local NODE_MODULES
     local MODULE
     
-    NODE_PATH=$B9_DIR/lib/js/node_modules $NODEJS $B9_DIR/lib/js/filter_node_modules.js docker --targetFile=$WORKDIR/package.json --source=$SOURCE --settings=$SETTINGS
+    NODE_PATH=$B9_DIR/lib/js/node_modules:$C9_DIR/node_modules:$NODE_PATH $NODEJS $B9_DIR/lib/js/filter_node_modules.js docker --targetFile=$WORKDIR/package.json --source=$SOURCE --settings=$SETTINGS
     
     NODE_MODULES=$(cat $WORKDIR/package.json | jq -r '.dependencies | keys | @sh')
     
