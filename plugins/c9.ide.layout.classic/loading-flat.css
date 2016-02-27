@@ -135,6 +135,9 @@
     text-align: center;
     margin-top: 350px;
     min-width: 100%;
+    padding: 0 30px;
+    box-sizing: border-box;
+    line-height: 1.3em;
 }
 #loadingide.dark .cool-message {
     color: #757575;
