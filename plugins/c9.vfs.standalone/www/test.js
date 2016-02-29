@@ -426,6 +426,10 @@ require([
                 show: function(msg) { console.warn(msg); },
                 hide: function(msg) { },
             },
+            "dialog.info": {
+                show: function(msg) { console.log(msg); },
+                hide: function(msg) { },
+            },
             "installer": { createSession : function(){}, reinstall: function(){}, isInstalled: function(){ return true; } },
             "run.gui": { getElement : function(){} },
             "debugger": {debug: function() {}, stop: function(){}},
