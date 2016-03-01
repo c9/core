@@ -245,14 +245,21 @@ define(function(require, module, exports) {
                                 dropdown.setAttribute("value", item.value);
                         break;
                         default:
-                            if ("value" in item)
-                                el.setAttribute('value', item.value);
                             if ("onclick" in item)
                                 el.onclick = item.onclick;
-                            if ("visible" in item)
-                                el.setAttribute("visible", item.visible);
-                            if ("zindex" in item)
-                                el.setAttribute("zindex", item.zindex);
+
+                            var ignoreList = ["onclick"];
+
+                            Object.keys(item).forEach(function(key) {
+                                if (ignoreList.indexOf(key) > -1) return;
+
+                                var attributeExists = el.attributes.some(function(attribute) {
+                                    return (attribute.name === key)
+                                });
+
+                                if (attributeExists)
+                                    el.setAttribute(key, item[key]);
+                            });
                         break;
                     }
                 });
