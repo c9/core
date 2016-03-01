@@ -20,7 +20,7 @@
                 z-index : 10000;
             }
             
-            .right .panelsbar{
+            .basic.right .panelsbar{
                 border-left : 0;
                 border-top : 0;
                 border-bottom : 1px solid @border-highlight;
@@ -31,14 +31,14 @@
                 top: 0;
             }
             
-            .left {
+            .basic.left {
                 box-shadow: 1px 0 0 @border-highlight;
             }
-            .right {
+            .basic.right {
                 box-shadow: 1px 0 0 @border-highlight inset;
             }
             
-            .left, .right{
+            .basic.left, .basic.right{
                 overflow : hidden;
                 z-index : 100000;
             }
