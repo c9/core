@@ -481,14 +481,21 @@ define(function(require, exports, module) {
                             }
                         break;
                         default:
-                            if ("value" in item)
-                                el.lastChild.setAttribute('value', item.value);
                             if ("onclick" in item)
                                 el.lastChild.onclick = item.onclick;
-                            if ("visible" in item)
-                                el.lastChild.setAttribute("visible", item.visible)
-                            if ("zindex" in item)
-                                el.lastChild.setAttribute("zindex", item.zindex)
+
+                            var ignoreList = ["onclick"];
+
+                            Object.keys(item).forEach(function(key) {
+                                if (ignoreList.indexOf(key) > -1) return;
+
+                                var attributeExists = el.lastChild.attributes.some(function(attribute) {
+                                    return (attribute.name === key)
+                                });
+
+                                if (attributeExists)
+                                    el.lastChild.setAttribute(key, item[key]);
+                            });
                         break;
                     }
                 })
