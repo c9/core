@@ -148,6 +148,10 @@ require([
                 obj.watch = function(){};
                 return obj;
             })(),
+            "fs.cache": (function(){
+                var obj = new EventEmitter();
+                return obj;
+            })(),
             tooltip: {
                 add: function(){}
             },
@@ -332,6 +336,13 @@ require([
                 
                 return plugin;
             },
+            Dialog: function(developer, deps, options) {
+                var plugin = new imports.Plugin(developer, deps);
+                plugin.freezePublicAPI.baseclass();
+                plugin.freezePublicAPI({});
+                
+                return plugin;
+            },
             tree: (function(){
                 var tree = new EventEmitter();
                 tree.createFolder = function(){};
@@ -415,6 +426,10 @@ require([
                 show: function(msg) { console.warn(msg); },
                 hide: function(msg) { },
             },
+            "dialog.info": {
+                show: function(msg) { console.log(msg); },
+                hide: function(msg) { },
+            },
             "installer": { createSession : function(){}, reinstall: function(){}, isInstalled: function(){ return true; } },
             "run.gui": { getElement : function(){} },
             "debugger": {debug: function() {}, stop: function(){}},
@@ -429,6 +444,15 @@ require([
                 log: function() {},
                 increment: function() {}
             },
+            MountTab: function(developer, deps, options) {
+                var plugin = new imports.Plugin(developer, deps);
+                plugin.freezePublicAPI.baseclass();
+                plugin.freezePublicAPI({
+                });
+                
+                return plugin;
+            },
+            mount: {},
             error_handler: {
                 log: function() {},
                 reportError: function(){}

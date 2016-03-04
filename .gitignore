@@ -85,4 +85,5 @@ foo.js
 hello.js
 plugins/c9.docker/containers/ci/files/github_c9_newclient
 plugins/c9.docker/containers/shared/files/plugins/salesforce*
+plugins/c9.docker/containers/shared/files/plugins/google*
 security-audit.log

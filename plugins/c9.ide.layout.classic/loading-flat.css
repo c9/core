@@ -121,8 +121,8 @@
     margin-left: -100px;
     width: 200px;
     text-align: center;
-    top: 57%;
-    margin-top: 0;
+    top: 30%;
+    margin-top: 255px;
 }
 
 #loadingide .cool-message {
@@ -130,14 +130,14 @@
     font-family: Arial;
     font-size: 30px;
     color: #717171;
-    white-space: nowrap;
     position: absolute;
     top: 30%;
-    left: 50%;
-    width: 1000px;
     text-align: center;
-    margin-left: -500px;
     margin-top: 350px;
+    min-width: 100%;
+    padding: 0 30px;
+    box-sizing: border-box;
+    line-height: 1.3em;
 }
 #loadingide.dark .cool-message {
     color: #757575;
