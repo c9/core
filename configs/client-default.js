@@ -320,7 +320,6 @@ module.exports = function(options) {
         "plugins/c9.ide.language.generic/generic",
         "plugins/c9.ide.language.css/css",
         "plugins/c9.ide.language.html/html",
-        "plugins/c9.ide.language.codeintel/codeintel",
         "plugins/c9.ide.language.javascript/javascript",
         "plugins/c9.ide.language.javascript.immediate/immediate",
         "plugins/c9.ide.language.javascript.infer/jsinfer",
@@ -899,6 +898,9 @@ module.exports = function(options) {
             staticPrefix: staticPrefix + "/plugins/c9.ide.collab/chat"
         });
     }
+    
+    if (options.platform !== "win32")
+        plugins.push("plugins/c9.ide.language.codeintel/codeintel");
 
     return plugins;
 };
