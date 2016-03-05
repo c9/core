@@ -62,7 +62,7 @@
         "c9.ide.language.html.diff": "#24f3608d26",
         "c9.ide.language.javascript": "#c6d102471f",
         "c9.ide.language.javascript.immediate": "#c8b1e5767a",
-        "c9.ide.language.javascript.eslint": "#edaf80a3fe",
+        "c9.ide.language.javascript.eslint": "#ce8ec6d87d",
         "c9.ide.language.javascript.tern": "#8423d558f6",
         "c9.ide.language.javascript.infer": "#325ac6880e",
         "c9.ide.language.jsonalyzer": "#4b329741b1",
@@ -117,6 +117,7 @@
         "c9.ide.threewaymerge": "#229382aa0b",
         "c9.ide.undo": "#b028bcb4d5",
         "c9.ide.upload": "#0bd010d3dc",
-        "c9.ide.welcome": "#5b86c44e92"
+        "c9.ide.welcome": "#5b86c44e92",
+        "c9.ide.guide": "#undefined"
     }
 }
