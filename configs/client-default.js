@@ -730,6 +730,13 @@ module.exports = function(options) {
             staticPrefix: staticPrefix + "/plugins/c9.ide.help"
         },
         {
+            packagePath: "plugins/c9.ide.guide/guide",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.guide"
+        },
+        {
+            packagePath: "plugins/c9.ide.guide/default"
+        },
+        {
             packagePath: "plugins/c9.ide.configuration/configure",
             dashboardUrl: options.dashboardUrl,
         },
