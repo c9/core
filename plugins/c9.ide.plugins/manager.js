@@ -665,7 +665,7 @@ define(function(require, exports, module) {
         }
 
         function reload(name) {
-            showReloadTip();
+            showReloadTip(name);
             
             var href = document.location.href.replace(/[?&]reload=[^&]+/, "");
             href += (href.match(/\?/) ? "&" : "?") + "reload=" + name;
@@ -680,7 +680,7 @@ define(function(require, exports, module) {
             }
         }
         
-        function showReloadTip() {
+        function showReloadTip(name) {
             if (options.devel) {
                 var key = commands.getHotkey("reloadLastPlugin");
                 if (commands.platform == "mac")
