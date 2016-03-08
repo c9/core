@@ -108,6 +108,8 @@ define(function(require, exports, module) {
         }
         
         function logout(redirect) {
+            emit("logout-analytics");
+            
             redirect = redirect || window.location.href;
             window.location.href = ideBaseUrl + "/api/nc/logout?redirect=" + encodeURIComponent(redirect);
         }
