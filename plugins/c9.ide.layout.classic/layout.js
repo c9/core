@@ -214,7 +214,7 @@ define(function(require, exports, module) {
             }
         }
         
-        function proposeLayoutChange(kind, force, type) {
+        function proposeLayoutChange(kind, force, type, reset) {
             if (!force && settings.getBool("user/general/@propose"))
                 return;
             
@@ -225,7 +225,7 @@ define(function(require, exports, module) {
                     ignoreTheme = true;
                     var theme = {"dark": "flat-dark", "light": "flat-light"}[kind];
                     settings.set("user/general/@skin", theme);
-                    updateTheme(false, type);
+                    updateTheme(!!reset, type);
                     ignoreTheme = false;
                     settings.set("user/general/@propose", question.dontAsk);
                 },
