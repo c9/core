@@ -1,5 +1,23 @@
 #!/usr/bin/env node
 
+// workaround for npm 3 breaking bundled dependencies
+if (Module.REPLACE_NODE_MODULE_PATH) {
+    var Module = require("module");
+    var path = require("path")
+    var _resolveFilename_orig = Module._resolveFilename
+    Module._resolveFilename = function(id, parent) {
+        var root = path.join(__dirname, "/..");
+        if (parent && parent.paths && parent.paths[0] && parent.paths[0].indexOf(root) == 0) {
+            parent.paths = parent.paths.map(function(p) {
+                if (p.indexOf(root) != 0) return
+                p = p.slice(root.length);
+                return root + p.replace(/([\\\/]|^)node_modules([\\\/]|$)/g, "$1n_m$2");
+            }).filter(Boolean);
+        }
+        return _resolveFilename_orig.call(Module, id, parent);
+    };
+}
+
 // Architect
 var architect = require("architect");
 
