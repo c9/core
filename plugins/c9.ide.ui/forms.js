@@ -317,7 +317,7 @@ define(function(require, exports, module) {
                         childNodes = [
                             new ui.label({ width : width, maxwidth: maxwidth, caption: name + ":" }),
                             new ui.password({
-                                skin: skins.textbox || "searchbox",
+                                skin: skins.password || "forminput",
                                 width: options.width || widths.password,
                                 value: options.path 
                                     ? createBind(options.path) 
