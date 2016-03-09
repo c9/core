@@ -8,7 +8,7 @@ define(function(require, exports, module) {
         var http = imports.http;
         
         var fs = require("fs");
-        var read = require("read");
+        var _read = require("read");
 
         /***** Initialization *****/
         
@@ -21,15 +21,35 @@ define(function(require, exports, module) {
 
         /***** Methods *****/
         
+        function read(options, cb) {
+            _read(options, function(err, result) {
+                if (err && err.message == 'canceled') {
+                    console.log("\n");
+                    if (options.retry)
+                        return process.exit(1);
+                    else {
+                        options.retry = 1;
+                        console.log("(^C again to quit)");
+                        return read(options, cb);
+                    }
+                }
+                cb(err, result);
+            });
+        }
+        
         function readCredentials(callback){
             read({
                 prompt: "Cloud9 Username:"
             }, function(error, username) {
                 if (error) return callback(error);
-                
+                if (!username) {
+                    console.error("username is required");
+                    return process.exit(1);
+                }
                 read({
                     prompt: "Password:",
-                    silent: true
+                    silent: true,
+                    replace: "*" 
                 }, function(error, password) {
                     if (error) return callback(error);
                     
@@ -64,7 +84,11 @@ define(function(require, exports, module) {
                         client_id: "cli"
                     }
                 }, function(err, token) {
-                    if (err) return callback(err);
+                    if (err) {
+                        var message = /id="error_header">([^<]*)</.exec(err.message);
+                        console.error(message ? message[1] : err.message || err, "\n");
+                        return callback(err);
+                    }
                     
                     fs.writeFile(AUTHPATH, token, function(err){
                         if (err) return callback(err);
