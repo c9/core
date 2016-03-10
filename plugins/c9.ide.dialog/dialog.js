@@ -245,20 +245,38 @@ define(function(require, module, exports) {
                                 dropdown.setAttribute("value", item.value);
                         break;
                         default:
-                            if ("onclick" in item)
-                                el.onclick = item.onclick;
-
-                            var ignoreList = ["onclick"];
+                            // Attributes we are happy to set directly
+                            var validAttributes = [
+                                "value",
+                                "visible",
+                                "zindex",
+                                "disabled",
+                                "caption",
+                                "tooltip",
+                                "command",
+                                "class",
+                                "icon",
+                                "src",
+                                "submenu"
+                            ];
 
                             Object.keys(item).forEach(function(key) {
-                                if (ignoreList.indexOf(key) > -1) return;
+                                // Check for onclick explictly
+                                if (key === "onclick")
+                                    return el.onclick = item.onclick;
 
-                                var attributeExists = el.attributes.some(function(attribute) {
-                                    return (attribute.name === key)
-                                });
+                                // Check for attributes we know exist and will directly set
+                                if (validAttributes.indexOf(key) > -1)
+                                    return el.setAttribute(key, item[key]);
 
-                                if (attributeExists)
-                                    el.setAttribute(key, item[key]);
+                                // Otherwise, check if the object has the attribute to set
+                                if (el.attributes) {
+                                    var attributeExists = el.attributes.some(function(attribute) {
+                                        return (attribute.name === key);
+                                    });
+                                    if (attributeExists)
+                                        el.setAttribute(key, item[key]);
+                                }
                             });
                         break;
                     }
