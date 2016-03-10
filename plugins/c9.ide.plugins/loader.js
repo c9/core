@@ -87,8 +87,10 @@ define(function(require, exports, module) {
                     });
                 }
                 resolved.filter(function(config) {
-                    if (extraPackages[config.packagePath])
+                    if (extraPackages[config.packagePath]) {
+                        _.assign(config, extraPackages[config.packagePath], function(x, y) { return x || y });
                         delete extraPackages[config.packagePath];
+                    }
                 });
                 Object.keys(extraPackages).forEach(function(extraConfig) {
                     console.warn("[c9.ide.loader] Package " 
