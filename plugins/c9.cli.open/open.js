@@ -11,8 +11,6 @@ define(function(require, exports, module) {
         
         var fs = require("fs");
         var PATH = require("path");
-        var StringDecoder = require('string_decoder').StringDecoder;
-        var decoder = new StringDecoder("utf8");
 
         /***** Initialization *****/
         
@@ -45,7 +43,7 @@ define(function(require, exports, module) {
                         throw new Error("Missing path");
                 },
                 exec: function(argv) {
-                    if(argv.pipe) {
+                    if (argv.pipe) {
                         openWithPipe(function(){});
                         return;
                     }
@@ -60,7 +58,6 @@ define(function(require, exports, module) {
         /***** Methods *****/
 
         function open(paths, wait, callback) {
-            
             try {
                 paths = paths.map(function(path) {
                     var isDir = fs.existsSync(path) && fs.statSync(path).isDirectory();
@@ -139,7 +136,10 @@ define(function(require, exports, module) {
         }
         
         function openWithPipe(callback) {
-            bridge.send({ type: "pipe" }, function cb(err, response) {
+            bridge.send({
+                type: "pipe",
+                path: process.cwd() + "/" + "Pipe " + (new Date()).toLocaleString().replace(/:/g, "."),
+            }, function cb(err, response) {
                 if (err) {
                     if (err.code == "ECONNREFUSED") {
                         // Seems Cloud9 is not running, lets start it up
@@ -163,12 +163,13 @@ define(function(require, exports, module) {
                 }
                 
                 var stdin = process.openStdin();
+                stdin.setEncoding("utf8");
                 var finished = 0;
                 stdin.on("data", function(chunk) {
                     finished++;
-                    bridge.send( { 
-                        type: "pipeData", 
-                        data: decoder.write(chunk), 
+                    bridge.send({
+                        type: "pipeData",
+                        data: chunk,
                         tab: response
                     }, function(err, message) {
                         // Dunno why, but this always returns No Response...
@@ -180,7 +181,7 @@ define(function(require, exports, module) {
                 });
                 stdin.on("end", function() {
                     (function retry() {
-                        if(finished === 0)
+                        if (finished === 0)
                             process.exit();
                         setTimeout(retry, 100);
                     })();

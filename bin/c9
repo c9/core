@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 // workaround for npm 3 breaking bundled dependencies
+var Module = require("module");
 if (Module.REPLACE_NODE_MODULE_PATH) {
-    var Module = require("module");
     var path = require("path")
     var _resolveFilename_orig = Module._resolveFilename
     Module._resolveFilename = function(id, parent) {

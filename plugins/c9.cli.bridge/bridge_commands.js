@@ -74,20 +74,25 @@ define(function(require, exports, module) {
         /***** Methods *****/
         function createPipe(message, callback) {
             tabManager.once("ready", function(){
-                tabManager.open( {
-                    focus: true, 
-                    editorType: "ace"
+                tabManager.open({
+                    focus: true,
+                    editorType: "ace",
+                    path: message.path && c9.toInternalPath(message.path),
+                    document: { meta : { newfile: true } }
                 }, function(err, tab) {
                     if (err) 
                         return callback(err);
-                    callback(null, tab.name);
+                    callback(null, tab.path || tab.name);
                 });
             }); 
         }
         
         function updatePipe(message, callback) {
             tabManager.once("ready", function() {
-                tabManager.findTab(message.tab).document.value += message.data;    
+                var tab = tabManager.findTab(message.tab);
+                var c9Session = tab && tab.document.getSession();
+                if (c9Session && c9Session.session)
+                   c9Session.session.insert({row: Number.MAX_VALUE, column: Number.MAX_VALUE} , message.data);
                 callback(null, true);
             });
         }
@@ -127,12 +132,22 @@ define(function(require, exports, module) {
                 }
                 else {
                     tabManager.once("ready", function(){
+                        var m = /:(\d*)(?::(\d*))?$/.exec(path);
+                        var jump = {};
+                        if (m) {
+                            if (m[1])
+                                jump.row = parseInt(m[1], 10) - 1;
+                            if (m[2])
+                                jump.column = parseInt(m[2], 10);
+                            path = path.slice(0, m.index);
+                        }
+                        
                         fs.exists(path, function(existing) {
                             var tab = tabManager.open({
                                 path: path,
                                 focus: i === 0,
                                 document: existing
-                                    ? undefined
+                                    ? { ace: { jump: jump } }
                                     : { meta : { newfile: true } }
                             }, function(){
                                 next();
