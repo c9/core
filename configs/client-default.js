@@ -694,14 +694,15 @@ module.exports = function(options) {
                 no_newsletter: options.user.no_newsletter,
                 subscription_on_signup: options.user.subscription_on_signup,
                 premium: options.user.premium,
-                region: options.user.region
+                region: options.user.region,
             },
             project: {
                 id: options.project.id,
                 name: options.project.name,
                 contents: options.project.contents,
                 descr: options.project.descr,
-                remote: options.project.remote
+                remote: options.project.remote,
+                premium: options.project.premium,
             }
         },
         {
