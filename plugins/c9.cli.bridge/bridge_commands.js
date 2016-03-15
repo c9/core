@@ -36,6 +36,12 @@ define(function(require, exports, module) {
                     case "open":
                         open(message, e.respond);
                         break;
+                    case "pipe":
+                        createPipe(message, e.respond);
+                        break;
+                    case "pipeData":
+                        updatePipe(message, e.respond);
+                        break;
                     case "ping":
                         e.respond(null, true);
                         break;
@@ -66,6 +72,25 @@ define(function(require, exports, module) {
         }
         
         /***** Methods *****/
+        function createPipe(message, callback) {
+            tabManager.once("ready", function(){
+                tabManager.open( {
+                    focus: true, 
+                    editorType: "ace"
+                }, function(err, tab) {
+                    if (err) 
+                        return callback(err);
+                    callback(null, tab.name);
+                });
+            }); 
+        }
+        
+        function updatePipe(message, callback) {
+            tabManager.once("ready", function() {
+                tabManager.findTab(message.tab).document.value += message.data;    
+                callback(null, true);
+            });
+        }
         
         function open(message, callback) {
             var i = -1;
