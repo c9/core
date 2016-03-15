@@ -481,38 +481,15 @@ define(function(require, exports, module) {
                             }
                         break;
                         default:
-                            // Attributes we are happy to set directly
-                            var validAttributes = [
-                                "value",
-                                "visible",
-                                "zindex",
-                                "disabled",
-                                "caption",
-                                "tooltip",
-                                "command",
-                                "class",
-                                "icon",
-                                "src",
-                                "submenu"
-                            ];
-
+                            // supported attributes
+                            var validAttributes = /^(value|visible|zindex|disabled|caption|tooltip|command|class|icon|src|submenu)$/;
                             Object.keys(item).forEach(function(key) {
                                 // Check for onclick explictly
                                 if (key === "onclick")
-                                    return el.lastChild.onclick = item.onclick;
-
+                                    return el.onclick = item.onclick;
                                 // Check for attributes we know exist and will directly set
-                                if (validAttributes.indexOf(key) > -1)
-                                    return el.lastChild.setAttribute(key, item[key]);
-
-                                // Otherwise, check if the object has the attribute to set
-                                if (el.lastChild && el.lastChild.attributes) {
-                                    var attributeExists = el.lastChild.attributes.some(function(attribute) {
-                                        return (attribute.name === key);
-                                    });
-                                    if (attributeExists)
-                                        el.lastChild.setAttribute(key, item[key]);
-                                }
+                                if (validAttributes.test(key))
+                                    return el.setAttribute(key, item[key]);
                             });
                         break;
                     }
