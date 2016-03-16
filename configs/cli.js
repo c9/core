@@ -81,6 +81,10 @@ return [
         platform: process.platform
     },
     {
+        packagePath: "./c9.cli.exec/exec",
+        platform: process.platform
+    },
+    {
         packagePath: "./c9.cli.open/restart",
         platform: process.platform
     },
