@@ -245,14 +245,16 @@ define(function(require, module, exports) {
                                 dropdown.setAttribute("value", item.value);
                         break;
                         default:
-                            if ("value" in item)
-                                el.setAttribute('value', item.value);
-                            if ("onclick" in item)
-                                el.onclick = item.onclick;
-                            if ("visible" in item)
-                                el.setAttribute("visible", item.visible);
-                            if ("zindex" in item)
-                                el.setAttribute("zindex", item.zindex);
+                            // supported attributes
+                            var validAttributes = /^(value|visible|zindex|disabled|caption|tooltip|command|class|icon|src|submenu)$/;
+                            Object.keys(item).forEach(function(key) {
+                                // Check for onclick explictly
+                                if (key === "onclick")
+                                    return el.onclick = item.onclick;
+                                // Check for attributes we know exist and will directly set
+                                if (validAttributes.test(key))
+                                    return el.setAttribute(key, item[key]);
+                            });
                         break;
                     }
                 });
