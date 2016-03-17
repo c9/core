@@ -909,7 +909,7 @@ module.exports = function(options) {
     if (options.platform !== "win32") {
         plugins.push({
             packagePath: "plugins/c9.ide.language.codeintel/codeintel",
-            notInstalled: options.ssh || !hosted,
+            preinstalled: hosted && !options.ssh,
         });
     }
 
