@@ -910,6 +910,9 @@ module.exports = function(options) {
         plugins.push({
             packagePath: "plugins/c9.ide.language.codeintel/codeintel",
             preinstalled: hosted && !options.ssh,
+            paths: {
+                php: "/home/ubuntu/workspace:/home/ubuntu/workspace/vendor",
+            },
         });
     }
 
