@@ -716,6 +716,10 @@ Checking for branch naming consistency is part of the review process and the tea
     
 Generally, releasing changes affecting several services is a smell so this can help you identify possible issues.
 
+You can now look for all PRs which made it in like so (api in this case):
+
+    git log --oneline --first-parent SHA..origin/master | grep -v bump | grep api-
+
 Other Resources
 ===============
 
