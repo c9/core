@@ -700,13 +700,15 @@ Branch Naming
 
 We follow the uni-repo approach so our source is in one place. To work around some of the issues - for example looking at all PRs affecting a certain service - we prefix branches with the name of the service(s) the branch affects.
 
-    PR branch names, e.g. “api-”, “ide-”, “multi-ide-vfs-sapi-”.
+PR branch names, e.g. 
+
+    “api-”, “ide-”, “multi-ide-vfs-sapi-”
     
 Checking for branch naming consistency is part of the review process and the teams responsibility.
 
     Use “all-” in case of doubt. E.g., https://github.com/c9/newclient/pull/12962/files affects redis schema code.
     
-In case of doubt use `all-` as this indicates higher risk. Generally releasing changes affecting several services is a smell so this can help you identify possible issue.
+Generally releasing changes affecting several services is a smell so this can help you identify possible issues.
 
 Other Resources
 ===============
