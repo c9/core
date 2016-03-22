@@ -705,6 +705,8 @@ We follow the uni-repo approach so our source is in one place. To work around so
 Checking for branch naming consistency is part of the review process and the teams responsibility.
 
     Use “all-” in case of doubt. E.g., https://github.com/c9/newclient/pull/12962/files affects redis schema code.
+    
+In case of doubt use `all-` as this indicates higher risk. Generally releasing changes affecting several services is a smell so this can help you identify possible issue.
 
 Other Resources
 ===============
