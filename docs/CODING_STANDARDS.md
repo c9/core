@@ -695,6 +695,12 @@ API Documentation
 
 All classes and public API should be documented using [JSDuck annotations](https://github.com/senchalabs/jsduck).
 
+Commit messages
+---------------
+
+We try to adhere to https://github.com/blog/926-shiny-new-commit-styles and to a lesser extent http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html. 
+Don't write `I fixed a bug` or `Fixed bug`, or even `Added a cool fix for bug`. Just write `Fix bug in wrop wraffles` or `Add feature flip floppers`, present tense.
+
 Branch Naming
 -------------
 
