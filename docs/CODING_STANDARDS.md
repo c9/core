@@ -12,7 +12,7 @@ Goals
 Base
 ----
 
-* [http://nodeguide.com/sGtyle.html]([http://nodeguide.com/style.html)
+* [http://nodeguide.com/style.html]([http://nodeguide.com/style.html)
 * [https://github.com/ajaxorg/apf/blob/master/CODING_STANDARDS](https://github.com/ajaxorg/apf/blob/master/CODING_STANDARDS)
 
 
