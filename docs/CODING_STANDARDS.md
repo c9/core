@@ -12,7 +12,7 @@ Goals
 Base
 ----
 
-* [http://nodeguide.com/style.html]([http://nodeguide.com/style.html)
+* [http://nodeguide.com/sGtyle.html]([http://nodeguide.com/style.html)
 * [https://github.com/ajaxorg/apf/blob/master/CODING_STANDARDS](https://github.com/ajaxorg/apf/blob/master/CODING_STANDARDS)
 
 
@@ -708,7 +708,7 @@ Checking for branch naming consistency is part of the review process and the tea
 
     Use “all-” in case of doubt. E.g., https://github.com/c9/newclient/pull/12962/files affects redis schema code.
     
-Generally releasing changes affecting several services is a smell so this can help you identify possible issues.
+Generally, releasing changes affecting several services is a smell so this can help you identify possible issues.
 
 Other Resources
 ===============
