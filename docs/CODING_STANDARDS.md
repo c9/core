@@ -698,7 +698,7 @@ All classes and public API should be documented using [JSDuck annotations](https
 Branch Naming
 -------------
 
-We follow the uni-repo approach so our source is in one place. To work around some of the issues - for example looking at all PRs affecting a certain service - we prefix branches with the name of the service(s) the branch affects.
+We follow the uni-repo approach so our source code is in one place. To work around some of the issues - for example looking at all PRs affecting a certain service - we prefix branches with the name of the service(s) the branch affects.
 
 PR branch names, e.g. 
 
