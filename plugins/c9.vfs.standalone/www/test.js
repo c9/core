@@ -94,6 +94,9 @@ require([
                 var x = new EventEmitter();
                 return x;
             })(),
+            "vfs.log": {
+                log: function(){} 
+            },
             anims: (function(){
                 var x = new EventEmitter();
                 x.animateSplitBoxNode = function(node, opt) {

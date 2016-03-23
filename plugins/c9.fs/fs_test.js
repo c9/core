@@ -21,7 +21,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         //Mock Plugins
         {
             consumes: ["Plugin"],
-            provides: ["auth.bootstrap", "info", "dialog.error"],
+            provides: ["auth.bootstrap", "info", "dialog.error", "vfs.log"],
             setup: expect.html.mocked
         },
         {
