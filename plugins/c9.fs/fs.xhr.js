@@ -1,7 +1,7 @@
 define(function (require, exports, module) {
 "use strict";
 
-return function(_request) {
+return function(_request, logger) {
     
     function request(method, path, body, callback, progress, sync, headers) {
         // This goes to rest() function in vfs_client.js
@@ -32,7 +32,7 @@ return function(_request) {
             return callback(err);
         }
         
-        console.log("[vfs.xhr] Reading file " + path);
+        logger.log("[vfs.xhr] Reading file " + path);
         
         var headers = metadata ? { "x-request-metadata" : "true" } : null;
         return request("GET", path, "", function(err, data, res) {
@@ -81,7 +81,7 @@ return function(_request) {
         if (path.substr(-1) == "/")
             path = path.substr(0, path.length - 1);
             
-        console.log("[vfs.xhr] Writing file " + path);
+        logger.log("[vfs.xhr] Writing file " + path);
     
         return request("PUT", path, data, callback, progress, sync);
     }

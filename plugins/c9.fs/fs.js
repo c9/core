@@ -10,16 +10,17 @@
  */
 //@todo might have to add queueing for safe operations
 define(function(require, exports, module) {
-    main.consumes = ["vfs", "Plugin", "auth"];
+    main.consumes = ["vfs", "Plugin", "auth", "vfs.log"];
     main.provides = ["fs"];
     return main;
 
     function main(options, imports, register) {
         var vfs = imports.vfs;
+        var logger = imports["vfs.log"];
         var Plugin = imports.Plugin;
         
-        var stream = require("./fs.streams")(vfs, options.base, options.baseProc, options.cli);
-        var xhr = options.cli ? stream : require("./fs.xhr")(vfs.rest);
+        var stream = require("./fs.streams")(vfs, options.base, options.baseProc, options.cli, logger);
+        var xhr = options.cli ? stream : require("./fs.xhr")(vfs.rest, logger);
         var uCaseFirst = require("c9/string").uCaseFirst;
         var normalize = require("path").normalize;
         
