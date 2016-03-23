@@ -33,6 +33,8 @@ return function(vfs, base, baseProc, cli) {
         if (encoding)
             options.encoding = encoding;
             
+        console.log("[vfs.stream] Reading file " + path);
+            
         vfs.readfile(resolvePath(path), options, function(err, meta) {
             if (err)
                 return callback(err);
@@ -70,6 +72,8 @@ return function(vfs, base, baseProc, cli) {
         var stream = options.stream = new Stream();
         stream.readable = true;
 
+        console.log("[vfs.stream] Writing file " + path);
+        
         vfs.mkfile(resolvePath(path), options, function(err, meta) {
             if (err)
                 return callback(err);

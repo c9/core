@@ -146,6 +146,7 @@ define(function(require, exports, module) {
         
         function rest(path, options, callback) {
             if (!vfs || !connection || connection.readyState != "open") {
+                console.error("[vfs-client] Cannot perform rest action for ", path, " vfs is disconnected");
                 var stub = { abort: function(){ buffer[this.id]= null; } };
                 stub.id = buffer.push([path, options, callback, stub]) - 1;
                 return stub;

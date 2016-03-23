@@ -4,6 +4,7 @@ define(function (require, exports, module) {
 return function(_request) {
     
     function request(method, path, body, callback, progress, sync, headers) {
+        // This goes to rest() function in vfs_client.js
         return _request(path, {
             method: method,
             body: body,
@@ -30,6 +31,8 @@ return function(_request) {
             err.code = "EISDIR";
             return callback(err);
         }
+        
+        console.log("[vfs.xhr] Reading file " + path);
         
         var headers = metadata ? { "x-request-metadata" : "true" } : null;
         return request("GET", path, "", function(err, data, res) {
@@ -77,6 +80,8 @@ return function(_request) {
         // It would then be interpreted as a directory
         if (path.substr(-1) == "/")
             path = path.substr(0, path.length - 1);
+            
+        console.log("[vfs.xhr] Writing file " + path);
     
         return request("PUT", path, data, callback, progress, sync);
     }
