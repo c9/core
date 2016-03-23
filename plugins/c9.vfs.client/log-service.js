@@ -1,9 +1,9 @@
-
 module.exports = function(vfs, options, register) {
     register(null, {
-        log: function(message, callback) {
-            console.log("VFSLOG: " + message);
-            console.error("VFSERROR: " + message);
+        log: function (message, callback) {
+            callback = callback || function(){};
+            
+            console.log(message);
             callback();
         }
     })

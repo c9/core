@@ -44,8 +44,13 @@ define(function (require, exports, module) {
         
         function log() {
             if (!server) return console.error("Cannot log, client is offline");
+            var callback = function(){};
             
             var args = Array.prototype.slice.call(arguments);
+            if (typeof args[args.length-1] === "function") {
+                callback = args.splice(args.length-1, 1);
+            }
+            
             var message = "";
             args.forEach(function (arg) {
                 if (typeof arg === "object") {
@@ -54,7 +59,7 @@ define(function (require, exports, module) {
                 message += arg;
             });
                 
-            server.log(message);
+            server.log(message, callback);
         }
         
         plugin.on("load", function() {
