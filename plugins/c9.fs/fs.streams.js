@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 var Stream = require("stream").Stream;
 var PATH = require("path");
 
-return function(vfs, base, baseProc, cli, logger) {
+return function(vfs, base, baseProc, cli) {
 
     var resolvePath = function(path, basePath) { 
         if (path.charAt(0) == "~") {
@@ -32,8 +32,6 @@ return function(vfs, base, baseProc, cli, logger) {
         var options = {};
         if (encoding)
             options.encoding = encoding;
-            
-        logger.log("[vfs.stream] Reading file " + path);
             
         vfs.readfile(resolvePath(path), options, function(err, meta) {
             if (err)
@@ -72,8 +70,6 @@ return function(vfs, base, baseProc, cli, logger) {
         var stream = options.stream = new Stream();
         stream.readable = true;
 
-        logger.log("[vfs.stream] Writing file " + path);
-        
         vfs.mkfile(resolvePath(path), options, function(err, meta) {
             if (err)
                 return callback(err);
