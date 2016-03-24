@@ -695,6 +695,31 @@ API Documentation
 
 All classes and public API should be documented using [JSDuck annotations](https://github.com/senchalabs/jsduck).
 
+Commit messages
+---------------
+
+We try to adhere to https://github.com/blog/926-shiny-new-commit-styles and to a lesser extent http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html. 
+Don't write `I fixed a bug` or `Fixed bug`, or even `Added a cool fix for bug`. Just write `Fix bug in wrop wraffles` or `Add feature flip floppers`, present tense.
+
+Branch Naming
+-------------
+
+We follow the uni-repo approach so our source code is in one place. To work around some of the issues - for example looking at all PRs affecting a certain service - we prefix branches with the name of the service(s) the branch affects.
+
+PR branch names, e.g. 
+
+    “api-”, “ide-”, “multi-ide-vfs-sapi-”
+    
+Checking for branch naming consistency is part of the review process and the teams responsibility.
+
+    Use “all-” in case of doubt. E.g., https://github.com/c9/newclient/pull/12962/files affects redis schema code.
+    
+Generally, releasing changes affecting several services is a smell so this can help you identify possible issues.
+
+You can now look for all PRs which made it in like so (api in this case):
+
+    git log --oneline --first-parent SHA..origin/master | grep -v bump | grep api-
+
 Other Resources
 ===============
 
