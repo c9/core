@@ -907,8 +907,12 @@ module.exports = function(options) {
         });
     }
     
-    if (options.platform !== "win32")
-        plugins.push("plugins/c9.ide.language.codeintel/codeintel");
+    if (options.platform !== "win32") {
+        plugins.push({
+            packagePath: "plugins/c9.ide.language.codeintel/codeintel",
+            preinstalled: hosted && !options.ssh,
+        });
+    }
 
     return plugins;
 };
