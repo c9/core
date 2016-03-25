@@ -653,6 +653,10 @@ define(function(require, exports, module) {
                                 p = "/" + normalizePath(Path.relative(cwd, p));
                                 excludeMap[p] = 1;
                             });
+                            // keep installer in both packed and unpacked form
+                            if (json.installer)
+                                excludeMap["/" + normalizePath(Path.relative(cwd, json.installer))] = 0;
+                            
                             copy(cwd, cwd + "/.c9/.build", {
                                 exclude: function(name, parent) {
                                     if (excludeRe.test(name))
