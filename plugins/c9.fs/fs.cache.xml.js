@@ -113,17 +113,16 @@ define(function(require, exports, module) {
 
                     ondisk[name] = 1;
                     
+                    if (orphans[path]) {
+                        if (existing[name])
+                            delete orphans[path];
+                        orphanAppand.push(path);
+                    }
+                    
                     if (existing[name])
                         updateNodeStat(path, stat, existing[name]);
                     else
                         toCreate.push(stat);
-                    
-                    if (orphans[path]) {
-                        if (existing[name])
-                            delete orphans[path];
-                        else
-                            orphanAppand.push(path);
-                    }
                 });
                 
                 Object.keys(existing).forEach(function(name) {
