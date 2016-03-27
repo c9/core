@@ -947,8 +947,10 @@ define(function(require, exports, module) {
             }
             
             function show(x, y, type) {
-                if (type == "context")
-                    y++;
+                if (type == "context") {
+                    x += 2;
+                    y += 2;
+                }
                 lastCoords = { x : x, y : y };
                 aml.display(x, y);
             }

@@ -3,7 +3,7 @@ define(function(require, exports, module) {
         "Panel", "c9", "util", "fs", "settings", "ui", "menus", 
         "panels", "commands", "tabManager", "fs.cache", "watcher", 
         "preferences", "clipboard", "dialog.alert", "dialog.fileremove",
-        "dialog.fileoverwrite", "dialog.error", "layout"
+        "dialog.fileoverwrite", "dialog.error", "layout", "dialog.question"
     ];
     main.provides = ["tree"];
     return main;
@@ -24,6 +24,7 @@ define(function(require, exports, module) {
         var watcher = imports.watcher;
         var prefs = imports.preferences;
         var alert = imports["dialog.alert"].show;
+        var question = imports["dialog.question"].show;
         var fsCache = imports["fs.cache"];
         var confirmRemove = imports["dialog.fileremove"].show;
         var confirmRename = imports["dialog.fileoverwrite"].show;
@@ -34,7 +35,7 @@ define(function(require, exports, module) {
         var TreeEditor = require("ace_tree/edit");
         var markup = require("text!./tree.xml");
         
-        var basename = require("path").basename;
+        var join = require("path").join;
         var dirname = require("path").dirname;
         
         var staticPrefix = options.staticPrefix;
@@ -52,7 +53,7 @@ define(function(require, exports, module) {
         });
         var emit = plugin.getEmitter();
         
-        var container, winFilesViewer; //UI elements
+        var container, winFilesViewer; // UI elements
         var showHideScrollPos, scrollTimer;
         var tree;
         
@@ -454,11 +455,6 @@ define(function(require, exports, module) {
                 changed = true;
                 settings.save();
             }, plugin);
-    
-            function abortNoStorage() {
-                if (!c9.has(c9.STORAGE))
-                    return false;
-            }
             
             // Rename
             tree.on("beforeRename", function(e) {
@@ -479,34 +475,58 @@ define(function(require, exports, module) {
                 }
                 
                 var node = e.node;
-                var name = e.value;
+                var name = e.value.trim();
                 
                 // check for a path with the same name, which is not allowed to rename to:
                 var path = node.path;
-                var newpath = path.replace(/[^\/]+$/, name);
+                var newpath = join(path, "..", name);
                 
                 // No point in renaming when the name is the same
-                if (basename(path) == name)
+                if (path == newpath)
                     return;
-    
-                // Returning false from this function will cancel the rename. We do this
-                // when the name to which the file is to be renamed contains invalid
-                // characters
-                if (/[\\\/\n\r]/.test(name)) {
-                    // todo is this still needed?
+                
+                var m = /([\0\\\n\r])/.exec(name) || c9.platform == "win32" && /([\\:*?"<>|])/.exec(name);
+                if (m) {
                     showError(
-                        "Could not rename to '" + ui.htmlentities(name) 
-                          + "'. Names can only contain alfanumeric characters, space, . (dot)"
-                          + ", - and _ (underscore). Use the terminal to rename to other names."
+                        "Invalid character '" + m[0] +  "' in '" + name + "'"
                     );
                     return false;
                 }
                 
-                fs.rename(path, newpath, {}, function(err, success) { });
+                // renaming to hidden file can be confusing if one doesn't know about hidden files
+                if (fsCache.isFileHidden(newpath) && !settings.getBool("user/projecttree/@showhidden")) {
+                    settings.set("user/projecttree/@showhidden", true);
+                    changed = true;
+                    fsCache.showHidden = true;
+                    refresh(true, function(){});
+                }
                 
-                emit("rename", { path: newpath, oldpath: path });
+                if (dirname(newpath) != dirname(path)) {
+                    tree.edit.ace.blur(); // TODO this shouldn't be needed when apf focus works
+                    question(
+                        "Confirm move to a new folder",
+                        "move '" + e.oldValue + "' to \n" + 
+                        "'" + dirname(newpath) + "'?",
+                        "",
+                        doRename
+                    );
+                } else {
+                    doRename();
+                }
                 
-                return false;
+                function doRename() {
+                    fs.rename(path, newpath, {}, function(err, success) {
+                        if (err) {
+                            var message = err.message;
+                            if (err.code == "EEXIST")
+                                message = "File " + path + " already exists.";
+                            return showError(message);
+                        }
+                        if (dirname(newpath) != dirname(path))
+                            expandAndSelect(newpath);
+                    });
+                    emit("rename", { path: newpath, oldpath: path });
+                }
             }, plugin);
 
             // Context Menu
@@ -977,7 +997,7 @@ define(function(require, exports, module) {
                     }
                     else {
                         var node = fsCache.findNode(path);
-                        if (node) //Otherwise orphan-append will pick it up
+                        if (node) // Otherwise orphan-append will pick it up
                             expandNode(node);
                     }
     
@@ -1051,8 +1071,6 @@ define(function(require, exports, module) {
                 }
             });
             
-            //c9.dispatchEvent("track_action", { type: "reloadtree" });
-    
             loadProjectTree(false, function(err) {
                 var expandedNodes = Object.keys(expandedList);
                 expandedList = {};
@@ -1067,7 +1085,7 @@ define(function(require, exports, module) {
                 callback(err);
                 tree.provider.on("changeScrollTop", scrollHandler);
                 
-                emit("refreshComplete")
+                emit("refreshComplete");
             });
         }
         
@@ -1100,6 +1118,7 @@ define(function(require, exports, module) {
         function expandAndSelect(path_or_node) {
             var node = findNode(path_or_node);
             expand(node, function(){
+                refreshing = false;
                 tree.select(node);
                 scrollToSelection();
             });
@@ -1212,10 +1231,12 @@ define(function(require, exports, module) {
         }
         
         function select(path_or_node) {
+            refreshing = false;
             tree.select(findNode(path_or_node));
         }
         
         function selectList(list) {
+            refreshing = false;
             tree.selection.setSelection(list.map(function(n) { 
                 return findNode(n); 
             }));
@@ -1293,6 +1314,9 @@ define(function(require, exports, module) {
                         
                         callback(err, data);
                     });
+                    var node = fsCache.findNode(newpath, "expand");
+                    if (node)
+                        expandAndSelect(node);
                 });
             }
             

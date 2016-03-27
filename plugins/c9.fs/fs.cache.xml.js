@@ -295,14 +295,15 @@ define(function(require, exports, module) {
                 // Validation
                 var toNode = findNode(newPath);
                 
-                deleteNode(node, true);
-                if (toNode)
-                    deleteNode(toNode, true);
-                
-                createNode(newPath, null, node); // Move node
-                recurPathUpdate(node, oldPath, newPath);
+                if (!toNode) {
+                    deleteNode(node, true);
+                    createNode(newPath, null, node); // Move node
+                    recurPathUpdate(node, oldPath, newPath);
+                }
                 
                 e.undo = function(){
+                    if (toNode)
+                        return;
                     if (!parent) {
                         var tmpParent = node;
                         while (node.parent && tmpParent.parent.status == "pending")
@@ -318,6 +319,12 @@ define(function(require, exports, module) {
                     recurPathUpdate(node, newPath, oldPath);
                 };
                 e.confirm = function() {
+                    if (toNode) {
+                        deleteNode(toNode, true);
+                        createNode(newPath, null, node); // Move node
+                        recurPathUpdate(node, oldPath, newPath);
+                    }
+                    
                     if (node.status === "predicted")
                         node.status = "loaded";
                 };
@@ -894,7 +901,12 @@ define(function(require, exports, module) {
              * @param {Function} progress
              * @param {Function} done
              */
-            loadNodes: loadNodes
+            loadNodes: loadNodes,
+            
+            /**
+             * @ignore
+             */
+            isFileHidden: isFileHidden
         });
         
         register(null, {
