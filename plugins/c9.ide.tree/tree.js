@@ -405,15 +405,10 @@ define(function(require, exports, module) {
                 
                 emit("expand", { path: id });
                 
-                if (node.justLoaded) {
-                    delete node.justLoaded;
-                    return;
-                }
-                
                 // Only save if we are not loading the tree
                 if (!refreshing || loadedSettings != -1) {
                     if (!node.isRoot) {
-                        var refresh = !refreshing && node.status == "loaded";
+                        var refresh = !refreshing && node.status == "loaded" && Date.now() - node.$lastReadT > 500;
                         watcher.watch(id, refresh);
                         
                         // watch children
@@ -425,8 +420,10 @@ define(function(require, exports, module) {
                         });
                     }
                     
-                    changed = true;
-                    settings.save();
+                    if (!updateSingleDirectoryChain(true, node)) {
+                        changed = true;
+                        settings.save();
+                    }
                 }
             }, plugin);
     
@@ -452,9 +449,29 @@ define(function(require, exports, module) {
                     });
                 }
                 
-                changed = true;
-                settings.save();
+                if (!updateSingleDirectoryChain(false, node)) {
+                    changed = true;
+                    settings.save();
+                }
             }, plugin);
+            
+            function updateSingleDirectoryChain(isExpand, node) {
+                if (!node.children || node.children.length !== 1)
+                    return;
+                var child = node.children[0];
+                if (!child || !child.isFolder || child.$depth > 0xff)
+                    return;
+                
+                if (isExpand && !child.isOpen) {
+                    expandNode(child);
+                    return true;
+                }
+                else if (!isExpand && child.isOpen) {
+                    updateSingleDirectoryChain(false, child);
+                    delete expandedList[child.path];
+                    return true;
+                }
+            }
             
             // Rename
             tree.on("beforeRename", function(e) {

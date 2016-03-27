@@ -95,6 +95,7 @@ define(function(require, exports, module) {
                     orphans[e.path] = node;
                     orphan = true;
                 }
+                node.$lastReadT = Date.now();
 
                 // Indicate this directory has been fully read
                 model.setAttribute(node, "status", "loaded");
