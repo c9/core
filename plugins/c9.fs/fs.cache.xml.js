@@ -568,6 +568,11 @@ define(function(require, exports, module) {
                     modified.push(parent);
                     if (i !== parts.length - 1) {
                         node = {label: p, path: subPath, status: "pending", isFolder: true};
+                        // TODO filter hidden files in getChildren instead.
+                        if (!showHidden && isFileHidden(p)) {
+                            orphans[node.path] = path;
+                            return;
+                        }
                     } else if (updateNode) {
                         deleteNode(updateNode, true);
                         node = updateNode;
