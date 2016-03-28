@@ -1082,6 +1082,8 @@ define(function(require, exports, module) {
                 if (typeof node == "string")
                     node = fsCache.findNode(node, "refresh");
 
+                if (node && !node.isFolder)
+                    node = node.parent;
                 if (node && node.status === "loaded") {
                     tree.provider.setAttribute(node, "status", "pending");
                     node.children = null;
