@@ -225,10 +225,6 @@ define(function(require, exports, module) {
                             callback(fatalError(res.error.message, "dashboard"));
                             return;
                         }
-                        else if (err.code == 404) {
-                            callback(fatalError("This workspace no longer appears to exist or failed to be created.", "dashboard"));
-                            return;
-                        }
                         else if (err.code === 428 && res.error) {
                             emit("restore", {
                                 projectState: res.error.projectState,
