@@ -42,6 +42,8 @@ define(function(require, module, exports) {
                     .replace(/\n/g, "<br />")
                     .replace(/(https?:\/\/[^\s]*\b)/g, "<a href='$1' target='_blank'>$1</a>");
                 
+                plugin.getElement("ok").setCaption(options.yes || "OK");
+                
                 plugin.update([
                     { id: "dontshow", visible: options && options.showDontShow }
                 ]);
