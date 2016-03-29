@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "acorn": "2.5.2",
-        "async": "^0.9.0",
+        "async": "^1.5.2",
         "base64id": "~0.1.0",
         "connect": "~2.12.0",
         "debug": "~0.7.4",
