@@ -721,12 +721,6 @@ module.exports = function(options) {
             basePath: workspaceDir
         },
         {
-            packagePath: "plugins/c9.ide.help.support/support",
-            baseurl: options.ideBaseUrl, 
-            userSnapApiKey: options.support.userSnapApiKey,
-            screenshotSupport: true
-        },
-        {
             packagePath: "plugins/c9.ide.help/help",
             staticPrefix: staticPrefix + "/plugins/c9.ide.help"
         },
