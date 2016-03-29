@@ -357,6 +357,14 @@ define(function(require, exports, module) {
             }), 300, plugin);
         }
         
+        function resetTheme(theme, type) {
+            ignoreTheme = true;
+            settings.set("user/general/@skin", theme);
+            updateTheme(true);
+            emit("themeDefaults", {theme: theme, type: type});
+            ignoreTheme = false;
+        }
+        
         function resize(){
             if (c9console && tabManager) {
                 var tRect = tabManager.container.$ext.getBoundingClientRect();
@@ -597,7 +605,7 @@ define(function(require, exports, module) {
             get theme(){
                 return theme;
             },
-            
+
             /**
              * Returns an AMLElement that can server as a parent.
              * @param {Plugin} plugin  The plugin for which to find the parent.
@@ -613,6 +621,13 @@ define(function(require, exports, module) {
              */
             initMenus: initMenus,
             
+            /**
+             * Resets theme (without questioning user).
+             * @param {String} theme  Theme to use.
+             * @param {String} type   Type of editor to use.
+             */
+            resetTheme: resetTheme,
+
             /**
              * Sets the layout in one of two default modes:
              * @param {"default"|"minimal"} type 

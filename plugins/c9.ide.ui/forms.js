@@ -317,7 +317,7 @@ define(function(require, exports, module) {
                         childNodes = [
                             new ui.label({ width : width, maxwidth: maxwidth, caption: name + ":" }),
                             new ui.password({
-                                skin: skins.textbox || "searchbox",
+                                skin: skins.password || "forminput",
                                 width: options.width || widths.password,
                                 value: options.path 
                                     ? createBind(options.path) 
@@ -481,14 +481,16 @@ define(function(require, exports, module) {
                             }
                         break;
                         default:
-                            if ("value" in item)
-                                el.lastChild.setAttribute('value', item.value);
-                            if ("onclick" in item)
-                                el.lastChild.onclick = item.onclick;
-                            if ("visible" in item)
-                                el.lastChild.setAttribute("visible", item.visible)
-                            if ("zindex" in item)
-                                el.lastChild.setAttribute("zindex", item.zindex)
+                            // supported attributes
+                            var validAttributes = /^(value|visible|zindex|disabled|caption|tooltip|command|class|icon|src|submenu)$/;
+                            Object.keys(item).forEach(function(key) {
+                                // Check for onclick explictly
+                                if (key === "onclick")
+                                    return el.onclick = item.onclick;
+                                // Check for attributes we know exist and will directly set
+                                if (validAttributes.test(key))
+                                    return el.setAttribute(key, item[key]);
+                            });
                         break;
                     }
                 })

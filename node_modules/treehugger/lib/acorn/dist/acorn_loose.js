@@ -97,7 +97,7 @@ lp.parseExprOps = function (noIn) {
   var start = this.storeCurrentPos();
   var indent = this.curIndent,
       line = this.curLineStart;
-  return this.parseExprOp(this.parseMaybeUnary(noIn), start, -1, noIn, indent, line);
+  return this.parseExprOp(this.parseMaybeUnary(false), start, -1, noIn, indent, line);
 };
 
 lp.parseExprOp = function (left, start, minPrec, noIn, indent, line) {
@@ -113,7 +113,7 @@ lp.parseExprOp = function (left, start, minPrec, noIn, indent, line) {
         node.right = this.dummyIdent();
       } else {
         var rightStart = this.storeCurrentPos();
-        node.right = this.parseExprOp(this.parseMaybeUnary(noIn), rightStart, prec, noIn, indent, line);
+        node.right = this.parseExprOp(this.parseMaybeUnary(false), rightStart, prec, noIn, indent, line);
       }
       this.finishNode(node, /&&|\|\|/.test(node.operator) ? "LogicalExpression" : "BinaryExpression");
       return this.parseExprOp(node, start, minPrec, noIn, indent, line);
@@ -122,32 +122,44 @@ lp.parseExprOp = function (left, start, minPrec, noIn, indent, line) {
   return left;
 };
 
-lp.parseMaybeUnary = function (noIn) {
+lp.parseMaybeUnary = function (sawUnary) {
+  var start = this.storeCurrentPos(),
+      expr = undefined;
   if (this.tok.type.prefix) {
     var node = this.startNode(),
         update = this.tok.type === _.tokTypes.incDec;
+    if (!update) sawUnary = true;
     node.operator = this.tok.value;
     node.prefix = true;
     this.next();
-    node.argument = this.parseMaybeUnary(noIn);
+    node.argument = this.parseMaybeUnary(true);
     if (update) node.argument = this.checkLVal(node.argument);
-    return this.finishNode(node, update ? "UpdateExpression" : "UnaryExpression");
+    expr = this.finishNode(node, update ? "UpdateExpression" : "UnaryExpression");
   } else if (this.tok.type === _.tokTypes.ellipsis) {
     var node = this.startNode();
     this.next();
-    node.argument = this.parseMaybeUnary(noIn);
-    return this.finishNode(node, "SpreadElement");
+    node.argument = this.parseMaybeUnary(sawUnary);
+    expr = this.finishNode(node, "SpreadElement");
+  } else {
+    expr = this.parseExprSubscripts();
+    while (this.tok.type.postfix && !this.canInsertSemicolon()) {
+      var node = this.startNodeAt(start);
+      node.operator = this.tok.value;
+      node.prefix = false;
+      node.argument = this.checkLVal(expr);
+      this.next();
+      expr = this.finishNode(node, "UpdateExpression");
+    }
   }
-  var start = this.storeCurrentPos();
-  var expr = this.parseExprSubscripts();
-  while (this.tok.type.postfix && !this.canInsertSemicolon()) {
+
+  if (!sawUnary && this.eat(_.tokTypes.starstar)) {
     var node = this.startNodeAt(start);
-    node.operator = this.tok.value;
-    node.prefix = false;
-    node.argument = this.checkLVal(expr);
-    this.next();
-    expr = this.finishNode(node, "UpdateExpression");
+    node.operator = "**";
+    node.left = expr;
+    node.right = this.parseMaybeUnary(false);
+    return this.finishNode(node, "BinaryExpression");
   }
+
   return expr;
 };
 
@@ -206,7 +218,7 @@ lp.parseExprAtom = function () {
 
     case _.tokTypes.name:
       // quick hack to allow async and await
-      if (this.value == "async" && /^[ \t]*(function\b|\(|\w+[ \t]*=>)/.test(this.input.slice(this.tok.end))) {
+      if (this.tok.value == "async" && /^[ \t]*(function\b|\(|\w+[ \t]*=>)/.test(this.input.slice(this.tok.end))) {
         node = this.startNode();
         this.next();
         return this.parseExprAtom();
@@ -956,6 +968,9 @@ lp.parseStatement = function () {
 
     case _.tokTypes._export:
       return this.parseExport();
+    case _.tokTypes.at:
+      this.next();
+      return this.parseExpression();
 
     default:
       var expr = this.parseExpression();
@@ -1041,11 +1056,18 @@ lp.parseClass = function (isStatement) {
   var indent = this.curIndent + 1,
       line = this.curLineStart;
   this.eat(_.tokTypes.braceL);
+  var decorators = [];
   if (this.curIndent + 1 < indent) {
     indent = this.curIndent;line = this.curLineStart;
   }
   while (!this.closes(_.tokTypes.braceR, indent, line)) {
     if (this.semicolon()) continue;
+    if (this.tok.type == _.tokTypes.at) {
+      this.next();
+      var expr = this.parseMaybeAssign(true);
+      decorators.push(expr);
+      continue;
+    }
     var method = this.startNode(),
         isGenerator = undefined;
     if (this.options.ecmaVersion >= 6) {
@@ -1074,6 +1096,12 @@ lp.parseClass = function (isStatement) {
         method.kind = "method";
       }
       method.value = this.parseMethod(isGenerator);
+    }
+
+    if (decorators.length) {
+      var body = method.value.body.body;
+      if (body) body.unshift.apply(body, decorators);
+      decorators = [];
     }
     node.body.body.push(this.finishNode(method, "MethodDefinition"));
   }
@@ -1305,7 +1333,7 @@ lp.resetTo = function (pos) {
   this.toks.exprAllowed = !ch || /[\[\{\(,;:?\/*=+\-~!|&%^<>]/.test(ch) || /[enwfd]/.test(ch) && /\b(keywords|case|else|return|throw|new|in|(instance|type)of|delete|void)$/.test(this.input.slice(pos - 10, pos));
 
   if (this.options.locations) {
-    this.toks.curLine = 0;
+    this.toks.curLine = 1;
     this.toks.lineStart = _.lineBreakG.lastIndex = 0;
     var match = undefined;
     while ((match = _.lineBreakG.exec(this.input)) && match.index < pos) {

@@ -63,7 +63,8 @@ module.exports = function(options) {
             projectId: options.project.id,
             projectName: options.projectName || "Project",
             configName: options.configName,
-            standalone: options.standalone
+            standalone: options.standalone,
+            dashboardUrl: options.dashboardUrl
         },
         {
             packagePath: "plugins/c9.core/settings",
@@ -649,7 +650,8 @@ module.exports = function(options) {
         "plugins/c9.ide.preview/previewers/raw",
         {
             packagePath: "plugins/c9.ide.preview.browser/browser",
-            local: options.local
+            local: options.local,
+            staticPrefix: staticPrefix + "/plugins/c9.ide.preview.browser"
         },
         {
             packagePath: "plugins/c9.ide.preview.markdown/markdown",
@@ -692,14 +694,15 @@ module.exports = function(options) {
                 no_newsletter: options.user.no_newsletter,
                 subscription_on_signup: options.user.subscription_on_signup,
                 premium: options.user.premium,
-                region: options.user.region
+                region: options.user.region,
             },
             project: {
                 id: options.project.id,
                 name: options.project.name,
                 contents: options.project.contents,
                 descr: options.project.descr,
-                remote: options.project.remote
+                remote: options.project.remote,
+                premium: options.project.premium,
             }
         },
         {
@@ -720,6 +723,13 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.help/help",
             staticPrefix: staticPrefix + "/plugins/c9.ide.help"
+        },
+        {
+            packagePath: "plugins/c9.ide.guide/guide",
+            staticPrefix: staticPrefix + "/plugins/c9.ide.guide"
+        },
+        {
+            packagePath: "plugins/c9.ide.guide/default"
         },
         {
             packagePath: "plugins/c9.ide.configuration/configure",
@@ -888,6 +898,13 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.collab/chat/chat",
             staticPrefix: staticPrefix + "/plugins/c9.ide.collab/chat"
+        });
+    }
+    
+    if (options.platform !== "win32") {
+        plugins.push({
+            packagePath: "plugins/c9.ide.language.codeintel/codeintel",
+            preinstalled: hosted && !options.ssh,
         });
     }
 

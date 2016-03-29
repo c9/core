@@ -66,7 +66,7 @@ define(function(require, exports, module) {
                     if (!extraPackages[p.packageName]) {
                         var path = "plugins/" + p.packageName;
                         extraPackages[path] = {
-                            apiKey: p.apiKey,
+                            apikey: p.apikey,
                             packagePath: path,
                             version: p.version,
                             name: p.packageName
@@ -87,8 +87,10 @@ define(function(require, exports, module) {
                     });
                 }
                 resolved.filter(function(config) {
-                    if (extraPackages[config.packagePath])
+                    if (extraPackages[config.packagePath]) {
+                        _.assign(config, extraPackages[config.packagePath], function(x, y) { return x || y });
                         delete extraPackages[config.packagePath];
+                    }
                 });
                 Object.keys(extraPackages).forEach(function(extraConfig) {
                     console.warn("[c9.ide.loader] Package " 
@@ -286,7 +288,8 @@ define(function(require, exports, module) {
                     plugin.packageMetadata = config.metadata;
                     plugin.packageDir = config.path;
 
-                    plugin.apiKey = null; // FIXME
+                    plugin.apikey = config.apikey;
+                    plugin.version = config.version;
 
                     return plugin;
                 });

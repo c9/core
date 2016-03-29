@@ -375,7 +375,16 @@ define(function(require, exports, module) {
                 setTimeout(callback, 17);
             };
         
-        plugin.freezePublicAPI({});
+        plugin.freezePublicAPI({
+            /**
+             * @ignore
+             */
+            get supportedIcons(){ return SupportedIcons; },
+            /**
+             * @ignore
+             */
+            set supportedIcons(value){ SupportedIcons = value; }
+        });
         
         register(null, {
             util: plugin

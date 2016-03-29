@@ -1,13 +1,15 @@
 <html>
   <head>
     <meta charset='utf-8'> 
-    <title><%=error%></title>
+    <title>503 - Service Unavailable</title>
     <link rel="stylesheet" type="text/css" href="<%=staticPrefix%>/error_handler/style.css" />
   </head>
   <body class="error503 light">
     <div id="wrapper">
       <h1>Service Unavailable</h1>
-      <h2><em><%=statusCode%> - <%=scope%></em> <%=error%></h2>
+      <% if (showStackTrace) { %>
+        <h2><em><%=statusCode%> - <%=scope%></em> <%=error%></h2>
+      <% } %>
       <p style="margin-bottom:20px;width:600px">
         The service reports it's unavailable at this time. This has been logged
         and the appropriate people have been notified. Please check the 

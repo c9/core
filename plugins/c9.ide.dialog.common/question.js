@@ -27,6 +27,11 @@ define(function(require, module, exports) {
         /***** Methods *****/
         
         function show(title, header, msg, onYes, onNo, options) {
+            if (onYes && typeof onYes !== "function")
+                return show(title, header, msg, null, null, onYes);
+            if (onNo && typeof onNo !== "function")
+                return show(title, header, msg, onYes, null, onNo);
+            
             if (!options)
                 options = {};
                 
