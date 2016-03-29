@@ -147,6 +147,14 @@ define(function(require, module, exports) {
                 
                 mnuItem.setAttribute("hotkey",
                   "{commands.commandManager." + options.name + "}");
+                
+                
+                if (button && button.setAttribute) {
+                    var key = commands.getPrettyHotkey(options.name);
+                    button.setAttribute("tooltip", options.name
+                        + (key ? " (" + key + ")" : ""));
+                }
+                
                 return command;
             }
             
