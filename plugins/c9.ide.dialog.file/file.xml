@@ -27,7 +27,7 @@
                     <a:textbox
                       id           = "txtFilename"
                       flex         = "7"
-                      class        = "ace_searchbox tb_textbox searchbox searchTxt tb_console tb_textboxInitial"
+                      class        = "ace_searchbox tb_textbox searchbox searchTxt tb_console"
                       focusselect  = "true" />
                 </a:hsplitbox>
             </div>
@@ -46,7 +46,7 @@
                 <a:textbox
                   id           = "txtDirectory"
                   flex         = "7"
-                  class        = "directory ace_searchbox tb_textbox searchbox searchTxt tb_console tb_textboxInitial"
+                  class        = "directory ace_searchbox tb_textbox searchbox searchTxt tb_console"
                   focusselect  = "true" />
             </a:hbox>
             

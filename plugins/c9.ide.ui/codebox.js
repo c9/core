@@ -62,7 +62,7 @@ apf.codebox = function(struct, tagName) {
     this.value = "";
 
     this.$draw = function(){
-        //Build Main Skin
+        // Build Main Skin
         this.$ext = this.$getExternal();
         this.$input = this.$getLayoutNode("main", "input", this.$ext);
         this.$button = this.$getLayoutNode("main", "button", this.$ext);
@@ -91,13 +91,16 @@ apf.codebox = function(struct, tagName) {
         var checkInitial = function() {
             var value = ace.getValue();
             if (value && ace.renderer.initialMessageNode) {
-                dom.removeCssClass(ace.codebox.$ext, "tb_textboxInitial");
+                dom.removeCssClass(ace.container, "ace_initialMsg");
                 ace.renderer.scroller.removeChild(ace.renderer.initialMessageNode);
                 ace.renderer.initialMessageNode = null;
             }
             else if (!value && !ace.renderer.initialMessageNode) {
-                dom.addCssClass(ace.codebox.$ext, "tb_textboxInitial");
-                ace.renderer.initialMessageNode = document.createTextNode(ace.codebox["initial-message"] || "");
+                dom.addCssClass(ace.container, "ace_initialMsg");
+                var el = document.createElement("div");
+                el.className = "tb_textboxInitialMsg";
+                el.textContent = ace.codebox["initial-message"] || "";
+                ace.renderer.initialMessageNode = el;
                 ace.renderer.scroller.appendChild(ace.renderer.initialMessageNode);
             }
             

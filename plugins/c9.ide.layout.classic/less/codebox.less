@@ -43,10 +43,6 @@
     outline         : none;
     text-overflow   : ellipsis;
 }
-.tb_consoleFocus .sbtb_middle,
-.tb_consoleOver .sbtb_middle,
-.tb_console .sbtb_middle:hover {
-}
 
 .topborder .sbtb_middle{
     border-width : 1px 0 0 0;
@@ -67,17 +63,13 @@
 }
 
 
-.tb_console.tb_textboxInitial .input {
-    font-size : 10px;
-}
-.tb_console.tb_textboxInitial .ace_scroller {
+.ace_editor .tb_textboxInitialMsg {
     text-indent: 5px;
+    text-shadow: none;
 }
-.tb_console.tb_textboxInitial .ace_cursor{
+
+.ace_initialMsg:not(.ace_focus) .ace_cursor {
     display : none;
-}
-.tb_console.tb_textboxInitial .ace_focus .ace_cursor{
-    display : block;
 }
 
 .tb_consoleDisabled .sbtb_middle {
