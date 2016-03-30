@@ -76,6 +76,8 @@ function main(options, imports, register) {
             var parts = e.split(" ");
             var id = parts[1];
             var etag = parts[0];
+            if (!id || /^https?:\/\//.test(id))
+                return q.oneDone();
             var path = resolveModulePath(id, req.pathConfig.pathMap);
             
             if (path == id && !/^(\/|\w:)/.test(path)) {

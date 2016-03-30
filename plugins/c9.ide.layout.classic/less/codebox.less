@@ -18,6 +18,9 @@
     color : @textbox-disabled-color;
     background: @textbox-disabled-background;
 }
+.has_apf .searchTxt.tb_console.ace_searchboxDisabled .sbtb_middle .input {
+    color : @textbox-disabled-color;
+}
 .ace_one-line .ace_scroller.ace_scroll-left {
     box-shadow: none;
 }
@@ -63,16 +66,18 @@
     padding : 0;
 }
 
-.tb_console.tb_textboxInitial .sbtb_middle {
-    padding-right : 0 !important;
-}
 
 .tb_console.tb_textboxInitial .input {
     font-size : 10px;
 }
-
+.tb_console.tb_textboxInitial .ace_scroller {
+    text-indent: 5px;
+}
 .tb_console.tb_textboxInitial .ace_cursor{
     display : none;
+}
+.tb_console.tb_textboxInitial .ace_focus .ace_cursor{
+    display : block;
 }
 
 .tb_consoleDisabled .sbtb_middle {
