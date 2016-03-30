@@ -317,7 +317,10 @@ module.exports = function(options) {
         "plugins/c9.ide.language/tooltip",
         "plugins/c9.ide.language/jumptodef",
         "plugins/c9.ide.language/worker_util_helper",
-        "plugins/c9.ide.language.generic/generic",
+        {
+            packagePath: "plugins/c9.ide.language.generic/generic",
+            mode_completer: options.ssh,
+        },
         "plugins/c9.ide.language.css/css",
         "plugins/c9.ide.language.html/html",
         "plugins/c9.ide.language.javascript/javascript",
