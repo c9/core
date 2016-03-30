@@ -54,7 +54,7 @@ define(function(require, module, exports) {
                 
                 var gotYesNo = false;
                 plugin.once("hide", function(){
-                    !gotYesNo && cancel && onNo(false, true, metadata);
+                    !gotYesNo && cancel && onNo && onNo(false, true, metadata);
                 });
                 
                 plugin.update([
@@ -63,22 +63,22 @@ define(function(require, module, exports) {
                     { id: "yestoall", visible: all, onclick: function(){ 
                         gotYesNo = true; 
                         plugin.hide(); 
-                        onYes(true, metadata); 
+                        onYes && onYes(true, metadata); 
                     }},
                     { id: "notoall", visible: all, onclick: function(){ 
                         gotYesNo = true;
                         plugin.hide(); 
-                        onNo(true, false, metadata); 
+                        onNo && onNo(true, false, metadata); 
                     }},
                     { id: "yes", onclick: function(){ 
                         gotYesNo = true; 
                         plugin.hide(); 
-                        onYes(false, metadata); 
+                        onYes && onYes(false, metadata); 
                     }},
                     { id: "no", onclick: function(){ 
                         gotYesNo = true;
                         plugin.hide(); 
-                        onNo(false, false, metadata); 
+                        onNo && onNo(false, false, metadata); 
                     }}
                 ]);
             }, options.queue === false);
