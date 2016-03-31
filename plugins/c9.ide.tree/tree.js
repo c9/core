@@ -461,7 +461,8 @@ define(function(require, exports, module) {
                 var child = node.children[0];
                 if (!child || !child.isFolder || child.$depth > 0xff)
                     return;
-                
+                if (fsCache.isFileHidden(child.path))
+                    return;
                 if (isExpand && !child.isOpen) {
                     expandNode(child);
                     return true;
