@@ -62,7 +62,7 @@ apf.codebox = function(struct, tagName) {
     this.value = "";
 
     this.$draw = function(){
-        //Build Main Skin
+        // Build Main Skin
         this.$ext = this.$getExternal();
         this.$input = this.$getLayoutNode("main", "input", this.$ext);
         this.$button = this.$getLayoutNode("main", "button", this.$ext);
@@ -87,28 +87,28 @@ apf.codebox = function(struct, tagName) {
         this.$editor = this.ace = ace;
         ace.renderer.setPadding(2);
         this.ace.codebox = this;
-
-        ace.on("focus", function() {
-            dom.removeCssClass(ace.codebox.$ext, "tb_textboxInitial");
-
-            if (ace.renderer.initialMessageNode) {
+        
+        var checkInitial = function() {
+            var value = ace.getValue();
+            if (value && ace.renderer.initialMessageNode) {
+                dom.removeCssClass(ace.container, "ace_initialMsg");
                 ace.renderer.scroller.removeChild(ace.renderer.initialMessageNode);
                 ace.renderer.initialMessageNode = null;
             }
-        });
+            else if (!value && !ace.renderer.initialMessageNode) {
+                dom.addCssClass(ace.container, "ace_initialMsg");
+                var el = document.createElement("div");
+                el.className = "tb_textboxInitialMsg";
+                el.textContent = ace.codebox["initial-message"] || "";
+                ace.renderer.initialMessageNode = el;
+                ace.renderer.scroller.appendChild(ace.renderer.initialMessageNode);
+            }
+            
+        };
+        ace.on("input", checkInitial);
 
-        function onBlur() {
-            if (ace.$isFocused || ace.session.getValue())
-                return;
-            dom.addCssClass(ace.codebox.$ext, "tb_textboxInitial");
-
-            if (ace.renderer.initialMessageNode)
-                return;
-            ace.renderer.initialMessageNode = document.createTextNode(ace.codebox["initial-message"] || "");
-            ace.renderer.scroller.appendChild(ace.renderer.initialMessageNode);
-        }
-        ace.on("blur", onBlur);
-        setTimeout(onBlur, 100);
+        setTimeout(checkInitial, 100);
+        
         // todo should we do this here?
         // ace.on("resize", function(){apf.layout.forceResize();});
         
@@ -181,6 +181,7 @@ apf.codebox = function(struct, tagName) {
         new MultiSelect(editor);
         editor.session.setUndoManager(new UndoManager());
 
+        editor.setOption("indentedSoftWrap", false);
         editor.setHighlightActiveLine(false);
         editor.setShowPrintMargin(false);
         editor.renderer.setShowGutter(false);

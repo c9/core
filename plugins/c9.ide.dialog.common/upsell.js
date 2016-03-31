@@ -32,7 +32,9 @@ define(function(require, module, exports) {
                 
                 title = title || "This is a Premium feature";
                 header = header || "Upgrade to Premium Now!";
-                msg = msg || 'A better, faster, more versatile Cloud9 is just a click away. Check out our <a href="https://c9.io/pricing" target="_blank">amazing premium plans</a>.'
+                onYes = onYes || function() {};
+                onNo = onNo || function() {};
+                msg = msg || 'A better, faster, more versatile Cloud9 is just a click away. Check out our <a href="https://c9.io/pricing" target="_blank">amazing premium plans</a>.';
                 
                 plugin.title = title;
                 plugin.heading = options && options.isHTML ? header : util.escapeXml(header);

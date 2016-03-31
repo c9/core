@@ -317,7 +317,10 @@ module.exports = function(options) {
         "plugins/c9.ide.language/tooltip",
         "plugins/c9.ide.language/jumptodef",
         "plugins/c9.ide.language/worker_util_helper",
-        "plugins/c9.ide.language.generic/generic",
+        {
+            packagePath: "plugins/c9.ide.language.generic/generic",
+            mode_completer: options.ssh,
+        },
         "plugins/c9.ide.language.css/css",
         "plugins/c9.ide.language.html/html",
         "plugins/c9.ide.language.javascript/javascript",
@@ -806,13 +809,28 @@ module.exports = function(options) {
         
         "plugins/c9.ide.test.mocha/mocha",
         
+        // git integration v2
+        // {
+        //     packagePath: "plugins/c9.ide.scm/scm.commit",
+        //     staticPrefix: staticPrefix + "/plugins/c9.ide.scm"
+        // },
+        // "plugins/c9.ide.scm/scm",
+        // "plugins/c9.ide.scm/scm.branches",
+        // "plugins/c9.ide.scm/dialog.localchanges",
+        // "plugins/c9.ide.scm/scm.log",
+        // "plugins/c9.ide.scm/git",
+        // "plugins/c9.ide.scm/diff.split",
+        // "plugins/c9.ide.scm/diff.unified",
+
+        // // git integration v1
+        "plugins/c9.ide.scm/v1/scm",
+        "plugins/c9.ide.scm/v1/scmpanel",
+        "plugins/c9.ide.scm/v1/detail",
+        "plugins/c9.ide.scm/v1/log",
+        "plugins/c9.ide.scm/v1/git",
+        "plugins/c9.ide.scm/v1/editor",
+        
         // git integration
-        "plugins/c9.ide.scm/scm",
-        "plugins/c9.ide.scm/scmpanel",
-        "plugins/c9.ide.scm/detail",
-        "plugins/c9.ide.scm/log",
-        "plugins/c9.ide.scm/git",
-        "plugins/c9.ide.scm/editor",
         "plugins/c9.ide.scm/mergetool"
     ];
     

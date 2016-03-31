@@ -18,6 +18,9 @@
     color : @textbox-disabled-color;
     background: @textbox-disabled-background;
 }
+.has_apf .searchTxt.tb_console.ace_searchboxDisabled .sbtb_middle .input {
+    color : @textbox-disabled-color;
+}
 .ace_one-line .ace_scroller.ace_scroll-left {
     box-shadow: none;
 }
@@ -40,10 +43,6 @@
     outline         : none;
     text-overflow   : ellipsis;
 }
-.tb_consoleFocus .sbtb_middle,
-.tb_consoleOver .sbtb_middle,
-.tb_console .sbtb_middle:hover {
-}
 
 .topborder .sbtb_middle{
     border-width : 1px 0 0 0;
@@ -63,15 +62,13 @@
     padding : 0;
 }
 
-.tb_console.tb_textboxInitial .sbtb_middle {
-    padding-right : 0 !important;
+
+.ace_editor .tb_textboxInitialMsg {
+    text-indent: 5px;
+    text-shadow: none;
 }
 
-.tb_console.tb_textboxInitial .input {
-    font-size : 10px;
-}
-
-.tb_console.tb_textboxInitial .ace_cursor{
+.ace_initialMsg:not(.ace_focus) .ace_cursor {
     display : none;
 }
 
