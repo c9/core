@@ -57,7 +57,7 @@
     "c9plugins": {
         "c9.ide.language": "#ebc064ef16",
         "c9.ide.language.css": "#be07d72209",
-        "c9.ide.language.generic": "#92210f5a48",
+        "c9.ide.language.generic": "#3949510863",
         "c9.ide.language.html": "#22fdc74869",
         "c9.ide.language.html.diff": "#24f3608d26",
         "c9.ide.language.javascript": "#5ad6cc8d35",
@@ -66,7 +66,7 @@
         "c9.ide.language.javascript.tern": "#b55d0069bb",
         "c9.ide.language.javascript.infer": "#18acb93a3a",
         "c9.ide.language.jsonalyzer": "#4b329741b1",
-        "c9.ide.language.codeintel": "#871d8e5e5d",
+        "c9.ide.language.codeintel": "#2b18c5ccb1",
         "c9.ide.collab": "#728ad2bde2",
         "c9.ide.local": "#10eb45842a",
         "c9.ide.find": "#e33fbaed2f",
