@@ -333,15 +333,6 @@ define(function(require, exports, module) {
                 amlNode.$ext.className += " c9btn";
             
             menus.addItemByPath("File/~", new apf.divider(), 1000000, plugin);
-
-            if (!c9.local) {
-                menus.addItemByPath("Cloud9/~", new apf.divider(), 2000000, plugin);
-                menus.addItemByPath("Cloud9/Quit Cloud9", new apf.item({
-                    onclick: function(){
-                        location.href = "http://c9.io";
-                    }
-                }), 2000100, plugin);
-            }
     
             menus.addItemByPath("View/~", new apf.divider(), 9999, plugin);
             
