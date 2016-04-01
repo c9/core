@@ -2,7 +2,7 @@
 define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "bridge", "tabManager", "panels", "tree.favorites", "tree", 
-        "fs", "preferences", "settings", "c9"
+        "fs", "preferences", "settings", "c9", "commands"
     ];
     main.provides = ["bridge.commands"];
     return main;
@@ -18,6 +18,7 @@ define(function(require, exports, module) {
         var fs = imports.fs;
         var c9 = imports.c9;
         var prefs = imports.preferences;
+        var commands = imports.commands;
         
         var async = require("async");
         
@@ -35,6 +36,9 @@ define(function(require, exports, module) {
                 switch (message.type) {
                     case "open":
                         open(message, e.respond);
+                        break;
+                    case "exec":
+                        exec(message, e.respond);
                         break;
                     case "pipe":
                         createPipe(message, e.respond);
@@ -172,6 +176,12 @@ define(function(require, exports, module) {
                 if (!message.wait || !tabs.length)
                     callback(null, true);
             });
+        }
+
+        function exec(message, callback) {
+            var result = commands.exec(message.command, message.args);
+            var err = result ? null : "command failed";
+            callback(err, result);
         }
         
         /***** Lifecycle *****/

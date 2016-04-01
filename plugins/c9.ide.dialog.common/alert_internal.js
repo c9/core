@@ -26,6 +26,8 @@ define(function(require, module, exports) {
         /***** Methods *****/
         
         function show(title, header, msg, onhide, options) {
+            options = options || {};
+            
             metrics.increment("dialog.error");
             
             return plugin.queue(function(){
@@ -37,13 +39,15 @@ define(function(require, module, exports) {
                 else {
                     plugin.title = title;
                 }
-                plugin.heading = options && options.isHTML ? header : util.escapeXml(header);
-                plugin.body = options && options.isHTML ? msg : (util.escapeXml(msg) || "")
+                plugin.heading = options.isHTML ? header : util.escapeXml(header);
+                plugin.body = options.isHTML ? msg : (util.escapeXml(msg) || "")
                     .replace(/\n/g, "<br />")
                     .replace(/(https?:\/\/[^\s]*\b)/g, "<a href='$1' target='_blank'>$1</a>");
                 
+                plugin.getElement("ok").setCaption(options.yes || "OK");
+                
                 plugin.update([
-                    { id: "dontshow", visible: options && options.showDontShow }
+                    { id: "dontshow", visible: options.showDontShow }
                 ]);
                 
                 plugin.once("hide", function(){

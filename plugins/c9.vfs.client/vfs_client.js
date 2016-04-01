@@ -253,7 +253,7 @@ define(function(require, exports, module) {
                         err.message = "SSH permission denied. Please review your workspace configuration.";
                     return showAlert("Workspace Error", "Unable to access your workspace", err.message, function() {
                         window.location = dashboardUrl;
-                    });
+                    }, { yes: "Return to dashboard" });
                 case "reload":
                     lastError = showError(err.message + ". Please reload this window.", -1);
                     setTimeout(function() {

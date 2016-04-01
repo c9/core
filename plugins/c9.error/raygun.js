@@ -25,8 +25,8 @@ function plugin(options, imports, register) {
     };
     
     var clients = {
-        error: new raygun.Client().init({ apiKey: options.keys.error }),
-        warning: new raygun.Client().init({ apiKey: options.keys.warning })
+        error: new raygun.Client().init({ apiKey: options.keys.error, useHumanStringForObject: false }),
+        warning: new raygun.Client().init({ apiKey: options.keys.warning, useHumanStringForObject: false })
     };
     
     var customClients = options.customClients || {};

@@ -27,14 +27,14 @@ define(function(require, module, exports) {
                 options = {isHTML: true};
                 
             return plugin.queue(function(){
-                var all = options.all;
                 var cancel = options.cancel;
-                var showDontAsk = options.showDontAsk;
                 var metadata = options.metadata;
                 
                 title = title || "This is a Premium feature";
-                header = header || "Get Premium Support Now!";
-                msg = msg || 'Help is just a few clicks away. Check out our <a href="https://c9.io/pricing" target="_blank">amazing premium plans</a>.'
+                header = header || "Upgrade to Premium Now!";
+                onYes = onYes || function() {};
+                onNo = onNo || function() {};
+                msg = msg || 'A better, faster, more versatile Cloud9 is just a click away. Check out our <a href="https://c9.io/pricing" target="_blank">amazing premium plans</a>.';
                 
                 plugin.title = title;
                 plugin.heading = options && options.isHTML ? header : util.escapeXml(header);
@@ -73,7 +73,12 @@ define(function(require, module, exports) {
         plugin.freezePublicAPI({
             
             /**
-             * 
+             * @param {Function} onYes          Callback for when user clicks the 'yes' button
+             * @param {Function} onNo           Callback for when the user clicks the 'no' button
+             * @param {String}   [title]        Title for the dialog
+             * @param {String}   [header]       Header for the dialog body
+             * @param {String}   [msg]          Message to show the user.
+             * @param {Object}   [options]      Miscellaneous options
              */
             show: show
         });
