@@ -24,7 +24,6 @@
         "less": "^2.4.0",
         "mime": "~1.2.9",
         "mkdirp": "~0.3.5",
-        "msgpack-js": "~0.1.1",
         "msgpack-js-browser": "~0.1.4",
         "nak": "git://github.com/cloud9ide/nak.git#6deef931594",
         "netutil": "~0.0.2",
@@ -56,6 +55,7 @@
     ],
     "c9plugins": {
         "c9.ide.language": "#ebc064ef16",
+        "c9.ide.language.core": "#undefined",
         "c9.ide.language.css": "#be07d72209",
         "c9.ide.language.generic": "#92210f5a48",
         "c9.ide.language.html": "#22fdc74869",
@@ -93,7 +93,6 @@
         "c9.ide.installer": "#cad8f8316d",
         "c9.ide.language.python": "#330b80e3b2",
         "c9.ide.language.go": "#6ce1c7a7ef",
-        "c9.ide.mount": "#4c39359b87",
         "c9.ide.navigate": "#0b7ec7936c",
         "c9.ide.newresource": "#981a408a7b",
         "c9.ide.openfiles": "#2ae85a9e33",
