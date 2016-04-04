@@ -520,7 +520,7 @@ define(function(require, exports, module) {
                 }
                 
                 if (dirname(newpath) != dirname(path)) {
-                    tree.edit.ace.blur(); // TODO this shouldn't be needed when apf focus works
+                    tree.edit.$lastAce && tree.edit.$lastAce.blur(); // TODO this shouldn't be needed when apf focus works
                     question(
                         "Confirm move to a new folder",
                         "move '" + e.oldValue + "' to \n" + 
