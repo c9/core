@@ -291,9 +291,9 @@ define(function(require, module, exports) {
                 load();
             });
             
-            plugin.on("beforeUnload", function(){
+            plugin.on("beforeUnload", function(e){
                 if (!plugin.meta.$closing) {
-                    if (close())
+                    if (close(e && e.animate === false))
                         return false;
                 }
             });

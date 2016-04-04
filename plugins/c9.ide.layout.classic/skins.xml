@@ -859,4 +859,16 @@
         </a:main>
     </a:presentation>
 </a:button>
+<a:button name="btn-switcher">
+    <a:presentation>
+        <a:main
+          caption    = "text()"
+          background = "."
+          icon       = ".">
+            <div class="btn-switcher">
+                -<span> </span>
+            </div>
+        </a:main>
+    </a:presentation>
+</a:button>
 </a:skin>

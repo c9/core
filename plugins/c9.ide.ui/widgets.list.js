@@ -34,7 +34,7 @@ define(function(require, exports, module) {
             var acetree;
             var model;
             var redirectEvents;
-            var filterRoot;
+            var fRoot;
             var meta = {};
             var dataType = options.model ? "object" : options.dataType;
             var excludedEvents = { 
@@ -254,6 +254,16 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
+                get enableVariableHeight(){ return model.getItemHeight; },
+                set enableVariableHeight(value){ 
+                    if (!value) throw new Error("Unable to remove variable height");
+                    
+                    var variableHeightRowMixin = model.constructor.variableHeightRowMixin;
+                    variableHeightRowMixin.apply(model);
+                },
+                /**
+                 * 
+                 */
                 get enableRename(){ return acetree.edit ? true : false; },
                 set enableRename(value){ 
                     acetree.edit = value 
@@ -296,18 +306,20 @@ define(function(require, exports, module) {
                 set filterKeyword(value){
                     model.keyword = value;
                     if (!model.keyword) {
-                        filterRoot = null;
+                        fRoot = null;
                         model.reKeyword = null;
                         model.setRoot(model.cachedRoot);
                     }
                     else {
                         model.reKeyword = new RegExp("(" 
                             + util.escapeRegExp(model.keyword) + ")", 'i');
-                        filterRoot = search.treeSearch(
-                            model.cachedRoot.items || model.cachedRoot, 
+                        fRoot = search.treeSearch(
+                            model.filterRoot 
+                                ? model.filterRoot.items || model.filterRoot
+                                : model.cachedRoot.items || model.cachedRoot, 
                             model.keyword, model.filterCaseInsensitive,
-                            null, null, model.indexProperty);
-                        model.setRoot(filterRoot);
+                            null, null, model.filterProperty);
+                        model.setRoot(fRoot);
                     }
                 },
                 /**
@@ -320,6 +332,11 @@ define(function(require, exports, module) {
                  */
                 get filterProperty(){ return model.filterProperty; },
                 set filterProperty(value){ model.filterProperty = value; },
+                /**
+                 * 
+                 */
+                get filterRoot(){ return model.filterRoot; },
+                set filterRoot(value){ model.filterRoot = value; },
                 /**
                  * 
                  */
@@ -397,8 +414,18 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
+                get getTooltipText(){ return model.getTooltipText; },
+                set getTooltipText(fn){ model.getTooltipText = fn; },
+                /**
+                 * 
+                 */
                 get getIndex(){ return model.getIndex; },
                 set getIndex(fn){ model.getIndex = fn; },
+                /**
+                 * 
+                 */
+                get getItemHeight(){ return model.getItemHeight; },
+                set getItemHeight(fn){ model.getItemHeight = fn; },
                 
                  // Events
                 _events: [
@@ -494,7 +521,10 @@ define(function(require, exports, module) {
                  */
                 setRoot: function(root){
                     model.cachedRoot = root;
-                    return model.setRoot(root);
+                    if (model.keyword)
+                        plugin.filterKeyword = model.keyword;
+                    else
+                        return model.setRoot(root);
                 },
                 /**
                  * 
@@ -538,8 +568,8 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                scrollIntoView: function(anchor, lead, offset){ 
-                    return acetree.renderer.scrollCaretIntoView(anchor, lead, offset);
+                scrollIntoView: function(anchor, offset){ 
+                    return acetree.renderer.scrollCaretIntoView(anchor, offset);
                 },
                 /**
                  * 
@@ -585,7 +615,10 @@ define(function(require, exports, module) {
                  * 
                  */
                 refresh: function(){
-                    model.setRoot(filterRoot || plugin.root);
+                    if (model.keyword)
+                        plugin.filterKeyword = model.keyword;
+                    else
+                        model.setRoot(plugin.root);
                 },
                 /**
                  * 

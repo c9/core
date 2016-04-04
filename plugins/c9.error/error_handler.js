@@ -115,6 +115,7 @@ function plugin(options, imports, register) {
         var accept = req.headers.accept || '';
 
         if (statusCode == 500) {
+            console.error(err && err.stack);
             emitter.emit("internalServerError", {
                 err: err,
                 req: req

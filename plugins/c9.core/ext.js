@@ -577,7 +577,7 @@ define(function(require, exports, module) {
             
             function setAPIKey(apikey){
                 // Validate Key
-                if (!apikey || !apikey.match(/[\w+]{27}=/))
+                if (!apikey || !apikey.match(/^.{27}=$/))
                     throw new Error("Invalid API key");
                 
                 return {

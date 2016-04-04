@@ -221,7 +221,7 @@ define(function(require, exports, module) {
         }]);
         
         ace.onPaste = function(text) {
-            this.send(text.replace(/\r\n/g, "\n"));
+            this.send(text.replace(/\r\n?|\n/g, this.session.term.convertEol ? "\n" : "\r"));
         };
         
         ace.setKeyboardHandler(this);
