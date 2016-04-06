@@ -9,14 +9,13 @@ define(function(require, exports, module) {
     "use strict";
 
     main.consumes = [
-        "Plugin", "http"
+        "Plugin",
     ];
     main.provides = ["error_handler"];
     return main;
 
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
-        var http = imports.http;
 
         /***** Initialization *****/
         
