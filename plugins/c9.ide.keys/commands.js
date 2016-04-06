@@ -96,7 +96,16 @@ define(function(require, exports, module) {
         }
     
         function getHotkey(command) {
+            if (!commands[command] || !commands[command].bindKey)
+                return "";
             return commands[command].bindKey[platform];
+        }
+        
+        function getPrettyHotkey(command) {
+            var key = getHotkey(command);
+            if (platform == "mac")
+                key = apf.hotkeys.toMacNotation(key);
+            return key;
         }
         
         var markDirty = lang.delayedCall(function(){
@@ -556,6 +565,14 @@ define(function(require, exports, module) {
              * @return {String}
              */
             getHotkey: getHotkey,
+            
+            /**
+             * returns result of getHotkey formatted for displaying in menus
+             * 
+             * @param {String} name  the name of the command.
+             * @return {String}
+             */
+            getPrettyHotkey: getPrettyHotkey,
             
             /**
              * Executes the action tied to a command. This method will call

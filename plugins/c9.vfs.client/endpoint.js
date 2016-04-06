@@ -225,6 +225,10 @@ define(function(require, exports, module) {
                             callback(fatalError(res.error.message, "dashboard"));
                             return;
                         }
+                        else if (err.code == 404) {
+                            callback(fatalError("This workspace no longer appears to exist or failed to be created.", "dashboard"));
+                            return;
+                        }
                         else if (err.code === 428 && res.error) {
                             emit("restore", {
                                 projectState: res.error.projectState,
@@ -249,6 +253,13 @@ define(function(require, exports, module) {
                             setTimeout(function() {
                                 tryNext(i);
                             }, 10000);
+                            return;
+                        }
+                        else if (err.code == 503) {
+                            // service unavailable
+                            setTimeout(function() {
+                                tryNext(i);
+                            }, res.error.retryIn || 15000);
                             return;
                         }
                         else if (err.code === 500 && res && res.error && res.error.cause) {

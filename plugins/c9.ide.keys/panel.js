@@ -79,6 +79,9 @@ define(function(require, exports, module) {
             // @TODO this is probably not sufficient
             layout.on("resize", function(){ tree.resize() }, plugin);
             
+            var key = commands.getPrettyHotkey("commands");
+            txtFilter.setAttribute("initial-message", key);
+            
             tree.textInput = txtFilter.ace.textInput;
             
             txtFilter.ace.commands.addCommands([

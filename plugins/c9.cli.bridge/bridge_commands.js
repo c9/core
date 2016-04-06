@@ -2,7 +2,7 @@
 define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "bridge", "tabManager", "panels", "tree.favorites", "tree", 
-        "fs", "preferences", "settings", "c9"
+        "fs", "preferences", "settings", "c9", "commands"
     ];
     main.provides = ["bridge.commands"];
     return main;
@@ -18,6 +18,7 @@ define(function(require, exports, module) {
         var fs = imports.fs;
         var c9 = imports.c9;
         var prefs = imports.preferences;
+        var commands = imports.commands;
         
         var async = require("async");
         
@@ -35,6 +36,15 @@ define(function(require, exports, module) {
                 switch (message.type) {
                     case "open":
                         open(message, e.respond);
+                        break;
+                    case "exec":
+                        exec(message, e.respond);
+                        break;
+                    case "pipe":
+                        createPipe(message, e.respond);
+                        break;
+                    case "pipeData":
+                        updatePipe(message, e.respond);
                         break;
                     case "ping":
                         e.respond(null, true);
@@ -66,6 +76,30 @@ define(function(require, exports, module) {
         }
         
         /***** Methods *****/
+        function createPipe(message, callback) {
+            tabManager.once("ready", function(){
+                tabManager.open({
+                    focus: true,
+                    editorType: "ace",
+                    path: message.path && c9.toInternalPath(message.path),
+                    document: { meta : { newfile: true } }
+                }, function(err, tab) {
+                    if (err) 
+                        return callback(err);
+                    callback(null, tab.path || tab.name);
+                });
+            }); 
+        }
+        
+        function updatePipe(message, callback) {
+            tabManager.once("ready", function() {
+                var tab = tabManager.findTab(message.tab);
+                var c9Session = tab && tab.document.getSession();
+                if (c9Session && c9Session.session)
+                   c9Session.session.insert({row: Number.MAX_VALUE, column: Number.MAX_VALUE} , message.data);
+                callback(null, true);
+            });
+        }
         
         function open(message, callback) {
             var i = -1;
@@ -102,12 +136,22 @@ define(function(require, exports, module) {
                 }
                 else {
                     tabManager.once("ready", function(){
+                        var m = /:(\d*)(?::(\d*))?$/.exec(path);
+                        var jump = {};
+                        if (m) {
+                            if (m[1])
+                                jump.row = parseInt(m[1], 10) - 1;
+                            if (m[2])
+                                jump.column = parseInt(m[2], 10);
+                            path = path.slice(0, m.index);
+                        }
+                        
                         fs.exists(path, function(existing) {
                             var tab = tabManager.open({
                                 path: path,
                                 focus: i === 0,
                                 document: existing
-                                    ? undefined
+                                    ? { ace: { jump: jump } }
                                     : { meta : { newfile: true } }
                             }, function(){
                                 next();
@@ -132,6 +176,12 @@ define(function(require, exports, module) {
                 if (!message.wait || !tabs.length)
                     callback(null, true);
             });
+        }
+
+        function exec(message, callback) {
+            var result = commands.exec(message.command, message.args);
+            var err = result ? null : "command failed";
+            callback(err, result);
         }
         
         /***** Lifecycle *****/

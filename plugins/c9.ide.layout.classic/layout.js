@@ -214,7 +214,7 @@ define(function(require, exports, module) {
             }
         }
         
-        function proposeLayoutChange(kind, force, type, reset) {
+        function proposeLayoutChange(kind, force, type) {
             if (!force && settings.getBool("user/general/@propose"))
                 return;
             
@@ -225,7 +225,7 @@ define(function(require, exports, module) {
                     ignoreTheme = true;
                     var theme = {"dark": "flat-dark", "light": "flat-light"}[kind];
                     settings.set("user/general/@skin", theme);
-                    updateTheme(!!reset, type);
+                    updateTheme(false, type);
                     ignoreTheme = false;
                     settings.set("user/general/@propose", question.dontAsk);
                 },
@@ -333,15 +333,6 @@ define(function(require, exports, module) {
                 amlNode.$ext.className += " c9btn";
             
             menus.addItemByPath("File/~", new apf.divider(), 1000000, plugin);
-
-            if (!c9.local) {
-                menus.addItemByPath("Cloud9/~", new apf.divider(), 2000000, plugin);
-                menus.addItemByPath("Cloud9/Quit Cloud9", new apf.item({
-                    onclick: function(){
-                        location.href = "http://c9.io";
-                    }
-                }), 2000100, plugin);
-            }
     
             menus.addItemByPath("View/~", new apf.divider(), 9999, plugin);
             
@@ -355,6 +346,14 @@ define(function(require, exports, module) {
             menus.addItemByPath("Window/Presets/Sublime Mode", new ui.item({
                 onclick: function(){ setBaseLayout("sublime"); }
             }), 300, plugin);
+        }
+        
+        function resetTheme(theme, type) {
+            ignoreTheme = true;
+            settings.set("user/general/@skin", theme);
+            updateTheme(true);
+            emit("themeDefaults", {theme: theme, type: type});
+            ignoreTheme = false;
         }
         
         function resize(){
@@ -597,7 +596,7 @@ define(function(require, exports, module) {
             get theme(){
                 return theme;
             },
-            
+
             /**
              * Returns an AMLElement that can server as a parent.
              * @param {Plugin} plugin  The plugin for which to find the parent.
@@ -613,6 +612,13 @@ define(function(require, exports, module) {
              */
             initMenus: initMenus,
             
+            /**
+             * Resets theme (without questioning user).
+             * @param {String} theme  Theme to use.
+             * @param {String} type   Type of editor to use.
+             */
+            resetTheme: resetTheme,
+
             /**
              * Sets the layout in one of two default modes:
              * @param {"default"|"minimal"} type 

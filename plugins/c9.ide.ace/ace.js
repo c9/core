@@ -1444,7 +1444,7 @@ define(function(require, exports, module) {
             else if (/^{/.test(firstLine)) {
                 syntax = "json";
             }
-            else if (/\.(bashrc|inputrc)$/.test(path)) {
+            else if (/\.(bash|inputrc|profile|zsh)/.test(path)) {
                 syntax = "sh";
             }
             else if (/\.(git(attributes|config|ignore)|npmrc)$/.test(path)) {

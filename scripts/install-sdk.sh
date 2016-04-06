@@ -96,7 +96,7 @@ updateNodeModules() {
     echo "${magenta}--- Running npm install --------------------------------------------${resetColor}"
     safeInstall(){
         deps=(`"$NODE" -e 'console.log(Object.keys(require("./package.json").dependencies).join(" "))'`)
-        for m in $deps; do echo $m; 
+        for m in ${deps[@]}; do echo $m; 
             "$NPM" install --loglevel warn $m || true
         done
     }

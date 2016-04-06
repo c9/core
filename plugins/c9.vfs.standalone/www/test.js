@@ -199,6 +199,8 @@ require([
                 c.exec = function(name) {
                     commands[name].exec();
                 };
+                c.getPrettyHotkey = function(name) { return "" };
+                c.getHotkey = function(name) { return "" };
                 c.getExceptionList = function(){ return []; };
                 
                 return c;

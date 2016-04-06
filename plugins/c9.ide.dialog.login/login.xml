@@ -28,7 +28,7 @@
                   <a:textbox
                     id           = "txtUsername"
                     flex         = "7"
-                    class        = "ace_searchbox tb_textbox searchbox searchTxt tb_console tb_textboxInitial"
+                    class        = "ace_searchbox tb_textbox searchbox searchTxt tb_console"
                     focusselect  = "true" />
               </a:hbox>
             </div>
@@ -41,7 +41,7 @@
                   <a:secret
                     id           = "txtPassword"
                     flex         = "7"
-                    class        = "ace_searchbox tb_textbox searchbox searchTxt tb_console tb_textboxInitial"
+                    class        = "ace_searchbox tb_textbox searchbox searchTxt tb_console"
                     focusselect  = "true" />
               </a:hbox>
             </div>

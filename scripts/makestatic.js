@@ -85,7 +85,8 @@ function main(config, settings, options, callback) {
                             findAllAndPurge: function(maxVfsAge, callback) {
                                 callback(null, [{}]);
                             }
-                        }
+                        },
+                        "User": {}
                     }, 
                     "redis": {},
                     "health": { 
