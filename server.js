@@ -168,6 +168,8 @@ function loadSettings(settingsName) {
     return settings;
 }
 
+module.exports.loadSettings = loadSettings;
+
 function start(configName, options, callback) {
     console.log("Starting", configName);
     
