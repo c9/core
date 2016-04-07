@@ -142,6 +142,32 @@ function expandShortCuts(configs) {
     return results;
 }
 
+function loadSettings(settingsName) {
+    var provider = hostname.parse(os.hostname()).provider;
+    var candidates = [
+        path.join(__dirname, "./settings", settingsName + "-" + provider),
+        path.join(__dirname, "./settings", settingsName)
+    ];
+
+    var settings, settingsModule;
+    
+    for (var i = 0; i < candidates.length; i++) {
+        var settingsPath = candidates[i];
+        try {
+            settingsModule = require(settingsPath);
+        } catch (e) {
+            continue;
+        }
+        settings = settingsModule();
+        break;
+        
+    }
+    if (!settings)
+        throw new Error("No settings found");
+        
+    return settings;
+}
+
 function start(configName, options, callback) {
     console.log("Starting", configName);
     
@@ -155,7 +181,7 @@ function start(configName, options, callback) {
     if (configPath[0] !== "/")
         configPath = path.join(__dirname, "/configs/", configName);
    
-    var settings = require(path.join(__dirname, "./settings", settingsName))();
+    var settings = loadSettings(settingsName);
     
     argv.domains = argv.domains || settings.domains;
     if (settings.c9 && argv.domains)
