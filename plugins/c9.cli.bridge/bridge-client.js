@@ -59,7 +59,7 @@ define(function(require, exports, module) {
                     if (done) return;
                     callback(new Error("No Response"));
                     done = true;
-                })
+                });
             });
         }
         

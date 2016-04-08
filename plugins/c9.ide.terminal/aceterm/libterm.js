@@ -470,7 +470,7 @@ Terminal.prototype.writeInternal = function(data) {//TODO optimize lines
                   if (!this.insertMode)
                     line[this.x] = [this.curAttr, ch];
                   else
-                    line[insertY].splice(this.x, 0, [this.curAttr, ch]);
+                    line.splice(this.x, 0, [this.curAttr, ch]);
                   break;
                 case 0:
                   if (this.x > 0) this.x--;
@@ -481,7 +481,7 @@ Terminal.prototype.writeInternal = function(data) {//TODO optimize lines
                     line[this.x] = [this.curAttr, ch];
                     line[this.x + 1] = [this.curAttr, "\x00"];
                   } else {
-                    line[insertY].splice(this.x, 0, [this.curAttr, ch], [this.curAttr, ""]);
+                    line.splice(this.x, 0, [this.curAttr, ch], [this.curAttr, ""]);
                   }
                   this.x++;
                   break;

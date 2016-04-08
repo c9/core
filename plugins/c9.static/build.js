@@ -254,6 +254,7 @@ function main(options, imports, register) {
                 "plugins/c9.ide.language/worker",
                 "plugins/c9.ide.language.generic/local_completer",
                 "plugins/c9.ide.language.generic/snippet_completer",
+                "plugins/c9.ide.language.generic/mode_completer",
                 "plugins/c9.ide.language.generic/open_files_local_completer",
                 "plugins/c9.ide.language.generic/simple/make",
                 "plugins/c9.ide.language.generic/simple/shell",

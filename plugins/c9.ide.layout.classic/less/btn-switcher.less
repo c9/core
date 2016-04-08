@@ -1,0 +1,52 @@
+.btn-switcher {
+    .user-select(none);
+    -webkit-display: flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    cursor: default;
+    font-size: @preview-chooser-font-size;
+    font-weight: @preview-chooser-font-weight;
+    color: ;
+    font-family: @preview-chooser-font-family;
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
+    background: @preview-chooser-background;
+    border-radius: 0 2px 2px 0;
+    box-shadow: @preview-chooser-box-shadow;
+    cursor: pointer;
+    border: 1px solid @textbox-border-color;
+    border-left : 0;
+    border-radius: 0 3px 3px 0;
+    position : relative;
+    
+    padding: 4px 17px 4px 8px;
+    box-sizing: border-box;
+}
+.btn-switcherOver{
+    background: @preview-chooser-over-background;
+}
+.btn-switcherDown{
+    background: @preview-chooser-active-background;
+}
+.btn-switcher svg{
+    vertical-align: middle;
+    margin: -2px 4px 0 0;
+}
+    
+.btn-switcher span{
+    display : block;
+    position : absolute;
+    right : 6px;
+    top : 11px;
+    width : 5px;
+    height : 5px;
+    background: url("@{image-path}/@{preview-chooser-arrow}") no-repeat;
+    opacity: 0.6;
+}
+
+.btn-switcherIcon {
+    background-repeat: no-repeat;
+    padding-left: 25px;
+    background-position: 5px 50%
+}

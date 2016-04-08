@@ -90,6 +90,7 @@ function plugin(options, imports, register) {
         var customData = _.clone(raygun.customData || {});
         if (req.user) {
             customData.user = {
+                augment: err.augment,
                 id: req.user.id,
                 name: req.user.name,
                 email: req.user.email
