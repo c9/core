@@ -176,7 +176,7 @@ function plugin(options, imports, register) {
     
     api.get("/update/:path*", function(req, res, next) {
         var filename = req.params.path;
-        var path = resolve(__dirname + "/../../build/output/" + filename);
+        var path = resolve(__dirname + "/../../build/output/" + resolve("/" + filename));
         
         var stream = fs.createReadStream(path);
         stream.on("error", function(err) {
