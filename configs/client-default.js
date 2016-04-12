@@ -109,6 +109,7 @@ module.exports = function(options) {
         
         // VFS
         "plugins/c9.vfs.client/vfs.ping",
+        "plugins/c9.vfs.client/vfs.log",
         {
             packagePath: "plugins/c9.vfs.client/vfs_client",
             debug: debug,

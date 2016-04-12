@@ -255,6 +255,13 @@ define(function(require, exports, module) {
                             }, 10000);
                             return;
                         }
+                        else if (err.code == 503) {
+                            // service unavailable
+                            setTimeout(function() {
+                                tryNext(i);
+                            }, res.error.retryIn || 15000);
+                            return;
+                        }
                         else if (err.code === 500 && res && res.error && res.error.cause) {
                             return callback(res.error.cause.message);
                         }

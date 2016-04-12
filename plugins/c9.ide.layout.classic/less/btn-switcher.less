@@ -1,8 +1,10 @@
 .btn-switcher {
     .user-select(none);
-    
+    -webkit-display: flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
     cursor: default;
-    line-height: 19px;
     font-size: @preview-chooser-font-size;
     font-weight: @preview-chooser-font-weight;
     color: ;
@@ -46,6 +48,5 @@
 .btn-switcherIcon {
     background-repeat: no-repeat;
     padding-left: 25px;
-    padding-top: 5px;
-    background-position: 5px 6px;
+    background-position: 5px 50%
 }

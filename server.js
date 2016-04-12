@@ -8,8 +8,6 @@ try {
 
 var path = require("path");
 var architect = require("architect");
-var optimist = require("optimist");
-var async = require("async");
 var os = require("os");
 var urls = require("c9/urls");
 var hostname = require("c9/hostname");
@@ -73,7 +71,9 @@ module.exports.getDefaultSettings = getDefaultSettings;
 
 function main(argv, config, onLoaded) {
     var inContainer = os.hostname().match(/-\d+$/);
-    
+    var optimist = require("optimist");
+    var async = require("async");
+
     var options = optimist(argv)
         .usage("Usage: $0 [CONFIG_NAME] [--help]")
         .alias("s", "settings")
@@ -142,6 +142,34 @@ function expandShortCuts(configs) {
     return results;
 }
 
+function loadSettings(settingsName) {
+    var provider = hostname.parse(os.hostname()).provider;
+    var candidates = [
+        path.join(__dirname, "./settings", settingsName + "-" + provider),
+        path.join(__dirname, "./settings", settingsName)
+    ];
+
+    var settings, settingsModule;
+    
+    for (var i = 0; i < candidates.length; i++) {
+        var settingsPath = candidates[i];
+        try {
+            settingsModule = require(settingsPath);
+        } catch (e) {
+            continue;
+        }
+        settings = settingsModule();
+        break;
+        
+    }
+    if (!settings)
+        throw new Error("No settings found");
+        
+    return settings;
+}
+
+module.exports.loadSettings = loadSettings;
+
 function start(configName, options, callback) {
     console.log("Starting", configName);
     
@@ -155,7 +183,7 @@ function start(configName, options, callback) {
     if (configPath[0] !== "/")
         configPath = path.join(__dirname, "/configs/", configName);
    
-    var settings = require(path.join(__dirname, "./settings", settingsName))();
+    var settings = loadSettings(settingsName);
     
     argv.domains = argv.domains || settings.domains;
     if (settings.c9 && argv.domains)

@@ -37,7 +37,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
 
         describe('proc', function() {
             describe('spawn()', function() {
-                this.timeout(4000);
+                this.timeout(10000);
                 
                 it("should spawn a child process", function(done) {
                     var args = ["-e", "process.stdin.pipe(process.stdout);try{process.stdin.resume()}catch(e) {};"];
@@ -66,8 +66,8 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     });
                 });
                 
-                //should test the kill() method - which is broken now
-                //Another test - see that cwd defaults to the root vfs dir when resolve is set to true
+                // should test the kill() method - which is broken now
+                // Another test - see that cwd defaults to the root vfs dir when resolve is set to true
             });
             describe('execFile()', function() {
                 this.timeout(10000);
@@ -101,8 +101,19 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     });
                 });
                 
-                //should test the kill() method - which is broken now
-                //Another test - see that cwd defaults to the root vfs dir when resolve is set to true
+                it('should pass stdout and stderr', function(done) {
+                    proc.execFile("node", {
+                        args: ["-v"]
+                    }, function(e, stdout, stderr) {
+                        expect(stdout[0]).to.equal("v");
+                        expect(stderr).to.equal("");
+                        expect(e).to.not.ok;
+                        done();
+                    });
+                });
+                
+                // should test the kill() method - which is broken now
+                // Another test - see that cwd defaults to the root vfs dir when resolve is set to true
             });
             describe('pty()', function() {
                 this.timeout(30000);

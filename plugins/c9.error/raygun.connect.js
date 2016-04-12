@@ -84,6 +84,9 @@ function plugin(options, imports, register) {
     }
     
     function _sendRequest(raygunClient, err, req) {
+        if (typeof err == "string")
+            err = new Error(err);
+
         var parsedUrl = url.parse(req.url, false);
         var ip = req.remoteAddress;
 
