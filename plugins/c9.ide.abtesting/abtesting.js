@@ -37,8 +37,11 @@ define(function(require, exports, module) {
             return outplan.create(name, choices, options);
         }
         
-        function get(experimentName, overrideUserId) {
-            return outplan.get(experimentName, overrideUserId == null ? userId : overrideUserId);
+        function expose(experimentName, overrideUserId, options) {
+            if (overrideUserId && typeof overrideUserId === "object")
+                return expose(experimentName, null, options);
+            
+            return outplan.expose(experimentName, overrideUserId == null ? userId : overrideUserId, options);
         }
         
         function isUserCreatedAfter(experimentDate) {
@@ -71,16 +74,15 @@ define(function(require, exports, module) {
             create: create,
             
             /**
-             * Get the selected variation of an experiment. Alias for require("outplan").get()
-             * but doesn't require a userId
+             * Get the selected variation of an experiment, and call the log function with
+             * an "expose" event to track its exposure.
              * 
-             * As a side effect, this calls the log function with an "expose" event
-             * with the selected experiment variation.
-             * 
-             * @param {String} name            The experiment name.
-             * @param {String|Number} [userId] A unique identifier for the current user.
+             * @param {String} name                 The experiment name.
+             * @param {Number} [userId]             A unique identifier for the current user.
+             * @param {Object} [options]            Options
+             * @param {Boolean} [options.log=true]  Whether to log an "exposure event"
              */
-            get: get,
+            expose: expose,
             
             /**
              * Helper to determine if the current user was created after the start of an experiment.
