@@ -60,8 +60,8 @@ define(function(require, exports, module) {
             /**
              * Create a new experiment. Alias for require("outplan").create()
              * 
-             * @param {String|Number} userId
              * @param {String} name
+             *        The name of the experiment.
              * @param {String[]|Object[]} choices
              *        A list of variations, e.g. ["A", "B"],
              *        or variation objects, e.g. [{ name: "A", color: "#AAA" }, { name: "B", color: "#BBB" }]
@@ -69,7 +69,7 @@ define(function(require, exports, module) {
              *        Options for the experiment. This may also include
              *        arguments for the distribution operator, e.g. weight.
              * @param {Function} [options.operator]
-             *        The distribution operator, e.g. outplan.WeightedChoice  
+             *        The distribution operator, e.g. outplan.WeightedChoice.
              */
             create: create,
             
