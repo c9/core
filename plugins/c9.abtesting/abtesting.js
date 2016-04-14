@@ -9,7 +9,7 @@ main.provides = ["abtesting"];
 module.exports = main;
 
 function main(options, imports, register) {
-    var analytics = imports["c9.analytics"];
+    var analytics = imports["analytics"];
     var outplan = require("outplan");
         
     var MS_PER_DAY = 1000 * 60 * 60 * 24;
