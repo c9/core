@@ -34,7 +34,9 @@ define(function(require, exports, module) {
         });
         
         function create(name, choices, options) {
-            return outplan.create(name, choices, options);
+            var experiment = outplan.create(name, choices, options);
+            experiment.expose = expose.bind(null, name);
+            return experiment;
         }
         
         function expose(experimentName, overrideUserId, options) {
