@@ -52,12 +52,7 @@ define(function(require, exports, module) {
         }, [
             requestTimeout(15*60*1000),
             require("./lib/middleware/sanitize-path-param"),
-            ratelimit("username", 10 * 1000, 2000),
-            function(req, res, next) {
-                if (req.params.username === "geckolala")
-                    return next(new error.TooManyRequests("Rate limit exceeded"));
-                next();
-            },
+            ratelimit("username", 20 * 1000, 1000),
             handler.getProjectSession(),
             handler.getRole(db),
             handler.getProxyUrl(function() {
