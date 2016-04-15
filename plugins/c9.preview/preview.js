@@ -20,7 +20,7 @@ define(function(require, exports, module) {
         var handler = imports["preview.handler"];
         var userContent = imports["user-content.redirect"];
         var getVfsServers = imports["vfs.serverlist"].getServers;
-        
+        var ratelimit = require("c9/ratelimit");
         
         var frontdoor = require("frontdoor");
         var error = require("http-error");
@@ -52,6 +52,7 @@ define(function(require, exports, module) {
         }, [
             requestTimeout(15*60*1000),
             require("./lib/middleware/sanitize-path-param"),
+            ratelimit("username", 10 * 1000, 2000),
             handler.getProjectSession(),
             handler.getRole(db),
             handler.getProxyUrl(function() {
