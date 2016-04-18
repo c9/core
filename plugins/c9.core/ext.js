@@ -575,51 +575,6 @@ define(function(require, exports, module) {
                 }
             }
             
-            function setAPIKey(apikey){
-                // Validate Key
-                if (!apikey || !apikey.match(/^.{27}=$/))
-                    throw new Error("Invalid API key");
-                
-                return {
-                    getPersistentData: getPersistentData.bind(this, apikey),
-                    setPersistentData: setPersistentData.bind(this, apikey)
-                };
-            }
-            
-            function getPersistentData(apiKey, context, callback){
-                var type;
-                
-                if (!apiKey) 
-                    throw new Error("API Key not set. Please call plugin.setAPIKey(options.key);");
-                
-                if (context == "user") type = "user";
-                else if (context == "workspace") type = "project";
-                else throw new Error("Unsupported context: " + context);
-                
-                api[type].get("persistent/" + apiKey, function(err, data){
-                    if (err) return callback(err);
-                    try { callback(null, JSON.parse(data)); }
-                    catch(e){ return callback(e); }
-                });
-            }
-            
-            function setPersistentData(apiKey, context, data, callback){
-                var type;
-                
-                if (!apiKey) 
-                    throw new Error("API Key not set. Please call plugin.setAPIKey(options.key);");
-                
-                if (context == "user") type = "user";
-                else if (context == "workspace") type = "project";
-                else throw new Error("Unsupported context: " + context);
-                
-                api[type].put("persistent/" + apiKey, { 
-                    body: {
-                        data: JSON.stringify(data)
-                    }
-                }, callback);
-            }
-            
             /***** Register and define API *****/
             
             this.baseclass();
@@ -885,11 +840,6 @@ define(function(require, exports, module) {
                  * cleanup by this plugin
                  */
                 cleanUp: cleanUp,
-                
-                /**
-                 * 
-                 */
-                setAPIKey: setAPIKey,
                 
                 /**
                  * Adds an event handler to this plugin. Note that unlike the
