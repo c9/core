@@ -32,7 +32,7 @@ function main(options, imports, register) {
     function isUserCreatedAfter(experimentDate, user) {
         if (!user || !user.date_add)
             throw new Error("Expected: user");
-        var diffDays = (experimentDate - experimentDate.now()) / MS_PER_DAY;
+        var diffDays = (experimentDate - Date.now()) / MS_PER_DAY;
         if (diffDays > 20) {
             // Sanity check: new Date() takes zero-based month argument, one-based day argument
             throw new Error("Passed a date far in the future to isUserCreatedAfter()");
