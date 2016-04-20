@@ -93,5 +93,6 @@ describe("The build module", function(){
             var x; // not removed
             x += "he/*ll*/o" + a;
         });
+        done();
     });
 });
