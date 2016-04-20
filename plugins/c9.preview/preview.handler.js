@@ -17,6 +17,8 @@ define(function(require, exports, module) {
         var https = require("https");
         var http = require("http");
         var mime = require("mime");
+        var jwt = require("jsonwebtoken");
+        var Cache = require("c9/cache");
         var metrics = imports.metrics;
         var parseUrl = require("url").parse;
         var debug = require("debug")("preview");
@@ -26,41 +28,46 @@ define(function(require, exports, module) {
         
         function getProjectSession() {
             return function(req, res, next) {
-                var session = req.session;
-    
-                req.user = req.user || { id: -1 };
-    
-                var username = req.params.username;
-                var projectname = req.params.projectname;
-    
-                var ws = req.ws = username + "/" + projectname;
+                var cookieName = options.session.prefix + ".sso";
+                var secret = options.session.secret;
                 
-                if (!session.ws)
-                    session.ws = {};
-    
-                req.projectSession = session.ws[ws];
-                
-                if (
-                    !req.projectSession || 
-                    !req.projectSession.expires || 
-                    req.projectSession.expires <= Date.now() ||
-                    req.projectSession.uid != req.user.id
-                ) {
-                    req.projectSession = session.ws[ws] = {
-                        expires: Date.now() + 10000
+                var token = req.cookies && req.cookies[cookieName];
+                if (token) {
+                    jwt.verify(token, secret, function(err, user) {
+                        if (err) {
+                            if (err instanceof jwt.JsonWebTokenError || err instanceof jwt.TokenExpiredError)
+                                return next();
+                            
+                            return next(err);
+                        }
+                        
+                        req.session = {
+                            uid: user.id
+                        };
+                        next();
+                    });
+                } else {
+                    req.session = {
+                        uid: 0
                     };
+                    next();
                 }
-                
                 next();
             };
         }
         
         function getRole(db) {
+            var roleCache = new Cache(5000, 5000);
+            
             return function(req, res, next) {
-                if (req.projectSession.role) {
+                var key = req.params.username + "/" + req.params.projectname + ":" + req.session.uid;
+                
+                var wsSession = roleCache.get(key);
+                if (wsSession) {
+                    req.projectSession = wsSession;
                     return next();
                 }
-                    
+                
                 db.Project.findOne({
                     username: req.params.username,
                     name: req.params.projectname
@@ -81,15 +88,19 @@ define(function(require, exports, module) {
                             else
                                 return next(new error.Forbidden("You don't have access rights to preview this workspace"));
                         }
-                        req.projectSession.role = role;
-                        req.projectSession.pid = project.id;
-                        req.projectSession.uid = req.user.id;
                         
-                        var type = project.scm;
-                        req.projectSession.type = type;
+                        var wsSession = {
+                            role: role,
+                            pid: project.id,
+                            uid: req.user.id,
+                            type: project.scm,
+                        };
                         
-                        if (type != "docker" || project.state != db.Project.STATE_READY)
+                        if (wsSession.type != "docker" || project.state != db.Project.STATE_READY)
                             return next();
+
+                        roleCache.set(key, wsSession);
+                        req.projectSession = wsSession;
                         
                         project.populate("remote", function(err) {
                             if (err) return next(err);
@@ -100,10 +111,8 @@ define(function(require, exports, module) {
                                     if (err) return next(err);
 
                                     if (container.state == db.Container.STATE_RUNNING)
-                                        req.projectSession.proxyUrl = "http://" + meta.host + ":9000/" + meta.cid + "/home/ubuntu/workspace";
-                                    else
-                                        req.projectSession.expires = Date.now() + 1000;
-                                        
+                                        wsSession.proxyUrl = "http://" + meta.host + ":9000/" + meta.cid + "/home/ubuntu/workspace";
+
                                     next();
                                 });
                             } else {
