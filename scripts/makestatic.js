@@ -82,7 +82,7 @@ function main(config, settings, options, callback) {
                     "cdn.build": {},
                     "db": {
                         "Vfs": {
-                            findAllAndPurge: function(maxVfsAge, callback) {
+                            findAllValidServers: function(maxVfsAge, purgeInvalid, callback) {
                                 callback(null, [{}]);
                             }
                         },
