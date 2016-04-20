@@ -57,7 +57,7 @@ describe("The Module", function(){
             
             var code = result.code;
             assert(code.indexOf("<a:style><![CDATA[]]></a:style>" >= 0), "should have at least one stripped style");
-            //assert(!code.match(/<a:style><!\[CDATA\[[^\]]/), "should only have stripped styles");
+            assert(!code.match(/<a:style><!\[CDATA\[[^\]]/), "should only have stripped styles");
             
             done();
         });
