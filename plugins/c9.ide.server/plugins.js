@@ -41,6 +41,7 @@ define(function(require, exports, module) {
                 ui: "lib/ui",
                 c9: "lib/c9",
                 frontdoor: "lib/frontdoor",
+                outplan: "lib/outplan/dist/outplan",
             };
             
             if (whitelist === "*") {
@@ -70,6 +71,7 @@ define(function(require, exports, module) {
                     "ui",
                     "emmet",
                     "frontdoor",
+                    "outplan",
                     "mocha", // TESTING
                     "chai",  // TESTING
                 ].forEach(function(name) {
