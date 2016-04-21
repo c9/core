@@ -22,10 +22,9 @@ define(function(require, exports, module) {
             loaded = true;
 
             ext.loadRemotePlugin("ping", {
-                code: require("text!./ping-service.js"),
-                redefine: true
+                file: "c9.vfs.client/ping-service.js"
             }, function(err, remote) {
-                if (err)
+                if (!remote)
                     return console.error(err);
 
                 api = remote;
