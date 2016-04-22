@@ -83,12 +83,14 @@ module.exports = function(vfs, options) {
                 return callback(new error.Forbidden("VFS extend: " + name + " is not authorized in read only mode"));
         }
         
-        if (options.code || options.stream)
-            return vfs.extend(name, options, callback);
-
-        if (!options.file)
+        // localfs extend checks for file, then code, then stream
+        if (!options.file) {
+            if (options.code || options.stream)
+                return vfs.extend(name, options, callback);
+            
             return callback(new error.Forbidden("Option 'file' is missing"));
-             
+        }
+        
         if (typeof options.file != "string")
             return callback(new error.Forbidden("Invalid option 'file'"));
 
