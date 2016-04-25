@@ -92,9 +92,9 @@ define(function(require, exports, module) {
                         delete extraPackages[config.packagePath];
                     }
                 });
-                Object.keys(extraPackages).forEach(function(packagePath) {
+                Object.keys(extraPackages).forEach(function(extraConfig) {
                     console.warn("[c9.ide.loader] Package " 
-                        + packagePath + " should be installed, according "
+                        + extraConfig.packagePath + " should be installed, according "
                         + "to the database, but was not found on the filesystem. "
                         + "Try reinstalling it.");
                 });

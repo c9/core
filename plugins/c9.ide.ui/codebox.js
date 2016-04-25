@@ -91,13 +91,11 @@ apf.codebox = function(struct, tagName) {
         var checkInitial = function() {
             var value = ace.getValue();
             if (value && ace.renderer.initialMessageNode) {
-                ace.renderer.off("afterRender", checkInitial);
                 dom.removeCssClass(ace.container, "ace_initialMsg");
                 ace.renderer.scroller.removeChild(ace.renderer.initialMessageNode);
                 ace.renderer.initialMessageNode = null;
             }
             else if (!value && !ace.renderer.initialMessageNode) {
-                ace.renderer.on("afterRender", checkInitial);
                 dom.addCssClass(ace.container, "ace_initialMsg");
                 var el = document.createElement("div");
                 el.className = "tb_textboxInitialMsg";
@@ -105,6 +103,7 @@ apf.codebox = function(struct, tagName) {
                 ace.renderer.initialMessageNode = el;
                 ace.renderer.scroller.appendChild(ace.renderer.initialMessageNode);
             }
+            
         };
         ace.on("input", checkInitial);
 
