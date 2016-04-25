@@ -976,11 +976,12 @@ define(function(require, exports, module) {
     
             c = 0;
 
-            addEditorMenu("Edit/Code Folding/Fold", "fold"),
+            addEditorMenu("Edit/Code Folding/Toggle Fold", "toggleFoldWidget"),
             addEditorMenu("Edit/Code Folding/Unfold", "unfold"),
 
             menus.addItemByPath("Edit/Code Folding/~", new ui.divider(), c += 100, handle);
-            addEditorMenu("Edit/Code Folding/Fold All", "foldall"),
+            addEditorMenu("Edit/Code Folding/Fold Other", "foldOther");
+            addEditorMenu("Edit/Code Folding/Fold All", "foldall");
             addEditorMenu("Edit/Code Folding/Unfold All", "unfoldall");
     
             c = 0;
