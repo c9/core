@@ -369,10 +369,10 @@ define(function(require, exports, module) {
                     createNode(dir, {mime: "folder"});
                 });
                 
-                if (!dirsToMake[0])
+                var node = dirsToMake[0] && findNode(dirsToMake[0]);
+                if (!node)
                     return;
                 
-                var node = findNode(dirsToMake[0]);
                 e.undo = function(){
                     dirsToMake.forEach(function(dir) {
                         var node = findNode(dir);
