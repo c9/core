@@ -570,7 +570,7 @@ define(function(require, exports, module) {
                         node = {label: p, path: subPath, status: "pending", isFolder: true};
                         // TODO filter hidden files in getChildren instead.
                         if (!showHidden && isFileHidden(p)) {
-                            orphans[node.path] = path;
+                            orphans[node.path] = node;
                             return;
                         }
                     } else if (updateNode) {
