@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     "use strict";
 
-    main.consumes = ["Plugin", "ext", "c9", "vfs", "metrics"];
+    main.consumes = ["Plugin", "ext", "c9", "vfs"];
     main.provides = ["vfs.ping"];
     return main;
 
@@ -9,7 +9,6 @@ define(function(require, exports, module) {
         var Plugin = imports.Plugin;
         var c9 = imports.c9;
         var ext = imports.ext;
-        var metrics = imports.metrics;
 
         /***** Initialization *****/
 
@@ -17,15 +16,18 @@ define(function(require, exports, module) {
         var api;
 
         var loaded = false;
-        function load(){
-            if (loaded) return;
+        function load(oldVfs) {
+            if (loaded && !oldVfs) return;
             loaded = true;
-
+            
             ext.loadRemotePlugin("ping", {
-                code: require("text!./ping-service.js"),
-                redefine: true
+                file: oldVfs ? undefined : "c9.vfs.client/ping-service.js",
+                code: oldVfs ? require("text!./ping-service.js") : undefined
             }, function(err, remote) {
-                if (err)
+                if (!remote && !oldVfs)
+                    return load(true);
+                
+                if (!remote)
                     return console.error(err);
 
                 api = remote;

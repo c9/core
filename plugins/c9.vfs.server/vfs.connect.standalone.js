@@ -56,7 +56,6 @@ define(function(require, exports, module) {
                     projectDir: vfsOptions.projectDir,
                     extendDirectory: options.extendDirectory,
                     extendOptions: projectOptions.extendOptions,
-                    extendToken: "not_needed",
                     collab: options.collab,
                     vfsOptions: vfsOptions,
                     public: true

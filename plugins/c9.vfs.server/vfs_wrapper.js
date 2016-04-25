@@ -8,7 +8,6 @@ module.exports = function(vfs, options) {
     var methods = options.methods || Object.keys(vfs);
     var readonly = "readonly" in options ? options.readonly : false;
     var blocked = !!options.blocked;
-    var extendToken = options.extendToken;
 
     var roMethods = {
         resolve: 1,
@@ -74,18 +73,26 @@ module.exports = function(vfs, options) {
             options[key] = extendOptions[key];
         }
         
-        if (options.code || options.stream) {
-            if (readonly && (!extendToken || extendToken !== options.extendToken))
-                return callback(new error.Forbidden("VFS extend: " + name + " with options 'stream' or 'code' not authorized in read only mode"));
-            else
-                return vfs.extend(name, options, callback);
+        if (readonly) {
+            var whitelist = {
+                "c9.ide.collab/server/collab-server.js": true,
+                "c9.ide.pubsub/pubsub-service.js": true,
+                "c9.vfs.client/ping-service.js": true,
+            };
+            if (!options.file || !whitelist[options.file])
+                return callback(new error.Forbidden("VFS extend: " + name + " is not authorized in read only mode"));
         }
-
-         if (!options.file)
-             return callback(new error.Forbidden("Option 'file' is missing"));
-             
-         if (typeof options.file != "string")
-             return callback(new error.Forbidden("Invalid option 'file'"));
+        
+        // localfs extend checks for file, then code, then stream
+        if (!options.file) {
+            if (options.code || options.stream)
+                return vfs.extend(name, options, callback);
+            
+            return callback(new error.Forbidden("Option 'file' is missing"));
+        }
+        
+        if (typeof options.file != "string")
+            return callback(new error.Forbidden("Invalid option 'file'"));
 
         if (extendDirectory) {
             var file = options.file = path.normalize(path.join(extendDirectory, options.file));
