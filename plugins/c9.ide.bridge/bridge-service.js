@@ -5,10 +5,11 @@ module.exports = function (vfs, options, register) {
     var Stream = require('stream');
     
     var SOCKET = process.platform == "win32"
-        ? "\\\\.\\pipe\\.c9\\bridge.socket"
-        : process.env.HOME + "/.c9/bridge.socket";
+         ? "\\\\.\\pipe\\.c9\\bridge.default.socket"
+         : process.env.HOME + "/.c9/bridge.default.socket";
 
     function createListenClient(api){
+        console.log(SOCKET)
         var client = net.connect(SOCKET, function(data){
             api.onConnect(client);
         });
@@ -103,6 +104,15 @@ module.exports = function (vfs, options, register) {
     }
     
     register(null, {
+        genSocket:function(socketKey,callback){
+            if(!socketKey || !callback) return;
+            
+            SOCKET = process.platform == "win32"
+                ? "\\\\.\\pipe\\.c9\\bridge."+socketKey+".socket"
+                : process.env.HOME + "/.c9/bridge."+socketKey+".socket";
+                
+            callback();
+        },
         connect: function (callback) {
             if (stream) return callback(null, { stream: stream });
             

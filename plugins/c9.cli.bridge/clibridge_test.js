@@ -49,15 +49,15 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "/vfs-home"], 
             setup: expect.html.mocked
         },
         {
-            consumes: ["bridge", "bridge.client"],
+            consumes: ["clibridge", "clibridge.client"],
             provides: [],
             setup: main
         }
     ], architect);
     
     function main(options, imports, register) {
-        var bridge = imports.bridge;
-        var client = imports["bridge.client"];
+        var bridge = imports.clibridge;
+        var client = imports["clibridge.client"];
         
         describe('bridge', function() {
             // this.timeout(10000);

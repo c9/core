@@ -72,8 +72,11 @@ return [
         // debug: !options.packed
     },
     {
-        packagePath: "./c9.cli.bridge/bridge-client",
-        port: 17123
+        packagePath: "./c9.ide.bridge/bridge-client"
+    },
+    {
+        packagePath: "./c9.cli.bridge/clibridge-client"
+        //port: 17123
     },
     // "./c9.cli.mount/mount",
     {

@@ -1,12 +1,12 @@
 define(function(require, exports, module) {
-    main.consumes = ["Plugin", "cli_commands", "bridge.client"];
+    main.consumes = ["Plugin", "cli_commands", "bridge.cli.client"];
     main.provides = ["exec"];
     return main;
 
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var cmd = imports.cli_commands;
-        var bridge = imports["bridge.client"];
+        var bridge = imports["bridge.cli.client"];
 
         /***** Initialization *****/
         

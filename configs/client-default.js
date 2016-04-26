@@ -714,11 +714,11 @@ module.exports = function(options) {
             checkOS: true
         },
         {
-            packagePath: "plugins/c9.cli.bridge/bridge",
+            packagePath: "plugins/c9.cli.bridge/clibridge",
             startBridge: options.startBridge
         },
         {
-            packagePath: "plugins/c9.cli.bridge/bridge_commands",
+            packagePath: "plugins/c9.cli.bridge/clibridge_commands",
             basePath: workspaceDir
         },
         {
@@ -921,6 +921,11 @@ module.exports = function(options) {
             preinstalled: hosted && !options.ssh,
         });
     }
+    
+    plugins.push({
+        packagePath: "plugins/c9.ide.bridge/bridge",
+        startBridge: options.startBridge
+    });
 
     return plugins;
 };
