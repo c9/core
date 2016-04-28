@@ -105,7 +105,7 @@ module.exports = function(config, optimist) {
         console.log("Run using --listen localhost instead to only expose Cloud9 to localhost,");
         console.log("or use -a username:password to setup HTTP authentication\n");
     }
-    var auth = (argv.auth || ":").split(":");
+    var auth = (argv.auth + "").split(":");
 
     var plugins = [
         {
