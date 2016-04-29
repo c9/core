@@ -155,6 +155,11 @@ define(function(require, exports, module) {
             str += this.getLine(end, newLineChar).substring(0, range.end.column);
             return str;
         };
+        
+        session.doc.getValue = function() {
+            return this.getTextRange(new Range(0, 0, this.getLength(), Number.MAX_VALUE));
+        };
+        
         session.$computeWidth =
         session.getScreenWidth = function () {
             return this.term.cols;

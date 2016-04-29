@@ -24,7 +24,6 @@ function Vfs(vfs, master, options) {
     this.public = options.public || false;
     this.vfsOptions = options.vfsOptions || {};
     this.pid = this.vfsOptions.pid;
-    var extendToken = options.extendToken;
 
     this.homeDir = options.homeDir;
     this.workspaceDir = options.projectDir;
@@ -36,14 +35,12 @@ function Vfs(vfs, master, options) {
         blocked: this.readonly,
         extendDirectory: options.extendDirectory,
         extendOptions: options.extendOptions,
-        extendToken: extendToken
     });
     this.vfsWorkspace = wrapVfs(vfs, {
         root: this.workspaceDir,
         readonly: this.readonly,
         extendDirectory: options.extendDirectory,
         extendOptions: options.extendOptions,
-        extendToken: extendToken
     });
     
     var vfsProxy = proxyVfs(Object.keys(this.vfsHome), this.vfsHome, this.vfsWorkspace);
