@@ -221,8 +221,6 @@ function plugin(options, imports, register) {
         });
     });
     
-    api.get("/api.json", {name: "api"}, frontdoor.middleware.describeApi(api));
-
     // fake authentication
     api.authenticate = api.authenticate || function() {
         return function(req, res, next) { 
