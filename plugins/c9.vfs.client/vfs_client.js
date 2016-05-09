@@ -209,6 +209,7 @@ define(function(require, exports, module) {
         }
         
         function reconnect(callback) {
+            if (!connection) return;
             connection.socket.setSocket(null);
             
             vfsEndpoint.get(protocolVersion, function(err, urls) {
@@ -336,6 +337,11 @@ define(function(require, exports, module) {
         plugin.on("unload", function(){
             loaded = false;
             
+            if (consumer)
+                consumer.disconnect();
+            if (connection)
+                connection.disconnect();
+            
             id = null;
             buffer = [];
             region = null;
@@ -346,6 +352,7 @@ define(function(require, exports, module) {
             serviceUrl = null;
             eioOptions = null;
             consumer = null;
+            connection = null;
             vfs = null;
             showErrorTimer = null;
             showErrorTimerMessage = null;

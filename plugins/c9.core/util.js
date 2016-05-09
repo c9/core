@@ -30,85 +30,43 @@ define(function(require, exports, module) {
             return '"' + name + '"';
         };
         
-        var SupportedIcons = {
-            "c9search": "page_white_magnify",
-            "js": "page_white_code",
-            "jsx": "page_white_code_red",
-            "ts": "page_white_code",
-            "tsx": "page_white_code_red",
-            "json": "page_white_code",
-            "css": "css",
-            "scss": "css",
-            "sass": "css",
-            "less": "css",
-            "xml": "page_white_code_red",
-            "svg": "page_white_picture",
-            "php": "page_white_php",
-            "phtml": "page_white_php",
-            "html": "html",
-            "xhtml": "html",
-            "coffee": "page_white_cup",
-            "py": "page_white_code",
-            "go": "page_white_code",
-            "java": "page_white_cup",
-            "logic": "logiql",
-            "ru": "page_white_ruby",
-            "gemspec": "page_white_ruby",
-            "rake": "page_white_ruby",
-            "rb": "page_white_ruby",
-            "c": "page_white_c",
-            "cc": "page_white_c",
-            "cpp": "page_white_cplusplus",
-            "cxx": "page_white_c",
-            "h": "page_white_h",
-            "hh": "page_white_h",
-            "hpp": "page_white_h",
-            "bmp": "image",
-            "djv": "image",
-            "djvu": "image",
-            "gif": "image",
-            "ico": "image",
-            "jpeg": "image",
-            "jpg": "image",
-            "pbm": "image",
-            "pgm": "image",
-            "png": "image",
-            "pnm": "image",
-            "ppm": "image",
-            "psd": "image",
-            "svgz": "image",
-            "tif": "image",
-            "tiff": "image",
-            "xbm": "image",
-            "xpm": "image",
-            "pdf": "page_white_acrobat",
-            "clj": "page_white_code",
-            "ml": "page_white_code",
-            "mli": "page_white_code",
-            "cfm": "page_white_coldfusion",
-            "sql": "page_white_database",
-            "db": "page_white_database",
-            "sh": "page_white_wrench",
-            "bash": "page_white_wrench",
-            "xq": "page_white_code",
-            "xz": "page_white_zip",
-            "gz": "page_white_zip",
-            "bz": "page_white_zip",
-            "zip": "page_white_zip",
-            "tar": "page_white_zip",
-            "rar": "page_white_compressed",
-            "exe": "page_white_swoosh",
-            "o": "page_white_swoosh",
-            "lnk": "page_white_swoosh",
-            "txt": "page_white_text",
-            "settings": "page_white_gear",
-            "run": "page_white_gear",
-            "build": "page_white_gear",
-            "gitignore": "page_white_gear",
-            "profile": "page_white_gear",
-            "bashrc": "page_white_gear",
-        };
-        
+        var SupportedIcons = (function() {
+            var extToClass = Object.create(null);
+            var classToExt = {
+                "page_white_magnify": "c9search",
+                "page_white_code": ["clj", "go", "js", "json", "ml", "mli", "py", "ts", "xq"],
+                "page_white_code_red": ["jsx", "tsx", "xml"],
+                "css": ["css", "less", "sass", "scss"],
+                "page_white_picture": "svg",
+                "page_white_php": ["php", "phtml"],
+                "html": ["html", "xhtml"],
+                "page_white_cup": ["coffee", "java"],
+                "logiql": "logic",
+                "page_white_ruby": ["gemspec", "rake", "rb", "ru"],
+                "page_white_c": ["c", "cc", "cxx"],
+                "page_white_cplusplus": "cpp",
+                "page_white_h": ["h", "hh", "hpp"],
+                "image": ["bmp", "djv", "djvu", "gif", "ico", "jpeg", "jpg", "pbm", "pgm", "png", "pnm", "ppm", "psd", "svgz", "tif", "tiff", "xbm", "xpm"],
+                "page_white_acrobat": "pdf",
+                "page_white_coldfusion": "cfm",
+                "page_white_database": ["db", "sql"],
+                "page_white_wrench": ["bash", "sh"],
+                "page_white_zip": ["bz", "gz", "tar", "xz", "zip"],
+                "page_white_compressed": "rar",
+                "page_white_swoosh": ["exe", "lnk", "o", "bin", "class"],
+                "page_white_text": "txt",
+                "page_white_gear": ["bashrc", "build", "gitignore", "profile", "run", "settings"]
+            };
+            Object.keys(classToExt).forEach(function(k) {
+                var exts = classToExt[k];
+                if (typeof exts == "string") 
+                    exts = [exts];
+                exts.forEach(function(ext) {
+                    extToClass[ext] = k;
+                });
+            });
+            return extToClass;
+        })();
         plugin.getFileIcon = function(name) {
             var icon = "page_white_text";
             var ext;

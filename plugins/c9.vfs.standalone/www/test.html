@@ -271,6 +271,7 @@
                 return cb();
             setTimeout.paused = true;
             window.app.services.vfs.connection.disconnect();
+            window.app.services["vfs.endpoint"].clearCache();
             setTimeout.force(function() {
                 setTimeout.paused = false;
                 setTimeout.clear();

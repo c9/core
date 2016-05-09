@@ -707,7 +707,7 @@ define(function(require, exports, module) {
                 status: "pending",
                 className: "projectRoot",
                 isEditable: false,
-                map: {}
+                map: Object.create(null)
             };
             var root = {};
             root.map = Object.create(null);
