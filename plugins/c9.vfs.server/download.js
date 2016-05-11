@@ -80,41 +80,62 @@ define(function(require, exports, module) {
                 });
             }
             else {
-                // TODO add support for downloding as zip on windows
-                // var cwd;
-                // var args = ["-r", "-"];
-                // paths.forEach(function(path) {
-                //     if (!path) return;
-                //     var dir = Path.dirname(path);
-                //     if (!cwd) cwd = dir;
-                //     var name = Path.relative(cwd, path);
-                //     if (name[0] == "-") name = "./" + name;
-                //     args.push(name);
-                // });
-                // vfs.spawn("zip", { args: args, cwd: cwd }
-                
-                var args = ["-zcf", "-"];
-                paths.forEach(function(path) {
+                var executable, args, contentType;
+
+                if (/\.zip$/.test(filename)) {
+                    executable = "zip";
+                    args = ["-r", "-", "--"];
+                    contentType = "application/zip"
+                }
+                else {
+                    executable = "tar";
+                    args = ["-zcf", "-", "--"];
+                    contentType = "application/x-gzip"
+                }
+
+                // Find the longest common parent directory of all the paths.
+                var cwd = null;
+                paths.forEach(function (path) {
                     if (!path) return;
                     var dir = Path.dirname(path);
-                    var name = Path.basename(path);
-                    if (name[0] == "-")
-                        name = "--add-file=" + name;
-                    args.push("-C" + dir, name);
+                    if (!cwd) {
+                        cwd = dir;
+                    }
+                    else {
+                        var relative = Path.relative(cwd, dir).split(Path.sep);
+                        var i = 0;
+                        while (relative[i] === '..') {
+                            cwd = Path.resolve(cwd, '..');
+                            i++;
+                        }
+                    }
                 });
-                vfs.spawn("tar", { args: args }, function (err, meta) {
+                paths.forEach(function(path) {
+                    if (!path) return;
+                    path = Path.relative(cwd, path);
+                    // tar misinterprets the Windows path separator as an escape sequence, so use forward slash.
+                    if (Path.sep === '\\') {
+                        path = path.replace(/\\/g, '/');
+                    }
+                    args.push(path);
+                });
+
+                vfs.spawn(executable, {
+                    args: args,
+                    cwd: cwd
+                }, function (err, meta) {
                     if (err)
                         return next(err);
-                        
+
                     process = meta.process;
-    
-                    // once we receive data on stdout pipe it to the response        
+
+                    // once we receive data on stdout pipe it to the response
                     process.stdout.once("data", function (data) {
                         if (res.headerSent)
                             return;
                             
                         res.writeHead(200, {
-                            "Content-Type": "application/x-gzip",
+                            "Content-Type": contentType,
                             "Content-Disposition": filenameHeader
                         });
                         res.write(data);
@@ -125,7 +146,7 @@ define(function(require, exports, module) {
                     process.stderr.on("data", function (data) {
                         stderr += data;
                     });
-                    
+
                     process.on("exit", function(code, signal) {
                         if (res.headerSent)
                             return;
@@ -133,16 +154,16 @@ define(function(require, exports, module) {
                         var err;
                         if (code == 127) {
                             err = new error.PreconditionFailed(
-                                "Your instance seems to be missing the 'tar' utility\n" + 
+                                "Your instance seems to be missing the '" + executable + "' utility\n" +
                                 "If you are using an SSH workspace, please do:\n" +
-                                "    'sudo apt-get install tar'");
+                                "    'sudo apt-get install " + executable + "'");
                         } else if (code) {
                             err = new error.InternalServerError(
-                                "'tar' utility failed with exit code " + code + 
+                                "'" + executable + "' utility failed with exit code " + code +
                                 " and stderr:/n'" + stderr + "'");
                         } else if (signal) {
                             err = new error.InternalServerError(
-                                "'tar' utility was terminated by signal " + signal
+                                "'" + executable + "' utility was terminated by signal " + signal
                             );
                         }
                         
