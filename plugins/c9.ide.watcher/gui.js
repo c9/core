@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "fs", "settings", "preferences", "watcher", "tabManager", 
-        "save", "dialog.question", "dialog.filechange", "threewaymerge"
+        "save", "dialog.question", "dialog.filechange", "threewaymerge", "collab"
     ];
     main.provides = ["watcher.gui"];
     return main;
@@ -17,6 +17,7 @@ define(function(require, exports, module) {
         var question = imports["dialog.question"];
         var filechange = imports["dialog.filechange"];
         var threeWayMerge = imports.threewaymerge.merge;
+        var collab = imports.collab;
         
         var collabEnabled = options.collab;
 
@@ -119,33 +120,33 @@ define(function(require, exports, module) {
     
             // Hook watcher events
             
-            // Update a file
+            // A change event sent from the watcher plugin
             watcher.on("change", function(e) {
                 var tab = tabManager.findTab(e.path);
                 if (tab) {
-                    // If collab picks this up and handles the change it will return false 
-                    if (emit("docChange", {tab: tab}) === false)
-                        return;
+                    if (collabEnabled && tab.editorType == "ace") {
+                        /* If the lastChange (added by collab) was greater than 1 second ago set up a watch 
+                            To ensure that collab makes this change, if not report an error. The lastChange
+                            check is to avoid a race condition if collab updates before this function runs */
+                        if (!tab.meta.$lastCollabChange || tab.meta.$lastCollabChange < (Date.now() - 1000)) {
+                            if (tab.meta.$collabChangeRegistered) {
+                                clearTimeout(tab.meta.$collabChangeRegistered);
+                            }
+                        }
+                        
+                        return false;
+                    }
                     
                     addChangedTab(tab, e.type === "change");
                 }
             });
             
-            // Directory watcher is not needed if the normal watcher works
-            // watcher.on("directory", function(e) {
-            //     var base = e.path;
-            //     var files = e.files;
-            // 
-            //     // Rename all tabs
-            //     tabManager.getTabs().forEach(function(tab) {
-            //         if (tab.path && tab.path.indexOf(base) == 0) {
-            //             // If the file is gone, lets notify the user
-            //             if (files.indexOf(tab.path) == -1) {
-            //                 resolveFileDelete(tab);
-            //             }
-            //         }
-            //     });
-            // });
+            collab.on("change", function (e) {
+                var tab = tabManager.findTab(e.path);
+                if (tab) {
+                    addChangedTab(tab, e.type === "change");
+                }
+            });
             
             watcher.on("delete", function(e) {
                 var tab = tabManager.findTab(e.path);
