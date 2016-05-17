@@ -113,10 +113,8 @@ define(function(require, exports, module) {
                 paths.forEach(function(path) {
                     if (!path) return;
                     path = Path.relative(cwd, path);
-                    // tar misinterprets the Windows path separator as an escape sequence, so use forward slash.
-                    if (Path.sep === '\\') {
-                        path = path.replace(/\\/g, '/');
-                    }
+                    // Single quote the path to escape unusual characters, and manually escape single quotes.
+                    path = "'" + path.replace(/'/, "'\\''") + "'";
                     args.push(path);
                 });
 
