@@ -88,9 +88,11 @@ define(function(require, exports, module) {
                 }]);
 
                 statics.addStatics(externalPlugins.map(function(plugin) {
+                    if (typeof plugin == "string")
+                        plugin = { path: plugin, mount: plugin};
                     return {
-                        path: __dirname + "/../../node_modules/" + plugin,
-                        mount: "/plugins/" + plugin
+                        path: __dirname + "/../../node_modules/" + plugin.path,
+                        mount: "/plugins/" + plugin.mount
                     };
                 }));
                 

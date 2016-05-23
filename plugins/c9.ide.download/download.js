@@ -2,7 +2,7 @@ define(function(require, exports, module) {
     "use strict";
     
     main.consumes = [
-        "Plugin", "c9", "ui", "menus", "tree", "info", "vfs"
+        "Plugin", "c9", "ui", "menus", "tree", "info", "vfs", "preferences", "settings"
     ];
     main.provides = ["download"];
     return main;
@@ -15,7 +15,12 @@ define(function(require, exports, module) {
         var tree = imports.tree;
         var vfs = imports.vfs;
         var info = imports.info;
-        
+        var prefs = imports.preferences;
+        var settings = imports.settings;
+
+        var SETTING_NAME = "downloadFilesAs";
+        var SETTING_PATH = "user/general/@" + SETTING_NAME;
+
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
@@ -40,6 +45,28 @@ define(function(require, exports, module) {
                     onclick: download
                 }), 140, plugin);
             });
+
+            // Preferences
+            prefs.add({
+                "General" : {
+                    "Tree & Navigate" : {
+                        "Download Files As" : {
+                            type: "dropdown",
+                            path: SETTING_PATH,
+                            items: [
+                                { caption : "auto", value : "auto" },
+                                { caption : "tar.gz", value : "tar.gz" },
+                                { caption : "zip",  value : "zip" }
+                            ],
+                            position: 5000
+                        }
+                    }
+                }
+            }, plugin);
+
+            settings.on("read", function() {
+                settings.setDefaults("user/general", [[SETTING_NAME, "auto"]]);
+            }, plugin);
         }
         
         function download() {
@@ -55,24 +82,39 @@ define(function(require, exports, module) {
             if (node.isFolder && node.path == "/")
                 downloadProject();
             else if (paths.length > 1)
-                vfs.download(paths);
+                downloadPaths(paths);
             else if (node.isFolder)
                 downloadFolder(node.path);
             else
                 downloadFile(node.path);
-            
+
         }
-        
+
         function downloadProject() {
-            vfs.download("/", info.getWorkspace().name + ".tar.gz");
+            vfs.download("/", info.getWorkspace().name + getArchiveFileExtension());
+        }
+
+        function downloadPaths(paths) {
+            vfs.download(paths, info.getWorkspace().name + getArchiveFileExtension());
         }
 
         function downloadFolder(path) {
-            vfs.download(path.replace(/\/*$/, "/"));
+            var withTrailingSlash = path.replace(/\/*$/, "/");
+            var parts = withTrailingSlash.split("/");
+            var lastPart = parts[parts.length - 2];
+            vfs.download(withTrailingSlash, lastPart + getArchiveFileExtension());
         }
-        
+
         function downloadFile(path) {
             vfs.download(path.replace(/\/*$/, ""), null, true);
+        }
+
+        function getArchiveFileExtension() {
+            var downloadFilesAs = settings.get(SETTING_PATH);
+            if (downloadFilesAs === 'auto' || !downloadFilesAs) {
+                downloadFilesAs = /Win/.test(navigator.platform) ? 'zip' : 'tar.gz';
+            }
+            return '.' + downloadFilesAs;
         }
                 
         /***** Lifecycle *****/
