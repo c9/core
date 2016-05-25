@@ -537,7 +537,7 @@ define(function(require, exports, module) {
                         if (err) {
                             var message = err.message;
                             if (err.code == "EEXIST")
-                                message = "File " + path + " already exists.";
+                                message = "File " + newpath + " already exists.";
                             return showError(message);
                         }
                         if (dirname(newpath) != dirname(path))
