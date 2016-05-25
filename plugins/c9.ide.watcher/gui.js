@@ -294,7 +294,6 @@ define(function(require, exports, module) {
         function automerge(tab, data) {
             if (!settings.getBool("user/general/@automerge"))
                 return false;
-            console.log("Automerging old and new contents");
             return merge(tab, data);
         }
         
