@@ -2,7 +2,7 @@ define(function(require, exports, module) {
     "use strict";
     
     main.consumes = [
-        "session",
+        "connect",
         "db",
         "c9.login",
         "preview.handler",
@@ -14,7 +14,7 @@ define(function(require, exports, module) {
     return main;
 
     function main(options, imports, register) {
-        var session = imports.session;
+        var connect = imports.connect;
         var db = imports.db;
         var ensureLoggedIn = imports["c9.login"].ensureLoggedIn();
         var handler = imports["preview.handler"];
@@ -38,7 +38,7 @@ define(function(require, exports, module) {
         
         api.use(userContent.redirectPreview());
         
-        session.use(api);
+        connect.use(api);
         
         api.get("/:username/:projectname/:path*", {
             params: {

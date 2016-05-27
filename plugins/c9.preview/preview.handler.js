@@ -52,7 +52,6 @@ define(function(require, exports, module) {
                     };
                     next();
                 }
-                next();
             };
         }
         
@@ -61,13 +60,13 @@ define(function(require, exports, module) {
             
             return function(req, res, next) {
                 var key = req.params.username + "/" + req.params.projectname + ":" + req.session.uid;
-                
+
                 var wsSession = roleCache.get(key);
                 if (wsSession) {
                     req.projectSession = wsSession;
                     return next();
                 }
-                
+
                 db.Project.findOne({
                     username: req.params.username,
                     name: req.params.projectname
@@ -77,13 +76,13 @@ define(function(require, exports, module) {
                         
                     if (err) return next(err);
                     
-                    project.getRole(req.user, function(err, role) {
+                    project.getRole(req.session.uid, function(err, role) {
                         if (err) return next(err);
                         
                         if (role == db.Project.ROLE_NONE) {
                             if (project.isPublicPreview())
                                 role = db.Project.ROLE_VISITOR;
-                            else if (req.user.id == -1)
+                            else if (req.session.uid == -1)
                                 return next(new error.Unauthorized());
                             else
                                 return next(new error.Forbidden("You don't have access rights to preview this workspace"));
@@ -92,8 +91,8 @@ define(function(require, exports, module) {
                         var wsSession = {
                             role: role,
                             pid: project.id,
-                            uid: req.user.id,
-                            type: project.scm,
+                            uid: req.session.uid,
+                            type: project.scm
                         };
                         
                         if (wsSession.type != "docker" || project.state != db.Project.STATE_READY)
@@ -141,7 +140,7 @@ define(function(require, exports, module) {
                     server = req.projectSession.vfsServer = server.internalUrl || server.url;
                 }
                         
-                var url = server + "/" + req.projectSession.pid + "/preview";
+                var url = server + "/internal/" + req.projectSession.pid + "/preview";
                     
                 req.proxyUrl = url;
                 next();
@@ -153,8 +152,8 @@ define(function(require, exports, module) {
                 
                 var path = req.params.path;
                 var url = req.proxyUrl + path;
-                if (req.user.code)
-                    url += "?access_token=" + encodeURIComponent(req.user.code);
+                // if (req.user.code)
+                //     url += "?access_token=" + encodeURIComponent(req.user.code);
 
                 var parsedUrl = parseUrl(url);
                 var httpModule = parsedUrl.protocol == "https:" ? https : http;
