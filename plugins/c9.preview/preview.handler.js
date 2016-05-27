@@ -48,7 +48,7 @@ define(function(require, exports, module) {
                     });
                 } else {
                     req.session = {
-                        uid: 0
+                        uid: -1
                     };
                     next();
                 }
@@ -125,7 +125,7 @@ define(function(require, exports, module) {
 
         function getProxyUrl(getServer) {
             return function(req, res, next) {
-                
+        
                 if (req.projectSession.proxyUrl) {
                     req.proxyUrl = req.projectSession.proxyUrl;
                     return next();
@@ -140,7 +140,7 @@ define(function(require, exports, module) {
                     server = req.projectSession.vfsServer = server.internalUrl || server.url;
                 }
                         
-                var url = server + "/internal/" + req.projectSession.pid + "/preview";
+                var url = server.replace(/\/vfs$/, "/internal/vfs/") + req.session.uid + "/" + req.projectSession.pid + "/preview";
                     
                 req.proxyUrl = url;
                 next();
@@ -152,9 +152,7 @@ define(function(require, exports, module) {
                 
                 var path = req.params.path;
                 var url = req.proxyUrl + path;
-                // if (req.user.code)
-                //     url += "?access_token=" + encodeURIComponent(req.user.code);
-
+                
                 var parsedUrl = parseUrl(url);
                 var httpModule = parsedUrl.protocol == "https:" ? https : http;
                 
