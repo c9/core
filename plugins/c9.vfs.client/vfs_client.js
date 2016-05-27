@@ -204,7 +204,7 @@ define(function(require, exports, module) {
 
         function reconnectNow() {
             reconnect(function(_err) {
-                connection.connect();
+                connection && connection.connect();
             });
         }
         
