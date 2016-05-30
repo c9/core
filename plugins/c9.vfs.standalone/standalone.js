@@ -221,8 +221,6 @@ function plugin(options, imports, register) {
         });
     });
     
-    api.get("/api.json", {name: "api"}, frontdoor.middleware.describeApi(api));
-
     // fake authentication
     api.authenticate = api.authenticate || function() {
         return function(req, res, next) { 
@@ -255,7 +253,7 @@ function plugin(options, imports, register) {
     };    
     api.updatConfig = api.updatConfig || function(opts, params) {
         var id = params.token;
-        opts.accessToken = opts.extendToken = id || "token";
+        opts.accessToken = id || "token";
         var user = opts.extendOptions.user;
         user.id = id || -1;
         user.name = id ? "user" + id : "johndoe";

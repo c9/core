@@ -52,7 +52,7 @@ define(function(require, exports, module) {
         }, [
             requestTimeout(15*60*1000),
             require("./lib/middleware/sanitize-path-param"),
-            ratelimit("username", 20 * 1000, 1000),
+            require("./lib/middleware/block-dot-files"),
             handler.getProjectSession(),
             handler.getRole(db),
             handler.getProxyUrl(function() {

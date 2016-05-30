@@ -369,10 +369,10 @@ define(function(require, exports, module) {
                     createNode(dir, {mime: "folder"});
                 });
                 
-                if (!dirsToMake[0])
+                var node = dirsToMake[0] && findNode(dirsToMake[0]);
+                if (!node)
                     return;
                 
-                var node = findNode(dirsToMake[0]);
                 e.undo = function(){
                     dirsToMake.forEach(function(dir) {
                         var node = findNode(dir);
@@ -570,7 +570,7 @@ define(function(require, exports, module) {
                         node = {label: p, path: subPath, status: "pending", isFolder: true};
                         // TODO filter hidden files in getChildren instead.
                         if (!showHidden && isFileHidden(p)) {
-                            orphans[node.path] = path;
+                            orphans[node.path] = node;
                             return;
                         }
                     } else if (updateNode) {
@@ -707,7 +707,7 @@ define(function(require, exports, module) {
                 status: "pending",
                 className: "projectRoot",
                 isEditable: false,
-                map: {}
+                map: Object.create(null)
             };
             var root = {};
             root.map = Object.create(null);

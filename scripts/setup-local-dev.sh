@@ -160,7 +160,8 @@ if [ "$os" == "windows" ]; then
     cscript //NoLogo //B //E:jscript ./shortcut.wscript.js
     rm -f ./shortcut.wscript.js
     
-    bash ./makelocal.sh
+    current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    bash "$current_dir/makelocal.sh"
 fi
 
 

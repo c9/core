@@ -35,8 +35,6 @@ module.exports = function(options) {
     var devel = options.standalone && !options.local || options.mode === "devel" || options.mode == "onlinedev" || options.dev;
     
     var localExtendFiles = options.localExtend || options.standalone;
-    // allow extend code access only to C9-deveoped plugins
-    var extendToken = options.extendToken || "token";
     
     var plugins = [
         // C9
@@ -412,7 +410,6 @@ module.exports = function(options) {
         "plugins/c9.ide.language.go/go",
         {
             packagePath: "plugins/c9.ide.language.jsonalyzer/jsonalyzer",
-            extendToken: extendToken,
             workspaceDir: workspaceDir,
             homeDir: options.home,
             bashBin: options.bashBin,
@@ -692,11 +689,7 @@ module.exports = function(options) {
                 pubkey: options.user.pubkey,
                 date_add: options.user.date_add,
                 active: options.user.active,
-                alpha: options.user.alpha,
-                beta: options.user.beta,
                 c9version: options.user.c9version,
-                no_newsletter: options.user.no_newsletter,
-                subscription_on_signup: options.user.subscription_on_signup,
                 premium: options.user.premium,
                 region: options.user.region,
             },
@@ -787,7 +780,6 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.pubsub/pubsub-client",
-            extendToken: extendToken
         },
         {
             packagePath: "plugins/c9.ide.collab/notifications/bubble",
@@ -868,7 +860,6 @@ module.exports = function(options) {
         plugins.push(
         {
             packagePath: "plugins/c9.ide.collab/connect",
-            extendToken: extendToken,
             enable: collab,
             debug: debug,
             localServerFile: localExtendFiles,
@@ -924,6 +915,9 @@ module.exports = function(options) {
         plugins.push({
             packagePath: "plugins/c9.ide.language.codeintel/codeintel",
             preinstalled: hosted && !options.ssh,
+            paths: {
+                php: ".:./vendor",
+            },
         });
     }
 

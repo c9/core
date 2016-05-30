@@ -20,6 +20,8 @@ define(function (require, exports, module) {
             if (loaded) return false;
             loaded = true;
             
+            if (c9.readonly) return false;
+            
             ext.loadRemotePlugin("log", {
                 code: require("text!./log-service.js"),
                 redefine: true

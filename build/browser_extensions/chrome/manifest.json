@@ -9,7 +9,10 @@
         "https://cloud9beta.com/", "https://ide.cloud9beta.com/", 
         "http://localhost:8181/", "http://localhost:5252/",
         "https://c9.vm:8181/", "https://c9.vm:5252/",
-        "https://c9.dev/", "https://ide.c9.dev/"
+        "https://c9.dev/", "https://ide.c9.dev/",
+        "https://ide.dev.smartface.io",
+        "https://ide.cs50.io",
+        "https://ide.mbed.com"
       ]
    },
    "description": "Cloud9 is an online platform for development that makes developing applications more convenient than ever",
