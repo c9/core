@@ -242,7 +242,8 @@ define(function(require, exports, module) {
                     port: parsedSocket.port 
                         || parsedSocket.protocol == "https:" ? "443" : null,
                     secure: parsedSocket.protocol 
-                        ? parsedSocket.protocol == "https:" : true
+                        ? parsedSocket.protocol == "https:" : true,
+                    rejectUnauthorized: options.rejectUnauthorized
                 };
                 callback();
             });

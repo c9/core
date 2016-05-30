@@ -113,7 +113,8 @@ module.exports = function(options) {
             debug: debug,
             installPath: options.installPath,
             dashboardUrl: options.dashboardUrl,
-            accountUrl: options.accountUrl
+            accountUrl: options.accountUrl,
+            rejectUnauthorized: options.rejectUnauthorized
         },
         {
             packagePath: "plugins/c9.vfs.client/endpoint",
