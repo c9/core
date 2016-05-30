@@ -88,7 +88,7 @@ define(function(require, exports, module) {
             var getData = function(e) {
                 data = full
                     ? e.clipboardData
-                    : handleClipboardData(nativeObject, type);
+                    : handleClipboardData(e.clipboardData, type);
                 e.preventDefault();
                 e.stopPropagation();
             };

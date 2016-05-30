@@ -703,7 +703,6 @@ module.exports = function(options) {
                 premium: options.project.premium,
             }
         },
-        "plugins/c9.ide.abtesting/abtesting",
         {
             packagePath: "plugins/c9.ide.welcome/welcome",
             staticPrefix: staticPrefix + "/plugins/c9.ide.welcome",
