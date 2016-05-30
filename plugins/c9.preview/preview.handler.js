@@ -56,7 +56,7 @@ define(function(require, exports, module) {
         }
         
         function getRole(db) {
-            var roleCache = new Cache(5000, 5000);
+            var roleCache = new Cache(10000, 10000);
             
             return function(req, res, next) {
                 var key = req.params.username + "/" + req.params.projectname + ":" + req.session.uid;
