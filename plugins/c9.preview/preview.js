@@ -55,6 +55,7 @@ define(function(require, exports, module) {
             require("./lib/middleware/block-dot-files"),
             handler.getProjectSession(),
             handler.getRole(db),
+            handler.checkRole(db),
             handler.getProxyUrl(function() {
                 return getVfsServers()[0] || null;
             }),

@@ -79,15 +79,6 @@ define(function(require, exports, module) {
                     project.getRole(req.session.uid, function(err, role) {
                         if (err) return next(err);
                         
-                        if (role == db.Project.ROLE_NONE) {
-                            if (project.isPublicPreview())
-                                role = db.Project.ROLE_VISITOR;
-                            else if (req.session.uid == -1)
-                                return next(new error.Unauthorized());
-                            else
-                                return next(new error.Forbidden("You don't have access rights to preview this workspace"));
-                        }
-                        
                         var wsSession = {
                             role: role,
                             pid: project.id,
@@ -95,11 +86,18 @@ define(function(require, exports, module) {
                             type: project.scm
                         };
                         
-                        if (wsSession.type != "docker" || project.state != db.Project.STATE_READY)
-                            return next();
-
                         roleCache.set(key, wsSession);
                         req.projectSession = wsSession;
+                        
+                        if (role == db.Project.ROLE_NONE) {
+                            if (project.isPublicPreview())
+                                role = db.Project.ROLE_VISITOR;
+                            else   
+                                return next();
+                        }
+                        
+                        if (wsSession.type != "docker" || project.state != db.Project.STATE_READY)
+                            return next();
                         
                         project.populate("remote", function(err) {
                             if (err) return next(err);
@@ -120,6 +118,21 @@ define(function(require, exports, module) {
                         });
                     });
                 });
+            };
+        }
+        
+        function checkRole(db) {
+            return function(req, res, next) {
+                var role = req.projectSession.role;
+                
+                if (role == db.Project.ROLE_NONE) {
+                    if (req.session.uid == -1)
+                        return next(new error.Unauthorized());
+                    else
+                        return next(new error.Forbidden("You don't have access rights to preview this workspace"));
+                }
+
+                return next();
             };
         }
 
@@ -363,6 +376,7 @@ define(function(require, exports, module) {
             "preview.handler": {
                 getProjectSession: getProjectSession,
                 getRole: getRole,
+                checkRole: checkRole,
                 getProxyUrl: getProxyUrl,
                 proxyCall: proxyCall
             }
