@@ -31,7 +31,8 @@ define(function(require, exports, module) {
                 var cookieName = options.session.prefix + ".sso";
                 var secret = options.session.secret;
                 
-                req.session = {
+                req.session = {};
+                req.user = {
                     uid: -1
                 };
                 
@@ -45,9 +46,7 @@ define(function(require, exports, module) {
                             return next(err);
                         }
                         
-                        req.session = {
-                            uid: user.id
-                        };
+                        req.user = user;
                         next();
                     });
                 } else {
@@ -60,7 +59,7 @@ define(function(require, exports, module) {
             var roleCache = new Cache(10000, 10000);
             
             return function(req, res, next) {
-                var key = req.params.username + "/" + req.params.projectname + ":" + req.session.uid;
+                var key = req.params.username + "/" + req.params.projectname + ":" + req.user.id;
 
                 var wsSession = roleCache.get(key);
                 if (wsSession) {
@@ -77,13 +76,13 @@ define(function(require, exports, module) {
                         
                     if (err) return next(err);
                     
-                    project.getRole(req.session.uid, function(err, role) {
+                    project.getRole(req.user.id, function(err, role) {
                         if (err) return next(err);
                         
                         var wsSession = {
                             role: role,
                             pid: project.id,
-                            uid: req.session.uid,
+                            uid: req.user.id,
                             type: project.scm
                         };
                         
@@ -127,7 +126,7 @@ define(function(require, exports, module) {
                 var role = req.projectSession.role;
                 
                 if (role == db.Project.ROLE_NONE) {
-                    if (req.session.uid == -1)
+                    if (req.user.id == -1)
                         return next(new error.Unauthorized());
                     else
                         return next(new error.Forbidden("You don't have access rights to preview this workspace"));
@@ -154,8 +153,8 @@ define(function(require, exports, module) {
                     server = req.projectSession.vfsServer = server.internalUrl || server.url;
                 }
                         
-                var url = server.replace(/\/vfs$/, "/internal/vfs/") + req.session.uid + "/" + req.projectSession.pid + "/preview";
-                    
+                var url = server + "/" + req.projectSession.pid + "/preview";
+                
                 req.proxyUrl = url;
                 next();
             };
@@ -166,7 +165,9 @@ define(function(require, exports, module) {
                 
                 var path = req.params.path;
                 var url = req.proxyUrl + path;
-                
+                if (req.user.code) 
+                    url += "?access_token=" + encodeURIComponent(req.user.code);
+                    
                 var parsedUrl = parseUrl(url);
                 var httpModule = parsedUrl.protocol == "https:" ? https : http;
                 

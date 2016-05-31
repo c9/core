@@ -20,7 +20,6 @@ define(function(require, exports, module) {
         var handler = imports["preview.handler"];
         var userContent = imports["user-content.redirect"];
         var getVfsServers = imports["vfs.serverlist"].getServers;
-        var ratelimit = require("c9/ratelimit");
         
         var frontdoor = require("frontdoor");
         var error = require("http-error");
