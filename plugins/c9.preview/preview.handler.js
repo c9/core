@@ -31,6 +31,10 @@ define(function(require, exports, module) {
                 var cookieName = options.session.prefix + ".sso";
                 var secret = options.session.secret;
                 
+                req.session = {
+                    uid: -1
+                };
+                
                 var token = req.cookies && req.cookies[cookieName];
                 if (token) {
                     jwt.verify(token, secret, function(err, user) {
@@ -47,9 +51,6 @@ define(function(require, exports, module) {
                         next();
                     });
                 } else {
-                    req.session = {
-                        uid: -1
-                    };
                     next();
                 }
             };
@@ -91,7 +92,7 @@ define(function(require, exports, module) {
                         
                         if (role == db.Project.ROLE_NONE) {
                             if (project.isPublicPreview())
-                                role = db.Project.ROLE_VISITOR;
+                                wsSession.role = db.Project.ROLE_VISITOR;
                             else   
                                 return next();
                         }
