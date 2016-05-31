@@ -240,7 +240,7 @@ define(function(require, exports, module) {
                     path: parsedSocket.path,
                     host: parsedSocket.host,
                     port: parsedSocket.port 
-                        || parsedSocket.protocol == "https:" ? "443" : null,
+                        || (parsedSocket.protocol == "https:" ? "443" : null),
                     secure: parsedSocket.protocol 
                         ? parsedSocket.protocol == "https:" : true,
                     rejectUnauthorized: options.rejectUnauthorized
