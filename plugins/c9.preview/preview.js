@@ -52,7 +52,6 @@ define(function(require, exports, module) {
             requestTimeout(15*60*1000),
             require("./lib/middleware/sanitize-path-param"),
             require("./lib/middleware/block-dot-files"),
-            handler.getProjectSession(),
             handler.getRole(db),
             handler.checkRole(db),
             handler.getProxyUrl(function() {
@@ -63,8 +62,6 @@ define(function(require, exports, module) {
         
         api.error(function(err, req, res, next) {
             if (err instanceof error.Unauthorized) {
-                req.logout();
-                delete req.session.token;
                 return ensureLoggedIn(req, res, next);
             }
             return next(err);

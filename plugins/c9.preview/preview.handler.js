@@ -17,7 +17,6 @@ define(function(require, exports, module) {
         var https = require("https");
         var http = require("http");
         var mime = require("mime");
-        var jwt = require("jsonwebtoken");
         var Cache = require("c9/cache");
         var metrics = imports.metrics;
         var parseUrl = require("url").parse;
@@ -26,44 +25,21 @@ define(function(require, exports, module) {
         
         var staticPrefix = imports["connect.static"].getStaticPrefix();
         
-        function getProjectSession() {
-            return function(req, res, next) {
-                var cookieName = options.session.prefix + ".sso";
-                var secret = options.session.secret;
-                
-                req.session = {};
-                req.user = {
-                    uid: -1
-                };
-                
-                var token = req.cookies && req.cookies[cookieName];
-                if (token) {
-                    jwt.verify(token, secret, function(err, user) {
-                        if (err) {
-                            if (err instanceof jwt.JsonWebTokenError || err instanceof jwt.TokenExpiredError)
-                                return next();
-                            
-                            return next(err);
-                        }
-                        
-                        req.user = user;
-                        next();
-                    });
-                } else {
-                    next();
-                }
-            };
-        }
-        
         function getRole(db) {
             var roleCache = new Cache(10000, 10000);
             
             return function(req, res, next) {
+                if (!req.user) {
+                    req.user = {
+                        id: -1
+                    };
+                }
+
                 var key = req.params.username + "/" + req.params.projectname + ":" + req.user.id;
 
                 var wsSession = roleCache.get(key);
                 if (wsSession) {
-                    req.projectSession = wsSession;
+                    req.session = wsSession;
                     return next();
                 }
 
@@ -87,13 +63,13 @@ define(function(require, exports, module) {
                         };
                         
                         roleCache.set(key, wsSession);
-                        req.projectSession = wsSession;
+                        req.session = wsSession;
                         
                         if (role == db.Project.ROLE_NONE) {
-                            if (project.isPublicPreview())
-                                wsSession.role = db.Project.ROLE_VISITOR;
-                            else   
+                            if (!project.isPublicPreview())
                                 return next();
+                            
+                            wsSession.role = db.Project.ROLE_VISITOR;
                         }
                         
                         if (wsSession.type != "docker" || project.state != db.Project.STATE_READY)
@@ -123,7 +99,7 @@ define(function(require, exports, module) {
         
         function checkRole(db) {
             return function(req, res, next) {
-                var role = req.projectSession.role;
+                var role = req.session.role;
                 
                 if (role == db.Project.ROLE_NONE) {
                     if (req.user.id == -1)
@@ -139,21 +115,21 @@ define(function(require, exports, module) {
         function getProxyUrl(getServer) {
             return function(req, res, next) {
         
-                if (req.projectSession.proxyUrl) {
-                    req.proxyUrl = req.projectSession.proxyUrl;
+                if (req.session.proxyUrl) {
+                    req.proxyUrl = req.session.proxyUrl;
                     return next();
                 }
                 
-                var server = req.projectSession.vfsServer;
+                var server = req.session.vfsServer;
                 if (!server) {
                     server = getServer();
                     if (!server || !server.url)
                         return next(new error.ServiceUnavailable("No VFS server found"));
                         
-                    server = req.projectSession.vfsServer = server.internalUrl || server.url;
+                    server = req.session.vfsServer = server.internalUrl || server.url;
                 }
                         
-                var url = server + "/" + req.projectSession.pid + "/preview";
+                var url = server + "/" + req.session.pid + "/preview";
                 
                 req.proxyUrl = url;
                 next();
@@ -165,9 +141,9 @@ define(function(require, exports, module) {
                 
                 var path = req.params.path;
                 var url = req.proxyUrl + path;
-                if (req.user.code) 
+                if (req.user.code)
                     url += "?access_token=" + encodeURIComponent(req.user.code);
-                    
+
                 var parsedUrl = parseUrl(url);
                 var httpModule = parsedUrl.protocol == "https:" ? https : http;
                 
@@ -233,9 +209,6 @@ define(function(require, exports, module) {
                         } else if (body.indexOf("ENOENT") !== -1 || statusCode == 404) {
                             next(new error.NotFound("File '" + path + "' could not be found!"));
                         } else {
-                            if (req.session.ws)
-                                delete req.session.ws[req.ws];
-                            
                             var json;
                             try {
                                 json = JSON.parse(body);
@@ -376,7 +349,6 @@ define(function(require, exports, module) {
         
         register(null, {
             "preview.handler": {
-                getProjectSession: getProjectSession,
                 getRole: getRole,
                 checkRole: checkRole,
                 getProxyUrl: getProxyUrl,
