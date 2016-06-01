@@ -8,11 +8,13 @@
     <div id="wrapper">
       <h1><%=title%></h1>
       <h2><em><%=statusCode%> - <%=scope%></em> <%=error%></h2>
-      <p style="margin-bottom:20px;width:540px">
-        This error has been logged. We will 
-        investigate this further and will prevent this from happening in the
-        future. If this error persists please don't hesitate to contact support.
-      </p>
+      <% if (statusCode != 403) { %>
+        <p style="margin-bottom:20px;width:540px">
+          This error has been logged. We will 
+          investigate this further and will prevent this from happening in the
+          future. If this error persists please don't hesitate to contact support.
+        </p>
+      <% } %>
       
       <% if (showStackTrace) { %>
         <div class="stacktrace">
