@@ -2,7 +2,7 @@
 define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "bridge", "tabManager", "panels", "tree.favorites", "tree", 
-        "fs", "preferences", "settings", "c9", "commands"
+        "fs", "preferences", "settings", "c9", "commands", "preview"
     ];
     main.provides = ["bridge.commands"];
     return main;
@@ -19,6 +19,7 @@ define(function(require, exports, module) {
         var c9 = imports.c9;
         var prefs = imports.preferences;
         var commands = imports.commands;
+        var preview = imports.preview
         
         var async = require("async");
         
@@ -133,8 +134,14 @@ define(function(require, exports, module) {
                         next();
                     });
                     tree.focus();
-                }
-                else {
+                } else if (message.preview 
+                           && path.substr((~-path.lastIndexOf(".") >>> 0) + 2).toLowerCase() == "html") {
+                    /* 
+                     * If the preview flag is set AND the file extension is html, open the file
+                     * in a browser window. Else, default to the normal behavior.
+                     */
+                    commands.exec("preview", null, message);
+                } else {
                     tabManager.once("ready", function(){
                         var m = /:(\d*)(?::(\d*))?$/.exec(path);
                         var jump = {};

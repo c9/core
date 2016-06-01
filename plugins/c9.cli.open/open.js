@@ -25,7 +25,7 @@ define(function(require, exports, module) {
             cmd.addCommand({
                 name: "open", 
                 info: "     Opens a file or directory.",
-                usage: "[--wait] [--pipe] <path>",
+                usage: "[--wait] [--pipe] [--preview] <path>",
                 options: {
                     "wait": {
                         description: "Wait until the file(s) are closed",
@@ -34,6 +34,11 @@ define(function(require, exports, module) {
                     },
                     "pipe": {
                         description: "Pipe data from a command into c9",
+                        "default": false,
+                        "boolean": true
+                    },
+                    "preview": {
+                        description: "Preview an HTML file in the browser",
                         "default": false,
                         "boolean": true
                     }
@@ -50,6 +55,7 @@ define(function(require, exports, module) {
                     open(
                         argv._.slice(1),  // Remove "open" from the paths
                         argv.wait,
+                        argv.preview,
                         function(){});
                 }
             });
@@ -57,7 +63,7 @@ define(function(require, exports, module) {
 
         /***** Methods *****/
 
-        function open(paths, wait, callback) {
+        function open(paths, wait, preview, callback) {
             try {
                 paths = paths.map(function(path) {
                     var isDir = fs.existsSync(path) && fs.statSync(path).isDirectory();
@@ -103,6 +109,7 @@ define(function(require, exports, module) {
                 type: "open",
                 workspace: "local",
                 wait: wait,
+                preview: preview,
                 // cwd       : cwd,
                 paths: paths
             };
