@@ -1,7 +1,7 @@
 {
     "name": "c9",
     "description": "New Cloud9 Client",
-    "version": "3.1.2593",
+    "version": "3.1.2607",
     "author": "Ajax.org B.V. <info@ajax.org>",
     "private": true,
     "main": "bin/c9",
@@ -30,7 +30,7 @@
         "netutil": "~0.0.2",
         "optimist": "~0.6.0",
         "qs": "0.6.6",
-        "rusha": "~0.7.2",
+        "rusha": "^0.8.3",
         "send": "~0.1.4",
         "simple-mime": "~0.0.8",
         "tern": "git://github.com/cloud9ide/tern.git#39015d544d4c00c7899fea4c95c2e5bc2720e68e",
