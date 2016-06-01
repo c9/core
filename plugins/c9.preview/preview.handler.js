@@ -34,6 +34,7 @@ define(function(require, exports, module) {
                         id: -1
                     };
                 }
+                req.session = {};
 
                 var key = req.params.username + "/" + req.params.projectname + ":" + req.user.id;
 
