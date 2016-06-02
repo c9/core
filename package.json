@@ -1,7 +1,7 @@
 {
     "name": "c9",
     "description": "New Cloud9 Client",
-    "version": "3.1.2610",
+    "version": "3.1.2633",
     "author": "Ajax.org B.V. <info@ajax.org>",
     "private": true,
     "main": "bin/c9",
@@ -58,7 +58,7 @@
         "c9"
     ],
     "c9plugins": {
-        "c9.ide.language": "#79bcb2fe06",
+        "c9.ide.language": "#b8f73a9da1",
         "c9.ide.language.css": "#be07d72209",
         "c9.ide.language.generic": "#3949510863",
         "c9.ide.language.html": "#22fdc74869",
@@ -68,7 +68,7 @@
         "c9.ide.language.javascript.eslint": "#4de5457db1",
         "c9.ide.language.javascript.tern": "#64ab01f271",
         "c9.ide.language.javascript.infer": "#69fbc134d6",
-        "c9.ide.language.jsonalyzer": "#d8183d84b4",
+        "c9.ide.language.jsonalyzer": "#2b1878b731",
         "c9.ide.language.codeintel": "#fc867feec4",
         "c9.ide.collab": "#cfbf987438",
         "c9.ide.local": "#10eb45842a",
@@ -94,7 +94,7 @@
         "c9.ide.imgeditor": "#612e75ef4f",
         "c9.ide.immediate": "#76c8e3213a",
         "c9.ide.installer": "#b2e4ba0a92",
-        "c9.ide.language.python": "#aff0772c78",
+        "c9.ide.language.python": "#15e7ff9a3f",
         "c9.ide.language.go": "#6ce1c7a7ef",
         "c9.ide.mount": "#46e54cb569",
         "c9.ide.navigate": "#5d5707058c",
