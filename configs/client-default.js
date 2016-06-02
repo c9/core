@@ -599,7 +599,7 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.keys/panel"
         },
         {
-            packagePath: "plugins/c9.ide.language/outline",
+            packagePath: "plugins/c9.ide.language.core/outline",
             staticPrefix: staticPrefix + "/plugins/c9.ide.language"
         },
         {
