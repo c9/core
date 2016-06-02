@@ -193,7 +193,7 @@ define(function(require, exports, module) {
                 extraPaths = path;
                 path = path[0];
                 extraPaths = "," + extraPaths.map(function(p) {
-                    return p[0] == path[0] && p != path ? encodeURI(p) : "";
+                    return p[0] == path[0] && p != path ? encodeURI(p).replace(/,/g, "%2C") : "";
                 }).filter(Boolean).join(",");
             }
             window.open(vfsUrl(path) + extraPaths
