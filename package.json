@@ -59,6 +59,7 @@
     ],
     "c9plugins": {
         "c9.ide.language": "#79bcb2fe06",
+        "c9.ide.language.core": "#undefined",
         "c9.ide.language.css": "#be07d72209",
         "c9.ide.language.generic": "#3949510863",
         "c9.ide.language.html": "#22fdc74869",
