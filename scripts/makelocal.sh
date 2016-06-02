@@ -31,7 +31,7 @@ CDN="../server.js $CDN_SETTINGS --settings local --version=standalone --cache $C
 mkdir -p "$CACHE/standalone/modules/lib/emmet"
 cp "$CURDIR/../node_modules/emmet/emmet.js" "$CACHE/standalone/modules/lib/emmet/"
 
-WORKER=plugins/c9.ide.language/worker
+WORKER=plugins/c9.ide.language.core/worker
 echo building worker $WORKER
 $CDN --worker $WORKER
 echo $CDN --worker $WORKER
