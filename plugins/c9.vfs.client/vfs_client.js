@@ -330,8 +330,10 @@ define(function(require, exports, module) {
         }
         
         function isIdle() {
+            if (!connection || !consumer)
+                return false;
             return !Object.keys(connection.unacked).length &&
-                consumer && !Object.keys(consumer.callbacks || {}).length;
+                !Object.keys(consumer.callbacks || {}).length;
         }
         
         /***** Lifecycle *****/
