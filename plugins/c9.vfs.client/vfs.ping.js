@@ -9,7 +9,6 @@ define(function(require, exports, module) {
         var Plugin = imports.Plugin;
         var c9 = imports.c9;
         var ext = imports.ext;
-        var vfs = imports.vfs;
 
         /***** Initialization *****/
 
@@ -62,9 +61,6 @@ define(function(require, exports, module) {
             }
 
             if (!api) return callback(new Error("Client is offline"));
-            
-            if (!vfs.isIdle())
-                return vfs.connection.once("message", ping.bind(null, callback));
 
             var start = Date.now();
             api.ping("serverTime", function(err, response) {

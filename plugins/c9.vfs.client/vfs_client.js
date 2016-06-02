@@ -329,11 +329,6 @@ define(function(require, exports, module) {
                 bufferedVfsCalls.push([method, path, options, callback]);
         }
         
-        function isIdle() {
-            return !Object.keys(connection.unacked).length &&
-                consumer && !Object.keys(consumer.callbacks || {}).length;
-        }
-        
         /***** Lifecycle *****/
         
         plugin.on("load", function(){
@@ -434,9 +429,7 @@ define(function(require, exports, module) {
             // Extending the API
             use: vfsCall.bind(null, "use"),
             extend: vfsCall.bind(null, "extend"),
-            unextend: vfsCall.bind(null, "unextend"),
-            
-            isIdle: isIdle,
+            unextend: vfsCall.bind(null, "unextend")
         });
         
         register(null, {
