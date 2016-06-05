@@ -263,7 +263,7 @@
         }
         
         function getReport() {
-            return mocha.lastReport;
+            return mocha.lastReport || { failures: "didn't complete" };
         }
         
         function safeDisconnect(cb) {
@@ -382,7 +382,11 @@
             return !/text!/.test(x);
         });
         function cleanupRequireModules() {
-            Object.keys(define.modules).forEach(function(x) {
+            [].concat(
+                Object.keys(define.modules),
+                Object.keys(define.errors),
+                Object.keys(define.loading)
+            ).forEach(function(x) {
                 if (/text!/.test(x) || defaultModules.indexOf(x) != -1)
                     return;
                 if (/^ace|^treehugger|\/ctags\/ctags$/.test(x) && !/_test/.test(x))
@@ -390,12 +394,13 @@
                     
                 require.undef(x);
             });
+            define.fetchedUrls = Object.create(null);
         }
         if (require == requirejs) {
             require = function(a, b, c) {
                 if (!c && Array.isArray(a))
                     c = function(err) { 
-                        lastDone && lastDone(err.message); 
+                        lastDone && lastDone(err.message || err);
                     };
                 // workaround for sync minirequire behaviour
                 var bt = b && function() {
