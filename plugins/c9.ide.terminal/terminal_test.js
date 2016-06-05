@@ -13,7 +13,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
             debug: true,
             hosted: true,
             local: false,
-            davPrefix: "/"
         },
         
         "plugins/c9.core/ext",
@@ -127,6 +126,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
                     
                     // Kill connection
                     session.pty.kill();
+                    session.doc.editor.focus();
                 });
                 
                 it.skip('should reconnect when the session has been lost', function(done) {
