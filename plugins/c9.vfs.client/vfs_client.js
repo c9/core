@@ -193,12 +193,13 @@ define(function(require, exports, module) {
                 extraPaths = path;
                 path = path[0];
                 extraPaths = "," + extraPaths.map(function(p) {
-                    return p[0] == path[0] && p != path ? encodeURI(p).replace(/,/g, "%2C") : "";
+                    return p[0] == path[0] && p != path ? escape(p) : "";
                 }).filter(Boolean).join(",");
             }
             window.open(vfsUrl(path) + extraPaths
                 + "?download" 
-                + (filename ? "=" + encodeURIComponent(filename) : "")
+                // Escape '+', otherwise it gets interpreted as a space.
+                + (filename ? "=" + escape(filename) : "").replace(/\+/g, "%2B")
                 + (isfile ? "&isfile=1" : ""));
         }
 
