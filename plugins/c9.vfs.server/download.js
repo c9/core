@@ -44,7 +44,7 @@ define(function(require, exports, module) {
                     filename += (paths.length > 1 ? "[+" + (paths.length - 1) + "]"  : "") + ".tar.gz";
                 }
             }
-            var filenameHeader = "attachment; filename*=utf-8''" + encodeURIComponent(filename);
+            var filenameHeader = "attachment; filename*=utf-8''" + escape(filename);
 
             var process;
             req.on("close", function() {
