@@ -530,6 +530,12 @@ require([
                 x.unregister = function(){};
                 return x;
             })(),
+            "terminal.monitor.message_view": (function(){
+                var x = new EventEmitter();
+                x.show = function(){};
+                x.hide = function(){};
+                return x;
+            })()
         });
     };
     

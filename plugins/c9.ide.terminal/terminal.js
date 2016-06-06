@@ -645,7 +645,7 @@ define(function(require, exports, module) {
                     if (!e && data) {
                         session.terminal.setOutputHistory(data, true);
                         session.getStatus({clients: true}, function(e, status) {
-                            if (e) return;
+                            if (e || !status) return;
                             if (status.clients && status.clients.length > 0) {
                                 var terminal = session.terminal;
                                 var rows = terminal.rows;

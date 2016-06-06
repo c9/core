@@ -61,7 +61,7 @@ define(function(require, exports, module) {
                 };
             }
 
-            if (!api) return callback(new Error("Client is offline"));
+            if (!api || !vfs.connection) return callback(new Error("Client is offline"));
             
             if (!vfs.isIdle())
                 return vfs.connection.once("message", ping.bind(null, callback));
