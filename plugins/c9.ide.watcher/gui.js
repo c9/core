@@ -20,6 +20,12 @@ define(function(require, exports, module) {
         var collab = imports.collab;
         
         var collabEnabled = options.collab;
+        
+        var comparisonType = {
+            TIMESTAMP_AND_CONTENTS: "TIMESTAMP_AND_CONTENTS",
+            CONTENTS: "CONTENTS",
+            NONE: "NONE"
+        };
 
         /***** Initialization *****/
         
@@ -88,14 +94,14 @@ define(function(require, exports, module) {
                 }
                 
                 if (tab.classList.contains("conflict")) {
-                    addChangedTab(tab, true);
+                    addChangedTab(tab, comparisonType.TIMESTAMP_AND_CONTENTS);
                 }
             });
             
             tabManager.on("open", function(e) {
                 initializeDocument(e.tab.document);
                 if (e.tab.classList.contains("conflict")) {
-                    addChangedTab(e.tab, true);
+                    addChangedTab(e.tab, comparisonType.TIMESTAMP_AND_CONTENTS);
                 }
             }, plugin);
             
@@ -137,14 +143,14 @@ define(function(require, exports, module) {
                         return false;
                     }
                     
-                    addChangedTab(tab, e.type === "change");
+                    addChangedTab(tab, comparisonType.TIMESTAMP_AND_CONTENTS);
                 }
             });
             
             collab.on("change", function (e) {
                 var tab = tabManager.findTab(e.path);
                 if (tab) {
-                    addChangedTab(tab, e.type === "change");
+                    addChangedTab(tab, comparisonType.NONE);
                 }
             });
             
@@ -157,7 +163,7 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
         
-        function addChangedTab(tab, isSameFile) {
+        function addChangedTab(tab, doubleCheckComparisonType) {
             // If we already have a dialog open, just update it, but mark the value dirty
             if (changedPaths[tab.path]) {
                 if (changedPaths[tab.path].data)
@@ -179,7 +185,7 @@ define(function(require, exports, module) {
             if (tabManager.focussedTab 
               && tabManager.focussedTab.editorType == "terminal") {
                 tabManager.once("focus", function(){
-                    addChangedTab(tab, false);
+                    addChangedTab(tab, comparisonType.CONTENTS);
                 });
                 return;
             }
@@ -194,10 +200,17 @@ define(function(require, exports, module) {
             var doc = tab.document;
             var path = tab.path;
             
-            if (isSameFile)
-                checkByStatOrContents();
-            else
-                checkByContents();
+            switch (doubleCheckComparisonType) {
+                case comparisonType.TIMESTAMP_AND_CONTENTS:
+                    checkByStatOrContents();
+                    break;
+                case comparisonType.CONTENTS:
+                    checkByContents();
+                    break;
+                case comparisonType.NONE:
+                    dialog();
+                    break;
+            }
             
             function dialog(data) {
                 if (!changedPaths[path])
