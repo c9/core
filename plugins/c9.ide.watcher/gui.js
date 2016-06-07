@@ -191,7 +191,6 @@ define(function(require, exports, module) {
             }
             
             function resolve() {
-                console.log("[watchers] resolved change event without dialog", path);
                 doc.tab.classList.remove("conflict");
                 delete doc.meta.$merge;
                 delete changedPaths[path];
@@ -326,8 +325,10 @@ define(function(require, exports, module) {
             doc.meta.$mergeRoot = data;
             
             // If the value on disk is the same as in the document, set the bookmark
-            if (mergedValue == data)
+            if (mergedValue == data) {
                 doc.undoManager.bookmark();
+                save.save(tab);
+            }
             
             return true;
         }
@@ -352,6 +353,7 @@ define(function(require, exports, module) {
             var doc = tab.document;
             doc.setBookmarkedValue(data, true);
             doc.meta.timestamp = Date.now() - settings.timeOffset;
+            save.save(tab);
             changedPaths[path].resolve();
         }
         
