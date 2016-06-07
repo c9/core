@@ -77,7 +77,7 @@ define(function(require, exports, module) {
             "c9.ide.console":1,"c9.ide.editors":1,"c9.ide.dialog.common":1,
             "c9.ide.dialog.file":1,"c9.ide.dialog.login":1,"c9.ide.errorhandler":1,
             "c9.ide.help":1,"c9.ide.keys":1,"c9.ide.restore":1,"c9.ide.watcher":1,
-            "c9.ide.tree":1, "c9.ide.info":1, "c9.ide.browsersupport":1,
+            "c9.ide.tree":1, "c9.ide.info":1,
             "c9.ide.layout.classic":1, "c9.ide.terminal":1, "c9.ide.ace":1,
             "c9.ide.clipboard":1, "c9.nodeapi":1
         };

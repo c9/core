@@ -754,7 +754,6 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.behaviors/page",
             staticPrefix: staticPrefix + "/plugins/c9.ide.behaviors"
         },
-        "plugins/c9.ide.browsersupport/browsersupport",
         {
             packagePath: "plugins/c9.ide.preferences/preferences",
             staticPrefix: staticPrefix + "/plugins/c9.ide.preferences"
