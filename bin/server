@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Default settings
+BASEPATH=$(dirname $0)
+CONFPATH="$HOME/.c9/user.service"
+NODEPATH="node"
+CLOUDAPP=$(realpath "$BASEPATH/../server.js")
+BINDADDR="127.0.0.1"
+BINDPORT="8181"
+USERNAME="$USER"
+PASSWORD="$USER"
+WORKPATH="$HOME/workspace"
+SETTINGS="standard"
+
+# Load user settings if it exists
+if [ -f $CONFPATH ]; then
+	source $CONFPATH
+fi
+
+# Start service
+$NODEPATH $CLOUDAPP -l $BINDADDR -p $BINDPORT \
+    -a $USERNAME:$PASSWORD -w $WORKPATH -s $SETTINGS
