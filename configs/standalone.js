@@ -100,7 +100,7 @@ module.exports = function(config, optimist) {
         console.log("and suppress this message.\n");
         host = config.host = "127.0.0.1";
     }
-    if (/:/.test(argv.auth) && !isLocalhost && !process.env.C9_HOSTNAME) {
+    if (!/:/.test(argv.auth) && !isLocalhost && !process.env.C9_HOSTNAME) {
         console.log("Warning: running Cloud9 without using HTTP authentication.");
         console.log("Run using --listen localhost instead to only expose Cloud9 to localhost,");
         console.log("or use -a username:password to setup HTTP authentication\n");
