@@ -10,7 +10,7 @@ BINDPORT="8181"
 USERNAME="$USER"
 PASSWORD="$USER"
 WORKPATH="$HOME/workspace"
-SETTINGS="standard"
+SETTINGS="standalone"
 
 # Load user settings if it exists
 if [ -f $CONFPATH ]; then
