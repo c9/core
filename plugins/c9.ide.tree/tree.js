@@ -1102,7 +1102,7 @@ define(function(require, exports, module) {
                         expandedList[id] = node;
                     }
                 });
-                callback(err);
+                callback && callback(err);
                 tree.provider.on("changeScrollTop", scrollHandler);
                 
                 emit("refreshComplete");
