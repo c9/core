@@ -162,24 +162,34 @@ define(function(require, exports, module) {
                 }
                 
                 debug("proxy call %s", url);
-                httpModule.get({
-                    path: parsedUrl.path,
-                    hostname: parsedUrl.hostname,
-                    port: parsedUrl.port,
-                    headers: req.headers
-                }, function(request) {
-                    if (request.statusCode >= 400)
-                        handleError(request);
-                    else if (isDir)
-                        serveListing(request);
-                    else if (request.headers["content-type"] == "text/html")
-                        serveHtml(request, parsedUrl.hostname, req);
-                    else
-                        serveFile(request);
-                }).on("error", function(err) {
+                try {
+                    httpModule.get({
+                        path: parsedUrl.path,
+                        hostname: parsedUrl.hostname,
+                        port: parsedUrl.port,
+                        headers: req.headers
+                    }, function(request) {
+                        if (request.statusCode >= 400)
+                            handleError(request);
+                        else if (isDir)
+                            serveListing(request);
+                        else if (request.headers["content-type"] == "text/html")
+                            serveHtml(request, parsedUrl.hostname, req);
+                        else
+                            serveFile(request);
+                    }).on("error", function(err) {
+                        metrics.increment("preview.failed.error");
+                        next(err); 
+                    });
+                } catch (e) {
+                    logError(new Error("httpModule.get threw unexpected error"), {
+                        message: e.message,
+                        url: url,
+                        headers: req.headers
+                    });
                     metrics.increment("preview.failed.error");
-                    next(err); 
-                });
+                    return next(new error.BadRequest(e.message));
+                }
                 
                 function handleError(request) {
                     var body = "";
