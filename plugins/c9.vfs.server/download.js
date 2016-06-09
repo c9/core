@@ -113,10 +113,10 @@ define(function(require, exports, module) {
                 paths.forEach(function(path) {
                     if (!path) return;
                     path = Path.relative(cwd, path);
-                    if (/win/.test(process.platform)) {
+                    if (process.platform == "win32") {
                         // Quote the path to escape unusual characters and spaces.
                         // NB: Double quotes are illegal within the actual path on Windows.
-                        path = '"' + path + '"';
+                        path = '"' + path.replace(/"/g, "") + '"';
                     }
                     args.push(path);
                 });
