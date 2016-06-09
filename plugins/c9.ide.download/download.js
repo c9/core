@@ -91,22 +91,28 @@ define(function(require, exports, module) {
         }
 
         function downloadProject() {
-            vfs.download("/", info.getWorkspace().name + getArchiveFileExtension());
+            vfs.download("/", makeArchiveFilename(info.getWorkspace().name));
         }
 
         function downloadPaths(paths) {
-            vfs.download(paths, info.getWorkspace().name + getArchiveFileExtension());
+            var lastPart = paths[0].match(/([^\/]*)\/?$/)[1];
+            var filename = lastPart ? (lastPart + "[+" + (paths.length - 1) + "]") : info.getWorkspace().name;
+            vfs.download(paths, makeArchiveFilename(filename));
         }
 
         function downloadFolder(path) {
             var withTrailingSlash = path.replace(/\/*$/, "/");
             var parts = withTrailingSlash.split("/");
-            var lastPart = parts[parts.length - 2];
-            vfs.download(withTrailingSlash, lastPart + getArchiveFileExtension());
+            var folderName = parts[parts.length - 2];
+            vfs.download(withTrailingSlash, makeArchiveFilename(folderName));
         }
 
         function downloadFile(path) {
             vfs.download(path.replace(/\/*$/, ""), null, true);
+        }
+
+        function makeArchiveFilename(filename) {
+            return filename + getArchiveFileExtension();
         }
 
         function getArchiveFileExtension() {
