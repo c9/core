@@ -254,7 +254,7 @@ define(function(require, exports, module) {
                     };
                     e.confirm = function () {
                         if (node.status === "predicted")
-                            node.status = "loaded";
+                            node.status = "pending";
                     };
                     node.status = "predicted";
                 }
@@ -348,7 +348,7 @@ define(function(require, exports, module) {
                     }
                     
                     if (node.status === "predicted")
-                        node.status = "loaded";
+                        node.status = "pending";
                 };
                 node.status = "predicted";
             }, plugin);
@@ -382,7 +382,7 @@ define(function(require, exports, module) {
                 };
                 e.confirm = function() {
                     if (node.status === "predicted")
-                        node.status = "loaded";
+                        node.status = "pending";
                 };
                 node.status = "predicted";
             }, plugin);
