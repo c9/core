@@ -15,12 +15,8 @@ module.exports = function(manifest, installPath) {
     var sdk = !manifest.sdk;
     var win32 = process.platform == "win32";
     
-    if (win32) {
-        if (process.env.HOME === undefined)
-            process.env.HOME = process.env.HOMEDRIVE + process.env.HOMEPATH;
-        if (!/msys\/bin|Git\/bin/.test(process.env.PATH))
-            process.env.PATH = path.join(process.env.HOME, ".c9", "msys/bin") + ";" + process.env.PATH;
-    }
+    if (win32)
+        readWin32Settings();
     
     var home = process.env.HOME;
     
@@ -142,3 +138,21 @@ module.exports = function(manifest, installPath) {
 
     return config;
 };
+
+
+function readWin32Settings() {
+    var path = require("path");
+    var fs = require("fs");
+    if (process.env.HOME === undefined)
+        process.env.HOME = process.env.HOMEDRIVE + process.env.HOMEPATH;
+    if (!/msys\/bin|Git\/bin/.test(process.env.PATH))
+        process.env.PATH = path.join(process.env.HOME, ".c9", "msys/bin") + path.delimiter + process.env.PATH;
+    var settingsPath = path.join(process.env.HOME, ".c9", "standalone.settings");
+    try {
+        var s = fs.readFileSync(settingsPath, "utf8");
+        process.env.PATH = JSON.parse(s).bashDir + path.delimiter + process.env.PATH;
+    } catch(e) {
+        if (!fs.existsSync(path.join(process.env.HOME, ".c9", "msys/bin/bash.exe")))
+            console.error(e);
+    }
+}
