@@ -1,7 +1,7 @@
 {
     "name": "c9",
     "description": "New Cloud9 Client",
-    "version": "3.1.2672",
+    "version": "3.1.2708",
     "author": "Ajax.org B.V. <info@ajax.org>",
     "private": true,
     "main": "bin/c9",
@@ -58,11 +58,11 @@
         "c9"
     ],
     "c9plugins": {
-        "c9.ide.language": "#f62951109c",
+        "c9.ide.language": "#0e86345d39",
         "c9.ide.language.core": "#10a225e77d",
         "c9.ide.language.css": "#46ad561506",
         "c9.ide.language.generic": "#b47cbe58f9",
-        "c9.ide.language.html": "#8e990755bb",
+        "c9.ide.language.html": "#cdc3960225",
         "c9.ide.language.html.diff": "#7d6cecfb90",
         "c9.ide.language.javascript": "#b82f16e56a",
         "c9.ide.language.javascript.immediate": "#82c426dbca",
@@ -71,7 +71,7 @@
         "c9.ide.language.javascript.infer": "#b9c2e4bdb8",
         "c9.ide.language.jsonalyzer": "#a32369793c",
         "c9.ide.language.codeintel": "#4e0a272229",
-        "c9.ide.collab": "#24e28024d7",
+        "c9.ide.collab": "#e015881720",
         "c9.ide.local": "#9169fec157",
         "c9.ide.find": "#a2dfc3e306",
         "c9.ide.find.infiles": "#488db22ee1",
