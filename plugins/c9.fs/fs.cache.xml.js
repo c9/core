@@ -35,6 +35,10 @@ define(function(require, exports, module) {
                 cb && cb(err, files);
             });
         };
+        model.shouldLoadChildren = function(node, ch) {
+            return node.status == "pending"
+                || (node.path && node.isFolder && !ch);
+        };
         model.getClassName = function(node) {
             var cl = node.className || "";
             if (node.link)
