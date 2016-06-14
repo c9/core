@@ -48,23 +48,8 @@ define(function(require, exports, module) {
             
             fs.on("beforeWriteFile", ignoreHandler, plugin);
             fs.on("afterWriteFile", doneHandler, plugin);
-            fs.on("beforeRename", function(e) {
-                e.watchers = [];
-                Object.keys(handlers).forEach(function(path) {
-                    if (path == e.path || path.startsWith(e.path + "/")) {
-                        if (unwatch(path))
-                            e.watchers.push(path.slice(e.path.length));
-                    }
-                });
-                ignoreHandler(e);
-            }, plugin);
-            fs.on("afterRename",  function(e) {
-                doneHandler(e);
-                var toPath = e.result[0] ? e.path : e.args[1];
-                e.watchers.forEach(function(path) {
-                    watch(toPath + path);
-                });
-            }, plugin);
+            fs.on("beforeRename", ignoreHandler, plugin);
+            fs.on("afterRename", doneHandler, plugin);
             fs.on("beforeMkdir", ignoreHandler, plugin);
             fs.on("afterMkdir", doneHandler, plugin);
             fs.on("beforeMkdirP", ignoreHandler, plugin);
@@ -239,7 +224,6 @@ define(function(require, exports, module) {
                     fs.unwatch(path, handlers[path]);
                     emit("unwatch", { path: path });
                     delete handlers[path];
-                    return true;
                 } else {
                     handlers[path].unwatchScheduled = true;
                 }
