@@ -266,7 +266,7 @@ define(function(require, exports, module) {
             
             function removeSingleNode(e) {
                 var node = findNode(e.path);
-                if (!node) return; //Node doesn't exist
+                if (!node) return; // Node doesn't exist
                 
                 deleteNode(node);
                 emit("remove", {
@@ -274,8 +274,9 @@ define(function(require, exports, module) {
                     node: node
                 });
                 
-                // todo
                 e.undo = function(){
+                    if (this.error && this.error.code == "ENOENT") 
+                        return;
                     createNode(node.path, null, node);
                     emit("add", {
                         path: node.path,
@@ -667,6 +668,11 @@ define(function(require, exports, module) {
                     parentPath: node.parent && node.parent.path
                 });
                 return;
+            }
+            if (orphans[node.path] == node) {
+                delete orphans[node.path];
+                if (parent.map[node.label] != node)
+                    return;
             }
             silent || model._signal("remove", node);
             var wasOpen = startUpdate(parent);
