@@ -1078,7 +1078,7 @@ define(function(require, module, exports) {
             options.editorType = type;
             
             //Obtain lst of excluded file formats
-            var lst = settings.get("user/tabs/@excludeformats");
+            var lst = settings.get("user/tabs/@excludeFormats");
             lst = lst.replace(new RegExp(" ", "g"), "");
             lst = (lst.split(",")).filter(function(n) {
                 return (n !== "");
