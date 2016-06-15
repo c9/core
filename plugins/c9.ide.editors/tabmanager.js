@@ -25,6 +25,7 @@ define(function(require, module, exports) {
         var alert = imports["dialog.alert"].show;
         
         var basename = require("path").basename;
+        var extname = require("path").extname;
         
         /***** Initialization *****/
         
@@ -1086,11 +1087,11 @@ define(function(require, module, exports) {
                 });
             
             // Extension of file being opened
-            var ext = path.substr(path.lastIndexOf(".") + 1);
+            var ext = extname(path).substr(1);
             
             // Create the tab, if not forbiden format
             if (lst.indexOf(ext) != -1) {
-                alert("Can't open " + path.substr(path.lastIndexOf('/') + 1) 
+                alert("Can't open " + basename(path) 
                     + ": file format unsupported");
                 return;
             } 
