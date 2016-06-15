@@ -594,9 +594,10 @@ define(function(require, exports, module) {
             question.show(
                 "Always merge?",
                 "Always merge on file changes?",
-                "Enabling 'auto merge' makes it very easy to collaborate on "
-                  + "files with other people, especially when combined with "
-                  + "'auto save'. This setting can be controlled from the "
+                "With 'auto merge' enabled, if a file changes "
+                  + "on disk and you have unsaved changes in the IDE, "
+                  + "it will automatically attempt to merge your changes with the new file. "
+                  + "This setting can be controlled from the "
                   + "settings panel as well.",
                 function() { // on yes
                     if (question.dontAsk)
