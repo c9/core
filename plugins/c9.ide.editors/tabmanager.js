@@ -1078,11 +1078,12 @@ define(function(require, module, exports) {
             options.editorType = type;
             
             // Obtain lst of excluded file formats
-            var lst = settings.get("user/tabs/@excludeFormats");
-            lst = lst.replace(new RegExp(" ", "g"), "");
-            lst = lst.split(",").filter(function(n) {
-                return (n !== "");
-            });
+            var lst = settings.get("user/tabs/@excludeFormats")
+                .replace(new RegExp(" ", "g"), "")
+                .split(",")
+                .filter(function(n) {
+                    return (n !== "");
+                });
             
             // Extension of file being opened
             var ext = path.substr(path.lastIndexOf(".") + 1);
