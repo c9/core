@@ -1077,25 +1077,25 @@ define(function(require, module, exports) {
             //     options.document.filter = true;
             options.editorType = type;
             
-            //Obtain lst of excluded file formats
+            // Obtain lst of excluded file formats
             var lst = settings.get("user/tabs/@excludeFormats");
             lst = lst.replace(new RegExp(" ", "g"), "");
-            lst = (lst.split(",")).filter(function(n) {
+            lst = lst.split(",").filter(function(n) {
                 return (n !== "");
             });
             
-            //Extension of file being opened
+            // Extension of file being opened
             var ext = path.substr(path.lastIndexOf(".") + 1);
             
-            //Create the tab, if not forbiden format
-            if (lst.indexOf(ext)!=-1) {
+            // Create the tab, if not forbiden format
+            if (lst.indexOf(ext) != -1) {
                 alert("Can't open " + path.substr(path.lastIndexOf('/') + 1) 
                     + ": file format unsupported");
                 return;
             } 
-            else { 
-                 tab = createTab(options);
-            }
+            
+            // Create the tab
+            tab = createTab(options);
             
             // Focus
             if (options.focus)
