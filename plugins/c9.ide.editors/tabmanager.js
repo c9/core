@@ -1081,13 +1081,14 @@ define(function(require, module, exports) {
             // Obtain lst of excluded file formats
             var lst = settings.get("user/tabs/@excludeFormats")
                 .replace(new RegExp(" ", "g"), "")
+                .toLowerCase()
                 .split(",")
                 .filter(function(n) {
                     return (n !== "");
                 });
             
             // Extension of file being opened
-            var ext = extname(path).substr(1);
+            var ext = extname(path).substr(1).toLowerCase();
             
             // Create the tab, if not forbiden format
             if (lst.indexOf(ext) != -1) {
