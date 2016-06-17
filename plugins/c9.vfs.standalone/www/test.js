@@ -563,7 +563,6 @@ require([
                     if (err.missingMock.length) {
                         console.error("Missing mock services for " + err.missingMock);
                     } else {
-                        console.warn("Adding mock services for " + err.unresolved);
                         return expect.setupArchitectTest(config, architect, {
                             mockPlugins: config.unresolved,
                             existingPlugins: err.resolved
