@@ -73,6 +73,17 @@ define(function(require, exports, module) {
                         meta.stream.pipe(res);
                     });
                     
+                    meta.stream.once("close", function() {
+                        if (res.headerSent)
+                            return;
+                            
+                        res.writeHead(200, {
+                            "Content-Type": "octet/stream",
+                            "Content-Disposition": filenameHeader
+                        });
+                        res.end();
+                    });
+                    
                     meta.stream.on("error", function(err){
                         res.writeHead(500);
                         res.end(err.message);
