@@ -46,7 +46,12 @@ assert.AssertionError = function AssertionError(options) {
   this.operator = options.operator;
   this.message = options.message || getMessage(this);
   var stackStartFunction = options.stackStartFunction || fail;
-  Error.captureStackTrace(this, stackStartFunction);
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, stackStartFunction);
+  } else {
+    var err = new Error();
+    this.stack = err.stack;
+  }
 };
 
 // assert.AssertionError instanceof Error
