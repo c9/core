@@ -238,7 +238,7 @@ require([
                 
                 layout.initMenus = function() {};
                 layout.findParent = function(){
-                    if (!bar || bar.$amlDestroyed) {
+                    if (!bar || bar.$amlDestroyed || !bar.$ext || !bar.$ext.parentNode) {
                         bar = apf.document.documentElement.appendChild(
                             new imports.ui.bar());
                         bar.$ext.style.position = "fixed";
