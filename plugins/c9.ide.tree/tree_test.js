@@ -25,7 +25,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.core/util",
         {
             packagePath: "plugins/c9.core/settings",
-            settings: "default"
+            settings: "default",
+            testing: true
         },
         "plugins/c9.core/api.js", 
         {
@@ -53,16 +54,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.dialog.common/fileremove",
         "plugins/c9.ide.dialog.common/question",
         
-        //Mock Plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "panels", "tabManager", "layout", "watcher", 
-                "preferences", "clipboard", "Panel", "auth.bootstrap", "info", 
-                "proc", "focusManager", "dialog.error", "error_handler"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["tree", "fs", "fs.cache", "tabManager", "ui", 
                 "dialog.question", "dialog.alert"],
@@ -85,7 +76,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         function getDomNode(treeNode) {
             var r = tree.tree.renderer;
             r.$renderChanges(r.$loop.changes);
-            var i = r.provider.getIndexForNode(treeNode)
+            var i = r.provider.getIndexForNode(treeNode);
             return r.$cellLayer.getDomNodeAtIndex(i);
         }
         
