@@ -107,7 +107,7 @@ define(function(require, exports, module) {
                     else if (e.value === "gitadd")
                         lastLink.editor.onPaste("git add " + lastLink.value + "\n");
                     else if (e.value === "gitcheckout")
-                        lastLink.editor.onPaste("git checkout " + lastLink.value);
+                        lastLink.editor.onPaste("git checkout -- " + lastLink.value);
                     else if (e.value === "gitdiff")
                         lastLink.editor.onPaste("git diff " + lastLink.value + "\n");
                     else if (e.value === "gitrm")
