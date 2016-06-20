@@ -345,7 +345,8 @@ define(function(require, exports, module) {
         });
         plugin.on("unload", function(){
             loaded = false;
-            
+            if (connection && connection.socket)
+                connection.socket.destroying = true;
             if (consumer)
                 consumer.disconnect();
             if (connection)

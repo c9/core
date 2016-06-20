@@ -112,7 +112,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
                 // @todo Test mouse
                 // @todo Test menu
 
-                it('should reconnect when the connection has been lost', function(done) {
+                it.skip('should reconnect when the connection has been lost', function(done) {
                     var doc = tabs.focussedTab.document;
                     var session = doc.getSession();
                     
@@ -226,7 +226,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
                     });
                 });
                 if (!onload.remain) {
-                    it('should reconnect both terminals when doing kill-server', function(done) {
+                    it.skip('should reconnect both terminals when doing kill-server', function(done) {
                         var count = 0;
                         tabs.getTabs().forEach(function(tab) {
                             var session = tab.document.getSession();
