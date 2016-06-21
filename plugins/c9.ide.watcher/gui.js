@@ -154,6 +154,15 @@ define(function(require, exports, module) {
                 }
             });
             
+            collab.on("resolveConflict", function (e) {
+                var tab = tabManager.findTab(e.path);
+                if (tab) {
+                    var doc = tab.document;
+                    var path = tab.path
+                    resolveConflict(doc, path);
+                }
+            })
+            
             watcher.on("delete", function(e) {
                 var tab = tabManager.findTab(e.path);
                 if (tab)
@@ -162,6 +171,12 @@ define(function(require, exports, module) {
         }
         
         /***** Methods *****/
+        
+        function resolveConflict(doc, path) {
+            doc.tab.classList.remove("conflict");
+            delete doc.meta.$merge;
+            delete changedPaths[path];
+        }
         
         function addChangedTab(tab, doubleCheckComparisonType) {
             // If we already have a dialog open, just update it, but mark the value dirty
@@ -178,6 +193,9 @@ define(function(require, exports, module) {
                 return;
             }
             
+            var doc = tab.document;
+            var path = tab.path;
+            
             changedPaths[tab.path] = { tab: tab, resolve: resolve };
             
             // If the terminal is currently focussed, lets wait until 
@@ -191,14 +209,10 @@ define(function(require, exports, module) {
             }
             
             function resolve() {
-                doc.tab.classList.remove("conflict");
-                delete doc.meta.$merge;
-                delete changedPaths[path];
+                collab.send({type: "RESOLVE_CONFLICT", data: {path: path}});
+                resolveConflict(doc, path);
             }
 
-            var doc = tab.document;
-            var path = tab.path;
-            
             switch (doubleCheckComparisonType) {
                 case comparisonType.TIMESTAMP_AND_CONTENTS:
                     checkByStatOrContents();
