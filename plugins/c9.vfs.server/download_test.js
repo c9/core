@@ -19,6 +19,7 @@ var execFile = require('child_process').execFile;
 
 describe(__filename, function(){
     this.timeout(4000);
+    var base;
 
     beforeEach(function(next) {
         var that = this;
@@ -35,6 +36,7 @@ describe(__filename, function(){
                 registerExtension: function() {  }
             }
         }, function(err, api) {
+            assert.equal(err, null);
             var download = api["vfs.download"].download;
             that.server = http.createServer(function(req, res, next) {
                 req.uri = urlParse(req.url, true);
@@ -43,7 +45,16 @@ describe(__filename, function(){
                     assert.fail(err);
                 });
             });
-            that.server.listen(8787, "0.0.0.0", next);
+            function tryNext(retries, err) {
+                if (retries < 0) return next(err);
+                var port = 20000 + Math.round(Math.random() * 20000);
+                base = "http://localhost:" + port;
+                that.server.listen(port, "localhost", function() {
+                    if (err) return tryNext(retries - 1, err);
+                    next();
+                });
+            }
+            tryNext(4);
         });
     });
 
@@ -55,10 +66,10 @@ describe(__filename, function(){
     
         it("should download as tar", function(next) {
             tmp.dir({unsafeCleanup: true}, function(err, path) {
-                path = path.replace(/\w:/, '');
-                var filename = path + "/download.tar.gz";
-                var file = fs.createWriteStream(filename);
-                http.get("http://localhost:8787/?download=download.tar.gz", function(res) {
+                assert.equal(err, null);
+                var filename = "download.tar.gz";
+                var file = fs.createWriteStream(path + "/" + filename);
+                http.get(base + "/?download=download.tar.gz", function(res) {
                     assert.equal(res.headers["content-type"], "application/x-gzip");
                     assert.equal(res.headers["content-disposition"], "attachment; filename*=utf-8''download.tar.gz");
     
@@ -80,12 +91,11 @@ describe(__filename, function(){
     
         it("should download sub directory as tar", function(next) {
             tmp.dir({unsafeCleanup: true}, function(err, path) {
-                path = path.replace(/\w:/, '');
                 assert.equal(err, null);
                 
-                var filename = path + "/download.tar.gz";
-                var file = fs.createWriteStream(filename);
-                http.get("http://localhost:8787/test?download=download.tar.gz", function(res) {
+                var filename = "download.tar.gz";
+                var file = fs.createWriteStream(path + "/" + filename);
+                http.get(base + "/test?download=download.tar.gz", function(res) {
                     res.pipe(file);
                     
                     res.on("end", function() {
@@ -104,12 +114,11 @@ describe(__filename, function(){
     
         it("should download without specifying a name", function(next) {
             tmp.dir({unsafeCleanup: true}, function(err, path) {
-                path = path.replace(/\w:/, '');
                 assert.equal(err, null);
                 
-                var filename = path + "/download.tar.gz";
-                var file = fs.createWriteStream(filename);
-                http.get("http://localhost:8787/test?download", function(res) {
+                var filename = "download.tar.gz";
+                var file = fs.createWriteStream(path + "/" + filename);
+                http.get(base + "/test?download", function(res) {
                     assert.equal(res.headers["content-type"], "application/x-gzip");
                     assert.equal(res.headers["content-disposition"], "attachment; filename*=utf-8''test.tar.gz");
                     
@@ -131,12 +140,11 @@ describe(__filename, function(){
 
         it("should download several files in same directory as tar", function(next) {
             tmp.dir({unsafeCleanup: true}, function(err, path) {
-                path = path.replace(/\w:/, '');
                 assert.equal(err, null);
 
-                var filename = path + "/download.tar.gz";
-                var file = fs.createWriteStream(filename);
-                http.get("http://localhost:8787/test/dir2/testdata2a.txt,/test/dir2/testdata2b.txt?download=download.tar.gz", function(res) {
+                var filename = "download.tar.gz";
+                var file = fs.createWriteStream(path + "/" + filename);
+                http.get(base + "/test/dir2/testdata2a.txt,/test/dir2/testdata2b.txt?download=download.tar.gz", function(res) {
                     res.pipe(file);
                     res.on("end", function() {
                         execFile("tar", ["-zxvf", filename], {cwd: path}, function(err) {
@@ -158,12 +166,11 @@ describe(__filename, function(){
 
         it("should download several files in different directories as tar", function(next) {
             tmp.dir({unsafeCleanup: true}, function(err, path) {
-                path = path.replace(/\w:/, '');
                 assert.equal(err, null);
 
-                var filename = path + "/download.tar.gz";
-                var file = fs.createWriteStream(filename);
-                http.get("http://localhost:8787/test/dir1/testdata1.txt,/test/dir2/testdata2a.txt?download=download.tar.gz", function(res) {
+                var filename = "download.tar.gz";
+                var file = fs.createWriteStream(path + "/" + filename);
+                http.get(base + "/test/dir1/testdata1.txt,/test/dir2/testdata2a.txt?download=download.tar.gz", function(res) {
                     res.pipe(file);
                     res.on("end", function() {
                         execFile("tar", ["-zxvf", filename], {cwd: path}, function(err) {
@@ -185,10 +192,10 @@ describe(__filename, function(){
 
         it("should download as zip", function(next) {
             tmp.dir({unsafeCleanup: true}, function(err, path) {
-                path = path.replace(/\w:/, '');
-                var filename = path + "/download.zip";
-                var file = fs.createWriteStream(filename);
-                http.get("http://localhost:8787/?download=download.zip", function(res) {
+                assert.equal(err, null);
+                var filename = "download.zip";
+                var file = fs.createWriteStream(path + "/" + filename);
+                http.get(base + "/?download=download.zip", function(res) {
                     assert.equal(res.headers["content-type"], "application/zip");
                     assert.equal(res.headers["content-disposition"], "attachment; filename*=utf-8''download.zip");
 
@@ -210,12 +217,11 @@ describe(__filename, function(){
 
         it("should download sub directory as zip", function(next) {
             tmp.dir({unsafeCleanup: true}, function(err, path) {
-                path = path.replace(/\w:/, '');
                 assert.equal(err, null);
 
-                var filename = path + "/download.zip";
-                var file = fs.createWriteStream(filename);
-                http.get("http://localhost:8787/test?download=download.zip", function(res) {
+                var filename = "download.zip";
+                var file = fs.createWriteStream(path + "/" + filename);
+                http.get(base + "/test?download=download.zip", function(res) {
                     res.pipe(file);
 
                     res.on("end", function() {
@@ -234,12 +240,11 @@ describe(__filename, function(){
 
         it("should download several files in same directory as zip", function(next) {
             tmp.dir({unsafeCleanup: true}, function(err, path) {
-                path = path.replace(/\w:/, '');
                 assert.equal(err, null);
 
-                var filename = path + "/download.zip";
-                var file = fs.createWriteStream(filename);
-                http.get("http://localhost:8787/test/dir2/testdata2a.txt,/test/dir2/testdata2b.txt?download=download.zip", function(res) {
+                var filename = "download.zip";
+                var file = fs.createWriteStream(path + "/" + filename);
+                http.get(base + "/test/dir2/testdata2a.txt,/test/dir2/testdata2b.txt?download=download.zip", function(res) {
                     res.pipe(file);
                     res.on("end", function() {
                         execFile("unzip", [filename], {cwd: path}, function(err) {
@@ -261,12 +266,11 @@ describe(__filename, function(){
 
         it("should download several files in different directories as zip", function(next) {
             tmp.dir({unsafeCleanup: true}, function(err, path) {
-                path = path.replace(/\w:/, '');
                 assert.equal(err, null);
 
-                var filename = path + "/download.zip";
-                var file = fs.createWriteStream(filename);
-                http.get("http://localhost:8787/test/dir1/testdata1.txt,/test/dir2/testdata2a.txt?download=download.zip", function(res) {
+                var filename = "download.zip";
+                var file = fs.createWriteStream(path + "/" + filename);
+                http.get(base + "/test/dir1/testdata1.txt,/test/dir2/testdata2a.txt?download=download.zip", function(res) {
                     res.pipe(file);
                     res.on("end", function() {
                         execFile("unzip", [filename], {cwd: path}, function(err) {

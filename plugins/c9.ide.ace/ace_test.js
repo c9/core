@@ -283,8 +283,11 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     editor.setOption("wrapToView", true);
                     
                     render();
+                    var ace = editor.ace;
+                    var cols = Math.floor((ace.container.offsetWidth - ace.renderer.gutterWidth - 2 * ace.renderer.$padding) / charWidth);
                     
-                    expect(document.querySelector(".ace_gutter-cell").offsetHeight).to.equal(lineHeight * 4);
+                    expect(cols).to.equal(ace.session.getWrapLimit());
+                    expect(document.querySelector(".ace_gutter-cell").offsetHeight).to.equal(lineHeight * ace.session.getRowLength(0));
                     done();
                 });
                 it('should allow setting wrapBehavioursEnabled', function(done) {

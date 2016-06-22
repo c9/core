@@ -24,6 +24,7 @@
         mocha.setup('bdd');
         mocha.bail(false);
         mocha.ignoreLeaks(true);
+        mocha.fullTrace && mocha.fullTrace();
         window.onerror=function(msg){ var el=document.getElementById('jserror'); el.innerHTML+="<div class='jserr'>"+msg+"</div>";};
         
         /* wrap setTimeout to prevent any plugins leaking timeouts to the next test*/ 
@@ -120,6 +121,8 @@
             runner.on('test end', function(test) {
                 stats.percent = stats.tests / runner.total * 100 | 0;
                 tests.push(test);
+                if (mocha._onSubTest)
+                    mocha._onSubTest(test);
             });
 
             runner.on('end', function() {
@@ -127,7 +130,6 @@
                 // e.g. using on instead of once can call done second time during app unload
                 // so we save the report at the time when test runner ended.
                 mocha.lastReport = mocha.getReport();
-                console.log(mocha.report);
             });
             
             function parseError(err) {
@@ -263,7 +265,7 @@
         }
         
         function getReport() {
-            return mocha.lastReport;
+            return mocha.lastReport || { failures: "didn't complete" };
         }
         
         function safeDisconnect(cb) {
@@ -382,7 +384,11 @@
             return !/text!/.test(x);
         });
         function cleanupRequireModules() {
-            Object.keys(define.modules).forEach(function(x) {
+            [].concat(
+                Object.keys(define.modules),
+                Object.keys(define.errors),
+                Object.keys(define.loading)
+            ).forEach(function(x) {
                 if (/text!/.test(x) || defaultModules.indexOf(x) != -1)
                     return;
                 if (/^ace|^treehugger|\/ctags\/ctags$/.test(x) && !/_test/.test(x))
@@ -390,12 +396,13 @@
                     
                 require.undef(x);
             });
+            define.fetchedUrls = Object.create(null);
         }
         if (require == requirejs) {
             require = function(a, b, c) {
                 if (!c && Array.isArray(a))
                     c = function(err) { 
-                        lastDone && lastDone(err.message); 
+                        lastDone && lastDone(err.message || err);
                     };
                 // workaround for sync minirequire behaviour
                 var bt = b && function() {

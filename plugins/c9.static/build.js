@@ -234,7 +234,7 @@ function main(options, imports, register) {
     
     function buildWorker(module, pathConfig, callback) {
         var modules = [module];
-        if (module == "plugins/c9.ide.language/worker") {
+        if (module == "plugins/c9.ide.language.core/worker") {
             // jsonalyzer is missing in built version of local
             var jsonalyzer = require("../c9.ide.language.jsonalyzer/default_plugins");
             var extraPackages = [
@@ -251,7 +251,7 @@ function main(options, imports, register) {
             } catch(e) {}
             // TODO find a saner method for managing files loaded in language worker
             modules = [
-                "plugins/c9.ide.language/worker",
+                "plugins/c9.ide.language.core/worker",
                 "plugins/c9.ide.language.generic/local_completer",
                 "plugins/c9.ide.language.generic/snippet_completer",
                 "plugins/c9.ide.language.generic/mode_completer",

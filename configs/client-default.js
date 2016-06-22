@@ -113,7 +113,8 @@ module.exports = function(options) {
             debug: debug,
             installPath: options.installPath,
             dashboardUrl: options.dashboardUrl,
-            accountUrl: options.accountUrl
+            accountUrl: options.accountUrl,
+            rejectUnauthorized: options.rejectUnauthorized
         },
         {
             packagePath: "plugins/c9.vfs.client/endpoint",
@@ -308,13 +309,13 @@ module.exports = function(options) {
             staticPrefix: staticPrefix,
             workerPrefix: options.CORSWorkerPrefix // "/static/standalone/worker"
         },
-        "plugins/c9.ide.language/keyhandler",
-        "plugins/c9.ide.language/complete",
-        "plugins/c9.ide.language/quickfix",
-        "plugins/c9.ide.language/marker",
-        "plugins/c9.ide.language/refactor",
-        "plugins/c9.ide.language/tooltip",
-        "plugins/c9.ide.language/jumptodef",
+        "plugins/c9.ide.language.core/keyhandler",
+        "plugins/c9.ide.language.core/complete",
+        "plugins/c9.ide.language.core/quickfix",
+        "plugins/c9.ide.language.core/marker",
+        "plugins/c9.ide.language.core/refactor",
+        "plugins/c9.ide.language.core/tooltip",
+        "plugins/c9.ide.language.core/jumptodef",
         "plugins/c9.ide.language/worker_util_helper",
         {
             packagePath: "plugins/c9.ide.language.generic/generic",
@@ -599,7 +600,7 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.keys/panel"
         },
         {
-            packagePath: "plugins/c9.ide.language/outline",
+            packagePath: "plugins/c9.ide.language.core/outline",
             staticPrefix: staticPrefix + "/plugins/c9.ide.language"
         },
         {
@@ -753,7 +754,6 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.behaviors/page",
             staticPrefix: staticPrefix + "/plugins/c9.ide.behaviors"
         },
-        "plugins/c9.ide.browsersupport/browsersupport",
         {
             packagePath: "plugins/c9.ide.preferences/preferences",
             staticPrefix: staticPrefix + "/plugins/c9.ide.preferences"

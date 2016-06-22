@@ -198,7 +198,8 @@ define(function(require, exports, module) {
             }
             window.open(vfsUrl(path) + extraPaths
                 + "?download" 
-                + (filename ? "=" + escape(filename) : "")
+                // Escape '+', otherwise it gets interpreted as a space.
+                + (filename ? "=" + escape(filename) : "").replace(/\+/g, "%2B")
                 + (isfile ? "&isfile=1" : ""));
         }
 
@@ -240,9 +241,10 @@ define(function(require, exports, module) {
                     path: parsedSocket.path,
                     host: parsedSocket.host,
                     port: parsedSocket.port 
-                        || parsedSocket.protocol == "https:" ? "443" : null,
+                        || (parsedSocket.protocol == "https:" ? "443" : null),
                     secure: parsedSocket.protocol 
-                        ? parsedSocket.protocol == "https:" : true
+                        ? parsedSocket.protocol == "https:" : true,
+                    rejectUnauthorized: options.rejectUnauthorized
                 };
                 callback();
             });
@@ -329,6 +331,13 @@ define(function(require, exports, module) {
                 bufferedVfsCalls.push([method, path, options, callback]);
         }
         
+        function isIdle() {
+            if (!connection || !consumer)
+                return false;
+            return !Object.keys(connection.unacked).length &&
+                !Object.keys(consumer.callbacks || {}).length;
+        }
+        
         /***** Lifecycle *****/
         
         plugin.on("load", function(){
@@ -336,7 +345,8 @@ define(function(require, exports, module) {
         });
         plugin.on("unload", function(){
             loaded = false;
-            
+            if (connection && connection.socket)
+                connection.socket.destroying = true;
             if (consumer)
                 consumer.disconnect();
             if (connection)
@@ -429,7 +439,9 @@ define(function(require, exports, module) {
             // Extending the API
             use: vfsCall.bind(null, "use"),
             extend: vfsCall.bind(null, "extend"),
-            unextend: vfsCall.bind(null, "unextend")
+            unextend: vfsCall.bind(null, "unextend"),
+            
+            isIdle: isIdle,
         });
         
         register(null, {

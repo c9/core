@@ -31,7 +31,7 @@ CDN="$CURDIR/../server.js cdn-cli -s standalone --server-config standalone --ser
 # build async loaded ace modules
 $CDN --module ace
 
-WORKER=plugins/c9.ide.language/worker
+WORKER=plugins/c9.ide.language.core/worker
 echo building worker $WORKER
 $CDN --worker $WORKER
 echo $CDN --worker $WORKER

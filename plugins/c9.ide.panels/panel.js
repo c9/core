@@ -368,7 +368,7 @@ define(function(require, module, exports) {
                 /**
                  * @property {HTMLElement} container
                  */
-                get container(){ return aml.$ext; },
+                get container(){ return aml && aml.$ext; },
                 
                 /**
                  * The area that this panel is a part of.

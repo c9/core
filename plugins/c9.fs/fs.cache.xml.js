@@ -35,6 +35,10 @@ define(function(require, exports, module) {
                 cb && cb(err, files);
             });
         };
+        model.shouldLoadChildren = function(node, ch) {
+            return node.status == "pending"
+                || (node.path && node.isFolder && !ch);
+        };
         model.getClassName = function(node) {
             var cl = node.className || "";
             if (node.link)
@@ -254,7 +258,7 @@ define(function(require, exports, module) {
                     };
                     e.confirm = function () {
                         if (node.status === "predicted")
-                            node.status = "loaded";
+                            node.status = "pending";
                     };
                     node.status = "predicted";
                 }
@@ -262,7 +266,7 @@ define(function(require, exports, module) {
             
             function removeSingleNode(e) {
                 var node = findNode(e.path);
-                if (!node) return; //Node doesn't exist
+                if (!node) return; // Node doesn't exist
                 
                 deleteNode(node);
                 emit("remove", {
@@ -270,8 +274,9 @@ define(function(require, exports, module) {
                     node: node
                 });
                 
-                // todo
                 e.undo = function(){
+                    if (this.error && this.error.code == "ENOENT") 
+                        return;
                     createNode(node.path, null, node);
                     emit("add", {
                         path: node.path,
@@ -348,7 +353,7 @@ define(function(require, exports, module) {
                     }
                     
                     if (node.status === "predicted")
-                        node.status = "loaded";
+                        node.status = "pending";
                 };
                 node.status = "predicted";
             }, plugin);
@@ -382,7 +387,7 @@ define(function(require, exports, module) {
                 };
                 e.confirm = function() {
                     if (node.status === "predicted")
-                        node.status = "loaded";
+                        node.status = "pending";
                 };
                 node.status = "predicted";
             }, plugin);
@@ -663,6 +668,11 @@ define(function(require, exports, module) {
                     parentPath: node.parent && node.parent.path
                 });
                 return;
+            }
+            if (orphans[node.path] == node) {
+                delete orphans[node.path];
+                if (parent.map[node.label] != node)
+                    return;
             }
             silent || model._signal("remove", node);
             var wasOpen = startUpdate(parent);
