@@ -112,7 +112,6 @@ module.exports.makeLocal = function(config, options) {
             name: options.user.name,
             fullname: options.user.fullname,
             email: options.user.email,
-            pubkey: options.user.pubkey
         },
         project: {
             id: options.project.id,
