@@ -60,7 +60,7 @@ describe(__filename, function() {
     });
 
     describe("preview", function() {
-        it("should do stuff", function(next) {
+        it("Should authorize users correctly", function(next) {
             var user1, user2;
             var public1, private1, private2;
 
@@ -129,7 +129,7 @@ describe(__filename, function() {
                         { uid: -1, role: db.Project.ROLE_NONE, p: public1, code: 200 },
                         { uid: user1.id, role: db.Project.ROLE_NONE, p: private1, code: 403 },
                         { uid: -1, role: db.Project.ROLE_NONE, p: private1, code: 302 }, // redirect to login page
-                        { uid: user1.id, role: db.Project.ROLE_COLLABORATOR, p: private2, code: 200 },
+                        { uid: user1.id, role: db.Project.ROLE_COLLABORATOR, p: public1, code: 200 },
                         { uid: user2.id, role: db.Project.ROLE_ADMIN, p: private2, code: 200 }
                     ];
                     
