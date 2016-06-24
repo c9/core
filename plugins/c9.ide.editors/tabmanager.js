@@ -385,6 +385,7 @@ define(function(require, module, exports) {
                 
                 open({
                     path: name,
+                    focus: true,
                     active: true,
                     pane: e.pane,
                     value: "",
