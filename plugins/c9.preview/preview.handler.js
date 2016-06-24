@@ -17,6 +17,7 @@ define(function(require, exports, module) {
         var https = require("https");
         var http = require("http");
         var mime = require("mime");
+        var Cache = require("c9/cache");
         var metrics = imports.metrics;
         var parseUrl = require("url").parse;
         var debug = require("debug")("preview");
@@ -24,43 +25,25 @@ define(function(require, exports, module) {
         
         var staticPrefix = imports["connect.static"].getStaticPrefix();
         
-        function getProjectSession() {
+        function getRole(db) {
+            var roleCache = new Cache(10000, 10000);
+            
             return function(req, res, next) {
-                var session = req.session;
-    
-                req.user = req.user || { id: -1 };
-    
-                var username = req.params.username;
-                var projectname = req.params.projectname;
-    
-                var ws = req.ws = username + "/" + projectname;
-                
-                if (!session.ws)
-                    session.ws = {};
-    
-                req.projectSession = session.ws[ws];
-                
-                if (
-                    !req.projectSession || 
-                    !req.projectSession.expires || 
-                    req.projectSession.expires <= Date.now() ||
-                    req.projectSession.uid != req.user.id
-                ) {
-                    req.projectSession = session.ws[ws] = {
-                        expires: Date.now() + 10000
+                if (!req.user) {
+                    req.user = {
+                        id: -1
                     };
                 }
-                
-                next();
-            };
-        }
-        
-        function getRole(db) {
-            return function(req, res, next) {
-                if (req.projectSession.role) {
+                req.session = {};
+
+                var key = req.params.username + "/" + req.params.projectname + ":" + req.user.id;
+
+                var wsSession = roleCache.get(key);
+                if (wsSession) {
+                    req.session = wsSession;
                     return next();
                 }
-                    
+
                 db.Project.findOne({
                     username: req.params.username,
                     name: req.params.projectname
@@ -70,25 +53,27 @@ define(function(require, exports, module) {
                         
                     if (err) return next(err);
                     
-                    project.getRole(req.user, function(err, role) {
+                    project.getRole(req.user.id, function(err, role) {
                         if (err) return next(err);
                         
+                        var wsSession = {
+                            role: role,
+                            pid: project.id,
+                            uid: req.user.id,
+                            type: project.scm
+                        };
+                        
+                        roleCache.set(key, wsSession);
+                        req.session = wsSession;
+                        
                         if (role == db.Project.ROLE_NONE) {
-                            if (project.isPublicPreview())
-                                role = db.Project.ROLE_VISITOR;
-                            else if (req.user.id == -1)
-                                return next(new error.Unauthorized());
-                            else
-                                return next(new error.Forbidden("You don't have access rights to preview this workspace"));
+                            if (!project.isPublicPreview())
+                                return next();
+                            
+                            wsSession.role = db.Project.ROLE_VISITOR;
                         }
-                        req.projectSession.role = role;
-                        req.projectSession.pid = project.id;
-                        req.projectSession.uid = req.user.id;
                         
-                        var type = project.scm;
-                        req.projectSession.type = type;
-                        
-                        if (type != "docker" || project.state != db.Project.STATE_READY)
+                        if (wsSession.type != "docker" || project.state != db.Project.STATE_READY)
                             return next();
                         
                         project.populate("remote", function(err) {
@@ -100,10 +85,8 @@ define(function(require, exports, module) {
                                     if (err) return next(err);
 
                                     if (container.state == db.Container.STATE_RUNNING)
-                                        req.projectSession.proxyUrl = "http://" + meta.host + ":9000/" + meta.cid + "/home/ubuntu/workspace";
-                                    else
-                                        req.projectSession.expires = Date.now() + 1000;
-                                        
+                                        wsSession.proxyUrl = "http://" + meta.host + ":9000/" + meta.cid + "/home/ubuntu/workspace";
+
                                     next();
                                 });
                             } else {
@@ -114,26 +97,41 @@ define(function(require, exports, module) {
                 });
             };
         }
+        
+        function checkRole(db) {
+            return function(req, res, next) {
+                var role = req.session.role;
+                
+                if (role == db.Project.ROLE_NONE) {
+                    if (req.user.id == -1)
+                        return next(new error.Unauthorized());
+                    else
+                        return next(new error.Forbidden("You don't have access rights to preview this workspace"));
+                }
+
+                return next();
+            };
+        }
 
         function getProxyUrl(getServer) {
             return function(req, res, next) {
-                
-                if (req.projectSession.proxyUrl) {
-                    req.proxyUrl = req.projectSession.proxyUrl;
+        
+                if (req.session.proxyUrl) {
+                    req.proxyUrl = req.session.proxyUrl;
                     return next();
                 }
                 
-                var server = req.projectSession.vfsServer;
+                var server = req.session.vfsServer;
                 if (!server) {
                     server = getServer();
                     if (!server || !server.url)
                         return next(new error.ServiceUnavailable("No VFS server found"));
                         
-                    server = req.projectSession.vfsServer = server.internalUrl || server.url;
+                    server = req.session.vfsServer = server.internalUrl || server.url;
                 }
                         
-                var url = server + "/" + req.projectSession.pid + "/preview";
-                    
+                var url = server + "/" + req.session.pid + "/preview";
+                
                 req.proxyUrl = url;
                 next();
             };
@@ -222,9 +220,6 @@ define(function(require, exports, module) {
                         } else if (body.indexOf("ENOENT") !== -1 || statusCode == 404) {
                             next(new error.NotFound("File '" + path + "' could not be found!"));
                         } else {
-                            if (req.session.ws)
-                                delete req.session.ws[req.ws];
-                            
                             var json;
                             try {
                                 json = JSON.parse(body);
@@ -365,8 +360,8 @@ define(function(require, exports, module) {
         
         register(null, {
             "preview.handler": {
-                getProjectSession: getProjectSession,
                 getRole: getRole,
+                checkRole: checkRole,
                 getProxyUrl: getProxyUrl,
                 proxyCall: proxyCall
             }
