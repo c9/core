@@ -1,7 +1,7 @@
 
 define(function(require, exports, module) {
     main.consumes = [
-        "Plugin", "bridge", "tabManager", "panels", "tree.favorites", "tree", 
+        "Plugin", "clibridge", "tabManager", "panels", "tree.favorites", "tree", 
         "fs", "preferences", "settings", "c9", "commands"
     ];
     main.provides = ["bridge.commands"];
@@ -9,7 +9,7 @@ define(function(require, exports, module) {
 
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
-        var bridge = imports.bridge;
+        var bridge = imports.clibridge;
         var tabManager = imports.tabManager;
         var panels = imports.panels;
         var tree = imports.tree;
