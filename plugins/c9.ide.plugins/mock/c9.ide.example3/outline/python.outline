@@ -1,0 +1,20 @@
+{
+    languages: ["py"],
+    extensions: ["py"],
+    
+    guess_fargs: true,
+    extract_docs: true,
+    
+    tags: [
+        { regex: /(?:^|\n)\s*class\s+([^ \(:]+)/g, kind: "package" },
+        { regex: /(?:^|\n)\s*def\s+(?!_)([^ \(:]+)/g, kind: "method" },
+        { regex: /(?:^|\n)\s*def\s+(?!__[^ \(:]+__)(_[^ \(]*)/g, kind: "method2" },
+        { regex: /(?:^|\n)\s*def\s+(__[^ \(:]+__)/g, kind: "property" },
+        {
+            regex: new RegExp(
+                "(?:^|\\n)\\s*import\\s+([^ \\(]+)"
+            ),
+            kind: "import"
+        }
+    ]
+}

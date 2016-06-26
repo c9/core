@@ -1,0 +1,13 @@
+.helloworld{
+    padding: 10px;
+    background: red;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    z-index: 100000;
+    width: 640px;
+    height: 400px;
+    background: url("@{image-path}/puppy.jpg");
+    box-sizing: border-box;
+    color: white;
+}

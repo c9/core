@@ -1,0 +1,19 @@
+.has_apf .console .btnsesssioncontainer .inside {
+    padding-right : 64px;
+    padding-left : 2px;
+}
+
+.console .btnsesssioncontainer .tabmenubtn {
+    display : none;
+}
+
+.console .console_close_btn {
+    background-image: url("@{icon-path}/@{button-console-close}");
+}
+
+@media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
+    .console .console_close_btn {
+        background-image: url("@{icon-path}/@{button-console-close-retina}");
+        background-size: 22px 66px;
+    }
+}

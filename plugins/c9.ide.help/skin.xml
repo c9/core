@@ -1,0 +1,66 @@
+<?xml version='1.0'?>
+<a:skin xmlns:a="http://ajax.org/2005/aml">
+    <a:modalwindow name="win-help-about">
+        <a:style><![CDATA[
+            .win-help-about {
+                overflow : hidden;
+            }
+
+            .win-help-about .wh-container {
+                overflow:visible;
+                z-index: 1;
+                position: relative;
+            }
+            
+            .aboutDialogBox .aboutImage {
+                position:relative;
+                color: white;
+                background: url(images/about_cloud.png) no-repeat 0 0;
+                width: 515px;
+                height: 339px;
+            }
+            
+            .win-help-about .buttons {
+                position: absolute;
+                top: 68px;
+                right: 78px;
+                z-index: 2;
+            }
+            .win-help-about .buttons .close {
+                 height: 20px;
+                width: 19px;
+                background: url(images/close.png) no-repeat 4px 3px;
+            }
+            
+            .win-help-about .buttons .close.hover {
+                background-position: -14px 3px;
+            }
+            
+            .win-help-about .buttons .close.down {
+                background-position: -31px 3px;
+            }
+        ]]></a:style>
+    
+        <a:presentation>
+            <a:main
+              collapsed-height = "26"
+              minheight        = "50"
+              minwidth         = "50"
+              drag             = "div[2]"
+              container        = "div[2]"
+              title            = "div[2]/text()"
+              buttons          = "div[1]">
+                <div class="win-help-about">
+                    <div class="buttons"></div>
+                    <div class="wh-container"> </div>
+                </div>
+            </a:main>
+            <a:button>
+                <div> </div>
+            </a:button>
+            <a:cover>
+                <div opacity="0"> </div>
+            </a:cover>
+        </a:presentation>
+    </a:modalwindow>
+</a:skin>

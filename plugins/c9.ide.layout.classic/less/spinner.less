@@ -1,0 +1,179 @@
+.spinner {
+    position   : relative;
+    height     : 19px;
+    margin     : 0;
+    padding    : 0;
+    border     : 1px solid @spinner-border-color;
+    background : @spinner-background;
+    min-height : 18px;
+    max-height : 18px;
+}
+
+.spinnerFocus{
+    border : 1px solid @spinner-focus-border-color;
+    box-shadow: @spinner-focus-box-shadow;
+}
+
+.spinner .divfix {
+    display: block;
+    position: absolute;
+    text-align: right;
+    height: 19px;
+    left: 0;
+    right: 20px;
+    margin: 0;
+    z-index: 9000;
+    padding: 0;
+    border: 0;
+}
+
+.fixMargin2 {
+     margin-bottom: 2px !important;
+ }
+
+ .fixMargin5 {
+     margin-bottom: 5px !important;
+ }
+
+.spinner .divfix input {
+    outline : none;
+    display : block;
+    border-right : 0;
+    padding : 1px 1px 2px 0;
+    position : absolute;
+    text-align : right;
+    left : 0;
+    height : 14px;
+    color : @spinner-color;
+    font-family : Tahoma, Arial;
+    font-size : 11px;
+    width : 100%;
+    margin : 0;
+    z-index : 10000;
+    border : 0;
+    background : transparent;
+}
+
+.spinner .buttons {
+    display : block;
+    width : 18px;
+    height : 19px;
+    position : absolute;
+    right : 0;
+    z-index : 11000;
+}
+
+.spinner .buttons .plus {
+    height : 8px;
+    width : 18px;
+    cursor : default;
+    background-image : url("@{image-path}/@{spinner-plus}");
+    background-position : 0 0;
+    margin : 0;
+    border-top : 1px solid transparent;
+    background-repeat : no-repeat;
+    text-indent: -2000px;
+}
+
+.spinner .buttons .minus {
+    height : 8px;
+    width : 18px;
+    cursor : default;
+    background-image : url("@{image-path}/@{spinner-min}");
+    background-position : 0 0;
+    border-bottom : 1px solid transparent;
+    background-repeat : no-repeat;
+    text-indent: -2000px;
+}
+
+.spinner .buttons .plusDown {
+}
+
+.spinner .buttons .minusDown {
+}
+
+.spinner .buttons .plusHover {
+    background-color : @spinner-button-hover-background;
+}
+
+.spinner .buttons .minusHover {
+    background-color : @spinner-button-hover-background;
+}
+    
+.spinner when(@preferences-flat){
+    width: 120px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #DEDEDE;
+    background: #FFF;
+}
+
+.spinner .buttons when(@preferences-flat){
+    width: auto;
+    height: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.spinner .buttons .minus when(@preferences-flat){
+    height: 28px;
+    width: 24px;
+    border: 0;
+    background: transparent;
+    text-indent: 0;
+    box-sizing: border-box;
+}
+.spinner .buttons .plus when(@preferences-flat){
+    height: 28px;
+    width: 24px;
+    border: 0;
+    background: transparent;
+    text-indent: 0;
+    box-sizing: border-box;
+}
+.spinner .buttons .minus:hover when(@preferences-flat){
+    background: #F6F6F6;
+}
+.spinner .buttons .plus:hover when(@preferences-flat){
+    background: #F6F6F6;
+}
+
+.spinner .buttons .minus when(@preferences-flat){
+    border-right: 1px solid #DEDEDE;
+    color: #f07272;
+    border-radius: 4px 0 0 4px;
+    padding: 7px 9px;
+}
+.spinner .buttons .plus when(@preferences-flat){
+    float: right;
+    border-left: 1px solid #DEDEDE;
+    color: #98c878;
+    border-radius: 0 4px 4px 0;
+    padding: 6px 7px;
+}
+
+.spinnerFocus when(@preferences-flat){
+    box-shadow: none;
+}
+
+.spinner .divfix when(@preferences-flat){
+    height: auto;
+    bottom: 0;
+    top: 0;
+    left: 24px;
+    right: 24px;
+    z-index: 10;
+}
+
+.spinner .divfix input when(@preferences-flat){
+    height: 27px;
+    font-family: @general-font-family;
+    font-size: @general-font-size;
+    text-align: center;
+}

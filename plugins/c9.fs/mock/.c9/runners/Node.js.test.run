@@ -1,0 +1,20 @@
+// This file overrides the built-in Node.js runner
+// For more information see http://docs.c9.io:8080/#!/api/run-method-run
+{
+  "cmd": [
+    "node",
+    "debug.js",
+    "1588",
+    "$file",
+    "$args"
+  ],
+  "debugger": "v8",
+  "debugport": 1588,
+  "debuggerConfig": {
+    "pathMap": [],
+    "ignoreBreak": {
+      "x": 1
+    }
+  },
+  "selector": "source.js"
+}

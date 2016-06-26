@@ -1,0 +1,107 @@
+.c9terminal .c9terminalcontainer{
+    overflow : hidden;
+    height : 100%;
+    padding : 2px;
+}
+
+.editor_tab .c9terminal .c9terminalcontainer{
+    box-shadow: 0 -1px 0 0 #000;
+}
+.editor_tab .c9terminal .c9terminalcontainer.dark{
+    background-image: -webkit-linear-gradient(top,rgba(0, 0, 0, 0.29) 0%, rgba(0, 0, 0, 0.11) 8px, rgba(0, 0, 0, 0.01) 13px, transparent 15px);
+    background-image: linear-gradient(top,rgba(0, 0, 0, 0.29) 0%, rgba(0, 0, 0, 0.11) 8px, rgba(0, 0, 0, 0.01) 13px, transparent 15px);
+}
+
+.c9terminal .c9terminalcontainer .terminal{
+    /*border-radius : 4px 0 0 0;*/
+    background-color: transparent;
+    margin: 3px;
+    font-family : Ubuntu Mono, Menlo, Consolas, monospace;
+    font-size : 12px;
+    line-height : 1.3em;
+    display: inline-block;
+    outline: none;
+}
+.c9terminal .c9terminalcontainer .terminal .ace_selection {
+    background-color: rgb(81,93,119);
+}
+.c9terminal .c9terminalcontainer .terminal .reverse-video {
+    outline : 1px solid rgba(0,0,0,0.4);
+}
+.c9terminalFocus .c9terminalcontainer .terminal .reverse-video {
+    background-color: #333;
+    color: #fff;
+    outline: none;
+}
+.c9terminal .c9terminalcontainer.dark .terminal .reverse-video,
+.c9terminal .c9terminalcontainer.flat-dark .terminal .reverse-video{
+    outline : 1px solid rgba(255,255,255,0.4);
+}
+.c9terminalFocus .c9terminalcontainer.dark .terminal .reverse-video,
+.c9terminalFocus .c9terminalcontainer.flat-dark .terminal .reverse-video {
+    outline: none;
+    background-color: #f0f0f0;
+    color: #000;
+}
+.terminal.waiting .reverse-video {
+    opacity: 0.7;
+}
+/* Place holder for offline support */
+.terminal .ace_content {
+    opacity: 1;
+}
+
+.ace_link_marker {
+    position: absolute;
+    color: blue;
+    border-bottom: 1px dotted rgba(0,0,0,0.4);
+    z-index: 20;
+    cursor: pointer;
+    margin-top : -1px;
+}
+.dark .ace_link_marker {
+    border-bottom: 1px dotted rgba(255,255,255,0.4);
+}
+
+.c9terminalcontainer.cover {
+    position:absolute;
+    padding: 0;
+}
+
+.c9terminalcontainer.cover:after {
+    content: "";
+    position:absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("@{image-path}/tile.png");
+}
+.c9terminalcontainer.bottom.cover:after {
+    background-position: 0px -1px;
+}
+.c9terminalcontainer.right.cover:after {
+    background-position: 2px 0px;
+}
+
+.c9terminalcontainer.cover.right {
+    box-shadow: 0 -6px 10px rgba(0,0,0,0.5);
+    z-index: 1;
+}
+
+.c9terminalcontainer.cover.bottom {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, -7px 0 10px rgba(0,0,0,0.5);
+    z-index: 10;
+}
+.c9terminalcontainer .cover-link {
+    position: absolute;
+    z-index: 100;
+    right: 1px;
+    opacity: 0.5;
+    pointer-events: auto;
+    cursor: pointer;
+}
+.c9terminalcontainer .cover-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}

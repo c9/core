@@ -1,0 +1,75 @@
+html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+body {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif, Tahoma, Verdana, sans-serif;
+    font-size: 12px;
+    background: rgb(14, 98, 165);
+}
+
+#tree {
+    position: absolute;
+    top:  0px;
+    left: 0px;
+    bottom: 0px;
+    right: 80%;
+}
+
+#datagrid {
+    position: absolute;
+    top:  0px;
+    left: 20%;
+    bottom: 0px;
+    right: 0px;
+}
+
+#controls {
+    padding: 5px;
+}
+
+#controls td {
+    text-align: right;
+}
+
+#controls td + td {
+    text-align: left;
+}
+.loading {
+    color: gray;
+    position: absolute;
+    right: 0;
+    border-left: 1px solid;
+}
+
+.ace_tree-light .toggler {
+    overflow: visible;
+    width: 10px;
+    height: 10px;
+    background-image: url(../lib/ace_tree/css/tree_close_arrow_small.png);
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+}
+
+
+.ace_tree-light {
+    background-image: url(../lib/ace_tree/css/tree_background.png);
+}
+
+.ace_tree_focus.ace_tree-light .tree-row.selected {
+    border-top: 1px solid #3A9BEC;
+    border-bottom: 1px solid #185F97;
+    background: linear-gradient(center bottom, #1f82d2 0%, #2890e5 100%) repeat scroll 0 0 transparent;
+    color: #f8f8f8;
+}
+.ace_tree_focus.ace_tree-light .tree-row.selected .tree-column{
+    border-bottom-color: transparent;
+}

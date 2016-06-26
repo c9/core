@@ -1,0 +1,448 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Test Runner</title>
+    <link rel="stylesheet" href="lib/mocha/mocha.css" />
+    <style>
+        HTML { overflow: auto !important }
+        body {
+            font: 20px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+            padding: 60px 50px;
+        }
+  </style>
+</head>
+<body>
+    <div id="mocha"></div>
+    <div id='jserror' width='100%' height='20px' style='font: 10px \"courier new\"; color: red; display: none;'></div>
+
+    <script src="mini_require.js"></script>
+    <script src="/configs/require_config.js"></script>
+    <script src="lib/mocha/mocha.js"></script>
+    <script>
+        /*global mocha*/
+        mocha.setup('bdd');
+        mocha.bail(false);
+        mocha.ignoreLeaks(true);
+        mocha.fullTrace && mocha.fullTrace();
+        window.onerror=function(msg){ var el=document.getElementById('jserror'); el.innerHTML+="<div class='jserr'>"+msg+"</div>";};
+        
+        /* wrap setTimeout to prevent any plugins leaking timeouts to the next test*/ 
+        /*global setTimeout: true, setInterval: true*/
+        void function() {
+            var setTimeout_orig = setTimeout;
+            var setInterval_orig = setInterval;
+            var min = 0, max = 0;
+            window.setTimeout = function() {
+                if (setTimeout.paused) return null;
+                var id = setTimeout_orig.apply(window, arguments);
+                if (min > id) min = id;
+                if (max < id) max = id;
+                return id;
+            };
+            setTimeout.force = function() {
+                return setTimeout_orig.apply(window, arguments);
+            };
+            setTimeout.clear = function() {
+                for (var i = min; i < max; i++) {
+                    clearTimeout(i);
+                    clearInterval(i);
+                }
+            };
+            window.setInterval = function() {
+                if (setTimeout.paused) return null;
+                var id = setInterval_orig.apply(window, arguments);
+                if (min > id) min = id;
+                if (max < id) max = id;
+                return id;
+            };
+        }();
+                
+        function Storage(_items) {
+            this.getItem = function(n) {
+                return _items[n];
+            };
+            this.setItem = function(n, data) {
+                var size = 0;
+                Object.keys(_items).forEach(function(x) {
+                    size += ((x == n ? data : _items[x]) + "").length;
+                });
+                
+                if (size > 40000) {
+                    throw new Error("Exceeded the quota");
+                }
+                _items[n] = data + "";
+                return data;
+            };
+            this.removeItem = function(n) {
+                delete _items[n];
+            };
+            this.clear = function() {
+                _items = Object.create(null);
+            };
+            this.__defineGetter__("length", function() {
+                return Object.keys(_items).length;
+            });
+        }
+        Storage.create = function resetStorage(window, name) {
+            var s = {};
+            s.__proto__ = new Storage(s);
+            s.__defineGetter__("__proto__", function() {});
+            s.__defineSetter__("__proto__", function() {});
+            if (name)
+                window.__defineGetter__(name, function() { return s; });
+            return s;
+        };
+        Storage.create(window, "localStorage");
+        Storage.create(window, "sessionStorage");
+        
+        /*global Mocha, mocha*/
+        mocha.reporter(function(runner) {
+            function extend(target, BaseFn, arg) {
+                var base = BaseFn.prototype;
+                for (var i in base) if (!target[i]) target[i] = base[i];
+                BaseFn.call(target, arg);
+            }
+            
+            extend(this, Mocha.reporters.Base, runner);
+            extend(this, Mocha.reporters.HTML, runner);
+            
+            var tests = [];
+            var stats = this.stats;
+            mocha.lastReport = null;
+            mocha.report = { stats: stats, tests: tests };
+            mocha.getReport = function() {
+                return {
+                    stats: JSON.parse(JSON.stringify(stats)),
+                    tests: tests.map(clean)
+                };
+            };
+        
+            runner.on('test end', function(test) {
+                stats.percent = stats.tests / runner.total * 100 | 0;
+                tests.push(test);
+                if (mocha._onSubTest)
+                    mocha._onSubTest(test);
+            });
+
+            runner.on('end', function() {
+                // tests might generate errors after they finished running
+                // e.g. using on instead of once can call done second time during app unload
+                // so we save the report at the time when test runner ended.
+                mocha.lastReport = mocha.getReport();
+            });
+            
+            function parseError(err) {
+                var str = err.stack || err.toString();
+    
+                // FF / Opera do not add the message
+                if (!~str.indexOf(err.message)) {
+                    str = err.message + '\n' + str;
+                }
+    
+                // <=IE7 stringifies to [Object Error]. Since it can be overloaded, we
+                // check for the result of the stringifying.
+                if ('[object Error]' == str) str = err.message;
+    
+                // Safari doesn't give you a stack. Let's at least provide a source line.
+                if (!err.stack && err.sourceURL && err.line !== undefined) {
+                    str += "\n(" + err.sourceURL + ":" + err.line + ")";
+                }
+                return str;
+            }
+            function clean(test) {
+                return {
+                    title: test.title,
+                    duration: test.duration,
+                    error: test.err && parseError(test.err),
+                    speed: test.speed,
+                    state: test.state
+                };
+            }
+        });
+    </script>
+    <script>//<!--
+    /*global mocha afterEach after*/
+    var inIFrame = window.parent !== window;
+    function defineEmpty(path) {
+        define(path, [], {}); 
+        require([path]);
+    }
+    // allow running some tests in both client and server
+    ["amd-loader", "test/setup_paths"].forEach(defineEmpty);
+    // require.config({paths: {chai: "lib/chai/chai"}});
+    
+    
+    var c9Test = {onReady: null};
+    var options = Object.create(null);
+    var files = [];
+    (location.href.match(/^([^?]+)(?:\?(.*))?$/)[2] || "").split("&").map(function(part, i) {
+        part = part.split("=").map(unescape);
+        if (part[1] === undefined && part[0]) {
+            files.push(part[0]);
+        } else {
+            options[part[0]] = part[1] || part[0];
+        }
+    });
+
+    
+    var deps = [
+        "text!/test/all.json",
+        "lib/architect/architect",
+        "lib/chai/chai",
+        "test",
+        "plugins/c9.ide.ui/lib_less1.5"
+    ];
+    if (options.ui === "none")
+        deps.shift();
+
+    require(deps, function(tests) {
+        var allFiles = [];
+        if (options.ui !== "none")
+            showUi(tests);
+            
+        function showUi(tests) {
+            tests = JSON.parse(tests);
+            allFiles = tests.list.slice();
+            
+            if (!files.length && (location.search === "?" || location.search === "")) {
+                var disabled = tests.blacklist.slice().sort();
+                var enabled = tests.list.slice().sort();
+                var all = "<span style='font-size: 14px;'><a href='?runAllTests&remain=1'>run all</a></span>";
+                var initErr = document.getElementById('jserror').innerHTML;
+                setupDom(""
+                    + "<h1>Enabled tests" + all + "</h1>"
+                    + "<div style='font-size: 14px;'>" + formatTestList(enabled) + "</div>"
+                    + "<h1>Blacklisted tests</h1>"
+                    + "<div style='font-size: 14px;'>" + formatTestList(disabled) + "</div>"
+                    + "<iframe id='quickview' style='position:fixed;top:0;right:0;'></iframe>");
+                    
+    
+                document.getElementById('jserror').innerHTML = initErr;
+                document.body.onclick = function(e) {
+                    var href = e.target.getAttribute("href") || "";
+                    var quickview = document.getElementById("quickview");
+                    if (!quickview) return;
+                    quickview.style.width = window.innerWidth - 450 + "px";
+                    quickview.style.height = window.innerHeight  + "px";
+                    if (href && e.button === 0 && href.indexOf("?") !== -1) {
+                        quickview.src = href;
+                        e.preventDefault();
+                    }
+                };
+            }
+            function formatTestList(all) {
+                return all.map(function(p){
+                    return "<a href='" + p.replace(/^!?/, "?") + "&remain=1" + "'>" + p + "</a>";
+                }).join("<br>");
+            }
+        }
+        
+        var running = false;
+        var lastDone;
+        onload = function() {
+            function done() {
+                running = false;
+                lastDone && lastDone();
+            }
+            if (!running) {
+                running = true;
+                mocha.run(done);
+            }
+        };
+        onload.remain = options.remain == "1";
+        
+        mocha.timeout(10000);
+        
+        if (inIFrame) {
+            // we're in an iframe, postMessage the results to the parent.
+            after(function(done) {
+                console.log('test completed');
+                var payload = getReport();
+                window.parent.postMessage(payload, '*');
+                done();
+            });
+        }
+        
+        function getReport() {
+            return mocha.lastReport || { failures: "didn't complete" };
+        }
+        
+        function safeDisconnect(cb) {
+            if (!window.app || !window.app.services.vfs)
+                return cb();
+            setTimeout.paused = true;
+            window.app.services.vfs.connection.disconnect();
+            window.app.services["vfs.endpoint"].clearCache();
+            setTimeout.force(function() {
+                setTimeout.paused = false;
+                setTimeout.clear();
+                
+                window.Storage.create(window, "localStorage");
+                // window.Storage.create(window, "sessionStorage");
+                cb();
+            });
+        }
+        
+        function setupDom(html) {
+            var mochaDiv = document.getElementById("mocha");
+            var errorDiv = document.getElementById("jserror");
+            mochaDiv.textContent = errorDiv.textContent = "";
+            document.body.innerHTML = html || "";
+            document.body.appendChild(mochaDiv);
+            document.body.appendChild(errorDiv);
+        }
+        
+        function run(test, callback) {
+            if (!test || typeof test != "string") {
+                if (typeof test == "number")
+                    test = c9Test.allFiles[test];
+                else if (Array.isArray(test))
+                    return runAll(test, callback);
+                else if (!test)
+                    test = c9Test.last || c9Test.allFiles[0];
+                else if (test.exec)
+                    return runAll(c9Test.find(test), callback);
+            }
+            
+            c9Test.last = test;
+            mocha.suite.suites.length = 0;
+            function unloadApp() {
+                var app = window.app;
+                window.app = null;
+                try {
+                    if (app && app.services && app.services.ext)
+                        app.services.ext.unloadAllPlugins();
+                } catch(e) {
+                    callback && callback(e, getReport());
+                    return e;
+                }
+            }
+            
+            if (unloadApp()) return;
+            
+            setupDom(test);
+            cleanupRequireModules();
+            lastDone = function(err, res) {
+                lastDone = null;
+                if (!onload.remain && unloadApp()) return;
+                callback && callback(err, res || getReport());
+            };
+            
+            safeDisconnect(function() {
+                window.app = null;
+                if (typeof test == "function") {
+                    test();
+                    if (!running) onload();
+                    return;
+                }
+                require([test], function() {
+                }, function(err) {
+                    callback && callback(err.message);
+                });
+            });
+        }
+        function runAll(options, callback) {
+            if (!options)
+                options = {};
+            if (Array.isArray(options))
+                options = {all: options};
+            var all = (options.all || c9Test.allFiles);
+            var t = Date.now();
+            var i = 0;
+            next();
+            function next() {
+                var test = all[i++];
+                if (!test) return done();
+                run(test, function(err) {
+                    if (!err) {
+                        var report = getReport();
+                        if (report.failures)
+                            err = report;
+                    }
+                    if (err && !options.ignoreErrors) {
+                        c9Test.continue = next;
+                        return done(err);
+                    }
+                    next();
+                });
+            }
+            function done(err) {
+                console.log("/" + Array(20).join("-"));
+                console.log("finished running " + (i - 1) + " tests from " + all.length + ". In " + (Date.now() - t) + "ms");
+                /* stress param makes the page continually refresh until a failure is found */
+                if (document.URL.indexOf("stress=1") >= 0 && getReport() && !getReport().stats.failures) {
+                    console.log("Stress testing and found no errors so reloading");
+                    location.reload();
+                }
+                callback && callback(err);
+            }
+        }
+        
+        /* global requirejs require: true*/
+        var defaultModules = Object.keys(define.modules).filter(function(x) {
+            return !/text!/.test(x);
+        });
+        function cleanupRequireModules() {
+            [].concat(
+                Object.keys(define.modules),
+                Object.keys(define.errors),
+                Object.keys(define.loading)
+            ).forEach(function(x) {
+                if (/text!/.test(x) || defaultModules.indexOf(x) != -1)
+                    return;
+                if (/^ace|^treehugger|\/ctags\/ctags$/.test(x) && !/_test/.test(x))
+                    return;
+                    
+                require.undef(x);
+            });
+            define.fetchedUrls = Object.create(null);
+        }
+        if (require == requirejs) {
+            require = function(a, b, c) {
+                if (!c && Array.isArray(a))
+                    c = function(err) { 
+                        lastDone && lastDone(err.message || err);
+                    };
+                // workaround for sync minirequire behaviour
+                var bt = b && function() {
+                    var args = [].slice.call(arguments);
+                    var self = this;
+                    setTimeout(function() {
+                        b.apply(self, args);
+                    });
+                };
+                return requirejs(a, bt, c);
+            };
+            Object.keys(requirejs).forEach(function(x) {
+                if (!(x in require)) {
+                    require[x] = requirejs[x];
+                }
+            });
+        }
+
+        c9Test.run = run;
+        c9Test.runAll = runAll;
+        c9Test.allFiles = allFiles;
+        if (location.href.match(/\?runAllTests/)) {
+            files = allFiles;
+        }
+        c9Test.find = function(r) {
+            return c9Test.allFiles.filter(function(x) { return x.match(r); });
+        };
+        c9Test.reRun = c9Test.run;
+        // wait for test.js to initialise chai
+        require(["lib/chai/chai", "text!plugins/c9.ide.layout.classic/skins.xml"], function wait(chai){
+            if (!chai.expect.html)
+                setTimeout(wait.bind(null, chai), 50);
+            else if (c9Test.onReady)
+                c9Test.onReady(null, null);
+            else
+                runAll({all: files});
+        });
+    }, function() {
+        c9Test.onReady("Couldn't load test runner");
+    });
+    //--></script>
+</body>
+</html>

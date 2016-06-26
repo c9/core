@@ -1,0 +1,224 @@
+@import "plugins/c9.ide.layout.classic/themes/flat-light.less";
+
+.bartools .c9-toolbarbutton-glossyOver{
+    background: #303130;
+}
+
+.bartools .c9-toolbarbutton-glossymenuDown{
+    background-color: #ffffff;
+    box-shadow: 0px 3px 15px 0px rgba(0, 0, 0, 0.29);
+    border: 1px solid #dedede;
+}
+
+.output .toolbar .c9-toolbarbutton-glossyOver{
+    border: 1px solid transparent !important;
+    background: rgba(255,255,255, 0.1) !important;
+}
+.output .toolbar .c9-toolbarbutton-glossyDown{
+    border: 1px solid transparent !important;
+    background: rgba(255,255,255, 0.14) !important;
+}
+
+.searchresults .item{
+    padding : 3px 3px 3px 5px;
+}
+
+.envcontainer {
+    box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.08);
+}
+
+.blackdg .ace_wrapper {
+    background: white;
+}
+
+.keybindings .blackdg .ace_wrapper {
+    background-color: rgb(239, 239, 239);
+}
+.console>.hbox>.btn_consoleOver{
+    background: #E6E6E6;
+}
+.console>.hbox>.btn_consoleDown {
+    background: #E6E6E6;
+}
+.c9-toolbarbutton-glossyDisabled.light .c9-icon{
+    opacity: 0.6;
+}
+.rbcontainer.themepicker.rbcontainerSelected div:after {
+    border: 3px solid #D8D8D8;
+}
+
+.ace_scroller.ace_scroll-left > .scroll_shadow {
+     box-shadow: 17px 0 16px -16px rgba(0, 0, 0, 0.2) inset !important;
+}
+
+.bar-preferences .blackdg .ace_tree-editor{
+    color: #333;
+    background: rgb(239, 239, 239);
+}
+
+.c9-toolbarbutton-glossy.saving .c9-label, .c9-toolbarbutton-glossy.saved .c9-label {
+    background-position: 0 -523px;
+    color: rgb(158, 158, 158);
+}
+.cbcontainerFocus span {
+    border: 1px dotted #BBB;
+}
+
+.grouped_checkbox_holder.mount{
+    background: #FAFAFA;
+    border: 1px solid #DEDEDE;
+}
+.grouped_checkbox_holder.mount .cbcontainerDown, 
+.grouped_checkbox_holder.mount .cbcontainerChecked {
+    background: #63acff;
+}
+.grouped_checkbox_holder.mount .cbcontainer span{
+    color: #333 !important;
+}
+
+.has_apf .grouped_checkbox_holder.mount .cbcontainerOver:not(.cbcontainerChecked), 
+.has_apf .grouped_checkbox_holder.mount .cbcontainerFocus:not(.cbcontainerChecked){
+    background: #F0F0F0;
+}
+
+.has_apf .grouped_checkbox_holder.mount .cbcontainerDown span, 
+.has_apf .grouped_checkbox_holder.mount .cbcontainerChecked span{
+    color: white !important;
+}
+
+.language_highlight_occurrence_other,
+.language_highlight_occurrence_main {
+    border-color: #ADADAD;
+}
+
+.bk-window.relative, .bk-window2.relative{
+    box-shadow: 0 0 30px rgba(0,0,0,0.2) !important;
+}
+
+.ace_tree.ace_tree_focus .selected .extrainfo{
+    color: #FFFFFF;
+    .font-smoothing(true);
+}
+
+.loading-spinner {
+    .image-2x("/static/@{pane-button-save-image}", @pane-button-save-image-width, @pane-button-save-image-height);
+    .animation(~"loading-24-spinner 1.2s steps(24) infinite")!important;
+}
+
+.ace_tree .tree-row .checkbox{
+    outline: 1px solid rgba(0, 0, 0, 0.16);
+    background: white;
+}
+.ace_tree .tree-row .checkbox.checked{
+    background-position: -2px -2px;
+}
+.ace_tree .tree-row .checkbox.half-checked{
+    background-color: #DDDDDD;
+    background-position: -2px -2px;
+}
+.top-test-panel{
+    border-bottom: 1px solid @border-highlight;
+}
+
+.top-test-panel{
+    border-bottom: 1px solid @border-highlight-dark;
+}
+
+.runner-form-header{
+    border-bottom: 1px solid @border-highlight-dark;
+}
+
+.dgLikeContaier {
+    background-color: @element-background;
+    border: 1px solid @element-background;
+    box-shadow: none;
+}
+
+.cboffline{
+    background: @element-background;
+    border: 1px solid @element-background;
+}
+.cboffline:after{
+    background: @element-chrome-highlight;
+    border: 1px solid @element-chrome-highlight;
+}
+.cbofflineChecked{
+    background: @element-background;
+    border-color: @element-background;
+}
+.cbofflineChecked:after{
+    border-color: @selected-focus-background;
+    background-color: @selected-focus-background;
+}
+.cboffline:hover{
+    background: @element-background-hover;
+}
+
+.spinner{
+    border: 1px solid @element-background;
+    background: @element-background;
+}
+
+.spinner .buttons .minus{
+    font-size: 16px;
+    padding: 4px 9px;
+    color: #767676;
+    border-right: 1px solid @element-border;
+}
+.spinner .buttons .plus{
+    font-size: 15px;
+    padding: 4px 7px;
+    color: #767676;
+    border-left: 1px solid @element-border;
+}
+.spinner .buttons .minus:hover{
+    background: @element-background-hover;
+    color: #f07272;
+}
+.spinner .buttons .plus:hover{
+    background: @element-background-hover;
+    color: #98c878;
+}
+
+.searchbox .ace_editor{
+    .font-smoothing(true);
+}
+
+.searchbox .ace-tm .ace_marker-layer .ace_selected-word {
+    display: none;
+}
+.searchbox .ace-tm .ace_marker-layer .ace_selection {
+    background: rgb(119, 130, 49);
+}
+.searchbox .ace-tm .ace_cursor {
+    color: @textbox-color;
+}
+
+.bar-preferences .taFocus, 
+.bar-preferences .ta:hover,
+.taFocus, .ta:hover,
+.searchbox .sbtb_middle:hover, 
+.searchboxFocus .sbtb_middle,
+.bar-preferences .tbsimpleFocus,
+.tbsimpleFocus,
+.tbsimple:hover{
+    background: @element-background-hover;
+    border-color: transparent;
+}
+
+.panel-bar .searchbox .sbtb_middle{
+    background: #232323;
+}
+
+.panel-bar .searchbox .sbtb_middle:hover, 
+.panel-bar .searchboxFocus .sbtb_middle {
+    background: #202020;
+}
+
+.has_apf .bar-preferences .blackdg{
+    border: 0;
+}
+
+@media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
+    
+}

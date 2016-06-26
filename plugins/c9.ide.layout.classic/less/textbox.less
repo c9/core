@@ -1,0 +1,49 @@
+
+.tb_textbox {
+    position : relative;
+    height   : 25px;
+}
+
+.tb_textbox .sbtb_middle {
+    height: 19px;
+    padding: 2px 5px;
+    border: @tbsimple-border;
+    border-radius: @tbsimple-border-radius;
+    .gradient(~"@{tbsimple-gradient}");
+    color: @tbsimple-color;
+    margin: 0;
+    outline: none;
+    font-family: @tbsimple-font-family;
+    font-size: @tbsimple-font-size;
+    text-overflow: ellipsis;
+    box-shadow: @tbsimple-box-shadow;
+}
+
+.topborder .sbtb_middle{
+    border-width : 1px 0 0 0;
+}
+
+.tb_textbox .sbtb_middle INPUT {
+    border           : 0;
+    height           : 17px;
+    font-size        : 12px;
+    color            : @tbsimple-color;
+    font-family      : Arial;
+    outline          : none;
+    background-color : transparent;
+    width: 100%;
+}
+
+.tb_textboxInitial .sbtb_middle INPUT {
+    color : #777777;
+}
+
+.tb_textboxDisabled .sbtb_middle INPUT {
+    color : #CCC;
+}
+
+.tb_textboxDisabled .sbtb_middle{
+    .gradient(~"@{tbsimple-disabled-gradient}");
+    cursor : default;
+}
+    

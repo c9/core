@@ -1,0 +1,64 @@
+.basic{
+    position : relative;
+}
+
+.fakehbox{
+    white-space : nowrap;
+}
+
+.fakehbox>*{
+    display : inline-block;
+}
+
+.fakehbox.aligntop>*{
+    vertical-align : top;
+}
+
+.fakehbox.aligncenter>*{
+    vertical-align : middle;
+}
+
+.fakehbox.padding3>*{
+    margin-left : 3px;
+}
+
+.fakehbox.static{
+    position : static;
+}
+
+.bar-offline-cover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+/* Shared between find plugins */
+
+.find-and-replace {
+    background: @find-bar-background;
+    box-shadow: 0 1px 0 0 @border-highlight inset;
+    border-top: 1px solid @border-highlight-dark;
+    border-bottom: 1px solid @border-highlight-dark;
+    font-size:@find-button-font-size;
+    font-family : @find-button-font-family;
+}
+
+.find-and-replace .blackbutton{
+    margin-top: @find-button-margin-top !important;
+    height: @find-button-height !important;
+    line-height: @find-button-line-height;
+    padding: @find-button-padding;
+}
+
+.find-and-replace .dropdown-dark-glossy{
+    margin-top: @find-button-margin-top !important;
+    height: @find-button-height !important;
+}
+.find-and-replace .dropdown-dark-glossy .button{
+    background-image: url(@find-dropdown-icon-image) !important;
+}
+.find-and-replace .dropdown-dark-glossy .button:before{
+    border-left: @find-dropdown-button-border-left;
+}

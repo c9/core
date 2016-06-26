@@ -1,0 +1,190 @@
+.ace_tree{
+    overflow : hidden;
+    font : 12px Tahoma, Arial;
+    cursor: default;
+    position: relative;
+    white-space: pre;
+}
+
+.ace_tree textarea{
+    position : absolute;
+    z-index : 0;
+}
+
+.ace_tree_scroller {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    bottom: 0;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+         -o-user-select: none;
+            user-select: none;
+}
+
+.ace_tree_content {
+    position: absolute;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.ace_scrollbar {
+    position: absolute;
+    overflow-x: hidden;
+    overflow-y: auto;
+    right: 0;
+    bottom: 0;
+}
+
+.ace_scrollbar-inner {
+    position: absolute;
+    cursor: text;
+    left: 0;
+    top: 0;
+}
+
+.ace_scrollbar-h {
+    position: absolute;
+    overflow-x: auto;
+    overflow-y: hidden;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.ace_tree_horheading {
+    position : absolute;
+}
+
+.ace_tree_verheading{
+    bottom : 0;
+    position : absolute;
+}
+
+.ace_tree_heading {
+    z-index: 10;
+    position: relative;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    pointer-events: none;
+}
+
+.ace_tree_layer {
+    z-index: 1;
+    position: absolute;
+    overflow: hidden;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    pointer-events: none;
+}
+
+.ace_tree .tree-indent {
+    display : inline-block;
+}
+
+.ace_tree_selection_range{
+    position : absolute;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+.ace_tree_focus .ace_tree_selection_range{
+    
+}
+
+.ace_tree-editor {
+    position : absolute;
+    z-index : 10000;
+    background : white;
+    padding : 3px 4px 3px 4px;
+    -moz-box-sizing : border-box;
+         box-sizing : border-box;
+    border : 1px dotted green;
+    left: 0;
+    right: 0
+}
+
+
+
+.ace_tree .toggler {
+    width: 10px;
+    height: 10px;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: inline-block;
+    pointer-events: auto;
+}
+
+.ace_tree .toggler.empty {
+    pointer-events: none;
+}
+
+.ace_tree .toggler.open {
+    background-position: -10px 0px;
+}
+
+.ace_tree .toggler.empty {
+    background-position: 50px 0px;
+    cursor: default;
+}
+
+.ace_tree_cells, .ace_tree_cell-layer {
+    width: 100%;
+}
+.ace_tree_selection-layer {
+    width: 100%;
+    height: 110%;
+}
+.ace_tree_cells .message.empty {
+    text-align: center;
+    opacity: 0.9;
+    cursor : default;
+}
+
+/* datagrid */
+
+.ace_tree .tree-row>.tree-column {
+    display: inline-block;
+    overflow: hidden;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+
+.tree-headings {
+    white-space: nowrap;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    right: 0;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+.tree-headings>.tree-column {
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+.tree-headings>.tree-column-resizer {
+    height: 100%;
+    background: rgb(182, 182, 182);
+    display: inline-block;
+    width: 2px;
+    z-index: 1000;
+    position: absolute;
+    margin-left: -2px;
+    border-left: 1px solid rgba(0, 0, 0, 0);
+}

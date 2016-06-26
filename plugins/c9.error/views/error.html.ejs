@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <meta charset='utf-8'> 
+    <title><%=error%></title>
+    <link rel="stylesheet" type="text/css" href="<%=staticPrefix%>/error_handler/style.css" />
+  </head>
+  <body class="errorUnknown light">
+    <div id="wrapper">
+      <h1><%=title%></h1>
+      <h2><em><%=statusCode%> - <%=scope%></em> <%=error%></h2>
+      <% if (statusCode != 403) { %>
+        <p style="margin-bottom:20px;width:540px">
+          This error has been logged. We will 
+          investigate this further and will prevent this from happening in the
+          future. If this error persists please don't hesitate to contact support.
+        </p>
+      <% } %>
+      
+      <% if (showStackTrace) { %>
+        <div class="stacktrace">
+          <strong class="toggle" onclick="this.nextSibling.style.display=this.nextSibling.style.display == 'block' ? 'none' : 'block'">
+            Click here to see extra information that can help us solve this problem:
+          </strong><ul id="stacktrace" style="display:none">
+            <% stack.forEach(function(line) { %>
+              <li><%=line%></li>
+          <% }); %>
+          </ul>
+        </div>
+      <% } %>
+      
+      <a href="http://status.c9.io">Status Page</a> |
+      <a href="https://c9.io/support">Support</a> |
+      <a href="https://c9.io/dashboard.html">Dashboard</a> |
+      <a href="https://c9.io">Home</a>
+    </div>
+  </body>
+</html>

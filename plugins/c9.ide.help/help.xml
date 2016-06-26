@@ -1,0 +1,34 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:window
+      id        = "aboutDialog"
+      icon      = ""
+      kbclose   = "true"
+      center    = "true"
+      width     = "512"
+      skinset   = "help-skin"
+      buttons   = "close"
+      skin      = "win-help-about"
+      class     = "aboutDialogBox">
+        <div class="aboutImage">
+            <div id="c9Version" textselect="true"><?lm
+                Version {cloud9config.version}
+            ?></div>
+             <!-- <div class="c9Legal">
+            <p><a href="http://www.bettercallsaul.com/">Click here for legal notices.</p>
+            </div> -->
+            <div class="c9StaffHeader">
+                <p>Cloud9 is brought to you by:</p>
+            </div>
+            <div class="c9Staff">
+                <p textselect="true">
+                    Alex Brausewetter, Arron Bailiss, Bas de Wachter, Dana Ivan, 
+                    Fabian Jakobs, Harutyun Amirjanyan, Ivar Pruijn, Justin Dray, Lennart Kats, Luca Cipriani,
+                    Mostafa Eweda, Matthijs van Henten, Nikolai Onken, Suraj Biyani, Tim Robinson, Ruben Daniels
+                </p>
+            </div>
+            <div class="c9Copyright">
+                <p>&#169; 2010 — 2016 Cloud9 Inc. All rights reserved</p>
+            </div>
+        </div>
+    </a:window>
+</a:application>

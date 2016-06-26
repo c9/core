@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+    <meta charset="utf-8">
+    <!-- Node.js Context -->
+    <script>    
+        var nwGui = require("nw.gui");
+        var argv  = nwGui.App.argv;
+        var win   = nwGui.Window.get();
+        var c = console;
+        
+        /*::dev:{*/
+        if (argv.indexOf("--no-devtools") == -1)
+             win.showDevTools(); 
+        /*::dev:}*/
+
+        process.on("uncaughtException", function(err) { 
+            c.error(err);
+        });
+
+        var server = require("./server");
+        server.windowManager.registerWindow(win, "root");
+        server.windowManager.restoreSession();
+        if (process.platform == "darwin") {
+            var menus = require("./menus");
+            menus.init(server.windowManager);
+        }
+    </script>
+</html>

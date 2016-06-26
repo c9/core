@@ -1,0 +1,92 @@
+.frame{
+    border-bottom: 1px solid @frame-border-bottom;
+}
+.frame:last-child{
+    border-bottom: 0;
+}
+
+.frame>.title{
+    box-sizing: border-box;
+    height: @frame-title-height;
+    padding: @frame-title-padding;
+    border-bottom: 1px solid @frame-title-border-bottom;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    cursor: default;
+    position: relative;
+    z-index: 100;
+    border-top: 1px solid @frame-title-border-top;
+    box-shadow: 0px 1px 0px @border-highlight;
+    font-size: @frame-title-font-size;
+    color: @frame-title-color;
+    background-color: @frame-title-background;
+    background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0, @frame-title-gradient-start),color-stop(1, @frame-title-gradient-stop));
+    background-image: -moz-linear-gradient(90deg, @frame-title-gradient-start 0%, @frame-title-gradient-stop 100%);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.frame>.title:hover{
+    background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0, @frame-title-gradient-hover-start),color-stop(1, @frame-title-gradient-hover-stop));
+    background-image: -moz-linear-gradient(90deg, @frame-title-gradient-hover-start 0%, @frame-title-gradient-hover-stop 100%);
+}
+.frame>.title:active{
+    background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0, @frame-title-gradient-active-start),color-stop(1, @frame-title-gradient-active-stop));
+    background-image: -moz-linear-gradient(90deg, @frame-title-gradient-active-start 0%, @frame-title-gradient-active-stop 100%);
+}
+.frame .title span{
+    vertical-align: top;
+}
+.frame.focus .title span{
+    border-bottom: 1px dotted gray;
+}
+.frame .buttons{
+    display : inline-block;
+}
+.frame .buttons div.min{
+    .image-2x("@{frame-min-button}", 20px, 10px);
+    background-repeat: no-repeat;
+    background-position : -10px -1px;
+    width: 10px;
+    height: 10px;
+    margin : 3px 4px 0 2px;
+}
+.frameMin .buttons div.min{
+    background-position : 0 0;
+    margin : 2px 4px 0 2px;
+}
+.frame .buttons div.close{
+    width       : 14px;
+    height      : 14px;
+    display     : block;
+    position    : absolute;
+    right       : 5px;
+    top         : 4px;
+    background  : url("@{image-path}/@{frame-close-button}") no-repeat 0 -14px;
+    cursor      : pointer;
+    z-index     : 10;
+}
+    
+.frame .buttons div.close:hover  { background-position : -14px -14px; }
+.frame .buttons div.close:active { background-position : -28px -14px; }
+
+.frame>.body{
+    position: relative;
+}
+.frame.absframe>.body{
+    position : absolute;
+    top : @frame-title-height;
+    left : 0;
+    right : 0;
+    bottom : 0;
+}
+
+.frameMin>.body{
+    display : none;
+}
+.frameMin{
+    min-height: 21px !important;
+}

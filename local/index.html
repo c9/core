@@ -1,0 +1,511 @@
+<!doctype html>
+<html>
+    <base id="base" href="../">
+    <meta charset="utf-8">
+    <!-- loading screen -->
+    <link rel="stylesheet" type="text/css" href="./plugins/c9.ide.layout.classic/loading.css" />
+    <div id="loadingide">
+        <style>
+            .window-titlebar {
+                position: fixed;
+                left: 0;
+                right: 0;
+                top: 0;
+                height: 23px;
+                z-index: 1000000;
+                background-image: -webkit-linear-gradient(top, rgb(61, 61, 61) 0%, rgb(37, 37, 37) 100%);
+                background-image: linear-gradient(top, rgb(61, 61, 61) 0%, rgb(37, 37, 37) 100%);
+                color: #ccc;
+                cursor: default;
+                box-sizing: border-box;
+                font-family:"Segoe ui", Lucida Grande;
+                font-size: 13px;
+                text-align: center;
+                border-radius: 3px 3px 0 0;
+                -webkit-user-select: none;
+                overflow: hidden;
+                -webkit-app-region: drag;
+            }
+            .window-titlebar .caption {
+                padding: 4px 0 0 34px;
+                height: 100%;
+                display: inline-block;
+                background: url("./plugins/c9.ide.local/images/winc9.png") no-repeat 0 1px;
+                cursor: default;
+            }
+        </style>
+        <!--var platform = c9.platform-->
+        <!--var titleHeight = platform == "win32" ? 27 : 23;-->
+        
+        <div class="window-titlebar darwin">
+            <div class="caption">Cloud9</div>
+        </div>
+    
+        <div id="content" class="loading-progress">
+            <div id="progress-msg">
+                Loading your workspace <span id="dots"></span>
+            </div>
+            <div class="loading-seperator"></div>
+            <div class="loading-msg">It will be just as you left it</div>
+            
+            <div class="ui-progress-bar ui-container" id="progress_bar" style="display:none">
+                <div class="ui-progress" style="width: 7%;">
+                  <span class="ui-label" style="display:none;"></span>
+                </div>
+            </div>
+        </div>
+        <!--<div class="footer">
+            <a href="https://docs.c9.io">Documentation</a> | 
+            <a href="http://status.c9.io">Server Status</a> | 
+            <a href="http://support.c9.io">Support</a>
+        </div>-->
+    </div>
+    <script type="text/javascript">
+        var dots = document.getElementById("dots");
+        var cnt  = 0;
+        window.dotsAnim = setInterval(function () {
+            dots.textContent = "...".slice(0, (++cnt)%4);
+        }, 500);
+    </script>
+    
+    <script src="./plugins/c9.login.client/bootstrap.js"></script>
+    <!-- Node.js Context -->
+    <script>
+        var nwGui = require("nw.gui");
+        var argv  = nwGui.App.argv;
+        var win   = nwGui.Window.get();
+        var spawn = require("child_process").spawn;
+        
+        process.on("uncaughtException", function(err) { 
+            console && console.error(err.stack);
+        });
+
+        var path = argv.parsed && argv.parsed["-w"] || "/";
+        var wait = argv.indexOf("--wait") != -1;
+        var devel = argv.indexOf("--devel") != -1;
+        var packed = argv.indexOf("--unpacked") == -1;
+        var noWorker = argv.indexOf("--no-worker") != -1;
+        var inProcess = argv.indexOf("--in-process") != -1;
+        var reset = argv.indexOf("--reset") != -1;
+        
+        /*::dev::*/ packed = argv.indexOf("--packed") != -1;
+        /*::dev::*/ if (argv.indexOf("--no-devtools") == -1) {
+        /*::dev::*/     win.showDevTools(); 
+        /*::dev::*/ }
+        
+        // have to use this since new-instance windows have wrong root module path
+        var __dirname = decodeURIComponent(document.baseURI).substr(
+            "file://".length + (process.platform == "win32" ? 1 : 0)
+        ).replace(/\/*$/, "/local");
+        
+        if (packed)
+            require(__dirname + "/logger.js");
+        
+        if (argv.indexOf("--devtools") > -1)
+            win.showDevTools();
+        
+        // Show window after 4 seconds if it wasn't shown already
+        wait || packed || setTimeout(function(){ win.shown || win.show(); }, 4000);
+
+        var server = require(__dirname + "/server.js");
+        var windowManager = server.windowManager;
+        windowManager.registerWindow(win, decodeURIComponent(/id=([^&#?=]+)/.exec(window.location)[1]));
+        
+        var performance = window.performance;
+        var time = {
+            start: function(name) { 
+                this[name + "StartT"] = performance.now();
+            },
+            done: function (name, start) {
+                this[name + "DoneT"] = performance.now();
+                this.delta[name + "Delta"] = this[name + "DoneT"] - this[(start || name) + "StartT"];
+            },
+            toString: function() {
+                return JSON.stringify(this, null, 4);
+            },
+            delta: {}
+        };
+        
+        var loadScript = function(path, callback, errback) {
+            var head = document.head || document.documentElement;
+            var s = document.createElement('script');
+        
+            s.src = path;
+            head.appendChild(s);
+        
+            s.onload = s.onreadystatechange = function(_, isAbort) {
+                if (isAbort || !s.readyState || s.readyState == "loaded" || s.readyState == "complete") {
+                    s = s.onload = s.onreadystatechange = null;
+                    if (!isAbort)
+                        callback();
+                }
+            };
+            s.onerror = errback;
+        };
+        
+        var setBasePath = function(href) {
+            window.baseURI = href;
+            document.getElementById("base").setAttribute("href", href);
+            vfsServerReqests.forEach(function(fn) {
+                fn(href);
+            });
+            vfsServerReqests = [];
+        };
+        
+        var plugins;
+        var vfsServerReqests = [];
+        var windowLocation = document.baseURI.replace(/\/$/, "")
+            .replace(/[()"'\[\]<>]/g, escape); // needed because apf doesn't always escape url when using in css
+        function readConfig() {
+            var windowConfig =  win.options || {};
+                
+            time.start("getPlugins");
+            server.getPlugins({
+                getServers: function(cb) {
+                    if (window.baseURI)
+                        cb(window.baseURI);
+                    else
+                        vfsServerReqests.push(cb);
+                },
+                workspaceDir: path,
+                packed: packed,
+                windowLocation: devel ? "" : windowLocation,
+                noWorker: noWorker,
+                windowConfig: windowConfig,
+                plugins: plugins
+            }, function(plugins, settings) {
+                time.done("getPlugins");
+                window.plugins = plugins;
+                window.settings = settings;
+                if (windowConfig.isRemote && settings.url)
+                    setBasePath(settings.url);
+                startIde();
+            }, function(s) {
+                if (win.shown) {
+                    restoreWindow(s);
+                } else {
+                    restoreWindow.settings = s;
+                }
+            });
+        }
+        
+        function restoreWindow(settings) {
+            var s = settings && settings.local && settings.local.window;
+            if (s && !restoreWindow.disabled) {
+                var pos = (s["@position"] || "").match(/(\d+):(\d+)/);
+                if (pos) {
+                    win.moveTo(pos[1], pos[2]);
+                }
+                    
+                var size = (s["@size"] || "").match(/(\d+):(\d+)/);
+                if (size) {
+                    win.resizeTo(size[1], size[2]);
+                }
+                // if (s["@minimized"])
+                //     win.minimize();
+                if (s["@maximized"])
+                    win.maximize();
+                if (s["@fullscreen"])
+                    win.enterFullscreen();
+            }
+        }
+        
+        function disableRestore() {
+            win.removeListener("move", disableRestore);
+            win.removeListener("resize", disableRestore);
+            restoreWindow.disabled = true;
+        }
+        win.on("move", disableRestore);
+        win.on("resize", disableRestore);
+
+        document.onreadystatechange = function () {
+            if (document.readyState == "complete") {
+                restoreWindow(restoreWindow.settings);
+                
+                // Show Window
+                win.show();
+                win.shown = true;
+                server.windowManager.onShowWindow(win);
+            }
+        };
+        
+        function removeNwRequire() {
+            if (!window.require || window.nativeRequire)
+                return;
+            var nRequire = window.require; 
+            window.nativeRequire = function(path){
+                var oldRequire = window.require;
+                window.require = nRequire;
+                var obj = window.require(path); 
+                window.require = oldRequire;
+                return obj;
+            };
+            window.isLocalVersion = nRequire ? true : false;
+            // window.require        = undefined;
+            
+            window.nativeOpen = window.open;
+            window.open = function(url){
+                window.nativeRequire('nw.gui').Shell.openExternal(url);
+            };
+        }
+        
+        function startIde() {
+            if (!window.plugins || !window.requirejs)
+                return;
+            if (!packed && !window.requirejs.baseConfig) {
+                if (!window.baseURI)
+                    return;
+                loadRequireJsConfig();
+            } else {
+                if (devel && !window.baseURI)
+                    return;
+                    
+                window.startArchitectApp(plugins);
+            }
+        }
+        
+        var packageIsLoading, requirejsBaseUrl = "";
+        function setRequireBasePath(val) {
+            requirejsBaseUrl = val;
+        }
+        function loadRequireJsConfig(cb) {
+            var requirejs = window.requirejs;
+            window.require = requirejs;
+            requirejs.setConfig = requirejs.setConfig || requirejs.config;
+            requirejs.config = function(config) {
+                config.baseUrl = requirejsBaseUrl + (config.baseUrl || "");
+                if (config.paths) {
+                    for (var i in config.paths)
+                        config.paths[i] = requirejsBaseUrl + config.paths[i];
+                }
+                requirejs.setConfig(config);
+                requirejs.baseConfig = config;
+            };
+            loadScript(requirejsBaseUrl + "/configs/require_config.js", function() {
+                cb && cb();
+                startIde();
+            });
+        }
+        function loadRequireJS() {
+            if (packageIsLoading)
+                return;
+            if (require) 
+                require.packaged = true;
+            if (!packed || devel) {
+                packageIsLoading = true;
+                loadScript("node_modules/architect-build/build_support/mini_require.js", function() {
+                    removeNwRequire();
+                    startIde();
+                    packageIsLoading = false;
+                });
+            } else {
+                packageIsLoading = true;
+                time.start("packedFile");
+                var scriptUrl = windowLocation + "/build/standalone/config/";
+                scriptUrl += (win.options && win.options.isRemote)
+                    ? "full.js"
+                    : "default-local.js";
+                    
+                loadScript(scriptUrl, function() {
+                    time.done("packedFile");
+                    updateMiniRequire();
+                    startIde();
+                }, function(e) {
+                    /*::dev::*/ return $rebuild();
+                    fatalError(e);
+                });
+            }
+            function updateMiniRequire() {
+                removeNwRequire();
+                window.requirejs = window.miniRequire;
+                delete window.miniRequire.original;
+                window.requirejs.MODULE_LOAD_URL = windowLocation + "/build/standalone/modules";
+                packageIsLoading = false;
+            }
+        }
+        
+        //::dev:{*/
+        function $rebuild() {
+            var progressMsg = document.getElementById("progress-msg");
+            if (!window.rebuildProc) {
+                if (sessionStorage.triedToReload) {
+                    win.showDevTools();
+                    progressMsg.textContent = "there were errors starting application";
+                    return 
+                }
+                sessionStorage.triedToReload = 1;
+                
+                if (progressMsg)
+                    progressMsg.firstChild.data = "Rebuilding";
+                var proc = window.rebuildProc = spawn("bash", ["./scripts/makelocal.sh", "--quick"]);
+                proc = spawn("bash", ["../scripts/makelocal.sh"], {cwd: server.__dirname});
+                proc.stdout.on("data", function(d) { console.log(d + "") });
+                proc.stderr.on("data", function(d) { console.log(d + "") });
+                proc.on("exit", function() {
+                    win.reloadIgnoringCache();
+                });
+            }
+        }
+        //::dev:}*/
+        
+        function startServer() {
+            time.start("server");
+            server.start({
+                /*::dev:*/ collab: true,
+                port: 2222,
+                path: path,
+                workspaceType: null,
+                inProcess: inProcess,
+                host: "localhost"
+            }, function start(err, port) {
+                time.done("server");
+                if (err && err.code == "EADDRINUSE") {
+                    server.findFreePort("localhost", function(e, port) {
+                        err.options.port = port;
+                        server.start(err.options, start);
+                    });
+                    return;
+                }
+                
+                setBasePath("http://localhost:" + port + "/ide.html");
+                setRequireBasePath("http://localhost:" + port);
+                
+                startIde();
+            });
+        }
+        
+        function start() {
+            process.nextTick(startServer);
+            process.nextTick(readConfig);
+            process.nextTick(loadRequireJS);
+            if (win.onStart)
+                win.onStart(window);
+        }
+        
+        if (!wait) {
+            start();
+        }
+        
+        function initAuth() {
+            if (!window.auth)
+                return initAuth.auth;
+            var a = window.auth({
+                clientId: "desktop",
+                authorizationUrl: window.settings.authorizationUrl
+            });
+            var login = a.login;
+            delete window.auth;
+            delete window.settings;
+            
+            return (initAuth.auth = {
+                consumes: [],
+                provides: ["auth.bootstrap"],
+                setup: function(options, imports, register) {
+                    register(null, {
+                        "auth.bootstrap": {
+                            login: login
+                        }
+                    });
+                }
+            });
+        }
+    
+        function startArchitectApp(plugins) {
+            if (plugins.started) return;
+            time.start("client");
+            plugins.started = true;
+            
+            window.requirejs(["lib/architect/architect"], function (architect) {
+                plugins.push(initAuth());
+                
+                architect.resolveConfig(plugins, function (err, config) {
+                    if (err) throw err;
+                    
+                    plugins.forEach(function(plugin) {
+                        if ("accessToken" in plugin)
+                            plugin.accessToken = "fake_token";
+                        if (plugin.packagePath === "plugins/c9.core/settings")
+                            plugin.reset = reset && "1";
+                    });
+                    
+                    var app = architect.createApp(config, function(err, app){
+                        if (err) return fatalError(err);
+                    });
+                    
+                    app.on("error", function(err){
+                        fatalError(err);
+                    });
+                    
+                    app.on("service", function(name, plugin) {
+                        if (name == "plugin.loader" || name == "plugin.installer" || name == "plugin.debug" || name == "plugin.manager")
+                            plugin.architect = app; // TODO why we rename app to architect?
+                        if (name == "c9")
+                            plugin.startLoadTime = start;
+                        if (!plugin.name)
+                            plugin.name = name;
+                    });
+                    
+                    app.on("ready", function(){
+                        if (app.services.configure)
+                            app.services.configure.services = app.services;
+                        
+                        done();
+                        
+                        // if (app.services.c9.debug) {
+                            window.app = app.services;
+                            window.app._main = app;
+                            window.app.__defineGetter__("_ace", function(){
+                                return this.tabManager.focussedTab.editor.ace;
+                            });
+                            Object.keys(window.app).forEach(function(n) {
+                                if (/[^\w]/.test(n))
+                                    window.app[n.replace(/[^\w]/, "_") + "_"] = window.app[n];
+                            });
+                        // }
+                        app.services.tabManager.once("ready", function () {
+                            time.done("tabManager", "client");
+                            removeLoader();
+                        });
+                        app.services.tree.once("ready", function () {
+                            time.done("tree", "client");
+                        });
+                        app.services.c9.once("connect", function () {
+                            time.done("connect", "client");
+                        });
+                    });
+    
+                    // For Development only
+                    function done(){
+                        app.services.c9.ready();
+                        time.done("client");
+                    }
+                });
+            });
+        }
+        
+        var fatalShown;
+        function fatalError(err) {
+            var message = err.stack || err.message || err;
+            var pluginDetails = err.plugin
+                ? "\n\nCaused by plugin: " + err.plugin.packagePath
+                : "";
+            
+            console && console.error("FATAL ERROR\n\n" + message + pluginDetails);
+            
+            if (fatalShown) return;
+            fatalShown = true;
+            
+            alert("FATAL ERROR\n\n"
+                + message + pluginDetails
+                + "\n\nA full error log has been saved under " + server.installPath + "/log.txt.");
+            // window.close();
+        }
+        
+        function removeLoader() {
+            time.done("removeLoader", "server");
+            clearInterval(window.dotsAnim); // stop the dots animation
+            var loader = document.getElementById("loadingide");
+            loader.parentNode.removeChild(loader);
+        }
+    </script>
+</html>

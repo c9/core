@@ -1,0 +1,73 @@
+.splitter {
+    position : relative;
+    z-index  : 100000;
+    .box-sizing(border-box);
+}
+
+.topsplitter .splitter{
+    z-index : 100000;
+}
+
+.splitterFocus {
+}
+
+.w-resize {
+    cursor : ew-resize;
+}
+
+.n-resize {
+    cursor : ns-resize;
+}
+
+.splitterMoving {
+    background-color : gray;
+}
+
+.splitterRealtime{
+    background : url("@{image-path}/spacer.gif");
+}
+
+.splitter.vertical{
+    width  : 0;
+}
+.colMain .splitter.vertical {
+    background: @splitter-vertical-line-color;
+    border-top: 27px solid @splitter-top-divider-color;
+    box-shadow: 1px 1px 0px @splitter-highlight;
+}
+.dark.colMain .splitter.vertical{
+    background : @splitter-vertical-dark-line-color;
+    border: 1px solid @splitter-left-divider-color;
+    border-width : 0 0 0 1px;
+    box-shadow: 1px 1px 0px @splitter-highlight;
+}
+.colMain > .vsplitbox, .colMain > .hsplitbox{
+    position : absolute;
+    left : 0;
+    right : 0;
+    top : 0;
+    bottom : 0;
+}
+
+.splitter.vertical div{
+    width : 5px;
+    margin-left : -3px;
+    background : url("@{image-path}/spacer.gif");
+    height : 100%;
+}
+
+.splitter.vertical.panelsplitter div {
+    width: 3px;
+}
+
+.splitter.horizontal{
+    background: @splitter-horizontal-line-color;
+}
+
+.splitter.horizontal div{
+    height : 5px;
+    margin-top : -2px;
+    background : url("@{image-path}/spacer.gif");
+    position : absolute;
+    width : 100%;
+}

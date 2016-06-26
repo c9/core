@@ -1,0 +1,28 @@
+{
+   "app": {
+      "launch": {
+         "web_url": "http://c9.io/#1page"
+      },
+      "urls": [
+        "https://c9.io/", "https://www.c9.io/", "https://ide.c9.io/", 
+        "http://c9.io/", "http://www.c9.io/", "http://ide.c9.io/",
+        "https://cloud9beta.com/", "https://ide.cloud9beta.com/", 
+        "http://localhost:8181/", "http://localhost:5252/",
+        "https://c9.vm:8181/", "https://c9.vm:5252/",
+        "https://c9.dev/", "https://ide.c9.dev/",
+        "https://ide.dev.smartface.io",
+        "https://ide.cs50.io",
+        "https://ide.mbed.com"
+      ]
+   },
+   "description": "Cloud9 is an online platform for development that makes developing applications more convenient than ever",
+   "icons": {
+      "128": "icon128.png"
+   },
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqAyKPE7bHjhrCtYRSqTtEd+IYhEV/h7MgtKN1DdiZzVmqZEkLDd5p4BpBTakiktr2VT1eU2aXoHHsi5gBdSGAkglXkGoo/wKmcEZCfPCGo6wIqBO9Jxs+NQeM3lrxgaNgaHfjqKj2sY/LqN0CFAY79BqOuwE5DProUeglaFmhKwIDAQAB",
+   "name": "Cloud9",
+   "permissions": [ "clipboardRead", "clipboardWrite" ],
+   "update_url": "http://clients2.google.com/service/update2/crx",
+   "version": "3.0.0",
+   "manifest_version": 2
+}

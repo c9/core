@@ -1,0 +1,81 @@
+.errorlabel, .disconnectlabel{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 10000000;
+    /*text-align: center;*/
+    pointer-events: none;
+    .font-smoothing(@error-font-smoothing);
+}
+.errorlabel.anim, .disconnectlabel.anim{
+    transition: top 0.2s;
+    -webkit-transition: top 0.2s; /* Safari */
+    transition: top 0.2s;
+}
+.errorlabel.fade-in{
+    transition: opacity 0.2s;
+    -webkit-transition: opacity 0.2s; /* Safari */
+    transition: opacity 0.2s;
+}
+.errorlabel div{
+    background: @error-background;
+    padding: @error-padding;
+    color: @error-color;
+    border-radius: 0 0 3px 3px;
+    box-shadow: @error-box-shadow;
+    line-height: 1.4;
+    display: inline-block;
+    position: relative;
+    word-wrap: break-word;
+    max-width: 100%;
+    pointer-events: auto;
+}
+.infolabel.errorlabel div{
+    background: @dialog-background-color;
+    color: @label-color;
+}
+.errorlabel.fade-in div{
+    border-radius: 3px;
+}
+.errorlabel u.close{
+    .image-2x("@{image-path}/@{error-close-image}", 42px, 28px);
+    background-position: @error-close-idle-position;
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    right: 8px;
+    top: 6px;
+    cursor: pointer;
+}
+.errorlabel u.close:hover{
+    background-position: @error-close-hover-position;
+}
+.errorlabel u.close:active{
+    background-position: @error-close-active-position;
+}
+.errorlabel div span{
+    border-bottom: 1px dotted rgb(255, 174, 174);
+    cursor: help;
+}
+
+.disconnectlabel{
+    z-index: 10000001;
+}
+.disconnectlabel div{
+    background: @disconnect-background;
+    padding: @disconnect-padding;
+    color: @disconnect-color;
+    border-radius: 0 0 3px 3px;
+    box-shadow: @disconnect-box-shadow;
+    line-height: 1.4;
+    display: inline-block;
+    position: relative;
+    word-wrap: break-word;
+    text-align: center;
+    width: 300px;
+    pointer-events: auto;
+}
+.disconnectlabel u{
+    cursor: pointer;
+}

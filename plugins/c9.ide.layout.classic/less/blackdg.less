@@ -1,0 +1,283 @@
+.blackdg{
+    position: relative;
+    overflow : hidden;
+
+    font-family: @datagrid-font-family;
+    font-size: @datagrid-font-size;
+
+    padding: 0;
+    color : @datagrid-color;
+    
+    min-height : 45px;
+}
+
+.blackdg .tree-headings{
+    height: @datagrid-row-height;
+    z-index : 10;
+    white-space : nowrap;
+    overflow: hidden;
+    background: @datagrid-heading-background;
+    border-bottom: 1px solid @datagrid-heading-border-color;
+}
+
+.blackdg .tree-headings .tree-column{
+    overflow : hidden;
+    text-overflow : ellipsis;
+    color: @datagrid-heading-color;
+}
+
+.tree-headings > .tree-column {
+    background: transparent;
+    display: inline-block;
+    padding: @datagrid-heading-padding;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.blackdg .tree-headings .tree-column u{
+    padding : 2px 4px 1px 3px;
+    display : block;
+    height : 15px;
+    text-decoration : none;
+}
+
+.docktab .blackdg .tree-headings .tree-column u{
+}
+
+.blackdg .tree-headings .tree-column:hover,
+.blackdg .tree-headings .tree-column.hover,
+.blackdg .tree-headings .tree-column.down,
+.blackdg .tree-headings .tree-column.drag{
+    color : @datagrid-heading-hover-color;
+    background: @datagrid-heading-hover-background;
+}
+
+.blackdg .tree-headings .tree-column.drag{
+}
+
+.blackdg .tree-headings .tree-column.down u,
+.blackdg .tree-headings .tree-column.hover u {
+}
+
+.blackdg .tree-headings .tree-column.ascending u{
+    background-image : url("@{image-path}/sort_asc.gif");
+    background-repeat : no-repeat;
+    background-position : right 7px;
+}
+
+
+.blackdg .tree-headings .tree-column.descending u {
+    background-image : url("@{image-path}/sort_desc.gif");
+    background-repeat : no-repeat;
+    background-position : right 6px;
+}
+
+.blackdg .records{
+    white-space : nowrap;
+}
+.blackdg .records blockquote{
+    margin : 0;
+}
+
+.blackdg .tree-headings>.tree-column-resizer {
+    display: none;
+}
+
+.blackdg .row span{
+    height : @datagrid-row-height;
+}
+
+.blackdg .row span u{
+    padding : 1px 3px 3px 4px;
+    height : 15px;
+    display : block;
+    text-decoration : none;
+    text-overflow : ellipsis;
+    white-space : nowrap;
+    overflow : hidden;
+    cursor: default;
+}
+
+.blackdg .row{
+    height : @datagrid-row-height;
+    padding-left : 0;
+}
+
+.ace_tree_focus .indicate span{
+    padding : 0;
+    color : #333;
+}
+
+.ace_tree_focus .indicate span u{
+}
+
+.ace_tree_focus .row span{
+}
+
+.blackdg .selected{
+}
+.ace_tree_focus .selected, .ace_tree_focus .selected span,
+.ace_tree_focus .dragAppend, .ace_tree_focus .dragAppend span{
+}
+.ace_tree_focus .selected span u {
+}
+
+.blackdg .tree-row>.tree-column {
+    padding: @datagrid-row-padding;
+}
+
+.blackdg .move_pointer{
+    height : 100px;
+    width : 2px;
+    position : absolute;
+    top : 0;
+    margin : -10px 0 0 -4px;
+    width : 9px;
+    height : 38px;
+    background : url("@{image-path}/column_picker.gif") no-repeat 0 0;
+    overflow : hidden;
+    z-index : 1000;
+}
+
+.blackdg .size_pointer{
+    border : 1px dotted gray;
+    border-width : 0 1px 0 1px;
+    height : 100%;
+    position : absolute;
+    top : 0px;
+    z-index : 1000;
+    cursor : e-resize;
+    cursor : ew-resize;
+}
+
+.blackdg .message{
+    opacity : 1;
+    display : inline-block;
+    padding : 6px 5px 8px 5px
+}
+
+.pointer{
+    display : none;
+}
+
+.blackdg span.treecell u{
+    text-decoration : none;
+    display : inline-block;
+    width : 100%;
+    padding : 1px 2px 3px 2px;
+    border : 0;
+}
+
+.blackdg span.treecell u {
+    background-repeat: no-repeat;
+    padding-left:20px;
+}
+
+.blackdg.noicon span.treecell u {
+    padding-left: 0;
+}
+
+.blackdg .row .treecell .iconCell, .blackdg .row .iconCell  {
+    background-position : 1px 1px;
+    background-repeat   : no-repeat;
+    padding             : 1px 0 3px 22px;
+}
+
+.blackdg .toggler{
+    display : inline-block;
+    width : 12px;
+    height : 15px;
+    margin : @datagrid-row-toggler;
+    .image-2x("@{datagrid-arrow}", 20px, 10px, no-repeat);
+    background-position: 0 4px;
+}
+
+.blackdg .toggler.closed{
+}
+
+.blackdg .toggler.open{
+    background-position: -10px 4px;
+}
+
+.ace_tree_focus .selected .toggler{
+    .image-2x("@{datagrid-arrow-focus-selected}", 20px, 10px, no-repeat);
+}
+
+.blackdg .loading .toggler{
+    background : url("@{datagrid-spinner}") no-repeat 0 0;
+    width : 16px;
+    height : 16px;
+    top : -1px !important;
+    left : -2px;
+    vertical-align : top;
+    margin-right : 2px !important;
+    margin-left : @datagrid-row-toggler-loading !important;
+}
+.blackdg .loading.selected .toggler{
+    background : url("@{datagrid-selected-spinner}") no-repeat 0 0;
+}
+.ace_tree_focus .loading.selected .toggler{
+    background : url("@{datagrid-selected-focus-spinner}") no-repeat 0 0;
+}
+
+.blackdg .row>span{
+    vertical-align : top;
+}
+
+.blackdg .tree-column{
+    text-overflow: ellipsis;
+}
+    
+.ace_tree_focus{
+}
+
+.blackdg .records .row,
+.blackdg .records .row span{
+    background : transparent;
+}
+.blackdg .records .row span{
+    overflow : hidden;
+}
+.blackdgDisabled .records .row span{
+    opacity : 0.5;
+}
+.blackdg .row span.colsel{
+    background : rgba(0,0,0,0.15);
+}
+.blackdg .selected,
+.blackdgDisabled .selected{
+    color: @datagrid-selected-color;
+    background-color : @datagrid-selected-background;
+    vertical-align : top;
+}
+.ace_tree_focus .selected{
+    color : @datagrid-selected-focus-color;
+    background-color : @datagrid-selected-focus-background;
+}
+.blackdg .records{
+    padding-top : 0;
+    top : @datagrid-row-height;
+    overflow : hidden;
+}
+
+.blackdg .dbgVarIcon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    .image-2x("@{debugger-icon-generic-variable}", @debugger-icon-generic-variable-width, @debugger-icon-generic-variable-height);
+    margin: -1px 2px -5px -3px;
+}
+
+.blackdg .ace_tree-editor{
+    margin      : 0 0 0 0px;
+    background  : white;
+    padding     : 0;
+    border      : 0;
+    box-shadow  : @datagrid-editor-box-shadow;
+    color       : #333;
+    text-shadow : none;
+}
+.blackdg .ace_tree-editor input:selection{
+    background: #6c9700;
+    color : #f1f1f1;
+}

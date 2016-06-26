@@ -1,0 +1,226 @@
+.c9-menu-bar {
+    position      : relative;
+    overflow      : visible;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    // margin: 0;
+    // overflow: hidden;
+}
+.c9-menu-bar:before{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 4px;
+    .image-2x("@{image-path}/@{c9-repeat-x}", 32px, 1500px, 'repeat-x');
+    background-color: #49a8fa;
+    content: "";
+    .display(@menu-bar-logo);
+}
+.c9-menu-bar .c9-mbar-bcont {
+    position   : relative;
+    overflow   : visible;
+}
+
+.c9-mbar-logo when (@menu-bar-logo = true) {
+    padding-top: 4px;
+}
+
+.c9-menu-bar .c9-mbar-cont > *, .c9-menu-bar .c9-mbar-cont .c9-mbar-minimize{
+    height: 100% !important;
+}
+
+.c9-menu-bar .c9-mbar-cont {
+    position: relative;
+    overflow: hidden;
+    padding: 0 @menu-bar-padding-right 0 (@menu-bar-minimized-width + 2);
+    margin: 0;
+    height: @menu-bar-height;
+
+    background: @menu-bar-background;
+
+    box-shadow: 0 1px 0 0 @menu-bar-inner-border-top inset;
+    border-bottom: 1px solid @menu-bar-border-bottom;
+    border-top: @menu-bar-border-top;
+    // box-sizing: border-box;
+}
+
+.fullscreen .c9-menu-bar .c9-mbar-cont {
+    box-shadow: none
+}
+
+.bartools{
+    padding-top: @menu-bar-child-padding-top !important;
+    padding-left: @menu-bar-child-padding-left !important;
+}
+
+.c9-menu-bar .c9-mbar-cont>div{
+    display : inline-block;
+    vertical-align : top;
+}
+
+.c9-menu-bar .c9-mbar-cont .c9-divider-double,
+.c9-menu-bar .c9-mbar-bcont .c9-mbar-minimize {
+    border-right: 1px solid @menu-bar-divider-highlight-dark !important;
+    box-shadow: 1px 0 0 0 @menu-bar-divider-highlight;
+}
+
+.c9-menu-bar .c9-mbar-cont .c9-divider-double {
+    border-left-width: 0;
+    height: 16px;
+    top: 1px;
+}
+
+.c9-menu-bar .c9-mbar-cont .c9-divider-double div {
+    border: 0 !important;
+}
+
+.c9-menu-bar .c9-mbar-bcont .c9-mbar-minimize {
+    cursor: pointer;
+    height: 25px;
+    left: 0;
+    position : absolute;
+    top: 0px;
+    width: @menu-bar-minimized-width;
+}
+.c9-menu-bar .c9-mbar-bcont .c9-mbar-minimize:before {
+    content: "";
+    display: block;
+    border: 10px solid red;
+    border-color: transparent transparent @menu-button-minimized-highlight transparent;
+    border-width: 5px 5px;
+    width: 0px;
+    margin: 5px 0 0 5px;
+    z-index: 0;
+    position: relative;
+    box-shadow: 0px 1px @menu-button-minimized-shadow;
+    .menu-button-minimized-before();
+}
+.c9-menu-bar .c9-mbar-bcont .c9-mbar-minimize:after {
+    content: "";
+    display: block;
+    border: 10px solid red;
+    border-color: transparent transparent @menu-button-minimized-foreground transparent;
+    border-width: 4px 4px;
+    width: 0px;
+    margin: 7px 0 0 6px;
+    box-shadow: 0px 1px @menu-button-minimized-shadow;
+    position: relative;
+    left: 0px;
+    top: -15px;
+    .menu-button-minimized-after();
+}
+
+.c9-menu-bar .c9-mbar-bcont .c9-mbar-minimize:hover:before {
+    border-color: transparent transparent @menu-button-minimized-hover-highlight transparent;
+    box-shadow: 0px 1px @menu-button-minimized-hover-shadow;
+}
+.c9-menu-bar .c9-mbar-bcont .c9-mbar-minimize:hover:after {
+    border-color: transparent transparent @menu-button-minimized-hover-foreground transparent;
+    box-shadow: 0px 1px @menu-button-minimized-hover-shadow;
+}
+
+.c9-menu-bar .c9-mbar-bcont .c9-simple-btnDisabled.c9-mbar-minimize:hover {
+    background-position: 0 -70px;
+    cursor: default;
+}
+.c9-mbar-round {
+    .image-2x("@{image-path}/@{c9-no-repeat}", 480px, 580px);
+    height: 37px;
+    pointer-events: none;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 74px;
+    z-index: 999;
+    .display(@menu-bar-logo);
+}
+.c9-mbar-round .mainlogo {
+    .image-2x("@{image-path}/@{c9-no-repeat}", 480px, 580px);
+    background-position: 0 -44px;
+    display: block;
+    height: 26px;
+    left: 33px;
+    pointer-events: all;
+    position: absolute;
+    text-indent: 100%;
+    top: 4px;
+    width: 37px;
+    outline: none;
+}
+.c9-mbar-round .mainlogo.update{
+    background-position : -96px -44px;
+}
+       .updateAvailable .c9-mbar-round .mainlogo {
+   background: url("@{image-path}/@{c9-no-repeat}") no-repeat -96px -44px;
+   cursor: pointer;
+       }
+
+.not-loggedin .c9-menu-bar .c9-mbar-bcont .c9-mbar-round {
+  top: 55px;
+       }
+
+.readonly .c9-menu-bar .c9-mbar-bcont .c9-mbar-round {
+   top: 35px;
+}
+.c9-menu-bar .c9-mbar-bcont .c9-activity {
+    background : url("@{image-path}/@{c9-no-repeat}") no-repeat -84px 0;
+    height: 10px;
+    left: 24px;
+    pointer-events: all;
+    position: absolute;
+    top: 4px;
+    width: 10px;
+    display : none;
+}
+.c9-menu-bar .c9-mbar-bcont .c9-activity .light{
+    background : url("@{image-path}/@{c9-no-repeat}") no-repeat -102px -19px; /* nothing */
+    height: 10px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 10px;
+}
+.c9-menu-bar .c9-mbar-bcont .c9-activity.saving .light{
+    -webkit-animation: saving .4s linear 0 infinite;
+       -moz-animation: saving .4s linear 0 infinite;
+            animation: saving .4s linear 0 infinite;
+
+    background-position: -102px 0px !important;
+}
+.c9-menu-bar .c9-mbar-bcont .c9-activity.saved  .light{
+    background-position: -102px -19px !important;
+}
+.c9-menu-bar .c9-mbar-bcont .c9-activity.error .light{
+    background-position: -84px -19px !important;
+}
+
+/* MINIMIZED */
+
+ .c9-menu-bar.minimized .c9-mbar-cont,
+ .c9-menu-bar.minimized .c9-mbar-bcont .c9-mbar-minimize {
+    background-color: @menu-bar-minimized-background;
+    background-image: url("@{image-path}/@{c9-repeat-x}");
+    background-repeat: no-repeat;
+    background-position: 50% -13px;
+    cursor: pointer;
+    height: 7px;
+    .box-shadow(~"0 1px @{border-highlight} inset");
+
+ }
+ .c9-menu-bar.minimized .c9-mbar-cont:hover,
+ .c9-menu-bar.minimized .c9-mbar-bcont .c9-mbar-minimize:hover {
+    background-color: @menu-bar-minimized-hover-background;
+    background-position: 50% -21px;
+    .box-shadow(~"0 1px 0 0 @{menu-bar-minimized-hover-start} inset, 0 6px 0 0 @{menu-bar-minimized-hover-stop} inset");
+ }
+ .c9-menu-bar.minimized .c9-mbar-cont * {
+    display: none;
+ }
+
+ .c9-menu-bar.minimized .c9-mbar-bcont .c9-mbar-minimize {
+    top: 1px;
+ }

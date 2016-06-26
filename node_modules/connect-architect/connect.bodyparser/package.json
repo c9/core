@@ -1,0 +1,16 @@
+{
+    "name": "c9.connect.bodyparser",
+    "version": "0.0.1",
+
+    "main": "./bodyparser.js",
+    "private": true,
+
+    "plugin": {
+        "consumes": [
+            "connect"
+        ],
+        "provides": [
+            "connect.bodyparser"
+        ]
+    }
+}

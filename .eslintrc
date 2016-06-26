@@ -1,0 +1,81 @@
+ecmaFeatures:
+    jsx: true
+
+env:
+    node: true
+    browser: true
+    amd: true
+    builtin: true
+    mocha: true
+    jasmine: false
+    es6: false
+
+plugins: 
+  - react
+
+rules:
+    handle-callback-err: 1
+    no-debugger: 1
+    no-undef: 1
+    no-inner-declarations: [1, "functions"]
+    no-native-reassign: 1
+    no-new-func: 1
+    no-new-wrappers: 1
+    no-cond-assign: [1, "except-parens"]
+    no-debugger: 3
+    no-dupe-keys: 3
+    no-eval: 3
+    no-func-assign: 1
+    no-invalid-regexp: 1
+    no-irregular-whitespace: 3
+    no-negated-in-lhs: 1
+    no-regex-spaces: 3
+    no-unreachable: 1
+    use-isnan: 2
+    valid-typeof: 1
+    no-redeclare: 3
+    no-with: 1
+    radix: 3
+    no-delete-var: 2
+    no-label-var: 3
+    no-shadow-restricted-names: 2
+    handle-callback-err: 1
+    no-new-require: 2
+    no-unused-vars: [3, {vars: "all", args: "none"}]
+    no-undef: 1
+    semi: 3
+    no-extra-semi: 3
+    
+    // React rules
+    display-name: [1, { acceptTranspilerName: true }]
+    jsx-curly-spacing: 1
+    no-deprecated: [1, {react: "0.13.0"}]
+    no-did-mount-set-state: 1
+    no-did-update-set-state: 1
+    no-direct-mutation-state: 1
+    no-is-mounted: 1
+    no-unknown-property: 1
+    prefer-es6-class: [1, "never"]
+    prop-types: 1
+    react-in-jsx-scope: 1
+    self-closing-comp: 1
+    sort-comp: 1
+    wrap-multilines: 1
+    jsx-boolean-value: [1, "always"]
+    jsx-equals-spacing: 1
+    jsx-indent-props: 1
+    jsx-key: 1
+    jsx-indent: 1
+    jsx-max-props-per-line: [1, { maximum: 5 }]
+    jsx-no-bind: 1
+    jsx-no-duplicate-props: 1
+    jsx-no-undef: 1
+    jsx-pascal-case: 1
+    jsx-uses-react: 1
+    
+    default-case: 3
+    keyword-spacing: [1, {"before": true, "after": true, "overrides":  { "catch": {"after": "maybe" } }}]
+    space-in-parens: [1, "never"]
+    // space-before-function-paren: [3, {"named": "never", "anonymous": "never"}]
+    spaced-comment: 3
+    // valid-jsdoc: [1, { requireReturn: false, requireParamDescription: false, prefer: { "return": "return" } }]

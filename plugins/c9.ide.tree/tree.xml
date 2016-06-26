@@ -1,0 +1,10 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:button id="btnTreeSettings"
+      skin="header-btn"
+      class="panel-settings" />
+    <a:menu id="mnuFilesSettings" />
+    <a:menu id="mnuCtxTree" />
+    
+    <a:bar id="winOpenfiles" class="openfiles" height="10" visible="false" />
+    <a:bar id="container" class="filetree real" focussable="true" contextmenu="mnuCtxTree" />
+</a:application>

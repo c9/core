@@ -1,0 +1,36 @@
+.btn_console {
+    width: 20px;
+    height: 20px;
+    .user-select(none);
+
+    .box-sizing(border-box);
+    border-radius: 3px;
+    border : 1px solid transparent;
+}
+
+.btn_consoleOver{
+    border: 1px solid @button-console-hover-border;
+    background: @button-console-hover-background;
+}
+
+.btn_consoleDown{
+    border: 1px solid @button-console-active-border;
+    box-shadow: @button-console-active-box-shadow;
+    background: @button-console-active-background;
+}
+
+.btn_console div{
+    width : 18px;
+    height : 18px;
+    background : no-repeat 50% 50%;
+}
+
+.btn_console.clear div{
+    .image-2x("@{image-path}/@{button-console-clear}", 13px, 14px);
+}
+.btn_console.maximize div{
+    .image-2x("@{image-path}/@{button-console-maximize}", 12px, 13px);
+}
+.btn_console.popout div{
+    background-image : url("@{image-path}/@{button-console-popout}");
+}

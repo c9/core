@@ -1,0 +1,244 @@
+CLOUD9 SOFTWARE DEVELOPMENT KIT NON-COMMERCIAL LICENSE AGREEMENT
+
+BY CLICKING THE ACCEPT BUTTON OR DOWNLOADING THE SOFTWARE, YOU AGREE TO BE 
+BOUND BY AND BECOME A PARTY TO THIS AGREEMENT.  IF YOU DO NOT AGREE TO ALL OF 
+THE TERMS OF THIS AGREEMENT, YOU MUST CLICK THE BUTTON THAT INDICATES THAT YOU 
+DO NOT ACCEPT THE TERMS OF THIS AGREEMENT AND YOU MAY NOT DOWNLOAD, INSTALL, OR 
+USE THE SDK. 
+
+CAREFULLY READ THE FOLLOWING LEGAL AGREEMENT (“AGREEMENT”) FOR THE LICENSE OF 
+THE CLOUD9 SDK SOFTWARE YOU ARE ABOUT TO DOWNLOAD OR INSTALL (THE “SDK”).  
+“CLOUD9” MEANS CLOUD9 IDE, INC, REGISTERED DELAWARE CORPORATION WITH PRINCIPAL 
+PLACE OF BUSINESS 1663 MCALLISTER STREET #B, SAN FRANCISCO, CA 94115, 
+UNITED STATES.  “YOU” MEANS THE INDIVIDUAL PERSON INSTALLING OR USING THE SDK 
+ON HIS OR HER OWN BEHALF; OR, IF THE SDK IS BEING DOWNLOADED OR INSTALLED ON 
+BEHALF OF AN ORGANIZATION, SUCH AS AN EMPLOYER, “YOU” MEANS THE ORGANIZATION 
+FOR WHICH THE SDK IS DOWNLOADED OR INSTALLED AND YOU REPRESENT THAT YOU HAVE 
+AUTHORIZED THE PERSON ACCEPTING THIS AGREEMENT TO DO SO ON YOUR BEHALF. 
+THE SDK IS PROTECTED BY COPYRIGHTS AND/OR PATENTS IN THE UNITED STATES AND 
+OTHER COUNTRIES.  IF YOU DOWNLOAD OR USE THE SDK IN WAYS NOT PERMITTED BY THIS 
+AGREEMENT, YOU WILL NOT ONLY BE IN BREACH OF THIS AGREEMENT, YOU WILL ALSO BE 
+INFRINGING CLOUD9’S PATENTS AND COPYRIGHTS.
+
+1.	The Cloud9 SDK 
+1.1 Subject to the terms and conditions of this Agreement, Cloud9 grants to you 
+a non-exclusive, non-sublicensable, non-transferable, personal license to:
+
+* Download the SDK and make a reasonable number of copies on the devices you 
+own or control as necessary to exercise the rights granted below;
+
+* Internally use, perform, display, reproduce, modify and create derivative 
+works of the SDK for the sole purpose of developing and testing a software 
+plug-in (“Derived Software”) that may be integrated with Cloud9’s proprietary 
+software in accordance with the Documentation (as defined below);
+
+* Internally use SDK (in both source code and object code form), and Derived 
+Software for your own personal, noncommercial use; and
+
+* Download and internally use a copy of any documentation related to the SDK 
+that Cloud9 may provide to you as part of the SDK download, through the Cloud9 
+website or otherwise (“Documentation”) in order to exercise the rights in this 
+Section 1, on the condition that you use the Documentation solely as allowed 
+under this Agreement and that you refrain from disclosing the Documentation to 
+any third party, except as permitted herein.
+
+1.2 You may distribute the Derived Software and Documentation to third parties, 
+provided that you may only distribute the Derived Software and Documentation 
+for non-commercial purposes and may not charge a fee or consideration of any 
+kind in connection with such distribution, and you must license such Derived 
+Software and Documentation under the terms no less restrictive than those 
+contained herein.  You will immediately notify Cloud9 if you become aware of 
+any material breach of such terms relating to the Derived Software or 
+Documentation.
+
+1.3 The SDK and Documentation, and all worldwide intellectual property rights 
+therein, are the exclusive property of Cloud9 and its licensors. All rights in 
+and to the SDK and Documentation not expressly granted to you in this Agreement 
+are reserved by Cloud9 and its licensors. Without limiting the foregoing, 
+nothing in this Agreement gives you a right to use any of Cloud9's trade names, 
+trademarks, service marks, logos, domain names, or other distinctive brand 
+features.
+
+1.4 You may not use the SDK for any purpose not expressly permitted by this 
+License Agreement.  You may not:
+
+* Except as expressly set forth herein, modify, create derivative works of, 
+reverse engineer, decompile, disassemble, or otherwise attempt to derive the 
+source code of the SDK, or defeat, bypass, or circumvent any security features 
+of any code in the SDK, or authorize any third party to do any of the foregoing,
+except to the extent allowed under applicable law; 
+
+* License, sell, rent, lease, transfer, distribute, display, host, outsource, 
+disclose or otherwise commercially exploit or make the SDK available to any 
+third party, except as expressly permitted herein;
+
+* Access the SDK in order to build a similar or competitive product or service 
+to Cloud9’s proprietary software; 
+
+* Remove, alter, or obscure in any way any proprietary rights notices 
+(including copyright notices) of Cloud9 or its licensors including or within 
+copies of the SDK or Documentation;
+
+* Make more copies of the SDK or Documentation than are reasonably necessary 
+for your authorized use of the SDK and Documentation; or
+
+* Use the SDK to create any products designed to interface or operate with 
+non-Cloud9 products or sources or for any purpose other than to develop Derived 
+Software for use with Cloud9’s proprietary software.
+
+1.5 Certain items of independent, third-party code may be included in the SDK 
+that are subject to the GNU General Public License (“GPL”) or other open source 
+licenses (“Open Source Software”).  Such Open Source Software is licensed under 
+the terms of the license that accompanies such Open Source Software.  Nothing 
+in this Agreement limits your rights under, or grants you rights that supersede,
+the terms and conditions of any applicable end user license for such Open 
+Source Software.  
+
+1.6 You acknowledge and agree that you have no rights to any upgrades, 
+modifications, enhancements or revisions that Cloud9 may make to the SDK.  
+Cloud9 has no obligation to provide support or engineering assistance of any 
+sort, unless otherwise agreed in writing by Cloud9. You agree that the form and
+nature of the SDK that Cloud9 provides may change without prior notice to you 
+and that future versions of the SDK may be incompatible with applications 
+developed on previous versions of the SDK. You agree that Cloud9 may stop 
+(permanently or temporarily) providing the SDK (or any features within the SDK) 
+to you or to users generally at Cloud9's sole discretion, without prior notice 
+to you.
+
+1.7 Each of the components that constitute the SDK and its related documentation
+is a “commercial item” as that term is defined at 48 C.F.R. 2.101, consisting 
+of “commercial computer software” and “commercial computer software 
+documentation” as such terms are used in 48 C.F.R. 12.212.  Consistent with 
+48 C.F.R. 12.212 and 48 C.F.R. 227.7202-1 through 227.7202-4, all U.S. 
+Government end users acquire the SDK and any Documentation with only those 
+rights set forth in this Agreement. 
+
+2.	Privacy and Information
+In order to continually innovate and improve the SDK, Cloud9 may collect certain
+usage statistics related to your use of the SDK and Cloud9 proprietary software,
+including but not limited to a unique identifier, associated IP address, version
+number of the software, and information on which tools and/or services in the 
+SDK are being used and how they are being used (“Usage Data”). You hereby 
+expressly consent to Cloud9’s collection and processing of your Usage Data 
+(which may be collected by Cloud9 or its suppliers) according to Cloud9's 
+Privacy Policy available at: [INSERT URL]; provided, that Cloud9 may only use 
+and disclose Usage Data on an aggregated anonymized basis.
+
+3.	Your developer credentials
+You agree that you are responsible for maintaining the confidentiality of any 
+developer credentials that may be issued to you by Cloud9 or which you may 
+choose yourself and that you will be solely responsible for all applications 
+that are developed under your developer credentials.  You agree to immediately 
+notify Cloud9 of any unauthorized use or suspected unauthorized use of your 
+credentials.  Cloud9 will not be liable for any loss or damage arising from your
+failure to comply with the above requirements.
+
+4.	Termination of this license agreement
+This Agreement will commence when you download or install the SDK and shall 
+continue until this Agreement terminates.  You may terminate this Agreement at 
+any time by ceasing your use of the SDK and any relevant developer credentials.
+Additionally, Cloud9 may at any time, terminate this Agreement: (a) immediately 
+if you breach any provision of this Agreement; (b) at any time upon 72 hours 
+notice to you; or
+
+(c) at any time upon post of a notice of termination to Cloud9’s website. Upon 
+termination of this Agreement, you must immediately cease use of the SDK, 
+Derived Software and the Documentation and destroy all copies of same. 
+The provisions of Sections 1.3, 1.5, 1.7, 2, and 4 – 10 will survive any 
+termination of this Agreement.
+
+5.	DISCLAIMER OF WARRANTIES
+THE SDK AND ANY INFORMATION AVAILABLE IN CONNECTION THEREWITH ARE PROVIDED ON 
+AN "AS IS" AND "AS AVAILABLE" BASIS, "WITH ALL FAULTS" AND WITHOUT WARRANTY OF 
+ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, WITHOUT LIMITATION, (I) 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, 
+OR NON-INFRINGEMENT; (II) THE SDK BEING FREE OF BUGS OR ERRORS; (III) USE OF 
+THE SDK IN NUCLEAR POWER PLANTS, AIRCRAFT NAVIGATION OR COMMUNICATIONS, AIR 
+TRAFFIC CONTROL, WEAPONS SYSTEMS, OR OTHER HIGH RISK ACTIVITIES.  SOME STATES 
+AND JURISDICTIONS DO NOT ALLOW LIMITATIONS ON HOW LONG AN IMPLIED WARRANT LASTS,
+SO SOME OF THE ABOVE LIMITATIONS MAY NOT APPLY TO YOU.
+
+
+6.	LIMITATION OF LIABILITY AND EXCLUSIVE REMEDY
+IN NO EVENT WILL CLOUD9 BE LIABLE FOR ANY INDIRECT, INCIDENTAL, CONSEQUENTIAL, 
+SPECIAL, PUNITIVE, EXEMPLARY DAMAGES, OR ANY OTHER DAMAGES ARISING OUT OF OR IN
+ANY WAY CONNECTED WITH THE SDK, ANY DERIVED SOFTWARE, ANY INFORMATION AVAILABLE
+IN CONNECTION THEREWITH, OR THE DELAY OR INABILITY TO USE THE SDK, ANY DERIVED 
+SOFTWARE, OR ANY INFORMATION, EVEN IN THE EVENT OF FAULT, TORT 
+(INCLUDING NEGLIGENCE), STRICT LIABILITY, BREACH OF CONTRACT, 
+OR BREACH OF ANY WARRANTY AND EVEN IF CLOUD9 HAS BEEN ADVISED OF THE 
+POSSIBILITY OF SUCH DAMAGES. YOU ACKNOWLEDGE AND AGREE THAT YOUR SOLE AND 
+EXCLUSIVE REMEDY FOR ANY DISPUTE WITH CLOUD9 WITH REGARD TO THE SDK IS TO 
+DISCONTINUE USE OF THE SDK AND ANY DERIVED SOFTWARE. YOU HEREBY WAIVE ANY AND 
+ALL CLAIMS AGAINST CLOUD9 AND ITS AFFILIATES, AGENTS, REPRESENTATIVES AND 
+LICENSORS ARISING OUT OF THE SDK.  BECAUSE SOME STATES DO NOT ALLOW THE 
+DISCLAIMER OF IMPLIED WARRANTIES OR THE EXCLUSION OR LIMITATION OF CERTAIN 
+TYPES OF DAMAGES, THESE PROVISIONS MAY NOT APPLY TO YOU.  IF ANY PORTION OF 
+THIS LIMITATION ON LIABILITY IS FOUND TO BE INVALID OR UNENFORCEABLE FOR ANY 
+REASON, THEN CLOUD9’S TOTAL, CUMULATIVE LIABILITY ARISING FROM OR RELATING TO 
+THE SOFTWARE, UNDER ANY AND ALL THEORIES OF LIABILITY AND CAUSES OF ACTION WILL 
+BE LIMITED TO DIRECT DAMAGES UP TO AN AGGREGATE OF FIFTY U.S. DOLLARS.  
+THE LIMITATION OF LIABILITY HEREIN IS A FUNDAMENTAL ELEMENT OF THE BASIS OF THE 
+BARGAIN AND REFLECTS A FAIR ALLOCATION OF RISK.  THE SDK WOULD NOT BE PROVIDED 
+WITHOUT SUCH LIMITATIONS AND YOU AGREE THAT THE LIMITATIONS AND EXCLUSIONS OF 
+LIABILITY, DISCLAIMERS AND EXCLUSIVE REMEDIES SPECIFIED HEREIN WILL SURVIVE EVEN
+IF FOUND TO HAVE FAILED IN THEIR ESSENTIAL PURPOSE.
+
+7.	Indemnification
+You agree to defend, indemnify and hold harmless Cloud9, its licensors and each
+of their affiliates from all liabilities, suits, actions, damages, losses, 
+claims and expenses, including attorneys' fees, that arise from or in connection 
+with your breach of this Agreement, or use of the SDK or any Derived Software, 
+including, but not limited to, the creation, distribution, promotion and use of
+any Derived Software. Cloud9 reserves the right to assume the exclusive defense 
+and control of any matter subject to indemnification by you.
+
+8.	Modifications
+Cloud9 reserves the right, at any time, to modify, suspend, or discontinue the 
+SDK, or prevent the Derived Software from linking into Cloud9’s proprietary 
+software, or change access requirements, with or without notice.  Cloud9 may 
+remove the Derived Software from Cloud9 proprietary software in its sole 
+discretion.  You agree that Cloud9 will not be liable to you or to any third 
+party for any modification, suspension, or discontinuance of the SDK.  Cloud9 
+reserves the right to change the terms and conditions of this Agreement or its
+policies relating to the SDK at any time, and such changes will be effective 
+thirty (30) days after notice to you.  Your continued use of the SDK after any 
+such changes take effect shall constitute your consent to such changes.  You are
+responsible for providing Cloud9 with your most current e-mail address.  In the
+event that the last e-mail address provided by you is not valid, Cloud9’s 
+dispatch of an e-mail containing such notice will nonetheless constitute 
+effective notice of the changes described in the notice.
+
+9.	Applicable law, jurisdiction
+This Agreement, and your relationship with Cloud9 under this Agreement, shall 
+be governed by the laws of the State of California without regard to its 
+conflict of laws provisions. You and Cloud9 hereby submit to the exclusive 
+jurisdiction of the courts located within the county of Santa Clara, California
+to resolve any legal matter arising from this Agreement. Notwithstanding the 
+foregoing, this Section shall not prevent Cloud9 from seeking injunctive or 
+equitable relief in any court of competent jurisdiction.  The U.N. Convention 
+on Contracts for the International Sale of Goods will not apply to this 
+Agreement.
+
+10.	General legal terms
+10.1 This SDK License sets forth all rights for the user of the SDK and 
+Documentation and is the entire agreement between the parties. This SDK License 
+supersedes any other communications with respect to the SDK. You agree that this
+SDK License is not intended to confer and does not confer any rights or remedies
+upon any person other than the parties to this SDK License. No provision hereof
+shall be deemed waived unless such waiver shall be in writing and signed by 
+Cloud9. If any provision of this SDK License is held invalid or unenforceable, 
+the remainder of this SDK License shall continue in full force and effect, and 
+such provision shall be reformed only to the extent necessary to make it valid 
+and enforceable. The parties confirm that it is their wish that this Agreement 
+has been written in the English language only (or an equivalent type of urgent 
+legal relief) in any jurisdiction.  Your rights under this Agreement are 
+nonexclusive and personal and cannot be assigned, sublicensed or transferred 
+in any other manner to anyone else, and any attempted assignment, sublicense, 
+or transfer will be null and void.
+
+10.2 EXPORT RESTRICTIONS. YOU ACKNOWLEDGE THAT THE SDK IS OF U.S. ORIGIN. YOU 
+AGREE TO COMPLY WITH ALL APPLICABLE INTERNATIONAL AND NATIONAL LAWS THAT APPLY 
+TO THESE PRODUCTS, INCLUDING THE U.S. EXPORT ADMINISTRATION REGULATIONS, AS WELL
+AS END-USER, END-USE AND DESTINATION RESTRICTIONS BY U.S. AND OTHER GOVERNMENTS. 
+

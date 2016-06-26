@@ -1,0 +1,39 @@
+.toolbar-top{
+    border-top : 1px solid @border-highlight;
+    padding : 0;
+    // height : @toolbar-height;
+    white-space: normal !important;
+    border-bottom: 1px solid @border-highlight-dark; //rgb(15,15,15);
+    background-color: @menu-bar-background;
+}
+
+.toolbar-top .c9-menu-btn{
+    vertical-align : top;
+    height: @toolbar-button-height;
+    padding-top: @toolbar-button-padding-top;
+    margin-top: -1px;
+    min-width: @toolbar-button-width !important;
+}
+
+.toolbar-top.basic .c9-menu-btnIcon .icon{
+    width: @toolbar-button-icon-width;
+    height: @toolbar-button-icon-height;
+    display: block;
+    left: @toolbar-button-icon-left;
+    top: @toolbar-button-icon-top;
+}
+
+.toolbar-top.basic .c9-menu-btnOver .icon{
+    background-position : 0 -19px;
+}
+.toolbar-top.basic .c9-menu-btnDown{
+    box-shadow: @toolbar-button-active-box-shadow;
+}
+.toolbar-top.basic .c9-menu-btnDisabled .icon{
+    background-position : 0 -38px;
+}
+
+.has_apf .toolbar-top .sbtb_middle{
+    height: 18px;
+    padding: 1px 2px;
+}

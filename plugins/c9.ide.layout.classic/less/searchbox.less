@@ -1,0 +1,125 @@
+.searchbox .sbtb_middle .input{
+    border           : 0;
+    font-size        : 12px;
+    color            : @textbox-color;
+    font-family      : menlo,courier new,fixed,swiss,sans-serif;
+    outline          : none;
+    background-color : transparent;
+    width: 100%;
+    overflow         : auto;
+    white-space      : pre-wrap;
+    max-height       : 95px;
+    min-height       : 18px;
+    overflow         : hidden;
+}
+.searchbox .sbtb_middle input.input{
+    line-height: 0;
+    overflow: hidden;
+    margin-bottom: -1px;
+    top: -1px;
+}
+
+.searchTxt.tb_console {
+    margin: 0;
+    overflow: hidden;
+}
+.searchTxt.tb_console .sbtb_middle {
+    background-color: @textbox-background;
+    border-radius: 3px;
+}
+
+.tb_textboxDisabled .sbtb_middle .input {
+    color : @textbox-disabled-color;
+}
+
+.searchbox.tb_console .sbtb_middle .input {
+    height: auto;
+    position: relative;
+}
+.searchTxt.tb_textboxInitial .sbtb_middle .input, .tb_textboxInitialMsg {
+    color: @textbox-initial-color !important;
+    text-shadow: @textbox-initial-text-shadow;
+    font-family: @find-textbox-font-family;
+    font-size: @find-textbox-font-size;
+}
+
+.searchbox span, .searchbox font{
+    text-shadow : none;
+    padding : 1px 0 1px 0;
+}
+
+.searchbox{
+    height : auto !important;
+}
+
+.searchbox.tb_console .sbtb_middle{
+    height : auto;
+    padding : 4px 25px 3px 5px;
+    box-shadow: @textbox-box-shadow;
+}
+
+.searchbox.tb_console.buttonsright .sbtb_middle{
+    padding-right : 6em!important;
+}
+
+.searchTxt .btnclose {
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    width: 14px;
+    height: 14px;
+    .image-2x("@{image-path}/@{textbox-close-button}", 14px, 28px);
+    background-position: 0 0;
+    display: none;
+    cursor: pointer;
+}
+.searchTxt .btnclose:hover {
+    background-position: 0 -14px;
+}
+
+.has_apf .vimInput .sbtb_middle{
+    padding: 2px 1px 2px 3px;
+    border: none;
+    border-top: 1px solid rgb(170, 170, 170);
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.6), inset -2px 1px 7px 0 rgba(0, 0, 0, 0.29);
+    cursor: text;
+}
+.has_apf .vimInput .sbtb_middle.dark{
+    padding: 2px 1px 2px 3px;
+    border-top: 1px solid black;
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), inset -2px 1px 7px 0 rgba(0, 0, 0, 0.5);
+}
+.has_apf .vimInput .sbtb_middle.dark .input{
+    color: #f1f1f1;
+}
+.has_apf .vimInput .ace_invisible{
+    color: rgb(148, 147, 147);
+}
+.has_apf .vimInput .dark .ace_invisible{
+    color: #5A5A5A;
+}
+
+.searchbox.tb_console.dark .sbtb_middle {
+    box-shadow: inset 1px 2px 3px 0 rgba(0, 0, 0, 0.22);
+}
+.searchTxt.tb_console.dark .sbtb_middle {
+    background-color: #444444;
+}
+.searchTxt.tb_textboxInitial.dark .sbtb_middle .input{
+    color: #A0A0A0 !important;
+    text-shadow: none;
+}
+.searchbox.dark .sbtb_middle .input{
+    color : #f1f1f1;
+    .font-smoothing(true);
+}
+.searchbox.dark .btnclose{ visibility : hidden; }
+.searchbox.dark .ace-tm .ace_cursor{
+    color : #919191 !important;
+}
+.searchbox.dark .ace-tm .ace_marker-layer .ace_selection {
+    background: rgb(122, 122, 122) !important;
+}
+.searchbox.dark .sbtb_middle {
+    border-color : #222222 !important;
+}

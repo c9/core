@@ -1,0 +1,117 @@
+<?xml version='1.0'?>
+<a:skin xmlns:a="http://ajax.org/2005/aml" xmlns="http://www.w3.org/1999/xhtml">
+    <a:bar name="bar">
+        <a:style><![CDATA[
+            .panelsbar{
+                border-left : 1px solid @border-highlight;
+                border-top : 1px solid @border-highlight;
+                box-shadow : 0 -1px 0 @panel-bar-border;
+                
+                .transform-origin(17px 18px);
+                .transform(rotate(90deg));
+                
+                background: @panel-bar-background; /* url(images/c9-noise.png);*/
+                
+                height : 34px;
+                white-space : nowrap;
+                position : absolute;
+                top : -1px;
+                width : 10000px;
+                z-index : 10000;
+            }
+            
+            .basic.right .panelsbar{
+                border-left : 0;
+                border-top : 0;
+                border-bottom : 1px solid @border-highlight;
+                box-shadow : 0px 1px 0 @panel-bar-border;
+                left : 100%;
+                margin-left : -35px;
+                position: absolute;
+                top: 0;
+            }
+            
+            .basic.left {
+                box-shadow: 1px 0 0 @border-highlight;
+            }
+            .basic.right {
+                box-shadow: 1px 0 0 @border-highlight inset;
+            }
+            
+            .basic.left, .basic.right{
+                overflow : hidden;
+                z-index : 100000;
+            }
+        ]]></a:style>
+    
+        <a:presentation>
+            <a:main container=".">
+                <div class="panelsbar">
+                </div>
+            </a:main>
+        </a:presentation>
+    </a:bar>
+    <a:button name="button">
+        <a:style><![CDATA[
+            .panelsbutton{
+                padding : 10px 10px 6px 10px;
+                display : inline-block;
+                white-space: nowrap;
+                cursor : default;
+                
+                margin-left : -1px;
+                margin-right : 2px;
+                font-family: Helvetica, Arial;
+                font-size: @general-font-size;
+                color : @panel-button-color;
+                text-shadow: @panel-button-text-shadow;
+
+                .transform(rotate(180deg));
+                
+                height : 18px;
+            }
+            .panelsbutton when (@panel-button-flat){
+                height : 19px;
+                margin-top: -1px;
+            }
+            .right .panelsbutton{
+                .transform(rotate(0deg));
+            }
+            .right .panelsbutton when (@panel-button-flat){
+                margin-top: 0;
+                margin-bottom: -1px;
+            }
+            
+            .panelsbutton:hover{
+                background: @panel-button-hover;
+            }
+            
+            .panelsbuttonDown, .panelsbuttonDown:hover{
+                color : @panel-button-active-color;
+                background : @panel-button-active-background;
+                border-left : 1px solid @border-highlight-dark;
+                border-right : 1px solid @border-highlight-dark;
+                box-shadow : -1px 0 @panel-shadow-color inset, -1px 0 @border-highlight;
+                margin-left : -2px;
+                margin-right : 1px;
+                vertical-align: top;
+                margin-top: -2px;
+                padding-bottom: 8px;
+                height : 18px;
+            }
+            .right .panelsbuttonDown, .right .panelsbuttonDown:hover{
+                border-left : 1px solid @border-highlight-dark;
+                border-right : 1px solid @border-highlight-dark;
+                box-shadow : 1px 0 @panel-shadow-color inset, 1px 0 @border-highlight;
+                margin-top : 0;
+            }
+        ]]></a:style>
+    
+        <a:presentation>
+            <a:main caption=".">
+                <div class="panelsbutton">
+                </div>
+            </a:main>
+        </a:presentation>
+    </a:button>
+</a:skin>

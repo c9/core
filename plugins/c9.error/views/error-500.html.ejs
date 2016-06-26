@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <meta charset='utf-8'> 
+    <title><%=error%></title>
+    <link rel="stylesheet" type="text/css" href="<%=staticPrefix%>/error_handler/style.css" />
+  </head>
+  <body class="error500 light">
+    <div id="wrapper">
+      <h1>Something has gone wrong</h1>
+      <h2><em><%=statusCode%> - Internal Server Error</em></h2>
+      <p style="margin-bottom:20px;width:600px">
+        This may indicate a serious error and an event has been logged. We will 
+        investigate this further and will prevent this from happening in the
+        future. If this error persists please don't hesitate to contact support.
+      </p>
+      
+      <% if (showStackTrace) { %>
+        <div class="stacktrace">
+          <strong class="toggle" onclick="this.nextSibling.style.display=this.nextSibling.style.display == 'block' ? 'none' : 'block'">
+            > Click here to see technical information that can help us solve this problem
+          </strong><div style="display:none">
+             <%=scope%> <%=error%>
+            <ul id="stacktrace">
+              <% stack.forEach(function(line) { %>
+                <li><%=line%></li>
+            <% }); %>
+            </ul>
+          </div>
+        </div>
+      <% } %>
+      
+      <a href="http://status.c9.io">Status Page</a> |
+      <a href="https://c9.io/support">Support</a> |
+      <a href="https://c9.io/dashboard.html">Dashboard</a> |
+      <a href="https://c9.io/">Home</a>
+    </div>
+  </body>
+</html>

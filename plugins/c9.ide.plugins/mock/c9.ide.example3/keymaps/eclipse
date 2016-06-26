@@ -1,0 +1,28 @@
+// demostene.ro - Eclipse keymap for Cloud 9 
+// http://demostene.ro/2014/11/eclipse-keymap-for-cloud9-ide-c9-io.html
+[
+    {
+        "command": "gotoline",
+        "keys": ["Ctrl-L"]
+    }, 
+    {
+        "command": "formatcode",
+        "keys": ["Ctrl-Shift-F"]
+    }, 
+    {
+        "command": "renameVar",
+        "keys": ["Alt-Shift-R"]
+    }, 
+    {
+        "command": "searchinfiles",
+        "keys": ["Ctrl-H"]
+    }, 
+    {
+        "command": "navigate",
+        "keys": ["Ctrl-Shift-R"]
+    }, 
+    {
+        "command": "redo",
+        "keys": ["Ctrl-Y"]
+    }
+]

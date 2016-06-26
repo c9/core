@@ -1,0 +1,88 @@
+.black_dropdown {
+    position : relative;
+    overflow : hidden;
+    height   : 21px;
+
+    border-radius: 3px;
+    border: 1px solid @dropdown-black-border-color;
+
+    background: @dropdown-black-background;
+    .gradient(~"linear-gradient(bottom, @{dropdown-black-gradient-start} 0%, @{dropdown-black-gradient-stop} 100%)");
+    .box-shadow(~"@{dropdown-black-box-shadow}");
+    text-shadow: none;
+    
+    min-height: @dropdown-black-height !important;
+    max-height: @dropdown-black-height !important;
+}
+
+.black_dropdown .lbl {
+    position:relative;
+    overflow:hidden;
+    height:17px;
+    padding:@dropdown-black-padding;
+    margin:0 @dropdown-black-button-width 0 0;
+    font-family:@dropdown-black-font-family;
+    font-size:@dropdown-black-font-size;
+    color:@dropdown-black-color;
+    line-height:13px;
+    border-right:1px solid @dropdown-black-divider-left;
+    cursor : default;
+    white-space : nowrap;
+}
+
+.black_dropdown .button {
+    width:@dropdown-black-button-width;
+    border-left:1px solid @dropdown-black-divider-right;
+    bottom : 0;
+    position:absolute;
+    top:0;
+    right:0;
+    .image-2x("@{image-path}/@{dropdown-black-image}", @dropdown-black-image-width, @dropdown-black-image-height);
+    background-position: @dropdown-black-background-position;
+}
+
+.black_dropdownOver {
+    .gradient(~"linear-gradient(bottom, @{dropdown-black-hover-gradient-start} 0%, @{dropdown-black-hover-gradient-stop} 100%)");
+}
+.black_dropdownDown {
+    background         : #2d2d2d;
+    .gradient(~"linear-gradient(bottom, @{dropdown-black-active-gradient-start} 0%, @{dropdown-black-active-gradient-stop} 100%)");
+}
+
+.c9-optionList {
+    width : 174px;
+    overflow : hidden;
+    z-index : 99999;
+    position : absolute;
+    margin : 0 0 0 0;
+    display : none;
+    background : @menu-background;
+    border : 1px solid @menu-border-color;
+    border-radius : 3px;
+
+    .box-shadow(~"@{dropdown-black-container-shadow}");
+
+    margin-top: 1px;
+}
+
+.c9-optionList .c9-dd-item {
+    height:18px;
+    padding:3px 6px 0 6px;
+    position:relative;
+    overflow:hidden;
+    font-family   : Arial;
+    font-size     : 11px;
+    line-height   : 14px;
+    white-space   : nowrap;
+    color         : @menu-color;
+    cursor:default;
+}
+
+.c9-optionList .c9-dd-item.selected {
+    color: @dropdown-black-selected-color;
+}
+
+.c9-optionList .c9-dd-item.hover {
+    background-color: @menu-item-hover-background;
+    color: @menu-item-hover-color;
+}

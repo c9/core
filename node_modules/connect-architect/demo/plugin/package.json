@@ -1,0 +1,13 @@
+{
+    "name": "demo.plugin",
+    "version": "0.0.1",
+    "main": "plugin.js",
+    "private": true,
+
+    "plugin": {
+        "provides": [],
+        "consumes": [
+            "connect"
+        ]
+    }
+}

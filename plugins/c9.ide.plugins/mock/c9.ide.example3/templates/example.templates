@@ -1,0 +1,98 @@
+# Cloud9 Plugin
+filename plugin.js
+caption Cloud9 Plugin
+section General
+	define(function(require, exports, module) {
+	    main.consumes = [
+	        "Plugin", "ui", "layout", "commands"
+	    ];
+	    main.provides = ["myplugin"];
+	    return main;
+	
+	    function main(options, imports, register) {
+	        var Plugin = imports.Plugin;
+	        var ui = imports.ui;
+	        var commands = imports.commands;
+	        var layout = imports.layout;
+	        
+	        /***** Initialization *****/
+	        
+	        var plugin = new Plugin("Ajax.org", main.consumes);
+	        var emit = plugin.getEmitter();
+	        
+	        function load() {
+	            commands.addCommand({
+	                name: "mycommand",
+	                bindKey: { mac: "Command-I", win: "Ctrl-I" },
+	                exec: function() {
+	                    show();
+	                }
+	            }, plugin);
+	        }
+	        
+	        var drawn = false;
+	        function draw() {
+	            if (drawn) return;
+	            drawn = true;
+	            
+	            // Import Skin
+	            ui.insertSkin({
+	                name: "c9statusbar",
+	                data: require("text!./skin.xml"),
+	                "media-path" : options.staticPrefix + "/images/",
+	                "icon-path"  : options.staticPrefix + "/icons/"
+	            }, plugin);
+	            
+	            // Create UI elements
+	            var markup = require("text!./markup.xml");
+	            ui.insertMarkup(layout.findParent(plugin), markup, plugin);
+	            
+	            // Insert CSS
+	            ui.insertCss(require("text!./style.css"), plugin);
+	        
+	            emit("draw");
+	        }
+	        
+	        /***** Methods *****/
+	        
+	        function show() {
+	            draw();
+	        }
+	        
+	        /***** Lifecycle *****/
+	        
+	        plugin.on("load", function() {
+	            load();
+	        });
+	        plugin.on("unload", function() {
+	            drawn = false;
+	        });
+	        
+	        /***** Register and define API *****/
+	        
+	        /**
+	         * This is an example of an implementation of a plugin.
+	         * 
+	         * @class Template
+	         * @extends Plugin
+	         * @singleton
+	         */
+	        plugin.freezePublicAPI({
+	            /**
+	             * 
+	             */
+	            show: show,
+	            
+	            _events: [
+	                /**
+	                 * @event draw
+	                 */
+	                "draw"
+	            ]
+	        });
+	        
+	        register(null, {
+	            myplugin: plugin
+	        });
+	    }
+	});

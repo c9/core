@@ -1,0 +1,1 @@
+To run these tests, grab the server's dependencies with `npm install`.    You may need to `npm install -g jam` first.

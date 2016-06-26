@@ -1,0 +1,203 @@
+.noscript{
+    display: none;
+}
+.strong{
+    font-weight : bold;
+}
+
+.cut.tree-row{
+    opacity : 0.5;
+}
+
+.relative {
+    position: relative;
+}
+
+/**
+ * SERVICE SIGNIN BUTTONS
+ */
+
+.signin_options {
+    margin: 0;
+    text-align: right;
+}
+
+.github-signin {
+    width: 26px;
+    height: 24px;
+    background:url("@{image-path}/signin_github.png") no-repeat 0 0;
+
+    display: inline-block;
+    float: right;
+    height: 24px;
+    margin-left: 6px;
+    margin-top: -5px;
+    width: 26px;
+}
+
+.github-signin.btn-over {
+    background-position:0 -24px;
+}
+
+.bitbucket-signin {
+    width: 26px;
+    height: 24px;
+    background:url("@{image-path}/signin_bitbucket.png") no-repeat 0 0;
+
+    display: inline-block;
+    float: right;
+    height: 24px;
+    margin-left: 6px;
+    margin-top: -5px;
+    width: 26px;
+}
+
+.bitbucket-signin.btn-over {
+    background-position:0 -24px;
+}
+.facebook-signin {
+    width: 26px;
+    height: 24px;
+    background:url("@{image-path}/signin_facebook.png") no-repeat 0 0;
+
+    display: inline-block;
+    float: right;
+    height: 24px;
+    margin-left: 6px;
+    margin-top: -5px;
+    width: 26px;
+}
+
+.facebook-signin.btn-over {
+    background-position:0 -24px;
+}
+
+.google-signin {
+    width: 26px;
+    height: 24px;
+    background:url("@{image-path}/signin_google.png") no-repeat 0 0;
+
+    display: inline-block;
+    float: right;
+    height: 24px;
+    margin-left: 6px;
+    margin-top: -5px;
+    width: 26px;
+}
+
+.google-signin.btn-over {
+    background-position:0 -24px;
+}
+
+.twitter-signin {
+    width: 26px;
+    height: 24px;
+    background:url("@{image-path}/signin_twitter.png") no-repeat 0 0;
+
+    display: inline-block;
+    float: right;
+    height: 24px;
+    margin-left: 6px;
+    margin-top: -5px;
+    width: 26px;
+}
+
+.twitter-signin.btn-over {
+    background-position:0 -24px;
+}
+
+.view-mode-box {
+    background-color: #232e38;
+    color: #e9e9e9;
+    font-size: 13px;
+}
+.c9-logo-view-mode {
+    background:url("@{image-path}/logo-viewmode.png") no-repeat 0 0;
+    width: 210px;
+    height: 35px;
+}
+.blue-label {
+    color: #aec8de;
+}
+.green-label {
+    color: #d2f4c7;
+}
+.yellow-label {
+    color: #ffb017;
+}
+.white-label {
+    color: #e9f8fd;
+    font-size: 13px;
+}
+
+.nodecor-link {
+    text-decoration: none;
+}
+
+.needsignin {
+    font-size: 13px;
+}
+.rights-change {
+    font-size: 11px;
+    line-height: 15px;
+    text-align: center;
+}
+
+.alertMsg{
+    line-height : 1.3em;
+}
+.alertMsg a{
+    color : rgb(15, 114, 192);
+}
+
+.c9-offline, .c9-update, .c9-readonly, .c9-theme-switch {
+    .gradient(~"@{offline-gradient}"); // Blue
+    // .gradient(~"linear-gradient(top, rgb(153, 153, 60) 0%, rgb(126, 121, 61) 100%);"); // Green-grayish
+    // .gradient(~"linear-gradient(top, rgb(154, 180, 50) 0%, rgb(116, 143, 45) 100%)"); // Green
+    // .gradient(~"linear-gradient(top, rgb(167, 69, 69) 0%, rgb(138, 52, 49) 100%)"); // Red
+    // .gradient(~"linear-gradient(top, rgb(206, 73, 73) 0%, rgb(185, 72, 68) 100%)"); // Light Red
+    height: @offline-height;
+    border-bottom: @offline-border-bottom;
+    text-shadow: @offline-text-shadow;
+    box-sizing: border-box;
+    padding: @offline-padding;
+    font-size: @offline-font-size;
+    font-family: @offline-font-family;
+    font-weight: @offline-font-weight;
+    color: @offline-font-color;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    position: relative;
+}
+.c9-offline:before, .c9-update:before, .c9-readonly:before{
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    width: 23px;
+    height: 23px;
+    background: url("@{image-path}/noconnection.png") no-repeat 0 0;
+    display: @offline-icon;
+}
+
+.c9-update {
+    .gradient(~"@{update-gradient}"); // Green
+}
+.c9-update:before {
+    background: url("@{image-path}/updatec9.png") no-repeat 0 0;
+}
+
+.c9-readonly{
+    .gradient(~"@{readonly-gradient}"); // Bright Green
+}
+.c9-readonly:before {
+    background: url("@{image-path}/c9readonly.png") no-repeat 0 0;
+}
+
+.c9-theme-switch{
+    .gradient(~"@{theme-switch-gradient}"); // Bright Green
+}
+.c9-theme-switch a{
+    color: rgb(210, 242, 145);
+    text-decoration: none;
+}

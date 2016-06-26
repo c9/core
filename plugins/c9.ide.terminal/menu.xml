@@ -1,0 +1,25 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:menu id="mnuTerminal">
+        <a:item command="openterminal">New Terminal Tab</a:item>
+        <a:divider />
+        <a:item command="copy">Copy</a:item>
+        <a:item command="paste">Paste</a:item>
+        <a:item command="selectall">Select All</a:item>
+        <a:item command="clearterm">Clear Buffer</a:item>
+        <a:divider />
+        <a:item command="close_term_pane">Close Active Pane</a:item>
+        <a:item command="split_term_pane">Split Active Pane</a:item>
+        <a:divider />
+        <a:item command="layout_term_hor_even">Horizontal Layout (even)</a:item>
+        <a:item command="layout_term_ver_even">Vertical Layout (even)</a:item>
+        <a:item command="layout_term_hor_main">Horizonal Layout (main)</a:item>
+        <a:item command="layout_term_ver_main">Vertical Layout (main)</a:item>
+        <a:divider />
+        <a:item command="toggle_term_status">Toggle Status Bar</a:item>
+        <a:divider />
+        <a:item command="term_restart">Restart All Terminal Sessions</a:item>
+        <a:item command="term_detach">Detach Other Clients</a:item>
+        <a:item command="term_help">Show More Terminal Commands...</a:item>
+        <a:item disabled="true">Hint: Use Alt To Toggle Mouse Mode</a:item>
+    </a:menu>
+</a:application>

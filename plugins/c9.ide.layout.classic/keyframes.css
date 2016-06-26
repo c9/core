@@ -1,0 +1,49 @@
+/*
+    // Generate frame definitions
+    var last = 0;
+    for (var i = 0; i < 24; i++) {
+        console.log((last + 0.000001) + "%, " + (last = 100/24*(i+1)) + "% { background-position: -" + (i * 15) + "px 0px; } ");
+    }
+*/
+
+
+@-webkit-keyframes rotation { 0% { -webkit-transform: rotate(0deg); transform: rotate(0deg);  } 100% {-webkit-transform: rotate(359deg); transform: rotate(359deg);}}
+        @keyframes rotation { 0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); } 100% {-webkit-transform: rotate(359deg); transform: rotate(359deg); }}
+
+@-webkit-keyframes running-spinner { 0%, 4.55% { background-position: -0px 0px; } 4.56%, 9.09% { background-position: -16px 0px; } 9.1%, 13.64% { background-position: -32px 0px; } 13.65%, 18.18% { background-position: -48px 0px; } 18.19%, 22.73% { background-position: -64px 0px; } 22.740000000000002%, 27.27% { background-position: -80px 0px; } 27.28%, 31.82% { background-position: -96px 0px; } 31.830000000000002%, 36.36% { background-position: -112px 0px; } 36.37%, 40.91% { background-position: -128px 0px; } 40.919999999999995%, 45.45% { background-position: -144px 0px; } 45.46%, 50% { background-position: -160px 0px; } 50.01%, 54.55% { background-position: -176px 0px; } 54.559999999999995%, 59.09% { background-position: -192px 0px; } 59.1%, 63.64% { background-position: -208px 0px; } 63.65%, 68.18% { background-position: -224px 0px; } 68.19000000000001%, 72.73% { background-position: -240px 0px; } 72.74000000000001%, 77.27% { background-position: -256px 0px; } 77.28%, 81.82% { background-position: -272px 0px; } 81.83%, 86.36% { background-position: -288px 0px; } 86.37%, 90.91% { background-position: -304px 0px; } 90.92%, 95.45% { background-position: -320px 0px; } 95.46000000000001%, 100% { background-position: -336px 0px; } }
+   @-moz-keyframes running-spinner { 0%, 4.55% { background-position: -0px 0px; } 4.56%, 9.09% { background-position: -16px 0px; } 9.1%, 13.64% { background-position: -32px 0px; } 13.65%, 18.18% { background-position: -48px 0px; } 18.19%, 22.73% { background-position: -64px 0px; } 22.740000000000002%, 27.27% { background-position: -80px 0px; } 27.28%, 31.82% { background-position: -96px 0px; } 31.830000000000002%, 36.36% { background-position: -112px 0px; } 36.37%, 40.91% { background-position: -128px 0px; } 40.919999999999995%, 45.45% { background-position: -144px 0px; } 45.46%, 50% { background-position: -160px 0px; } 50.01%, 54.55% { background-position: -176px 0px; } 54.559999999999995%, 59.09% { background-position: -192px 0px; } 59.1%, 63.64% { background-position: -208px 0px; } 63.65%, 68.18% { background-position: -224px 0px; } 68.19000000000001%, 72.73% { background-position: -240px 0px; } 72.74000000000001%, 77.27% { background-position: -256px 0px; } 77.28%, 81.82% { background-position: -272px 0px; } 81.83%, 86.36% { background-position: -288px 0px; } 86.37%, 90.91% { background-position: -304px 0px; } 90.92%, 95.45% { background-position: -320px 0px; } 95.46000000000001%, 100% { background-position: -336px 0px; } }
+       @-keyframes running-spinner { 0%, 4.55% { background-position: -0px 0px; } 4.56%, 9.09% { background-position: -16px 0px; } 9.1%, 13.64% { background-position: -32px 0px; } 13.65%, 18.18% { background-position: -48px 0px; } 18.19%, 22.73% { background-position: -64px 0px; } 22.740000000000002%, 27.27% { background-position: -80px 0px; } 27.28%, 31.82% { background-position: -96px 0px; } 31.830000000000002%, 36.36% { background-position: -112px 0px; } 36.37%, 40.91% { background-position: -128px 0px; } 40.919999999999995%, 45.45% { background-position: -144px 0px; } 45.46%, 50% { background-position: -160px 0px; } 50.01%, 54.55% { background-position: -176px 0px; } 54.559999999999995%, 59.09% { background-position: -192px 0px; } 59.1%, 63.64% { background-position: -208px 0px; } 63.65%, 68.18% { background-position: -224px 0px; } 68.19000000000001%, 72.73% { background-position: -240px 0px; } 72.74000000000001%, 77.27% { background-position: -256px 0px; } 77.28%, 81.82% { background-position: -272px 0px; } 81.83%, 86.36% { background-position: -288px 0px; } 86.37%, 90.91% { background-position: -304px 0px; } 90.92%, 95.45% { background-position: -320px 0px; } 95.46000000000001%, 100% { background-position: -336px 0px; } }
+        
+@-webkit-keyframes loading-spinner { from { background-position: 0 0; } to { background-position: -165px 0px; } }
+   @-moz-keyframes loading-spinner { from { background-position: 0 0; } to { background-position: -165px 0px; } }
+        @keyframes loading-spinner { from { background-position: 0 0; } to { background-position: -165px 0px; } }
+
+@-webkit-keyframes saving { 0%, 10%, 100% { opacity: 1; } 50%, 60% { opacity: .3; } }
+   @-moz-keyframes saving { 0%, 10%, 100% { opacity: 1; } 50%, 60% { opacity: .3; } }
+       @-keyframes saving { 0%, 10%, 100% { opacity: 1; } 50%, 60% { opacity: .3; } }
+
+@-webkit-keyframes loading-24-spinner { from { background-position: 0 0; } to { background-position: -336px 0px; } }
+   @-moz-keyframes loading-24-spinner { from { background-position: 0 0; } to { background-position: -336px 0px; } }
+        @keyframes loading-24-spinner { from { background-position: 0 0; } to { background-position: -336px 0px; } }
+
+.loading-spinner {
+    background: url("@{image-path}/tab-save-spinner-active.png") no-repeat;
+    -webkit-animation: loading-spinner 1.2s steps(11) infinite;
+            animation: loading-spinner 1.2s steps(11) infinite;
+}
+
+@-webkit-keyframes ball { 0%, 19.99%, 100% { background-position: 0 0 } 20%, 39.99% { background-position: -30px 0 } 40%, 59.99% { background-position: -60px 0 } 60%,79.99% { background-position: -90px 0 } 80%, 99.99% { background-position: -120px 0 } }
+@-moz-keyframes ball { 0%, 19.99%, 100% { background-position: 0 0 } 20%, 39.99% { background-position: -30px 0 } 40%, 59.99% { background-position: -60px 0 } 60%,79.99% { background-position: -90px 0 } 80%, 99.99% { background-position: -120px 0 } }
+@keyframes ball { 0%, 19.99%, 100% { background-position: 0 0 } 20%, 39.99% { background-position: -30px 0 } 40%, 59.99% { background-position: -60px 0 } 60%,79.99% { background-position: -90px 0 } 80%, 99.99% { background-position: -120px 0 } }
+div.loading-ind {
+    background: url("@{image-path}/loading-ind.png") no-repeat;
+    height: 27px;
+    width: 28px;
+    -webkit-animation: ball .7s linear 0s infinite normal;
+    -moz-animation: ball .7s linear 0s infinite normal;
+    animation: ball .7s linear 0s infinite normal;
+    position: absolute;
+    left: 42%;
+    top: 50px;
+    z-index: 0;
+}

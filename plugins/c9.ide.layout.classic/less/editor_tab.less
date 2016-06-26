@@ -1,0 +1,541 @@
+.editor_tab {
+    padding : 0 0 0 0;
+    margin : 0 0;
+    position:relative;
+    /*background: rgb(37,37,37) url("@{image-path}/c9-noise.png");*/
+}
+.editor_tab.notabs:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 1px;
+    right: 0;
+    background: rgba(255,255,255,0.06);
+    z-index: 100000;
+}
+
+.editor_tab.empty{
+    border-right: 1px solid @border-highlight-dark;
+    border-left: 1px solid @border-highlight-dark;
+    margin-right: -1px;
+    margin-left: -1px;
+}
+
+.editor_tab .btnsesssioncontainer {
+    height: @pane-button-container-height;
+    color: #f5f5f5;
+    font-family : @pane-button-font-family;
+    font-size : @pane-button-font-size;
+
+    background: @pane-background;
+    box-shadow: 0 -1px 0 0 @pane-buttons-border-bottom-color inset, 0 1px 0 0 @border-highlight inset, 0 1px 0 @pane-buttons-border-bottom-highlight;
+    border: 1px solid @border-highlight-dark;
+    border-width : 1px 1px 0 1px;
+    position : absolute;
+    left : -1px;
+    right : -1px;
+    top : -1px;
+    z-index : 100;
+    clip : rect(0, 3000px, (@pane-button-container-height + 3), 0px);
+
+    transition-property: padding-right;
+    margin-bottom: 1px;
+}
+.editor_tab.notabs .btnsesssioncontainer {
+    display : none;
+}
+
+.editor_tab.morepadding .btnsesssioncontainer{
+    padding-right : 53px;
+}
+/*.dark.editor_tab .btnsesssioncontainer {*/
+/*    box-shadow: 0 -1px 0 0 black inset, 0 1px 0 0 rgba(255, 255, 255, .06) inset;*/
+/*}*/
+
+.editor_tab .btnsesssioncontainer .inside{
+    max-width : 100%;
+    padding : @pane-button-container-padding;
+    height : @pane-button-container-inner-height;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    .display-flex();
+    .flex-direction(row);
+}
+
+/* Tab Button (not active) */
+
+.session_btn {
+    cursor: default;
+
+    min-width : 6px;
+    max-width : @pane-button-max-width;
+    .flex(1 1 auto);
+    position : relative;
+    width : 0;
+    line-height : 1.2em;
+
+    padding      : 0 (@pane-button-left-width + 1);
+    position     : relative;
+    margin-right : @pane-button-margin-right;
+    margin-top   : 0;
+    height       : @pane-button-height;
+    overflow     : hidden;
+    /*overflow: visible;*/
+    cursor      : default;
+}
+.session_btn.destroyed{
+    min-width: @pane-button-destroyed-width !important;
+    max-width: 0px !important;
+    padding: 0 !important;
+}
+
+.session_btn .tab_middle, .session_btn .tab_shadow {
+    height   : @pane-button-height;
+    box-sizing: border-box;
+    position : relative;
+    padding  : 5px 0 0 0;
+    overflow: visible;
+    color               : #000;
+
+    .image-2x("@{image-path}/@{c9-repeat-x}", 32px, 1500px, repeat-x);
+    background-position : 0 -84px;
+
+    /*display : block;*/
+    /*overflow : hidden;*/
+    text-overflow : ellipsis;
+    /*white-space : nowrap;*/
+
+    margin-top: 2px;
+    margin-left: -1px;
+    margin-right: -1px;
+}
+
+.session_btn .tab_shadow{
+    position: absolute;
+    margin: 0;
+    top: 0;
+    left: @pane-button-left-width;
+    right: @pane-button-right-width;
+    bottom: 0;
+    background-position: @pane-button-shadow-middle;
+    opacity: @pane-button-shadow-opacity;
+}
+
+.session_btn .tab_middle:before,
+.session_btn .tab_middle:after,
+.session_btn .tab_shadow:before,
+.session_btn .tab_shadow:after{
+    background-color : inherit;
+    content          : "";
+    display          : block;
+    position         : absolute;
+    height           : @pane-button-height;
+    .image-2x("@{image-path}/@{c9-no-repeat}", @c9-no-repeat-width, @c9-no-repeat-height);
+    top              : 0;
+}
+.session_btn .tab_middle:before,
+.session_btn .tab_middle:after{
+    -webkit-mask : url("@{image-path}/@{c9-no-repeat-2x}") no-repeat;
+    -webkit-mask-size: @c9-no-repeat-width @c9-no-repeat-height;
+}
+.session_btn .tab_shadow:before{
+    left                  : -1 * @pane-button-left-width;
+    background-position   : @pane-button-shadow-left;
+    opacity: @pane-button-shadow-opacity;
+    width            : @pane-button-left-width;
+}
+.session_btn .tab_shadow:after{
+    right                 : -1 * @pane-button-right-width;
+    background-position   : @pane-button-shadow-right;
+    opacity: @pane-button-shadow-opacity;
+    width            : @pane-button-right-width;
+}
+
+.session_btn .tab_middle:before {
+    left                  : -1 * @pane-button-left-width;
+    background-position   : @pane-button-left;
+    -webkit-mask-position : @pane-button-mask-left;
+    mask : url(#tab-mask-left);
+    width            : @pane-button-left-width;
+}
+.session_btn .tab_middle:after {
+    right                 : -1 * @pane-button-right-width;
+    background-position   : @pane-button-right;
+    -webkit-mask-position : @pane-button-mask-right;
+    mask : url(#tab-mask-right);
+    width            : @pane-button-right-width;
+}
+
+.session_btn:not(.curbtn) .tab_middle,
+.session_btn:not(.curbtn) .tab_middle:after,
+.session_btn:not(.curbtn) .tab_middle:before{
+    background-color    : @pane-button-background;
+    -webkit-transition: background-color .15s linear;
+}
+.session_btn.notrans .tab_middle,
+.session_btn.notrans .tab_middle:after,
+.session_btn.notrans .tab_middle:before{
+    -webkit-transition: none;
+}
+
+.session_btn.over:not(.curbtn) .tab_middle,
+.session_btn.over:not(.curbtn) .tab_middle:after,
+.session_btn.over:not(.curbtn) .tab_middle:before {
+    background-color: @pane-button-hover-background;
+}
+
+/* Tab Button (active) */
+
+.session_btn.curbtn {
+    height      : @pane-button-height + 3;
+    z-index     : 10;
+    margin-top  : -1px;
+}
+body>.session_btn.curbtn{
+    cursor : default;
+    height : @pane-button-height;
+}
+.session_btn.curbtn .tab_middle {
+    height              : @pane-button-height + 1;
+    background-position : @pane-button-middle;
+    color               : #000;
+    padding-top         : 5px;
+    margin-top          : 3px;
+}
+.session_btn.curbtn .tab_middle:before { 
+    height: @pane-button-height + 1; 
+    background-position : @pane-button-left-active;
+}
+.session_btn.curbtn .tab_middle:after { 
+    height: @pane-button-height + 1; 
+    background-position : @pane-button-right-active; 
+}
+
+.session_btn.curbtn .tab_shadow {
+    background-position : @pane-button-active-shadow-middle;
+    opacity : @pane-button-active-shadow-opacity;
+}
+.session_btn.curbtn .tab_shadow:before{
+    background-position : @pane-button-active-shadow-left;
+    opacity : @pane-button-active-shadow-opacity;
+}
+.session_btn.curbtn .tab_shadow:after{
+    background-position : @pane-button-active-shadow-right;
+    opacity : @pane-button-active-shadow-opacity;
+}
+
+.dark.session_btn.curbtn .tab_middle {
+    background-position : @pane-button-dark-middle-active;
+    margin-top: 2px;
+}
+.dark.session_btn.curbtn .tab_middle:before { 
+    background-position : @pane-button-dark-left-active; 
+    -webkit-mask-position : @pane-button-dark-mask-left;
+}
+.dark.session_btn.curbtn .tab_middle:after { 
+    background-position : @pane-button-dark-right-active; 
+    -webkit-mask-position : @pane-button-dark-mask-right;
+}
+
+/* Tab Title */
+
+.session_btn .sessiontab_title {
+    display : block;
+    /*position : absolute;*/
+    overflow : hidden;
+    /*text-overflow : ellipsis;*/
+    white-space : nowrap;
+    overflow : hidden;
+    padding  : @pane-button-title-padding;
+       -moz-user-select: -moz-none;
+     -khtml-user-select: none;
+    -webkit-user-select: none;
+         -o-user-select: none;
+            user-select: none;
+    color : @pane-button-color;
+    text-shadow : @pane-button-textshadow;
+    // position: relative;
+}
+.session_btn.btnclose .tab_middle .sessiontab_title {
+    margin-right : @pane-button-title-margin-right;
+    margin-left : @pane-button-title-margin-left;
+}
+.session_btn.curbtn .sessiontab_title {
+    color : @pane-button-active-color;
+    margin-top : -1px;
+    text-shadow : none;
+    border-bottom: 1px dotted transparent;
+}
+.dark.session_btn.curbtn .sessiontab_title {
+    color : rgba(255,255,255,0.85);
+    margin-top : 0;
+    text-shadow : 0 1px rgba(0,0,0,.4);
+}
+.focus.session_btn.curbtn .sessiontab_title {
+    height: @pane-button-title-height;
+}
+.focus.session_btn.curbtn .sessiontab_title when(@pane-button-use-bold-focus = true) {
+    font-weight: bold;
+    .font-smoothing(true);
+    letter-spacing: -0.4px;
+}
+
+.focus.session_btn.curbtn .sessiontab_title:after when(@pane-button-use-bold-focus = false) {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 2px;
+    .gradient(~"linear-gradient(left, transparent 0%, rgba(0,0,0,0.2) 15%, rgba(0,0,0,0.2) 30%, transparent 60%)");
+    left: -10px;
+    right: -10px;
+    height: 1px;
+    z-index: 1;
+}
+
+.focus.session_btn.curbtn.dark .sessiontab_title:after when(@pane-button-use-bold-focus = false) {
+    .gradient(~"linear-gradient(left, transparent 0%, rgba(255, 255, 255, 0.19) 15%, rgba(255, 255, 255, 0.19) 30%, transparent 60%)");
+}
+
+
+/* Close Button States (idle, loading, saving, etc) */
+/* This section has a delicate sequence. Be careful! */
+
+.session_btn.preview{ font-style: italic }
+
+.session_btn.curbtn strong      { margin-top : -1px; background-position : 0 0; }
+.dark.session_btn.curbtn strong { margin-top : 1px !important; background-position : 0 -14px; }
+
+.has_apf .session_btn.changed strong,
+.has_apf .session_btn.saving strong,
+.has_apf .session_btn.saved strong,
+.has_apf .session_btn.conflict strong,
+.has_apf .session_btn.error strong {
+    .image-2x("@{image-path}/@{pane-button-states-image}", (4 * @pane-button-states-image-size), @pane-button-states-image-size);
+    background-position: 0 2px;
+    width      : @pane-button-states-image-size;
+    height     : 11px;
+    right      : @pane-button-states-right;
+    top        : @pane-button-states-top;
+    margin-top : 0px;
+
+    .animation(none);
+}
+.has_apf .session_btn.changed strong { background-position : 0 0; }
+.has_apf .session_btn.error strong { background-position : (-1 * @pane-button-states-image-size) 0; }
+.has_apf .session_btn.saving strong { background-position : (-2 * @pane-button-states-image-size) 0; }
+.has_apf .session_btn.saved strong { background-position : (-3 * @pane-button-states-image-size) 0; }
+.has_apf .session_btn.conflict strong { background-position : (-2 * @pane-button-states-image-size) 0; }
+
+.asterisk .session_btn.changed .sessiontab_title:before {content: "*";}
+
+.has_apf .session_btn.running strong{
+    .image-2x(@pane-button-running-image, @pane-button-running-image-width, @pane-button-running-image-height, no-repeat);
+    .animation(@pane-button-running-animation);
+
+    height     : @pane-button-running-width;
+    width      : @pane-button-running-height;
+    right      : @pane-button-running-right;
+    top        : @pane-button-running-top;
+    z-index    : 10;
+}
+
+.has_apf .session_btn.loading strong,
+.has_apf .session_btn.connecting strong{
+    .image-2x(@pane-button-save-image, @pane-button-save-image-width, @pane-button-save-image-height, no-repeat);
+    .animation(@pane-button-save-animation);
+
+    height     : @pane-button-save-width;
+    width      : @pane-button-save-height;
+    right      : @pane-button-save-right;
+    top        : @pane-button-save-top;
+    z-index    : 10;
+}
+
+.session_btn strong,
+.has_apf .session_btn strong:hover,
+.has_apf .session_btn strong:active,
+.has_apf .session_btn.curbtn strong:hover,
+.has_apf .session_btn.curbtn strong:active {
+    width       : 14px;
+    height      : 14px;
+    display     : block;
+    position    : absolute;
+    right       : @pane-button-close-right;
+    top         : @pane-button-close-top;
+    .image-2x(@pane-button-close-image, @pane-button-close-image-width, @pane-button-close-image-height);
+    background-position: 0 @pane-button-close-background;
+
+    cursor      : pointer;
+    z-index     : 10;
+    margin-top  : @pane-button-close-hack;
+
+    .animation(none)
+}
+
+.has_apf .session_btn strong:hover  { background-position : -14px @pane-button-close-background; }
+.has_apf .session_btn strong:active { background-position : -28px @pane-button-close-background; }
+.has_apf .session_btn.curbtn strong:hover       { margin-top : -1px; background-position : -14px 0; }
+.has_apf .session_btn.curbtn strong:active      { margin-top : -1px; background-position : -28px 0; }
+.has_apf .dark.session_btn.curbtn strong:hover  { margin-top : 1px; background-position : -14px -14px; }
+.has_apf .dark.session_btn.curbtn strong:active { margin-top : 1px; background-position : -28px -14px; }
+
+/* Other */
+
+.has_apf .plus_tab_button {
+    display: inline-block;
+    margin: @pane-plus-margin;
+    top: 3px;
+    vertical-align : top;
+    .box-sizing(border-box);
+
+    position: relative;
+    cursor: default;
+
+    .skew(23deg);
+    border-radius: 4px 3px 4px 2px;
+    border: @pane-plus-box-border;
+    .box-shadow(~"@{pane-plus-box-shadow}");
+    width: @pane-plus-width;
+    height: @pane-plus-height;
+    z-index: 100000;
+}
+.has_apf .plus_tab_button:after {
+    content: "";
+    display : block;
+    width : @pane-plus-icon-width;
+    height : @pane-plus-icon-height;
+    .image-2x("@{image-path}/@{pane-plus-icon}", @pane-plus-icon-image-width, @pane-plus-icon-image-height);
+    .skew(-23deg);
+    margin : @pane-plus-icon-margin;
+    background-position: @pane-plus-icon-idle-position;
+}
+.plus_tab_button.c9-simple-btnOver {
+    border: 1px solid @pane-plus-hover-border-color;
+    .box-shadow(~"@{pane-plus-hover-box-shadow}");
+    .gradient(~"@{pane-plus-hover-gradient}");
+}
+.plus_tab_button.c9-simple-btnOver:after{
+    background-position: @pane-plus-icon-hover-position;
+}
+.plus_tab_button.c9-simple-btnDown {
+    border: 1px solid @pane-plus-active-border-color;
+    .box-shadow(~"@{pane-plus-active-box-shadow}");
+    .gradient(~"@{pane-plus-active-gradient}");
+}
+.plus_tab_button.c9-simple-btnDown:after {
+    background-position: @pane-plus-icon-active-position;
+}
+.has_apf .plus_tab_button.c9-simple-btnOver:after,
+.has_apf .plus_tab_button.c9-simple-btnDown:after{
+    margin : @pane-plus-hover-margin;
+}
+
+.has_apf .tabmenubtn {
+    left: @pane-menu-left;
+    position: absolute;
+    top: @pane-menu-top;
+    width: 19px;
+
+    .box-sizing(border-box);
+    border-radius: 3px;
+    height: 16px;
+    border: 1px solid @pane-menu-border-color;
+    .box-shadow(~"@{pane-menu-box-shadow}");
+    .gradient(~"@{pane-menu-gradient}");
+}
+.has_apf .tabmenubtn:after {
+    content: "";
+    display : block;
+    width : @pane-menu-icon-width;
+    height : @pane-menu-icon-height;
+    .image-2x("@{image-path}/@{pane-menu-icon}", @pane-menu-icon-image-width, @pane-menu-icon-image-height);
+    margin : 2px 0 0 1px;
+    background-position: @pane-menu-icon-position;
+}
+.has_apf .tabmenubtn.c9-simple-btnOver {
+    border: 1px solid @pane-menu-hover-border-color;
+    .box-shadow(~"@{pane-menu-hover-box-shadow}");
+    .gradient(~"@{pane-menu-hover-gradient}");
+}
+.has_apf .tabmenubtn.c9-simple-btnOver:after{
+    background-position: @pane-menu-icon-hover-position;
+}
+.has_apf .tabmenubtn.c9-simple-btnDown {
+    height : 17px;
+}
+.has_apf .tabmenubtn.c9-simple-btnDown:after {
+    background-position: @pane-menu-icon-active-position;
+}
+.tabsContextMenu{
+    overflow: visible !important;
+    margin: @pane-menu-margin !important;
+}
+.tabsContextMenu:before {
+    border: 1px solid @pane-menu-active-border-color;
+    border-width : 1px 1px 0 1px;
+    .box-shadow(~"@{pane-menu-active-box-shadow}");
+    .gradient(~"@{pane-menu-active-gradient}");
+
+    .box-sizing(border-box);
+    border-radius: 3px 3px 0 0;
+    content: "";
+    display: block;
+    left: -1px;
+    pointer-events: none;
+    position: absolute;
+    top: @pane-menu-button-top;
+    width: @pane-menu-button-width;
+    height : @pane-menu-button-height;
+}
+.tabsContextMenu:after {
+    content: "";
+    display : block;
+    width : 23px; //14px;
+    height : @pane-menu-button-height; //11px;
+    .image-2x("@{image-path}/@{pane-menu-icon}", @pane-menu-icon-image-width, @pane-menu-icon-image-height);
+    margin : @pane-menu-button-margin;
+    position : absolute;
+    top : @pane-menu-button-top;
+    background-position: @pane-menu-button-background-position;
+}
+.upward.tabsContextMenu:before{
+    border-width : 0px 1px 1px 1px;
+    .box-shadow(~"@{pane-menu-upward-active-box-shadow}");
+    .gradient(~"@{pane-menu-upward-active-gradient}");
+    border-radius: 0 0 3px 3px;
+
+    top: auto;
+    bottom : @pane-menu-button-up-bottom;
+    height : @pane-menu-button-up-height;
+}
+
+.codeditorHolder .editor_tab {
+    background: @pane-background;
+}
+
+.codeditorHolder>.vsplitbox, .codeditorHolder>.hsplitbox{
+    height: 100%;
+}
+
+/* Page */
+
+.editor_tab .session_page {
+    display : none;
+    position : absolute;
+    top : @pane-button-container-height;
+    bottom : 0;
+    left : 0;
+    right : 0;
+    z-index : 10;
+    margin: 0 auto;
+    padding-top:7px;
+    overflow : hidden;
+    // background : #252525;
+}
+.editor_tab.notabs .session_page{
+    top : 0;
+}
+.editor_tab .session_page.curpage{
+    display : block;
+}

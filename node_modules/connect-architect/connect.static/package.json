@@ -1,0 +1,15 @@
+{
+    "name": "connect-architect.static",
+    "version": "0.0.1",
+    "main": "./static-plugin.js",
+    "private": true,
+
+    "plugin": {
+        "provides": [
+            "connect.static"
+        ],
+        "consumes": [
+            "connect"
+        ]
+    }
+}

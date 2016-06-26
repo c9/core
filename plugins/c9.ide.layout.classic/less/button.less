@@ -1,0 +1,480 @@
+
+.btn {
+    height             : 27px;
+    overflow           : hidden;
+    cursor             : default;
+    position           : relative;
+    line-height        : 17px;
+    -moz-user-select: -moz-none;
+    -khtml-user-select : none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select        : none;
+}
+
+.btn.smallbtn {
+    height             : 23px;
+}
+
+.btn .left {
+    float               : left;
+    width               : 4px;
+    height              : 27px;
+    background-color    : transparent;
+    background-image    : url("@{image-path}/sprite-rounded-vert.png");
+    background-repeat   : no-repeat;
+    background-position : -16px 0;
+}
+
+.btn.smallbtn .left {
+    height              : 23px;
+    background-position : -16px -6717px;
+}
+
+.btn .lbl {
+    height              : 22px;
+    padding             : 5px 8px 0 8px;
+    margin              : 0 4px;
+    white-space         : nowrap;
+    overflow            : hidden;
+    background-color    : transparent;
+    background-image    : url("@{image-path}/sprite-rounded-vert.png");
+    background-repeat   : repeat-x;
+    background-position : 0 -27px;
+    position            : relative;
+    text-align          : center;
+    color               : #474747;
+    text-shadow         : rgba(255, 255, 255, .71) 0px 1px 0px;
+    font-family         : Arial;
+    font-size           : 14px;
+    font-weight         : bold;
+}
+
+.btn.smallbtn .lbl {
+    height              : 20px;
+    padding             : 3px 3px 0 3px;
+    background-position : 0 -6740px;
+    font-size           : 12px;
+}
+
+.label_small .lbl {
+    padding-left: 2px;
+}
+
+.btn .right {
+    float               : right;
+    width               : 4px;
+    height              : 27px;
+    background-color    : transparent;
+    background-image    : url("@{image-path}/sprite-rounded-vert.png");
+    background-repeat   : no-repeat;
+    background-position : 0 -54px;
+}
+
+.btn.smallbtn .right {
+    height              : 23px;
+    background-position : 0 -6763px;
+}
+
+.btn .lbl .btnArrow {
+    display             : none;
+    position            : relative;
+    right               : 0;
+    width               : 5px;
+    height              : 3px;
+    vertical-align      : middle;
+}
+
+.btnIcon .lbl {
+    overflow : visible;
+}
+
+.btnIcon .lbl SPAN {
+    width               : 23px;
+    height              : 23px;
+    background-repeat   : no-repeat;
+    background-position : 0 0;
+    position            : absolute;
+    top                 : 1px;
+    left                : 0;
+}
+
+.btnIconOnly .lbl SPAN {
+    background-position: 1px 3px;
+}
+
+.btnIconOnly.newFolder .lbl SPAN {
+    background-position: 1px 2px;
+}
+
+.smallCaption.btnIconOnly .lbl {
+    color: #323232;
+    font-weight: normal;
+    font-size: 12px;
+    padding-left: 25px;
+}
+
+.btnIcon.iconOnTheRight .lbl {
+    padding : 4px 12px 0 0;
+}
+
+.btnIcon.iconOnTheRight .lbl SPAN {
+    left  : auto;
+    right : 0;
+}
+
+.btnOver .left      {background-position : -16px -81px}
+.btnOver .lbl       {background-position : 0 -108px}
+.btnOver .right     {background-position : 0 -135px}
+.btnFocus .left     {background-position : -16px -243px}
+.btnFocus .lbl      {background-position : 0 -270px}
+.btnFocus .right    {background-position : 0 -297px}
+.btnDown .left      {background-position : -16px -162px}
+.btnDown .lbl       {background-position : 0 -189px}
+.btnDown .right     {background-position : 0 -216px}
+.btnDisabled .left  {background-position : -16px -324px}
+.btnDisabled .lbl   {
+    background-position : 0 -351px;
+    color               : #b8bbbf;
+    text-shadow         : rgba(255, 255, 255, .71) 0px 1px 0px;
+}
+.btnDisabled .right {background-position : 0 -378px}
+
+/* small */
+.btnOver.smallbtn .left      {background-position : -16px -6786px}
+.btnOver.smallbtn .lbl       {background-position : 0 -6809px}
+.btnOver.smallbtn .right     {background-position : 0 -6832px}
+.btnFocus.smallbtn .left     {background-position : -16px -6924px}
+.btnFocus.smallbtn .lbl      {background-position : 0 -6947px}
+.btnFocus.smallbtn .right    {background-position : 0 -6970px}
+.btnDown.smallbtn .left      {background-position : -16px -6855px}
+.btnDown.smallbtn .lbl       {background-position : 0 -6878px}
+.btnDown.smallbtn .right     {background-position : 0 -6901px}
+.btnDisabled.smallbtn .left  {background-position : -16px -6993px}
+.btnDisabled.smallbtn .lbl   {
+    background-position : 0 -7016px;
+    color               : #b8bbbf;
+    text-shadow         : rgba(255, 255, 255, .71) 0px 1px 0px;
+}
+.btnDisabled.smallbtn .right {background-position : 0 -7039px}
+
+
+/* Additional styles - DARKGREEN */
+.ui-btn-greenfont {
+    color               : #37a700;
+}
+
+/* Additional styles - DARKGREEN */
+.ui-btn-darkgreen .left {
+    background-position : -16px -1620px;
+}
+.ui-btn-darkgreen .lbl {
+    background-position : 0 -1647px;
+    color            : #4d8110;
+    text-shadow      : rgba(255, 255, 255, .71) 0px 1px 0px;
+}
+.ui-btn-darkgreen .right {
+    background-position : 0 -1674px;
+}
+.ui-btn-darkgreen.btnOver .left  {background-position : -16px -1701px;}
+.ui-btn-darkgreen.btnOver .lbl   {background-position : 0 -1728px;}
+.ui-btn-darkgreen.btnOver .right {background-position : 0 -1755px;}
+.ui-btn-darkgreen.btnFocus .left   {background-position : -16px -1863px;}
+.ui-btn-darkgreen.btnFocus .lbl    {background-position : 0 -1890px;}
+.ui-btn-darkgreen.btnFocus .right  {background-position : 0 -1917px;}
+.ui-btn-darkgreen.btnDown .left   {background-position : -16px -1782px;}
+.ui-btn-darkgreen.btnDown .lbl    {background-position : 0 -1809px;}
+.ui-btn-darkgreen.btnDown .right  {background-position : 0 -1836px;}
+
+/* Additional styles - GREEN */
+.ui-btn-green .left {
+    background-position : -16px -405px;
+}
+.ui-btn-green .lbl {
+    background-position : 0 -432px;
+    color            : #4d8110;
+    text-shadow      : rgba(255, 255, 255, .71) 0px 1px 0px;
+}
+.ui-btn-green .right {
+    background-position : 0 -459px;
+}
+.ui-btn-green.btnOver .left   {background-position : -16px -486px}
+.ui-btn-green.btnOver .lbl    {background-position : 0 -513px}
+.ui-btn-green.btnOver .right  {background-position : 0 -540px}
+.ui-btn-green.btnFocus .left  {background-position : -16px -648px}
+.ui-btn-green.btnFocus .lbl   {background-position : 0 -675px}
+.ui-btn-green.btnFocus .right {background-position : 0 -702px}
+.ui-btn-green.btnDown .left   {background-position : -16px -567px}
+.ui-btn-green.btnDown .lbl    {background-position : 0 -594px}
+.ui-btn-green.btnDown .right  {background-position : 0 -621px}
+.ui-btn-green.btnDisabled .left   {background-position : -16px -729px}
+.ui-btn-green.btnDisabled .lbl    {
+    background-position : 0 -756px;
+    color               : #91ba63;
+    text-shadow         : rgba(255, 255, 255, .71) 0px 1px 0px;
+}
+.ui-btn-green.btnDisabled .right  {background-position : 0 -783px}
+
+/* smallbtn */
+.ui-btn-green.smallbtn .left {
+    background-position : -16px -5889px;
+}
+.ui-btn-green.smallbtn .lbl {
+    background-position : 0 -5912px;
+    color            : #4d8110;
+    text-shadow      : rgba(255, 255, 255, .71) 0px 1px 0px;
+}
+.ui-btn-green.smallbtn .right {
+    background-position : 0 -5935px;
+}
+.ui-btn-green.btnOver.smallbtn .left   {background-position : -16px -5958px}
+.ui-btn-green.btnOver.smallbtn .lbl    {background-position : 0 -5981px}
+.ui-btn-green.btnOver.smallbtn .right  {background-position : 0 -6004px}
+.ui-btn-green.btnFocus.smallbtn .left  {background-position : -16px -6096px}
+.ui-btn-green.btnFocus.smallbtn .lbl   {background-position : 0 -6119px}
+.ui-btn-green.btnFocus.smallbtn .right {background-position : 0 -6142px}
+.ui-btn-green.btnDown.smallbtn .left   {background-position : -16px -6027px}
+.ui-btn-green.btnDown.smallbtn .lbl    {background-position : 0 -6050px}
+.ui-btn-green.btnDown.smallbtn .right  {background-position : 0 -6073px}
+.ui-btn-green.btnDisabled.smallbtn .left   {background-position : -16px -6165px}
+.ui-btn-green.btnDisabled.smallbtn .lbl    {
+    background-position : 0 -6188px;
+    color               : #91ba63;
+    text-shadow         : rgba(255, 255, 255, .71) 0px 1px 0px;
+}
+.ui-btn-green.btnDisabled.smallbtn .right  {background-position : 0 -6211px}
+
+/* Additional styles - RED */
+.ui-btn-red .left {
+    background-position : -16px -810px
+}
+.ui-btn-red .lbl {
+    background-position : 0 -837px;
+    color            : white;
+    text-shadow      : rgba(209, 2, 0, .71) 0px 1px 0px;
+}
+.ui-btn-red .right {
+    background-position : 0 -864px
+}
+.ui-btn-red.btnOver .left   {background-position : -16px -891px}
+.ui-btn-red.btnOver .lbl    {background-position : 0 -918px}
+.ui-btn-red.btnOver .right  {background-position : 0 -945px}
+.ui-btn-red.btnFocus .left  {background-position : -16px -1053px}
+.ui-btn-red.btnFocus .lbl   {background-position : 0 -1080px}
+.ui-btn-red.btnFocus .right {background-position : 0 -1107px}
+.ui-btn-red.btnDown .left   {background-position : -16px -972px}
+.ui-btn-red.btnDown .lbl    {background-position : 0 -999px}
+.ui-btn-red.btnDown .right  {background-position : 0 -1026px}
+.ui-btn-red.btnDisabled .left   {background-position : -16px -1134px}
+.ui-btn-red.btnDisabled .lbl    {
+    background-position : 0 -1161px;
+    color               : #bd0502;
+    text-shadow         : rgba(255, 255, 255, .31) 0px 1px 0px;
+}
+.ui-btn-red.btnDisabled .right  {background-position : 0 -1188px}
+
+/* small */
+.ui-btn-red.smallbtn .left {
+    background-position : -16px -6303px
+}
+.ui-btn-red.smallbtn .lbl {
+    background-position : 0 -6326px;
+    color            : white;
+    text-shadow      : rgba(209, 2, 0, .71) 0px 1px 0px;
+}
+.ui-btn-red.smallbtn .right {
+    background-position : 0 -6349px
+}
+.ui-btn-red.btnOver.smallbtn .left   {background-position : -16px -6372px}
+.ui-btn-red.btnOver.smallbtn .lbl    {background-position : 0 -6395px}
+.ui-btn-red.btnOver.smallbtn .right  {background-position : 0 -6418px}
+.ui-btn-red.btnFocus.smallbtn .left  {background-position : -16px -6510px}
+.ui-btn-red.btnFocus.smallbtn .lbl   {background-position : 0 -6533px}
+.ui-btn-red.btnFocus.smallbtn .right {background-position : 0 -6556px}
+.ui-btn-red.btnDown.smallbtn .left   {background-position : -16px -6441px}
+.ui-btn-red.btnDown.smallbtn .lbl    {background-position : 0 -6464px}
+.ui-btn-red.btnDown.smallbtn .right  {background-position : 0 -6487px}
+.ui-btn-red.btnDisabled.smallbtn .left   {background-position : -16px -6579px}
+.ui-btn-red.btnDisabled.smallbtn .lbl    {
+    background-position : 0 -6602px;
+    color               : #bd0502;
+    text-shadow         : rgba(255, 255, 255, .31) 0px 1px 0px;
+}
+.ui-btn-red.btnDisabled.smallbtn .right  {background-position : 0 -6625px}
+
+/* Additional styles - BLUE */
+.ui-btn-blue .left {
+    background-position : -16px -1215px
+}
+.ui-btn-blue .lbl {
+    background-position : 0 -1242px;
+    color            : #1f78a7;
+    text-shadow      : rgba(205, 243, 255, .71) 0px 1px 0px
+}
+.ui-btn-blue .right {
+    background-position : 0 -1269px
+}
+.ui-btn-blue.btnOver .left   {background-position : -16px -1296px}
+.ui-btn-blue.btnOver .lbl    {background-position : 0 -1323px}
+.ui-btn-blue.btnOver .right  {background-position : 0 -1350px}
+.ui-btn-blue.btnFocus .lbl   {background-position : 0 -1485px}
+.ui-btn-blue.btnFocus .right {background-position : 0 -1512px}
+.ui-btn-blue.btnFocus .left  {background-position : -16px -1458px}
+.ui-btn-blue.btnDown .left   {background-position : -16px -1377px}
+.ui-btn-blue.btnDown .lbl    {background-position : 0 -1404px}
+.ui-btn-blue.btnDown .right  {background-position : 0 -1431px}
+.ui-btn-blue.btnDisabled .left   {background-position : -16px -1539px}
+.ui-btn-blue.btnDisabled .lbl    {
+    background-position : 0 -1566px;
+    color               : #33a3d6;
+    text-shadow         : rgba(205, 243, 255, .71) 0px 1px 0px;
+}
+.ui-btn-blue.btnDisabled .right  {background-position : 0 -1593px}
+
+/* Additional styles - BLUE2 */
+.ui-btn-blue2 .left {
+    background-position : -16px -3945px
+}
+.ui-btn-blue2 .lbl {
+    background-position : 0 -3972px;
+    color            : #00536f;
+    text-shadow      : #18c8fe 0px 1px 0px
+}
+.ui-btn-blue2 .right {
+    background-position : 0 -3999px
+}
+.ui-btn-blue2.btnOver .left   {background-position : -16px -4026px}
+.ui-btn-blue2.btnOver .lbl    {background-position : 0 -4053px}
+.ui-btn-blue2.btnOver .right  {background-position : 0 -4080px}
+.ui-btn-blue2.btnFocus .left  {background-position : -16px -4188px}
+.ui-btn-blue2.btnFocus .lbl   {background-position : 0 -4215px}
+.ui-btn-blue2.btnFocus .right {background-position : 0 -4242px}
+.ui-btn-blue2.btnDown .left   {background-position : -16px -4107px}
+.ui-btn-blue2.btnDown .lbl    {background-position : 0 -4134px}
+.ui-btn-blue2.btnDown .right  {background-position : 0 -4161px}
+.ui-btn-blue2.btnDisabled .left   {background-position : -16px -4269px}
+.ui-btn-blue2.btnDisabled .lbl    {
+    background-position : 0 -4296px;
+    color               : #36a3d6;
+    text-shadow         : #7bdfff 0px 1px 0px;
+}
+.ui-btn-blue2.btnDisabled .right  {background-position : 0 -4323px}
+
+/* Additional styles - BLUE3 */
+.ui-btn-blue3 .left {
+    background-position : -16px -3945px
+}
+.ui-btn-blue3 .lbl {
+    background-position : 0 -3972px;
+    color               : white;
+    text-shadow         : rgba(3, 156, 208, 1) 0px 1px 0px;
+}
+.ui-btn-blue3 .right {
+    background-position : 0 -3999px
+}
+.ui-btn-blue3.btnOver .left   {background-position : -16px -4026px}
+.ui-btn-blue3.btnOver .lbl    {background-position : 0 -4053px}
+.ui-btn-blue3.btnOver .right  {background-position : 0 -4080px}
+.ui-btn-blue3.btnFocus .left  {background-position : -16px -4188px}
+.ui-btn-blue3.btnFocus .lbl   {background-position : 0 -4215px}
+.ui-btn-blue3.btnFocus .right {background-position : 0 -4242px}
+.ui-btn-blue3.btnDown .left   {background-position : -16px -4107px}
+.ui-btn-blue3.btnDown .lbl    {background-position : 0 -4134px}
+.ui-btn-blue3.btnDown .right  {background-position : 0 -4161px}
+.ui-btn-blue3.btnDisabled .left   {background-position : -16px -4269px}
+.ui-btn-blue3.btnDisabled .lbl    {
+    background-position : 0 -4296px;
+    color               : #36a3d6;
+    text-shadow         : #7bdfff 0px 1px 0px;
+}
+.ui-btn-blue3.btnDisabled .right  {background-position : 0 -4323px}
+
+
+/* Additional styles - ORANGE */
+.ui-btn-orange .left {
+    background-position : -16px -4350px
+}
+.ui-btn-orange .lbl {
+    background-position : 0 -4377px;
+    color            : #8a4106;
+    text-shadow      : #ffb639 0px 1px 0px
+}
+.ui-btn-orange .right {
+    background-position : 0 -4404px
+}
+.ui-btn-orange.btnOver .left   {background-position : -16px -4431px}
+.ui-btn-orange.btnOver .lbl    {background-position : 0 -4458px}
+.ui-btn-orange.btnOver .right  {background-position : 0 -4485px}
+.ui-btn-orange.btnFocus .left  {background-position : -16px -4593px}
+.ui-btn-orange.btnFocus .lbl   {background-position : 0 -4620px}
+.ui-btn-orange.btnFocus .right {background-position : 0 -4647px}
+.ui-btn-orange.btnDown .left   {background-position : -16px -4512px}
+.ui-btn-orange.btnDown .lbl    {background-position : 0 -4539px}
+.ui-btn-orange.btnDown .right  {background-position : 0 -4566px}
+.ui-btn-orange.btnDisabled .left   {background-position : -16px -4674px}
+.ui-btn-orange.btnDisabled .lbl    {
+    background-position : 0 -4701px;
+    color               : #c47806;
+    text-shadow         : #ffb639 0px 1px 0px;
+}
+.ui-btn-orange.btnDisabled .right  {background-position : 0 -4728px}
+
+/* Additional styles - YELLOW */
+.ui-btn-yellow .left {
+    background-position : -16px -4755px
+}
+.ui-btn-yellow .lbl {
+    background-position : 0 -4782px;
+    color            : #8a5000;
+    text-shadow      : #ffe082 0px 1px 0px
+}
+.ui-btn-yellow .right {
+    background-position : 0 -4809px
+}
+.ui-btn-yellow.btnOver .left   {background-position : -16px -4836px}
+.ui-btn-yellow.btnOver .lbl    {background-position : 0 -4863px}
+.ui-btn-yellow.btnOver .right  {background-position : 0 -4890px}
+.ui-btn-yellow.btnFocus .left  {background-position : -16px -4998px}
+.ui-btn-yellow.btnFocus .lbl   {background-position : 0 -5025px}
+.ui-btn-yellow.btnFocus .right {background-position : 0 -5052px}
+.ui-btn-yellow.btnDown .left   {background-position : -16px -4917px}
+.ui-btn-yellow.btnDown .lbl    {background-position : 0 -4944px}
+.ui-btn-yellow.btnDown .right  {background-position : 0 -4971px}
+.ui-btn-yellow.btnDisabled .left   {background-position : -16px -5079px}
+.ui-btn-yellow.btnDisabled .lbl    {
+    background-position : 0 -5106px;
+    color               : #c39658;
+    text-shadow         : #ffe082 0px 1px 0px;
+}
+.ui-btn-yellow.btnDisabled .right  {background-position : 0 -5133px}
+
+.btn.btnDisabled {
+    cursor: default;
+}
+
+.submenu .lbl .btnArrow {
+    display             : inline-block;
+    background-image    : url("@{image-path}/arrow_small.png");
+    background-repeat   : no-repeat;
+}
+    
+
+.btn .lbl {
+    margin  : 0;
+    height  : 22px;
+    padding : 5px 8px 0 8px;
+}
+
+.btnIcon .lbl {
+    overflow : hidden;
+}
+    
+
+.btn .lbl {
+    line-height : 19px;
+}
+
+.btn.smallbtn .lbl {
+    line-height : 17px;
+}
+    

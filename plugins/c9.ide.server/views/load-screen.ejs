@@ -1,0 +1,28 @@
+<%
+    var plugins = architectConfig;
+    var theme = "flat-light", html;
+    plugins.some(function(n){ 
+        if (n.packagePath == "plugins/c9.core/settings") {
+            if (n.html) html = n.html;
+            
+            try { var settings = JSON.parse(n.settings.user); }
+            catch(e) { return; }
+            
+            theme = settings.general && settings.general["@skin"] || "";
+            if (typeof theme != "string") theme = "";
+            
+            return true;
+        }
+    });
+    
+    var isDark = theme.indexOf("dark") > -1;
+    if (!html) {
+        var isFlat = theme.indexOf("flat") > -1;
+        %><% include flat-load-screen.html %><%
+    }
+    else {
+        %><div id="loadingide" class="<%-: theme + (isDark ? " dark" : "") %>">
+            <%-: html %>
+        </div><%
+    }
+%>

@@ -1,0 +1,107 @@
+
+.scrollbar{
+    height: 200px;
+    position: absolute;
+    background: #D4D0C8 url("@{image-path}/raster.gif");
+    width: 16px;
+    overflow: hidden;
+}
+
+.scrollbar .btnup, .scrollbar .btndown, .scrollbar .indicator{
+    font-family: MS Sans Serif;
+    font-size: 8pt;
+    width : 100%;
+    overflow: hidden;
+    text-align: center;
+    font-weight: bold;
+    cursor: default;
+    position : relative;
+    background-color: #D4D0C8;
+
+    -moz-border-top-colors: #D4D0C8 #FFFFFF;
+    -moz-border-left-colors: #D4D0C8 #FFFFFF;
+    -moz-border-bottom-colors: black gray;
+    -moz-border-right-colors: black gray;
+}
+
+.scrollbar img{
+    visibility : hidden;
+}
+
+.scrollbar .btnup div, .scrollbar .btndown div{
+    border: 2px outset;
+}
+
+body .scrollbar .btnupdown div, body .scrollbar .btndowndown div{
+    border: 1px solid gray;
+    padding: 1px 1px 1px 1px;
+}
+
+body .scrollbar .btnupdown span, body .scrollbar .btndowndown span{
+    margin : -1px 0 0 -3px;
+}
+
+.scrollbar .btndown span, .scrollbar .btnup span{
+    position : absolute;
+    left : 50%;
+    top : 50%;
+    width : 7px;
+    height : 4px;
+    margin : -2px 0 0 -4px;
+}
+
+.scrollbar .btnup span{
+    background: #D4D0C8 url("@{image-path}/scrollup.gif") no-repeat;
+}
+
+.scrollbar .btndown{
+    position: absolute;
+    bottom: 0px;
+}
+
+.scrollbar .btndown span{
+    background: #D4D0C8 url("@{image-path}/scrolldown.gif") no-repeat;
+}
+
+.scrollbar .indicator{
+    height: 6px;
+    display : none;
+    position: absolute;
+    overflow: hidden;
+    background-color: #D4D0C8;
+    width : 100%;
+    padding-bottom : 4px;
+}
+.scrollbar .indicator div{
+    border: 2px outset;
+    height : 100%;
+}
+
+.scrollbar .slidefast{
+    position: absolute;
+    overflow: hidden;
+    background-color: #353535;
+    height: 10px;
+    width: 100%;
+    display: none;
+    overflow: hidden;
+}
+
+.scrollbarDisabled .btnup span{
+    background: #D4D0C8 url("@{image-path}/scrollupdisabled.gif") no-repeat;
+    width : 8px;
+    height : 5px;
+    margin : -3px 0 0 -4px;
+}
+.scrollbarDisabled .btndown span{
+    background: #D4D0C8 url("@{image-path}/scrolldowndisabled.gif") no-repeat;
+    width : 8px;
+    height : 5px;
+    margin : -3px 0 0 -4px;
+}
+    
+
+.scrollbar .btnup div, .scrollbar .btndown div, .scrollbar .indicator div{
+    border: 2px outset white;
+}
+    

@@ -1,0 +1,564 @@
+CLOUD9 ONPREM LICENSE AGREEMENT
+
+
+For parties who have entered a separate commercial agreement with Cloud9 to use 
+the Cloud9 SDK for commercial purposes, the following license shall apply.
+
+
+Congratulations! You’re on your way to a better coding experience. 
+Cloud9 IDE, Inc.'s ("Cloud9", "we", or "us") Cloud9 OnPrem software helps you 
+build software faster and more efficiently by enabling distributed collaborative 
+development for teams. Before you download and/or use our Cloud9 OnPrem software, 
+we need you to agree to a special set of terms. Welcome to the Software License 
+Agreement (the "Agreement").
+
+PLEASE READ THIS AGREEMENT CAREFULLY BEFORE INSTALLING OR USING THE SOFTWARE. 
+THESE TERMS AND CONDITIONS GOVERN YOUR USE OF THE SOFTWARE (AS DEFINED BELOW), 
+UNLESS WE HAVE EXECUTED A SEPARATE WRITTEN AGREEMENT WITH YOU FOR THAT PURPOSE. 
+WE'RE ONLY WILLING TO LICENSE THE SOFTWARE TO YOU IF YOU ACCEPT ALL THE TERMS 
+AND CONDITIONS OF THIS AGREEMENT. BY INSTALLING OR USING THE SOFTWARE OR BY 
+CLICKING "I ACCEPT" BELOW, YOU ARE CONFIRMING THAT YOU UNDERSTAND THIS 
+AGREEMENT, AND THAT YOU ACCEPT ALL OF ITS TERMS AND CONDITIONS. IF YOU ARE 
+ENTERING INTO THIS AGREEMENT ON BEHALF OF A COMPANY OR OTHER LEGAL ENTITY, YOU 
+REPRESENT THAT YOU HAVE THE LEGAL AUTHORITY TO BIND THE ENTITY TO THIS 
+AGREEMENT, IN WHICH CASE "YOU" WILL MEAN THE ENTITY YOU REPRESENT. IF YOU DON'T 
+HAVE SUCH AUTHORITY, OR IF YOU DON'T ACCEPT ALL THE TERMS AND CONDITIONS OF THIS
+AGREEMENT, THEN WE ARE UNWILLING TO LICENSE THE SOFTWARE TO YOU, AND YOU MAY NOT 
+DOWNLOAD, INSTALL, OR USE IT.
+
+1.Definitions.
+Here are some definitions we use in this Agreement. If you see a capitalized 
+word that isn't listed here, it will be defined somewhere in the Agreement.
+
+The "Agreement Effective Date" is the earlier of the date that you either click 
+"I Accept" to the terms and conditions of this Agreement, or that you first 
+place an order for Software or Services.
+
+“Cloud9 SDK” is an Application Programming Interface defined to give users the 
+ability to extend the Cloud9 OnPrem software or integrate it with other systems.
+
+“Derivative Works” refer to any software created using any of the Cloud9 OnPrem 
+source code.
+
+"Documentation" means any manuals, documentation and other supporting materials 
+related to the Software that we generally provide to our customers. 
+Documentation is considered part of the Software.
+
+"Fees" means both: (i) the fees you're required to pay us to use the Software 
+during the applicable License Term, as such fees are reflected on each 
+applicable Order Form; and (ii) the fees you're required to pay us for any 
+Services you engage us to perform, as such fees are reflected on each applicable 
+SOW.
+
+"License Key" means a data file utilized by the Software's access control 
+mechanism that allows you to use the Software during the License Term.
+
+"License Term" means one (1) year from the applicable Order Effective Date.
+The "Order Form" is a written or electronic form that we'll give you to order 
+Software (or that we'll use to order Software on your behalf, once we've gotten 
+your authorization). Upon execution by the parties (or, in the case of an 
+electronic orders, confirmation and placement of the order), each Order Form 
+will be subject to the terms and conditions of this Agreement.
+The "Order Effective Date" is the effective date of each Order Form.
+
+“Plugins” refer to any software created to interact with the Cloud9 OnPrem 
+software using the Cloud9 SDK.
+
+"Seats" mean the number of User accounts for the Software that you're authorized 
+to create. The number of Seats is specified in the applicable Order Form. Only 
+one User can use a Seat at a time. Multiple Users aren't allowed to use the same 
+Seat.
+
+"Services" means training, consulting, or implementation services that we 
+provide to you pursuant to a mutually executed Statement of Work.  Services do 
+not include support.
+
+"Software" means the object-code/obfuscated source code, actual source code or 
+Derivative Works version of our proprietary Cloud9 OnPrem software application. 
+Software includes any applicable Documentation, as well as any Updates to the 
+Software that we provide you or that you can access under this Agreement.
+"Statement of Work" or "SOW" means a mutually executed statement of work 
+detailing the Services we'll perform for you, their price, and your related 
+obligations (if any).
+
+An "Update" is a Software release that we make generally available to our 
+customers, along with any corresponding changes to Documentation. An Update may 
+be an error correction or bug fix, generally indicated by a change in the digit 
+to the right of the second decimal point (e.g., a change from version x.x.x to 
+x.x.y); or it may be an enhancement, new feature, or new functionality, 
+generally indicated by a change in the digit to the right of the first decimal 
+point (e.g., x.x.x to x.y.x) or to the left of the first decimal point 
+(e.g., x.x.x to y.x.x).
+
+A "User" is a single person or machine account that initiates the execution of 
+the Software and/or interacts with or directs the Software in the performance of 
+its functions. The number of Users shouldn't exceed the number of Seats you've 
+licensed from us.
+
+2.License Grant.
+
+Subject to your compliance with the terms of this Agreement (including, among 
+other things, paying the Fees you owe us), we hereby grant you a non-exclusive, 
+non-transferable, worldwide, royalty-free, limited-term license to install, 
+execute, and use the Software for your internal business purposes during the 
+applicable License Term, in accordance with the Documentation, and only for the 
+number of Seats that you've paid for. You can make copies of the Software for 
+non-production purposes only, provided that you reproduce all copyright and 
+other proprietary notices that are on the original copy of the Software. 
+
+Your agents and contractors can use the Software too, so long as they're using 
+it on your behalf, and provided that you agree to be fully responsible for their 
+behavior under this Agreement. 
+
+3.Restrictions.
+We license the Software to you – we don't sell it. As between us, we own all 
+right, title and interest in and to the Software, and any intellectual property 
+rights associated with it and with our company. We reserve all rights in and to 
+the Software that we don't expressly grant you in this Agreement. You agree not 
+to, nor permit nor authorize any third party to: (i) sublicense, sell, rent, 
+lease, transfer, assign, or distribute the Software to third parties; (ii) host 
+the Software for the benefit of third parties; (iii) disclose or permit any 
+third party to access the Software, except as expressly permitted in Section 2, 
+above; (iv) hack or modify the License Key, or try to avoid or change any 
+license registration process we may implement; (v) modify or create derivative 
+works of the Software, or merge the Software with other software; (vi) 
+disassemble, decompile, bypass any code obfuscation, or otherwise reverse 
+engineer the Software or attempt to derive any of its source code, in whole or 
+in part, except to the extent such activities are expressly permitted by law or
+applicable license notwithstanding this prohibition; (vii) modify, obscure, or 
+delete any proprietary rights notices included in or on the Software or 
+Documentation; (viii) otherwise use or copy the Software in a manner not 
+expressly permitted by this Agreement; or (ix) use any Software that we license 
+to you beyond its applicable License Term.
+
+4.Seats.
+Remember, only one User can use a Seat at a time. Multiple Users aren't allowed 
+to use the same Seat, and only one human being can be associated with a 
+particular User account. If you want to swap out, delete, or suspend a User, you
+can do that, and then assign a new User to the open Seat. If you find that you 
+need more Seats, that's great – we're here to help! Just submit a new request 
+through our website or via our sales team, and pay for the additional Seats 
+(a new Order Form will be generated). If and when you add additional Seats to 
+your subscription, you'll pay Fees for those seats at the then-current price, 
+prorated for the balance of the applicable License Term. When the time comes to 
+renew your Seats for another year-long License Term, we'll invoice you for all 
+of your Seats at once, at the then-current price (we reserve the right to change 
+our prices at any time, but the new prices won't affect you until it's time to 
+renew your license for another year). You agree that any orders that you make 
+(or that you authorize us to make on your behalf) for additional Seats during 
+the term of this Agreement will be governed by this Agreement.
+
+5.Verification.
+From time to time, we may have reason to make sure that you're not using extra 
+Seats without paying for them. You agree to cooperate with us to achieve that 
+goal. To help us verify the number of Seats you're actually using, you agree to 
+promptly give us any usage files and reports that your instance of the Software 
+generates, if and when we ask for them. We might also (or instead) ask one of 
+your officers to certify the number of Seats that you're actually using. You 
+agree to provide such a certification if we ask for it. If we determine that 
+you're using more Seats than you've paid for, in addition to any other remedies 
+we might have at law or in equity, you agree to pay us the then-current Fees for 
+the additional Seats you're using, starting from the date you began using each 
+Seat.
+
+6.Government Users.
+No technical data or computer software is developed under this Agreement. The 
+Software and Documentation have been developed solely with private funds, and 
+are considered "Commercial Computer Software" and "Commercial Computer Software 
+Documentation" as described in FAR 12.212, FAR 27.405-3, and DFARS 227.7202-3, 
+and are licensed to the to the U.S. Government end user as restricted computer 
+software and limited rights data. Any use, disclosure, modification, 
+distribution, or reproduction of the Software or Documentation by the U.S. 
+Government or its contractors is subject to the restrictions set forth in this 
+Agreement.
+
+7.Delivery.
+Promptly after the applicable Order Effective Date, we'll make the Software and 
+the License Key available for you to download on a secure, password-protected 
+website. As Updates become available, we'll make those available for you to 
+download on the same website. You're responsible for maintaining the 
+confidentiality of all of your usernames and passwords, including the ones you 
+use to download the Software. Take good care of them, because you agree that 
+you'll be responsible for any activity that takes place using your usernames and 
+passwords (whether you knew about it or not).
+
+8.Services.
+Our Services can help you get the most out of the Software. If you want 
+Services, let us know, and we'll work with you to prepare a SOW that describes 
+the date, time, location, and objectives of the Services, as well as the price. 
+
+Each SOW will be binding once we both sign it, and you agree that any Services 
+we provide to you (whether pursuant to a SOW or not) will be governed 
+exclusively by the terms of this Agreement.  In the event of any conflict 
+between the terms of this Agreement and any SOW, the terms of this Agreement 
+will control. Provided you comply with the terms of this Agreement (including, 
+among other things, paying us the Fees you owe us), we'll perform the Services 
+described in each SOW, according to the timeframes set forth in that SOW. 
+
+We'll control the manner and means by which the Services are performed, and we 
+reserve the right to determine which personnel we assign to perform Services for
+you. 
+
+Provided we remain responsible for all of their acts and omissions, we can use 
+third parties to help us perform the Services.  You acknowledge that we will 
+retain all right, title and interest in and to anything we use or develop in 
+connection with performing Services for you, including, among other things, 
+software programs, tools, specifications, ideas, concepts, inventions, 
+processes, techniques, and know-how.  To the extent we deliver anything to you 
+during the course of performing Services, we grant you a non-exclusive, 
+non-transferable, worldwide, royalty-free, limited-term license to use those 
+deliverables during the term of this Agreement, solely in conjunction with your 
+use of the Software.
+
+9.Term and Termination.
+
+9.1 Term. 
+This Agreement starts on the Agreement Effective Date and will continue in 
+effect for one (1) year (the "Initial Term"), at which time, so long as you 
+choose to renew your Software license for additional License Terms (which, to be 
+clear, you're under no obligation to do), this Agreement will automatically 
+continue in effect for additional one (1) year terms (each, a "Renewal Term")
+until this Agreement is either terminated by a party or expires in accordance 
+with this Section 8. We'll notify you at least sixty (60) days before the end of 
+the Initial Term and each Renewal Term that it's time for you to renew your 
+Software license. If you want to renew, let us know. We'll generate a new Order 
+Form for you, and make a new License Key available for you to download that will 
+let you use the Software for another License Term.
+
+9.2 Termination for Convenience; 
+Automatic Expiration. Either of us can terminate this Agreement for our 
+convenience at the end of the Initial Term or any Renewal Term by providing 
+written notice to the other at least thirty (30) days before the end of the 
+Initial Term or any Renewal Term. This Agreement will automatically expire 
+without the requirement of notice if, at the end of the Initial Term or any 
+Renewal Term, you decide not to pay the Fees required to renew your Seats for an 
+additional License Term.
+
+9.3 Termination for Breach. 
+We can terminate this Agreement immediately upon notice to you if you breach 
+any part of it, and you fail to cure the breach within thirty (30) days of us 
+notifying you of it. That said, there are certain kinds of breaches that we take 
+much more seriously, and that can really damage us. We therefore reserve the 
+right to terminate this Agreement immediately upon written notice to you, but 
+without giving you a cure period, if you breach any of the terms of this 
+Agreement relating to our intellectual property (including your compliance with 
+the license grant and any license restrictions) or our Confidential Information 
+(defined below).
+
+9.4 Effect of Termination. 
+When this Agreement terminates or expires: (i) the License Term for any Software 
+in your possession will immediately end, and any outstanding SOWs will 
+immediately terminate; (ii) you'll no longer have the right to use the Software, 
+and any licenses we grant you in this Agreement will automatically cease to 
+exist as of the date of termination/expiration; (iii) if you owed us any money 
+prior to termination/expiration, you'll need to pay us all that money 
+immediately; (iv) you'll destroy all copies of the Software in your possession 
+or control, and certify in writing to us that you've done so; and (v) each of 
+us will promptly return to the other (or, if the other party requests it, 
+destroy) all Confidential Information belonging to the other.  You'll still be 
+able to access the Software to migrate your data for ninety (90) days after 
+termination or expiration of this Agreement, but you won't be allowed to use the 
+Software on a production basis during that time.  We encourage you to keep 
+copies of your data outside of the Software itself, because if the Software gets 
+disabled, you won't have access to the data you've stored there (and we won't be 
+liable to you if that happens). Sections 1, 3, 5, 6, 8, 9.2, 9.3, 9.4, 11, 12.2, 
+and 13-17 will survive the termination or expiration of this Agreement for any 
+reason.
+
+10.Support.
+
+10.1 Support Times. 
+Provided that you've paid us the Fees you owe us, we'll provide you with 
+technical support for the Software twenty-four (24) hours per day, five (5) days 
+per week, excluding weekends and national U.S. holidays. We currently only offer 
+support via email (write to us at mailto:support@c9.io) or web-based ticketing 
+(through https://c9.io/support). You can contact our amazing support team to 
+help answer your questions on installing and using the Software, identifying and 
+verifying the causes of suspected errors in the Software, and helping you find 
+workarounds for Software malfunctions. Though we'll do our best to respond to 
+automated support requests, we typically need more information than an automated 
+ticketing system can give us to solve your issue. Whenever possible, please 
+initiate any support requests from a person or machine that our support team can 
+interact with. We like the personal touch.
+
+10.2 Updates. 
+We'll make Updates available to you on the same secure website where you 
+downloaded the Software and the License Key.
+
+10.3 Exclusions. 
+We might not be able to correct every problem we find, but we'll use our 
+reasonable efforts to correct any material, reproducible errors in the Software 
+that you make us aware of. We might ask for your help in reproducing the error 
+for us. Please - don't do things with our Software that would make it harder for 
+us to help you. We won't be responsible for supporting you in those 
+circumstances, which include, among other things: (i) someone (other than us) 
+modifying the Software; (ii) changing your operating system or environment in a 
+way that adversely affects the Software or its performance; (iii) using the 
+Software in a manner for which it was not designed, or other than as authorized 
+under this Agreement; or (iv) accident, negligence, or misuse of the Software. 
+We're only required to support a given version of the Software for a year from 
+the date of its commercial release, or six months from the commercial release 
+of the next Update, whichever is longer. If you want support for earlier 
+versions of the Software, we'll try to help you if we can, but you'll need to 
+pay us for that help at our then-current rates.
+
+11.Payment.
+You agree to pay the Fees to us in full, without deduction or setoff of any 
+kind, in U.S. Dollars (unless the Order Form says otherwise), within 30 days of 
+the date of the invoice we send you related to the applicable SOW or Order Form. 
+Amounts payable under this Agreement are nonrefundable, except as provided in 
+Section 12.1. If you don't pay us on time, we reserve the right, in addition to 
+taking any other action that we see fit, to charge you interest on past due 
+amounts at 1.0% per month or the highest interest rate allowed by law, whichever 
+is less, and to additionally charge all expenses of recovery. You are solely 
+responsible for all taxes, fees, duties and governmental assessments (except for
+taxes based on Cloud9's net income) that are imposed or become due in connection 
+with the subject matter of this Agreement.
+
+12.Limited Warranties
+
+12.1 Limited Warranties. 
+We offer you (and only you) the following limited warranties: (i) that the 
+unmodified Software, at the time we make it available to you for download, will 
+not contain or transmit any malware, viruses, or worms (otherwise known as 
+computer code or other technology specifically designed to disrupt, disable, or 
+harm your software, hardware, computer system, or network); (ii) that any 
+Services we perform for you under this Agreement will be performed in a good and 
+workmanlike manner, by appropriately qualified personnel (you just need to let 
+us know about a problem within thirty (30) days of the date the Services were 
+performed); and (iii) that, for ninety (90) days from the date the Software is 
+made available for download, the unmodified Software will substantially conform 
+to its Documentation. We don't warrant that your use of the Software will be 
+uninterrupted, or that the operation of the Software will be error-free.
+
+These warranties won't apply if you modify the Software, or if you use the 
+Software in any way that isn't expressly permitted by this Agreement and the 
+Documentation. 
+
+Our only obligation, and your only remedy, for any breach of these limited 
+warranties will be, at our option and expense, to either (i) repair the 
+Software; (ii) replace the Software; or (iii) terminate this Agreement with 
+respect to the defective Software, and refund the Fees you've paid for the 
+defective Software during the then-current License Term once you've returned it 
+to us (or destroyed it).
+
+12.2 Disclaimer. 
+THE LIMITED WARRANTIES DESCRIBED ABOVE ARE THE ONLY WARRANTIES WE MAKE WITH 
+RESPECT TO THE SOFTWARE, SERVICES AND OUR TECHNICAL SUPPORT. WE DON'T MAKE ANY 
+OTHER WARRANTIES, AND WE HEREBY SPECIFICALLY DISCLAIM ANY OTHER WARRANTIES, 
+WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES 
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, 
+OR ANY WARRANTIES OR CONDITIONS ARISING OUT OF COURSE OF DEALING OR USAGE OF 
+TRADE. NO ADVICE OR INFORMATION, WHETHER ORAL OR WRITTEN, THAT YOU GET FROM US 
+OR ANYWHERE ELSE WILL CREATE ANY WARRANTY OR CONDITION NOT EXPRESSLY STATED IN 
+THIS AGREEMENT.
+
+13.LIMITATION OF LIABILITY.
+
+13.1 Waiver of Consequential Damages. 
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT WILL WE BE LIABLE 
+TO YOU OR TO ANY THIRD PARTY FOR ANY INDIRECT, SPECIAL, INCIDENTAL, PUNITIVE, OR 
+CONSEQUENTIAL DAMAGES (INCLUDING FOR LOSS OF PROFITS, REVENUE, OR DATA) OR FOR 
+THE COST OF OBTAINING SUBSTITUTE PRODUCTS ARISING OUT OF OR IN CONNECTION WITH 
+THIS AGREEMENT, HOWEVER CAUSED, WHETHER SUCH LIABILITY ARISES FROM ANY CLAIM 
+BASED UPON CONTRACT, WARRANTY, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY OR 
+OTHERWISE, AND WHETHER OR NOT WE'VE BEEN ADVISED OF THE POSSIBILITY OF SUCH 
+DAMAGES.
+
+13.2 Limitation of Total Liability. 
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, OUR TOTAL CUMULATIVE 
+LIABILITY TO YOU OR ANY THIRD PARTY UNDER THIS AGREEMENT, FROM ALL CAUSES OF 
+ACTION AND ALL THEORIES OF LIABILITY, WILL BE LIMITED TO AND WILL NOT EXCEED THE 
+FEES YOU'VE ACTUALLY PAID US DURING THE 12 MONTHS PRECEDING THE CLAIM GIVING 
+RISE TO SUCH LIABILITY.
+
+13.3 Basis of Bargain. 
+You understand and agree that we've set our prices and entered into this 
+Agreement with you in reliance upon the limitations of liability set forth in 
+this Agreement, which allocate risk between us and form the basis of a bargain 
+between the parties.
+
+14.Indemnification.
+
+14.1 Our Indemnification Obligation. 
+We'll defend or settle, at our option and expense, any third-party claim brought 
+against you to the extent that it's based on an allegation that your use or 
+possession of the Software as permitted under this Agreement infringes a 
+copyright or misappropriates a trade secret of any third party (each, a "Claim"), 
+and, subject to Section 13, we'll pay all damages and costs (including 
+reasonable legal fees) finally awarded by a court of final appeal attributable 
+to such a Claim, provided that you notify us in writing of any such Claim as 
+soon as reasonably practicable and allow us to control, and reasonably cooperate 
+with us in the defense of, any such Claim and related settlement negotiations.
+
+14.2 Exclusions. 
+You understand that we'll have no obligation to indemnify you for any Claim 
+that's based on (i) the modification of the Software, unless we were the ones 
+who made the modifications; (ii) your use of the Software other than as 
+authorized by this Agreement and the Documentation; (iii) your failure to use 
+updated or modified Software that we make available to you that would have 
+helped avoid or mitigate the Claim; (iv) your failure to stop using the Software 
+after receiving written notice to do so from us in order to avoid further 
+infringement or misappropriation; or (v) the combination, operation or use of 
+the Software with equipment, devices, software, systems, or data that we didn't 
+supply (subparts (i)-(v) may be referred to collectively as "Indemnity 
+Exclusions").
+
+14.3 Right to Ameliorate Damages. 
+If your use of the Software is, or in our reasonable opinion is likely to be, 
+subject to a Claim under Section 14.1, we may, at our sole option and at no 
+charge to you (and in addition to our indemnity obligation to you in Section 
+14.1): (i) procure for you the right to continue using the Software; (ii) 
+replace or modify the Software so that it is non-infringing and substantially 
+equivalent in function to the original Software; or (iii) if options (i) and (ii) 
+above are not commercially practicable in our reasonable estimation, we can 
+terminate this Agreement and all licenses granted hereunder (in which event, 
+you will immediately stop using the Software) and refund the Fees that you paid 
+us for the then-current License Term.
+
+14.4 Sole Remedy. 
+THIS SECTION 14 SETS FORTH OUR SOLE AND EXCLUSIVE OBLIGATIONS, AND YOUR SOLE AND 
+EXCLUSIVE REMEDIES, WITH RESPECT TO CLAIMS OF INFRINGEMENT OR MISAPPROPRIATION 
+OF THIRD PARTY INTELLECTUAL PROPERTY RIGHTS.
+
+14.5 Your Indemnification Obligation. 
+Because we can't know what you're doing with the Software behind your firewall, 
+except to the extent that we're obliged to indemnify you in Section 14.1 above, 
+you will defend, indemnify, and hold us harmless from and against any claims 
+that may arise out of or that are based upon (i) your breach of this Agreement; 
+(ii) content that you upload to the Software; or (iii) an Indemnity Exclusion.
+
+15.Confidentiality.
+
+15.1 Definition of Confidential Information. 
+For the purposes of this Agreement, "Confidential Information" means any 
+business or technical information that either one of us discloses to the other, 
+in writing, orally, or by any other means, and including things like computer 
+programs, code, algorithms, data, know-how, formulas, processes, ideas, 
+inventions (whether patentable or not), schematics and other technical, 
+business, financial, and product development plans, names and expertise of 
+employees and consultants, and customer lists. For the purposes of this 
+Agreement, except as expressly set forth in Section 17.2 below, the source code 
+of our Software will be deemed to be Cloud9's Confidential Information, 
+regardless of whether it is marked as such.
+
+15.2 Restrictions on Use and Disclosure.
+Neither of us will use the other party's Confidential Information, except as 
+permitted under this Agreement. Each of us agrees to maintain in confidence and 
+protect the other party's Confidential Information using at least the same 
+degree of care as we use for its own information of a similar nature, but in all
+events at least a reasonable degree of care. Each of us agrees to take all 
+reasonable precautions to prevent any unauthorized disclosure of the other's 
+Confidential Information, including, without limitation, disclosing Confidential 
+Information only to its employees, independent contractors, consultants, and 
+legal and financial advisors (collectively, "Representatives") (i) with a need 
+to know such information, (ii) who are parties to appropriate agreements 
+sufficient to comply with this Section 15, and (iii) who are informed of the 
+nondisclosure obligations imposed by this Section 15. Each of us will be 
+responsible for all acts and omissions of our Representatives. The foregoing 
+obligations won't restrict either of us from disclosing Confidential Information 
+of the other party pursuant to the order or requirement of a court, 
+administrative agency, or other governmental body, provided that the party 
+required to make such a disclosure gives reasonable notice to the other party to 
+enable them to contest such order or requirement. The restrictions set forth in 
+this Section 15 will survive the termination or expiration of this Agreement.
+
+15.3 Exclusions. 
+The restrictions set forth in Section 15.2 will not apply with respect to any 
+Confidential Information that: (i) was or becomes publicly known through no 
+fault of the receiving party; (ii) was rightfully known or becomes rightfully 
+known to the receiving party without confidential or proprietary restriction 
+from a source other than the disclosing party who has a right to disclose it; 
+(iii) is approved by the disclosing party for disclosure without restriction in 
+a written document which is signed by a duly authorized officer of such 
+disclosing party; or (iv) the receiving party independently develops without 
+access to or use of the other party's Confidential Information.
+
+16.Governing Law and Jurisdiction.
+This Agreement will be governed by and interpreted in accordance with the laws
+of the State of California, without giving effect to any principles of conflict 
+of laws. The parties expressly agree that the United Nations Convention on 
+Contracts for the International Sale of Goods and the Uniform Computer 
+Information Transactions Act will not apply to this Agreement. Any legal action 
+or proceeding arising under, related to or connected with this Agreement will 
+be brought exclusively in the federal (if they have jurisdiction) or state 
+courts located in San Francisco, California and the parties irrevocably consent 
+to the personal jurisdiction and venue there.
+
+17.Miscellaneous.
+
+17.1 Assignment. 
+You aren't allowed to assign or transfer any of your rights or obligations in 
+this Agreement, in whole or in part, by operation of law or otherwise, without 
+our prior written consent, and any attempt by you to do so without our consent 
+will be null and void.  We can assign this Agreement in its entirety, upon 
+notice to you but without the requirement to obtain consent, in connection with 
+a merger, acquisition, corporate reorganization, or sale of all or substantially 
+all of our business or assets.
+
+17.3 Severability. 
+In the event that any provision of this Agreement is deemed by a court of 
+competent jurisdiction to be illegal, invalid, or unenforceable, the court will 
+modify or reform this Agreement to give as much effect as possible to that 
+provision. Any provision that can't be modified or reformed in this way will be 
+deemed deleted, and the remaining provisions of this Agreement will continue in 
+full force and effect.
+
+17.4 Notices. 
+Any notice, request, demand or other communication required or permitted under 
+this Agreement should be in writing (e-mail counts), should reference this 
+Agreement, and will be deemed to be properly given: (i) upon receipt, if 
+delivered personally; (ii) upon confirmation of receipt by the intended 
+recipient, if by e-mail; (iii) five (5) business days after it is sent by 
+registered or certified mail, with written confirmation of receipt; or (iv) 
+three (3) business days after deposit with an internationally recognized express 
+courier, with written confirmation of receipt. Notices should be sent to the 
+address(es) set forth on the Invoice, unless we notify each other that those 
+addresses have changed.
+
+17.5 Waiver. 
+A party's obligations under this Agreement can only be waived in a writing 
+signed by an authorized representative of the other party, which waiver will be 
+effective only with respect to the specific obligation described. Any waiver or 
+failure to enforce any provision of this Agreement on one occasion will not be 
+deemed a waiver of any other provision or of such provision on any other 
+occasion.
+
+17.6 Force Majeure. 
+We will be excused from performing under this Agreement to the extent that we're 
+unable to perform due extraordinary causes beyond our reasonable control. That 
+might include things like acts of God, strikes, lockouts, riots, acts of war, 
+epidemics, communication line failure, and power failures.
+
+17.7 Independent Contractors. 
+We're each independent contractors with respect to the subject matter of this 
+Agreement. Nothing contained in this Agreement will be deemed or construed in 
+any manner whatsoever to create a partnership, joint venture, employment, agency, 
+fiduciary, or other similar relationship between us, and neither of us can bind 
+the other contractually.
+
+17.8 Amendments; 
+Entire Agreement. No modification, change, or amendment of this Agreement will 
+be binding upon the parties, unless we both agree to the change in a writing 
+signed by each of our authorized representatives. This Agreement, including each
+Order Form and SOW, constitutes the entire agreement and understanding of the 
+parties with respect to its subject matter, and supersedes any and all prior or 
+contemporaneous understandings and agreements, whether oral or written, between 
+the parties with respect to its subject matter.
+
+17.9 No Other Terms. 
+Sometimes your accounting folks will send us purchase orders with lots of itty 
+bitty language attached that requires a microscope for us to read. Everybody 
+does it – we understand. But this Agreement is the only agreement between us, 
+and the terms of any purchase order, written terms or conditions, or other 
+document that you submit to us that contain terms that are different from, in 
+conflict with, or in addition to the terms of this Agreement, SOW or any Order 
+Form are hereby rejected by Cloud9, and will be void and of no effect.
+
+17.10 No Publicity Without Your Permission. 
+We may identify you as a customer to current and prospective clients. 
+
+We won't use your name or logo in any advertising or marketing materials without 
+your permission, though; and if we ask for your permission, you always have the 
+right to say no.
+

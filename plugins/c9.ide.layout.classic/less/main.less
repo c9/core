@@ -1,0 +1,99 @@
+HTML {
+    overflow : hidden;
+    background : @background;
+}
+BODY {
+    font-family : @general-font-family;
+    color : #222222;
+    margin : 0;
+    padding : 0 ;
+    font-size : @general-font-size;
+    line-height : normal;
+    position : absolute;
+    left : 0;
+    top : 0;
+    right : 0;
+    bottom : 0;
+    .font-smoothing(@general-smoothing);
+}
+
+BODY.noInput *{
+    pointer-events: none;
+}
+
+.ace_editor .ace_gutter{
+    .font-smoothing(@ace-gutter-font-smoothing);
+}
+
+.disableIframe iframe{
+    pointer-events: none;
+}
+
+.dialog-buttons{
+    padding: @dialog-buttons-padding !important;
+    height: @dialog-buttons-height !important;
+}
+
+@import "less/style.less";
+@import "less/bar.less";
+@import "less/bk-window2.less";
+@import "less/bk-window.less";
+@import "less/blackbutton.less";
+@import "less/blackdg.less";
+@import "less/black_dropdown.less";
+@import "less/browser-btn.less";
+@import "less/btn-default-css3.less";
+@import "less/btn_icon_only.less";
+@import "less/button.less";
+@import "less/btn_console.less";
+@import "less/btn_console_open.less";
+@import "less/btn-switcher.less";
+@import "less/c9-divider-double.less";
+@import "less/c9-divider-hor.less";
+@import "less/c9-divider.less";
+@import "less/c9-menu-bar.less";
+@import "less/c9-menu-btn.less";
+@import "less/c9-simple-btn.less";
+@import "less/c9-toolbarbutton-glossy.less";
+@import "less/c9-toolbarbutton.less";
+@import "less/c9-toolbarbutton-light.less";
+@import "less/cboffline.less";
+@import "less/checkbox_black.less";
+@import "less/checkbox_grey.less";
+@import "less/checkbox.less";
+@import "less/editor_tab.less";
+@import "less/textbox.less";
+@import "less/searchbox.less";
+@import "less/codebox.less";
+@import "less/colorbox.less";
+@import "less/datagrid.less";
+@import "less/divider_console.less";
+@import "less/divider.less";
+@import "less/dropdown-dark-glossy.less";
+@import "less/dropdown.less";
+@import "less/errorbox.less";
+@import "less/frame.less";
+@import "less/grouped_checkbox.less";
+@import "less/header-btn.less";
+@import "less/img.less";
+@import "less/label.less";
+@import "less/lineselect.less";
+@import "less/list_dark.less";
+@import "less/list.less";
+@import "less/menu.less";
+@import "less/panel-bar.less";
+@import "less/password.less";
+@import "less/radiobutton.less";
+@import "less/sbios.less";
+@import "less/scrollbar.less";
+@import "less/simplebox.less";
+@import "less/simpleimg.less";
+@import "less/spinner.less";
+@import "less/splitbutton.less";
+@import "less/splitter.less";
+@import "less/tbsimple.less";
+@import "less/textarea.less";
+@import "less/tooltiplabel.less";
+@import "less/toolbar.less";
+@import "less/toolbar-top.less";
+@import "less/toolbar-bottom.less";
