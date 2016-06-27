@@ -446,6 +446,7 @@ require([
             "metrics": {
                 getLastPing: function() { throw Error("Not implemented"); },
                 getLastest: function() { throw Error("Not implemented"); },
+                onPingComplete: function() { throw Error("Not implemented"); },
                 log: function() {},
                 increment: function() {}
             },
