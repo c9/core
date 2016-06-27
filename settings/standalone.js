@@ -125,7 +125,6 @@ module.exports = function(manifest, installPath) {
             }
         },
         pricing: { containers: [] },
-        zuora: {},
         localExtend: true,
         extendDirectory: __dirname + "/../plugins"
     };
