@@ -120,6 +120,11 @@ define(function(require, exports, module) {
              * @return {Object}
              */
             getLastPing: apiFunction.bind(null, "getLastPing"),
+            
+            /**
+             * Add a hook for ping.complete
+             */
+            onPingComplete: apiFunction.bind(null, "onPingComplete"),
         });
         
         register(null, { metrics: plugin });
