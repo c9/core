@@ -746,7 +746,7 @@ define(function(require, exports, module) {
                 } else if (node.status == "loading") {
                     plugin.on("readdir", function listener(e) {
                         if (e.path == subPath) {
-                            plugin.on("readdir", listener);
+                            plugin.off("readdir", listener);
                             recur();
                         }
                     });
