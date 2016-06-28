@@ -208,20 +208,21 @@ define(function(require, exports, module) {
         
         var reHome, reWorkspace, homeSub;
         plugin.$initPaths = function(home, workspaceDir) {
-            reHome = new RegExp("^" + plugin.escapeRegExp(home) + "(/|/?$)");
+            var pre = c9.platform == "win32" ? "/?" : "";
+            reHome = new RegExp("^" + pre + plugin.escapeRegExp(home) + "(/|/?$)");
             var wd = workspaceDir.replace(/\/?$/, "");
-            reWorkspace = new RegExp("^" + plugin.escapeRegExp(wd) + "(/|/?$)");
+            reWorkspace = new RegExp("^" + pre + plugin.escapeRegExp(wd) + "(/|/?$)");
             homeSub = "~/";
             if (home == workspaceDir) {
-                reHome = new RegExp("^(" + plugin.escapeRegExp(home) + "|~)(/|/?$)");
+                reHome = new RegExp("^(" + pre + plugin.escapeRegExp(home) + "|~)(/|/?$)");
                 homeSub = "/";
                 reWorkspace = null;
             } else if (reHome.test(workspaceDir)) {
-                reWorkspace = new RegExp("^" +
+                reWorkspace = new RegExp("^" + pre +
                     plugin.escapeRegExp(workspaceDir.replace(reHome, "~/")) + "(/|/?$)"
                 );
             } else if (reWorkspace.test(home)) {
-                reHome = new RegExp("^(" + plugin.escapeRegExp(home) + "|~)(/|/?$)");
+                reHome = new RegExp("^(" + pre + plugin.escapeRegExp(home) + "|~)(/|/?$)");
                 homeSub = home.replace(reWorkspace, "/").replace(/\/?$/, "/");
                 reWorkspace = null;
             }

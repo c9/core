@@ -122,9 +122,9 @@ define(function(require, module, exports) {
             emit("quit");
         }
         
-        function toExternalPath(path) {
+        function toExternalPath(path, sep) {
             if (plugin.platform == "win32")
-                path = path.replace(/^[/]+/, "").replace(/[/]+/g, "\\");
+                path = path.replace(/^[/]+/, "").replace(/[/]+/g, sep || "\\");
             return path;
         }
         
