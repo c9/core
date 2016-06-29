@@ -1,6 +1,6 @@
 define(function(require, module, exports) {
     main.consumes = [
-        "Plugin", "menus", "ui"
+        "Plugin", "menus", "ui", "settings", "dialog.alert"
     ];
     main.provides = ["editors"];
     return main;
@@ -9,6 +9,8 @@ define(function(require, module, exports) {
         var ui = imports.ui;
         var Plugin = imports.Plugin;
         var menus = imports.menus;
+        var settings = imports.settings;
+        var alert = imports["dialog.alert"].show;
         
         var extname = require("path").extname;
         var basename = require("path").basename;
@@ -69,11 +71,28 @@ define(function(require, module, exports) {
         function findEditorByFilename(fn) {
             var ext = extname(fn).substr(1).toLowerCase();
             var filename = basename(fn).toLowerCase();
+
+            // Obtain lst of excluded file formats
+            var lst = settings.get("user/tabs/@excludeFormats")
+                .replace(new RegExp(" ", "g"), "")
+                .toLowerCase()
+                .split(",")
+                .filter(function(n) {
+                    return (n !== "");
+                });
+
+            // Create the tab, if not forbiden format
+            if (lst.indexOf(ext) != -1) {
+                alert("Can't open " + filename 
+                    + ": file format unsupported");
+                return "none";
+            }
+
             var editor = fileExtensions[fn] && fileExtensions[fn][0]
                 || fileExtensions[filename] && fileExtensions[filename][0]
                 || fileExtensions[ext] && fileExtensions[ext][0]
                 || defaultEditor;
-            
+
             return findEditor(null, editor);
         }
         

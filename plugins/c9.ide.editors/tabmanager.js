@@ -1077,10 +1077,14 @@ define(function(require, module, exports) {
             // if (options.document.filter === undefined)
             //     options.document.filter = true;
             options.editorType = type;
-            
+
+            // Don't proceed if findEditorByFilename returns "none"
+            if (editor === "none")
+                return;
+
             // Create the tab
             tab = createTab(options);
-            
+
             // Focus
             if (options.focus)
                 focusTab(tab, options.focus !== true);
