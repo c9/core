@@ -67,26 +67,13 @@ define(function(require, module, exports) {
                 || ~extensions.indexOf(filename)
                 || ~extensions.indexOf(ext) ? true : false;
         }
-        
+
         function findEditorByFilename(fn) {
             var ext = extname(fn).substr(1).toLowerCase();
             var filename = basename(fn).toLowerCase();
 
-            // Obtain lst of excluded file formats
-            var lst = settings.get("user/tabs/@excludeFormats")
-                .replace(new RegExp(" ", "g"), "")
-                .toLowerCase()
-                .split(",")
-                .filter(function(n) {
-                    return (n !== "");
-                });
-
-            // Create the tab, if not forbiden format
-            if (lst.indexOf(ext) != -1) {
-                alert("Can't open " + filename 
-                    + ": file format unsupported");
+            if (forbiddenFormat(ext, filename)) {
                 return "none";
-            }
 
             var editor = fileExtensions[fn] && fileExtensions[fn][0]
                 || fileExtensions[filename] && fileExtensions[filename][0]
@@ -95,7 +82,7 @@ define(function(require, module, exports) {
 
             return findEditor(null, editor);
         }
-        
+
         /***** Methods *****/
         
         function registerPlugin(type, caption, editor, extensions) {
@@ -188,7 +175,27 @@ define(function(require, module, exports) {
                 return function cancel() { cancelled = true };
             }
         }
-        
+
+        function forbiddenFormat(ext, filename) {
+            // Obtain lst of excluded file formats
+            var lst = settings.get("user/tabs/@excludeFormats")
+                .replace(new RegExp(" ", "g"), "")
+                .toLowerCase()
+                .split(",")
+                .filter(function(n) {
+                    return (n !== "");
+                });
+                
+            // Create the tab, if not forbiden format
+            if (lst.indexOf(ext) != -1) {
+                alert("Can't open " + filename
+                    + ": file format unsupported");
+                return true;
+            }
+
+            return false;
+        }
+
         /***** Lifecycle *****/
         
         plugin.on("load", function(){
