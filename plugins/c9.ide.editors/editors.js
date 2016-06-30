@@ -72,7 +72,7 @@ define(function(require, module, exports) {
             var ext = extname(fn).substr(1).toLowerCase();
             var filename = basename(fn).toLowerCase();
 
-            if (forbiddenFormat(ext, filename)) {
+            if (forbiddenFormat(ext, filename))
                 return "none";
 
             var editor = fileExtensions[fn] && fileExtensions[fn][0]
