@@ -18,12 +18,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
         
-        //Mock Plugins
-        {
-            consumes: ["Plugin"],
-            provides: ["auth.bootstrap", "info", "dialog.error"],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["fs"],
             provides: [],
@@ -285,6 +279,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                         expect(exists).ok;
                         
                         fs.rmdir(vpath, {}, function(err, meta) {
+                            if (err.code == "EACCES") // node sends EACCES on windows
+                                err.code = "ENOTDIR";
                             expect(err).property("code").equal("ENOTDIR");
                             done();
                         });

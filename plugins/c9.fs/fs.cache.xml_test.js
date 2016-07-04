@@ -462,8 +462,9 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     
                     fs.writeFile(before, text, function(err) {
                         expect(fsCache.findNode(before), "start").to.exist;
+                        expect(fsCache.findNode(after), "start").to.not.exist;
                         fs.rename(before, after, function() {
-                            expect(fsCache.findNode(after), "afer").to.exist;
+                            expect(fsCache.findNode(after), "after").to.exist;
                             expect(fsCache.findNode(before), "before").to.not.exist;
                             fs.rmfile(after, function(){
                                 fsCache.off("update", c1);
@@ -486,6 +487,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     fsCache.on("update", c1);
                     
                     fs.writeFile(before, text, function(err) {
+                        expect(err).to.not.ok;
                         expect(fsCache.findNode(before), "start").to.exist;
                         
                         fs.rename(before, after, function() {
@@ -500,11 +502,10 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                                     throw new Error("Wrong Event Count: "
                                         + count + " of 2");
                             });
-                // Disabled: test fails only on CI server...
                         });
                     });
                 });
-                it.skip("should recursively update the nodes in cache when a dir is renamed", function(done) {
+                it("should recursively update the nodes in cache when a dir is renamed", function(done) {
                     fs.rmdir("/rdir", {recursive:true}, function(){
                         fs.copy("/dir", "/dir2", {recursive: true}, function(err) {
                             if (err) throw err.message;
@@ -535,7 +536,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                                                     + count + " of 3");
                                         });
                                     });
-                                })
+                                });
                             });
                         });
                     });
