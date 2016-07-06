@@ -1,6 +1,6 @@
 define(function(require, module, exports) {
     main.consumes = [
-        "Plugin", "menus", "ui"
+        "Plugin", "menus", "ui", "settings"
     ];
     main.provides = ["editors"];
     return main;
@@ -9,6 +9,7 @@ define(function(require, module, exports) {
         var ui = imports.ui;
         var Plugin = imports.Plugin;
         var menus = imports.menus;
+        var settings = imports.settings;
         
         var extname = require("path").extname;
         var basename = require("path").basename;
@@ -69,6 +70,11 @@ define(function(require, module, exports) {
         function findEditorByFilename(fn) {
             var ext = extname(fn).substr(1).toLowerCase();
             var filename = basename(fn).toLowerCase();
+            
+            // Check custom user settings first for preferred editor
+            var customEditor = settings.get("user/tabs/editorTypes/@" + ext);
+            if (customEditor) return customEditor;
+            
             var editor = fileExtensions[fn] && fileExtensions[fn][0]
                 || fileExtensions[filename] && fileExtensions[filename][0]
                 || fileExtensions[ext] && fileExtensions[ext][0]
