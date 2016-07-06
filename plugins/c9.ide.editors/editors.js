@@ -1,6 +1,6 @@
 define(function(require, module, exports) {
     main.consumes = [
-        "Plugin", "menus", "ui", "settings", "dialog.alert"
+        "Plugin", "menus", "ui", "settings"
     ];
     main.provides = ["editors"];
     return main;
@@ -10,7 +10,6 @@ define(function(require, module, exports) {
         var Plugin = imports.Plugin;
         var menus = imports.menus;
         var settings = imports.settings;
-        var alert = imports["dialog.alert"].show;
         
         var extname = require("path").extname;
         var basename = require("path").basename;
@@ -72,8 +71,9 @@ define(function(require, module, exports) {
             var ext = extname(fn).substr(1).toLowerCase();
             var filename = basename(fn).toLowerCase();
 
-            if (forbiddenFormat(ext, filename))
-                return "none";
+            // Check custom user settings first for preferred editor
+            var customEditor = settings.get("user/tabs/editorTypes/@" + ext.toLowerCase());
+            if (customEditor !== undefined) return customEditor;
 
             var editor = fileExtensions[fn] && fileExtensions[fn][0]
                 || fileExtensions[filename] && fileExtensions[filename][0]
@@ -174,26 +174,6 @@ define(function(require, module, exports) {
                 });
                 return function cancel() { cancelled = true };
             }
-        }
-
-        function forbiddenFormat(ext, filename) {
-            // Obtain lst of excluded file formats
-            var lst = settings.get("user/tabs/@excludeFormats")
-                .replace(new RegExp(" ", "g"), "")
-                .toLowerCase()
-                .split(",")
-                .filter(function(n) {
-                    return (n !== "");
-                });
-                
-            // Create the tab, if not forbiden format
-            if (lst.indexOf(ext) != -1) {
-                alert("Can't open " + filename
-                    + ": file format unsupported");
-                return true;
-            }
-
-            return false;
         }
 
         /***** Lifecycle *****/
