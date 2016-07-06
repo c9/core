@@ -1079,9 +1079,9 @@ define(function(require, module, exports) {
             options.editorType = type;
 
             // Don't proceed if findEditorByFilename returned "none"
-            if (editor === "none"){
+            if (editor === "none") {
                 alert("Can't open " + basename(path) + ": file format unsupported");
-                return callback(new Error("File not supported"))
+                return callback(new Error("File not supported"));
             }
 
             // Create the tab
