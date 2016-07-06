@@ -1077,10 +1077,16 @@ define(function(require, module, exports) {
             // if (options.document.filter === undefined)
             //     options.document.filter = true;
             options.editorType = type;
-            
+
+            // Don't proceed if findEditorByFilename returned "none"
+            if (editor === "none"){
+                alert("Can't open " + basename(path) + ": file format unsupported");
+                return callback(new Error("File not supported"))
+            }
+
             // Create the tab
             tab = createTab(options);
-            
+
             // Focus
             if (options.focus)
                 focusTab(tab, options.focus !== true);
