@@ -37,7 +37,7 @@
         "tern_from_ts": "git://github.com/cloud9ide/tern_from_ts.git#84d51dcb9b16b126a206789d4d4237cde2801fe4",
         "through": "2.2.0",
         "tmp": "~0.0.20",
-        "uglify-js": "^2.6.2",
+        "uglify-js": "~2.6.2",
         "ws": "0.4.31",
         "read": "~1.0.5",
         "form-data": "~0.2.0",
