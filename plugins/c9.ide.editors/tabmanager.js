@@ -25,6 +25,7 @@ define(function(require, module, exports) {
         var alert = imports["dialog.alert"].show;
         
         var basename = require("path").basename;
+        var extname = require("path").extname;
         
         /***** Initialization *****/
         
@@ -1077,6 +1078,25 @@ define(function(require, module, exports) {
             // if (options.document.filter === undefined)
             //     options.document.filter = true;
             options.editorType = type;
+            
+            // Obtain lst of excluded file formats
+            var lst = settings.get("user/tabs/@excludeFormats")
+                .replace(new RegExp(" ", "g"), "")
+                .toLowerCase()
+                .split(",")
+                .filter(function(n) {
+                    return (n !== "");
+                });
+            
+            // Extension of file being opened
+            var ext = extname(path).substr(1).toLowerCase();
+            
+            // Create the tab, if not forbiden format
+            if (lst.indexOf(ext) != -1) {
+                alert("Can't open " + basename(path) 
+                    + ": file format unsupported");
+                return;
+            } 
             
             // Create the tab
             tab = createTab(options);
