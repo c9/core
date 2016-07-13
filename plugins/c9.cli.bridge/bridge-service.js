@@ -3,6 +3,7 @@ module.exports = function (vfs, options, register) {
     
     var net = require("net");
     var Stream = require('stream');
+    var path = require("path");
     
     var SOCKET = process.platform == "win32"
         ? "\\\\.\\pipe\\.c9\\bridge.socket"
@@ -74,7 +75,6 @@ module.exports = function (vfs, options, register) {
             clients.push(client);
         }
 
-        api
         var clients = [];
         var stream = new Stream();
         stream.readable = true;
@@ -89,9 +89,16 @@ module.exports = function (vfs, options, register) {
         var unixServer = net.createServer(registerClient);
         unixServer.listen(SOCKET);
         
+        var socketDirExists = false;
         unixServer.on("error", function(err){
             if (err.code == "EADDRINUSE") {
                 createListenClient(api);
+            }
+            else if (err.code == "EACCES" && !socketDirExists) {
+                vfs.mkdirP(path.dirname(SOCKET), {}, function() {
+                    socketDirExists = true;
+                    unixServer.listen(SOCKET);
+                });
             }
             else
                 api.onError(err);
