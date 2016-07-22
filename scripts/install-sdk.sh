@@ -82,7 +82,7 @@ updatePackage() {
 }
 
 updateAllPackages() {
-    c9packages=(`"$NODE" -e 'console.log(Object.keys(require("./package.json").c9plugins).join(" "))'`)
+    c9packages=`"$NODE" -e 'console.log(Object.keys(require("./package.json").c9plugins).join(" "))'`;
     count=${#c9packages[@]}
     i=0
     for m in ${c9packages[@]}; do echo $m; 
@@ -95,7 +95,7 @@ updateAllPackages() {
 updateNodeModules() {
     echo "${magenta}--- Running npm install --------------------------------------------${resetColor}"
     safeInstall(){
-        deps=(`"$NODE" -e 'console.log(Object.keys(require("./package.json").dependencies).join(" "))'`)
+        deps=`"$NODE" -e 'console.log(Object.keys(require("./package.json").dependencies).join(" "))'`;
         for m in ${deps[@]}; do echo $m; 
             "$NPM" install --loglevel warn $m || true
         done
