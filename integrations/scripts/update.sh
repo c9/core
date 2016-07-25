@@ -2,12 +2,33 @@
 set -e
 cd `dirname $0`/..
 
+# set -x
 NAME=$1
-URL=$2
+shift 
+BRANCH=
+URL=
+for i in "$@"; do
+    case $i in
+        -b=*|--branch=*)
+            BRANCH="${i#*=}"
+            shift
+        ;;
+        -u=*|--url=*)
+            URL="${i#*=}"
+            shift
+        ;;
+        *)
+            # unknown option
+        ;;
+    esac
+done
+
 if [ "$NAME" == "" ]; then
-    echo "add name [url]"
+    echo "add name [--url=git@github.com:c9/NAME.git] [--branch=master]"
     exit 0
 fi
+
+echo adding name=$NAME url=$URL branch=refs/remotes/origin/$BRANCH
 
 if [ "$URL" == "" ]; then
     URL=git@github.com:c9/$NAME.git
@@ -28,7 +49,7 @@ else
 fi
 
 pushd $NAME
-HASH=$(git rev-parse --revs-only refs/remotes/origin/master)
+HASH=$(git rev-parse --revs-only refs/remotes/origin/$BRANCH)
 popd
 
 [ -f ./config.json ] || echo "{}" > ./config.json
