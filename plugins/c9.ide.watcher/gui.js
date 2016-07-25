@@ -209,7 +209,8 @@ define(function(require, exports, module) {
             }
             
             function resolve() {
-                collab.send({type: "RESOLVE_CONFLICT", data: {docId: path}});
+                if (collabEnabled && collab.send)
+                    collab.send({type: "RESOLVE_CONFLICT", data: {docId: path}});
                 resolveConflict(doc, path);
             }
 
