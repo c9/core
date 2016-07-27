@@ -888,6 +888,12 @@ define(function(require, exports, module) {
 
                     // top 1px is for cursor outline
                     var rows = Math.floor((h - 1) / config.lineHeight);
+
+                    // sets scrollerHeight to be a multiple of the lineHeight + 1px for padding
+                    if ((h - 1) % config.lineHeight !== 0){
+                        size.scrollerHeight = rows * config.lineHeight + 1;
+                    }
+
                     if (rows <= 2 && !ace.renderer.scrollBarV.isVisible)
                         w -= ace.renderer.scrollBarV.width;
                     var cols = Math.floor(w / config.characterWidth);
