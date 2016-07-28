@@ -563,19 +563,6 @@ module.exports = function(options) {
             realRoot: true,
             home: options.local ? options.home : "~"
         },
-        "plugins/c9.ide.mount/mount",
-        {
-            packagePath: "plugins/c9.ide.mount/ftp",
-            curlftpfsBin: options.mount.curlftpfsBin,
-            fusermountBin: options.mount.fusermountBin,
-            ssh: options.ssh
-        },
-        {
-            packagePath: "plugins/c9.ide.mount/sftp",
-            sshfsBin: options.mount.sshfsBin,
-            fusermountBin: options.mount.fusermountBin,
-            ssh: options.ssh
-        },
         {
             packagePath: "plugins/c9.ide.upload/dragdrop",
             treeAsPane: options.local

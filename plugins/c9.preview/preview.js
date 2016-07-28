@@ -2,7 +2,7 @@ define(function(require, exports, module) {
     "use strict";
     
     main.consumes = [
-        "session",
+        "connect",
         "db",
         "c9.login",
         "preview.handler",
@@ -14,13 +14,12 @@ define(function(require, exports, module) {
     return main;
 
     function main(options, imports, register) {
-        var session = imports.session;
+        var connect = imports.connect;
         var db = imports.db;
         var ensureLoggedIn = imports["c9.login"].ensureLoggedIn();
         var handler = imports["preview.handler"];
         var userContent = imports["user-content.redirect"];
         var getVfsServers = imports["vfs.serverlist"].getServers;
-        var ratelimit = require("c9/ratelimit");
         
         var frontdoor = require("frontdoor");
         var error = require("http-error");
@@ -38,7 +37,7 @@ define(function(require, exports, module) {
         
         api.use(userContent.redirectPreview());
         
-        session.use(api);
+        connect.use(api);
         
         api.get("/:username/:projectname/:path*", {
             params: {
@@ -53,8 +52,8 @@ define(function(require, exports, module) {
             requestTimeout(15*60*1000),
             require("./lib/middleware/sanitize-path-param"),
             require("./lib/middleware/block-dot-files"),
-            handler.getProjectSession(),
             handler.getRole(db),
+            handler.checkRole(db),
             handler.getProxyUrl(function() {
                 return getVfsServers()[0] || null;
             }),
@@ -63,8 +62,6 @@ define(function(require, exports, module) {
         
         api.error(function(err, req, res, next) {
             if (err instanceof error.Unauthorized) {
-                req.logout();
-                delete req.session.token;
                 return ensureLoggedIn(req, res, next);
             }
             return next(err);

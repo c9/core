@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "fs", "settings", "preferences", "watcher", "tabManager", 
-        "save", "dialog.question", "dialog.filechange", "threewaymerge"
+        "save", "dialog.question", "dialog.filechange", "threewaymerge", "collab"
     ];
     main.provides = ["watcher.gui"];
     return main;
@@ -17,8 +17,15 @@ define(function(require, exports, module) {
         var question = imports["dialog.question"];
         var filechange = imports["dialog.filechange"];
         var threeWayMerge = imports.threewaymerge.merge;
+        var collab = imports.collab;
         
         var collabEnabled = options.collab;
+        
+        var comparisonType = {
+            TIMESTAMP_AND_CONTENTS: "TIMESTAMP_AND_CONTENTS",
+            CONTENTS: "CONTENTS",
+            NONE: "NONE"
+        };
 
         /***** Initialization *****/
         
@@ -87,14 +94,14 @@ define(function(require, exports, module) {
                 }
                 
                 if (tab.classList.contains("conflict")) {
-                    addChangedTab(tab, true);
+                    addChangedTab(tab, comparisonType.TIMESTAMP_AND_CONTENTS);
                 }
             });
             
             tabManager.on("open", function(e) {
                 initializeDocument(e.tab.document);
                 if (e.tab.classList.contains("conflict")) {
-                    addChangedTab(e.tab, true);
+                    addChangedTab(e.tab, comparisonType.TIMESTAMP_AND_CONTENTS);
                 }
             }, plugin);
             
@@ -119,33 +126,42 @@ define(function(require, exports, module) {
     
             // Hook watcher events
             
-            // Update a file
+            // A change event sent from the watcher plugin
             watcher.on("change", function(e) {
                 var tab = tabManager.findTab(e.path);
                 if (tab) {
-                    // If collab picks this up and handles the change it will return false 
-                    if (emit("docChange", {tab: tab}) === false)
-                        return;
+                    if (collabEnabled && tab.editorType == "ace") {
+                        /* If the lastChange (added by collab) was greater than 1 second ago set up a watch 
+                            To ensure that collab makes this change, if not report an error. The lastChange
+                            check is to avoid a race condition if collab updates before this function runs */
+                        if (!tab.meta.$lastCollabChange || tab.meta.$lastCollabChange < (Date.now() - 1000)) {
+                            if (tab.meta.$collabChangeRegistered) {
+                                clearTimeout(tab.meta.$collabChangeRegistered);
+                            }
+                        }
+                        
+                        return false;
+                    }
                     
-                    addChangedTab(tab, e.type === "change");
+                    addChangedTab(tab, comparisonType.TIMESTAMP_AND_CONTENTS);
                 }
             });
             
-            // Directory watcher is not needed if the normal watcher works
-            // watcher.on("directory", function(e) {
-            //     var base = e.path;
-            //     var files = e.files;
-            // 
-            //     // Rename all tabs
-            //     tabManager.getTabs().forEach(function(tab) {
-            //         if (tab.path && tab.path.indexOf(base) == 0) {
-            //             // If the file is gone, lets notify the user
-            //             if (files.indexOf(tab.path) == -1) {
-            //                 resolveFileDelete(tab);
-            //             }
-            //         }
-            //     });
-            // });
+            collab.on("change", function (e) {
+                var tab = tabManager.findTab(e.path);
+                if (tab) {
+                    addChangedTab(tab, comparisonType.NONE);
+                }
+            });
+            
+            collab.on("resolveConflict", function (e) {
+                var tab = tabManager.findTab(e.path);
+                if (tab) {
+                    var doc = tab.document;
+                    var path = tab.path
+                    resolveConflict(doc, path);
+                }
+            })
             
             watcher.on("delete", function(e) {
                 var tab = tabManager.findTab(e.path);
@@ -156,7 +172,13 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
         
-        function addChangedTab(tab, isSameFile) {
+        function resolveConflict(doc, path) {
+            doc.tab.classList.remove("conflict");
+            delete doc.meta.$merge;
+            delete changedPaths[path];
+        }
+        
+        function addChangedTab(tab, doubleCheckComparisonType) {
             // If we already have a dialog open, just update it, but mark the value dirty
             if (changedPaths[tab.path]) {
                 if (changedPaths[tab.path].data)
@@ -171,6 +193,9 @@ define(function(require, exports, module) {
                 return;
             }
             
+            var doc = tab.document;
+            var path = tab.path;
+            
             changedPaths[tab.path] = { tab: tab, resolve: resolve };
             
             // If the terminal is currently focussed, lets wait until 
@@ -178,25 +203,28 @@ define(function(require, exports, module) {
             if (tabManager.focussedTab 
               && tabManager.focussedTab.editorType == "terminal") {
                 tabManager.once("focus", function(){
-                    addChangedTab(tab, false);
+                    addChangedTab(tab, comparisonType.CONTENTS);
                 });
                 return;
             }
             
             function resolve() {
-                console.log("[watchers] resolved change event without dialog", path);
-                doc.tab.classList.remove("conflict");
-                delete doc.meta.$merge;
-                delete changedPaths[path];
+                if (collabEnabled && collab.send)
+                    collab.send({type: "RESOLVE_CONFLICT", data: {docId: path}});
+                resolveConflict(doc, path);
             }
 
-            var doc = tab.document;
-            var path = tab.path;
-            
-            if (isSameFile)
-                checkByStatOrContents();
-            else
-                checkByContents();
+            switch (doubleCheckComparisonType) {
+                case comparisonType.TIMESTAMP_AND_CONTENTS:
+                    checkByStatOrContents();
+                    break;
+                case comparisonType.CONTENTS:
+                    checkByContents();
+                    break;
+                case comparisonType.NONE:
+                    dialog();
+                    break;
+            }
             
             function dialog(data) {
                 if (!changedPaths[path])
@@ -293,7 +321,6 @@ define(function(require, exports, module) {
         function automerge(tab, data) {
             if (!settings.getBool("user/general/@automerge"))
                 return false;
-                
             return merge(tab, data);
         }
         
@@ -313,8 +340,10 @@ define(function(require, exports, module) {
             doc.meta.$mergeRoot = data;
             
             // If the value on disk is the same as in the document, set the bookmark
-            if (mergedValue == data)
+            if (mergedValue == data) {
                 doc.undoManager.bookmark();
+                save.save(tab);
+            }
             
             return true;
         }
@@ -339,6 +368,7 @@ define(function(require, exports, module) {
             var doc = tab.document;
             doc.setBookmarkedValue(data, true);
             doc.meta.timestamp = Date.now() - settings.timeOffset;
+            save.save(tab);
             changedPaths[path].resolve();
         }
         
@@ -579,9 +609,10 @@ define(function(require, exports, module) {
             question.show(
                 "Always merge?",
                 "Always merge on file changes?",
-                "Enabling 'auto merge' makes it very easy to collaborate on "
-                  + "files with other people, especially when combined with "
-                  + "'auto save'. This setting can be controlled from the "
+                "With 'auto merge' enabled, if a file changes "
+                  + "on disk and you have unsaved changes in the IDE, "
+                  + "it will automatically attempt to merge your changes with the new file. "
+                  + "This setting can be controlled from the "
                   + "settings panel as well.",
                 function() { // on yes
                     if (question.dontAsk)

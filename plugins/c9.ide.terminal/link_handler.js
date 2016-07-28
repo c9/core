@@ -205,8 +205,7 @@ define(function(require, exports, module) {
             }
             
             // Make sure home dir is marked correctly
-            path = path.replace(reHome, "~");
-            if (path[0] != "/") path = "/" + path;
+            path = util.normalizePath(path);
             
             fs.stat(path, function(err, stat) {
                 if (err) {

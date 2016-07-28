@@ -149,16 +149,16 @@ function plugin(options, imports, register) {
             return next();
             
         res.writeHead(200, {"Content-Type": "application/javascript"});
-        res.end("define(function(require, exports, module) { return '" 
-            + options.workspaceDir + "'; });");
+        res.end("define(function(require, exports, module) { return " 
+            + JSON.stringify(options.workspaceDir.replace(/\\/g, "/")) + "; });");
     });
     api.get("/vfs-home", function(req, res, next) {
         if (!options.options.testing)
             return next();
             
         res.writeHead(200, {"Content-Type": "application/javascript"});
-        res.end("define(function(require, exports, module) { return '" 
-            + process.env.HOME + "'; });");
+        res.end("define(function(require, exports, module) { return " 
+            + JSON.stringify(process.env.HOME.replace(/\\/g, "/")) + "; });");
     });
 
     api.get("/update", function(req, res, next) {

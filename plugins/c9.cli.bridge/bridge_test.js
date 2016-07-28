@@ -40,14 +40,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "/vfs-home"], 
         },
         "plugins/c9.cli.bridge/bridge-client",
         
-        // Mock plugins
-        {
-            consumes: [],
-            provides: [
-                "preferences", "ui"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["bridge", "bridge.client"],
             provides: [],

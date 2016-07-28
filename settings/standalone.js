@@ -125,7 +125,6 @@ module.exports = function(manifest, installPath) {
             }
         },
         pricing: { containers: [] },
-        zuora: {},
         localExtend: true,
         extendDirectory: __dirname + "/../plugins"
     };
@@ -155,4 +154,6 @@ function readWin32Settings() {
         if (!fs.existsSync(path.join(process.env.HOME, ".c9", "msys/bin/bash.exe")))
             console.error(e);
     }
+    
+    process.env.CHERE_INVOKING = 1; // prevent cygwin from changing bash path
 }

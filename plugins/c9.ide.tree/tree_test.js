@@ -614,6 +614,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     });
                 });
                 it('should copy a node', function(done) {
+                    expect(fsCache.findNode("/dir/test.html")).to.ok;
+                    expect(fsCache.findNode("/test.html")).to.not.ok;
                     tree.copy(
                         [fsCache.findNode("/dir/test.html")],
                         fsCache.findNode("/"),

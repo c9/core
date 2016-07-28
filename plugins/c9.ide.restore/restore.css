@@ -1,0 +1,259 @@
+#c9_ide_restore {
+    display: none;
+    z-index: 1000000;
+    position: absolute;
+    height: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+#c9_ide_restore .timeout a {
+    color: #FFDE75;
+    text-decoration: none;
+}
+
+#c9_ide_restore .timeout {
+    position: relative;
+    background: #DA7A30;
+    z-index: 10000000;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 10px;
+    text-align: center;
+    display: none;
+}
+
+/* progress 3C7B0D*/
+#restoring {
+    font-style: normal;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    text-align: center;
+    z-index: 100000;
+    left: 0;
+    top: 0;
+    .font-smoothing(~"antialiased !important");
+    background: white url("@{image-path}/loadingbgrepeat.png");
+    background-size: 1px 8px;
+}
+.dark #restoring{
+    background: black url("@{image-path}/loadingbgrepeat_dark.png");
+    background-size: 1px 8px;
+}
+
+#restoring .loading-progress {
+    font-size: 31px;
+    color: #4A8532;
+    height: 37px;
+    position: relative;
+    margin: 252px 0 0 0;
+    top: 30%;
+}
+#restoring .loading-msg {
+    color: #717171;
+    .font-smoothing(true);
+    margin: 58px 0 10px;
+}
+#restoring .loading-details{
+    margin: 3px 0 0 0;
+    font-size: 14px;
+    color: #858E91;
+    .font-smoothing(true);
+    font-weight: bold;
+}
+
+.stickynote {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    margin: 0px -261px;
+    z-index : 10000000;
+    .transform(~"rotate(2deg)");
+}
+.stickynote.casual{
+    bottom: 50px;
+    right: 50px;
+    left: auto;
+    top: auto;
+    margin: 0;
+}
+.stickynote .paper {
+    color: black;
+    width: 284px;
+    /*color: #f1f1f1;*/
+    background: #FFDE75;
+    padding: 25px 20px 10px 20px;
+    box-shadow: 1px 1px 15px rgba(0,0,0,0.12);
+    // font-family : Tahoma;
+    font-size : 15px;
+    text-align : left;
+    .font-smoothing(true);
+}
+.stickynote strong {
+    font-size: 17px;
+}
+.stickynote a.restore-upsell {
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px 10px 8px 10px;
+    background: #39A6D7;
+    border-radius: 5px;
+    color: white;
+    margin-bottom: -10px;
+}
+.stickynote a.restore-upsell:hover {
+    background: #0FB6FF;
+}
+.stickynote .tape {
+    position: absolute;
+    top: -15px;
+    right: 80px;
+    width: 130px;
+    height: 35px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-left: 1px dashed rgba(0, 0, 0, 0.1);
+    border-right: 1px dashed rgba(0, 0, 0, 0.1);
+
+    .box-shadow(~"0px 0px 1px 0px rgba(204, 204, 204, 0.28)");
+    .transform(~"rotate(-2deg) skew(0,0) translate(0%,-5px)");
+}
+.stickynote .left-shadow {
+    width: 140px;
+    height: 140px;
+    bottom: -5px;
+    left: -12px;
+    position: absolute;
+    z-index: -6;
+    display: inline-block;
+    .box-shadow(~"-10px -10px 10px rgba(0, 0, 0, 0.12)");
+    .transform(~"scale(1) rotate(274deg) translate(20px, 25px) skew(9deg, 0deg)");
+}
+.stickynote .right-shadow {
+    width: 140px;
+    height: 140px;
+    bottom: -13px;
+    right: -4px;
+    position: absolute;
+    z-index: -6;
+    display: inline-block;
+    .box-shadow(~"-10px -10px 10px rgba(0, 0, 0, 0.12)");
+    .transform(~"scale(1) rotate(184deg) translate(20px, 25px) skew(9deg, 0deg)");
+}
+
+/*
+Copyright (c) 2010-2012 Ivan Vanderbyl
+Originally found at http://ivan.ly/ui
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+/* Webkit animation keyframes */
+@-webkit-keyframes animate-stripes {
+    to {
+        background-position: 0 0;
+    }
+
+    from {
+        background-position: 44px 0;
+    }
+}
+
+@-moz-keyframes animate-stripes {
+    to {
+        background-position: 0 0;
+    }
+
+    from {
+        background-position: 36px 0;
+    }
+}
+
+/* Bar which is placed behind the progress */
+.ui-progress-bar {
+    /* Usual setup stuff */
+    position: relative;
+    width: 240px;
+    margin: 15px auto 10px;
+    height: 8px;
+    /* Pad right so we don't cover the borders when fully progressed */
+    /* For browser that don't support gradients, we'll set a blanket background colour */
+    background-color: rgba(157, 167, 171, 0.42);
+    .border-radius(~"10px");
+}
+.ui-progress-bar.blue .ui-progress {
+    background-color: #339BB9!important;
+    border: 1px solid #287a91;
+}
+.ui-progress-bar.error .ui-progress {
+    background-color: #C43C35 !important;
+    border: 1px solid #9c302a;
+}
+.ui-progress-bar.warning .ui-progress {
+    background-color: #D9B31A!important;
+    border: 1px solid #ab8d15;
+}
+.ui-progress-bar.success .ui-progress {
+    background-color: #57A957!important;
+    border: 1px solid #458845;
+}
+.ui-progress-bar.transition .ui-progress {
+    .transition(~"background-color 0.5s ease-in, border-color 1.5s ease-out, box-shadow 1.5s ease-out")
+}
+.ui-progress-bar .ui-progress {
+    /* Usual setup stuff */
+    position: relative;
+    display: block;
+    overflow: hidden;
+    /* Height should be 2px less than .ui-progress-bar so as to not cover borders and give it a look of being inset */
+    height: 8px;
+    /* Rounds the ends, we specify an excessive amount to make sure they are completely rounded */
+    /* Adjust to your liking, and don't forget to adjust to the same amount in .ui-progress-bar */
+    .border-radius(~"10px");
+    /* Webkit background stripes and gradient */
+    background: -webkit-gradient(linear, 0 0, 44 44, color-stop(0, rgba(0, 0, 0, 0.17)), color-stop(0.25, rgba(0, 0, 0, 0.17)), color-stop(0.26, rgba(0, 0, 0, 0)), color-stop(0.5, rgba(0, 0, 0, 0)), color-stop(0.51, rgba(0, 0, 0, 0.17)), color-stop(0.75, rgba(0, 0, 0, 0.17)), color-stop(0.76, rgba(0, 0, 0, 0)), color-stop(1, rgba(0, 0, 0, 0))), -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(0, 0, 0, 0)), color-stop(1, rgba(0, 0, 0, 0.35))), #EAF9FF;
+    background: -moz-repeating-linear-gradient(top left -30deg, rgba(0, 0, 0, 0.17), rgba(0, 0, 0, 0.17) 15px, rgba(0, 0, 0, 0) 15px, rgba(0, 0, 0, 0) 30px), -moz-linear-gradient(rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 100%), #EAF9FF;
+    
+    /* Set the background size so the stripes work correctly */
+    -webkit-background-size: 44px 44px;
+    -moz-background-size: 36px 36px;
+    
+    /* Animate */
+    -moz-animation: animate-stripes 2s linear infinite;
+    -webkit-animation: animate-stripes 2s linear infinite;
+    -o-animation: animate-stripes 2s linear infinite;
+    -ms-animation: animate-stripes 2s linear infinite;
+    -khtml-animation: animate-stripes 2s linear infinite;
+    animation: animate-stripes 2s linear infinite;
+    
+    /* Style status label */
+    top:0px;
+    left:0px;
+}
+.dark .ui-progress-bar .ui-progress {
+    background: -webkit-gradient(linear, 0 0, 44 44, color-stop(0, rgba(0, 0, 0, 0.17)), color-stop(0.25, rgba(0, 0, 0, 0.17)), color-stop(0.26, rgba(0, 0, 0, 0)), color-stop(0.5, rgba(0, 0, 0, 0)), color-stop(0.51, rgba(0, 0, 0, 0.17)), color-stop(0.75, rgba(0, 0, 0, 0.17)), color-stop(0.76, rgba(0, 0, 0, 0)), color-stop(1, rgba(0, 0, 0, 0))), -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(0, 0, 0, 0)), color-stop(1, rgba(0, 0, 0, 0.35))), #4ACBFD;
+    background: -moz-repeating-linear-gradient(top left -30deg, rgba(0, 0, 0, 0.17), rgba(0, 0, 0, 0.17) 15px, rgba(0, 0, 0, 0) 15px, rgba(0, 0, 0, 0) 30px), -moz-linear-gradient(rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 100%), #4ACBFD;
+    
+    /* Set the background size so the stripes work correctly */
+    -webkit-background-size: 44px 44px;
+    -moz-background-size: 36px 36px;
+}

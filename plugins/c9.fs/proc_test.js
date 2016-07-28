@@ -2,7 +2,7 @@
 
 "use client";
 
-require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai) {
+require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (architect, chai, vfsRoot) {
     var expect = chai.expect;
     
     expect.setupArchitectTest([
@@ -11,7 +11,8 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             startdate: new Date(),
             debug: true,
             hosted: true,
-            local: false
+            local: false,
+            platform: vfsRoot.indexOf(":") == -1 ? "linux" : "win32"
         },
         "plugins/c9.core/http-xhr",
         "plugins/c9.core/ext",
@@ -19,14 +20,8 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
-        // Mock plugins
         {
-            consumes: [],
-            provides: ["auth.bootstrap", "info", "dialog.error"],
-            setup: expect.html.mocked
-        },
-        {
-            consumes: ["proc"],
+            consumes: ["proc", "c9"],
             provides: [],
             setup: main
         }
@@ -34,6 +29,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
     
     function main(options, imports, register) {
         var proc = imports.proc;
+        var c9 = imports.c9;
 
         describe('proc', function() {
             describe('spawn()', function() {
@@ -117,9 +113,14 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             });
             describe('pty()', function() {
                 this.timeout(30000);
+                if (c9.platform == "win32")
+                    return it.skip("Terminal Test", function(done) { done(); });
                 
                 it("Terminal Test", function(done) {
                     var look = "--color=auto";
+                    
+                    if (c9.platform == "win32")
+                        return done;
                     
                     var args = ["-is"];
                     proc.pty("bash", {
