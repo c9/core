@@ -110,8 +110,9 @@ define(function(require, exports, module) {
             async.each(message.paths, function(info, next) {
                 var path = info.path;
                 i++;
-                
+
                 path = c9.toInternalPath(path);
+                
                 // Make sure file is inside workspace
                 if (path.charAt(0) !== "~") {
                     if (path.substr(0, BASEPATH.length) !== BASEPATH)
@@ -123,7 +124,7 @@ define(function(require, exports, module) {
                 
                 if (info.type == "directory") {
                     path = path.replace(/\/$/, "");
-                    
+                    path = "/".concat(path);
                     panels.activate("tree");
                     
                     var node = favs.addFavorite(path);
@@ -140,7 +141,7 @@ define(function(require, exports, module) {
                      * If the preview flag is set AND the file extension is html, open the file
                      * in a browser window. Else, default to the normal behavior.
                      */
-                    commands.exec("preview", null, message);
+                    commands.exec("preview", null, {path: info.path, focus: true});
                 } else {
                     tabManager.once("ready", function(){
                         var m = /:(\d*)(?::(\d*))?$/.exec(path);
