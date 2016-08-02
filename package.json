@@ -1,7 +1,7 @@
 {
     "name": "c9",
     "description": "New Cloud9 Client",
-    "version": "3.1.2968",
+    "version": "3.1.2973",
     "author": "Ajax.org B.V. <info@ajax.org>",
     "private": true,
     "main": "bin/c9",
@@ -16,7 +16,7 @@
         "connect": "~2.12.0",
         "debug": "~0.7.4",
         "ejs": "~1.0.0",
-        "emmet": "git://github.com/cloud9ide/emmet-core.git#2ff6dc06ad",
+        "emmet": "https://github.com/cloud9ide/emmet-core.git#2ff6dc06ad",
         "engine.io": "1.6.9",
         "engine.io-client": "1.6.9",
         "jsonm": "1.0.6",

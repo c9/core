@@ -5,7 +5,7 @@ cd `dirname $0`/..
 # set -x
 NAME=$1
 shift 
-BRANCH=
+BRANCH=master
 URL=
 for i in "$@"; do
     case $i in
@@ -56,7 +56,7 @@ popd
 node -e '
     var name = "'$NAME'";
     var url = "'$URL'";
-    var hash = "'$HASH'"
+    var hash = "'$HASH'".trim();
     var fs = require("fs");
     
     function updateJSON(path, fn) {
@@ -81,13 +81,13 @@ node -e '
     updateJSON("../package.json", function(package) {
         var deps = package.dependencies;
         console.log(deps[name], hash)
-        deps[name] = deps[name].replace(/#[a-f\d]+$/i, "#" + hash)
+        deps[name] = deps[name].replace(/#[a-f\d]*$/i, "#" + hash)
         console.log(deps[name], hash)
     });
     updateJSON("../npm-shrinkwrap.json", function(package) {
         var deps = package.dependencies;
-        deps[name].from = deps[name].from.replace(/#[a-f\d]+$/i, "#" + hash);
-        deps[name].resolved = deps[name].resolved.replace(/#[a-f\d]+$/i, "#" + hash);
+        deps[name].from = deps[name].from.replace(/#[a-f\d]*$/i, "#" + hash);
+        deps[name].resolved = deps[name].resolved.replace(/#[a-f\d]*$/i, "#" + hash);
     });
 '
 
