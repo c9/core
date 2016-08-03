@@ -241,32 +241,33 @@ define(function(require, exports, module) {
             ["newLineMode",           "unix",   STRING, "newlinemode", 1],
             // Per document
             ["tabSize",               "4",      NUMBER, "tabsize", 1],
-            ["useSoftTabs",           "true",   BOOL,   "softtabs", 1],
-            ["guessTabSize",          "true",   BOOL,   "guesstabsize", 1],
-            ["useWrapMode",           "false",  BOOL,   "wrapmode"],
-            ["wrapToView",            "true",   BOOL,   "wrapmodeViewport"],
+            ["useSoftTabs",           true,     BOOL,   "softtabs", 1],
+            ["guessTabSize",          true,     BOOL,   "guesstabsize", 1],
+            ["useWrapMode",           false,    BOOL,   "wrapmode"],
+            ["wrapToView",            true,     BOOL,   "wrapmodeViewport"],
             
             // Ace
             ["fontSize",              "12",     NUMBER, "fontsize"],
             ["fontFamily",            font,     STRING, "fontfamily"],
-            ["antialiasedfonts",      "false",  BOOL],
-            ["overwrite",             "false",  BOOL,   "overwrite"],
+            ["antialiasedfonts",      false,    BOOL],
+            ["overwrite",             false,    BOOL,   "overwrite"],
             ["selectionStyle",        "line",   STRING, "selectstyle"],
             ["cursorStyle",           "ace",    STRING, "cursorstyle"],
-            ["highlightActiveLine",   "true",   BOOL,   "activeline"],
-            ["highlightGutterLine",   "true",   BOOL,   "gutterline"],
-            ["showInvisibles",        "false",  BOOL,   "showinvisibles"],
-            ["showPrintMargin",       "true",   BOOL,   "showprintmargin"],
-            ["displayIndentGuides",   "true",   BOOL,   "showindentguides"],
+            ["highlightActiveLine",   true,     BOOL,   "activeline"],
+            ["highlightGutterLine",   true,     BOOL,   "gutterline"],
+            ["showInvisibles",        false,    BOOL,   "showinvisibles"],
+            ["showPrintMargin",       true,     BOOL,   "showprintmargin"],
+            ["displayIndentGuides",   true,     BOOL,   "showindentguides"],
             ["printMarginColumn",     "80",     NUMBER, "printmargincolumn"],
-            ["behavioursEnabled",     "true",   BOOL,   "behaviors"],
-            ["wrapBehavioursEnabled", "false",  BOOL,   "wrapbehaviors"],
+            ["behavioursEnabled",     true,     BOOL,   "behaviors"],
+            ["wrapBehavioursEnabled", false,    BOOL,   "wrapbehaviors"],
             ["scrollSpeed",           "2",      NUMBER, "scrollspeed"],
-            ["showGutter",            "true",   BOOL,   "gutter"],
-            ["showFoldWidgets",       "true",   BOOL,   "folding"],
-            ["fadeFoldWidgets",       "true",   BOOL,   "fadefoldwidgets"],
-            ["highlightSelectedWord", "true",   BOOL,   "highlightselectedword"],
-            ["animatedScroll",        "true",   BOOL,   "animatedscroll"],
+            ["showGutter",            true,     BOOL,   "gutter"],
+            ["showLineNumbers",       true,     STRING],
+            ["showFoldWidgets",       true,     BOOL,   "folding"],
+            ["fadeFoldWidgets",       true,     BOOL,   "fadefoldwidgets"],
+            ["highlightSelectedWord", true,     BOOL,   "highlightselectedword"],
+            ["animatedScroll",        true,     BOOL,   "animatedscroll"],
             ["scrollPastEnd",         "0.5",    NUMBER],
             ["mergeUndoDeltas",       "off",    STRING],
             ["theme",                 defaultThemes[skin], STRING, "theme"]
@@ -824,6 +825,17 @@ define(function(require, exports, module) {
                             type: "checkbox",
                             position: 6000,
                             path: "user/ace/@showGutter"
+                        },
+                        "Show Line Numbers" : {
+                            type: "dropdown",
+                            width: 150,
+                            path: "user/ace/@showLineNumbers",
+                            items: [
+                               { caption : "Normal", value : true },
+                               { caption : "Relative", value : "relative" },
+                               { caption : "None", value : false }
+                            ],
+                            position: 6250
                         },
                         "Show Indent Guides" : {
                             type: "checkbox",
@@ -1531,6 +1543,41 @@ define(function(require, exports, module) {
             return s;
         }
         
+        /***** Gutter Renderers *****/
+        
+        var relativeNumbers = {
+            getText: function(session, row) {
+                return (Math.abs(session.selection.lead.row - row) || (row + 1 + (row < 9 ? "\xb7" : ""))) + "";
+            },
+            getWidth: function(session, lastLineNumber, config) {
+                return session.getLength().toString().length * config.characterWidth;
+            },
+            update: function(e, editor) {
+                editor.renderer.$loop.schedule(editor.renderer.CHANGE_GUTTER);
+            },
+            attach: function(editor) {
+                editor.renderer.$gutterLayer.$renderer = this;
+                editor.on("changeSelection", this.update);
+            },
+            detach: function(editor) {
+                editor.renderer.$gutterLayer.$renderer = null;
+                editor.off("changeSelection", this.update);
+            }
+        };
+        
+        var noNumbers = {
+            getText: function(session, row) {
+                return "";
+            },
+            getWidth: function(session, lastLineNumber, config) {
+                return "";
+            },
+            attach: function(editor) {
+            },
+            detach: function(editor) {
+            },
+        };
+        
         /**
          * The ace handle, responsible for events that involve all ace
          * instances. This is the object you get when you request the ace
@@ -2148,6 +2195,23 @@ define(function(require, exports, module) {
                         if (session)
                             session.$guessTabSize = false;
                         break;
+                    case "showLineNumbers":
+                        var renderer = ace.renderer;
+                        var gutterRenderer = renderer.$gutterLayer.$renderer;
+                        if (gutterRenderer && gutterRenderer.detach)
+                            gutterRenderer.detach(ace);
+                        if (value == "relative")
+                            gutterRenderer = relativeNumbers;
+                        else if (value)
+                            gutterRenderer = null;
+                        else
+                            gutterRenderer = noNumbers;
+                        
+                        renderer.$gutterLayer.$renderer = gutterRenderer;
+                        if (gutterRenderer && gutterRenderer.attach)
+                            gutterRenderer.attach(ace);
+                        renderer.$loop.schedule(renderer.CHANGE_GUTTER);
+                        return;
                 }
                 
                 if (session && docLut[name]) // this can be called for session different than current ace session
