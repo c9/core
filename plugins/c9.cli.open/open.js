@@ -64,12 +64,18 @@ define(function(require, exports, module) {
         /***** Methods *****/
 
         function open(paths, wait, preview, callback) {
+            debugger;
             try {
                 paths = paths.map(function(path) {
                     var isDir = fs.existsSync(path) && fs.statSync(path).isDirectory();
-                    path = PATH.resolve(path);
-                    if (path.substr(0, process.env.HOME.length) == process.env.HOME)
-                        path = "~" + path.substr(process.env.HOME.length);
+                    if (preview) {
+                        path = "/" + path;
+                    } else {
+                        path = PATH.resolve(path);
+                        if (path.substr(0, process.env.HOME.length) == process.env.HOME)
+                            path = "~" + path.substr(process.env.HOME.length);                        
+                    }
+
                         
                     return {
                         path: path,

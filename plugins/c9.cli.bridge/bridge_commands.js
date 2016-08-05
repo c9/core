@@ -19,7 +19,6 @@ define(function(require, exports, module) {
         var c9 = imports.c9;
         var prefs = imports.preferences;
         var commands = imports.commands;
-        var preview = imports.preview
         
         var async = require("async");
         
@@ -103,6 +102,7 @@ define(function(require, exports, module) {
         }
         
         function open(message, callback) {
+            debugger;
             var i = -1;
             var tabs = [];
             BASEPATH = c9.toInternalPath(BASEPATH);
@@ -110,6 +110,7 @@ define(function(require, exports, module) {
             async.each(message.paths, function(info, next) {
                 var path = info.path;
                 i++;
+
 
                 path = c9.toInternalPath(path);
                 
@@ -136,12 +137,20 @@ define(function(require, exports, module) {
                     });
                     tree.focus();
                 } else if (message.preview 
-                           && path.substr((~-path.lastIndexOf(".") >>> 0) + 2).toLowerCase() == "html") {
+                           && fs.getExtension('/index.html') == "html") {
                     /* 
                      * If the preview flag is set AND the file extension is html, open the file
-                     * in a browser window. Else, default to the normal behavior.
+                     * in a browser window. Else, default to the normal behavior. Note that "info.path"
+                     * will be untransformed.
                      */
-                    commands.exec("preview", null, {path: info.path, focus: true});
+                    info.path = '/index.html';
+                    fs.exists(info.path, function(exists) {
+                        if (!exists) return;
+                        commands.exec("preview", null, {
+                            path: info.path,
+                            focus: false
+                        });
+                    });
                 } else {
                     tabManager.once("ready", function(){
                         var m = /:(\d*)(?::(\d*))?$/.exec(path);
