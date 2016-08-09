@@ -590,7 +590,32 @@ define(function(require, exports, module) {
                 ]
             }, handle);
             
-            mnuGutter = new Menu({ id: "menuGutter" }, handle);
+            mnuGutter = new Menu({
+                id: "menuGutter",
+                items: [
+                    new Divider({ position: 1000 }, handle),
+                    new MenuItem({
+                        position: 1000, 
+                        caption: "Gutter Options",
+                        submenu: new Menu({
+                            items: [
+                                new MenuItem({
+                                    position: 10,
+                                    caption: "Show Line Number",
+                                    type: "check",
+                                    checked: "user/ace/@showLineNumbers"
+                                }, handle),
+                                new MenuItem({
+                                    position: 10,
+                                    caption: "Show Fold Widgets",
+                                    type: "check",
+                                    checked: "user/ace/@showFoldWidgets"
+                                }, handle),
+                            ]
+                        })
+                    }, handle),
+                ]
+            }, handle);
             mnuGutter.on("show", function(e) {
                 var ace = tabs.focussedTab.editor.ace;
                 var region = ace.renderer.$gutterLayer.getRegion(e);
