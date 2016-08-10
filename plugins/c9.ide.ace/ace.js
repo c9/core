@@ -601,7 +601,7 @@ define(function(require, exports, module) {
                             items: [
                                 new MenuItem({
                                     position: 10,
-                                    caption: "Show Line Number",
+                                    caption: "Show Line Numbers",
                                     type: "check",
                                     checked: "user/ace/@showLineNumbers"
                                 }, handle),
@@ -2231,7 +2231,7 @@ define(function(require, exports, module) {
                             gutterRenderer = null;
                         else
                             gutterRenderer = noNumbers;
-                        
+                        dom.setCssClass(renderer.$gutter, "ace_gutter-compact", !value);
                         renderer.$gutterLayer.$renderer = gutterRenderer;
                         if (gutterRenderer && gutterRenderer.attach)
                             gutterRenderer.attach(ace);
