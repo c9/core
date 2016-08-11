@@ -26,6 +26,15 @@
     z-index : -1;
 }
 
+.ace_gutter-compact:not(.ace_folding-enabled) > .ace_gutter-layer > .ace_gutter-cell {
+    padding-left: 15px!important;
+    padding-right: 5px!important;
+}
+.ace_gutter-compact.ace_folding-enabled > .ace_gutter-layer > .ace_gutter-cell {
+    padding-left: 16px!important;
+    padding-right: 12px!important;
+}
+
 .dark .ace_gutter .ace_gutter_active_line {
     background-color: rgba(255, 255, 255, 0.07);
 }
