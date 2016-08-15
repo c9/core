@@ -42,6 +42,7 @@ if [ -d $NAME/.git ]; then
         exit 1
     fi
     git fetch origin
+    git remote set-head origin -a
     popd
 else
     mkdir -p $NAME
