@@ -54,6 +54,7 @@
         "amd-loader",
         "architect",
         "architect-build",
+        "msgpack-js",
         "c9"
     ],
     "c9plugins": {
