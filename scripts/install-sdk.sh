@@ -50,9 +50,30 @@ FORCE=
 
 updatePackage() {
     name=$1
+    REPO=https://github.com
+    GITHUBOWNER=c9
+    url=`"$NODE" -e 'console.log((require("./package.json").c9plugins["'$name'"].split("#")[0] || "c9"))'`
+    version=`"$NODE" -e 'console.log((require("./package.json").c9plugins["'$name'"].split("#")[1] || "origin/master"))'`
     
-    REPO=https://github.com/c9/$name
-    echo "${green}checking out ${resetColor}$REPO"
+    versionCheckAlt=(${version//@/ })
+    version=${versionCheckAlt[0]}
+    if [[ ${versionCheckAlt[1]} ]]; then
+        GITHUBOWNER=${versionCheckAlt[1]}
+    fi
+    
+    urlCheckGit=(${url//it@/ })
+    if [[ ${urlCheckGit[1]} ]]; then
+        REPO=$url
+    else
+        urlCheckGit=(${url//:\/\// })
+        if [[ ${urlCheckGit[1]} ]]; then
+            REPO=$url
+        else
+            REPO=$REPO/$GITHUBOWNER/$name
+        fi
+    fi
+
+    echo "${green}checking out ${resetColor}$REPO/tree/${red}$version${resetColor}"
     
     if ! [[ -d ./plugins/$name ]]; then
         mkdir -p ./plugins/$name
@@ -65,7 +86,6 @@ updatePackage() {
         git remote add origin $REPO
     fi
     
-    version=`"$NODE" -e 'console.log((require("../../package.json").c9plugins["'$name'"].substr(1) || "origin/master"))'`;
     rev=`git rev-parse --revs-only $version`
     
     if [ "$rev" == "" ]; then
@@ -80,6 +100,7 @@ updatePackage() {
     fi
     popd
 }
+
 
 updateAllPackages() {
     c9packages=`"$NODE" -e 'console.log(Object.keys(require("./package.json").c9plugins).join(" "))'`;
