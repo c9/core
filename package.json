@@ -24,7 +24,6 @@
         "less": "^2.4.0",
         "mime": "~1.2.9",
         "mkdirp": "~0.3.5",
-        "msgpack-js": "~0.1.1",
         "msgpack-js-browser": "~0.1.4",
         "nak": "https://github.com/cloud9ide/nak.git#6deef931594",
         "netutil": "~0.0.2",
