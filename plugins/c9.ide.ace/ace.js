@@ -589,33 +589,26 @@ define(function(require, exports, module) {
                     new Divider({ position: 60 }, handle)
                 ]
             }, handle);
+            menus.addItemByPath("context/ace/", mnuAce, 0, handle);
             
-            mnuGutter = new Menu({
+            menus.addItemByPath("context/ace-gutter/", mnuGutter = new Menu({
                 id: "menuGutter",
                 items: [
                     new Divider({ position: 1000 }, handle),
-                    new MenuItem({
-                        position: 1000, 
-                        caption: "Gutter Options",
-                        submenu: new Menu({
-                            items: [
-                                new MenuItem({
-                                    position: 10,
-                                    caption: "Show Line Numbers",
-                                    type: "check",
-                                    checked: "user/ace/@showLineNumbers"
-                                }, handle),
-                                new MenuItem({
-                                    position: 10,
-                                    caption: "Show Fold Widgets",
-                                    type: "check",
-                                    checked: "user/ace/@showFoldWidgets"
-                                }, handle),
-                            ]
-                        })
-                    }, handle),
                 ]
-            }, handle);
+            }, handle), 0, handle);
+            menus.addItemByPath("context/ace-gutter/Gutter Options/", new ui.menu({}), 1100, handle);
+            menus.addItemByPath("context/ace-gutter/Gutter Options/Show Line Numbers", new ui.item({
+                caption: "Show Line Numbers",
+                type: "check",
+                checked: "user/ace/@showLineNumbers"
+            }, handle), 100, handle);
+            menus.addItemByPath("context/ace-gutter/Gutter Options/Show Fold Widgets", new ui.item({
+                caption: "Show Fold Widgets",
+                type: "check",
+                checked: "user/ace/@showFoldWidgets"
+            }, handle), 200, handle);
+            
             mnuGutter.on("show", function(e) {
                 var ace = tabs.focussedTab.editor.ace;
                 var region = ace.renderer.$gutterLayer.getRegion(e);

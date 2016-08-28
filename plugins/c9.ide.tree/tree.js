@@ -551,6 +551,7 @@ define(function(require, exports, module) {
             var mnuCtxTree = plugin.getElement("mnuCtxTree");
             menus.decorate(mnuCtxTree);
             plugin.addElement(mnuCtxTree);
+            menus.addItemByPath("context/tree/", mnuCtxTree, 0, plugin);
 
             menus.addItemToMenu(mnuCtxTree, new ui.item({
                 match: "file",
