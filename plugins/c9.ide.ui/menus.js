@@ -466,14 +466,14 @@ define(function(require, exports, module) {
                 return;
             }
             
+            if (!plugin) 
+                plugin = menu, menu = null;
             if (index && typeof index == "object") 
                 plugin = index, index = null;
-            else if (menu instanceof Menu)
+            else if (!plugin && menu && menu.aml)
                 menu = menu.aml;
-            else if (menu && !menu.nodeFunc) 
-                plugin = menu, menu = null;
             
-            if (menuItem instanceof MenuItem || menuItem instanceof Divider)
+            if (menuItem && menuItem.aml)
                 menuItem = menuItem.aml;
             
             assert(plugin !== undefined, "addItemByPath requires a plugin argument");
