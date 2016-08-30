@@ -83,10 +83,10 @@ updatePackage() {
 }
 
 updateAllPackages() {
-    c9packages=$("$NODE" -e 'console.log(Object.keys(require("./package.json").c9plugins).join(" "))');
-    count=${#c9packages[@]}
+    c9packages=$("$NODE" -p 'Object.keys(require("./package.json").c9plugins).join(" ")');
+    count=$("$NODE" -p 'Object.keys(require("./package.json").c9plugins).length')
     i=0
-    for m in "${c9packages[@]}"; do
+    for m in ${c9packages[@]}; do
         echo "$m" 
         i=$((i + 1))
         echo "updating plugin ${blue}$i${resetColor} of ${blue}$count${resetColor}"
@@ -98,7 +98,7 @@ updateNodeModules() {
     echo "${magenta}--- Running npm install --------------------------------------------${resetColor}"
     safeInstall(){
         deps=$("$NODE" -e 'console.log(Object.keys(require("./package.json").dependencies).join(" "))');
-        for m in "${deps[@]}"; do echo "$m"; 
+        for m in ${deps[@]}; do echo "$m"; 
             "$NPM" install --loglevel warn "$m"
         done
     }
@@ -113,7 +113,7 @@ updateCore() {
     
     # without this git merge fails on windows
     mv ./scripts/install-sdk.sh  './scripts/.#install-sdk-tmp.sh'
-    rm ./scripts/.install-sdk-tmp.sh 
+    rm -f ./scripts/.install-sdk-tmp.sh 
     cp './scripts/.#install-sdk-tmp.sh' ./scripts/install-sdk.sh
     git checkout -- ./scripts/install-sdk.sh
 
