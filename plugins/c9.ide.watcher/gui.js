@@ -82,31 +82,23 @@ define(function(require, exports, module) {
                 }, plugin);
             }
             
-            tabManager.getTabs().forEach(function(tab) {
-                if (!tab.path)
-                    return;
+            function initializeTab(tab) {
+                if (!tab.path) return;
                 
                 if (tab.document.undoManager.isAtBookmark()) {
                     initializeDocument(tab.document);
                 }
-                else {
-                    console.error("Unsupported state");
-                }
-                
                 if (tab.classList.contains("conflict")) {
                     addChangedTab(tab, comparisonType.TIMESTAMP_AND_CONTENTS);
                 }
-            });
+            }
             
+            tabManager.getTabs().forEach(initializeTab);
             tabManager.on("open", function(e) {
-                initializeDocument(e.tab.document);
-                if (e.tab.classList.contains("conflict")) {
-                    addChangedTab(e.tab, comparisonType.TIMESTAMP_AND_CONTENTS);
-                }
+                initializeTab(e.tab);
             }, plugin);
             
             // Hook the save of the document value
-            
             save.on("beforeSave", function(e) {
                 e.document.meta.$savingValue = e.save;
                 if (e.tab.classList.contains("conflict")) {
@@ -178,6 +170,10 @@ define(function(require, exports, module) {
             delete changedPaths[path];
         }
         
+        function isTabSaving(tab) {
+            return tab.document.meta.$saving;
+        }
+        
         function addChangedTab(tab, doubleCheckComparisonType) {
             // If we already have a dialog open, just update it, but mark the value dirty
             if (changedPaths[tab.path]) {
@@ -188,8 +184,14 @@ define(function(require, exports, module) {
             }
             
             // Ignore changes that come in while tab is being saved
-            if (tab.document.meta.$saving) {
-                console.log("[watchers] Watcher fired, but tab is still saving", path);
+            if (isTabSaving(tab)) return;
+            
+            // If the terminal is currently focussed, lets wait until 
+            // another tab is focussed
+            if (tabManager.focussedTab && tabManager.focussedTab.editorType == "terminal") {
+                tabManager.once("focus", function(){
+                    addChangedTab(tab, comparisonType.CONTENTS);
+                });
                 return;
             }
             
@@ -197,16 +199,6 @@ define(function(require, exports, module) {
             var path = tab.path;
             
             changedPaths[tab.path] = { tab: tab, resolve: resolve };
-            
-            // If the terminal is currently focussed, lets wait until 
-            // another tab is focussed
-            if (tabManager.focussedTab 
-              && tabManager.focussedTab.editorType == "terminal") {
-                tabManager.once("focus", function(){
-                    addChangedTab(tab, comparisonType.CONTENTS);
-                });
-                return;
-            }
             
             function resolve() {
                 if (collabEnabled && collab.send)
