@@ -406,9 +406,7 @@ define(function(require, exports, module) {
                     }
                 }
                 else {
-                    getLatestValue(path, function(err, path, data) {
-                        updateChangedPath(err, path, data);
-                    });
+                    getLatestValue(path, updateChangedPath);
                 }
                 
                 checkEmptyQueue();
@@ -431,10 +429,7 @@ define(function(require, exports, module) {
                         }
                         else {
                             askAutoMerge();
-        
-                            getLatestValue(path, function(err, path, data) {
-                                mergeChangedPath(err, path, data);
-                            });
+                            getLatestValue(path, mergeChangedPath);
                         }
                         
                         checkEmptyQueue();
