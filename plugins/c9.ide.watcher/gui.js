@@ -170,6 +170,13 @@ define(function(require, exports, module) {
             delete changedPaths[path];
         }
         
+        function resolve(doc, path) {
+            if (collabEnabled && collab.send)
+                collab.send({type: "RESOLVE_CONFLICT", data: {docId: path}});
+            resolveConflict(doc, path);
+        }
+
+        
         function isTabSaving(tab) {
             return tab.document.meta.$saving;
         }
@@ -200,114 +207,98 @@ define(function(require, exports, module) {
             
             changedPaths[tab.path] = { tab: tab, resolve: resolve };
             
-            function resolve() {
-                if (collabEnabled && collab.send)
-                    collab.send({type: "RESOLVE_CONFLICT", data: {docId: path}});
-                resolveConflict(doc, path);
-            }
-
             switch (doubleCheckComparisonType) {
                 case comparisonType.TIMESTAMP_AND_CONTENTS:
-                    checkByStatOrContents();
+                    checkByStatOrContents(tab);
                     break;
                 case comparisonType.CONTENTS:
-                    checkByContents();
+                    checkByContents(tab);
                     break;
                 case comparisonType.NONE:
-                    dialog();
+                    showChangeDialog(tab);
                     break;
             }
+        }
             
-            function dialog(data) {
-                if (!changedPaths[path])
-                    return;
-                changedPaths[path].data = data || changedPaths[path].data;
-                
-                if (changeDialog) {
-                    // The dialog is visible
-                    if (changeDialog.visible === 1) {
-                        question.all = true;
-                        return;
-                    }
-                    // The dialog still is to become visible
-                    else if (changeDialog.visible === undefined) {
-                        changeDialog.on("show", function(){
-                            question.all = true;
-                        });
-                        return;
-                    }
-                }
-                
-                if (tabManager.focussedTab && !changedPaths[tabManager.focussedTab.path]) {
-                    doc.tab.classList.add("conflict");
-                    // Let's try again later, maybe then one of our paths gets focus
-                    return tabManager.once("focus", function() {
-                        dialog();
-                    });
-                }
-                    
-                if (!tabManager.findTab(path)) // drat! tab is gone
-                    return;
-                
-                // Show dialogs for changed tabs
-                for (var changedPath in changedPaths) {
-                    tab = changedPaths[changedPath].tab;
-                    data = changedPaths[changedPath].data;
+        function createChangeDialog(tab, data) {
+            var doc = tab.document;
+            var path = tab.path;
+            
+            if (!changedPaths[path])
+                return;
+            changedPaths[path].data = data || changedPaths[path].data;
+            
+            if (tabManager.focussedTab && !changedPaths[tabManager.focussedTab.path]) {
+                doc.tab.classList.add("conflict");
+                // Let's try again later, maybe then one of our paths gets focus
+                return tabManager.once("focus", function() {
                     showChangeDialog(tab, data);
+                });
+            }
+                
+            if (!tabManager.findTab(path)) // drat! tab is gone
+                return;
+            
+            // Show dialogs for changed tab
+            showChangeDialog(tab, data);
+        }
+            
+        function checkByStatOrContents(tab) {
+            var doc = tab.doc;
+            var path = tab.path;
+            
+            fs.stat(path, function(err, stat) {
+                if (!err && doc.meta.timestamp >= stat.mtime)
+                    return resolve(doc, path);
+                checkByContents(tab, stat);
+            });
+        }
+        
+        function checkByContents(tab, stat) {
+            var doc = tab.doc;
+            var path = tab.path;
+            
+            fs.readFile(path, function(err, data) {
+                if (err) {
+                    console.warn("[watchers] Could not read", path, "will assume it got changed");
+                    return createChangeDialog(tab);
                 }
-            }
-            
-            function checkByStatOrContents() {
-                fs.stat(path, function(err, stat) {
-                    if (!err && doc.meta.timestamp >= stat.mtime)
-                        return resolve();
-                    checkByContents(stat);
-                });
-            }
-            
-            function checkByContents(stat) {
-                fs.readFile(path, function(err, data) {
-                    if (err) {
-                        console.warn("[watchers] Could not read", path, "will assume it got changed");
-                        return dialog();
-                    }
-    
-                    // false alarm. File content didn't change
-                    if (data === doc.meta.$savedValue)
-                        return resolve();
+
+                // false alarm. File content didn't change
+                if (data === doc.meta.$savedValue)
+                    return resolve(doc, path);
+                
+                // Store base value for merges
+                if (doc.meta.$mergeRoot == undefined)
+                    doc.meta.$mergeRoot = doc.meta.$savedValue || doc.recentValue;
+                // Update saved value
+                doc.meta.$savedValue = data;
+                if (stat)
+                    doc.meta.timestamp = stat.mtime;
                     
-                    // Store base value for merges
-                    if (doc.meta.$mergeRoot == undefined)
-                        doc.meta.$mergeRoot = doc.meta.$savedValue || doc.recentValue;
-                    // Update saved value
-                    doc.meta.$savedValue = data;
-                    if (stat)
-                        doc.meta.timestamp = stat.mtime;
-                        
-                    // short cut: remote value is the same as the current value
-                    if (data === doc.value) { // Expensive check
-                        
-                        // Remove the changed state from the document
-                        doc.undoManager.bookmark();
-                        
-                        // Mark as resolved
-                        resolve();
-                        
-                        return;
-                    } else {
-                        // if this is the first time change notification comes
-                        // remember undomanger state for deciding to merge or not
-                        if (doc.meta.$merge == undefined)
-                            doc.meta.$merge = !doc.undoManager.isAtBookmark();
-                        doc.undoManager.bookmark(-2);
-                    }
+                // short cut: remote value is the same as the current value
+                if (data === doc.value) { // Expensive check
                     
-                    if (automerge(tab, data))
-                        resolve();
-                    else
-                        dialog(data);
-                });
-            }
+                    // Remove the changed state from the document
+                    doc.undoManager.bookmark();
+                    
+                    // Mark as resolved
+                    resolve(doc, path);
+                    
+                    return;
+                } else {
+                    // if this is the first time change notification comes
+                    // remember undomanger state for deciding to merge or not
+                    if (doc.meta.$merge == undefined)
+                        doc.meta.$merge = !doc.undoManager.isAtBookmark();
+                    doc.undoManager.bookmark(-2);
+                }
+                
+                if (automerge(tab, data))
+                    resolve(doc, path);
+                else
+                    createChangeDialog(tab, data);
+            });
         }
         
         function automerge(tab, data) {
@@ -379,6 +370,21 @@ define(function(require, exports, module) {
                     break;
                 }
                 if (!tab) return;
+            }
+            
+            if (changeDialog) {
+                // The dialog is visible
+                if (changeDialog.visible === 1) {
+                    question.all = true;
+                    return;
+                }
+                // The dialog still is to become visible
+                else if (changeDialog.visible === undefined) {
+                    changeDialog.on("show", function(){
+                        question.all = true;
+                    });
+                    return;
+                }
             }
             
             path = tab.path;
