@@ -352,8 +352,8 @@ define(function(require, exports, module) {
             var doc = tab.document;
             doc.setBookmarkedValue(data, true);
             doc.meta.timestamp = Date.now() - settings.timeOffset;
-            save.save(tab);
             changedPaths[path].resolve();
+            save.save(tab);
         }
         
         function mergeChangedPath(err, path, data) {
