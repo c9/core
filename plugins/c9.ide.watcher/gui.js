@@ -472,7 +472,7 @@ define(function(require, exports, module) {
             
             fs.stat(tab.path, function(err, data) {
                 if (err && err.code === "ENOENT") {
-                    removedPaths[tab.path] = tab;
+                    removedPaths[tab.path] = {tab: tab};
     
                     if (deleteDialog) {
                         // The dialog is visible
@@ -513,14 +513,14 @@ define(function(require, exports, module) {
                     
                     if (all) {
                         for (var id in removedPaths) {
-                            doc = removedPaths[id].document;
+                            doc = removedPaths[id].tab.document;
                             doc.undoManager.bookmark(-2);
                             doc.meta.newfile = true;
                         }
                         removedPaths = {};
                     }
                     else {
-                        doc = removedPaths[path].document;
+                        doc = removedPaths[path].tab.document;
                         doc.undoManager.bookmark(-2);
                         doc.meta.newfile = true;
                         delete removedPaths[path];
@@ -531,12 +531,12 @@ define(function(require, exports, module) {
                 function(all, cancel) { // No
                     if (all) {
                         for (var id in removedPaths) {
-                            closeTab(removedPaths[id], true);
+                            closeTab(removedPaths[id].tab, true);
                         }
                         removedPaths = {};
                     }
                     else {
-                        closeTab(removedPaths[path]);
+                        closeTab(removedPaths[path].tab);
                         delete removedPaths[path];
                     }
                     
