@@ -245,7 +245,7 @@ define(function(require, exports, module) {
         }
             
         function checkByStatOrContents(tab) {
-            var doc = tab.doc;
+            var doc = tab.document;
             var path = tab.path;
             
             fs.stat(path, function(err, stat) {
@@ -256,7 +256,7 @@ define(function(require, exports, module) {
         }
         
         function checkByContents(tab, stat) {
-            var doc = tab.doc;
+            var doc = tab.document;
             var path = tab.path;
             
             fs.readFile(path, function(err, data) {
