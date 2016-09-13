@@ -364,15 +364,6 @@ define(function(require, exports, module) {
         function showChangeDialog(tab, data) {
             var path, merge;
             
-            if (!tab) {
-                for (path in changedPaths) {
-                    tab = changedPaths[path].tab;
-                    data = changedPaths[path].data;
-                    break;
-                }
-                if (!tab) return;
-            }
-            
             if (changeDialog) {
                 // The dialog is visible
                 if (changeDialog.visible === 1) {
@@ -511,16 +502,7 @@ define(function(require, exports, module) {
         }
         
         function showDeleteDialog(tab) {
-            var path;
-            if (!tab) {
-                for (path in removedPaths) {
-                    tab = removedPaths[path];
-                    break;
-                }
-                if (!tab) return;
-            }
-            
-            path = tab.path;
+            var path = tab.path;
 
             deleteDialog = question.show(
                 "File removed, keep tab open?",
@@ -542,7 +524,6 @@ define(function(require, exports, module) {
                         doc.undoManager.bookmark(-2);
                         doc.meta.newfile = true;
                         delete removedPaths[path];
-                        showDeleteDialog();
                     }
                     
                     checkIfQueueIsEmpty();
@@ -557,7 +538,6 @@ define(function(require, exports, module) {
                     else {
                         closeTab(removedPaths[path]);
                         delete removedPaths[path];
-                        showDeleteDialog();
                     }
                     
                     checkIfQueueIsEmpty();
@@ -578,10 +558,12 @@ define(function(require, exports, module) {
         }
         
         function checkIfQueueIsEmpty(){
-            showChangeDialog();
-            
-            for (var prop in changedPaths) return;
-            for (var prop in removedPaths) return;
+            for (var path in changedPaths) {
+                return showChangeDialog(changedPaths[path].tab, changedPaths[path].data);
+            } 
+            for (var path in removedPaths) {
+                return showDeleteDialog(removedPaths[path].tab);
+            };
             
             if (initialFocus) {
                 tabManager.focusTab(initialFocus);
