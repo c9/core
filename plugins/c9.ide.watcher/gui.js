@@ -178,7 +178,7 @@ define(function(require, exports, module) {
 
         
         function isTabSaving(tab) {
-            return tab.document.meta.$saving;
+            return !!tab.document.meta.$saving;
         }
         
         function addChangedTab(tab, doubleCheckComparisonType) {
@@ -231,9 +231,10 @@ define(function(require, exports, module) {
             if (tabManager.focussedTab && !changedPaths[tabManager.focussedTab.path]) {
                 doc.tab.classList.add("conflict");
                 // Let's try again later, maybe then one of our paths gets focus
-                return tabManager.once("focus", function() {
+                tabManager.once("focus", function() {
                     showChangeDialog(tab, data);
                 });
+                return;
             }
                 
             if (!tabManager.findTab(path)) // drat! tab is gone
@@ -402,7 +403,7 @@ define(function(require, exports, module) {
                     changedPaths[path].tab.document.undoManager.bookmark(-2);
                     changedPaths[path].resolve();
                 }
-                checkEmptyQueue();
+                checkIfQueueIsEmpty();
             }
             
             function yes(all) { // Remote | Yes
@@ -415,7 +416,7 @@ define(function(require, exports, module) {
                     getLatestValue(path, updateChangedPath);
                 }
                 
-                checkEmptyQueue();
+                checkIfQueueIsEmpty();
             }
             
             if (merge) {
@@ -438,7 +439,7 @@ define(function(require, exports, module) {
                             getLatestValue(path, mergeChangedPath);
                         }
                         
-                        checkEmptyQueue();
+                        checkIfQueueIsEmpty();
                     },
                     { 
                         merge: true,
@@ -544,7 +545,7 @@ define(function(require, exports, module) {
                         showDeleteDialog();
                     }
                     
-                    checkEmptyQueue();
+                    checkIfQueueIsEmpty();
                 },
                 function(all, cancel) { // No
                     if (all) {
@@ -559,7 +560,7 @@ define(function(require, exports, module) {
                         showDeleteDialog();
                     }
                     
-                    checkEmptyQueue();
+                    checkIfQueueIsEmpty();
                 },
                 { all: Object.keys(removedPaths).length > 1 }
             );
@@ -576,7 +577,9 @@ define(function(require, exports, module) {
             tabManager.focusTab(tab);
         }
         
-        function checkEmptyQueue(){
+        function checkIfQueueIsEmpty(){
+            showChangeDialog();
+            
             for (var prop in changedPaths) return;
             for (var prop in removedPaths) return;
             
