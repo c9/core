@@ -205,7 +205,7 @@ define(function(require, exports, module) {
             var doc = tab.document;
             var path = tab.path;
             
-            changedPaths[tab.path] = { tab: tab, resolve: resolve.bind(changedPaths[tab.path], doc, path) };
+            changedPaths[tab.path] = { tab: tab, resolve: resolve.bind(null, doc, path) };
             
             switch (doubleCheckComparisonType) {
                 case comparisonType.TIMESTAMP_AND_CONTENTS:
