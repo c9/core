@@ -92,3 +92,4 @@ To protect the interests of the Cloud9 contributors and users we require contrib
 If you want to contribute to the Cloud9 SDK and/or open source plugins please go to the online form, fill it out and submit it.
 
 Happy coding, Cloud9
+
