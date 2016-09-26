@@ -586,7 +586,6 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.keys/panel"
         },
-        "plugins/c9.ide.keyboard.pane.navigation/kpn",
         {
             packagePath: "plugins/c9.ide.language.core/outline",
             staticPrefix: staticPrefix + "/plugins/c9.ide.language"
