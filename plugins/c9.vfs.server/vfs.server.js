@@ -354,9 +354,9 @@ function plugin(options, imports, register) {
         console.log("Removing ", vfs.id, " for user ", vfs.uid, " project ", vfs.pid, " from the vfs connection cache");
         
         // Remove next tick so client has time to recieve final "You've been removed" PubSub message.
-        process.nextTick(function() {
+        setTimeout(function() {
             cache.remove(vfs.id); 
-        });
+        }, 100);
     }
     
     register(null, {
