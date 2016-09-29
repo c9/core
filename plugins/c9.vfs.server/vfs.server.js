@@ -340,21 +340,23 @@ function plugin(options, imports, register) {
         var message = JSON.parse(messageString);
         switch (message.action) {
             case "remove_member": 
-                handleRemoveProjectMember(vfs, message);
+            case "update_member_access":
+                handleProjectMemberAccessChange(vfs, message);
                 break;
             default:
                 break;
         }
     }
     
-    function handleRemoveProjectMember(vfs, message) {
+    function handleProjectMemberAccessChange(vfs, message) {
         if (vfs.uid !== message.body.uid) return;
         
         console.log("Removing ", vfs.id, " for user ", vfs.uid, " project ", vfs.pid, " from the vfs connection cache");
-        // Remove after 2s so client has time to recieve final "You've been removed" PubSub message.
-        setTimeout(function() {
+        
+        // Remove next tick so client has time to recieve final "You've been removed" PubSub message.
+        process.nextTick(function() {
             cache.remove(vfs.id); 
-        }, 2000);
+        });
     }
     
     register(null, {
