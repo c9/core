@@ -277,7 +277,7 @@ function plugin(options, imports, register) {
             var vfsid = req.params.vfsid;
             var scope = req.params.scope;
             var path = req.params.path;
-    
+            
             var entry = cache.get(vfsid);
             if (!entry) {
                 var err = new error.PreconditionFailed("VFS connection does not exist");
@@ -335,10 +335,32 @@ function plugin(options, imports, register) {
             user.save && user.save(function() {});
         }
     }
-
+    
+    function handlePublish(vfs, messageString) {
+        var message = JSON.parse(messageString);
+        switch (message.action) {
+            case "remove_member": 
+                handleRemoveProjectMember(vfs, message);
+                break;
+            default:
+                break;
+        }
+    }
+    
+    function handleRemoveProjectMember(vfs, message) {
+        if (vfs.uid !== message.body.uid) return;
+        
+        console.log("Removing ", vfs.id, " for user ", vfs.uid, " project ", vfs.pid, " from the vfs connection cache");
+        // Remove after 2s so client has time to recieve final "You've been removed" PubSub message.
+        setTimeout(function() {
+            cache.remove(vfs.id); 
+        }, 2000);
+    }
+    
     register(null, {
         "vfs.server": {
-            get section() { return section; }
+            get section() { return section; },
+            get handlePublish() { return handlePublish; }
         }
     });
 }
