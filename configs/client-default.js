@@ -674,7 +674,6 @@ module.exports = function(options) {
                 name: options.user.name,
                 fullname: options.user.fullname,
                 email: options.user.email,
-                pubkey: options.user.pubkey,
                 date_add: options.user.date_add,
                 active: options.user.active,
                 c9version: options.user.c9version,

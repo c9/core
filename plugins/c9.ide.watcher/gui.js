@@ -82,31 +82,23 @@ define(function(require, exports, module) {
                 }, plugin);
             }
             
-            tabManager.getTabs().forEach(function(tab) {
-                if (!tab.path)
-                    return;
+            function initializeTab(tab) {
+                if (!tab.path) return;
                 
                 if (tab.document.undoManager.isAtBookmark()) {
                     initializeDocument(tab.document);
                 }
-                else {
-                    console.error("Unsupported state");
-                }
-                
                 if (tab.classList.contains("conflict")) {
                     addChangedTab(tab, comparisonType.TIMESTAMP_AND_CONTENTS);
                 }
-            });
+            }
             
+            tabManager.getTabs().forEach(initializeTab);
             tabManager.on("open", function(e) {
-                initializeDocument(e.tab.document);
-                if (e.tab.classList.contains("conflict")) {
-                    addChangedTab(e.tab, comparisonType.TIMESTAMP_AND_CONTENTS);
-                }
+                initializeTab(e.tab);
             }, plugin);
             
             // Hook the save of the document value
-            
             save.on("beforeSave", function(e) {
                 e.document.meta.$savingValue = e.save;
                 if (e.tab.classList.contains("conflict")) {
@@ -178,6 +170,17 @@ define(function(require, exports, module) {
             delete changedPaths[path];
         }
         
+        function resolve(doc, path) {
+            if (collabEnabled && collab.send)
+                collab.send({type: "RESOLVE_CONFLICT", data: {docId: path}});
+            resolveConflict(doc, path);
+        }
+
+        
+        function isTabSaving(tab) {
+            return !!tab.document.meta.$saving;
+        }
+        
         function addChangedTab(tab, doubleCheckComparisonType) {
             // If we already have a dialog open, just update it, but mark the value dirty
             if (changedPaths[tab.path]) {
@@ -188,133 +191,115 @@ define(function(require, exports, module) {
             }
             
             // Ignore changes that come in while tab is being saved
-            if (tab.document.meta.$saving) {
-                console.log("[watchers] Watcher fired, but tab is still saving", path);
-                return;
-            }
-            
-            var doc = tab.document;
-            var path = tab.path;
-            
-            changedPaths[tab.path] = { tab: tab, resolve: resolve };
+            if (isTabSaving(tab)) return;
             
             // If the terminal is currently focussed, lets wait until 
             // another tab is focussed
-            if (tabManager.focussedTab 
-              && tabManager.focussedTab.editorType == "terminal") {
+            if (tabManager.focussedTab && tabManager.focussedTab.editorType == "terminal") {
                 tabManager.once("focus", function(){
                     addChangedTab(tab, comparisonType.CONTENTS);
                 });
                 return;
             }
             
-            function resolve() {
-                collab.send({type: "RESOLVE_CONFLICT", data: {docId: path}});
-                resolveConflict(doc, path);
-            }
-
+            var doc = tab.document;
+            var path = tab.path;
+            
+            changedPaths[tab.path] = { tab: tab, resolve: resolve.bind(null, doc, path) };
+            
             switch (doubleCheckComparisonType) {
                 case comparisonType.TIMESTAMP_AND_CONTENTS:
-                    checkByStatOrContents();
+                    checkByStatOrContents(tab);
                     break;
                 case comparisonType.CONTENTS:
-                    checkByContents();
+                    checkByContents(tab);
                     break;
                 case comparisonType.NONE:
-                    dialog();
+                    showChangeDialog(tab);
                     break;
             }
+        }
             
-            function dialog(data) {
-                if (!changedPaths[path])
-                    return;
-                changedPaths[path].data = data || changedPaths[path].data;
-                
-                if (changeDialog) {
-                    // The dialog is visible
-                    if (changeDialog.visible === 1) {
-                        question.all = true;
-                        return;
-                    }
-                    // The dialog still is to become visible
-                    else if (changeDialog.visible === undefined) {
-                        changeDialog.on("show", function(){
-                            question.all = true;
-                        });
-                        return;
-                    }
-                }
-                
-                if (tabManager.focussedTab && !changedPaths[tabManager.focussedTab.path]) {
-                    doc.tab.classList.add("conflict");
-                    // Let's try again later, maybe then one of our paths gets focus
-                    return tabManager.once("focus", function() {
-                        dialog();
-                    });
-                }
-                    
-                if (!tabManager.findTab(path)) // drat! tab is gone
-                    return;
-                
-                // Show dialogs for changed tabs
-                for (var changedPath in changedPaths) {
-                    tab = changedPaths[changedPath].tab;
-                    data = changedPaths[changedPath].data;
+        function createChangeDialog(tab, data) {
+            var doc = tab.document;
+            var path = tab.path;
+            
+            if (!changedPaths[path])
+                return;
+            changedPaths[path].data = data || changedPaths[path].data;
+            
+            if (tabManager.focussedTab && !changedPaths[tabManager.focussedTab.path]) {
+                doc.tab.classList.add("conflict");
+                // Let's try again later, maybe then one of our paths gets focus
+                tabManager.once("focus", function() {
                     showChangeDialog(tab, data);
+                });
+                return;
+            }
+                
+            if (!tabManager.findTab(path)) // drat! tab is gone
+                return;
+            
+            // Show dialogs for changed tab
+            showChangeDialog(tab, data);
+        }
+            
+        function checkByStatOrContents(tab) {
+            var doc = tab.document;
+            var path = tab.path;
+            
+            fs.stat(path, function(err, stat) {
+                if (!err && doc.meta.timestamp >= stat.mtime)
+                    return resolve(doc, path);
+                checkByContents(tab, stat);
+            });
+        }
+        
+        function checkByContents(tab, stat) {
+            var doc = tab.document;
+            var path = tab.path;
+            
+            fs.readFile(path, function(err, data) {
+                if (err) {
+                    console.warn("[watchers] Could not read", path, "will assume it got changed");
+                    return createChangeDialog(tab);
                 }
-            }
-            
-            function checkByStatOrContents() {
-                fs.stat(path, function(err, stat) {
-                    if (!err && doc.meta.timestamp >= stat.mtime)
-                        return resolve();
-                    checkByContents(stat);
-                });
-            }
-            
-            function checkByContents(stat) {
-                fs.readFile(path, function(err, data) {
-                    if (err) {
-                        console.warn("[watchers] Could not read", path, "will assume it got changed");
-                        return dialog();
-                    }
-    
-                    // false alarm. File content didn't change
-                    if (data === doc.meta.$savedValue)
-                        return resolve();
+
+                // false alarm. File content didn't change
+                if (data === doc.meta.$savedValue)
+                    return resolve(doc, path);
+                
+                // Store base value for merges
+                if (doc.meta.$mergeRoot == undefined)
+                    doc.meta.$mergeRoot = doc.meta.$savedValue || doc.recentValue;
+                // Update saved value
+                doc.meta.$savedValue = data;
+                if (stat)
+                    doc.meta.timestamp = stat.mtime;
                     
-                    // Store base value for merges
-                    if (doc.meta.$mergeRoot == undefined)
-                        doc.meta.$mergeRoot = doc.meta.$savedValue || doc.recentValue;
-                    // Update saved value
-                    doc.meta.$savedValue = data;
-                    if (stat)
-                        doc.meta.timestamp = stat.mtime;
-                        
-                    // short cut: remote value is the same as the current value
-                    if (data === doc.value) { // Expensive check
-                        
-                        // Remove the changed state from the document
-                        doc.undoManager.bookmark();
-                        
-                        // Mark as resolved
-                        resolve();
-                        
-                        return;
-                    } else {
-                        // if this is the first time change notification comes
-                        // remember undomanger state for deciding to merge or not
-                        if (doc.meta.$merge == undefined)
-                            doc.meta.$merge = !doc.undoManager.isAtBookmark();
-                        doc.undoManager.bookmark(-2);
-                    }
+                // short cut: remote value is the same as the current value
+                if (data === doc.value) { // Expensive check
                     
-                    if (automerge(tab, data))
-                        resolve();
-                    else
-                        dialog(data);
-                });
-            }
+                    // Remove the changed state from the document
+                    doc.undoManager.bookmark();
+                    
+                    // Mark as resolved
+                    resolve(doc, path);
+                    
+                    return;
+                } else {
+                    // if this is the first time change notification comes
+                    // remember undomanger state for deciding to merge or not
+                    if (doc.meta.$merge == undefined)
+                        doc.meta.$merge = !doc.undoManager.isAtBookmark();
+                    doc.undoManager.bookmark(-2);
+                }
+                
+                if (automerge(tab, data))
+                    resolve(doc, path);
+                else
+                    createChangeDialog(tab, data);
+            });
         }
         
         function automerge(tab, data) {
@@ -367,8 +352,8 @@ define(function(require, exports, module) {
             var doc = tab.document;
             doc.setBookmarkedValue(data, true);
             doc.meta.timestamp = Date.now() - settings.timeOffset;
-            save.save(tab);
             changedPaths[path].resolve();
+            save.save(tab);
         }
         
         function mergeChangedPath(err, path, data) {
@@ -379,13 +364,19 @@ define(function(require, exports, module) {
         function showChangeDialog(tab, data) {
             var path, merge;
             
-            if (!tab) {
-                for (path in changedPaths) {
-                    tab = changedPaths[path].tab;
-                    data = changedPaths[path].data;
-                    break;
+            if (changeDialog) {
+                // The dialog is visible
+                if (changeDialog.visible === 1) {
+                    question.all = true;
+                    return;
                 }
-                if (!tab) return;
+                // The dialog still is to become visible
+                else if (changeDialog.visible === undefined) {
+                    changeDialog.on("show", function(){
+                        question.all = true;
+                    });
+                    return;
+                }
             }
             
             path = tab.path;
@@ -403,7 +394,7 @@ define(function(require, exports, module) {
                     changedPaths[path].tab.document.undoManager.bookmark(-2);
                     changedPaths[path].resolve();
                 }
-                checkEmptyQueue();
+                checkIfQueueIsEmpty();
             }
             
             function yes(all) { // Remote | Yes
@@ -413,12 +404,10 @@ define(function(require, exports, module) {
                     }
                 }
                 else {
-                    getLatestValue(path, function(err, path, data) {
-                        updateChangedPath(err, path, data);
-                    });
+                    getLatestValue(path, updateChangedPath);
                 }
                 
-                checkEmptyQueue();
+                checkIfQueueIsEmpty();
             }
             
             if (merge) {
@@ -438,13 +427,10 @@ define(function(require, exports, module) {
                         }
                         else {
                             askAutoMerge();
-        
-                            getLatestValue(path, function(err, path, data) {
-                                mergeChangedPath(err, path, data);
-                            });
+                            getLatestValue(path, mergeChangedPath);
                         }
                         
-                        checkEmptyQueue();
+                        checkIfQueueIsEmpty();
                     },
                     { 
                         merge: true,
@@ -486,7 +472,7 @@ define(function(require, exports, module) {
             
             fs.stat(tab.path, function(err, data) {
                 if (err && err.code === "ENOENT") {
-                    removedPaths[tab.path] = tab;
+                    removedPaths[tab.path] = {tab: tab};
     
                     if (deleteDialog) {
                         // The dialog is visible
@@ -516,16 +502,7 @@ define(function(require, exports, module) {
         }
         
         function showDeleteDialog(tab) {
-            var path;
-            if (!tab) {
-                for (path in removedPaths) {
-                    tab = removedPaths[path];
-                    break;
-                }
-                if (!tab) return;
-            }
-            
-            path = tab.path;
+            var path = tab.path;
 
             deleteDialog = question.show(
                 "File removed, keep tab open?",
@@ -536,36 +513,34 @@ define(function(require, exports, module) {
                     
                     if (all) {
                         for (var id in removedPaths) {
-                            doc = removedPaths[id].document;
+                            doc = removedPaths[id].tab.document;
                             doc.undoManager.bookmark(-2);
                             doc.meta.newfile = true;
                         }
                         removedPaths = {};
                     }
                     else {
-                        doc = removedPaths[path].document;
+                        doc = removedPaths[path].tab.document;
                         doc.undoManager.bookmark(-2);
                         doc.meta.newfile = true;
                         delete removedPaths[path];
-                        showDeleteDialog();
                     }
                     
-                    checkEmptyQueue();
+                    checkIfQueueIsEmpty();
                 },
                 function(all, cancel) { // No
                     if (all) {
                         for (var id in removedPaths) {
-                            closeTab(removedPaths[id], true);
+                            closeTab(removedPaths[id].tab, true);
                         }
                         removedPaths = {};
                     }
                     else {
-                        closeTab(removedPaths[path]);
+                        closeTab(removedPaths[path].tab);
                         delete removedPaths[path];
-                        showDeleteDialog();
                     }
                     
-                    checkEmptyQueue();
+                    checkIfQueueIsEmpty();
                 },
                 { all: Object.keys(removedPaths).length > 1 }
             );
@@ -582,9 +557,13 @@ define(function(require, exports, module) {
             tabManager.focusTab(tab);
         }
         
-        function checkEmptyQueue(){
-            for (var prop in changedPaths) return;
-            for (var prop in removedPaths) return;
+        function checkIfQueueIsEmpty(){
+            for (var path in changedPaths) {
+                return showChangeDialog(changedPaths[path].tab, changedPaths[path].data);
+            } 
+            for (var path in removedPaths) {
+                return showDeleteDialog(removedPaths[path].tab);
+            };
             
             if (initialFocus) {
                 tabManager.focusTab(initialFocus);
