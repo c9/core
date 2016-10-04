@@ -78,6 +78,9 @@ define(function(require, exports, module) {
             if (loaded) return false;
             loaded = true;
             
+            
+            emit("loaded");
+            
             smith.debug = DEBUG;
             
             connection = connectClient(connectEngine, {
@@ -114,7 +117,10 @@ define(function(require, exports, module) {
                     if (!pingUrl) return disconnect();
                     
                     vfsEndpoint.isServerAlive(pingUrl, function(err, isAlive) {
-                        if (!err && isAlive) return callback(null, true);
+                        if (!err && isAlive) {
+                            emit("preConnectChecked");
+                            return callback(null, true);
+                        }
 
                         disconnect();
                     });
@@ -278,6 +284,8 @@ define(function(require, exports, module) {
         
         function onConnect() {
             var transport = new smith.EngineIoTransport(connection); 
+            
+            emit("onConnect");
             
             if (consumer)
                 consumer.disconnect();
