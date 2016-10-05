@@ -58,7 +58,7 @@
         "c9"
     ],
     "c9plugins": {
-        "c9.ide.language": "#bc3c2bc36e",
+        "c9.ide.language": "#241bd6b7de",
         "c9.ide.language.core": "#bfb5dd2acc",
         "c9.ide.language.css": "#46ad561506",
         "c9.ide.language.generic": "#b47cbe58f9",
@@ -66,7 +66,7 @@
         "c9.ide.language.html.diff": "#7d6cecfb90",
         "c9.ide.language.javascript": "#a5c1d05394",
         "c9.ide.language.javascript.immediate": "#82c426dbca",
-        "c9.ide.language.javascript.eslint": "#cb9e3f5a8e",
+        "c9.ide.language.javascript.eslint": "#1bdffa204a",
         "c9.ide.language.javascript.tern": "#0545a6385d",
         "c9.ide.language.javascript.infer": "#b9c2e4bdb8",
         "c9.ide.language.jsonalyzer": "#a0549e14ff",
