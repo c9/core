@@ -83,6 +83,7 @@ define(function(require, exports, module) {
             
             smith.debug = DEBUG;
             
+            emit.sticky("connectClient");
             connection = connectClient(connectEngine, {
                 preConnectCheck: preConnectCheck,
                 debug: DEBUG
@@ -110,6 +111,7 @@ define(function(require, exports, module) {
     
             function preConnectCheck(callback) {
 
+                emit.sticky("preConnectCheckStart");
                 vfsEndpoint.isOnline(function(err, isOnline) {
                     if (err || !isOnline) return callback(null, false);
                     
@@ -118,7 +120,7 @@ define(function(require, exports, module) {
                     
                     vfsEndpoint.isServerAlive(pingUrl, function(err, isAlive) {
                         if (!err && isAlive) {
-                            emit("preConnectChecked");
+                            emit("preConnectCheckEnd");
                             return callback(null, true);
                         }
 
