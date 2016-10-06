@@ -50,7 +50,6 @@ define(function(require, module, exports) {
         
         // Ref to focusManager - this will be changed later
         focusManager.tabManager = plugin;
-        console.log("Initialized Tabmanager");
         
         var loaded = false, changed = false;
         function load(){
@@ -337,7 +336,6 @@ define(function(require, module, exports) {
                 settings.on("user/tabs", function(){ updateTitle(focussedTab); });
             }
             
-            console.log("Calling ready from tabmanager");
             emit("ready");
         }
         
@@ -1454,7 +1452,6 @@ define(function(require, module, exports) {
         /***** Lifecycle *****/
         
         plugin.on("load", function(){
-            console.log("Load beginning");
             load();
         });
         plugin.on("enable", function(){

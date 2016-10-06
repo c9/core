@@ -437,7 +437,6 @@
                     });
                     
                     app.on("service", function(name, plugin) {
-                        console.log("Plugin " + name + " loaded in: " + (Date.now() - start));
                         if (name == "plugin.loader" || name == "plugin.installer" || name == "plugin.debug" || name == "plugin.manager")
                             plugin.architect = app; // TODO why we rename app to architect?
                         if (name == "c9")
@@ -447,7 +446,6 @@
                     });
                     
                     app.on("ready", function(){
-                        console.log("App ready called");
                         if (app.services.configure)
                             app.services.configure.services = app.services;
                         
@@ -465,16 +463,13 @@
                             });
                         // }
                         app.services.tabManager.once("ready", function () {
-                            console.log("Tabmanager ready called");
                             time.done("tabManager", "client");
                             removeLoader();
                         });
                         app.services.tree.once("ready", function () {
-                            console.log("Tree ready called");
                             time.done("tree", "client");
                         });
                         app.services.c9.once("connect", function () {
-                            console.log("Connect ready called")
                             time.done("connect", "client");
                         });
                     });
