@@ -9,6 +9,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
     expect.setupArchitectTest([
         "plugins/c9.core/ext",
         "plugins/c9.core/util",
+        "plugins/c9.ide.ui/lib_apf",
         // Mock plugins
         {
             consumes: [],
@@ -29,6 +30,15 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             it('should retrieve the icon class name based on a filename', function() {
                 expect(util.getFileIcon("test.js")).to.equal("page_white_code");
                 expect(util.getFileIcon("test.html")).to.equal("html");
+            });
+        });
+        
+        describe("getGravatarUrl", function() {
+            it("Should hash a normal email", function() {
+                expect(util.getGravatarUrl("test@test.com", 32)).to.match(/^https:\/\/secure.gravatar.com\/avatar\/b642b4217b34b1e8d3bd915fc65c4452.*/);
+            });
+            it("Should use not re-hash an md5 passed in", function() {
+                expect(util.getGravatarUrl("b642b4217b34b1e8d3bd915fc65c4452", 32)).to.match(/^https:\/\/secure.gravatar.com\/avatar\/b642b4217b34b1e8d3bd915fc65c4452.*/);
             });
         });
         

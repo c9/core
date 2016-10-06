@@ -309,7 +309,7 @@ var HoverLink = function(editor) {
         else if (prompt.command === "git") { // git status
             var prefix = line.substr(0, match.start);
             if (match.start + value.length == line.length
-                && /^(#|[ MDR?A]{2})\s+([\w\s]+:\s+)?$/.test(prefix)
+                && /^(#|[ MDRU?A]{2})\s+([\w\s]+:\s+)?$/.test(prefix)
             ) {
                 match.type = "path";
             } else {

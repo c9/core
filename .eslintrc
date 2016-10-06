@@ -8,13 +8,18 @@ env:
     builtin: true
     mocha: true
     jasmine: false
-    es6: false
+    es6: true
 
 plugins: 
   - react
-
+  
+extends: 
+    - eslint:recommended
+    - plugin:react/recommended
+    
 rules:
     handle-callback-err: 1
+    max-len: [1, 140, 4, { ignorePattern: "\": " }]
     no-debugger: 1
     no-undef: 1
     no-inner-declarations: [1, "functions"]
@@ -22,60 +27,77 @@ rules:
     no-new-func: 1
     no-new-wrappers: 1
     no-cond-assign: [1, "except-parens"]
-    no-debugger: 3
-    no-dupe-keys: 3
-    no-eval: 3
+    no-dupe-keys: 1
+    no-eval: 1
+    no-console: 0
     no-func-assign: 1
     no-invalid-regexp: 1
-    no-irregular-whitespace: 3
+    no-irregular-whitespace: 1
     no-negated-in-lhs: 1
-    no-regex-spaces: 3
+    no-regex-spaces: 1
     no-unreachable: 1
-    use-isnan: 2
+    use-isnan: 1
     valid-typeof: 1
-    no-redeclare: 3
+    no-redeclare: 1
     no-with: 1
-    radix: 3
-    no-delete-var: 2
-    no-label-var: 3
-    no-shadow-restricted-names: 2
-    handle-callback-err: 1
-    no-new-require: 2
-    no-unused-vars: [3, {vars: "all", args: "none"}]
-    no-undef: 1
-    semi: 3
-    no-extra-semi: 3
+    radix: 1
+    no-delete-var: 1
+    no-label-var: 1
+    no-shadow-restricted-names: 1
+    no-new-require: 1
+    no-unused-vars: [1, {vars: "all", args: "none"}]
+    semi: 1
+    no-extra-semi: 1
+    one-var: [1, "never"]
+    arrow-parens: 1
+    no-confusing-arrow: 1
+    camelcase: [1, { properties: "never" }]
+    id-blacklist: [1, "uname", "cb", "acct"]
+    default-case: 1
+    eqeqeq: [1, "smart"]
     
     // React rules
-    display-name: [1, { acceptTranspilerName: true }]
-    jsx-curly-spacing: 1
-    no-deprecated: [1, {react: "0.13.0"}]
-    no-did-mount-set-state: 1
-    no-did-update-set-state: 1
-    no-direct-mutation-state: 1
-    no-is-mounted: 1
-    no-unknown-property: 1
-    prefer-es6-class: [1, "never"]
-    prop-types: 1
-    react-in-jsx-scope: 1
-    self-closing-comp: 1
-    sort-comp: 1
-    wrap-multilines: 1
-    jsx-boolean-value: [1, "always"]
-    jsx-equals-spacing: 1
-    jsx-indent-props: 1
-    jsx-key: 1
-    jsx-indent: 1
-    jsx-max-props-per-line: [1, { maximum: 5 }]
-    jsx-no-bind: 1
-    jsx-no-duplicate-props: 1
-    jsx-no-undef: 1
-    jsx-pascal-case: 1
-    jsx-uses-react: 1
+    react/jsx-curly-spacing: 1
+    react/no-deprecated: 1
+    react/no-did-mount-set-state: 1
+    react/no-did-update-set-state: 1
+    react/no-direct-mutation-state: 1
+    react/no-is-mounted: 1
+    react/no-unknown-property: 1
+    react/prefer-es6-class: 1
+    react/prop-types: 1
+    react/react-in-jsx-scope: 1
+    react/self-closing-comp: 1
+    react/sort-comp: 1
+    # This rule is not compatible with eslint < 3
+    # react/jsx-wrap-multilines: 1
+    react/jsx-boolean-value: [1, "always"]
+    react/jsx-equals-spacing: 1
+    react/jsx-indent-props: 1
+    react/jsx-key: 1
+    react/jsx-indent: 1
+    react/jsx-max-props-per-line: [1, { maximum: 5 }]
+    react/jsx-no-bind: 1
+    react/jsx-no-duplicate-props: 1
+    react/jsx-no-undef: 1
+    react/jsx-pascal-case: 1
+    react/jsx-uses-react: 1
     
-    default-case: 3
-    keyword-spacing: [1, {"before": true, "after": true, "overrides":  { "catch": {"after": "maybe" } }}]
+    keyword-spacing: [1, {"before": true, "after": true, "overrides":  { "catch": {"after": true } }}]
+    key-spacing: [1, { beforeColon: false, afterColon: true, mode: "strict" }]
     space-in-parens: [1, "never"]
-    // space-before-function-paren: [3, {"named": "never", "anonymous": "never"}]
-    spaced-comment: 3
+    space-infix-ops: [1]
+    arrow-spacing: 1
+    generator-star-spacing: [1, {"before": false, "after": true}]
+    space-before-blocks: [1, "always"]
+    // TODO: after eslint update in IDE
+    // space-before-function-paren: [1, {"named": "never", "anonymous": "ignore"}]
+    // object-curly-newline: [1, { ObjectExpression: { "multiline": true }, "ObjectPattern": "never" }]
+    // DISABLED: causes issue with define(function() in client-side code
+    // indent: [1, 4, { SwitchCase: 1, outerIIFEBody: 0, MemberExpression: 1, FunctionDeclaration: { body: 0, parameters: 1 }, FunctionExpression: { body: 0, parameters: 1 } }]
+    object-curly-spacing: [1, "always", { objectsInObjects: false, arraysInObjects: false }]
+    spaced-comment: 1
+    comma-spacing: 1
+    no-multi-spaces: 1
+    no-lone-blocks: 1
     // valid-jsdoc: [1, { requireReturn: false, requireParamDescription: false, prefer: { "return": "return" } }]

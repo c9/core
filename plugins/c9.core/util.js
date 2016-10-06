@@ -196,12 +196,19 @@ define(function(require, exports, module) {
             return "<" + tag + " " + plugin.toXmlAttributes(attrs) + (noclose ? ">" : " />");
         };
         
+        function isMd5String(str) {
+            return /^[0-9a-f]{32}$/.test(str);
+        }
+        
         /**
          * Returns the gravatar url for this user
          * @param {Number} size the size of the image
          */
         plugin.getGravatarUrl = function getGravatarUrl(email, size, defaultImage) {
-            var md5Email = apf.crypto.MD5.hex_md5((email || "").trim().toLowerCase());
+            var md5Email = email
+            if (!isMd5String(md5Email)) {
+                md5Email = apf.crypto.MD5.hex_md5((email || "").trim().toLowerCase());
+            }
             return "https://secure.gravatar.com/avatar/" 
                 + md5Email + "?s=" + size + "&d="  + (defaultImage || "retro");
         };
