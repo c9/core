@@ -45,7 +45,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
         "plugins/c9.ide.ui/forms",
         {
             packagePath: "plugins/c9.fs/proc",
-            tmuxName: "cloud9test"
+            tmuxName: "cloud9test2"
         },
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
