@@ -819,7 +819,7 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.errorhandler/raygun_error_handler",
             version: options.manifest.version,
             revision: options.manifest.revision,
-            apiKey: options.raygun.client.error
+            apiKey: options.raygun.apiKey
         });
     }
     if (packaging || devel) {
