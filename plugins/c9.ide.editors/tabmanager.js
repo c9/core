@@ -335,6 +335,8 @@ define(function(require, module, exports) {
                 plugin.on("tabDestroy", function(e){ if (e.last) updateTitle(); });
                 settings.on("user/tabs", function(){ updateTitle(focussedTab); });
             }
+            
+            emit("ready");
         }
         
         var drawn = false;

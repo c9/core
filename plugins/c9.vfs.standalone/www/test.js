@@ -97,6 +97,10 @@ require([
             "vfs.log": {
                 log: function(){} 
             },
+            "vfs.endpoint": (function(){
+                var x = new EventEmitter();
+                return x;
+            })(),
             anims: (function(){
                 var x = new EventEmitter();
                 x.animateSplitBoxNode = function(node, opt) {

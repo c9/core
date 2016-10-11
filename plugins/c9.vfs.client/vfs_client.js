@@ -78,8 +78,12 @@ define(function(require, exports, module) {
             if (loaded) return false;
             loaded = true;
             
+            
+            emit("loaded");
+            
             smith.debug = DEBUG;
             
+            emit.sticky("connectClient");
             connection = connectClient(connectEngine, {
                 preConnectCheck: preConnectCheck,
                 debug: DEBUG
@@ -107,6 +111,7 @@ define(function(require, exports, module) {
     
             function preConnectCheck(callback) {
 
+                emit.sticky("preConnectCheckStart");
                 vfsEndpoint.isOnline(function(err, isOnline) {
                     if (err || !isOnline) return callback(null, false);
                     
@@ -114,7 +119,10 @@ define(function(require, exports, module) {
                     if (!pingUrl) return disconnect();
                     
                     vfsEndpoint.isServerAlive(pingUrl, function(err, isAlive) {
-                        if (!err && isAlive) return callback(null, true);
+                        if (!err && isAlive) {
+                            emit("preConnectCheckEnd");
+                            return callback(null, true);
+                        }
 
                         disconnect();
                     });
@@ -278,6 +286,8 @@ define(function(require, exports, module) {
         
         function onConnect() {
             var transport = new smith.EngineIoTransport(connection); 
+            
+            emit("onConnect");
             
             if (consumer)
                 consumer.disconnect();
