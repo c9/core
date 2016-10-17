@@ -15254,7 +15254,7 @@ apf.GuiElement = function(){
                 return;
             }
 
-            menu.display(e.x, e.y, null, this);
+            menu.display(e.x + 1, e.y + 1, null, this);
 
             e.returnValue = false;//htmlEvent.
             e.cancelBubble = true;
