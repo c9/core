@@ -54,7 +54,8 @@ rules:
     camelcase: [1, { properties: "never" }]
     id-blacklist: [1, "uname", "cb", "acct"]
     default-case: 1
-    eqeqeq: [1, "smart"]
+    // DISABLED: too much old code still uses this, e.g. for strings that should really be numbers
+    // eqeqeq: [1, "smart"]
     
     // React rules
     react/jsx-curly-spacing: 1
