@@ -1623,7 +1623,23 @@ define(function(require, exports, module) {
          * @extends Plugin
          * @singleton
          */
+
+        var extensionID = 0,
+            serializerExtensions = {},
+            deserializerExtensions = {};
+
         handle.freezePublicAPI({
+            /*
+             * Register a data extension handler, which will add
+             * extra information to a serialized Ace editor session,
+             * for plugins that modify the Ace editor.
+             */
+            extendSerializedState: function(serialize, deserialize) {
+                var id = extensionID++;
+                serializerExtensions[id] = serialize;
+                deserializerExtensions[id] = deserialize;
+            },
+
             /**
              * The context menu that is displayed when right clicked in the ace
              * editing area.
@@ -1639,7 +1655,7 @@ define(function(require, exports, module) {
              * @readonly
              */
             get gutterContextMenu(){ draw(); return mnuGutter },
-            
+
             /**
              * Ace Themes
              * @property {Object} themese
@@ -1953,7 +1969,7 @@ define(function(require, exports, module) {
                     renderer.$updateSizeAsync();
                 }
             }
-            
+
             function getState(doc, state, filter) {
                 if (filter) return;
                 
@@ -2005,8 +2021,8 @@ define(function(require, exports, module) {
                 state.extensionData = {};
 
                 // Any additional state given by ace extensions
-                for (key in dataExtensionHandlers) {
-                    state.extensionData[key] = dataExtensionHandlers[key].getState(session, doc);
+                for (key in serializerExtensions) {
+                    state.extensionData[key] = serializerExtensions[key](session, doc);
                 }
             }
             
@@ -2096,8 +2112,10 @@ define(function(require, exports, module) {
                 }
 
                 // Any additional state given by ace extensions
-                for (key in dataExtensionHandlers) {
-                    dataExtensionHandlers[key].setState(state.extensionData[key]);
+                for (key in deserializerExtensions) {
+                    if ('extensionData' in state && key in state.extensionData) {
+                        deserializerExtensions[key](state.extensionData[key], doc.getSession().session);
+                    }
                 }
             }
             
@@ -2751,23 +2769,6 @@ define(function(require, exports, module) {
              * @param {Number}   [state.jump.select.column]             The column to select to (0 based)
              */
             plugin.freezePublicAPI({
-                /*
-                 * Register a data extension handler, which will add
-                 * extra information to a serialized Ace editor session,
-                 * for plugins that modify the Ace editor.
-                 */
-                addDataExtensionHandler: function(name, getState, setState) {
-                    if (name in dataExtensionHandlers) {
-                        return false;
-                    }
-                    else {
-                        dataExtensionHandlers[name] = {
-                            getState: getState,
-                            setState: setState
-                        }
-                        return true;
-                    }
-                },
 
                 /**
                  * @ignore
