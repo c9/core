@@ -77,6 +77,12 @@ define(function(require, exports, module) {
         }, {
             bindKey: {win: "Ctrl-z", mac: "Cmd-z"},
             name: "\u0018\u0015" // "ctrl-x ctrl-u"
+        }, {
+            bindKey: {win: null, mac: "Cmd-Left"},
+            name: "\x1b[1~" // "ctrl-x ctrl-u"
+        }, {
+            bindKey: {win: null, mac: "Cmd-Right"},
+            name: "\x1b[4~" // "ctrl-x ctrl-u"
         }];
         
         specialKeys.addCommands(aliases);
