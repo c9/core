@@ -663,7 +663,7 @@ NOTE: It is sometimes useful to write a case statement which falls through to th
 Vertical alignment
 ------------------
 
-Vertically aligning asignments can improve readability but also makes it harder to maintain the code. The style should be avoided.
+Vertically aligning assignments can improve readability but also makes it harder to maintain the code. The style should be avoided.
 
 *Right*:
 
