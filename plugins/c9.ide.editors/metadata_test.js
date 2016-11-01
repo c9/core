@@ -107,7 +107,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 return tab.pane.aml.getPage("editor::" + tab.editorType).$ext;
         });
         
-        describe('metadata', function() {
+        describe.skip('metadata', function() {
             this.timeout(20000);
             
             before(function(done) {
