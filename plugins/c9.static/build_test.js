@@ -25,7 +25,7 @@ describe("The build module", function(){
         options = {
             version: "testing",
             compress: false,
-            baseUrl: "https://cdn.c9.io/static/abcd1234"
+            baseUrl: "https://static.c9.io/static/abcd1234"
         };
         
         buildPlugin(options, {
