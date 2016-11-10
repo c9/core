@@ -31,25 +31,24 @@ case "$uname" in
 esac
 
 
-cd `dirname $0`/..
-SOURCE=`pwd`
+PATH=$HOME/.c9/node/bin:$PATH
 
-LOCAL=$SOURCE/local
-APPDIR=$SOURCE/build/webkitbuilds/app.nw
+cd "$(dirname "$0")/.."
+SOURCE="$(pwd)"
 
 if [ "$os" == "linux" ]; then
-	if [ ! -d $SOURCE/build/webkitbuilds/cache/linux/0.12.3 ]; then
-		mkdir -p $SOURCE/build/webkitbuilds/cache/linux/0.12.3/
-		pushd $SOURCE/build/webkitbuilds/cache/linux/0.12.3
+	if [ ! -d "$SOURCE"/build/webkitbuilds/cache/linux/0.12.3 ]; then
+		mkdir -p "$SOURCE"/build/webkitbuilds/cache/linux/0.12.3/
+		pushd "$SOURCE"/build/webkitbuilds/cache/linux/0.12.3
 		wget http://dl.nwjs.io/v0.12.3/nwjs-v0.12.3-linux-x64.tar.gz
 		tar -zxf nwjs-v0.12.3-linux-x64.tar.gz
 		popd
 	fi
 	DEST="$SOURCE/build/Cloud9-dev-linux"
 	rm -rf "$DEST"
-	mkdir -p $DEST
-	cp -R $SOURCE/build/webkitbuilds/cache/linux/0.12.3/nwjs-v0.12.3-linux-x64/* $DEST
-	cp $SOURCE/build/linux/c9.png $DEST/icon.png
+	mkdir -p "$DEST"
+	cp -R "$SOURCE"/build/webkitbuilds/cache/linux/0.12.3/nwjs-v0.12.3-linux-x64/* "$DEST"
+	cp "$SOURCE"/build/linux/c9.png "$DEST"/icon.png
 
     node --eval "
         var path = require('path')
@@ -58,14 +57,14 @@ if [ "$os" == "linux" ]; then
         delete p.dependencies;
         p.window.icon = 'icon.png';
         console.log(JSON.stringify(p, null, 2));
-    " > $DEST/package.json
+    " > "$DEST"/package.json
 
 fi
 
 if [ "$os" == "darwin" ]; then
-    if [ ! -d $SOURCE/build/webkitbuilds/cache/mac/0.9.3 ]; then
-        mkdir -p $SOURCE/build/webkitbuilds/cache/mac/0.9.3/node-webkit.app
-        pushd $SOURCE/build/webkitbuilds/cache/mac/0.9.3
+    if [ ! -d "$SOURCE"/build/webkitbuilds/cache/mac/0.9.3 ]; then
+        mkdir -p "$SOURCE"/build/webkitbuilds/cache/mac/0.9.3/node-webkit.app
+        pushd "$SOURCE"/build/webkitbuilds/cache/mac/0.9.3
         curl -OL http://dl.node-webkit.org/v0.9.3/node-webkit-v0.9.3-pre8-osx-ia32.zip
         unzip node-webkit-v0.9.3-pre8-osx-ia32.zip
         popd
@@ -77,11 +76,11 @@ if [ "$os" == "darwin" ]; then
     rm -rf "$DEST"
     mkdir -p "$RES/app.nw"
     
-    cp -R $SOURCE/build/webkitbuilds/cache/mac/0.9.3/node-webkit.app/* $DEST
-    cat $SOURCE/local/Info.plist | sed "s/Cloud9/Cloud9-dev/" >  $DEST/Contents/Info.plist
+    cp -R "$SOURCE"/build/webkitbuilds/cache/mac/0.9.3/node-webkit.app/* "$DEST"
+    cat "$SOURCE"/local/Info.plist | sed "s/Cloud9/Cloud9-dev/" >  "$DEST"/Contents/Info.plist
     # TODO add blue icon for dev mode
     # rm $DEST/Contents/Resources/nw.icns
-    cp $SOURCE/build/osx/c9.icns $DEST/Contents/Resources/nw.icns
+    cp "$SOURCE"/build/osx/c9.icns "$DEST"/Contents/Resources/nw.icns
     
     node --eval "
         var path = require('path')
@@ -90,13 +89,12 @@ if [ "$os" == "darwin" ]; then
         delete p.dependencies;
         // p.window.icon = 'icon.png';
         console.log(JSON.stringify(p, null, 2));
-    " > $RES/app.nw/package.json
+    " > "$RES"/app.nw/package.json
     
     echo dev app created in build/Cloud9-dev.app/Contents/MacOS/node-webkit
 fi
 
 if [ "$os" == "windows" ]; then
-    NODE_VERSION=v0.12.2
     NW_VERSION=v0.12.2
     # TODO find a more reliable place to put c9 dependencies
     HOME="$HOMEDRIVE$HOMEPATH"
@@ -163,6 +161,5 @@ if [ "$os" == "windows" ]; then
     current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
     bash "$current_dir/makelocal.sh"
 fi
-
 
 
