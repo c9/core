@@ -706,7 +706,8 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.help/help",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.help"
+            staticPrefix: staticPrefix + "/plugins/c9.ide.help",
+            hosted: hosted
         },
         {
             packagePath: "plugins/c9.ide.guide/guide",

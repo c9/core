@@ -9,7 +9,9 @@
         <div class="footer">
             <a href="https://docs.c9.io">Documentation</a> | 
             <a href="http://status.c9.io">Server Status</a> | 
-            <a href="http://support.c9.io">Support</a>
+            <% if (!standalone) { %>
+                <a href="http://support.c9.io">Support</a>
+            <% } %>
         </div>
     </div>
 </div>

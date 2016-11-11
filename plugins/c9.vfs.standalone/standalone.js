@@ -116,6 +116,7 @@ function plugin(options, imports, register) {
             architectConfig: getConfig(configName, opts),
             configName: configName,
             packed: opts.packed,
+            standalone: true,
             version: opts.version
         }, next);
     });

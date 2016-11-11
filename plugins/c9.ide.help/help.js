@@ -21,10 +21,8 @@ define(function(require, exports, module) {
         
         var aboutDialog;
         
-        var loaded = false;
-        function load(){
-            if (loaded) return false;
-            loaded = true;
+        function load() {
+            if (!options.hosted) return;
             
             var mnuHelp = new ui.menu();
             menus.addItemByPath("Support/", mnuHelp, 900, plugin);
@@ -151,7 +149,6 @@ define(function(require, exports, module) {
             
         });
         plugin.on("unload", function(){
-            loaded = false;
             drawn = false;
         });
         
