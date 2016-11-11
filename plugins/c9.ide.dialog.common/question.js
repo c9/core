@@ -58,7 +58,7 @@ define(function(require, module, exports) {
                 });
                 
                 plugin.update([
-                    { id: "cancel", visible: cancel, onclick: function(){ plugin.hide(); } },
+                    { id: "cancel", visible: cancel && !options.notoall, onclick: function() { plugin.hide(); } },
                     { id: "dontask", visible: showDontAsk }, 
                     { id: "yestoall", visible: all, onclick: function(){ 
                         gotYesNo = true; 
