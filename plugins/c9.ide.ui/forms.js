@@ -309,7 +309,11 @@ define(function(require, exports, module) {
                                 value: options.path 
                                     ? createBind(options.path) 
                                     : (options.defaultValue || ""),
-                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
+                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1,
+                                onafterchange: function(e) {
+                                    if (options.onchange)
+                                        options.onchange({ value: e.value });
+                                },
                             })
                         ];
                     break;

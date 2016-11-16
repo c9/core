@@ -894,7 +894,8 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.collab/chat/chat",
             staticPrefix: staticPrefix + "/plugins/c9.ide.collab/chat"
-        });
+        },
+        "plugins/c9.ide.format/formatters/custom");
     }
     
     if (options.platform !== "win32") {
