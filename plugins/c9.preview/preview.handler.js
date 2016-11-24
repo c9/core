@@ -25,7 +25,7 @@ define(function(require, exports, module) {
         
         var staticPrefix = imports["connect.static"].getStaticPrefix();
         
-        function getRole(db) {
+        function initSession(db) {
             var roleCache = new Cache(10000, 10000);
             
             return function(req, res, next) {
@@ -73,9 +73,6 @@ define(function(require, exports, module) {
                             wsSession.role = db.Project.ROLE_VISITOR;
                         }
                         
-                        // TODO hotfix until we have a way to know the diff dir of a docker container
-                        return next();
-                            
                         if (wsSession.type != "docker" || project.state != db.Project.STATE_READY)
                             return next();
                         
@@ -87,8 +84,8 @@ define(function(require, exports, module) {
                                 db.Container.load(meta.cid, function(err, container) {
                                     if (err) return next(err);
 
-                                    if (container.state == db.Container.STATE_RUNNING)
-                                        wsSession.proxyUrl = "http://" + meta.host + ":9000/" + meta.cid + "/home/ubuntu/workspace";
+                                    if (container.state == db.Container.STATE_RUNNING && container.mountId)
+                                        wsSession.proxyUrl = "http://" + meta.host + ":9000/" + container.mountId + "/home/ubuntu/workspace";
 
                                     next();
                                 });
@@ -363,7 +360,7 @@ define(function(require, exports, module) {
         
         register(null, {
             "preview.handler": {
-                getRole: getRole,
+                initSession: initSession,
                 checkRole: checkRole,
                 getProxyUrl: getProxyUrl,
                 proxyCall: proxyCall

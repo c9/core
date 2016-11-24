@@ -52,7 +52,7 @@ define(function(require, exports, module) {
             requestTimeout(15*60*1000),
             require("./lib/middleware/sanitize-path-param"),
             require("./lib/middleware/block-dot-files"),
-            handler.getRole(db),
+            handler.initSession(db),
             handler.checkRole(db),
             handler.getProxyUrl(function() {
                 return getVfsServers()[0] || null;
