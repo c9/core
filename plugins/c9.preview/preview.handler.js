@@ -25,7 +25,7 @@ define(function(require, exports, module) {
         
         var staticPrefix = imports["connect.static"].getStaticPrefix();
         
-        function getRole(db) {
+        function initSession(db) {
             var roleCache = new Cache(10000, 10000);
             
             return function(req, res, next) {
@@ -360,7 +360,7 @@ define(function(require, exports, module) {
         
         register(null, {
             "preview.handler": {
-                getRole: getRole,
+                initSession: initSession,
                 checkRole: checkRole,
                 getProxyUrl: getProxyUrl,
                 proxyCall: proxyCall
