@@ -73,6 +73,9 @@ define(function(require, exports, module) {
                             wsSession.role = db.Project.ROLE_VISITOR;
                         }
                         
+                        // TODO hotfix until we have a way to know the diff dir of a docker container
+                        return next();
+                            
                         if (wsSession.type != "docker" || project.state != db.Project.STATE_READY)
                             return next();
                         
