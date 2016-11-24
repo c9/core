@@ -102,7 +102,8 @@ var HoverLink = function(editor) {
     this.onClick = function(e) {
         if (!this.editor.isFocused())
             return;
-        
+        if (e.detail != 1)
+            return;
         if (this.link && this.isOpen) { // && this.link.isFocused
             if (this.editor.selection.isEmpty()) {
                 this.editor.selection.setSelectionRange(this.range);
