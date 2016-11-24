@@ -159,10 +159,6 @@ define(function(require, exports, module) {
             }
         }
 
-        function trimRight(str) {
-            return str.replace(/\s+$/, "");
-        }
-
         /* -- npm Management ----- */
 
         /**
@@ -207,8 +203,8 @@ define(function(require, exports, module) {
 
                 if (err) return callback(err, stdout, err.message);
 
-                stdout = trimRight(stdout);
-                stderr = trimRight(stderr);
+                stdout = stdout.trimRight();
+                stderr = stderr.trimRight();
 
                 callback(null, stdout, stderr);
             });
