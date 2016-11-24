@@ -63,9 +63,9 @@ define(function(require, exports, module) {
             }, plugin);
             
             prefs.add({
-                "Editors" : {
-                    "Terminal" : {
-                        "Use Cloud9 as the Default Editor" : {
+                "Editors": {
+                    "Terminal": {
+                        "Use Cloud9 as the Default Editor": {
                             type: "checkbox",
                             path: "user/terminal/@defaultEnvEditor",
                             position: 14000
@@ -77,12 +77,12 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
         function createPipe(message, callback) {
-            tabManager.once("ready", function(){
+            tabManager.once("ready", function() {
                 tabManager.open({
                     focus: true,
                     editorType: "ace",
                     path: message.path && c9.toInternalPath(message.path),
-                    document: { meta : { newfile: true } }
+                    document: { meta: { newfile: true } }
                 }, function(err, tab) {
                     if (err) 
                         return callback(err);
@@ -96,7 +96,7 @@ define(function(require, exports, module) {
                 var tab = tabManager.findTab(message.tab);
                 var c9Session = tab && tab.document.getSession();
                 if (c9Session && c9Session.session)
-                   c9Session.session.insert({row: Number.MAX_VALUE, column: Number.MAX_VALUE} , message.data);
+                    c9Session.session.insert({row: Number.MAX_VALUE, column: Number.MAX_VALUE} , message.data);
                 callback(null, true);
             });
         }
@@ -152,13 +152,13 @@ define(function(require, exports, module) {
                                 focus: i === 0,
                                 document: existing
                                     ? { ace: { jump: jump } }
-                                    : { meta : { newfile: true } }
+                                    : { meta: { newfile: true } }
                             }, function(){
-                                next();
+                                setTimeout(next); // TabManager calls this before returning the tab!
                             });
                             
                             if (message.wait) {
-                                tab.on("close", function(){
+                                tab.on("close", function() {
                                     tabs.splice(tabs.indexOf(tab), 1);
                                     if (!tabs.length)
                                         callback(null, true);
@@ -169,7 +169,7 @@ define(function(require, exports, module) {
                         });
                     });
                 }
-            }, function(err){
+            }, function(err) {
                 if (err)
                     return callback(err);
                     
