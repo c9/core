@@ -169,7 +169,7 @@ define(function(require, exports, module) {
                 menu = menuPath;
             }
             
-            menu.show(e.x, e.y);
+            menu.show(e.x, e.y, "context");
         }
         
         function openLink(href, inPreview){
