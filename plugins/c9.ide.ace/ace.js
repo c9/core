@@ -1461,11 +1461,16 @@ define(function(require, exports, module) {
                 return;
             }
             else if (/^#!/.test(firstLine)) {
-                var match = firstLine.match(/\b(node|bash|sh)\b/);
-                switch (match && match[1]) {
+                var match = firstLine.match(/\b(bash|ksh|node|perl|sh)\b|\b(php|python|ruby)/);
+                switch (match && (match[1] || match[2])) {
+                    case "bash": // fallthrough
+                    case "ksh":
+                    case "sh": syntax = "sh"; break;
                     case "node": syntax = "javascript"; break;
-                    case "sh": // fallthrough
-                    case "bash": syntax = "sh"; break;
+                    case "perl": syntax = "perl"; break;
+                    case "php": syntax = "php"; break;
+                    case "python": syntax = "python"; break;
+                    case "ruby": syntax = "ruby"; break;
                     default: syntax = ""; break;
                 }
             }

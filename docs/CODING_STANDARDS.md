@@ -47,7 +47,7 @@ Semicolons
 
 There are [rebellious forces][isaac] that try to steal your semicolons from you. But make no mistake, our traditional culture is still [well and truly alive][hnsemicolons]. So follow the community, and use those semicolons!
 
-[isaac]: community.html#isaac-schlueter
+[isaac]: http://nodeguide.com/community.html#isaac-schlueter
 [hnsemicolons]: http://news.ycombinator.com/item?id=1547647
 
 Trailing whitespace
@@ -130,7 +130,7 @@ If the block inside the curlys consists only of one statement the curlys may be 
         return callback(err);
 ```
 
-However within one condition curlys must be used consistently.
+However, curlys must be used consistently throughout the statement.
 
 *Right:*
 
@@ -142,6 +142,15 @@ However within one condition curlys must be used consistently.
     else {
         console.log("Oh noo");
     }
+```
+
+*Right:*
+
+```javascript
+    if (true)
+        console.log("Yes");
+    else
+        console.log("Oh noo");
 ```
 
 *Wrong:*
@@ -256,7 +265,7 @@ Constants
 
 Constants should be declared as regular variables or static class properties, using all uppercase letters.
 
-Node.js / V8 actually supports mozilla's [const][const] extension, but unfortunately that cannot be applied to class members, nor is it part of any ECMA standard.
+Node.js / V8 actually supports Mozilla's [const][const] extension, but unfortunately that cannot be applied to class members, nor is it part of any ECMA standard.
 
 *Right:*
 
@@ -655,7 +664,7 @@ NOTE: It is sometimes useful to write a case statement which falls through to th
 Vertical alignment
 ------------------
 
-Vertically aligning asignments can improve readability but also makes it harder to maintain the code. The style should be avoided.
+Vertically aligning assignments can improve readability but also makes it harder to maintain the code. The style should be avoided.
 
 *Right*:
 
@@ -698,7 +707,7 @@ All classes and public API should be documented using [JSDuck annotations](https
 Commit messages
 ---------------
 
-We try to adhere to https://github.com/blog/926-shiny-new-commit-styles and to a lesser extent http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html. 
+We try to adhere to https://github.com/blog/926-shiny-new-commit-styles and to a lesser extent http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html.
 Don't write `I fixed a bug` or `Fixed bug`, or even `Added a cool fix for bug`. Just write `Fix bug in wrop wraffles` or `Add feature flip floppers`, present tense.
 
 Branch Naming
@@ -706,14 +715,14 @@ Branch Naming
 
 We follow the uni-repo approach so our source code is in one place. To work around some of the issues - for example looking at all PRs affecting a certain service - we prefix branches with the name of the service(s) the branch affects.
 
-PR branch names, e.g. 
+PR branch names, e.g.
 
     “api-”, “ide-”, “multi-ide-vfs-sapi-”
-    
+
 Checking for branch naming consistency is part of the review process and the teams responsibility.
 
     Use “all-” in case of doubt. E.g., https://github.com/c9/newclient/pull/12962/files affects redis schema code.
-    
+
 Generally, releasing changes affecting several services is a smell so this can help you identify possible issues.
 
 You can now look for all PRs which made it in like so (api in this case):
