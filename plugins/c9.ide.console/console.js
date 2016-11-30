@@ -158,17 +158,6 @@ define(function(require, module, exports) {
                 emit("resize");
             });
             
-            plugin.getElement("btnClose").onclick = function(){
-                hide();
-                this.blur();
-            };
-            plugin.getElement("btnConsoleMax").onclick = function(){
-                if (this.value)
-                    maximizeConsoleHeight();
-                else
-                    restoreConsoleHeight();
-            };
-
             // Create new tabs
             var state = settings.getJson("state/console");
             if (!state) {
