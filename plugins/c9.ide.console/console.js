@@ -236,6 +236,7 @@ define(function(require, module, exports) {
         function maximizeConsoleHeight(){
             if (maximized)
                 return;
+            show(true);
             maximized = true;
         
             apf.document.documentElement.appendChild(container);
