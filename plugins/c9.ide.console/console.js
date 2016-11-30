@@ -56,6 +56,19 @@ define(function(require, module, exports) {
                 }
             }, plugin);
             
+            commands.addCommand({
+                name: "maximizeconsole",
+                group: "Panels",
+                exec: function(editor, args) {
+                    if (!maximized) {
+                        maximizeConsoleHeight();
+                    }
+                    else {
+                        restoreConsoleHeight();
+                    }
+                }
+            }, plugin);
+            
             // Menus
             menus.addItemByPath("View/Console", new apf.item({
                 type: "check",
