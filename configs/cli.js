@@ -1,3 +1,4 @@
+require("amd-loader");
 module.exports = function(options) {
     
 // workaround for api difference between node and c9 events modules
