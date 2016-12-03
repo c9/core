@@ -117,7 +117,7 @@ describe(__filename, function() {
         });
         
         describe("project_changed", function() {
-            it("If the project is being made private all non-owner members should be ejected", function (done) {
+            it("If the project is being made private all non-owner connected users should be ejected", function (done) {
                 var projectOwnerVfs = {
                     id: "9c123",
                     uid: "123"

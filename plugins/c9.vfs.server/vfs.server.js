@@ -364,10 +364,9 @@ function plugin(options, imports, register) {
     function handleProjectVisibilityChanged(vfs, message) {
         if (vfs.uid == message.body.owner) return;
         
-        console.log("Project visibilty changed. Message is: ", message);
         if ((message.body.visibility && message.body.visibility == "private") ||  
             (message.body.appAccess && message.body.appAccess == "private")) {
-            
+            console.log("Project ", vfs.pid, " recieved message: ", message.body, ". Killing connection of user ", vfs.uid);
             cache.remove(vfs.id);
         }
     }
