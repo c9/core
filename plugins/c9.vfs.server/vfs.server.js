@@ -343,6 +343,8 @@ function plugin(options, imports, register) {
             case "update_member_access":
                 handleProjectMemberAccessChange(vfs, message);
                 break;
+            case "project_changed":
+                handleProjectVisibilityChanged(vfs, message);
             default:
                 break;
         }
@@ -357,6 +359,16 @@ function plugin(options, imports, register) {
         setTimeout(function() {
             cache.remove(vfs.id); 
         }, 100);
+    }
+    
+    function handleProjectVisibilityChanged(vfs, message) {
+        if (vfs.uid == message.body.owner) return;
+        
+        if ((message.body.visibility && message.body.visibility == "private") ||  
+            (message.body.appAccess && message.body.appAccess == "private")) {
+            console.log("Project ", vfs.pid, " recieved message: ", message.body, ". Killing connection of user ", vfs.uid);
+            cache.remove(vfs.id);
+        }
     }
     
     register(null, {

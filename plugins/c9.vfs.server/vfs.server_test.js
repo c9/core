@@ -116,6 +116,33 @@ describe(__filename, function() {
             });
         });
         
+        describe("project_changed", function() {
+            it("If the project is being made private all non-owner connected users should be ejected", function (done) {
+                var projectOwnerVfs = {
+                    id: "9c123",
+                    uid: "123"
+                };
+                var projectMemberVfs = {
+                    id: "9c456",
+                    uid: "456"
+                };
+                var message = JSON.stringify({
+                    action: "project_changed",
+                    body: {
+                        owner: 123,
+                        visibility: "private"
+                    }
+                });
+                server.handlePublish(projectOwnerVfs, message);
+                server.handlePublish(projectMemberVfs, message);
+                setTimeout(function() {
+                    assert(mockCache.remove.neverCalledWith(projectOwnerVfs.id));
+                    assert(mockCache.remove.calledWith(projectMemberVfs.id));
+                    done();
+                }, 150);
+            });
+        });
+        
     });
     
     
