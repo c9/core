@@ -212,12 +212,6 @@ define(function(require, module, exports) {
                 
                 // Create new tabs
                 var state = settings.getJson("state/tabs");
-                if (!state) {
-                    state = {
-                        type: "pane", 
-                        nodes: []
-                    };
-                }
                 
                 setTimeout(function() {
                     // Only set the state if we're not testing something else
@@ -718,9 +712,16 @@ define(function(require, module, exports) {
                 init = false;
             }
             
+            if (!state) {
+                state = {
+                    type: "pane", 
+                    nodes: []
+                };
+            }
+            
             // Remove all existing tabs
             if (!init && !options.testing)
-                clear();
+                clear(false, false, true);
             
             var count = 0;
             
@@ -783,7 +784,7 @@ define(function(require, module, exports) {
                 callback();
         }
         
-        function clear(soft, clearTabs /* For testing only */){
+        function clear(soft, clearTabs /* For testing only */, silent){
             var list = getPanes(container);
             
             for (var i = list.length - 1; i >= 0; i--) {
@@ -791,6 +792,8 @@ define(function(require, module, exports) {
                 for (var j = nodes.length - 1; j >= 0; j--) {
                     var tab = nodes[j];
                     if (!soft) {
+                        if (silent)
+                            tab.document.meta.$ignoreSave = true;
                         tab.meta.$closeSync = true;
                         tab.unload();
                     }
