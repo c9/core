@@ -59,7 +59,7 @@ function main(options, imports, register) {
         }
         
         if (config[0] != "/")
-            config = path.join(__dirname, "/../../configs/client-" + config);
+            config = path.join(__dirname, "/../../configs/ide/" + config);
             
         if (config.slice(-3) !== ".js")
             config += ".js";

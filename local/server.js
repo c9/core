@@ -251,7 +251,7 @@ var server = {
     
     getPlugins : function(options, cb, restoreWindow) {
         var windowConfig = options.windowConfig || {};
-        var configPath = join(__dirname, "../configs/client-default-local.js");
+        var configPath = join(__dirname, "../configs/ide/default-local.js");
         var settingsPath = join(__dirname, "../settings/local.js");
         var themeDir = join(__dirname, "../build/standalone/skin/" + 
             (windowConfig.isRemote ? "full" : "default-local"));

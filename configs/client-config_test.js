@@ -6,6 +6,7 @@
 
 
 require("amd-loader");
+require("c9/setup_paths")
 require("c9/inline-mocha")(module);
 
 var assert = require("assert");
@@ -25,9 +26,11 @@ describe("client config consistency", function(){
         }); 
     });
     
-    fs.readdirSync(root + "/configs").forEach(function(name) {
-        if (!/client-(workspace|ssh|default)/.test(name)) return;
-        
+    fs.readdirSync(root + "/configs").filter(function(name) {
+        return /client-(workspace|ssh|default)/.test(name);
+    }).concat(
+        fs.readdirSync(root + "/configs/ide").map(function(n) { return "ide/" + n })
+    ).forEach(function(name) {
         it("should not have missing plugins in config " + name, function(next) {
             fetchClientOptions(function(err, clientOptions) {
                 if (err) return next();
