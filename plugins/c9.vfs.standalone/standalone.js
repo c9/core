@@ -89,6 +89,11 @@ function plugin(options, imports, register) {
                 source: "query",
                 optional: true
             }, 
+            config: {
+                type: "number",
+                source: "query",
+                optional: true
+            },
         }
     }, function(req, res, next) {
 
@@ -112,6 +117,8 @@ function plugin(options, imports, register) {
         
         opts.options.debug = req.params.debug !== undefined;
         res.setHeader("Cache-Control", "no-cache, no-store");
+        if (req.params.config == 1)
+            return res.json(getConfig(configName, opts));
         res.render(__dirname + "/views/standalone.html.ejs", {
             architectConfig: getConfig(configName, opts),
             configName: configName,
