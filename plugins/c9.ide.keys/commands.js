@@ -377,6 +377,7 @@ define(function(require, exports, module) {
                 commands.tab8,
                 commands.tab9,
                 commands.tab0,
+                commands.revealtab,
                 commands.reopenLastTab,
                 commands.gotopaneleft,
                 commands.gotopaneright,

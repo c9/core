@@ -1313,6 +1313,12 @@ define(function(require, exports, module) {
                  * @param {String} message the message to write to the terminal.
                  */
                 write: write,
+                
+                getPathAsync: function(callback) {
+                    currentSession.getStatus({}, function(err, result) {
+                        callback(err, result && util.normalizePath(result.path));
+                    });
+                },
 
                 // toggleMouse : toggleMouse,
                 // toggleStatus : toggleStatus,
