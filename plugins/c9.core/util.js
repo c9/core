@@ -1,8 +1,3 @@
-/**
- * Utilities for the Ajax.org Cloud IDE
- *
- * @copyright 2013, Ajax.org B.V.
- */
 define(function(require, exports, module) {
     main.consumes = ["c9", "Plugin"];
     main.provides = ["util"];
@@ -28,6 +23,15 @@ define(function(require, exports, module) {
                 return "concat(" + out.join(", ") + ")";
             }
             return '"' + name + '"';
+        };
+        
+        // on chrome this opens tab in a new process
+        plugin.openNewWindow = function(url) {
+            var a = document.createElement("a");
+            a.rel = "noreferrer";
+            a.target = "_blank";
+            a.href = url;
+            a.click();
         };
         
         var SupportedIcons = (function() {

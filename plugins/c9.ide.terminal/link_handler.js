@@ -184,7 +184,7 @@ define(function(require, exports, module) {
             if (inPreview)
                 commands.exec("preview", null, { path: href });
             else
-                window.open(href);
+                util.openNewWindow(href);
         }
         
         function open(e) {
