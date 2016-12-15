@@ -21558,7 +21558,7 @@ apf.window = function(){
                 canSelect = false;
         }
         
-        if (amlNode && amlNode.name === "editor::ace") {
+        if (amlNode && amlNode.name === "editor::ace" || amlNode.class == "c9terminalcontainer") {
             canSelect = true;
         }
         
