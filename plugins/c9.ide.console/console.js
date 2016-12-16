@@ -250,7 +250,9 @@ define(function(require, module, exports) {
             settings.set("state/console/@maximized", true);
             plugin.getElement("btnConsoleMax").setValue(true);
             
-            setTimeout(function(){
+            focusConsole();
+            
+            setTimeout(function() {
                 getPanes().forEach(function(pane) {
                     var tab = pane.activeTab;
                     if (tab)
@@ -277,6 +279,8 @@ define(function(require, module, exports) {
             settings.set("state/console/@maximized", false);
             plugin.getElement("btnConsoleMax").setValue(false);
             
+            focusConsole();
+            
             getPanes().forEach(function(pane) {
                 var tab = pane.activeTab;
                 if (tab)
@@ -284,6 +288,18 @@ define(function(require, module, exports) {
             });
             
             emit("resize");
+        }
+        
+        function focusConsole() {
+            var oldFocus = tabs.focussedTab;
+            if (oldFocus && getPanes().indexOf(oldFocus.pane) != -1)
+                return tabs.focusTab(oldFocus);
+            getPanes().some(function(pane) {
+                if (pane.getTab()) {
+                    tabs.focusTab(pane.getTab());
+                    return true;
+                }
+            }) || tabs.focusTab(null);
         }
         
         function hide(immediate) { show(immediate, true); }
@@ -303,14 +319,8 @@ define(function(require, module, exports) {
                 pane._visible = !shouldHide;
             });
             
-            if (!shouldHide && !tabs.focussedTab) {
-                getPanes().some(function(pane) {
-                    if (pane.getTab()) {
-                        tabs.focusTab(pane.getTab());
-                        return true;
-                    }
-                });
-            }
+            if (!shouldHide && !tabs.focussedTab)
+                focusConsole();
             
             var finish = function() {
                 if (onFinishTimer)
