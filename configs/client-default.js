@@ -771,6 +771,7 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.collab/notifications/bubble",
             staticPrefix: staticPrefix + "/plugins/c9.ide.collab/notifications"
         },
+        "plugins/c9.ide.behaviors/zentabs",
         
         // Test
         {
