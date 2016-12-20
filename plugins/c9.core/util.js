@@ -31,7 +31,11 @@ define(function(require, exports, module) {
             a.rel = "noreferrer";
             a.target = "_blank";
             a.href = url;
+            document.body.appendChild(a);
             a.click();
+            setTimeout(function() {
+                a.remove();
+            });
         };
         
         var SupportedIcons = (function() {
