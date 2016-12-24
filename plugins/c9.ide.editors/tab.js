@@ -76,7 +76,6 @@ define(function(require, module, exports) {
                     id: plugin.name, // path || 
                     type: "editor::" + editorType,
                     autofocus: false,
-                    tooltip: tooltip,
                     caption: title,
                     tab: plugin,
                     focussable: true,
@@ -420,7 +419,6 @@ define(function(require, module, exports) {
                 },
                 set tooltip(value) { 
                     tooltip = value;
-                    amlTab && amlTab.setProperty("tooltip", value);
                 },
                 /**
                  * The background color of the tab button and it's body. It is

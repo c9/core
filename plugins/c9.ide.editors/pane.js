@@ -16,6 +16,9 @@ define(function(require, module, exports) {
         var anims = imports.anims;
         var apf = imports.apf;
         
+        var Tooltip = require("ace/tooltip").Tooltip;
+        var tooltip;
+        
         function Pane(options) {
             var amlPane, queue, cancelEditorCreate, isFixedHeight;
             
@@ -162,6 +165,8 @@ define(function(require, module, exports) {
                     setTimeout(function(){
                         amlPane.$buttons.appendChild(btnPlus.$ext);
                         amlPane.$buttons.appendChild(btnMenu.$ext);
+                        
+                        addCustomTooltipHandler(amlPane.$buttons);
                     });
                 });
                 
@@ -198,11 +203,49 @@ define(function(require, module, exports) {
             
             /***** Methods *****/
             
+            function addCustomTooltipHandler(el) {
+                el.addEventListener("mousemove", function(e) {
+                    var target = e.target;
+                    var amlTab = apf.findHost(target); 
+                    var tab = amlTab && amlTab.cloud9tab;
+                    if (!tab) return tooltip && tooltip.hide();
+                    
+                    var tooltipTitle = tab.tooltip || tab.title;
+                    
+                    if (!tooltipTitle) return tooltip && tooltip.hide();
+                    
+                    if (!tooltip)
+                        tooltip = new Tooltip(document.body);
+                    
+                    var rect = tab.aml.$button.getBoundingClientRect();
+                    var style = tooltip.getElement().style;
+                    style.top = rect.bottom + 10 + "px";
+                    style.textAlign = "center";
+                    
+                    tooltip.setText(tooltipTitle);
+                    tooltip.show();
+                    var tooltipRect = tooltip.getElement().getBoundingClientRect();
+                    style.minWidth = rect.width + "px";
+                    var left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+                    if (left + tooltipRect.width > window.innerWidth)
+                        left = Math.max(0, window.innerWidth - tooltipRect.width);
+                    style.left = left + "px";
+                });
+                
+                el.addEventListener("mouseout", function(e) {
+                    tooltip && tooltip.hide();
+                });
+                plugin.on("beforeUnload", function() {
+                    tooltip && tooltip.destroy();
+                    tooltip = null;
+                });
+            }
+            
             function createEditor(type, callback) {
                 var tab = amlPane.getPage("editor::" + type);
                 if (cancelEditorCreate)
                     cancelEditorCreate();
-                if (!tab) {                    
+                if (!tab) {
                     cancelEditorCreate = editors.createEditor(type, function(err, editor) {
                         editor.attachTo(amlPane.cloud9pane);
                         callback(null, editor);
