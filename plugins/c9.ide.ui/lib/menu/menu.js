@@ -1832,9 +1832,7 @@ apf.item  = function(struct, tagName){
     });
 }).call(apf.item.prototype = new apf.Presentation());
 
-//apf.aml.setElement("radio", apf.radio);
-//apf.aml.setElement("check", apf.check);
-apf.aml.setElement("item",  apf.item);
+apf.aml.setElement("item", apf.item);
 
 };
 

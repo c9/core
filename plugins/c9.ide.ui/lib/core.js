@@ -28,8 +28,9 @@ function node2Json(node) {
     } else {
         return;
     }
-    
-    var json = {name: node.nodeName}; // node.localName}
+    if (/Namespace prefix \w+ on \w+ is not defined/.test(node.textContent))
+        return;
+    var json = { name: node.nodeName }; // node.localName}
     var props = attributes(node.attributes);
     if (props) json.props = props;
     if (children.length) json.children = children;
@@ -73,8 +74,6 @@ var Node = function() {
             throw new Error("Invalid insertBefore call");
         
         var children = this.childNodes;
-        // if (node.parentNode == this)
-        //     children[index]
         if (node.parentNode)
             node.removeNode();
         
@@ -123,8 +122,6 @@ var Node = function() {
         if (this.parentNode)
             this.parentNode.removeChild(this);
     };
-    
-    
     
 }).call(Node.prototype);
 
