@@ -138,14 +138,7 @@ define(function(require, module, exports) {
             }
             fs.on("afterUnlink", removeTab);
             fs.on("afterRmfile", removeTab);
-            fs.on("afterRmdir", function(e) {
-                var path = e.path;
-                Object.keys(tabs).forEach(function(id) {
-                    var tab = tabs[id];
-                    if (tab.path && tab.path.indexOf(path) === 0)
-                        tab.unload();
-                });
-            });
+
             // Close a pane when it doesn't open
             // @todo this should probably be interactive (unless during init)
             // @todo move this to tabbehaviours?
