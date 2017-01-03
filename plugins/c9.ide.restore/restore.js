@@ -241,6 +241,11 @@ define(function(require, exports, module) {
             
             // Show Restore Screen
             el.style.display = "block";
+            // disable ide shortcuts
+            window.addEventListener("keypress", stopEvent, true);
+            window.addEventListener("keydown", stopEvent, true);
+            window.addEventListener("keyup", stopEvent, true);
+            
             
             clearTimeout(timeoutTimer);
             timeoutTimer = setTimeout(function(){
@@ -257,6 +262,10 @@ define(function(require, exports, module) {
         }
 
         function hideRestore() {
+            window.removeEventListener("keypress", stopEvent, true);
+            window.removeEventListener("keydown", stopEvent, true);
+            window.removeEventListener("keyup", stopEvent, true);
+            
             if (!el) return;
             
             clearTimeout(timer);
@@ -275,6 +284,10 @@ define(function(require, exports, module) {
                 }, 100);
             });
             
+        }
+        
+        function stopEvent(e) {
+            e.stopPropagation();
         }
         
         /***** Lifecycle *****/
