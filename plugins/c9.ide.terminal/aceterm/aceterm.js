@@ -280,7 +280,7 @@ define(function(require, exports, module) {
                     term.on("afterWrite", waitForNewLine);
                     term.lines[row].isUserInput = true;
                     monitor.lastCommandRow = row;
-                    monitor.$command = monitor.getCommand(monitor.lastCommandRow).trim();
+                    monitor.$command = monitor.getCommand(monitor.lastCommandRow);
                 }
             }
             
@@ -299,10 +299,15 @@ define(function(require, exports, module) {
             }
         });
         function waitForNewLine(data) {
-             if (data.indexOf("\n") >= 0) {
+            var index = data.indexOf("\n");
+            if (index >= 0) {
                 session.term.off("afterWrite", waitForNewLine);
-                monitor.$command = monitor.getCommand(monitor.lastCommandRow).trim();
-             }
+                monitor.$command += data.substr(0, index);
+                monitor.$command = monitor.$command.trim();
+            }
+            else {
+                monitor.$command += data;
+            }
         }
 
         var monitor = {
