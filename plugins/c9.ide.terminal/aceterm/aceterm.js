@@ -277,10 +277,12 @@ define(function(require, exports, module) {
                 var command = monitor.getCommand(row);
                 if (command) {
                     // wait for \n to know what command was typed
-                    term.on("afterWrite", waitForNewLine);
+                    term.once("newline", function() {
+                        monitor.$command = monitor.getCommand(monitor.lastCommandRow).trim();
+                    });
                     term.lines[row].isUserInput = true;
                     monitor.lastCommandRow = row;
-                    monitor.$command = monitor.getCommand(monitor.lastCommandRow);
+                    monitor.$command = monitor.getCommand(monitor.lastCommandRow).trim();
                 }
             }
             
@@ -298,17 +300,6 @@ define(function(require, exports, module) {
                 });
             }
         });
-        function waitForNewLine(data) {
-            var index = data.indexOf("\n");
-            if (index >= 0) {
-                session.term.off("afterWrite", waitForNewLine);
-                monitor.$command += data.substr(0, index);
-                monitor.$command = monitor.$command.trim();
-            }
-            else {
-                monitor.$command += data;
-            }
-        }
 
         var monitor = {
             lastCommandRow: -1,
