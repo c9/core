@@ -386,6 +386,7 @@ function Reloader(win, console) {
 // Keys
 var ckb;
 function setKeys(list) {
+    if (window.opener) return; // do not forward keys when not in iframe
     ckb = {};
     
     list.forEach(function(item) {
