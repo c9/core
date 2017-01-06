@@ -1,0 +1,109 @@
+.outline .tree-row .caption {
+    padding : 4px 5px;
+    display : inline-block;
+}
+.outline.ace_tree{
+    border: none;
+    background: transparent;
+    color: @color;
+}
+.outline.ace_tree .toggler{
+    margin: 4px 0 0 3px;
+}
+.outline.ace_tree .toggler:not(.empty){
+    .image-2x("@{tree-arrow}", 20px, 10px);
+}
+
+.outline.ace_tree .ace_tree_cell-layer>div>span{
+    vertical-align: top;
+    font-size: 11px;
+    font-family: Tahoma, Arial;
+    line-height: 10px;
+    .box-sizing(border-box);
+}
+.outline.ace_tree .ace_tree_cell-layer>div>span:first-child{
+    padding : 0 0 0 0;
+}
+
+.outline.ace_tree .tree-row strong{
+    color: @highlight-color;
+    /*font-weight: normal;*/
+}
+.outline.ace_tree .tree-row.selected strong{
+    color : @highlight-selected-color;
+}
+.outline.ace_tree.focus .tree-row.selected .toggler:not(.empty){
+    .image-2x("@{tree-arrow-focus-selected}", 20px, 10px);
+}
+
+.outline.ace_tree .tree-row{
+    border-radius: 2px;
+    cursor: pointer;
+}
+.outline.ace_tree .tree-row:hover,
+.outline.ace_tree .tree-row.hover{
+    background: @selected-hover-background;
+    color: @selected-hover-color;
+}
+.outline.ace_tree .tree-row.selected{
+    background: @selected-background;
+    color: @selected-color;
+}
+.outline.ace_tree.focus .tree-row.selected{
+    background: @selected-focus-background;
+    color: @selected-focus-color;
+}
+
+.outline.ace_tree .tree-row .icon{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin: 1px -4px 0 0;
+}
+
+.outline.ace_tree .tree-row .icon.event{
+    .image-2x("@{complete-icon-event}", 8px, 8px);
+    background-position: 4px;
+}
+.outline.ace_tree .tree-row .icon.method{
+    .image-2x("@{complete-icon-method}", 8px, 8px);
+    background-position: 4px;
+}
+.outline.ace_tree .tree-row .icon.method2{
+    .image-2x("@{complete-icon-method2}", 8px, 8px);
+    background-position: 4px;
+}
+.outline.ace_tree .tree-row .icon.package{
+    .image-2x("@{complete-icon-package}", 8px, 8px);
+    background-position: 4px;
+}
+.outline.ace_tree .tree-row .icon.property{
+    .image-2x("@{complete-icon-property}", 8px, 8px);
+    background-position: 4px;
+}
+.outline.ace_tree .tree-row .icon.property2{
+    .image-2x("@{complete-icon-property2}", 8px, 8px);
+    background-position: 4px;
+}
+.lang-icon-event{
+    .image-2x("@{complete-icon-event}", 8px, 8px, no-repeat, true);
+}
+.lang-icon-method{
+    .image-2x("@{complete-icon-method}", 8px, 8px, no-repeat, true);
+}
+.lang-icon-method2{
+    .image-2x("@{complete-icon-method2}", 8px, 8px, no-repeat, true);
+}
+.lang-icon-package{
+    .image-2x("@{complete-icon-package}", 8px, 8px, no-repeat, true);
+}
+.lang-icon-property{
+    .image-2x("@{complete-icon-property}", 8px, 8px, no-repeat, true);
+}
+.lang-icon-property2{
+    .image-2x("@{complete-icon-property2}", 8px, 8px, no-repeat, true);
+}
+
+.outline.ace_tree .message{
+    font-size : 11px;
+}

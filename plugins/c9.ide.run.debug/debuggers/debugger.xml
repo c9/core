@@ -1,0 +1,63 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:bar id="hbox" skin="toolbar-top" class="fakehbox aligncenter debugger_buttons basic">
+        <a:button id="btnResume"
+          tooltip  = "Resume"
+          icon     = "play.png"
+          command  = "resume"
+          skin     = "c9-menu-btn"
+          class    = "nosize play"
+          visible  = "false" />
+        <a:button id="btnSuspend"
+          tooltip  = "Suspend"
+          skin     = "c9-menu-btn"
+          class    = "nosize pause"
+          icon     = "pause.png"
+          command  = "suspend"
+          disabled = "true" />
+        <a:button id="btnStepOver"
+          tooltip  = "Step Over"
+          icon     = "step.png"
+          skin     = "c9-menu-btn"
+          class    = "nosize step"
+          command  = "stepover"
+          disabled = "true" />
+        <a:button id="btnStepInto"
+          tooltip  = "Step Into"
+          icon     = "stepinto.png"
+          skin     = "c9-menu-btn"
+          class    = "nosize stepinto"
+          command  = "stepinto"
+          disabled = "true" />
+        <a:button id="btnStepOut"
+          tooltip  = "Step Out"
+          icon     = "stepback.png"
+          skin     = "c9-menu-btn"
+          class    = "nosize stepback"
+          command  = "stepout"
+          disabled = "true" />
+        <a:divider  skin="c9-divider" style="margin:0 3px 0 3px" />
+        <a:button id="btnPause"
+          tooltip  = "Don't pause on exceptions"
+          icon     = "exception_break.png"
+          class    = "pause0 nosize exception_break"
+          skinset  = "default"
+          skin     = "c9-menu-btn" />
+    </a:bar>
+    <a:bar id="hbox2"
+      class   = "fakehbox aligncenter debugger_buttons bottombuttons basic"
+      skin    = "toolbar-bottom"
+      skinset = "debugger"
+      bottom  = "0"
+      right   = "0"
+      left    = "0">
+        <a:divider  skin="c9-divider" />
+        <a:button id="btnOutput"
+          caption  = "Output"
+          skinset  = "default"
+          skin     = "c9-menu-btn" />
+        <a:button id="btnImmediate"
+          caption  = "Immediate"
+          skinset  = "default"
+          skin     = "c9-menu-btn" />
+    </a:bar>
+</a:application>

@@ -1,0 +1,78 @@
+.toolbar-top.previewbar{
+    /*box-shadow: 0px 1px rgba(255,255,255,0.14), 0px 4px 22px rgb(0, 0, 0);*/
+    box-shadow: @preview-bar-box-shadow;
+    z-index: 1;
+    border-top: @preview-bar-border-top;
+    background: @preview-bar-background-color;
+    height: @preview-bar-height !important;
+}
+
+.previewbar .searchbox.tb_console .sbtb_middle{
+    padding: 2px 7px 2px 7px;
+    padding-right: 7px !important;
+}
+
+.previewbar .locationbar{
+    .display-flex();
+}
+.previewbar .locationbar .ace_searchbox{
+    .flex(1);
+}
+.previewbar .locationbar .ace_searchbox .sbtb_middle{
+    border-radius: 3px 0 0 3px;
+    border-right : 0;
+    /*box-shadow : inset 1px 2px 3px 0 rgba(0,0,0,.3);*/
+}
+
+.previewbar .c9-toolbarbutton-glossy{
+    height : 24px !important;
+}
+
+.previewbar .c9-toolbarbutton-glossy .c9-icon {
+    width  : 24px;
+    height : 23px;
+    display : block;
+    top : 0;
+}
+
+.previewbar .preview-label {
+    padding-top: 5px
+}
+
+.previewbar .c9-toolbarbutton-glossy.close .c9-icon {
+    .image-2x(@preview-icon-close, @preview-icon-close-width, @preview-icon-close-height, no-repeat, true);
+    background-position: @preview-icon-close-position;
+}
+
+.previewbar .c9-toolbarbutton-glossy.refresh .c9-icon {
+    .image-2x(@preview-icon-refresh, @preview-icon-refresh-width, @preview-icon-refresh-height, no-repeat, true);
+    background-position: @preview-icon-refresh-position;
+}
+
+.previewbar .c9-toolbarbutton-glossy.popout .c9-icon {
+    .image-2x(@preview-icon-popout, @preview-icon-popout-width, @preview-icon-popout-height, no-repeat, true);
+    background-position: @preview-icon-popout-position;
+}
+
+.previewbar .c9-toolbarbutton-glossy.settings .c9-icon {
+    .image-2x(@preview-icon-settings, @preview-icon-settings-width, @preview-icon-settings-height, no-repeat, true);
+    background-position: @preview-icon-settings-position;
+}
+
+.previewbar .c9-toolbarbutton-glossy.goforward .c9-icon {
+    .image-2x(@preview-icon-goforward, @preview-icon-goforward-width, @preview-icon-goforward-height, no-repeat, true);
+    background-position: @preview-icon-goforward-position;
+}
+
+.previewbar .c9-toolbarbutton-glossyDisabled.goforward .c9-icon {
+    background-position: @preview-icon-goforward-disabled-position;
+}
+
+.previewbar .c9-toolbarbutton-glossy.goback .c9-icon {
+    .image-2x(@preview-icon-goback, @preview-icon-goback-width, @preview-icon-goback-height, no-repeat, true);
+    background-position: @preview-icon-goback-position;
+}
+
+.previewbar .c9-toolbarbutton-glossyDisabled.goback .c9-icon {
+    background-position: @preview-icon-goback-disabled-position;
+}

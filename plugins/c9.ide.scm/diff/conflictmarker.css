@@ -1,0 +1,123 @@
+.conflict-widget-1 {
+    background: rgb(178, 228, 145);
+    box-sizing: border-box;
+    border-radius: 4px 4px 0 0;
+    padding: 0px 1.2em;
+    cursor: default;
+}
+.ace_dark .conflict-widget-1 {
+    background: #3A6120;
+}
+
+.conflict-widget-2 {
+    background: rgb(130, 188, 239);
+    box-sizing: border-box;      
+    border-radius: 0 0 4px 4px;
+    padding: 0px 1.2em;
+    cursor: default;
+}
+.ace_dark .conflict-widget-2 {
+    background: #124775;
+}
+
+.conflict-widget-split {
+    background: inherit;
+    box-sizing: border-box;
+    padding: 0px 1.2em;
+    cursor: default;
+}
+
+.conflict-marker-1 {
+    position: absolute;
+    background: rgb(221, 236, 217);
+    border-left: 3px solid rgb(178, 228, 145);
+    border-right: 3px solid rgb(178, 228, 145);
+}
+.ace_dark .conflict-marker-1 {
+    background: rgba(118, 197, 65, 0.56);
+    border-left: 3px solid #3A6120;
+    border-right: 3px solid #3A6120;
+}
+
+.conflict-marker-2 {
+    position: absolute;
+    background: rgb(215, 225, 255);
+    border-left: 3px solid rgb(130, 188, 239);
+    border-right: 3px solid rgb(130, 188, 239);
+}
+.conflict-marker-1.edited, .conflict-marker-2.edited {
+    background: rgb(243, 240, 199);
+}
+.ace_dark .conflict-marker-2 {
+    background: rgba(36, 146, 243, 0.53);
+    border-left: 3px solid #124775;
+    border-right: 3px solid #124775;
+}
+
+.ace_button {
+    margin-left: 2px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow: hidden;
+    border: 1px solid rgba(100,100,100,0.23);
+    padding: 2px 4px;
+    box-sizing: border-box;
+    color: #545454;
+    background: white;
+    pointer-events: auto;
+    border-radius: 4px;
+}
+.ace_dark .ace_button{
+    border-color: #B1B1B1;
+    color: #333;
+    background: #B1B1B1;
+}
+.ace_button:hover {
+    background-color: #eee;
+    opacity:1;
+}
+.ace_dark .ace_button:hover{
+    background-color: rgb(146, 146, 146) !important;
+    color: #000 !important;
+}
+.ace_button:active {
+    background-color: #ddd;
+}
+.ace_dark .ace_button:active {
+    background-color: #B1B1B1;
+}
+.ace_button.disabled {
+    display: none !important;
+    pointer-events: none;
+}
+
+.ace_button.checked {
+    border-color: #3399ff;
+    opacity:1;
+}
+.conflict-button-top {
+    position: absolute;
+    right: 1.4em;
+    transform: translateY(-50%);
+}
+.conflict-button-bottom {
+    position: absolute;
+    right: 1.4em;
+    transform: translateY(50%);
+}
+
+.conflict-widget-split .conflict-button-top {
+    transform: none;
+}
+
+.conflict-widget-split .ace_button{
+    display: inline-block;
+    width: 1.85em;
+    margin-top: -3px;
+    transform: rotate(90deg);
+    text-align: center;
+}

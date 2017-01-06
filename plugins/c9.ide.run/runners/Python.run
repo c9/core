@@ -1,0 +1,7 @@
+{
+    "cmd": ["$python", "$file", "$args"],
+    "selector": "^.*\\.(python|py)$",
+    "env": {
+        "PYTHONPATH": "$python_path"
+    }
+}

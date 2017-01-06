@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> </title>
+    </head>
+    <body>
+    
+<div id=dropzone>drop zone</div>
+<input id="file" type="file" multiple />
+<input id="folder" type="file" webkitdirectory directory />
+
+<script>
+
+function define(factory) {
+    main(factory(null, {}, {}));
+}
+
+function main(Batch) {
+    var dropzone = document.getElementById('dropzone');
+    
+    var file = document.getElementById('file');
+    var folder = document.getElementById('folder');
+    
+    file.onchange = onchange;
+    folder.onchange = onchange;
+    
+    function onchange(e) {
+        Batch.fromInput(e.target, function(err, batch) {
+            console.log(batch.files, batch.hasDirectories(), batch.getRoots(), batch.getSizes());
+        });
+    }
+    
+    dropzone.ondrop = function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        
+        Batch.fromDrop(evt, function(err, batch) {
+            console.log(batch.files, batch.hasDirectories(), batch.getRoots(), batch.getSizes());
+        });
+    };
+    
+    dropzone.ondragover = function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        evt.dataTransfer.dropEffect = 'copy';
+    };
+}</script>
+<script type="text/javascript" src="batch.js"></script>
+
+    </body>
+</html>

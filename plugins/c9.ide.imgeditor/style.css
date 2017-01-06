@@ -1,0 +1,90 @@
+.imgtoolbar{
+    padding-top:@imgeditor-toolbar-padding-top;
+    border-bottom: 1px solid @imgeditor-toolbar-border-color;
+    box-shadow: @imgeditor-toolbar-shadow;
+    box-sizing: border-box;
+    z-index: 1000000;
+    background-color : @imgeditor-toolbar-background;
+}
+
+.imgtoolbar .label{
+    color: @imgeditor-toolbar-label-color;
+    padding: @imgeditor-toolbar-label-padding;
+}
+
+.imgtoolbar .c9-divider{
+    margin: @imgeditor-toolbar-divider-margin !important;
+}
+
+.imgtoolbar .black_dropdown{
+    min-height: @imgeditor-dropdown-height !important;
+    max-height: @imgeditor-dropdown-height !important;
+}
+.imgtoolbar .black_dropdown .lbl{
+    padding: @imgeditor-dropdown-label-padding;
+    margin-right: @imgeditor-dropdown-button-width;
+}
+.imgtoolbar .black_dropdown .button{
+    width: @imgeditor-dropdown-button-width;
+}
+
+.imgeditor{
+    background: @imgeditor-background;
+    text-align : center;
+    white-space: nowrap;
+    overflow: auto;
+}
+.imgeditor:after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.imgeditor canvas{
+    background: url("@{image-path}/background.png");
+    cursor: crosshair;
+    box-shadow: 0 0 8px rgba(0,0,0,0.5);
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: scale(1);
+    -webkit-transform-origin: 0 0;
+    transform: scale(1);
+    transform-origin: 0 0;
+}
+
+.imgeditorrect{
+    cursor: crosshair;
+    border : 1px dotted rgba(0,0,0,0.5);
+    /*box-shadow : 1px 1px rgba(255,255,255,0.7), 1px 1px rgba(255,255,255,0.7) inset;*/
+    background : rgba(255,255,255,0.2);
+    position : absolute;
+    z-index : 100000;
+}
+
+.menu-resize{
+    width: @imgeditor-resize-width;
+    height: @imgeditor-resize-height;
+    padding: @imgeditor-resize-padding;
+}
+.menu-resize-row-height{
+    height: @imgeditor-resize-row-height;
+    white-space: nowrap;
+    margin: 0 0 @imgeditor-resize-row-margin-bottom 0;
+}
+.menu-resize-row-height.center{
+    text-align: center;
+}
+.menu-resize-row-height > *{
+    display: inline-block;
+    vertical-align: middle;
+}
+.menu-resize .resize-label{
+    width: @imgeditor-resize-column-width;
+}
+.menu-resize .menu_divider{
+    margin: @imgeditor-resize-divider-margin !important;
+}
+.menu-resize .menu_divider when(@imgeditor-resize-dividers = false) {
+    display: none;
+}

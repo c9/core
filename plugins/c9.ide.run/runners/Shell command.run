@@ -1,0 +1,3 @@
+{
+    "cmd": ["$command", "$args"]
+}

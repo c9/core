@@ -1,0 +1,222 @@
+.language_tooltip {
+    display: inline-block;
+    position: absolute;
+    border: 1px solid @language-tooltip-border-color;
+    background-color: @language-tooltip-background;
+    color: @language-tooltip-color;
+    padding: 3px 5px;
+    line-height: 15px;
+    .box-shadow(~"@{language-tooltip-box-shadow}");
+    text-shadow: @language-tooltip-text-shadow;
+    z-index: 300;
+    font-family: Arial;
+    z-index: 100000;
+    pointer-events: none;
+}
+.language_tooltip.dark {
+    background-color: @language-tooltip-dark-background;
+    color: @language-tooltip-dark-color;
+    border-color: @language-tooltip-dark-border-color;
+    text-shadow: @language-tooltip-dark-text-shadow;
+    .box-shadow(~"@{language-tooltip-dark-box-shadow}");
+    .font-smoothing(true);
+}
+
+.code_complete_text.ace_autocomplete {
+    background: @complete-background;
+    border: 1px solid @complete-border-color;
+    .box-shadow(~"@{complete-box-shadow}, inset 1px 1px 0 @{complete-inner-border-color}, inset -1px -1px 0 @{complete-inner-border-color}");
+    width: 270px;
+    line-height: 20px;
+    position: absolute;
+}
+.code_complete_text.dark.ace_autocomplete {
+    background: @complete-dark-background;
+    border: 1px solid @complete-dark-border-color;
+    .box-shadow(~"@{complete-dark-box-shadow}, inset 1px 1px 0 @{complete-dark-inner-border-color}, inset -1px -1px 0 @{complete-dark-inner-border-color}");
+    .font-smoothing(true);
+}
+
+.code_complete_text .ace_scroller{
+    margin: 1px 2px 1px 1px;
+}
+
+.code_complete_doc_text .cc_complete_option.ace_selected {
+    text-shadow: none;
+    overflow: auto;
+    padding: 5px;
+}
+
+.ace_autocomplete{
+    z-index: 100000;
+}
+
+.code_complete_doc_text{
+    width: 310px;
+    overflow : auto;
+    position: absolute;
+    padding : 5px;
+    .box-sizing(border-box);
+    z-index: 100000;
+    background-color: @complete-docs-background;
+    color: @complete-docs-color;
+    min-height: 100px;
+    max-width: 300px;
+    border: 1px solid @complete-docs-border-color;
+    .box-shadow(~"@{complete-box-shadow}, inset 1px 1px @{complete-inner-border-color}, inset -1px -1px @{complete-inner-border-color}");
+    font-size: 12px;
+}
+.code_complete_doc_text.dark{
+    border: 1px solid @complete-dark-inner-border-color;
+    border: 1px solid @complete-dark-border-color;
+    .box-shadow(~"@{complete-dark-box-shadow}, inset 1px 1px @{complete-dark-inner-border-color}, inset -1px -1px @{complete-dark-inner-border-color}");
+    color: @complete-dark-docs-color;
+    background-color: @complete-dark-docs-background;
+}
+
+.language_activeparamindent {
+    color: @complete-activeparamindent;
+    text-shadow: none;
+}
+.dark .language_activeparamindent {
+    color: @complete-dark-activeparamindent;
+}
+
+.language_activeparam {
+    color: @complete-activeparam;
+    font-weight: bold;
+    font-style: normal;
+}
+.dark .language_activeparam {
+    color: @complete-dark-activeparam;
+}
+
+.language_type {
+    font-style: italic;
+}
+
+.language_activeparamhelp {
+    margin-left: 5px;
+    font-style: italic;
+}
+
+.language_paramhelp {
+    color: @complete-paramhelp;
+    margin-top: 2px;
+}
+.dark .language_paramhelp {
+    color: @complete-dark-paramhelp;
+}
+
+.code_complete_doc_body {
+    
+}
+
+.code_complete_doc_head {
+    text-decoration: underline;
+}
+
+.code_complete_doc_text {
+    
+}
+
+.code_complete_doc_text u {
+    text-decoration: none;
+    color: blue;
+    text-shadow: none;
+}
+
+.code_complete_text .ace_text-layer{
+    left : 1px;
+    right : 1px;
+    width : auto;
+    top : 1px;
+    bottom : 1px;
+}
+
+.code_complete_text .ace_line{
+    background : transparent;
+    
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
+    /*padding : 0 0 1px 0; */ /*todo requires special handling in ace*/
+    pointer-events: auto;
+    cursor : pointer;
+    color : @complete-color;
+}
+.code_complete_text.dark .ace_line{
+    color : @complete-dark-color;
+}
+
+.code_complete_text .ace_line .completer-img {
+    width: 8px;
+    height: 8px;
+    margin : 0 7px 0 5px;
+    display : inline-block;
+    border : 0 !important;
+}
+.code_complete_text .ace_line .deferred {
+    opacity: .5;
+}
+.code_complete_text .ace_line .main u {
+    /*font-weight: bold;*/
+    text-decoration: none;
+    color: @complete-match;
+}
+.code_complete_text.dark .ace_line .main u {
+    color: @complete-dark-match;
+}
+.code_complete_text.ace_no-bold .ace_line .main u {
+    font-weight: normal;
+    text-shadow: 0 0 0.01em;
+}
+.code_complete_text .ace_line.ace_selected .main u {
+    color: @complete-selected-match !important;
+    text-decoration: none;
+    /*font-weight: bold;*/
+    text-shadow: @complete-selected-match-text-overflow;
+}
+.code_complete_text.dark .ace_line.selected .main u {
+    color: @complete-dark-selected-match !important;
+    text-shadow: @complete-dark-selected-match-text-overflow;
+}
+.code_complete_text .ace_line .meta {
+    opacity: .5;
+    margin : 0 0 0 0;
+}
+.code_complete_text .ace_line-hover{
+    background: @complete-hover-background;
+    color: @complete-hover-color;
+}
+.code_complete_text.dark .ace_line-hover{
+    background: @complete-dark-hover-background;
+    color: @complete-dark-hover-color;
+}
+.code_complete_text .ace_line>span{
+    padding : 0px 2px 0 1px;
+    .box-sizing(border-box);
+}
+.code_complete_text .ace_line.ace_selected{
+    background: @complete-selected-background;
+}
+.code_complete_text.dark .ace_line.ace_selected{
+    background: @complete-dark-selected-background;
+}
+.code_complete_text .ace_line.ace_selected:hover{
+}
+
+.code_complete_text .ace_line.ace_selected span{
+    color : @complete-selected-color;
+}
+.code_complete_text.dark .ace_line.ace_selected span{
+    color : @complete-dark-selected-color;
+}
+
+/* allow selecting in doc popup but do not elsewhere */
+.panelsbar, .btnsesssioncontainer, .bar-status, .splitgrabber, 
+.code_complete_text, .ace_scrollbar, .ace_tree {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}

@@ -1,0 +1,5 @@
+{
+    "cmd": ["coffee", "$file", "$args"],
+    "debug": ["--debug-brk=5454"],
+    "selector": "source.coffee"
+}

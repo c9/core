@@ -1,0 +1,133 @@
+.notificationstree {
+    position: absolute;
+    right: 40px;
+    top: 35px;
+    color: #AAA;
+}
+
+.notificationstree .message.empty{
+    font-size: 11px;
+    margin: 6px;
+}
+
+.notificationstree .tree-row {
+    position: relative;
+    pointer-events: auto;
+    box-shadow: @collab-notification-item-box-shadow;
+    border-bottom: @collab-notification-item-border-bottom;
+    padding: @collab-notification-item-padding;
+}
+
+.notificationstree .tree-row:first-child{
+    box-shadow: none;
+}
+.notificationstree .tree-row:last-child{
+    border-bottom: 0;
+}
+
+.notificationstree .access_control {
+    position: relative;
+    display: inline-block;
+    top: -2px;
+    right: 5px;
+}
+
+.notificationstree .toggler.empty {
+    display: none;
+}
+
+.notificationstree .actions {
+    position: absolute;
+    left: 55px;
+    bottom: 5px;
+}
+
+.notificationstree .access_request .btn-default-css3 {
+    display: inline-block;
+    line-height: @collab-notification-button-line-height;
+    font-size: 11px;
+    margin-right: 5px;
+    position: relative;
+    top: @collab-notification-button-top;
+}
+
+.notificationstree .btn-default-css3 .caption {
+    pointer-events: none;
+    padding: @collab-notification-button-padding;
+}
+
+.notificationstree .tree-row .body>.caption {
+    font-weight: bold;
+}
+
+.notificationstree .tree-row .body {
+    font-size: @collab-notification-item-font-size;
+    color: @collab-notification-item-color;
+    display: inline-block;
+    margin: 5px 0 6px;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.notificationstree .avatar {
+    position: absolute;
+    left: 5px;
+    width: 50px;
+    top: 5px;
+}
+
+.notificationstree .avatar img {
+    width: @collab-notification-width;
+    height: @collab-notification-height;
+    border: @collab-notification-border;
+    border-radius: @collab-notification-border-radius;
+    box-shadow: @collab-notification-box-shadow;
+}
+
+.notificationstree .tree-row:hover {
+    background: @selected-hover-background;
+}
+
+.notificationstree .tree-row.selected {
+    background: @selected-hover-background;
+}
+
+.notificationstree.ace_tree_focus .tree-row.selected {
+    background: @selected-hover-background;
+}
+
+.panelsbutton.collab{
+    position: relative;
+}
+
+.panelsbutton.collab .newnotifs{
+    display: none;
+    position: absolute;
+    left: 5px;
+    background: @collab-bubble-background;
+    border-radius: 10px;
+    height: 11px;
+    font-size: 10px;
+    font-weight: @collab-bubble-font-weight;
+    text-align: center;
+    -webkit-transform-origin: top left;
+    -webkit-transform: rotate(-90deg);
+    transform-origin: top left;
+    transform: rotate(-90deg);
+    padding: 1px 3px 1px 4px;
+    color: @collab-bubble-color;
+    box-shadow: @collab-bubble-box-shadow;
+    line-height: 11px;
+    .font-smoothing(true);
+}
+
+.panelsbutton.collab .newnotifs.size1{
+    top: 17px;
+}
+.panelsbutton.collab .newnotifs.size2{
+    top: 21px;
+}
+.panelsbutton.collab .newnotifs.size3{
+    top: 27px;
+}

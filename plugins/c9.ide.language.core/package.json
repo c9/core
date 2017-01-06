@@ -1,0 +1,27 @@
+{
+    "name": "c9.ide.language",
+    "description": "The repository for c9.ide.language, a Cloud9 core plugin",
+    "version": "3.0.0",
+    "author": "Cloud9",
+    "contributors": [],
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/c9/c9.ide.language.git"
+    },
+    "plugins": {
+        "complete": {},
+        "jumptodef": {},
+        "keyhandler": {},
+        "marker": {},
+        "outline": {},
+        "refactor": {},
+        "tooltip": {},
+        "worker_util_helper": {}
+    },
+    "categories": [
+        "core"
+    ],
+    "licenses": [
+        "C9SDK"
+    ]
+}

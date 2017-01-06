@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<init xmlns="urn:debugger_protocol_v1" xmlns:xdebug="http://xdebug.org/dbgp/xdebug" fileuri="file:///home/ubuntu/workspace/_test/foo.php" language="PHP" protocol_version="1.0" appid="17664" idekey="session_name">
+    <engine version="2.2.3"><![CDATA[Xdebug]]></engine>
+    <author>
+        <![CDATA[Derick Rethans]]>
+    </author>
+    <url>
+        <![CDATA[http://xdebug.org]]>
+    </url>
+    <copyright>
+        <![CDATA[Copyright (c) 2002-2013 by Derick Rethans]]>
+    </copyright>
+</init>

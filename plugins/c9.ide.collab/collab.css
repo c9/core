@@ -1,0 +1,89 @@
+/* Cursor tooltip end */
+.cool {
+    position: absolute;
+    opacity: 0.9;
+}
+
+.coolsel {
+    opacity: 0.2 !important;
+}
+
+.cool_header {
+    color: black;
+    margin-top: -2px;
+    margin-left: -1px;
+    width: 4px;
+    height: 4px;
+}
+
+.cool_tooltip_cursor {
+    position: absolute;
+    height: @collab-tooltip-height;
+    width: auto;
+    background: @collab-tooltip-background;
+    border-radius: @collab-tooltip-border-radius;
+    box-shadow: @collab-tooltip-border-box-shadow;
+
+    border: @collab-tooltip-border;
+    vertical-align: middle;
+    line-height: @collab-tooltip-line-height;
+    padding: @collab-tooltip-border-padding;
+    margin: @collab-tooltip-border-margin;
+    z-index: 200001;
+}
+
+.cool_tooltip_cursor_arrow when (@collab-tooltip-arrow = true){
+    position: absolute;
+    background: url(/static/plugins/c9.ide.collab/images/tooltip_elements.png) no-repeat 0 -100px;
+    padding: 0;
+    margin: 0;
+    width: 23px;
+    height: 13px;
+    z-index: 200001;
+}
+
+.cool_tooltip_cursor_caption {
+    /*height: @collab-tooltip-height;*/
+    margin: 0 8px 0 8px;
+    color: @collab-tooltip-color;
+    cursor: default;
+    font-size: @collab-tooltip-font-size;
+    font-weight: @collab-tooltip-font-weight;
+}
+/* Cursor tooltip end */
+
+/* Author gutter tooltip */
+.ace_tooltip {
+    position: fixed;
+    background: #F8F7AC;
+    border: solid 1px rgba(205, 237, 0, 0.81);
+    border-radius: 5px;
+    z-index: 1000000;
+    max-width: 500px;
+    white-space: pre-wrap;
+}
+
+.panelsbar .panelsbuttonDown.collab, .panelsbar .panelsbuttonDown.collab:hover{
+    /*border-bottom: 1px solid rgb(27, 27, 27);*/
+    box-shadow: 1px -1px @border-highlight inset, 1px 0 @border-highlight;
+    padding-bottom: 7px;
+}
+
+.collab-bar{
+    display:flex;
+    display:-webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+}
+
+.ace_gutter-tooltip {
+    position: fixed;
+    background: rgb(111, 111, 111);
+    border: 1px solid #969696;
+    border-radius: 2px;
+    z-index: 1000000;
+    max-width: 500px;
+    white-space: pre-wrap;
+    color: rgb(217, 255, 15);
+    padding: 1px 2px 1px 2px;
+}

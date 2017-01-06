@@ -1,0 +1,31 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:label id="tooltipSearchInFiles" skin="tooltipLabel" visible="false" />
+    <a:bar id="winSearchInFiles" skinset="searchreplace" focussable="container" zindex="1000" minheight="0" visible="false" height="0">
+        <a:hbox class="find-and-replace" padding="5" edge="5">
+            <a:hbox class="grouped_checkbox_holder" align="start" height="27">
+                <a:checkbox id="chkSFRegEx" value="state/findinfiles/@regex" class="chkRegEx" label="Regular Expressions" skin="grouped_checkbox" width="27" />
+                <a:checkbox id="chkSFMatchCase" value="state/findinfiles/@matchcase" class="chkMatchCase" label="Match Case" skin="grouped_checkbox" width="27" />
+                <a:checkbox id="chkSFWholeWords" value="state/findinfiles/@wholeword" class="chkWholeWords" label="Whole Words" skin="grouped_checkbox" width="27" />
+            </a:hbox>
+            <a:hbox class="grouped_checkbox_holder" align="start" height="27">
+                <a:checkbox id="chkSFConsole" value="state/findinfiles/@console" class="chkConsole" label="Show in Console" skin="grouped_checkbox" width="28" />
+            </a:hbox>
+            <a:codebox id="txtSFFind" tabindex="1000" flex="3" skin="searchbox" initial-message="Find in Files" focusselect="true" />
+            <a:button id="btnSFFind" focussable="false" skin="blackbutton" width="50" height="27">Find</a:button>
+              
+            <a:codebox id="txtSFPatterns" tabindex="1001" skin="searchbox" width="80" initial-message="*.*, -.*" label="Wildcards accepted. Prefix with - to exclude a pattern. Use , to split patterns" focusselect="true"/>
+            <a:dropdown id="ddSFSelection" skin="dropdown-dark-glossy" height="27" minwidth="80" value="selection" maxitems="10">
+                <a:item caption="Workspace" value="workspace" />
+                <a:item caption="Project" value="project" />
+                <a:item caption="Selection" value="selection" />
+                <a:item caption="Favorites" value="favorites" />
+                <a:item caption="Active File" value="active" />
+                <a:item caption="Open Files" value="open" />
+            </a:dropdown>
+              
+            <a:codebox id="txtSFReplace" tabindex="1002" skin="searchbox" flex="1" initial-message="Replace With" focusselect="true" label="$0-9 will insert the text of your capturing groups." />
+            <a:button id="btnSFReplaceAll" focussable="false" skin="blackbutton" width="80" height="27">Replace</a:button>
+            <a:button id="btnCollapse" skin="btn_console_open"  state="true" height="27" />
+        </a:hbox>
+    </a:bar>
+</a:application>

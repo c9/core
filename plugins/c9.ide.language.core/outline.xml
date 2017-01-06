@@ -1,0 +1,5 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:codebox id="textbox" realtime="true" skin="codebox" clearbutton="true" focusselect="true" singleline="true" 
+        style="position:absolute;height:27px;left:10px;top:10px;right:10px" />
+    <a:bar id="outlineTree" top="47" right="0" left="10" bottom="0" class="outline" />
+</a:application>

@@ -1,0 +1,200 @@
+.immediate{
+    padding : 5px;
+}
+
+.immediate .log, .immediate .return, .immediate .error, .immediate .warn{
+    border-bottom: 1px solid @immediate-row-border-color;
+    padding : 0 0 0 4px;
+    cursor : default;
+    line-height : 15px;
+    vertical-align: top;
+}
+.immediate .log>span, .immediate .return>span, 
+.immediate .error>span, .immediate .warning>span{
+    vertical-align: top;
+}
+.immediate .ace_lineWidgetContainer>div:first-child{
+    border-top: 1px solid @immediate-row-border-color;
+}
+.immediate .log, .immediate .return{
+    color : @immediate-return;
+}
+.immediate .warning{
+    color : @immediate-warn;
+}
+.immediate .error{
+    color : @immediate-error;
+}
+.immediate .ace_lineWidgetContainer{
+    border : 0;
+    background : transparent;
+}
+.immediate .property{
+    color : @immediate-property;
+}
+.immediate .treeitem{
+    display : inline-block;
+    padding-left : 10px;
+    .font-smoothing(@immediate-font-smoothing);
+    position : relative;
+    white-space: nowrap;
+}
+.immediate .treeitem .arrow{
+    top: 3px;
+    left: -2px;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    overflow: hidden;
+    text-indent: -2000px;
+    .image-2x("@{immediate-tree-arrow}", 20px, 10px);
+    background-repeat: no-repeat;
+}
+.immediate .treeitem .arrow.expanded{
+    background-position: -10px -1px;
+}
+.immediate .treecontainer{
+    padding : 0 0 0 0;
+}
+.immediate .treecontainer>.property{
+    padding-left: 10px;
+}
+.immediate .textnode, .immediate .comment, .immediate .emptynode,
+.immediate .cdata{
+    padding-left : 10px;
+}
+.immediate .null{
+    display : inline-block;
+    color : @immediate-null;
+}
+.immediate .stringcollapse>span:first-child{
+    cursor : pointer;
+}
+.immediate .stringcollapse>span:first-child:hover{
+    text-decoration: underline;
+}
+.immediate .stringcollapse>span:last-child{
+    display : none;
+}
+.immediate .string{
+    display : inline;
+    color : @immediate-string;
+}
+.immediate .number{
+    display : inline;
+    color : @immediate-number;
+}
+.immediate .function{
+    display : inline;
+}
+.immediate .regexp{
+    display : inline;
+    color : @immediate-regexp;
+}
+.immediate .err{
+    display : inline-block;
+    color : @immediate-error;
+}
+.immediate .stack{
+    margin: 0;
+    color: @immediate-stack;
+}
+.immediate .stack a{
+    color : @immediate-stack-link;
+    cursor : pointer;
+}
+.immediate .stack a:hover{
+    text-decoration : underline;
+}
+.immediate .preview{
+    font-style : italic;
+}
+
+/*.immediate .ace_gutter{*/
+/*    background : black !important;*/
+/*}*/
+.immediate .ace_gutter-cell{
+    padding-left : 6px;
+    color : transparent;
+}
+
+.immediate .ace_gutter-cell.repl_prompt:after{
+    padding-right : 0;
+    padding-left : 3px;
+    content: ">";
+    color : @immediate-prompt;
+}
+.immediate .ace_gutter-cell.repl_output:after{
+    content: "";
+}
+.immediate .ace_gutter-cell.repl_dots:after{
+    content: "";
+}
+.immediate .ace_gutter-cell.repl_output.waiting:after {
+    height: 17px;
+    right: 0;
+    width: 12px;
+    content: "";
+    margin-top: 0px;
+}
+.ace_lineWidgetContainer:before{
+    background: transparent;
+}
+.ace_lineWidgetContainer:after{
+    background: transparent;
+}
+
+/* ace_dark */
+
+.immediate .ace_dark .log, 
+.immediate .ace_dark .return, 
+.immediate .ace_dark .error, 
+.immediate .ace_dark .warn{
+    border-bottom: 1px solid @immediate-dark-row-border-color;
+}
+.immediate .ace_dark .ace_lineWidgetContainer>div:first-child{
+    border-top: 1px solid @immediate-dark-row-border-color;
+}
+.immediate .ace_dark .log, 
+.immediate .ace_dark .return{
+    color : @immediate-dark-return;
+}
+.immediate .ace_dark .warning{
+    color : @immediate-dark-warn;
+}
+.immediate .ace_dark .error{
+    color : @immediate-dark-error;
+}
+.immediate .ace_dark .property{
+    color : @immediate-dark-property;
+}
+.immediate .ace_dark .treeitem{
+    .font-smoothing(@immediate-dark-font-smoothing);
+}
+.immediate .ace_dark .treeitem .arrow{
+    .image-2x("@{immediate-dark-tree-arrow}", 20px, 10px);
+}
+.immediate .ace_dark .null{
+    color : @immediate-dark-null;
+}
+.immediate .ace_dark .string{
+    color : @immediate-dark-string;
+}
+.immediate .ace_dark .number{
+    color : @immediate-dark-number;
+}
+.immediate .ace_dark .regexp{
+    color : @immediate-dark-regexp;
+}
+.immediate .ace_dark .err{
+    color : @immediate-dark-error;
+}
+.immediate .ace_dark .stack{
+    color: @immediate-dark-stack;
+}
+.immediate .ace_dark .stack a{
+    color : @immediate-dark-stack-link;
+}
+.immediate .ace_dark .ace_gutter-cell.repl_prompt:after{
+    color : @immediate-dark-prompt;
+}

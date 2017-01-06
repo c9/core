@@ -1,0 +1,44 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:bar id="bar" 
+      skin    = "bar-status" 
+      skinset = "c9statusbar"
+      class   = ""
+      zindex  = "10000"
+      style   = "position:absolute;right:5px;bottom:3px;"
+      height  = "23">
+        <a:label id="lblSelectionLength" 
+          caption = "" 
+          style   = "cursor:pointer"
+          margin  = "1 10 4 3"
+          visible = "{this.caption != ''}" />
+        <a:label id="lblRowCol"
+          class   = "lbl_row_col"
+          style   = "cursor:pointer"
+          margin  = "1 10 4 3" />
+        <a:label id="lblEditorStatus" 
+          caption = "" 
+          class   = "nounderline"
+          margin  = "1 10 4 3" 
+          visible = "{this.caption != ''}" />
+        <a:button id="lblSyntax" 
+          skin    = "label"
+          style   = "cursor:pointer"
+          caption = "" 
+          margin  = "1 10 4 3"
+          visible = "{this.caption != ''}" 
+          submenudir = "up" />
+        <a:button id="lblTabs" 
+          skin    = "label"
+          style   = "cursor:pointer"
+          caption = "" 
+          margin  = "1 10 4 3"
+          visible = "{this.caption != ''}"
+          submenudir = "up" />
+        <a:button id="btnSbPrefs"
+          skin    = "btn-statusbar-icon" 
+          skinset = "c9statusbar"
+          height  = "23"
+          icon    = "pref-ico.png" 
+          submenudir = "up" />
+    </a:bar>
+</a:application>

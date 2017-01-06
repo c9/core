@@ -1,0 +1,12 @@
+{
+    "cmd" : [
+        "mocha", 
+        "${debug?--debug-brk}",
+        "$file", 
+        "$args"],
+    "info" : "Mocha-testing $project_path$file_name",
+    "working_dir": "$project_path",
+    "env" : {},
+    "debugger": "v8",
+    "debugport": 5858
+}

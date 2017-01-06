@@ -1,0 +1,21 @@
+{
+  "name": "",
+  "description": "",
+  "version": "0.0.1",
+  "author": "",
+  "contributors": [
+    {
+      "name": "",
+      "email": ""
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "plugins": {
+    "guide": {}
+  },
+  "categories": ["miscellaneous"],
+  "licenses": []
+}

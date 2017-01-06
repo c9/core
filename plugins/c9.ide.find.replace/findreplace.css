@@ -1,0 +1,30 @@
+#divSearchCount {
+    position: absolute;
+    width: auto;
+    height: 19px;
+    right: 47px;
+    top: 5px;
+    z-index : 100;
+    color: @find-search-count-color;
+    font-size: 11px;
+    line-height: 19px;
+    text-align: center;
+    vertical-align: middle;
+    pointer-events: none;
+}
+
+.tb_textbox.searchTxt .sbtb_middle input {
+    width: 100%;
+}
+
+.btnquicksearchnav.btnquicksearchnavLeft .lbl span {
+    background-image: url("@{icon-path}/@{find-next-image}");
+}
+.btnquicksearchnav.btnquicksearchnavRight .lbl span {
+    background-image: url("@{icon-path}/@{find-previous-image}");
+}
+
+.findInRangeMarker {
+    position: absolute;
+    background-color: @find-range-marker-color;
+}

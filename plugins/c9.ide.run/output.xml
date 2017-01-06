@@ -1,0 +1,44 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <div class="toolbar">
+        <a:button
+            id       = "btnRun"
+            skin     = "c9-toolbarbutton-glossy"
+            caption  = "Run"
+            width    = "54"
+            icon     = "run.png"
+            class    = "runbtn stopped"
+            visible  = "true"
+            style    = "min-width:54px;" />
+        <a:button
+            id       = "btnRestart"
+            skin     = "c9-toolbarbutton-glossy"
+            width    = "22"
+            icon     = "restart-icon.png"
+            tooltip  = "Restart"
+            class    = "light restart"
+            style    = "min-width:22px" />
+        <!--<a:button skin="c9-toolbarbutton-glossy" id="btnConsoleClear" class="clear" icon="console_clear.png" />-->
+        <a:textbox skin="tbsimple" id="tbName" initial-message="Run Config Name" style="min-width:40px"/>
+        <a:divider skin="c9-divider" />
+        <a:label style="min-width:64px">Command:</a:label>
+        <a:textbox skin="tbsimple" id="tbCommand" minwidth="150" initial-message="Example: ./server.js --help" 
+            style="flex:2;margin-right:20px !important;" />
+        <a:button
+            id       = "btnDebug"
+            skin     = "c9-toolbarbutton-glossy"
+            icon     = "bug.png"
+            state    = "true"
+            class    = "bug"
+            tooltip  = "Run in Debug Mode"
+            style    = "min-width:23px;"/>
+        <a:button skin="c9-toolbarbutton-glossy" id="btnRunner" caption="Runner: Auto" style="min-width:30px"/>
+        <a:button
+            id       = "btnCwd"
+            class    = "cwd"
+            skin     = "c9-toolbarbutton-glossy"
+            caption  = "CWD"
+            tooltip  = "Set current working directory"
+            style    = "min-width:45px"/>
+        <a:button skin="c9-toolbarbutton-glossy" id="btnEnv" caption="ENV" style="min-width:30px" class="env"/>
+    </div>
+</a:application>

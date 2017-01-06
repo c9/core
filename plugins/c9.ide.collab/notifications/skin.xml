@@ -1,0 +1,73 @@
+<?xml version='1.0'?>
+<a:skin xmlns:a="http://ajax.org/2005/aml">
+    <a:notifier name="notifications-bubble">
+        <a:style><![CDATA[
+            .notifications-bubble {
+                position: relative;
+                border: @bubble-border;
+                border-radius: @bubble-border-radius;
+                .gradient(~"@{bubble-gradient}");
+                padding: @bubble-padding;
+                color: @bubble-color;
+                margin-top: @bubble-margin-top;
+                box-shadow: @bubble-box-shadow;
+                font-weight: @bubble-font-weight;
+            }
+            .notifications-bubble.notifier_hidden{
+                opacity: 0;
+            }
+
+            .notifications-bubble .noise_bg when(@bubble-with-noise = true){
+                background: url("images/noise_pattern_transparent.png") 0 0;
+                bottom: 0;
+                left: 0;
+                opacity: 0.1;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+            .notifications-bubble .close-notifier {
+                .image-2x(@bubble-close-image, @bubble-close-image-width, @bubble-close-image-height);
+                background-position: 0 0;
+                width: 13px;
+                height: 13px;
+                position: absolute;
+                top: 5px;
+                right: 5px;
+            }
+
+            .notifications-bubble .close-notifier:hover {
+                background-position: @bubble-close-hover;
+            }
+            .notifications-bubble .close-notifier:active {
+                background-position: @bubble-close-active;
+            }
+            
+            .notifications-bubble .gravatar-image {
+                height: 25px;
+                width: 25px;
+                float: left;
+                margin-right: 5px;
+                border: 1px solid #aaaaaa;
+            }
+            
+            .notifications-bubble .notification_sub {
+                color: #B3B3B3;
+                font-weight: normal;
+                display: block;
+                font-size: 11px;
+            }
+        ]]></a:style>
+
+        <a:presentation>
+            <a:notification message="." body="div[3]" close="div[2]">
+                <div class="notifications-bubble">
+                    <div class="noise_bg"></div>
+                    <div class="close-notifier"></div>
+                    <div class="notifications-content"> </div>
+                </div>
+            </a:notification>
+        </a:presentation>
+    </a:notifier>
+</a:skin>

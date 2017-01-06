@@ -1,0 +1,16 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:menu id="menu">
+        <a:item value="remove">Remove Breakpoint</a:item>
+        <a:item value="remove-all">Remove All Breakpoints</a:item>
+        <a:divider />
+        <a:item value="deactivate">Deactivate Breakpoints</a:item>
+        <a:divider />
+        <a:item value="enable-all">Enable All Breakpoints</a:item>
+        <a:item value="disable-all">Disable All Breakpoints</a:item>
+    </a:menu>
+    <a:bar id="list"
+      skinset      = "debugger"
+      skin         = "breakpoints"
+      border       = "0">
+    </a:bar>
+</a:application>

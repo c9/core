@@ -1,0 +1,1 @@
+/Users/gjtorikian/Developer/cloud9/plugins/cloud9.ide.search/darwin_x64/ag --nocolor -p /Users/gjtorikian/Developer/cloud9/plugins/cloud9.ide.filelist/.agignore -U -l --search-binary --hidden .+|\s* /Users/gjtorikian/Developer/cloud9/plugins/cloud9.ide.filelist/fixtures

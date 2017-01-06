@@ -1,0 +1,67 @@
+.language_highlight_default {
+    position: absolute;
+    border-bottom: solid 1px green;
+    z-index: 2000;
+}
+
+.language_highlight_error {
+    position: absolute;
+    border-bottom: solid 1px rgb(224, 4, 4);
+    z-index: 2000;
+}
+
+.language_highlight_warning {
+    position: absolute;
+    border-bottom: solid 1px #DDC50F;
+    z-index: 2000;
+}
+
+.language_highlight_info {
+    position: absolute;
+    border-bottom: dotted 1px #999;
+    z-index: 2000;
+}
+
+.language_highlight_occurrence_main {
+    position: absolute;
+    .box-sizing(border-box);
+    border: solid 1px #888;
+    z-index: 2000;
+}
+
+.ace_dark .language_highlight_occurrence_main {
+    border: solid 1px #888;
+}
+
+.language_highlight_occurrence_other {
+    position: absolute;
+    .box-sizing(border-box);
+    border: solid 1px #888;
+    z-index: 2000;
+}
+
+.ace_dark .language_highlight_occurrence_other {
+    border: solid 1px #888;
+}
+
+.language_rename_main {
+    position: absolute;
+    .box-sizing(border-box);
+    z-index: 3;
+    box-shadow: 0 0 2px 2px rgba(194, 181, 29, 0.78);
+}
+
+.ace_dark .language_rename_main {
+    box-shadow: 0 0 2px 2px rgba(194, 181, 29, 0.78);
+}
+
+.language_rename_other {
+    position: absolute;
+    .box-sizing(border-box);
+    z-index: 3;
+    box-shadow: 0 0 2px 1px rgba(214, 221, 38, 0.94) inset;
+}
+
+.ace_dark .language_rename_other {
+    box-shadow: 0 0 2px 1px rgba(214, 221, 38, 0.94) inset;
+}

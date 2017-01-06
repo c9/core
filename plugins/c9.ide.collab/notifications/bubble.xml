@@ -1,0 +1,10 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:notifier id="ntNotifications"
+      position="top-right"
+      timeout="4"
+      start-padding ="45"
+      columnsize="200"
+      margin="10 45 10 10"
+      skin="notifications-bubble"
+      skinset="bubble" />
+</a:application>

@@ -1,0 +1,186 @@
+<?xml version='1.0'?>
+<a:skin xmlns:a="http://ajax.org/2005/aml" xmlns="http://www.w3.org/1999/xhtml">
+    <a:list name="list">
+        <a:style><![CDATA[
+            .gotolinelist{
+                overflow: hidden;
+                position: relative;
+                border-style: solid;
+                .gradient(~"@{gotoline-list-background}");
+                color: @gotoline-list-color;
+                border-color: @gotoline-list-border-color;
+                border-width: @gotoline-list-border-width;
+                border-radius: @gotoline-list-border-radius;
+                margin: 0;
+                outline: none;
+                font-family: Tahoma;
+                font-size: 12px;
+                text-overflow: ellipsis;
+                cursor: default;
+                text-align: right;
+            }
+            .dark .gotolinelist{
+                .gradient(~"@{gotoline-list-background-dark}");
+                color: @gotoline-list-color-dark;
+                border-color: @gotoline-list-border-color-dark;
+                border-width: @gotoline-list-border-width-dark;
+                border-radius: @gotoline-list-border-radius-dark;
+                
+            }
+            .gotolinelist>.selected{
+                background-color: @gotoline-list-selected-background;
+                color: #e7e7e7;
+            }
+            .dark .gotolinelist>.selected{
+                background-color: @gotoline-list-selected-background-dark;
+            }
+            .gotolinelistFocus>.selected{
+                color : #e7e7e7;
+            }
+            .gotolinelist .empty, .gotolinelist .offline, .gotolinelist .loading{
+                text-align: center;
+                padding: 8px 0 0 0;
+                color: #777;
+                font-size : 8pt;
+                font-weight : normal;
+            }
+            .gotolinelist>DIV{
+                padding: 2px 6px;
+            }
+
+        ]]></a:style>
+
+        <a:presentation>
+            <a:main container=".">
+                <div class='gotolinelist'>
+                </div>
+            </a:main>
+            <a:item
+            class     = "."
+            container = "."
+            caption   = "."
+            select    = "."
+        >
+                <div> </div>
+            </a:item>
+            <a:empty caption=".">
+                <div class="message">-</div>
+            </a:empty>
+        </a:presentation>
+    </a:list>
+    <a:bar name="bar">
+        <a:style><![CDATA[
+            .barGotoline{
+                position : absolute;
+                background-color: @gotoline-background;
+                border-radius: @gotoline-border-radius;
+                box-shadow: @gotoline-box-shadow;
+                border: @gotoline-border;
+                border-left: 0;
+                width : 20px;
+                left : -100px;
+            }
+            .dark .barGotoline{
+                background-color: @gotoline-background-dark;
+                box-shadow: @gotoline-box-shadow-dark;
+                border: @gotoline-border-dark;
+                border-left: 0;
+            }
+            .brGtlContent {
+            }
+            .barGotoline .brGtlTop {
+                background: url(images/barGotoLineCorners.png) no-repeat 0 0;
+                height: 3px;
+                width: 4px;
+                position: absolute;
+                top: -3px;
+                left:0;
+            }
+            .barGotoline .brGtlBottom {
+                background: url(images/barGotoLineCorners.png) no-repeat 0 -3px;
+                height: 3px;
+                width: 4px;
+                position: absolute;
+                bottom: -3px;
+                left:0;
+            }
+        ]]></a:style>
+        <a:presentation>
+            <a:main container=".">
+                <div class="barGotoline">
+                    <div class="brGtlTop"></div>
+                    <div class="brGtlBottom"></div>
+                </div>
+            </a:main>
+        </a:presentation>
+    </a:bar>
+    <a:textbox name="textbox">
+        <a:style><![CDATA[
+            .tbGotoline {
+                position : relative;
+                height   : 25px;
+            }
+
+            .tbGotoline .sbtb_middle {
+                height           : 15px;
+                padding          : 2px 5px 2px 5px;
+
+                background-color: #ffffff;
+                .gradient(~"linear-gradient(center bottom,rgb(255,255,255) 50%,rgb(235,235,235) 100%)");
+                color: #0471cf;
+                margin: 0;
+                outline: none;
+                font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Droid Sans Mono', 'Consolas', monospace;
+                font-size: 12px;
+                text-overflow: ellipsis;
+
+                border-style: solid;
+                border-color: @gotoline-input-border-color;
+                border-width: @gotoline-input-border-width;
+                border-radius: @gotoline-input-border-radius;
+                box-shadow: @gotoline-input-box-shadow;
+            }
+            .dark .tbGotoline .sbtb_middle{
+                border-color: @gotoline-input-border-color-dark;
+                border-width: @gotoline-input-border-width-dark;
+                border-radius: @gotoline-input-border-radius-dark;
+                box-shadow: @gotoline-input-box-shadow-dark;
+            }
+
+            .tbGotoline .sbtb_middle INPUT {
+                border           : 0;
+                height           : 14px;
+                font-size        : 12px;
+                color            : #0471cf;
+                font-family      : 'Monaco', 'Menlo', 'Ubuntu Mono', 'Droid Sans Mono', 'Consolas', monospace;
+                outline          : none;
+                background-color : transparent;
+                width: 100%;
+                text-align: center;
+            }
+
+            .tbGotolineInitial .sbtb_middle INPUT {
+                color : #0471cf;
+            }
+
+            .tbGotolineDisabled .sbtb_middle INPUT {
+                color : #0471cf;
+            }
+
+            .tbGotolineDisabled .sbtb_middle{
+                background: linear-gradient(center bottom,rgb(235,235,235) 0%,rgb(255,255,255) 40%);
+                cursor : default;
+            }
+        ]]></a:style>
+
+        <a:presentation>
+            <a:main input="div[1]/input">
+                <div class="tbGotoline">
+                    <div class="sbtb_middle">
+                        <input type="text" />
+                    </div>
+                </div>
+            </a:main>
+        </a:presentation>
+    </a:textbox>
+</a:skin>

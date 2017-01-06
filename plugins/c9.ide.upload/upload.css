@@ -1,0 +1,139 @@
+.uploadDropArea{
+    position: relative;
+    z-index: 10000;
+}
+
+.uploadDropArea:before when(@upload-win-flat = false){
+    content: "";
+    .box-sizing(content-box);
+    position: absolute;
+    height: 95px;
+    width: 335px;
+    top: 11px;
+    left: 10px;
+    background: url("@{image-path}/upload-droparea-box.png") no-repeat 0 0;
+}
+
+.uploadDropArea when(@upload-win-flat = false) {
+    height: 75px;
+    width: 315px;
+    margin: 10px 0 10px 0;
+    border-radius: 10px;
+    
+    padding-top: 28px;
+    text-align: center;
+    font-size: 16px;
+    color: #c1f49a;
+    font-family: "Arial narrow", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.uploadDropArea.over when(@upload-win-flat = false) {
+    background-color: #e3f3d2;
+}
+
+.uploadDropArea .long when(@upload-win-flat = false){ display: none; }
+.uploadDropArea .short when(@upload-win-flat = false){ 
+    display: block; 
+    margin: 20px 0 0 40px;
+    text-align: center;
+}
+
+.uploadDropArea when(@upload-win-flat = true) {
+    height: 227px;
+    width: auto;
+    margin: 10px;
+    border-radius: 3px;
+    
+    box-sizing: border-box;
+    padding-top: 90px;
+    text-align: center;
+    font-size: 13px;
+    color: #333;
+    font-family: @general-font-family;
+}
+.uploadDropArea.over when(@upload-win-flat = true) {
+    background-color: #EEE;
+}
+.uploadDropArea h3 when(@upload-win-flat = true) {
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0 0 10px 0;
+}
+.uploadDropArea>*{
+    pointer-events: none;
+}
+
+.uploadDropArea .long when(@upload-win-flat = true){ display: block; }
+.uploadDropArea .short when(@upload-win-flat = true){ display: none; }
+
+.uploadText {
+    font-family: "Arial narrow", Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    color: #B1E3F3;
+    padding-bottom: 2px;
+}
+
+.txtUploadTargetFolder {
+    font-size: @upload-win-target-font-size;
+    color: @upload-win-target-color;
+    margin: @upload-win-target-margin;
+    text-align: center;
+}
+
+#fileUploadSelect {
+    z-index: 9999;
+    position: absolute;
+    top: 143px;
+    left: 99px;
+    width: 181px;
+    height: 24px;
+    opacity: 0;
+}
+
+#fileUploadSelect.uploadWithFolders {
+    left: 60px;
+    width: 109px;
+    height: 24px;
+}
+
+#folderUploadSelect {
+    display: none;
+    position: absolute;
+    top: 143px;
+    left: 175px;
+    width: 119px;
+    height: 24px;
+    opacity: 0;
+    z-index: 1;
+}
+
+.uploadSelectButtons {
+    height: @upload-win-buttons-height;
+    margin: @upload-win-buttons-margin;
+}
+
+.uploadSelectButtons div {
+    color: #ffffff;
+}
+
+.upload-window{
+    width: @upload-win-width;
+}
+
+.upload-window .divider when(@upload-win-flat = false){
+    display: none;
+}
+.upload-window .divider when(@upload-win-flat = true){
+    border-color: #DEDEDE transparent transparent;
+}
+.upload-window .btn-default-css3 when(@upload-win-flat = true){
+    width: 120px;
+}
+.upload-window .button-container when(@upload-win-flat = true){
+    display: none !important;
+}

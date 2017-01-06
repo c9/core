@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:bar id="window"
+      skinset = "gotoline"
+      visible = "false"
+      width   = "60"
+      height  = "90"
+      left    = "0"
+      zindex  = "100000"
+      style   = "overflow:hidden">
+        <a:vbox top="0" right="0" bottom="0" width="61" padding="0" edge="5">
+            <a:textbox id="input" focusselect="true" />
+            <a:list id="list"
+              flex    = "1"
+              caption = "[@nr]"
+              each    = "[line]"
+              autoselect    = "false"
+              multiselect   = "false"
+              empty-message = "empty" />
+        </a:vbox>
+    </a:bar>
+</a:application>

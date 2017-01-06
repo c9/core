@@ -1,0 +1,140 @@
+.filetree .status-icon.clickable {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.filetree .status-icon {
+    color: #8DCA57;
+    margin: 0 4px;
+}
+.filetree .status-icon-conflict {
+    color: #E466C7;
+}
+
+.filetree .heading .status-icon {
+    display: none;
+}
+
+
+.filetree .tree-row.merge {
+    color: lightgray
+}
+.tree-row {
+    white-space: nowrap;
+}
+.branch {
+    color: black;
+    border-radius: 5px;
+    background: @log-hash-background;
+    border: @log-hash-border;
+    padding: 0 4px !important;
+    margin-right: 2px;
+    margin-top: -1px;
+    color: @log-hash-color;
+}
+
+
+.difftoolbar{
+    border-bottom: 1px solid @border-highlight-dark;
+}
+
+.difftoolbar .buttons{
+    background-color: @diff-toolbar-buttons-background;
+    border-radius: 5px;
+    /*box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);*/
+    border: @diff-toolbar-buttons-border;
+}
+
+.difftoolbar .hash{
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    padding: 4px 4px 3px;
+    display: inline-block;
+    border-radius: 4px;
+    background: @log-hash-background;
+    border: @log-hash-border;
+    margin-right: 7px;
+    font-size: 12px;
+    color: @detail-label-hash-color;
+}
+.difftoolbar .right .hash{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    margin-right: 0;
+}
+.has_apf .ace_diff-gutter{
+    background-color: rgba(0,0,0,0.1) !important;
+    border-left: 0 !important;
+    border-right: 1px solid black !important;
+    box-shadow: 1px 0 @border-highlight;
+    z-index: 10;
+}
+.has_apf .ace_dark.ace_diff-gutter{
+    background-color: rgba(255,255,255,0.1) !important;
+}
+
+.difftoolbar .dirname{
+    color: @inactive-font-color;
+}
+
+.detail-label{
+    padding: 6px 5px 7px 5px;
+    font-size: 12px;
+    background-color: @detail-label-background;
+    border-bottom: @detail-label-border-bottom;
+    box-shadow: @detail-label-box-shadow;
+}
+
+.detail-label .hash{
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    padding: 2px 4px 1px;
+    display: inline-block;
+    border-radius: 4px;
+    background: @detail-label-hash-background;
+    border: @detail-label-hash-border;
+    color: @detail-label-hash-color;
+    margin-right: 6px;
+    font-size: 12px;
+}
+
+.detail-label {
+    line-height: 1.5em;
+    color: @detail-label-color;
+}
+
+.detail-tree{
+    flex: 1;
+    position: relative;
+}
+
+.detail-root{
+    display: flex;
+    flex-direction: column;
+}
+
+.form-bar{
+    padding: @form-bar-padding;
+    box-sizing: border-box;
+    border-bottom: @form-bar-border-bottom;
+    margin: 0px;
+    background-color: @form-bar-background;
+    box-shadow: @form-bar-box-shadow;
+}
+
+.changes>.c9-menu-btnDown, .changes>.splitbutton div.c9-menu-btnDown:first-child{
+    height: 31px;
+    box-shadow: 0 1px @border-highlight inset, -1px 1px @border-highlight-dark !important;
+}
+.changes .splitbutton>div.c9-menu-btnDown:first-child:after{
+    top: 0;
+    bottom: 0;
+}
+
+.top-test-panel{
+    border-bottom: 1px solid @border-highlight-dark;
+    overflow: auto;
+}
+
+.panel-settings.changes{
+    top: @panel-settings-changes-top + 30;
+}

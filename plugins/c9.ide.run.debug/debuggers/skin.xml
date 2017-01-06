@@ -1,0 +1,202 @@
+<?xml version='1.0'?>
+<a:skin xmlns:a="http://ajax.org/2005/aml">
+    <a:datagrid name="datagrid">
+        <a:style><![CDATA[
+            
+        ]]></a:style>
+    
+        <a:presentation>
+            <a:main head="div[1]" container="div[3]" pointer="div[2]" widthdiff="1" iframe2="true">
+                <div class="blackdg">
+                    <div class="headings">
+    
+                    </div>
+                    <div class="pointer"> </div>
+                    <div class="records"> </div>
+                </div>
+            </a:main>
+    
+            <a:headitem class="." caption="u/text()">
+                <div><u>-<span/></u></div>
+            </a:headitem>
+    
+            <a:rowheaditem class="." caption="text()">
+                <span>-</span>
+            </a:rowheaditem>
+    
+            <a:item class="." container="following-sibling::blockquote">
+                <div class="row"/>
+                <blockquote> </blockquote>
+            </a:item>
+    
+            <a:dragindicator>
+                <div class="dragdg"> </div>
+            </a:dragindicator>
+    
+            <a:cell caption="u"><span><u>-</u></span></a:cell>
+    
+            <a:treecell caption="u" openclose="strong" editoroffset="0"><span class="treecell"><strong> </strong><u>-</u></span></a:treecell>
+    
+            <a:container container=".">
+                <div class="dginfo">-</div>
+            </a:container>
+    
+            <a:loading>
+                <div class="message"></div>
+            </a:loading>
+    
+            <a:empty caption=".">
+                <div class="empty"> </div>
+            </a:empty>
+        </a:presentation>
+    </a:datagrid>
+    <a:list name="breakpoints">
+        <a:style><![CDATA[
+            .listBP{
+                overflow: auto;
+                position: relative;
+                cursor: default;
+                color: @breakpoint-list-color;
+                height: @breakpoint-list-item-height
+            }
+            .listBP .tree-headings{
+                display: none;
+            }
+    
+            .listBP .bpItem{
+                padding: @breakpoint-list-padding;
+                position: relative;
+                border-bottom: 1px solid @breakpoint-list-item-border-bottom;
+                border-top: 1px solid @breakpoint-list-item-border-top;
+                box-sizing: border-box;
+                height: @breakpoint-list-item-height;
+            }
+            .listBP .bpItem:first-child{
+                border-top-color : transparent;
+            }
+            .listBP .bpItem:last-child{
+                border-bottom-color : transparent;
+            }
+            .listBP .bpItem:hover,
+            .listBP .bpItem.hover{
+                color: @breakpoint-list-item-hover-color;
+                background-color: @breakpoint-list-item-hover-background;
+                border-top: 1px solid @breakpoint-list-item-hover-border-top;
+            }
+    
+            .listBP .content{
+                cursor : pointer;
+                font-family : @breakpoint-list-font-family;
+                font-size : @breakpoint-list-font-size;
+                padding : @breakpoint-list-item-padding;
+            }
+    
+            .listBP .content div{
+                font-family: Ubuntu Mono, Menlo, Consolas, monospace;
+                padding: 3px 0 0 0;
+                font-size: 10px;
+                white-space: nowrap;
+                overflow: hidden;
+                color: @breakpoint-list-code-color;
+                text-overflow: ellipsis;
+            }
+            
+            .listBP .bpItem:hover .content div,
+            .listBP .bpItem.hover .content div{
+                color : @breakpoint-list-code-hover-color;
+            }
+    
+            .listBP .checkbox {
+                width      : @breakpoint-list-checkbox-width;
+                height     : @breakpoint-list-checkbox-height;
+                .image-2x("images/@{breakpoint-list-checkbox-image}", @breakpoint-list-checkbox-image-width, @breakpoint-list-checkbox-image-height);
+                background-position: 0 0;
+                display : block;
+                position : absolute;
+                left : @breakpoint-list-checkbox-left;
+                top : @breakpoint-list-checkbox-top;
+            }
+    
+            .listBP .bpItem .checkbox:hover{
+            }
+    
+            .listBP .bpItem .checkbox:active{
+            }
+    
+            .listBP .checked .checkbox:active {
+            }
+    
+            .listBP .checked .checkbox {
+                background-position: 0 (-3 * @breakpoint-list-checkbox-height);
+            }
+    
+            .listBP .checked .checkbox:hover{
+            }
+    
+            .listBPDisabled .checkbox {
+            }
+    
+            .listBPDisabled .bpItem {
+                opacity : 0.5
+            }
+    
+            .listBP .bpItem .btnclose {
+                width               : 21px;
+                height              : 19px;
+                position            : absolute;
+                right               : 2px;
+                top                 : 3px;
+                .image-2x(@debugger-icon-remove_breakpoints, @debugger-icon-remove_breakpoints-width, @debugger-icon-remove_breakpoints-height, no-repeat, true);
+                background-repeat   : no-repeat;
+                background-position : 0 0;
+                display             : none;
+            }
+    
+            .listBP .bpItem:hover .btnclose,
+            .listBP .bpItem.hover .btnclose {
+                display: block;
+            }
+    
+            .listBP .bpItem .btnclose:hover,
+            .listBP .bpItem .btnclose.hover {
+                background-position : 0 -19px;
+            }
+    
+            .listBP .bpItem .btnclose:active {
+                background-position : 0 -38px;
+            }
+            
+            /*workaround for ace tree pointer event limitations*/
+            .listBP { cursor   : pointer; }
+            .listBP .btnclose, .listBP .checkbox { 
+                pointer-events : auto; 
+                cursor         : default;
+            }
+            
+            .listBP .message.empty {
+                text-align: center;
+                width: 100%;
+                color: gray;
+                padding-top: 10px;
+            }
+            
+        ]]></a:style>
+    
+        <a:presentation>
+            <a:main container=".">
+                <div class="listBP">
+                </div>
+            </a:main>
+            <a:item class="." caption="div" icon="div" select="." check="span">
+                <div class="bpItem">
+                    <span class="checkbox"> </span>
+                    <div class="content"> </div>
+                    <strong class="btnclose"> </strong>
+                </div>
+            </a:item>
+            <a:empty caption=".">
+                <div class="message">-</div>
+            </a:empty>
+        </a:presentation>
+    </a:list>
+</a:skin>

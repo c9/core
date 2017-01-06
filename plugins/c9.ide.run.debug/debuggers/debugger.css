@@ -1,0 +1,171 @@
+.has_apf .blackdg, .listBP {
+    background: @datagrid-background;
+}
+
+.debugcontainer .scroller{
+    position : absolute;
+    overflow-y : auto;
+    overflow-x : hidden;
+    top : @debug-pane-scroller-top;
+    left : 0;
+    right : 0;
+    bottom : @debug-pane-scroller-bottom;
+}
+
+.panelsbar .panelsbuttonDown.debugger, .panelsbar .panelsbuttonDown.debugger:hover{
+    /*border-bottom: 1px solid rgb(27, 27, 27);*/
+    box-shadow: 1px -1px @border-highlight inset, 1px 0 @border-highlight;
+    padding-bottom: 7px;
+}
+
+.pause0 .icon{
+    background-position : 0 0 !important;
+}
+
+.pause1 .icon{
+    background-position : 0 -19px !important;
+}
+
+.pause2 .icon{
+    background-position : 0 -38px !important;
+}
+
+.blackdg .newwatch strong{
+    display : none;
+}
+.blackdg .newwatch{
+    color : @datagrid-watch-new;
+    .font-smoothing(@datagrid-watch-new-font-smoothing);
+}
+.blackdg.ace_tree_focus .newwatch.selected{
+    color : @datagrid-watch-new-focus !important;
+    .font-smoothing(false);
+}
+.blackdg .watcherror{
+    color : @datagrid-watch-error;
+}
+
+/** condition_dialog **/
+
+.condition_dialog{
+    border: @breakpoint-condition-border;
+    border-radius: @breakpoint-condition-border-radius;
+    
+    .gradient(~"@{breakpoint-condition-gradient}");
+    
+    padding : 5px;
+    font-family : @breakpoint-condition-font-family;
+    font-size : @breakpoint-condition-font-size;
+    width : @breakpoint-condition-width;
+    
+    position: absolute;
+    display : none;
+    z-index : 1000000;
+    box-shadow: @breakpoint-condition-box-shadow;
+    margin-top: @breakpoint-condition-margin-top;
+    .font-smoothing(true);
+}
+
+.condition_dialog>.message{
+    color : @breakpoint-condition-color;
+    margin : 0 0 5px 1px;
+}
+
+.condition_dialog .ace_content div{
+    color : #2C2C2C;
+}
+
+.condition_dialog>.input{
+    border: 0;
+    padding: 4px 3px 2px 7px;
+    outline: none;
+    box-shadow: @breakpoint-condition-input-box-shadow;
+    color: #FFF;
+    border-radius: 3px;
+    background: white;
+    .font-smoothing(false);
+    font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace;
+    height : 18px;
+}
+
+.condition_dialog>.input .simplebox{
+    height : 20px !important;
+}
+
+.condition_dialog>.arrow when(@breakpoint-condition-arrow = true){
+    border: 7px inset blue;
+    display: block;
+    border-color: transparent transparent rgba(103, 126, 10, 1) transparent;
+    position: absolute;
+    left: 3px;
+    top: -13px;
+}
+
+/** liveinspect **/
+
+.liveinspect {
+    box-shadow: @liveinspect-shadow;
+    z-index : 100001;
+    background-color: @liveinspect-background;
+    position: absolute;
+    cursor: auto;
+    padding: 1px 6px 1px 1px;
+    font-size: 11px;
+    font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace;
+    border: 1px solid @liveinspect-border-color;
+    margin : 0 0 0 -1px;
+    max-height : 150px;
+    overflow : auto;
+    max-width : 800px;
+    margin-right : 50px;
+    border-radius: 3px;
+}
+
+.liveinspect.immediate .null{
+    color : @liveinspect-null;
+}
+
+.liveinspect.dark{
+    box-shadow: @liveinspect-dark-shadow;
+    background-color: @liveinspect-dark-background;
+    border: 1px solid @liveinspect-dark-border-color;
+}
+
+.liveinspect.immediate.dark .null{
+    color : @liveinspect-dark-null;
+}
+
+.liveinspect .return, .liveinspect.dark .ace_dark .return{
+    border-bottom : 0;
+}
+
+.debugcontainer .play .icon{
+    .image-2x(@debugger-icon-play, @debugger-icon-play-width, @debugger-icon-play-height, no-repeat, true);
+}
+.debugcontainer .pause .icon{
+    .image-2x(@debugger-icon-pause, @debugger-icon-pause-width, @debugger-icon-pause-height, no-repeat, true);
+}
+.debugcontainer .step .icon{
+    .image-2x(@debugger-icon-step, @debugger-icon-step-width, @debugger-icon-step-height, no-repeat, true);
+}
+.debugcontainer .stepinto .icon{
+    .image-2x(@debugger-icon-stepinto, @debugger-icon-stepinto-width, @debugger-icon-stepinto-height, no-repeat, true);
+}
+.debugcontainer .stepback .icon{
+    .image-2x(@debugger-icon-stepback, @debugger-icon-stepback-width, @debugger-icon-stepback-height, no-repeat, true);
+}
+.debugcontainer .exception_break .icon{
+    .image-2x(@debugger-icon-exception_break, @debugger-icon-exception_break-width, @debugger-icon-exception_break-height, no-repeat, true);
+}
+.debugcontainer .toggle_breakpoints2 .icon{
+    .image-2x(@debugger-icon-toggle_breakpoints2, @debugger-icon-toggle_breakpoints2-width, @debugger-icon-toggle_breakpoints2-height, no-repeat, true);
+}
+.debugcontainer .toggle_breakpoints1 .icon{
+    .image-2x(@debugger-icon-toggle_breakpoints1, @debugger-icon-toggle_breakpoints1-width, @debugger-icon-toggle_breakpoints1-height, no-repeat, true);
+}
+.debugcontainer .remove_breakpoints .icon{
+    .image-2x(@debugger-icon-remove_breakpoints, @debugger-icon-remove_breakpoints-width, @debugger-icon-remove_breakpoints-height, no-repeat, true);
+}
+.debugcontainer .scripts .icon{
+    .image-2x(@debugger-icon-scripts, @debugger-icon-scripts-width, @debugger-icon-scripts-height, no-repeat, true);
+}

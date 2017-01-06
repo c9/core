@@ -1,0 +1,39 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:label id="tooltipSearchReplace" skin="tooltipLabel" visible="false" />
+    <a:bar id="winSearchReplace" skinset="searchreplace" focussable="container" zindex="1000" minheight="0" visible="false" height="0">
+        <div id="divSearchCount"></div>
+        <a:button id="btnPrev"
+          skin       = "btnquicksearchnav" 
+          class      = "btnquicksearchnavLeft withDivider" 
+          right      = "24"
+          top        = "2"
+          focussable = "false"
+          zindex     = "100"/>
+        <a:button id="btnNext"
+          skin       = "btnquicksearchnav" 
+          class      = "btnquicksearchnavRight" 
+          right      = "2"
+          top        = "2"
+          focussable = "false"
+          zindex     = "100"/>
+        <a:hbox id="hbox" class="find-and-replace" padding="5" edge="5">
+            <a:hbox class="grouped_checkbox_holder" align="start" height="27">
+                <a:checkbox id="chkRegEx" value="state/ace/search/@regex" class="chkRegEx" label="Regular Expressions" skin="grouped_checkbox" width="27" />
+                <a:checkbox id="chkMatchCase" value="state/ace/search/@matchcase" class="chkMatchCase" label="Match Case" skin="grouped_checkbox" width="27" />
+                <a:checkbox id="chkWholeWords" value="state/ace/search/@wholeword" class="chkWholeWords" label="Whole Words" skin="grouped_checkbox" width="27" />
+            </a:hbox>
+            <a:hbox class="grouped_checkbox_holder" align="start" height="27">
+                <a:checkbox id="chkWrapAround" value="state/ace/search/@wraparound" class="chkWrapAround" label="Wrap Around" skin="grouped_checkbox" width="27" />
+                <a:checkbox id="chkSearchSelection" class="chkSearchSelection" label="Search Selection" skin="grouped_checkbox" width="27" />
+            </a:hbox>
+            <a:codebox id="txtFind" tabindex="1000" flex="3" skin="codebox" initial-message="Find" focusselect="true" class="buttonsright" />
+            <a:hbox class="grouped_checkbox_holder" height="27">
+                <a:checkbox id="chkPreserveCase" value="state/ace/search/@preservecase" class="single chkPreserveCase" label="Preserve Case" skin="grouped_checkbox" width="27" />
+            </a:hbox>
+            <a:codebox id="txtReplace" tabindex="1001" skin="codebox" margin="0 -1 0 0"  flex="1" initial-message="Replace With" focusselect="true" label="$0-9 will insert the text of your capturing groups." />
+            <a:button margin="0 -2 0 0" skin="blackbutton" id="btnReplace" height="27">Replace</a:button>
+            <a:button skin="blackbutton" tabindex="1002" id="btnReplaceAll" height="27">Replace All</a:button>
+            <a:button id="btnCollapse" skin="btn_console_open"  state="true" height="27" />
+        </a:hbox>
+    </a:bar>
+</a:application>

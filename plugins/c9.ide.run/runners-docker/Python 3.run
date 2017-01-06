@@ -1,0 +1,9 @@
+{
+    "cmd": ["python3", "$file", "$args"],
+    "selector": "^.*\\.(python|py)$",
+    "python_version": "python3",
+    "info": "Your code is running at \\033[01;34m$url\\033[00m.\n\\033[01;31mImportant:\\033[00m use \\033[01;32mos.getenv('PORT', 8080)\\033[00m as the port and \\033[01;32mos.getenv('IP', '0.0.0.0')\\033[00m as the host in your scripts!\n",
+    "env": {
+        "PYTHONPATH": "$python_path"
+    }
+}

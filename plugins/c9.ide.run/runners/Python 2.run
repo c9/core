@@ -1,0 +1,30 @@
+{
+    "script": [
+        "if [ \"$debug\" == true ]; then ",
+        "    python2 -m ikpdb --ikpdb-port=15471 --ikpdb-working-directory=$project_path $file $args",
+        "else",
+        "   python2 $file $args",
+        "fi",
+        "checkExitCode() {",
+        "    if [ $1 ] && [ \"$debug\" == true ]; then ",
+        "        python -m ikpdb 2>&1 | grep -q 'No module' && echo '",
+        "    To use python debugger install ikpdb by running: ",
+        "        sudo apt-get update;",
+        "        sudo apt-get install python-dev;",
+        "        sudo pip install ikpdb;",
+        "        '",
+        "    fi",
+        "   return $1",
+        "}",
+        "checkExitCode $?"
+    ],
+    "debugport": 15471,
+    "$debugDefaultState": false,
+    "debugger": "pythondebug",
+    "selector": "^.*\\.(python|py)$",
+    "python_version": "python2",
+    "info": "Your code is running at \\033[01;34m$url\\033[00m.\n\\033[01;31mImportant:\\033[00m use \\033[01;32mos.getenv('PORT', 8080)\\033[00m as the port and \\033[01;32mos.getenv('IP', '0.0.0.0')\\033[00m as the host in your scripts!\n",
+    "env": {
+        "PYTHONPATH": "$python_path"
+    }
+}

@@ -1,0 +1,25 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <!-- Timeslider -->
+    <a:window
+      id        = "winCollabInstall"
+      title     = "Collaboration Features"
+      icon      = ""
+      center    = "true"
+      render    = "runtime"
+      kbclose   = "false"
+      width     = "512"
+      skin      = "bk-window2"
+      class     = "relative"
+      >
+        <a:vbox padding="10" edge="15 20 25 20">
+            <h3 id="collabInstallTitle"></h3>
+            <div id="collabInstallMsg" class="alertMsg">
+            </div>
+        </a:vbox>
+
+        <a:hbox padding="8" edge="6 10 10" pack="end">
+            <a:button id="btnDisableCollab" skin="btn-default-css3" class="btn-blue">Disable Collaboration</a:button>
+            <a:button id="btnCollabInstall" skin="btn-default-css3" class="btn-green">Install SQLite with terminal</a:button>
+        </a:hbox>
+    </a:window>
+</a:application>

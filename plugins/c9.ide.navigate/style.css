@@ -1,0 +1,79 @@
+.navigate-search{
+    position:absolute !important;
+    height:27px !important;
+    left: @panel-padding;
+    top: @panel-padding;
+    right: @panel-padding;
+}
+
+.navigate-list{
+    position:absolute !important;
+    top: (37px + @panel-padding) !important;
+    right: @panel-padding;
+    left: @panel-padding;
+    bottom:0;
+}
+
+.searchresults.ace_tree{
+    background: transparent !important;
+    border: none !important;
+    font-family: @general-font-family !important;
+}
+.searchresults {
+    position : relative;
+}
+
+.searchresults .item{
+    background : transparent;
+    color : @color;
+    padding : 2px 3px 4px 5px;
+    margin : 1px 0px;
+}
+.searchresults .item {
+    cursor : pointer;
+    border-radius : 3px;
+}
+.searchresults .item:not(.selected):hover,
+.searchresults .item:not(.selected).hover{
+    background: @selected-hover-background;
+    color: @selected-hover-color;
+}
+.searchresults .item>span{
+    font-size: @general-font-size;
+    display : block;
+    padding : 2px 2px 0 2px;
+    font-weight : bold;
+}
+.searchresults .item .path {
+    font-size: @general-font-size - 2;
+    word-wrap: break-word;
+    line-height : 14px;
+    font-weight : normal;
+}
+.searchresults .item.selected{
+    background: @selected-focus-background;
+}
+.searchresults .item.selected:hover,
+.searchresults .item.selected.hover{
+}
+
+.searchresults .item.selected span{
+    color : @selected-focus-color;
+}
+.searchresults .message{
+    border : 0;
+    padding : 3px;
+    text-align : center;
+    background : transparent !important;
+    font-size: @general-font-size - 1;
+    color : @empty-message-color;
+}
+
+.searchresults .item span strong {
+    color: @highlight-color;
+}
+
+.searchresults .item.selected span strong {
+    color: @highlight-selected-color;
+    font-weight : bold;
+}
