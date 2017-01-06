@@ -111,6 +111,7 @@
         "c9.ide.run": "#3cd1f257ca",
         "c9.ide.run.build": "#0598fff697",
         "c9.ide.run.debug.xdebug": "#054367574c",
+        "c9.ide.run.debug.ikpdb": "#2682776d44",
         "c9.ide.save": "#ed8b7a5622",
         "c9.ide.scm": "#637a68cd04",
         "c9.ide.terminal.monitor": "#5a6a54ce24",
