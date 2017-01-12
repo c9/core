@@ -1016,10 +1016,12 @@ function send(message) {
         host == "local" ? "*" : host);
 }
 
-window.start = function(win) {
-    parent = win;
-    init(id);
-};
+window.addEventListener("message", function(e) {
+    if (e.data == "start-c9-livecss") {
+        parent = e.source;
+        init(id);
+    }
+});
 
 // Make sure everything is loaded
 if (parent != window)
