@@ -103,9 +103,6 @@ define(function(require, exports, module) {
             colRight.parentNode.$handle.setAttribute("id", "splitterPanelRight");
             plugin.addElement(hboxMain.$handle);
             plugin.addElement(colRight.parentNode.$handle);
-
-            // Intentionally global
-            window.sbShared = plugin.getElement("sbShared");
             
             // update c9 main logo link
             logobar = plugin.getElement("logobar");
