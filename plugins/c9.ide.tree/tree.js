@@ -1165,7 +1165,17 @@ define(function(require, exports, module) {
                 fs.exists(path, function(exists) {
                     if (!exists)
                         return callback(new Error("File Not Found"));
-                    recur(node, path, callback);
+                    
+                    if (!fsCache.showHidden && path.split("/").some(fsCache.isFileHidden)) {
+                        fsCache.showHidden = true;
+                        settings.set("user/projecttree/@showhidden", true);
+                        refresh(function() {
+                            recur(node, path, callback);
+                        });
+                    }
+                    else {
+                        recur(node, path, callback);
+                    }
                 });
             }
             else {
@@ -1195,10 +1205,11 @@ define(function(require, exports, module) {
                 }
                 
                 // Next Loop
-                recur(pnode, ppath, function(){
+                recur(pnode, ppath, function() {
                     if (!node)
                         node = fsCache.findNode(path, "expand");
-                    if (!node) return; // Raygun #3082
+                    if (!node)
+                        return callback(new Error("Missing Node"));
                     
                     // Node needs its files loaded
                     if (node.status === "pending") {
