@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Ace Tree</title>
+    
+    <link rel="stylesheet" href="styles.css" type="text/css" media="screen" charset="utf-8">
+</head>
+<body>
+<div id="tree"></div>
+<div id="datagrid"></div>
+
+<script type="text/javascript">
+    var require = {
+        baseUrl: "/static/lib/ace_tree",
+        paths: {ace: "../ace/lib/ace", root: ".", ace_tree: "lib/ace_tree"},
+        waitSeconds: 30
+    };
+</script>
+<script src="../ace/demo/kitchen-sink/require.js" data-main="./demo" type="text/javascript"></script>
+
+
+</body>
+</html>

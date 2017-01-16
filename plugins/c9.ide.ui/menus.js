@@ -137,41 +137,6 @@ define(function(require, exports, module) {
             logobar.$ext.addEventListener("mousedown", function(){
                 restore();
             });
-    
-            /*var logoCorner = document.querySelector(".c9-mbar-round");
-    
-            logobar.$ext.addEventListener("mouseover",function(e) {
-                if (!minimized || !ide.inited
-                  || apf.isChildOf(logobar.$ext, e.fromElement, true)
-                  || apf.isChildOf(logoCorner, e.toElement, true))
-                    return;
-    
-                clearTimeout(timer);
-                timer = setTimeout(function(){
-                    restore(true);
-                }, 500);
-            });
-            logobar.$ext.addEventListener("mouseout",function(e) {
-                if (!minimized || !c9.inited
-                  || apf.isChildOf(logobar.$ext, e.toElement, true))
-                    return;
-    
-                clearTimeout(timer);
-                
-                if (apf.popup.isShowing(apf.popup.last)) {
-                    timer = setTimeout(function wait(){
-                        if (apf.popup.isShowing(apf.popup.last))
-                            timer = setTimeout(wait, 500);
-                        else
-                            minimize(true);
-                    }, 500);
-                }
-                else {
-                    timer = setTimeout(function(){
-                        minimize(true);
-                    }, 500);
-                }
-            });*/
             
             emit("draw");
 

@@ -9,21 +9,7 @@
       storage                   = "cookie"
       baseurl                   = "{apf.host ? apf.host : ''}"
       requested-with-getparam   = "xhr"/>
-
-    <!-- default model -->
-    <a:model />
     
-    <a:scrollbar
-        id       = "sbShared"
-        skin     = "sbios"
-        top      = "0"
-        right    = "0"
-        bottom   = "0"
-        width    = "7"
-        showonscroll = "true"
-        zindex   = "100000"
-    />
-
     <a:vsplitbox id="root" anchors="0 0 0 0">
         <a:bar id="barQuestion" height="0" visible="false">
         </a:bar>
