@@ -14,9 +14,6 @@
 }
 
 #loadingide {
-    background-image: url(images/c9-logo-blue.png);
-    background-repeat: no-repeat;
-    background-position: 50% 30%;
     font-style: normal;
     height: 100%;
     width: 100%;
@@ -28,16 +25,33 @@
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
 }
-.dark #loadingide{
+
+#c9logo{
+    background-image: url(images/c9-logo-blue.png);
+    background-repeat: no-repeat;
+    background-position: 50% 30%;
+    position: relative;
+    top: 15%;
+    margin: 0 auto;
+    background-size: contain;
+    width: 300px;
+    height: 279px;
+}
+.dark #c9logo{
     background-image: url(images/c9-logo-white.png);
 }
 
-@media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-    #loadingide {
-        background-image: url(images/c9-logo-blue@2x.png);
-        background-size: 300px 279px;
+@media screen and (max-height: 600px) {
+    #c9logo{
+        height: 46.5%;
     }
-    #loadingide.dark {
+}
+
+@media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
+    #c9logo {
+        background-image: url(images/c9-logo-blue@2x.png);
+    }
+    #c9logo.dark {
         background-image: url(images/c9-logo-white@2x.png);
     }
 }
@@ -125,6 +139,13 @@
     margin-top: 255px;
 }
 
+@media screen and (max-height: 600px) {
+    #loadingide .status{
+        top: 70%;
+        margin-top: 0;
+    }
+}
+
 #loadingide .cool-message {
     display: block;
     font-family: Arial;
@@ -139,6 +160,14 @@
     box-sizing: border-box;
     line-height: 1.3em;
 }
+
+@media screen and (max-height: 600px) {
+    #loadingide .cool-message{
+        top: 85%;
+        margin-top: 0;
+    }
+}
+
 #loadingide.dark .cool-message {
     color: #757575;
 }
