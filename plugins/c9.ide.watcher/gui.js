@@ -444,6 +444,8 @@ define(function(require, exports, module) {
                     path + " has been changed on disk.",
                     "Would you like to reload this file?",
                     yes, no, {
+                        yes: "Reload",
+                        no: "Keep current version",
                         all: Object.keys(changedPaths).length > 1
                     }
                 );
@@ -542,10 +544,15 @@ define(function(require, exports, module) {
                     
                     checkIfQueueIsEmpty();
                 },
-                { all: Object.keys(removedPaths).length > 1 }
+                {
+                    all: Object.keys(removedPaths).length > 1,
+                    yes: "Keep open",
+                    yestoall: "Keep all open",
+                    no: "Close tab",
+                }
             );
             
-            deleteDialog.on("show", function(){
+            deleteDialog.on("show", function() {
                 if (!tabManager.findTab(path))
                     return false;
             });
