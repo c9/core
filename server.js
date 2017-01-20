@@ -206,7 +206,7 @@ function start(configName, options, callback) {
     
     architect.resolveConfig(plugins, __dirname + "/plugins", function(err, config) {
         if (err) {
-            console.error(err);
+            console.error(err.stack || err);
             process.exit(1);
         }
         
