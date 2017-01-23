@@ -452,7 +452,7 @@ define(function(require, exports, module) {
                 var mnuSettings = tree.getElement("mnuFilesSettings");
                 ui.insertByIndex(mnuSettings, new ui.item({
                     type: "check",
-                    caption: realRoot ? "Show Root File System" : "Show Workspace Directory",
+                    caption: "Show Workspace Root",
                     checked: "state/projecttree/@showfs",
                     onclick: function(e) {
                         toggleRootFS();
