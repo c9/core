@@ -1,7 +1,11 @@
 #!/bin/bash -e
-
+CONFIG="default"
 while [ "$1" ]; do
   case "$1" in
+    --config)
+      shift
+      CONFIG=$1
+      ;;
     --compress)
       COMPRESS_OPTION="--compress"
       ;;
@@ -35,8 +39,6 @@ WORKER=plugins/c9.ide.language.core/worker
 echo building worker $WORKER
 $CDN --worker $WORKER
 echo $CDN --worker $WORKER
-for CONFIG in "default"; do \
-echo cdn
-    echo building config $CONFIG
-    $CDN --config $CONFIG --with-skins
-done
+
+echo building config $CONFIG
+$CDN --config $CONFIG --with-skins
