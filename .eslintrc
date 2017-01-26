@@ -97,7 +97,8 @@ rules:
     // DISABLED: causes issue with define(function() in client-side code
     // indent: [1, 4, { SwitchCase: 1, outerIIFEBody: 0, MemberExpression: 1, FunctionDeclaration: { body: 0, parameters: 1 }, FunctionExpression: { body: 0, parameters: 1 } }]
     object-curly-spacing: [1, "always", { objectsInObjects: false, arraysInObjects: false }]
-    spaced-comment: 1
+    // DISABLED: causes issue with /*** single-line, triple-star comments ***/
+    // spaced-comment: [1, "always", { exceptions: ["*"] }]
     comma-spacing: 1
     no-multi-spaces: 1
     no-lone-blocks: 1
