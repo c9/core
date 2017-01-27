@@ -335,17 +335,9 @@ define(function(require, exports, module) {
             });
             return servers.sort(function(a, b) {
                 if (a.region == b.region) {
-                    if (a.packageVersion == b.packageVersion) {
-                        if (a.load < b.load) {
-                            return -1;
-                        } 
-                        else {
-                            return 1;
-                        }
-                    }
-                    else if (a.packageVersion > b.packageVersion) {
+                    if (a.load < b.load) {
                         return -1;
-                    }
+                    } 
                     else {
                         return 1;
                     }
