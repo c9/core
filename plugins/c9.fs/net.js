@@ -79,13 +79,13 @@ define(function(require, exports, module) {
              * @fires afterConnect
              */
             connect: function(port, options, callback) {
-                emit("beforeConnect", {port: port, options: options});
+                emit("beforeConnect", { port: port, options: options });
                 
                 if (!options.encoding)
                     options.encoding = "utf8";
                 
                 vfs.connect(port, options, function(err, meta) {
-                    callback(err, meta && meta.stream)
+                    callback(err, meta && meta.stream);
                     
                     emit("afterConnect", {
                         port: port, 

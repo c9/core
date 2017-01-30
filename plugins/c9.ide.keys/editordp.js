@@ -27,12 +27,12 @@ define(function(require, exports, module) {
             return children;
         };
         
-        this.getRowIndent = function(){
+        this.getRowIndent = function() {
             return 0;
-        }
+        };
         
         this.hasChildren = function(node) {
-            return node.items && node.items.length
+            return node.items && node.items.length;
         };
         
         this.getCaptionHTML = function(node) {

@@ -61,7 +61,7 @@ define(function(require, exports, module) {
             
             if (!ENABLED) {
                 menus.addItemByPath("Tools/Developer/Start in Debug Mode", new ui.item({
-                    onclick: function(){
+                    onclick: function() {
                         var url = location.href + (location.href.indexOf("?") > -1
                           ? "&debug=2"
                           : "?debug=2");
@@ -82,13 +82,13 @@ define(function(require, exports, module) {
             ui.defineLessLibrary(require("text!../c9.ide.layout.classic/themes/default-" + theme + ".less"), plugin);
             ui.defineLessLibrary(require("text!../c9.ide.layout.classic/less/lesshat.less"), plugin);
             
-            fs.readdir("~/.c9/plugins", function(err, list){
+            fs.readdir("~/.c9/plugins", function(err, list) {
                 if (err) return console.error(err);
                 
                 var names = loader.plugins;
                 var toLoad = [];
                 
-                list.forEach(function(stat){
+                list.forEach(function(stat) {
                     var name = stat.name;
                     // If the plugin doesn't exist
                     if (names.indexOf(name) == -1 && name.charAt(0) != "." && name.charAt(0) != "_")
@@ -105,7 +105,7 @@ define(function(require, exports, module) {
                     mac: "Command-Enter", 
                     win: "Ctrl-Enter" 
                 },
-                exec: function(){ 
+                exec: function() { 
                     reloadPluginUI();
                 }
             }, plugin);
@@ -117,7 +117,7 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
         
-        function loadPlugins(list){
+        function loadPlugins(list) {
             if (!vfs.connected) {
                 vfs.once("connect", loadPlugins.bind(this, config));
                 return;
@@ -127,31 +127,31 @@ define(function(require, exports, module) {
                 list = [list];
             
             var config = [];
-            var loadConfig = function(){
-                architect.loadAdditionalPlugins(config, function(err){
+            var loadConfig = function() {
+                architect.loadAdditionalPlugins(config, function(err) {
                     if (err) console.error(err);
                 });
             };
             
-            async.each(list, function(name, next){
+            async.each(list, function(name, next) {
                 var resourceHolder = new Plugin();
                 var resourceVersion = "";
                 
-                resourceHolder.on("load", function(){ 
+                resourceHolder.on("load", function() { 
                     if (inited) load();
                 });
                 
                 resourceHolder.freezePublicAPI({
-                    get version(){ return resourceVersion },
-                    set version(v){ resourceVersion = v; }
+                    get version() { return resourceVersion; },
+                    set version(v) { resourceVersion = v; }
                 });
                 
                 var inited = false;
-                function load(){
+                function load() {
                     async.parallel([
-                        function(next){
+                        function(next) {
                             // Fetch package.json
-                            fs.readFile("~/.c9/plugins/" + name + "/package.json", function(err, data){
+                            fs.readFile("~/.c9/plugins/" + name + "/package.json", function(err, data) {
                                 if (err)
                                     return next(err);
                                 
@@ -160,7 +160,7 @@ define(function(require, exports, module) {
                                     if (!options.plugins) 
                                         throw new Error("Missing plugins property in package.json of " + name);
                                 }
-                                catch(e){ 
+                                catch (e) { 
                                     return next(err);
                                 }
                                 
@@ -174,7 +174,7 @@ define(function(require, exports, module) {
                                 requirejs.config({ paths: pathConfig });
                                 
                                 // Add the plugin to the config
-                                Object.keys(options.plugins).forEach(function(path){
+                                Object.keys(options.plugins).forEach(function(path) {
                                     var pluginPath = name + "/" + path;
                                     
                                     // Watch project path
@@ -203,14 +203,14 @@ define(function(require, exports, module) {
                                 next();
                             });
                         },
-                        function(next){
+                        function(next) {
                             var path = join("~/.c9/plugins", name);
                             var rePath = new RegExp("^" + util.escapeRegExp(path.replace(/^~/, c9.home) + "/"), "gm");
                             find.getFileList({ 
                                 path: path, 
                                 nocache: true, 
                                 buffer: true 
-                            }, function(err, data){ 
+                            }, function(err, data) { 
                                 if (err)
                                     return next(err);
                                 
@@ -222,7 +222,7 @@ define(function(require, exports, module) {
                                 
                                 // Process all the submodules
                                 var parallel = processModules(path, data, resourceHolder);
-                                async.parallel(parallel, function(err, data){
+                                async.parallel(parallel, function(err, data) {
                                     if (err)
                                         return next(err);
                                     
@@ -234,7 +234,7 @@ define(function(require, exports, module) {
                                 });
                             });
                         }
-                    ], function(err, results){
+                    ], function(err, results) {
                         if (err) console.error(err);
                         
                         if (!inited) {
@@ -245,14 +245,14 @@ define(function(require, exports, module) {
                 }
                 
                 load();
-            }, function(){
+            }, function() {
                 emit.sticky("ready");
                 
                 if (!config.length) return;
                 
                 // Load config
                 if (installer.sessions.length) {
-                    installer.on("stop", function listen(err){
+                    installer.on("stop", function listen(err) {
                         if (err) 
                             return console.error(err);
                         
@@ -268,10 +268,10 @@ define(function(require, exports, module) {
             });
         }
         
-        function processModules(path, data, plugin){
+        function processModules(path, data, plugin) {
             var parallel = [];
             
-            data.split("\n").forEach(function(line){
+            data.split("\n").forEach(function(line) {
                 if (!line.match(reParts)) return;
                     
                 var type = RegExp.$1;
@@ -292,8 +292,8 @@ define(function(require, exports, module) {
                         return;
                 }
                 
-                parallel.push(function(next){
-                    fs.readFile(join(path, type, filename), function(err, data){
+                parallel.push(function(next) {
+                    fs.readFile(join(path, type, filename), function(err, data) {
                         if (err) {
                             console.error(err);
                             return next(err);
@@ -348,7 +348,7 @@ define(function(require, exports, module) {
                 case "modes":
                     var mode = {};
                     var firstLine = data.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
-                    firstLine.split(";").forEach(function(n){
+                    firstLine.split(";").forEach(function(n) {
                         if (!n) return;
                         var info = n.split(":");
                         mode[info[0].trim()] = info[1].trim();
@@ -383,15 +383,15 @@ define(function(require, exports, module) {
                     break;
                 case "installer":
                     if (data) {
-                        installer.createSession(pluginName, data, function(v, o){
-                            require([path], function(fn){
+                        installer.createSession(pluginName, data, function(v, o) {
+                            require([path], function(fn) {
                                 fn(v, o);
                             });
                         });
                     }
                     else {
-                        require([path], function(fn){
-                            installer.createSession(pluginName, fn.version, function(v, o){
+                        require([path], function(fn) {
+                            installer.createSession(pluginName, fn.version, function(v, o) {
                                 fn(v, o);
                             });
                         });
@@ -400,30 +400,30 @@ define(function(require, exports, module) {
         }
         
         // Check if require.s.contexts._ can help watching all dependencies
-        function watch(path){
+        function watch(path) {
             watcher.watch(path);
             
-            watcher.on("change", function(e){
+            watcher.on("change", function(e) {
                 if (e.path == path)
                     reloadPackage(path.replace(/^~\/\.c9\//, ""));
             });
-            watcher.on("delete", function(e){
+            watcher.on("delete", function(e) {
                 if (e.path == path)
                     reloadPackage(path.replace(/^~\/\.c9\//, ""));
             });
-            watcher.on("failed", function(e){
+            watcher.on("failed", function(e) {
                 if (e.path == path) {
-                    setTimeout(function(){
+                    setTimeout(function() {
                         watcher.watch(path); // Retries once after 1s
                     });
                 }
             });
         }
         
-        function reloadPackage(path){
+        function reloadPackage(path) {
             var unloaded = [];
             
-            function recurUnload(name){
+            function recurUnload(name) {
                 var plugin = architect.services[name];
                 unloaded.push(name);
                 
@@ -431,7 +431,7 @@ define(function(require, exports, module) {
                 var deps = ext.getDependencies(plugin.name);
                 
                 // Unload all the dependencies (and their deps)
-                deps.forEach(function(name){
+                deps.forEach(function(name) {
                     recurUnload(name);
                 });
                 
@@ -442,7 +442,7 @@ define(function(require, exports, module) {
             // Recursively unload plugin
             var p = architect.lut[path];
             if (p.provides) { // Plugin might not been initialized all the way
-                p.provides.forEach(function(name){
+                p.provides.forEach(function(name) {
                     recurUnload(name);
                 });
             }
@@ -452,7 +452,7 @@ define(function(require, exports, module) {
             for (var packagePath in architect.lut) {
                 var provides = architect.lut[packagePath].provides;
                 if (provides) { // Plugin might not been initialized all the way
-                    provides.forEach(function(name){
+                    provides.forEach(function(name) {
                         rlut[name] = packagePath;
                     });
                 }
@@ -460,7 +460,7 @@ define(function(require, exports, module) {
             
             // Build config of unloaded plugins
             var config = [], done = {};
-            unloaded.forEach(function(name){
+            unloaded.forEach(function(name) {
                 var packagePath = rlut[name];
                 
                 // Make sure we include each plugin only once
@@ -479,14 +479,14 @@ define(function(require, exports, module) {
             });
             
             // Load all plugins again
-            architect.loadAdditionalPlugins(config, function(err){
+            architect.loadAdditionalPlugins(config, function(err) {
                 if (err) console.error(err);
             });
         }
         
-        function reloadPluginUI(){
+        function reloadPluginUI() {
             var list = [];
-            Object.keys(architect.pluginToPackage).forEach(function(name){
+            Object.keys(architect.pluginToPackage).forEach(function(name) {
                 if (architect.pluginToPackage[name].isAdditionalMode)
                     list.push(architect.pluginToPackage[name].path);
             });
@@ -518,12 +518,12 @@ define(function(require, exports, module) {
             /**
              * 
              */
-            get architect(){ throw new Error(); },
-            set architect(v){ architect = v; },
+            get architect() { throw new Error(); },
+            set architect(v) { architect = v; },
             /**
              * 
              */
-            get plugins(){ return plugins; },
+            get plugins() { return plugins; },
             
             _events: [
                 /**

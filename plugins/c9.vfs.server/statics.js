@@ -21,7 +21,7 @@ function main(options, imports, register) {
     var plugin = new Plugin("Ajax.org", main.consumes);
     
     var loaded = false;
-    function load(){
+    function load() {
         if (loaded || options.disableUnpackagedClient) return false;
         loaded = true;
         
@@ -91,7 +91,7 @@ function main(options, imports, register) {
     
     /***** Lifecycle *****/
     
-    plugin.on("load", function(){
+    plugin.on("load", function() {
         load();
     });
     

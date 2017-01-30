@@ -24,9 +24,9 @@ define(function(require, module, exports) {
         
         function show(onYes, onNo, title, header, msg, options) {
             if (!options)
-                options = {isHTML: true};
+                options = { isHTML: true };
                 
-            return plugin.queue(function(){
+            return plugin.queue(function() {
                 var cancel = options.cancel;
                 var metadata = options.metadata;
                 
@@ -46,21 +46,21 @@ define(function(require, module, exports) {
                 plugin.allowClose = cancel;
                 
                 var gotYesNo = false;
-                plugin.once("hide", function(){
+                plugin.once("hide", function() {
                     !gotYesNo && cancel && onNo(false, true, metadata);
                 });
                 
                 plugin.update([
-                    { id: "yes", onclick: function(){ 
+                    { id: "yes", onclick: function() { 
                         gotYesNo = true; 
                         plugin.hide(); 
                         onYes(false, metadata); 
-                    }},
-                    { id: "no", onclick: function(){ 
+                    } },
+                    { id: "no", onclick: function() { 
                         gotYesNo = true;
                         plugin.hide(); 
                         onNo(false, false, metadata); 
-                    }}
+                    } }
                 ]);
             }, options.queue === false);
         }

@@ -8,7 +8,7 @@ module.exports = function sanitzePreviewPath(req, res, next) {
     var normalized;
     try {
         normalized = Path.normalize(decodeURIComponent(req.params.path));
-    } catch(e) {
+    } catch (e) {
         return next(new error.BadRequest("URI malformed"));
     }
 

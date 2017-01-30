@@ -73,15 +73,15 @@ define(function(require, exports, module) {
         var separator = $l.wordSeparator || "";
         if ($l.wordSeparator === undefined) { separator = " "; }
         return [prefix, words, suffix].filter(function(s) { return s; })
-            .map(function(s){ return s.trim(); })
+            .map(function(s) { return s.trim(); })
             .join(separator);
     }
     function parse(iso8601) {
         var s = iso8601.trim();
-        s = s.replace(/\.\d+/,""); // remove milliseconds
-        s = s.replace(/-/,"/").replace(/-/,"/");
-        s = s.replace(/T/," ").replace(/Z/," UTC");
-        s = s.replace(/([\+\-]\d\d)\:?(\d\d)/," $1$2"); // -04:00 -> -0400
+        s = s.replace(/\.\d+/, ""); // remove milliseconds
+        s = s.replace(/-/, "/").replace(/-/, "/");
+        s = s.replace(/T/, " ").replace(/Z/, " UTC");
+        s = s.replace(/([\+\-]\d\d)\:?(\d\d)/, " $1$2"); // -04:00 -> -0400
         return new Date(s);
     }
     function datetime(elem) {

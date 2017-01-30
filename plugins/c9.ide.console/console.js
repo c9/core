@@ -32,7 +32,7 @@ define(function(require, module, exports) {
         var collapsedHeight = 0;
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
@@ -40,7 +40,7 @@ define(function(require, module, exports) {
             commands.addCommand({
                 name: "toggleconsole",
                 group: "Panels",
-                bindKey: {mac: "Ctrl-Esc", win: "F6"},
+                bindKey: { mac: "Ctrl-Esc", win: "F6" },
                 exec: function(editor, args) {
                     var el;
                     if (hidden || args.show) {
@@ -127,7 +127,7 @@ define(function(require, module, exports) {
         }
         
         var drawn = false;
-        function draw(){
+        function draw() {
             if (drawn) return;
             drawn = true;
             
@@ -138,7 +138,7 @@ define(function(require, module, exports) {
                 zindex: 99,
                 height: height,
                 // minheight : 60,
-                "class"   : "console codeditorHolder"
+                "class": "console codeditorHolder"
             }));
             
             plugin.addElement(container);
@@ -181,7 +181,7 @@ define(function(require, module, exports) {
             }
             
             if (options.testing != 2) {
-                setState(state, true, function(){});
+                setState(state, true, function() {});
                 emit.sticky("ready");
             }
 
@@ -209,15 +209,15 @@ define(function(require, module, exports) {
             return tabs.setState(state, init, callback);
         }
         
-        function getTabs(){
+        function getTabs() {
             return tabs.getTabs(container);
         }
         
-        function getPanes(){
+        function getPanes() {
             return tabs.getPanes(container);
         }
         
-        function clear(){
+        function clear() {
             var tabNodes = tabs.getPanes(container);
             
             for (var i = tabNodes.length - 1; i >= 0; i--) {
@@ -233,7 +233,7 @@ define(function(require, module, exports) {
             }
         }
         
-        function maximizeConsoleHeight(){
+        function maximizeConsoleHeight() {
             if (maximized)
                 return;
             show(true);
@@ -263,7 +263,7 @@ define(function(require, module, exports) {
             emit("resize");
         }
         
-        function restoreConsoleHeight(){
+        function restoreConsoleHeight() {
             if (!maximized)
                 return;
             maximized = false;
@@ -326,7 +326,7 @@ define(function(require, module, exports) {
                 if (onFinishTimer)
                     clearTimeout(onFinishTimer);
         
-                onFinishTimer = setTimeout(function(){
+                onFinishTimer = setTimeout(function() {
                     if (shouldHide) {
                         container.hide();
                         
@@ -408,14 +408,14 @@ define(function(require, module, exports) {
             if (typeof active == "function")
                 callback = active, active = false;
             
-            open({path: path, active: active}, callback);
+            open({ path: path, active: active }, callback);
         }
         
         function openEditor(type, active, callback) {
             if (typeof active == "function")
                 callback = active, active = false;
             
-            open({editorType: type, active: active}, callback);
+            open({ editorType: type, active: active }, callback);
         }
         
         function open(options, callback) {
@@ -428,16 +428,16 @@ define(function(require, module, exports) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             tabs.containers.remove(container);
             clear();
             loaded = false;
@@ -472,7 +472,7 @@ define(function(require, module, exports) {
              * @property {AMLElement} container
              * @readonly
              */
-            get container(){ return container; },
+            get container() { return container; },
             
             _events: [
                 /**

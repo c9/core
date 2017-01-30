@@ -30,7 +30,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         var cm = imports.commands;
         var command;
         
-        var plugin = { addOther : function(){} };
+        var plugin = { addOther: function() {} };
         
         describe('commands', function() {
             beforeEach(function(done) {
@@ -91,7 +91,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 assert.equal(cm.commands.gotoline, cmd);
             });
         
-            it("should retrieve the hotkey for a command", function(){
+            it("should retrieve the hotkey for a command", function() {
                 cm.changePlatform("mac");
                 expect(cm.getHotkey("gotoline")).to.equal("Command-L");
                 expect(cm.commandManager.gotoline).to.equal("Command-L");
@@ -99,7 +99,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 cm.changePlatform("win");
                 expect(cm.getHotkey("gotoline")).to.equal("Ctrl-L");
                 expect(cm.commandManager.gotoline).to.equal("Ctrl-L");
-            })
+            });
         });
         
         onload && onload();

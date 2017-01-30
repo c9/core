@@ -193,7 +193,7 @@ EventEmitter.prototype.once = function(type, listener, plugin) {
     var wrapped = function() {
         self.removeListener(type, listener);
         return listener.apply(self, arguments);
-    }
+    };
     wrapped.listener = listener;
     
     self.on(type, wrapped, plugin);
@@ -231,7 +231,7 @@ EventEmitter.prototype.removeListener = function(type, listener) {
     var list = this._events[type];
 
     if (isArray(list)) {
-        if (!list.some(function(l, i){
+        if (!list.some(function(l, i) {
             if ((l.listener || l) == listener) {
                 list.splice(i, 1);
                 return true;

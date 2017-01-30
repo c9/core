@@ -40,7 +40,7 @@ define(function(require, module, exports) {
             
             // Listen to changes and detect when the value of the editor
             // is different from what is on disk
-            function initUndo(){
+            function initUndo() {
                 undoManager.on("change", function(e) {
                     var c = !undoManager.isAtBookmark();
                     if (changed !== c) {
@@ -130,7 +130,7 @@ define(function(require, module, exports) {
                     }
                     meta = state.meta;
                 }
-                if (state.title)   plugin.title = state.title;
+                if (state.title) plugin.title = state.title;
                 if (state.tooltip) plugin.tooltip = state.tooltip;
                 
                 if (typeof state.value == "string")   
@@ -185,7 +185,7 @@ define(function(require, module, exports) {
             
             /***** Lifecycle *****/
             
-            plugin.on("unload", function(){
+            plugin.on("unload", function() {
                 changed = false;
                 
                 // Unload the undo manager
@@ -294,8 +294,8 @@ define(function(require, module, exports) {
                  * the tab this document is attached to
                  * @property {Tab} tab
                  */
-                get tab(){ return tab; },
-                set tab(v){ tab = v; },
+                get tab() { return tab; },
+                set tab(v) { tab = v; },
                 
                 /**
                  * the meta information for this document. Use this object to
@@ -317,20 +317,20 @@ define(function(require, module, exports) {
                  * 
                  * @property meta
                  */
-                get meta(){ return meta; },
+                get meta() { return meta; },
                 
                 /**
                  * The last state that was set into the document.
                  * @property lastState
                  * @private
                  */
-                get lastState(){ return lastState; },
+                get lastState() { return lastState; },
                 
                 /**
                  * the editor this document is attached to
                  * @property {Editor} editor
                  */
-                get editor(){ return editor; },
+                get editor() { return editor; },
                 set editor(v) { 
                     editor = v;
                     emit("setEditor", { editor: v });
@@ -339,12 +339,12 @@ define(function(require, module, exports) {
                  * Whether the document is fully loaded
                  * @property {Boolean} ready
                  */
-                get ready(){ return ready; },
+                get ready() { return ready; },
                 set ready(v) {
                     // try to find out why is this called twice
-                    var e =  new Error("Setting ready on ready document");
+                    var e = new Error("Setting ready on ready document");
                     if (ready)
-                        reportError(e, {ready: ready});
+                        reportError(e, { ready: ready });
                     ready = e.stack || true;
                     emit.sticky("ready", { doc: plugin });
                 },
@@ -352,7 +352,7 @@ define(function(require, module, exports) {
                  * The tooltip displayed when hovering over the tab button
                  * @property {String} tooltip
                  */
-                get tooltip(){ return tooltip; },
+                get tooltip() { return tooltip; },
                 set tooltip(v) { 
                     tooltip = v; 
                     emit("setTooltip", { tooltip: v });
@@ -361,7 +361,7 @@ define(function(require, module, exports) {
                  * The title of the document (displayed as caption of the tab button)
                  * @property {String} title
                  */
-                get title(){ return title; },
+                get title() { return title; },
                 set title(v) { 
                     title = v; 
                     emit("setTitle", { title: v });
@@ -374,7 +374,7 @@ define(function(require, module, exports) {
                  * document will cause it to serialize it's full state.
                  * @property {String} value
                  */
-                get value(){
+                get value() {
                     var calculated = emit("getValue", { value: recentValue || value });
                     if (typeof calculated != "string")
                         calculated = value;
@@ -396,18 +396,18 @@ define(function(require, module, exports) {
                  * @property {String} recentValue
                  * @readonly
                  */
-                get recentValue(){ return recentValue; },
+                get recentValue() { return recentValue; },
                 /**
                  * Specifies whether the document on this tab is changed
                  * @property {Boolean} changed
                  */
-                get changed(){ return changed; },
+                get changed() { return changed; },
                 /**
                  * The object managing all the changes to the document
                  * @property {UndoManager} undoManager
                  */
-                get undoManager(){ return undoManager; },
-                set undoManager(newUndo){ 
+                get undoManager() { return undoManager; },
+                set undoManager(newUndo) { 
                     undoManager.unload();
                     undoManager = newUndo; 
                     initUndo();

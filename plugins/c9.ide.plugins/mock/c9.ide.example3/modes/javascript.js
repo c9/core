@@ -53,7 +53,7 @@ oop.inherits(Mode, TextMode);
 (function() {
 
     this.lineCommentStart = "//";
-    this.blockComment = {start: "/*", end: "*/"};
+    this.blockComment = { start: "/*", end: "*/" };
 
     this.getNextLineIndent = function(state, line, tab) {
         var indent = this.$getIndent(line);
@@ -62,7 +62,7 @@ oop.inherits(Mode, TextMode);
         var tokens = tokenizedLine.tokens;
         var endState = tokenizedLine.state;
 
-        if (tokens.length && tokens[tokens.length-1].type == "comment") {
+        if (tokens.length && tokens[tokens.length - 1].type == "comment") {
             return indent;
         }
 

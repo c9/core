@@ -19,12 +19,12 @@ define(function(require, exports, module) {
         var packed = ui.packedThemes;
 
         var themes = {
-            "dark"       : "",
-            "dark-gray"  : "",
-            "light-gray" : "",
-            "light"      : "",
-            "flat-light" : "",
-            "flat-dark" : ""
+            "dark": "",
+            "dark-gray": "",
+            "light-gray": "",
+            "light": "",
+            "flat-light": "",
+            "flat-dark": ""
         };
 
         /***** Methods *****/
@@ -37,7 +37,7 @@ define(function(require, exports, module) {
             try {
                 var theme = settings.get("user/general/@skin");
                 return getTheme(theme, callback);
-            } catch(e) {}
+            } catch (e) {}
             async.forEach(Object.keys(themes), getTheme, callback);
         }
 

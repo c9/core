@@ -1,24 +1,24 @@
 define(function(require, exports, module) {
     var EventEmitter = require("events").EventEmitter;
     
-    module.exports = function(process){
+    module.exports = function(process) {
         var pty = new EventEmitter();
-        pty.write = function(data){
+        pty.write = function(data) {
             process.stdin.write(data.replace(/\r/g, "\n"));
         };
-        pty.resize = function(){};
+        pty.resize = function() {};
         pty.destroy =
-        pty.end = function(){
+        pty.end = function() {
             process.kill();
         };
         
-        process.stdout.on("data", function(chunk){
+        process.stdout.on("data", function(chunk) {
             pty.emit("data", chunk);
         });
-        process.stderr.on("data", function(chunk){
+        process.stderr.on("data", function(chunk) {
             pty.emit("data", chunk);
         });
-        process.on("exit", function(code){
+        process.on("exit", function(code) {
             pty.emit("exit", code);
         });
         

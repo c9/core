@@ -107,19 +107,19 @@ define(function(require, exports, module) {
             "It will be just as you left it.\n";
 
         var stateDescriptions = {
-            free: { casual: [STATE_MIGRATING, STATE_RESIZING] },
-            premium: { casual: [STATE_MIGRATING, STATE_MARKED_FOR_ARCHIVE, STATE_ARCHIVING, STATE_ARCHIVED, STATE_MARKED_FOR_RESTORE, STATE_RESTORING, STATE_RESIZING] },
+            free: { casual: [STATE_MIGRATING, STATE_RESIZING]},
+            premium: { casual: [STATE_MIGRATING, STATE_MARKED_FOR_ARCHIVE, STATE_ARCHIVING, STATE_ARCHIVED, STATE_MARKED_FOR_RESTORE, STATE_RESTORING, STATE_RESIZING]},
         };
         
-        stateDescriptions.free[STATE_CREATED] =  "";
-        stateDescriptions.free[STATE_READY] =  description;
-        stateDescriptions.free[STATE_MIGRATING] =  migrateDescription; // different location
-        stateDescriptions.free[STATE_MARKED_FOR_ARCHIVE] =  description;
-        stateDescriptions.free[STATE_ARCHIVING] =  description;
-        stateDescriptions.free[STATE_ARCHIVED] =  description;
-        stateDescriptions.free[STATE_MARKED_FOR_RESTORE] =  description;
-        stateDescriptions.free[STATE_RESTORING] =  description;
-        stateDescriptions.free[STATE_RESIZING] =  resizeDescription; // different location
+        stateDescriptions.free[STATE_CREATED] = "";
+        stateDescriptions.free[STATE_READY] = description;
+        stateDescriptions.free[STATE_MIGRATING] = migrateDescription; // different location
+        stateDescriptions.free[STATE_MARKED_FOR_ARCHIVE] = description;
+        stateDescriptions.free[STATE_ARCHIVING] = description;
+        stateDescriptions.free[STATE_ARCHIVED] = description;
+        stateDescriptions.free[STATE_MARKED_FOR_RESTORE] = description;
+        stateDescriptions.free[STATE_RESTORING] = description;
+        stateDescriptions.free[STATE_RESIZING] = resizeDescription; // different location
 
         stateDescriptions.premium[STATE_CREATED] = "";
         stateDescriptions.premium[STATE_READY] = premiumStoppedDescription;
@@ -178,12 +178,12 @@ define(function(require, exports, module) {
             if (progress > maxProgress)
                 return (timer = setTimeout(walk.bind(null, loopId), 500));
             
-            animateProgress(progress++, function(){ 
+            animateProgress(progress++, function() { 
                 timer = setTimeout(walk.bind(null, loopId), 10); 
             });
         }
         
-        function showTimeout(){
+        function showTimeout() {
             timeoutEl.style.display = "block";
         }
         
@@ -248,9 +248,9 @@ define(function(require, exports, module) {
             
             
             clearTimeout(timeoutTimer);
-            timeoutTimer = setTimeout(function(){
+            timeoutTimer = setTimeout(function() {
                 showTimeout();
-            }, TIMEOUT_TIME)
+            }, TIMEOUT_TIME);
         }
         
         function trackLink(e) {
@@ -271,11 +271,11 @@ define(function(require, exports, module) {
             clearTimeout(timer);
             
             progress = 101;
-            animateProgress(100, function(){
-                setTimeout(function(){
+            animateProgress(100, function() {
+                setTimeout(function() {
                     anims.animate(el, {
                         opacity: 0
-                    }, function(){
+                    }, function() {
                         el.style.display = "none";
                         el.style.opacity = 1;
                         
@@ -292,7 +292,7 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
 
@@ -306,6 +306,6 @@ define(function(require, exports, module) {
             hide: hideRestore
         });
         
-        register(null, { "restore" : plugin });
+        register(null, { "restore": plugin });
     }
 });

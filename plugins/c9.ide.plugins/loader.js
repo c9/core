@@ -33,7 +33,7 @@ define(function(require, exports, module) {
         var HASSDK = DEBUG_MODE || experimental.addExperiment("sdk", false, "SDK/Load Custom Plugins");
         
         var plugins = options.plugins;
-        var loadFromDisk = options.loadFromDisk
+        var loadFromDisk = options.loadFromDisk;
 
         var names = [];
         
@@ -48,7 +48,7 @@ define(function(require, exports, module) {
 
         // TODO the resolution alghoritm used here is very inefficient
         // ideally we will use a simpler method that doesn't need to scan directories
-        function loadPlugins(loaderConfig){
+        function loadPlugins(loaderConfig) {
             if (!vfs.connected) {
                 vfs.once("connect", loadPlugins.bind(this, loaderConfig));
                 return;
@@ -88,7 +88,7 @@ define(function(require, exports, module) {
                 }
                 resolved.filter(function(config) {
                     if (extraPackages[config.packagePath]) {
-                        _.assign(config, extraPackages[config.packagePath], function(x, y) { return x || y });
+                        _.assign(config, extraPackages[config.packagePath], function(x, y) { return x || y; });
                         delete extraPackages[config.packagePath];
                     }
                 });
@@ -126,9 +126,9 @@ define(function(require, exports, module) {
          */
         function listAllPackages(callback) {
             async.parallel({
-                "plugins" : async.apply(listPackages, "~/.c9/plugins"),
-                "managed" : async.apply(listPackages, "~/.c9/managed/plugins"),
-                "dev"     : async.apply(listPackages, "~/.c9/dev/plugins"),
+                "plugins": async.apply(listPackages, "~/.c9/plugins"),
+                "managed": async.apply(listPackages, "~/.c9/managed/plugins"),
+                "dev": async.apply(listPackages, "~/.c9/dev/plugins"),
             }, function(err, packages) {
                 if (err && err.code === "EDISCONNECT") {
                     c9.once("connect", function() {
@@ -324,13 +324,13 @@ define(function(require, exports, module) {
             /**
              * 
              */
-            get architect(){ throw new Error(); },
-            set architect(v){ architect = v; },
+            get architect() { throw new Error(); },
+            set architect(v) { architect = v; },
             
             /**
              * 
              */
-            get plugins(){ return names; }
+            get plugins() { return names; }
         });
         
         register(null, {

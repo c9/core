@@ -177,7 +177,7 @@ define(function(require, exports, module) {
             /**
              * @ignore
              */
-            get installMode(){ return installMode; },
+            get installMode() { return installMode; },
             set installMode(_vfs) {
                 vfs = _vfs || imports.vfs;
                 installMode = _vfs ? true : false;
@@ -278,7 +278,7 @@ define(function(require, exports, module) {
              * @fires afterSpawn
              */
             spawn: function(path, options, callback) {
-                emit("beforeSpawn", {path: path, options: options});
+                emit("beforeSpawn", { path: path, options: options });
                 
                 if (!callback) { // Handle optional argument
                     callback = options;
@@ -293,7 +293,7 @@ define(function(require, exports, module) {
                 if (options.resolve)
                     vfs.resolve(path, {}, exec);
                 else
-                    exec(null, {path: path});
+                    exec(null, { path: path });
                     
                 function exec(err, data) {
                     vfs.spawn(data.path, options, function(err, meta) {
@@ -347,14 +347,14 @@ define(function(require, exports, module) {
              */
             pty: function(path, options, callback) {
                 if (installMode || options.fakePty) {
-                    plugin.spawn(path, options, function(err, process){
+                    plugin.spawn(path, options, function(err, process) {
                         if (err) return callback(err);
                         callback(null, new ProcessToPty(process));
                     });
                     return;
                 }
                 
-                emit("beforePty", {path: path, options: options});
+                emit("beforePty", { path: path, options: options });
                 
                 if (!options.encoding)
                     options.encoding = "utf8";
@@ -365,13 +365,13 @@ define(function(require, exports, module) {
                 if (options.resolve)
                     vfs.resolve(path, {}, exec);
                 else
-                    exec(null, {path: path});
+                    exec(null, { path: path });
                     
                 function exec(err, data) {
                     vfs.pty(data.path, options, function(err, meta) {
                         callback(err, meta && meta.pty);
                         
-                        emit("afterPty", {path: path, pty: meta && meta.pty});
+                        emit("afterPty", { path: path, pty: meta && meta.pty });
                     });
                 }
             },
@@ -420,7 +420,7 @@ define(function(require, exports, module) {
              * @fires afterTmux
              */
             tmux: function(command, options, callback) {
-                emit("beforeTmux", {command: command, options: options});
+                emit("beforeTmux", { command: command, options: options });
                 
                 if (!options.encoding)
                     options.encoding = "utf8";
@@ -483,7 +483,7 @@ define(function(require, exports, module) {
                 if (!callback)
                     return this.execFile(path, {}, arguments[1]);
 
-                emit("beforeExecFile", {path: path, options: options});
+                emit("beforeExecFile", { path: path, options: options });
                 
                 if (!options.encoding)
                     options.encoding = "utf8";
@@ -492,7 +492,7 @@ define(function(require, exports, module) {
                 if (options.resolve)
                     vfs.resolve(path, {}, exec);
                 else
-                    exec(null, {path: path});
+                    exec(null, { path: path });
                     
                 function exec(err, data) {
                     vfs.execFile(data.path, options, function(err, e) {

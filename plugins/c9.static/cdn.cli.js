@@ -25,7 +25,7 @@ define(function(require, exports, module) {
                 build.buildSkin(options.config, options.skin, pathConfig, save(["skin", options.config, options.skin + ".css"]));
             } else if (options.config) {
                 var configs = options.config.split(/,\s*/);
-                var configCache = options.skipDuplicates && {duplicates: []};
+                var configCache = options.skipDuplicates && { duplicates: []};
                 var usedPlugins = options.copyStaticResources && Object.create(null);
                 
                 (function buildConfig() {
@@ -264,7 +264,7 @@ define(function(require, exports, module) {
                             return true;
                         return /\.(jsx?|css|less|xml|ejs|prv|pub|sh)$|(^|[/])^(mock|example|\.[^/]*|package.json)[/]?$/.test(name);
                     },
-                    onDir: function(e) { console.log("\x1b [1A\x1b[0K" + e) }
+                    onDir: function(e) { console.log("\x1b [1A\x1b[0K" + e); }
                 });
             });
             next();

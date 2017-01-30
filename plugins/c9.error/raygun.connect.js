@@ -117,7 +117,7 @@ function plugin(options, imports, register) {
         });
     }
 
-    register(null, {"raygun.connect": {
+    register(null, { "raygun.connect": {
         sendRequestError: sendRequestError,
         sendRequestWarning: sendRequestWarning
     }});

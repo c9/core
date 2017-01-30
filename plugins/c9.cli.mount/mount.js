@@ -26,7 +26,7 @@ define(function(require, exports, module) {
         var emit = plugin.getEmitter();
 
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return;
             loaded = true;
             
@@ -49,7 +49,7 @@ define(function(require, exports, module) {
                         throw new Error("Missing target directory");
                 },
                 exec: function(argv) {
-                    mount(argv.ssh, argv.webdav,  argv._[1], argv._[2], function(){});
+                    mount(argv.ssh, argv.webdav, argv._[1], argv._[2], function() {});
                 }
             });
             
@@ -63,7 +63,7 @@ define(function(require, exports, module) {
                         throw new Error("Missing target directory");
                 },
                 exec: function(argv) {
-                    umount(argv._[1], function(){});
+                    umount(argv._[1], function() {});
                 }
             });
         }
@@ -127,16 +127,16 @@ define(function(require, exports, module) {
 
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
         });
         

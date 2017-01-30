@@ -72,14 +72,14 @@ define(function(require, exports, module) {
         var architect;
 
         var CORE = {
-            "c9.core":1,"c9.fs":1,"c9.ide.preferences":1,"c9.ide.panels":1,
-            "c9.ide.plugins":1,"c9.ide.login":1,"c9.vfs.client":1,
-            "c9.ide.console":1,"c9.ide.editors":1,"c9.ide.dialog.common":1,
-            "c9.ide.dialog.file":1,"c9.ide.dialog.login":1,"c9.ide.errorhandler":1,
-            "c9.ide.help":1,"c9.ide.keys":1,"c9.ide.restore":1,"c9.ide.watcher":1,
-            "c9.ide.tree":1, "c9.ide.info":1,
-            "c9.ide.layout.classic":1, "c9.ide.terminal":1, "c9.ide.ace":1,
-            "c9.ide.clipboard":1, "c9.nodeapi":1
+            "c9.core": 1, "c9.fs": 1, "c9.ide.preferences": 1, "c9.ide.panels": 1,
+            "c9.ide.plugins": 1, "c9.ide.login": 1, "c9.vfs.client": 1,
+            "c9.ide.console": 1, "c9.ide.editors": 1, "c9.ide.dialog.common": 1,
+            "c9.ide.dialog.file": 1, "c9.ide.dialog.login": 1, "c9.ide.errorhandler": 1,
+            "c9.ide.help": 1, "c9.ide.keys": 1, "c9.ide.restore": 1, "c9.ide.watcher": 1,
+            "c9.ide.tree": 1, "c9.ide.info": 1,
+            "c9.ide.layout.classic": 1, "c9.ide.terminal": 1, "c9.ide.ace": 1,
+            "c9.ide.clipboard": 1, "c9.nodeapi": 1
         };
         var GROUPS = {
             "custom": "Installed Plugins",
@@ -140,7 +140,7 @@ define(function(require, exports, module) {
             if (options.devel) {
                 commands.addCommand({
                     name: "reloadLastPlugin",
-                    bindKey: {mac: "F4", win: "F4"},
+                    bindKey: { mac: "F4", win: "F4" },
                     hint: "reload plugin last reloaded in plugin manager",
                     exec: function() {
                         var name = getLastReloaded();
@@ -152,7 +152,7 @@ define(function(require, exports, module) {
                 commands.addCommand({
                     name: "reloadPlugin",
                     group: "Plugins",
-                    exec: function(){ 
+                    exec: function() { 
                         commands.exec("openpreferences", null, { panel: plugin });
                     }
                 }, plugin);
@@ -171,15 +171,15 @@ define(function(require, exports, module) {
             }
 
             menus.addItemByPath("File/New Plugin", null, 210, plugin);
-            Object.keys(TEMPLATES).forEach(function(name){
+            Object.keys(TEMPLATES).forEach(function(name) {
                 menus.addItemByPath("File/New Plugin/" + TEMPLATES[name], new ui.item({
-                    onclick: function(){
+                    onclick: function() {
                         createNewPlugin(name);
                     }
                 }), 210, plugin);
             });
             
-            ext.on("register", function(){
+            ext.on("register", function() {
                 setTimeout(reloadModel);
             });
         }
@@ -203,7 +203,7 @@ define(function(require, exports, module) {
             }, {
                 caption: "Version",
                 // value: "version",
-                getText: function(p){
+                getText: function(p) {
                     return p.version ||
                         (p.isPackage
                             ? p.items.length && p.items[0].version || ""
@@ -214,17 +214,17 @@ define(function(require, exports, module) {
                 caption: "Startup Time",
                 // value: "time",
                 width: "100",
-                getText: function(p){
+                getText: function(p) {
                     if (p.time !== undefined)
                         return (p.time || 0) + "ms";
 
                     var total = 0;
                     if (p.isPackage || p.name == "runtime") {
-                        p.items.forEach(function(item){ total += item.time || 0 });
+                        p.items.forEach(function(item) { total += item.time || 0; });
                     }
                     else {
-                        p.items.forEach(function(p){
-                            p.items && p.items.forEach(function(item){ total += item.time || 0 });
+                        p.items.forEach(function(p) {
+                            p.items && p.items.forEach(function(item) { total += item.time || 0; });
                         });
                     }
                     return (p.time = total) + "ms";
@@ -240,7 +240,7 @@ define(function(require, exports, module) {
             }, {
                 caption: "Developer",
                 // value: "developer",
-                getText: function(p){
+                getText: function(p) {
                     return p.developer ||
                         (p.isPackage
                             ? p.items.length && p.items[0].developer || ""
@@ -249,7 +249,7 @@ define(function(require, exports, module) {
                 width: "150"
             }];
 
-            layout.on("eachTheme", function(e){
+            layout.on("eachTheme", function(e) {
                 var height = parseInt(ui.getStyleRule(".bar-preferences .blackdg .tree-row", "height"), 10) || 24;
                 model.rowHeightInner = height;
                 model.rowHeight = height;
@@ -298,14 +298,14 @@ define(function(require, exports, module) {
                         skin: "btn-default-css3",
                         caption: "Uninstall",
                         class: "btn-red",
-                        onclick: function(){
+                        onclick: function() {
                             var item = datagrid.selection.getCursor();
                             if (item.isPackage)
-                                uninstall(item.name, function(){});
+                                uninstall(item.name, function() {});
                             else if (item.enabled == "true")
-                                disable(item.name, function(){});
+                                disable(item.name, function() {});
                             else
-                                enable(item.name, function(){});
+                                enable(item.name, function() {});
                         }
                     }),
                     btnReport = new ui.button({
@@ -323,7 +323,7 @@ define(function(require, exports, module) {
                     btnReload = new ui.button({
                         skin: "btn-default-css3",
                         caption: "Reload",
-                        onclick: function(){
+                        onclick: function() {
                             var item = datagrid.selection.getCursor();
                             if (item.enabled && item.name)
                                 reload(item.name);
@@ -343,7 +343,7 @@ define(function(require, exports, module) {
             datagrid.setTheme({ cssClass: "blackdg" });
             datagrid.setDataProvider(model);
 
-            layout.on("resize", function(){ datagrid.resize() }, plugin);
+            layout.on("resize", function() { datagrid.resize(); }, plugin);
 
             function setTheme(e) {
                 filterbox.setAttribute("class",
@@ -355,10 +355,10 @@ define(function(require, exports, module) {
             filterbox.ace.commands.addCommands([
                 {
                     bindKey: "Enter",
-                    exec: function(){ }
+                    exec: function() { }
                 }, {
                     bindKey: "Esc",
-                    exec: function(ace){ ace.setValue(""); }
+                    exec: function(ace) { ace.setValue(""); }
                 }
             ]);
 
@@ -372,7 +372,7 @@ define(function(require, exports, module) {
                 datagrid.resize(true);
             });
 
-            datagrid.on("changeSelection", function(e){
+            datagrid.on("changeSelection", function(e) {
                 var item = datagrid.selection.getCursor();
 
                 if (item.isGroup) {
@@ -420,7 +420,7 @@ define(function(require, exports, module) {
             var packages = {};
             var root = [];
 
-            ["custom", "pre", "core", "runtime"].forEach(function(name){
+            ["custom", "pre", "core", "runtime"].forEach(function(name) {
                 root.push(groups[name] = {
                     items: [],
                     isOpen: name != "runtime",
@@ -495,20 +495,20 @@ define(function(require, exports, module) {
             }
         }
 
-        function uninstall(name){
+        function uninstall(name) {
             btnUninstall.setAttribute("caption", "...");
             btnUninstall.disable();
 
             // @TODO first disable the plugin
 
-            proc.spawn("c9", { args: ["uninstall", name] }, function(err, p){
-                p.stdout.on("data", function(c){
+            proc.spawn("c9", { args: ["uninstall", name]}, function(err, p) {
+                p.stdout.on("data", function(c) {
 
                 });
-                p.stderr.on("data", function(c){
+                p.stderr.on("data", function(c) {
 
                 });
-                p.on("exit", function(code){
+                p.on("exit", function(code) {
                     if (code) {
                         return alert("Could not uninstall plugin",
                             "Could not uninstall plugin",
@@ -521,9 +521,9 @@ define(function(require, exports, module) {
             });
         }
 
-        function enable(name){
-            try{ ext.enablePlugin(name); }
-            catch(e){
+        function enable(name) {
+            try { ext.enablePlugin(name); }
+            catch (e) {
                 alert("Could not disable plugin",
                     "Got an error when disabling plugin: " + name,
                     e.message);
@@ -533,12 +533,12 @@ define(function(require, exports, module) {
             reloadModel();
         }
 
-        function disable(name, callback){
+        function disable(name, callback) {
             var deps = ext.getDependencies(name);
             var plugins = ext.named;
 
             for (var i = 0; i < deps.length; i++) {
-                ext.getDependencies(deps[i]).forEach(function(name){
+                ext.getDependencies(deps[i]).forEach(function(name) {
                     if (deps.indexOf(name) == -1)
                         deps.push(name);
                 });
@@ -549,8 +549,8 @@ define(function(require, exports, module) {
                     "Would you like to disable all the plugins that depend on '" + name + "'?",
                     "These plugins would also be disabled: " + deps.join(", "),
                     // Yes
-                    function(){
-                        if (deps.reverse().every(function(name){
+                    function() {
+                        if (deps.reverse().every(function(name) {
                             console.log("Disabling", name);
                             return !recurDisable(name);
                         })) {
@@ -559,7 +559,7 @@ define(function(require, exports, module) {
                         }
                     },
                     // No
-                    function(){
+                    function() {
                         callback(new Error("User Cancelled"));
                     });
             }
@@ -569,11 +569,11 @@ define(function(require, exports, module) {
                 callback(e);
             }
 
-            function recurDisable(name){
+            function recurDisable(name) {
                 var deps = ext.getDependencies(name);
 
                 if (deps.length) {
-                    if (!deps.every(function(name){
+                    if (!deps.every(function(name) {
                         return !recurDisable(name);
                     })) return false;
                 }
@@ -584,8 +584,8 @@ define(function(require, exports, module) {
             function disable(name) {
                 if (!plugins[name].loaded) return;
 
-                try{ ext.disablePlugin(name); }
-                catch(e){
+                try { ext.disablePlugin(name); }
+                catch (e) {
                     alert("Could not disable plugin",
                         "Got an error when disabling plugin: " + name,
                         e.message);
@@ -594,7 +594,7 @@ define(function(require, exports, module) {
             }
         }
 
-        function createNewPlugin(template){
+        function createNewPlugin(template) {
             if (!template)
                 template = "c9.ide.default";
 
@@ -602,21 +602,21 @@ define(function(require, exports, module) {
             if (!url.match(/^http/))
                 url = location.origin + url;
 
-            function getPath(callback, i){
+            function getPath(callback, i) {
                 i = i || 0;
                 var path = join("~", ".c9/plugins/", template + (i ? "." + i : ""));
-                fs.exists(path, function(exists){
-                    if (exists) return getPath(callback, i+1);
+                fs.exists(path, function(exists) {
+                    if (exists) return getPath(callback, i + 1);
                     callback(null, path);
                 });
             }
 
-            function handleError(err){
+            function handleError(err) {
                 showError("Could not create plugin.");
                 console.error(err);
             }
 
-            getPath(function(err, path){
+            getPath(function(err, path) {
                 if (err)
                     return handleError(err);
 
@@ -632,25 +632,25 @@ define(function(require, exports, module) {
                         "mkdir", "-p", util.escapeShell(dirname(tarPathAbsolute)), ";",
                         "curl", "-L", util.escapeShell(url), "-o", util.escapeShell(tarPathAbsolute)].join(" ")
                     ]
-                }, function(err, stderr, stdout){
+                }, function(err, stderr, stdout) {
                     if (err)
                         return handleError(err);
 
                     // Untar tar file
                     proc.execFile("bash", {
                         args: ["-c", ["tar", "-zxvf", util.escapeShell(tarPath), "-C", util.escapeShell(pluginsDirAbsolute)].join(" ")]
-                    }, function(err, stderr, stdout){
+                    }, function(err, stderr, stdout) {
                         if (err)
                             return handleError(err);
 
                         // Move template to the right folder
                         var dirPath = join(dirname(tarPath), template);
-                        fs.rename(dirPath, path, function(err){
+                        fs.rename(dirPath, path, function(err) {
                             if (err)
                                 return handleError(err);
 
                             // Remove .tar.gz
-                            fs.unlink(tarPath, function(){
+                            fs.unlink(tarPath, function() {
 
                                 // Add plugin to favorites
                                 favs.addFavorite(dirname(pluginsDir), "plugins");
@@ -741,10 +741,10 @@ define(function(require, exports, module) {
             /**
              *
              */
-            get architect(){ throw new Error(); },
-            set architect(v){
+            get architect() { throw new Error(); },
+            set architect(v) {
                 architect = v;
-                architect.on("ready-additional", function(){
+                architect.on("ready-additional", function() {
                     reloadModel();
                 });
             },
@@ -776,7 +776,7 @@ define(function(require, exports, module) {
         });
 
         register(null, {
-            "plugin.manager" : plugin
+            "plugin.manager": plugin
         });
     }
 });

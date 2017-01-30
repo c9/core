@@ -105,12 +105,12 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             });
             it('should emit clear when clearing the editor', function(done) {
                 var editor = new Editor();
-                editor.on("clear", function(e){ done(); })
+                editor.on("clear", function(e) { done(); });
                 editor.clear();
             });
             it('should emit focus when focussing the editor', function(done) {
                 var editor = new Editor();
-                editor.on("focus", function(e){ done(); })
+                editor.on("focus", function(e) { done(); });
                 editor.focus();
             });
             it('should emit validate when validating the editor', function(done) {
@@ -118,7 +118,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 editor.on("validate", function(e) { 
                     expect(e.document).to.equal(1);
                     done(); 
-                })
+                });
                 editor.isValid(1);
             });
             it('should attach itself to a pane element', function(done) {
@@ -126,21 +126,21 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 
                 var count = 0;
                 editor.on("draw", function(e) {
-                    e.tab.on("DOMNodeRemovedFromDocument", function(){
+                    e.tab.on("DOMNodeRemovedFromDocument", function() {
                         if (count != 2)
                             throw new Error("Not all events where called: "
                                 + count);
                         
                         done();
-                    })
+                    });
                     count++;
                 });
                 
                 var pane = {
-                    aml: {insertBefore: function(){ count++ }, 
-                    getPage: function(){}},
-                    on: function(){}
-                }
+                    aml: { insertBefore: function() { count++; }, 
+                    getPage: function() {} },
+                    on: function() {}
+                };
                 editor.attachTo(pane);
                 
                 editor.load("test");

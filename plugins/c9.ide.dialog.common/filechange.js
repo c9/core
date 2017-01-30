@@ -30,7 +30,7 @@ define(function(require, module, exports) {
         
         function show(title, header, body, onlocal, onremote, onmerge, options) {
             options = options || {};
-            return plugin.queue(function(){
+            return plugin.queue(function() {
                 plugin.title = title;
                 plugin.heading = util.escapeXml(header);
                 if (body) plugin.body = util.escapeXml(body);
@@ -46,9 +46,9 @@ define(function(require, module, exports) {
                 
                 
                 plugin.update([
-                    { id: "keepmine",  onclick: function(){ plugin.hide(); onlocal(cb.value); } },
-                    { id: "useremote", onclick: function(){ plugin.hide(); onremote(cb.value); } },
-                    { id: "mergeboth", visible: !!options.merge, onclick: function(){ plugin.hide(); onmerge(cb.value); } }
+                    { id: "keepmine", onclick: function() { plugin.hide(); onlocal(cb.value); } },
+                    { id: "useremote", onclick: function() { plugin.hide(); onremote(cb.value); } },
+                    { id: "mergeboth", visible: !!options.merge, onclick: function() { plugin.hide(); onmerge(cb.value); } }
                 ]);
             });
         }
@@ -61,7 +61,7 @@ define(function(require, module, exports) {
              */
             set all(value) {
                 plugin.update([
-                    { id: "applyall", visible: value}
+                    { id: "applyall", visible: value }
                 ]);
             },
             

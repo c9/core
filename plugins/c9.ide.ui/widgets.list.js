@@ -14,11 +14,11 @@ define(function(require, exports, module) {
         var TreeModel = require("ace_tree/data_provider");
         var search = require("../c9.ide.navigate/search");
         
-        ListModel.prototype.getEmptyMessage = function(){
+        ListModel.prototype.getEmptyMessage = function() {
             return this.emptyMessage || "";
         };
         
-        ui.on("load", function(){
+        ui.on("load", function() {
             ui.insertCss(require("text!./widgets.less"), options.staticPrefix, ui);
         });
         
@@ -38,8 +38,8 @@ define(function(require, exports, module) {
             var meta = {};
             var dataType = options.model ? "object" : options.dataType;
             var excludedEvents = { 
-                "draw": 1, "load":1, "unload":1, 
-                "addListener":1, "removeListener":1 
+                "draw": 1, "load": 1, "unload": 1, 
+                "addListener": 1, "removeListener": 1 
             };
             var renameEvents = {
                 "select": "changeSelection",
@@ -92,15 +92,15 @@ define(function(require, exports, module) {
                 emit.sticky("draw");
             }
             
-            plugin.on("load", function(){
+            plugin.on("load", function() {
                 if (options.container)
                     plugin.attachTo(options.container);
                 
-                forPlugin.once("unload", function(){
+                forPlugin.once("unload", function() {
                     plugin.unload();
                 });
             });
-            plugin.on("unload", function(){
+            plugin.on("unload", function() {
                 if (acetree) {
                     var container = acetree.container;
                     
@@ -112,7 +112,7 @@ define(function(require, exports, module) {
                 }
                 meta = {};
             });
-            plugin.on("newListener", function(type, fn){
+            plugin.on("newListener", function(type, fn) {
                 if (excludedEvents[type]) return;
                 
                 if (renameEvents[type])
@@ -123,7 +123,7 @@ define(function(require, exports, module) {
                 else
                     acetree.on(type, fn);
             });
-            plugin.on("removeListener", function(type, fn){
+            plugin.on("removeListener", function(type, fn) {
                 if (excludedEvents[type]) return;
                 
                 if (renameEvents[type])
@@ -150,112 +150,112 @@ define(function(require, exports, module) {
                  * @ignore
                  * @readonly
                  */
-                get acetree(){ return acetree; },
+                get acetree() { return acetree; },
                 /**
                  * A meta data object that allows you to store whatever you want
                  * in relation to this menu.
                  * @property {Object} meta
                  * @readonly
                  */
-                get meta(){ return meta; },
+                get meta() { return meta; },
                 /**
                  * 
                  */
-                get model(){ return model; },
+                get model() { return model; },
                 /**
                  * 
                  */
-                get selectedNodes(){ 
+                get selectedNodes() { 
                     var sel = (acetree.selection.getSelectedNodes() || []);
                     return dataType == "object"
                         ? sel
-                        : sel.map(function(n){ return n.id; });
+                        : sel.map(function(n) { return n.id; });
                 },
                 /**
                  * 
                  */
-                get selectedNode(){ 
+                get selectedNode() { 
                     var item = (acetree.selection.getCursor() || null);
                     return dataType == "object" ? item : item.id;
                 },
                 /**
                  * 
                  */
-                get root(){ return model.cachedRoot; },
+                get root() { return model.cachedRoot; },
                 /**
                  * 
                  */
-                get scrollTop(){ return model.getScrollTop(); },
-                set scrollTop(value){ return model.setScrollTop(value); },
+                get scrollTop() { return model.getScrollTop(); },
+                set scrollTop(value) { return model.setScrollTop(value); },
                 /**
                  * 
                  */
-                get focussed(){ return acetree.isFocussed(); },
+                get focussed() { return acetree.isFocussed(); },
                 /**
                  * 
                  */
-                get container(){ return acetree.container; },
+                get container() { return acetree.container; },
                 /**
                  * 
                  */
-                get renderer(){ return acetree.renderer; },
+                get renderer() { return acetree.renderer; },
                 /**
                  * 
                  */
-                get selection(){ return acetree.selection; },
+                get selection() { return acetree.selection; },
                 /**
                  * 
                  */
-                get commands(){ return acetree.commands; },
+                get commands() { return acetree.commands; },
                 
                 // Getters and Setters for Properties
                 /**
                  * 
                  */
-                get textInput(){ return acetree.textInput; },
-                set textInput(value){ return acetree.textInput = value; },
+                get textInput() { return acetree.textInput; },
+                set textInput(value) { return acetree.textInput = value; },
                 /**
                  * 
                  */
-                get emptyMessage(){ return model.emptyMessage; },
-                set emptyMessage(value){ model.emptyMessage = value; },
+                get emptyMessage() { return model.emptyMessage; },
+                set emptyMessage(value) { model.emptyMessage = value; },
                 /**
                  *
                  */
-                get scrollMargin(){ return acetree.renderer.scrollMargin; },
-                set scrollMargin(value){ 
+                get scrollMargin() { return acetree.renderer.scrollMargin; },
+                set scrollMargin(value) { 
                     acetree.renderer.setScrollMargin(value[0], value[1]); 
                 },
                 /**
                  *
                  */
-                get rowHeight(){ return model.rowHeight; },
-                set rowHeight(value){ model.rowHeight = value; },
+                get rowHeight() { return model.rowHeight; },
+                set rowHeight(value) { model.rowHeight = value; },
                 /**
                  *
                  */
-                get rowHeightInner(){ return model.rowHeightInner; },
-                set rowHeightInner(value){ model.rowHeightInner = value; },
+                get rowHeightInner() { return model.rowHeightInner; },
+                set rowHeightInner(value) { model.rowHeightInner = value; },
                 /**
                  * 
                  */
-                get theme(){ return acetree.renderer.theme.cssClass; },
-                set theme(value){ acetree.renderer.setTheme({cssClass: value}); },
+                get theme() { return acetree.renderer.theme.cssClass; },
+                set theme(value) { acetree.renderer.setTheme({ cssClass: value }); },
                 /**
                  * 
                  */
-                get animatedScroll(){ return acetree.getOption("animatedScroll"); },
-                set animatedScroll(value){ acetree.setOption("animatedScroll", value); },
+                get animatedScroll() { return acetree.getOption("animatedScroll"); },
+                set animatedScroll(value) { acetree.setOption("animatedScroll", value); },
                 /**
                  * 
                  */
-                get enableDragdrop(){ return acetree.getOption("enableDragDrop"); },
-                set enableDragdrop(value){ acetree.setOption("enableDragDrop", value); },
+                get enableDragdrop() { return acetree.getOption("enableDragDrop"); },
+                set enableDragdrop(value) { acetree.setOption("enableDragDrop", value); },
                 /**
                  * 
                  */
-                get enableVariableHeight(){ return model.getItemHeight; },
-                set enableVariableHeight(value){ 
+                get enableVariableHeight() { return model.getItemHeight; },
+                set enableVariableHeight(value) { 
                     if (!value) throw new Error("Unable to remove variable height");
                     
                     var variableHeightRowMixin = model.constructor.variableHeightRowMixin;
@@ -264,8 +264,8 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                get enableRename(){ return acetree.edit ? true : false; },
-                set enableRename(value){ 
+                get enableRename() { return acetree.edit ? true : false; },
+                set enableRename(value) { 
                     acetree.edit = value 
                         ? new AceTreeEditor(acetree)
                         : null;
@@ -273,10 +273,10 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                get enableCheckboxes(){ return model.getCheckboxHTML ? true : false; },
-                set enableCheckboxes(value){
+                get enableCheckboxes() { return model.getCheckboxHTML ? true : false; },
+                set enableCheckboxes(value) {
                     model.getCheckboxHTML = value 
-                        ? function(node){
+                        ? function(node) {
                             return "<span class='checkbox " 
                                 + (node.isChecked == -1 
                                     ? "half-checked " 
@@ -290,7 +290,7 @@ define(function(require, exports, module) {
                             var nodes = acetree.selection.getSelectedNodes();
                             var node = acetree.selection.getCursor();
                             node.isChecked = !node.isChecked;
-                            nodes.forEach(function(n){ n.isChecked = node.isChecked });
+                            nodes.forEach(function(n) { n.isChecked = node.isChecked; });
                             model._signal(node.isChecked ? "check" : "uncheck", nodes);
                             model._signal("change");
                         });
@@ -302,8 +302,8 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                get filterKeyword(){ return model.keyword; },
-                set filterKeyword(value){
+                get filterKeyword() { return model.keyword; },
+                set filterKeyword(value) {
                     model.keyword = value;
                     if (!model.keyword) {
                         fRoot = null;
@@ -325,83 +325,83 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                get filterCaseInsensitive(){ return model.filterCaseInsensitive; },
-                set filterCaseInsensitive(value){ model.filterCaseInsensitive = value; },
+                get filterCaseInsensitive() { return model.filterCaseInsensitive; },
+                set filterCaseInsensitive(value) { model.filterCaseInsensitive = value; },
                 /**
                  * 
                  */
-                get filterProperty(){ return model.filterProperty; },
-                set filterProperty(value){ model.filterProperty = value; },
+                get filterProperty() { return model.filterProperty; },
+                set filterProperty(value) { model.filterProperty = value; },
                 /**
                  * 
                  */
-                get filterRoot(){ return model.filterRoot; },
-                set filterRoot(value){ model.filterRoot = value; },
+                get filterRoot() { return model.filterRoot; },
+                set filterRoot(value) { model.filterRoot = value; },
                 /**
                  * 
                  */
-                get maxLines(){ return acetree.getOption("maxLines"); },
-                set maxLines(value){ acetree.setOption("maxLines", value); },
+                get maxLines() { return acetree.getOption("maxLines"); },
+                set maxLines(value) { acetree.setOption("maxLines", value); },
                 /**
                  * 
                  */
-                get minLines(){ return acetree.getOption("minLines"); },
-                set minLines(value){ acetree.setOption("minLines", value); },
+                get minLines() { return acetree.getOption("minLines"); },
+                set minLines(value) { acetree.setOption("minLines", value); },
                 /**
                  * 
                  */
-                get scrollSpeed(){ return acetree.getOption("scrollSpeed"); },
-                set scrollSpeed(value){ acetree.setOption("scrollSpeed", value); },
+                get scrollSpeed() { return acetree.getOption("scrollSpeed"); },
+                set scrollSpeed(value) { acetree.setOption("scrollSpeed", value); },
                 /**
                  * 
                  */
-                get wrapAround(){ return acetree.selection.$wrapAround; },
-                set wrapAround(value){ acetree.selection.$wrapAround = value; },
+                get wrapAround() { return acetree.selection.$wrapAround; },
+                set wrapAround(value) { acetree.selection.$wrapAround = value; },
                 
                 // Getters and Setters for Functions
                 /**
                  * 
                  */
-                get isLoading(){ return model.isLoading; },
-                set isLoading(fn){ model.isLoading = fn; },
+                get isLoading() { return model.isLoading; },
+                set isLoading(fn) { model.isLoading = fn; },
                 /**
                  * 
                  */
-                get getEmptyMessage(){ return model.getEmptyMessage; },
-                set getEmptyMessage(fn){ model.getEmptyMessage = fn; },
+                get getEmptyMessage() { return model.getEmptyMessage; },
+                set getEmptyMessage(fn) { model.getEmptyMessage = fn; },
                 /**
                  * 
                  */
-                get renderRow(){ return model.renderRow; },
-                set renderRow(fn){ 
+                get renderRow() { return model.renderRow; },
+                set renderRow(fn) { 
                     model.renderRow = fn; 
                     acetree.setDataProvider(model);
                 },
                 /**
                  * 
                  */
-                get getContentHTML(){ return model.getContentHTML; },
-                set getContentHTML(fn){ model.getContentHTML = fn; },
+                get getContentHTML() { return model.getContentHTML; },
+                set getContentHTML(fn) { model.getContentHTML = fn; },
                 /**
                  * 
                  */
-                get getCaptionHTML(){ return model.getCaptionHTML; },
-                set getCaptionHTML(fn){ model.getCaptionHTML = fn; },
+                get getCaptionHTML() { return model.getCaptionHTML; },
+                set getCaptionHTML(fn) { model.getCaptionHTML = fn; },
                 /**
                  * 
                  */
-                get getIconHTML(){ return model.getIconHTML; },
-                set getIconHTML(fn){ model.getIconHTML = fn; },
+                get getIconHTML() { return model.getIconHTML; },
+                set getIconHTML(fn) { model.getIconHTML = fn; },
                 /**
                  * 
                  */
-                get getCheckboxHTML(){ return model.getCheckboxHTML; },
-                set getCheckboxHTML(fn){ model.getCheckboxHTML = fn; },
+                get getCheckboxHTML() { return model.getCheckboxHTML; },
+                set getCheckboxHTML(fn) { model.getCheckboxHTML = fn; },
                 /**
                  * 
                  */
-                get sort(){ return model.sort; },
-                set sort(fn){
+                get sort() { return model.sort; },
+                set sort(fn) {
                     model.$sortNodes = fn ? true : false;
                     model.$sorted = fn ? true : false;
                     model.sort = fn; 
@@ -409,23 +409,23 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                get getClassName(){ return model.getClassName; },
-                set getClassName(fn){ model.getClassName = fn; },
+                get getClassName() { return model.getClassName; },
+                set getClassName(fn) { model.getClassName = fn; },
                 /**
                  * 
                  */
-                get getTooltipText(){ return model.getTooltipText; },
-                set getTooltipText(fn){ model.getTooltipText = fn; },
+                get getTooltipText() { return model.getTooltipText; },
+                set getTooltipText(fn) { model.getTooltipText = fn; },
                 /**
                  * 
                  */
-                get getIndex(){ return model.getIndex; },
-                set getIndex(fn){ model.getIndex = fn; },
+                get getIndex() { return model.getIndex; },
+                set getIndex(fn) { model.getIndex = fn; },
                 /**
                  * 
                  */
-                get getItemHeight(){ return model.getItemHeight; },
-                set getItemHeight(fn){ model.getItemHeight = fn; },
+                get getItemHeight() { return model.getItemHeight; },
+                set getItemHeight(fn) { model.getItemHeight = fn; },
                 
                  // Events
                 _events: [
@@ -519,7 +519,7 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                setRoot: function(root){
+                setRoot: function(root) {
                     model.cachedRoot = root;
                     if (model.keyword)
                         plugin.filterKeyword = model.keyword;
@@ -529,13 +529,13 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                resize: function(force){
+                resize: function(force) {
                     return acetree.resize(force);
                 },
                 /**
                  * 
                  */
-                select: function(node){
+                select: function(node) {
                     if (node instanceof Array)
                         return acetree.selection.setSelection(node);
                     else
@@ -544,49 +544,49 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                focus: function(){
+                focus: function() {
                     return acetree.focus();
                 },
                 /**
                  * 
                  */
-                blur: function(){
+                blur: function() {
                     return acetree.blur();
                 },
                 /**
                  * 
                  */
-                startRename: function(node, column){
+                startRename: function(node, column) {
                     return acetree.edit.startRename(node, column);
                 },
                 /**
                  * 
                  */
-                execCommand: function(cmd){
+                execCommand: function(cmd) {
                     return acetree.execCommand(cmd);
                 },
                 /**
                  * 
                  */
-                scrollIntoView: function(anchor, offset){ 
+                scrollIntoView: function(anchor, offset) { 
                     return acetree.renderer.scrollCaretIntoView(anchor, offset);
                 },
                 /**
                  * 
                  */
-                enable: function(){
+                enable: function() {
                     return acetree.enable();
                 },
                 /**
                  * 
                  */
-                disable: function(){
+                disable: function() {
                     return acetree.enable();
                 },
                 /**
                  * 
                  */
-                check: function(node, half){
+                check: function(node, half) {
                     node.isChecked = half ? -1 : true;
                     model._signal("check", node);
                     model._signal("change");
@@ -594,7 +594,7 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                uncheck: function(node){
+                uncheck: function(node) {
                     node.isChecked = false;
                     model._signal("uncheck", node);
                     model._signal("change");
@@ -602,19 +602,19 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                getNodeAtIndex: function(idx){
+                getNodeAtIndex: function(idx) {
                     return model.getNodeAtIndex(idx);
                 },
                 /**
                  * 
                  */
-                getIndexForNode: function(node){
+                getIndexForNode: function(node) {
                     return model.getIndexForNode(node);
                 },
                 /**
                  * 
                  */
-                refresh: function(){
+                refresh: function() {
                     if (model.keyword)
                         plugin.filterKeyword = model.keyword;
                     else
@@ -623,7 +623,7 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                attachTo: function(htmlNode, beforeNode){
+                attachTo: function(htmlNode, beforeNode) {
                     var container;
                     if (drawn)
                         container = acetree.container;

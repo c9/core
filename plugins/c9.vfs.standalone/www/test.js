@@ -29,17 +29,17 @@ require([
         }
         
         var obj = {
-            get is(){ return obj; },
-            get has(){ return obj; },
-            get have(){ return obj; },
-            get and(){ return obj; },
-            get to(){ return obj; },
-            get not(){ not = true; return obj; },
+            get is() { return obj; },
+            get has() { return obj; },
+            get have() { return obj; },
+            get and() { return obj; },
+            get to() { return obj; },
+            get not() { not = true; return obj; },
             
-            get ok(){ testOk(htmlNode); return obj; },
-            get exists(){ testOk(htmlNode); return obj; },
-            get exist(){ testOk(htmlNode); return obj; },
-            get node(){ return htmlNode },
+            get ok() { testOk(htmlNode); return obj; },
+            get exists() { testOk(htmlNode); return obj; },
+            get exist() { testOk(htmlNode); return obj; },
+            get node() { return htmlNode; },
             
             get visible() {
                 testOk(htmlNode && (htmlNode.offsetWidth || htmlNode.offsetHeight));
@@ -80,48 +80,48 @@ require([
     
     expect.html.mocked = function(options, imports, register) {
         register(null, {
-            c9 : (function(){
+            c9: (function() {
                 var x = new EventEmitter();
                 x.location = "";
-                x.has = function(){ return false; };
+                x.has = function() { return false; };
                 x.toInternalPath = x.toExternalPath = function(p) {
                     return p;
                 };
                 x.connected = true;
                 return x;
             })(),
-            vfs: (function(){
+            vfs: (function() {
                 var x = new EventEmitter();
                 return x;
             })(),
             "vfs.log": {
-                log: function(){} 
+                log: function() {} 
             },
-            "vfs.endpoint": (function(){
+            "vfs.endpoint": (function() {
                 var x = new EventEmitter();
                 return x;
             })(),
-            anims: (function(){
+            anims: (function() {
                 var x = new EventEmitter();
                 x.animateSplitBoxNode = function(node, opt) {
                     node.setAttribute("height", parseInt(opt.height, 10));
                 };
                 return x;
             })(),
-            watcher: (function(){
+            watcher: (function() {
                 var x = new EventEmitter();
-                x.watch = function(){};
-                x.unwatch = function(){};
-                x.check = function(){};
+                x.watch = function() {};
+                x.unwatch = function() {};
+                x.check = function() {};
                 return x;
             })(),
-            "watcher.gui": (function(){
+            "watcher.gui": (function() {
                 var x = new EventEmitter();
                 return x;
             })(),
-            save: (function(){
+            save: (function() {
                 var x = new EventEmitter();
-                x.saveAll = function(c){ c(); };
+                x.saveAll = function(c) { c(); };
                 x.getSavingState = function(tab) { return "saved"; };
                 return x;
             })(),
@@ -130,58 +130,58 @@ require([
             },
             ace: (function() {
                 var x = new EventEmitter();
-                x.getElement = function(){};
+                x.getElement = function() {};
                 return x;
             })(),
             css: {
                 get packed() { return true; },
                 get packedThemes() { return true; },
-                defineLessLibrary: function(){},
+                defineLessLibrary: function() {},
                 insert: function() {},
                 insertLess: function() {}
             },
-            settings: (function(){
+            settings: (function() {
                 var obj = new EventEmitter();
-                obj.save = function(){};
-                obj.set = function(){};
-                obj.get = function(){};
+                obj.save = function() {};
+                obj.set = function() {};
+                obj.get = function() {};
                 obj.getNumber = function() {};
                 obj.emit("read", {});
                 return obj;
             })(),
-            fs: (function(){
+            fs: (function() {
                 var obj = new EventEmitter();
-                obj.writeFile = function(){};
-                obj.watch = function(){};
+                obj.writeFile = function() {};
+                obj.watch = function() {};
                 return obj;
             })(),
-            "fs.cache": (function(){
+            "fs.cache": (function() {
                 var obj = new EventEmitter();
                 return obj;
             })(),
             tooltip: {
-                add: function(){}
+                add: function() {}
             },
-            clipboard: (function(){
+            clipboard: (function() {
                 var cb = new EventEmitter();
-                cb.registerHandler = function(){};
+                cb.registerHandler = function() {};
                 return cb;
             })(),
-            preferences: (function(){
+            preferences: (function() {
                 var prefs = new EventEmitter();
-                prefs.add = function(){};
+                prefs.add = function() {};
                 return prefs;
             })(),
             analytics: {
                 updateTraits: function() {}
             },
-            commands: (function(){
+            commands: (function() {
                 var commands = {};
                 
                 if (typeof apf != "undefined") {
                     apf.button.prototype.$propHandlers["command"] =
                     apf.item.prototype.$propHandlers["command"] = function(value) {
-                        this.onclick = function(){
+                        this.onclick = function() {
                             commands[value].exec(
                                 apf.getPlugin("tabManager").focussedPage.editor
                             );
@@ -206,9 +206,9 @@ require([
                 c.exec = function(name) {
                     commands[name].exec();
                 };
-                c.getPrettyHotkey = function(name) { return "" };
-                c.getHotkey = function(name) { return "" };
-                c.getExceptionList = function(){ return []; };
+                c.getPrettyHotkey = function(name) { return ""; };
+                c.getHotkey = function(name) { return ""; };
+                c.getExceptionList = function() { return []; };
                 
                 return c;
             })(),
@@ -222,7 +222,7 @@ require([
                     }
                 }
             },
-            layout: (function(){
+            layout: (function() {
                 // Load the skin
                 if (imports.ui) {
                     var plugin = new imports.Plugin();
@@ -230,10 +230,10 @@ require([
                     imports.ui.insertCss(theme, false, plugin);
                     
                     imports.ui.insertSkin({
-                        "data"       : skin,
-                        "media-path" : "plugins/c9.ide.layout.classic/images/",
-                        "icon-path"  : "plugins/c9.ide.layout.classic/icons/"
-                    }, {addElement: function(){}});
+                        "data": skin,
+                        "media-path": "plugins/c9.ide.layout.classic/images/",
+                        "icon-path": "plugins/c9.ide.layout.classic/icons/"
+                    }, { addElement: function() {} });
                     
                     document.documentElement.style.background = "white";
                 }
@@ -241,7 +241,7 @@ require([
                 var layout = plugin || new EventEmitter();
                 
                 layout.initMenus = function() {};
-                layout.findParent = function(){
+                layout.findParent = function() {
                     if (!bar || bar.$amlDestroyed || !bar.$ext || !bar.$ext.parentNode) {
                         bar = apf.document.documentElement.appendChild(
                             new imports.ui.bar());
@@ -257,23 +257,23 @@ require([
                     
                     return bar;
                 };
-                layout.getElement = function(){
+                layout.getElement = function() {
                     return new apf.bar();
                 };
                 layout.setFindArea = function(active, callback, isDefault) {
                     // callback();
                 };
-                layout.proposeLayoutChange = function(){};
+                layout.proposeLayoutChange = function() {};
                 return layout;
             })(),
-            panels: (function(){
+            panels: (function() {
                 var panel, column;
                 
                 var api = {
                     register: function(p, o) {
                         if (!column) {
                             column = apf.document.documentElement.appendChild(
-                                new imports.ui.bar({style:"background : #303130;"}));
+                                new imports.ui.bar({ style: "background : #303130;" }));
                             column.$ext.style.position = "fixed";
                             column.$ext.style.top = "75px";
                             column.$ext.style.right = "20px";
@@ -284,17 +284,17 @@ require([
                         }
                         
                         panel = p; 
-                        p.draw({container: column.$ext, aml: column});
+                        p.draw({ container: column.$ext, aml: column });
                     },
                     isActive: function() { return false; },
-                    unregister: function(){}, 
-                    activate: function(){
+                    unregister: function() {}, 
+                    activate: function() {
                         // panel.panel.show()
                     },
-                    deactivate: function(){
+                    deactivate: function() {
                         // panel.panel.hide()
                     },
-                    on: function(){
+                    on: function() {
                         
                     }
                 };
@@ -311,25 +311,25 @@ require([
                 var emit = plugin.getEmitter();
                 var drawn = false;
                 var where;
-                plugin.on("load", function(){
+                plugin.on("load", function() {
                     where = options.where || "left";
                     var panels = apf.getPlugin("panels");
                     panels.register(plugin);
                 });
                 plugin.freezePublicAPI.baseclass();
                 plugin.freezePublicAPI({
-                    get autohide(){ return false; },
-                    get width(){ return options.width; },
-                    get minWidth(){ return options.minWidth; },
-                    get aml(){ return plugin.getElement(options.elementName); },
-                    get area(){ return ""; },
-                    get where(){ return where; },
-                    setCommand: function(){},
-                    attachTo: function(){},
-                    detach: function(){},
+                    get autohide() { return false; },
+                    get width() { return options.width; },
+                    get minWidth() { return options.minWidth; },
+                    get aml() { return plugin.getElement(options.elementName); },
+                    get area() { return ""; },
+                    get where() { return where; },
+                    setCommand: function() {},
+                    attachTo: function() {},
+                    detach: function() {},
                     emit: emit,
-                    show: function(){ emit("show"); },
-                    hide: function(){ emit("hide"); },
+                    show: function() { emit("show"); },
+                    hide: function() { emit("hide"); },
                     draw: function draw(area) {
                         if (drawn) return false;
                         drawn = true;
@@ -352,44 +352,44 @@ require([
                 
                 return plugin;
             },
-            tree: (function(){
+            tree: (function() {
                 var tree = new EventEmitter();
-                tree.createFolder = function(){};
-                tree.getElement = function(){};
-                tree.getAllExpanded = function(){ return []; };
+                tree.createFolder = function() {};
+                tree.getElement = function() {};
+                tree.getAllExpanded = function() { return []; };
                 return tree;
             })(),
-            "tree.favorites" : (function(){
+            "tree.favorites": (function() {
                 var tree = new EventEmitter();
-                tree.addFavorites = function(){};
-                tree.getFavoritePaths = function(){ return [] };
+                tree.addFavorites = function() {};
+                tree.getFavoritePaths = function() { return []; };
                 return tree;
             })(),
-            tabManager: (function(){
+            tabManager: (function() {
                 var tabManager = new EventEmitter();
-                tabManager.open = function(){ tabManager.emit("open") };
-                tabManager.openFile = function(){ tabManager.emit("open") };
-                tabManager.findPage = function(){};
-                tabManager.getPanes = function(){ return [] };
-                tabManager.checkAllTabs = function(){};
+                tabManager.open = function() { tabManager.emit("open"); };
+                tabManager.openFile = function() { tabManager.emit("open"); };
+                tabManager.findPage = function() {};
+                tabManager.getPanes = function() { return []; };
+                tabManager.checkAllTabs = function() {};
                 return tabManager;
             })(),
-            tabbehavior: (function(){
+            tabbehavior: (function() {
                 var x = new EventEmitter();
-                x.getElement = function(){};
+                x.getElement = function() {};
                 return x;
             })(),
-            menus: (function(){
+            menus: (function() {
                 var menus = new EventEmitter();
                 menus.addItemByPath = function(x, aml, y, plugin) { 
                     aml && (plugin || y).addElement(aml);
                     return aml;
                 };
                 menus.addItemToMenu = menus.addItemByPath;
-                menus.get = function(){return {}};
-                menus.remove = function(){};
-                menus.enableItem = function(){};
-                menus.disableItem = function(){};
+                menus.get = function() {return {};};
+                menus.remove = function() {};
+                menus.enableItem = function() {};
+                menus.disableItem = function() {};
                 return menus;
             })(),
             util: {
@@ -398,7 +398,7 @@ require([
                 stableStringify: function(s) { return JSON.stringify(s); },
             },
             gotoline: {
-                toggle: function(){ }
+                toggle: function() { }
             },
             "auth.bootstrap": {
                 login: function(callback) { callback(); }
@@ -421,15 +421,15 @@ require([
             },
             "ace.gotoline": {},
             "ace.stripws": {
-                disable: function(){},
-                enable: function(){}
+                disable: function() {},
+                enable: function() {}
             },
-            "dialog.alert": {show: function() { console.log(console, Array.prototype.slice.apply(arguments)); }},
-            "dialog.confirm": {show: function() {}},
-            "dialog.question": {show: function() {}},
-            "dialog.file": {show: function() {}},
-            "dialog.fileremove": {show: function() {}},
-            "dialog.fileoverwrite": {show: function() {}},
+            "dialog.alert": { show: function() { console.log(console, Array.prototype.slice.apply(arguments)); } },
+            "dialog.confirm": { show: function() {} },
+            "dialog.question": { show: function() {} },
+            "dialog.file": { show: function() {} },
+            "dialog.fileremove": { show: function() {} },
+            "dialog.fileoverwrite": { show: function() {} },
             "dialog.error": {
                 showError: function(msg) { console.warn(msg); },
                 show: function(msg) { console.warn(msg); },
@@ -439,9 +439,9 @@ require([
                 show: function(msg) { console.log(msg); },
                 hide: function(msg) { },
             },
-            "installer": { createSession : function(){}, reinstall: function(){}, isInstalled: function(){ return true; } },
-            "run.gui": { getElement : function(){} },
-            "debugger": {debug: function() {}, stop: function(){}},
+            "installer": { createSession: function() {}, reinstall: function() {}, isInstalled: function() { return true; } },
+            "run.gui": { getElement: function() {} },
+            "debugger": { debug: function() {}, stop: function() {} },
             "focusManager": {
                 focus: function() {
                     
@@ -465,7 +465,7 @@ require([
             mount: {},
             error_handler: {
                 log: function() {},
-                reportError: function(){}
+                reportError: function() {}
             },
             proc: {
                 execFile: function() {},
@@ -480,65 +480,65 @@ require([
                     doc.setValue(newVal);
                 }
             },
-            metadata: (function(){
+            metadata: (function() {
                 var x = new EventEmitter();
                 return x;
             })(),
-            editors: (function(){
+            editors: (function() {
                 var x = new EventEmitter();
                 return x;
             })(),
-            timeslider: (function(){
+            timeslider: (function() {
                 var x = new EventEmitter();
                 return x;
             })(),
-            OTDocument: (function(){
+            OTDocument: (function() {
                 var x = new EventEmitter();
                 return x;
             })(),
-            "notification.bubble": (function(){
+            "notification.bubble": (function() {
                 var x = new EventEmitter();
                 return x;
             })(),
-            "collab": (function(){
+            "collab": (function() {
                 var x = new EventEmitter();
                 return x;
             })(),
-            "collab.connect": (function(){
+            "collab.connect": (function() {
                 var x = new EventEmitter();
                 return x;
             })(),
-            "collab.workspace": (function(){
+            "collab.workspace": (function() {
                 var x = new EventEmitter();
                 x.users = [];
                 return x;
             })(),
-            "collab.util": (function(){
+            "collab.util": (function() {
                 var x = new EventEmitter();
                 return x;
             })(),
-            "scm": (function(){
+            "scm": (function() {
                 var x = new EventEmitter();
-                x.register = function(){};
-                x.unregister = function(){};
+                x.register = function() {};
+                x.unregister = function() {};
                 return x;
             })(),
-            "immediate": (function(){
+            "immediate": (function() {
                 var x = new EventEmitter();
-                x.register = function(){};
-                x.unregister = function(){};
+                x.register = function() {};
+                x.unregister = function() {};
                 return x;
             })(),
-            "c9.analytics": (function(){
+            "c9.analytics": (function() {
                 var x = new EventEmitter();
-                x.register = function(){};
-                x.unregister = function(){};
+                x.register = function() {};
+                x.unregister = function() {};
                 return x;
             })(),
-            "terminal.monitor.message_view": (function(){
+            "terminal.monitor.message_view": (function() {
                 var x = new EventEmitter();
-                x.show = function(){};
-                x.hide = function(){};
+                x.show = function() {};
+                x.hide = function() {};
                 return x;
             })()
         });

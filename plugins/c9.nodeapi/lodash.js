@@ -483,7 +483,7 @@ define(function(require, exports, module) {
         var o = {},
             func = isNative(func = Object.defineProperty) && func,
             result = func(o, o, o) && func;
-      } catch(e) { }
+      } catch (e) { }
       return result;
     }());
 
@@ -1591,7 +1591,7 @@ define(function(require, exports, module) {
             result.push(index);
           }
         }
-      return result
+      return result;
     };
 
     /**
@@ -1694,7 +1694,7 @@ define(function(require, exports, module) {
         }
         }
       }
-      return result
+      return result;
     };
 
     /**
@@ -1869,7 +1869,7 @@ define(function(require, exports, module) {
         }
         }
       }
-      return result
+      return result;
     };
 
     /**
@@ -2018,7 +2018,7 @@ define(function(require, exports, module) {
         for (index in iterable) {
           if (callback(iterable[index], index, collection) === false) return result;
         }
-      return result
+      return result;
     };
 
     /**
@@ -2101,7 +2101,7 @@ define(function(require, exports, module) {
           index = ownProps[ownIndex];
           if (callback(iterable[index], index, collection) === false) return result;
         }
-      return result
+      return result;
     };
 
     /**
@@ -2287,7 +2287,7 @@ define(function(require, exports, module) {
       var className = toString.call(value),
           length = value.length;
 
-      if ((className == arrayClass || className == stringClass || className == argsClass ) ||
+      if ((className == arrayClass || className == stringClass || className == argsClass) ||
           (className == objectClass && typeof length == 'number' && isFunction(value.splice))) {
         return !length;
       }
@@ -2940,7 +2940,7 @@ define(function(require, exports, module) {
           length = (args[2] && args[2][args[1]] === collection) ? 1 : props.length,
           result = Array(length);
 
-      while(++index < length) {
+      while (++index < length) {
         result[index] = collection[props[index]];
       }
       return result;
@@ -3734,7 +3734,7 @@ define(function(require, exports, module) {
         forOwn(collection, function(value, index, collection) {
           accumulator = noaccum
             ? (noaccum = false, value)
-            : callback(accumulator, value, index, collection)
+            : callback(accumulator, value, index, collection);
         });
       }
       return accumulator;
@@ -5564,7 +5564,7 @@ define(function(require, exports, module) {
         return hasOwnProperty.call(cache, key)
           ? cache[key]
           : (cache[key] = func.apply(this, arguments));
-      }
+      };
       memoized.cache = {};
       return memoized;
     }
@@ -6089,7 +6089,7 @@ define(function(require, exports, module) {
       }
       if (floating || min % 1 || max % 1) {
         var rand = nativeRandom();
-        return nativeMin(min + (rand * (max - min + parseFloat('1e-' + ((rand +'').length - 1)))), max);
+        return nativeMin(min + (rand * (max - min + parseFloat('1e-' + ((rand + '').length - 1)))), max);
       }
       return baseRandom(min, max);
     }
@@ -6300,7 +6300,7 @@ define(function(require, exports, module) {
 
       try {
         var result = Function(importsKeys, 'return ' + source + sourceURL).apply(undefined, importsValues);
-      } catch(e) {
+      } catch (e) {
         e.source = source;
         throw e;
       }
@@ -6662,7 +6662,7 @@ define(function(require, exports, module) {
     lodash.inject = reduce;
 
     mixin(function() {
-      var source = {}
+      var source = {};
       forOwn(lodash, function(func, methodName) {
         if (!lodash.prototype[methodName]) {
           source[methodName] = func;
@@ -6685,7 +6685,7 @@ define(function(require, exports, module) {
     forOwn(lodash, function(func, methodName) {
       var callbackable = methodName !== 'sample';
       if (!lodash.prototype[methodName]) {
-        lodash.prototype[methodName]= function(n, guard) {
+        lodash.prototype[methodName] = function(n, guard) {
           var chainAll = this.__chain__,
               result = func(this.__wrapped__, n, guard);
 
@@ -6750,4 +6750,4 @@ define(function(require, exports, module) {
 
   // expose Lo-Dash
   var _ = runInContext();
-  return _; })
+  return _; });

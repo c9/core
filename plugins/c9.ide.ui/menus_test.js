@@ -60,17 +60,17 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 bar.$ext.style.top = "20px";
                 bar.$ext.style.height = "33px";
                 
-                menus.on("getEditor", function(){
+                menus.on("getEditor", function() {
                     return {};
                 });
-                menus.on("focusEditor", function(){
+                menus.on("focusEditor", function() {
                     // do nothing
                 });
       
                 done();
             });
             
-            describe("setRootMenu() addItemByPath() expand() collapse() click()", function(){
+            describe("setRootMenu() addItemByPath() expand() collapse() click()", function() {
                 it('should create root menus stacked and ordered properly', function(done) {
                     menus.setRootMenu("Tools", 700, plugin);
                     menus.setRootMenu("Goto", 600, plugin);
@@ -93,7 +93,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     
                     menus.addItemByPath("File/~", new apf.divider(), 100, plugin);
                     menus.addItemByPath("File/Quit", new apf.item({
-                        onclick: function(){ count++; }
+                        onclick: function() { count++; }
                     }), 200, plugin);
                     menus.addItemByPath("File/Hello", new apf.item({
                     }), 10, plugin);
@@ -119,7 +119,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     
                     menus.addItemByPath("File/First/Second/Third/Fourth/Fifth", 
                         new apf.item({
-                            onclick: function(){ count++; }
+                            onclick: function() { count++; }
                         }), 200, plugin);
 
                     var menu = menus.expand("File/First/Second/Third/Fourth");
@@ -135,7 +135,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 });
             });
             
-            describe("enable() disable() remove() get()", function(){
+            describe("enable() disable() remove() get()", function() {
                 it('should disable items when the menu is already visible', function(done) {
                     var first = menus.get("File/First");
                     var hello = menus.get("File/Hello");

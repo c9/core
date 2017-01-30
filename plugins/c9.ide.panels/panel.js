@@ -30,7 +30,7 @@ define(function(require, module, exports) {
             
             var mnuItem, button, area, lastPanel, xpath, where, aml;
             
-            plugin.on("load", function(){
+            plugin.on("load", function() {
                 xpath = "state/panels/" + plugin.name;
                 where = settings.get(xpath + "/@where") || options.where || "left";
                 
@@ -39,7 +39,7 @@ define(function(require, module, exports) {
                 mnuItem = new ui.item({
                     type: "check",
                     value: plugin.name,
-                    onclick: function(){
+                    onclick: function() {
                         var area = panels.areas[panels.panels[plugin.name].where];
 
                         if (this.checked)
@@ -70,7 +70,7 @@ define(function(require, module, exports) {
                     emit("hide");
                 }, plugin);
                 
-                settings.on("read", function(){
+                settings.on("read", function() {
                     settings.setDefaults(xpath, [
                         ["name", plugin.name],
                         ["enabled", "true"]
@@ -99,7 +99,7 @@ define(function(require, module, exports) {
                 });
             });
             
-            plugin.on("unload", function(){
+            plugin.on("unload", function() {
                 panels.deactivate(plugin.name);
                 
                 button = null;
@@ -130,7 +130,7 @@ define(function(require, module, exports) {
                     hint: options.hint,
                     bindKey: options.bindKey,
                     exec: options.exec ||
-                        function(){ 
+                        function() { 
                             if (autohide)
                                 panels.activate(plugin.name); 
                             else {
@@ -159,13 +159,13 @@ define(function(require, module, exports) {
             }
             
             var drawn;
-            function draw(){
+            function draw() {
                 if (drawn) return false;
                 drawn = true;
                 
                 aml = area.aml.appendChild(new ui.bar({
                     "skin": "panel-bar",
-                    "class" : panelCSSClass || "",
+                    "class": panelCSSClass || "",
                     "visible": false
                 }));
                 plugin.addElement(aml);
@@ -200,12 +200,12 @@ define(function(require, module, exports) {
                     enable(); // Move the button
             }
             
-            function detach(){
+            function detach() {
                 disable();
                 area = null;
             }
             
-            function enable(){
+            function enable() {
                 // Draw button container
                 var container = area.draw();
                 
@@ -216,8 +216,8 @@ define(function(require, module, exports) {
                         state: true,
                         caption: caption,
                         auto: false,
-                        "class" : buttonCSSClass || "",
-                        onmousedown: function(e){
+                        "class": buttonCSSClass || "",
+                        onmousedown: function(e) {
                             if (e.htmlEvent && e.htmlEvent.button) return;
                             panels.areas[where].toggle(plugin.name, autohide, true);
                         }
@@ -235,7 +235,7 @@ define(function(require, module, exports) {
                 mnuItem.setAttribute("checked", true);
             }
             
-            function disable(){
+            function disable() {
                 button && button.hide();
                 mnuItem.setAttribute("checked", false);
             }
@@ -244,7 +244,7 @@ define(function(require, module, exports) {
                 panels.activate(plugin.name);
             }
             
-            function hide(){
+            function hide() {
                 if (panels.isActive(plugin.name)) {
                     if (autohide && lastPanel)
                         panels.activate(lastPanel);
@@ -258,10 +258,10 @@ define(function(require, module, exports) {
             
             /***** LifeCycle *****/
             
-            plugin.on("enable", function(){
+            plugin.on("enable", function() {
                 enable();
             });
-            plugin.on("disable", function(){
+            plugin.on("disable", function() {
                 disable();
             });
             
@@ -336,26 +336,26 @@ define(function(require, module, exports) {
                 /**
                  * @ignore
                  */
-                get lastPanel(){ return lastPanel; },
+                get lastPanel() { return lastPanel; },
                 /**
                  * Retrieves whether this is an auto-hiding panel. i.e. if
                  * this panel hides when it looses focus.
                  * @property {Boolean} autohide
                  */
-                get autohide(){ return autohide; },
-                set autohide(value){ autohide = value; },
+                get autohide() { return autohide; },
+                set autohide(value) { autohide = value; },
                 /**
                  * Retrieves the width in pixels of this panel
                  * @property {Number} width
                  * @readonly
                  */
-                get width(){ return width; },
+                get width() { return width; },
                 /**
                  * Retrieves the minimal width in pixels of this panel
                  * @property {Number} minWidth
                  * @readonly
                  */
-                get minWidth(){ return minWidth; },
+                get minWidth() { return minWidth; },
                 /**
                  * The APF UI element that is presenting the panel in the UI.
                  * This property is here for internal reasons only. *Do not 
@@ -364,18 +364,18 @@ define(function(require, module, exports) {
                  * @private
                  * @readonly
                  */
-                get aml(){ return aml; },
+                get aml() { return aml; },
                 /**
                  * @property {HTMLElement} container
                  */
-                get container(){ return aml && aml.$ext; },
+                get container() { return aml && aml.$ext; },
                 
                 /**
                  * The area that this panel is a part of.
                  * @property {panels.Area} area
                  * @readonly
                  */
-                get area(){ return area; },
+                get area() { return area; },
                 
                 /**
                  * Retrieves the position of the panel. This can be "left" 
@@ -383,17 +383,17 @@ define(function(require, module, exports) {
                  * @property {String} where
                  * @readonly
                  */
-                get where(){ return where; },
+                get where() { return where; },
                 
                 /**
                  * @ignore for testing purpose
                  */
-                get button(){ return button; },
+                get button() { return button; },
                 
                 /**
                  * 
                  */
-                get active(){ return panels.isActive(plugin.name); },
+                get active() { return panels.isActive(plugin.name); },
                 
                 _events: [
                     /**

@@ -56,10 +56,10 @@ define(function(require, exports, module) {
                     return;
                 
                 if (action == "install") {
-                    installPlugins([body.config], function(){});
+                    installPlugins([body.config], function() {});
                 }
                 else if (action == "uninstall") {
-                    uninstallPlugin(body.name, function(){});
+                    uninstallPlugin(body.name, function() {});
                 }
             });
             
@@ -68,7 +68,7 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
         
-        function installPlugins(config, callback){
+        function installPlugins(config, callback) {
             // if (!vfs.connected) {
             //     vfs.once("connect", loadPackages.bind(this, config));
             //     return;
@@ -79,7 +79,7 @@ define(function(require, exports, module) {
             
             // Only run one installer at a time
             if (installing) {
-                return plugin.once("finished", function(){
+                return plugin.once("finished", function() {
                     installPlugins(config, callback);
                 });
             }
@@ -87,7 +87,7 @@ define(function(require, exports, module) {
             installing = true;
             
             var found = {}, packages = [];
-            config.forEach(function(item){
+            config.forEach(function(item) {
                 if (typeof item === "string") {
                     item = { name: item, version: null };
                 }
@@ -98,9 +98,9 @@ define(function(require, exports, module) {
                 packages.push({ name: item.name, version: item.version });
             });
             
-            async.eachSeries(packages, function(pkg, next){
+            async.eachSeries(packages, function(pkg, next) {
                 installPlugin(pkg.name, pkg.version, next);
-            }, function(err){
+            }, function(err) {
                 installing = false;
                 emit("finished");
                 
@@ -113,9 +113,9 @@ define(function(require, exports, module) {
             });
         }
         
-        function installPlugin(name, version, callback){
+        function installPlugin(name, version, callback) {
             // Headless installation of the plugin
-            installer.createSession(name, version, function(session, options){
+            installer.createSession(name, version, function(session, options) {
                 var cmd = [
                     "c9",
                     "install",
@@ -135,12 +135,12 @@ define(function(require, exports, module) {
                 
                 // Force to start immediately
                 session.start(callback, true);
-            }, function(){}, 2); // Force to not be administered
+            }, function() {}, 2); // Force to not be administered
         }
         
-        function uninstallPlugin(name, callback){
+        function uninstallPlugin(name, callback) {
             // Headless uninstallation of the plugin
-            installer.createSession(name, -1, function(session, options){
+            installer.createSession(name, -1, function(session, options) {
                 session.install({
                     "bash": "c9 remove --local --force --accessToken=" + auth.accessToken
                         + " " + escapeShell(name)
@@ -148,7 +148,7 @@ define(function(require, exports, module) {
                 
                 // Force to start immediately
                 session.start(callback, true);
-            }, function(){}, 2); // Force to not be administered
+            }, function() {}, 2); // Force to not be administered
         }
         
         /***** Lifecycle *****/
@@ -170,8 +170,8 @@ define(function(require, exports, module) {
             /**
              * 
              */
-            get architect(){ throw new Error(); },
-            set architect(v){ architect = v; },
+            get architect() { throw new Error(); },
+            set architect(v) { architect = v; },
             
             /**
              * 

@@ -87,13 +87,13 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                                 
                                 done();
                             });
-                            fs.unlink(vpath, function(){});
+                            fs.unlink(vpath, function() {});
 
                             watcher.off("change", c1);
                         });
                         watcher.watch(vpath);
                         
-                        setTimeout(function(){
+                        setTimeout(function() {
                             fs.writeFile(vpath, "test2", "utf8", function(err) {});
                         }, 200);
                     });
@@ -122,16 +122,16 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                                     watcher.off("delete", c2);
                                     done();
                                 });
-                                fs.rmdir(dpath, {recursive: true}, function(){});
+                                fs.rmdir(dpath, { recursive: true }, function() {});
                             });
                             
-                            if (!found) throw new Error("File not found")
+                            if (!found) throw new Error("File not found");
                             
                             watcher.off("directory", c1);
                         });
                         watcher.watch(dpath);
                         
-                        setTimeout(function(){
+                        setTimeout(function() {
                             fs.writeFile(fpath, "test", "utf8", function(err) {});
                         }, 200);
                     });
@@ -152,11 +152,11 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                         watcher.on("change", c1);
                         watcher.watch(vpath);
                         
-                        setTimeout(function(){
+                        setTimeout(function() {
                             watcher.ignore(vpath, 500);
-                            setTimeout(function(){
+                            setTimeout(function() {
                                 watcher.off("change", c1);
-                                fs.unlink(vpath, function(){});
+                                fs.unlink(vpath, function() {});
                                 done();
                             }, 1000);
                             fs.writeFile(vpath, "test2", "utf8", function(err) {});
@@ -178,11 +178,11 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                         watcher.on("directory", c1);
                         watcher.watch(dpath);
                         
-                        setTimeout(function(){
+                        setTimeout(function() {
                             watcher.ignore(dpath, 500);
-                            setTimeout(function(){
+                            setTimeout(function() {
                                 watcher.off("directory", c1);
-                                fs.rmdir(dpath, {recursive: true}, function(){});
+                                fs.rmdir(dpath, { recursive: true }, function() {});
                                 done();
                             }, 1000);
                             fs.writeFile(fpath, "test", "utf8", function(err) {});

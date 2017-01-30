@@ -23,7 +23,7 @@ define(function(require, exports, module) {
         // var emit = plugin.getEmitter();
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
@@ -34,26 +34,26 @@ define(function(require, exports, module) {
         // FS error reporting
         var m = {
             // "readFile"  : "Failed to read from {filename}. {error}.",
-            "writeFile" : "Failed to write to {filename}. {error}.",
+            "writeFile": "Failed to write to {filename}. {error}.",
             // "readdir"   : "Failed to read directory {filename}. {error}.",
-            "rename"    : "Failed to rename {type} {filename} to {to}. {error}.",
-            "mkdirP"    : "Failed to create folder(s) {path}. {error}.",
-            "mkdir"     : "Failed to create folder {filename}. {error}.",
-            "unlink"    : "Failed to delete {type} {filename}. {error}.",
-            "rmfile"    : "Failed to delete {type} {filename}. {error}.",
-            "rmdir"     : "Failed to delete {type} {filename}. {error}.",
-            "copy"      : "Failed to copy {type} {filename} to {to}. {error}.",
-            "symlink"   : "Failed to create symlink {filename} to {to}. {error}."
+            "rename": "Failed to rename {type} {filename} to {to}. {error}.",
+            "mkdirP": "Failed to create folder(s) {path}. {error}.",
+            "mkdir": "Failed to create folder {filename}. {error}.",
+            "unlink": "Failed to delete {type} {filename}. {error}.",
+            "rmfile": "Failed to delete {type} {filename}. {error}.",
+            "rmdir": "Failed to delete {type} {filename}. {error}.",
+            "copy": "Failed to copy {type} {filename} to {to}. {error}.",
+            "symlink": "Failed to create symlink {filename} to {to}. {error}."
         };
         var errcode = {
-            "ENOENT"        : "File or folder {filename} does not exist",
-            "EISDIR"        : "{Totype|type} {to|filename} is a directory",
-            "ENOTDIR"       : "{Totype|type} {to|filename} is not a directory",
-            "EEXIST"        : "{Totype|type} {to|filename} already exists",
-            "EACCES"        : "Access denied acccessing this {type}",
-            "ENOSPC"        : "Your disk is full. Please create more space. Could not write {filename}",
-            "EDISCONNECT"   : "The connection went away. Please try again.",
-            "ENOTCONNECTED" : "You are disconnected. "
+            "ENOENT": "File or folder {filename} does not exist",
+            "EISDIR": "{Totype|type} {to|filename} is a directory",
+            "ENOTDIR": "{Totype|type} {to|filename} is not a directory",
+            "EEXIST": "{Totype|type} {to|filename} already exists",
+            "EACCES": "Access denied acccessing this {type}",
+            "ENOSPC": "Your disk is full. Please create more space. Could not write {filename}",
+            "EDISCONNECT": "The connection went away. Please try again.",
+            "ENOTCONNECTED": "You are disconnected. "
                 + "Please check your connection and try again"
         };
         var errmsg = {
@@ -119,16 +119,16 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
         });
         

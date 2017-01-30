@@ -34,7 +34,7 @@ define(function(require, module, exports) {
         var hideFileInput = true;
         
         var loaded;
-        function load(){
+        function load() {
             if (loaded) return;
             loaded = true;
         }
@@ -60,7 +60,7 @@ define(function(require, module, exports) {
             txtDirectory = plugin.getElement("txtDirectory");
             boxFilename = plugin.getElement("boxFilename");
             
-            btnCreateFolder.on("click", function(){
+            btnCreateFolder.on("click", function() {
                 fileTree.createFolder(null, null, function(err, newpath) {
                     expandAndSelect(newpath);
                 }, tree);
@@ -82,7 +82,7 @@ define(function(require, module, exports) {
             // @todo abstract this from the file tree plugin
             tree = new Tree(container.$int);
             tree.renderer.setScrollMargin(10, 10);
-            tree.renderer.setTheme({cssClass: "filetree"});
+            tree.renderer.setTheme({ cssClass: "filetree" });
             tree.edit = new TreeEditor(tree);
             
             // Rename
@@ -283,7 +283,7 @@ define(function(require, module, exports) {
             dialog.show();
         }
 
-        function hide(){
+        function hide() {
             dialog && dialog.hide();
         }
         
@@ -299,17 +299,17 @@ define(function(require, module, exports) {
              * @private
              * @readonly
              */
-            get aml(){ return dialog; },
+            get aml() { return dialog; },
             
             /**
              * 
              */
-            get tree(){ return tree; },
+            get tree() { return tree; },
             
             /**
              * 
              */
-            get title(){ },
+            get title() { },
             set title(value) {
                 if (drawn)
                     dialog.setAttribute("title", value);
@@ -317,7 +317,7 @@ define(function(require, module, exports) {
             /**
              * 
              */
-            get filename(){ return txtFilename.value; },
+            get filename() { return txtFilename.value; },
             set filename(value) {
                 if (drawn)
                     txtFilename.setAttribute("value", value);
@@ -325,7 +325,7 @@ define(function(require, module, exports) {
             /**
              * 
              */
-            get directory(){ return txtDirectory.value; },
+            get directory() { return txtDirectory.value; },
             set directory(value) {
                 if (drawn)
                     txtDirectory.setAttribute("value", value);
@@ -368,7 +368,7 @@ define(function(require, module, exports) {
         });
         
         register("", {
-            "dialog.file" : plugin
+            "dialog.file": plugin
         });
     }
 });

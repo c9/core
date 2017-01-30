@@ -20,7 +20,7 @@ define(function(require, module, exports) {
                 return position >= 0;
             }
 
-            function undo(){
+            function undo() {
                 if (!canUndo())
                     return false;
                 
@@ -37,7 +37,7 @@ define(function(require, module, exports) {
                 return position !== stack.length - 1;
             }
             
-            function redo(){
+            function redo() {
                 if (!canRedo())
                     return false;
                 
@@ -50,7 +50,7 @@ define(function(require, module, exports) {
                 emit("change");
             }
             
-            function clearUndo(){
+            function clearUndo() {
                 stack = stack.slice(position - 1);
                 position = 0;
                 
@@ -104,7 +104,7 @@ define(function(require, module, exports) {
                 emit("change");
             }
             
-            function isAtBookmark(){
+            function isAtBookmark() {
                 return mark == position;
             }
             
@@ -112,12 +112,12 @@ define(function(require, module, exports) {
                 return stack[idx] || null;
             }
             
-            function getState(){
+            function getState() {
                 return {
                     mark: mark,
                     position: position,
                     stack: stack
-                        .filter(function(item){ return item; })
+                        .filter(function(item) { return item; })
                         .map(function(item) {
                             return item.getState ? item.getState() : item;
                         })
@@ -141,7 +141,7 @@ define(function(require, module, exports) {
                 return emit("itemFind", { state: compressedItem });
             }
             
-            function reset(){
+            function reset() {
                 if (position == -1)
                     return;
 
@@ -226,7 +226,7 @@ define(function(require, module, exports) {
                  * @property {Number} length
                  * @readonly
                  */
-                get length(){ return stack.length; },
+                get length() { return stack.length; },
                 /**
                  * Set to the index of the item in the stack up to which the 
                  * items have been applied to the document. This property 
@@ -243,7 +243,7 @@ define(function(require, module, exports) {
                  * @property {Number} position
                  * @readonly
                  */
-                get position(){ return position; },
+                get position() { return position; },
                 
                 events: [
                     /**

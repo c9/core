@@ -1,6 +1,6 @@
 define(function(require, module, exports) {
 return function(apf) {
-var $setTimeout  = setTimeout;
+var $setTimeout = setTimeout;
 var $setInterval = setInterval;
 
 
@@ -52,7 +52,7 @@ apf.page = function(struct, tagName) {
     this.$init(tagName || "page", apf.NODE_VISIBLE, struct);
 };
 
-(function(){
+(function() {
     this.canHaveChildren = true;
     
     this.$focussable = false;
@@ -83,13 +83,13 @@ apf.page = function(struct, tagName) {
 
     
     //Hack
-    this.addEventListener("beforerender", function(){
+    this.addEventListener("beforerender", function() {
         this.parentNode.dispatchEvent("beforerender", {
             page: this
         });
     });
 
-    this.addEventListener("afterrender",  function(){
+    this.addEventListener("afterrender", function() {
         this.parentNode.dispatchEvent("afterrender", {
             page: this
         });
@@ -151,7 +151,7 @@ apf.page = function(struct, tagName) {
             .$getLayoutNode("button", "caption", this.$button);
 
         (node.nodeType == 1 ? node : node.parentNode).setAttribute("title", value || "");
-    }
+    };
 
     /**
      * @attribute {String} caption Sets or gets the text displayed on the button of this element.
@@ -204,8 +204,8 @@ apf.page = function(struct, tagName) {
 
                 // Try to find a next page, if any.
                 var nextPage = this.parentNode.activepagenr + 1;
-                var pages = this.parentNode.getPages()
-                var len = pages.length
+                var pages = this.parentNode.getPages();
+                var len = pages.length;
                 while (nextPage < len && !pages[nextPage].visible)
                     nextPage++;
 
@@ -354,10 +354,10 @@ apf.page = function(struct, tagName) {
                 if (!this.relPage.visible)
                     this.relPage.$ext.style.display = "none";
                     
-                this.relPage.dispatchEvent("prop.visible", {value:false});
+                this.relPage.dispatchEvent("prop.visible", { value: false });
             }
             
-            this.dispatchEvent("prop.visible", {value:false});
+            this.dispatchEvent("prop.visible", { value: false });
         }
     };
     
@@ -369,7 +369,7 @@ apf.page = function(struct, tagName) {
         }
     };
 
-    this.$activate = function(){
+    this.$activate = function() {
         //if (this.disabled)
             //return false;
 
@@ -405,7 +405,7 @@ apf.page = function(struct, tagName) {
                         this.relPage.$render();
                     
                     
-                    this.relPage.dispatchEvent("prop.visible", {value:true});
+                    this.relPage.dispatchEvent("prop.visible", { value: true });
                 }
             }
             else {
@@ -424,7 +424,7 @@ apf.page = function(struct, tagName) {
         
         
         if (!this.fake) {
-            this.dispatchEvent("prop.visible", {value:true});
+            this.dispatchEvent("prop.visible", { value: true });
         }
     };
     
@@ -453,7 +453,7 @@ apf.page = function(struct, tagName) {
         
     };
 
-    this.addEventListener("$skinchange", function(){
+    this.addEventListener("$skinchange", function() {
         if (this.caption)
             this.$propHandlers["caption"].call(this, this.caption);
 
@@ -461,12 +461,12 @@ apf.page = function(struct, tagName) {
             this.$propHandlers["icon"].call(this, this.icon);
     });
 
-    this.$enable = function(){
+    this.$enable = function() {
         if (this.$button)
             this.$setStyleClass(this.$button, null, ["btnDisabled"]);//@todo this.$baseCSSname + 
     };
 
-    this.$disable = function(){
+    this.$disable = function() {
         if (this.$button)
             this.$setStyleClass(this.$button, "btnDisabled");//@todo this.$baseCSSname + 
     };
@@ -500,7 +500,7 @@ apf.page = function(struct, tagName) {
         
         //if (!this.parentNode.$order)
             $btnSet.call(this, oHtml);
-    }
+    };
     
     this.$btnUp = function(oHtml, htmlEvent) {
         this.parentNode.$setStyleClass(oHtml, "", ["down"], true);
@@ -525,7 +525,7 @@ apf.page = function(struct, tagName) {
         this.$btnPressed = false;
         
         this.parentNode.dispatchEvent("tabselectmouseup");
-    }
+    };
     
     this.$btnOut = function(oHtml) {
         this.parentNode.$setStyleClass(oHtml, "", ["over"], true);
@@ -533,7 +533,7 @@ apf.page = function(struct, tagName) {
         this.canHaveChildren = true;
         this.$dragging = false;
         this.$btnPressed = false;
-    }
+    };
 
     // *** Init *** //
 
@@ -547,7 +547,7 @@ apf.page = function(struct, tagName) {
     this.$draw = function(isSkinSwitch) {
         this.skinName = this.parentNode.skinName;
 
-        var sType = this.getAttribute("type")
+        var sType = this.getAttribute("type");
         if (sType) {
             this.fake = true;
             this.relPage = this.parentNode.getPage(sType) || null;
@@ -564,7 +564,7 @@ apf.page = function(struct, tagName) {
                 'apf.lookup(' + this.$uniqueId + ').$btnUp(this, event)');
             elBtn.setAttribute("onmouseover", 'var o = apf.lookup('
                 + this.$uniqueId + ').parentNode;if(apf.lookup(' + this.$uniqueId
-                + ') != o.$activepage'  + (this.parentNode.overactivetab ? " || true" : "")  + ') o.$setStyleClass(this, "over", null, true);');
+                + ') != o.$activepage' + (this.parentNode.overactivetab ? " || true" : "") + ') o.$setStyleClass(this, "over", null, true);');
             elBtn.setAttribute("onmouseout", 'var o = apf.lookup('
                 + this.$uniqueId + ');o&&o.$btnOut(this, event);');
 
@@ -628,10 +628,10 @@ apf.page = function(struct, tagName) {
                 _self.$button.style.display = "none";
                 _self.visible = false;
             }
-        })
+        });
     };
 
-    this.$destroy = function(){
+    this.$destroy = function() {
         if (this.$button) {
             if (this.parentNode && !this.parentNode.$amlDestroyed
               && this.$button.parentNode)
@@ -682,7 +682,7 @@ apf.aml.setElement("page", apf.page);
  *   - nextId ([[Number]]): The number of the the current page.
  *   - nextPage ([[apf.page]]): The the current page.   
  */
-apf.BaseTab = function(){
+apf.BaseTab = function() {
     this.$init(true);
 };
 
@@ -909,7 +909,7 @@ apf.BaseTab = function(){
             }
             else {
                 //Delayed rendering support
-                page.addEventListener("afterrender", function(){
+                page.addEventListener("afterrender", function() {
                     this.parentNode.hideLoader();
                  });
             }
@@ -920,7 +920,7 @@ apf.BaseTab = function(){
                 this.dispatchEvent("afterswitch", oEvent);
             else {
                 //Delayed rendering support
-                page.addEventListener("afterrender", function(){ 
+                page.addEventListener("afterrender", function() { 
                     this.parentNode.dispatchEvent("afterswitch", oEvent);
                 });
              }
@@ -966,8 +966,8 @@ apf.BaseTab = function(){
     };
     
     
-    function visCheck(){
-        scalersz.call(this)
+    function visCheck() {
+        scalersz.call(this);
     }
     
     this.anims = "add|remove|sync";
@@ -991,10 +991,10 @@ apf.BaseTab = function(){
 
         t.style.marginTop = (t.offsetHeight + 2) + "px";
         
-        function animateToTop(){
+        function animateToTop() {
             t.style.marginTop = "0px";
             
-            setTimeout(function(){
+            setTimeout(function() {
                 t.style[apf.CSSPREFIX + "TransitionProperty"] = "";
                 t.style[apf.CSSPREFIX + "TransitionDuration"] = "";
                 t.style[apf.CSSPREFIX + "TimingFunction"] = "";
@@ -1008,7 +1008,7 @@ apf.BaseTab = function(){
             }, 150);
         }
         
-        setTimeout(function(){
+        setTimeout(function() {
             t.style[apf.CSSPREFIX + "TransitionProperty"] = "margin-top, max-width";
             t.style[apf.CSSPREFIX + "TransitionDuration"] = "100ms, 50ms";
             t.style[apf.CSSPREFIX + "TimingFunction"] = "cubic-bezier(.10, .10, .25, .90), cubic-bezier(.10, .10, .25, .90)";
@@ -1050,7 +1050,7 @@ apf.BaseTab = function(){
         //     end();
         // }
         // else {
-            setTimeout(function(){
+            setTimeout(function() {
                 if (isLast)
                     p.style.paddingRight = "";
                 else {
@@ -1064,8 +1064,8 @@ apf.BaseTab = function(){
             }, isOnly ? 150 : 100);
         // }
         
-        function end(){
-            setTimeout(function(){
+        function end() {
+            setTimeout(function() {
                 p.style[apf.CSSPREFIX + "TransitionProperty"] = "";
                 p.style[apf.CSSPREFIX + "TransitionDuration"] = "";
                 p.style[apf.CSSPREFIX + "TimingFunction"] = "";
@@ -1128,7 +1128,7 @@ apf.BaseTab = function(){
         }
         
         if (type == "add") {
-            animAddTab(node, function(){
+            animAddTab(node, function() {
                 node.dispatchEvent("afteropen");
             });
         }
@@ -1136,7 +1136,7 @@ apf.BaseTab = function(){
             scalersz.call(this);
         }
         else if (type == "remove") {
-            var onfinish = function(){
+            var onfinish = function() {
                 if (node.dispatchEvent("afterclose") === false)
                     return;
                     
@@ -1216,7 +1216,7 @@ apf.BaseTab = function(){
             if (!isLast)
                 apf.addListener(_self.$buttons, "mouseout", btnMoHandler);
         }
-    }
+    };
     
     /*
      * Update the size of the tab container
@@ -1238,7 +1238,7 @@ apf.BaseTab = function(){
             p.style.paddingRight = "";
         }
         
-        setTimeout(function(){
+        setTimeout(function() {
             p.style[apf.CSSPREFIX + "TransitionProperty"] = "";
             p.style[apf.CSSPREFIX + "TransitionDuration"] = "";
             p.style[apf.CSSPREFIX + "TimingFunction"] = "";
@@ -1254,7 +1254,7 @@ apf.BaseTab = function(){
      * Retrieves an array of all the page elements of this element.
      * @returns {Array} An array of all the {apf.page} elements
      */
-    this.getPages = function(){
+    this.getPages = function() {
         var r = [], nodes = this.childNodes;
         if (!nodes) return r;
         for (var i = 0, l = nodes.length; i < l; i++) {
@@ -1320,7 +1320,7 @@ apf.BaseTab = function(){
         if (!page)
             return false;
 
-        var e = {page: page};
+        var e = { page: page };
         if (typeof force == "object") {
             e.htmlEvent = force;
             force = false;
@@ -1330,7 +1330,7 @@ apf.BaseTab = function(){
             return;
 
         if (this.$scale && !noAnimation) {
-            this.$scaleinit(page, "remove", function(){
+            this.$scaleinit(page, "remove", function() {
                 //page.removeNode();
                 page.destroy(true, true);
             }, true);
@@ -1407,13 +1407,13 @@ apf.BaseTab = function(){
         }
         
         if (state & SCROLL_OFF)
-            apf.setStyleClass(oBtn,  "", ["disabled", "hover", "down"]);
+            apf.setStyleClass(oBtn, "", ["disabled", "hover", "down"]);
         else if (state & SCROLL_HOVER)
-            apf.setStyleClass(oBtn,  "hover", ["disabled", "down"]);
+            apf.setStyleClass(oBtn, "hover", ["disabled", "down"]);
         else if (state & SCROLL_DOWN)
-            apf.setStyleClass(oBtn,  "down", ["disabled", "hover"]);
+            apf.setStyleClass(oBtn, "down", ["disabled", "hover"]);
         else if (state & SCROLL_DIS)
-            apf.setStyleClass(oBtn,  "disabled", ["hover", "down"]);
+            apf.setStyleClass(oBtn, "disabled", ["hover", "down"]);
 
         if (bBoth)
             setButtonState(SCROLL_RIGHT, state);
@@ -1519,7 +1519,7 @@ apf.BaseTab = function(){
         if (!e)
             e = window.event;
         if (typeof e["type"] == "unknown") //scope expired (prolly GC'ed)
-            e = {type: "click"};
+            e = { type: "click" };
         if (bAnimating && e.type != "dblclick") return;
         var bAnimating = true;
 
@@ -1533,7 +1533,7 @@ apf.BaseTab = function(){
             iBoundary = getAnimationBoundary.call(this, dir),
             _self = this;
         if (dir & SCROLL_LEFT) {
-            setButtonState(SCROLL_LEFT,  SCROLL_DOWN);
+            setButtonState(SCROLL_LEFT, SCROLL_DOWN);
             setButtonState(SCROLL_RIGHT, SCROLL_OFF);
             if (iCurrentLeft === iBoundary) {
                 this.setScrollerState(false, SCROLL_LEFT);
@@ -1594,7 +1594,7 @@ apf.BaseTab = function(){
         else if (dir & SCROLL_RIGHT) {
             this.setScrollerState(true);
             setButtonState(SCROLL_RIGHT, SCROLL_DOWN);
-            setButtonState(SCROLL_LEFT,  SCROLL_OFF);
+            setButtonState(SCROLL_LEFT, SCROLL_OFF);
             if (iCurrentLeft === iBoundary) {
                 this.setScrollerState(false, SCROLL_RIGHT);
                 return apf.tween.single(this.$buttons, {
@@ -1696,7 +1696,7 @@ apf.BaseTab = function(){
         if (iTargetLeft !== null) {
             this.setScrollerState(true);
             setButtonState(SCROLL_RIGHT, dir & SCROLL_RIGHT ? SCROLL_DOWN : SCROLL_OFF);
-            setButtonState(SCROLL_LEFT,  dir & SCROLL_LEFT  ? SCROLL_DOWN : SCROLL_OFF);
+            setButtonState(SCROLL_LEFT, dir & SCROLL_LEFT ? SCROLL_DOWN : SCROLL_OFF);
             apf.tween.clearQueue(this.$buttons, true);
 
             apf.tween.single(this.$buttons, {
@@ -1710,7 +1710,7 @@ apf.BaseTab = function(){
                 onfinish: function() {
                     bAnimating = false;
                     setButtonState(SCROLL_RIGHT, SCROLL_OFF);
-                    setButtonState(SCROLL_LEFT,  SCROLL_OFF);
+                    setButtonState(SCROLL_LEFT, SCROLL_OFF);
                 }
             });
         }
@@ -1781,7 +1781,7 @@ apf.BaseTab = function(){
         
     });
 
-    this.addEventListener("DOMNodeInserted",function(e) {
+    this.addEventListener("DOMNodeInserted", function(e) {
         var amlNode = e.currentTarget;
 
         if (amlNode.localName != "page" || e.relatedNode != this || amlNode.nodeType != 1)
@@ -1866,7 +1866,7 @@ apf.BaseTab = function(){
         return null;
     };
 
-    this.$enable = function(){
+    this.$enable = function() {
         var nodes = this.childNodes;
         for (var i = 0, l = nodes.length; i < l; i++) {
             if (nodes[i].enable)
@@ -1874,7 +1874,7 @@ apf.BaseTab = function(){
         }
     };
 
-    this.$disable = function(){
+    this.$disable = function() {
         var nodes = this.childNodes;
         for (var i = 0, l = nodes.length; i < l; i++) {
             if (nodes[i].disable)
@@ -2148,7 +2148,7 @@ apf.tab = function(struct, tagName) {
     this.$init(tagName || "tab", apf.NODE_VISIBLE, struct);
 };
 
-(function(){
+(function() {
     this.$focussable = apf.KEYBOARD; // This object can get the focus from the keyboard
 
     // *** Init *** //
@@ -2164,8 +2164,8 @@ apf["switch"].prototype =
 apf.pages.prototype = apf.tab.prototype;
 
 apf.aml.setElement("switch", apf["switch"]);
-apf.aml.setElement("pages",  apf.pages);
-apf.aml.setElement("tab",    apf.tab);
+apf.aml.setElement("pages", apf.pages);
+apf.aml.setElement("tab", apf.tab);
 
 
 

@@ -39,14 +39,14 @@ define(function(require, exports, module) {
         
         // do not leave reset= in url
         if (resetSettings && window.history)
-            window.history.pushState(null, null, location.href.replace(/reset=([\w\|]*)/,""));
+            window.history.pushState(null, null, location.href.replace(/reset=([\w\|]*)/, ""));
         
-        var TEMPLATE = options.template || { user: {}, project: {}, state: {} };
+        var TEMPLATE = options.template || { user: {}, project: {}, state: {}};
         var INTERVAL = 1000;
         var PATH = {
-            "project" : c9.toInternalPath(options.projectConfigPath || "/.c9") + "/project.settings",
-            "user"    : c9.toInternalPath(options.userConfigPath || "~/.c9") + "/user.settings",
-            "state"   : c9.toInternalPath(options.stateConfigFilePath || (options.stateConfigPath || "/.c9") + "/state.settings")
+            "project": c9.toInternalPath(options.projectConfigPath || "/.c9") + "/project.settings",
+            "user": c9.toInternalPath(options.userConfigPath || "~/.c9") + "/user.settings",
+            "state": c9.toInternalPath(options.stateConfigFilePath || (options.stateConfigPath || "/.c9") + "/state.settings")
         };
         var KEYS = Object.keys(PATH);
         
@@ -125,12 +125,12 @@ define(function(require, exports, module) {
         /***** Methods *****/
         
         var dirty, timer;
-        function checkSave(){
+        function checkSave() {
             if (dirty)
                 saveToFile();
         }
     
-        function startTimer(){
+        function startTimer() {
             if (c9.readonly) return;
             
             clearInterval(timer);
@@ -153,7 +153,7 @@ define(function(require, exports, module) {
             if (c9.debug)
                 console.log("Saving Settings...");
                 
-            emit("write", { model : model });
+            emit("write", { model: model });
     
             model.time = new Date().getTime();
     
@@ -190,7 +190,7 @@ define(function(require, exports, module) {
                     var standalone = !options.hosted;
                     
                     if (standalone || type == "project") {
-                        fs.writeFile(PATH[type], json, forceSync, function(err){});
+                        fs.writeFile(PATH[type], json, forceSync, function(err) {});
                         
                         if (standalone && !saveToCloud[type])
                             return; // We're done
@@ -243,7 +243,7 @@ define(function(require, exports, module) {
                     });
                 } catch (e) {
                     fs.writeFile(PATH.project 
-                        + ".broken", JSON.stringify(json), function(){});
+                        + ".broken", JSON.stringify(json), function() {});
     
                     KEYS.forEach(function(type) {
                         model[type] = TEMPLATE[type];
@@ -273,11 +273,11 @@ define(function(require, exports, module) {
                 if (type != "read") return;
 
                 if (c9.debug || debug) {
-                    cb({model : model, ext : plugin});
+                    cb({ model: model, ext: plugin });
                 }
                 else {
                     try {
-                        cb({ model : model, ext : plugin });
+                        cb({ model: model, ext: plugin });
                     }
                     catch (e) {
                         console.error(e.message, e.stack);
@@ -293,7 +293,7 @@ define(function(require, exports, module) {
             
             startTimer();
 
-            c9.on("beforequit", function(){
+            c9.on("beforequit", function() {
                 emit("write", { model: model, unload: true });
                 saveModel(true); //Forcing sync xhr works in chrome 
             }, plugin);
@@ -340,7 +340,7 @@ define(function(require, exports, module) {
                 emit(path);
         }
         
-        function update(type, json, ud){
+        function update(type, json, ud) {
             // Do nothing if they are the same
             if (_.isEqual(model[type], json))
                 return;
@@ -348,7 +348,7 @@ define(function(require, exports, module) {
             userData = ud;
             
             // Compare key/values (assume source has same keys as target)
-            (function recur(source, target, base){
+            (function recur(source, target, base) {
                 for (var prop in source) {
                     if (prop == "json()") {
                         setJson(base, source[prop]);
@@ -409,9 +409,9 @@ define(function(require, exports, module) {
         }
         
         var timers = {};
-        function scheduleAnnounce(type, userData){
+        function scheduleAnnounce(type, userData) {
             clearTimeout(timers[type]);
-            timers[type] = setTimeout(function(){ 
+            timers[type] = setTimeout(function() { 
                 emit("change:" + type, { data: model[type], userData: userData }); 
             });
         }
@@ -490,7 +490,7 @@ define(function(require, exports, module) {
     
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             // Give ui a reference to settings
             ui.settings = plugin;
             
@@ -505,11 +505,11 @@ define(function(require, exports, module) {
                 diff = Date.now() - time;
             });
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             dirty = false;
             diff = 0;
             userData = null;
@@ -546,7 +546,7 @@ define(function(require, exports, module) {
             /**
              * @property {Boolean} inited whether the settings have been loaded
              */
-            get inited(){ return inited; },
+            get inited() { return inited; },
             
             /**
              * The offset between the server time and the client time in 
@@ -555,17 +555,17 @@ define(function(require, exports, module) {
              * @property timeOffset
              * @readonly
              */
-            get timeOffset(){ return diff; },
+            get timeOffset() { return diff; },
             
             /**
              * 
              */
-            get paths(){ return PATH; },
+            get paths() { return PATH; },
             
             /**
              * 
              */
-            get saveToCloud(){ return saveToCloud; },
+            get saveToCloud() { return saveToCloud; },
             
             _events: [
                 /** 
@@ -600,50 +600,50 @@ define(function(require, exports, module) {
              * @param {String} path the path specifying the key for the value
              * @param {String} value the value to store in the specified location
              */
-            "set" : set,
+            "set": set,
             
             /**
              * Sets a value in the settings tree and serializes it as JSON
              * @param {String} path the path specifying the key for the value
              * @param {String} value the value to store in the specified location
              */
-            "setJson" : setJson,
+            "setJson": setJson,
             
             /**
              * Gets a value from the settings tree
              * @param {String} path the path specifying the key for the value
              */
-            "get" : get,
+            "get": get,
             
             /**
              * Gets a value from the settings tree and interprets it as JSON
              * @param {String} path the path specifying the key for the value
              */
-            "getJson" : getJson,
+            "getJson": getJson,
             
             /**
              * Gets a value from the settings tree and interprets it as Boolean
              * @param {String} path the path specifying the key for the value
              */
-            "getBool" : getBool,
+            "getBool": getBool,
             
             /**
              * Gets a value from the settings tree and interprets it as Boolean
              * @param {String} path the path specifying the key for the value
              */
-            "getNumber" : getNumber,
+            "getNumber": getNumber,
             
             /**
              * Gets an object from the settings tree and returns it
              * @param {String} path the path specifying the key for the value
              */
-            "getNode" : getNode,
+            "getNode": getNode,
             
             /**
              * Checks to see if a node exists
              * @param {String} path the path specifying the key for the value
              */
-            "exist" : exist,
+            "exist": exist,
             
             /**
              * Sets the default attributes of a settings tree node.

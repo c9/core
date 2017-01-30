@@ -90,7 +90,7 @@ function main(options, imports, register) {
             fs.stat(path, function(err, s) {
                 if (!err) {
                     var mt = s.mtime.valueOf();
-                    var etagNew = '"' + s.size +"-" +  mt + '"';
+                    var etagNew = '"' + s.size + "-" + mt + '"';
                     if (etag !== etagNew) {
                         err = true;
                     }
@@ -240,7 +240,7 @@ function main(options, imports, register) {
                         
                         console.log("File cached at", filename);
                         // set utime to have consistent etag
-                        fs.utimes(filename, mtime/1000, mtime/1000, function(e) {
+                        fs.utimes(filename, mtime / 1000, mtime / 1000, function(e) {
                             if (e) console.error(e);
                         });
                     });

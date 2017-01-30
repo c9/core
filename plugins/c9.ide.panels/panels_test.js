@@ -118,21 +118,21 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     if (where == "left") return bar2;
                     if (where == "right") return bar;
                     return new apf.bar();
-                }
+                };
       
                 done();
             });
             
             var options1, options2, options3;
             
-            describe("register()", function(){
+            describe("register()", function() {
                 it("should register a panel on the left side", function(done) {
                     var count = 0;
                     
-                    panels.once("showPanelTest1", function(){
+                    panels.once("showPanelTest1", function() {
                         count++;
                     });
-                    panels.once("register", function(){
+                    panels.once("register", function() {
                         count++;
                     });
                     
@@ -171,10 +171,10 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 it("should register a second panel on the left side", function(done) {
                     var count = 0;
                     
-                    panels.once("showPanelTest2", function(){
+                    panels.once("showPanelTest2", function() {
                         count++;
                     });
-                    panels.once("register", function(){
+                    panels.once("register", function() {
                         count++;
                     });
                     
@@ -215,10 +215,10 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 it("should register a panel on the right side", function(done) {
                     var count = 0;
                     
-                    panels.once("showPanelTest3", function(){
+                    panels.once("showPanelTest3", function() {
                         count++;
                     });
-                    panels.once("register", function(){
+                    panels.once("register", function() {
                         count++;
                     });
                     
@@ -255,8 +255,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     done();
                 });
             });
-            describe("enablePanel() and disablePanel()", function(){
-                it("should disable a panel that is enabled", function(){
+            describe("enablePanel() and disablePanel()", function() {
+                it("should disable a panel that is enabled", function() {
                     expect.html(plugin1.getElement("bar").$ext).visible;
                     
                     panels.disablePanel("test1");
@@ -270,28 +270,28 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     
                     panels.disablePanel("test3");
                     
-                    setTimeout(function(){
+                    setTimeout(function() {
                         expect.html(plugin3.getElement("bar").$ext).not.visible;
                         expect.html(plugin3.button.$ext).not.visible;
                         expect.html(plugin3.button.$ext.parentNode).not.visible;
                         done();
-                    }, 500)
+                    }, 500);
                 });
-                it("should do nothing when disabling a panel that is already disabled", function(){
+                it("should do nothing when disabling a panel that is already disabled", function() {
                     expect.html(plugin1.getElement("bar").$ext).not.visible;
                     panels.disablePanel("test1");
                     expect.html(plugin1.getElement("bar").$ext).not.visible;
                     expect.html(plugin1.button.$ext).not.visible;
                     expect.html(plugin1.button.$ext.parentNode).visible;
                 });
-                it("should enable a panel that is disabled", function(){
+                it("should enable a panel that is disabled", function() {
                     expect.html(plugin1.getElement("bar").$ext).not.visible;
                     panels.enablePanel("test1");
                     expect.html(plugin1.getElement("bar").$ext).not.visible;
                     expect.html(plugin1.button.$ext).visible;
                     expect.html(plugin1.button.$ext.parentNode).visible;
                 });
-                it("should enable a panel in a hidden column so that it shows again", function(){
+                it("should enable a panel in a hidden column so that it shows again", function() {
                     expect.html(plugin3.getElement("bar").$ext).not.visible;
                     expect.html(plugin3.button.$ext.parentNode).not.visible;
                     
@@ -301,7 +301,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     expect.html(plugin3.button.$ext).visible;
                     expect.html(plugin3.button.$ext.parentNode).visible;
                 });
-                it("should do nothing when enabling a panel that is already enabled", function(){
+                it("should do nothing when enabling a panel that is already enabled", function() {
                     expect.html(plugin1.getElement("bar").$ext).not.visible;
                     expect.html(plugin1.button.$ext).visible;
                     panels.enablePanel("test1");
@@ -311,17 +311,17 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 });
             });
             describe("activate(), deactivate(), isActive and activePanels", function(done) {
-                before(function(){
+                before(function() {
                     panels.activate("test2");
                     panels.activate("test3");
                     panels.activate("test1");
                 });
-                it("should activate a panel that is not active currently", function(){
+                it("should activate a panel that is not active currently", function() {
                     var count = 0;
                     
                     var activePanels = panels.activePanels;
                     var active = panels.panels[activePanels[0]];
-                    panels.once("showPanelTest2", function(){
+                    panels.once("showPanelTest2", function() {
                         count++;
                     });
                     expect.html(active.getElement("bar").$ext, "current").visible;
@@ -332,9 +332,9 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     expect.html(active.getElement("bar").$ext, "old one").not.visible;
                     expect(count).to.equal(1);
                 });
-                it("should deactivate an active panel leaving no panel active in it's column", function(){
+                it("should deactivate an active panel leaving no panel active in it's column", function() {
                     var count = 0;
-                    panels.once("hidePanelTest2", function(){
+                    panels.once("hidePanelTest2", function() {
                         count++;
                     });
                     
@@ -349,7 +349,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 // });
                 it("should activate a panel that is not active and is disabled", function(done) {
                     panels.disablePanel("test1");
-                    setTimeout(function(){
+                    setTimeout(function() {
                         panels.activate("test1");
                         
                         expect.html(plugin1.button.$ext).not.visible;
@@ -360,7 +360,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 });
                 it("should deactivate an active panel that is disabled", function(done) {
                     panels.deactivate("test1");
-                    setTimeout(function(){
+                    setTimeout(function() {
                         expect.html(plugin1.button.$ext).not.visible;
                         expect.html(plugin1.button.$ext.parentNode).visible;
                         expect.html(plugin1.getElement("bar").$ext).not.visible;
@@ -369,7 +369,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 });
                 it("should activate a panel that is not active and is disabled in a hidden column", function(done) {
                     panels.disablePanel("test3");
-                    setTimeout(function(){
+                    setTimeout(function() {
                         panels.activate("test3");
                         
                         expect.html(plugin3.button.$ext).not.visible;
@@ -380,7 +380,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 });
                 it("should deactivate an active panel leaving that is disabled in a hidden column", function(done) {
                     panels.deactivate("test3");
-                    setTimeout(function(){
+                    setTimeout(function() {
                         expect.html(plugin3.button.$ext).not.visible;
                         expect.html(plugin3.button.$ext.parentNode).not.visible;
                         expect.html(plugin3.getElement("bar").$ext).not.visible;
@@ -388,12 +388,12 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     }, 400);
                 });
             });
-            describe("unregister()", function(){
-                it("should unregister 2 panels", function(){
+            describe("unregister()", function() {
+                it("should unregister 2 panels", function() {
                     var count = 0;
                     
                     var cb;
-                    panels.on("unregister", cb = function(){
+                    panels.on("unregister", cb = function() {
                         count++;
                     });
                     
@@ -411,13 +411,13 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             });
             
             if (!onload.remain) {
-                describe("unload()", function(){
+                describe("unload()", function() {
                     it('should destroy all ui elements when it is unloaded', function(done) {
                         expect(Object.keys(panels.panels)).length(1);
                         panels.unload();
                         expect(Object.keys(panels.panels)).length(0);
-                        expect(bar.$int.innerHTML.trim()).not.ok
-                        expect(bar2.$int.innerHTML.trim()).not.ok
+                        expect(bar.$int.innerHTML.trim()).not.ok;
+                        expect(bar2.$int.innerHTML.trim()).not.ok;
                         done();
                     });
                 });

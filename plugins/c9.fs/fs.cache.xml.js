@@ -49,7 +49,7 @@ define(function(require, exports, module) {
         };
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
@@ -61,12 +61,12 @@ define(function(require, exports, module) {
             });
             
             watcher.on("change.all", function(e) {
-                onstat({ path: e.path, result: [null, e.stat] });
+                onstat({ path: e.path, result: [null, e.stat]});
             });
             
             watcher.on("directory.all", function(e) {
                 // @todo make onreaddir incremental
-                onreaddir({ path: e.path, result: [null, e.files] });
+                onreaddir({ path: e.path, result: [null, e.files]});
             });
             
             // Read
@@ -159,12 +159,12 @@ define(function(require, exports, module) {
                     });
                 });
                 
-                emit("readdir", { path : e.path, parent : node, orphan: orphan });
+                emit("readdir", { path: e.path, parent: node, orphan: orphan });
                 
                 endUpdate(node, wasOpen);
                 
                 orphanAppand.forEach(function(path) {
-                    emit("orphan-append", {path: path});
+                    emit("orphan-append", { path: path });
                 });
             }
             fs.on("afterReaddir", onreaddir, plugin);
@@ -238,16 +238,16 @@ define(function(require, exports, module) {
                 var parent = findNode(dirname(e.path));
                 if (parent) { // Dir is in cache
                     var stat = isFolder 
-                        ? { mime : "folder" } 
+                        ? { mime: "folder" } 
                         : (linkInfo
-                            ? { link: true, linkStat: { fullPath: linkInfo } }
+                            ? { link: true, linkStat: { fullPath: linkInfo }}
                             : {});
                     stat.mtime = Date.now();
                     node = createNode(e.path, stat);
 
-                    emit("add", {path : e.path, node : node});
+                    emit("add", { path: e.path, node: node });
                     
-                    e.undo = function(){
+                    e.undo = function() {
                         deleteNode(node);
                         
                         emit("remove", {
@@ -274,7 +274,7 @@ define(function(require, exports, module) {
                     node: node
                 });
                 
-                e.undo = function(){
+                e.undo = function() {
                     if (this.error && this.error.code == "ENOENT") 
                         return;
                     createNode(node.path, null, node);
@@ -328,7 +328,7 @@ define(function(require, exports, module) {
                     recurPathUpdate(node, oldPath, newPath);
                 }
                 
-                e.undo = function(){
+                e.undo = function() {
                     if (toNode)
                         return;
                     if (!parent) {
@@ -371,14 +371,14 @@ define(function(require, exports, module) {
                 }
                 
                 dirsToMake.forEach(function(dir) {
-                    createNode(dir, {mime: "folder"});
+                    createNode(dir, { mime: "folder" });
                 });
                 
                 var node = dirsToMake[0] && findNode(dirsToMake[0]);
                 if (!node)
                     return;
                 
-                e.undo = function(){
+                e.undo = function() {
                     dirsToMake.forEach(function(dir) {
                         var node = findNode(dir);
                         if (node)
@@ -422,8 +422,8 @@ define(function(require, exports, module) {
                     
                     recurPathUpdate(toNode, e.path, to, true);
                     
-                    e.undo = function(){
-                        removeSingleNode({path: to});
+                    e.undo = function() {
+                        removeSingleNode({ path: to });
                     };
                     e.confirm = function() {
                         if (toNode.status === "predicted")
@@ -475,7 +475,7 @@ define(function(require, exports, module) {
                         stat.fullPath = e.args[1];
                         createNode(e.path, {
                             link: true, 
-                            linkStat: stat}, linkNode);
+                            linkStat: stat }, linkNode);
                         
                         emit("update", {
                             path: e.path,
@@ -572,7 +572,7 @@ define(function(require, exports, module) {
                 if (!node) {
                     modified.push(parent);
                     if (i !== parts.length - 1) {
-                        node = {label: p, path: subPath, status: "pending", isFolder: true};
+                        node = { label: p, path: subPath, status: "pending", isFolder: true };
                         // TODO filter hidden files in getChildren instead.
                         if (!showHidden && isFileHidden(p)) {
                             orphans[node.path] = node;
@@ -587,14 +587,14 @@ define(function(require, exports, module) {
                             node.label = p;
                         }
                     } else {
-                        node = {label: p, path: subPath};
+                        node = { label: p, path: subPath };
                     }
                     node.parent = parent;
                     map[p] = node;
                 }
             });
             if (!node) {
-                node = {label: parts[parts.length - 1], path: path};
+                node = { label: parts[parts.length - 1], path: path };
                 orphans[path] = node;
             }
             
@@ -734,14 +734,14 @@ define(function(require, exports, module) {
                 if (!node) {
                     progress({
                         nodes: nodes, node: nodes[loaded - 1], 
-                        loaded: loaded, complete : true
+                        loaded: loaded, complete: true
                     });
                 } else if (node.status == "loaded") {
                     if (subPath.slice(-1) !== "/")
                         subPath += "/";
                     subPath += nodes[loaded];
                     nodes[loaded++] = node;
-                    progress({nodes: nodes, node: node, loaded: loaded});
+                    progress({ nodes: nodes, node: node, loaded: loaded });
                     recur();
                 } else if (node.status == "loading") {
                     plugin.on("readdir", function listener(e) {
@@ -798,16 +798,16 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
             showHidden = false;
             hiddenFilePattern = "";
@@ -838,7 +838,7 @@ define(function(require, exports, module) {
              * Specifies whether hidden files are shown. 
              * @property {Boolean} [showHidden=false]
              */
-            get showHidden(){ return showHidden; },
+            get showHidden() { return showHidden; },
             set showHidden(value) { 
                 showHidden = value; 
                 emit("setShowHidden", { value: value });
@@ -848,7 +848,7 @@ define(function(require, exports, module) {
              * Specifies pattern for hidden file name. 
              * @property {String}
              */
-            get hiddenFilePattern(){ return hiddenFilePattern; },
+            get hiddenFilePattern() { return hiddenFilePattern; },
             set hiddenFilePattern(value) { 
                 updateHiddenFileRegexp(value);
                 hiddenFilePattern = value;

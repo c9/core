@@ -29,11 +29,11 @@ module.exports = function(stream) {
         buffer = parts.join("\n");
     });
 
-    stream.on("error", function(err){
+    stream.on("error", function(err) {
         emit("error", err);
     });
     
-    stream.on("close", function(data){
+    stream.on("close", function(data) {
         emit("close", data);
     });
     

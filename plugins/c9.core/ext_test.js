@@ -22,7 +22,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             this.timeout(1000);
             
             it('should expose the constructor arguments', function(done) {
-                var deps = [1,2];
+                var deps = [1, 2];
                 var plugin = new Plugin("Ajax.org", deps);
                 
                 expect(plugin.developer).to.equal("Ajax.org");
@@ -47,24 +47,24 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 var plugin = new Plugin("Ajax.org", []);
                 var emit = plugin.getEmitter();
                 plugin.freezePublicAPI({});
-                plugin.on("test", function(){ done(); })
+                plugin.on("test", function() { done(); });
                 emit("test");
             });
             it('should not give access to the event emitter after freezing the api', function(done) {
                 var plugin = new Plugin("Ajax.org", []);
                 plugin.freezePublicAPI({});
-                expect(plugin.getEmitter).to.not.ok
+                expect(plugin.getEmitter).to.not.ok;
                 done();
             });
             it('should call load event when name is set', function(done) {
                 var plugin = new Plugin("Ajax.org", []);
-                plugin.on("load", function(){ done() });
+                plugin.on("load", function() { done(); });
                 plugin.name = "test";
             });
             it('should only allow the name to be set once', function(done) {
                 var plugin = new Plugin("Ajax.org", []);
                 plugin.name = "test";
-                expect(function(){ plugin.name = "test2";}).to.throw("Plugin Name Exception");
+                expect(function() { plugin.name = "test2";}).to.throw("Plugin Name Exception");
                 done();
             });
             it('should call sticky event when adding handler later', function(done) {
@@ -86,7 +86,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 emit.sticky("create", {}, plugin3);
                 
                 var z = 0;
-                plugin.on("create", function(){
+                plugin.on("create", function() {
                     if (++z == 2) done();
                     else if (z > 2) 
                         throw new Error("Called too often initially");
@@ -104,17 +104,17 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 emit.sticky("create", {}, plugin3);
                 
                 var z = 0, q = 0, timer;
-                plugin.on("create", function(){
+                plugin.on("create", function() {
                     if (++z == 2) {
                         plugin3.unload();
                         
-                        plugin.on("create", function(){
+                        plugin.on("create", function() {
                             ++q;
                             clearTimeout(timer);
-                            timer = setTimeout(function(){
+                            timer = setTimeout(function() {
                                 if (q == 1) done();
                                 else throw new Error("Called too often after unload");
-                            })
+                            });
                         });
                     }
                     else if (z > 2) {
@@ -125,7 +125,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             it('should call unload event when unload() is called', function(done) {
                 var plugin = new Plugin("Ajax.org", []);
                 var loaded = false;
-                plugin.on("unload", function error(){ 
+                plugin.on("unload", function error() { 
                     if (!loaded)
                         throw new Error("shouldn't call unload");
                     done();
@@ -137,26 +137,26 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             });
             it('should call disable event when disable() is called', function(done) {
                 var plugin = new Plugin("Ajax.org", []);
-                plugin.on("disable", function(){ done() });
+                plugin.on("disable", function() { done(); });
                 plugin.enable();
                 plugin.disable();
             });
             it('should call enable event when enable() is called', function(done) {
                 var plugin = new Plugin("Ajax.org", []);
-                plugin.on("enable", function(){ done() });
+                plugin.on("enable", function() { done(); });
                 plugin.enable();
             });
             it('should destroy all assets when it\'s unloaded', function(done) {
                 var plugin = new Plugin("Ajax.org", []);
                 
                 var count = 0;
-                function check(){
+                function check() {
                     if (++count == 4)
                         done();
                 }
                 
-                var el1 = {destroy: check, childNodes: []};
-                var el2 = {destroy: check, childNodes: []};
+                var el1 = { destroy: check, childNodes: []};
+                var el2 = { destroy: check, childNodes: []};
                 
                 plugin.load();
                 
@@ -181,11 +181,11 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 var plugin = new Plugin("Ajax.org", []);
                 expect(plugin.registered).to.equal(false);
                 
-                ext.on("register", function reg(){
+                ext.on("register", function reg() {
                     expect(plugin.registered).to.equal(true);
                     done();
                     ext.off("register", reg);
-                })
+                });
                 
                 plugin.name = "test";
             });
@@ -193,11 +193,11 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 var plugin = new Plugin("Ajax.org", []);
                 plugin.name = "test";
                 
-                ext.on("unregister", function unreg(){
+                ext.on("unregister", function unreg() {
                     expect(plugin.registered).to.equal(false);
                     done();
                     ext.off("register", unreg);
-                })
+                });
                 
                 plugin.unload();
             });

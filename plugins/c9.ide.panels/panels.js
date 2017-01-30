@@ -20,7 +20,7 @@ define(function(require, exports, module) {
         var showing;
 
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
 
@@ -33,7 +33,7 @@ define(function(require, exports, module) {
         }
 
         var drawn = false;
-        function draw(){
+        function draw() {
             if (drawn) return;
             drawn = true;
 
@@ -41,8 +41,8 @@ define(function(require, exports, module) {
             ui.insertSkin({
                 name: "panels",
                 data: require("text!./skin.xml"),
-                "media-path" : options.staticPrefix + "/images/",
-                "icon-path"  : options.staticPrefix + "/icons/"
+                "media-path": options.staticPrefix + "/images/",
+                "icon-path": options.staticPrefix + "/icons/"
             }, plugin);
             
             menus.addItemByPath("Window/~", new ui.divider(), 40, plugin);
@@ -103,16 +103,16 @@ define(function(require, exports, module) {
 
         /***** Lifecycle *****/
 
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
 
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
 
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             Object.keys(panels).forEach(function(name) {
                 panels[name].unload();
             });
@@ -151,7 +151,7 @@ define(function(require, exports, module) {
             /**
              * Returns an array of all the panels that are currently active.
              */
-            get activePanels(){
+            get activePanels() {
                 var panels = [];
                 if (areas.left.activePanel)
                     panels.push(areas.left.activePanel);
@@ -164,18 +164,18 @@ define(function(require, exports, module) {
              * A hash of {@link panels.Area areas}, indexed by there location. 
              * By default the locations area "left" and "right".
              */
-            get areas(){ return areas },
+            get areas() { return areas; },
             
             /**
              * A hash of panels, indexed by their name.
              */
-            get panels(){ return panels },
+            get panels() { return panels; },
             
             /**
              * Boolean specifying whether a panel is in the process of being shown
              */
-            get showing(){ return showing },
-            set showing(v){ showing = v },
+            get showing() { return showing; },
+            set showing(v) { showing = v; },
             
             _event: [
                 /**

@@ -33,7 +33,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             it('should load it\'s state from the constructor', function(done) {
                 var doc = new Document({
                     value: "test"
-                })
+                });
                 
                 expect(doc.value).to.equal("test");
                 
@@ -45,7 +45,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 doc.on("setValue", function(e) {
                     expect(e.value).to.equal("test");
                     done();
-                })
+                });
                 
                 doc.value = "test";
             });
@@ -71,8 +71,8 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 doc.meta.$test = 1;
                 var state = doc.getState();
                 
-                expect(state.meta.test).to.ok
-                expect(state.meta.$test).to.not.ok
+                expect(state.meta.test).to.ok;
+                expect(state.meta.$test).to.not.ok;
                 done();
             });
             it('should emit state.set when calling setState', function(done) {
@@ -89,7 +89,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 var doc = new Document();
                 doc.editor = { type: "test" };
                 var session = doc.getSession();
-                session.test = 1
+                session.test = 1;
                 expect(session.test).to.ok;
                 done();
             });

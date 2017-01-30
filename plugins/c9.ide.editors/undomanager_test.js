@@ -19,20 +19,20 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         var UndoManager = imports.UndoManager;
         
         var data = ["a", "b"];
-        var stack = [ ["a", 0],["b", 1],["c", 2],["d", 3],["e", 4] ];
+        var stack = [ ["a", 0], ["b", 1], ["c", 2], ["d", 3], ["e", 4] ];
         var count = 0, check = 0;
         var undo;
         
         function Item(info, idx) {
-            this.getState = function(){ return [ info, idx ] };
-            this.undo = function(){ data.splice(idx, 1) };
-            this.redo = function(){ 
+            this.getState = function() { return [ info, idx ]; };
+            this.undo = function() { data.splice(idx, 1); };
+            this.redo = function() { 
                 data[idx || (idx = data.length)] = info; 
                 return this;
             };
         }
         
-        function checkCount(){
+        function checkCount() {
             if (count != check)
                 throw new Error("invalid amount of change events called: got " 
                     + count + ", expected " + check);
@@ -45,7 +45,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     stack: stack
                 });
                 
-                undo.on("change", function(){ count++ });
+                undo.on("change", function() { count++; });
                 
                 undo.on("itemFind", function(e) {
                     return new Item(e.state[0], e.state[1]);
@@ -107,7 +107,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 done();
             });
             it('should clear the undo stack when calling clearUndo()', function(done) {
-                undo.setState({ position : 3, stack : stack }); check++;
+                undo.setState({ position: 3, stack: stack }); check++;
                 expect(undo.position).to.equal(3);
                 expect(undo.length).to.equal(5);
                 undo.clearUndo(); check++;
@@ -118,7 +118,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 done();
             });
             it('should remember bookmarked state', function(done) {
-                undo.setState({ position : 3, stack : stack, mark : 4 }); check++;
+                undo.setState({ position: 3, stack: stack, mark: 4 }); check++;
                 expect(undo.position).to.equal(3);
                 expect(undo.length).to.equal(5);
                 expect(undo.isAtBookmark()).to.equal(false);
@@ -133,7 +133,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 expect(undo.position).to.equal(4);
                 undo.undo(); check++;
                 
-                undo.setState({ position : -1, stack : stack, mark : -1 }); check++;
+                undo.setState({ position: -1, stack: stack, mark: -1 }); check++;
                 expect(undo.isAtBookmark()).to.equal(true);
                 expect(data).to.deep.equal(["a", "q"]);
                 checkCount();

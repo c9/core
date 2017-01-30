@@ -33,7 +33,7 @@ define(function(require, exports, module) {
             }
 
             var loaded;
-            function load(){
+            function load() {
                 if (loaded) return;
                 loaded = true;
 
@@ -44,7 +44,7 @@ define(function(require, exports, module) {
                     add(options.form);
                 
                 if (forPlugin)
-                    forPlugin.addOther(function(){ plugin.unload(); });
+                    forPlugin.addOther(function() { plugin.unload(); });
             }
         
             var drawn = false;
@@ -55,7 +55,7 @@ define(function(require, exports, module) {
                 // Create UI elements
                 container = new ui.bar({ 
                     htmlNode: htmlNode || document.body,
-                    "class"  : options.className,
+                    "class": options.className,
                     style: options.style || ""
                 });
                 plugin.addElement(container);
@@ -70,7 +70,7 @@ define(function(require, exports, module) {
             
             function add(state, foreign) {
                 if (!drawn) {
-                    plugin.on("draw", function wait(){
+                    plugin.on("draw", function wait() {
                         add(state, foreign);
                         plugin.off("draw", wait);
                     });
@@ -131,7 +131,7 @@ define(function(require, exports, module) {
                         container: aml
                     };
                     
-                    foreign.addOther(function(){
+                    foreign.addOther(function() {
                         heading.container.destroy(true, true);
                         // heading.nav.parentNode.removeChild(ns.nav);
                         delete headings[name];
@@ -184,7 +184,7 @@ define(function(require, exports, module) {
                 switch (options.type) {
                     case "checkbox":
                         childNodes = [
-                            new ui.label({ width : width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
                             new ui.checkbox({
                                 value: options.path 
                                     ? createBind(options.path) 
@@ -207,7 +207,7 @@ define(function(require, exports, module) {
                         
                         var dd;
                         childNodes = [
-                            new ui.label({ width : width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
                             dd = new ui.dropdown({
                                 model: model,
                                 width: options.width || widths.dropdown,
@@ -227,17 +227,17 @@ define(function(require, exports, module) {
                                 each: options.each || "[item]",
                                 caption: options.caption || "[text()]",
                                 eachvalue: options.eachvalue || "[@value]",
-                                "empty-message" : options["empty-message"]
+                                "empty-message": options["empty-message"]
                             })
                         ];
                         
-                        settings.on(options.path, function(){
+                        settings.on(options.path, function() {
                             dd.setValue(settings.get(options.path));
                         }, plugin);
                     break;
                     case "spinner":
                         childNodes = [
-                            new ui.label({ width : width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
                             new ui.spinner({
                                 width: options.width || widths.spinner,
                                 value: options.path 
@@ -291,7 +291,7 @@ define(function(require, exports, module) {
                                 width: options.width || widths["checked-single"], 
                                 label: name,
                                 skin: "checkbox_black",
-                                onafterchange: function(e){
+                                onafterchange: function(e) {
                                     if (options.onchange)
                                         options.onchange({ value: e.value });
                                 } 
@@ -300,7 +300,7 @@ define(function(require, exports, module) {
                     break;
                     case "textbox":
                         childNodes = [
-                            new ui.label({ width : width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
                             new ui.textbox({
                                 skin: skins.textbox || "searchbox",
                                 margin: "-3 0 0 0",
@@ -319,7 +319,7 @@ define(function(require, exports, module) {
                     break;
                     case "password":
                         childNodes = [
-                            new ui.label({ width : width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
                             new ui.password({
                                 skin: skins.password || "forminput",
                                 width: options.width || widths.password,
@@ -332,7 +332,7 @@ define(function(require, exports, module) {
                     break;
                     case "colorbox":
                         childNodes = [
-                            new ui.label({ width : width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
                             new ui.colorbox({
                                 width: options.width || widths.colorbox,
                                 value: options.path 
@@ -344,7 +344,7 @@ define(function(require, exports, module) {
                     break;
                     case "button":
                         childNodes = [
-                            new ui.label({ width : width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
                             new ui.button({
                                 skin: "blackbutton",
                                 height: 24,
@@ -365,7 +365,7 @@ define(function(require, exports, module) {
                                 || options.submenu || "",
                             width: options.width || "",
                             onclick: options.onclick,
-                            "default" : options["default"] ? "1" : ""
+                            "default": options["default"] ? "1" : ""
                         });
                     break;
                     case "label":
@@ -392,7 +392,7 @@ define(function(require, exports, module) {
                     break;
                     case "textarea":
                         childNodes = [
-                            new ui.label({ width : width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
                             new ui.textarea({
                                 width: options.width || widths.textarea,
                                 height: options.height || 200,
@@ -469,10 +469,10 @@ define(function(require, exports, module) {
                                       + "'><![CDATA[" + item.caption + "]]></item>";
                                 }).join("");
                                 if (data) {
-                                    setTimeout(function(){
+                                    setTimeout(function() {
                                         dropdown.$model.load("<items>" + data + "</items>");
                                         
-                                        setTimeout(function(){
+                                        setTimeout(function() {
                                             var value = item.value || dropdown.value;
                                             dropdown.value = -999;
                                             dropdown.setAttribute("value", value);
@@ -497,7 +497,7 @@ define(function(require, exports, module) {
                             });
                         break;
                     }
-                })
+                });
             }
 
             function attachTo(htmlNode, beforeNode) {
@@ -516,7 +516,7 @@ define(function(require, exports, module) {
                 show();
             }
             
-            function detach(){
+            function detach() {
                 container.$ext.parentNode.removeChild(container.$ext);
                 emit("hide");
             }
@@ -551,7 +551,7 @@ define(function(require, exports, module) {
                 return result || json;
             }
 
-            function reset(){
+            function reset() {
                 container.childNodes.forEach(function(row) {
                     var options = row.options;
                     if (!row.childNodes.length) return;
@@ -562,29 +562,29 @@ define(function(require, exports, module) {
                 });
             }
             
-            function validate(){
+            function validate() {
                 return true;
             }
             
-            function getRect(){
+            function getRect() {
                 return container.$ext.getBoundingClientRect();
             }
             
-            function show(){ container.show(); emit("show"); }
-            function hide(){ container.hide(); emit("hide"); }
+            function show() { container.show(); emit("show"); }
+            function hide() { container.hide(); emit("hide"); }
             
             /***** Lifecycle *****/
         
-            plugin.on("load", function(){
+            plugin.on("load", function() {
                 load();
             });
-            plugin.on("enable", function(){
+            plugin.on("enable", function() {
                 
             });
-            plugin.on("disable", function(){
+            plugin.on("disable", function() {
                 
             });
-            plugin.on("unload", function(){
+            plugin.on("unload", function() {
                 loaded = false;
                 drawn = false;
             });
@@ -784,28 +784,28 @@ define(function(require, exports, module) {
                  * @property {HTMLElement} container
                  * @readonly
                  */
-                get container(){ return container.$ext; },
+                get container() { return container.$ext; },
                 /**
                  * The APF element that is the parent to all form elements.
                  * @property {AMLElement} aml
                  * @private
                  * @readonly
                  */
-                get aml(){ return container; },
+                get aml() { return container; },
                 /**
                  * A hash of all the headings in this form, indexed by name.
                  * @property {Object} headings
                  * @private
                  * @readonly
                  */
-                get headings(){ return headings; },
+                get headings() { return headings; },
                 /**
                  * A meta data object that allows you to store whatever you want
                  * in relation to this form.
                  * @property {Object} meta
                  */
-                get meta(){ return meta; },
-                set meta(v){ meta = v; },
+                get meta() { return meta; },
+                set meta(v) { meta = v; },
                 
                 _events: [
                     /**

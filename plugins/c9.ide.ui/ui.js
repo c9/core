@@ -18,18 +18,18 @@ define(function(require, module, exports) {
         var cssLibs = [];
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded || apf.uiLoaded) return false;
             loaded = true;
             apf.uiLoaded = true;
             
             // Before we have Proxy Objects, we'll extend the apf objects with the needed api
-            apf.Class.prototype.on = function(){
+            apf.Class.prototype.on = function() {
                 this.addEventListener.apply(this, arguments);
             };
             apf.Class.prototype.once = function(name, listener) {
                 var _self = this;
-                function callback(){
+                function callback() {
                     listener.apply(this, arguments);
                     _self.removeEventListener(name, callback);
                 }
@@ -101,14 +101,14 @@ define(function(require, module, exports) {
                     
                     oldHandler.call(_self, func(value));
                     
-                    function listen(){ 
+                    function listen() { 
                         var v = func(value);
                         if (_self[prop] != v) 
                             oldHandler.call(_self, v); 
                     }
                     settings.on(value, listen);
                     
-                    this.once("DOMNodeRemovedFromDocument", function(){
+                    this.once("DOMNodeRemovedFromDocument", function() {
                         settings.off(value, listen);
                     });
                 };
@@ -138,7 +138,7 @@ define(function(require, module, exports) {
             if (packedThemes) return;
                 
             cssLibs.push(css);
-            plugin.addOther(function(){
+            plugin.addOther(function() {
                 cssLibs.splice(cssLibs.indexOf(css), 1);
             });
         }
@@ -209,7 +209,7 @@ define(function(require, module, exports) {
                     
                     // Cleanup
                     if (style) {
-                        plugin.addOther(function(){
+                        plugin.addOther(function() {
                             style.parentNode.removeChild(style);
                         });
                     }
@@ -222,7 +222,7 @@ define(function(require, module, exports) {
                 var style = createStyleSheet(css);
                 
                 // Cleanup
-                plugin.addOther(function(){
+                plugin.addOther(function() {
                     style.parentNode.removeChild(style);
                 });
             }
@@ -259,7 +259,7 @@ define(function(require, module, exports) {
                 }
             }
             
-            plugin.addOther(function(){
+            plugin.addOther(function() {
                 nodes.forEach(function(node) {
                     node.parentNode.removeChild(node);
                 });
@@ -280,7 +280,7 @@ define(function(require, module, exports) {
             var childMarker = parent.childNodes.length;
             
             parent.insertMarkup(markup, {
-                callback: function(){
+                callback: function() {
                     
                 }
             });
@@ -302,8 +302,8 @@ define(function(require, module, exports) {
             }
             
             if (typeof item == "string") {
-                var bar = new apf.bar({htmlNode: document.createElement("div")});
-                bar.insertMarkup(item, { callback: function(){} });
+                var bar = new apf.bar({ htmlNode: document.createElement("div") });
+                bar.insertMarkup(item, { callback: function() {} });
                 item = bar.childNodes.slice();
                 bar.childNodes.length = 0;
                 bar.destroy();
@@ -343,10 +343,10 @@ define(function(require, module, exports) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
         });
         

@@ -21,10 +21,10 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
         
-        var input = { "input":1, "textarea":1, "iframe":1 };
+        var input = { "input": 1, "textarea": 1, "iframe": 1 };
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
@@ -56,7 +56,7 @@ define(function(require, exports, module) {
                 name: "cut",
                 bindKey: { mac: "Command-X", win: "Ctrl-X" },
                 isAvailable: checkAvailable,
-                exec: function(){ cut(); },
+                exec: function() { cut(); },
                 passEvent: true,
                 readOnly: true
             }, plugin);
@@ -65,7 +65,7 @@ define(function(require, exports, module) {
                 name: "copy",
                 bindKey: { mac: "Command-C", win: "Ctrl-C" },
                 isAvailable: checkAvailable,
-                exec: function(editor, args){ copy(null, args.data); },
+                exec: function(editor, args) { copy(null, args.data); },
                 passEvent: true
             }, plugin);
             
@@ -73,7 +73,7 @@ define(function(require, exports, module) {
                 name: "paste",
                 bindKey: { mac: "Command-V", win: "Ctrl-V" },
                 isAvailable: checkAvailable,
-                exec: function(){ paste(); },
+                exec: function() { paste(); },
                 passEvent: true,
                 readOnly: true
             }, plugin);
@@ -88,23 +88,23 @@ define(function(require, exports, module) {
             
             menus.addItemByPath("Edit/~", new ui.divider(), 300, plugin);
             menus.addItemByPath("Edit/Cut", 
-                new ui.item({ command : "cut" }), 400, plugin);
+                new ui.item({ command: "cut" }), 400, plugin);
             menus.addItemByPath("Edit/Copy", 
-                new ui.item({ command : "copy" }), 500, plugin);
+                new ui.item({ command: "copy" }), 500, plugin);
             menus.addItemByPath("Edit/Paste", 
-                new ui.item({ command : "paste" }), 600, plugin);
+                new ui.item({ command: "paste" }), 600, plugin);
         }
         
         var clipboardData = {
             items: [],
-            get types(){
+            get types() {
                 return clipboardData.items.map(function(item) {
                     return item.type;
                 });
             },
             
-            wrap: function(nativeObject){ provider.wrap(nativeObject); },
-            unwrap: function(){ provider.unwrap(); },
+            wrap: function(nativeObject) { provider.wrap(nativeObject); },
+            unwrap: function() { provider.unwrap(); },
             
             setData: function(type, data) {
                 if (provider.set(type, data) === false)
@@ -259,12 +259,12 @@ define(function(require, exports, module) {
                 + "To enable the native keyboard either use "
                 + "Command-C on Mac or Ctrl-C on Windows or for Chrome install "
                 + "the Cloud9 App at <a target='_blank' href='http://bit.ly/K5XNzK'>the Chrome store</a>.", 
-                function(){
+                function() {
                     if (alert.dontShow)
                         settings.set("user/clipboard/@dontshow", true);
                 }, { isHTML: true, showDontShow: true });
             
-            emitter.on("show", function(){
+            emitter.on("show", function() {
                 var textarea = alert.aml.$ext.querySelector("textarea");
                 if (!textarea) return;
                 textarea.select();
@@ -281,16 +281,16 @@ define(function(require, exports, module) {
     
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
         });
         

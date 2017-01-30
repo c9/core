@@ -66,7 +66,7 @@ define(function(require, exports, module) {
         
         function $hookIntoApfFocus(ace, amlNode) {
             // makes apf to treat barTerminal as codeEditor
-            amlNode.$isTextInput = function(e){return true;};
+            amlNode.$isTextInput = function(e) {return true;};
             ace.on("focus", function() { 
                 amlNode.focus();
             });
@@ -89,7 +89,7 @@ define(function(require, exports, module) {
         }
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
@@ -106,7 +106,7 @@ define(function(require, exports, module) {
             commands.addCommand({ 
                 name: "focusTree", 
                 // shortcut can be modified here 
-                bindKey: { mac: "Shift-Esc", win: "Shift-Esc"},
+                bindKey: { mac: "Shift-Esc", win: "Shift-Esc" },
                 exec: function() { 
                     panels.activate("tree"); 
                     plugin.focus();
@@ -114,7 +114,7 @@ define(function(require, exports, module) {
             }, plugin);
             
             // On Ready Resize initially
-            c9.once("ready", function(){ tree && tree.resize(); });
+            c9.once("ready", function() { tree && tree.resize(); });
     
             // Settings
             settings.on("read", function(e) {
@@ -136,7 +136,7 @@ define(function(require, exports, module) {
                 // auto/projecttree contains the saved expanded nodes
                 if (settings.exist("state/projecttree/expanded")) {
                     var paths = settings.getJson("state/projecttree/expanded") || ["/"];
-                    paths.forEach(function(path){ expandedList[path] = true; });
+                    paths.forEach(function(path) { expandedList[path] = true; });
     
                     loadedSettings = 1;
                     refreshing = true; // Prevent selection to change prior to loading the file tree at init
@@ -164,22 +164,22 @@ define(function(require, exports, module) {
             
             // Prefs
             prefs.add({
-                "General" : {
-                    "Tree & Navigate" : {
+                "General": {
+                    "Tree & Navigate": {
                         position: 25,
-                        "Enable Preview on Tree Selection" : {
+                        "Enable Preview on Tree Selection": {
                             type: "checkbox",
                             position: 3000,
                             path: "user/general/@preview-tree"
                         },
-                        "Hidden File Pattern" : {
+                        "Hidden File Pattern": {
                            type: "textbox",
                            path: "user/projecttree/@hiddenFilePattern",
                            position: 4000
                         },
                     },
-                    "User Interface" : {
-                        "Workspace Files Icon and Selection Style" : {
+                    "User Interface": {
+                        "Workspace Files Icon and Selection Style": {
                             type: "dropdown",
                             position: 3000,
                             path: "user/general/@treestyle",
@@ -192,7 +192,7 @@ define(function(require, exports, module) {
                 }
             }, plugin);
             
-            settings.on("user/projecttree/@hiddenFilePattern", function(){
+            settings.on("user/projecttree/@hiddenFilePattern", function() {
                 var str = settings.get("user/projecttree/@hiddenFilePattern");
                 if (fsCache.hiddenFilePattern != str) {
                     fsCache.hiddenFilePattern = str;
@@ -211,7 +211,7 @@ define(function(require, exports, module) {
             ui.insertCss(css, staticPrefix, plugin);
             ui.insertCss(util.getFileIconCss(staticPrefix), false, plugin);
             
-            layout.on("eachTheme", function(e){
+            layout.on("eachTheme", function(e) {
                 var height = parseInt(ui.getStyleRule(".filetree .tree-row", "height"), 10) || 22;
                 fsCache.model.rowHeightInner = height;
                 fsCache.model.rowHeight = height;
@@ -236,7 +236,7 @@ define(function(require, exports, module) {
             tree = new Tree(container.$int);
             $hookIntoApfFocus(tree, container);
             tree.renderer.setScrollMargin(10, 10);
-            tree.renderer.setTheme({cssClass: "filetree"});
+            tree.renderer.setTheme({ cssClass: "filetree" });
             tree.setDataProvider(fsCache.model);
             tree.setOption("enableDragDrop", true);
             
@@ -251,7 +251,7 @@ define(function(require, exports, module) {
             
             fsCache.model.getTooltipText = function(node) {
                 var size = node.size;
-                return (node.label || node.path) + (node.link ? " => " + node.link  + "\n" : "")
+                return (node.label || node.path) + (node.link ? " => " + node.link + "\n" : "")
                     + (size != undefined && !node.isFolder ? " | " + (
                         size < 0x400 ? size + " bytes" :
                         size < 0x100000 ? (size / 0x400).toFixed(2) + "KB" :
@@ -262,7 +262,7 @@ define(function(require, exports, module) {
             if (settings.get("user/general/@treestyle") == "alternative")
                 ui.setStyleClass(container.$int, "alternative");
             
-            settings.on("user/general", function(){
+            settings.on("user/general", function() {
                 if (settings.get("user/general/@treestyle") == "alternative")
                     ui.setStyleClass(container.$int, "alternative");
                 else
@@ -271,7 +271,7 @@ define(function(require, exports, module) {
             
             tree.edit = new TreeEditor(tree);
             
-            layout.on("resize", function(){ tree.resize() }, plugin);
+            layout.on("resize", function() { tree.resize(); }, plugin);
             
             var btnTreeSettings = plugin.getElement("btnTreeSettings");
             var mnuFilesSettings = plugin.getElement("mnuFilesSettings");
@@ -283,7 +283,7 @@ define(function(require, exports, module) {
             function updateScrollBarSize() {
                 var scrollBarV = tree.renderer.scrollBarV;
                 var w = scrollBarV.isVisible ? scrollBarV.getWidth() : 0;
-                btnTreeSettings.$ext.style.marginRight = Math.max(w - 2,  0) + "px";
+                btnTreeSettings.$ext.style.marginRight = Math.max(w - 2, 0) + "px";
             }
             
             tree.on("drop", function(e) {
@@ -312,15 +312,15 @@ define(function(require, exports, module) {
             // from the Project Files header
             ui.insertByIndex(mnuFilesSettings, new ui.item({
                 caption: "Refresh File Tree",
-                onclick: function(){
-                    refresh(true, function(){});
+                onclick: function() {
+                    refresh(true, function() {});
                 }
             }), 100, plugin);
             ui.insertByIndex(mnuFilesSettings, new ui.item({
                 caption: "Collapse All Folders",
-                onclick: function(){
+                onclick: function() {
                     collapseAll();
-                    expand("/", function(){});
+                    expand("/", function() {});
                     select("/");
                 },
                 enableOffline: true,
@@ -364,7 +364,7 @@ define(function(require, exports, module) {
                 var selected = tree.selection.getCursor();
                 if ((adhocPreview || settings.getBool("user/general/@preview-tree")) 
                   && selected && !selected.isFolder) {
-                    tabs.preview({ path: selected.path }, function(){});
+                    tabs.preview({ path: selected.path }, function() {});
                 }
             });
             
@@ -375,20 +375,20 @@ define(function(require, exports, module) {
                     
                     adhocPreview = !(tab && tab.document.meta.preview);
                     if (!adhocPreview)
-                        tabs.preview({ cancel: true }, function(){});
+                        tabs.preview({ cancel: true }, function() {});
                     else
-                        tabs.preview({ path: selected.path }, function(){});
+                        tabs.preview({ path: selected.path }, function() {});
                 }
                 tree.once("blur", function() { adhocPreview = false; });
             });
             
             tree.commands.bindKey("Shift-Enter", function(e) {
-                openSelection({focusNewTab: "soft"});
+                openSelection({ focusNewTab: "soft" });
             });
     
             // Opens a file after the user has double-clicked
             tree.on("afterChoose", openSelection);
-            tree.on("delete", function(){ remove(); });
+            tree.on("delete", function() { remove(); });
             
             tree.provider.on("changeScrollTop", scrollHandler);
     
@@ -506,7 +506,7 @@ define(function(require, exports, module) {
                 var m = /([\0\\\n\r])/.exec(name) || c9.platform == "win32" && /([\\:*?"<>|])/.exec(name);
                 if (m) {
                     showError(
-                        "Invalid character '" + m[0] +  "' in '" + name + "'"
+                        "Invalid character '" + m[0] + "' in '" + name + "'"
                     );
                     return false;
                 }
@@ -516,7 +516,7 @@ define(function(require, exports, module) {
                     settings.set("user/projecttree/@showhidden", true);
                     changed = true;
                     fsCache.showHidden = true;
-                    refresh(true, function(){});
+                    refresh(true, function() {});
                 }
                 
                 if (dirname(newpath) != dirname(path)) {
@@ -563,20 +563,20 @@ define(function(require, exports, module) {
             menus.addItemToMenu(mnuCtxTree, new ui.divider(), 200, plugin);
             menus.addItemToMenu(mnuCtxTree, new ui.item({
                 caption: "Refresh",
-                onclick: function(){ refresh(tree.selection.getSelectedNodes(), function(){}); }
+                onclick: function() { refresh(tree.selection.getSelectedNodes(), function() {}); }
             }), 210, plugin);
 
             menus.addItemToMenu(mnuCtxTree, new ui.item({
                 match: "file|folder",
                 write: true,
                 caption: "Rename",
-                onclick: function(){ tree.edit.startRename() }
+                onclick: function() { tree.edit.startRename(); }
             }), 300, plugin);
             menus.addItemToMenu(mnuCtxTree, new ui.item({
                 match: "file|folder",
                 write: true,
                 caption: "Delete",
-                onclick: function(){ remove() }
+                onclick: function() { remove(); }
             }), 310, plugin);
             
             menus.addItemToMenu(mnuCtxTree, new ui.divider({}), 700, plugin);
@@ -615,13 +615,13 @@ define(function(require, exports, module) {
                 match: "file|folder|project",
                 write: true,
                 caption: "New File",
-                onclick: function(){ createFile(null, false, function(){}); }
+                onclick: function() { createFile(null, false, function() {}); }
             }), 1520, plugin);
             menus.addItemToMenu(mnuCtxTree, new ui.item({
                 match: "file|folder|project",
                 write: true,
                 caption: "New Folder",
-                onclick: function(){ createFolder("New Folder", false, function(){}); }
+                onclick: function() { createFolder("New Folder", false, function() {}); }
             }), 1540, plugin);
             
             container.setAttribute("contextmenu", mnuCtxTree);
@@ -676,7 +676,7 @@ define(function(require, exports, module) {
                     
                 return true;
             }
-            function clearcut(){
+            function clearcut() {
                 var nodes = clipboard.clipboardData.getData("c9/tree-nodes");
                 if (!nodes) return false;
                 
@@ -757,9 +757,9 @@ define(function(require, exports, module) {
             
             return confirmRemove(selection, function(file) {
                 if (file.isFolder)
-                    fs.rmdir(file.path, {recursive: true}, function(){});
+                    fs.rmdir(file.path, { recursive: true }, function() {});
                 else
-                    fs.rmfile(file.path, function(){});
+                    fs.rmfile(file.path, function() {});
             });
         }
         
@@ -784,7 +784,7 @@ define(function(require, exports, module) {
                 
                 paths.push(newpath);
                 
-                fs.rename(path, newpath, {overwrite: overwrite}, function(err, result) {
+                fs.rename(path, newpath, { overwrite: overwrite }, function(err, result) {
                     if (err) {
                         var shouldOverwrite = err.code == "EEXIST" && !overwrite;
                         if (shouldOverwrite)
@@ -807,12 +807,12 @@ define(function(require, exports, module) {
                         "File already exists",
                         '"' + item.path + '" already exists, do you want to replace it? '
                             + "Replacing it will overwrite its current contents.",
-                        function(all){ // Overwrite
+                        function(all) { // Overwrite
                             var files = toOverwrite.splice(0, all ? toOverwrite.length : 1);
-                            move(files, to, {overwrite: true});
+                            move(files, to, { overwrite: true });
                             done();
                         },
-                        function(all){ // Skip
+                        function(all) { // Skip
                             toOverwrite.splice(0, all ? toOverwrite.length : 1);
                             done();
                         },
@@ -891,7 +891,7 @@ define(function(require, exports, module) {
             });
             
             // Prevent selection if it changed in the mean time
-            tree.on("changeSelection", function listen(){
+            tree.on("changeSelection", function listen() {
                 prevent = true;
                 container.off("changeSelection", listen);
             });
@@ -901,11 +901,11 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
         
-        function focus(){
+        function focus() {
             tree && tree.focus();
         }
         
-        function scrollToSelection(){
+        function scrollToSelection() {
             tree.renderer.scrollCaretIntoView(null, 0.5);
         }
         
@@ -929,7 +929,7 @@ define(function(require, exports, module) {
             tree.setDataProvider(fsCache.model);
     
             if (loadedSettings === 1) {
-                var done = function(){ 
+                var done = function() { 
                     loadedSettings = -1; 
                     emit.sticky("ready");
                 };
@@ -946,7 +946,7 @@ define(function(require, exports, module) {
             else if (options.defaultExpanded) {
                 var nodes = tree.provider.getChildren(tree.provider.root);
                 for (var i = 0; i < nodes.length; i++) {
-                    expand(nodes[i], function(){});
+                    expand(nodes[i], function() {});
                 }
                 emit.sticky("ready");
             }
@@ -979,7 +979,7 @@ define(function(require, exports, module) {
             // something is happening
             expandedNodes.sort();
             
-            function increment(){
+            function increment() {
                 if (++foldersLoaded == count)
                     finish();
             }
@@ -1048,7 +1048,7 @@ define(function(require, exports, module) {
                 
                 end();
     
-                function end(){
+                function end() {
                     callback && callback();
                     settings.save();
                 }
@@ -1132,13 +1132,13 @@ define(function(require, exports, module) {
                     noanim: sel.length > 1,
                     active: node === main,
                     focus: node === main && focus
-                }, function(){});
+                }, function() {});
             });
         }
 
         function expandAndSelect(path_or_node) {
             var node = findNode(path_or_node);
-            expand(node, function(){
+            expand(node, function() {
                 refreshing = false;
                 tree.select(node);
                 scrollToSelection();
@@ -1156,7 +1156,7 @@ define(function(require, exports, module) {
                 path = node;
                 node = fsCache.findNode(path, "expand");
             }
-            if (!callback) callback = function(){};
+            if (!callback) callback = function() {};
             
             if (!node) {
                 if (!path)
@@ -1195,7 +1195,7 @@ define(function(require, exports, module) {
                 }
                 
                 // Next Loop
-                recur(pnode, ppath, function(){
+                recur(pnode, ppath, function() {
                     if (!node)
                         node = fsCache.findNode(path, "expand");
                     if (!node) return; // Raygun #3082
@@ -1236,18 +1236,18 @@ define(function(require, exports, module) {
             fsCache.model.collapse(findNode(path_or_node, "collapse"));
         }
         
-        function collapseAll(){
+        function collapseAll() {
             Object.keys(expandedList).sort().reverse().forEach(function(path) {
                 collapse(path);
             });
             expandedList = {};
         }
         
-        function getAllExpanded(){
+        function getAllExpanded() {
             return Object.keys(expandedList);
         }
         
-        function resize(){
+        function resize() {
             tree && tree.resize();
         }
         
@@ -1265,7 +1265,7 @@ define(function(require, exports, module) {
         
         function _nextName(path) {
             return path.replace(/(?:\.([\d+]))?(\.[^\.\/\\]*)?$/, function(m, d, e) {
-                return "." + (parseInt(d, 10)+1 || 1) + (e ? e : "");
+                return "." + (parseInt(d, 10) + 1 || 1) + (e ? e : "");
             });
         }
         
@@ -1341,7 +1341,7 @@ define(function(require, exports, module) {
                 });
             }
             
-            expand(dirname(path), function(){ tryPath(path); });
+            expand(dirname(path), function() { tryPath(path); });
         }
 
         function getSelectedNode(otherTree) {
@@ -1362,19 +1362,19 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
         plugin.on("draw", function(e) {
             draw(e);
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             tree && tree.destroy();
             loaded = false;
             drawn = false;

@@ -33,7 +33,7 @@ define(function(require, exports, module) {
                 title: "Introduction",
                 position: 1,
                 node: intro = new ui.bar({
-                    "class" : "intro",
+                    "class": "intro",
                     style: "padding:12px;position:relative;"
                 })
             }], plugin);
@@ -61,9 +61,9 @@ define(function(require, exports, module) {
                 + '</a>.</span></p><p class="hint">Hint: Add the .c9 folder to your '
                 + 'repository to share these settings with your collaborators.</p>';
             
-            intro.$int.querySelector("a").onclick = function(){ 
+            intro.$int.querySelector("a").onclick = function() { 
                 emit("edit");
-            }
+            };
         }
         
         /***** Methods *****/

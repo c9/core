@@ -31,14 +31,14 @@ define(function(require, exports, module) {
         var nativeObject;
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
         }
         
         /***** Methods *****/
         
-        function clear(){
+        function clear() {
             if (nativeObject)
                 nativeObject.clearData();
             else {
@@ -128,7 +128,7 @@ define(function(require, exports, module) {
                 } else {
                     return clipboardData.getData(mime);
                 }
-            } catch(e) {
+            } catch (e) {
                 if (!forceIEMime)
                     return handleClipboardData(clipboardData, type, data, true);
             }
@@ -138,22 +138,22 @@ define(function(require, exports, module) {
             nativeObject = obj;
         }
         
-        function unwrap(){
+        function unwrap() {
             nativeObject = window.clipboardData; // for ie and firefox addon
         }
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
             nativeObject = null;
         });

@@ -48,6 +48,6 @@ define(function(require, exports, module) {
             hide: error.hide.bind(error),
         });
         
-        register(null, { "dialog.info" : plugin });
+        register(null, { "dialog.info": plugin });
     }
 });

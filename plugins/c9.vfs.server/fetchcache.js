@@ -47,7 +47,7 @@ define(function(require, exports, module) {
                 var data = "";
                 meta.stream.on("data", function(d) {
                     data += d;
-                })
+                });
     
                 var done;
                 meta.stream.on("error", function(e) {
@@ -73,22 +73,22 @@ define(function(require, exports, module) {
             //     return next(new error.Forbidden("Can't list files outside of the workspace"));
             
             // Fetch index
-            readFile(vfs, Path.join(path, "index"), function(err, list){
+            readFile(vfs, Path.join(path, "index"), function(err, list) {
                 if (err) {
                     var httpErr = new error.NotFound(err.message);
                     return next(httpErr);
                 }
                 
                 // Fetch each file in the index
-                async.mapLimit(list.split("\n"), 50, function(p, callback){
-                    readFile(vfs, Path.join(path, p.replace(/\//g, "\\")), function(ignore, data){
+                async.mapLimit(list.split("\n"), 50, function(p, callback) {
+                    readFile(vfs, Path.join(path, p.replace(/\//g, "\\")), function(ignore, data) {
                         var json;
                         try { json = JSON.parse(data); }
-                        catch(e) { json = { type: "file", path: p } }
+                        catch (e) { json = { type: "file", path: p }; }
                         
                         callback(null, json);
                     });
-                }, function(ignore, results){
+                }, function(ignore, results) {
                     res.writeHead(200, { "Content-Type": "text/json" });
                     res.write(JSON.stringify(results));
                     res.end();
@@ -101,6 +101,6 @@ define(function(require, exports, module) {
             fetchcache: fetchcache
         });
         
-        register(null, { "vfs.fetchcache" : plugin });
+        register(null, { "vfs.fetchcache": plugin });
     }
 });

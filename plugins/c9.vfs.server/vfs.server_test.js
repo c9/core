@@ -40,7 +40,7 @@ var mockConnect = {
 describe(__filename, function() {
     var server;
     beforeEach(function (done) {
-        vfsServer({testing: true}, {
+        vfsServer({ testing: true }, {
             "db": mockDb,
             "vfs.cache": mockCache,
             "api": mockApi,

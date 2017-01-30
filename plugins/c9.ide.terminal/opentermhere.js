@@ -50,7 +50,7 @@ define(function(require, exports, module) {
             tabManager.open({
                 focus: true,
                 editorType: "terminal",
-                document: { terminal: { cwd: util.normalizePath(path) } }
+                document: { terminal: { cwd: util.normalizePath(path) }}
             });
         }
         

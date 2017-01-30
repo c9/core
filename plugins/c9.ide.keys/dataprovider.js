@@ -18,7 +18,7 @@ define(function(require, exports, module) {
         this.updateData();
         
         Object.defineProperty(this, "loaded", {
-            get: function(){ return this.visibleItems.length; }
+            get: function() { return this.visibleItems.length; }
         });
     };
     oop.inherits(ListData, Base);
@@ -61,7 +61,7 @@ define(function(require, exports, module) {
             this._signal("change");
         };
         
-        this.getEmptyMessage = function(){
+        this.getEmptyMessage = function() {
             if (!this.keyword)
                 return "Loading command list. One moment please...";
             else
@@ -76,7 +76,7 @@ define(function(require, exports, module) {
             var i;
             if ((i = value.lastIndexOf(keyword)) !== -1)
                 return value.substring(0, i) + "<strong>" + keyword + "</strong>" 
-                    + value.substring(i+keyword.length);
+                    + value.substring(i + keyword.length);
             
             var result = this.search.matchPath(value, keyword);
             if (!result.length)

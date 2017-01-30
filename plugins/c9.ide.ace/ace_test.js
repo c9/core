@@ -102,13 +102,13 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
       
                 document.body.style.marginBottom = "33%";
                 
-                tabs.once("ready", function(){
+                tabs.once("ready", function() {
                     tabs.getPanes()[0].focus();
                     done();
                 });
             });
             
-            describe("open", function(){
+            describe("open", function() {
                 this.timeout(10000);
                 
                 it('should open a pane with just an editor', function(done) {
@@ -131,7 +131,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     });
                 });
             });
-            describe("clear(), getState() and setState()", function(){
+            describe("clear(), getState() and setState()", function() {
                 var state, info = {};
                 
                 it('should retrieve the state', function(done) {
@@ -184,7 +184,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     done();
                 });
             });
-            describe("split(), pane.unload()", function(){
+            describe("split(), pane.unload()", function() {
                 it('should split a pane horizontally, making the existing pane the left one', function(done) {
                     var pane = tabs.focussedTab.pane;
                     var righttab = pane.hsplit(true);
@@ -201,7 +201,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     done();
                 });
             });
-            describe("focus(), blur()", function(){
+            describe("focus(), blur()", function() {
                 it('should get the right className and take keyboard input when focussed', function(done) {
                     done();
                 });
@@ -209,7 +209,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     done();
                 });
             });
-            describe("customType", function(){
+            describe("customType", function() {
                 it('should remember custom types set on known extensions', function(done) {
                     
                     //@todo check if it is recorded in settings
@@ -222,14 +222,14 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 });
             });
             
-            function render(){
+            function render() {
                 var editor = tabs.focussedTab.editor;
                 var changes = editor.ace.renderer.$loop.changes;
                 editor.ace.renderer.$loop.changes = 0;
                 editor.ace.renderer.$renderChanges(changes, true);
             }
             
-            describe("setOption()", function(){
+            describe("setOption()", function() {
                 this.timeout(10000);
                 var lineHeight, session, editor, charWidth, doc;
                 
@@ -238,7 +238,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     editor = doc.editor;
                     session = doc.getSession().session;
                     lineHeight = doc.editor.ace.renderer.lineHeight;
-                    charWidth =doc.editor.ace.renderer.characterWidth;
+                    charWidth = doc.editor.ace.renderer.characterWidth;
                     
                     done();
                 });
@@ -251,7 +251,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                         editor.ace.renderer.removeListener("themeLoaded", me);
                         expect.html(getTabHtml(tabs.focussedTab).childNodes[1]).className("ace-tm");
                     
-                        ace.once("themeChange", function(){
+                        ace.once("themeChange", function() {
                             done();
                         });
                         ace.setTheme("ace/theme/tomorrow_night_bright");
@@ -261,7 +261,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 it('should allow setting useWrapMode', function(done) {
                     var charW = editor.ace.renderer.layerConfig.characterWidth;
                     expect(charW).to.ok;
-                    bar.$ext.style.width = 150 * charW  + "px"
+                    bar.$ext.style.width = 150 * charW + "px";
                     
                     doc.value = Array(17).join("a very long string to be wrapped ");
                     
@@ -337,12 +337,12 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     editor.ace.moveCursorTo(1, 0);
                     // command isAvailable works only if editor is focussed
                     // which might break the test when debugger is focussed
-                    editor.ace.isFocused = function() {return true};
+                    editor.ace.isFocused = function() {return true;};
                     commands.exec("gotoright", editor, null, 
                         document.createEvent("KeyboardEvent"));
                     delete editor.ace.isFocused;
                     
-                    expect(editor.ace.getCursorPosition()).deep.equal({row:1, column:4});
+                    expect(editor.ace.getCursorPosition()).deep.equal({ row: 1, column: 4 });
                     
                     done();
                 });
@@ -393,7 +393,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     }
                     
                     var chars = selectionElementWidth() / charWidth;
-                    expect(chars - 10).to.lt(1/100);
+                    expect(chars - 10).to.lt(1 / 100);
                     
                     editor.setOption("selectionStyle", "line");
                     render();
@@ -477,7 +477,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     render();
                     editor.ace.moveCursorTo(0, 4);
                     render();
-                    editor.ace.insert("(")
+                    editor.ace.insert("(");
                     render();
                     expect(doc.value).to.equal("test()");
 
@@ -522,7 +522,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 });
                 it('should allow setting animatedScroll', function(done) {
                     var i = 0;
-                    doc.value = Array(100).join("x").split("x").map(function(){return "Line " + i++}).join("\n");
+                    doc.value = Array(100).join("x").split("x").map(function() {return "Line " + i++;}).join("\n");
                     render();
                     
                     editor.setOption("animatedScroll", false);
@@ -538,13 +538,13 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 });
                 it('should not loose undomanager state', function(done) {
                     var u = editor.activeDocument.undoManager;
-                    u.setState({mark: -1, position: -1, stack: []});
+                    u.setState({ mark: -1, position: -1, stack: []});
                     var state = u.getState();
                     expect(state.mark).to.equal(-1);
                     expect(state.position).to.equal(-1);
                     expect(state.stack.length).to.equal(0);
                     
-                    u.setState({mark: -2, position: -1, stack: []});
+                    u.setState({ mark: -2, position: -1, stack: []});
                     state = u.getState();
                     expect(state.mark).to.equal(-2);
                     expect(state.position).to.equal(-1);

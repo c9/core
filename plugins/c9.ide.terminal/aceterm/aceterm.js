@@ -80,7 +80,7 @@ define(function(require, exports, module) {
         
         // permanently hide hor scrollbar
         ace.renderer.scrollBarH.setVisible(false);
-        ace.renderer.scrollBarH.setVisible=function(){};
+        ace.renderer.scrollBarH.setVisible = function() {};
         
         ace.renderer.setOption("vScrollBarAlwaysVisible", true);
         ace.renderer.scrollBarV.element.style.overflowY = "auto";
@@ -177,7 +177,7 @@ define(function(require, exports, module) {
         var range = session.selection.getRange();
         range.cursor = range.start = range.end;
         
-        var dummyDelta = {action:"insertText", start: range.clone().start, end: range.clone().end, lines:[""]};
+        var dummyDelta = { action: "insertText", start: range.clone().start, end: range.clone().end, lines: [""]};
 
         session.on("changeEditor", function(e, session) {
             if (e.oldEditor) {
@@ -247,7 +247,7 @@ define(function(require, exports, module) {
                 return;
             return ace.renderer.$loop.pending;
         };
-        session.bgTokenizer.$worker=function(){};
+        session.bgTokenizer.$worker = function() {};
         session.term.on("input", function() {
             if (session.maxScrollTop) {
                 session.maxScrollTop = 0;

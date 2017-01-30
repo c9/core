@@ -32,7 +32,7 @@ define(function(require, exports, module) {
         // }
         
         this.hasChildren = function(node) {
-            return node.items && node.items.length
+            return node.items && node.items.length;
         };
         
         this.getCaptionHTML = function(node) {

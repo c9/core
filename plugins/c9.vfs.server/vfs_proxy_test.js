@@ -11,7 +11,7 @@ var sinon = require("sinon");
 var vfs = require("vfs-local");
 var vfsProxy = require("./vfs_proxy");
 
-describe(__filename, function(){
+describe(__filename, function() {
 
     var proxy, home, workspace;
     
@@ -133,7 +133,7 @@ describe(__filename, function(){
 
     it("bad execFile arguments should not break the server", function(done) {
         workspace.execFile = sinon.stub().callsArgWith(2, null, "done");
-        proxy.execFile(['ls', '-a'], {encoding: "utf8"}, function(err, data) {
+        proxy.execFile(['ls', '-a'], { encoding: "utf8" }, function(err, data) {
             assert(!err, err);
             assert.equal(data, "done");
             done();

@@ -120,8 +120,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 predictor.$setTestTimeouts();
                 predictor.DEBUG = true;
                 
-                proc.execFile("~/.c9/bin/tmux", { args: ["-L", "cloud9test", "kill-server"] }, function(err) {
-                    tabs.once("ready", function(){
+                proc.execFile("~/.c9/bin/tmux", { args: ["-L", "cloud9test", "kill-server"]}, function(err) {
+                    tabs.once("ready", function() {
                         tabs.getPanes()[0].focus();
                         openTerminal(done);
                     });
@@ -150,11 +150,11 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 });
                 function start() {
                     predictor.on("mispredict", function(e) {
-                        console.error("MISPREDICTED", e)
+                        console.error("MISPREDICTED", e);
                         delete e.session;
                         throw new Error("MISPREDICTED: " + JSON.stringify(e));
                     });
-                    setTimeout(done)
+                    setTimeout(done);
                 }
             }
             
@@ -187,7 +187,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 predictor.on("predict", function wait(e) {
                     if (e.data.indexOf(text) === -1
                         && e.predictions.filter(function(p) {
-                            return (p.$outputText || "").indexOf(text) !== -1
+                            return (p.$outputText || "").indexOf(text) !== -1;
                         }).length === 0)
                         return;
                     predictor.off("predict", wait);
@@ -209,7 +209,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 });
             }
             
-            describe("predict_echo", function(){
+            describe("predict_echo", function() {
                 beforeEach(function(done) {
                     afterPredict("*", function() {
                         afterPrompt(function() {
@@ -236,7 +236,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                     afterPredict("!", function() {
                         afterPrompt(function() {
                             done();
-                        })
+                        });
                         send("\r");
                     });
                     sendAll([": test!"]);
@@ -320,7 +320,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                             send("\r");
                         });
                         sendAll([INPUT_DELETE]);
-                    })
+                    });
                     
                     sendAll(["eecho blaaat", INPUT_HOME]);
                 });
@@ -382,7 +382,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                             sendAll([INPUT_BACKSPACE]);
                         });
                         sendAll([INPUT_RIGHT]);
-                    })
+                    });
                     
                     sendAll(["eecho bleep", INPUT_HOME]);
                 });
@@ -419,7 +419,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 it("supports insert with home and repeated characters", function(done) {
                     afterPredict("t", function() {
                         assert.equal(peek(-3), "a");
-                        sendAll(["x", INPUT_HOME, "e"])
+                        sendAll(["x", INPUT_HOME, "e"]);
                     });
                     predictor.on("predict", function wait(e) {
                         sawX = sawX || e.data.match(/x/);
@@ -451,7 +451,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                         assert.equal(peek(-3), " ");
                         
                         afterPrompt(function() {
-                            loop(done, (attempt || 0) + 1)
+                            loop(done, (attempt || 0) + 1);
                         });
                         send("\r");
                     });

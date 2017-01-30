@@ -26,7 +26,7 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
 
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
@@ -38,7 +38,7 @@ define(function(require, exports, module) {
             tree.getElement("mnuCtxTree", function(mnuCtxTree) {
                 menus.addItemToMenu(mnuCtxTree, new ui.item({
                     match: "folder|project",
-                    isAvailable: function(){
+                    isAvailable: function() {
                         return tree.selectedNode;
                     },
                     caption: "Download",
@@ -48,15 +48,15 @@ define(function(require, exports, module) {
 
             // Preferences
             prefs.add({
-                "General" : {
-                    "Tree & Navigate" : {
-                        "Download Files As" : {
+                "General": {
+                    "Tree & Navigate": {
+                        "Download Files As": {
                             type: "dropdown",
                             path: SETTING_PATH,
                             items: [
-                                { caption : "auto", value : "auto" },
-                                { caption : "tar.gz", value : "tar.gz" },
-                                { caption : "zip",  value : "zip" }
+                                { caption: "auto", value: "auto" },
+                                { caption: "tar.gz", value: "tar.gz" },
+                                { caption: "zip", value: "zip" }
                             ],
                             position: 5000
                         }
@@ -125,7 +125,7 @@ define(function(require, exports, module) {
                 
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
         

@@ -29,16 +29,16 @@ define(function(require, exports, module) {
                 options.staticPrefix, plugin);
         }
         
-        function initDisconnectEvents(vfs){
+        function initDisconnectEvents(vfs) {
             var timer;
             
-            vfs.once("connect", function(){
-                vfs.connection.on("reconnectDelay", function(e){
+            vfs.once("connect", function() {
+                vfs.connection.on("reconnectDelay", function(e) {
                     clearInterval(timer);
                     
                     var delay = e.delay;
                     if (delay > 999) {
-                        timer = setInterval(function(){
+                        timer = setInterval(function() {
                             if (vfs.connected)
                                 return clearInterval(timer);
                             
@@ -53,37 +53,37 @@ define(function(require, exports, module) {
                     showDisconnect(e);
                 });
             });
-            vfs.on("away", function(){
+            vfs.on("away", function() {
             });
-            vfs.on("back", function(){
+            vfs.on("back", function() {
                 hideDisconnect();
             });
-            vfs.on("connect", function(){
+            vfs.on("connect", function() {
                 hideDisconnect();
             });
-            vfs.on("disconnect", function(){
+            vfs.on("disconnect", function() {
                 // setTimeout(function(){
                 //     showDisconnect();
                 // }, DISCONNECTDELAY);
             });
-            vfs.on("connecting", function(){
+            vfs.on("connecting", function() {
                 showDisconnect({ connecting: true });
             });
-            plugin.on("retryConnect", function(){
+            plugin.on("retryConnect", function() {
                 vfs.connection.reconnect(0);
             });
         }
         
         /***** Methods *****/
 
-        function getCenterX(){
+        function getCenterX() {
             var bartools = document.querySelector(".bartools");
             if (!bartools) return 0; // For testing
             
             var b1 = bartools.getBoundingClientRect();
             var b2 = bartools.nextSibling.getBoundingClientRect();
             
-            return b1.left + b1.width + ((b2.left - b1.left - b1.width)/2);
+            return b1.left + b1.width + ((b2.left - b1.left - b1.width) / 2);
         }
         
         function getMessageString(message) {
@@ -99,7 +99,7 @@ define(function(require, exports, module) {
                 else
                     messageString = "Error: " + message.toString();
             }
-            return messageString
+            return messageString;
         }
 
         function show(message, timeout) {
@@ -177,7 +177,7 @@ define(function(require, exports, module) {
             }, 220);
         }
         
-        function showDisconnect(options){
+        function showDisconnect(options) {
             // Error message container
             if (!disconnect) {
                 disconnect = document.body.appendChild(document.createElement("div"));
@@ -192,7 +192,7 @@ define(function(require, exports, module) {
             if (!options || options.delay < 1000 || options.connecting)
                 message = "Reconnecting...";
             else if (options.delay)
-                message = "Reconnecting in " + Math.ceil(options.delay/1000) 
+                message = "Reconnecting in " + Math.ceil(options.delay / 1000) 
                     + " seconds." 
                     + (options.delay < 2001 ? "" : " <u>Retry Now.</u>");
             else
@@ -267,11 +267,11 @@ define(function(require, exports, module) {
          * @singleton
          **/
         plugin.freezePublicAPI({
-            get top(){ return topPx; },
-            set top(value){ topPx = value; },
+            get top() { return topPx; },
+            set top(value) { topPx = value; },
             
-            get vfs(){ throw new Error("Permission Denied"); },
-            set vfs(v){ initDisconnectEvents(v); },
+            get vfs() { throw new Error("Permission Denied"); },
+            set vfs(v) { initDisconnectEvents(v); },
             
             get visible() {
                 return error && error.style.display !== "none" && error.className;
@@ -303,6 +303,6 @@ define(function(require, exports, module) {
             hide: hide,
         });
         
-        register(null, { "dialog.error" : plugin });
+        register(null, { "dialog.error": plugin });
     }
 });

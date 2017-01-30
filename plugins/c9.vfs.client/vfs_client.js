@@ -61,7 +61,7 @@ define(function(require, exports, module) {
         var showErrorTimer, showErrorTimerMessage;
         var lastError;
         
-        function emptyBuffer(){
+        function emptyBuffer() {
             var b = buffer;
             buffer = [];
             b.forEach(function(item) {
@@ -74,7 +74,7 @@ define(function(require, exports, module) {
         }
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
@@ -155,7 +155,7 @@ define(function(require, exports, module) {
         function rest(path, options, callback) {
             if (!vfs || !connection || connection.readyState != "open") {
                 // console.error("[vfs-client] Cannot perform rest action for ", path, " vfs is disconnected");
-                var stub = { abort: function(){ buffer[this.id]= null; } };
+                var stub = { abort: function() { buffer[this.id] = null; } };
                 stub.id = buffer.push([path, options, callback, stub]) - 1;
                 return stub;
             }
@@ -350,10 +350,10 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
             if (connection && connection.socket)
                 connection.socket.destroying = true;
@@ -391,12 +391,12 @@ define(function(require, exports, module) {
          */
         plugin.freezePublicAPI({
             
-            get connection(){ return connection; },
-            get connecting(){ return connection ? connection.readyState == "reconnecting" : true; },
-            get connected(){ return vfs ? connection.readyState == "open" : false; },
+            get connection() { return connection; },
+            get connecting() { return connection ? connection.readyState == "reconnecting" : true; },
+            get connected() { return vfs ? connection.readyState == "open" : false; },
             
-            get previewUrl(){ throw new Error("gone") },
-            get serviceUrl(){ return serviceUrl; },
+            get previewUrl() { throw new Error("gone"); },
+            get serviceUrl() { return serviceUrl; },
             get id() { return id; },
             get baseUrl() { return vfsBaseUrl; },
             get region() { return region; },

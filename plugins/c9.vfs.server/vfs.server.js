@@ -183,7 +183,7 @@ function plugin(options, imports, register) {
             type: "string"
         }
     }, [
-        requestTimeout(15*60*1000),
+        requestTimeout(15 * 60 * 1000),
         connect.getModule().compress(),
         function(req, res, next) {
             req.query = {
@@ -192,7 +192,7 @@ function plugin(options, imports, register) {
             passport.authenticate("bearer", { session: false }, function(err, user) {
                 if (err) return next(err);
                 
-                req.user = user || { id: -1};
+                req.user = user || { id: -1 };
                 next();
             })(req, res, next);
         },
@@ -218,13 +218,13 @@ function plugin(options, imports, register) {
             type: "string"
         }
     }, [
-        requestTimeout(15*60*1000),
+        requestTimeout(15 * 60 * 1000),
         connect.getModule().compress(),
         function(req, res, next) {
             passport.authenticate("bearer", { session: false }, function(err, user) {
                 if (err) return next(err);
                 
-                req.user = user || { id: -1};
+                req.user = user || { id: -1 };
                 next();
             })(req, res, next);
         },
@@ -305,7 +305,7 @@ function plugin(options, imports, register) {
             }
         }
     }, [
-        requestTimeout(15*60*1000),
+        requestTimeout(15 * 60 * 1000),
         function handleEngine(req, res, next) {
             var vfsid = req.params.vfsid;
             

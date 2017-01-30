@@ -131,7 +131,7 @@ function serial(handlers, callback) {
         handlers[i](function(err) {
             if (err) return callback(err);
             
-            loop(i+1);
+            loop(i + 1);
         });
     })(0);
 }

@@ -36,7 +36,7 @@ define(function(require, exports, module) {
                 title: "Introduction",
                 position: 1,
                 node: intro = new ui.bar({
-                    "class" : "intro",
+                    "class": "intro",
                     style: "padding:12px;position:relative;"
                 })
             }], plugin);
@@ -56,17 +56,17 @@ define(function(require, exports, module) {
         /***** Methods *****/
         
         var found = {};
-        function addExperiment(name, defaultValue, caption){
+        function addExperiment(name, defaultValue, caption) {
             var uniqueId = name.replace(/\//g, "-");
             
             var parts = caption.split("/");
-            var current, obj = { "Experimental": current = {} };
+            var current, obj = { "Experimental": current = {}};
             for (var i = 0; i < parts.length; i++) {
                 current[parts[i]] = current = {};
             }
             current.type = "checkbox";
             current.setting = "state/experiments/@" + uniqueId;
-            current.onchange = function(e){
+            current.onchange = function(e) {
                 if (!hasAlerted) {
                     alert("Experimental Features",
                         "To see the effect of this change, please refresh Cloud9.");

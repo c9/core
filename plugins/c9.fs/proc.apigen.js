@@ -30,8 +30,8 @@ define(function(require, exports, module) {
                         return callback(err);
                     
                     var control = {
-                        kill: function(){ pty.kill() },
-                        write: function(value){ pty.write(value) },
+                        kill: function() { pty.kill(); },
+                        write: function(value) { pty.write(value); },
                         discard: function(keep) {
                             if (keep) pty.off("data", ondata);
                             pty.off("exit", onexit);
@@ -140,7 +140,7 @@ define(function(require, exports, module) {
                             callback(null, data, control);
                             return;
                         }
-                    }, function(){
+                    }, function() {
                         if (def.buffer) {
                             try { 
                                 callback(null, 
@@ -155,7 +155,7 @@ define(function(require, exports, module) {
                             callback(def.defaultSuccess ? null : "No proper data received");
                         }
                     }, def.noauth);
-                }
+                };
             }
         
             /***** Register and define API *****/
@@ -212,7 +212,7 @@ define(function(require, exports, module) {
         }
         
         register(null, {
-            "proc.apigen" : { create: ApiGenerator }
+            "proc.apigen": { create: ApiGenerator }
         });
     }
 });

@@ -31,7 +31,7 @@ return function(_request) {
             return callback(err);
         }
         
-        var headers = metadata ? { "x-request-metadata" : "true" } : null;
+        var headers = metadata ? { "x-request-metadata": "true" } : null;
         return request("GET", path, "", function(err, data, res) {
             if (err)
                 return metadata ? callback(err, null, null, res) : callback(err, null, res);
@@ -122,7 +122,7 @@ return function(_request) {
     function mkdirHandler(callback) {
         return function(err) {
             if (err && err.message.indexOf("exists") > -1)
-                callback({"code": "EEXIST", "message": err.message});
+                callback({ "code": "EEXIST", "message": err.message });
             else
                 callback();
         };
@@ -189,7 +189,7 @@ return function(_request) {
             sync = false;
         }
         
-        return request("POST", path, JSON.stringify({metadata: data}), callback, null, sync);
+        return request("POST", path, JSON.stringify({ metadata: data }), callback, null, sync);
     }
     
     function watch(path, callback) {

@@ -40,11 +40,11 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                get indentSize(){ return model.indentSize },
-                set indentSize(value){ model.indentSize = value },
+                get indentSize() { return model.indentSize; },
+                set indentSize(value) { model.indentSize = value; },
                 
                 // Events
-                _events : [
+                _events: [
                     /**
                      * @event expand
                      */
@@ -59,46 +59,46 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                get getRowIndent(){ return model.getRowIndent; },
-                set getRowIndent(fn){ model.getRowIndent = fn; },
+                get getRowIndent() { return model.getRowIndent; },
+                set getRowIndent(fn) { model.getRowIndent = fn; },
                 /**
                  * 
                  */
-                get hasChildren(){ return model.hasChildren; },
-                set hasChildren(fn){ model.hasChildren = fn; },
+                get hasChildren() { return model.hasChildren; },
+                set hasChildren(fn) { model.hasChildren = fn; },
                 /**
                  * 
                  */
-                get getChildren(){ return model.getChildren; },
-                set getChildren(fn){ model.getChildren = fn; },
+                get getChildren() { return model.getChildren; },
+                set getChildren(fn) { model.getChildren = fn; },
                 /**
                  * 
                  */
-                get loadChildren(){ return model.loadChildren; },
-                set loadChildren(fn){ model.loadChildren = fn; },
+                get loadChildren() { return model.loadChildren; },
+                set loadChildren(fn) { model.loadChildren = fn; },
                 /**
                  * 
                  */
-                get shouldLoadChildren(){ return model.shouldLoadChildren; },
-                set shouldLoadChildren(fn){ model.shouldLoadChildren = fn; },
+                get shouldLoadChildren() { return model.shouldLoadChildren; },
+                set shouldLoadChildren(fn) { model.shouldLoadChildren = fn; },
                 
                 // Methods
-                toggle: function(node, deep, silent){
+                toggle: function(node, deep, silent) {
                     return model.toggleNode(node, deep, silent);
                 },
-                open: function(node, deep, silent, justLoaded){
+                open: function(node, deep, silent, justLoaded) {
                     return model.open(node, deep, silent, justLoaded);
                 },
-                close: function(node, deep, silent){
+                close: function(node, deep, silent) {
                     return model.close(node, deep, silent);
                 },
-                isOpen: function(node){
+                isOpen: function(node) {
                     return model.isOpen(node);
                 },
-                isVisible: function(node){
+                isVisible: function(node) {
                     return model.isVisible(node);
                 },
-                getNodePosition: function(node){
+                getNodePosition: function(node) {
                     return model.getNodePosition(node);
                 }
             });

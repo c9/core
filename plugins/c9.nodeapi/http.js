@@ -30,7 +30,7 @@ define(function(require, module, exports) {
                 error();
             }; 
             
-            function error(){
+            function error() {
                 var err = new Error(xhr.responseText);
                 err.status = xhr.status;
                 request.emit("error", err);

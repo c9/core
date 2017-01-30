@@ -49,7 +49,7 @@ define(function(require, exports, module) {
                 }
             }
         }, [
-            requestTimeout(15*60*1000),
+            requestTimeout(15 * 60 * 1000),
             require("./lib/middleware/sanitize-path-param"),
             require("./lib/middleware/block-dot-files"),
             handler.initSession(db),

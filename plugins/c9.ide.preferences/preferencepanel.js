@@ -25,14 +25,14 @@ define(function(require, module, exports) {
             var amlBar, navHtml, form, container, active, lastA;
             
             var drawn;
-            function draw(){
+            function draw() {
                 if (drawn) return;
                 drawn = true;
                 
                 amlBar = ui.bar({
                     htmlNode: prefs.container,
                     anchors: "0 0 0 0",
-                    "class"  : "prefpanel " + className,
+                    "class": "prefpanel " + className,
                     visible: false
                 });
                 plugin.addElement(amlBar);
@@ -59,7 +59,7 @@ define(function(require, module, exports) {
             
             /***** Methods *****/
             
-            function scroll(){
+            function scroll() {
                 var scrollTop = container.$int.scrollTop;
                 var nodes = container.$int.childNodes;
                 for (var node, i = 0; i < nodes.length; i++) {
@@ -82,10 +82,10 @@ define(function(require, module, exports) {
                             var nav = node.firstChild.lastChild.firstChild;
                             if (nav) {
                                 var name = nav.nodeValue;
-                                lastA = subHeadings[name].navHtml
+                                lastA = subHeadings[name].navHtml;
                                 ui.setStyleClass(lastA, "current");
                             }
-                        } catch (e) {};
+                        } catch (e) {}
                     }
                 }
             }
@@ -98,7 +98,7 @@ define(function(require, module, exports) {
                 
                 navHtml.className += " active";
                 
-                var bq = navHtml.lastChild
+                var bq = navHtml.lastChild;
                 if (bq.tagName == "BLOCKQUOTE") {
                     bq.style.display = "block";
                     bq.style.height = noAnim ? "" : 0;
@@ -108,7 +108,7 @@ define(function(require, module, exports) {
                             duration: 0.15,
                             height: bq.scrollHeight + "px",
                             timingFunction: "cubic-bezier(.30, .08, 0, 1)"
-                        }, function(){});
+                        }, function() {});
                     }
                 }
                 
@@ -123,7 +123,7 @@ define(function(require, module, exports) {
                         duration: 0.15,
                         opacity: 1,
                         timingFunction: "linear"
-                    }, function(){});
+                    }, function() {});
                 }
                 
                 if (options.form)
@@ -132,7 +132,7 @@ define(function(require, module, exports) {
                 emit("activate");
             }
             
-            function hide(){
+            function hide() {
                 navHtml.className = navHtml.className.replace(/ active/g, "");
                 
                 var bq = navHtml.lastChild;
@@ -141,14 +141,14 @@ define(function(require, module, exports) {
                         duration: 0.15,
                         height: 0,
                         timingFunction: "cubic-bezier(.30, .08, 0, 1)"
-                    }, function(){
+                    }, function() {
                         // amlBar && amlBar.hide();
                         bq.style.display = "none";
                     });
                 }
                 
                 amlBar.$ext.style.zIndex = 99;
-                setTimeout(function(){
+                setTimeout(function() {
                     amlBar.$ext.style.zIndex = 1;
                     amlBar.$ext.style.display = "none";
                 }, 250);
@@ -158,7 +158,7 @@ define(function(require, module, exports) {
                 emit("deactivate");
             }
             
-            function resize(){
+            function resize() {
                 if (form && drawn && !noscroll)
                     form.container.style.paddingBottom = 
                         (amlBar.$ext.parentNode.offsetHeight - 40) + "px";
@@ -171,7 +171,7 @@ define(function(require, module, exports) {
                     throw new Error("Missing plugin parameter when calling preferences.add()");
                 
                 if (!container) {
-                    plugin.once("draw", function(){
+                    plugin.once("draw", function() {
                         add(state, foreign);
                     });
                     return;
@@ -235,20 +235,20 @@ define(function(require, module, exports) {
                     anim: apf.tween.easeInOutCubic,
                     from: container.$int.scrollTop,
                     to: form.headings[caption].container.$ext.offsetTop
-                })
+                });
             }
             
             /***** LifeCycle *****/
             
-            plugin.on("load", function(){
+            plugin.on("load", function() {
                 if (!visible) return;
                 
                 navHtml = prefs.addNavigation(caption, index, null, plugin);
-                navHtml.addEventListener("mousedown", function(){
+                navHtml.addEventListener("mousedown", function() {
                     prefs.activate(plugin);
                 });
                 
-                prefs.on("resize", function(){
+                prefs.on("resize", function() {
                     resize();
                 });
                 
@@ -260,20 +260,20 @@ define(function(require, module, exports) {
                         colwidth: options.colwidth || "300",
                         colmaxwidth: "300",
                         widths: {
-                            "dropdown"        : 120,
-                            "spinner"         : 60,
-                            "textbox"         : 200,
-                            "password"        : 200,
-                            "colorbox"        : 40,
-                            "button"          : 200,
-                            "textarea"        : 400,
-                            "checked-spinner" : 50
+                            "dropdown": 120,
+                            "spinner": 60,
+                            "textbox": 200,
+                            "password": 200,
+                            "colorbox": 40,
+                            "button": 200,
+                            "textarea": 400,
+                            "checked-spinner": 50
                         }
                     }, plugin);
                 }
             });
             
-            plugin.on("unload", function(){
+            plugin.on("unload", function() {
                 drawn = false;
             });
             
@@ -341,35 +341,35 @@ define(function(require, module, exports) {
                  * @private
                  * @readonly
                  */
-                get aml(){ return amlBar; },
+                get aml() { return amlBar; },
                 
                 /**
                  * The caption of the main navigation element of this panel.
                  * @property {String} caption
                  * @readonly
                  */
-                get caption(){ return caption },
+                get caption() { return caption; },
                 
                 /**
                  * The position of the navigation item
                  * @property {Number} index
                  * @readonly
                  */
-                get index(){ return index },
+                get index() { return index; },
                 
                 /**
                  * The form for this plugin if any is created
                  * @property {Form} form
                  * @readonly
                  */
-                get form(){ return form },
+                get form() { return form; },
                 
                 /**
                  * Whether this panel is active
                  * @property {Boolean} active
                  * @readonly
                  */
-                get active(){ return amlBar.visible; },
+                get active() { return amlBar.visible; },
                 
                 _events: [
                     /**
@@ -428,6 +428,6 @@ define(function(require, module, exports) {
         
         register(null, {
             PreferencePanel: PreferencePanel
-        })
+        });
     }
 });

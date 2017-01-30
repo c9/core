@@ -40,7 +40,7 @@ return function(vfs, base, baseProc, cli) {
             var data = "";
             meta.stream.on("data", function(d) {
                 data += d;
-            })
+            });
 
             var done;
             meta.stream.on("error", function(e) {
@@ -100,7 +100,7 @@ return function(vfs, base, baseProc, cli) {
     }
 
     function readdir(path, callback) {
-        vfs.readdir(resolvePath(path), {encoding: null}, function(err, meta) {
+        vfs.readdir(resolvePath(path), { encoding: null }, function(err, meta) {
             if (err)
                 return callback(err);
 
@@ -155,7 +155,7 @@ return function(vfs, base, baseProc, cli) {
     function mkdirHandler(callback) {
         return function(err) {
             if (err && err.message.indexOf("exists") > -1)
-                callback({"code": "EEXIST", "message": err.message});
+                callback({ "code": "EEXIST", "message": err.message });
             else
                 callback(err);
         };
@@ -180,7 +180,7 @@ return function(vfs, base, baseProc, cli) {
     }
 
     function rmfile(path, callback) {
-        vfs.rmfile(resolvePath(path), {}, callback || function(){}); // shouldn't vfs handle callback == null?
+        vfs.rmfile(resolvePath(path), {}, callback || function() {}); // shouldn't vfs handle callback == null?
     }
 
     function rmdir(path, options, callback) {
@@ -188,7 +188,7 @@ return function(vfs, base, baseProc, cli) {
             callback = options;
             options = {};
         }
-        vfs.rmdir(resolvePath(path), options, callback || function(){});
+        vfs.rmdir(resolvePath(path), options, callback || function() {});
     }
     
     function copy(path, to, options, callback) {
@@ -207,7 +207,7 @@ return function(vfs, base, baseProc, cli) {
     }
     
     function symlink(path, target, callback) {
-        vfs.symlink(resolvePath(path), {target: resolvePath(target)}, callback);
+        vfs.symlink(resolvePath(path), { target: resolvePath(target) }, callback);
     }
     
     function watch(path, callback) {
@@ -223,7 +223,7 @@ return function(vfs, base, baseProc, cli) {
             });
             
             if (callback[path]) callback[path]();
-            callback[path] = function(){
+            callback[path] = function() {
                 watcher.removeAllListeners();
                 watcher.close();
             };
@@ -255,7 +255,7 @@ return function(vfs, base, baseProc, cli) {
         watch: watch,
         unwatch: unwatch,
         vfs: vfs
-    }
-}
+    };
+};
 
 });

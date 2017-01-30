@@ -35,7 +35,7 @@ define(function(require, exports, module) {
                     request(url, options, callback);
                 };
                 plugin.on("login", onLogin);
-                return { abort: function() { plugin.off("login", onLogin); }};
+                return { abort: function() { plugin.off("login", onLogin); } };
             }
             
             options.query = options.query || {};
@@ -91,18 +91,18 @@ define(function(require, exports, module) {
                         loggedIn = true;
                         if (uid != user.id) {
                             uid = user.id;
-                            emit("relogin", {uid: user.id});
+                            emit("relogin", { uid: user.id });
                         }
                         // "login" or "logout" event is always dispatched after "loggingin" event
-                        emit("login", {uid: user.id, oldUid: uid});
+                        emit("login", { uid: user.id, oldUid: uid });
                     } else {
                         loggedIn = false;
-                        emit("logout", {uid: user.id, newUid: ANONYMOUS});
+                        emit("logout", { uid: user.id, newUid: ANONYMOUS });
                     }
                 });
             }, function() {
                 if (uid != ANONYMOUS) {
-                    emit("logout", {uid: uid, newUid: ANONYMOUS});
+                    emit("logout", { uid: uid, newUid: ANONYMOUS });
                 }
             }) || true;
         }

@@ -71,7 +71,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             it("should keep state over away/back boundary", function(done) {
                 var path = "/testwatch.txt";
                 
-                vfs.copy("/file.txt", {to: path, overwrite: true}, function(err) {
+                vfs.copy("/file.txt", { to: path, overwrite: true }, function(err) {
                     if (err) throw err;
                     vfs.watch(path, {}, function(err, meta) {
                         if (err) throw err;

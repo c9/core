@@ -14,15 +14,15 @@ define(function(require, module, exports) {
             allowClose: false,
             modal: true,
             elements: [
-                { type: "button", id: "ok", caption: "OK", color: "green", "default": true, onclick: function(){ plugin.hide() } },
-                { type: "button", id: "cancel", caption: "Cancel", hotkey: "ESC", onclick: function(){ plugin.hide() } }
+                { type: "button", id: "ok", caption: "OK", color: "green", "default": true, onclick: function() { plugin.hide(); } },
+                { type: "button", id: "cancel", caption: "Cancel", hotkey: "ESC", onclick: function() { plugin.hide(); } }
             ]
         });
         
         /***** Methods *****/
         
         function show(title, header, msg, onconfirm, oncancel, options) {
-            return plugin.queue(function(){
+            return plugin.queue(function() {
                 if (!options) 
                     options = {};
                 
@@ -34,8 +34,8 @@ define(function(require, module, exports) {
                 plugin.getElement("cancel").setCaption(options.no || "Cancel");
                 
                 plugin.update([
-                    { id: "ok", onclick: function(){ plugin.hide(); onconfirm(); } },
-                    { id: "cancel", onclick: function(){ plugin.hide(); oncancel && oncancel(); } },
+                    { id: "ok", onclick: function() { plugin.hide(); onconfirm(); } },
+                    { id: "cancel", onclick: function() { plugin.hide(); oncancel && oncancel(); } },
                 ]);
             });
         }

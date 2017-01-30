@@ -42,7 +42,7 @@ define(function(require, exports, module) {
         var drawn = false;
         var parent, navigation, activePanel, container;
         
-        function focusOpenPrefs(){
+        function focusOpenPrefs() {
             var pages = tabs.getTabs();
             for (var i = 0, tab = pages[i]; tab; tab = pages[i++]) {
                 if (tab.editorType == "preferences") {
@@ -52,8 +52,8 @@ define(function(require, exports, module) {
             }
         }
         
-        handle.on("load", function(){
-            settings.on("read", function(){
+        handle.on("load", function() {
+            settings.on("read", function() {
                 settings.setDefaults("user/general", [["animateui", true]]);
             });
             
@@ -79,7 +79,7 @@ define(function(require, exports, module) {
                     tabs.open({
                         editorType: "preferences",
                         active: true
-                    }, function(){
+                    }, function() {
                         if (args.panel)
                             activate(args.panel, args.section);
                     });
@@ -100,7 +100,7 @@ define(function(require, exports, module) {
                             editorType: "preferences",
                             active: true,
                             pane: e.pane
-                        }, function(){});
+                        }, function() {});
                     }
                 }), 500, handle);
             
@@ -110,11 +110,11 @@ define(function(require, exports, module) {
             }), 300, handle);
             
             var btn = new ui.button({
-                "skin"    : "c9-menu-btn",
-                "class"   : "preferences",
-                "tooltip" : "Preferences",
+                "skin": "c9-menu-btn",
+                "class": "preferences",
+                "tooltip": "Preferences",
                 // "width"   : 28,
-                "command" : "openpreferences"
+                "command": "openpreferences"
             });
             ui.insertByIndex(layout.findParent({ 
                 name: "preferences" 
@@ -122,10 +122,10 @@ define(function(require, exports, module) {
             
             navigation = new ui.bar({
                 htmlNode: document.body,
-                "width"   : "170",
-                "class"   : "navigation",
-                "style"   : "overflow-y:auto; overflow-x:hidden",
-                "visible" : "false"
+                "width": "170",
+                "class": "navigation",
+                "style": "overflow-y:auto; overflow-x:hidden",
+                "visible": "false"
             });
         });
         
@@ -139,8 +139,8 @@ define(function(require, exports, module) {
             
             // Create UI elements
             parent = e.tab.appendChild(new ui.hsplitbox({
-                "class"      : "bar-preferences",
-                "anchors"    :  "0 0 0 0",
+                "class": "bar-preferences",
+                "anchors": "0 0 0 0",
             }));
             parent.appendChild(navigation);
             container = parent.appendChild(new ui.bar());
@@ -184,7 +184,7 @@ define(function(require, exports, module) {
         function activate(panel, section) {
             if (!drawn) {
                 if (!activePanel)
-                    handle.once("draw", function(){ activate(activePanel); });
+                    handle.once("draw", function() { activate(activePanel); });
                 activePanel = panel;
                 return;
             }
@@ -260,7 +260,7 @@ define(function(require, exports, module) {
              * @property {PreferencePanel} activePanel
              * @readonly
              */
-            get activePanel(){ return activePanel },
+            get activePanel() { return activePanel; },
             
             /**
              * The APF UI element that is the containing element of the preference editor.
@@ -270,14 +270,14 @@ define(function(require, exports, module) {
              * @private
              * @readonly
              */
-            get aml(){ return container },
+            get aml() { return container; },
             
             /**
              * The DOM element that is the containing element in the UI.
              * @property {DOMElement} container
              * @readonly
              */
-            get container(){ return container.$int },
+            get container() { return container.$int; },
             
             _events: [
                 /**
@@ -320,7 +320,7 @@ define(function(require, exports, module) {
         
         /***** Editor *****/
         
-        function Preferences(){
+        function Preferences() {
             var plugin = new Editor("Ajax.org", main.consumes, extensions);
             //var emit = plugin.getEmitter();
             var tab;
@@ -348,7 +348,7 @@ define(function(require, exports, module) {
                 var doc = e.doc;
                 doc.title = "Preferences";
                 
-                function setTheme(){
+                function setTheme() {
                     var bg = ui.getStyleRule(".bar-preferences .container .header", "backgroundColor") || "#F0F0F0";
                     doc.tab.backgroundColor = bg; //"#2d2d2d";
                     if (util.shadeColor(bg, 1).isLight)
@@ -361,7 +361,7 @@ define(function(require, exports, module) {
                 setTheme();
             });
             plugin.on("documentActivate", function(e) {
-                e.doc.tab.on("unload", function(){
+                e.doc.tab.on("unload", function() {
                     if (parent.parentNode == tab)
                         tab.removeChild(parent);
                 });

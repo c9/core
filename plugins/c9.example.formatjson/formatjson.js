@@ -23,12 +23,12 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         // var emit = plugin.getEmitter();
         
-        function load(){
+        function load() {
             commands.addCommand({
                 name: "formatjson",
                 group: "Format",
                 bindKey: { mac: "Shift-Command-J", win: "Ctrl-Shift-J" },
-                exec: function(){ formatJson() },
+                exec: function() { formatJson(); },
                 isAvailable: function(editor) {
                     if (editor && editor.ace)
                         return !editor.ace.selection.isEmpty();
@@ -36,15 +36,15 @@ define(function(require, exports, module) {
                 }
             }, plugin);
             
-            settings.on("read", function(){
+            settings.on("read", function() {
                 settings.setDefaults("user/formatjson", [["indentation", "4"]]);
             }, plugin);
             
             prefs.add({
-                "Formatters" : {
+                "Formatters": {
                     position: 10,
-                    "JSON" : {
-                        "Indentation" : {
+                    "JSON": {
+                        "Indentation": {
                             type: "spinner",
                             path: "user/formatjson/@indentation",
                             min: "1",
@@ -62,7 +62,7 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
         
-        function formatJson(){
+        function formatJson() {
             var tab = tabs.focussedTab;
             var ace = tab && tab.editor && tab.editor.ace;
             if (!ace) return;
@@ -90,10 +90,10 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             
         });
         

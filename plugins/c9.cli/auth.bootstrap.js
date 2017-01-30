@@ -37,7 +37,7 @@ define(function(require, exports, module) {
             });
         }
         
-        function readCredentials(callback){
+        function readCredentials(callback) {
             read({
                 prompt: "Cloud9 Username:"
             }, function(error, username) {
@@ -58,8 +58,8 @@ define(function(require, exports, module) {
             });
         }
 
-        function login(callback){
-            fs.readFile(AUTHPATH, { encoding: "utf8" }, function(err, data){
+        function login(callback) {
+            fs.readFile(AUTHPATH, { encoding: "utf8" }, function(err, data) {
                 if (err || !data || lastToken == data) {
                     _login(callback);
                 }
@@ -70,8 +70,8 @@ define(function(require, exports, module) {
             });
         }
         
-        function _login(callback){
-            readCredentials(function(err, credentials){
+        function _login(callback) {
+            readCredentials(function(err, credentials) {
                 if (err) return callback(err);
                 
                 // Retrieve token
@@ -90,7 +90,7 @@ define(function(require, exports, module) {
                         return callback(err);
                     }
                     
-                    fs.writeFile(AUTHPATH, token, function(err){
+                    fs.writeFile(AUTHPATH, token, function(err) {
                         if (err) return callback(err);
                         callback(null, lastToken = token);
                     });

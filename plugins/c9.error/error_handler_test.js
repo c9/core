@@ -12,7 +12,7 @@ var error = require("http-error");
 
 var errorHandlerPlugin = require("./error_handler");
 
-describe(__filename, function(){
+describe(__filename, function() {
     this.timeout(2000);
 
     var errorHandler;

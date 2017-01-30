@@ -14,7 +14,7 @@ define(function(require, exports, module) {
         
         var extensions = ["gif", "ico"];
                           
-        function ImageEditor(){
+        function ImageEditor() {
             var plugin = new Editor("Ajax.org", main.consumes, extensions);
             var editor;
             

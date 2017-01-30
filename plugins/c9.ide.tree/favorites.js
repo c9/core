@@ -55,7 +55,7 @@ define(function(require, exports, module) {
             }, plugin);
             commands.addCommand({
                 name: "removefavorite",
-                isAvailable: function(){
+                isAvailable: function() {
                     return tree && tree.selectedNode 
                         && isFavoriteNode(tree.selectedNode);
                 },
@@ -103,7 +103,7 @@ define(function(require, exports, module) {
             if (startEmpty)
                 toggleRootFS(false);
             
-            tree.once("draw", function(){
+            tree.once("draw", function() {
                 tree.tree.on("dblclick", function(e) {
                     var selected = e.getNode();
                     var favNode = selected && isFavoritePath(selected.path);
@@ -129,7 +129,7 @@ define(function(require, exports, module) {
                             if (favNode) {
                                 tree.select(favNode);
                                 tree.scrollToSelection();
-                                return {command: "null"};
+                                return { command: "null" };
                             }
                         }
                     } else {
@@ -141,12 +141,12 @@ define(function(require, exports, module) {
                                     tree.expandAndSelect(node.path);
                             } else
                                 tree.expandAndSelect(node.parent);
-                            return {command: "null"};
+                            return { command: "null" };
                         } else if (keyString == "right" || keyString == "return") {
                             if (favNode != node) {
                                 tree.select(favNode);
                                 tree.scrollToSelection();
-                                return {command: "null"};
+                                return { command: "null" };
                             }
                         }
                     }
@@ -237,14 +237,14 @@ define(function(require, exports, module) {
                     }
                 }, true);
                 
-                tree.on("isRootContext", function(node){
+                tree.on("isRootContext", function(node) {
                     return isFavoritePath(node.path) || node.path.charAt(0) == "~" 
                         && isFavoritePath(node.path.replace(/^~/, c9.home));
                 });
             });
             
-            tree.on("menuUpdate", function(e){
-                if (e.node && isFavoriteNode(e.node)){
+            tree.on("menuUpdate", function(e) {
+                if (e.node && isFavoriteNode(e.node)) {
                     e.menu.childNodes.some(function(item) {
                         if (item.caption == "Delete") {
                             item.setAttribute("disabled", true);
@@ -279,7 +279,7 @@ define(function(require, exports, module) {
                     return lut["~"];
                 }
                 else if (path.charAt(0) == "~") {
-                    var findNode = function(parts, node){
+                    var findNode = function(parts, node) {
                         var iter = 0;
                         var newp = parts[iter];
                         while (iter < parts.length) {
@@ -294,7 +294,7 @@ define(function(require, exports, module) {
                         }
                         
                         return node;
-                    }
+                    };
                     
                     var parts = path.split("/");
                     var node = findNode(parts);
@@ -409,7 +409,7 @@ define(function(require, exports, module) {
             plugin.on("favoriteAdd", updateNavigate);
             
             // Scope the paths in navigate
-            navigate.on("draw", function(){
+            navigate.on("draw", function() {
                 var replaceStrong = navigate.tree.provider.replaceStrong;
                 navigate.tree.provider.replaceStrong = function(path) {
                     if (hasScoping && reFavs && path.charAt(0) == "/")
@@ -479,7 +479,7 @@ define(function(require, exports, module) {
             
             // Settings
             var init = false;
-            settings.on("read", function(){
+            settings.on("read", function() {
                 settings.setDefaults("state/projecttree", [
                     ["showfs", startEmpty ? "false" : "true"]
                 ]);
@@ -508,7 +508,7 @@ define(function(require, exports, module) {
                 }
             }, plugin);
             
-            settings.on("user/projecttree", function(){
+            settings.on("user/projecttree", function() {
                 var wasScoping = hasScoping;
                 
                 hasScoping = alwaysScope 
@@ -518,7 +518,7 @@ define(function(require, exports, module) {
                     navigate.markDirty(null, 0, true);
             });
             
-            settings.on("write", function(){
+            settings.on("write", function() {
                 if (!changed) return;
                 
                 var saved = favRoot.children.map(function(n) {
@@ -538,8 +538,8 @@ define(function(require, exports, module) {
             // Prefs
             if (!alwaysScope) {
                 prefs.add({
-                    "General" : {
-                        "Tree & Navigate" : {
+                    "General": {
+                        "Tree & Navigate": {
                             "Scope Navigate To Favorites": {
                                 type: "checkbox",
                                 position: 1000,
@@ -562,7 +562,7 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
         
-        function wrap(){
+        function wrap() {
             enabled = true;
             
             var getClassName = model.getClassName;
@@ -640,7 +640,7 @@ define(function(require, exports, module) {
                     var realNode = fsCache.findNode(node.path);
                     node = { 
                         label: node.path, 
-                        status:  realNode ? realNode.status : node.status,
+                        status: realNode ? realNode.status : node.status,
                         isFolder: node.isFolder 
                     };
                 }
@@ -675,7 +675,7 @@ define(function(require, exports, module) {
             };
         }
         
-        function unwrap(){
+        function unwrap() {
             enabled = false;
             
             for (var prop in stored) {
@@ -709,8 +709,8 @@ define(function(require, exports, module) {
         }
         
         function getFavoritePaths() {
-            return favRoot && favRoot.children.map(function(n){ 
-                return n.path 
+            return favRoot && favRoot.children.map(function(n) { 
+                return n.path; 
             }) || [];
         }
         
@@ -795,8 +795,8 @@ define(function(require, exports, module) {
             emit("favoriteRemove", { path: path, node: node });
         }
         
-        function updateRegExp(){
-            var paths = Object.keys(lut).map(function(p){
+        function updateRegExp() {
+            var paths = Object.keys(lut).map(function(p) {
                 return util.escapeRegExp(p.replace(/^~/, c9.home));
             });
             
@@ -850,7 +850,7 @@ define(function(require, exports, module) {
          * 
          **/
         plugin.freezePublicAPI({
-            get favorites(){ return getFavoritePaths(); },
+            get favorites() { return getFavoritePaths(); },
             
             _events: [
                 /**

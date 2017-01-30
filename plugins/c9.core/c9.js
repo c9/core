@@ -102,23 +102,23 @@ define(function(require, module, exports) {
 
         function setStatus(s) {
             state = s;
-            emit("stateChange", {state: s, last: state});
+            emit("stateChange", { state: s, last: state });
         }
         
         function has(check) {
             return (state & check) ? true : false;
         }
 
-        function ready(){
+        function ready() {
             isReady = true;
             emit.sticky("ready");
         }
         
-        function beforequit(){
+        function beforequit() {
             emit("beforequit");
         }
         
-        function quit(){
+        function quit() {
             emit("quit");
         }
         
@@ -140,16 +140,16 @@ define(function(require, module, exports) {
 
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
         });
         
@@ -245,7 +245,7 @@ define(function(require, module, exports) {
              * @property {Boolean} loggedIn 
              * @readonly
              */
-            get loggedIn(){ return loggedIn; },
+            get loggedIn() { return loggedIn; },
             /**
              * the connection object that manages the connection between Cloud9
              * and the workspace server. Cloud9 uses Engine.IO to manage this
@@ -253,13 +253,13 @@ define(function(require, module, exports) {
              * @property {Object} connection 
              * @readonly
              */
-            get connection(){ return vfs.connection; },
+            get connection() { return vfs.connection; },
             /**
              * Specifies whether Cloud9 is connceted to the workspace server
              * @property {Boolean} connected
              * @readonly
              */
-            get connected(){ return vfs.connected; },
+            get connected() { return vfs.connected; },
             /**
              * a bitmask of the constants {@link c9#NETWORK}, {@link c9#STORAGE},
              * {@link c9#PROCESS}, {@link c9#LOCAL}. Use this for complex 
@@ -269,27 +269,27 @@ define(function(require, module, exports) {
              * @property {Number} status
              * @readonly
              */
-            get status(){ return state; },
+            get status() { return state; },
             /**
              * the URL from which Cloud9 is loaded.
              * @property {String} location
              * @readonly
              */
-            get location(){ return location && location.href || ""; },
+            get location() { return location && location.href || ""; },
             /**
              * 
              */
-            get totalLoadTime(){ return totalLoadTime; },
-            set totalLoadTime(v){ totalLoadTime = v; },
+            get totalLoadTime() { return totalLoadTime; },
+            set totalLoadTime(v) { totalLoadTime = v; },
             /**
              * 
              */
-            get startLoadTime(){ return startLoadTime; },
-            set startLoadTime(v){ startLoadTime = v; },
+            get startLoadTime() { return startLoadTime; },
+            set startLoadTime(v) { startLoadTime = v; },
             /**
              * 
              */
-            get isReady(){ return isReady; },
+            get isReady() { return isReady; },
             
             _events: [
                 /**

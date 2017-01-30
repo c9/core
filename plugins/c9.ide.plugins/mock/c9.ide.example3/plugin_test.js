@@ -21,7 +21,7 @@ define(function(require, exports, module) {
         
         /***** Initialization *****/
         
-        describe(myplugin.name, function(){
+        describe(myplugin.name, function() {
             this.timeout(2000);
             
             it("shows a helloworld div", function() {

@@ -35,11 +35,11 @@ define(function(require, module, exports) {
             /**
              * @readonly
              */
-            get dontShow(){ 
+            get dontShow() { 
                 return alertInternal && alertInternal.dontShow;
             },
             
-            get aml(){
+            get aml() {
                 return alertInternal && alertInternal.aml;
             },
             
@@ -69,13 +69,13 @@ define(function(require, module, exports) {
             set alertInternal(value) {
                 alertInternal = value;
                 alertInternal.on("show", function(e) {
-                    emit("show", e)
+                    emit("show", e);
                 });
                 alertInternal.on("hide", function(e) {
-                    emit("hide", e)
+                    emit("hide", e);
                 });
                 alertInternal.on("draw", function(e) {
-                    emit.sticky("draw", e)
+                    emit.sticky("draw", e);
                 });
             },
                 

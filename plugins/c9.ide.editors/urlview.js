@@ -11,7 +11,7 @@ define(function(require, exports, module) {
         
         var extensions = [];
                           
-        function UrlView(){
+        function UrlView() {
             var plugin = new Editor("Ajax.org", main.consumes, extensions);
             //var emit = plugin.getEmitter();
             var container;
@@ -26,7 +26,7 @@ define(function(require, exports, module) {
             
             /***** Lifecycle *****/
             
-            plugin.on("load", function(){
+            plugin.on("load", function() {
             });
             
             var currentDocument;
@@ -103,15 +103,15 @@ define(function(require, exports, module) {
                 if (e.state.dark)
                     e.doc.tab.classList.add("dark");
             });
-            plugin.on("clear", function(){
+            plugin.on("clear", function() {
             });
-            plugin.on("focus", function(){
+            plugin.on("focus", function() {
             });
-            plugin.on("enable", function(){
+            plugin.on("enable", function() {
             });
-            plugin.on("disable", function(){
+            plugin.on("disable", function() {
             });
-            plugin.on("unload", function(){
+            plugin.on("unload", function() {
             });
             
             /***** Register and define API *****/

@@ -61,7 +61,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     fsCache.on("readdir", c2);
                     
                     var root = model.projectDir;
-                    fs.readdir("/", function(){
+                    fs.readdir("/", function() {
                         expect(model.getChildren(root)).length.gt(4);
                         fsCache.off("readdir", c2);
                         
@@ -83,14 +83,14 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     }
                     fsCache.on("orphan-append", c3);
                     
-                    fs.readdir("/dir", function(){
+                    fs.readdir("/dir", function() {
                         expect(model.getChildren(root)).not.ok;
                         
-                        fs.readdir("/", function(){
+                        fs.readdir("/", function() {
                             expect(model.getChildren(root)).length.gt(4);
-                            model.open(root)
+                            model.open(root);
                             var dir = fsCache.findNode("/dir");
-                            expect(dir).to.exist
+                            expect(dir).to.exist;
                             expect(model.getChildren(dir)).length.gt(1);
                             fsCache.off("orphan-append", c3);
                             
@@ -106,10 +106,10 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     fsCache.clear();
                     
                     var root = model.projectDir;
-                    fs.readdir("/", function(){
-                        fs.readdir("/dir", function(){
+                    fs.readdir("/", function() {
+                        fs.readdir("/dir", function() {
                             expect(fsCache.findNode("/dir/smile.png")).to.exist;
-                            fs.readdir("/dir", function(){});
+                            fs.readdir("/dir", function() {});
                             var dir = fsCache.findNode("/dir");
                             expect(dir.status).to.equal("loading");
                             model.open(root);
@@ -142,7 +142,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
             describe('fs.readFile()', function() {
                 it("should cache file information from a readFile() call", function(done) {
                     var node = fsCache.findNode("/file.txt");
-                    fsCache.removeNode(node)
+                    fsCache.removeNode(node);
                     
                     fs.readFile("/file.txt", "utf8", function() {
                         expect(fsCache.findNode("/file.txt")).to.exist;
@@ -154,7 +154,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
             describe('fs.exists()', function() {
                 it("should cache file information from an exists() call", function(done) {
                     var node = fsCache.findNode("/file.txt");
-                    fsCache.removeNode(node)
+                    fsCache.removeNode(node);
                     
                     fs.on("afterExists", function(e) {
                         if (e.error) throw e.errror;
@@ -167,9 +167,9 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                 });
                 it("should cache dir information from an exists() call", function(done) {
                     var vpath = "/dir";
-                    fs.readdir("/", function(){
+                    fs.readdir("/", function() {
                         var node = fsCache.findNode(vpath);
-                        fsCache.removeNode(node)
+                        fsCache.removeNode(node);
                         
                         fs.exists(vpath, function() {
                             expect(fsCache.findNode(vpath))
@@ -198,7 +198,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     fs.writeFile("/newfile.txt", "test", function() {
                         fsCache.off("add", c2);
                         expect(fsCache.findNode("/newfile.txt")).to.exist;
-                        fs.unlink("/newfile.txt", function(){});
+                        fs.unlink("/newfile.txt", function() {});
                         
                         if (count == 1)
                             done();
@@ -210,8 +210,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     var vpath = "/file2.txt";
                     var count = 0;
                     // TODO
-                    return done()
-                    fs.writeFile(vpath, "test", "utf8", function(){
+                    return done();
+                    fs.writeFile(vpath, "test", "utf8", function() {
                         function c4(e) {
                             expect(e.path).to.equal(vpath);
                             count++;
@@ -225,7 +225,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                         
                         var node = fsCache.findNode(vpath);
                         if (node)
-                            fsCache.removeNode(node)
+                            fsCache.removeNode(node);
                         
                         proc.spawn("chmod", {
                             args: ["000", baseProc + vpath]
@@ -243,7 +243,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                                 proc.spawn("chmod", {
                                     args: ["666", baseProc + "/file.txt"]
                                 }, function() {
-                                    fs.unlink(vpath, function(){
+                                    fs.unlink(vpath, function() {
                                         if (count == 2)
                                             done();
                                         else
@@ -277,7 +277,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                         fs.mkdir(vpath, function(err) {
                             expect(fsCache.findNode(vpath)).to.exist;
                             fsCache.off("add", c2);
-                            fs.rmdir(vpath, function(){
+                            fs.rmdir(vpath, function() {
                                 if (count == 1)
                                     done();
                                 else
@@ -303,7 +303,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     
                     expect(fsCache.findNode(vpath), "start").to.not.exist;
                     
-                    fs.mkdir(vpath, function(){
+                    fs.mkdir(vpath, function() {
                         expect(fsCache.findNode(vpath), "after").to.not.exist;
                         if (count == 2)
                             done();
@@ -323,10 +323,10 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                 it("should remove an entry from the cache", function(done) {
                     var vpath = "/deleteme.txt";
                     
-                    fs.writeFile(vpath, "DELETE ME!\n", "utf8", function(){
+                    fs.writeFile(vpath, "DELETE ME!\n", "utf8", function() {
                         expect(fsCache.findNode(vpath), "start").to.exist;
                         
-                        fsCache.on("remove", function c2(){
+                        fsCache.on("remove", function c2() {
                             fsCache.off("remove", c2);
                             expect(fsCache.findNode(vpath), "start").to.not.exist;
                             done();
@@ -337,14 +337,14 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                 it("should undo removal from cache when and error occurs", function(done) {
                     var vpath = "/dir";
                     var count = 0;
-                    fs.on("afterReaddir", function c4(){
+                    fs.on("afterReaddir", function c4() {
                         fs.off("afterReaddir", c4);
                         
-                        function c2(){
+                        function c2() {
                             expect(fsCache.findNode(vpath), "start").to.not.exist;
                             count++;
                         }
-                        function c1(){
+                        function c1() {
                             expect(fsCache.findNode(vpath), "start").to.exist;
                             count++;
                         }
@@ -359,7 +359,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                                 throw new Error("Wrong Event Count: " + count + " of 2");
                         });
                     });
-                    fs.readdir("/", function(){});
+                    fs.readdir("/", function() {});
                 });
             });
         
@@ -373,10 +373,10 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     var vpath = "/newdir";
                     var count = 0;
                     
-                    fs.mkdir(vpath, function(){
+                    fs.mkdir(vpath, function() {
                         expect(fsCache.findNode(vpath), "start").to.exist;
                         
-                        fsCache.on("remove", function c2(){
+                        fsCache.on("remove", function c2() {
                             fsCache.off("remove", c2);
                             expect(fsCache.findNode(vpath), "start").to.not.exist;
                             count++;
@@ -393,12 +393,12 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                 it("should undo removal from cache when and error occurs", function(done) {
                     var vpath = "/file.txt";
                     var count = 0;
-                    fs.readdir("/", function(){
-                        function c1(){
+                    fs.readdir("/", function() {
+                        function c1() {
                             expect(fsCache.findNode(vpath), "start").to.exist;
                             count++;
                         }
-                        function c2(){
+                        function c2() {
                             expect(fsCache.findNode(vpath), "start").to.not.exist;
                             count++;
                         }
@@ -457,7 +457,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     var text = "Move me please\n";
                     var count = 0;
                     
-                    function c1(){ count++; }
+                    function c1() { count++; }
                     fsCache.on("update", c1);
                     
                     fs.writeFile(before, text, function(err) {
@@ -466,7 +466,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                         fs.rename(before, after, function() {
                             expect(fsCache.findNode(after), "after").to.exist;
                             expect(fsCache.findNode(before), "before").to.not.exist;
-                            fs.rmfile(after, function(){
+                            fs.rmfile(after, function() {
                                 fsCache.off("update", c1);
                                 if (count == 1) 
                                     done();
@@ -483,7 +483,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     var text = "Move me please\n";
                     var count = 0;
                     
-                    function c1(){ count++; }
+                    function c1() { count++; }
                     fsCache.on("update", c1);
                     
                     fs.writeFile(before, text, function(err) {
@@ -494,7 +494,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                             expect(fsCache.findNode(before), "before").to.exist;
                             expect(fsCache.findNode(after), "after").to.not.exist;
                             
-                            fs.unlink(before, function(){
+                            fs.unlink(before, function() {
                                 fsCache.off("update", c1);
                                 if (count == 2) 
                                     done();
@@ -506,20 +506,20 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     });
                 });
                 it("should recursively update the nodes in cache when a dir is renamed", function(done) {
-                    fs.rmdir("/rdir", {recursive:true}, function(){
-                        fs.copy("/dir", "/dir2", {recursive: true}, function(err) {
+                    fs.rmdir("/rdir", { recursive: true }, function() {
+                        fs.copy("/dir", "/dir2", { recursive: true }, function(err) {
                             if (err) throw err.message;
                             
-                            fs.readdir("/", function(){
+                            fs.readdir("/", function() {
                                 expect(fsCache.findNode("/dir2"), "/dir2").to.exist;
 
-                                fs.readdir("/dir2", function(){
+                                fs.readdir("/dir2", function() {
                                     var count = 0;
                                     
-                                    function c1(e){ count++; }
+                                    function c1(e) { count++; }
                                     fsCache.on("update", c1);
                                     
-                                    fs.rename("/dir2", "/rdir", function(){
+                                    fs.rename("/dir2", "/rdir", function() {
                                         expect(fsCache.findNode("/rdir"), "/rdir").to.exist;
                                         expect(fsCache.findNode("/rdir/smile.png"), "/rdir/smile.png").to.exist;
                                         expect(fsCache.findNode("/rdir/stuff.json"), "/rdir/stuff.json").to.exist;
@@ -527,7 +527,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                                         expect(fsCache.findNode("/dir2/smile.png"), "/dir2/smile.png").to.not.exist;
                                         expect(fsCache.findNode("/dir2/stuff.json"), "/dir2/stuff.json").to.not.exist;
                                         
-                                        fs.rmdir("/rdir", {recursive: true}, function(){
+                                        fs.rmdir("/rdir", { recursive: true }, function() {
                                             fsCache.off("update", c1);
                                             if (count >= 3) 
                                                 done();
@@ -554,7 +554,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     var target = "/copy.txt";
                     var count = 0;
                     
-                    fs.unlink(target, function(){
+                    fs.unlink(target, function() {
                         fs.readFile(source, "utf8", function(err, text) {
                             function c1(e) {
                                 expect(fsCache.findNode(source), "source").to.exist;
@@ -566,7 +566,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                                 
                             fs.copy(source, target, function() {
                                 fsCache.off("add", c1);
-                                fs.unlink(target, function(){});
+                                fs.unlink(target, function() {});
                                 if (count == 1)
                                     done();
                                 else
@@ -581,7 +581,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     var target = "/copy.json";
                     var count = 0;
                     
-                    fs.unlink(target, function(){
+                    fs.unlink(target, function() {
                         fs.readdir("/", function(err) {
                             if (err) throw err.message;
                             
@@ -599,7 +599,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                                     
                                 fs.copy(source, target, function() {
                                     fsCache.off("add", c1);
-                                    fs.unlink(target, function(){});
+                                    fs.unlink(target, function() {});
                                     if (count == 1)
                                         done();
                                     else
@@ -617,13 +617,13 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     fs.readdir("/", function(err) {
                         if (err) throw err.message;
                         
-                        function c1(){
+                        function c1() {
                             expect(fsCache.findNode(source), "source").to.exist;
                             expect(fsCache.findNode(target), "target").to.exist;
                             count++;
                         }
                         
-                        function c2(){
+                        function c2() {
                             expect(fsCache.findNode(source), "source").to.exist;
                             expect(fsCache.findNode(target), "target").to.not.exist;
                             count++;
@@ -655,8 +655,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                             
                             expect(fsCache.findNode(target + "/"));
                     
-                            fs.rmdir(target, {recursive: true}, function(){
-                                function c1(){ count++; };
+                            fs.rmdir(target, { recursive: true }, function() {
+                                function c1() { count++; }
                                 
                                 expect(fsCache.findNode("/dir"), "/dir").to.exist;
                                 expect(fsCache.findNode("/dir/smile.png"), "/dir/smile.png").to.exist;
@@ -665,7 +665,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                                 fsCache.on("add", c1);
                                 fsCache.on("remove", c1);
                                     
-                                fs.copy(source, target, {recursive: true}, function() {
+                                fs.copy(source, target, { recursive: true }, function() {
                                     fsCache.off("add", c1);
                                     fsCache.off("remove", c1);
                                     
@@ -676,7 +676,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                                     expect(fsCache.findNode("/dir2/smile.png"), "/dir2/smile.png").to.exist;
                                     expect(fsCache.findNode("/dir2/stuff.json"), "/dir2/stuff.json").to.exist;
                                     
-                                    fs.rmdir(target, {recursive: true}, function(){
+                                    fs.rmdir(target, { recursive: true }, function() {
                                         if (count >= 3)
                                             done();
                                         else
@@ -694,7 +694,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                     
                     fs.exists(target, function(exists) {
                         expect(exists).ok;
-                        fs.readdir("/", function(){
+                        fs.readdir("/", function() {
                             var count = 0;
                             function c1(e) {
                                 expect(fsCache.findNode(source), "source").to.exist;
@@ -706,9 +706,9 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                             
                             fsCache.on("add", c1);
                                 
-                            fs.copy(source, target, {overwrite: false}, function() {
+                            fs.copy(source, target, { overwrite: false }, function() {
                                 fsCache.off("add", c1);
-                                fs.unlink("/listing.1.json", function(){});
+                                fs.unlink("/listing.1.json", function() {});
                                 if (count == 1)
                                     done();
                                 else
@@ -729,13 +729,13 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                 it("should cache file information from a symlink() call", function(done) {
                     var target = "/file.txt";
                     var vpath = "/newlink.txt";
-                    fs.unlink(vpath, function(){
+                    fs.unlink(vpath, function() {
                         var count = 0;
                         function c2(e) {
                             expect(e.path).to.equal(vpath);
                             count++;
                         }
-                        function c3(){
+                        function c3() {
                             fsCache.off("add", c2);
                             fsCache.off("update", c3);
                             expect(fsCache.findNode(vpath)).to.exist;
@@ -743,7 +743,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                             expect(fsCache.findNode(vpath).link).to.equal(target);
                             expect(fsCache.findNode(vpath).label).to.equal(vpath.substr(1));
                             expect(fsCache.findNode(vpath).path).to.equal(vpath);
-                            fs.unlink(vpath, function(){});
+                            fs.unlink(vpath, function() {});
                             
                             if (count == 1)
                                 done();
@@ -759,13 +759,13 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                 it("should cache dir information from a symlink() call", function(done) {
                     var target = "/dir";
                     var vpath = "/newlink";
-                    fs.unlink(vpath, function(){
+                    fs.unlink(vpath, function() {
                         var count = 0;
                         function c2(e) {
                             expect(e.path).to.equal(vpath);
                             count++;
                         }
-                        function c3(){
+                        function c3() {
                             fsCache.off("add", c2);
                             fsCache.off("update", c3);
                             expect(fsCache.findNode(vpath)).to.exist;
@@ -773,7 +773,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                             expect(fsCache.findNode(vpath).link).to.equal(target);
                             expect(fsCache.findNode(vpath).label).to.equal(vpath.substr(1));
                             expect(fsCache.findNode(vpath).path).to.equal(vpath);
-                            fs.unlink(vpath, function(){});
+                            fs.unlink(vpath, function() {});
                             
                             if (count == 1)
                                 done();
@@ -809,7 +809,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                             done();
                         else
                             throw new Error("Wrong Event Count:"
-                                + count + " of 2")
+                                + count + " of 2");
                     });
                 });
             });
@@ -823,7 +823,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                 it("delete event", function(done) {
                     var vpath = "/file.txt";
                     expect(fsCache.findNode(vpath)).to.exist;
-                    watcher.emit("delete", { path : vpath });
+                    watcher.emit("delete", { path: vpath });
                     expect(fsCache.findNode(vpath)).to.not.exist;
                     done();
                 });

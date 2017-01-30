@@ -35,18 +35,18 @@ define(function(require, exports, module) {
             // }), 810, plugin);
             
             menus.addItemByPath("Cloud9/About Cloud9", new ui.item({ 
-                onclick: function(){ showAbout(); }
+                onclick: function() { showAbout(); }
             }), 100, plugin);
 
             var c = 0;
             menus.addItemByPath("Support/Check Cloud9 Status", new ui.item({ 
-                onclick: function(){window.open('http://status.c9.io'); }
+                onclick: function() {window.open('http://status.c9.io'); }
             }), c += 100, plugin);
 
             menus.addItemByPath("Support/~", new ui.divider(), c += 100, plugin);
 
             menus.addItemByPath("Support/Get Help (Community)", new ui.item({ 
-                onclick: function(){ 
+                onclick: function() { 
                     analytics.track("Visited Cloud9 Community");
                     window.open("https://community.c9.io"); 
                 }
@@ -55,7 +55,7 @@ define(function(require, exports, module) {
             menus.addItemByPath("Support/~", new ui.divider(), c += 300, plugin);
             
             menus.addItemByPath("Support/Read Documentation", new ui.item({ 
-                onclick: function(){ 
+                onclick: function() { 
                     window.open("https://docs.c9.io/docs"); 
                 }
             }), c += 100, plugin);
@@ -66,7 +66,7 @@ define(function(require, exports, module) {
                 }
             }), c += 100, plugin);
             menus.addItemByPath("Support/Go To YouTube Channel", new ui.item({ 
-                onclick: function(){ 
+                onclick: function() { 
                     window.open('http://www.youtube.com/user/c9ide/videos?view=pl'); 
                 }
             }), c += 100, plugin);
@@ -102,7 +102,7 @@ define(function(require, exports, module) {
         }
         
         var drawn = false;
-        function draw(){
+        function draw() {
             if (drawn) return;
             drawn = true;
             
@@ -110,8 +110,8 @@ define(function(require, exports, module) {
             ui.insertSkin({
                 name: "help-skin",
                 data: require("text!./skin.xml"),
-                "media-path" : options.staticPrefix + "/images/",
-                "icon-path"  : options.staticPrefix + "/icons/"
+                "media-path": options.staticPrefix + "/images/",
+                "icon-path": options.staticPrefix + "/icons/"
             }, plugin);
             
             // Import CSS
@@ -139,16 +139,16 @@ define(function(require, exports, module) {
 
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             drawn = false;
         });
         

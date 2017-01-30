@@ -41,7 +41,7 @@ define(function(require, exports, module) {
             if (!filename) {
                 filename = name;
                 if (!req.uri.query.isfile) {
-                    filename += (paths.length > 1 ? "[+" + (paths.length - 1) + "]"  : "") + ".tar.gz";
+                    filename += (paths.length > 1 ? "[+" + (paths.length - 1) + "]" : "") + ".tar.gz";
                 }
             }
             var filenameHeader = "attachment; filename*=utf-8''" + escape(filename);
@@ -52,7 +52,7 @@ define(function(require, exports, module) {
             });
             
             if (req.uri.query.isfile) {
-                vfs.readfile(path, {}, function(err, meta){
+                vfs.readfile(path, {}, function(err, meta) {
                     if (err) {
                         if (err.code == "ENOENT")
                             return next(new error.NotFound("File '" + path + "' could not be found!"));
@@ -84,7 +84,7 @@ define(function(require, exports, module) {
                         res.end();
                     });
                     
-                    meta.stream.on("error", function(err){
+                    meta.stream.on("error", function(err) {
                         res.writeHead(500);
                         res.end(err.message);
                     });
@@ -96,12 +96,12 @@ define(function(require, exports, module) {
                 if (/\.zip$/.test(filename)) {
                     executable = "zip";
                     args = ["-r", "-", "--"];
-                    contentType = "application/zip"
+                    contentType = "application/zip";
                 }
                 else {
                     executable = "tar";
                     args = ["-zcf", "-", "--"];
-                    contentType = "application/x-gzip"
+                    contentType = "application/x-gzip";
                 }
 
                 // Find the longest common parent directory of all the paths.
@@ -193,6 +193,6 @@ define(function(require, exports, module) {
             download: download
         });
         
-        register(null, { "vfs.download" : plugin });
+        register(null, { "vfs.download": plugin });
     }
 });

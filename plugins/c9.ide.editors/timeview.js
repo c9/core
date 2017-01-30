@@ -23,13 +23,13 @@ define(function(require, exports, module) {
                     caption: "New Clock",
                     onclick: function(e) {
                         e.pane = tabs.focussedTab.pane;
-                        tabs.openEditor("timeview", true, function(){});
+                        tabs.openEditor("timeview", true, function() {});
                     }
                 })
             )
         );
                           
-        function TimeViewer(){
+        function TimeViewer() {
             var deps = main.consumes.splice(0, main.consumes.length - 1);
             var plugin = new Editor("Ajax.org", deps, extensions);
             var editor;
@@ -49,7 +49,7 @@ define(function(require, exports, module) {
                 editor.style.fontSize = "50px";
                 editor.style.fontFamily = "Tahoma";
                 editor.style.textAlign = "center";
-            })
+            });
             
             /***** Method *****/
             
@@ -59,7 +59,7 @@ define(function(require, exports, module) {
                 var doc = e.doc;
                 var session = doc.getSession();
                     
-                session.timer = setInterval(function(){
+                session.timer = setInterval(function() {
                     var dt = new Date();
                     var time = dt.getHours() + ":" 
                         + dt.getMinutes() + ":" 
@@ -75,7 +75,7 @@ define(function(require, exports, module) {
                 clearTimeout(e.doc.getSession().timer);
             });
             
-            plugin.on("unload", function(){
+            plugin.on("unload", function() {
                 editor.parentNode.removeChild(editor);
                 editor = null;
             });

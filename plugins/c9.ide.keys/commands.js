@@ -30,7 +30,7 @@ define(function(require, exports, module) {
         commandManager.exec = exec;
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
@@ -62,7 +62,7 @@ define(function(require, exports, module) {
                     win: "F12|Ctrl-Shift-I",
                     mac: "F12|Cmd-`|Cmd-Option-I|Cmd-H|Cmd-M"
                 },
-                exec: function(){},
+                exec: function() {},
                 passEvent: true,
                 hint: "Allow keys to be handled by the browser"
             }, {
@@ -73,7 +73,7 @@ define(function(require, exports, module) {
                     win: "Ctrl-S|Ctrl-R|Alt-Left|Alt-Right",
                     position: -10000
                 },
-                exec: function(){},
+                exec: function() {},
                 hint: "This cancels some native browser keybindings that can be annoying if triggered accidentally"
             }], plugin);
         }
@@ -108,7 +108,7 @@ define(function(require, exports, module) {
             return key;
         }
         
-        var markDirty = lang.delayedCall(function(){
+        var markDirty = lang.delayedCall(function() {
             emit("update");
         }, 500);
         
@@ -119,7 +119,7 @@ define(function(require, exports, module) {
                 editor = emit("getEditor");
             
             if (Array.isArray(command)) {
-                for (var i = command.length; i--; ) {
+                for (var i = command.length; i--;) {
                     if (this.exec(command[i], editor, args, e))
                         return true;
                 }
@@ -183,7 +183,7 @@ define(function(require, exports, module) {
                 command.readOnly = true;
             
             if (typeof command.bindKey == "string")
-                command.bindKey = {win: command.bindKey, mac: command.bindKey};
+                command.bindKey = { win: command.bindKey, mac: command.bindKey };
             
             if (asDefault)
                 command.isDefault = asDefault;
@@ -198,7 +198,7 @@ define(function(require, exports, module) {
                 command.originalBindKey = command.bindKey 
                     || (command.bindKey = { mac: "", win: "" });
             
-            hostPlugin.addOther(function(){
+            hostPlugin.addOther(function() {
                 removeCommand(command);
             });
             
@@ -219,7 +219,7 @@ define(function(require, exports, module) {
                     command.name = name;
                     
                 if (typeof command.bindKey == "string")
-                    command.bindKey = {mac: command.bindKey, win: command.bindKey};
+                    command.bindKey = { mac: command.bindKey, win: command.bindKey };
                     
                 if (asDefault && commands[command.name])
                     return;
@@ -301,7 +301,7 @@ define(function(require, exports, module) {
             return commands;
         }
         
-        function reset(noReload, toDefault){
+        function reset(noReload, toDefault) {
             commandManager.commandKeyBinding = {};
             
             Object.keys(commands).forEach(function(name) {
@@ -319,14 +319,14 @@ define(function(require, exports, module) {
             markDirty.call();
         }
         
-        function getExceptionList(){
+        function getExceptionList() {
             // Whitelist certain IDE keys for use from terminal and preview
             return [
                 {
                     bindKey: { win: null, mac: "Command-O" },
                     name: "navigateAlt",
                     passEvent: true,
-                    exec: function(){}
+                    exec: function() {}
                 },
                 commands.openpreferences,
                 commands.passKeysToBrowser,
@@ -386,7 +386,7 @@ define(function(require, exports, module) {
             ].filter(Boolean);
         }
         
-        function getExceptionBindings(){
+        function getExceptionBindings() {
             var list = [];
             getExceptionList().forEach(function(cmd) {
                 var m = cmd && cmd.bindKey && cmd.bindKey[platform];
@@ -408,16 +408,16 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
         });
         
@@ -505,13 +505,13 @@ define(function(require, exports, module) {
             /**
              * @ignore
              */
-            get commandKeyBinding() { commandManager.commandKeyBinding },
+            get commandKeyBinding() { commandManager.commandKeyBinding; },
             /**
              * @ignore
              */
             commandManager: (typeof apf != "undefined" 
                 ? new apf.Class().$init() : 
-                { setProperty : function(x,y){ this[x] = y } }),
+                { setProperty: function(x, y) { this[x] = y; } }),
             
             /**
              * A hash table of all the commands. The index is the name of the
@@ -522,14 +522,14 @@ define(function(require, exports, module) {
              * @property {Object[]} commands
              * @readonly
              */
-            get commands(){ return commands; },
+            get commands() { return commands; },
             
             /**
              * The operating system that is being run.
              * @property {String} platform  Possible values are "mac", "win".
              * @readonly
              */
-            get platform(){ return platform; },
+            get platform() { return platform; },
             
             /**
              * By default the key bindings for the platform that the user is

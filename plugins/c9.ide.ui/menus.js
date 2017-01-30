@@ -29,7 +29,7 @@ define(function(require, exports, module) {
         var menubar, logobar; // UI elements
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
@@ -38,7 +38,7 @@ define(function(require, exports, module) {
             commands.addCommand({
                 name: "toggleMenubar",
                 group: "General",
-                exec: function(e){
+                exec: function(e) {
                     if (!minimized)
                         minimize();
                     else
@@ -85,7 +85,7 @@ define(function(require, exports, module) {
     
                 this.onclick = function(e) {
                     if (e && e.htmlEvent && e.htmlEvent.button) return;
-                    commands.exec(value, null, {source: "click"});
+                    commands.exec(value, null, { source: "click" });
                     var command = commands.commands[value];
                     if (command && command.focusContext)
                         emit("focusEditor");
@@ -108,20 +108,20 @@ define(function(require, exports, module) {
                 init();
         }
         
-        function draw(){
+        function draw() {
             // Create UI elements
             logobar = layout.findParent(plugin);
             
             menubar = logobar.insertBefore(new apf.bar({
-                "id"    : "menubar",
-                "class" : "fakehbox aligncenter menubar",
-                "style" : "padding : 0 5px 0 3px;position:static",
+                "id": "menubar",
+                "class": "fakehbox aligncenter menubar",
+                "style": "padding : 0 5px 0 3px;position:static",
             }), logobar.firstChild);
             
             menubar.insertBefore(new apf.button({
-                "class"   : "c9-mbar-minimize",
-                "skin"    : "c9-simple-btn",
-                "onmousedown" : function(e) {
+                "class": "c9-mbar-minimize",
+                "skin": "c9-simple-btn",
+                "onmousedown": function(e) {
                     if (!minimized)
                         minimize();
                     else
@@ -134,21 +134,21 @@ define(function(require, exports, module) {
             
             plugin.addElement(menubar);
     
-            logobar.$ext.addEventListener("mousedown", function(){
+            logobar.$ext.addEventListener("mousedown", function() {
                 restore();
             });
             
             emit("draw");
 
             if (c9.local)
-                apf.popup.setMargin({top: 50});
+                apf.popup.setMargin({ top: 50 });
         }
         
         /***** Methods *****/
         
-        function splitSafe(path){
+        function splitSafe(path) {
            var pieces = [], escaped;
-           path.split("/").forEach(function(n){
+           path.split("/").forEach(function(n) {
                if (escaped) n = escaped + "/" + n;
                escaped = n.substr(-1) == "\\" ? n : false; //.substr(n, n.length - 1)
                if (!escaped) pieces.push(n);
@@ -157,18 +157,18 @@ define(function(require, exports, module) {
            return pieces;
         }
         
-        function popSafe(path){
+        function popSafe(path) {
             return splitSafe(path).pop().replace(/\\\//g, "/");
         }
         
-        function init(){
+        function init() {
             inited = true;
             layout.initMenus(plugin);
             
             addItemByPath("View/Menu Bar", new ui.item({
                 type: "check",
                 command: "toggleMenubar",
-                isAvailable: function(){
+                isAvailable: function() {
                     !settings.getBool("state/menus/@minimized")
                         ? this.check() : this.uncheck();
                     return true;
@@ -176,7 +176,7 @@ define(function(require, exports, module) {
             }), 250, plugin);
             
             if (queue) {
-                queue.forEach(function(args){
+                queue.forEach(function(args) {
                     addItemByPath.apply(null, args);
                 });
                 
@@ -268,7 +268,7 @@ define(function(require, exports, module) {
                 if (!menu) {
                     menu = menus[name] = new ui.menu({
                         id: "mnuMenus" + (++count),
-                        "onprop.visible" : checkItems
+                        "onprop.visible": checkItems
                     });
                 }
             }
@@ -337,7 +337,7 @@ define(function(require, exports, module) {
                 if (!menu) {
                     menu = menus[name] = new ui.menu({
                         id: "mnuMenus" + (++count),
-                        "onprop.visible" : checkItems
+                        "onprop.visible": checkItems
                     });
                 }
             }
@@ -398,14 +398,14 @@ define(function(require, exports, module) {
                 }
             }
 
-            item.on("DOMNodeInsertedIntoDocument", function(){
+            item.on("DOMNodeInsertedIntoDocument", function() {
                 emit("menuitem", {
                     name: name,
                     parent: parent,
                     item: item,
                     index: index
                 });
-            })
+            });
 
             //index...
             if (typeof index == "number")
@@ -420,7 +420,7 @@ define(function(require, exports, module) {
             if (plugin)
                 plugin.addElement(item);
             
-            item.on("DOMNodeRemovedFromDocument", function(){
+            item.on("DOMNodeRemovedFromDocument", function() {
                 delete items[name];
             });
         }
@@ -458,7 +458,7 @@ define(function(require, exports, module) {
                 if (i === 0 && !menu) {
                     isLast = !steps[i + 1];
                     menu = !isLast && menus[curpath]
-                      || setRootMenu(name, i == l - 1  || isLast ? index : null,
+                      || setRootMenu(name, i == l - 1 || isLast ? index : null,
                         isLast && (!menuItem.nodeFunc && menuItem.item || menuItem.localName == "button" && menuItem),
                         isLast && (!menuItem.nodeFunc && menuItem.menu || menuItem.localName == "menu" && menuItem),
                         plugin);
@@ -500,12 +500,12 @@ define(function(require, exports, module) {
             logobar.$ext.style.overflow = "hidden";
     
             anims.animateSplitBoxNode(logobar, {
-                height         : height + "px",
-                timingFunction : "cubic-bezier(.10, .10, .25, .90)",
-                duration       : 0.15,
-                immediate      : noAnim
+                height: height + "px",
+                timingFunction: "cubic-bezier(.10, .10, .25, .90)",
+                duration: 0.15,
+                immediate: noAnim
             }, 
-            function(){
+            function() {
                 // tabs.getPanes().forEach(function(pane) {
                 //     apf.layout.forceResize(pane.aml.$ext);
                 // });
@@ -526,12 +526,12 @@ define(function(require, exports, module) {
             logobar.$ext.style.overflow = "hidden";
     
             anims.animateSplitBoxNode(logobar, {
-                height          : minimizedHeight + "px",
-                timingFunction  : "cubic-bezier(.10, .10, .25, .90)",
-                duration        : 0.15,
-                immediate       : noAnim
+                height: minimizedHeight + "px",
+                timingFunction: "cubic-bezier(.10, .10, .25, .90)",
+                duration: 0.15,
+                immediate: noAnim
             }, 
-            function(){
+            function() {
                 apf.setStyleClass(logobar.$ext, "minimized");
                 apf.layout.forceResize();
                 logobar.$ext.style.overflow = "";
@@ -649,16 +649,16 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
         });
         
@@ -697,23 +697,23 @@ define(function(require, exports, module) {
              * @property {HTMLElement} container
              * @readonly
              */
-            get container(){ return menubar.$ext; },
+            get container() { return menubar.$ext; },
             
             /**
              * 
              */
-            get minimized(){ return minimized; },
+            get minimized() { return minimized; },
             
             /**
              * 
              */
-            get height(){ return height; },
+            get height() { return height; },
             set height(v) {
                 height = v;
                 if (minimized === false) restore(true, true);
             },
-            get minimizedHeight(){ return minimizedHeight; },
-            set minimizedHeight(v){
+            get minimizedHeight() { return minimizedHeight; },
+            set minimizedHeight(v) {
                 minimizedHeight = v;
                 if (minimized === true) minimize(true, true);
             },
@@ -900,14 +900,14 @@ define(function(require, exports, module) {
                 item.menu = plugin;
                 items.push(item);
                 
-                item.aml.on("DOMNodeRemoveFromDocument", function(){
+                item.aml.on("DOMNodeRemoveFromDocument", function() {
                     items.splice(items.indexOf(item), 1);
                 });
                 
                 return item;
             }
             
-            function remove(item){
+            function remove(item) {
                 aml.removeChild(item.aml);
             }
             
@@ -916,11 +916,11 @@ define(function(require, exports, module) {
                     x += 2;
                     y += 2;
                 }
-                lastCoords = { x : x, y : y };
+                lastCoords = { x: x, y: y };
                 aml.display(x, y);
             }
             
-            plugin.on("load", function(){
+            plugin.on("load", function() {
                 aml = new ui.menu({
                     id: options.id,
                     zindex: options.zindex,
@@ -929,12 +929,12 @@ define(function(require, exports, module) {
                     height: options.height,
                     minWidth: options.minWidth,
                     minHeight: options.minHeight,
-                    "onprop.visible" : function(e) {
+                    "onprop.visible": function(e) {
                         emit(e.value ? "show" : "hide", lastCoords);
                         checkItems.call(this, e);
                     },
-                    "onitemclick" : function(e) {
-                        emit("itemclick", { value : e.value, item: e.relatedNode });
+                    "onitemclick": function(e) {
+                        emit("itemclick", { value: e.value, item: e.relatedNode });
                     }
                 });
                 aml.cloud9menu = plugin;
@@ -949,7 +949,7 @@ define(function(require, exports, module) {
                 if (typeof options.onitemclick == "function")
                     plugin.on("itemclick", options.onitemclick);
                 
-                aml.on("DOMNodeRemovedFromDocument", function(){
+                aml.on("DOMNodeRemovedFromDocument", function() {
                     plugin.unload();
                 });
             });
@@ -1003,68 +1003,68 @@ define(function(require, exports, module) {
                  * @private
                  * @readonly
                  */
-                get aml(){ return aml; },
+                get aml() { return aml; },
                 /**
                  * A meta data object that allows you to store whatever you want
                  * in relation to this menu.
                  * @property {Object} meta
                  * @readonly
                  */
-                get meta(){ return meta; },
+                get meta() { return meta; },
                 /**
                  * The HTMLElement representing the menu
                  * @property {HTMLElement} html
                  * @readonly
                  */
-                get html(){ return aml && aml.$ext; },
+                get html() { return aml && aml.$ext; },
                 /**
                  * The button or item responsible for displaying this menu
                  * @property {HTMLElement} opener
                  * @readonly
                  */
-                get opener(){ return aml.opener && aml.opener.cloud9item; },
+                get opener() { return aml.opener && aml.opener.cloud9item; },
                 /**
                  * Specifies whether the menu is shown
                  * @property {Boolean} visible
                  * @readonly
                  */
-                get visible(){ return aml.visible; },
+                get visible() { return aml.visible; },
                 /**
                  * Specifies the zindex of the menu
                  * @property {Number} zindex
                  */
-                get zindex(){ return aml && ui.getStyle(aml.$ext, "z-index"); },
+                get zindex() { return aml && ui.getStyle(aml.$ext, "z-index"); },
                 set zindex(value) { aml && aml.setAttribute("zindex", value); },
                 /**
                  * Specifies the width of the menu
                  * @property {Number} width
                  */
-                get width(){ return aml && aml.getWidth(); },
+                get width() { return aml && aml.getWidth(); },
                 set width(value) { aml && aml.setAttribute("width", value); },
                 /**
                  * Specifies the height of the menu
                  * @property {Number} height
                  */
-                get height(){ return aml && aml.getHeight(); },
+                get height() { return aml && aml.getHeight(); },
                 set height(value) { aml && aml.setAttribute("height", value); },
                 /**
                  * Specifies the minimal width of the menu
                  * @property {Number} width
                  */
-                get minWidth(){ return aml && aml.getAttribute("minwidth"); },
+                get minWidth() { return aml && aml.getAttribute("minwidth"); },
                 set minWidth(value) { aml && aml.setAttribute("minwidth", value); },
                 /**
                  * Specifies the minimal height of the menu
                  * @property {Number} height
                  */
-                get minHeight(){ return aml && aml.getAttribute("minheight"); },
+                get minHeight() { return aml && aml.getAttribute("minheight"); },
                 set minHeight(value) { aml && aml.setAttribute("minheight", value); },
                 /**
                  * The menu items appended to this menu
                  * @property {MenuItem[]} items
                  * @readonly
                  */
-                get items(){ return items.slice(0); },
+                get items() { return items.slice(0); },
                 
                 _events: [
                     /**
@@ -1116,12 +1116,12 @@ define(function(require, exports, module) {
             
             var aml, menu, position = options.position;
             
-            plugin.on("load", function(){
+            plugin.on("load", function() {
                 var opts = {
-                    "onmousedown" : function(e){ emit("mousedown"); },
-                    "onmousemove" : function(e){ emit("mousemove"); },
-                    "onmouseup"   : function(e){ emit("onmouseup"); },
-                    "onclick"     : function(e){ emit("click"); }
+                    "onmousedown": function(e) { emit("mousedown"); },
+                    "onmousemove": function(e) { emit("mousemove"); },
+                    "onmouseup": function(e) { emit("onmouseup"); },
+                    "onclick": function(e) { emit("click"); }
                 };
                 
                 for (var prop in options) {
@@ -1142,7 +1142,7 @@ define(function(require, exports, module) {
                 if (options.isAvailable)
                     aml.isAvailable = options.isAvailable;
                 
-                aml.on("DOMNodeRemoveFromDocument", function(){
+                aml.on("DOMNodeRemoveFromDocument", function() {
                     plugin.unload();
                 });
             });
@@ -1206,27 +1206,27 @@ define(function(require, exports, module) {
                  * @private
                  * @readonly
                  */
-                get aml(){ return aml; },
+                get aml() { return aml; },
                 /**
                  * The HTMLElement representing the menu item
                  * @property {HTMLElement} html
                  * @readonly
                  */
-                get html(){ return aml && aml.$ext; },
+                get html() { return aml && aml.$ext; },
                 /**
                  * The plugin that is responsible for creating this menu item.
                  * @property {Plugin} plugin
                  * @readonly
                  */
-                get plugin(){ return forPlugin; },
+                get plugin() { return forPlugin; },
                 
                 /**
                  * Sets or retrieves the menu that this menu item is appended to
                  * @property {Menu} menu
                  * @readonly
                  */
-                get menu(){ return menu },
-                set menu(m){ menu = m },
+                get menu() { return menu; },
+                set menu(m) { menu = m; },
                 
                 /**
                  * Sets or retrieves whether this item is disabled. When the 
@@ -1234,16 +1234,16 @@ define(function(require, exports, module) {
                  * unable to click the item.
                  * @property {Boolean} [disabled=false]
                  */
-                get disabled(){ return aml.disabled; },
-                set disabled(v){ aml.setAttribute("disabled", v); },
+                get disabled() { return aml.disabled; },
+                set disabled(v) { aml.setAttribute("disabled", v); },
                 
                 /**
                  * Sets or retrieves he url pointing to the icon that is shown 
                  * next to the caption of this menu item.
                  * @property {String} icon
                  */
-                get icon(){ return aml.icon; },
-                set icon(v){ aml.setAttribute("icon", v); },
+                get icon() { return aml.icon; },
+                set icon(v) { aml.setAttribute("icon", v); },
                 
                 /**
                  * Sets or retrieves the type of interaction this menu item 
@@ -1297,32 +1297,32 @@ define(function(require, exports, module) {
                  * 
                  * @property {String} type
                  */
-                get type(){ return aml.type; },
-                set type(v){ aml.setAttribute("type", v); },
+                get type() { return aml.type; },
+                set type(v) { aml.setAttribute("type", v); },
                 
                 /**
                  * Sets or retrieves the string that is used to uniquely 
                  * identify this item
                  * @property {String} value
                  */
-                get value(){ return aml.value; },
-                set value(v){ aml.setAttribute("value", v); },
+                get value() { return aml.value; },
+                set value(v) { aml.setAttribute("value", v); },
                 
                 /**
                  * Sets or retrieves the text displayed in the UI on this 
                  * menu item
                  * @property {String} caption
                  */
-                get caption(){ return aml.caption; },
-                set caption(v){ aml.setAttribute("caption", v); },
+                get caption() { return aml.caption; },
+                set caption(v) { aml.setAttribute("caption", v); },
                 
                 /**
                  * Sets or retrieves the group of a radio menu item set. 
                  * See also {@link #type}
                  * @property {String} group
                  */
-                get group(){ return aml.group; },
-                set group(v){ aml.setAttribute("group", v); },
+                get group() { return aml.group; },
+                set group(v) { aml.setAttribute("group", v); },
                 
                 /**
                  * Sets or retrieves whether this item has a checkbox or is 
@@ -1339,8 +1339,8 @@ define(function(require, exports, module) {
                  * 
                  * @property {Boolean} checked
                  */
-                get checked(){ return aml.checked; },
-                set checked(v){ aml.setAttribute(
+                get checked() { return aml.checked; },
+                set checked(v) { aml.setAttribute(
                     aml.type == "radio" ? "selected" : "checked", v); },
                 
                 /**
@@ -1348,26 +1348,26 @@ define(function(require, exports, module) {
                  * over this menu item.
                  * @property {MenuItem} submenu
                  */
-                get submenu(){ return aml.submenu && aml.submenu.cloud9menu; },
-                set submenu(v){ aml.setAttribute("submenu", v.aml || v); },
+                get submenu() { return aml.submenu && aml.submenu.cloud9menu; },
+                set submenu(v) { aml.setAttribute("submenu", v.aml || v); },
                 
                 /**
                  * Sets or retrieves the name of the command to execute when
                  * the user clicks on the menu item.
                  * @property {String} command
                  */
-                get command(){ return aml.command; },
-                set command(v){ aml.setAttribute("command", v); },
+                get command() { return aml.command; },
+                set command(v) { aml.setAttribute("command", v); },
                 
                 /**
                  * Retrieves the position of the menu item in the menu.
                  * @property {Number} position
                  * @readonly
                  */
-                get position(){ return position; },
+                get position() { return position; },
                 
-                show: function(){ aml.show(); },
-                hide: function(){ aml.hide(); }
+                show: function() { aml.show(); },
+                hide: function() { aml.hide(); }
             });
             
             plugin.load(null, "menuitem");
@@ -1381,12 +1381,12 @@ define(function(require, exports, module) {
             
             var aml, menu, position = options && options.position;
             
-            plugin.on("load", function(){
+            plugin.on("load", function() {
                 aml = new ui.divider();
                 aml.cloud9item = plugin;
                 plugin.addElement(aml);
                 
-                aml.on("DOMNodeRemoveFromDocument", function(){
+                aml.on("DOMNodeRemoveFromDocument", function() {
                     plugin.unload();
                 });
             });
@@ -1436,35 +1436,35 @@ define(function(require, exports, module) {
                  * @private
                  * @readonly
                  */
-                get aml(){ return aml; },
+                get aml() { return aml; },
                 /**
                  * The HTMLElement representing the menu item
                  * @property {HTMLElement} html
                  * @readonly
                  */
-                get html(){ return aml && aml.$ext; },
+                get html() { return aml && aml.$ext; },
                 /**
                  * The plugin that is responsible for creating this menu item.
                  * @property {Plugin} plugin
                  * @readonly
                  */
-                get plugin(){ return forPlugin; },
+                get plugin() { return forPlugin; },
                 /**
                  * Sets or retrieves the menu that this menu item is appended to
                  * @property {Menu} menu
                  * @readonly
                  */
-                get menu(){ return menu },
-                set menu(m){ menu = m },
+                get menu() { return menu; },
+                set menu(m) { menu = m; },
                 /**
                  * Retrieves the position of the menu item in the menu.
                  * @property {Number} position
                  * @readonly
                  */
-                get position(){ return position; },
+                get position() { return position; },
                 
-                show: function(){ aml.show(); },
-                hide: function(){ aml.hide(); }
+                show: function() { aml.show(); },
+                hide: function() { aml.hide(); }
             });
             
             plugin.load(null, "divider");

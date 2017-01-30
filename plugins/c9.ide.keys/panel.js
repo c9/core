@@ -36,14 +36,14 @@ define(function(require, exports, module) {
         var winCommands, txtFilter, tree, ldSearch;
         var lastSearch;
         
-        function load(){
+        function load() {
             plugin.setCommand({
                 name: "commands",
                 hint: "search for a command and execute it",
                 bindKey: { mac: "Command-.", win: "Ctrl-." }
             });
             
-            panels.on("afterAnimate", function(){
+            panels.on("afterAnimate", function() {
                 if (panels.isActive("commands.panel"))
                     tree && tree.resize();
             });
@@ -77,7 +77,7 @@ define(function(require, exports, module) {
             tree.renderer.setScrollMargin(0, 10);
 
             // @TODO this is probably not sufficient
-            layout.on("resize", function(){ tree.resize() }, plugin);
+            layout.on("resize", function() { tree.resize(); }, plugin);
             
             var key = commands.getPrettyHotkey("commands");
             txtFilter.setAttribute("initial-message", key);
@@ -87,13 +87,13 @@ define(function(require, exports, module) {
             txtFilter.ace.commands.addCommands([
                 {
                     bindKey: "ESC",
-                    exec: function(){ plugin.hide(); }
+                    exec: function() { plugin.hide(); }
                 }, {
                     bindKey: "Enter",
-                    exec: function(){ execCommand(true); }
+                    exec: function() { execCommand(true); }
                 }, {
                     bindKey: "Shift-Enter",
-                    exec: function(){ execCommand(false, true); }
+                    exec: function() { execCommand(false, true); }
                 }
             ]);
             function forwardToTree() {
@@ -124,7 +124,7 @@ define(function(require, exports, module) {
             
             tree.on("click", function(ev) {
                 var e = ev.domEvent;
-                if (!e.shiftKey && !e.metaKey  && !e.ctrlKey  && !e.altKey)
+                if (!e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey)
                 if (tree.selection.getSelectedNodes().length === 1)
                     execCommand(true);
             });
@@ -144,17 +144,17 @@ define(function(require, exports, module) {
                     return;
                 
                 // TODO add better support for overlay panels
-                setTimeout(function(){ plugin.hide() }, 10);
+                setTimeout(function() { plugin.hide(); }, 10);
             }
     
             apf.addEventListener("movefocus", onblur);
     
             // Focus the input field
-            setTimeout(function(){
+            setTimeout(function() {
                 txtFilter.focus();
             }, 10);
             
-            setTimeout(function(){
+            setTimeout(function() {
                 // Assign the dataprovider
                 tree.setDataProvider(ldSearch);
                 tree.selection.$wrapAround = true;
@@ -213,16 +213,16 @@ define(function(require, exports, module) {
 
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
         plugin.on("draw", function(e) {
             draw(e);
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
         plugin.on("show", function(e) {
@@ -233,7 +233,7 @@ define(function(require, exports, module) {
             // Cancel Preview
             tabs.preview({ cancel: true });
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             drawn = false;
         });
         
