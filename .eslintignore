@@ -4,7 +4,7 @@ plugins/c9.fs/mock
 **/lib_jsbeautify.js
 **/lib_pixastic.js
 **/libterm.js
-**/libfirmin.js
+**/lib_firmin.js
 **/lib_less1.5.js
 **/lib_apf.js
 **/lib/vendor/**
