@@ -1,5 +1,6 @@
 plugins/c9.ide.language.jsonalyzer/worker/ctags.js
 plugins/c9.ide.language.trace/server/lib/tracegl.js
+plugins/c9.ide.language.javascript.infer/test/*
 plugins/c9.ide.language.javascript.eslint/worker/js-yaml.js
 plugins/c9.fs/mock
 **/lib_jsbeautify.js
