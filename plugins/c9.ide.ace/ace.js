@@ -1628,7 +1628,23 @@ define(function(require, exports, module) {
          * @extends Plugin
          * @singleton
          */
+
+        var extensionID = 0,
+            serializerExtensions = {},
+            deserializerExtensions = {};
+
         handle.freezePublicAPI({
+            /*
+             * Register a data extension handler, which will add
+             * extra information to a serialized Ace editor session,
+             * for plugins that modify the Ace editor.
+             */
+            extendSerializedState: function(serialize, deserialize) {
+                var id = extensionID++;
+                serializerExtensions[id] = serialize;
+                deserializerExtensions[id] = deserialize;
+            },
+
             /**
              * The context menu that is displayed when right clicked in the ace
              * editing area.
@@ -1644,7 +1660,7 @@ define(function(require, exports, module) {
              * @readonly
              */
             get gutterContextMenu(){ draw(); return mnuGutter },
-            
+
             /**
              * Ace Themes
              * @property {Object} themese
@@ -1958,7 +1974,7 @@ define(function(require, exports, module) {
                     renderer.$updateSizeAsync();
                 }
             }
-            
+
             function getState(doc, state, filter) {
                 if (filter) return;
                 
@@ -2006,6 +2022,13 @@ define(function(require, exports, module) {
                     state: session.bgTokenizer.states[row - 1],
                     mode: session.$mode.$id
                 };
+
+                state.extensionData = {};
+
+                // Any additional state given by ace extensions
+                for (key in serializerExtensions) {
+                    state.extensionData[key] = serializerExtensions[key](session, doc);
+                }
             }
             
             function setState(doc, state) {
@@ -2091,6 +2114,13 @@ define(function(require, exports, module) {
                     
                     ace.on("changeSession", listen);
                     session.on("unload", clean);
+                }
+
+                // Any additional state given by ace extensions
+                for (key in deserializerExtensions) {
+                    if ('extensionData' in state && key in state.extensionData) {
+                        deserializerExtensions[key](state.extensionData[key], doc.getSession().session);
+                    }
                 }
             }
             
@@ -2744,6 +2774,7 @@ define(function(require, exports, module) {
              * @param {Number}   [state.jump.select.column]             The column to select to (0 based)
              */
             plugin.freezePublicAPI({
+
                 /**
                  * @ignore
                  */
