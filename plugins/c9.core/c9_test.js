@@ -54,7 +54,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 
                 expect(c9.connected).to.equal(false);
                 
-                c9.once("connect", function c2(){
+                c9.once("connect", function c2() {
                     // expect(count, "Connecting event was not called").to.equal(1);
                     expect(c9.connected).to.equal(true);
                     expect(c9.has(c9.NETWORK)).to.equal(true);
@@ -75,11 +75,11 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 expect(c9.connected).to.equal(true);
                 expect(c9.has(c9.NETWORK)).to.equal(true);
                 
-                c9.once("away", function c1(){
+                c9.once("away", function c1() {
                     expect(c9.connected).to.equal(false);
                     expect(c9.has(c9.NETWORK)).to.equal(true);
                 });
-                c9.once("back", function c1(){
+                c9.once("back", function c1() {
                     expect(c9.connected).to.equal(true);
                     expect(c9.has(c9.NETWORK)).to.equal(true);
                     done();

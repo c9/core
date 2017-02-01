@@ -19,7 +19,7 @@ define(function(require, module, exports) {
                 return request(url, {}, options);
                 
             if (typeof options == "string")
-                return request(url, {method: options}, callback);
+                return request(url, { method: options }, callback);
             
             var method = options.method || "GET";
             var headers = options.headers || {};
@@ -88,7 +88,7 @@ define(function(require, module, exports) {
                     xhr.abort();
                     var err = new Error("Timeout");
                     err.code = "ETIMEOUT";
-                    err.data = {url: url, query: options.query, timeout: timeout};
+                    err.data = { url: url, query: options.query, timeout: timeout };
                     done(err);
                 }, timeout);
             }
@@ -96,7 +96,7 @@ define(function(require, module, exports) {
             xhr.send(body || "");
             
             var abort = xhr.abort;
-            xhr.abort = function(){
+            xhr.abort = function() {
                 clearTimeout(timer);
                 abort.call(xhr);
             };

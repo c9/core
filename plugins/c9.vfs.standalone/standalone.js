@@ -122,7 +122,7 @@ function plugin(options, imports, register) {
     });
     
     api.get("/_ping", function(params, callback) {
-        return callback(null, {"ping": "pong"}); 
+        return callback(null, { "ping": "pong" }); 
     });
     
     api.get("/preview/:path*", [
@@ -149,7 +149,7 @@ function plugin(options, imports, register) {
         if (!options.options.testing)
             return next();
             
-        res.writeHead(200, {"Content-Type": "application/javascript"});
+        res.writeHead(200, { "Content-Type": "application/javascript" });
         res.end("define(function(require, exports, module) { return " 
             + JSON.stringify(options.workspaceDir.replace(/\\/g, "/")) + "; });");
     });
@@ -157,7 +157,7 @@ function plugin(options, imports, register) {
         if (!options.options.testing)
             return next();
             
-        res.writeHead(200, {"Content-Type": "application/javascript"});
+        res.writeHead(200, { "Content-Type": "application/javascript" });
         res.end("define(function(require, exports, module) { return " 
             + JSON.stringify(process.env.HOME.replace(/\\/g, "/")) + "; });");
     });
@@ -185,7 +185,7 @@ function plugin(options, imports, register) {
         });
         stream.on("data", function(data) {
             if (!res.headersSent)
-                res.writeHead(200, {"Content-Type": "application/octet-stream"});
+                res.writeHead(200, { "Content-Type": "application/octet-stream" });
                 
             res.write(data);
         });
@@ -197,7 +197,7 @@ function plugin(options, imports, register) {
     api.get("/configs/require_config.js", function(req, res, next) {
         var config = res.getOptions().requirejsConfig || {};
         
-        res.writeHead(200, {"Content-Type": "application/javascript"});
+        res.writeHead(200, { "Content-Type": "application/javascript" });
         res.end("requirejs.config(" + JSON.stringify(config) + ");");
     });
     
@@ -216,7 +216,7 @@ function plugin(options, imports, register) {
                 });
             }, function(files) {
                 result.list = files;
-                res.writeHead(200, {"Content-Type": "application/json"});
+                res.writeHead(200, { "Content-Type": "application/json" });
                 res.end(JSON.stringify(result, null, 2));
             });
         });

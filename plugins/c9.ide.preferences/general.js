@@ -35,7 +35,7 @@ define(function(require, exports, module) {
                 title: "Introduction",
                 position: 1,
                 node: intro = new ui.bar({
-                    "class" : "intro",
+                    "class": "intro",
                     style: "padding:12px;position:relative;"
                 })
             }], plugin);
@@ -52,40 +52,40 @@ define(function(require, exports, module) {
             drawn = true;
             
             plugin.add({
-               "General" : {
+               "General": {
                     position: 10,
-                    "General" : {
+                    "General": {
                         position: 10,
-                        "Reset to Factory Settings" : {
+                        "Reset to Factory Settings": {
                             type: "button",
                             caption: "Reset to Defaults",
                             width: 140,
-                            onclick: function(){
+                            onclick: function() {
                                 confirm("Reset Settings", 
                                     "Are you sure you want to reset your settings?", 
                                     "By resetting your settings to their "
                                     + "defaults you will lose all custom settings. "
                                     + "Cloud9 will return to it's original configuration", 
-                                    function(){
+                                    function() {
                                         settings.reset();
-                                    }, function(){},
+                                    }, function() {},
                                     { yes: "Reset settings", no: "Cancel" });
                             }
                         }
                     },
-                    "User Interface" : {
+                    "User Interface": {
                         position: 20,
-                        "Enable UI Animations" : {
+                        "Enable UI Animations": {
                             type: "checkbox",
                             path: "user/general/@animateui",
                             position: 1000
                         },
-                        "Use an Asterisk (*) to Mark Changed Tabs" : {
+                        "Use an Asterisk (*) to Mark Changed Tabs": {
                             type: "checkbox",
                             path: "user/tabs/@asterisk",
                             position: 1050
                         },
-                        "Display Title of Active Tab as Browser Title" : {
+                        "Display Title of Active Tab as Browser Title": {
                             type: "checkbox",
                             path: "user/tabs/@title",
                             position: 1100
@@ -106,7 +106,7 @@ define(function(require, exports, module) {
                     + 'user.settings</a>.</p>')
                 + '<p class="hint">These settings are synced across all your workspaces.</p>';
             
-            intro.$int.querySelector("a").onclick = function(){ 
+            intro.$int.querySelector("a").onclick = function() { 
                 emit("edit");
             };
         }

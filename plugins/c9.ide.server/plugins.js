@@ -26,7 +26,7 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
@@ -89,7 +89,7 @@ define(function(require, exports, module) {
 
                 statics.addStatics(externalPlugins.map(function(plugin) {
                     if (typeof plugin == "string")
-                        plugin = { path: plugin, mount: plugin};
+                        plugin = { path: plugin, mount: plugin };
                     return {
                         path: __dirname + "/../../node_modules/" + plugin.path,
                         mount: "/plugins/" + plugin.mount
@@ -107,7 +107,7 @@ define(function(require, exports, module) {
                             };
                         }).filter(Boolean)
                     );
-                } catch(e) {
+                } catch (e) {
                 }
                 
                 statics.addStatics(fs.readdirSync(__dirname + "/../")
@@ -146,10 +146,10 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
         });
         

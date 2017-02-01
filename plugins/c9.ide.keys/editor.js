@@ -48,7 +48,7 @@ define(function(require, exports, module) {
             if (loaded) return false;
             loaded = true;
             
-            settings.on("user/key-bindings", function(){
+            settings.on("user/key-bindings", function() {
                 var platform = settings.get("user/key-bindings/@platform");
                 if (platform == "auto")
                     platform = apf.isMac ? "mac" : "win";
@@ -59,7 +59,7 @@ define(function(require, exports, module) {
                 }
             }, plugin);
             
-            settings.on("user/ace/@keyboardmode", function(){
+            settings.on("user/ace/@keyboardmode", function() {
                 var mode = settings.getJson("user/ace/@keyboardmode");
                 if (customKeymaps[mode]) {
                     settings.set("user/ace/@keyboardmode", "default");
@@ -72,7 +72,7 @@ define(function(require, exports, module) {
                 updateCommandsFromSettings();
             }, plugin);
             
-            commands.on("update", function(){
+            commands.on("update", function() {
                 if (!reloading) {
                     changed = true;
                     updateCommandsFromSettings();
@@ -119,7 +119,7 @@ define(function(require, exports, module) {
             }, plugin);
             
             menus.addItemByPath("Help/Key Bindings Editor", new ui.item({
-                onclick: function(){
+                onclick: function() {
                     commands.exec("openpreferences", null, {
                         panel: plugin
                     });
@@ -151,7 +151,7 @@ define(function(require, exports, module) {
                 width: "80%"
             }];
             
-            layout.on("eachTheme", function(e){
+            layout.on("eachTheme", function(e) {
                 var height = parseInt(ui.getStyleRule(".bar-preferences .blackdg .tree-row", "height"), 10) || 24;
                 model.rowHeightInner = height;
                 model.rowHeight = height;
@@ -167,7 +167,7 @@ define(function(require, exports, module) {
                     title: "Introduction",
                     position: 1,
                     node: intro = new ui.bar({
-                        "class" : "intro",
+                        "class": "intro",
                         style: "padding:12px;position:relative;"
                     })
                 },
@@ -176,18 +176,18 @@ define(function(require, exports, module) {
                     title: "Reset to Default Keybindings",
                     caption: "Reset to Defaults",
                     width: 140,
-                    onclick: function(){
+                    onclick: function() {
                         confirm("Reset Settings", 
                             "Are you sure you want to reset your keybindings?", 
                             "By resetting your keybindings to their "
                             + "defaults you will lose all custom keybindings.", 
-                            function(){
+                            function() {
                                 settings.setJson("user/key-bindings", []);
                                 settings.set("user/ace/@keyboardmode", "default");
                                 settings.set("user/key-bindings/@platform", "auto");
                                 commands.reset(false, true);
                             },
-                            function(){},
+                            function() {},
                             {
                                 yes: "Reset Settings",
                                 no: "Cancel"
@@ -213,9 +213,9 @@ define(function(require, exports, module) {
                    title: "Operating System",
                    path: "user/key-bindings/@platform",
                    items: [
-                       {caption: "Auto", value: "auto"},
-                       {caption: "Apple OSX", value: "mac"},
-                       {caption: "Windows / Linux", value: "win"},
+                       { caption: "Auto", value: "auto" },
+                       { caption: "Apple OSX", value: "mac" },
+                       { caption: "Windows / Linux", value: "win" },
                    ],
                    position: 110
                 },
@@ -225,7 +225,7 @@ define(function(require, exports, module) {
                     position: 120,
                     node: container = new ui.bar({
                         anchors: "269 0 0 0",
-                        "class" : "keybindings",
+                        "class": "keybindings",
                         style: "padding:44px 10px 10px 10px"
                     })
                 }
@@ -238,7 +238,7 @@ define(function(require, exports, module) {
                 + '>your keymap file</a>.</p>'
                 + '<p class="hint">Hint: Double click on the keystroke cell in the table below to change the keybinding.</p>';
             
-            intro.$int.querySelector("a").onclick = function(){ editUserKeys(); };
+            intro.$int.querySelector("a").onclick = function() { editUserKeys(); };
             
             var div = container.$ext.appendChild(document.createElement("div"));
             div.style.width = div.style.height = "100%";
@@ -248,7 +248,7 @@ define(function(require, exports, module) {
             datagrid.setDataProvider(model);
             datagrid.edit = new TreeEditor(datagrid);
             
-            layout.on("resize", function(){ datagrid.resize() }, plugin);
+            layout.on("resize", function() { datagrid.resize(); }, plugin);
             
             filterbox = new apf.codebox({
                 realtime: true,
@@ -275,10 +275,10 @@ define(function(require, exports, module) {
             filterbox.ace.commands.addCommands([
                 {
                     bindKey: "Enter",
-                    exec: function(){ }
+                    exec: function() { }
                 }, {
                     bindKey: "Esc",
-                    exec: function(ace){ ace.setValue(""); }
+                    exec: function(ace) { ace.setValue(""); }
                 }
             ]);
             
@@ -286,7 +286,7 @@ define(function(require, exports, module) {
                 applyFilter();
             });
             
-            container.on("contextmenu", function(){
+            container.on("contextmenu", function() {
                 return false;
             });
             
@@ -348,7 +348,7 @@ define(function(require, exports, module) {
                 if (used.length > 1 || (used[0] && used[0].name != name)) {
                     alert("Notice",
                         "There are other commands bound to this key combination",
-                        "[" + used.map(function(x) { return x.name }).join(", ") + "]"
+                        "[" + used.map(function(x) { return x.name; }).join(", ") + "]"
                     );
                 }
                 
@@ -516,7 +516,7 @@ define(function(require, exports, module) {
             }
         }
         
-        function addCustomKeymap(name, keymap, plugin){
+        function addCustomKeymap(name, keymap, plugin) {
             customKeymaps[name] = keymap;
             
             if (!Object.keys(customKeymaps).length) {
@@ -532,13 +532,13 @@ define(function(require, exports, module) {
                 }
             }), 10000 + Object.keys(customKeymaps).length, plugin);
             
-            plugin.addOther(function(){ delete customKeymaps[name]; });
+            plugin.addOther(function() { delete customKeymaps[name]; });
             
             if (plugin.visible)
                 updateKeymaps();
         }
         
-        function updateKeymaps(){
+        function updateKeymaps() {
             var items = [
                 { caption: "Default", value: "default" },
                 { caption: "Vim", value: "vim" },
@@ -553,7 +553,7 @@ define(function(require, exports, module) {
             plugin.form.update([{
                 id: "kbmode",
                 items: items
-            }])
+            }]);
         }
         
         /***** Lifecycle *****/
@@ -605,7 +605,7 @@ define(function(require, exports, module) {
         });
         
         register(null, { 
-            "preferences.keybindings" : plugin 
+            "preferences.keybindings": plugin 
         });
     }
 });

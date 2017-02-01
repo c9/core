@@ -41,7 +41,7 @@ define(function(require, exports, module) {
                     message: message
                 });
                 
-                jstream.on("data", function(payload){
+                jstream.on("data", function(payload) {
                     if (payload.id == msgId && !done) {
                         done = true;
                         callback(null, payload.message);
@@ -49,13 +49,13 @@ define(function(require, exports, module) {
                     }
                 });
                 
-                jstream.on("error", function(err){
+                jstream.on("error", function(err) {
                     if (done) return;
                     callback(err);
                     done = true;
                 });
                 
-                jstream.on("close", function(){
+                jstream.on("close", function() {
                     if (done) return;
                     callback(new Error("No Response"));
                     done = true;
@@ -63,17 +63,17 @@ define(function(require, exports, module) {
             });
         }
         
-        function generateMessageId(){
+        function generateMessageId() {
             // Use vfs token
             return Math.random() + "-" + ++counter;
         }
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
         });
         
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
         });
         
         /***** Register and define API *****/

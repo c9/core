@@ -585,7 +585,7 @@ var requirejs, require, define;
                             // at the main module.
                             c = pkg ? getOwn(config.config, mod.map.id + '/' + pkg.main) :
                                       getOwn(config.config, mod.map.id);
-                            return  c || {};
+                            return c || {};
                         },
                         exports: defined[mod.map.id]
                     });
@@ -1440,7 +1440,7 @@ var requirejs, require, define;
                         }
 
                         return context.nameToUrl(normalize(moduleNamePlusExt,
-                                                relMap && relMap.id, true), ext,  true);
+                                                relMap && relMap.id, true), ext, true);
                     },
 
                     defined: function (id) {
@@ -1942,7 +1942,7 @@ var requirejs, require, define;
                     //baseUrl.
                     src = mainScript.split('/');
                     mainScript = src.pop();
-                    subPath = src.length ? src.join('/')  + '/' : './';
+                    subPath = src.length ? src.join('/') + '/' : './';
 
                     cfg.baseUrl = subPath;
                 }

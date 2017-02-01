@@ -20,7 +20,7 @@ define(function(require, exports, module) {
         var project = options.project;
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
         }
@@ -29,7 +29,7 @@ define(function(require, exports, module) {
         
         function getUser(callback, noCache) {
             if (noCache) {
-                return api.user.get("", function(err, data){
+                return api.user.get("", function(err, data) {
                     if (err) return callback(err);
                     user = data;
                     callback(err, data);
@@ -41,7 +41,7 @@ define(function(require, exports, module) {
         
         function getWorkspace(callback, noCache) {
             if (noCache) {
-                return api.project.get("", function(err, data){
+                return api.project.get("", function(err, data) {
                     if (err) return callback(err);
                     project = data;
                     callback(err, data);
@@ -53,16 +53,16 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
         });
         

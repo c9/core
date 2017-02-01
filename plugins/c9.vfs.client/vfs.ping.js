@@ -47,7 +47,7 @@ define(function(require, exports, module) {
 
         /***** Lifecycle *****/
 
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
 
@@ -86,7 +86,7 @@ define(function(require, exports, module) {
             ping: ping
         });
 
-        register(null, { "vfs.ping" : plugin });
+        register(null, { "vfs.ping": plugin });
     }
 
 });

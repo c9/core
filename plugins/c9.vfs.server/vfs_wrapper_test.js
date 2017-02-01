@@ -10,7 +10,7 @@ var path = require("path");
 var vfs = require("vfs-local");
 var vfsWrapper = require("./vfs_wrapper");
 
-describe(__filename, function(){
+describe(__filename, function() {
 
     describe("#extend", function() {
         
@@ -28,7 +28,7 @@ describe(__filename, function(){
         });
         
         it("should return an error if file is not passed", function(done) {
-            wrapper.extend('foo', { file: {} ,encoding: "utf8"}, function(err, data) {
+            wrapper.extend('foo', { file: {}, encoding: "utf8" }, function(err, data) {
                 assert(err);
                 assert.equal(err.message, "Invalid option 'file'");
                 done();

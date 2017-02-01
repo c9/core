@@ -106,7 +106,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 });
             });
 
-            describe("expand()", function(){
+            describe("expand()", function() {
                 before(function(done) {
                     fsCache.clear();
                     done();
@@ -142,11 +142,11 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     });
                 });
             });
-            describe("getAllExpanded()", function(){
+            describe("getAllExpanded()", function() {
                 it('should return a list of expanded folders', function(done) {
                     fsCache.clear();
-                    tree.expand("/dir", function(){
-                        tree.expand("/dirLink", function(){
+                    tree.expand("/dir", function() {
+                        tree.expand("/dirLink", function() {
                             expect(tree.getAllExpanded().sort())
                                 .deep.equal(["/", "/dir", "/dirLink"]);
                             done();
@@ -154,7 +154,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     });
                 });
             });
-            describe("collapse() and collapseAll()", function(){
+            describe("collapse() and collapseAll()", function() {
                 it('should collapse a folder in the tree that is expanded', function(done) {
                     tree.expand("/", function(err) {
                         if (err) throw err.message;
@@ -167,11 +167,11 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 });
                 it('should collapse all expanded nodes', function(done) {
                     fsCache.clear();
-                    tree.expand("/dir", function(){
+                    tree.expand("/dir", function() {
                         expect.html("/dir").to.exist.and.visible;
                         expect.html("/dir/smile.png").to.exist.and.visible;
                         
-                        tree.expand("/dirLink", function(){
+                        tree.expand("/dirLink", function() {
                             expect.html("/dirLink").to.exist.and.visible;
                             expect.html("/dirLink/smile.png").to.exist.and.visible;
                             tree.collapseAll();
@@ -187,7 +187,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     });
                 });
             });
-            describe("select() and selectList()", function(){
+            describe("select() and selectList()", function() {
                 it('should select a node', function(done) {
                     tree.expand("/", function(err) {
                         if (err) throw err;
@@ -200,7 +200,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                             .to.have.className("selected");
                         expect(tree.selection).deep.equal(["/dir"]);
                         done();
-                    })
+                    });
                 });
                 it('should select a path', function(done) {
                     tree.select("/dirLink");
@@ -240,18 +240,18 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     done();
                 });
             });
-            describe("openSelection()", function(){
+            describe("openSelection()", function() {
                 before(function(done) {
                     fsCache.clear();
                     done();
-                })
+                });
                 
                 it('should open all files selected and ignore folders', function(done) {
                     var count = 0;
-                    function c1(){ count++; };
+                    function c1() { count++; }
                     tabs.on("open", c1);
                     
-                    tree.expand("/", function(){
+                    tree.expand("/", function() {
                         tree.selectList(["/dir", "/file.txt", "/listing.json"]);
                         tree.openSelection();
                         tabs.off("open", c1);
@@ -259,39 +259,39 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     });
                 });
             });
-            describe("refresh()", function(){
+            describe("refresh()", function() {
                 //@todo fsCache.clear should actually reset the expanded nodes
                 //@todo add a test for refreshing of a not yet loaded folder
                 
                 before(function(done) {
                     fsCache.clear();
                     done();
-                })
+                });
                 
                 it('should refresh the entire tree and remember all the expanded states', function(done) {
-                    tree.expand("/dir", function(){
-                        tree.expand("/dirLink", function(){
+                    tree.expand("/dir", function() {
+                        tree.expand("/dirLink", function() {
                             tree.selectList(
                                 ["/dirLink/smile.png", "/dir/stuff.json"]);
                             expect(tree.selection)
                               .deep.equal(["/dirLink/smile.png", "/dir/stuff.json"]);
               
-                            tree.refresh(function(){
-                                expect.html("/dir").to.exist.and.visible
-                                expect.html("/dirLink").to.exist.and.visible
+                            tree.refresh(function() {
+                                expect.html("/dir").to.exist.and.visible;
+                                expect.html("/dirLink").to.exist.and.visible;
                                 expect(tree.getAllExpanded().sort())
                                   .deep.equal(["/", "/dir", "/dirLink"]);
                                 expect(tree.selection)
                                   .deep.equal(["/dirLink/smile.png", "/dir/stuff.json"]);
               
                                 done();
-                            })
+                            });
                         });
                     });
                 });
                 it('should refresh a sub tree and remember all the expanded states', function(done) {
-                    fs.rmfile("/dir/test.html", function(){
-                        fs.rmfile("/test.html", function(){
+                    fs.rmfile("/dir/test.html", function() {
+                        fs.rmfile("/test.html", function() {
                             tree.expand("/dir", function(err) {
                                 if (err) throw err.message;
                                 
@@ -312,14 +312,14 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                                             expect(fsCache.findNode("/dir/test.html")).ok;
                                             // expect(fsCache.findNode("/test.html")).not.ok; // TODO why this shouldn't exist?
                                             
-                                            expect.html("/dir/test.html").to.exist.and.visible
+                                            expect.html("/dir/test.html").to.exist.and.visible;
                                             // expect.html("/test.html").to.not.exist
                                             
                                             expect(tree.selection)
                                               .deep.equal(["/dir/smile.png"]);
               
-                                            fs.rmfile("/dir/test.html", function(){
-                                                fs.rmfile("/test.html", function(){
+                                            fs.rmfile("/dir/test.html", function() {
+                                                fs.rmfile("/test.html", function() {
                                                     done();
                                                 });
                                             });
@@ -331,7 +331,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     });
                 });
             });
-            describe("createFile() and createFolder()", function(){
+            describe("createFile() and createFolder()", function() {
                 // @todo should create a file while the requested name already extists
                 
                 before(function(done) {
@@ -344,12 +344,12 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                  * Add the proper console.log statements to figure it out
                  */
                 it('should create a file in the selected path and allow the user to rename it', function(done) {
-                    fs.rmfile("/dir/test.html", function(){
+                    fs.rmfile("/dir/test.html", function() {
                         tree.expand("/dir", function(err) {
                             if (err) throw err.message;
                             
                             tree.select("/dir");
-                            expect(fsCache.findNode("/dir/test.html")).to.not.ok
+                            expect(fsCache.findNode("/dir/test.html")).to.not.ok;
                             tree.createFile("test.html", false, function(err) {
                                 if (err) throw err.message;
                                 
@@ -358,20 +358,20 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                                 expect(tree.tree.edit.renaming).is.ok;
                                 tree.tree.edit.endRename(false);
                                 
-                                fs.rmfile("/dir/test.html", function(){
+                                fs.rmfile("/dir/test.html", function() {
                                     done();
-                                })
+                                });
                             });
                         });
                     });
                 });
                 it('should create a file in the selected path without renaming', function(done) {
-                    fs.rmfile("/dir/test.html", function(){
+                    fs.rmfile("/dir/test.html", function() {
                         tree.expand("/dir", function(err) {
                             if (err) throw err.message;
                             
                             tree.select("/dir");
-                            expect(fsCache.findNode("/dir/test.html")).to.not.ok
+                            expect(fsCache.findNode("/dir/test.html")).to.not.ok;
                             tree.createFile("test.html", true, function(err) {
                                 if (err) throw err.message;
                                 
@@ -379,20 +379,20 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                                 expect.html("/dir/test.html").to.exist.and.visible;
                                 expect(tree.tree.edit.renaming).is.not.ok;
                                 
-                                fs.rmfile("/dir/test.html", function(){
+                                fs.rmfile("/dir/test.html", function() {
                                     done();
-                                })
+                                });
                             });
                         });
                     });
                 });
                 it('should create a folder in the selected path and allow the user to rename it', function(done) {
-                    fs.rmdir("/dir/dir", function(){
+                    fs.rmdir("/dir/dir", function() {
                         tree.expand("/dir", function(err) {
                             if (err) throw err.message;
                             
                             tree.select("/dir");
-                            expect(fsCache.findNode("/dir/dir")).to.not.ok
+                            expect(fsCache.findNode("/dir/dir")).to.not.ok;
                             tree.createFolder("dir", false, function(err) {
                                 if (err) throw err.message;
                                 
@@ -401,20 +401,20 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                                 expect(tree.tree.edit.renaming).is.ok;
                                 tree.tree.edit.endRename(false);
                                 
-                                fs.rmdir("/dir/dir", function(){
+                                fs.rmdir("/dir/dir", function() {
                                     done();
-                                })
+                                });
                             });
                         });
                     });
                 });
                 it('should create a folder in the selected path without renaming', function(done) {
-                    fs.rmfile("/dir/dir", function(){
+                    fs.rmfile("/dir/dir", function() {
                         tree.expand("/dir", function(err) {
                             if (err) throw err.message;
                             
                             tree.select("/dir");
-                            expect(fsCache.findNode("/dir/dir")).to.not.ok
+                            expect(fsCache.findNode("/dir/dir")).to.not.ok;
                             tree.createFolder("dir", true, function(err) {
                                 if (err) throw err.message;
                                 
@@ -422,15 +422,15 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                                 expect.html("/dir/dir").to.exist.and.visible;
                                 expect(tree.tree.edit.renaming).is.not.ok;
                                 
-                                fs.rmdir("/dir/dir", function(){
+                                fs.rmdir("/dir/dir", function() {
                                     done();
-                                })
+                                });
                             });
                         });
                     });
                 });
             });
-            describe("Response to changes to the fs cache", function(){
+            describe("Response to changes to the fs cache", function() {
                 before(function(done) {
                     fsCache.clear();
                     done();
@@ -500,7 +500,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     });
                 });
             });
-            describe("Actions from the UI that trigger fs actions", function(){
+            describe("Actions from the UI that trigger fs actions", function() {
                 before(function(done) {
                     fsCache.clear();
                     done();
@@ -512,7 +512,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     fs.on("afterReaddir", function c1(e) {
                         fs.off("afterReaddir", c1);
                         
-                        setTimeout(function(){
+                        setTimeout(function() {
                             expect.html("/dir")
                                 .to.exist
                                 .is.visible;
@@ -522,8 +522,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     });
                 });
                 it('should rename a node', function(done) {
-                    tree.expand("/", function(){
-                        fs.rmfile("/test2.html", function(){
+                    tree.expand("/", function() {
+                        fs.rmfile("/test2.html", function() {
                             fs.writeFile("/test.html", "test", function(err) {
                                 if (err) throw err.message;
                             
@@ -537,7 +537,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                                 expect(fsCache.findNode("/test2.html")).to.ok
                                     .and.property("status").equals("predicted");
                                 
-                                fs.once("afterRename", function(){
+                                fs.once("afterRename", function() {
                                     fs.exists("/test2.html", function(exists) {
                                         expect(exists).to.ok;
                                         expect(fsCache.findNode("/test2.html")).to.ok
@@ -554,7 +554,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                         
                     tree.tree.execCommand("delete");
                     
-                    setTimeout(function(){
+                    setTimeout(function() {
                         questionDialog.getElement("yes").onclick();
                         expect(fsCache.findNode("/test2.html")).to.not.ok;
                         
@@ -568,14 +568,14 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     tree.select("/");
                     
                     var alerted;
-                    alertDialog.once("show", function(){
+                    alertDialog.once("show", function() {
                         alerted = true;
                     });
                     
                     tree.tree.execCommand("delete");
                     expect(fsCache.findNode("/")).to.ok;
                     
-                    setTimeout(function(){
+                    setTimeout(function() {
                         expect(alerted).to.ok;
                         alertDialog.hide();
                         
@@ -586,7 +586,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     }, 0);
                 });
                 it('should move a node', function(done) {
-                    fs.rmfile("/dir/test.html", function(){
+                    fs.rmfile("/dir/test.html", function() {
                         fs.writeFile("/test.html", "test", "utf8", function(err) {
                             if (err) throw err.message;
                             
@@ -625,8 +625,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                                 fs.exists("/test.html", function(exists) {
                                     expect(exists).to.ok;
                                     expect(tree.selection, "selection").deep.equal(["/test.html"]);
-                                    fs.rmfile("/dir/test.html", function(){
-                                        fs.rmfile("/test.html", function(){
+                                    fs.rmfile("/dir/test.html", function() {
+                                        fs.rmfile("/test.html", function() {
                                             done();
                                         });
                                     });
@@ -641,7 +641,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             });
             
             if (!onload.remain) {
-                describe("unload()", function(){
+                describe("unload()", function() {
                     it('should destroy all ui elements when it is unloaded', function(done) {
                         tree.unload();
                         expect(container.$amlDestroyed).to.equal(true);

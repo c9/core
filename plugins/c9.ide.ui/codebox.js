@@ -23,7 +23,7 @@ apf.codebox = function(struct, tagName) {
     this.$childProperty = "value";
     this.value = "";
 
-    this.$draw = function(){
+    this.$draw = function() {
         // Build Main Skin
         this.$ext = this.$getExternal();
         this.$input = this.$getLayoutNode("main", "input", this.$ext);
@@ -79,7 +79,7 @@ apf.codebox = function(struct, tagName) {
             var _self = this;
             var visible = false;
             ace.renderer.on("afterRender", function() {
-                var show = !!ace.getValue()
+                var show = !!ace.getValue();
                 if (visible != show) {
                     visible = show;
                     _self.$button.style.display = visible ? "block" : "";
@@ -87,7 +87,7 @@ apf.codebox = function(struct, tagName) {
             });
             this.$button.addEventListener("click", function() {
                 ace.setValue("");
-            }, false)
+            }, false);
         }
         this.$ext.addEventListener("mousedown", function() {
             ace.focus();
@@ -110,7 +110,7 @@ apf.codebox = function(struct, tagName) {
 
         this.ace.focus();
     };
-    this.$blur = function (){
+    this.$blur = function () {
         if (!this.$ext)
             return;
 
@@ -119,8 +119,8 @@ apf.codebox = function(struct, tagName) {
             this.ace.blur();
     };
     
-    this.$enable = function(){ this.ace.setReadOnly(false); };
-    this.$disable = function(){ this.ace.setReadOnly(true); };
+    this.$enable = function() { this.ace.setReadOnly(false); };
+    this.$disable = function() { this.ace.setReadOnly(true); };
 
     this.execCommand = function(command) {
         this.ace.commands.exec(command, this.ace);
@@ -162,7 +162,7 @@ apf.codebox = function(struct, tagName) {
         return editor;
     },
 
-    this.$loadAml = function(){
+    this.$loadAml = function() {
         if (typeof this["clearbutton"] == "undefined")
             this.$setInheritedAttribute("clearbutton");
         if (typeof this["initial-message"] == "undefined")

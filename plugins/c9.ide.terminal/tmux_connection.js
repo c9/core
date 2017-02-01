@@ -12,7 +12,7 @@ module.exports = function(c9, proc, installPath, shell) {
             return;
         }
         
-        setTimeout(function(){
+        setTimeout(function() {
             reconnect(session, force);
         }, session.reconnecting === 0 ? 0 : 
             (session.reconnecting < 10 ? 100 : 1000));
@@ -115,7 +115,7 @@ module.exports = function(c9, proc, installPath, shell) {
         sendTmuxCommand("send-keys -R ; clear-history", 1, this.terminal);
     }
     
-    function changeMode(){ return false; }
+    function changeMode() { return false; }
     
     function getTMUX(session, callback) {
         var disregarded;
@@ -212,7 +212,7 @@ module.exports = function(c9, proc, installPath, shell) {
                 delete session.pty;
             };
             
-            session.pty.on("exit", function(){
+            session.pty.on("exit", function() {
                 if (!disregarded) {
                     session.connected = false;
                     session.connecting = false;

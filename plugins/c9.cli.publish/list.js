@@ -24,7 +24,7 @@ define(function(require, exports, module) {
         // var emit = plugin.getEmitter();
 
         var loaded;
-        function load(){
+        function load() {
             if (loaded) return;
             loaded = true;
             
@@ -43,7 +43,7 @@ define(function(require, exports, module) {
                 exec: function(argv) {
                     verbose = argv["verbose"];
                     
-                    list(argv.json, function(err){
+                    list(argv.json, function(err) {
                         if (err)
                             console.error(err.message || err);
                         process.exit(err ? 1 : 0);
@@ -54,17 +54,17 @@ define(function(require, exports, module) {
 
         /***** Methods *****/
         
-        function stringifyError(err){
+        function stringifyError(err) {
             return (verbose ? JSON.stringify(err, 4, "    ") : (typeof err == "string" ? err : err.message));
         }
         
-        function pad(str, nr){
+        function pad(str, nr) {
             return str + Array(Math.max(0, nr - str.length)).join(" ");
         }
         
-        function list(asJson, callback){
-            callback = callback || function(){};
-            api.packages.get("", function(err, list){
+        function list(asJson, callback) {
+            callback = callback || function() {};
+            api.packages.get("", function(err, list) {
                 if (err) {
                     console.error("ERROR: Could not get list: ", stringifyError(err));
                     return callback(err);
@@ -77,13 +77,13 @@ define(function(require, exports, module) {
                 }
                 else {
                     var max = [0, 0, 0, 0];
-                    list.forEach(function(item){
+                    list.forEach(function(item) {
                         max[0] = Math.max(max[0], item.name.length);
                         max[1] = Math.max(max[1], Math.min(50, item.description.split(".")[0].length));
                         max[2] = Math.max(max[2], item.name.length + 33);
                         max[3] = Math.max(max[3], (item.website || item.repository.url).length);
                     });
-                    list.forEach(function(item){
+                    list.forEach(function(item) {
                         console.log(
                             pad(item.name, max[0] + PADDING), 
                             item.description.split(".")[0].replace(/[\r\n]/g, ""));
@@ -98,16 +98,16 @@ define(function(require, exports, module) {
 
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
             verbose = false;
         });

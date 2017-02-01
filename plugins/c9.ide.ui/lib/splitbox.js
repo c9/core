@@ -1,6 +1,6 @@
 define(function(require, module, exports) {
 return function(apf) {
-var $setTimeout  = setTimeout;
+var $setTimeout = setTimeout;
 var $setInterval = setInterval;
 
 
@@ -59,14 +59,14 @@ apf.resize = function() {
 
     this.init = function() {
         squares = [
-            new apf.resize.square("top",    "left",   this),
-            new apf.resize.square("top",    "middle", this),
-            new apf.resize.square("top",    "right",  this),
-            new apf.resize.square("middle", "left",   this),
-            new apf.resize.square("middle", "right",  this),
-            new apf.resize.square("bottom", "left",   this),
+            new apf.resize.square("top", "left", this),
+            new apf.resize.square("top", "middle", this),
+            new apf.resize.square("top", "right", this),
+            new apf.resize.square("middle", "left", this),
+            new apf.resize.square("middle", "right", this),
+            new apf.resize.square("bottom", "left", this),
             new apf.resize.square("bottom", "middle", this),
-            new apf.resize.square("bottom", "right",  this)];
+            new apf.resize.square("bottom", "right", this)];
     };
     
     /**
@@ -128,7 +128,7 @@ apf.resize = function() {
     /**
      * Destroys all block squares
      */
-    this.destroy = function(){
+    this.destroy = function() {
         for (var i = 0; i < squares.length; i++) {
             squares[i].destroy();
         }
@@ -194,12 +194,12 @@ apf.resize.square = function(posY, posX, objResize) {
             var t = posY == "top"
                 ? bt - margin - sh
                 : posY == "middle"
-                    ? bt + bh/2 - sh/2
+                    ? bt + bh / 2 - sh / 2
                     : bt + bh + margin;
             var l = posX == "left"
                 ? bl - margin - sw
                 : posX == "middle"
-                    ? bl + bw/2 - sw/2
+                    ? bl + bw / 2 - sw / 2
                     : bl + bw + margin;
 
             var c = (posY == "middle" 
@@ -222,7 +222,7 @@ apf.resize.square = function(posY, posX, objResize) {
         }
     };
 
-    this.destroy = function(){
+    this.destroy = function() {
         apf.destroyHtmlNode(this.htmlElement);
     };
 
@@ -285,27 +285,27 @@ apf.resize.square = function(posY, posX, objResize) {
             if (shiftKey) {
                 if (posX == "right" && posY == "bottom") {
                     width = w + dx;
-                    height = width/proportion;
+                    height = width / proportion;
                     left = l;
                     top = t;
                 }
                 else if (posX == "right" && posY == "top") {
                     width = w + dx;
-                    height = width/proportion;
+                    height = width / proportion;
                     left = l;
-                    top = t - dx/proportion;
+                    top = t - dx / proportion;
                 }
                 else if (posX == "left" && posY == "bottom") {
                     width = w - dx;
-                    height = width/proportion;
+                    height = width / proportion;
                     left = l + dx;
                     top = t;
                 }
                 else if (posX == "left" && posY == "top") {
                     width = w - dx;
-                    height = width/proportion;
+                    height = width / proportion;
                     left = l + dx;
-                    top = t + dx/proportion;
+                    top = t + dx / proportion;
                 }
 
                 /* Keep minimal size */
@@ -422,13 +422,13 @@ apf.vsplitbox = function(struct, tagName) {
     this.$init(tagName || "vsplitbox", apf.NODE_VISIBLE, struct);
 };
 
-(function(){
+(function() {
     this.minwidth = 0;
     this.minheight = 0;
     
     this.padding = 0;
     this.edge = 0;
-    this.$edge = [0,0,0,0];
+    this.$edge = [0, 0, 0, 0];
     
     // *** Properties and Attributes *** //
 
@@ -525,7 +525,7 @@ apf.vsplitbox = function(struct, tagName) {
                 }
             }
         }
-    }
+    };
     
     this.$propHandlers["splitter"] = function(value) {
         if (value) {
@@ -540,7 +540,7 @@ apf.vsplitbox = function(struct, tagName) {
         else {
             this.$handle && this.$handle.hide();//destroy(true, true);
         }
-    }
+    };
     
     this.$propHandlers["edge"] = function(value, setSize) {
         this.$edge = apf.getBox(value);
@@ -696,13 +696,13 @@ apf.vsplitbox = function(struct, tagName) {
             node = node.nextSibling;
         }
         return node || false;
-    }
-    this.getSecondChild = function(){
+    };
+    this.getSecondChild = function() {
         var node = this.getFirstChild();
         if (!node)
             return false;
         return node.nextSibling && this.getFirstChild(node.nextSibling);
-    }
+    };
     
     this.getFirstVisibleChild = function(startNode) {
         var node = startNode || this.firstChild;
@@ -712,14 +712,14 @@ apf.vsplitbox = function(struct, tagName) {
         if (node && node.visible)
             return node;
         return false;
-    }
+    };
     
-    this.getSecondVisibleChild = function(){
+    this.getSecondVisibleChild = function() {
         var node = this.getFirstVisibleChild();
         if (!node)
             return false;
         return node.nextSibling && this.getFirstVisibleChild(node.nextSibling);
-    }
+    };
     
     function visibleHandler(e) {
         if (this.parentNode.$handle) {
@@ -739,11 +739,11 @@ apf.vsplitbox = function(struct, tagName) {
         
         //Change margin
         this.parentNode.$propHandlers.padding
-            .call(this.parentNode, this.parentNode.padding)
+            .call(this.parentNode, this.parentNode.padding);
     }
     
     var handlers = {
-        "width" : function(value, isLast) {
+        "width": function(value, isLast) {
             //@todo this should check the largest and only allow that one
             //if (this.parentNode.$vbox && this.parentNode.align == "stretch")
                 //return;
@@ -762,7 +762,7 @@ apf.vsplitbox = function(struct, tagName) {
                     this.parentNode.edge);
         },
         
-        "height" : function(value, isLast) {
+        "height": function(value, isLast) {
             //@todo this should check the largest and only allow that one
             //if (!this.parentNode.$vbox && this.parentNode.align == "stretch")
                 //return;
@@ -781,14 +781,14 @@ apf.vsplitbox = function(struct, tagName) {
                     this.parentNode.edge);
         },
         
-        "margin" : function(value, isLast) {
+        "margin": function(value, isLast) {
             this.$margin = apf.getBox(value);
             
             //This can be optimized
             if (this.$amlLoaded && isLast !== false)
                 this.parentNode.$propHandlers["edge"].call(this.parentNode, this.parentNode.edge);
         }
-    }
+    };
     
     this.register = function(amlNode, insert) {
         if (amlNode.$splitter || amlNode.nodeFunc != apf.NODE_VISIBLE)
@@ -857,7 +857,7 @@ apf.vsplitbox = function(struct, tagName) {
         
         if (this.$handle && this.childNodes.length > 2)
             this.$handle.show();
-    }
+    };
     
     this.unregister = function(amlNode) {
         if (amlNode.$splitter || amlNode.nodeFunc != apf.NODE_VISIBLE)
@@ -898,7 +898,7 @@ apf.vsplitbox = function(struct, tagName) {
         
         if (this.$handle)
             this.$handle.hide();
-    }
+    };
     
     // *** DOM Hooks *** //
     
@@ -939,7 +939,7 @@ apf.vsplitbox = function(struct, tagName) {
         }
     });
 
-    this.$draw = function(){
+    this.$draw = function() {
         var doc = this.$pHtmlNode.ownerDocument;
         this.$ext = this.$pHtmlNode.appendChild(doc.createElement("div"));
         if (this.getAttribute("style"))
@@ -1019,10 +1019,10 @@ apf.splitter = function(struct, tagName) {
                 oOffsetPos: "offsetLeft",
                 oOffsetSize: "offsetWidth",
                 clientPos: "clientY",
-                d1          : 1,
-                d2          : 0,
-                x1          : 0,
-                x2          : 2
+                d1: 1,
+                d2: 0,
+                x1: 0,
+                x2: 2
             };
         }
         else {
@@ -1036,10 +1036,10 @@ apf.splitter = function(struct, tagName) {
                 oOffsetPos: "offsetTop",
                 oOffsetSize: "offsetHeight",
                 clientPos: "clientX",
-                d1          : 0,
-                d2          : 1,
-                x1          : 3,
-                x2          : 1
+                d1: 0,
+                d2: 1,
+                x1: 3,
+                x2: 1
             };
         }
     };
@@ -1062,7 +1062,7 @@ apf.splitter = function(struct, tagName) {
         //this.init();
     }*/
     
-    this.$draw = function(){
+    this.$draw = function() {
         //Build Main Skin
         this.$ext = this.$getExternal();
 
@@ -1115,7 +1115,7 @@ apf.splitter.templates = {
                 apf.layout.forceResize(this.$ext.parentNode);
         },
         
-        $setSiblings: function(){
+        $setSiblings: function() {
             this.$previous = this.previousSibling;
             while (this.$previous && (this.$previous.nodeType != 1 
               || this.$previous.visible === false 
@@ -1163,7 +1163,7 @@ apf.splitter.templates = {
             return this;
         },
         
-        decorate: function(){
+        decorate: function() {
             var _self = this;
             this.$ext.onmousedown = function(e) {
                 if (!e)
@@ -1228,8 +1228,8 @@ apf.splitter.templates = {
                                         + (apf.hasFlexibleBox && !_self.realtime && node == _self.$previous 
                                             ? 2 * _self.parentNode.padding : 0));
                             }
-                            for (var i = 0, l = set.length; i < l; i+=2) {
-                                set[i].setAttribute("flex", set[i+1]);
+                            for (var i = 0, l = set.length; i < l; i += 2) {
+                                set[i].setAttribute("flex", set[i + 1]);
                             }
                         }
                         
@@ -1360,9 +1360,9 @@ apf.splitter.templates = {
                     
                     _self.dispatchEvent("dragmove");
                 };
-            }
+            };
             
-            apf.queue.add("splitter" + this.$uniqueId, function(){
+            apf.queue.add("splitter" + this.$uniqueId, function() {
                 _self.init();
             });
         }
@@ -1393,12 +1393,12 @@ apf.splitter.templates = {
             else if (firstChild.height) {
                 var total = apf.getHtmlInnerHeight(pNode.$int);
                 firstChild[method]("height", 
-                    ((newPos - pNode.$edge[0])/total*100) + "%");
+                    ((newPos - pNode.$edge[0]) / total * 100) + "%");
             }
             else {
                 var total = apf.getHtmlInnerHeight(pNode.$int) ;
                 pNode.lastChild[method]("height", 
-                    ((total - newPos - pNode.$edge[2] - pNode.padding)/total*100) + "%");
+                    ((total - newPos - pNode.$edge[2] - pNode.padding) / total * 100) + "%");
             }
     
             apf.dispatchEvent("splitter.resize", { splitter: this, final: finalPass });
@@ -1424,23 +1424,23 @@ apf.splitter.templates = {
             else if (firstChild.width) {
                 var total = apf.getHtmlInnerWidth(pNode.$int);
                 firstChild[method]("width", 
-                    ((newPos - pNode.$edge[3])/total*100) + "%");
+                    ((newPos - pNode.$edge[3]) / total * 100) + "%");
             }
             else {
                 var total = apf.getHtmlInnerWidth(pNode.$int) ;
                 pNode.lastChild[method]("width", 
-                    ((total - newPos - pNode.$edge[1] - pNode.padding)/total*100) + "%");
+                    ((total - newPos - pNode.$edge[1] - pNode.padding) / total * 100) + "%");
             }
     
             apf.dispatchEvent("splitter.resize", { splitter: this, final: finalPass });
         },
         
-        $setSiblings: function(){
+        $setSiblings: function() {
             this.$previous = this.parentNode.firstChild;
             this.$next = this.parentNode.lastChild;
         },
         
-        decorate: function(){
+        decorate: function() {
             var _self = this;
             
             if (this.parentNode && this.parentNode.$box) {
@@ -1556,7 +1556,7 @@ apf.splitter.templates = {
                     
                     _self.dispatchEvent("dragmove");
                 };
-            }
+            };
         }
     }
 };

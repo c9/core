@@ -23,7 +23,7 @@ var HoverLink = function(editor) {
     event.addListener(editor.renderer.container, "contextmenu", this.onContextMenu);
 };
 
-(function(){
+(function() {
     oop.implement(this, EventEmitter);
     
     this.token = {};
@@ -39,7 +39,7 @@ var HoverLink = function(editor) {
         var row = Math.floor((this.y + renderer.scrollTop - canvasPos.top) / renderer.lineHeight);
         var col = Math.round(offset);
 
-        var screenPos = {row: row, column: col, side: offset - col > 0 ? 1 : -1};
+        var screenPos = { row: row, column: col, side: offset - col > 0 ? 1 : -1 };
         var session = editor.session;
         var docPos = session.screenToDocumentPosition(screenPos.row, screenPos.column);
         
@@ -87,7 +87,7 @@ var HoverLink = function(editor) {
         var match;
         regExp.lastIndex = 0;
         string.replace(regExp, function(str) {
-            var offset = arguments[arguments.length-2];
+            var offset = arguments[arguments.length - 2];
             var length = str.length;
             if (offset <= col && offset + length >= col)
                 match = {
@@ -183,7 +183,7 @@ var HoverLink = function(editor) {
         var value = match.value;
         if (/^https?:|\bc9.io\b|(\d{1,3}\b.?){4}|localhost/.test(value)) {
             match.type = "link";
-            var m =  /((https?:\/\/)?(\d{1,3}\b.?){4}(:\d+[^\d\/]|[^:\d\/]))/.exec(value);
+            var m = /((https?:\/\/)?(\d{1,3}\b.?){4}(:\d+[^\d\/]|[^:\d\/]))/.exec(value);
             if (m)
                 value = m[0].slice(0, -1);
             value = value.replace(/[>)}\].,;:]+$/, "");

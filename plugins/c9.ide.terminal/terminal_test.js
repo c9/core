@@ -81,15 +81,15 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
       
                 document.body.style.marginBottom = "33%";
                 
-                proc.execFile("~/.c9/bin/tmux", { args: ["-L", "cloud9test", "kill-server"] }, function(err) {
-                    tabs.once("ready", function(){
+                proc.execFile("~/.c9/bin/tmux", { args: ["-L", "cloud9test", "kill-server"]}, function(err) {
+                    tabs.once("ready", function() {
                         tabs.getPanes()[0].focus();
                         done();
                     });
                 });
             });
             
-            describe("open", function(){
+            describe("open", function() {
                 this.timeout(15000);
                 
                 var sessId;
@@ -99,7 +99,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
                         expect(tabs.getTabs()).length(1);
                         
                         var doc = tab.document;
-                        doc.on("setTitle", function c1(){
+                        doc.on("setTitle", function c1() {
                             // expect(doc.title).match(new RegExp("^bash - "));
                             
                             sessId = doc.getSession().id;
@@ -116,8 +116,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
                     var doc = tabs.focussedTab.document;
                     var session = doc.getSession();
                     
-                    session.once("connected", function(){
-                        doc.once("setTitle", function(){
+                    session.once("connected", function() {
+                        doc.once("setTitle", function() {
                             // expect(doc.title).to.match(/^bash - /);
                             expect(session.id).to.equal(sessId);
                             done();
@@ -141,14 +141,14 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
                             throw err.message;
                     });
                     
-                    session.on("connected", function c0(){
-                        doc.on("setTitle", function c1(){
+                    session.on("connected", function c0() {
+                        doc.on("setTitle", function c1() {
                             expect(session.id).to.not.equal(sessId);
                             doc.off("setTitle", c1);
                             done();
                         });
                         session.off("connected", c0);
-                    })
+                    });
                 });
                 
                 it('should handle multiple terminals in the same pane', function(done) {
@@ -158,7 +158,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
                         tab.activate();
                         
                         var doc = tab.document;
-                        doc.on("setTitle", function c1(){
+                        doc.on("setTitle", function c1() {
                             // expect(doc.title).match(new RegExp("^bash - "));
                             
                             doc.off("setTitle", c1);
@@ -167,7 +167,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
                     });
                 });
             });
-            describe("clear(), getState() and setState()", function(){
+            describe("clear(), getState() and setState()", function() {
                 this.timeout(10000);
                 
                 var state, info = {};
@@ -191,7 +191,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
                     var pages = tabs.getTabs();
                     pages.forEach(function(tab) {
                         tab.document.getSession().disregard();
-                    })
+                    });
                     tabs.clear(true, true); //Soft clear, not unloading the pages
                     expect(tabs.getTabs(), "pages").length(0);
                     expect(tabs.getPanes(), "tabManager").length(0);
@@ -214,14 +214,14 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
                     done();
                 });
             });
-            describe("split(), kill-server, pane.unload()", function(){
+            describe("split(), kill-server, pane.unload()", function() {
                 this.timeout(30000);
                 it('should split a pane horizontally, making the existing pane the left one', function(done) {
                     var pane = tabs.focussedTab.pane;
                     var righttab = pane.hsplit(true);
                     tabs.focussedTab.attachTo(righttab);
 
-                    setTimeout(function(){
+                    setTimeout(function() {
                         done();
                     });
                 });
@@ -230,7 +230,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
                         var count = 0;
                         tabs.getTabs().forEach(function(tab) {
                             var session = tab.document.getSession();
-                            session.on("connected", function c0(){
+                            session.on("connected", function c0() {
                                 if (++count == 2)
                                     done();
                                 
@@ -252,8 +252,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
                 });
             });
             
-            describe("pageUnload()", function(){
-                this.timeout(10000)
+            describe("pageUnload()", function() {
+                this.timeout(10000);
                 
                 it('should terminate tmux session when tab is unloaded', function(done) {
                     var doc = tabs.focussedTab.document;

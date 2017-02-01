@@ -1,26 +1,26 @@
 define(function(require, module, exports) {
 return function(apf) {
-var $setTimeout  = setTimeout;
+var $setTimeout = setTimeout;
 var $setInterval = setInterval;
 
 apf.popup = {
-    cache      : {},
-    focusFix   : {"INPUT":1,"TEXTAREA":1,"SELECT":1},
+    cache: {},
+    focusFix: { "INPUT": 1, "TEXTAREA": 1, "SELECT": 1 },
     
-    setContent : function(cacheId, content, style, width, height){
+    setContent: function(cacheId, content, style, width, height) {
         if (!this.popup) this.init();
 
         this.cache[cacheId] = {
-            content : content,
-            style   : style,
-            width   : width,
-            height  : height
+            content: content,
+            style: style,
+            width: width,
+            height: height
         };
         content.style.position = "absolute";
         //if(content.parentNode) content.parentNode.removeChild(content);
         //if(style) apf.importCssString(style, this.popup.document);
         
-        content.onmousedown  = function(e) {
+        content.onmousedown = function(e) {
             if (!e) e = event;
 
             
@@ -33,38 +33,38 @@ apf.popup = {
         return content.ownerDocument;
     },
     
-    removeContent : function(cacheId){
+    removeContent: function(cacheId) {
         this.cache[cacheId] = null;
         delete this.cache[cacheId];
     },
     
-    init : function(){
+    init: function() {
         //consider using iframe
         this.popup = {};
         
-        apf.addEventListener("hotkey", function(e){
+        apf.addEventListener("hotkey", function(e) {
             if (e.keyCode == "27" || e.altKey) 
                 apf.popup.forceHide();
         });
     },
     
-    show : function(cacheId, options){
+    show: function(cacheId, options) {
         if (!this.popup) this.init();
         
         options = apf.extend({
-            x            : 0,
-            y            : 0,
-            animate      : false,
-            ref          : null,
-            width        : null,
-            height       : null,
-            callback     : null,
-            draggable    : false,
-            resizable    : false,
+            x: 0,
+            y: 0,
+            animate: false,
+            ref: null,
+            width: null,
+            height: null,
+            callback: null,
+            draggable: false,
+            resizable: false,
             allowTogether: false,
-            autoCorrect  : true,
-            noleft       : false,
-            setZindex    : true
+            autoCorrect: true,
+            noleft: false,
+            setZindex: true
         }, options);
         
         if ((!options.allowTogether 
@@ -78,10 +78,10 @@ apf.popup = {
         o.options = options;
 
         var dp,
-            popup  = o.content,
+            popup = o.content,
             moveUp = false,
             moveLeft = false,
-            fixed  = false;
+            fixed = false;
 
         if (options.setZindex)
             apf.window.zManager.set(options.zindextype || "popup", o.content);
@@ -114,8 +114,8 @@ apf.popup = {
             popup.style.maxHeight = "";
             
             var parentMenu = this.cache[options.allowTogether];
-            var pOverflow  = apf.getOverflowParent(o.content);
-            var edgeY      = (pOverflow == document.documentElement
+            var pOverflow = apf.getOverflowParent(o.content);
+            var edgeY = (pOverflow == document.documentElement
                 ? (apf.isIE 
                     ? pOverflow.offsetHeight 
                     : (window.innerHeight + window.pageYOffset)) + pOverflow.scrollTop
@@ -140,7 +140,7 @@ apf.popup = {
                 }
                 else {
                     var minTop = this.$screenMargin.top + 3;
-                    maxHeight = (pos ? pos[1] : edgeY) - minTop  - 10;
+                    maxHeight = (pos ? pos[1] : edgeY) - minTop - 10;
                     popup.style.top = Math.max(value, minTop) + "px";
                 }
                 
@@ -154,7 +154,7 @@ apf.popup = {
             popup.style.maxHeight = maxHeight ? maxHeight + "px" : "";
             
             if (!options.noleft) {
-                var edgeX     = (pOverflow == document.documentElement
+                var edgeX = (pOverflow == document.documentElement
                     ? (apf.isIE 
                         ? pOverflow.offsetWidth
                         : (window.innerWidth + window.pageXOffset)) + pOverflow.scrollLeft
@@ -187,7 +187,7 @@ apf.popup = {
             y = (y || 0) + pos[1] + refNode.offsetTop;
             pos[0] += refNode.offsetLeft;
             popup.style.position = "fixed";
-            popup.style.top      = y + "px";
+            popup.style.top = y + "px";
             
             if (!options.noleft)
                 popup.style.left = x + "px";
@@ -203,16 +203,16 @@ apf.popup = {
         if (options.animate) {
             if (options.animate == "fade") {
                 apf.tween.single(popup, {
-                    type  : 'fade',
-                    from  : 0,
-                    to    : 1,
-                    anim  : apf.tween.NORMAL,
-                    steps : options.steps || 15 * apf.animSteps
+                    type: 'fade',
+                    from: 0,
+                    to: 1,
+                    anim: apf.tween.NORMAL,
+                    steps: options.steps || 15 * apf.animSteps
                 });
             }
             else {
                 var iVal, steps = apf.isIE8 ? 5 : 7, i = 0;
-                iVal = setInterval(function(){
+                iVal = setInterval(function() {
                     var value = ++i * ((options.height || o.height) / steps);
 
                     popup.style.height = value + "px";
@@ -223,7 +223,7 @@ apf.popup = {
                     popup.style.display = "block";
 
                     if (i >= steps) {
-                        clearInterval(iVal)
+                        clearInterval(iVal);
                         
                         if (options.callback)
                             options.callback(popup);
@@ -247,7 +247,7 @@ apf.popup = {
                options.callback(popup);
         }
 
-        $setTimeout(function(){
+        $setTimeout(function() {
             apf.popup.last = cacheId;
         });
 
@@ -257,7 +257,7 @@ apf.popup = {
         }
     },
     
-    hide : function(){
+    hide: function() {
         if (this.isDragging) return;
 
         var o = this.cache[this.last];
@@ -266,19 +266,19 @@ apf.popup = {
                 o.content.style.display = "none";
 
             if (o.options && o.options.onclose) {
-                o.options.onclose(apf.extend(o.options, {htmlNode: o.content}));
+                o.options.onclose(apf.extend(o.options, { htmlNode: o.content }));
                 o.options.onclose = false;
             }
         }
     },
     
-    isShowing : function(cacheId){
+    isShowing: function(cacheId) {
         return this.last && this.last == cacheId 
             && this.cache[this.last]
             && this.cache[this.last].content.style.display != "none";
     },
 
-    isDragging   : false,
+    isDragging: false,
 
     makeDraggable: function(options) {
         if (!apf.Interactive || this.cache[options.id].draggable) 
@@ -287,27 +287,27 @@ apf.popup = {
         var oHtml = this.cache[options.id].content;
         this.cache[options.id].draggable = true;
         var o = {
-            $propHandlers : {},
-            minwidth      : 10,
-            minheight     : 10,
-            maxwidth      : 10000,
-            maxheight     : 10000,
-            dragOutline   : false,
-            resizeOutline : false,
-            draggable     : true,
-            resizable     : options.resizable,
-            $ext          : oHtml,
-            oDrag         : oHtml.firstChild
+            $propHandlers: {},
+            minwidth: 10,
+            minheight: 10,
+            maxwidth: 10000,
+            maxheight: 10000,
+            dragOutline: false,
+            resizeOutline: false,
+            draggable: true,
+            resizable: options.resizable,
+            $ext: oHtml,
+            oDrag: oHtml.firstChild
         };
 
         oHtml.onmousedown =
-        oHtml.firstChild.onmousedown = function(e){
+        oHtml.firstChild.onmousedown = function(e) {
             if (!e) e = event;
             
             
             
             (e || event).cancelBubble = true;
-        }
+        };
 
         apf.implement.call(o, apf.Interactive);
 
@@ -315,11 +315,11 @@ apf.popup = {
         o.$propHandlers["resizable"].call(o, true);
     },
     
-    getCurrentElement : function(){
+    getCurrentElement: function() {
         return typeof this.last == "number" && apf.lookup(this.last);
     },
     
-    $mousedownHandler : function(amlNode, e){
+    $mousedownHandler: function(amlNode, e) {
         if (!this.last || (amlNode && this.last == amlNode.$uniqueId) || !this.cache[this.last])
           return;
 
@@ -340,7 +340,7 @@ apf.popup = {
         this.forceHide();
     },
     
-    forceHide : function(){
+    forceHide: function() {
         if (document.body.classList.contains("noInput")) return;
         
         if (this.last 
@@ -359,7 +359,7 @@ apf.popup = {
         }
     },
 
-    destroy : function(){
+    destroy: function() {
         for (var cacheId in this.cache) {
             if (this.cache[cacheId]) {
                 this.cache[cacheId].content.onmousedown = null;
@@ -379,7 +379,7 @@ apf.popup = {
             if (i in m)
                 this.$screenMargin[i] = m[i] || 0;
     },
-    $screenMargin: {top: 0, left: 0, right: 0, bottom: 0}
+    $screenMargin: { top: 0, left: 0, right: 0, bottom: 0 }
 };
 
 
@@ -449,30 +449,30 @@ apf.popup = {
  *   - `value` ([[String]]): the value of the clicked element.
  *
  */
-apf.menu = function(struct, tagName){
+apf.menu = function(struct, tagName) {
     this.$init(tagName || "menu", apf.NODE_VISIBLE, struct);
     
     this.animate = apf.enableAnim;
 };
 
-(function(){
-    this.$focussable  = apf.MENU;
-    this.$positioning = "basic"
+(function() {
+    this.$focussable = apf.MENU;
+    this.$positioning = "basic";
     //var _self         = this;
     //var blurring      = false;
 
     // *** Properties and Attributes *** //
     
     //this.zindex    = 10000000;
-    this.visible   = false;
+    this.visible = false;
     this.matchhide = false;
 
-    this.$booleanProperties["animate"]  = true;
+    this.$booleanProperties["animate"] = true;
     this.$booleanProperties["pinned"] = true;
     this.$booleanProperties["sticky"] = true;
     this.$booleanProperties["matchhide"] = true;
     
-    this.$propHandlers["visible"] = function(value, prop, force, nofocus, hideOpener){
+    this.$propHandlers["visible"] = function(value, prop, force, nofocus, hideOpener) {
         if (!this.$ext)
             return;
         
@@ -485,14 +485,14 @@ apf.menu = function(struct, tagName){
             this.$ext.style.display = "none";
 
             var lastFocus = apf.menu.lastFocussed;
-            var opener    = this.opener;
+            var opener = this.opener;
             //@todo test this with a list being the opener of the menu
             if (lastFocus != this.opener && this.opener && this.opener.$blur)
                 this.opener.$blur();
 
             if (this.opener && this.opener.parentNode && this.opener.parentNode.localName == "menu") {
                 if (!this.$hideTree)
-                    this.$hideTree = -1
+                    this.$hideTree = -1;
                 this.opener.parentNode.focus();
             }
             
@@ -512,7 +512,7 @@ apf.menu = function(struct, tagName){
                 //We're just being hidden
                 else if (this.$hideTree) {
                     if (!this.$hideTree)
-                        this.$hideTree = -1
+                        this.$hideTree = -1;
 
                     var visTest = (lastFocus.disabled || lastFocus.$ext 
                         && !lastFocus.$ext.offsetHeight) // || !lastFocus.visible
@@ -551,7 +551,7 @@ apf.menu = function(struct, tagName){
                   && this.opener.parentNode 
                   && this.opener.parentNode.localName == "menu"
                   && this.opener.parentNode.$hideTree != -1) {
-                    this.opener.parentNode.$hideTree = true
+                    this.opener.parentNode.$hideTree = true;
                     this.opener.parentNode.hide();
                 }
                 
@@ -564,7 +564,7 @@ apf.menu = function(struct, tagName){
                 this.$selected = null;
             }
             
-            this.dispatchEvent("hide", {opener: opener});
+            this.dispatchEvent("hide", { opener: opener });
         }
     };
 
@@ -581,7 +581,7 @@ apf.menu = function(struct, tagName){
      * @param {XMLElement} xmlNode  The {@link term.datanode data node} that provides data context to the menu child nodes.
      * @see apf.GuiElement@contextmenu
      */
-    this.display = function(x, y, noanim, opener, xmlNode, openMenuId, btnWidth){
+    this.display = function(x, y, noanim, opener, xmlNode, openMenuId, btnWidth) {
         this.opener = opener;
         
         var lastFocus;
@@ -592,17 +592,17 @@ apf.menu = function(struct, tagName){
         if (xmlNode && !this.disabled) {
             var last, i, node,
                 nodes = this.childNodes,
-                c     = 0,
-                l     = nodes.length, result;
+                c = 0,
+                l = nodes.length, result;
             for (i = 0; i < l; i++) {
                 node = nodes[i];
                 if (node.nodeType != 1 || node.localName != "item")
                     continue;
     
                 result = !xmlNode || !node.match || (node.cmatch || (node.cmatch = apf.lm.compile(node.match, {
-                    xpathmode  : 3,
-                    injectself : true
-                })))(xmlNode)
+                    xpathmode: 3,
+                    injectself: true
+                })))(xmlNode);
     
                 if (result) {
                     if (this.matchhide)
@@ -633,38 +633,38 @@ apf.menu = function(struct, tagName){
         if (this.oOverlay) {
             if (btnWidth) {
                 this.oOverlay.style.display = "block";
-                this.oOverlay.style.width   = btnWidth + "px";
+                this.oOverlay.style.width = btnWidth + "px";
             }
             else
                 this.oOverlay.style.display = "none";
         }
 
-        function afterRender(){
+        function afterRender() {
             if (x === null) {
                 apf.popup.show(this.$uniqueId, {
-                    x            : 0, 
-                    y            : this.ref ? 0 : opener.$ext.offsetHeight, 
-                    animate      : noanim || !this.animate ? false : "fade",
-                    steps        : 10,
-                    ref          : (this.ref || opener).$ext,
+                    x: 0, 
+                    y: this.ref ? 0 : opener.$ext.offsetHeight, 
+                    animate: noanim || !this.animate ? false : "fade",
+                    steps: 10,
+                    ref: (this.ref || opener).$ext,
                     allowTogether: openMenuId,
-                    autohide     : !this.pinned,
-                    noleft       : this.left !== undefined,
-                    setZindex    : this.zindex ? false : true,
-                    up           : (this.ref || opener).submenudir == "up"
+                    autohide: !this.pinned,
+                    noleft: this.left !== undefined,
+                    setZindex: this.zindex ? false : true,
+                    up: (this.ref || opener).submenudir == "up"
                 });
             }
             else {
                 //var bodyPos = apf.getAbsolutePosition(document.body);
                 apf.popup.show(this.$uniqueId, {
-                    x            : x, 
-                    y            : y - (apf.isIE && apf.isIE < 8 ? 1 : 0), 
-                    animate      : noanim || !this.animate ? false : "fade",
-                    steps        : 10,
+                    x: x, 
+                    y: y - (apf.isIE && apf.isIE < 8 ? 1 : 0), 
+                    animate: noanim || !this.animate ? false : "fade",
+                    steps: 10,
                     //ref          : this.$ext.offsetParent,
                     allowTogether: openMenuId,
-                    autohide     : !this.pinned,
-                    setZindex    : this.zindex ? false : true
+                    autohide: !this.pinned,
+                    setZindex: this.zindex ? false : true
                     //autoCorrect  : false
                 });
             }
@@ -682,12 +682,12 @@ apf.menu = function(struct, tagName){
             //Make the component that provides context appear to have focus
             // second argument is needed for ace tree
             if (lastFocus && lastFocus != this && lastFocus.$focus)
-                lastFocus.$focus(null, {fromContextMenu: true});
+                lastFocus.$focus(null, { fromContextMenu: true });
     
             this.xmlReference = xmlNode;
 
             //@todo consider renaming this to onshow and onhide
-            this.dispatchEvent("display", {opener: opener});
+            this.dispatchEvent("display", { opener: opener });
         }
         
         this.visible = false;
@@ -709,7 +709,7 @@ apf.menu = function(struct, tagName){
      * Returns the current group value of this element.
      * @return {String} The current selected value.
      */
-    this.getValue = function(group){
+    this.getValue = function(group) {
         return this.getSelected(group).value || "";
     };
 
@@ -718,7 +718,7 @@ apf.menu = function(struct, tagName){
      * @param {String} group The name of the group.
      * @return {apf.radiobutton} The selected radio element.
      */
-    this.getSelected = function(group){
+    this.getSelected = function(group) {
         var nodes = this.childNodes;
         var i, l = nodes.length;
         for (i = 0; i < l; i++) {
@@ -737,7 +737,7 @@ apf.menu = function(struct, tagName){
      * @param {String} group  The name of the group.
      * @param {String} value  The value of the item to select.
      */
-    this.select = function(group, value){
+    this.select = function(group, value) {
         this.selectedValue = value;
         
         var nodes = this.childNodes;
@@ -762,7 +762,7 @@ apf.menu = function(struct, tagName){
         this.$initChildren();
     }, true);
     
-    this.addEventListener("keydown", function(e){
+    this.addEventListener("keydown", function(e) {
         var node, key = e.keyCode;
         //var ctrlKey  = e.ctrlKey;
         //var shiftKey = e.shiftKey;
@@ -824,7 +824,7 @@ apf.menu = function(struct, tagName){
 
                 if (this.opener.localName == "button") {
                     node = this.opener.previousSibling;
-                    while(node && !node.submenu)
+                    while (node && !node.submenu)
                         node = node.previousSibling;
 
                     if (node) {
@@ -833,7 +833,7 @@ apf.menu = function(struct, tagName){
                         var btnMenu = node.parentNode.menuIsPressed;
                         if (btnMenu) {
                             self[btnMenu.submenu].dispatchEvent("keydown", {
-                                keyCode : 40
+                                keyCode: 40
                             });
                         }
                     }
@@ -852,7 +852,7 @@ apf.menu = function(struct, tagName){
                 if (this.$selected && this.$selected.submenu) {
                     this.$selected.$submenu(null, true);
                     this.$showingSubMenu.dispatchEvent("keydown", {
-                       keyCode : 40
+                       keyCode: 40
                     });
 
                     return;
@@ -865,7 +865,7 @@ apf.menu = function(struct, tagName){
 
                     if (op && op.localName == "button") {
                         node = op.nextSibling;
-                        while(node && !node.submenu)
+                        while (node && !node.submenu)
                             node = node.nextSibling;
 
                         if (node) {
@@ -874,7 +874,7 @@ apf.menu = function(struct, tagName){
                             var btnMenu = node.parentNode.menuIsPressed;
                             if (btnMenu) {
                                 (self[btnMenu.submenu] || btnMenu.submenu).dispatchEvent("keydown", {
-                                    keyCode : 40
+                                    keyCode: 40
                                 });
                             }
 
@@ -885,7 +885,7 @@ apf.menu = function(struct, tagName){
 
                 if (!this.$selected) {
                     arguments.callee.call(this, {
-                       keyCode : 40
+                       keyCode: 40
                     });
                 }
 
@@ -899,7 +899,7 @@ apf.menu = function(struct, tagName){
     
 
     //Hide menu when it looses focus or when the popup hides itself
-    function forceHide(e){
+    function forceHide(e) {
         if (this.$showingSubMenu || this.pinned
                 || apf.isChildOf(e.fromElement, e.toElement)
                 || apf.isChildOf(e.toElement, e.fromElement)
@@ -916,7 +916,7 @@ apf.menu = function(struct, tagName){
         return false;
     }
 
-    this.addEventListener("focus", function(e){
+    this.addEventListener("focus", function(e) {
         apf.popup.last = this.$uniqueId;
         
         if (!apf.menu.lastFocussed)
@@ -928,7 +928,7 @@ apf.menu = function(struct, tagName){
 
     // *** Init *** //
 
-    this.$draw = function(){
+    this.$draw = function() {
         this.$pHtmlNode = document.body;
 
         //Build Main Skin
@@ -947,11 +947,11 @@ apf.menu = function(struct, tagName){
         }, true);
     };
 
-    this.$loadAml = function(x){
+    this.$loadAml = function(x) {
         this.$int = this.$getLayoutNode("main", "container", this.$ext);
     };
 
-    this.$destroy = function(){
+    this.$destroy = function() {
         apf.popup.removeContent(this.$uniqueId);
     };
     
@@ -1016,7 +1016,7 @@ apf.menu = function(struct, tagName){
     };
 }).call(apf.menu.prototype = new apf.Presentation());
 
-apf.addEventListener("movefocus", function(e){
+apf.addEventListener("movefocus", function(e) {
     var next = e.toElement;
     if (next && next.localName != "menu")
         apf.menu.lastFocussedItem = next;
@@ -1032,7 +1032,7 @@ apf.aml.setElement("menu", apf.menu);
  * @define divider
  * @inherits apf.Presentation
  */
-apf.divider = function(struct, tagName){
+apf.divider = function(struct, tagName) {
     this.$init(tagName || "divider", apf.NODE_VISIBLE, struct);
 };
 
@@ -1046,7 +1046,7 @@ apf.divider = function(struct, tagName){
     this.$childProperty = "caption";
     
     //@todo apf3.0 fix this
-    this.addEventListener("AMLReparent", function(beforeNode, pNode, withinParent){
+    this.addEventListener("AMLReparent", function(beforeNode, pNode, withinParent) {
         if (!this.$amlLoaded)
             return;
         
@@ -1061,7 +1061,7 @@ apf.divider = function(struct, tagName){
      * element. 
      */
     this.$supportedProperties.push("caption", "value", "for", "textalign");
-    this.$propHandlers["caption"] = function(value){
+    this.$propHandlers["caption"] = function(value) {
         if (this.$caption) {
             this.$setStyleClass(this.$ext, this.$baseCSSname + "Caption");
             this.$caption.innerHTML = value;
@@ -1085,7 +1085,7 @@ apf.divider = function(struct, tagName){
                 this.parentNode.$getLayoutNode("divider"), this.$pHtmlNode);
         }
         else {
-            this.$ext     = this.$getExternal("main");
+            this.$ext = this.$getExternal("main");
             this.$caption = this.$getLayoutNode("main", "caption", this.$ext);
         }
     };
@@ -1131,16 +1131,16 @@ apf.aml.setElement("divider", apf.divider);
  *  - xmlContext ([[XMLElement]]): The XML data node that was selected in the opener at the time of showing the context menu.
  *  - opener ([[apf.AmlElement]]): The element that was clicked upon when showing the context menu.
  */
-apf.item  = function(struct, tagName){
+apf.item = function(struct, tagName) {
     this.$init(tagName || "item", apf.NODE_VISIBLE, struct);
 };
 
-(function(){
-    this.$focussable    = false;
+(function() {
+    this.$focussable = false;
     this.$childProperty = "caption";
-    this.$canLeechSkin  = "item";
+    this.$canLeechSkin = "item";
 
-    this.checked  = false;
+    this.checked = false;
     this.selected = false;
 
     this.implement(apf.ChildValue);
@@ -1149,7 +1149,7 @@ apf.item  = function(struct, tagName){
     
     //1 = force no bind rule, 2 = force bind rule
     this.$attrExcludePropBind = apf.extend({
-        "match" : 1
+        "match": 1
     }, this.$attrExcludePropBind);
 
     this.$booleanProperties["checked"] = true;
@@ -1182,9 +1182,9 @@ apf.item  = function(struct, tagName){
      *  </a:toolbar>
      * ```
      */
-    this.$propHandlers["submenu"] = function(value){
+    this.$propHandlers["submenu"] = function(value) {
         apf.setStyleClass(this.$ext, "submenu");
-    }
+    };
     
     /**
      * @attribute {String} value Sets or gets the value of this element.
@@ -1239,11 +1239,11 @@ apf.item  = function(struct, tagName){
      *   </a:list>
      * ```
      */
-    this.$propHandlers["select"] = function(value){
+    this.$propHandlers["select"] = function(value) {
         this.select = value
             ? "self::" + value.split("|").join("|self::")
             : value;
-    }
+    };
     
     /**
      * @attribute {String} [group] Sets or gets the name of the group this item belongs
@@ -1260,7 +1260,7 @@ apf.item  = function(struct, tagName){
      *  </a:menu>
      * ```
      */
-    this.$propHandlers["group"] = function(value){
+    this.$propHandlers["group"] = function(value) {
         if (this.$group && this.$group.$removeRadio)
             this.$group.$removeRadio(this);
             
@@ -1302,10 +1302,10 @@ apf.item  = function(struct, tagName){
      *  <a:item hotkey="Ctrl+Q">Quit</a:item>
      * ```
      */
-    this.$propHandlers["hotkey"] = function(value){
+    this.$propHandlers["hotkey"] = function(value) {
         if (!this.$amlLoaded) {
             var _self = this;
-            this.addEventListener("DOMNodeInsertedIntoDocument", function(e){
+            this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
                 if (_self.$hotkey && _self.hotkey)
                     apf.setNodeValue(this.$hotkey, apf.isMac 
                       ? apf.hotkeys.toMacNotation(_self.hotkey) : _self.hotkey);
@@ -1322,7 +1322,7 @@ apf.item  = function(struct, tagName){
         if (value) {
             this.$lastHotkey = [value];
             var _self = this;
-            apf.hotkeys.register(value, this.$lastHotkey[1] = function(){
+            apf.hotkeys.register(value, this.$lastHotkey[1] = function() {
                 if (_self.disabled || !_self.visible)
                     return;
                 
@@ -1334,7 +1334,7 @@ apf.item  = function(struct, tagName){
                             var btn = buttons[i];
                             btn.$setState("Over", {});
     
-                            $setTimeout(function(){
+                            $setTimeout(function() {
                                 btn.$setState("Out", {});
                             }, 200);
     
@@ -1348,24 +1348,24 @@ apf.item  = function(struct, tagName){
                 _self.$click();
             });
         }
-    }
+    };
     
     /**
      * @attribute {String} icon Sets or gets the URL of the image used as an icon or
      * a reference to an iconmap.
      */
-    this.$propHandlers["icon"] = function(value){
+    this.$propHandlers["icon"] = function(value) {
         if (this.$icon)
             apf.skins.setIcon(this.$icon, value, this.parentNode.iconPath);
-    }
+    };
     
     /**
      * @attribute {String} caption Sets or gets the text displayed on the item.
      */
-    this.$propHandlers["caption"] = function(value){
+    this.$propHandlers["caption"] = function(value) {
         if (this.$caption)
             apf.setNodeValue(this.$caption, value);
-    }
+    };
     
     /**
      * @attribute {String} type Sets or gets the function of this item.
@@ -1375,11 +1375,11 @@ apf.item  = function(struct, tagName){
      * - `"check"`
      * - `"radio"`
      */
-    this.$propHandlers["type"] = function(value){
+    this.$propHandlers["type"] = function(value) {
         apf.setStyleClass(this.$ext, value, ["item", "check", "radio"]);
-    }
+    };
     
-    this.$propHandlers["values"] = function(value){
+    this.$propHandlers["values"] = function(value) {
         this.$values = typeof value == "string"
             ? value.split("\|")
             : (value || [1, 0]);
@@ -1387,7 +1387,7 @@ apf.item  = function(struct, tagName){
         this.$propHandlers["value"].call(this, this.value);
     };
     
-    this.$propHandlers["value"] = function(value){
+    this.$propHandlers["value"] = function(value) {
         if (this.type != "check")
             return;
         
@@ -1411,7 +1411,7 @@ apf.item  = function(struct, tagName){
     /**
      * @attribute {Boolean} checked Sets or gets whether the item is checked.
      */
-    this.$propHandlers["checked"] = function(value){
+    this.$propHandlers["checked"] = function(value) {
         if (this.type != "check")
             return;
 
@@ -1427,37 +1427,37 @@ apf.item  = function(struct, tagName){
                 this.$values = [true, false];
         }
         
-        if(this.$values && this.$values[value ? 0 : 1] != this.value)
+        if (this.$values && this.$values[value ? 0 : 1] != this.value)
             this.setProperty("value", this.$values ? this.$values[value ? 0 : 1] : true);
-    }
+    };
     
-    this.select = function(){
+    this.select = function() {
         this.parentNode.select(this.group, this.value || this.caption);
-    }
+    };
     
-    this.check = function(){
+    this.check = function() {
         this.setProperty("value", this.$values
             ? this.$values[0]
             : true);
-    }
-    this.uncheck = function(){
+    };
+    this.uncheck = function() {
         this.setProperty("value", this.$values
             ? this.$values[1]
             : false);
-    }
+    };
     
-    this.$check = function(){
+    this.$check = function() {
         apf.setStyleClass(this.$ext, "selected");
-    }
+    };
     
-    this.$uncheck = function(){
+    this.$uncheck = function() {
         apf.setStyleClass(this.$ext, "", ["selected"]);
-    }
+    };
 
     /**
      * @attribute {Boolean} selected Sets or gets whether the item is selected.
      */
-    this.$propHandlers["selected"] = function(value){
+    this.$propHandlers["selected"] = function(value) {
         if (this.type != "radio")
             return;
 
@@ -1469,22 +1469,22 @@ apf.item  = function(struct, tagName){
         }
         else
             this.$uncheck();
-    }
+    };
     
     /**
      * @attribute {Boolean} disabled Sets or gets whether the item is active.
      */
-    this.$propHandlers["disabled"] = function(value){
+    this.$propHandlers["disabled"] = function(value) {
         if (apf.isTrue(value) || value == -1)
             apf.setStyleClass(this.$ext, "disabled");
         else
             apf.setStyleClass(this.$ext, "", ["disabled"]);
-    }
+    };
 
     // *** Dom Hooks *** //
 
     //@todo apf3.0
-    this.addEventListener("AMLReparent", function(beforeNode, pNode, withinParent){
+    this.addEventListener("AMLReparent", function(beforeNode, pNode, withinParent) {
         if (!this.$amlLoaded)
             return;
 
@@ -1496,11 +1496,11 @@ apf.item  = function(struct, tagName){
 
     // *** Events *** //
 
-    this.$down = function(){
+    this.$down = function() {
     
     };
 
-    this.$up = function(){
+    this.$up = function() {
    
         
         if (this.type == "radio")
@@ -1523,28 +1523,28 @@ apf.item  = function(struct, tagName){
             this.parentNode.hide();//true not focus?/
 
         this.parentNode.dispatchEvent("itemclick", {
-            value       : this.value || this.caption,
-            relatedNode : this,
-            checked     : this.checked,
-            selected    : this.selected
+            value: this.value || this.caption,
+            relatedNode: this,
+            checked: this.checked,
+            selected: this.selected
         });
 
         //@todo Anim effect here?
         
         this.dispatchEvent("click", {
-            xmlContext : (this.parentNode || 0).xmlReference,
-            opener     : (this.parentNode || 0).opener
+            xmlContext: (this.parentNode || 0).xmlReference,
+            opener: (this.parentNode || 0).opener
         });
         
         
     };
 
-    this.$click = function(){
+    this.$click = function() {
         
     };
 
     var timer;
-    this.$out = function(e){
+    this.$out = function(e) {
         if (apf.isChildOf(this.$ext, e.toElement || e.explicitOriginalTarget)
           || apf.isChildOf(this.$ext, e.srcElement || e.target))  //@todo test FF
             return;
@@ -1563,7 +1563,7 @@ apf.item  = function(struct, tagName){
         
     };
 
-    this.$over = function(e, force){
+    this.$over = function(e, force) {
         function selectItem(el) {
             if (el.parentNode.$selected == el && e)
                 return false;
@@ -1598,7 +1598,7 @@ apf.item  = function(struct, tagName){
         clearTimeout(timer);
         
         
-        function submenu(){
+        function submenu() {
             if (ps && ps.visible) {
                 ps.hide();
                 
@@ -1613,14 +1613,14 @@ apf.item  = function(struct, tagName){
         if (force)
             submenu();
         else {
-            timer = $setTimeout(function(){
+            timer = $setTimeout(function() {
                 submenu();
                 timer = null;
             }, 210);
         }
     };
 
-    this.$submenu = function(hide, force){
+    this.$submenu = function(hide, force) {
         if (!this.submenu)
             return true;
 
@@ -1659,7 +1659,7 @@ apf.item  = function(struct, tagName){
 
     // *** Init *** //
     
-    this.$draw = function(isSkinSwitch){
+    this.$draw = function(isSkinSwitch) {
         var p = this.parentNode;
         while (p.$canLeechSkin == "item")
             p = p.parentNode;
@@ -1671,7 +1671,7 @@ apf.item  = function(struct, tagName){
             //@todo DOMNodeRemoved should reset this
             if (!this.$hasSetSkinListener) {
                 var f;
-                this.parentNode.addEventListener("$skinchange", f = function(){
+                this.parentNode.addEventListener("$skinchange", f = function() {
                     if (_self.$amlDestroyed) //@todo apf3.x
                         return;
                     
@@ -1691,12 +1691,12 @@ apf.item  = function(struct, tagName){
                     else _self.$ext = node && node.nextSibling || oInt.firstChild;
                     
                     var ns = _self;
-                    while((ns = ns.nextSibling) && ns.nodeType != 1);
+                    while ((ns = ns.nextSibling) && ns.nodeType != 1);
         
                     if (!ns || ns.$canLeechSkin != "item")
                         p.dispatchEvent("afterload");
                 });
-                this.addEventListener("DOMNodeRemoved", function(e){
+                this.addEventListener("DOMNodeRemoved", function(e) {
                     if (e.currentTarget == this)
                         this.parentNode.removeEventListener("$skinchange", f);
                 });
@@ -1709,15 +1709,15 @@ apf.item  = function(struct, tagName){
                 p.$removeClearMessage(); //@todo this should be more generic
                 p.$itemInited = [p.getTraverseNodes, p.getFirstTraverseNode, p.getTraverseParent];
                 
-                p.getTraverseNodes = function(xmlNode){
+                p.getTraverseNodes = function(xmlNode) {
                     return (xmlNode || p).getElementsByTagNameNS(apf.ns.apf, "item");
-                }
-                p.getFirstTraverseNode = function(xmlNode){
+                };
+                p.getFirstTraverseNode = function(xmlNode) {
                     return (xmlNode || p).getElementsByTagNameNS(apf.ns.apf, "item")[0];
-                }
-                p.getTraverseParent = function(xmlNode){
+                };
+                p.getTraverseParent = function(xmlNode) {
                     return xmlNode && xmlNode.parentNode;
-                }
+                };
                 p.each = (this.prefix ? this.prefix + ":" : "") + "item";
 
                 //@todo this is all an ugly hack (copied to baselist.js line 868)
@@ -1734,7 +1734,7 @@ apf.item  = function(struct, tagName){
                     p.xmlRoot = p;
             }
             
-            this.$loadAml = function(){
+            this.$loadAml = function() {
                 //hack
                 if (!this.getAttribute("caption"))
                     this.setAttribute("caption", this.caption);
@@ -1754,27 +1754,27 @@ apf.item  = function(struct, tagName){
                 else this.$ext = node && node.nextSibling || oInt.firstChild;
                 
                 var ns = this;
-                while((ns = ns.nextSibling) && ns.nodeType != 1);
+                while ((ns = ns.nextSibling) && ns.nodeType != 1);
     
                 if (!ns || ns.$canLeechSkin != "item") {
                     p.dispatchEvent("afterload");
                     if (p.autoselect)
                         p.$selectDefault(this.parentNode);
                 }
-            }
+            };
             
             return;
         }
         
         this.$ext = this.$getExternal(this.$isLeechingSkin
           ? "item" //this.type 
-          : "main", null, function($ext){
+          : "main", null, function($ext) {
             var o = 'var o = apf.lookup(' + this.$uniqueId + '); if (!o || o.disabled) return; o';
-            $ext.setAttribute("onmouseup",   o + '.$up(event)');
+            $ext.setAttribute("onmouseup", o + '.$up(event)');
             $ext.setAttribute("onmousemove", o + '.$over(event)');
-            $ext.setAttribute("onmouseout",  o + '.$out(event)');
+            $ext.setAttribute("onmouseout", o + '.$out(event)');
             $ext.setAttribute("onmousedown", o + '.$down()');
-            $ext.setAttribute("onclick",     o + '.$click()');
+            $ext.setAttribute("onclick", o + '.$click()');
         });
         // getExternal always appends to the end which is wrong when drawing is delayed
         var next = this.nextSibling && this.nextSibling.$ext;
@@ -1785,12 +1785,12 @@ apf.item  = function(struct, tagName){
         var _self = this;
         apf.addListener(this.$ext, "mouseover", function(e) {
             if (!_self.disabled)
-                _self.dispatchEvent("mouseover", {htmlEvent: e});
+                _self.dispatchEvent("mouseover", { htmlEvent: e });
         });
         
         apf.addListener(this.$ext, "mouseout", function(e) {
             if (!_self.disabled)
-                _self.dispatchEvent("mouseout", {htmlEvent: e});
+                _self.dispatchEvent("mouseout", { htmlEvent: e });
         });
         
         /*p.$getNewContext("item");
@@ -1799,9 +1799,9 @@ apf.item  = function(struct, tagName){
         //@todo if not elItem try using own skin
         
         //this.$ext   = apf.insertHtmlNode(elItem, this.parentNode.$container);
-        this.$caption = this.$getLayoutNode("item", "caption", this.$ext)
-        this.$icon    = this.$getLayoutNode("item", "icon", this.$ext);
-        this.$hotkey  = this.$getLayoutNode("item", "hotkey", this.$ext);
+        this.$caption = this.$getLayoutNode("item", "caption", this.$ext);
+        this.$icon = this.$getLayoutNode("item", "icon", this.$ext);
+        this.$hotkey = this.$getLayoutNode("item", "hotkey", this.$ext);
 
         if (!isSkinSwitch && this.nextSibling && this.nextSibling.$ext 
             && this.nextSibling.$ext.parentNode == this.$ext.parentNode) {
@@ -1812,7 +1812,7 @@ apf.item  = function(struct, tagName){
     /*
      * @private
      */
-    this.addEventListener("DOMNodeInsertedIntoDocument", function(e){
+    this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
         //var x = this.$aml;
 
         //this.skinName    = this.parentNode.skinName;

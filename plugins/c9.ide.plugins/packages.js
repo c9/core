@@ -34,7 +34,7 @@ define(function(require, exports, module) {
         var DEBUG_MODE = c9.location.indexOf("debug=2") > -1;
         var HASSDK = DEBUG_MODE || experimental.addExperiment("sdk", false, "SDK/Load Custom Plugins");
         
-        function focusOpenPackages(){
+        function focusOpenPackages() {
             var pages = tabs.getTabs();
             for (var i = 0, tab = pages[i]; tab; tab = pages[i++]) {
                 if (tab.editorType == "plugin.packages") {
@@ -44,10 +44,10 @@ define(function(require, exports, module) {
             }
         }
         
-        handle.on("load", function(){
+        handle.on("load", function() {
             if (!HASSDK) return;
             
-            settings.on("read", function(){
+            settings.on("read", function() {
                 settings.setDefaults("user/general", [["animateui", true]]);
             });
             
@@ -68,7 +68,7 @@ define(function(require, exports, module) {
                     tabs.open({
                         editorType: "plugin.packages",
                         active: true
-                    }, function(){});
+                    }, function() {});
                 }
             }, handle);
             
@@ -80,7 +80,7 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
         
-        function installPlugin(name, target, callback){
+        function installPlugin(name, target, callback) {
             var config = packages[name];
             if (!config) 
                 return callback(new Error("Could not find plugin: " + name));
@@ -88,12 +88,12 @@ define(function(require, exports, module) {
             if (target != "project" && target != "user")
                 return callback(new Error("Invalid installation target: " + target));
                 
-            api[target].put("install/" + name, function(err, state){
+            api[target].put("install/" + name, function(err, state) {
                 callback(err);
             });
         }
         
-        function uninstallPlugin(name, target, callback){
+        function uninstallPlugin(name, target, callback) {
             var config = packages[name];
             if (!config) 
                 return callback(new Error("Could not find plugin: " + name));
@@ -101,7 +101,7 @@ define(function(require, exports, module) {
             if (target != "project" && target != "user")
                 return callback(new Error("Invalid installation target: " + target));
                 
-            api[target].put("uninstall/" + name, function(err, state){
+            api[target].put("uninstall/" + name, function(err, state) {
                 callback(err);
             });
         }
@@ -127,7 +127,7 @@ define(function(require, exports, module) {
         
         /***** Editor *****/
         
-        function PackageBrowser(){
+        function PackageBrowser() {
             var plugin = new Editor("Ajax.org", main.consumes, extensions);
             //var emit = plugin.getEmitter();
             var tab, iframe;
@@ -162,7 +162,7 @@ define(function(require, exports, module) {
                 var doc = e.doc;
                 doc.title = "Package Browser";
                 
-                function setTheme(){
+                function setTheme() {
                     var bg = "#fbfbfb";
                     doc.tab.backgroundColor = bg;
                     

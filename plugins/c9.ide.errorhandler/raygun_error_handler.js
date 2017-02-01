@@ -76,7 +76,7 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
         
@@ -88,6 +88,6 @@ define(function(require, exports, module) {
             log: log
         });
         
-        register(null, { "error_handler" : plugin });
+        register(null, { "error_handler": plugin });
     }
 });

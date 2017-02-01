@@ -29,7 +29,7 @@ define(function(require, exports, module) {
         
         var BASEPATH = options.basePath;
         
-        function load(){
+        function load() {
             bridge.on("message", function(e) {
                 var message = e.message;
                 
@@ -82,7 +82,7 @@ define(function(require, exports, module) {
                     focus: true,
                     editorType: "ace",
                     path: message.path && c9.toInternalPath(message.path),
-                    document: { meta: { newfile: true } }
+                    document: { meta: { newfile: true }}
                 }, function(err, tab) {
                     if (err) 
                         return callback(err);
@@ -96,7 +96,7 @@ define(function(require, exports, module) {
                 var tab = tabManager.findTab(message.tab);
                 var c9Session = tab && tab.document.getSession();
                 if (c9Session && c9Session.session)
-                    c9Session.session.insert({row: Number.MAX_VALUE, column: Number.MAX_VALUE} , message.data);
+                    c9Session.session.insert({ row: Number.MAX_VALUE, column: Number.MAX_VALUE }, message.data);
                 callback(null, true);
             });
         }
@@ -135,7 +135,7 @@ define(function(require, exports, module) {
                     tree.focus();
                 }
                 else {
-                    tabManager.once("ready", function(){
+                    tabManager.once("ready", function() {
                         var m = /:(\d*)(?::(\d*))?$/.exec(path);
                         var jump = {};
                         if (m) {
@@ -151,9 +151,9 @@ define(function(require, exports, module) {
                                 path: path,
                                 focus: i === 0,
                                 document: existing
-                                    ? { ace: { jump: jump } }
-                                    : { meta: { newfile: true } }
-                            }, function(){
+                                    ? { ace: { jump: jump }}
+                                    : { meta: { newfile: true }}
+                            }, function() {
                                 setTimeout(next); // TabManager calls this before returning the tab!
                             });
                             
@@ -186,11 +186,11 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
         
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             
         });
         

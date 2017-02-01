@@ -29,18 +29,18 @@ require(["lib/architect/architect", "lib/chai/chai", "events"], function (archit
         var Editor = imports.Editor;
         
         var extensions = ["txt"];
-        function NewEditor(){
+        function NewEditor() {
             var plugin = new Editor("Ajax.org", [], extensions);
-            plugin.freezePublicAPI({ success : 1 });
+            plugin.freezePublicAPI({ success: 1 });
             return plugin;
         }
         
         describe('editors', function() {
             it('should register an editor when the it\'s name is set', function(done) {
-                editors.on("register", function reg(){
+                editors.on("register", function reg() {
                     done();
                     editors.off("register", reg);
-                })
+                });
                 
                 var handle = editors.register("test", "Test", NewEditor, extensions);
                 handle.unload();
@@ -48,7 +48,7 @@ require(["lib/architect/architect", "lib/chai/chai", "events"], function (archit
             it('should call the unregister event when the plugin is unloaded', function(done) {
                 var handle = editors.register("test", "Test", NewEditor, extensions);
                 
-                editors.on("unregister", function reg(){
+                editors.on("unregister", function reg() {
                     done();
                     editors.off("unregister", reg);
                 });

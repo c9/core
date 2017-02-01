@@ -19,7 +19,7 @@ define(function(require, exports, module) {
 
         /***** Methods *****/
 
-        function start(){
+        function start() {
             var commands = cmd.commands;
             var module;
             var argv;
@@ -67,7 +67,7 @@ define(function(require, exports, module) {
                             default: false
                         }
                     })
-                    .check(function(){
+                    .check(function() {
                         throw new Error("See 'c9 <command> --help' for more information on a specific command.");
                     })
                     .argv;
@@ -84,7 +84,7 @@ define(function(require, exports, module) {
                 .options(def.options);
             
             if (argv.argv.help)
-                argv = argv.check(function(){
+                argv = argv.check(function() {
                     if (argv.help)
                         throw new Error("Help Requested");
                 });
@@ -97,9 +97,9 @@ define(function(require, exports, module) {
 
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
         });
         
         /***** Register and define API *****/

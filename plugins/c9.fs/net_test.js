@@ -50,7 +50,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                       + "});"
                       + "server.listen(18000, function() {});";
                     
-                    proc.spawn("node", { args: ["-e", code] }, 
+                    proc.spawn("node", { args: ["-e", code]}, 
                     function(err, child) {
                         if (err) throw err.message;
                         

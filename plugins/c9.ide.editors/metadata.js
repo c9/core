@@ -33,7 +33,7 @@ define(function(require, exports, module) {
         var CHANGE_CHECK_INTERVAL = options.changeCheckInterval || 30000;
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
@@ -57,10 +57,10 @@ define(function(require, exports, module) {
                 
                 var doc = e.tab.document;
                 if (!e.tab.path) {
-                    fs.unlink(PATH + "/" + e.tab.name, function(){ return false });
+                    fs.unlink(PATH + "/" + e.tab.name, function() { return false; });
                 }
                 else if (doc.meta.newfile || doc.meta.$ignoreSave) {
-                    fs.unlink(PATH + WORKSPACE + e.tab.path, function(){ return false });
+                    fs.unlink(PATH + WORKSPACE + e.tab.path, function() { return false; });
                 }
                 else if (check(e.tab) !== false) {
                     delete changed[e.tab.name];
@@ -96,14 +96,14 @@ define(function(require, exports, module) {
             }, plugin);
             
             // Check every half a minute for changed tabs
-            timer = setInterval(function(){
+            timer = setInterval(function() {
                 checkChangedTabs();
             }, CHANGE_CHECK_INTERVAL);
             
             // Delete metadata when file is renamed
-            save.on("saveAs", function(e){
+            save.on("saveAs", function(e) {
                 if (e.path != e.oldPath)
-                    fs.unlink(PATH + WORKSPACE + e.oldPath, function(){ return false });
+                    fs.unlink(PATH + WORKSPACE + e.oldPath, function() { return false; });
             });
             
             // Settings
@@ -145,11 +145,11 @@ define(function(require, exports, module) {
             // Preferences
             
             prefs.add({
-                "File" : {
+                "File": {
                     position: 150,
-                    "Meta Data" : {
+                    "Meta Data": {
                         position: 200,
-                        "Maximum of Undo Stack Items in Meta Data" : {
+                        "Maximum of Undo Stack Items in Meta Data": {
                             type: "spinner",
                             path: "user/metadata/@undolimit",
                             position: 200,
@@ -161,7 +161,7 @@ define(function(require, exports, module) {
             }, plugin);
             
             // Exiting Cloud9
-            c9.on("beforequit", function(){
+            c9.on("beforequit", function() {
                 checkChangedTabs(true);
             }, plugin);
             
@@ -247,7 +247,7 @@ define(function(require, exports, module) {
                     var start = Math.max(0, undo.position - limit);
                     undo.stack.splice(0, start);
                     undo.position -= start;
-                    undo.mark     -= start;
+                    undo.mark -= start;
                 }
                 
                 try {
@@ -367,7 +367,7 @@ define(function(require, exports, module) {
             }
             
             // Cancel file opening when tab is closed
-            var abort = function(){ xhr && xhr.abort(); };
+            var abort = function() { xhr && xhr.abort(); };
             tab.on("close", abort);
             tabs.on("open", function wait(e) { 
                 if (e.tab == tab) {
@@ -439,16 +439,16 @@ define(function(require, exports, module) {
                                 if (!state.meta || state.meta.timestamp < stat.mtime) {
                                     var doc = tab.document;
                                     
-                                    function checkChange(){
+                                    function checkChange() {
                                         confirm("File Changed",
                                           tab.path + " has been changed on disk.",
                                           "Would you like to reload this file?",
-                                          function(){ // Yes
+                                          function() { // Yes
                                               // Set new value and clear undo state
                                               doc.setBookmarkedValue(storedValue, true);
                                               doc.meta.timestamp = stat.mtime;
                                           }, 
-                                          function(){ // No
+                                          function() { // No
                                               // Set to changed
                                               doc.undoManager.bookmark(-2);
                                               doc.meta.timestamp = stat.mtime;
@@ -486,11 +486,11 @@ define(function(require, exports, module) {
                 }
                 
                 if ((!tab.path || storedValue !== undefined) && storedMetadata) {
-                    try{ 
+                    try { 
                         state = storedMetadata == -1 
                             ? {} : JSON.parse(storedMetadata); 
                     }
-                    catch (e){ state = {} }
+                    catch (e) { state = {}; }
                     
                     // There's a hash. Lets compare it to the hash of the 
                     // current value. If they are the same we can keep the
@@ -540,16 +540,16 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
             clearInterval(timer);
         });

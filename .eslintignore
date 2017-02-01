@@ -1,0 +1,16 @@
+plugins/c9.ide.language.jsonalyzer/worker/ctags.js
+plugins/c9.ide.language.trace/server/lib/tracegl.js
+plugins/c9.ide.language.javascript.infer/test/*
+plugins/c9.ide.language.javascript.eslint/worker/js-yaml.js
+plugins/c9.fs/mock
+**/lib_jsbeautify.js
+**/lib_pixastic.js
+**/libterm.js
+**/lib_firmin.js
+**/lib_less1.5.js
+**/lib_apf.js
+**/lib/vendor/**
+**/diff_match_patch.js
+**/*.min.js
+**/*_browserified.js
+**/node_modules

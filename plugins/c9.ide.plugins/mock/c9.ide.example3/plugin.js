@@ -23,7 +23,7 @@ define(function(require, exports, module) {
             commands.addCommand({
                 name: "mycommand",
                 bindKey: { mac: "Command-I", win: "Ctrl-I" },
-                isAvailable: function(){ return true; },
+                isAvailable: function() { return true; },
                 exec: function() {
                     showing ? hide() : show();
                 }
@@ -33,7 +33,7 @@ define(function(require, exports, module) {
                 command: "mycommand"
             }), 300, plugin);
             
-            settings.on("read", function(e){
+            settings.on("read", function(e) {
                 settings.setDefaults("user/my-plugin", [
                     ["first", "1"],
                     ["second", "all"]
@@ -41,9 +41,9 @@ define(function(require, exports, module) {
             });
             
             prefs.add({
-                "Example" : {
+                "Example": {
                     position: 450,
-                    "My Plugin" : {
+                    "My Plugin": {
                         position: 100,
                         "First Setting": {
                             type: "checkbox",
@@ -123,7 +123,7 @@ define(function(require, exports, module) {
             /**
              * @property showing whether this plugin is being shown
              */
-            get showing(){ return showing; },
+            get showing() { return showing; },
             
             _events: [
                 /**

@@ -106,11 +106,11 @@ oop.inherits(JavaScriptWorker, Mirror);
         try {
             // evaluated code can only create variables in this function
             eval("throw 0;" + str);
-        } catch(e) {
+        } catch (e) {
             if (e === 0)
                 return true;
         }
-        return false
+        return false;
     };
 
     this.onUpdate = function() {
@@ -128,7 +128,7 @@ oop.inherits(JavaScriptWorker, Mirror);
         lint(value, this.options);
         var results = lint.errors;
 
-        var errorAdded = false
+        var errorAdded = false;
         for (var i = 0; i < results.length; i++) {
             var error = results[i];
             if (!error)
@@ -150,10 +150,10 @@ oop.inherits(JavaScriptWorker, Mirror);
                 continue;
             }
             else if (infoRe.test(raw)) {
-                type = "info"
+                type = "info";
             }
             else if (errorsRe.test(raw)) {
-                errorAdded  = true;
+                errorAdded = true;
                 type = maxErrorLevel;
             }
             else if (raw == "'{a}' is not defined.") {
@@ -164,8 +164,8 @@ oop.inherits(JavaScriptWorker, Mirror);
             }
 
             errors.push({
-                row: error.line-1,
-                column: error.character-1,
+                row: error.line - 1,
+                column: error.character - 1,
                 text: error.reason,
                 type: type,
                 raw: raw

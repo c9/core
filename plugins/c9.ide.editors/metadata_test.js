@@ -126,11 +126,11 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 fs.rmdir("/.c9/metadata", { recursive: true }, function(err) {
                     if (err) throw err;
                     
-                    tabs.once("ready", function(){
+                    tabs.once("ready", function() {
                         tabs.getPanes()[0].focus();
-                        tabs.openFile("/file.js", true, function(){
-                            tabs.openFile("/file.txt", false, function(){
-                                tabs.openFile("/fileLink.txt", false, function(){
+                        tabs.openFile("/file.js", true, function() {
+                            tabs.openFile("/file.txt", false, function() {
+                                tabs.openFile("/fileLink.txt", false, function() {
                                     done();
                                 });
                             });
@@ -139,10 +139,10 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 });
             });
             
-            describe("Triggering save", function(){
+            describe("Triggering save", function() {
                 it('should trigger save when a tab is active and changed', function(done) {
                     var editor = tabs.focussedTab.editor;
-                    fs.once("afterMetadata", function(){
+                    fs.once("afterMetadata", function() {
                         fs.exists("/.c9/metadata/workspace/file.js", function(exists) {
                             done();
                         });
@@ -150,7 +150,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     
                     editor.scrollTo(100, 5);
                     
-                    setTimeout(function(){
+                    setTimeout(function() {
                         settings.save(true);
                     }, 100);
                 });
@@ -160,8 +160,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     var editor = tabs.focussedTab.editor;
                     editor.scrollTo(0, 10);
                     
-                    setTimeout(function(){
-                        fs.once("afterMetadata", function(){
+                    setTimeout(function() {
+                        fs.once("afterMetadata", function() {
                             fs.exists("/.c9/metadata/workspace/file.txt", function(exists) {
                                 expect(exists).to.ok;
                                 done();
@@ -172,7 +172,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     }, 100);
                 });
             });
-            describe("Loading metadata", function(){
+            describe("Loading metadata", function() {
                 it('should load metadata properly when a file has metadata', function(done) {
                     fs.exists("/.c9/metadata/workspace/file.txt", function(exists) {
                         expect(exists).to.ok;
@@ -222,7 +222,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                             path: "/newfile.txt", 
                             active: true, 
                             init: true,
-                            document: { meta: { newfile: true } }
+                            document: { meta: { newfile: true }}
                         }, function(err, tab) {
                             if (err) throw err;
                             
@@ -236,13 +236,13 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     tabs.openEditor("terminal", true, function(err, tab) {
                         if (err) throw err;
                         
-                        setTimeout(function(){
+                        setTimeout(function() {
                             var state = tab.getState(true);
                             var name = tab.name;
                             
                             tab.editor.write("ls -l\n");
                             
-                            setTimeout(function(){
+                            setTimeout(function() {
                                 var docstate = tab.getState().document;
                                 var value = docstate.terminal.scrolltop;
                                 
@@ -258,7 +258,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                                                 throw new Error("File not found");
                                         
                                             fs.once("afterReadFile", function(e) {
-                                                setTimeout(function(){
+                                                setTimeout(function() {
                                                     var state = tab.document.getState();
                                                     expect(state.terminal.scrolltop, 
                                                         "State did not get preserved").equals(value);
@@ -281,8 +281,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 });
                 it('should work well together with state set when opening tab', function(done) {
                     var tab = tabs.findTab("/file.js");
-                    tabs.once("tabDestroy", function(){
-                        setTimeout(function(){
+                    tabs.once("tabDestroy", function() {
+                        setTimeout(function() {
                             fs.exists("/.c9/metadata/workspace/file.js", function(exists) {
                                 expect(exists, "File not found").ok;
                                     
@@ -302,7 +302,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                                         }
                                     }
                                 }, function(err, tab) {
-                                    setTimeout(function(){
+                                    setTimeout(function() {
                                         var state = tab.document.getState();
                                         expect(state.ace.selection.start.column).equals(10);
                                         expect(state.ace.selection.start.row).equals(200);
@@ -310,14 +310,14 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                                         expect(state.ace.selection.end.row).equals(202);
                                         done();
                                     });
-                                })
+                                });
                             });
                         });
                     });
                     tab.close();
                 });
             });
-            describe("Content Collision", function(){
+            describe("Content Collision", function() {
                 it('should load contents stored in metadata', function(done) {
                     var path = "/collision.js";
                     fs.writeFile(path, String(Date.now()), function(err) {
@@ -330,7 +330,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                             var value = String(Date.now());
                             
                             // Timeout to give the change the chance to propagate
-                            setTimeout(function(){
+                            setTimeout(function() {
                                 expect(tab.document.meta.timestamp, "Timing issue").to.ok;
                                 
                                 fs.once("afterMetadata", function(e) {
@@ -345,9 +345,9 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                                 
                                 tab.document.value = value;
                                 
-                                setTimeout(function(){
+                                setTimeout(function() {
                                     tab.close(); // Forces saving metadata
-                                }, 10)
+                                }, 10);
                             }, 1000); // Give time to collect timestamp
                         });
                     });
@@ -361,24 +361,24 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                             if (err) throw err;
                             
                             var state = tab.getState(true);
-                            var value = Date.now() + "b"
+                            var value = Date.now() + "b";
                             
                             // Timeout to give the change the chance to propagate
-                            setTimeout(function(){
+                            setTimeout(function() {
                                 expect(tab.document.meta.timestamp, "Timing issue").to.ok;
                                 
                                 fs.once("afterMetadata", function(e) {
-                                    setTimeout(function(){
+                                    setTimeout(function() {
                                         fs.writeFile(path, Date.now() + "c", function(err) {
                                             if (err) throw err;
                                             
                                             var curTab;
                                             
-                                            question.once("show", function(){
+                                            question.once("show", function() {
                                                 expect(question.getElement("window").visible).ok;
                                                 question.getElement("yes").dispatchEvent("click");
                                                 
-                                                setTimeout(function(){
+                                                setTimeout(function() {
                                                     expect(curTab.document.value, "value").not.equals(value);
                                                     expect(curTab.document.undoManager.position, "position").equals(1);
                                                     expect(curTab.document.undoManager.length, "length").equals(2);
@@ -397,7 +397,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                                 
                                 tab.document.value = value;
                                 
-                                setTimeout(function(){
+                                setTimeout(function() {
                                     tab.close(); // Forces saving metadata
                                 }, 10); // Time to process setting of value
                             }, 1000); // Give time to collect timestamp
@@ -413,30 +413,30 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                             if (err) throw err;
                             
                             var state = tab.getState(true);
-                            var value = Date.now() + "b"
+                            var value = Date.now() + "b";
                             
                             tab.document.value = value;
                             
                             // Timeout to give the change the chance to propagate
-                            setTimeout(function(){
+                            setTimeout(function() {
                                 tab.document.undoManager.bookmark();
                                 expect(tab.document.changed).not.ok;
                                 
                                 fs.once("afterMetadata", function(e) {
-                                    setTimeout(function(){
+                                    setTimeout(function() {
                                         fs.writeFile(path, Date.now() + "c", function(err) {
                                             if (err) throw err;
                                             
                                             tabs.open(state, function(err, tab) {
-                                                setTimeout(function(){
+                                                setTimeout(function() {
                                                     expect(tab.document.value).not.equals(value);
                                                     expect(tab.document.undoManager.position).equals(-1);
                                                     expect(tab.document.undoManager.length).equals(0);
                                                     expect(tab.document.changed).equals(false);
                                                     
-                                                    fs.unlink(path, function(){
+                                                    fs.unlink(path, function() {
                                                         done();
-                                                    })
+                                                    });
                                                 }, 500);
                                             });
                                         });

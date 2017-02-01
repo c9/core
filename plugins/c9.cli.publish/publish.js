@@ -38,7 +38,7 @@ define(function(require, exports, module) {
         var Path = require("path");
         var basename = require("path").basename;
         var dirname = require("path").dirname;
-        var async  = require("async");
+        var async = require("async");
         
         var verbose = false;
         var force = false;
@@ -55,7 +55,7 @@ define(function(require, exports, module) {
         // var emit = plugin.getEmitter();
 
         var loaded;
-        function load(){
+        function load() {
             if (loaded) return;
             loaded = true;
             
@@ -64,30 +64,30 @@ define(function(require, exports, module) {
                 info: "  Publishes a cloud9 package.",
                 usage: "[--verbose] [--force] [<newversion> | major | minor | patch | build]",
                 options: {
-                    "verbose" : {
+                    "verbose": {
                         "description": "Output more information",
                         "alias": "v",
                         "default": false,
                         "boolean": true
                     },
-                    "force" : {
+                    "force": {
                         "description": "Ignore warnings",
                         "alias": "f",
                         "default": false,
                         "boolean": true
                     },
-                    "dry-run" : {
+                    "dry-run": {
                         "description": "Only build a test version",
                         "default": false,
                         "boolean": true
                     },
-                    "tag" : {
+                    "tag": {
                         "description": "Create git tag for published version",
                         "alias": "t",
                         "default": false,
                         "boolean": true
                     },
-                    "compress" : {
+                    "compress": {
                         "description": "Minify output with uglify.js",
                         "default": true,
                         "boolean": true
@@ -104,7 +104,7 @@ define(function(require, exports, module) {
                     
                     publish(
                         argv._[1],
-                        function(err, data){
+                        function(err, data) {
                             if (err) {
                                 if (err.message || typeof err == "string")
                                     console.error(err.message || err);
@@ -126,13 +126,13 @@ define(function(require, exports, module) {
                 info: "    Builds development version of package to load in non-debug mode.",
                 usage: "[--devel]",
                 options: {
-                    "devel" : {
+                    "devel": {
                         "description": "",
                         "alias": "d",
                         "default": false,
                         "boolean": true
                     },
-                    "compress" : {
+                    "compress": {
                         "description": "Minify output with uglify.js",
                         "default": false,
                         "boolean": true
@@ -145,10 +145,10 @@ define(function(require, exports, module) {
                     if (argv["devel"]) {
                         var code = function(argument) {
                             /* TODO explain */
-                            define("plugins/PACKAGE_NAME/__installed__", [],[
+                            define("plugins/PACKAGE_NAME/__installed__", [], [
                                 "plugins/PACKAGE_NAME/__debug__"
                             ]);
-                            define("plugins/PACKAGE_NAME/__debug__",[], function(require, exports, module) {
+                            define("plugins/PACKAGE_NAME/__debug__", [], function(require, exports, module) {
                                 main.consumes = ["plugin.debug"];
                                 main.provides = [];
                                 return main;
@@ -173,7 +173,7 @@ define(function(require, exports, module) {
                     } 
                     else {
                         dryRun = true;
-                        publish({local: true}, function(err, result){
+                        publish({ local: true }, function(err, result) {
                             if (err) {
                                 console.error(err);
                                 if (!verbose)
@@ -191,7 +191,7 @@ define(function(require, exports, module) {
                 info: "Disables a cloud9 package.",
                 usage: "[--verbose]",
                 options: {
-                    "verbose" : {
+                    "verbose": {
                         "description": "Output more information",
                         "alias": "v",
                         "default": false,
@@ -204,7 +204,7 @@ define(function(require, exports, module) {
                     compress = argv["compress"];
                     
                     unpublish(
-                        function(err, data){
+                        function(err, data) {
                             if (err) {
                                 console.error(err.message || err || "Terminated.");
                                 process.exit(1);
@@ -246,7 +246,7 @@ define(function(require, exports, module) {
             });
         }
         
-        function stringifyError(err){
+        function stringifyError(err) {
             return (verbose ? JSON.stringify(err, 4, "    ") : (typeof err == "string" ? err : err.message));
         }
         
@@ -283,17 +283,17 @@ define(function(require, exports, module) {
         
         function publish(options, callback) {
             if (typeof options != "object")
-                options = {version: options};
+                options = { version: options };
             
             var version = options.version;
             var cwd = process.cwd();
             var packagePath = cwd + "/package.json";
-            fs.readFile(packagePath, "utf8", function(err, data){
+            fs.readFile(packagePath, "utf8", function(err, data) {
                 if (err) return callback(new Error("ERROR: Could not find package.json in " + cwd));
                 
                 var json;
                 try { json = JSON.parse(data); }
-                catch(e) { 
+                catch (e) { 
                     return callback(new Error("ERROR: Could not parse package.json: ", e.message)); 
                 }
                 
@@ -324,7 +324,7 @@ define(function(require, exports, module) {
                 var plugins = {};
                 
                 var warned, failed;
-                Object.keys(json.plugins || {}).forEach(function(name){
+                Object.keys(json.plugins || {}).forEach(function(name) {
                     var filename = name + ".js";
                     if (!fs.existsSync(join(cwd, name + "_test.js"))) {
                         console.warn("ERROR: Plugin '" + name + "' has no test associated with it. There must be a file called '" + name + "_test.js' containing tests.");
@@ -337,7 +337,7 @@ define(function(require, exports, module) {
                     if (/(__\w*__|_test)\.js$/.test(filename) || !/\.js$/.test(filename)) return;
                     try {
                         var val = fs.readFileSync(cwd + "/" + filename);
-                    } catch(e) {
+                    } catch (e) {
                         if (e.code == "EISDIR") return;
                         throw e;
                     }
@@ -385,10 +385,10 @@ define(function(require, exports, module) {
                     // Write the package.json file
                     var indent = data.match(/{\n\r?^ {4}"/) ? 4 : 2;
                     var newData = JSON.stringify(json, null, indent);
-                    fs.writeFile(cwd + "/.c9/.build/package.json", newData, function(){
+                    fs.writeFile(cwd + "/.c9/.build/package.json", newData, function() {
                         if (dryRun)
                             return next(); // if dry-run is passed only update path in .build
-                        fs.writeFile(packagePath, newData, function(err){
+                        fs.writeFile(packagePath, newData, function(err) {
                             if (err) return callback(err);
                             return next();
                         });
@@ -398,7 +398,7 @@ define(function(require, exports, module) {
                 // Build the package
                 // @TODO add a .c9exclude file that excludes files
                 var zipFilePath;
-                function build(){
+                function build() {
                     var base = dirname(cwd);
                     var packageName = json.name;
                     var config = Object.keys(plugins).map(function(p) {
@@ -417,7 +417,7 @@ define(function(require, exports, module) {
                                             var data = fs.readFileSync(dir + "/" + filename, "utf8");
                                             f(filename, data);
                                         });
-                                    } catch(e) {
+                                    } catch (e) {
                                         console.error(e);
                                     }
                                 }
@@ -524,7 +524,7 @@ define(function(require, exports, module) {
                                     
                                     var installerVersion = m && m[1];
                                     if (!installerVersion)
-                                        return callback(new Error("ERROR: missing installer version in " +  json.installer));
+                                        return callback(new Error("ERROR: missing installer version in " + json.installer));
                                     extraCode.push({
                                         type: "installer",
                                         filename: json.installer,
@@ -597,12 +597,12 @@ define(function(require, exports, module) {
                                 id: path,
                                 source: 'define("' + path + '", [],' + 
                                     JSON.stringify(packedConfig.map(function(p) {
-                                        var name = p.slice(p.lastIndexOf("/") + 1)
+                                        var name = p.slice(p.lastIndexOf("/") + 1);
                                         var options = json.plugins[name] || {};
                                         options.packagePath = p;
                                         return options;
                                     }), null, 4) + ');',
-                                literal : true,
+                                literal: true,
                                 order: -1
                             });
                             
@@ -677,7 +677,7 @@ define(function(require, exports, module) {
  
                 }
                 
-                function zip(){
+                function zip() {
                     zipFilePath = join(os.tmpDir(), json.name + "@" + json.version) + ".tar.gz";
                     var tarArgs = ["-zcvf", normalizePath(zipFilePath)]; 
                     var c9ignore = normalizePath(process.env.HOME + "/.c9/.c9ignore");
@@ -689,7 +689,7 @@ define(function(require, exports, module) {
                         spawn(TAR, {
                             args: tarArgs,
                             cwd: cwd + "/.c9/.build"
-                        }, function(err){
+                        }, function(err) {
                             if (err)
                                 return callback(new Error("ERROR: Could not package directory"));
                                 
@@ -704,12 +704,12 @@ define(function(require, exports, module) {
                 }
                 
                 // Update c9.io with the new version being published.
-                function upload(){
+                function upload() {
                     // Check if the plugin is already registered
                     if (verbose)
                         console.log("Uploading package " + json.name);
                     
-                    api.packages.get(json.name, function(err, pkg){
+                    api.packages.get(json.name, function(err, pkg) {
                         if (err) {} // Ignore error, if we don't get a response it means this package hasn't been published yet
                         
                         if (!pkg || pkg.error) {
@@ -717,7 +717,7 @@ define(function(require, exports, module) {
                                 console.log("Package not registered, creating new.");
                             
                             // Registers the package name on c9.io if it is being published for the first time. 
-                            api.user.get("", function(err, user){
+                            api.user.get("", function(err, user) {
                                 if (err) return callback(new Error("ERROR: Failed to get user details from API - " + stringifyError(err)));
                                 
                                 api.packages.post("", {
@@ -735,7 +735,7 @@ define(function(require, exports, module) {
                                         screenshots: json.screenshots || [],
                                         pricing: json.pricing || {}
                                     }
-                                }, function(err, pkg){
+                                }, function(err, pkg) {
                                     if (err) {
                                         return callback(new Error("ERROR: Failed to upload new package to API - " 
                                             + stringifyError(err)));
@@ -762,7 +762,7 @@ define(function(require, exports, module) {
                                     pricing: json.pricing,
                                     enabled: true
                                 }
-                            }, function(err, pkg){
+                            }, function(err, pkg) {
                                 if (err) 
                                     return callback(new Error("ERROR: Failed to update existing package - " 
                                         + stringifyError(err)));
@@ -773,7 +773,7 @@ define(function(require, exports, module) {
                             });
                         }
                         
-                        function next(pkg){
+                        function next(pkg) {
                             // Create Version
                             if (verbose)
                                 console.log("Sending new version ", json.version);
@@ -786,7 +786,7 @@ define(function(require, exports, module) {
                             var path = "/packages/" + json.name 
                                 + "/versions?access_token=" 
                                 + encodeURIComponent(auth.accessToken);
-                            var host = APIHOST.split(":")[0]
+                            var host = APIHOST.split(":")[0];
                             var port = parseInt(APIHOST.split(":")[1]) || null;
                             
                             var request = http.request({
@@ -821,7 +821,7 @@ define(function(require, exports, module) {
                                 
                     spawn("bash", {
                         args: ["-c", SHELLSCRIPT, "--", json.version, normalizePath(packagePath)]
-                    }, function(err, p){
+                    }, function(err, p) {
                         if (err) return callback(err);                            
                         console.log("Created tag and updated package.json to version", json.version);                            
                         callback(null, json);
@@ -830,14 +830,14 @@ define(function(require, exports, module) {
             });
         }
         
-        function unpublish(callback){
+        function unpublish(callback) {
             var packagePath = process.cwd() + "/package.json";
-            fs.readFile(packagePath, function(err, data){
+            fs.readFile(packagePath, function(err, data) {
                 if (err) return callback(err); // @TODO package.json not found
                 
                 var json;
                 try { json = JSON.parse(data); }
-                catch(e) { 
+                catch (e) { 
                     return callback(new Error("ERROR: Could not parse package.json: ", e.message)); 
                 }
                 
@@ -848,12 +848,12 @@ define(function(require, exports, module) {
             });
         }
         
-        function mkdirP(path){
+        function mkdirP(path) {
             var dirs = path.split('/');
-            var prevDir = dirs.splice(0,1) + "/";
+            var prevDir = dirs.splice(0, 1) + "/";
             while (dirs.length > 0) {
-                var curDir = prevDir + dirs.splice(0,1);
-                if (! fs.existsSync(curDir) ) {
+                var curDir = prevDir + dirs.splice(0, 1);
+                if (! fs.existsSync(curDir)) {
                     fs.mkdirSync(curDir);
                 }
                 prevDir = curDir + '/';
@@ -868,16 +868,16 @@ define(function(require, exports, module) {
 
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
             verbose = false;
             force = false;

@@ -103,7 +103,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
       
                 document.documentElement.style.paddingBottom = "200px";
                 
-                cnsl.once("ready", function(){
+                cnsl.once("ready", function() {
                     bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";
                     bar.$ext.style.position = "fixed";
                     bar.$ext.style.left = "20px";
@@ -117,20 +117,20 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 });
             });
             
-           describe("open(), openFile(), openEditor() and reload()", function(){
+           describe("open(), openFile(), openEditor() and reload()", function() {
                it('should open a pane with just an editor', function(done) {
                    cnsl.openEditor("terminal", true, function(err, tab) {
                        expect(tabs.getTabs()).length(startCount + 1);
                        
                        expect(tabs.focussedTab)
                            .to.exist
-                           .to.equal(tab)
+                           .to.equal(tab);
                            //.property("path").to.equal(vpath);
                        done();
                    });
                });
            });
-           describe("getTabs(), getPanes()", function(){
+           describe("getTabs(), getPanes()", function() {
                it('should return a list containing all the pages', function(done) {
                    expect(tabs.getTabs()).length.gt(startCount);
                    done();
@@ -146,7 +146,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                    done();
                });
            });
-           describe("clear(), getState() and setState()", function(){
+           describe("clear(), getState() and setState()", function() {
                var state, info = {};
                it('should retrieve the state', function(done) {
                    state = cnsl.getState();
@@ -159,10 +159,10 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                    var count = 0, expected = 0;
                    tabs.getTabs().forEach(function(tab) {
                        expected += 2;
-                       tab.on("unload", function(){
+                       tab.on("unload", function() {
                            count++;
                        });
-                       tab.document.on("unload", function(){
+                       tab.document.on("unload", function() {
                            count++;
                        });
                    });
@@ -186,7 +186,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                    expect(tabs.focussedTab.pane.getTabs()).length(l);
                    
                    // Wait for the title to load
-                   setTimeout(function(){
+                   setTimeout(function() {
                        expect(tabs.getTabs().map(function(tab) {
                            return tab.path || tab.id;
                        })).to.deep.equal(info.pages);
@@ -194,7 +194,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                    }, 1000);
                });
            });
-           describe("vsplit(), hsplit(), removeTab()", function(){
+           describe("vsplit(), hsplit(), removeTab()", function() {
                this.timeout(10000);
                
                it('should split a pane vertically, making the existing pane the top one', function(done) {
@@ -208,10 +208,10 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                    var btmtab = pane.vsplit(true);
                    expect(pane.aml.getTop()).lt(btmtab.aml.getTop());
                    tabs.focussedTab.attachTo(btmtab);
-                   tabs.on("tabAfterActivate", function c1(){
+                   tabs.on("tabAfterActivate", function c1() {
                        expect(tabs.focussedTab.editor.name).to.equal(name);
                        expect(tab.isActive()).to.ok;
-                       tabs.off("tabAfterActivate", c1)
+                       tabs.off("tabAfterActivate", c1);
                        done();
                    });
                    tabs.focusTab(tabs.getTabs()[0]);
@@ -254,7 +254,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                    tabs.focussedTab.attachTo(righttab);
                    tabs.focusTab(tabs.getTabs()[0]);
                    
-                   setTimeout(function(){
+                   setTimeout(function() {
                        expect(tabs.focussedTab.title).to.match(/^bash - |^Terminal/);
                        done();
                    }, 1000);
@@ -367,7 +367,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
 //                    done();
 //                });
 //            });
-           describe("unload()", function(){
+           describe("unload()", function() {
                it('should destroy all ui elements when it is unloaded', function(done) {
                    var els = tabs.getPanes();
                    cnsl.unload();

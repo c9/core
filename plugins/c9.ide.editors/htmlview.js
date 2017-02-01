@@ -12,7 +12,7 @@ define(function(require, exports, module) {
         
         var extensions = [];
                           
-        function HtmlView(){
+        function HtmlView() {
             var plugin = new Editor("Ajax.org", main.consumes, extensions);
             var container;
             

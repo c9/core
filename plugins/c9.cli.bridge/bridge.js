@@ -19,7 +19,7 @@ define(function(require, exports, module) {
 
         var stream, api;
 
-        function load(){
+        function load() {
             if (!ENABLED) return;
 
             ext.loadRemotePlugin("bridge", {
@@ -45,7 +45,7 @@ define(function(require, exports, module) {
                     stream.on("data", function(payload) {
                         emit("message", { 
                             message: payload.message,
-                            respond: function(err, message){
+                            respond: function(err, message) {
                                 stream.write({
                                     id: payload.id,
                                     message: message,
@@ -56,7 +56,7 @@ define(function(require, exports, module) {
                         
                     });
 
-                    stream.on("close", function(){
+                    stream.on("close", function() {
                         load();
                     });
                     
@@ -64,14 +64,14 @@ define(function(require, exports, module) {
                 });
             });
 
-            window.addEventListener("unload", function(){
+            window.addEventListener("unload", function() {
                 api && api.disconnect();
             });
         }
         
-        function write(json){
+        function write(json) {
             if (!stream) {
-                plugin.once("ready", function(){ write(json); });
+                plugin.once("ready", function() { write(json); });
                 return;
             }
             
@@ -80,11 +80,11 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
 
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             c9.on("connect", load, plugin);
         });
 
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             api && api.disconnect();
             stream = null;
             api = null;

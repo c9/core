@@ -56,7 +56,7 @@ define(function(require, exports, module) {
             
             // Properties
             var props = [];
-            for (var prop in options){
+            for (var prop in options) {
                 if (/duration|delay|timingFunction|immediate/.test(prop)) continue;
                 props.push(prop);
             }
@@ -78,7 +78,7 @@ define(function(require, exports, module) {
                 wait && wait();
             }, duration * 1000 + 10);
 
-            props.forEach(function(name){ el.style[name] = options[name] });
+            props.forEach(function(name) { el.style[name] = options[name]; });
         }
         
         function animateMultiple(tweens, finish) {
@@ -145,7 +145,7 @@ define(function(require, exports, module) {
                 throw new Error("animating object that has no partner");
     
             var to2 = { 
-                timingFunction : options.timingFunction,
+                timingFunction: options.timingFunction,
                 duration: options.duration
             };
             if (pNode.$vbox) {
@@ -178,7 +178,7 @@ define(function(require, exports, module) {
 
                 options.splitbox = to2.splitbox = true;
                 cssAnimate(aNode.$ext, options);
-                cssAnimate(oNode.$ext, to2, function(){
+                cssAnimate(oNode.$ext, to2, function() {
                     if (aNode.parentNode) {
                         if (pNode.$vbox)
                             aNode.setHeight(parseInt(options.height, 10));
@@ -234,7 +234,7 @@ define(function(require, exports, module) {
              * Specifies whether at least one animationg is running at this moment.
              * @property {Boolean} animating
              */
-            get animating(){ return animating; },
+            get animating() { return animating; },
             
             _events: [
                 /**

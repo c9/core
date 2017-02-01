@@ -60,7 +60,7 @@ define(function(require, module, exports) {
                 
                 dialog.disable();
                 
-                onChoose(txtUsername.value, txtPassword.value, function(success){
+                onChoose(txtUsername.value, txtPassword.value, function(success) {
                     dialog.enable();
                     
                     if (success)
@@ -137,7 +137,7 @@ define(function(require, module, exports) {
         });
         
         register("", {
-            "dialog.login" : plugin
+            "dialog.login": plugin
         });
     }
 });

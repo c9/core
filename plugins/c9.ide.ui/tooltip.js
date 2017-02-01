@@ -52,7 +52,7 @@ define(function(require, exports, module) {
     
             oHtml.c9tooltipOptions = options;
             
-            plugin.addOther(function(){
+            plugin.addOther(function() {
                 destroy(oHtml);
             });
             
@@ -77,7 +77,7 @@ define(function(require, exports, module) {
             }
         }
     
-        function ttmouseover(){
+        function ttmouseover() {
             var oHtml = this.companion;
             var options = oHtml.c9tooltipOptions;
     
@@ -106,7 +106,7 @@ define(function(require, exports, module) {
                 return;
     
             var _self = this;
-            options.timer = setTimeout(function(){
+            options.timer = setTimeout(function() {
                 if (options.control)
                     options.control.stop();
     
@@ -119,7 +119,7 @@ define(function(require, exports, module) {
                     pos = options.getPosition();
                 else {
                     var p = ui.getAbsolutePosition(_self);
-                    pos = [(p[0] - ((options.tooltip.offsetWidth - _self.offsetWidth)/2)),
+                    pos = [(p[0] - ((options.tooltip.offsetWidth - _self.offsetWidth) / 2)),
                            (p[1])];
                 }
                 options.tooltip.style.left = pos[0] + "px";
@@ -130,7 +130,7 @@ define(function(require, exports, module) {
     
                 if (options.animate !== false) {
                     apf.tween.single(options.tooltip,
-                        {type: "fade", from: 0, to : 1, steps: 10, interval: 0,
+                        { type: "fade", from: 0, to: 1, steps: 10, interval: 0,
                          control: options.control = {}});
                 }
                 else {
@@ -147,7 +147,7 @@ define(function(require, exports, module) {
             if (!options.tooltip || options.tooltip.style.display != "block")
                 return;
     
-            options.timer = options.tooltip.timer = setTimeout(function(){
+            options.timer = options.tooltip.timer = setTimeout(function() {
                 if (options.control)
                     options.control.stop();
     
@@ -159,7 +159,7 @@ define(function(require, exports, module) {
                         steps: 10, 
                         interval: 0,
                         control: options.control = {},
-                        onfinish: function(){ 
+                        onfinish: function() { 
                             options.tooltip.style.display = "none";
                         }
                     });

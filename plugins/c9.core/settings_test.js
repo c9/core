@@ -5,7 +5,7 @@
 require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai) {
     var expect = chai.expect;
     
-    var defSettings = { user: { "@bar": "foo", "bar": {"json()": "test"} }, state: { oi : { hi : 10 } }, project: { hi: 0 } };
+    var defSettings = { user: { "@bar": "foo", "bar": { "json()": "test" }}, state: { oi: { hi: 10 }}, project: { hi: 0 }};
     var copySettings = JSON.parse(JSON.stringify(defSettings));
     
     expect.setupArchitectTest([
@@ -58,34 +58,34 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             });
             it('should allow altering the tree via the set method', function(done) {
                 var v = Math.random().toString();
-                settings.set('user/@bar', v)
+                settings.set('user/@bar', v);
                 expect(settings.get('user/@bar')).to.equal(v);
                 
                 v = Math.random().toString();
-                settings.set('user/bar', v)
+                settings.set('user/bar', v);
                 expect(settings.get('user/bar')).to.equal(v);
                 
                 done();
             });
             it('should allow new settings to be read from json', function(done) {
                 settings.read(copySettings);
-                settings.once("read", function(){
+                settings.once("read", function() {
                     expect(settings.get("user/@bar")).to.equal("foo");
                     done();
                 });
             });
             it('should call event listener on tree node', function(done) {
-                settings.once("user", function(){
+                settings.once("user", function() {
                     expect(settings.get("user/@bar")).to.equal("test");
                     done();
                 });
                 settings.set("user/@bar", "test");
             });
             it('should allow type conversion for JSON and Booleans', function(done) {
-                settings.set('user/@bar', "true")
+                settings.set('user/@bar', "true");
                 expect(settings.getBool('user/@bar')).to.equal(true);
                 
-                settings.setJson('user/bar', {test:1})
+                settings.setJson('user/bar', { test: 1 });
                 expect(settings.getJson('user/bar')).property("test").to.equal(1);
                 
                 done();

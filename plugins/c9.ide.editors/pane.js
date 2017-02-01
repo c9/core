@@ -31,7 +31,7 @@ define(function(require, module, exports) {
             var visible = true;
             var meta;
             
-            function load(){
+            function load() {
                 var btnPlus, btnMenu, closing = 0;
                 
                 meta = {};
@@ -54,9 +54,9 @@ define(function(require, module, exports) {
                         // Small hack to prevent hover transition during tab switch
                         if (e.previousPage) {
                             var html = e.previousPage.$button;
-                            ui.setStyleClass(html, "notrans")
-                            setTimeout(function(){
-                                ui.setStyleClass(html, "", ["notrans"])
+                            ui.setStyleClass(html, "notrans");
+                            setTimeout(function() {
+                                ui.setStyleClass(html, "", ["notrans"]);
                             }, 200);
                         }
                         
@@ -113,18 +113,18 @@ define(function(require, module, exports) {
                             closeNow();
                         }
                         else {
-                            tab.aml.on("afterclose", function(){
+                            tab.aml.on("afterclose", function() {
                                 closeNow();
                             });
                         }
                         
-                        function closeNow(){
+                        function closeNow() {
                             if (tab.meta.$closeSync) {
                                 tab.unload(event);
                                 closing--;
                             }
                             else {
-                                setTimeout(function(){
+                                setTimeout(function() {
                                     tab.unload(event);
                                     closing--;
                                 });
@@ -135,13 +135,13 @@ define(function(require, module, exports) {
                     childNodes: [
                         btnPlus = new ui.button({
                             id: "btnPlus",
-                            "class" : "plus_tab_button",
+                            "class": "plus_tab_button",
                             skin: "c9-simple-btn",
                         }),
                         btnMenu = new apf.button({
                             skin: "c9-simple-btn",
-                            "class" : "tabmenubtn",
-                            onmouseover: function(){
+                            "class": "tabmenubtn",
+                            onmouseover: function() {
                                 this.setAttribute("submenu", 
                                     menus.get('Window/Tabs').menu);
                             }
@@ -161,8 +161,8 @@ define(function(require, module, exports) {
                 amlPane.btnPlus = btnPlus;
         
                 // Small hack to get buttons inside button area of pane
-                amlPane.on("DOMNodeInsertedIntoDocument", function(){
-                    setTimeout(function(){
+                amlPane.on("DOMNodeInsertedIntoDocument", function() {
+                    setTimeout(function() {
                         amlPane.$buttons.appendChild(btnPlus.$ext);
                         amlPane.$buttons.appendChild(btnMenu.$ext);
                         
@@ -170,7 +170,7 @@ define(function(require, module, exports) {
                     });
                 });
                 
-                amlPane.on("DOMNodeInserted",function(e) {
+                amlPane.on("DOMNodeInserted", function(e) {
                     var amlNode = e.currentTarget;
                     
                     if (e.$isMoveWithinParent) {
@@ -261,23 +261,23 @@ define(function(require, module, exports) {
                 return tab && tab.cloud9tab;
             }
             
-            function getTabs(){
+            function getTabs() {
                 return amlPane.getPages().map(function(tab) {
                     return tab.cloud9tab;
-                })
+                });
             }
             
-            function getEditors(){
+            function getEditors() {
                 return (amlPane.childNodes || [])
-                    .filter(function(p){ return p.localName == "page" && p.$ext })
-                    .map(function(e){ return e.editor });
+                    .filter(function(p) { return p.localName == "page" && p.$ext; })
+                    .map(function(e) { return e.editor; });
             }
             
-            function focus(){
+            function focus() {
                 amlPane.focus();
             }
             
-            function hasFocus(){
+            function hasFocus() {
                 return ui.isChildOf(apf.document.activeElement, amlPane, 1);
             }
             
@@ -337,7 +337,7 @@ define(function(require, module, exports) {
             }
             
             // Resize all editors in the queue
-            function resizeAll(){
+            function resizeAll() {
                 queue.forEach(function(node) {
                     (node.localName == "tab"
                         ? [node]
@@ -415,11 +415,11 @@ define(function(require, module, exports) {
             }
             
             var config = { 
-                "left"  : [hsplit, false, "hsplitbox"],
-                "right" : [hsplit, true,  "hsplitbox"],
-                "up"    : [vsplit, false, "vsplitbox"],
-                "down"  : [vsplit, true,  "vsplitbox"]
-            }
+                "left": [hsplit, false, "hsplitbox"],
+                "right": [hsplit, true, "hsplitbox"],
+                "up": [vsplit, false, "vsplitbox"],
+                "down": [vsplit, true, "vsplitbox"]
+            };
             
             function moveTabToSplit(tab, direction, keep) {
                 var isEmpty = amlPane.getPages().length == 1;
@@ -461,7 +461,7 @@ define(function(require, module, exports) {
                         }
                         node = node.parentNode;
                         grandpa = grandpa.parentNode;
-                    } while (grandpa && grandpa.localName != "bar")
+                    } while (grandpa && grandpa.localName != "bar");
                 }
                 
                 if (next) {
@@ -510,7 +510,7 @@ define(function(require, module, exports) {
             /***** Resizing *****/
             
             // Resize when window resizes
-            function windowResize(){
+            function windowResize() {
                 var tab = getTab();
                 if (tab && tab.editor)
                     tab.editor.resize({ type: "window" });
@@ -535,7 +535,7 @@ define(function(require, module, exports) {
             }
             
             apf.addEventListener("splitter.resize", splitterResize);
-            plugin.addOther(function(){
+            plugin.addOther(function() {
                 apf.removeEventListener("splitter.resize", splitterResize);
             });
             
@@ -556,7 +556,7 @@ define(function(require, module, exports) {
                         else if (ui.isChildOf(e.which, amlPane, true)) {
                             size = e.which.getHeight();
                             delta = parseInt(e.options.height, 10) - size;
-                            result = { vertical: true, own: e.which == amlPane  };
+                            result = { vertical: true, own: e.which == amlPane };
                         }
                     }
                     else if (e.options.width !== undefined) {
@@ -592,7 +592,7 @@ define(function(require, module, exports) {
                 
                 // Emit the resize event after the animation is completed to 
                 // hide whatever the result has covered
-                e.on("finish", function(){
+                e.on("finish", function() {
                     var tab = getTab();
                     if (tab && tab.editor)
                         tab.editor.resize({ type: "afteranim" });
@@ -601,11 +601,11 @@ define(function(require, module, exports) {
             
             /***** Lifecycle *****/
             
-            plugin.on("load", function(){ 
+            plugin.on("load", function() { 
                 load();
             });
             
-            plugin.on("beforeUnload", function(){
+            plugin.on("beforeUnload", function() {
                 var idx, next, last;
                 var parent = amlPane.parentNode;
                 if (!parent) return;
@@ -646,7 +646,7 @@ define(function(require, module, exports) {
                         parent.destroy(true, true);
                     grandpa.insertBefore(last, place);
                     
-                    queue = [grandpa]
+                    queue = [grandpa];
                     
                     var size = grandpa.$vbox ? "height" : "width";
                     last.setAttribute(size, parent[size]);
@@ -710,14 +710,14 @@ define(function(require, module, exports) {
                  * @private
                  * @readonly
                  */
-                get aml(){ return amlPane; },
+                get aml() { return amlPane; },
                 
                 /**
                  * The DOM element that is presenting the pane in the UI.
                  * @property {DOMElement} container
                  * @readonly
                  */
-                get container(){ return amlPane.$int; },
+                get container() { return amlPane.$int; },
                 
                 /**
                  * Retrieves the two elements (one of which is this pane) with
@@ -725,7 +725,7 @@ define(function(require, module, exports) {
                  * @return Array
                  * @readonly
                  */
-                get group(){
+                get group() {
                     var pNode = amlPane.parentNode;
                     
                     if (pNode.localName.indexOf("splitbox") == -1)
@@ -746,38 +746,38 @@ define(function(require, module, exports) {
                  * @property {Tab} activeTab
                  * @readonly
                  */
-                get activeTab(){ return getTab(); },
+                get activeTab() { return getTab(); },
                 
                 /**
                  * The width of the pane in pixels. It only makes sense to set
                  * the width of the pane in a splitview situation.
                  * @property {Number} width
                  */
-                get width(){ return amlPane.width; },
-                set width(v){ amlPane.setProperty("width", v); },
+                get width() { return amlPane.width; },
+                set width(v) { amlPane.setProperty("width", v); },
                 
                 /**
                  * The height of the pane in pixels. It only makes sense to set
                  * the height of the pane in a splitview situation.
                  * @property {Number} height
                  */
-                get height(){ return amlPane.height; },
-                set height(v){ amlPane.setProperty("height", v); },
+                get height() { return amlPane.height; },
+                set height(v) { amlPane.setProperty("height", v); },
                 
                 /**
                  * Specifies whether the panel is currently being shown.
                  * @property {Boolean} visible
                  * @readonly
                  */
-                get visible(){ return visible; },
-                set visible(v){ amlPane.setProperty("visible", v); visible = v; },
-                set _visible(v){ visible = v; },
+                get visible() { return visible; },
+                set visible(v) { amlPane.setProperty("visible", v); visible = v; },
+                set _visible(v) { visible = v; },
                 
                 /**
                  * Retrieves the meta object for this panel
                  * @property {Object} meta
                  */
-                get meta(){ return meta; },
+                get meta() { return meta; },
                 
                 _events: [
                     /** 

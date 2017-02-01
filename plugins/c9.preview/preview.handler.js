@@ -151,7 +151,7 @@ define(function(require, exports, module) {
                 req.headers.accept = "application/json";
                 delete req.headers.host;
 
-                var isDir = path[path.length-1] == "/";
+                var isDir = path[path.length - 1] == "/";
                 if (isDir || parsedUrl.pathname.match(/\.html?$/i)) {
                     req.headers["accept-encoding"] = "identity";
                     delete req.headers["if-range"];
@@ -212,7 +212,7 @@ define(function(require, exports, module) {
                         if (data)
                             body += data;
                         
-                        req.headers.accept= "text/html";
+                        req.headers.accept = "text/html";
                         var statusCode = request.statusCode;
 
                         if (body.indexOf("EISDIR") !== -1) {
@@ -223,7 +223,7 @@ define(function(require, exports, module) {
                             var json;
                             try {
                                 json = JSON.parse(body);
-                            } catch(e) {} 
+                            } catch (e) {} 
                             
                             if (statusCode == 503) {
                                 res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -324,7 +324,7 @@ define(function(require, exports, module) {
                         if (shouldInject) {
                             try {
                                 buffer = generateInstrumentedHTML(buffer) || "";
-                            } catch(e) {
+                            } catch (e) {
                                 // don't intrument if it fails
                                 logError(new Error("HTML instrumentation failed"), {
                                     exception: e

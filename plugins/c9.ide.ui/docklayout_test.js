@@ -44,7 +44,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         var container;
         
         describe('DockableLayout', function() {
-            before(function(){
+            before(function() {
                 container = document.createElement("div");
                 document.body.appendChild(container);
                 
@@ -67,7 +67,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             
             var layout = "";
             
-            describe("Basic Layout", function(){
+            describe("Basic Layout", function() {
                 it('should add widgets to the layout', function(done) {
                     layout = new DockableLayout("Ajax.org", [], {
                         parent: container,

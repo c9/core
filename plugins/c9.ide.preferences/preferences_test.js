@@ -106,7 +106,7 @@ require([
                 
                 document.body.style.marginBottom = "66%";
                 
-                tabs.once("ready", function(){
+                tabs.once("ready", function() {
                     prefs.activate(general);
                     done();
                 });
@@ -114,20 +114,20 @@ require([
             
             var plugin = new Plugin();
             
-            describe("addSettings", function(){
+            describe("addSettings", function() {
                 
                 it('should open a pane with just an editor', function(done) {
                     settings.set("user/general/keybindings/@preset", "custom");
                     
                     prefs.add({
-                        "General" : {
-                            "Application" : {},
-                            "Run / Debug" : {}
+                        "General": {
+                            "Application": {},
+                            "Run / Debug": {}
                         },
-                        "Code Tools" : {
-                            "Language Support" : {},
-                            "Code Tools" : {},
-                            "Code Formatter" : {}
+                        "Code Tools": {
+                            "Language Support": {},
+                            "Code Tools": {},
+                            "Code Formatter": {}
                         }
                     }, plugin);
                     
@@ -136,35 +136,35 @@ require([
                             name: "resume",
                             group: "Run & Debug",
                             hint: "resume the current paused process",
-                            bindKey: {mac: "F8", win: "F8"}
+                            bindKey: { mac: "F8", win: "F8" }
                         },
                         {
                             name: "stepinto",
                             group: "Run & Debug",
                             hint: "step into the function that is next on the execution stack",
-                            bindKey: {mac: "F11", win: "F11"}
+                            bindKey: { mac: "F11", win: "F11" }
                         },
                         {
                             name: "stepover",
                             group: "Run & Debug",
                             hint: "step over the current expression on the execution stack",
-                            bindKey: {mac: "F10", win: "F10"}
+                            bindKey: { mac: "F10", win: "F10" }
                         },
                         {
                             name: "stepout",
                             group: "Run & Debug",
                             hint: "step out of the current function scope",
-                            bindKey: {mac: "Shift-F11", win: "Shift-F11"}
+                            bindKey: { mac: "Shift-F11", win: "Shift-F11" }
                         },
                         {
                             name: "testing",
                             group: "Code Editor",
                             hint: "step out of the current function scope",
-                            bindKey: {mac: "Shift-F11", win: "Shift-F11"}
+                            bindKey: { mac: "Shift-F11", win: "Shift-F11" }
                         }
                     ].forEach(function(cmd) {
                         commands.addCommand(cmd, prefs);
-                    })
+                    });
                     
                     tabs.openEditor("preferences", function(err, tab) {
                         expect(tabs.getTabs()).length(1);
@@ -173,7 +173,7 @@ require([
                     });
                 });
             });
-            describe("unload()", function(){
+            describe("unload()", function() {
                it('should unload the preferences', function(done) {
                    general.unload();
                    prefs.unload();

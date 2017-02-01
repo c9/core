@@ -51,12 +51,12 @@ define(function(require, exports, module) {
         emit.setMaxListeners(500);
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
             if (options.cli)
-                plugin.on("error", function(e){ }); // Prevent exception
+                plugin.on("error", function(e) { }); // Prevent exception
         }
         
         function wrap(name, fn) {
@@ -163,16 +163,16 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
         });
         
@@ -181,7 +181,7 @@ define(function(require, exports, module) {
         var names = Object.keys(api);
         
         // Wrap the API calls
-        names.forEach(function(name){ api[name] = wrap(name, api[name]); });
+        names.forEach(function(name) { api[name] = wrap(name, api[name]); });
         
         // Define the before/after events for each call
         var events = [];

@@ -54,7 +54,7 @@ define(function(require, exports, module) {
             container.show();
             div.style.display = "none";
             
-            function show(){
+            function show() {
                 div.style.display = "block";
                 var toHeight = calculateHeight();
                 container.setHeight(toHeight - div.offsetHeight);
@@ -71,12 +71,12 @@ define(function(require, exports, module) {
                     top: toHeight + "px",
                     duration: 0.2,
                     timingFunction: "linear"
-                }, function(){});
+                }, function() {});
                 anims.animateSplitBoxNode(container, {
                     height: toHeight + "px",
                     duration: 0.22,
                     timingFunction: "linear"
-                }, function(){});
+                }, function() {});
             }
             
             if (timeout) 
@@ -85,7 +85,7 @@ define(function(require, exports, module) {
                 show();
             
             hide = _hide.bind(null, div, timer);
-            hide.hasClosed = function(){ return !div.parentNode; };
+            hide.hasClosed = function() { return !div.parentNode; };
             
             return hide;
         }
@@ -106,12 +106,12 @@ define(function(require, exports, module) {
                 top: toHeight + "px",
                 duration: 0.2,
                 timingFunction: "linear"
-            }, function(){});
+            }, function() {});
             anims.animateSplitBoxNode(container, {
                 height: toHeight + "px",
                 duration: 0.2,
                 timingFunction: "linear"
-            }, function(){
+            }, function() {
                 div.parentNode.removeChild(div);
                 callback && callback();
                 
@@ -120,7 +120,7 @@ define(function(require, exports, module) {
             });
         }
         
-        function calculateHeight(){
+        function calculateHeight() {
             var nodes = container.$ext.childNodes;
             var total = 0;
             for (var i = 0; i < nodes.length; i++) {
@@ -153,6 +153,6 @@ define(function(require, exports, module) {
             show: show
         });
         
-        register(null, { "dialog.notification" : plugin });
+        register(null, { "dialog.notification": plugin });
     }
 });

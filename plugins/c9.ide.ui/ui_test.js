@@ -60,7 +60,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 plugin.load("test");
                 
                 var before = ui.getStyle(document.body, "backgroundColor");
-                ui.insertSkin({data: skin, name: "test"}, plugin);
+                ui.insertSkin({ data: skin, name: "test" }, plugin);
                 expect(ui.getStyle(document.body, "backgroundColor")).to.equal("rgb(250, 255, 255)");
                 plugin.unload();
                 // @TODO Unloading of skins is not supported atm
@@ -83,7 +83,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 var plugin = new Plugin("", []);
                 plugin.load("test");
                 
-                ui.insertSkin({data: skin, name: "test"}, plugin);
+                ui.insertSkin({ data: skin, name: "test" }, plugin);
                 ui.insertMarkup(apf.document.documentElement, "<a:application xmlns:a='http://ajax.org/2005/aml'><a:bar skinset='test'>test</a:bar></a:application>", plugin);
                 ui.insertMarkup(apf.document.documentElement, "<a:application xmlns:a='http://ajax.org/2005/aml'><a:button id='test' skin='bar' skinset='test'>test</a:button></a:application>", plugin);
 
@@ -122,7 +122,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     done();
                 });
                 
-                ui.insertSkin({data: skin, name: "skinset"}, plugin);
+                ui.insertSkin({ data: skin, name: "skinset" }, plugin);
                 ui.insertMarkup(apf.document.documentElement, "<a:application xmlns:a='http://ajax.org/2005/aml'><a:bar skinset='skinset'>test</a:bar></a:application>", plugin);
                 ui.insertMarkup(apf.document.documentElement, "<a:application xmlns:a='http://ajax.org/2005/aml'><a:button id='test' skin='bar' skinset='skinset'>test</a:button></a:application>", plugin);
             });

@@ -39,14 +39,14 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         describe('layout', function() {
             it('should show an error notification', function(done) {
                 error.show("Test");
-                setTimeout(function(){
+                setTimeout(function() {
                     expect.html(document.querySelector(".errorlabel")).visible;
                     expect.html(document.querySelector(".errorlabel")).text(/Test/);
                     done();
                 }, 250);
             });
             it('should hide the error notification', function(done) {
-                error.hide(function(){
+                error.hide(function() {
                     expect.html(document.querySelector(".errorlabel")).not.visible;
                     done();
                 });
@@ -54,7 +54,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         });
         
         if (!onload.remain) {
-            describe("unload()", function(){
+            describe("unload()", function() {
                 it('should destroy all ui elements when it is unloaded', function() {
                     error.unload();
                 });

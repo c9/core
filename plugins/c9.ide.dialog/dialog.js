@@ -16,8 +16,8 @@ define(function(require, module, exports) {
             var emitter = new EventEmitter();
             emitter.visible = undefined;
             
-            function queueItem(){
-                fn(function(){
+            function queueItem() {
+                fn(function() {
                     Dialog.queue.splice(Dialog.queue.indexOf(queueItem), 1);
                     
                     emitter.emit("hide");
@@ -28,7 +28,7 @@ define(function(require, module, exports) {
                     else {
                         // Timeout to prevent the editor 
                         // from getting the key stroke
-                        setTimeout(function(){ 
+                        setTimeout(function() { 
                             // Return last focussed element
                             focusManager.focus(Dialog.lastFocus);
                             delete Dialog.lastFocus;
@@ -130,7 +130,7 @@ define(function(require, module, exports) {
                     if (allowClose && e.keyCode == 27)
                         dialog.hide();
                 });
-                dialog.on("resize", function(){
+                dialog.on("resize", function() {
                     emit("resize");
                 });
                 
@@ -138,11 +138,11 @@ define(function(require, module, exports) {
                     name: plugin.name,
                     bindKey: { mac: "ESC", win: "ESC" },
                     group: "ignore",
-                    isAvailable: function(){
+                    isAvailable: function() {
                         return dialog.visible;
                     },
-                    exec: function(){
-                        dialog.dispatchEvent("keydown", { keyCode : 27 });
+                    exec: function() {
+                        dialog.dispatchEvent("keydown", { keyCode: 27 });
                     }
                 }, plugin);
                 
@@ -207,10 +207,10 @@ define(function(require, module, exports) {
             }
             
             function show() {
-                return plugin.queue(function(){}, true);
+                return plugin.queue(function() {}, true);
             }
             
-            function hide(){
+            function hide() {
                 dialog && dialog.hide();
             }
             
@@ -265,7 +265,7 @@ define(function(require, module, exports) {
                 var position = options.position || (count += 100);
                 var node;
                 
-                switch(options.type) {
+                switch (options.type) {
                     case "checkbox":
                         node = new ui.checkbox({
                             label: options.caption,
@@ -289,7 +289,7 @@ define(function(require, module, exports) {
                             each: options.each || "[item]",
                             caption: options.caption || "[text()]",
                             eachvalue: options.eachvalue || "[@value]",
-                            "empty-message" : options["empty-message"]
+                            "empty-message": options["empty-message"]
                         });
                     break;
                     case "textbox":
@@ -304,13 +304,13 @@ define(function(require, module, exports) {
                     case "button":
                         node = new ui.button({
                             skin: options.skin || "btn-default-css3",
-                            "class"   : options.color ? "btn-" + options.color : "",
+                            "class": options.color ? "btn-" + options.color : "",
                             margin: options.margin,
                             caption: options.caption || "",
                             submenu: options.submenu && options.submenu.aml 
                                 || options.submenu || "",
                             width: options.width || widths.button,
-                            "default" : options["default"] ? "1" : ""
+                            "default": options["default"] ? "1" : ""
                         });
                     break;
                     case "label":
@@ -366,7 +366,7 @@ define(function(require, module, exports) {
                 return node;
             }
             
-            plugin.on("unload", function(){
+            plugin.on("unload", function() {
                 drawn = false;
                 resizable = false;
             });
@@ -406,12 +406,12 @@ define(function(require, module, exports) {
                  * @private
                  * @readonly
                  */
-                get aml(){ return dialog; },
+                get aml() { return dialog; },
                 
                 /**
                  * @property {Number} width
                  */
-                get width(){ return width; }, 
+                get width() { return width; }, 
                 set width(v) { 
                     width = v; 
                     dialog && dialog.setAttribute("width", width);
@@ -419,7 +419,7 @@ define(function(require, module, exports) {
                 /**
                  * @property {Number} left
                  */
-                get left(){ return left; }, 
+                get left() { return left; }, 
                 set left(v) { 
                     left = v; 
                     dialog && dialog.setAttribute("left", left);
@@ -427,7 +427,7 @@ define(function(require, module, exports) {
                 /**
                  * @property {Number} top
                  */
-                get top(){ return top; },
+                get top() { return top; },
                 set top(v) { 
                     top = v;
                     dialog && dialog.setAttribute("top", top);
@@ -435,7 +435,7 @@ define(function(require, module, exports) {
                 /**
                  * @property {Number} title
                  */
-                get title(){ return title; },
+                get title() { return title; },
                 set title(v) { 
                     title = v;
                     dialog && dialog.setAttribute("title", title);
@@ -443,7 +443,7 @@ define(function(require, module, exports) {
                 /**
                  * @property {Boolean} resizable
                  */
-                get resizable(){ return resizable; },
+                get resizable() { return resizable; },
                 set resizable(v) { 
                     if (v === resizable) return;
                     resizable = v;
@@ -468,14 +468,14 @@ define(function(require, module, exports) {
                 /**
                  * @property {Number} heading
                  */
-                get heading(){ return heading; },
+                get heading() { return heading; },
                 set heading(v) { 
                     heading = v;
                 },
                 /**
                  * @property {Number} body
                  */
-                get body(){ return body; },
+                get body() { return body; },
                 set body(v) { 
                     body = v;
                 },
@@ -483,16 +483,16 @@ define(function(require, module, exports) {
                  * @property {Boolean} modal
                  * @readonly
                  */
-                get modal(){ return modal; },
+                get modal() { return modal; },
                 /**
                  * @property {Boolean} visible
                  * @readonly
                  */
-                get visible(){ return dialog && dialog.visible; },
+                get visible() { return dialog && dialog.visible; },
                 /**
                  * @property {Boolean} allowClose
                  */
-                get allowClose(){ return allowClose; },
+                get allowClose() { return allowClose; },
                 set allowClose(v) { 
                     allowClose = v;
                     dialog && dialog.setAttribute("buttons", v ? "close" : "");
@@ -523,7 +523,7 @@ define(function(require, module, exports) {
                 /**
                  * 
                  */
-                createElement: function(options){
+                createElement: function(options) {
                     createItem(null, null, options);
                 },
     

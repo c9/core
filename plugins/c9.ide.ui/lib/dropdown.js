@@ -1,6 +1,6 @@
 define(function(require, module, exports) {
 return function(apf) {
-var $setTimeout  = setTimeout;
+var $setTimeout = setTimeout;
 var $setInterval = setInterval;
 
 
@@ -171,7 +171,7 @@ apf.model = function(struct, tagName) {
     this.$proplisteners = {};
 };
 
-(function(){
+(function() {
     this.$parsePrio = "020";
     this.$isModel = true;
     this.$createModel = true;
@@ -211,7 +211,7 @@ apf.model = function(struct, tagName) {
         if (value) {
             if (this.src && this.src.indexOf("rdb://") === 0) {
                 var _self = this;
-                apf.queue.add("rdb_load_" + this.$uniqueId, function(){
+                apf.queue.add("rdb_load_" + this.$uniqueId, function() {
                     _self.unshare();
                     _self.share();
                 });
@@ -402,7 +402,7 @@ apf.model = function(struct, tagName) {
         <a:textbox value="[persons/person/@blah]" width="[persons/blah/@width]" height="[@height]" model="[mdlBlah::bli]"/>
     */
     this.$bindXmlProperty = function(amlNode, prop, xpath, optimize, listenRoot) {
-        var q ,p, id = amlNode.$uniqueId;
+        var q, p, id = amlNode.$uniqueId;
         if (!this.$propBinds[id]) 
             this.$propBinds[id] = {};
 
@@ -483,7 +483,7 @@ apf.model = function(struct, tagName) {
      * @return  {XMLNode}  The context of this model, or `false` if there's no data
      * 
      */
-    this.getXml = function(){
+    this.getXml = function() {
         return this.data
             ? apf.xmldb.cleanNode(this.data.cloneNode(true))
             : false;
@@ -563,7 +563,7 @@ apf.model = function(struct, tagName) {
         if (!this.data)
             return null;
         
-        return this.data.selectSingleNode(xpath)
+        return this.data.selectSingleNode(xpath);
     };
 
     /**
@@ -602,7 +602,7 @@ apf.model = function(struct, tagName) {
 
         xmlNode = apf.xmldb.appendChild(insertNode, xmlNode);
         
-        this.dispatchEvent("update", {xmlNode: xmlNode});
+        this.dispatchEvent("update", { xmlNode: xmlNode });
         return xmlNode;
     };
 
@@ -628,7 +628,7 @@ apf.model = function(struct, tagName) {
     /**
      * Clears the loaded data from this model.
      */
-    this.clear = function(){
+    this.clear = function() {
         this.load(null);
         doc = null; //Fix for safari refcount issue;
     };
@@ -637,7 +637,7 @@ apf.model = function(struct, tagName) {
      * Resets data in this model to the last saved point.
      *
      */
-    this.reset = function(){
+    this.reset = function() {
         var doc = this.data.ownerDocument;
         //doc.removeChild(this.data);
         //var node = doc.appendChild(apf.isWebkit ? doc.importNode(this.$copy, true) : this.$copy);
@@ -649,7 +649,7 @@ apf.model = function(struct, tagName) {
      * Sets a new saved point based on the current state of the data in this
      * model. The `reset()` method returns the model to this point.
      */
-    this.savePoint = function(){
+    this.savePoint = function() {
         this.$copy = apf.xmldb.getCleanCopy(this.data);
     };
 
@@ -724,13 +724,13 @@ apf.model = function(struct, tagName) {
      */
     this.init = function(callback) {
         if (this.session) {
-            this.$loadFrom(this.session, {isSession: true});
+            this.$loadFrom(this.session, { isSession: true });
         }
         else {
             
 
             if (this.src)
-                this.$loadFrom(this.src, {callback: callback});
+                this.$loadFrom(this.src, { callback: callback });
         }
     };
 
@@ -837,7 +837,7 @@ apf.model = function(struct, tagName) {
     /**
      * Loads the data from the datasource specified for [[apf.model.init]].
      */
-    this.reload = function(){
+    this.reload = function() {
         if (!this.data)
             return;
         
@@ -862,7 +862,7 @@ apf.model = function(struct, tagName) {
         if (typeof xmlNode == "string") {
             if (xmlNode.charAt(0) == "<") { //xml
                 if (xmlNode.substr(0, 5).toUpperCase() == "<!DOC")
-                    xmlNode = xmlNode.substr(xmlNode.indexOf(">")+1);
+                    xmlNode = xmlNode.substr(xmlNode.indexOf(">") + 1);
                 if (!apf.supportNamespaces)
                     xmlNode = xmlNode.replace(/xmlns\=\"[^"]*\"/g, "");
                 xmlNode = apf.getXmlDom(xmlNode, null, true).documentElement; //@todo apf3.0 whitespace issue
@@ -879,7 +879,7 @@ apf.model = function(struct, tagName) {
                 apf.xmldb.getXmlDocId(xmlNode, this); //@todo experiment
                 
                 this.$queueLoading = true;
-                apf.queue.add("modelload" + this.$uniqueId, function(){
+                apf.queue.add("modelload" + this.$uniqueId, function() {
                     if (_self.ownerDocument && _self.ownerDocument.$domParser.$isPaused(_self))
                         apf.queue.add("modelload" + _self.$uniqueId, arguments.callee);
                     else {
@@ -895,7 +895,7 @@ apf.model = function(struct, tagName) {
         
         this.$state = 0;
 
-        if (this.dispatchEvent("beforeload", {xmlNode: xmlNode}) === false)
+        if (this.dispatchEvent("beforeload", { xmlNode: xmlNode }) === false)
             return false;
 
         var doc = xmlNode ? xmlNode.ownerDocument : null; //Fix for safari refcount issue;
@@ -926,8 +926,8 @@ apf.model = function(struct, tagName) {
 
         this.data = xmlNode;
         
-        this.dispatchEvent("afterload", {xmlNode: xmlNode});
-        this.dispatchEvent("update", {xmlNode: xmlNode});
+        this.dispatchEvent("afterload", { xmlNode: xmlNode });
+        this.dispatchEvent("update", { xmlNode: xmlNode });
         
         for (var id in this.$amlNodes)
             this.$loadInAmlNode(this.$amlNodes[id]);
@@ -960,7 +960,7 @@ apf.model = function(struct, tagName) {
         
         if (action == "replacenode" && xmlNode == this.data.ownerDocument.documentElement) {
             var _self = this;
-            $setTimeout(function(){
+            $setTimeout(function() {
                 _self.load(xmlNode);
             });
             return;
@@ -996,7 +996,7 @@ apf.model = function(struct, tagName) {
             }
         }
         
-        this.dispatchEvent("update", {xmlNode: xmlNode, action: action, undoObj: UndoObj});
+        this.dispatchEvent("update", { xmlNode: xmlNode, action: action, undoObj: UndoObj });
     };
 
     // *** INSERT *** //
@@ -1078,7 +1078,7 @@ apf.model = function(struct, tagName) {
         if (typeof xmlNode == "string") {
             if (xmlNode.charAt(0) == "<") {
                 if (xmlNode.substr(0, 5).toUpperCase() == "<!DOC")
-                    xmlNode = xmlNode.substr(xmlNode.indexOf(">")+1);
+                    xmlNode = xmlNode.substr(xmlNode.indexOf(">") + 1);
                 if (!apf.supportNamespaces)
                     xmlNode = xmlNode.replace(/xmlns\=\"[^"]*\"/g, "");
                 
@@ -1114,9 +1114,9 @@ apf.model = function(struct, tagName) {
     };
 
 
-    this.$destroy = function(){
+    this.$destroy = function() {
         if (this.session && this.data)
-            apf.saveData(this.session, {xmlNode: this.getXml()});
+            apf.saveData(this.session, { xmlNode: this.getXml() });
     };
 }).call(apf.model.prototype = new apf.AmlElement());
 
@@ -1197,7 +1197,7 @@ apf.__DATABINDING__ = 1 << 1;
  *                   - data ([[String]]): the retrieved data
  *
  */
-apf.DataBinding = function(){
+apf.DataBinding = function() {
     this.$init(true);
     
     this.$loadqueue = 
@@ -1252,7 +1252,7 @@ apf.DataBinding = function(){
      *  lstRev.query('revision/text()', 'xmlRoot');
      *  lstRev.query('revision/text()', 'indicator');
      */
-        return apf.queryValue(this[type || 'xmlRoot'], xpath );
+        return apf.queryValue(this[type || 'xmlRoot'], xpath);
     };
     /**
      * Queries the bound data for an array of string values
@@ -1265,7 +1265,7 @@ apf.DataBinding = function(){
      * @return {String}       The value of the selected XML Node
      */
     this.queryValues = function(xpath, type) {
-        return apf.queryValues(this[type || 'xmlRoot'], xpath );
+        return apf.queryValues(this[type || 'xmlRoot'], xpath);
     };
     
     /**
@@ -1279,7 +1279,7 @@ apf.DataBinding = function(){
      * @return  {Mixed}  An [[XMLNode]] or [[NodeList]] with the result of the selection
      */
     this.queryNode = function(xpath, type) {
-        var n = this[type||'xmlRoot'];
+        var n = this[type || 'xmlRoot'];
         return n ? n.selectSingleNode(xpath) : null;
     };
 
@@ -1294,16 +1294,16 @@ apf.DataBinding = function(){
      * @return  {Mixed}  An [[XMLNode]] or [[NodeList]] with the result of the selection
      */
     this.queryNodes = function(xpath, type) {
-        var n = this[type||'xmlRoot'];
+        var n = this[type || 'xmlRoot'];
         return n ? n.selectNodes(xpath) : [];
     };
     
-    this.$checkLoadQueue = function(){
+    this.$checkLoadQueue = function() {
         // Load from queued load request
         if (this.$loadqueue) {
             if (!this.caching)
                 this.xmlRoot = null;
-            var q = this.load(this.$loadqueue[0], {cacheId: this.$loadqueue[1]});
+            var q = this.load(this.$loadqueue[0], { cacheId: this.$loadqueue[1] });
             if (!q || q.dataType != apf.ARRAY || q != this.$loadqueue)
                 this.$loadqueue = null;
         }
@@ -1373,7 +1373,7 @@ apf.DataBinding = function(){
           && this.$bindings.getRule(name, xmlNode);
     };
     
-    var ruleIsMatch = {"drag":1,"drop":1,"dragcopy":1}
+    var ruleIsMatch = { "drag": 1, "drop": 1, "dragcopy": 1 };
     this.$getDataNode = function(name, xmlNode, createNode, ruleList, multiple) {
         var node, rule = this.$attrBindings[name];
         if (rule) { //@todo apf3.0 find out why drag and drop rules are already compiled here
@@ -1431,8 +1431,8 @@ apf.DataBinding = function(){
      * Reloads the data in this element.
      * @method 
      */
-    this.reload = this.reload || function(){
-        this.load(this.xmlRoot, {cacheId: this.cacheId, force: true});
+    this.reload = this.reload || function() {
+        this.load(this.xmlRoot, { cacheId: this.cacheId, force: true });
     };
 
     /**
@@ -1571,7 +1571,7 @@ apf.DataBinding = function(){
         this.disabled = false;
 
         //Run onload event
-        if (this.dispatchEvent("beforeload", {xmlNode : xmlNode}) === false)
+        if (this.dispatchEvent("beforeload", { xmlNode: xmlNode }) === false)
             return false;
 
         
@@ -1614,7 +1614,7 @@ apf.DataBinding = function(){
             this.disabled = disabled;
 
         // Run onafteronload event
-        this.dispatchEvent('afterload', {xmlNode : xmlNode});
+        this.dispatchEvent('afterload', { xmlNode: xmlNode });
     };
     
     // @todo Doc
@@ -1679,7 +1679,7 @@ apf.DataBinding = function(){
               xmlNode: xmlRootNode,  //@todo apf3.0
               insertPoint: xmlRootNode, //this.xmlRoot,
               amlNode: this,
-              callback: function(){
+              callback: function() {
                     
                     amlNode.setProperty(amlNode.hasFeature(apf.__MULTISELECT__) 
                         ? "selected" 
@@ -1776,7 +1776,7 @@ apf.DataBinding = function(){
             return;
         
         //remove old status if any
-        var ostatus = loaded.replace(re, "")
+        var ostatus = loaded.replace(re, "");
         if (!remove)
             ostatus += "|" + state + ":" + group + ":" + this.$uniqueId + "|";
 
@@ -2161,13 +2161,13 @@ apf.DataBinding = function(){
         
         if (prop != "actions" && 
           this.$checkLoadQueue() === false && this.$amlLoaded)
-            1+1; //@todo add reload queue.
+            1 + 1; //@todo add reload queue.
             //this.reload();
     };
 
     
-    var eachBinds = {"caption":1, "icon":1, "select":1, "css":1, "sort":1,
-                     "drop":2, "drag":2, "dragcopy":2, "eachvalue":1}; //Similar to apf.Class
+    var eachBinds = { "caption": 1, "icon": 1, "select": 1, "css": 1, "sort": 1,
+                     "drop": 2, "drag": 2, "dragcopy": 2, "eachvalue": 1 }; //Similar to apf.Class
     
     this.$addAttrBind = function(prop, fParsed, expression) {
         //Detect if it uses an external model
@@ -2184,10 +2184,10 @@ apf.DataBinding = function(){
             paths = fParsed.xpaths,
             list = {};
         //@todo when there is no model in xpath modelId == null...
-        for (i = 0; i < paths.length; i+=2) {
+        for (i = 0; i < paths.length; i += 2) {
             if (!list[(modelId = paths[i])])
                 list[modelId] = 1;
-            else list[modelId]++
+            else list[modelId]++;
         }
         
         if (!this.$propsUsingMainModel)
@@ -2201,7 +2201,7 @@ apf.DataBinding = function(){
         };
 
         delete this.$propsUsingMainModel[prop];
-        for (xpath, i = 0; i < paths.length; i+=2) {
+        for (xpath, i = 0; i < paths.length; i += 2) {
             modelId = paths[i];
             if (list[modelId] == -1)
                 continue;
@@ -2232,7 +2232,7 @@ apf.DataBinding = function(){
                             if (m.model) {
                                 this.removeEventListener("prop." + prop, arguments.callee);
                                 var _self = this;
-                                $setTimeout(function(){
+                                $setTimeout(function() {
                                     _self.$clearDynamicProperty(prop);
                                     _self.$setDynamicProperty(prop, expression);
                                 }, 10);
@@ -2285,17 +2285,17 @@ apf.DataBinding = function(){
 
         this.$canLoadDataAttr = eachBinds[prop] == 1; //@todo apf3.0 remove
         this.$checkLoadQueue();
-    }
+    };
     
     this.$removeAttrBind = function(prop) {
         //@todo apf3.0
         //$model.$unbindXmlProperty
-        var rule = this.$attrBindings[prop]
+        var rule = this.$attrBindings[prop];
         if (!rule)
             return;
         
         delete this.$attrBindings[prop];
-        delete this.$propsUsingMainModel[prop]
+        delete this.$propsUsingMainModel[prop];
         
         var models = rule.models;
         if (models.length)
@@ -2307,7 +2307,7 @@ apf.DataBinding = function(){
     };
     
     this.$initingModel;
-    function initModel(){
+    function initModel() {
         this.$initingModel = true;
         this.$setInheritedAttribute("model");
     }
@@ -2535,7 +2535,7 @@ apf.DataBinding = function(){
         else if (value.indexOf("[::") > -1) { //@experimental
             var model, pNode = this;
             do {
-                pNode = pNode.parentNode
+                pNode = pNode.parentNode;
                 model = pNode.getAttribute("model");
             }
             while (pNode.parentNode && pNode.parentNode.nodeType == 1 && (!model || model == value));
@@ -2558,7 +2558,7 @@ apf.DataBinding = function(){
         clearTimeout(this.$dbTimer);
         if (!this.$amlLoaded && this.nodeType == 1) {
             var _self = this;
-            this.$dbTimer = $setTimeout(function(){
+            this.$dbTimer = $setTimeout(function() {
                 if (!_self.$amlDestroyed)
                     apf.setModel(value, _self);
             });
@@ -2635,18 +2635,18 @@ apf.Init.run("databinding");
  * ```
  * @allowchild  item
  */
-apf.MultiselectBinding = function(){
+apf.MultiselectBinding = function() {
     if (!this.setQueryValue)
         this.implement(apf.DataBinding);
 
-    this.$regbase = this.$regbase|apf.__MULTISELECT__; //We're pretending to have multiselect even though we might not.
+    this.$regbase = this.$regbase | apf.__MULTISELECT__; //We're pretending to have multiselect even though we might not.
 
-    this.$init(function(){
+    this.$init(function() {
         this.$selectTimer = {};
     });
 };
 
-(function(){
+(function() {
     this.length = 0;
 
     //1 = force no bind rule, 2 = force bind rule
@@ -2663,9 +2663,9 @@ apf.MultiselectBinding = function(){
         selected: 3,
         //caret     : 2,
         each: 1,
-        "selection"             : 3, //only databound when has an xpath
-        "selection-unique"      : 3, //only databound when has an xpath
-        "selection-constructor" : 3 //only databound when has an xpath
+        "selection": 3, //only databound when has an xpath
+        "selection-unique": 3, //only databound when has an xpath
+        "selection-constructor": 3 //only databound when has an xpath
     }, this.$attrExcludePropBind);
 
      
@@ -2739,8 +2739,8 @@ apf.MultiselectBinding = function(){
     /**
      * Change sorting from ascending to descending, and vice versa!
      */
-    this.toggleSortOrder = function(){
-        return this.resort({"ascending" : !this.$sort.get().ascending}).ascending;
+    this.toggleSortOrder = function() {
+        return this.resort({ "ascending": !this.$sort.get().ascending }).ascending;
     };
 
     /**
@@ -2757,7 +2757,7 @@ apf.MultiselectBinding = function(){
      *                                               an XML node as it's first argument.
      * 
      */
-    this.getSortSettings = function(){
+    this.getSortSettings = function() {
         return this.$sort.get();
     };
     
@@ -2851,7 +2851,7 @@ apf.MultiselectBinding = function(){
      */
     this.getLastTraverseNode = function(xmlNode) {
         var nodes = this.getTraverseNodes(xmlNode || this.xmlRoot);
-        return nodes[nodes.length-1];
+        return nodes[nodes.length - 1];
     };
 
     /**
@@ -2904,7 +2904,7 @@ apf.MultiselectBinding = function(){
         //arguments[2]
         return node || count && (i < count || (i + 1) > Math.floor(nodes.length / count) * count)
             ? node
-            : (up ? nodes[nodes.length-1] : nodes[0]);
+            : (up ? nodes[nodes.length - 1] : nodes[0]);
     };
 
     /**
@@ -3034,9 +3034,9 @@ apf.MultiselectBinding = function(){
         var empty = this.$getLayoutNode("empty", "caption", this.$empty);
         if (empty)
             apf.setNodeValue(empty, msg || "");
-    }
+    };
 
-    this.$removeClearMessage = function(){
+    this.$removeClearMessage = function() {
         if (!this.$empty)
             this.$empty = document.getElementById("empty" + this.$uniqueId);
         if (this.$empty && this.$empty.parentNode)
@@ -3108,15 +3108,15 @@ apf.MultiselectBinding = function(){
     };
 
     var actionFeature = {
-        "insert"      : 127,//11111110
-        "replacenode" : 127,//11111110
-        "attribute"   : 255,//11111111
-        "add"         : 251,//11110111
-        "remove"      : 110, //01011110
-        "redo-remove" : 79, //10011110
-        "synchronize" : 127,//11111110
-        "move-away"   : 297,//11010111
-        "move"        : 141  //10011111
+        "insert": 127, //11111110
+        "replacenode": 127, //11111110
+        "attribute": 255, //11111111
+        "add": 251, //11110111
+        "remove": 110, //01011110
+        "redo-remove": 79, //10011110
+        "synchronize": 127, //11111110
+        "move-away": 297, //11010111
+        "move": 141  //10011111
     };
 
     /**
@@ -3193,7 +3193,7 @@ apf.MultiselectBinding = function(){
                     action = "remove"; //@todo why not break here?
 
                 else if (!htmlNode && actionFeature[action] & 4
-                  && this.isTraverseNode(xmlNode)){
+                  && this.isTraverseNode(xmlNode)) {
                     action = "add";
                     break;
                 }
@@ -3206,10 +3206,10 @@ apf.MultiselectBinding = function(){
                         return;
                 }
 
-                if (htmlNode  || action == "move")
+                if (htmlNode || action == "move")
                     break;
             }
-            else if (actionFeature[action] & 8 && this.isTraverseNode(xmlNode)){
+            else if (actionFeature[action] & 8 && this.isTraverseNode(xmlNode)) {
                 action = "add";
                 break;
             }
@@ -3246,13 +3246,13 @@ apf.MultiselectBinding = function(){
             //var tmpNode;
             //Case for replacing the xmlroot or its direct parent
             if (UndoObj ? UndoObj.args[1] == this.xmlRoot : !this.xmlRoot.parentNode)
-                return this.load(UndoObj ? UndoObj.xmlNode : listenNode, {force: true});
+                return this.load(UndoObj ? UndoObj.xmlNode : listenNode, { force: true });
 
             //Case for replacing a node between the xmlroot and the traverse nodes
             var nodes = this.getTraverseNodes();
             for (var i = 0, l = nodes.length; i < l; i++) {
                 if (apf.isChildOf(startNode, nodes[i]))
-                    return this.load(this.xmlRoot, {force: true}); //This can be more optimized by using addNodes
+                    return this.load(this.xmlRoot, { force: true }); //This can be more optimized by using addNodes
             }
             //if ((tmpNode = this.getFirstTraverseNode()) && apf.isChildOf(startNode, tmpNode))
         }
@@ -3286,7 +3286,7 @@ apf.MultiselectBinding = function(){
             if (this.getFirstTraverseNode())
                 this.$removeClearMessage();
             else
-                this.$setClearMessage(this["empty-message"], "empty")
+                this.$setClearMessage(this["empty-message"], "empty");
         }
 
         //Check Insert
@@ -3437,7 +3437,7 @@ apf.MultiselectBinding = function(){
 
             //@todo Fix this by putting it after xmlUpdate when its using a timer
             var _self = this;
-            this.$selectTimer.timer = $setTimeout(function(){
+            this.$selectTimer.timer = $setTimeout(function() {
                 _self.$checkSelection(_self.$selectTimer.nextNode);
                 _self.$selectTimer.nextNode = null;
             });
@@ -3551,7 +3551,7 @@ apf.MultiselectBinding = function(){
                 //Add Children
                 var beforeNode = isChild
                         ? insertBefore
-                        : (lastNode ? lastNode.nextSibling : null),//(parent || this.$container).firstChild);
+                        : (lastNode ? lastNode.nextSibling : null), //(parent || this.$container).firstChild);
                     parentNode = this.$add(nodes[i], Lid, isChild ? xmlNode.parentNode : xmlNode,
                         beforeNode ? parent || this.$container : parent, beforeNode,
                         (!beforeNode && i == nodes.length - 1), depth, nodes[i + 1], action);//Should use getTraverParent
@@ -3618,7 +3618,7 @@ apf.MultiselectBinding = function(){
         //@todo apf3.0 find a better heuristic (portal demo)
         if (this.xmlRoot && !this.$bindRuleTimer && this.$amlLoaded) {
             var _self = this;
-            apf.queue.add("reload" + this.$uniqueId, function(){
+            apf.queue.add("reload" + this.$uniqueId, function() {
                 
                 _self.reload();
             });
@@ -3766,7 +3766,7 @@ apf.MultiselectBinding = function(){
      */
     this.$propHandlers["sort"] = function(value) {
         if (value) {
-            this.$sort = new apf.Sort()
+            this.$sort = new apf.Sort();
             this.$sort.set({
                 getValue: apf.lm.compile(value)
             });
@@ -3774,7 +3774,7 @@ apf.MultiselectBinding = function(){
         else {
             this.$sort = null;
         }
-    }
+    };
     
 
     /**
@@ -3807,7 +3807,7 @@ apf.MultiselectBinding = function(){
  * @baseclass
  * @inherits apf.DataBinding
  */
-apf.StandardBinding = function(){
+apf.StandardBinding = function() {
     this.$init(true);
     
     
@@ -4024,8 +4024,8 @@ apf.__MULTISELECT__ = 1 << 8;
  * from the selected node. The `apf.MultiSelect.value` property contains this value.
  *
  */
-apf.MultiSelect = function(){
-    this.$init(function(){
+apf.MultiSelect = function() {
+    this.$init(function() {
         this.$valueList = [];
         this.$selectedList = [];
     });
@@ -4033,7 +4033,7 @@ apf.MultiSelect = function(){
 
 //@todo investigate if selectedList can be deprecated
 (function() {
-    this.$regbase = this.$regbase|apf.__MULTISELECT__;
+    this.$regbase = this.$regbase | apf.__MULTISELECT__;
 
     // *** Properties *** //
 
@@ -4403,7 +4403,7 @@ apf.MultiSelect = function(){
                 else {
                     pNode = amlNode.$isTreeArch
                       ? amlNode.selected || amlNode.xmlRoot
-                      : amlNode.xmlRoot
+                      : amlNode.xmlRoot;
                 }
             }
 
@@ -4431,7 +4431,7 @@ apf.MultiSelect = function(){
             return callback(xmlNode, apf.SUCCESS);
         else {
             if (rule.get)
-                return apf.getData(rule.get, {xmlNode: refNode, callback: callback})
+                return apf.getData(rule.get, { xmlNode: refNode, callback: callback });
             else {
                 
             }
@@ -4504,7 +4504,7 @@ apf.MultiSelect = function(){
      * Select the current selection...again.
      *
      */
-    this.reselect = function(){ // @todo Add support for multiselect
+    this.reselect = function() { // @todo Add support for multiselect
         if (this.selected) this.select(this.selected, null, this.ctrlselect,
             null, true);//no support for multiselect currently.
     };
@@ -4571,7 +4571,7 @@ apf.MultiSelect = function(){
         if (!this.xmlRoot) {
             if (!this.$buffered) {
                 var f;
-                this.addEventListener("afterload", f = function(){
+                this.addEventListener("afterload", f = function() {
                     this.select.apply(this, this.$buffered);
                     this.removeEventListener("afterload", f);
                     delete this.$buffered;
@@ -4714,9 +4714,9 @@ apf.MultiSelect = function(){
             this.$valueList.push(xmlNode);
         }
 
-        if (this.delayedselect && (typeof ctrlKey == "boolean")){
+        if (this.delayedselect && (typeof ctrlKey == "boolean")) {
             var _self = this;
-            $setTimeout(function(){
+            $setTimeout(function() {
                 if (_self.selected == xmlNode)
                     _self.dispatchEvent("afterselect", {
                         selection: _self.$valueList,
@@ -4763,7 +4763,7 @@ apf.MultiSelect = function(){
     this.choose = function(xmlNode, userAction) {
         if (!this.selectable || userAction && this.disabled) return;
 
-        if (this.dispatchEvent("beforechoose", {xmlNode : xmlNode}) === false)
+        if (this.dispatchEvent("beforechoose", { xmlNode: xmlNode }) === false)
             return false;
 
         if (xmlNode && !(typeof (xmlNode.style || "") == "object"))
@@ -4771,7 +4771,7 @@ apf.MultiSelect = function(){
 
         
         if (this.hasFeature(apf.__DATABINDING__)
-          && this.dispatchEvent("afterchoose", {xmlNode : this.selected}) !== false)
+          && this.dispatchEvent("afterchoose", { xmlNode: this.selected }) !== false)
             this.setProperty("chosen", this.selected);
         
     };
@@ -4992,7 +4992,7 @@ apf.MultiSelect = function(){
             this.$select(this.$tempsel);
 
             var _self = this;
-            this.timer = $setTimeout(function(){
+            this.timer = $setTimeout(function() {
                 _self.$selectTemp();
             }, 400);
         }
@@ -5001,7 +5001,7 @@ apf.MultiSelect = function(){
     /*
      * @private
      */
-    this.$selectTemp = function(){
+    this.$selectTemp = function() {
         if (!this.$tempsel)
             return;
 
@@ -5078,7 +5078,7 @@ apf.MultiSelect = function(){
     /**
      * Selects the next {@link term.datanode data node} when available.
      */
-    this.selectNext = function(){
+    this.selectNext = function() {
         var xmlNode = this.getNextTraverse();
         if (xmlNode)
             this.select(xmlNode);
@@ -5087,7 +5087,7 @@ apf.MultiSelect = function(){
     /**
      * Selects the previous {@link term.datanode data node} when available.
      */
-    this.selectPrevious = function(){
+    this.selectPrevious = function() {
         var xmlNode = this.getNextTraverse(null, -1);
         if (xmlNode)
             this.select(xmlNode);
@@ -5096,7 +5096,7 @@ apf.MultiSelect = function(){
     /*
      * @private
      */
-    this.getDefaultNext = function(xmlNode, isTree){  //@todo why is isTree an argument
+    this.getDefaultNext = function(xmlNode, isTree) {  //@todo why is isTree an argument
         var next = this.getNextTraverseSelected(xmlNode);
         //if(!next && xmlNode == this.xmlRoot) return;
 
@@ -5249,7 +5249,7 @@ apf.MultiSelect = function(){
         if (!this.$attrBindings["eachvalue"] && !this.$amlLoaded
           && this.getAttribute("eachvalue")) {
             var _self = this;
-            return apf.queue.add("value" + this.$uniqueId, function(){
+            return apf.queue.add("value" + this.$uniqueId, function() {
                 _self.$propHandlers["value"].call(_self, value);
             });
         }
@@ -5260,14 +5260,14 @@ apf.MultiSelect = function(){
             this.select(String(value) || this["default"]);
         else
             this.clearSelection();
-    }
+    };
     
     this.$propHandlers["default"] = function(value, prop) {
         if (!this.value || !this.$amlLoaded && !(this.getAttribute("value") 
           || this.getAttribute("selected") || this.getAttribute("selection"))) {
             this.$propHandlers["value"].call(this, "");
         }
-    }
+    };
     
     /**
      * @attribute {String} [value]   Sets or gets the caret value of the element.
@@ -5276,7 +5276,7 @@ apf.MultiSelect = function(){
     this.$propHandlers["caret"] = function(value, prop) {
         if (value)
             this.setCaret(value);
-    }
+    };
     
     
     
@@ -5425,7 +5425,7 @@ apf.MultiSelect = function(){
         if (!this.xmlRoot) {
             if (!this.$buffered) {
                 var f;
-                this.addEventListener("afterload", f = function(){
+                this.addEventListener("afterload", f = function() {
                     this.removeEventListener("afterload", f);
                     this.$propHandlers["selected"].call(this, value, prop);
                     delete this.$buffered;
@@ -5547,7 +5547,7 @@ apf.MultiSelect = function(){
                 if (_self.allowdeselect && (srcElement == this
                   || srcElement.getAttribute(apf.xmldb.htmlIdTag)))
                     _self.clearSelection(); //hacky
-            }
+            };
         }
         else {
             this.$container.onmousedown = null;
@@ -5557,9 +5557,9 @@ apf.MultiSelect = function(){
     this.$propHandlers["ctrlselect"] = function(value) {
         if (value != "enter")
             this.ctrlselect = apf.isTrue(value);
-    }
+    };
 
-    function fAutoselect(){
+    function fAutoselect() {
         this.selectAll();
     }
     
@@ -5658,7 +5658,7 @@ apf.MultiSelect = function(){
             if (!e.force && (!this.dataParent || !this.dataParent.parent 
               || !this.dataParent.parent.$chained)) {
                 var _self = this;
-                $setTimeout(function(){
+                $setTimeout(function() {
                     
                     if (_self.selected == e.selected) {
                         delete _self.selected;
@@ -5683,7 +5683,7 @@ apf.MultiSelect = function(){
             if (valueRule) {
                 //@todo this will call the handler again - should be optimized
 
-                this.$lastValue = this.$applyBindRule(valueRule, e.selected)
+                this.$lastValue = this.$applyBindRule(valueRule, e.selected);
                 //this.$attrBindings["value"] && 
                 if (this.$lastValue != 
                   (valueRule != "value" && (this.xmlRoot
@@ -5761,7 +5761,7 @@ apf.MultiSelectServer = {
 apf.__CHILDVALUE__ = 1 << 27;
 
 
-apf.ChildValue = function(){
+apf.ChildValue = function() {
     if (!this.$childProperty)
         this.$childProperty = "value";
     
@@ -5805,7 +5805,7 @@ apf.ChildValue = function(){
        this.$propHandlers[this.$childProperty].call(this, this.caption || "");
     });
     
-    this.$init(function(){
+    this.$init(function() {
        this.addEventListener("prop." + this.$childProperty, function(e) {
            if (!this.$norecur && !e.value && !this.getAttributeNode(this.$childProperty))
                f.call(this);
@@ -5852,7 +5852,7 @@ apf.__DATAACTION__ = 1 << 25;
  * A [[term.baseclass baseclass]] that adds data action features to this element.
  * @class apf.DataAction
  */
-apf.DataAction = function(){
+apf.DataAction = function() {
     this.$regbase = this.$regbase | apf.__DATAACTION__;
 
     // *** Public Methods *** //
@@ -6028,7 +6028,7 @@ apf.DataAction = function(){
                     amlNode: this,
                     selNode: multiple[k],
                     xmlNode: multiple[k]
-                })
+                });
             }
         }
 
@@ -6212,7 +6212,7 @@ apf.DataAction = function(){
      * @param  {String} [string] The new value of this element.
      * 
      */
-    this.change = function(value, force){ // @todo apf3.0 maybe not for multiselect?? - why is clearError handling not in setProperty for value
+    this.change = function(value, force) { // @todo apf3.0 maybe not for multiselect?? - why is clearError handling not in setProperty for value
         
         if (this.errBox && this.errBox.visible && this.isValid && this.isValid())
             this.clearError();
@@ -6224,7 +6224,7 @@ apf.DataAction = function(){
             : this.$hasBindRule(this.$mainBind))) {
         
             if (!force && value === this.value
-              || this.dispatchEvent("beforechange", {value : value}) === false)
+              || this.dispatchEvent("beforechange", { value: value }) === false)
                 return false;
 
             //@todo in theory one could support actions
@@ -6237,7 +6237,7 @@ apf.DataAction = function(){
             });*/
             this.setProperty("value", value);
 
-            return this.dispatchEvent("afterchange", {value : value});
+            return this.dispatchEvent("afterchange", { value: value });
         
         }
 
@@ -6324,7 +6324,7 @@ apf.__CACHE__ = 1 << 2;
  * @version     %I%, %G%
  * @since       0.4
  */
-apf.Cache = function(){
+apf.Cache = function() {
     /* ********************************************************************
                                         PROPERTIES
     *********************************************************************/
@@ -6383,7 +6383,7 @@ apf.Cache = function(){
         }
     });
     
-    this.addEventListener("$clear", function(){
+    this.addEventListener("$clear", function() {
         if (!this.caching)
             return;
 
@@ -6518,7 +6518,7 @@ apf.Cache = function(){
         this.$setCurrentFragment(fragment);
 
         return true;
-    };
+    }
 
     /*
      * Sets cache element and its ID.
@@ -6531,7 +6531,7 @@ apf.Cache = function(){
         if (!this.caching) return;
 
         this.cache[id] = fragment;
-    };
+    }
 
     /*
      * Finds HTML presentation node in cache by ID.
@@ -6578,7 +6578,7 @@ apf.Cache = function(){
      * @see baseclass.databinding.method.clearCacheItem
      * @private
      */
-    this.clearAllCache = function(){
+    this.clearAllCache = function() {
         for (var prop in this.cache) {
             if (this.cache[prop])
                 this.clearCacheItem(prop, true);
@@ -6608,7 +6608,7 @@ apf.Cache = function(){
     };
     
     if (!this.$getCurrentFragment) {
-        this.$getCurrentFragment = function(){
+        this.$getCurrentFragment = function() {
             var fragment = this.$container.ownerDocument.createDocumentFragment();
     
             while (this.$container.childNodes.length) {
@@ -6760,7 +6760,7 @@ apf.__RENAME__ = 0;
  * @param {Object} e The standard event object, with the following properties:
  *                    - value ([[String]]): The value that was entered
  */
-apf.BaseList = function(){
+apf.BaseList = function() {
     this.$init(true);
     
     
@@ -6845,7 +6845,7 @@ apf.BaseList = function(){
     };
     
     //@todo apf3.0 retest this completely
-    function $afterRenameMode(){
+    function $afterRenameMode() {
     }
     
     
@@ -7268,10 +7268,10 @@ apf.BaseList = function(){
 
         oItem.setAttribute("id", Lid);
 
-        elSelect.setAttribute("onmouseover",   "var o = apf.lookup(" + this.$uniqueId 
+        elSelect.setAttribute("onmouseover", "var o = apf.lookup(" + this.$uniqueId 
             + "); o.$setStyleClass(this, 'hover', null, true);");
         elSelect.setAttribute("onselectstart", "return false;");
-        elSelect.setAttribute("style",         (elSelect.getAttribute("style") || "") 
+        elSelect.setAttribute("style", (elSelect.getAttribute("style") || "") 
             + ";user-select:none;-moz-user-select:none;-webkit-user-select:none;");
 
         if (this.hasFeature(apf.__RENAME__) || this.hasFeature(apf.__DRAGDROP__)) {
@@ -7309,7 +7309,7 @@ apf.BaseList = function(){
                      o.select(this, event.ctrlKey, event.shiftKey, -1)');
         } //@todo add DRAGDROP ifdefs
         else {
-            elSelect.setAttribute("onmouseout",    "apf.setStyleClass(this, '', ['hover']);");
+            elSelect.setAttribute("onmouseout", "apf.setStyleClass(this, '', ['hover']);");
             elSelect.setAttribute("ondblclick", 'var o = apf.lookup('
                 + this.$uniqueId + '); o.choose(null, true)');
             elSelect.setAttribute(this.itemSelectEvent
@@ -7411,7 +7411,7 @@ apf.BaseList = function(){
             delete this.moreItem;
     });
 
-    this.$fill = function(){
+    this.$fill = function() {
         if (this.more && !this.moreItem) {
             this.$getNewContext("item");
             var Item = this.$getLayoutNode("item"),
@@ -7474,16 +7474,16 @@ apf.BaseList = function(){
             else
                 this.$container.appendChild(this.moreItem);
     
-            var undoLastAction = function(){
+            var undoLastAction = function() {
                 this.getActionTracker().undo(this.autoselect ? 2 : 1);
     
                 this.removeEventListener("stoprename", undoLastAction);
                 this.removeEventListener("beforerename", removeSetRenameEvent);
-                this.removeEventListener("afterrename",  afterRename);
-            }
-            var afterRename = function(){
+                this.removeEventListener("afterrename", afterRename);
+            };
+            var afterRename = function() {
                 //this.select(addedNode);
-                this.removeEventListener("afterrename",  afterRename);
+                this.removeEventListener("afterrename", afterRename);
             };
             var removeSetRenameEvent = function(e) {
                 this.removeEventListener("stoprename", undoLastAction);
@@ -7497,7 +7497,7 @@ apf.BaseList = function(){
                     }) === false) {
                         this.startRename();
                         
-                        this.addEventListener("stoprename",   undoLastAction);
+                        this.addEventListener("stoprename", undoLastAction);
                         this.addEventListener("beforerename", removeSetRenameEvent);
                     }
                     else {
@@ -7512,9 +7512,9 @@ apf.BaseList = function(){
                 }
             };
     
-            this.addEventListener("stoprename",   undoLastAction);
+            this.addEventListener("stoprename", undoLastAction);
             this.addEventListener("beforerename", removeSetRenameEvent);
-            this.addEventListener("afterrename",  afterRename);
+            this.addEventListener("afterrename", afterRename);
     
             
             this.startDelayedRename({}, 1);
@@ -7734,7 +7734,7 @@ apf.dropdown = function(struct, tagName) {
     this.$init(tagName || "dropdown", apf.NODE_VISIBLE, struct);
 };
 
-(function(){
+(function() {
     this.$animType = 1;
     this.$animSteps = 5;
     this.$animSpeed = 20;
@@ -7824,7 +7824,7 @@ apf.dropdown = function(struct, tagName) {
         this.$setStyleClass(this.$ext, this.$baseCSSname + "Down");
         
         //var pos = apf.getAbsolutePosition(this.$ext);
-        this.oSlider.style.height = (this.sliderHeight - 1)     + "px";
+        this.oSlider.style.height = (this.sliderHeight - 1) + "px";
         this.oSlider.style.width = (this.$ext.offsetWidth - 2 - this.widthdiff) + "px";
 
         var _self = this;
@@ -7851,7 +7851,7 @@ apf.dropdown = function(struct, tagName) {
      * Hides the container with the list elements using a slide effect.
      * @private
      */
-    this.slideUp = function(){
+    this.slideUp = function() {
         if (this.isOpen == 2) return false;
         if (this.dispatchEvent("slideup") === false) return false;
         
@@ -7897,17 +7897,17 @@ apf.dropdown = function(struct, tagName) {
     }
 
     this.addEventListener("afterload", setMaxCount);
-    this.addEventListener("xmlupdate", function(){
+    this.addEventListener("xmlupdate", function() {
         setMaxCount.call(this);
         this.$setLabel(this.$applyBindRule("caption", this.selected));
     });
     
     // Private functions
-    this.$blur = function(){
+    this.$blur = function() {
         this.slideUp();
         //this.$ext.dispatchEvent("mouseout")
         if (!this.isOpen)
-            this.$setStyleClass(this.$ext, "", [this.$baseCSSname + "Over"])
+            this.$setStyleClass(this.$ext, "", [this.$baseCSSname + "Over"]);
         
         this.$setStyleClass(this.$ext, "", [this.$baseCSSname + "Focus"]);
     };
@@ -7921,7 +7921,7 @@ apf.dropdown = function(struct, tagName) {
         this.$setLabel(msg);
     };
     
-    this.$removeClearMessage = function(){
+    this.$removeClearMessage = function() {
         this.$setLabel("");
     };
 
@@ -8007,7 +8007,7 @@ apf.dropdown = function(struct, tagName) {
     
     // *** Init *** //
     
-    this.$draw = function(){
+    this.$draw = function() {
         this.$getNewContext("main");
         this.$getNewContext("container");
         
@@ -8064,7 +8064,7 @@ apf.dropdown = function(struct, tagName) {
         this.ignoreOverflow = apf.isTrue(this.$getOption("main", "ignore-overflow")) || false;
     };
     
-    this.addEventListener("DOMNodeInsertedIntoDocument", function(){
+    this.addEventListener("DOMNodeInsertedIntoDocument", function() {
         if (typeof this["initial-message"] == "undefined")
             this.$setInheritedAttribute("initial-message");
         
@@ -8072,7 +8072,7 @@ apf.dropdown = function(struct, tagName) {
             this.$setLabel();
     });
     
-    this.$destroy = function(){
+    this.$destroy = function() {
         apf.popup.removeContent(this.$uniqueId);
         apf.destroyHtmlNode(this.oSlider);
         this.oSlider = null;
@@ -8176,12 +8176,12 @@ apf.list = function(struct, tagName) {
     this.$init(tagName || "list", apf.NODE_VISIBLE, struct);
 };
 
-(function(){
+(function() {
     this.morePos = "end";
     
     
     
-    this.$getCaptionElement = function(){
+    this.$getCaptionElement = function() {
         if (!(this.$caret || this.$selected))
             return;
         
@@ -8209,7 +8209,7 @@ apf.list = function(struct, tagName) {
         var className = this.thumbclass;
         
         apf.setStyleRule(className, "width", value + "px");
-        apf.setStyleRule(className, "height",  value + "px");
+        apf.setStyleRule(className, "height", value + "px");
     };
     
     
@@ -8284,8 +8284,8 @@ apf.list = function(struct, tagName) {
                 else
                     this.$container.appendChild(this.moreItem);
             };
-            this.$updateClearMessage = function(){}
-            this.$removeClearMessage = function(){};
+            this.$updateClearMessage = function() {};
+            this.$removeClearMessage = function() {};
         }
         else {
             this.removeEventListener("xmlupdate", $xmlUpdate);
@@ -8341,7 +8341,7 @@ apf.list = function(struct, tagName) {
     
     // *** Init *** //
     
-    this.$draw = function(){
+    this.$draw = function() {
         this.appearance = this.getAttribute("appearance") || "compact";
 
         //Build Main Skin
@@ -8356,7 +8356,7 @@ apf.list = function(struct, tagName) {
             _self.dispatchEvent("click", {
                 htmlEvent: e || event
             });
-        }
+        };
         
         
         
@@ -8373,7 +8373,7 @@ apf.list = function(struct, tagName) {
     this.$loadAml = function(x) {
     };
     
-    this.$destroy = function(){
+    this.$destroy = function() {
         if (this.$ext)
             this.$ext.onclick = null;
         apf.destroyHtmlNode(this.oDrag);

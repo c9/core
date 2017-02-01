@@ -55,7 +55,7 @@ function main(options, imports, register) {
             ["default-local", "ssh", "default"].forEach(function(n) {
                 plugins.push.apply(plugins, readConfig(n).config);
             });
-            return {config: plugins};
+            return { config: plugins };
         }
         
         if (config[0] != "/")
@@ -71,11 +71,11 @@ function main(options, imports, register) {
         } catch (e) {
             if (e.code == "MODULE_NOT_FOUND")
                 e = new error.NotFound();
-            return {error: e};
+            return { error: e };
         }
         settings = settings();
         settings.packaging = true;
-        return {config: config(settings)};
+        return { config: config(settings) };
     }
     
     function buildConfig(config, pathConfig, callback, onReadConfig) {
@@ -248,7 +248,7 @@ function main(options, imports, register) {
                 extraPackages = extraPackages
                     .concat(require("lib/salesforce.language/__worker__"))
                     .concat(require("lib/salesforce.sync/__worker__"));
-            } catch(e) {}
+            } catch (e) {}
             // TODO find a saner method for managing files loaded in language worker
             modules = [
                 "plugins/c9.ide.language.core/worker",
@@ -419,6 +419,6 @@ function main(options, imports, register) {
         if (err) return register(err);
         
         console.log("CDN: version " + options.version + " initialized", cacheDir);
-        register(null, { "cdn.build" : plugin });
+        register(null, { "cdn.build": plugin });
     });
 }

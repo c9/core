@@ -39,15 +39,15 @@ define(function(require, exports, module) {
         var userLayout, ignoreTheme, notify, svg;
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
-            settings.on("read", function(){
+            settings.on("read", function() {
                 updateTheme(true);
                 
                 userLayout = settings.get("user/general/@layout");
-                settings.on("user/general", function(){
+                settings.on("user/general", function() {
                     var newlayout = settings.get("user/general/@layout");
                     if (newlayout != userLayout) {
                         userLayout = newlayout;
@@ -56,11 +56,11 @@ define(function(require, exports, module) {
                 });
             }, plugin);
             
-            settings.on("user/general/@skin", function(){
+            settings.on("user/general/@skin", function() {
                 !ignoreTheme && updateTheme();
             }, plugin);
             
-            plugin.on("newListener", function(type, listener){
+            plugin.on("newListener", function(type, listener) {
                 if (type == "eachTheme")
                     listener({});
             }, plugin);
@@ -83,15 +83,15 @@ define(function(require, exports, module) {
         }
         
         var drawn = false;
-        function draw(){
+        function draw() {
             if (drawn) return;
             drawn = true;
             
             // Load the skin
             ui.insertSkin({
-                "data"       : require("text!./skins.xml"),
-                "media-path" : options.staticPrefix + "/images/",
-                "icon-path"  : options.staticPrefix + "/icons/"
+                "data": require("text!./skins.xml"),
+                "media-path": options.staticPrefix + "/images/",
+                "icon-path": options.staticPrefix + "/icons/"
             }, plugin);
             
             // Create UI elements
@@ -129,7 +129,7 @@ define(function(require, exports, module) {
             
             setGeckoMask();
             
-            plugin.addOther(function(){
+            plugin.addOther(function() {
                 window.removeEventListener("resize", resize, false);
                 window.removeEventListener("focus", resize, false);
             });
@@ -173,7 +173,7 @@ define(function(require, exports, module) {
                         });
                         // Load the theme css
                         ui.insertCss(theme, false, {
-                            addOther: function(remove){ removeTheme = remove; }
+                            addOther: function(remove) { removeTheme = remove; }
                         });
                         changeTheme();
                     });
@@ -203,10 +203,10 @@ define(function(require, exports, module) {
                     "Plugins like the terminal, the output window and others "
                     + "have default colors based on the main theme. Click Yes to "
                     + "reset the colors to the default colors for this theme.",
-                    function(){ // yes
+                    function() { // yes
                         emit("themeDefaults", { theme: theme, type: type });
                     },
-                    function(){ // no
+                    function() { // no
                     });
             }
         }
@@ -218,15 +218,15 @@ define(function(require, exports, module) {
             question.show("Change the Main Cloud9 Theme", 
                 "Would you like to change the main theme to a " + kind + " theme?",
                 "Click Yes to change the theme or No to keep the current theme.",
-                function(){ // yes
+                function() { // yes
                     ignoreTheme = true;
-                    var theme = {"dark": "flat-dark", "light": "flat-light"}[kind];
+                    var theme = { "dark": "flat-dark", "light": "flat-light" }[kind];
                     settings.set("user/general/@skin", theme);
                     updateTheme(false, type);
                     ignoreTheme = false;
                     settings.set("user/general/@propose", question.dontAsk);
                 },
-                function(){ // no
+                function() { // no
                     settings.set("user/general/@propose", question.dontAsk);
                 },
                 { showDontAsk: true });
@@ -236,7 +236,7 @@ define(function(require, exports, module) {
         
         // There will be a better place for this when theming is fully
         // abstracted. For now this is a hack
-        function setGeckoMask(){
+        function setGeckoMask() {
             if (!apf.isGecko) return;
             
             if (svg) svg.parentNode.removeChild(svg);
@@ -276,40 +276,40 @@ define(function(require, exports, module) {
                 return plugin.getElement("barTools");
             else if (obj.name == "console") {
                 c9console = obj;
-                return  plugin.getElement("consoleRow");
+                return plugin.getElement("consoleRow");
             }
             else if (obj.name == "panels") {
                 panels = obj;
             }
             else if (obj.name == "tabManager") {
                 tabManager = obj;
-                return  plugin.getElement("colMiddle");
+                return plugin.getElement("colMiddle");
             }
             else if (obj.name == "area-left")
                 return plugin.getElement("colLeft");
             else if (obj.name == "area-right")
                 return plugin.getElement("colRight");
             else if (obj.name == "preview")
-                return  plugin.getElement("barTools");
+                return plugin.getElement("barTools");
             else if (obj.name == "runpanel")
-                return  plugin.getElement("barTools");
+                return plugin.getElement("barTools");
             else if (obj.name == "vim.cli")
-                return  plugin.getElement("searchRow");
+                return plugin.getElement("searchRow");
             else if (obj.name == "findinfiles")
-                return  plugin.getElement("searchRow");
+                return plugin.getElement("searchRow");
             else if (obj.name == "findreplace")
-                return  plugin.getElement("searchRow");
+                return plugin.getElement("searchRow");
             else if (obj.name == "help")
-                return  plugin.getElement("barExtras");
+                return plugin.getElement("barExtras");
             else if (obj.name == "preferences")
-                return  plugin.getElement("barExtras");
+                return plugin.getElement("barExtras");
             else if (obj.name == "login")
-                return  plugin.getElement("barExtras");
+                return plugin.getElement("barExtras");
             else if (obj.name == "dragdrop")
-                return  plugin.getElement("colMiddle");
+                return plugin.getElement("colMiddle");
             else if (obj.name == "dialog.notification") {
                 notify = obj.show;
-                return  plugin.getElement("barQuestion");
+                return plugin.getElement("barQuestion");
             }
         }
         
@@ -335,13 +335,13 @@ define(function(require, exports, module) {
             
             menus.addItemByPath("Window/Presets", null, 10200, plugin);
             menus.addItemByPath("Window/Presets/Full IDE", new ui.item({
-                onclick: function(){ setBaseLayout("default"); }
+                onclick: function() { setBaseLayout("default"); }
             }), 100, plugin);
             menus.addItemByPath("Window/Presets/Minimal Editor", new ui.item({
-                onclick: function(){ setBaseLayout("minimal"); }
+                onclick: function() { setBaseLayout("minimal"); }
             }), 200, plugin);
             menus.addItemByPath("Window/Presets/Sublime Mode", new ui.item({
-                onclick: function(){ setBaseLayout("sublime"); }
+                onclick: function() { setBaseLayout("sublime"); }
             }), 300, plugin);
         }
         
@@ -349,11 +349,11 @@ define(function(require, exports, module) {
             ignoreTheme = true;
             settings.set("user/general/@skin", theme);
             updateTheme(true);
-            emit("themeDefaults", {theme: theme, type: type});
+            emit("themeDefaults", { theme: theme, type: type });
             ignoreTheme = false;
         }
         
-        function resize(){
+        function resize() {
             if (c9console && tabManager) {
                 var tRect = tabManager.container.$ext.getBoundingClientRect();
                 var cRect = c9console.container.$ext.getBoundingClientRect();
@@ -499,7 +499,7 @@ define(function(require, exports, module) {
                         height: "0px",
                         duration: 0.2,
                         timingFunction: "ease-in-out"
-                    }, function(){
+                    }, function() {
                         amlNode.visible = true;
                         amlNode.hide();
                         if (amlNode.parentNode)
@@ -526,7 +526,7 @@ define(function(require, exports, module) {
                 + "Cloud9 is available. Click this bar to update to the new "
                 + "version (requires a restart).</div>", true);
             
-            document.querySelector(".c9-update").addEventListener("click", function(){
+            document.querySelector(".c9-update").addEventListener("click", function() {
                 hideFlagUpdate();
                 hideFlagUpdate = null;
                 callback();
@@ -535,16 +535,16 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
             window.removeEventListener("resize", resize);
             
@@ -585,12 +585,12 @@ define(function(require, exports, module) {
          * @singleton
          **/
         plugin.freezePublicAPI({
-            get maxConsoleHeight(){
+            get maxConsoleHeight() {
                 var tRect = tabManager.container.$ext.getBoundingClientRect();
                 return window.innerHeight - tRect.top - 30;
             },
             
-            get theme(){
+            get theme() {
                 return theme;
             },
 

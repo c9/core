@@ -37,7 +37,7 @@ module.exports = function setColors(fg, bg, colors) {
     }
     
     function parseColor(color) {
-        if (color[0]=="#")
+        if (color[0] == "#")
             return color.match(/^#(..)(..)(..)/).slice(1).map(function(c) {
                 return parseInt(c, 16);
             });
@@ -48,7 +48,7 @@ module.exports = function setColors(fg, bg, colors) {
     }
     
     function out(r, g, b) {
-        isVisible(r,g,b)
+        isVisible(r, g, b);
         colors.push('#' + hex(r) + hex(g) + hex(b));
     }
     
@@ -63,19 +63,19 @@ module.exports = function setColors(fg, bg, colors) {
     BsRGB = B8bit/255
     */
     
-    function luma(r,g,b) {
+    function luma(r, g, b) {
         r = r / 255;
         g = g / 255;
         b = b / 255;
-        var R = r <= 0.03928 ? r /12.92 : ((r+0.055)/1.055) ^ 2.4;
-        var G = g <= 0.03928 ? g /12.92 : ((g+0.055)/1.055) ^ 2.4;
-        var B = b <= 0.03928 ? b /12.92 : ((b+0.055)/1.055) ^ 2.4;
+        var R = r <= 0.03928 ? r / 12.92 : ((r + 0.055) / 1.055) ^ 2.4;
+        var G = g <= 0.03928 ? g / 12.92 : ((g + 0.055) / 1.055) ^ 2.4;
+        var B = b <= 0.03928 ? b / 12.92 : ((b + 0.055) / 1.055) ^ 2.4;
         return 0.2126 * R + 0.7152 * G + 0.0722 * B;
         // return (0.21 * r + 0.72 * g + 0.07 * b) / 255;
     }
     function isVisible(r, g, b) {
         var ratio = (bgLuma + 0.05) / (luma(r, g, b) + 0.05);
-        return ratio > 2 || ratio < 1/2;
+        return ratio > 2 || ratio < 1 / 2;
     }
     
     var bgLuma = luma.apply(null, parseColor(bg));
@@ -98,7 +98,7 @@ module.exports = function setColors(fg, bg, colors) {
     }
     
     // Default BG/FG
-    this.defaultColors = {bg: bg, fg: fg};
+    this.defaultColors = { bg: bg, fg: fg };
     
     colors[256] = this.defaultColors.bg;
     colors[257] = this.defaultColors.fg;

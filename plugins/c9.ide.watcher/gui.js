@@ -36,7 +36,7 @@ define(function(require, exports, module) {
         var deleteDialog, changeDialog, initialFocus;
         
         var loaded = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
@@ -53,11 +53,11 @@ define(function(require, exports, module) {
             });
             
             prefs.add({
-                "File" : {
+                "File": {
                     position: 150,
-                    "Watchers" : {
+                    "Watchers": {
                         position: 300,
-                        "Auto-Merge Files When a Conflict Occurs" : {
+                        "Auto-Merge Files When a Conflict Occurs": {
                             type: "checkbox",
                             path: "user/general/@automerge",
                             min: "1",
@@ -150,10 +150,10 @@ define(function(require, exports, module) {
                 var tab = tabManager.findTab(e.path);
                 if (tab) {
                     var doc = tab.document;
-                    var path = tab.path
+                    var path = tab.path;
                     resolveConflict(doc, path);
                 }
-            })
+            });
             
             watcher.on("delete", function(e) {
                 var tab = tabManager.findTab(e.path);
@@ -172,7 +172,7 @@ define(function(require, exports, module) {
         
         function resolve(doc, path) {
             if (collabEnabled && collab.send)
-                collab.send({type: "RESOLVE_CONFLICT", data: {docId: path}});
+                collab.send({ type: "RESOLVE_CONFLICT", data: { docId: path }});
             resolveConflict(doc, path);
         }
 
@@ -196,7 +196,7 @@ define(function(require, exports, module) {
             // If the terminal is currently focussed, lets wait until 
             // another tab is focussed
             if (tabManager.focussedTab && tabManager.focussedTab.editorType == "terminal") {
-                tabManager.once("focus", function(){
+                tabManager.once("focus", function() {
                     addChangedTab(tab, comparisonType.CONTENTS);
                 });
                 return;
@@ -372,7 +372,7 @@ define(function(require, exports, module) {
                 }
                 // The dialog still is to become visible
                 else if (changeDialog.visible === undefined) {
-                    changeDialog.on("show", function(){
+                    changeDialog.on("show", function() {
                         question.all = true;
                     });
                     return;
@@ -466,7 +466,7 @@ define(function(require, exports, module) {
             // another tab is focussed
             if (tabManager.focussedTab 
               && tabManager.focussedTab.editorType == "terminal") {
-                tabManager.once("focus", function(){
+                tabManager.once("focus", function() {
                     addDeletedTab(tab, true);
                 });
                 return;
@@ -474,7 +474,7 @@ define(function(require, exports, module) {
             
             fs.stat(tab.path, function(err, data) {
                 if (err && err.code === "ENOENT") {
-                    removedPaths[tab.path] = {tab: tab};
+                    removedPaths[tab.path] = { tab: tab };
     
                     if (deleteDialog) {
                         // The dialog is visible
@@ -484,7 +484,7 @@ define(function(require, exports, module) {
                         }
                         // The dialog still is to become visible
                         else if (deleteDialog.visible === undefined) {
-                            deleteDialog.on("show", function(){
+                            deleteDialog.on("show", function() {
                                 question.all = true;
                             });
                             return;
@@ -564,13 +564,13 @@ define(function(require, exports, module) {
             tabManager.focusTab(tab);
         }
         
-        function checkIfQueueIsEmpty(){
+        function checkIfQueueIsEmpty() {
             for (var path in changedPaths) {
                 return showChangeDialog(changedPaths[path].tab, changedPaths[path].data);
             } 
             for (var path in removedPaths) {
                 return showDeleteDialog(removedPaths[path].tab);
-            };
+            }
             
             if (initialFocus) {
                 tabManager.focusTab(initialFocus);
@@ -615,16 +615,16 @@ define(function(require, exports, module) {
         
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
         });
         

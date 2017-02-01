@@ -58,7 +58,7 @@ define(function(require, module, exports) {
                     
                     if (!doc.meta.$unloadEditor) {
                         doc.meta.$unloadEditor = true;
-                        doc.on("unload", function(){
+                        doc.on("unload", function() {
                             doc.editor.unloadDocument(doc);
                         });
                     }
@@ -72,7 +72,7 @@ define(function(require, module, exports) {
                 }
                 
                 // Set Document Active in the Editor
-                bufferEvent.call(plugin, "documentActivate", { doc : doc });
+                bufferEvent.call(plugin, "documentActivate", { doc: doc });
             }
             
             function bufferEvent(name, event) {
@@ -113,7 +113,7 @@ define(function(require, module, exports) {
                 });
             }
             
-            function clear(){
+            function clear() {
                 emit("clear");
             }
             
@@ -146,7 +146,7 @@ define(function(require, module, exports) {
                 focussed = lost ? 0 : true;
             }
             
-            function blur(){
+            function blur() {
                 emit("blur");
                 focussed = false;
             }
@@ -157,7 +157,7 @@ define(function(require, module, exports) {
             }
             
             function isValid(doc, info) {
-                return emit("validate", {document: doc, info: info});
+                return emit("validate", { document: doc, info: info });
             }
             
             function attachTo(tb) {
@@ -190,7 +190,7 @@ define(function(require, module, exports) {
                 emit.sticky("draw", event);
                 
                 var editor = this;
-                pane.on("unload", function(){
+                pane.on("unload", function() {
                     editor.unload();
                 });
             }
@@ -292,7 +292,7 @@ define(function(require, module, exports) {
                 /**
                  * @ignore
                  */
-                get aml(){ return amlTab; },
+                get aml() { return amlTab; },
                 
                 /**
                  * The pane that this editor is a part of. Each editor is 
@@ -301,20 +301,20 @@ define(function(require, module, exports) {
                  * @property {Pane} pane
                  * @readonly
                  */
-                get pane(){ return pane; },
+                get pane() { return pane; },
                 
                 /**
                  * The document that is displayed in this editor.
                  * @property {Document} activeDocument
                  * @readonly
                  */
-                get activeDocument(){ return activeDocument; },
+                get activeDocument() { return activeDocument; },
                 
                 /** 
                  * @property {String} type the unique identifier for this editor
                  * @readonly
                  */
-                get type(){ return type; },
+                get type() { return type; },
                 set type(val) {
                     if (!type)
                         type = val;
@@ -325,13 +325,13 @@ define(function(require, module, exports) {
                 /**
                  * @property {Object} meta
                  */
-                get meta(){ return meta; },
+                get meta() { return meta; },
                 
                 /**
                  * @property {String[]} fileExtensions Array of file extensions supported by this editor
                  * @readonly
                  */
-                get fileExtensions(){ return extensions; },
+                get fileExtensions() { return extensions; },
                 
                 _events: [
                     /** 
@@ -578,6 +578,6 @@ define(function(require, module, exports) {
         
         register(null, {
             Editor: Editor
-        })
+        });
     }
 });

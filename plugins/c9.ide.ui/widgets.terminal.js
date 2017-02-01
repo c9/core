@@ -42,8 +42,8 @@ define(function(require, exports, module) {
             var meta = {};
             
             var excludedEvents = { 
-                "draw": 1, "load":1, "unload":1, "resize":1,
-                "addListener":1, "removeListener":1, "input":1
+                "draw": 1, "load": 1, "unload": 1, "resize": 1,
+                "addListener": 1, "removeListener": 1, "input": 1
             };
             var renameEvents = {
                 "select": "changeSelection",
@@ -56,7 +56,7 @@ define(function(require, exports, module) {
                 emit("input", { data: data });
             }
             
-            function _resize(force){
+            function _resize(force) {
                 var ace = terminal.aceSession.ace;
                 
                 var size = ace.renderer.$size;
@@ -107,7 +107,7 @@ define(function(require, exports, module) {
                 terminal = new Aceterm(cols, rows, send);
                 aceterm.setSession(terminal.aceSession);
                 
-                aceterm.renderer.on("resize", function(){
+                aceterm.renderer.on("resize", function() {
                     _resize();
                 });
                 
@@ -143,15 +143,15 @@ define(function(require, exports, module) {
                 emit.sticky("draw");
             }
             
-            plugin.on("load", function(){
+            plugin.on("load", function() {
                 if (options.container)
                     plugin.attachTo(options.container);
                 
-                forPlugin.once("unload", function(){
+                forPlugin.once("unload", function() {
                     plugin.unload();
                 });
             });
-            plugin.on("unload", function(){
+            plugin.on("unload", function() {
                 if (aceterm) {
                     var container = aceterm.container;
                     aceterm.destroy();
@@ -164,7 +164,7 @@ define(function(require, exports, module) {
                 container = null;
                 meta = {};
             });
-            plugin.on("newListener", function(type, fn){
+            plugin.on("newListener", function(type, fn) {
                 if (excludedEvents[type]) return;
                 
                 if (renameEvents[type])
@@ -175,7 +175,7 @@ define(function(require, exports, module) {
                 else
                     aceterm.on(type, fn);
             });
-            plugin.on("removeListener", function(type, fn){
+            plugin.on("removeListener", function(type, fn) {
                 if (excludedEvents[type]) return;
                 
                 if (renameEvents[type])
@@ -199,14 +199,14 @@ define(function(require, exports, module) {
                  * @ignore
                  * @readonly
                  */
-                get aceterm(){ return aceterm; },
+                get aceterm() { return aceterm; },
                 /**
                  * A meta data object that allows you to store whatever you want
                  * in relation to this menu.
                  * @property {Object} meta
                  * @readonly
                  */
-                get meta(){ return meta; },
+                get meta() { return meta; },
                 // /**
                 //  * 
                 //  */
@@ -215,55 +215,55 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                get focussed(){ return aceterm.isFocussed(); },
+                get focussed() { return aceterm.isFocussed(); },
                 /**
                  * 
                  */
-                get container(){ return aceterm.container; },
+                get container() { return aceterm.container; },
                 /**
                  * 
                  */
-                get renderer(){ return aceterm.renderer; },
+                get renderer() { return aceterm.renderer; },
                 /**
                  * 
                  */
-                get selection(){ return aceterm.selection; },
+                get selection() { return aceterm.selection; },
                 /**
                  * 
                  */
-                get commands(){ return aceterm.commands; },
+                get commands() { return aceterm.commands; },
                 /**
                  * 
                  */
-                get cols(){ return cols; },
+                get cols() { return cols; },
                 /**
                  * 
                  */
-                get rows(){ return rows; },
+                get rows() { return rows; },
                 
                 // Getters and Setters for Properties
                 /**
                  * 
                  */
-                get textInput(){ return aceterm.textInput; },
-                set textInput(value){ return aceterm.textInput = value; },
+                get textInput() { return aceterm.textInput; },
+                set textInput(value) { return aceterm.textInput = value; },
                 /**
                  *
                  */
-                get scrollMargin(){ return aceterm.renderer.scrollMargin; },
-                set scrollMargin(value){ 
+                get scrollMargin() { return aceterm.renderer.scrollMargin; },
+                set scrollMargin(value) { 
                     aceterm.renderer.setScrollMargin(value[0], value[1]); 
                 },
                 /**
                  * 
                  */
-                get theme(){ return aceterm.renderer.theme.cssClass; },
-                set theme(value){ aceterm.renderer.setTheme({cssClass: value}); },
+                get theme() { return aceterm.renderer.theme.cssClass; },
+                set theme(value) { aceterm.renderer.setTheme({ cssClass: value }); },
                 /**
                  * 
                  */
-                get convertEol(){ return terminal.convertEol || false; },
-                set convertEol(value){ terminal.convertEol = value; },
+                get convertEol() { return terminal.convertEol || false; },
+                set convertEol(value) { terminal.convertEol = value; },
                 
                  // Events
                 _events: [
@@ -320,61 +320,61 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                resize: function(){
+                resize: function() {
                     return aceterm.resize(true);
                 },
                 /**
                  * 
                  */
-                focus: function(){
+                focus: function() {
                     return aceterm.focus();
                 },
                 /**
                  * 
                  */
-                blur: function(){
+                blur: function() {
                     return aceterm.blur();
                 },
                 /**
                  * 
                  */
-                execCommand: function(cmd){
+                execCommand: function(cmd) {
                     return aceterm.execCommand(cmd);
                 },
                 /**
                  * 
                  */
-                scrollIntoView: function(anchor, lead, offset){ 
+                scrollIntoView: function(anchor, lead, offset) { 
                     return aceterm.renderer.scrollCaretIntoView(anchor, lead, offset);
                 },
                 /**
                  * 
                  */
-                enable: function(){
+                enable: function() {
                     return aceterm.enable();
                 },
                 /**
                  * 
                  */
-                disable: function(){
+                disable: function() {
                     return aceterm.enable();
                 },
                 /**
                  * 
                  */
-                write: function(data){
+                write: function(data) {
                     return terminal.write(data);
                 },
                 /**
                  * 
                  */
-                clear: function(data){
+                clear: function(data) {
                     terminal.clear();
                 },
                 /**
                  * 
                  */
-                attachTo: function(htmlNode, beforeNode){
+                attachTo: function(htmlNode, beforeNode) {
                     var container;
                     if (drawn)
                         container = aceterm.container;

@@ -117,6 +117,6 @@ define(function(require, exports, module) {
             filelist: filelist
         });
         
-        register(null, { "vfs.filelist" : plugin });
+        register(null, { "vfs.filelist": plugin });
     }
 });

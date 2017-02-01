@@ -18,7 +18,7 @@ define(function(require, exports, module) {
         // var emit = plugin.getEmitter();
 
         var loaded;
-        function load(){
+        function load() {
             if (loaded) return;
             loaded = true;
             
@@ -44,13 +44,13 @@ define(function(require, exports, module) {
                 },
                 exec: function(argv) {
                     if (argv.pipe) {
-                        openWithPipe(function(){});
+                        openWithPipe(function() {});
                         return;
                     }
                     open(
                         argv._.slice(1),  // Remove "open" from the paths
                         argv.wait,
-                        function(){});
+                        function() {});
                 }
             });
         }
@@ -202,7 +202,7 @@ define(function(require, exports, module) {
                     process.unref();
                     
                     var timed = Date.now();
-                    (function retry(){
+                    (function retry() {
                         bridge.send({ type: "ping" }, function(err, message) {
                             if (!err) 
                                 return callback(true);
@@ -231,16 +231,16 @@ define(function(require, exports, module) {
 
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
         });
         

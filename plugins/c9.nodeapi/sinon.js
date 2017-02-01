@@ -367,7 +367,7 @@ buster.format.ascii = (function () {
         }
 
         var cons = ascii.constructorName.call(this, object);
-        var prefix = cons ? "[" + cons + "] " : ""
+        var prefix = cons ? "[" + cons + "] " : "";
 
         return (length + indent) > 80 ?
             prefix + "{\n  " + is + pieces.join(",\n  " + is) + "\n" + is + "}" :
@@ -386,7 +386,7 @@ buster.format.ascii = (function () {
                 continue;
             }
 
-            if (!!attribute.nodeValue) {
+            if (attribute.nodeValue) {
                 pairs.push(attrName + "=\"" + attribute.nodeValue + "\"");
             }
         }
@@ -500,7 +500,7 @@ var sinon = (function (buster) {
             }
 
             if (wrappedMethod.calledBefore) {
-                var verb = !!wrappedMethod.returns ? "stubbed" : "spied on";
+                var verb = wrappedMethod.returns ? "stubbed" : "spied on";
                 throw new TypeError("Attempted to wrap " + property + " which is already " + verb);
             }
 
@@ -702,7 +702,7 @@ var sinon = (function (buster) {
         log: function () {},
 
         logError: function (label, err) {
-            var msg = label + " threw exception: "
+            var msg = label + " threw exception: ";
             sinon.log(msg + "[" + err.name + "] " + err.message);
             if (err.stack) { sinon.log(err.stack); }
 
@@ -1185,7 +1185,7 @@ if (!this.sinon && commonJSModule) {
         proxyCall.callId = id;
 
         return proxyCall;
-    };
+    }
     createSpyCall.toString = callProto.toString; // used by mocks
 
     sinon.spyCall = createSpyCall;
@@ -1666,10 +1666,10 @@ if (!this.sinon && commonJSModule) {
             if (stub.callArgPropsLast) {
                 msg = sinon.functionName(stub) +
                     " expected to yield to '" + stub.callArgPropsLast +
-                    "', but no object with such a property was passed."
+                    "', but no object with such a property was passed.";
             } else {
                 msg = sinon.functionName(stub) +
-                            " expected to yield, but no callback was passed."
+                            " expected to yield, but no callback was passed.";
             }
 
             if (args.length > 0) {
@@ -2967,7 +2967,7 @@ sinon.xhr = { XMLHttpRequest: this.XMLHttpRequest };
     xhr.supportsActiveX = typeof xhr.GlobalActiveXObject != "undefined";
     xhr.supportsXHR = typeof xhr.GlobalXMLHttpRequest != "undefined";
     xhr.workingXHR = xhr.supportsXHR ? xhr.GlobalXMLHttpRequest : xhr.supportsActiveX
-                                     ? function() { return new xhr.GlobalActiveXObject("MSXML2.XMLHTTP.3.0") } : false;
+                                     ? function() { return new xhr.GlobalActiveXObject("MSXML2.XMLHTTP.3.0"); } : false;
 
     /*jsl:ignore*/
     var unsafeHeaders = {
@@ -3041,73 +3041,73 @@ sinon.xhr = { XMLHttpRequest: this.XMLHttpRequest };
     }
     function some(collection, callback) {
         for (var index = 0; index < collection.length; index++) {
-            if(callback(collection[index]) === true) return true;
-        };
+            if (callback(collection[index]) === true) return true;
+        }
         return false;
     }
     // largest arity in XHR is 5 - XHR#open
-    var apply = function(obj,method,args) {
-        switch(args.length) {
+    var apply = function(obj, method, args) {
+        switch (args.length) {
         case 0: return obj[method]();
         case 1: return obj[method](args[0]);
-        case 2: return obj[method](args[0],args[1]);
-        case 3: return obj[method](args[0],args[1],args[2]);
-        case 4: return obj[method](args[0],args[1],args[2],args[3]);
-        case 5: return obj[method](args[0],args[1],args[2],args[3],args[4]);
-        };
+        case 2: return obj[method](args[0], args[1]);
+        case 3: return obj[method](args[0], args[1], args[2]);
+        case 4: return obj[method](args[0], args[1], args[2], args[3]);
+        case 5: return obj[method](args[0], args[1], args[2], args[3], args[4]);
+        }
     };
 
     FakeXMLHttpRequest.filters = [];
     FakeXMLHttpRequest.addFilter = function(fn) {
-        this.filters.push(fn)
+        this.filters.push(fn);
     };
     var IE6Re = /MSIE 6/;
-    FakeXMLHttpRequest.defake = function(fakeXhr,xhrArgs) {
+    FakeXMLHttpRequest.defake = function(fakeXhr, xhrArgs) {
         var xhr = new sinon.xhr.workingXHR();
-        each(["open","setRequestHeader","send","abort","getResponseHeader",
-              "getAllResponseHeaders","addEventListener","overrideMimeType","removeEventListener"],
+        each(["open", "setRequestHeader", "send", "abort", "getResponseHeader",
+              "getAllResponseHeaders", "addEventListener", "overrideMimeType", "removeEventListener"],
              function(method) {
                  fakeXhr[method] = function() {
-                   return apply(xhr,method,arguments);
+                   return apply(xhr, method, arguments);
                  };
              });
 
         var copyAttrs = function(args) {
             each(args, function(attr) {
               try {
-                fakeXhr[attr] = xhr[attr]
-              } catch(e) {
-                if(!IE6Re.test(navigator.userAgent)) throw e;
+                fakeXhr[attr] = xhr[attr];
+              } catch (e) {
+                if (!IE6Re.test(navigator.userAgent)) throw e;
               }
             });
         };
 
         var stateChange = function() {
             fakeXhr.readyState = xhr.readyState;
-            if(xhr.readyState >= FakeXMLHttpRequest.HEADERS_RECEIVED) {
-                copyAttrs(["status","statusText"]);
+            if (xhr.readyState >= FakeXMLHttpRequest.HEADERS_RECEIVED) {
+                copyAttrs(["status", "statusText"]);
             }
-            if(xhr.readyState >= FakeXMLHttpRequest.LOADING) {
+            if (xhr.readyState >= FakeXMLHttpRequest.LOADING) {
                 copyAttrs(["responseText"]);
             }
-            if(xhr.readyState === FakeXMLHttpRequest.DONE) {
+            if (xhr.readyState === FakeXMLHttpRequest.DONE) {
                 copyAttrs(["responseXML"]);
             }
-            if(fakeXhr.onreadystatechange) fakeXhr.onreadystatechange.call(fakeXhr);
+            if (fakeXhr.onreadystatechange) fakeXhr.onreadystatechange.call(fakeXhr);
         };
-        if(xhr.addEventListener) {
-          for(var event in fakeXhr.eventListeners) {
-              if(fakeXhr.eventListeners.hasOwnProperty(event)) {
-                  each(fakeXhr.eventListeners[event],function(handler) {
+        if (xhr.addEventListener) {
+          for (var event in fakeXhr.eventListeners) {
+              if (fakeXhr.eventListeners.hasOwnProperty(event)) {
+                  each(fakeXhr.eventListeners[event], function(handler) {
                       xhr.addEventListener(event, handler);
                   });
               }
           }
-          xhr.addEventListener("readystatechange",stateChange);
+          xhr.addEventListener("readystatechange", stateChange);
         } else {
           xhr.onreadystatechange = stateChange;
         }
-        apply(xhr,"open",xhrArgs);
+        apply(xhr, "open", xhrArgs);
     };
     FakeXMLHttpRequest.useFilters = false;
 
@@ -3145,13 +3145,13 @@ sinon.xhr = { XMLHttpRequest: this.XMLHttpRequest };
             this.responseXML = null;
             this.requestHeaders = {};
             this.sendFlag = false;
-            if(sinon.FakeXMLHttpRequest.useFilters === true) {
+            if (sinon.FakeXMLHttpRequest.useFilters === true) {
                 var xhrArgs = arguments;
-                var defake = some(FakeXMLHttpRequest.filters,function(filter) {
-                    return filter.apply(this,xhrArgs)
+                var defake = some(FakeXMLHttpRequest.filters, function(filter) {
+                    return filter.apply(this, xhrArgs);
                 });
                 if (defake) {
-                  return sinon.FakeXMLHttpRequest.defake(this,arguments);
+                  return sinon.FakeXMLHttpRequest.defake(this, arguments);
                 }
             }
             this.readyStateChange(FakeXMLHttpRequest.OPENED);
@@ -3332,7 +3332,7 @@ sinon.xhr = { XMLHttpRequest: this.XMLHttpRequest };
             this.status = typeof status == "number" ? status : 200;
             this.statusText = FakeXMLHttpRequest.statusCodes[this.status];
             this.setResponseBody(body || "");
-            if (typeof this.onload === "function"){
+            if (typeof this.onload === "function") {
                 this.onload();
             }
 
@@ -3529,7 +3529,7 @@ sinon.fakeServer = (function () {
     function log(response, request) {
         var str;
 
-        str =  "Request:\n"  + sinon.format(request)  + "\n\n";
+        str = "Request:\n" + sinon.format(request) + "\n\n";
         str += "Response:\n" + sinon.format(response) + "\n\n";
 
         sinon.log(str);
@@ -3569,7 +3569,7 @@ sinon.fakeServer = (function () {
         getHTTPMethod: function getHTTPMethod(request) {
             if (this.fakeHTTPMethods && /post/i.test(request.method)) {
                 var matches = (request.requestBody || "").match(/_method=([^\b;]+)/);
-                return !!matches ? matches[1] : request.method;
+                return matches ? matches[1] : request.method;
             }
 
             return request.method;
@@ -3618,7 +3618,7 @@ sinon.fakeServer = (function () {
             var queue = this.queue || [];
             var request;
 
-            while(request = queue.shift()) {
+            while (request = queue.shift()) {
                 this.processRequest(request);
             }
         },
@@ -4116,7 +4116,7 @@ if (typeof module == "object" && typeof require == "function") {
     function exposedName(prefix, prop) {
         return !prefix || /^fail/.test(prop) ? prop :
             prefix + prop.slice(0, 1).toUpperCase() + prop.slice(1);
-    };
+    }
 
     assert = {
         failException: "AssertError",

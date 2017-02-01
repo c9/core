@@ -13,7 +13,7 @@ define(function(require, exports, module) {
         
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
-        var api  = plugin.setAPIKey(options.apikey);
+        var api = plugin.setAPIKey(options.apikey);
         
         var loaded = false;
         function load() {

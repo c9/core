@@ -73,13 +73,13 @@ describe(__filename, function() {
                 testUser.create(),
                 testUser.create(),
                 testProject.create(),
-                testRemote.create({type: "docker"}),
+                testRemote.create({ type: "docker" }),
                 testContainer.create(),
                 testProject.create(),
-                testRemote.create({type: "docker"}),
+                testRemote.create({ type: "docker" }),
                 testContainer.create(),
                 testProject.create(),
-                testRemote.create({type: "docker"}),
+                testRemote.create({ type: "docker" }),
                 testContainer.create(),
                 function(ctx, next) {
                     user1 = ctx.users[0];

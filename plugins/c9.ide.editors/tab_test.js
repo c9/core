@@ -49,15 +49,15 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         var ui = imports.ui;
         
         var page1, page2;
-        var pane = {}
+        var pane = {};
         pane.aml = {
             cloud9pane: pane,
-            setAttribute: function(){},
-            getPages: function(){ return [page1, page2] },
-            getPage: function(){ return pane.active.aml },
-            set: function(tab){pane.active = tab.cloud9tab},
+            setAttribute: function() {},
+            getPages: function() { return [page1, page2]; },
+            getPage: function() { return pane.active.aml; },
+            set: function(tab) {pane.active = tab.cloud9tab;},
             localName: "tab",
-            insertBefore: function(){
+            insertBefore: function() {
                 if (this.oninsert) this.oninsert();
             }
         };
@@ -89,7 +89,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 done();
             });
             it('should set changed to true when a change occurs', function(done) {
-                page1.document.undoManager.add({undo:function(){}, redo:function(){}})
+                page1.document.undoManager.add({ undo: function() {}, redo: function() {} });
                 expect(page1.document.changed).to.equal(true);
                 done();
             });
@@ -100,10 +100,10 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     path: "test/test/test.txt"
                 });
                 
-                pane.aml.oninsert = function(){
+                pane.aml.oninsert = function() {
                     done();
                     pane.aml.oninsert = null;
-                }
+                };
                 
                 page2.attachTo(pane);
             });

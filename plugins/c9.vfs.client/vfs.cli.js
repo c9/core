@@ -15,6 +15,6 @@ define(function(require, module, exports) {
 
         c9.setStatus(c9.status | c9.STORAGE | c9.PROCESS);
 
-        register(null, {vfs: vfs});
+        register(null, { vfs: vfs });
     }
 });

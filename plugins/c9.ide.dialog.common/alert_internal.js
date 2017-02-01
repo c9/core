@@ -18,7 +18,7 @@ define(function(require, module, exports) {
             elements: [
                 { type: "checkbox", id: "dontshow", caption: "Don't show again", visible: false },
                 { type: "filler" },
-                { type: "button", id: "ok", caption: "OK", "default": true, onclick: function(){ plugin.hide() } }
+                { type: "button", id: "ok", caption: "OK", "default": true, onclick: function() { plugin.hide(); } }
             ]
         });
         alertWrapper.alertInternal = plugin;
@@ -30,7 +30,7 @@ define(function(require, module, exports) {
             
             metrics.increment("dialog.error");
             
-            return plugin.queue(function(){
+            return plugin.queue(function() {
                 if (header === undefined) {
                     plugin.title = "Notice";
                     header = title;
@@ -50,7 +50,7 @@ define(function(require, module, exports) {
                     { id: "dontshow", visible: options.showDontShow }
                 ]);
                 
-                plugin.once("hide", function(){
+                plugin.once("hide", function() {
                     onhide && onhide();
                 });
             });
@@ -66,7 +66,7 @@ define(function(require, module, exports) {
             /**
              * @readonly
              */
-            get dontShow(){ 
+            get dontShow() { 
                 return plugin.getElement("dontshow").value;
             },
             

@@ -53,7 +53,7 @@ define(function(require, exports, module) {
         // var emit = plugin.getEmitter();
 
         var loaded;
-        function load(){
+        function load() {
             if (loaded) return;
             loaded = true;
             
@@ -77,13 +77,13 @@ define(function(require, exports, module) {
                         "default": false,
                         "boolean": true
                     },
-                    "verbose" : {
+                    "verbose": {
                         "description": "Output more information",
                         "alias": "v",
                         "default": false,
                         "boolean": true
                     },
-                    "force" : {
+                    "force": {
                         "description": "Ignore warnings",
                         "alias": "f",
                         "default": false,
@@ -122,7 +122,7 @@ define(function(require, exports, module) {
                             debug: argv.debug,
                             test: test
                         },
-                        function(err, data){
+                        function(err, data) {
                             if (err) {
                                 console.error(err.message || "Terminated.");
                                 process.exit(1);
@@ -151,7 +151,7 @@ define(function(require, exports, module) {
                         "default": false,
                         "boolean": true
                     },
-                    "verbose" : {
+                    "verbose": {
                         "description": "Output more information",
                         "alias": "v",
                         "default": false,
@@ -175,7 +175,7 @@ define(function(require, exports, module) {
                             global: argv.global,
                             local: argv.local
                         },
-                        function(err, data){
+                        function(err, data) {
                             if (err) {
                                 console.error(err.message || "Terminated.");
                                 process.exit(1);
@@ -217,7 +217,7 @@ define(function(require, exports, module) {
             });
         }
         
-        function install(packageName, options, callback){
+        function install(packageName, options, callback) {
             // Call install url
             var parts = packageName.split("@");
             var name = parts[0];
@@ -246,7 +246,7 @@ define(function(require, exports, module) {
                 installPackage();
             }
             
-            function prepareDirectory(callback){
+            function prepareDirectory(callback) {
                 // Create package dir
                 var packagePath = process.env.HOME + "/.c9/plugins/" + name;
                 var exists = fs.existsSync(packagePath);
@@ -262,7 +262,7 @@ define(function(require, exports, module) {
                 
                     proc.execFile("rm", {
                         args: ["-Rf", packagePath]
-                    }, function(){
+                    }, function() {
                         mkdirP(packagePath);
                         callback(null, packagePath);
                     });
@@ -273,7 +273,7 @@ define(function(require, exports, module) {
                 }
             }
             
-            function installPackage(){
+            function installPackage() {
                 if (!version && !options.test)
                     return callback(new Error("No version found for this package"));
                 
@@ -288,17 +288,17 @@ define(function(require, exports, module) {
                 }
             }
             
-            function installLocal(){
+            function installLocal() {
                 if (verbose)
                     console.log("Installing package locally");
                 
-                prepareDirectory(function(err, packagePath){
+                prepareDirectory(function(err, packagePath) {
                     if (err) return callback(err);
                     var npmBin = [
-                        join(process.env.HOME, process.platform == "win32"? ".c9/npm.cmd" : ".c9/node/bin/npm"),
+                        join(process.env.HOME, process.platform == "win32" ? ".c9/npm.cmd" : ".c9/node/bin/npm"),
                         "/mnt/shared/sbin/npm"
                     ];
-                    function installNPM(){
+                    function installNPM() {
                         spawn(npmBin[0], {
                             args: ["install"],
                             cwd: packagePath
@@ -320,7 +320,7 @@ define(function(require, exports, module) {
                             if (json.private)
                                 return callback(new Error("ERROR: Private flag in package.json prevents from installing"));
                         }
-                        catch(e) {
+                        catch (e) {
                             return callback(new Error("ERROR: Invalid package: " + e.message));
                         }
                         
@@ -329,7 +329,7 @@ define(function(require, exports, module) {
                         else {
                             proc.execFile("cp", { 
                                 args: ["-R", process.cwd(), dirname(packagePath)]
-                            }, function(err){
+                            }, function(err) {
                                 if (err) return callback(err);
                                 
                                 installNPM();
@@ -356,7 +356,7 @@ define(function(require, exports, module) {
                         port: port,
                         auth: BASICAUTH,
                         path: path
-                    }, function(response){
+                    }, function(response) {
                         response.pipe(file);
                     });
                     
@@ -366,7 +366,7 @@ define(function(require, exports, module) {
                     request.on('response', function(res) {
                         if (res.statusCode != 200)
                             return callback(new Error("Unknown Error getting " 
-                                + host + (port  ? ":" + port : "") 
+                                + host + (port ? ":" + port : "") 
                                 + path + ":" + res.statusCode));
                     });
                     
@@ -394,14 +394,14 @@ define(function(require, exports, module) {
                 });
             }
             
-            function installDebug(){
+            function installDebug() {
                 if (verbose)
                     console.log("Installing debug version of package");
                 
                 if (options.test)
                     return callback(new Error("Test is not supported for debug installations"));
                 
-                prepareDirectory(function(err, packagePath){
+                prepareDirectory(function(err, packagePath) {
                     if (err) return callback(err);
                 
                     if (verbose)
@@ -423,25 +423,25 @@ define(function(require, exports, module) {
                 });
             }
             
-            function installFull(){
+            function installFull() {
                 // Install Locally
                 options.local = true;
-                install(name + "@" + version, options, function(err){
+                install(name + "@" + version, options, function(err) {
                     if (err) return callback(err);
                 
                     var path = process.env.HOME + "/.c9/plugins/" + name;
-                    fs.readFile(path + "/package.json", "utf8", function(err, data){
+                    fs.readFile(path + "/package.json", "utf8", function(err, data) {
                         if (err) return callback(new Error("Package.json not found in " + path));
                 
                         var installPath;
                         try { installPath = JSON.parse(data).installer; }
-                        catch(e){ 
+                        catch (e) { 
                             return callback(new Error("Could not parse package.json in " + path));
                         }
                         
                         if (installPath) {
                             installerCLI.verbose = verbose;
-                            installer.createSession(name, version || "", require(path + "/" + installPath), function(err){
+                            installer.createSession(name, version || "", require(path + "/" + installPath), function(err) {
                                 if (err) return callback(new Error("Error Installing Package " + name + "@" + version));
                                 installToDatabase();
                             }, force || options.test);
@@ -451,7 +451,7 @@ define(function(require, exports, module) {
                     });
                     
                     
-                    function installToDatabase(){
+                    function installToDatabase() {
                         if (options.test)
                             return callback(null, { version: "test" });
                             
@@ -461,7 +461,7 @@ define(function(require, exports, module) {
                         var endpoint = options.global ? api.user : api.project;
                         var url = "install/" + name + "/" + version + "?mode=silent";
                         
-                        endpoint.post(url, function(err, info){
+                        endpoint.post(url, function(err, info) {
                             callback(err, info);
                         });
                     }
@@ -469,7 +469,7 @@ define(function(require, exports, module) {
             }
         }
         
-        function uninstall(packageName, options, callback){
+        function uninstall(packageName, options, callback) {
             // Call uninstall url
             var parts = packageName.split("@");
             var name = parts[0];
@@ -487,7 +487,7 @@ define(function(require, exports, module) {
                 uninstallPackage();
             }
             
-            function uninstallPackage(){
+            function uninstallPackage() {
                 if (options.local || options.debug) {
                     // rm -Rf
                     var packagePath = process.env.HOME + "/.c9/plugins/" + name;
@@ -510,19 +510,19 @@ define(function(require, exports, module) {
                     var endpoint = options.global ? api.user : api.project;
                     var url = "uninstall/" + packageName;
                     
-                    endpoint.post(url, function(err, info){
+                    endpoint.post(url, function(err, info) {
                         callback(err, info);
                     });
                 }
             }
         }
         
-        function mkdirP(path){
+        function mkdirP(path) {
             var dirs = path.split('/');
-            var prevDir = dirs.splice(0,1) + "/";
+            var prevDir = dirs.splice(0, 1) + "/";
             while (dirs.length > 0) {
-                var curDir = prevDir + dirs.splice(0,1);
-                if (! fs.existsSync(curDir) ) {
+                var curDir = prevDir + dirs.splice(0, 1);
+                if (! fs.existsSync(curDir)) {
                     fs.mkdirSync(curDir);
                 }
                 prevDir = curDir + '/';
@@ -537,16 +537,16 @@ define(function(require, exports, module) {
 
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
             verbose = false;
             force = false;

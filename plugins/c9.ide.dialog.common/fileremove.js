@@ -24,7 +24,7 @@ define(function(require, module, exports) {
                     "Confirm Remove",
                     "You are about to remove the " + (type || "item") + " " + name,
                     "Do you want continue? (This change cannot be undone)",
-                    function(all){ // Yes
+                    function(all) { // Yes
                         files.confirmed = true;
                         onremove(file);
                         if (all) {
@@ -37,7 +37,7 @@ define(function(require, module, exports) {
                         if (!all && files.length > 0)
                             confirm(files.shift());
                     },
-                    function(all, cancel){ // No
+                    function(all, cancel) { // No
                         if (!all && files.length > 0)
                             confirm(files.shift());
                     },
@@ -47,7 +47,7 @@ define(function(require, module, exports) {
             confirm(files.shift());
             
             return false;
-        };
+        }
         
         register("", {
             "dialog.fileremove": {

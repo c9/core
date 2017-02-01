@@ -25,7 +25,7 @@ define(function(require, exports, module) {
         };
         this.toScreenLine = function(line) {
             var screenLine = [], token = "", attr;
-            for (var i = 0; i < line.length; i+=2) {
+            for (var i = 0; i < line.length; i += 2) {
                 token = line[i + 1];
                 attr = line[i];
                 

@@ -31,14 +31,14 @@ define(function(require, module, exports) {
             }
 
             var drawn = false;
-            function draw(){
+            function draw() {
                 if (drawn) return bar;
                 drawn = true;
 
                 emit("draw");
 
                 column = layout.findParent(plugin, where);
-                bar = column.appendChild(new ui.bar({ "skinset" : "panels" }));
+                bar = column.appendChild(new ui.bar({ "skinset": "panels" }));
                 plugin.addElement(bar);
                 
                 column.setWidth(CURWIDTH);
@@ -62,7 +62,7 @@ define(function(require, module, exports) {
                 };
                 
                 // Prevent scrolling
-                column.$int.addEventListener("scroll", function(e){ 
+                column.$int.addEventListener("scroll", function(e) { 
                     column.$int.scrollTop = 0;
                 }, true);
 
@@ -96,11 +96,11 @@ define(function(require, module, exports) {
                 
                 animateCounter++;
 
-                var onfinish = function(){
+                var onfinish = function() {
                     if (onfinish.counter != animateCounter)
                         return;
                     
-                    setTimeout(function(){
+                    setTimeout(function() {
                         if (onfinish.counter != animateCounter)
                             return;
                         
@@ -232,7 +232,7 @@ define(function(require, module, exports) {
                     noAnim = !settings.getBool('user/general/@animateui');
                     
                 if (firstTime && !noAnim) {
-                    setTimeout(function(){
+                    setTimeout(function() {
                         animate(lastPanel, name, width, noAnim);
                     });
                 }
@@ -266,7 +266,7 @@ define(function(require, module, exports) {
                     }
                     else {
                         column.setWidth(CURWIDTH);
-                        anims.emitAnimate({noanim : true});
+                        anims.emitAnimate({ noanim: true });
                     }
                 }
 
@@ -363,7 +363,7 @@ define(function(require, module, exports) {
 
                 // If all buttons are invisible, hide bar
                 if (hideBar) {
-                    setTimeout(function(){
+                    setTimeout(function() {
                         bar.hide();
                         
                         if (!panels.areas[panel.where].activePanel) {
@@ -410,17 +410,17 @@ define(function(require, module, exports) {
                  * @property {String} activePanel  The name of the active panel in this area, if any.
                  * @readonly
                  */
-                get activePanel(){ return activePanel; },
+                get activePanel() { return activePanel; },
                 /**
                  * @property {String} defaultActive  The name of the panel that is active by default in this area.
                  * @readonly
                  */
-                get defaultActive(){ return defaultActive; },
+                get defaultActive() { return defaultActive; },
                 /**
                  * @property {HTMLElement} container  The html element that is the containing element of the area.
                  * @readonly
                  */
-                get container(){ return column.$ext; },
+                get container() { return column.$ext; },
                 /**
                  * The APF UI element that is presenting the area in the UI.
                  * This property is here for internal reasons only. *Do not 
@@ -429,12 +429,12 @@ define(function(require, module, exports) {
                  * @private
                  * @readonly
                  */
-                get aml(){ return column; },
+                get aml() { return column; },
                 /**
                  * @property {Number} width  The width in pixels of this area
                  * @readonly
                  */
-                get width(){ return CURWIDTH; },
+                get width() { return CURWIDTH; },
 
                 /**
                  * @ignore
@@ -483,6 +483,6 @@ define(function(require, module, exports) {
         
         register(null, {
             "panels.Area": Area
-        })
+        });
     }
 });

@@ -16,7 +16,7 @@ define(function(require, exports, module) {
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
 
-        function load(){
+        function load() {
             cmd.addCommand({
                 name: "sync", 
                 info: "Syncs a cloud9 workspace to local disk",
@@ -39,7 +39,7 @@ define(function(require, exports, module) {
             });
 
             // Load all sync targets from settings
-            settings.on("read", function(){
+            settings.on("read", function() {
                 var targets = settings.getJson("user/sync/targets") || [];
                 targets.forEach(function(target) {
                     addSyncTarget(target.wspath, target.path, function(err) {
@@ -48,14 +48,14 @@ define(function(require, exports, module) {
                 });
             });
 
-            settings.on("write", function(){
+            settings.on("write", function() {
 
             });
         }
 
         /***** Methods *****/
 
-        var apf = {mac: true, win: false};
+        var apf = { mac: true, win: false };
         var UNISON_DIR = apf.mac 
             ? "/Library/Application\\ Support/Unison/" 
             : (apf.win 
@@ -64,7 +64,7 @@ define(function(require, exports, module) {
         var targets = {};
 
         function getWorkspace(wsname, callback) {
-            emit("connecting", {wspath: wspath});
+            emit("connecting", { wspath: wspath });
 
             workspace.connect(wsname, function(err, ws) {
                 ws.setupSshConnection(function(err) {
@@ -81,13 +81,13 @@ define(function(require, exports, module) {
          */
         function checkVersion(ws, callback) {
             var localVersion, remoteVersion;
-            proc.execFile("unison", {args: ["-version"]}, function(err, e) {
+            proc.execFile("unison", { args: ["-version"]}, function(err, e) {
                 if (err) return callback(err);
 
                 localVersion = e.stdout.match(/unison version ([\d\.]+)/) && parseInt(RegExp.$1, 10);
                 if (!localVersion) callback(new Error("Could not find version for local unison"));
 
-                ws.proc.execFile("unison", {args: ["-version"]}, function(err, e) {
+                ws.proc.execFile("unison", { args: ["-version"]}, function(err, e) {
                     if (err) return callback(err);
 
                     remoteVersion = e.stdout.match(/unison version ([\d\.]+)/) && parseInt(RegExp.$1, 10);
@@ -106,7 +106,7 @@ define(function(require, exports, module) {
 
                     if (!match) {
                         var err = new Error("unison versions don't match");
-                        emit("error", {error: err});
+                        emit("error", { error: err });
                         return callback(err);
                     }
 
@@ -127,10 +127,10 @@ define(function(require, exports, module) {
                                     stream.on("data", function(chunk) {
                                         if (chunk)
                                             sync(wspath, path, {}, function(err) {
-                                                if (err) console.error(err)
-                                            })
+                                                if (err) console.error(err);
+                                            });
                                     });
-                                    stream.on("end", function(){
+                                    stream.on("end", function() {
                                         //@todo reconnect
                                         if (targets[wspath]) {
                                             addSyncTarget(wspath, path, function(err) {
@@ -140,7 +140,7 @@ define(function(require, exports, module) {
                                     });
 
                                     callback(null, stream);
-                                })
+                                });
                             });
                         });
                     });
@@ -154,7 +154,7 @@ define(function(require, exports, module) {
 
         //-testserver
 		function sync(wspath, path, options, callback) {
-            emit("connecting", {wspath: wspath});
+            emit("connecting", { wspath: wspath });
 
             var wsname = wspath.split(":")[0];
             workspace.connect(wsname, function(err, ws) {
@@ -162,7 +162,7 @@ define(function(require, exports, module) {
                     if (err)
                         return callback(err);
 
-                    emit("syncing", {workspace: ws});
+                    emit("syncing", { workspace: ws });
                 
                     // Get the right path
                     var hostname = ws.hostname;
@@ -205,10 +205,10 @@ define(function(require, exports, module) {
                         var ondata = function(data) {
                             // confirmbigdel
                             if (data.indexOf("confirmbigdel") > -1) {
-                                emit("confirmBigdel", {data: data});
+                                emit("confirmBigdel", { data: data });
                             }
                             // deleted  <-?-> changed    c
-                            else if (data.match(/^(\w+)\s+\<\-\?\-\>\s+(\w+)\s+(.*)$/m)){
+                            else if (data.match(/^(\w+)\s+\<\-\?\-\>\s+(\w+)\s+(.*)$/m)) {
                                 // -diff
                                 emit("confirmResolve", {
                                     local: RegExp.$1,
@@ -237,16 +237,16 @@ define(function(require, exports, module) {
 
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             loaded = false;
         });
         

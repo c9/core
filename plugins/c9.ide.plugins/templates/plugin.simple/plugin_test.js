@@ -21,7 +21,7 @@ define(function(require, exports, module) {
         
         /***** Initialization *****/
         
-        describe("The module", function(){
+        describe("The module", function() {
             this.timeout(2000);
             
             beforeEach(function() {

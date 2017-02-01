@@ -41,7 +41,7 @@ var JavaScriptWorker = require("./javascript_worker").JavaScriptWorker;
 
 
 module.exports = {
-    setUp : function() {
+    setUp: function() {
         this.sender = {
             on: function() {},
             callback: function(data, id) {

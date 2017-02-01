@@ -28,7 +28,7 @@ define(function(require, exports, module) {
         plugin.__defineSetter__("settings", function(remote) {
             settings = remote;
             
-            settings.on("read", function(){
+            settings.on("read", function() {
                 var s = settings.getNode("state/ext/counters");
                 for (var type in s) {
                     counters[type] = s[type.substr(1)];
@@ -73,7 +73,7 @@ define(function(require, exports, module) {
                 });
             }
             
-            emit("register", {plugin: plugin});
+            emit("register", { plugin: plugin });
         }
         
         function unregisterPlugin(plugin, loaded, ignoreDeps, keep) {
@@ -105,10 +105,10 @@ define(function(require, exports, module) {
                 });
             }
             
-            emit("unregister", {plugin: plugin});
+            emit("unregister", { plugin: plugin });
         }
         
-        function getDependencies(pluginName){
+        function getDependencies(pluginName) {
             var usedBy = [];
             
             // Check for dependencies needing this plugin
@@ -174,13 +174,13 @@ define(function(require, exports, module) {
             vfs.unextend(id, options, callback);
         }
         
-        function enablePlugin(name){
+        function enablePlugin(name) {
             if (!lut[name] && !manuallyDisabled[name]) 
                 throw new Error("Could not find plugin: " + name);
             (lut[name] || manuallyDisabled[name]).load(name);
         }
         
-        function disablePlugin(name){
+        function disablePlugin(name) {
             if (!lut[name]) 
                 throw new Error("Could not find plugin: " + name);
             
@@ -201,12 +201,12 @@ define(function(require, exports, module) {
             /**
              *
              */
-            get plugins(){ return plugins.slice(0); },
+            get plugins() { return plugins.slice(0); },
             
             /**
              *
              */
-            get named(){ 
+            get named() { 
                 var named = Object.create(lut); 
                 for (var name in manuallyDisabled) {
                     if (!lut[name])
@@ -337,13 +337,13 @@ define(function(require, exports, module) {
             
             /***** Methods *****/
             
-            this.getEmitter = function(){
+            this.getEmitter = function() {
                 var emit = event.emit.bind(event);
                 
                 var _self = this;
                 var sticky = function(name, e, plugin) {
                     if (plugin) {
-                        _self.on("$event." + name, function(listener){
+                        _self.on("$event." + name, function(listener) {
                             listener(e);
                         }, plugin);
                         onNewEvents[name] = -1;
@@ -370,8 +370,8 @@ define(function(require, exports, module) {
                 // Build a list of known events to warn users if they use a 
                 // non-existent event.
                 if (api._events) {
-                    api._events.forEach(function(name){
-                        declaredEvents[name] =  true;
+                    api._events.forEach(function(name) {
+                        declaredEvents[name] = true;
                     });
                     delete api._events;
                 }
@@ -404,7 +404,7 @@ define(function(require, exports, module) {
             };
             var baseclass;
             this.baseclass = 
-            this.freezePublicAPI.baseclass = function(){ baseclass = true; };
+            this.freezePublicAPI.baseclass = function() { baseclass = true; };
             
             function getElement(name, callback) {
                 // remove id's after storing them.
@@ -496,13 +496,13 @@ define(function(require, exports, module) {
             }
             
             function enable() {
-                emit("enablePlugin", {plugin: this});
+                emit("enablePlugin", { plugin: this });
                 event.emit("enable");
                 disabled = false;
             }
             
             function disable() {
-                emit("disablePlugin", {plugin: this});
+                emit("disablePlugin", { plugin: this });
                 event.emit("disable");
                 disabled = true;
             }
@@ -718,27 +718,27 @@ define(function(require, exports, module) {
                  * @property {Boolean} registered  Specifies whether the plugin is registered
                  * @readonly
                  */
-                get registered(){ return registered; },
+                get registered() { return registered; },
                 /**
                  * @property {Date} time  The time when the plugin was registered
                  * @readonly
                  */
-                get time(){ return time; },
+                get time() { return time; },
                 /**
                  * @property {Boolean} enabled  Specifies whether the plugin is enabled
                  * @readonly
                  */
-                get enabled(){ return !disabled; },
+                get enabled() { return !disabled; },
                 /**
                  * @property {Boolean} loaded whether the plugin is loaded. 
                  *   This happens by calling load or setting the name.
                  * @readonly
                  */
-                get loaded(){ return loaded; },
+                get loaded() { return loaded; },
                 /** 
                  * @property {String} name  The name of the plugin
                  */
-                get name(){ return name; },
+                get name() { return name; },
                 set name(val) {
                     if (name == val)
                         return;
@@ -856,7 +856,7 @@ define(function(require, exports, module) {
                  *   this you will leak listeners into Cloud9.
                  * @fires newListener
                  **/
-                on: function(eventName, callback, plugin){
+                on: function(eventName, callback, plugin) {
                     // if (!declaredEvents[eventName])
                     //     console.warn("Missing event description or unknown event '" + eventName + "' for plugin '" + name + "'", new Error().stack);
                         
@@ -868,7 +868,7 @@ define(function(require, exports, module) {
                  * @param {String} name the name of this event
                  * @param {Function} callback the function called when the event is fired
                  **/
-                once: function(eventName, callback){
+                once: function(eventName, callback) {
                     // if (!declaredEvents[eventName])
                     //     console.warn("Missing event description or unknown event '" + eventName + "' for plugin '" + name + "'");
                         

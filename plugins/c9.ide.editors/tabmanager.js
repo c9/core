@@ -52,7 +52,7 @@ define(function(require, module, exports) {
         focusManager.tabManager = plugin;
         
         var loaded = false, changed = false;
-        function load(){
+        function load() {
             if (loaded) return false;
             loaded = true;
             
@@ -76,7 +76,7 @@ define(function(require, module, exports) {
             //     }
             // }, plugin);
             
-            function getEditor(){
+            function getEditor() {
                 var editor = focussedTab && focussedTab.editor;
                 var subeditor = editor && editor.focussedWidget;
                 return subeditor && subeditor.editor || editor;
@@ -90,7 +90,7 @@ define(function(require, module, exports) {
                 command: "toggleButtons"
             }), 300, plugin);
             
-            menus.on("focusEditor", function(){
+            menus.on("focusEditor", function() {
                 focussedTab && focussedTab.editor.focus();
             }, plugin);
 
@@ -116,7 +116,7 @@ define(function(require, module, exports) {
                 });
                 
                 if (changed.length) {
-                    e.revert = function(){
+                    e.revert = function() {
                         changed.forEach(function(tab) {
                             // TODO store id instead of tab
                             // var tab = pages[id];
@@ -172,9 +172,9 @@ define(function(require, module, exports) {
             
             editors.on("menuClick", function(e) {
                 if (!editors.findEditor(e.value).fileExtensions.length)
-                    openEditor(e.value, true, function(){});
+                    openEditor(e.value, true, function() {});
                 else if (focussedTab)
-                    switchEditor(focussedTab, e.value, function(){});
+                    switchEditor(focussedTab, e.value, function() {});
             });
             editors.on("menuShow", function(e) {
                 var group, editor = focussedTab && focussedTab.editor;
@@ -216,7 +216,7 @@ define(function(require, module, exports) {
                 setTimeout(function() {
                     // Only set the state if we're not testing something else
                     if (options.testing != 2 && !isReady) {
-                        setState(state, !isReady, function(){
+                        setState(state, !isReady, function() {
                             emit.sticky("ready");
                         });
                     }
@@ -258,13 +258,13 @@ define(function(require, module, exports) {
             // Top Right Corner Handling
             var CSS1 = ".editor_tab.morepadding .btnsesssioncontainer";
             var CSS2 = ".editor_tab .btnsesssioncontainer";
-            var clearAnim = function(prop){
-                setTimeout(function(){
+            var clearAnim = function(prop) {
+                setTimeout(function() {
                     ui.setStyleRule(prop, "transition-duration", "0");
                 }, 200);
             };
             
-            menus.on("minimize", function(){
+            menus.on("minimize", function() {
                 collapsedMenu = true;
                 
                 ui.setStyleRule(CSS1, "transition-duration", ".2s");
@@ -272,7 +272,7 @@ define(function(require, module, exports) {
                 
                 setCornerPadding();
             });
-            menus.on("restore", function(){
+            menus.on("restore", function() {
                 collapsedMenu = false;
                 if (lastCorner) {
                     ui.setStyleRule(CSS2, "transition-duration", ".2s");
@@ -325,16 +325,16 @@ define(function(require, module, exports) {
             
             // Title
             if (!c9.local) {
-                plugin.on("focusSync", function(e){ updateTitle(e.tab) });
-                plugin.on("tabDestroy", function(e){ if (e.last) updateTitle(); });
-                settings.on("user/tabs", function(){ updateTitle(focussedTab); });
+                plugin.on("focusSync", function(e) { updateTitle(e.tab); });
+                plugin.on("tabDestroy", function(e) { if (e.last) updateTitle(); });
+                settings.on("user/tabs", function() { updateTitle(focussedTab); });
             }
             
             emit("ready");
         }
         
         var drawn = false;
-        function draw(){
+        function draw() {
             if (drawn) return;
             drawn = true;
             
@@ -342,8 +342,8 @@ define(function(require, module, exports) {
             // on this plugin
             if (options.testing != 2) {
                 container = layout.findParent(plugin).appendChild(new ui.bar({
-                    "class"  : "codeditorHolder",
-                    "style"  : "height:100%"
+                    "class": "codeditorHolder",
+                    "style": "height:100%"
                     //style    : "position:absolute;"
                 }));
                 containers.push(container);
@@ -353,7 +353,7 @@ define(function(require, module, exports) {
             mnuEditors = apf.document.documentElement.appendChild(new ui.menu({
                 id: "mnuEditors",
                 style: "margin: 0px 0 0 4px",
-                "onprop.visible" : function(e) {
+                "onprop.visible": function(e) {
                     if (e.value)
                         mnuEditors.pane = this.opener.parentNode.cloud9pane;
                 }
@@ -377,7 +377,7 @@ define(function(require, module, exports) {
         function plusNewFile(e, force) {
             if (force || emit("plusClick", e) !== false) {
                 var name;
-                do{ name = "/Untitled" + counter++; } while (findTab(name));
+                do { name = "/Untitled" + counter++; } while (findTab(name));
                 
                 open({
                     path: name,
@@ -390,7 +390,7 @@ define(function(require, module, exports) {
                             newfile: true
                         }
                     }
-                }, function(){});
+                }, function() {});
             }
         }
         
@@ -420,7 +420,7 @@ define(function(require, module, exports) {
                 return emit("tabOrder", e);
             });
             
-            pane.on("unload", function(){
+            pane.on("unload", function() {
                 panes.remove(pane);
                 
                 if (focussedTab && !focussedTab.isActive()) {
@@ -442,7 +442,7 @@ define(function(require, module, exports) {
             
             panes.push(pane);
             
-            pane.aml.once("DOMNodeInsertedIntoDocument", function(){
+            pane.aml.once("DOMNodeInsertedIntoDocument", function() {
                 emit.sticky("paneCreate", { pane: pane }, pane);
             });
             
@@ -457,15 +457,15 @@ define(function(require, module, exports) {
         
         function updateTitle(tab) {
             document.title = tab && settings.getBool("user/tabs/@title") && tab.title
-                ? tab.title + " - "  + ideProviderName
-                : c9.projectName + " - "  + ideProviderName;
+                ? tab.title + " - " + ideProviderName
+                : c9.projectName + " - " + ideProviderName;
         }
         
         var lastCorner;
-        function setCornerPadding(){
+        function setCornerPadding() {
             if (!collapsedMenu || c9.local) return;
             
-            var tab = (function recur(node){
+            var tab = (function recur(node) {
                 if (!node) 
                     return false;
                 else if (node.localName == "tab")
@@ -487,14 +487,14 @@ define(function(require, module, exports) {
             lastCorner = tab;
         }
         
-        function createTab(state){
+        function createTab(state) {
             if (!state.pane) {
                 if (focussedTab && ui.isChildOf(container, focussedTab.aml)) {
                     state.pane = focussedTab.pane;
                 }
                 if (!state.pane) {
                     var i = 0;
-                    while (panes[i] && !ui.isChildOf(container, panes[i].aml)) { i++ }
+                    while (panes[i] && !ui.isChildOf(container, panes[i].aml)) { i++; }
                     state.pane = panes[i];
                 }
                 if (!state.pane) {
@@ -519,7 +519,7 @@ define(function(require, module, exports) {
                 if (tab.path)
                     watcher.unwatch(tab.path);
                 
-                if (!(function(){for (var p in tabs){return true;}})()) {
+                if (!(function() {for (var p in tabs) {return true;}})()) {
                     focusTab();
                     focussedTab = null;
                     unfocussed = true;
@@ -636,7 +636,7 @@ define(function(require, module, exports) {
                 tab: tab
             });
                 
-            setTimeout(function(){
+            setTimeout(function() {
                 emit("tabAfterActivate", {
                     lastTab: lastTab,
                     tab: tab
@@ -679,9 +679,9 @@ define(function(require, module, exports) {
                         })
                 };
                 
-                if (node.width)   state.width = node.width;
-                if (node.height)  state.height = node.height;
-                if (node.skin)    state.skin = node.skin;
+                if (node.width) state.width = node.width;
+                if (node.height) state.height = node.height;
+                if (node.skin) state.skin = node.skin;
                 if (node.skinset) state.skinset = node.skinset;
                 
                 if (isPane && node.cloud9pane.meta) {
@@ -784,7 +784,7 @@ define(function(require, module, exports) {
                 callback();
         }
         
-        function clear(soft, clearTabs /* For testing only */, silent){
+        function clear(soft, clearTabs /* For testing only */, silent) {
             var list = getPanes(container);
             
             for (var i = list.length - 1; i >= 0; i--) {
@@ -813,7 +813,7 @@ define(function(require, module, exports) {
             showTabs = to !== undefined ? to : !showTabs;
             
             settings.set("user/tabs/@show", showTabs);
-            emit("visible", {value: showTabs});
+            emit("visible", { value: showTabs });
             
             getPanes(container).forEach(function(pane) {
                 ui.setStyleClass(pane.aml.$ext, showTabs ? "" : "notabs", ["notabs"]);
@@ -827,7 +827,7 @@ define(function(require, module, exports) {
             if (cancel)
                 return;
     
-            closeTimer = setTimeout(function(){
+            closeTimer = setTimeout(function() {
                 panes.forEach(function(pane) {
                     pane.aml.$waitForMouseOut = false;
                     pane.aml.$scaleinit(null, "sync");
@@ -866,7 +866,7 @@ define(function(require, module, exports) {
                 // Blur
                 if (focussedTab) {
                     var blurTab = focussedTab;
-                    var blur = function (){
+                    var blur = function () {
                         emit("blur", { tab: blurTab });
                         
                         // During destroy of the pane the editor can 
@@ -912,15 +912,15 @@ define(function(require, module, exports) {
                 return tab;
             }
             
-            emit("focusSync", { tab : tab });
+            emit("focusSync", { tab: tab });
             
             if (async) {
-                setTimeout(function(){
-                    emit("focus", { tab : tab });
+                setTimeout(function() {
+                    emit("focus", { tab: tab });
                 }, 500);
             }
             else
-                emit("focus", { tab : tab });
+                emit("focus", { tab: tab });
             
             return tab;
         }
@@ -985,14 +985,14 @@ define(function(require, module, exports) {
             if (typeof active == "function")
                 callback = active, active = false;
             
-            return open({path: path, active: active}, callback);
+            return open({ path: path, active: active }, callback);
         }
         
         function openEditor(type, active, callback) {
             if (typeof active == "function")
                 callback = active, active = false;
             
-            return open({editorType: type, active: active}, callback);
+            return open({ editorType: type, active: active }, callback);
         }
         
         function open(options, callback) {
@@ -1022,7 +1022,7 @@ define(function(require, module, exports) {
             if (((options.document || 0).meta || 0).cloned) {
                 if (!tab) {
                     if (options.init) {
-                        plugin.on("open", function wait(e){
+                        plugin.on("open", function wait(e) {
                             if (e.tab.path == path) {
                                 plugin.off("open", wait);
                                 options.tab = e.tab;
@@ -1041,7 +1041,7 @@ define(function(require, module, exports) {
                 options.document = tab.document.clone();
                 
                 // Tab variable will be overwritten below
-                tab.on("unload", function(){ tab.unload(); }, tab.document);
+                tab.on("unload", function() { tab.unload(); }, tab.document);
             }
             // Process Existing Tab
             else if (tab) {
@@ -1125,7 +1125,7 @@ define(function(require, module, exports) {
                         err.code == "ENOENT"
                             ? "The file could not be found on the file system."
                             : "Unknown error: " + (err.message || err.code || err),
-                        function(){
+                        function() {
                             tab.close();
                             callback && callback(err);
                         });
@@ -1171,7 +1171,7 @@ define(function(require, module, exports) {
             // todo metadata doesn't check for this! should we?
             if (options.value === -1) {
                 setLoading(tab);
-                callback(null, tab, function(){
+                callback(null, tab, function() {
                     tab.classList.remove("loading");
                     emit("open", { tab: tab, options: options });
                 });
@@ -1181,7 +1181,7 @@ define(function(require, module, exports) {
                 var xhr = fs.readFile(path, "utf8", done);
 
                 // Cancel file opening when tab is closed
-                var abort = function(){
+                var abort = function() {
                     xhr && xhr.abort();
                 };
                 tab.on("close", abort);
@@ -1200,7 +1200,7 @@ define(function(require, module, exports) {
             return tab;
         }
         
-        function clone(tab, pane, callback){
+        function clone(tab, pane, callback) {
             open({
                 pane: pane,
                 tab: tab,
@@ -1208,7 +1208,7 @@ define(function(require, module, exports) {
                 document: {
                     meta: { cloned: true }
                 }
-            }, function(err, tab){
+            }, function(err, tab) {
                 if (tab)
                     tab.document.progress({ complete: true });
                 callback(err, tab);
@@ -1341,7 +1341,7 @@ define(function(require, module, exports) {
                     
                     // Open actual tab when the user starts editing
                     // @TODO cleanup
-                    tab.document.undoManager.on("change", function(){
+                    tab.document.undoManager.on("change", function() {
                         if (tab.document.undoManager.position > -1)
                             keepPreview();
                     });
@@ -1396,7 +1396,7 @@ define(function(require, module, exports) {
         }
         
         // Open actual tab
-        function keepPreview(){
+        function keepPreview() {
             if (!previewTab) return;
             
             if (previewTimeout) {
@@ -1428,7 +1428,7 @@ define(function(require, module, exports) {
         }
         
         function switchEditor(tab, type, callback) {
-            tab.switchEditor(type, function(){
+            tab.switchEditor(type, function() {
                 emit("switchEditor", { tab: tab });
                 callback.apply(this, arguments);
             });
@@ -1436,14 +1436,14 @@ define(function(require, module, exports) {
         
         /**** Support for state preservation ****/
     
-        function pauseTabResize(){
+        function pauseTabResize() {
             panes.forEach(function(pane) {
                 pane.setAttribute("buttons", "close,order");
             });
         }
     
-        function continueTabResize(){
-            setTimeout(function(){
+        function continueTabResize() {
+            setTimeout(function() {
                 panes.forEach(function(pane) {
                     pane.setAttribute("buttons", "close,scale,order");
                     pane.$waitForMouseOut = false;
@@ -1454,16 +1454,16 @@ define(function(require, module, exports) {
     
         /***** Lifecycle *****/
         
-        plugin.on("load", function(){
+        plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function(){
+        plugin.on("enable", function() {
             
         });
-        plugin.on("disable", function(){
+        plugin.on("disable", function() {
             
         });
-        plugin.on("unload", function(){
+        plugin.on("unload", function() {
             panes = [];
             tabs = [];
             loaded = false;
@@ -1515,7 +1515,7 @@ define(function(require, module, exports) {
              * @property {Tab} focussedTab
              * @readonly
              */
-            get focussedTab(){ return focussedTab || null; },
+            get focussedTab() { return focussedTab || null; },
             /**
              * Specifies whether the tabManager has focus. When a component 
              * outside of the editors has focus (such as the tree or a menu 
@@ -1524,14 +1524,14 @@ define(function(require, module, exports) {
              * @property {Boolean} focussed
              * @readonly
              */
-            get focussed(){ return !unfocussed; },
+            get focussed() { return !unfocussed; },
             /**
              * The tab that is shown as a preview. This property is set to null
              * if there is currently no preview being shown.
              * @property {Tab} previewTab
              * @readonly
              */
-            get previewTab(){ return previewTab; },
+            get previewTab() { return previewTab; },
             /**
              * An Array of all the HTML Elements that act as containers for
              * panes. Generally this is one for the main panes area and one for
@@ -1539,13 +1539,13 @@ define(function(require, module, exports) {
              * @property {HTMLElement[]} containers
              * @readonly
              */
-            get containers(){ return containers; },
+            get containers() { return containers; },
             /**
              * The AMLElement for the main panes area.
              * @property {AMLElement} container
              * @readonly
              */
-            get container(){ return container; },
+            get container() { return container; },
             
             _events: [
                 /**
@@ -1993,7 +1993,7 @@ define(function(require, module, exports) {
             /**
              * @ignore
              */
-            get isReady(){ return isReady; },
+            get isReady() { return isReady; },
         });
         
         register(null, {

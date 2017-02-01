@@ -59,9 +59,9 @@ define(function(require, exports, module) {
          * future. For now it is used by dialog to return focus
          **/
         plugin.freezePublicAPI({
-            set tabManager(v){ tabManager = v },
+            set tabManager(v) { tabManager = v; },
             
-            get activeElement(){ 
+            get activeElement() { 
                 if (tabManager && tabManager.focussed)
                     return tabManager.focussedTab;
                 else

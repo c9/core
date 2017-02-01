@@ -13,7 +13,7 @@ define(function(require, exports, module) {
         var handle = editors.register(
             "texteditor", "Text Editor", TextEditor, extensions);
                           
-        function TextEditor(){
+        function TextEditor() {
             var plugin = new Editor("Ajax.org", main.consumes, extensions);
             var emit = plugin.getEmitter();
             
@@ -39,7 +39,7 @@ define(function(require, exports, module) {
             
             /***** Lifecycle *****/
             
-            plugin.on("load", function(){
+            plugin.on("load", function() {
             });
             
             var currentDocument;
@@ -72,7 +72,7 @@ define(function(require, exports, module) {
                 }
                 doc.tab.on("setPath", setTitle, session);
                 
-                setTitle({path: doc.tab.path || ""});
+                setTitle({ path: doc.tab.path || "" });
                 
                 var tab = doc.tab;
                 tab.backgroundColor = "rgb(255,255,255)";
@@ -92,15 +92,15 @@ define(function(require, exports, module) {
                 if (e.state.scrollTop)
                     editor.scrollTop = e.state.scrollTop;
             });
-            plugin.on("clear", function(){
+            plugin.on("clear", function() {
                 editor.value = "";
             });
-            plugin.on("focus", function(){
+            plugin.on("focus", function() {
                 editor.focus();
             });
-            plugin.on("blur", function(){
+            plugin.on("blur", function() {
             });
-            plugin.on("resize", function(){
+            plugin.on("resize", function() {
             });
             plugin.on("cut", function(e) {
                 if (e.native) return; // Handled by the textarea
@@ -140,13 +140,13 @@ define(function(require, exports, module) {
                 // Add pasted data
                 range.insertNode(document.createTextNode(data));
             });
-            plugin.on("enable", function(){
+            plugin.on("enable", function() {
                 editor.disabled = false;
             });
-            plugin.on("disable", function(){
+            plugin.on("disable", function() {
                 editor.disabled = true;
             });
-            plugin.on("unload", function(){
+            plugin.on("unload", function() {
                 editor.parentNode.removeChild(editor);
                 editor = null;
             });

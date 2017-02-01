@@ -82,7 +82,7 @@ define(function(require, exports, module) {
                 layout.on("resize", resize, plugin);
             }
             
-            function applyChanges(){
+            function applyChanges() {
                 if (changes && !paused) {
                     var changeset = calculate(changes);
                     render(changeset);
@@ -97,7 +97,7 @@ define(function(require, exports, module) {
                 if (paused || pending) return;
                 
                 pending = true;
-                util.nextFrame(function(){
+                util.nextFrame(function() {
                     if (inited)
                         emit("change");
                     
@@ -109,7 +109,7 @@ define(function(require, exports, module) {
             
             /***** Methods *****/
             
-            function initModel(){
+            function initModel() {
                 model = [];
                 if (rows && rows.length && columns && columns.length) {
                     for (var i = 0; i < columns.length; i++) {
@@ -409,7 +409,7 @@ define(function(require, exports, module) {
             function vsplit(widget, height, far) {
                 var result, start, i;
                 
-                function innerloop(){
+                function innerloop() {
                     if (rows[i].pixels < height) {
                         height -= rows[i].pixels;
                     }
@@ -455,7 +455,7 @@ define(function(require, exports, module) {
             function hsplit(widget, width, far) {
                 var result, start, i;
                 
-                function innerloop(){
+                function innerloop() {
                     if (columns[i].pixels < width) {
                         width -= columns[i].pixels;
                     }
@@ -605,7 +605,7 @@ define(function(require, exports, module) {
                 model.forEach(function(col) {
                     var widget = col[index];
                     if (widget) {
-                        if (!done[widget.name]){
+                        if (!done[widget.name]) {
                             if (widget.rowspan == 1)
                                 remove(widget);
                             else
@@ -649,7 +649,7 @@ define(function(require, exports, module) {
                     if (to.flex && from.flex)
                         to.flex += from.flex;
                     else {
-                        var flex = defSet.filter(function(n){ return n.flex });
+                        var flex = defSet.filter(function(n) { return n.flex; });
                         
                         if (!to.flex) {
                             delete to.pixels;
@@ -706,8 +706,8 @@ define(function(require, exports, module) {
                     removeRow(indexFrom);
             }
             
-            function clean(){
-                var empty = rows.map(function(){ return true; });
+            function clean() {
+                var empty = rows.map(function() { return true; });
                 
                 for (var i = model.length - 1; i >= 0; i--) {
                     var col = model[i];
@@ -965,7 +965,7 @@ define(function(require, exports, module) {
             }
             
             function resizeTo(widget, width, fromLeft, height, fromTop) {
-                var delta, shrink, shrinkOther, insertIndex,copyFromTop;
+                var delta, shrink, shrinkOther, insertIndex, copyFromTop;
                 var copyFromLeft, snap;
                 
                 width = getRowColEntry(width);
@@ -1136,7 +1136,7 @@ define(function(require, exports, module) {
                 schedule(CHANGE_REDRAW);
             }
             
-            function getState(){
+            function getState() {
                 var state = {};
                 widgets.forEach(function(w) {
                     state[w.name] = w.getState();
@@ -1181,7 +1181,7 @@ define(function(require, exports, module) {
                 return { x: x, y: y };
             }
             
-            function resize(){
+            function resize() {
                 changes = CHANGE_RESIZE;
                 applyChanges();
             }
@@ -1192,11 +1192,11 @@ define(function(require, exports, module) {
                 return w;
             }
             
-            function pause(){
+            function pause() {
                 paused = true;
             }
             
-            function resume(){
+            function resume() {
                 paused = false;
                 resize();
             }
@@ -1225,12 +1225,12 @@ define(function(require, exports, module) {
              * 
              **/
             plugin.freezePublicAPI({
-                get container(){ return container;},
-                get paused(){ return paused;},
+                get container() { return container;},
+                get paused() { return paused;},
                 
-                get children(){ return widgets;},
+                get children() { return widgets;},
                 
-                get columns(){ return columns/* && columns.join(", ")*/; },
+                get columns() { return columns/* && columns.join(", ")*/; },
                 set columns(v) { 
                     columns = String(v).split(/\s*,\s*/).map(function(m) {
                         return getRowColEntry(m);
@@ -1238,7 +1238,7 @@ define(function(require, exports, module) {
                     initModel();
                 },
                 
-                get rows(){ return rows /*&& rows.join(", ")*/; },
+                get rows() { return rows /*&& rows.join(", ")*/; },
                 set rows(v) { 
                     rows = String(v).split(/\s*,\s*/).map(function(m) {
                         return getRowColEntry(m);
@@ -1246,14 +1246,14 @@ define(function(require, exports, module) {
                     initModel();
                 },
                 
-                get padding(){ return padding; },
-                set padding(v){ padding = parseInt(v, 10); },
+                get padding() { return padding; },
+                set padding(v) { padding = parseInt(v, 10); },
                 
-                get edge(){ return edge; },
-                set edge(v){ edge = util.getBox(v); },
+                get edge() { return edge; },
+                set edge(v) { edge = util.getBox(v); },
                 
-                get parentLayout(){ return parentLayout; },
-                set parentLayout(el){ parentLayout = el; },
+                get parentLayout() { return parentLayout; },
+                set parentLayout(el) { parentLayout = el; },
                 
                 /**
                  * 
@@ -1333,7 +1333,7 @@ define(function(require, exports, module) {
             return plugin;
         }
         
-        function DockableAbsoluteRenderer(){
+        function DockableAbsoluteRenderer() {
             var plugin = new Plugin("Ajax.org", main.consumes);
             // var emit = plugin.getEmitter();
             
@@ -1386,15 +1386,15 @@ define(function(require, exports, module) {
         }
         
         var CURSOR = {
-            "s"  : "ns-resize",
-            "n"  : "ns-resize",
-            "w"  : "ew-resize",
-            "e"  : "ew-resize",
-            "ne" : "nesw-resize",
-            "nw" : "nwse-resize",
-            "se" : "nwse-resize",
-            "sw" : "nesw-resize"
-        }
+            "s": "ns-resize",
+            "n": "ns-resize",
+            "w": "ew-resize",
+            "e": "ew-resize",
+            "ne": "nesw-resize",
+            "nw": "nwse-resize",
+            "se": "nwse-resize",
+            "sw": "nesw-resize"
+        };
         
         function DockableWidget(developer, deps) {
             var plugin = new Plugin(developer, deps);
@@ -1475,7 +1475,7 @@ define(function(require, exports, module) {
             }
             
             function getPosition() {
-                return {row: row, col: col, rowspan: rowspan, colspan: colspan};
+                return { row: row, col: col, rowspan: rowspan, colspan: colspan };
             }
             
             function getPreferedSize(availablePos) {
@@ -1483,7 +1483,7 @@ define(function(require, exports, module) {
                     return this.computePreferredSize(availablePos);
             }
             
-            function isEdge(value){ return value >= 0 && value < EDGE_SIZE; }
+            function isEdge(value) { return value >= 0 && value < EDGE_SIZE; }
             function detectEdge(e) {
                 var rect = container.getBoundingClientRect();
                 var hor = "", ver = "";
@@ -1671,7 +1671,7 @@ define(function(require, exports, module) {
             }
             
             var dragOverlay;
-            function getDragOverlay(){
+            function getDragOverlay() {
                 if (!dragOverlay) {
                     var el = document.createElement("div");
                     el.className = "drag";
@@ -1687,13 +1687,13 @@ define(function(require, exports, module) {
                 return dragOverlay;
             }
             
-            function getState(){
+            function getState() {
                 return {
                     col: col,
                     row: row,
                     colspan: colspan,
                     rowspan: rowspan
-                }
+                };
             }
             
             function setState(state) {
@@ -1727,42 +1727,42 @@ define(function(require, exports, module) {
              * 
              **/
             plugin.freezePublicAPI({
-                get layout(){ return layout; },
+                get layout() { return layout; },
                 set layout(el) { 
                     layout = el; 
                     if (innerLayout)
                         innerLayout.parentLayout = layout;
                 },
                 
-                get innerLayout(){ return innerLayout; },
+                get innerLayout() { return innerLayout; },
                 set innerLayout(el) { 
                     innerLayout = el;
                     innerLayout.parentLayout = layout;
                 },
                 
-                get container(){ return container; },
-                get handle(){ return handle || container; },
+                get container() { return container; },
+                get handle() { return handle || container; },
                 
-                get row(){ return row; },
-                set row(v){ row = v; },
+                get row() { return row; },
+                set row(v) { row = v; },
                 
-                get col(){ return col; },
-                set col(v){ col = v; },
+                get col() { return col; },
+                set col(v) { col = v; },
                 
-                get rowspan(){ return rowspan; },
-                set rowspan(v){ rowspan = v; },
+                get rowspan() { return rowspan; },
+                set rowspan(v) { rowspan = v; },
                 
-                get colspan(){ return colspan; },
-                set colspan(v){ colspan = v; },
+                get colspan() { return colspan; },
+                set colspan(v) { colspan = v; },
                 
-                get computed(){ return computed; },
-                set computed(v){ computed = v; },
+                get computed() { return computed; },
+                set computed(v) { computed = v; },
                 
-                get draggable(){ return draggable; },
-                set draggable(v){ draggable = v; },
+                get draggable() { return draggable; },
+                set draggable(v) { draggable = v; },
                 
-                get resizable(){ return resizable; },
-                set resizable(v){ resizable = v; },
+                get resizable() { return resizable; },
+                set resizable(v) { resizable = v; },
                 
                 _events: [
                     /**
@@ -1815,7 +1815,7 @@ define(function(require, exports, module) {
             return plugin;
         }
         
-        var setGlobalCursor = (function(){
+        var setGlobalCursor = (function() {
             var done = {};
             var sheet;
             
@@ -1838,7 +1838,7 @@ define(function(require, exports, module) {
                 else {
                     document.body.className = "";
                 }
-            }
+            };
         })();
         
         register(null, {

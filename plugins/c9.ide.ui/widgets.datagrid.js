@@ -30,7 +30,7 @@ define(function(require, exports, module) {
             if (baseclass) plugin.baseclass();
             
             if (!options.rowHeight) {
-                layout.on("eachTheme", function(e){
+                layout.on("eachTheme", function(e) {
                     var cls = "." + options.theme.replace(/ /g, " .") + " .row";
                     var height = parseInt(ui.getStyleRule(cls, "height"), 10) || 23;
                     // model.rowHeightInner = height - 1;
@@ -54,8 +54,8 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                get columns(){ throw new Error("Columns can only be set.") },
-                set columns(c){
+                get columns() { throw new Error("Columns can only be set."); },
+                set columns(c) {
                     model.columns = c;
                     if (plugin.acetree)
                         plugin.acetree.renderer.setDataProvider(model);

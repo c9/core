@@ -515,7 +515,7 @@ define(function(require, exports, module) {
                     }
                     while (x >= 0) {
                         var char = line[x] && line[x][1];
-                        if ((char === "$" || char === "#") && line[x+1] && line[x+1][1] === " ")
+                        if ((char === "$" || char === "#") && line[x + 1] && line[x + 1][1] === " ")
                             return true;
                         x--;
                     }
@@ -760,6 +760,6 @@ define(function(require, exports, module) {
             ]
         });
         
-        register(null, { "terminal.predict_echo" : plugin });
+        register(null, { "terminal.predict_echo": plugin });
     }
 });

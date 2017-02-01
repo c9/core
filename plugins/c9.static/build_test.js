@@ -17,7 +17,7 @@ require("amd-loader");
 
 var build, options, pathConfig;
 
-describe("The build module", function(){
+describe("The build module", function() {
     this.timeout(60000);
 
     beforeEach(function(next) {
@@ -88,7 +88,7 @@ describe("The build module", function(){
             /* asd
             */
             x += "he/*ll*/o" + a;
-        }) , function() {
+        }), function() {
             var a;
             var x; // not removed
             x += "he/*ll*/o" + a;

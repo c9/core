@@ -22,7 +22,7 @@
             if (called) throw new Error("Callback was already called.");
             called = true;
             fn.apply(root, arguments);
-        }
+        };
     }
 
     //// cross-browser compatiblity functions ////
@@ -218,7 +218,7 @@
     var _asyncMap = function (eachfn, arr, iterator, callback) {
         var results = [];
         arr = _map(arr, function (x, i) {
-            return {index: i, value: x};
+            return { index: i, value: x };
         });
         eachfn(arr, function (x, callback) {
             iterator(x.value, function (err, v) {
@@ -268,7 +268,7 @@
     var _filter = function (eachfn, arr, iterator, callback) {
         var results = [];
         arr = _map(arr, function (x, i) {
-            return {index: i, value: x};
+            return { index: i, value: x };
         });
         eachfn(arr, function (x, callback) {
             iterator(x.value, function (v) {
@@ -294,7 +294,7 @@
     var _reject = function (eachfn, arr, iterator, callback) {
         var results = [];
         arr = _map(arr, function (x, i) {
-            return {index: i, value: x};
+            return { index: i, value: x };
         });
         eachfn(arr, function (x, callback) {
             iterator(x.value, function (v) {
@@ -371,7 +371,7 @@
                     callback(err);
                 }
                 else {
-                    callback(null, {value: x, criteria: criteria});
+                    callback(null, { value: x, criteria: criteria });
                 }
             });
         }, function (err, results) {
@@ -425,7 +425,7 @@
         });
 
         _each(keys, function (k) {
-            var task = (tasks[k] instanceof Function) ? [tasks[k]]: tasks[k];
+            var task = (tasks[k] instanceof Function) ? [tasks[k]] : tasks[k];
             var taskCallback = function (err) {
                 var args = Array.prototype.slice.call(arguments, 1);
                 if (args.length <= 1) {
@@ -581,7 +581,7 @@
                 return fn.next();
             };
             fn.next = function () {
-                return (index < tasks.length - 1) ? makeCallback(index + 1): null;
+                return (index < tasks.length - 1) ? makeCallback(index + 1) : null;
             };
             return fn;
         };
@@ -895,7 +895,7 @@
                     var err = arguments[0];
                     var nextargs = Array.prototype.slice.call(arguments, 1);
                     cb(err, nextargs);
-                }]))
+                }]));
             },
             function (err, results) {
                 callback.apply(that, [err].concat(results));

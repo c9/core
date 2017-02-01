@@ -1,6 +1,6 @@
 define(function(require, module, exports) {
 return function(apf) {
-var $setTimeout  = setTimeout;
+var $setTimeout = setTimeout;
 var $setInterval = setInterval;
 
 
@@ -87,7 +87,7 @@ apf.vbox = function(struct, tagName) {
     this.$init(tagName || "vbox", apf.NODE_VISIBLE, struct);
 };
 
-(function(){
+(function() {
     this.minwidth = 0;
     this.minheight = 0;
     
@@ -98,7 +98,7 @@ apf.vbox = function(struct, tagName) {
     this.$box = true;
     this.$layout = true;
     
-    var input = {"INPUT":1, "SELECT":1, "TEXTAREA":1};
+    var input = { "INPUT": 1, "SELECT": 1, "TEXTAREA": 1 };
 
     /**
      * @attribute {String}  [padding=2]      Sets or gets the space between each element.
@@ -152,7 +152,7 @@ apf.vbox = function(struct, tagName) {
             return;
 
         for (var last, b, el, i = elms.length - 2; i >= 0; i--) {
-            b = (el = elms[i]).margin && apf.getBox(el.margin) || [0,0,0,0];
+            b = (el = elms[i]).margin && apf.getBox(el.margin) || [0, 0, 0, 0];
             
             if ((!last || !last.$splitter) && !el.$splitter) {
                 b[this.$vbox ? 2 : 1] += this.padding;
@@ -164,12 +164,12 @@ apf.vbox = function(struct, tagName) {
             el.$ext.style.margin = b.join("px ") + "px";
             last = el;
         }
-        b = (el = elms[elms.length - 1]).margin && apf.getBox(el.margin) || [0,0,0,0];
+        b = (el = elms[elms.length - 1]).margin && apf.getBox(el.margin) || [0, 0, 0, 0];
         el.$ext.style.margin = b.join("px ") + "px";
         
         if (!apf.hasFlexibleBox)
             this.$resize();
-    }
+    };
     
     this.$propHandlers["reverse"] = function(value) {
         if (apf.hasFlexibleBox)
@@ -343,7 +343,7 @@ apf.vbox = function(struct, tagName) {
         this.parentNode.$resize();
     }
     
-    function resizeHandler(){
+    function resizeHandler() {
         if (!this.flex) {
             if (this.$isRszHandling || this.$lastSizeChild && 
               this.$lastSizeChild[0] == this.$ext.offsetWidth && 
@@ -361,12 +361,12 @@ apf.vbox = function(struct, tagName) {
     
     var handlers = {
         //Handlers for flexible box layout
-        "true" : {
-            "optimize" : function(value) {
+        "true": {
+            "optimize": function(value) {
                 this.optimize = apf.isTrue(value);
             },
             
-            "width" : function(value) {
+            "width": function(value) {
                 //@todo this should check the largest and only allow that one
                 //if (this.parentNode.$vbox && this.parentNode.align == "stretch")
                     //return;
@@ -378,7 +378,7 @@ apf.vbox = function(struct, tagName) {
                     : "";
             },
             
-            "height" : function(value) {
+            "height": function(value) {
                 //@todo this should check the largest and only allow that one
                 //if (!this.parentNode.$vbox && this.parentNode.align == "stretch")
                     //return;
@@ -390,14 +390,14 @@ apf.vbox = function(struct, tagName) {
                     : (apf.isGecko && this.flex && this.parentNode.$vbox ? "auto" : "");
             },
             
-            "margin" : function(value) {
+            "margin": function(value) {
                 var b = apf.getBox(value);
                 if (!isLastVisibleChild(this))
                     b[this.parentNode.$vbox ? 2 : 1] += this.parentNode.padding;
                 this.$ext.style.margin = b.join("px ") + "px";
             },
             
-            "flex" : function(value) {
+            "flex": function(value) {
                 this.flex = value = parseInt(value);
                 if (value) {
                     if (!this.optimize && !this.$altExt) {
@@ -427,8 +427,8 @@ apf.vbox = function(struct, tagName) {
         },
         
         //Handlers for older browsers
-        "false" : {
-            "width" : function(value) {
+        "false": {
+            "width": function(value) {
                 //@todo this should check the largest and only allow that one
                 //if (this.parentNode.$vbox && this.parentNode.align == "stretch")
                     //return;
@@ -440,7 +440,7 @@ apf.vbox = function(struct, tagName) {
                     : "";
             },
             
-            "height" : function(value) {
+            "height": function(value) {
                 //@todo this should check the largest and only allow that one
                 //if (this.parentNode.localName == "hbox" && this.parentNode.align == "stretch")
                     //return;
@@ -452,7 +452,7 @@ apf.vbox = function(struct, tagName) {
                     : "";
             },
             
-            "margin" : function(value) {
+            "margin": function(value) {
                 var b = apf.getBox(value);
                 if (this.padding) {
                     if (!isLastVisibleChild(this))
@@ -463,13 +463,13 @@ apf.vbox = function(struct, tagName) {
                 this.$ext.style.margin = b.join("px ") + "px";
             },
             
-            "flex" : function(value) {
+            "flex": function(value) {
                 this.flex = parseInt(value);
                 if (this.$amlLoaded)
                     this.parentNode.$resize(true);
             }
         }
-    }
+    };
     
     function isFirstVisibleChild(amlNode) {
         var firstChild = amlNode.parentNode.firstChild;
@@ -594,7 +594,7 @@ apf.vbox = function(struct, tagName) {
                     this.$propHandlers["pack"].call(this, this.pack);
                     
                 if (amlNode.visible !== false) //insert && - removed because for new nodes that are being attached to the tree insert is not set
-                    visibleHandler.call(amlNode, {value: true});
+                    visibleHandler.call(amlNode, { value: true });
                 
                 //@todo this needs more work
                 if (insert && amlNode.previousSibling) {
@@ -602,7 +602,7 @@ apf.vbox = function(struct, tagName) {
                     while (prev && (prev.nodeType != 1 || prev.localName == "splitter"))
                         prev = prev.previousSibling;
                     if (prev)
-                        visibleHandler.call(prev, {value: true});
+                        visibleHandler.call(prev, { value: true });
                 }
             }
             
@@ -610,7 +610,7 @@ apf.vbox = function(struct, tagName) {
                 if (amlNode.$ext.nextSibling != (amlNode.nextSibling 
                   && (amlNode.nextSibling.$altExt || amlNode.nextSibling.$ext))) {
                     var _self = this;
-                    setTimeout(function(){
+                    setTimeout(function() {
                         _self.insertBefore(
                             _self.ownerDocument.createElementNS(apf.ns.aml, "splitter"), 
                             amlNode.nextSibling);
@@ -629,7 +629,7 @@ apf.vbox = function(struct, tagName) {
             if (!apf.hasFlexibleBox && isLast)
                 this.$resize();
         }
-    }
+    };
     
     this.unregister = function(amlNode) {
         if (!amlNode.$propHandlers)
@@ -690,7 +690,7 @@ apf.vbox = function(struct, tagName) {
             }
             
         }
-    }
+    };
     /*
          this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
         this.register(this.parentNode);
@@ -742,7 +742,7 @@ apf.vbox = function(struct, tagName) {
         }
         else if (!this.$heighttimer) {
             var _self = this;
-            this.$heighttimer = $setInterval(function(){
+            this.$heighttimer = $setInterval(function() {
                 if (_self.$amlDestroyed)
                     return;
 
@@ -761,7 +761,7 @@ apf.vbox = function(struct, tagName) {
         }
     }
     
-    this.$draw = function(){
+    this.$draw = function() {
         var doc = this.$pHtmlNode.ownerDocument;
         this.$ext = this.$pHtmlNode.appendChild(doc.createElement("div"));
         if (this.getAttribute("style"))
@@ -780,7 +780,7 @@ apf.vbox = function(struct, tagName) {
         }
         
         if (apf.hasFlex) {
-            this.$display = "-" + apf.CSSPREFIX +"-box";
+            this.$display = "-" + apf.CSSPREFIX + "-box";
             
             this.$int.style.display = this.$int.style.display || apf.CSS_DISPLAY_FLEX;
             this.$int.style.flexDirection = this.localName == "hbox" ? "" : "column";
@@ -789,7 +789,7 @@ apf.vbox = function(struct, tagName) {
             this.addEventListener("prop.visible", myVisibleHandler);
         }
         else if (apf.hasFlexibleBox) {
-            this.$display = "-" + apf.CSSPREFIX +"-box";
+            this.$display = "-" + apf.CSSPREFIX + "-box";
             
             this.$int.style.display = apf.CSS_DISPLAY_FLEX;
             this.$int.style[apf.CSSPREFIX + "BoxOrient"] = this.localName == "hbox" ? "horizontal" : "vertical";
@@ -816,7 +816,7 @@ apf.vbox = function(struct, tagName) {
         if (this.getAttribute("class")) 
             apf.setStyleClass(this.$ext, this.getAttribute("class"));
         
-        this.$originalMin = [this.minwidth || 0,  this.minheight || 0];
+        this.$originalMin = [this.minwidth || 0, this.minheight || 0];
     };
     
     this.$resize = function(force) {
@@ -859,7 +859,7 @@ apf.vbox = function(struct, tagName) {
         var size = this.$vbox ? "width" : "height";
         var minsize = this.$vbox ? "minWidth" : "minHeight";
         var osize = this.$vbox ? "height" : "width";
-        var scroll = this.$vbox ? "scrollWidth"  : "scrollHeight";
+        var scroll = this.$vbox ? "scrollWidth" : "scrollHeight";
         var offset = this.$vbox ? "offsetWidth" : "offsetHeight";
         var ooffset = this.$vbox ? "offsetHeight" : "offsetWidth";
         var getDiff = this.$vbox ? "getWidthDiff" : "getHeightDiff";
@@ -968,7 +968,7 @@ apf.vbox = function(struct, tagName) {
         setTimeout(function(){
             _self.$noResize = false;
         });*/
-    }
+    };
     
     this.$loadAml = function(x) {
         if (this.padding == undefined)

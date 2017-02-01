@@ -27,7 +27,7 @@ var BASE = "/tmp/c9.ide.example";
 var VERBOSE = false;
 var PID = 123;
 
-describe("cli.publish", function(){
+describe("cli.publish", function() {
     this.timeout(10000);
     
     var services;
@@ -71,19 +71,19 @@ describe("cli.publish", function(){
           ]
        };
         
-        before(function(done){
+        before(function(done) {
             // Create git repo that contains a plugin we'll use to test
             var p = child.spawn(join(__dirname, "publish_test.git.sh"));
             
             if (VERBOSE) {
-                p.stdout.on("data", function(c){
+                p.stdout.on("data", function(c) {
                     process.stdout.write(c.toString("utf8"));
                 });
-                p.stderr.on("data", function(c){
+                p.stderr.on("data", function(c) {
                     process.stderr.write(c.toString("utf8"));
                 });
             }
-            p.on("close", function(code){
+            p.on("close", function(code) {
                 if (code) 
                     return done(new Error("Git setup failed"));
                 
@@ -94,103 +94,103 @@ describe("cli.publish", function(){
             });
         });
         
-        it("should be fine if json.permissions is missing as it defaults to world", function(done){
+        it("should be fine if json.permissions is missing as it defaults to world", function(done) {
             fs.writeFileSync(packagePath, packageJson.replace(/"permissions[\s\S]*?\],/, ""));
-            runCLI("publish", ["major"], function(err, stdout, stderr){
+            runCLI("publish", ["major"], function(err, stdout, stderr) {
                 assert(!err, err);
                 done();
             });
         });
         
-        it("should warn if the package.json is missing", function(done){
+        it("should warn if the package.json is missing", function(done) {
             fs.unlinkSync(packagePath);
-            runCLI("publish", ["major"], function(err, stdout, stderr){
+            runCLI("publish", ["major"], function(err, stdout, stderr) {
                 expect(stderr).to.match(/ERROR: Could not find package.json/);
                 done();
             });
         });
-        it("should fail if the package.json cannot be parsed", function(done){
+        it("should fail if the package.json cannot be parsed", function(done) {
             fs.writeFileSync(packagePath, packageJson + "!@#!@#", "utf8");
-            runCLI("publish", ["major"], function(err, stdout, stderr){
+            runCLI("publish", ["major"], function(err, stdout, stderr) {
                 expect(stderr).to.match(/ERROR: Could not parse package.json/);
                 done();
             });
         });
-        it("should fail if the name in the package.json is missing", function(done){
+        it("should fail if the name in the package.json is missing", function(done) {
             fs.writeFileSync(packagePath, packageJson.replace('"name": "c9.ide.example",', ''));
-            runCLI("publish", ["major"], function(err, stdout, stderr){
+            runCLI("publish", ["major"], function(err, stdout, stderr) {
                 expect(stderr).to.match(/ERROR: Missing name property in package.json/);
                 done();
             });
         });
-        it("should fail if the name in the package.json contains invalid characters", function(done){
+        it("should fail if the name in the package.json contains invalid characters", function(done) {
             fs.writeFileSync(packagePath, packageJson.replace('c9.ide.example', 'c9-ide-example'));
-            runCLI("publish", ["major"], function(err, stdout, stderr){
+            runCLI("publish", ["major"], function(err, stdout, stderr) {
                 expect(stderr).to.match(/ERROR: Package name can only contain/);
                 done();
             });
         });
-        it("should fail if the name in the package.json is not equal to the directory", function(done){
+        it("should fail if the name in the package.json is not equal to the directory", function(done) {
             fs.writeFileSync(packagePath, packageJson.replace('"name": "c9.ide.example"', '"name": "wrongname"'));
-            runCLI("publish", ["major"], function(err, stdout, stderr){
+            runCLI("publish", ["major"], function(err, stdout, stderr) {
                 expect(stderr).to.match(/WARNING: The name property in package.json is not equal to the directory name/);
                 done();
             });
         });
-        it("should fail if the repository in the package.json is missing", function(done){
+        it("should fail if the repository in the package.json is missing", function(done) {
             fs.writeFileSync(packagePath, packageJson.replace(/"repository[\s\S]*?\},/, ""));
-            runCLI("publish", ["major"], function(err, stdout, stderr){
+            runCLI("publish", ["major"], function(err, stdout, stderr) {
                 expect(stderr).to.match(/ERROR: Missing repository property in package.json/);
                 done();
             });
         });
-        it("should fail if the category length is < 1 in the package.json is missing", function(done){
+        it("should fail if the category length is < 1 in the package.json is missing", function(done) {
             fs.writeFileSync(packagePath, packageJson.replace(/"categories[\s\S]*?\],/, ""));
-            runCLI("publish", ["major"], function(err, stdout, stderr){
+            runCLI("publish", ["major"], function(err, stdout, stderr) {
                 expect(stderr).to.match(/ERROR: At least one category is required in package.json/);
                 done();
             });
         });
-        it("should fail if json.permissions is not org or world", function(done){
+        it("should fail if json.permissions is not org or world", function(done) {
             var parsedJson = JSON.parse(packageJson);
             parsedJson.permissions = "notvalid";
             fs.writeFileSync(packagePath, JSON.stringify(parsedJson));
-            runCLI("publish", ["major"], function(err, stdout, stderr){
-                console.log("stdout: ", stdout)
+            runCLI("publish", ["major"], function(err, stdout, stderr) {
+                console.log("stdout: ", stdout);
                 expect(stderr).to.match(/ERROR: Permissions must be/);
                 done();
             });
         });
-        it("should warn if a plugin is not listed in the package.json", function(done){
+        it("should warn if a plugin is not listed in the package.json", function(done) {
             fs.writeFileSync(packagePath, packageJson.replace('"example": {}', ''));
-            runCLI("publish", ["major"], function(err, stdout, stderr){
+            runCLI("publish", ["major"], function(err, stdout, stderr) {
                 expect(stderr).to.match(/WARNING: Plugin 'example.js' is not listed in package.json./);
                 done();
             });
         });
-        it("should warn if the README.md is missing", function(done){
+        it("should warn if the README.md is missing", function(done) {
             fs.writeFileSync(packagePath, packageJson);
             fs.unlink(readmePath);
-            runCLI("publish", ["major"], function(err, stdout, stderr){
+            runCLI("publish", ["major"], function(err, stdout, stderr) {
                 expect(stderr).to.match(/WARNING: README.md is missing./);
                 done();
             });
         });
-        it("should publish when using force and increase the patch version", function(done){
+        it("should publish when using force and increase the patch version", function(done) {
             var strJson = packageJson.replace(/"version": "[\d\.]+"/, '"version": "0.0.0"');
             fs.writeFileSync(packagePath, strJson);
             fs.writeFileSync(readmePath, readmeMD);
-            runCLI("publish", ["patch", "--force", "--tag"], function(err, stdout, stderr){
+            runCLI("publish", ["patch", "--force", "--tag"], function(err, stdout, stderr) {
                 assert(!err, err);
                 expect(stdout).to.match(/Successfully published version 0.0.1/);
                 
-                runCLI("list", ["--json"], function(err, stdout, stderr){
+                runCLI("list", ["--json"], function(err, stdout, stderr) {
                     assert(!err, err);
                     
                     json.latest = "0.0.1";
                     
                     var list = JSON.parse(stdout);
-                    if (!list.some(function(item){
+                    if (!list.some(function(item) {
                         if (item.name == "c9.ide.example") {
                             expect(item).deep.equal(json);
                             return true;
@@ -201,19 +201,19 @@ describe("cli.publish", function(){
                 });
             });
         });
-        it("should increase the minor version", function(done){
+        it("should increase the minor version", function(done) {
             fs.writeFileSync(readmePath, readmeMD);
-            runCLI("publish", ["minor"], function(err, stdout, stderr){
+            runCLI("publish", ["minor"], function(err, stdout, stderr) {
                 assert(!err, err);
                 expect(stdout).to.match(/Successfully published version 0.1.0/);
                 
-                runCLI("list", ["--json"], function(err, stdout, stderr){
+                runCLI("list", ["--json"], function(err, stdout, stderr) {
                     assert(!err, err);
                     
                     json.latest = "0.1.0";
                     
                     var list = JSON.parse(stdout);
-                    if (!list.some(function(item){
+                    if (!list.some(function(item) {
                         if (item.name == "c9.ide.example") {
                             expect(item).deep.equal(json);
                             return true;
@@ -224,18 +224,18 @@ describe("cli.publish", function(){
                 });
             });
         });
-        it("should increase the major version", function(done){
-            runCLI("publish", ["major"], function(err, stdout, stderr){
+        it("should increase the major version", function(done) {
+            runCLI("publish", ["major"], function(err, stdout, stderr) {
                 assert(!err, err);
                 expect(stdout).to.match(/Successfully published version 1.0.0/);
                 
-                runCLI("list", ["--json"], function(err, stdout, stderr){
+                runCLI("list", ["--json"], function(err, stdout, stderr) {
                     assert(!err, err);
                     
                     json.latest = "1.0.0";
                     
                     var list = JSON.parse(stdout);
-                    if (!list.some(function(item){
+                    if (!list.some(function(item) {
                         if (item.name == "c9.ide.example") {
                             expect(item).deep.equal(json);
                             return true;
@@ -246,12 +246,12 @@ describe("cli.publish", function(){
                 });
             });
         });
-        it("should hide the package when it is unpublished", function(done){
-            runCLI("unpublish", [], function(err, stdout, stderr){
+        it("should hide the package when it is unpublished", function(done) {
+            runCLI("unpublish", [], function(err, stdout, stderr) {
                 assert(!err, err);
                 expect(stdout).to.match(/Successfully disabled package/);
                 
-                runCLI("list", ["--json"], function(err, stdout, stderr){
+                runCLI("list", ["--json"], function(err, stdout, stderr) {
                     assert(!err, err);
                     expect(stdout).to.not.match(/c9\.ide\.example/);
                     done();
@@ -264,50 +264,50 @@ describe("cli.publish", function(){
         var pluginDir = join(process.env.HOME, ".c9/plugins/c9.ide.example");
         
         // Lets make sure there is at least one package in the database
-        before(function(done){
+        before(function(done) {
             // Create git repo that contains a plugin we'll use to test
             var p = child.spawn(join(__dirname, "publish_test.git.sh"));
             
             if (VERBOSE) {
-                p.stdout.on("data", function(c){
+                p.stdout.on("data", function(c) {
                     process.stdout.write(c.toString("utf8"));
                 });
-                p.stderr.on("data", function(c){
+                p.stderr.on("data", function(c) {
                     process.stderr.write(c.toString("utf8"));
                 });
             }
-            p.on("close", function(code){
+            p.on("close", function(code) {
                 if (code) 
                     return done(new Error("Git setup failed"));
                 
-                runCLI("publish", ["10.0.0"], function(err, stdout, stderr){
+                runCLI("publish", ["10.0.0"], function(err, stdout, stderr) {
                     done();
                 });
             });
         });
         
-        it("should install a package locally", function(done){
-            runCLI("install", ["--local", "c9.ide.example"], function(err, stdout, stderr){
+        it("should install a package locally", function(done) {
+            runCLI("install", ["--local", "c9.ide.example"], function(err, stdout, stderr) {
                 expect(stdout).to.match(/Successfully installed c9.ide.example@10.0.0/);
                 expect(fs.existsSync(pluginDir)).ok;
                 done();
             });
         });
-        it("should warn if a package is already installed", function(done){
-            runCLI("install", ["--debug", "c9.ide.example"], function(err, stdout, stderr){
+        it("should warn if a package is already installed", function(done) {
+            runCLI("install", ["--debug", "c9.ide.example"], function(err, stdout, stderr) {
                 expect(stderr).to.match(/WARNING: Directory not empty/);
                 done();
             });
         });
-        it("should install a package in debug mode", function(done){
-            runCLI("install", ["--force", "--debug", "c9.ide.example"], function(err, stdout, stderr){
+        it("should install a package in debug mode", function(done) {
+            runCLI("install", ["--force", "--debug", "c9.ide.example"], function(err, stdout, stderr) {
                 expect(stdout).to.match(/Successfully installed c9.ide.example/);
                 expect(fs.existsSync(join(pluginDir, "/.git"))).ok;
                 done();
             });
         });
-        it("should install a package via the database", function(done){
-            runCLI("install", ["c9.ide.example", "--force"], function(err, stdout, stderr){
+        it("should install a package via the database", function(done) {
+            runCLI("install", ["c9.ide.example", "--force"], function(err, stdout, stderr) {
                 expect(stdout).to.match(/Successfully installed c9.ide.example/);
                 
                 // @TODO check if it's actually in the database - add list --own to cli
@@ -325,15 +325,15 @@ describe("cli.publish", function(){
         //         done();
         //     });
         // });
-        it("should remove a package locally", function(done){
-            runCLI("remove", ["--local", "c9.ide.example"], function(err, stdout, stderr){
+        it("should remove a package locally", function(done) {
+            runCLI("remove", ["--local", "c9.ide.example"], function(err, stdout, stderr) {
                 expect(stdout).to.match(/Successfully removed c9.ide.example/);
                 expect(fs.existsSync(pluginDir)).not.ok;
                 done();
             });
         });
-        it("should remove a from the database", function(done){
-            runCLI("remove", ["c9.ide.example"], function(err, stdout, stderr){
+        it("should remove a from the database", function(done) {
+            runCLI("remove", ["c9.ide.example"], function(err, stdout, stderr) {
                 expect(stdout).to.match(/Successfully removed c9.ide.example/);
                 
                 // @TODO check if it's actually in the database - add list --own to cli
@@ -344,7 +344,7 @@ describe("cli.publish", function(){
     });
 });
 
-function runCLI(command, options, callback){
+function runCLI(command, options, callback) {
     var env = Object.create(process.env);
     env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
     env["C9_APIHOST"] = HOST;
@@ -362,18 +362,18 @@ function runCLI(command, options, callback){
         process.stdout.write("\n");
     
     var stdout = "";
-    p.stdout.on("data", function(c){
+    p.stdout.on("data", function(c) {
         c = c.toString("utf8");
         stdout += c;
         if (VERBOSE) process.stdout.write(c);
     });
     var stderr = "";
-    p.stderr.on("data", function(c){
+    p.stderr.on("data", function(c) {
         c = c.toString("utf8");
         stderr += c;
         if (VERBOSE) process.stderr.write(c);
     });
-    p.on("close", function(code){
+    p.on("close", function(code) {
         if (code) return callback(new Error(stderr), stdout, stderr);
         callback(null, stdout, stderr);
     });

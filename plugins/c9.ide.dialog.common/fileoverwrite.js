@@ -28,7 +28,7 @@ define(function(require, module, exports) {
         /***** Methods *****/
         
         function show(title, header, msg, onOverwrite, onSkip, options) {
-            return plugin.queue(function(){
+            return plugin.queue(function() {
                 var all = options.all;
                 var cancel = options.cancel;
                 var metadata = options.metadata;
@@ -40,30 +40,30 @@ define(function(require, module, exports) {
                 plugin.allowClose = cancel;
                 
                 var gotYes = false;
-                plugin.once("hide", function(){
+                plugin.once("hide", function() {
                     !gotYes && cancel && onSkip(false, true, metadata);
                 });
                 
                 plugin.update([
-                    { id: "cancel", visible: cancel, onclick: function(){ plugin.hide(); } },
-                    { id: "yestoall", visible: all, onclick: function(){ 
+                    { id: "cancel", visible: cancel, onclick: function() { plugin.hide(); } },
+                    { id: "yestoall", visible: all, onclick: function() { 
                         gotYes = true; 
                         plugin.hide(); 
                         onOverwrite(true, metadata); 
-                    }},
-                    { id: "notoall", visible: all, onclick: function(){ 
+                    } },
+                    { id: "notoall", visible: all, onclick: function() { 
                         plugin.hide(); 
                         onSkip(true, false, metadata); 
-                    }},
-                    { id: "yes", onclick: function(){ 
+                    } },
+                    { id: "yes", onclick: function() { 
                         gotYes = true; 
                         plugin.hide(); 
                         onOverwrite(false, metadata); 
-                    }},
-                    { id: "no", onclick: function(){ 
+                    } },
+                    { id: "no", onclick: function() { 
                         plugin.hide(); 
                         onSkip(false, false, metadata); 
-                    }}
+                    } }
                 ]);
             });
         }
@@ -72,7 +72,7 @@ define(function(require, module, exports) {
         
         plugin.freezePublicAPI({
             show: show
-        })
+        });
         
         register("", {
             "dialog.fileoverwrite": plugin

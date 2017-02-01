@@ -98,12 +98,12 @@ define(function(require, exports, module) {
         var theme;
         var skin = settings.get("user/general/@skin");
         var defaultThemes = {
-            "light" : "ace/theme/cloud9_day",
-            "light-gray" : "ace/theme/cloud9_day",
-            "flat-light" : "ace/theme/cloud9_day",
-            "flat-dark"  : "ace/theme/cloud9_night_low_color",
-            "dark"  : "ace/theme/cloud9_night_low_color",
-            "dark-gray"  : "ace/theme/cloud9_night_low_color"
+            "light": "ace/theme/cloud9_day",
+            "light-gray": "ace/theme/cloud9_day",
+            "flat-light": "ace/theme/cloud9_day",
+            "flat-dark": "ace/theme/cloud9_night_low_color",
+            "dark": "ace/theme/cloud9_night_low_color",
+            "dark-gray": "ace/theme/cloud9_night_low_color"
         };
         
         // Fix broken settings
@@ -115,9 +115,9 @@ define(function(require, exports, module) {
         if (isMinimal) {
             defaultThemes[skin] = "ace/theme/textmate";
         } else {
-            require([defaultThemes[skin]], function(){}); // Preload Themes
+            require([defaultThemes[skin]], function() {}); // Preload Themes
         }
-        handle.__defineGetter__("theme", function(){ return theme; });
+        handle.__defineGetter__("theme", function() { return theme; });
         
         function addCorner(ace) {
             if (isMinimal)
@@ -175,7 +175,7 @@ define(function(require, exports, module) {
             if (isMinimal) {
                 if (!themeLoaded[path]) {
                     themeLoaded[path] = true;
-                    handleEmit("themeInit", {theme: theme, path: path});
+                    handleEmit("themeInit", { theme: theme, path: path });
                 }
                 return;
             }
@@ -199,7 +199,7 @@ define(function(require, exports, module) {
                     addCornerStyles(theme);
                 
                     // Init Theme Event
-                    handleEmit("themeInit", {theme: theme, path: path});
+                    handleEmit("themeInit", { theme: theme, path: path });
                 }
                 
                 tabs.containers.forEach(function(container) {
@@ -238,45 +238,45 @@ define(function(require, exports, module) {
         var font = "Monaco, Menlo, Ubuntu Mono, Consolas, source-code-pro, monospace";
         var aceSettings = [
             // detected from document value
-            ["newLineMode",           "unix",   STRING, "newlinemode", 1],
+            ["newLineMode", "unix", STRING, "newlinemode", 1],
             // Per document
-            ["tabSize",               "4",      NUMBER, "tabsize", 1],
-            ["useSoftTabs",           true,     BOOL,   "softtabs", 1],
-            ["guessTabSize",          true,     BOOL,   "guesstabsize", 1],
-            ["useWrapMode",           false,    BOOL,   "wrapmode"],
-            ["wrapToView",            true,     BOOL,   "wrapmodeViewport"],
+            ["tabSize", "4", NUMBER, "tabsize", 1],
+            ["useSoftTabs", true, BOOL, "softtabs", 1],
+            ["guessTabSize", true, BOOL, "guesstabsize", 1],
+            ["useWrapMode", false, BOOL, "wrapmode"],
+            ["wrapToView", true, BOOL, "wrapmodeViewport"],
             
             // Ace
-            ["fontSize",              "12",     NUMBER, "fontsize"],
-            ["fontFamily",            font,     STRING, "fontfamily"],
-            ["antialiasedfonts",      false,    BOOL],
-            ["overwrite",             false,    BOOL,   "overwrite"],
-            ["selectionStyle",        "line",   STRING, "selectstyle"],
-            ["cursorStyle",           "ace",    STRING, "cursorstyle"],
-            ["highlightActiveLine",   true,     BOOL,   "activeline"],
-            ["highlightGutterLine",   true,     BOOL,   "gutterline"],
-            ["showInvisibles",        false,    BOOL,   "showinvisibles"],
-            ["showPrintMargin",       true,     BOOL,   "showprintmargin"],
-            ["displayIndentGuides",   true,     BOOL,   "showindentguides"],
-            ["printMarginColumn",     "80",     NUMBER, "printmargincolumn"],
-            ["behavioursEnabled",     true,     BOOL,   "behaviors"],
-            ["wrapBehavioursEnabled", false,    BOOL,   "wrapbehaviors"],
-            ["scrollSpeed",           "2",      NUMBER, "scrollspeed"],
-            ["showGutter",            true,     BOOL,   "gutter"],
-            ["showLineNumbers",       true,     STRING],
-            ["showFoldWidgets",       true,     BOOL,   "folding"],
-            ["fadeFoldWidgets",       true,     BOOL,   "fadefoldwidgets"],
-            ["highlightSelectedWord", true,     BOOL,   "highlightselectedword"],
-            ["animatedScroll",        true,     BOOL,   "animatedscroll"],
-            ["scrollPastEnd",         "0.5",    NUMBER],
-            ["mergeUndoDeltas",       "off",    STRING],
-            ["theme",                 defaultThemes[skin], STRING, "theme"]
+            ["fontSize", "12", NUMBER, "fontsize"],
+            ["fontFamily", font, STRING, "fontfamily"],
+            ["antialiasedfonts", false, BOOL],
+            ["overwrite", false, BOOL, "overwrite"],
+            ["selectionStyle", "line", STRING, "selectstyle"],
+            ["cursorStyle", "ace", STRING, "cursorstyle"],
+            ["highlightActiveLine", true, BOOL, "activeline"],
+            ["highlightGutterLine", true, BOOL, "gutterline"],
+            ["showInvisibles", false, BOOL, "showinvisibles"],
+            ["showPrintMargin", true, BOOL, "showprintmargin"],
+            ["displayIndentGuides", true, BOOL, "showindentguides"],
+            ["printMarginColumn", "80", NUMBER, "printmargincolumn"],
+            ["behavioursEnabled", true, BOOL, "behaviors"],
+            ["wrapBehavioursEnabled", false, BOOL, "wrapbehaviors"],
+            ["scrollSpeed", "2", NUMBER, "scrollspeed"],
+            ["showGutter", true, BOOL, "gutter"],
+            ["showLineNumbers", true, STRING],
+            ["showFoldWidgets", true, BOOL, "folding"],
+            ["fadeFoldWidgets", true, BOOL, "fadefoldwidgets"],
+            ["highlightSelectedWord", true, BOOL, "highlightselectedword"],
+            ["animatedScroll", true, BOOL, "animatedscroll"],
+            ["scrollPastEnd", "0.5", NUMBER],
+            ["mergeUndoDeltas", "off", STRING],
+            ["theme", defaultThemes[skin], STRING, "theme"]
         ];
         var docSettings = aceSettings.slice(1, 6);
         var editorSettings = aceSettings.slice(6);
         var projectSettings = aceSettings.slice(0, 4);
         var userSettings = aceSettings.slice(4);
-        var docLut = {}; docSettings.forEach(function(x){ docLut[x[0]] = x });
+        var docLut = {}; docSettings.forEach(function(x) { docLut[x[0]] = x; });
         
         /***** Undo Manager *****/
         
@@ -332,7 +332,7 @@ define(function(require, exports, module) {
                 this.$aceUndo.redo(dontSelect);
                 this._emit("change");
             },
-            reset: function(){
+            reset: function() {
                 this.$aceUndo.reset();
                 this._emit("change");
             },
@@ -462,7 +462,7 @@ define(function(require, exports, module) {
         
         /***** Generic Load *****/
         
-        handle.on("load", function(){
+        handle.on("load", function() {
             if (!isMinimal) {
                 // Preferences
                 setPreferences();
@@ -543,7 +543,7 @@ define(function(require, exports, module) {
             
             handle.on("newListener", function(event, listener) {
                 if (event == "settingsUpdate") 
-                    listener({options: lastSettings});
+                    listener({ options: lastSettings });
             });
             
             layout.on("themeChange", function(e) {
@@ -562,11 +562,11 @@ define(function(require, exports, module) {
             // CSS
             ui.insertCss(cssString, options.staticPrefix, handle);
         });
-        handle.on("unload", function(){
+        handle.on("unload", function() {
             drawn = false;
         });
         
-        function setFontSmoothing(){
+        function setFontSmoothing() {
             var fstyle = settings.getBool("user/ace/@antialiasedfonts");
             ui.setStyleRule(".ace_editor", 
                 apf.isChrome ? "WebkitFontSmoothing" : "MozOSXFontSmoothing", 
@@ -574,14 +574,14 @@ define(function(require, exports, module) {
         }
         
         var drawn;
-        function draw(){
+        function draw() {
             if (drawn) return;
             drawn = true;
             
             mnuAce = new Menu({ 
                 id: "menu",
                 items: [
-                    new MenuItem({ position: 10, command: "cut", caption: "Cut"}, handle),
+                    new MenuItem({ position: 10, command: "cut", caption: "Cut" }, handle),
                     new MenuItem({ position: 20, command: "copy", caption: "Copy" }, handle),
                     new MenuItem({ position: 30, command: "paste", caption: "Paste" }, handle),
                     new Divider({ position: 40 }, handle),
@@ -630,7 +630,7 @@ define(function(require, exports, module) {
             function isAce(editor, allowBlured) {
                 if (!editor || !editor.ace)
                     return false;
-                return  allowBlured || editor.ace.isFocused();
+                return allowBlured || editor.ace.isFocused();
             }
             function fnWrap(command) {
                 command.group = "Code Editor";
@@ -663,11 +663,11 @@ define(function(require, exports, module) {
             if (!defaultCommands.wrapped) {
                 defaultCommands.push.apply(defaultCommands, whitespaceUtil.commands);
                 defaultCommands.forEach(fnWrap, defaultCommands);
-                Object.defineProperty(defaultCommands, "wrapped", {value: true, configurable: true});
+                Object.defineProperty(defaultCommands, "wrapped", { value: true, configurable: true });
             }
             if (!multiSelectCommands.wrapped) {
                 multiSelectCommands.forEach(fnWrap, multiSelectCommands);
-                Object.defineProperty(multiSelectCommands, "wrapped", {value: true, configurable: true});
+                Object.defineProperty(multiSelectCommands, "wrapped", { value: true, configurable: true });
             }
 
             commands.addCommands(defaultCommands, handle, true);
@@ -732,7 +732,7 @@ define(function(require, exports, module) {
             
             commands.addCommand(sharedCommand({
                 name: "largerfont",
-                bindKey: { mac : "Command-+|Command-=", win : "Ctrl-+|Ctrl-=" },
+                bindKey: { mac: "Command-+|Command-=", win: "Ctrl-+|Ctrl-=" },
                 exec: function(e) {
                     var currSize = settings.get("user/ace/@fontSize");
                     settings.set("user/ace/@fontSize", ++currSize > 72 ? 72 : currSize);
@@ -741,7 +741,7 @@ define(function(require, exports, module) {
     
             commands.addCommand(sharedCommand({
                 name: "smallerfont",
-                bindKey: { mac : "Command--", win : "Ctrl--" },
+                bindKey: { mac: "Command--", win: "Ctrl--" },
                 exec: function(e) {
                     var currSize = settings.get("user/ace/@fontSize");
                     settings.set("user/ace/@fontSize", --currSize < 1 ? 1 : currSize);
@@ -750,22 +750,22 @@ define(function(require, exports, module) {
             
             commands.addCommand(sharedCommand({
                 name: "toggleWordWrap",
-                bindKey: {win: "Ctrl-Q", mac: "Ctrl-W"},
+                bindKey: { win: "Ctrl-Q", mac: "Ctrl-W" },
                 exec: function(editor) {
-                    editor.setOption("wrap",  editor.getOption("wrap") == "off");
+                    editor.setOption("wrap", editor.getOption("wrap") == "off");
                 }
             }), handle);
         }
         
         /***** Preferences *****/
          
-        function setPreferences(){
+        function setPreferences() {
             prefs.add({
-                "Project" : {
+                "Project": {
                     position: 10,
-                    "Code Editor (Ace)" : {
+                    "Code Editor (Ace)": {
                         position: 100,
-                        "Soft Tabs" : {
+                        "Soft Tabs": {
                             type: "checked-spinner",
                             checkboxPath: "project/ace/@useSoftTabs",
                             path: "project/ace/@tabSize",
@@ -773,18 +773,18 @@ define(function(require, exports, module) {
                             max: "64",
                             position: 100
                         },
-                        "Autodetect Tab Size on Load" : {
+                        "Autodetect Tab Size on Load": {
                             type: "checkbox",
                             path: "project/ace/@guessTabSize",
                             position: 150
                         },
-                        "New File Line Endings" : {
+                        "New File Line Endings": {
                            type: "dropdown",
                            path: "project/ace/@newLineMode",
                            width: 130,
                            items: [
-                               { caption : "Windows (CRLF)", value : "windows" },
-                               { caption : "Unix (LF)", value : "unix" }
+                               { caption: "Windows (CRLF)", value: "windows" },
+                               { caption: "Unix (LF)", value: "unix" }
                                // { caption : "Mac OS 9 (CR)", value : "macos9" }
                            ],
                            position: 200
@@ -794,112 +794,112 @@ define(function(require, exports, module) {
             }, handle);
             
             prefs.add({
-                "Editors" : {
+                "Editors": {
                     position: 400,
-                    "Code Editor (Ace)" : {
+                    "Code Editor (Ace)": {
                         position: 200,
-                        "Auto-pair Brackets, Quotes, etc." : {
+                        "Auto-pair Brackets, Quotes, etc.": {
                             type: "checkbox",
                             position: 1000,
                             path: "user/ace/@behavioursEnabled"
                         },
-                        "Wrap Selection with Brackets, Quotes, etc." : {
+                        "Wrap Selection with Brackets, Quotes, etc.": {
                             type: "checkbox",
                             position: 1001,
                             path: "user/ace/@wrapBehavioursEnabled"
                         },
-                        "Code Folding" : {
+                        "Code Folding": {
                             type: "checkbox",
                             position: 2000,
                             path: "user/ace/@showFoldWidgets"
                         },
-                        "Fade Fold Widgets" : {
+                        "Fade Fold Widgets": {
                             type: "checkbox",
                             position: 2500,
                             path: "user/ace/@fadeFoldWidgets"
                         },
-                        "Full Line Selection" : {
+                        "Full Line Selection": {
                             type: "checkbox",
                             position: 3000,
                             path: "user/ace/@selectionStyle",
                             values: "line|text"
                         },
-                        "Highlight Active Line" : {
+                        "Highlight Active Line": {
                             type: "checkbox",
                             position: 4000,
                             path: "user/ace/@highlightActiveLine"
                         },
-                        "Highlight Gutter Line" : {
+                        "Highlight Gutter Line": {
                             type: "checkbox",
                             position: 4000,
                             path: "user/ace/@highlightGutterLine"
                         },
-                        "Show Invisible Characters" : {
+                        "Show Invisible Characters": {
                             type: "checkbox",
                             position: 5000,
                             path: "user/ace/@showInvisibles"
                         },
-                        "Show Gutter" : {
+                        "Show Gutter": {
                             type: "checkbox",
                             position: 6000,
                             path: "user/ace/@showGutter"
                         },
-                        "Show Line Numbers" : {
+                        "Show Line Numbers": {
                             type: "dropdown",
                             width: 150,
                             path: "user/ace/@showLineNumbers",
                             items: [
-                               { caption : "Normal", value : true },
-                               { caption : "Relative", value : "relative" },
-                               { caption : "None", value : false }
+                               { caption: "Normal", value: true },
+                               { caption: "Relative", value: "relative" },
+                               { caption: "None", value: false }
                             ],
                             position: 6250
                         },
-                        "Show Indent Guides" : {
+                        "Show Indent Guides": {
                             type: "checkbox",
                             position: 6500,
                             path: "user/ace/@displayIndentGuides"
                         },
-                        "Highlight Selected Word" : {
+                        "Highlight Selected Word": {
                             type: "checkbox",
                             position: 7000,
                             path: "user/ace/@highlightSelectedWord"
                         },
-                        "Scroll Past the End of the Document" : {
+                        "Scroll Past the End of the Document": {
                             type: "dropdown",
                             width: 150,
                             path: "user/ace/@scrollPastEnd",
                             items: [
-                               { caption : "Off",       value : "0" },
-                               { caption : "Half Editor Height", value : "0.5" },
-                               { caption : "Full Editor Height", value : "1" }
+                               { caption: "Off", value: "0" },
+                               { caption: "Half Editor Height", value: "0.5" },
+                               { caption: "Full Editor Height", value: "1" }
                            ],
                             position: 8000
                         },
-                        "Animate Scrolling" : {
+                        "Animate Scrolling": {
                             type: "checkbox",
                             path: "user/ace/@animatedScroll",
                             position: 9000
                         },
                         
-                        "Font Family" : {
+                        "Font Family": {
                            type: "textbox",
                            path: "user/ace/@fontFamily",
                            position: 10000
                         },
-                        "Font Size" : {
+                        "Font Size": {
                             type: "spinner",
                             path: "user/ace/@fontSize",
                             min: "1",
                             max: "72",
                             position: 10500
                         },
-                        "Antialiased Fonts" : {
+                        "Antialiased Fonts": {
                            type: "checkbox",
                            path: "user/ace/@antialiasedfonts",
                            position: 10600
                         },
-                        "Show Print Margin" : {
+                        "Show Print Margin": {
                             type: "checked-spinner",
                             checkboxPath: "user/ace/@showPrintMargin",
                             path: "user/ace/@printMarginColumn",
@@ -907,36 +907,36 @@ define(function(require, exports, module) {
                             max: "200",
                             position: 11000
                         },
-                        "Mouse Scroll Speed" : {
+                        "Mouse Scroll Speed": {
                             type: "spinner",
                             path: "user/ace/@scrollSpeed",
                             min: "1",
                             max: "8",
                             position: 13000,
                         },
-                        "Cursor Style" : {
+                        "Cursor Style": {
                            type: "dropdown",
                            path: "user/ace/@cursorStyle",
                            items: [
-                               { caption : "Ace",    value : "ace" },
-                               { caption : "Slim",   value : "slim" },
-                               { caption : "Smooth", value : "smooth" },
-                               { caption : "Smooth And Slim", value : "smooth slim" },
-                               { caption : "Wide",   value : "wide" },
+                               { caption: "Ace", value: "ace" },
+                               { caption: "Slim", value: "slim" },
+                               { caption: "Smooth", value: "smooth" },
+                               { caption: "Smooth And Slim", value: "smooth slim" },
+                               { caption: "Wide", value: "wide" },
                            ],
                            position: 13500
                         },
-                        "Merge Undo Deltas" : {
+                        "Merge Undo Deltas": {
                            type: "dropdown",
                            path: "user/ace/@mergeUndoDeltas",
                            items: [
-                               { caption : "Always", value : "always" },
-                               { caption : "Never",  value : "off" },
-                               { caption : "Timed",  value : "true" }
+                               { caption: "Always", value: "always" },
+                               { caption: "Never", value: "off" },
+                               { caption: "Timed", value: "true" }
                            ],
                            position: 14000
                         },
-                        "Enable Wrapping For New Documents" : {
+                        "Enable Wrapping For New Documents": {
                             type: "checkbox",
                             path: "user/ace/@useWrapMode"
                         },
@@ -1069,7 +1069,7 @@ define(function(require, exports, module) {
             
             menus.addItemByPath("File/~", new ui.divider(), 1400, handle);
             menus.addItemByPath("File/Line Endings/", new ui.menu({
-                "onprop.visible" : function(e) {
+                "onprop.visible": function(e) {
                     if (e.value) {
                         var tab = tabs.focussedTab;
                         var ace = tab && tab.editor && tab.editor.ace;
@@ -1082,7 +1082,7 @@ define(function(require, exports, module) {
                         }
                     }
                 },
-                "onitemclick" : function(e) {
+                "onitemclick": function(e) {
                     var tab = tabs.focussedTab;
                     var ace = tab && tab.editor && tab.editor.ace;
                     if (ace && tab.editor.type == "ace") {
@@ -1105,7 +1105,7 @@ define(function(require, exports, module) {
             }), 300, handle);
 
             menus.addItemByPath("View/Syntax/", new ui.menu({
-                "onprop.visible" : function(e) {
+                "onprop.visible": function(e) {
                     if (e.value) {
                         if (!this.childNodes.length)
                             rebuildSyntaxMenu();
@@ -1122,7 +1122,7 @@ define(function(require, exports, module) {
                         }
                     }
                 },
-                "onitemclick" : function(e) {
+                "onitemclick": function(e) {
                     var tab = tabs.focussedTab;
                     if (tab) {
                         var session = tab.document.getSession();
@@ -1219,7 +1219,7 @@ define(function(require, exports, module) {
             grpThemes = new ui.group();
             
             menus.addItemByPath("View/Themes/", new ui.menu({
-                "onprop.visible" : function(e) {
+                "onprop.visible": function(e) {
                     if (e.value)
                         grpThemes.setValue(settings.get("user/ace/@theme"));
                 }
@@ -1251,7 +1251,7 @@ define(function(require, exports, module) {
         }
         
         var preview;
-        var setMenuThemeDelayed = lang.delayedCall(function(){
+        var setMenuThemeDelayed = lang.delayedCall(function() {
             setMenuTheme(preview, true);
         }, 150);
         function setMenuTheme(path, isPreview) {
@@ -1278,10 +1278,10 @@ define(function(require, exports, module) {
                 }
             }), index == -1 ? undefined : index || themeCounter++, plugin || handle);
         }
-        function addTheme(css, plugin){
+        function addTheme(css, plugin) {
             var theme = { cssText: css };
             var firstLine = css.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
-            firstLine.split(";").forEach(function(n){
+            firstLine.split(";").forEach(function(n) {
                 if (!n) return;
                 var info = n.split(":");
                 theme[info[0].trim()] = info[1].trim();
@@ -1302,7 +1302,7 @@ define(function(require, exports, module) {
             if (settings.get("user/ace/@theme") == theme.id)
                 setTheme(theme.id);
             
-            plugin.addOther(function(){
+            plugin.addOther(function() {
                 removeTheme(theme, true);
             });
         }
@@ -1524,7 +1524,7 @@ define(function(require, exports, module) {
             s.$foldData = session.$cloneFoldData();
             
             var ignore = false;
-            var changeAnnotation = function(){
+            var changeAnnotation = function() {
                 if (ignore) return;
                 ignore = true;
                 s.setAnnotations(session.getAnnotations());
@@ -1533,7 +1533,7 @@ define(function(require, exports, module) {
             var changeMode = function(e) {
                 s.setMode(session.getMode());
             };
-            var changeBreakpoint = function(){
+            var changeBreakpoint = function() {
                 s.$breakpoints = session.$breakpoints;
                 s._emit("changeBreakpoint", {});
             };
@@ -1546,21 +1546,21 @@ define(function(require, exports, module) {
             session.on("changeBreakpoint", changeBreakpoint)();
             session.on("setWrap", setWrap);
             
-            s.on("changeAnnotation", function(){
+            s.on("changeAnnotation", function() {
                 if (ignore) return;
                 ignore = true;
                 session.setAnnotations(s.getAnnotations());
                 ignore = false;
             })();
             
-            s.cleanup = function(){
+            s.cleanup = function() {
                 session.removeListener("changeAnnotation", changeAnnotation);
                 session.removeListener("changeMode", changeMode);
                 session.removeListener("changeBreakpoint", changeBreakpoint);
                 session.removeListener("setWrap", setWrap);
             };
             
-            s.c9doc  = session.c9doc;
+            s.c9doc = session.c9doc;
             s.cloned = true;
             
             return s;
@@ -1635,7 +1635,7 @@ define(function(require, exports, module) {
              * @property {Menu} contextMenu
              * @readonly
              */
-            get contextMenu(){ draw(); return mnuAce },
+            get contextMenu() { draw(); return mnuAce; },
             
             /**
              * The context menu that is displayed when right clicked in the ace
@@ -1643,7 +1643,7 @@ define(function(require, exports, module) {
              * @property {Menu} gutterContextMenu
              * @readonly
              */
-            get gutterContextMenu(){ draw(); return mnuGutter },
+            get gutterContextMenu() { draw(); return mnuGutter; },
             
             /**
              * Ace Themes
@@ -1882,8 +1882,8 @@ define(function(require, exports, module) {
                 ace.keyBinding.setDefaultHandler(null);
         
                 // Route gutter events
-                ace.on("gutterclick", function(e){ emit("guttermousedown", e); });
-                ace.on("gutterdblclick", function(e){ emit("gutterdblclick", e); });
+                ace.on("gutterclick", function(e) { emit("guttermousedown", e); });
+                ace.on("gutterdblclick", function(e) { emit("gutterdblclick", e); });
 
                 // use global commandKeyBinding
                 // ace.commands.commandKeyBinding = {};
@@ -1914,13 +1914,13 @@ define(function(require, exports, module) {
                 emit("createAce", ace);
             }
             
-            function focus(){
+            function focus() {
                 if (container) {
                     ui.addClass(container, "aceFocus");
                     plugin.ace.focus();
                 }
             }
-            function blur(){
+            function blur() {
                 if (container) {
                     ui.removeClass(container, "aceFocus");
                     ace.blur();
@@ -1978,7 +1978,7 @@ define(function(require, exports, module) {
                 var options = {};
                 docSettings.forEach(function(setting) {
                     var name = setting[0];
-                    options[name] = getOption(name, {session: session});
+                    options[name] = getOption(name, { session: session });
                 });
                 
                 if (options.guessTabSize) {
@@ -2046,7 +2046,7 @@ define(function(require, exports, module) {
                         session.once("changeMode", updateFirstLineState);
                 }
                 
-                function updateSession(){
+                function updateSession() {
                     if (state.options && state.options.guessTabSize) {
                         delete state.options.tabSize;
                         delete state.options.useSoftTabs;
@@ -2078,7 +2078,7 @@ define(function(require, exports, module) {
                 if (ace.session == session) 
                     updateSession();
                 else {
-                    var clean = function(){
+                    var clean = function() {
                         ace.off("changeSession", listen);
                         session.off("unload", clean);
                     };
@@ -2099,7 +2099,7 @@ define(function(require, exports, module) {
                     return;
                 
                 (currentSession && currentSession.session || session)
-                    .unfold({row: row, column: column || 0});
+                    .unfold({ row: row, column: column || 0 });
     
                 ace.selection.clearSelection();
                 ace.moveCursorTo(row, column || 0);
@@ -2113,7 +2113,7 @@ define(function(require, exports, module) {
                 ace.renderer.animateScrolling(initialScroll);
             }
             
-            function changeTheme(){
+            function changeTheme() {
                 if (immutableSkin || !currentSession) 
                     return;
                 
@@ -2259,7 +2259,7 @@ define(function(require, exports, module) {
                 progress.background = background;
             }
             
-            function hideProgress(){
+            function hideProgress() {
                 if (!ace) return; // ace was destroyed during timeout
                 var style = progress.background.style;
                 function hide() {
@@ -2361,7 +2361,7 @@ define(function(require, exports, module) {
             
             // @todo set selection, scroll and file in header
             
-            plugin.on("load", function(){
+            plugin.on("load", function() {
                 
             });
             
@@ -2442,7 +2442,7 @@ define(function(require, exports, module) {
                         showProgress(c9Session.progress, c9Session.upload, e.dt);
                 }, c9Session);
                 
-                doc.on("clone", function(e){
+                doc.on("clone", function(e) {
                     var newsession = e.doc.getSession("ace");
                     // var newundo = new AceUndoManager(doc.undoManager, c9Session);
                     newsession.session = cloneSession(c9Session.session); //, newundo);
@@ -2460,7 +2460,7 @@ define(function(require, exports, module) {
                     // Tooltip is the full path
                     doc.tooltip = path;
                 }
-                setTitle({path: doc.tab.path || ""});
+                setTitle({ path: doc.tab.path || "" });
                 
                 // Update mode when the filename changes
                 doc.tab.on("setPath", function(e) {
@@ -2537,7 +2537,7 @@ define(function(require, exports, module) {
                     session: c9Session.session 
                 });
 
-                doc.on("unload", function(){
+                doc.on("unload", function() {
                     setTimeout(function() { //@todo is this still needed?
                         var session = c9Session.session;
                         if (!session)
@@ -2616,7 +2616,7 @@ define(function(require, exports, module) {
             plugin.on("setState", function(e) {
                 setState(e.doc, e.state);
             });
-            plugin.on("clear", function(){
+            plugin.on("clear", function() {
                 if (currentSession)
                     currentSession.session.setValue("");
             });
@@ -2643,20 +2643,20 @@ define(function(require, exports, module) {
                 if (data !== false)
                     ace.onPaste(data);
             });
-            plugin.on("blur", function(){
+            plugin.on("blur", function() {
                 blur();
             });
             plugin.on("focus", function(e) {
                 if (e.lost) blur();
                 else focus();
             });
-            plugin.on("enable", function(){
+            plugin.on("enable", function() {
                 ui.removeClass(container, "aceDisabled");
             });
-            plugin.on("disable", function(){
+            plugin.on("disable", function() {
                 ui.addClass(container, "aceDisabled");
             });
-            plugin.on("unload", function(){
+            plugin.on("unload", function() {
                 ace.destroy();
                 container.innerHTML = "";
                 
@@ -2754,7 +2754,7 @@ define(function(require, exports, module) {
                  * @property {Ace.Editor} ace
                  * @readonly
                  */
-                get ace(){ return emit("getAce") || ace; },
+                get ace() { return emit("getAce") || ace; },
             
                 /**
                  * The theme object currently used in this ace instance
@@ -2766,7 +2766,7 @@ define(function(require, exports, module) {
                  * @property {Boolean} theme.isDark        Specifies whether this is a dark theme or a light theme.
                  * @readonly
                  */
-                get theme(){ 
+                get theme() { 
                     if (!ace) return "";
                     if (immutableSkin) {
                         var path = ace.getTheme();
@@ -2821,7 +2821,7 @@ define(function(require, exports, module) {
                 /**
                  * @ignore This is here to overwrite default behavior
                  */
-                isClipboardAvailable: function(e) { return !e.fromKeyboard },
+                isClipboardAvailable: function(e) { return !e.fromKeyboard; },
                 
                 /**
                  * Retrieves the value of one of the ace options.
@@ -2897,7 +2897,7 @@ define(function(require, exports, module) {
             });
             
             // Emit create event on handle
-            setTimeout(function(){
+            setTimeout(function() {
                 if (plugin.loaded) {
                     handleEmit.sticky("create", { editor: plugin }, plugin);
                 }

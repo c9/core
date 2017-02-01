@@ -7,7 +7,7 @@ define(function(require, exports, module) {
         // left click: ^[[M 3<^[[M#3<
         // mousewheel up: ^[[M`3>
         function sendButton(ev) {
-            var term = ace.session.term
+            var term = ace.session.term;
             // get the xterm-style button
             var button = getButton(ev);
 
@@ -37,7 +37,7 @@ define(function(require, exports, module) {
         // motion example of a left click:
         // ^[[M 3<^[[M@4<^[[M@5<^[[M@6<^[[M@7<^[[M#7<
         function sendMove(ev) {
-            var term = ace.session.term
+            var term = ace.session.term;
             var button = pressed;
             var pos = getCoords(ev);
             if (!pos) return;
@@ -228,7 +228,7 @@ define(function(require, exports, module) {
             sendButton(ev);
             // fix for odd bug
             if (term.vt200Mouse) {
-                sendButton({__proto__: ev, type: 'mouseup'});
+                sendButton({ __proto__: ev, type: 'mouseup' });
                 return ev.stop();
             }
 

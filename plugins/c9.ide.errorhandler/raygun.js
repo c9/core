@@ -4,7 +4,7 @@
 
 define(function(require, exports, module) {
 
-;(function(window, undefined) {
+(function(window, undefined) {
 
 
 var TraceKit = {};
@@ -188,7 +188,7 @@ TraceKit.report = (function reportModuleWrapper() {
         }
         }
 
-        notifyHandlers(stack, 'from window.onerror', {errorObj: errorObj});
+        notifyHandlers(stack, 'from window.onerror', { errorObj: errorObj });
 
         if (_oldOnerrorHandler) {
             return _oldOnerrorHandler.apply(this, arguments);
@@ -965,7 +965,7 @@ TraceKit.computeStackTrace = (function computeStackTraceWrapper() {
 
             if (funcs['' + curr]) {
                 recursion = true;
-            }else{
+            } else {
                 funcs['' + curr] = true;
             }
 
@@ -1171,7 +1171,7 @@ window.TraceKit = TraceKit;
     options = options || {};
 
     var keys = ['complete', 'error', 'success'], key;
-    while(key = keys.pop()) {
+    while (key = keys.pop()) {
       if ($.isFunction(options[key])) {
         options[key] = TraceKit.wrap(options[key]);
       }
@@ -1298,7 +1298,7 @@ window.TraceKit = TraceKit;
 
   /* internals */
 
-  function truncateURL(url){
+  function truncateURL(url) {
       // truncate after fourth /, or 24 characters, whichever is shorter
       // /api/1/diagrams/xyz/server becomes
       // /api/1/diagrams/...
@@ -1310,7 +1310,7 @@ window.TraceKit = TraceKit;
         var sanitizedPath = path.toString().substring(0, queryStart);
         var truncated_parts = sanitizedPath.split('/').slice(0, 4).join('/');
         var truncated_length = sanitizedPath.substring(0, 48);
-        truncated = truncated_parts.length < truncated_length.length?
+        truncated = truncated_parts.length < truncated_length.length ?
                         truncated_parts : truncated_length;
         if (truncated !== sanitizedPath) {
             truncated += '..';
@@ -1322,8 +1322,8 @@ window.TraceKit = TraceKit;
 
   function processJQueryAjaxError(event, jqXHR, ajaxSettings, thrownError) {
     var message = 'AJAX Error: ' +
-        (jqXHR.statusText || 'unknown') +' '+
-        (ajaxSettings.type || 'unknown') + ' '+
+        (jqXHR.statusText || 'unknown') + ' ' +
+        (ajaxSettings.type || 'unknown') + ' ' +
         (truncateURL(ajaxSettings.url) || 'unknown');
     Raygun.send(thrownError || event.type, {
       status: jqXHR.status,

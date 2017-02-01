@@ -35,7 +35,7 @@ define(function(require, exports, module) {
             if (loaded) return false;
             loaded = true;
             
-            function update(){
+            function update() {
                 if (!drawn) return;
                 
                 var list = getThemes();
@@ -58,7 +58,7 @@ define(function(require, exports, module) {
             
             var rb1, rb2, rb3, rb4, rb5, rb6;
             
-            var flatThemes = []
+            var flatThemes = [];
             rb6 = new ui.radiobutton({ 
                 group: "theme-color", 
                 class: "themepicker", 
@@ -81,7 +81,7 @@ define(function(require, exports, module) {
                     position: 1,
                     node: intro = new ui.bar({
                         height: 124,
-                        "class" : "intro",
+                        "class": "intro",
                         style: "padding:12px;position:relative;"
                     })
                 },
@@ -173,8 +173,8 @@ define(function(require, exports, module) {
                         rb.select();
                         return true;
                     }
-                })
-            }
+                });
+            };
             settings.on("user/general/@skin", setTheme);
             setTheme({ value: settings.get("user/general/@skin") });
             
@@ -183,18 +183,18 @@ define(function(require, exports, module) {
             intro.$int.innerHTML = 
                 '<h1>Themes</h1><p>You can also style Cloud9 by editing '
                 + ' <a href="javascript:void(0)">your stylesheet</a>.</p>'
-                + '<p class="hint">Set all the colors free!</p>'
+                + '<p class="hint">Set all the colors free!</p>';
             
-            intro.$int.querySelector("a").onclick = function(){ 
+            intro.$int.querySelector("a").onclick = function() { 
                 configure.editStylesCss(); 
-            }
+            };
         }
         
         /***** Methods *****/
         
-        function getThemes(){
+        function getThemes() {
             var list = [];
-            var themes = ace.themes
+            var themes = ace.themes;
             for (var base in themes) {
                 if (themes[base] instanceof Array)
                     themes[base].forEach(function (n) {
@@ -230,7 +230,7 @@ define(function(require, exports, module) {
         });
         
         register(null, { 
-            "preferences.themes" : plugin 
+            "preferences.themes": plugin 
         });
     }
 });

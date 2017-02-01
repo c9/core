@@ -35,7 +35,7 @@ define(function(require, module, exports) {
             if (!options)
                 options = {};
                 
-            return plugin.queue(function(){
+            return plugin.queue(function() {
                 var all = options.all;
                 var cancel = options.cancel;
                 var showDontAsk = options.showDontAsk;
@@ -53,33 +53,33 @@ define(function(require, module, exports) {
                 plugin.allowClose = cancel;
                 
                 var gotYesNo = false;
-                plugin.once("hide", function(){
+                plugin.once("hide", function() {
                     !gotYesNo && cancel && onNo && onNo(false, true, metadata);
                 });
                 
                 plugin.update([
                     { id: "cancel", visible: cancel && !options.notoall, onclick: function() { plugin.hide(); } },
                     { id: "dontask", visible: showDontAsk }, 
-                    { id: "yestoall", visible: all, onclick: function(){ 
+                    { id: "yestoall", visible: all, onclick: function() { 
                         gotYesNo = true; 
                         plugin.hide(); 
                         onYes && onYes(true, metadata); 
-                    }},
-                    { id: "notoall", visible: all, onclick: function(){ 
+                    } },
+                    { id: "notoall", visible: all, onclick: function() { 
                         gotYesNo = true;
                         plugin.hide(); 
                         onNo && onNo(true, false, metadata); 
-                    }},
-                    { id: "yes", onclick: function(){ 
+                    } },
+                    { id: "yes", onclick: function() { 
                         gotYesNo = true; 
                         plugin.hide(); 
                         onYes && onYes(false, metadata); 
-                    }},
-                    { id: "no", onclick: function(){ 
+                    } },
+                    { id: "no", onclick: function() { 
                         gotYesNo = true;
                         plugin.hide(); 
                         onNo && onNo(false, false, metadata); 
-                    }}
+                    } }
                 ]);
             }, options.queue === false);
         }
@@ -93,18 +93,18 @@ define(function(require, module, exports) {
             /**
              * 
              */
-            get all(){ return undefined },
+            get all() { return undefined; },
             set all(value) {
                 plugin.update([
-                    { id: "yestoall", visible: value},
-                    { id: "notoall", visible: value}
+                    { id: "yestoall", visible: value },
+                    { id: "notoall", visible: value }
                 ]);
             },
             
             /**
              * 
              */
-            get cancel(){ return undefined },
+            get cancel() { return undefined; },
             set cancel(value) {
                 plugin.allowClose = value;
                 plugin.update([
@@ -115,7 +115,7 @@ define(function(require, module, exports) {
             /**
              * 
              */
-            get showDontAsk(){ 
+            get showDontAsk() { 
                 return plugin.getElement("dontask").visible;
             },
             set showDontAsk(value) {
@@ -127,7 +127,7 @@ define(function(require, module, exports) {
             /**
              * @readonly
              */
-            get dontAsk(){ 
+            get dontAsk() { 
                 return plugin.getElement("dontask").value;
             },
             

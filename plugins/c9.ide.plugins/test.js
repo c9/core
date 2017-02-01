@@ -33,13 +33,13 @@ define(function(require, exports, module) {
             
             if (!ENABLED) return;
             
-            debug.once("ready", function(){
+            debug.once("ready", function() {
                 menus.addItemByPath("Tools/Developer/Tests", null, 200, plugin);
                 
-                debug.plugins.forEach(function(name, i){
+                debug.plugins.forEach(function(name, i) {
                     menus.addItemByPath("Tools/Developer/Tests/" + name.replace(/\//g, "\\/"), new ui.item({
-                        onclick: function(){
-                            run(name, function(err){
+                        onclick: function() {
+                            run(name, function(err) {
                                 if (err) console.error(err);
                             });
                         }
@@ -47,21 +47,21 @@ define(function(require, exports, module) {
                 });
             });
             
-            ext.on("register", function(){
+            ext.on("register", function() {
                 // TODO
             }, plugin);
-            ext.on("unregister", function(){
+            ext.on("unregister", function() {
                 // TODO
             }, plugin);
             
             var reloading;
-            function loadPreview(url, session){
+            function loadPreview(url, session) {
                 var idx = url.indexOf(options.staticPrefix);
                 if (!reloading && idx > -1) {
                     reloading = true;
                     
                     var name = session.doc.meta.pluginName;
-                    run(name, function(err){
+                    run(name, function(err) {
                         if (err) console.error(err);
                     });
                     
@@ -69,21 +69,21 @@ define(function(require, exports, module) {
                 }
             }
             
-            browser.on("reload", function(e){
+            browser.on("reload", function(e) {
                 loadPreview(e.session.path, e.session);
             });
         }
         
         /***** Methods *****/
         
-        function setReferences(c, m){
+        function setReferences(c, m) {
             chai = c;
             mocha = m;
             
             emit("ready");
         }
         
-        function loadIframe(pluginName, callback){
+        function loadIframe(pluginName, callback) {
             var url = options.staticPrefix + "/test.html";
             if (url.indexOf("http") !== 0)
                 url = location.origin + url;
@@ -93,13 +93,13 @@ define(function(require, exports, module) {
             iframe.addEventListener("load", handle);
             iframe.addEventListener("error", onError);
             
-            function handle(err){
+            function handle(err) {
                 iframe.removeEventListener("load", handle);
                 iframe.removeEventListener("error", onError);
                 callback(err instanceof Error ? err : null, tab);
             }
             
-            function onError(e){
+            function onError(e) {
                 debugger; // e.??
                 handle(new Error());
             }
@@ -108,34 +108,34 @@ define(function(require, exports, module) {
             tab.document.meta.pluginName = pluginName;
         }
         
-        function loadTestSuite(name, callback){
+        function loadTestSuite(name, callback) {
             // Clear require cache
             requirejs.undef("plugins/" + name + "_test"); // global
             
             // Load plugin
             architect.loadAdditionalPlugins([{
                 packagePath: "plugins/" + name + "_test"
-            }], function(err){
+            }], function(err) {
                 callback(err);
             });
         }
         
-        function run(pluginName, callback){
+        function run(pluginName, callback) {
             // Load test runner
-            loadIframe(pluginName, function(err, tab){
+            loadIframe(pluginName, function(err, tab) {
                 if (err) return callback(err);
                 
-                tab.editor.setLocation("test://" + pluginName)
+                tab.editor.setLocation("test://" + pluginName);
                 
                 // Wait until iframe is loaded
-                plugin.once("ready", function(){
+                plugin.once("ready", function() {
                     
                     // Load the test for the plugin
-                    loadTestSuite(pluginName, function(err){
+                    loadTestSuite(pluginName, function(err) {
                         if (err) return callback(err);
                         
                         // Run the test
-                        mocha.run(function(){
+                        mocha.run(function() {
                             
                             // Done
                             callback();
@@ -146,7 +146,7 @@ define(function(require, exports, module) {
                 
                 // Load iframe with new test runner frame
                 iframe.contentWindow.start(plugin);
-            })
+            });
         }
         
         /***** Lifecycle *****/
@@ -171,41 +171,41 @@ define(function(require, exports, module) {
             /**
              * 
              */
-            get architect(){ throw new Error(); },
-            set architect(v){ architect = v; },
+            get architect() { throw new Error(); },
+            set architect(v) { architect = v; },
             
             /**
              * 
              */
-            get describe(){ return mocha.describe; },
+            get describe() { return mocha.describe; },
             /**
              * 
              */
-            get it(){ return mocha.it; },
+            get it() { return mocha.it; },
             /**
              * 
              */
-            get before(){ return mocha.before; },
+            get before() { return mocha.before; },
             /**
              * 
              */
-            get after(){ return mocha.after; },
+            get after() { return mocha.after; },
             /**
              * 
              */
-            get beforeEach(){ return mocha.beforeEach; },
+            get beforeEach() { return mocha.beforeEach; },
             /**
              * 
              */
-            get afterEach(){ return mocha.afterEach; },
+            get afterEach() { return mocha.afterEach; },
             /**
              * 
              */
-            get assert(){ return chai.assert; },
+            get assert() { return chai.assert; },
             /**
              * 
              */
-            get expect(){ return chai.expect; },
+            get expect() { return chai.expect; },
             
             /**
              * 

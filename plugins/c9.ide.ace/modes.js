@@ -4,9 +4,9 @@ var modesByName = require("ace/ext/modelist").modesByName;
 
 modesByName.javascript.extensions += "|run|build|outline";
 
-var primaryModes = ["c_cpp","clojure","coffee","csharp","css","dart","golang",
-    "html","jade","java","javascript","json","less","lua","perl","php","python",
-    "ruby","scala","scss","sh","stylus","sql","text","typescript","xml","xquery",
+var primaryModes = ["c_cpp", "clojure", "coffee", "csharp", "css", "dart", "golang",
+    "html", "jade", "java", "javascript", "json", "less", "lua", "perl", "php", "python",
+    "ruby", "scala", "scss", "sh", "stylus", "sql", "text", "typescript", "xml", "xquery",
     "yaml"];
 
 var hiddenModes = ["text", "snippets"];
@@ -37,5 +37,5 @@ module.exports = {
     extensions: fileExtensions,
     customExtensions: customExtensions,
     byCaption: modesByCaption
-}
+};
 });

@@ -284,7 +284,7 @@ define(function(require, exports, module) {
             
             function startParallelSearches (totalRunners) {
                 var attemptedServers = {}; 
-                for (var s = 0; s < servers.length && s < totalRunners; s++)  {
+                for (var s = 0; s < servers.length && s < totalRunners; s++) {
                     latestServer = s; 
                     var server = servers[s];
                     var serverHostUrl = getHostFromServerUrl(server.url);
@@ -425,7 +425,7 @@ define(function(require, exports, module) {
         function saveToSessionStorage() {
             try {
                 window.sessionStorage.setItem("vfsid", lastVfs);
-            } catch(e) {
+            } catch (e) {
                 // could throw a quota exception
             }
         }
