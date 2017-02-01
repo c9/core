@@ -86,7 +86,7 @@ define(function(require, module, exports) {
             
             menus.addItemByPath("View/Tab Buttons", new apf.item({
                 type: "check",
-                checked: "user/tabs/@show",
+                checked: "state/tabs/@show",
                 command: "toggleButtons"
             }), 300, plugin);
             
@@ -196,11 +196,10 @@ define(function(require, module, exports) {
             settings.on("read", function(e) {
                 // Defaults
                 settings.setDefaults("user/tabs", [
-                    ["show", "true"], 
                     ["title", "false"],
                     ["asterisk", "false"]
                 ]);
-                settings.setDefaults("state/tabs", []);
+                settings.setDefaults("state/tabs", [ ]);
                 
                 // Corner Handling
                 collapsedMenu = settings.getBool("state/menus/@minimized");
@@ -222,7 +221,7 @@ define(function(require, module, exports) {
                     }
                     isReady = true;
                     
-                    showTabs = settings.getBool("user/tabs/@show");
+                    showTabs = settings.getBool("state/tabs/@show");
                     toggleButtons(showTabs);
                 }, 0);
                 
@@ -446,7 +445,7 @@ define(function(require, module, exports) {
                 emit.sticky("paneCreate", { pane: pane }, pane);
             });
             
-            if (!settings.getBool("user/tabs/@show"))
+            if (!settings.getBool("state/tabs/@show"))
                 ui.setStyleClass(pane.aml.$ext, "notabs", ["notabs"]);
             
             changed = true;
@@ -812,7 +811,7 @@ define(function(require, module, exports) {
         function toggleButtons(to) {
             showTabs = to !== undefined ? to : !showTabs;
             
-            settings.set("user/tabs/@show", showTabs);
+            settings.set("state/tabs/@show", showTabs);
             emit("visible", {value: showTabs});
             
             getPanes(container).forEach(function(pane) {
