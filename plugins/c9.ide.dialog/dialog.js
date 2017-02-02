@@ -1,12 +1,11 @@
 define(function(require, module, exports) {
-    main.consumes = ["Plugin", "ui", "commands", "focusManager"];
+    main.consumes = ["Plugin", "ui", "focusManager"];
     main.provides = ["Dialog"];
     return main;
     
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var ui = imports.ui;
-        var commands = imports.commands;
         var focusManager = imports.focusManager;
         
         var EventEmitter = require("events").EventEmitter;
@@ -133,18 +132,16 @@ define(function(require, module, exports) {
                 dialog.on("resize", function() {
                     emit("resize");
                 });
-                
-                commands.addCommand({
-                    name: plugin.name,
-                    bindKey: { mac: "ESC", win: "ESC" },
-                    group: "ignore",
-                    isAvailable: function() {
-                        return dialog.visible;
-                    },
-                    exec: function() {
-                        dialog.dispatchEvent("keydown", { keyCode: 27 });
-                    }
-                }, plugin);
+                var escHandler = function(e) {
+                    dialog.dispatchEvent("keydown", e);
+                };
+                document.body.addEventListener("keydown", escHandler, true);
+                plugin.on("hide", function() {
+                    document.removeEventListener("keydown", escHandler, true);
+                });
+                plugin.on("unload", function() {
+                    document.removeEventListener("keydown", escHandler, true);
+                });
                 
                 titles = plugin.getElement("titles");
                 buttons = plugin.getElement("buttons");
