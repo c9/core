@@ -334,17 +334,12 @@ define(function(require, module, exports) {
                         // tab we can find inside the tabs the focussed tab.
                         if (tabs.focussedTab 
                           && getPanes().indexOf(tabs.focussedTab.pane) > -1) {
+                            var tab;
                             tabs.getPanes(tabs.container).every(function(pane) {
-                                var tab = pane.getTab();
-                                if (!tab) {
-                                    tabs.focusTab(); // blur
-                                    return true;
-                                }
-                                else {
-                                    tabs.focusTab(tab);
-                                    return false;
-                                }
+                                tab = pane.activeTab;
+                                return !tab;
                             });
+                            tabs.focusTab(tab);
                         }
                     }
                     else {
