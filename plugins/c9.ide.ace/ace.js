@@ -1477,8 +1477,11 @@ define(function(require, exports, module) {
             else if (/<\?xml/.test(firstLine)) {
                 syntax = "xml";
             }
-            else if (/^{/.test(firstLine)) {
+            else if (/^{\s*("|$)/.test(firstLine)) {
                 syntax = "json";
+            }
+            else if (/^---$/.test(firstLine)) {
+                syntax = "yaml";
             }
             else if (/\.(bash|inputrc|profile|zsh)/.test(path)) {
                 syntax = "sh";
