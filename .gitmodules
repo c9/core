@@ -1,0 +1,195 @@
+[submodule "plugins/c9.ide.language"]
+	path = plugins/c9.ide.language
+	url = https://github.com/c9/c9.ide.language
+[submodule "plugins/c9.ide.language.core"]
+	path = plugins/c9.ide.language.core
+	url = https://github.com/c9/c9.ide.language.core
+[submodule "plugins/c9.ide.language.css"]
+	path = plugins/c9.ide.language.css
+	url = https://github.com/c9/c9.ide.language.css
+[submodule "plugins/c9.ide.language.generic"]
+	path = plugins/c9.ide.language.generic
+	url = https://github.com/c9/c9.ide.language.generic
+[submodule "plugins/c9.ide.language.html"]
+	path = plugins/c9.ide.language.html
+	url = https://github.com/c9/c9.ide.language.html
+[submodule "plugins/c9.ide.language.html.diff"]
+	path = plugins/c9.ide.language.html.diff
+	url = https://github.com/c9/c9.ide.language.html.diff
+[submodule "plugins/c9.ide.language.javascript"]
+	path = plugins/c9.ide.language.javascript
+	url = https://github.com/c9/c9.ide.language.javascript
+[submodule "plugins/c9.ide.language.javascript.immediate"]
+	path = plugins/c9.ide.language.javascript.immediate
+	url = https://github.com/c9/c9.ide.language.javascript.immediate
+[submodule "plugins/c9.ide.language.javascript.eslint"]
+	path = plugins/c9.ide.language.javascript.eslint
+	url = https://github.com/c9/c9.ide.language.javascript.eslint
+[submodule "plugins/c9.ide.language.javascript.tern"]
+	path = plugins/c9.ide.language.javascript.tern
+	url = https://github.com/c9/c9.ide.language.javascript.tern
+[submodule "plugins/c9.ide.language.javascript.infer"]
+	path = plugins/c9.ide.language.javascript.infer
+	url = https://github.com/c9/c9.ide.language.javascript.infer
+[submodule "plugins/c9.ide.language.jsonalyzer"]
+	path = plugins/c9.ide.language.jsonalyzer
+	url = https://github.com/c9/c9.ide.language.jsonalyzer
+[submodule "plugins/c9.ide.language.codeintel"]
+	path = plugins/c9.ide.language.codeintel
+	url = https://github.com/c9/c9.ide.language.codeintel
+[submodule "plugins/c9.ide.collab"]
+	path = plugins/c9.ide.collab
+	url = https://github.com/c9/c9.ide.collab
+[submodule "plugins/c9.ide.local"]
+	path = plugins/c9.ide.local
+	url = https://github.com/c9/c9.ide.local
+[submodule "plugins/c9.ide.find"]
+	path = plugins/c9.ide.find
+	url = https://github.com/c9/c9.ide.find
+[submodule "plugins/c9.ide.find.infiles"]
+	path = plugins/c9.ide.find.infiles
+	url = https://github.com/c9/c9.ide.find.infiles
+[submodule "plugins/c9.ide.find.replace"]
+	path = plugins/c9.ide.find.replace
+	url = https://github.com/c9/c9.ide.find.replace
+[submodule "plugins/c9.ide.run.debug"]
+	path = plugins/c9.ide.run.debug
+	url = https://github.com/c9/c9.ide.run.debug
+[submodule "plugins/c9.automate"]
+	path = plugins/c9.automate
+	url = https://github.com/c9/c9.automate
+[submodule "plugins/c9.ide.ace.emmet"]
+	path = plugins/c9.ide.ace.emmet
+	url = https://github.com/c9/c9.ide.ace.emmet
+[submodule "plugins/c9.ide.ace.gotoline"]
+	path = plugins/c9.ide.ace.gotoline
+	url = https://github.com/c9/c9.ide.ace.gotoline
+[submodule "plugins/c9.ide.ace.keymaps"]
+	path = plugins/c9.ide.ace.keymaps
+	url = https://github.com/c9/c9.ide.ace.keymaps
+[submodule "plugins/c9.ide.ace.repl"]
+	path = plugins/c9.ide.ace.repl
+	url = https://github.com/c9/c9.ide.ace.repl
+[submodule "plugins/c9.ide.ace.split"]
+	path = plugins/c9.ide.ace.split
+	url = https://github.com/c9/c9.ide.ace.split
+[submodule "plugins/c9.ide.ace.statusbar"]
+	path = plugins/c9.ide.ace.statusbar
+	url = https://github.com/c9/c9.ide.ace.statusbar
+[submodule "plugins/c9.ide.ace.stripws"]
+	path = plugins/c9.ide.ace.stripws
+	url = https://github.com/c9/c9.ide.ace.stripws
+[submodule "plugins/c9.ide.behaviors"]
+	path = plugins/c9.ide.behaviors
+	url = https://github.com/c9/c9.ide.behaviors
+[submodule "plugins/c9.ide.closeconfirmation"]
+	path = plugins/c9.ide.closeconfirmation
+	url = https://github.com/c9/c9.ide.closeconfirmation
+[submodule "plugins/c9.ide.configuration"]
+	path = plugins/c9.ide.configuration
+	url = https://github.com/c9/c9.ide.configuration
+[submodule "plugins/c9.ide.dialog.wizard"]
+	path = plugins/c9.ide.dialog.wizard
+	url = https://github.com/c9/c9.ide.dialog.wizard
+[submodule "plugins/c9.ide.fontawesome"]
+	path = plugins/c9.ide.fontawesome
+	url = https://github.com/c9/c9.ide.fontawesome
+[submodule "plugins/c9.ide.format"]
+	path = plugins/c9.ide.format
+	url = https://github.com/c9/c9.ide.format
+[submodule "plugins/c9.ide.help.support"]
+	path = plugins/c9.ide.help.support
+	url = https://github.com/c9/c9.ide.help.support
+[submodule "plugins/c9.ide.imgeditor"]
+	path = plugins/c9.ide.imgeditor
+	url = https://github.com/c9/c9.ide.imgeditor
+[submodule "plugins/c9.ide.immediate"]
+	path = plugins/c9.ide.immediate
+	url = https://github.com/c9/c9.ide.immediate
+[submodule "plugins/c9.ide.installer"]
+	path = plugins/c9.ide.installer
+	url = https://github.com/c9/c9.ide.installer
+[submodule "plugins/c9.ide.language.python"]
+	path = plugins/c9.ide.language.python
+	url = https://github.com/c9/c9.ide.language.python
+[submodule "plugins/c9.ide.language.go"]
+	path = plugins/c9.ide.language.go
+	url = https://github.com/c9/c9.ide.language.go
+[submodule "plugins/c9.ide.mount"]
+	path = plugins/c9.ide.mount
+	url = https://github.com/c9/c9.ide.mount
+[submodule "plugins/c9.ide.navigate"]
+	path = plugins/c9.ide.navigate
+	url = https://github.com/c9/c9.ide.navigate
+[submodule "plugins/c9.ide.newresource"]
+	path = plugins/c9.ide.newresource
+	url = https://github.com/c9/c9.ide.newresource
+[submodule "plugins/c9.ide.openfiles"]
+	path = plugins/c9.ide.openfiles
+	url = https://github.com/c9/c9.ide.openfiles
+[submodule "plugins/c9.ide.preview"]
+	path = plugins/c9.ide.preview
+	url = https://github.com/c9/c9.ide.preview
+[submodule "plugins/c9.ide.preview.browser"]
+	path = plugins/c9.ide.preview.browser
+	url = https://github.com/c9/c9.ide.preview.browser
+[submodule "plugins/c9.ide.preview.markdown"]
+	path = plugins/c9.ide.preview.markdown
+	url = https://github.com/c9/c9.ide.preview.markdown
+[submodule "plugins/c9.ide.pubsub"]
+	path = plugins/c9.ide.pubsub
+	url = https://github.com/c9/c9.ide.pubsub
+[submodule "plugins/c9.ide.readonly"]
+	path = plugins/c9.ide.readonly
+	url = https://github.com/c9/c9.ide.readonly
+[submodule "plugins/c9.ide.recentfiles"]
+	path = plugins/c9.ide.recentfiles
+	url = https://github.com/c9/c9.ide.recentfiles
+[submodule "plugins/c9.ide.remote"]
+	path = plugins/c9.ide.remote
+	url = https://github.com/c9/c9.ide.remote
+[submodule "plugins/c9.ide.processlist"]
+	path = plugins/c9.ide.processlist
+	url = https://github.com/c9/c9.ide.processlist
+[submodule "plugins/c9.ide.run"]
+	path = plugins/c9.ide.run
+	url = https://github.com/c9/c9.ide.run
+[submodule "plugins/c9.ide.run.build"]
+	path = plugins/c9.ide.run.build
+	url = https://github.com/c9/c9.ide.run.build
+[submodule "plugins/c9.ide.run.debug.xdebug"]
+	path = plugins/c9.ide.run.debug.xdebug
+	url = https://github.com/c9/c9.ide.run.debug.xdebug
+[submodule "plugins/c9.ide.save"]
+	path = plugins/c9.ide.save
+	url = https://github.com/c9/c9.ide.save
+[submodule "plugins/c9.ide.scm"]
+	path = plugins/c9.ide.scm
+	url = https://github.com/c9/c9.ide.scm
+[submodule "plugins/c9.ide.terminal.monitor"]
+	path = plugins/c9.ide.terminal.monitor
+	url = https://github.com/c9/c9.ide.terminal.monitor
+[submodule "plugins/c9.ide.test"]
+	path = plugins/c9.ide.test
+	url = https://github.com/c9/c9.ide.test
+[submodule "plugins/c9.ide.test.mocha"]
+	path = plugins/c9.ide.test.mocha
+	url = https://github.com/c9/c9.ide.test.mocha
+[submodule "plugins/c9.ide.theme.flat"]
+	path = plugins/c9.ide.theme.flat
+	url = https://github.com/c9/c9.ide.theme.flat
+[submodule "plugins/c9.ide.threewaymerge"]
+	path = plugins/c9.ide.threewaymerge
+	url = https://github.com/c9/c9.ide.threewaymerge
+[submodule "plugins/c9.ide.undo"]
+	path = plugins/c9.ide.undo
+	url = https://github.com/c9/c9.ide.undo
+[submodule "plugins/c9.ide.upload"]
+	path = plugins/c9.ide.upload
+	url = https://github.com/c9/c9.ide.upload
+[submodule "plugins/c9.ide.welcome"]
+	path = plugins/c9.ide.welcome
+	url = https://github.com/c9/c9.ide.welcome
+[submodule "plugins/c9.ide.guide"]
+	path = plugins/c9.ide.guide
+	url = https://github.com/c9/c9.ide.guide
