@@ -98,11 +98,11 @@ define(function(require, exports, module) {
                 
                 try {
                     statics.addStatics(
-                        fs.readdirSync(__dirname + "/../../integrations/").map(function(plugin) {
+                        fs.readdirSync(__dirname + "/../../extensions/").map(function(plugin) {
                             if (/^scripts$|\.(json|sh)$/.test(plugin)) 
                                 return;
                             return {
-                                path: __dirname + "/../../integrations/" + plugin,
+                                path: __dirname + "/../../extensions/" + plugin,
                                 mount: "/plugins/" + plugin
                             };
                         }).filter(Boolean)
