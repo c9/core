@@ -658,6 +658,8 @@ define(function(require, exports, module) {
             //         tab.removeEventListener("aftersavedialogclosed", arguments.callee);
             //     }
             // });
+            
+            createLayoutMenus();
         }
         
         /***** Methods *****/
@@ -946,11 +948,11 @@ define(function(require, exports, module) {
         }
         
         /** For each direction
-        * Exclude all panes not in the direction of this one
-        * Exclude all panes that don't intersect on the other axis
-        * Choose the closest pane
-        * In case of tie choose the pane to the furthest left or top.
-        **/
+         * Exclude all panes not in the direction of this one
+         * Exclude all panes that don't intersect on the other axis
+         * Choose the closest pane
+         * In case of tie choose the pane to the furthest left or top.
+         **/
             
         function findBoxToGoTo(boxes, currentBox, direction) {
             var possibleBoxes = [];
@@ -1544,7 +1546,122 @@ define(function(require, exports, module) {
             if (item)
                 item.getAttribute("onclick").call(item);
         }
-    
+        
+        function createLayoutMenus() {
+            var LAYOUT_MENU_PATH = "Window/Saved Layouts/";
+            var SAVED_LAYOUTS_PATH = "/.c9/saved-layouts/";
+            
+            commands.addCommand({
+                name: "savePaneLayout",
+                group: "Window",
+                bindKey: {},
+                exec: function (editor, args) {
+                    var state = tabs.getState(null, true);
+                    var stateName = prompt("Name your layout", getAutoSaveName());
+                    if (!stateName)
+                        return;
+                    var sanitizedStateName = stateName.trim().replace(/[\\\/:\r\n~]|\.\./g, "-") + ".tabstate";
+                    
+                    fs.writeFile(SAVED_LAYOUTS_PATH + sanitizedStateName, JSON.stringify(state, null, "\t"), function(err) {
+                        if (err) {
+                            return alert(err);
+                        }
+                    });
+                }
+            }, plugin);
+            
+            commands.addCommand({
+                name: "savePaneLayoutAndCloseTabs",
+                group: "Window",
+                bindKey: {},
+                exec: function (editor, args) {
+                    commands.exec("savePaneLayout");
+                    tabs.setState(null, function() {});
+                }
+            }, plugin);
+            
+            // menus.insert
+            menus.addItemByPath(LAYOUT_MENU_PATH, new ui.menu({
+                "onprop.visible": function(e) {
+                    if (e.value) {
+                        rebuildLayoutMenu();
+                        fs.readdir(SAVED_LAYOUTS_PATH, function(err, files) {
+                            rebuildLayoutMenu(err, files);
+                        });
+                    }
+                },
+                "onitemclick": function(e) {
+                    var stat = e.relatedNode && e.relatedNode.value;
+                    if (stat && stat.name) {
+                        fs.readFile(SAVED_LAYOUTS_PATH + stat.name, function(err, contents) {
+                            if (err) return alert(err);
+                            try {
+                                contents = JSON.parse(contents);
+                            }
+                            catch (e) {
+                                return alert(e);
+                            }
+                            tabs.setState(null, function() {});
+                            tabs.setState(contents, function(err) {
+                                if (err) return alert(err);
+
+                            });
+                        });
+                    }
+                }
+            }), 10050, plugin);
+            
+            function getAutoSaveName() {
+                return (new Date()).toLocaleString() + " [" + tabs.getTabs().length + " tabs]";
+            }
+            
+            function rebuildLayoutMenu(err, stats) {
+                menus.remove(LAYOUT_MENU_PATH);
+                var c = 0;
+                
+                menus.addItemByPath(LAYOUT_MENU_PATH + "Save...", new ui.item({
+                    command: "savePaneLayout"
+                }), c += 100, plugin);
+                
+                menus.addItemByPath(LAYOUT_MENU_PATH + "Save And Close All...", new ui.item({
+                    command: "savePaneLayoutAndCloseTabs"
+                }), c += 100, plugin);
+                
+                menus.addItemByPath(LAYOUT_MENU_PATH + "~", new ui.divider({
+                }), c += 100, plugin);
+                
+                menus.addItemByPath(LAYOUT_MENU_PATH + "Show Saved Layouts in File Tree", new ui.item({
+                    onclick: function() {
+                        revealInTree({ path: SAVED_LAYOUTS_PATH });
+                    }
+                }), c += 100, plugin);
+                
+                menus.addItemByPath(LAYOUT_MENU_PATH + "~", new ui.divider({
+                }), c += 100, plugin);
+                
+                if (err) {
+                    if (err.code == "ENOENT")
+                        return;
+                    return menus.addItemByPath(LAYOUT_MENU_PATH + "Error loading saved layouts", new ui.item({
+                        disabled: true,
+                    }), c += 100, plugin);
+                }
+                else if (!stats) {
+                    return menus.addItemByPath(LAYOUT_MENU_PATH + "loading...", new ui.item({
+                        disabled: true,
+                    }), c += 100, plugin);
+                }
+                
+                for (var i = 0; i < stats.length; i++) {
+                    var stat = stats[i];
+                    var caption = stat.name.replace(/.tabstate$/, "");
+                    menus.addItemByPath(LAYOUT_MENU_PATH + caption, new ui.item({
+                        value: stat,
+                    }), c += 100, plugin);
+                }
+            }
+        }
+        
         /***** Lifecycle *****/
         
         plugin.on("load", function() {
