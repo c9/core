@@ -104,7 +104,7 @@ for (var status in statusCodes) {
             exports.HttpError.call(this, msg || status + ": " + defaultMsg, status);
 
             if (status >= 500)
-                Error.captureStackTrace(this, arguments.callee);
+                Error.captureStackTrace(this, this.constructor);
         };
     })(defaultMsg, status);
 
