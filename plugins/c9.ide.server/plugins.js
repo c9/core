@@ -133,6 +133,11 @@ define(function(require, exports, module) {
             }
             
             statics.addStatics([{
+                path: __dirname + "/../../configs/ide",
+                mount: "/configs/ide"
+            }]);
+            
+            statics.addStatics([{
                 path: __dirname + "/www",
                 mount: "/"
             }]);

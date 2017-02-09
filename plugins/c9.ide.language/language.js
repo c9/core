@@ -22,6 +22,7 @@ define(function(require, exports, module) {
         var commands = imports.commands;
         var WorkerClient = require("ace/worker/worker_client").WorkerClient;
         var UIWorkerClient = require("ace/worker/worker_client").UIWorkerClient;
+        var net = require("ace/lib/net");
 
         var async = require("async");
 
@@ -190,7 +191,7 @@ define(function(require, exports, module) {
                         ["treehugger", "ace", "c9", "plugins", "acorn", "tern"],
                         id,
                         "LanguageWorker",
-                        "/static/lib/ace/lib/ace/worker/worker.js",
+                        (options.staticPrefix || "/static") + "/lib/ace/lib/ace/worker/worker.js",
                         path && [path]
                     );
                 } catch (e) {
@@ -208,7 +209,7 @@ define(function(require, exports, module) {
                 };
             }
             
-            worker.call("setStaticPrefix", [options.staticPrefix || c9.staticUrl || "/static"]);
+            worker.call("setStaticPrefix", [net.qualifyURL(options.staticPrefix || c9.staticUrl || "/static")]);
             if (document.location.hostname.match(/c9.dev|cloud9beta.com|localhost|127.0.0.1/))
                 worker.call("setDebug", [true]);
 

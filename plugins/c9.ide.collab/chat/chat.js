@@ -363,6 +363,7 @@ define(function(require, exports, module) {
             chatThrob = $("chatThrob");
             chatCounter = $("chatCounter");
             chatNotif = $("chatNotif");
+            chatNotif.src = staticPrefix + "/sounds/chat_notif.mp3";
 
             chatThrob.addEventListener("click", function () {
                 chatThrob.style.display = "none";
@@ -383,7 +384,7 @@ define(function(require, exports, module) {
 
         plugin.on("unload", function() {
             loaded = false;
-            drawn = false;
+            drawn = nonPanelDrawn = false;
         });
 
         /***** Register and define API *****/

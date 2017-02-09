@@ -17,6 +17,8 @@ define(function(require, exports, module) {
         var showError = imports["dialog.error"].show;
         var prefs = imports.preferences;
         
+        var createWorker = require("ace/worker/worker_client").createWorker;
+        
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
@@ -521,7 +523,7 @@ define(function(require, exports, module) {
         hash.counter = 0;
         function hash(data, callback) {
             if (!worker) {
-                worker = new Worker('/static/lib/rusha/rusha.min.js');
+                worker = createWorker((options.staticPrefix || "/static") + "/lib/rusha/rusha.min.js");
                 worker.addEventListener("message", function(e) {
                     // @todo security?
                     
