@@ -191,8 +191,7 @@ define(function(require, exports, module) {
                         ["treehugger", "ace", "c9", "plugins", "acorn", "tern"],
                         id,
                         "LanguageWorker",
-                        (options.staticPrefix || "/static") + "/lib/ace/lib/ace/worker/worker.js",
-                        path && [path]
+                        path || (options.staticPrefix || "/static") + "/lib/ace/lib/ace/worker/worker.js"
                     );
                 } catch (e) {
                     if (e.code === 18 && window.location && window.location.origin === "file://")
