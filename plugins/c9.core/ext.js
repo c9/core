@@ -80,17 +80,8 @@ define(function(require, exports, module) {
             if (!plugin.registered)
                 return;
             
-            if (!ignoreDeps && getDependencies(plugin.name).length) {
-                //@todo this should be moved to whoever is calling this.
-                // if (!silent)
-                //     util.alert(
-                //         "Could not disable extension",
-                //         "Extension is still in use",
-                //         "This extension cannot be disabled, because it is still in use by the following plugins:<br /><br />"
-                //         + " - " + usedBy.join("<br /> - ")
-                //         + "<br /><br /> Please disable those plugins first.");
+            if (!ignoreDeps && getDependents(plugin.name).length)
                 return false;
-            }
             
             if (!keep)
                 plugins.splice(plugins.indexOf(plugin), 1);
@@ -108,7 +99,7 @@ define(function(require, exports, module) {
             emit("unregister", { plugin: plugin });
         }
         
-        function getDependencies(pluginName) {
+        function getDependents(pluginName) {
             var usedBy = [];
             
             // Check for dependencies needing this plugin
@@ -284,7 +275,7 @@ define(function(require, exports, module) {
             /**
              * 
              */
-            getDependencies: getDependencies,
+            getDependents: getDependents,
             
             /**
              * 

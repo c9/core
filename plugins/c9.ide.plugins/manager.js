@@ -1,67 +1,39 @@
 /*global requirejs*/
 define(function(require, exports, module) {
     main.consumes = [
-        "PreferencePanel", "settings", "ui", "util", "Form", "ext", "c9", "apf",
+        "PreferencePanel", "settings", "ui", "util", "ext", "c9", "Plugin",
         "dialog.alert", "dialog.confirm", "layout", "proc", "menus", "commands",
-        "dialog.error", "dialog.info", "tree.favorites", "fs", "tree", "vfs", "plugin.debug",
-        "preferences.experimental"
+        "dialog.error", "dialog.info", "tree.favorites", "fs", "tree",
+        "preferences.experimental", "apf", "hub", "dialog.notification"
     ];
-    main.provides = ["plugin.manager", "pluginManager"];
+    main.provides = ["pluginManager", "plugin.manager", "plugin.debug"];
     return main;
 
-    /*
-        - Show Packages to be updated
-        - Open Plugin Store
-        - Open Cloud9 in Debug Mode
-        - List all installed packages
-            - Filter
-            - Core packages
-                - Name
-                - Version
-                - Description
-                - Load Time
-                - Plugin profile
-            - Pre-installed
-                - *
-            - Custom packages
-                - *
-
-            - Actions:
-                - Uninstall
-                - Report Issue
-                - Open README
-                - Open in Cloud9
-
-        DataProvider.variableHeightRowMixin.call(this)  in datagrid constructor
-        and set node.height
-
-        harutyun [1:11 PM]
-        or add a custom getItemHeight function like https://github.com/c9/newclient/blob/master/node_modules/ace_tree/demo/demo.js#L63 (edited)
-    */
 
     function main(options, imports, register) {
         var PreferencePanel = imports.PreferencePanel;
         var settings = imports.settings;
         var layout = imports.layout;
+        var commands = imports.commands;
+        var menus = imports.menus;
         var ui = imports.ui;
         var c9 = imports.c9;
-        var menus = imports.menus;
         var fs = imports.fs;
-        var commands = imports.commands;
         var ext = imports.ext;
         var tree = imports.tree;
         var proc = imports.proc;
+        var Plugin = imports.Plugin;
         var util = imports.util;
         var qs = require("querystring");
         var apf = imports.apf;
-        var vfs = imports.vfs;
         var alert = imports["dialog.alert"].show;
         var confirm = imports["dialog.confirm"].show;
         var showError = imports["dialog.error"].show;
         var showInfo = imports["dialog.info"].show;
+        var notify = imports["dialog.notification"].show;
         var favs = imports["tree.favorites"];
-        var pluginDebug = imports["plugin.debug"];
         var experimental = imports["preferences.experimental"];
+        var architectApp = imports.hub.app;
 
         var search = require("../c9.ide.navigate/search");
         var Tree = require("ace_tree/tree");
@@ -69,27 +41,12 @@ define(function(require, exports, module) {
         var join = require("path").join;
         var basename = require("path").basename;
         var dirname = require("path").dirname;
-        var async = require("async");
+        
+        var escapeHTML = require("ace/lib/lang").escapeHTML;
 
         var staticPrefix = options.staticPrefix;
-        var architect;
 
-        var CORE = {
-            "c9.core": 1, "c9.fs": 1, "c9.ide.preferences": 1, "c9.ide.panels": 1,
-            "c9.ide.plugins": 1, "c9.ide.login": 1, "c9.vfs.client": 1,
-            "c9.ide.console": 1, "c9.ide.editors": 1, "c9.ide.dialog.common": 1,
-            "c9.ide.dialog.file": 1, "c9.ide.dialog.login": 1, "c9.ide.errorhandler": 1,
-            "c9.ide.help": 1, "c9.ide.keys": 1, "c9.ide.restore": 1, "c9.ide.watcher": 1,
-            "c9.ide.tree": 1, "c9.ide.info": 1,
-            "c9.ide.layout.classic": 1, "c9.ide.terminal": 1, "c9.ide.ace": 1,
-            "c9.ide.clipboard": 1, "c9.nodeapi": 1
-        };
-        var GROUPS = {
-            "custom": "Installed Plugins",
-            "pre": "Pre-installed plugins",
-            "core": "Core Plugins",
-            "runtime": "Plugins created runtime"
-        };
+        var CORE = {};
         var TEMPLATES = {
             "plugin.simple": "Empty Plugin",
             "plugin.default": "Full Plugin",
@@ -97,19 +54,22 @@ define(function(require, exports, module) {
             "plugin.bundle": "Cloud9 Bundle"
         };
 
-        // @TODO add sorting
+        var STATE_ENABLED = 1;
+        var STATE_PARTIAL = 2;
+        var STATE_MISSING_DEPS = 3;
+        var STATE_DISABLED = 4;
 
         /***** Initialization *****/
 
-        var ENABLED = c9.location.indexOf("debug=2") > -1
-            || experimental.addExperiment(
-                  "plugin-manager",
-                  options.devel,
-                  "SDK/Plugin Manager"
-               );
+        var DEBUG = c9.location.indexOf("debug=2") > -1;
+        var ENABLED = DEBUG || experimental.addExperiment(
+            "plugin-manager",
+            options.devel,
+            "SDK/Plugin Manager"
+        );
 
         var plugin = new PreferencePanel("Ajax.org", main.consumes, {
-            caption: "Plugin Manager",
+            caption: "Plugin Explorer",
             className: "plugins",
             form: false,
             noscroll: true,
@@ -119,28 +79,57 @@ define(function(require, exports, module) {
         // var emit = plugin.getEmitter();
 
         var model, datagrid, filterbox;
-        var btnUninstall, btnReport, btnReadme, btnCloud9, btnReload;
+        var btnUninstall, btnServices, btnReadme, btnReload;
+        var btnReloadLast;
+        var localPlugins;
+        var api;
 
         var loaded = false;
         function load() {
             if (loaded) return false;
             loaded = true;
-
-            if (!ENABLED) return;
-
-            // @TODO enable/disable plugins -> move to ext
-
-            // settings.on("read", function(e) {
-            //     updateCommandsFromSettings();
-            // }, plugin);
-
-            // commands.on("update", function(){
-            //     changed = true;
-            //     updateCommandsFromSettings();
-            // }, plugin);
             
             
-            if (options.devel) {
+            menus.addItemByPath("Tools/~", new ui.divider(), 100000, plugin);
+            menus.addItemByPath("Tools/Developer", null, 100100, plugin);
+
+            if (!ENABLED) {
+                menus.addItemByPath("Tools/Developer/Start in Debug Mode", new ui.item({
+                    onclick: function() {
+                        var url = location.href + (location.href.indexOf("?") > -1
+                          ? "&debug=2"
+                          : "?debug=2");
+                        util.openNewWindow(url);
+                    }
+                }), 900, plugin);
+                return;
+            }
+
+            commands.addCommand({
+                name: "openPluginManager",
+                group: "Plugins",
+                exec: function() { 
+                    commands.exec("openpreferences", null, { panel: plugin });
+                }
+            }, plugin);
+            
+            menus.addItemByPath("Tools/Developer/Open Plugin Manager", new ui.item({
+                command: "openPluginManager"
+            }), 1100, plugin);
+            
+            if (DEBUG) {
+                notify("<div class='c9-readonly'>You are in <span style='color:rgb(245, 234, 15)'>Debug</span> Mode. "
+                    + "<button id='.pm_btn1'>Open Plugin Manager</button>"
+                    + "<button id='.pm_btn2' style='float:right'>Reload last Plugin</button>",
+                    false);
+                
+                document.getElementById(".pm_btn1").onclick = function() { commands.exec("openPluginManager") };
+                btnReloadLast = document.getElementById(".pm_btn2");
+                btnReloadLast.onclick = function() { commands.exec("reloadLastPlugin") };
+                updateReloadLastButton();
+                
+                readAvailablePlugins();
+                    
                 commands.addCommand({
                     name: "reloadLastPlugin",
                     bindKey: { mac: "F4", win: "F4" },
@@ -148,29 +137,31 @@ define(function(require, exports, module) {
                     exec: function() {
                         var name = getLastReloaded();
                         if (!name)
-                            return commands.exec("reloadPlugin", null, { panel: plugin });
+                            return commands.exec("openPluginManager", null, { panel: plugin });
                         reload(name);
                     }
                 }, plugin);
-                commands.addCommand({
-                    name: "reloadPlugin",
-                    group: "Plugins",
-                    exec: function() { 
-                        commands.exec("openpreferences", null, { panel: plugin });
-                    }
-                }, plugin);
                 
-                menus.addItemByPath("Tools/~", new ui.divider(), 100000, plugin);
-                menus.addItemByPath("Tools/Developer", null, 100100, plugin);
-    
-                menus.addItemByPath("Tools/Developer/Reload Built-in Plugin...", new ui.item({
-                    command: "reloadPlugin"
-                }), 1100, plugin);
+                menus.addItemByPath("Tools/Developer/Reload All Custom Plugins", new ui.item({
+                    command: "reloadAllCustomPlugins"
+                }), 1200, plugin);
                 
                 menus.addItemByPath("Tools/Developer/Reload Last Plugin", new ui.item({
                     command: "reloadLastPlugin",
                     isAvailable: getLastReloaded
-                }), 1200, plugin);
+                }), 1300, plugin);
+                
+                commands.addCommand({
+                    name: "reloadAllCustomPlugins",
+                    group: "Plugins",
+                    bindKey: { 
+                        mac: "Command-Enter", 
+                        win: "Ctrl-Enter" 
+                    },
+                    exec: function() { 
+                        reloadAllCustomPlugins();
+                    }
+                }, plugin);
             }
 
             menus.addItemByPath("File/New Plugin", null, 210, plugin);
@@ -191,6 +182,8 @@ define(function(require, exports, module) {
         function draw(e) {
             if (drawn) return;
             drawn = true;
+            
+            ui.insertCss(require("text!./style.css"), plugin);
 
             model = new TreeData();
             model.emptyMessage = "No plugins found";
@@ -198,21 +191,11 @@ define(function(require, exports, module) {
             model.columns = [{
                 caption: "Name",
                 value: "name",
-                // getText: function(p){
+                // getText: function(p) {
                 //     return p.name + " (" + p.items.length + ")";
                 // },
                 width: "250",
                 type: "tree"
-            }, {
-                caption: "Version",
-                // value: "version",
-                getText: function(p) {
-                    return p.version ||
-                        (p.isPackage
-                            ? p.items.length && p.items[0].version || ""
-                            : "");
-                },
-                width: "100"
             }, {
                 caption: "Startup Time",
                 // value: "time",
@@ -222,35 +205,21 @@ define(function(require, exports, module) {
                         return (p.time || 0) + "ms";
 
                     var total = 0;
-                    if (p.isPackage || p.name == "runtime") {
-                        p.items.forEach(function(item) { total += item.time || 0; });
+                    function recur(p) {
+                        if (p.time != undefined)
+                            return total += p.time;
+                        if (p.items)
+                            p.items.forEach(recur);
                     }
-                    else {
-                        p.items.forEach(function(p) {
-                            p.items && p.items.forEach(function(item) { total += item.time || 0; });
-                        });
-                    }
+                    recur(p);
                     return (p.time = total) + "ms";
                 }
             }, {
                 caption: "Enabled",
                 value: "enabled",
                 width: "100"
-            // }, {
-            //     caption: "Package",
-            //     value: "package", // @todo make a link
-            //     width: "100%"
-            }, {
-                caption: "Developer",
-                // value: "developer",
-                getText: function(p) {
-                    return p.developer ||
-                        (p.isPackage
-                            ? p.items.length && p.items[0].developer || ""
-                            : "");
-                },
-                width: "150"
             }];
+            model.columns = null;
 
             layout.on("eachTheme", function(e) {
                 var height = parseInt(ui.getStyleRule(".bar-preferences .blackdg .tree-row", "height"), 10) || 24;
@@ -260,25 +229,10 @@ define(function(require, exports, module) {
                 if (e.changed) datagrid.resize(true);
             });
 
+            architectApp.on("ready-additional", function() {
+                reloadModel();
+            });
             reloadModel();
-
-            // type: "custom",
-            // title: "Introduction",
-            // position: 1,
-            // node: intro = new ui.bar({
-            //     height: 149,
-            //     "class" : "intro",
-            //     style: "padding:12px;position:relative;"
-            // })
-
-            // intro.$int.innerHTML =
-            //     '<h1>Keybindings</h1><p>Change these settings to configure '
-            //     + 'how Cloud9 responds to your keyboard commands.</p>'
-            //     + '<p>You can also manually edit <a href="javascript:void(0)" '
-            //     + '>your keymap file</a>.</p>'
-            //     + '<p class="hint">Hint: Double click on the keystroke cell in the table below to change the keybinding.</p>';
-
-            // intro.$int.querySelector("a").onclick = function(){ editUserKeys(); };
 
             var hbox = new ui.hbox({
                 htmlNode: e.html,
@@ -294,37 +248,39 @@ define(function(require, exports, module) {
                         height: 27,
                         width: 250,
                         singleline: true,
+                        clearbutton: true,
                         "initial-message": "Search installed plugins"
+                    }),
+                    btnReadme = new ui.button({
+                        skin: "c9-toolbarbutton-glossy",
+                        caption: "Readme",
+                        class: "serviceButton",
+                        onclick: function() {
+                            mode = "readme";
+                            window.requestAnimationFrame(renderDetails);
+                        }
+                    }),
+                    btnServices = new ui.button({
+                        skin: "c9-toolbarbutton-glossy",
+                        caption: "services",
+                        class: "serviceButton",
+                        onclick: function() {
+                            mode = "services";
+                            window.requestAnimationFrame(renderDetails);
+                        }
                     }),
                     new ui.filler({}),
                     btnUninstall = new ui.button({
-                        skin: "btn-default-css3",
-                        caption: "Uninstall",
+                        skin: "c9-toolbarbutton-glossy",
+                        caption: "Disable",
                         class: "btn-red",
                         onclick: function() {
                             var item = datagrid.selection.getCursor();
-                            if (item.isPackage)
-                                uninstall(item.name, function() {});
-                            else if (item.enabled == "true")
-                                disable(item.name, function() {});
-                            else
-                                enable(item.name, function() {});
+                            unloadPackage({ path: item.path });
                         }
                     }),
-                    btnReport = new ui.button({
-                        skin: "btn-default-css3",
-                        caption: "Report Issue"
-                    }),
-                    btnReadme = new ui.button({
-                        skin: "btn-default-css3",
-                        caption: "Open README"
-                    }),
-                    btnCloud9 = new ui.button({
-                        skin: "btn-default-css3",
-                        caption: "Open in Cloud9"
-                    }),
                     btnReload = new ui.button({
-                        skin: "btn-default-css3",
+                        skin: "c9-toolbarbutton-glossy",
                         caption: "Reload",
                         onclick: function() {
                             var item = datagrid.selection.getCursor();
@@ -334,19 +290,36 @@ define(function(require, exports, module) {
                     })
                 ]
             });
+            var treeBar;
+            var descriptionBar;
+            var hboxInner = new ui.hsplitbox({
+                anchor: "0 0 0 0",
+                htmlNode: e.html,
+                class: "bar-preferences",
+                splitter: true,
+                childNodes: [
+                    treeBar = new ui.bar({ width: 250 }),
+                    descriptionBar = new ui.bar({ textselect: true }),
+                ]
+            });
 
-            var div = e.html.appendChild(document.createElement("div"));
+            var div = treeBar.$ext.appendChild(document.createElement("div"));
             div.style.position = "absolute";
-            div.style.left = "10px";
-            div.style.right = "10px";
-            div.style.bottom = "10px";
-            div.style.top = "50px";
+            div.style.left = "0px";
+            div.style.right = "0px";
+            div.style.bottom = "0px";
+            div.style.top = "0px";
+            hboxInner.$ext.style.position = "absolute";
+            hboxInner.$ext.style.left = "10px";
+            hboxInner.$ext.style.right = "10px";
+            hboxInner.$ext.style.bottom = "10px";
+            hboxInner.$ext.style.top = "50px";
 
             datagrid = new Tree(div);
             datagrid.setTheme({ cssClass: "blackdg" });
             datagrid.setDataProvider(model);
 
-            layout.on("resize", function() { datagrid.resize(); }, plugin);
+            layout.on("resize", function() { datagrid.resize() }, plugin);
 
             function setTheme(e) {
                 filterbox.setAttribute("class",
@@ -376,106 +349,354 @@ define(function(require, exports, module) {
             });
 
             datagrid.on("changeSelection", function(e) {
-                var item = datagrid.selection.getCursor();
-
-                if (item.isGroup) {
-                    btnUninstall.disable();
-                    btnReport.disable();
-                    btnReadme.disable();
-                    btnCloud9.disable();
-                    btnReload.disable();
+                window.requestAnimationFrame(renderDetails);
+            });
+            model.on("change", function(e) {
+                window.requestAnimationFrame(renderDetails);
+            });
+            
+            model.getCheckboxHTML = function(node) {
+                var enabled = node.enabled;
+                if (enabled == null || node.isGroup) return "";
+                return "<span class='checkbox " 
+                    + (enabled == -1 
+                        ? "half-checked " 
+                        : (enabled ? "checked " : ""))
+                    + "'></span>";
+            };
+            
+            var mode = "services";
+            var readmeCache = {};
+            function renderDetails() {
+                var items = datagrid.selection.getSelectedNodes();
+                var enabled = items.every(function(x) {
+                    return x.enabled == 1;
+                });
+                if (enabled) {
+                    btnReload.enable();
+                    btnUninstall.setCaption("Disable");
                 }
                 else {
-                    if (item.isPackage) {
-                        btnUninstall.setCaption("Uninstall");
-                        btnUninstall.setAttribute("class", "btn-red");
-                    }
-                    else {
-                        btnUninstall.setCaption(item.enabled == "true" ? "Disable" : "Enable");
-                        btnUninstall.setAttribute("class", item.enabled == "true" ? "btn-red" : "btn-green");
-                    }
-
-                    if (CORE[item.name] || item.parent.parent && item.parent.parent.isType == "core") {
-                        btnUninstall.disable();
-                    } else {
-                        btnUninstall.enable();
-                    }
-
-                    if (item.isPackage || CORE[item.name] || item.parent.parent && item.parent.parent.isType == "core") {
-                        btnReload.disable();
-                    } else {
-                        btnReload.enable();
-                    }
-
-                    btnReport.enable();
-                    btnReadme.enable();
-                    btnCloud9.enable();
+                    btnReload.disable();
+                    btnUninstall.setCaption("Enable");
                 }
+                if (mode == "services") {
+                    renderServiceDetails(items);
+                    btnServices.$ext.classList.add("serviceButtonActive");
+                    btnReadme.$ext.classList.remove("serviceButtonActive");
+                }
+                else if (mode == "readme") {
+                    renderReadmeDetails(items);
+                    btnReadme.$ext.classList.add("serviceButtonActive");
+                    btnServices.$ext.classList.remove("serviceButtonActive");
+                }
+                else {
+                    descriptionBar.$ext.innerHTML = "";
+                    btnReadme.$ext.classList.remove("serviceButtonActive");
+                    btnServices.$ext.classList.remove("serviceButtonActive");
+                }
+            }
+            
+            function renderReadmeDetails(items) {
+                if (items.length > 1) {
+                    descriptionBar.$ext.textContent = "Multipe items selected.";
+                    return;
+                }
+                var item = items[0];
+                while (item && !item.readme) {
+                    item = item.parent;
+                }
+                if (!item) {
+                    descriptionBar.$ext.textContent = "Readme is not available.";
+                    return;
+                }
+                
+                if (readmeCache[item.readme]) {
+                    descriptionBar.$ext.textContent = readmeCache[item.readme];
+                    return;
+                }
+                descriptionBar.$ext.textContent = "Loading...";
+                // fs.readFile()
+            }
+            
+            function renderServiceDetails(items) {
+                function addUnique(item, array) { 
+                    if (array.indexOf(item) == -1) array.push(item); 
+                }
+                
+                var provided = [];
+                
+                items.forEach(function addProvides(x) {
+                    if (x.map) {
+                        Object.keys(x.map).forEach(function(n) {
+                            addProvides(x.map[n]);
+                        });
+                    }
+                    if (x.provides) {
+                        x.provides.forEach(function(p) {
+                            addUnique(p, provided);
+                        });
+                    }
+                });
+                
+                var consumedMap = Object.create(null);
+                provided.forEach(function(service) {
+                    consumedMap[service] = 0;
+                });
+                addAllProviders(consumedMap);
+                var consumedList = Object.keys(consumedMap);
+                var consumedGroups = splitToGroups(consumedList, consumedMap);
+                
+                var dependents = Object.create(null);
+                provided.forEach(function(service) {
+                    dependents[service] = 0;
+                });
+                addAllDependents(dependents);
+                var depList = Object.keys(dependents);
+                var depGroups = splitToGroups(depList, dependents);
+                
+                function splitToGroups(list, map) {
+                    var groups = [];
+                    list.forEach(function(n) {
+                        var level = Math.abs(map[n]);
+                        if (!groups[level])
+                            groups[level] = [];
+                        groups[level].push(n);
+                    });
+                    groups = groups.filter(Boolean).slice(1);
+                    return groups;
+                }
+                
+                function formatServices(list, style) {
+                    return "[" + list.map(function(x) {
+                        return '<span class="serviceButton">' + escapeHTML(x) + '</span>';
+                    }).join(", ") + "]";
+                }
+                
+                descriptionBar.$ext.style.overflow = "auto";
+                descriptionBar.$ext.innerHTML = '<div class="basic intro" \
+                    style="padding:12px 0 12px 12px;white-space:pre-line">\
+                    <p>' + (items.length == 1 
+                        ? '<span class="serviceButton">' + escapeHTML(items[0].path) + '</span>'
+                        : (items.length || "no") + " plugins selected") + '</p>\
+                    <hr></hr>\
+                    <h1>Provided services [' + provided.length + ']</h1>\
+                    <p type="provided">' + (provided.length ? formatServices(provided) : "") + '</p>\
+                    <h1>Consumed services [' + (consumedList.length - provided.length) + ']</h1>\
+                    <p type="consumed">' + consumedGroups.map(formatServices).join("<br/>") + '</p>\
+                    <h1>Dependent services [' + (depList.length - provided.length) + ']</h1>\
+                    <p type="dependent">' + depGroups.map(formatServices).join("<br/>") + '</p>\
+                    <br/>\
+                </div>';
+                
+            }
+            descriptionBar.$ext.addEventListener("click", function(e) {
+                if (e.button) return;
+                var el = e.target;
+                var isButton = el.classList.contains("serviceButton");
+                var text = el.textContent;
+                var serviceToPlugin = architectApp.serviceToPlugin;
+                if (e.detail == 1 && isButton && text) {
+                    var path = serviceToPlugin[text] ? serviceToPlugin[text].packagePath : text;
+                    var node = function search(node) {
+                        if (node.path == path)
+                            return node;
+                        if (node.items) {
+                            for (var i = 0; i < node.items.length; i++) {
+                                var result = search(node.items[i]);
+                                if (result) 
+                                    return result;
+                            }
+                        }
+                    }(model.cachedRoot);
+                    
+                    if (node)
+                        datagrid.reveal(node);
+                }
+            });
+            var hoverDetails = { hovered: "", highlighted: "" };
+            descriptionBar.$ext.addEventListener("mousemove", function(e) {
+                if (e.button) return;
+                var el = e.target;
+                var isButton = el.classList.contains("serviceButton");
+                var text = el.textContent;
+                hoverDetails.parent = el.parentNode;
+                hoverDetails.hovered = isButton ? text : "";
+                hoverDetails.type = isButton ? el.parentNode.getAttribute("type") : "";
+                if (hoverDetails.hovered != hoverDetails.highlighted)
+                    requestAnimationFrame(updateHighlights);
+            });
+            function updateHighlights() {
+                if (hoverDetails.hovered == hoverDetails.highlighted) return;
+                var serviceToPlugin = architectApp.serviceToPlugin;
+                if (!serviceToPlugin) return;
+                
+                var nodes = descriptionBar.$ext.querySelectorAll(".serviceButton");
+                
+                var deps = Object.create(null);
+                deps[hoverDetails.hovered] = 0;
+                addAllDependents(deps);
+                addAllProviders(deps);
+                
+                for (var i = 0; i < nodes.length; i++) {
+                    var node = nodes[i];
+                    var val = node.textContent;
+                    var highlight1 = false;
+                    var highlight2 = false;
+                    if (hoverDetails.type == "dependent") {
+                        if (hoverDetails.parent == node.parentNode || node.parentNode.getAttribute("type") == "provided") {
+                            highlight1 = deps[val] < 0;
+                            highlight2 = deps[val] > 0;
+                        }
+                    } else if (hoverDetails.type == "consumed") {
+                        if (hoverDetails.parent == node.parentNode || node.parentNode.getAttribute("type") == "provided") {
+                            highlight1 = deps[val] > 0;
+                            highlight2 = deps[val] < 0;
+                        }
+                    }
+                    
+                    nodes[i].style.borderBottom = highlight1 ? "1px solid" : "";
+                    if (!highlight1) {
+                        nodes[i].style.borderBottom = highlight2 ? "1px dashed rgba(125, 125, 125, 0.9)" : "";
+                    }
+                }
+                hoverDetails.highlighted = hoverDetails.hovered;
+            }
+            window.requestAnimationFrame(renderDetails);
+        }
+        
+
+        /***** Methods *****/
+        
+        function readAvailablePlugins(callback) {
+            fs.readdir("~/.c9/plugins", function(err, list) {
+                if (err) return callback && callback(err);
+                
+                var available = [];
+                list.forEach(function(stat) {
+                    var name = stat.name;
+                    if (!/(directory|folder)$/.test(stat.mime)) return;
+                    if (!/[._]/.test(name[0])) available.push(name);
+                });
+                localPlugins = available.concat();
+                reloadModel();
+                callback && callback(null, available);
             });
         }
 
-        /***** Methods *****/
-
         function reloadModel() {
             if (!model) return;
-
-            var groups = {};
-            var packages = {};
-            var root = [];
-
-            ["custom", "pre", "core", "runtime"].forEach(function(name) {
-                root.push(groups[name] = {
-                    items: [],
-                    isOpen: name != "runtime",
-                    className: "group",
-                    isGroup: true,
-                    isType: name,
-                    noSelect: true,
-                    name: GROUPS[name]
+            
+            if (!CORE.pluginManager) {
+                CORE.pluginManager = 1;
+                addAllProviders(CORE);
+                Object.keys(CORE).forEach(function(n) {
+                    if (architectApp.serviceToPlugin[n])
+                        CORE[architectApp.serviceToPlugin[n].packagePath] = 1;
                 });
-            });
+            }
 
-            var lut = ext.named;
-
-            ext.plugins.forEach(function(plugin) {
-                var info = architect.pluginToPackage[plugin.name];
-                var packageName = info && info.package || "runtime";
-
-                var groupName;
-                if (CORE[packageName]) groupName = "core";
-                else if (info && info.isAdditionalMode) groupName = "custom";
-                else groupName = "pre";
-
-                var package;
-                if (packageName == "runtime") {
-                    package = groups.runtime;
+            var GROUPS = {
+                "changed": "Recently Changed",
+                "remote": "Remote Plugins",
+                "vfs": "Locally Installed Plugins",
+                "pre": "Pre-installed Plugins",
+                "core": "Core Plugins",
+            };
+            
+            var groups = model.groups || Object.create(null);
+            if (!model.groups) {
+                var root = [];
+                model.cachedRoot = { items: root };
+                model.groups = groups;
+                Object.keys(GROUPS).forEach(function(name) {
+                    root.push(groups[name] = {
+                        map: Object.create(null),
+                        isOpen: name != "runtime",
+                        className: "group",
+                        isGroup: true,
+                        isType: name,
+                        noSelect: true,
+                        name: GROUPS[name]
+                    });
+                });
+            }
+            
+            architectApp.config.forEach(function(plugin) {
+                if (plugin.packagePath) {
+                    var parts = plugin.packagePath.split("/");
+                    
+                    var path = parts.shift();
+                    var node = CORE[plugin.packagePath] ? groups.core : groups.pre;
+                    parts.forEach(function(p, i) {
+                        path = path + "/" + p;
+                        if (!node.map)
+                            node.map = Object.create(null);
+                        if (!node.map[p]) {
+                            node.map[p] = {
+                                path: path,
+                                parent: node,
+                            };
+                        }
+                        node.map[p].name = p;
+                        if (i == parts.length - 1) {
+                            var enabled = 1;
+                            node.map[p].provides = plugin.provides;
+                            node.map[p].time = plugin.provides.reduce(function(sum, x) {
+                                var service = architectApp.services[x];
+                                if (!service || (!service.loaded && service.unload)) {
+                                    enabled = 0;
+                                }
+                                return sum + (service && service.time || 0);
+                            }, 0);
+                            node.map[p].enabled = enabled;
+                        }
+                        node = node.map[p];
+                    });
                 }
-                else {
-                    package = packages[packageName];
-                    if (!package)
-                        groups[groupName].items.push(package = packages[packageName] = {
-                            items: [],
-                            isPackage: true,
-                            className: "package",
-                            parent: groups[groupName],
-                            name: packageName
+            });
+            
+            if (localPlugins) {
+                groups.pre.map = groups.pre.map || Object.create(null);
+                localPlugins.forEach(function(x) {
+                    groups.vfs.map[x] = {
+                        name: x,
+                        enabled: 0
+                    };
+                });
+            }
+            
+            function flatten(node, index) {
+                if (node.map) {
+                    node.items = node.children = Object.keys(node.map).map(function(x) {
+                        return node.map[x];
+                    });
+                }
+                if (node.items) {
+                    node.items.forEach(flatten);
+                    if (node.items.length == 1) {
+                        var other = node.items[0];
+                        if (node.parent && node.parent.items[index] == node) {
+                            node.parent.items[index] = other;
+                            other.name = node.name + "/" + other.name;
+                        }
+                    }
+                    if (!node.isGroup) {
+                        node.items.some(function(i) {
+                            if (node.enabled == null) {
+                                node.enabled = i.enabled;
+                            }
+                            if (i.enabled != node.enabled) {
+                                node.enabled = -1;
+                                return true;
+                            }
                         });
+                    }
                 }
+            }
+            
+            flatten(model.cachedRoot);
 
-                package.items.push({
-                    name: plugin.name,
-                    enabled: lut[plugin.name].loaded ? "true" : "false",
-                    time: plugin.time,
-                    version: info && info.version || "N/A",
-                    parent: package,
-                    package: packageName,
-                    developer: plugin.developer == "Ajax.org"
-                        ? "Cloud9"
-                        : plugin.developer
-                });
-            });
-
-            model.cachedRoot = { items: root };
             applyFilter();
         }
 
@@ -486,7 +707,7 @@ define(function(require, exports, module) {
                 model.reKeyword = null;
                 model.setRoot(model.cachedRoot);
 
-                // model.isOpen = function(node){ return node.isOpen; }
+                // model.isOpen = function(node) { return node.isOpen; }
             }
             else {
                 model.reKeyword = new RegExp("("
@@ -494,106 +715,7 @@ define(function(require, exports, module) {
                 var root = search.treeSearch(model.cachedRoot.items, model.keyword, true);
                 model.setRoot(root);
 
-                // model.isOpen = function(node){ return true; };
-            }
-        }
-
-        function uninstall(name) {
-            btnUninstall.setAttribute("caption", "...");
-            btnUninstall.disable();
-
-            // @TODO first disable the plugin
-
-            proc.spawn("c9", { args: ["uninstall", name]}, function(err, p) {
-                p.stdout.on("data", function(c) {
-
-                });
-                p.stderr.on("data", function(c) {
-
-                });
-                p.on("exit", function(code) {
-                    if (code) {
-                        return alert("Could not uninstall plugin",
-                            "Could not uninstall plugin",
-                            "Could not uninstall plugin");
-                    }
-
-                    btnUninstall.setAttribute("caption", "Uninstall");
-                    btnUninstall.enable();
-                });
-            });
-        }
-
-        function enable(name) {
-            try { ext.enablePlugin(name); }
-            catch (e) {
-                alert("Could not disable plugin",
-                    "Got an error when disabling plugin: " + name,
-                    e.message);
-                return false;
-            }
-
-            reloadModel();
-        }
-
-        function disable(name, callback) {
-            var deps = ext.getDependencies(name);
-            var plugins = ext.named;
-
-            for (var i = 0; i < deps.length; i++) {
-                ext.getDependencies(deps[i]).forEach(function(name) {
-                    if (deps.indexOf(name) == -1)
-                        deps.push(name);
-                });
-            }
-
-            if (deps.length) {
-                confirm("Found " + deps.length + " plugins that depend on this plugin.",
-                    "Would you like to disable all the plugins that depend on '" + name + "'?",
-                    "These plugins would also be disabled: " + deps.join(", "),
-                    // Yes
-                    function() {
-                        if (deps.reverse().every(function(name) {
-                            console.log("Disabling", name);
-                            return !recurDisable(name);
-                        })) {
-                            disable(name);
-                            reloadModel();
-                        }
-                    },
-                    // No
-                    function() {
-                        callback(new Error("User Cancelled"));
-                    });
-            }
-            else {
-                var e = disable(name);
-                if (!e) reloadModel();
-                callback(e);
-            }
-
-            function recurDisable(name) {
-                var deps = ext.getDependencies(name);
-
-                if (deps.length) {
-                    if (!deps.every(function(name) {
-                        return !recurDisable(name);
-                    })) return false;
-                }
-
-                return disable(name);
-            }
-
-            function disable(name) {
-                if (!plugins[name].loaded) return;
-
-                try { ext.disablePlugin(name); }
-                catch (e) {
-                    alert("Could not disable plugin",
-                        "Got an error when disabling plugin: " + name,
-                        e.message);
-                    return e;
-                }
+                // model.isOpen = function(node) { return true; };
             }
         }
 
@@ -674,13 +796,120 @@ define(function(require, exports, module) {
             href += (href.match(/\?/) ? "&" : "?") + "reload=" + name;
             window.history.replaceState(window.history.state, null, href);
             
-            for (var plugin in architect.lut) {
-                if (architect.lut[plugin].provides.indexOf(name) < 0)
+            for (var plugin in architectApp.lut) {
+                if (architectApp.lut[plugin].provides.indexOf(name) < 0)
                     continue;
 
-                pluginDebug.reloadPackage(plugin);
+                reloadPackage(plugin);
                 return;
             }
+            updateReloadLastButton();
+        }
+        
+        function updateReloadLastButton() {
+            var last = getLastReloaded();
+            if (last) {
+                btnReloadLast.visible = true;
+                btnReloadLast.textContent = "Reload " + last;
+            } else {
+                btnReloadLast.visible = false;
+            }
+        }
+        
+        function loadVFSExtension(callback) {
+            if (api)
+                return callback(null, api);
+            ext.loadRemotePlugin("pluginLoader", {
+                code: c9.standalone ? undefined : require("text!./vfs.package.reader.js"),
+                file: c9.standalone ? "c9.ide.plugins/vfs.package.reader.js" : undefined,
+                redefine: true
+            }, function(err, remote) {
+                if (err)
+                    return callback(err);
+
+                api = remote;
+                return callback(null, api);
+            });
+        }
+        
+        function reloadPackage(path) {
+            var unloaded = [];
+            
+            function recurUnload(name) {
+                var plugin = architectApp.services[name];
+                unloaded.push(name);
+                
+                // Find all the dependencies
+                var deps = ext.getDependents(plugin.name);
+                
+                // Unload all the dependencies (and their deps)
+                deps.forEach(function(name) {
+                    recurUnload(name);
+                });
+                
+                // Unload plugin
+                plugin.unload();
+            }
+            
+            // Recursively unload plugin
+            var p = architectApp.lut[path];
+            if (p.provides) { // Plugin might not been initialized all the way
+                p.provides.forEach(function(name) {
+                    recurUnload(name);
+                });
+            }
+            
+            // create reverse lookup table
+            var rlut = {};
+            for (var packagePath in architectApp.lut) {
+                var provides = architectApp.lut[packagePath].provides;
+                if (provides) { // Plugin might not been initialized all the way
+                    provides.forEach(function(name) {
+                        rlut[name] = packagePath;
+                    });
+                }
+            }
+            
+            // Build config of unloaded plugins
+            var config = [], done = {};
+            unloaded.forEach(function(name) {
+                var packagePath = rlut[name];
+                
+                // Make sure we include each plugin only once
+                if (done[packagePath]) return;
+                done[packagePath] = true;
+                
+                var options = architectApp.lut[packagePath];
+                delete options.provides;
+                delete options.consumes;
+                delete options.setup;
+                
+                config.push(options);
+                
+                // Clear require cache
+                requirejs.undef(options.packagePath); // global
+            });
+            
+            // Load all plugins again
+            architectApp.loadAdditionalPlugins(config, function(err) {
+                if (err) console.error(err);
+            });
+        }
+        
+        function reloadAllCustomPlugins() {
+            var list = [];
+            Object.keys(architectApp.serviceToPlugin).forEach(function(name) {
+                if (architectApp.serviceToPlugin[name].isAdditionalMode)
+                    list.push(architectApp.serviceToPlugin[name].path);
+            });
+            
+            var path = list[list.length - 1];
+            reloadPackage(path.replace(/^~\/\.c9\//, ""));
+            
+            // Avoid confusion with "Reload Last Plugin"
+            var href = document.location.href.replace(/[?&]reload=[^&]+/, "");
+            window.history.replaceState(window.history.state, null, href);
+            showInfo("Reloaded " + path + ".", 1000);
         }
         
         function showReloadTip(name) {
@@ -700,139 +929,216 @@ define(function(require, exports, module) {
             return qs.parse(document.location.search.substr(1)).reload;
         }
         
-        var packages = {};
-        function loadPackage(options, callback) {
-            if (Array.isArray(options))
-                return async.map(options, loadPackage, callback || function() {});
-            
-            if (typeof options == "string") {
-                if (/^https?:/.test(options)) {
-                   options = { url: options };
-                } else if (/^[~\/]/.test(options)) {
-                    options = { path: options };
-                } else if (/^[~\/]/.test(options)) {
-                    options =  { url: require.toUrl(options) };
-                }
-            }
-            
-            if (!options.url && options.path)
-                options.url = vfs.vfsUrl(options.path);
-            
-            var parts = options.url.split("/");
-            var root = parts.pop();
-            options.url = parts.join("/");
-            
-            if (!options.name) {
-                // try to find the name from file name
-                options.name = /^package\.(.*)\.js$|$/.exec(root)[1];
-                // try folder name
-                if (!options.name || options.name == "json")
-                    options.name = parts[parts.length - 1];
-                // try parent folder name
-                if (/^(.?build|master|c9build)/.test(options.name))
-                    options.name = parts[parts.length - 2];
-                // remove version from the name
-                options.name = options.name.replace(/@.*$/, "");
-            }
-            if (!options.packageName)
-                options.packageName = root.replace(/\.js$/, "");
-            
-            if (!options.rootDir)
-                options.rootDir = "plugins";
-            
-            var name = options.name;
-            var id = options.rootDir + "/" + name;
-            var pathMappings = {};
-            
-            pathMappings[id] = options.url;
-            requirejs.config({ paths: pathMappings });
-            requirejs.undef(id + "/", true);
-            
-            if (/\.js$/.test(root)) {
-                require([options.url + "/" + root], function(json) {
-                    json = json || require(id + "/" + options.packageName);
-                    getPluginsFromPackage(json, callback);
-                }, function(err) {
-                    addError("Error loading plugin", err);
-                });
-            }
-            else if (options.path && /\.json$/.test(root)) {
-                fs.readFile(options.path, function(err, value) {
-                    if (err) return addError("Error reading " + options.path, err);
-                    try {
-                        var json = JSON.parse(value);
-                    } catch (e) {
-                        return addError("Error parsing package.json", e);
-                    }
-                    json.fromVfs = true;
-                    getPluginsFromPackage(json, callback);
-                });
-            }
-            else if (options.url && /\.json$/.test(root)) {
-                require(["text!" + options.id + "/" + root], function(value) {
-                    try {
-                        var json = JSON.parse(value);
-                    } catch (e) {
-                        return addError("Error parsing package.json", e);
-                    }
-                    getPluginsFromPackage(json, callback);
-                }, function(err) {
-                    addError("Error loading plugin", err);
-                });
-            }
-            else {
-                callback && callback(new Error("Missing path and url"));
-            }
-            
-            function addError(message, err) {
-                if (!packages[name])
-                    packages[name] = {};
-                packages[name].filePath = options.path;
-                packages[name].url = options.url;
-                packages[name].__error = new Error(message + "\n" + err.message);
-                
-                reloadModel();
-                
-                callback && callback(err);
-            }
-            
-            function getPluginsFromPackage(json, callback) {
-                var plugins = [];
-                if (json.name != name)
-                    name = json.name;
-                var unhandledPlugins = json.c9 && json.c9.plugins || json.plugins;
-                if (unhandledPlugins) {
-                    Object.keys(unhandledPlugins).forEach(function(name) {
-                        var plugin = unhandledPlugins[name];
-                        if (typeof plugin == "string")
-                            plugin = { packagePath: plugin };
-                        if (!plugin.packagePath)
-                            plugin.packagePath = id + "/" + name;
-                        plugin.staticPrefix = options.url;
-                        plugins.push(plugin);
+        function addAllDependents(packages) {
+            var config = architectApp.config;
+            var level = 0;
+            do {
+                level++;
+                var changed = false;
+                var packageNames = Object.keys(packages);
+                config.forEach(function(x) {
+                    packageNames.forEach(function(p) {
+                        if (x.consumes.indexOf(p) != -1) {
+                            x.provides.forEach(function(name) {
+                                if (packages[name] == null) {
+                                    changed = true;
+                                    packages[name] = level;
+                                }
+                            });
+                        }
                     });
-                }
-                
-                packages[json.name] = json;
-                json.filePath = options.path;
-                json.url = options.url;
-                
-                if (!json.c9)
-                    json.c9 = {};
-                
-                json.c9.plugins = plugins;
-                json.enabled = true;
-                json.path = id;
-                
-                loadPlugins(plugins, callback);
-            }
+                });
+            } while (changed);
+            return packages;
         }
         
-        function loadPlugins(plugins, callback) {
-            architect.loadAdditionalPlugins(plugins, function(err) {
-                callback && callback && callback(err);
+        function addAllProviders(packages) {
+            var serviceToPlugin = architectApp.serviceToPlugin;
+            var level = 0;
+            do {
+                level--;
+                var changed = false;
+                var packageNames = Object.keys(packages);
+                packageNames.forEach(function(p) {
+                    var service = serviceToPlugin[p];
+                    if (service && service.consumes) {
+                        service.consumes.forEach(function(name) {
+                            if (packages[name] == null) {
+                                changed = true;
+                                packages[name] = level;
+                            }
+                        });
+                    }
+                });
+            } while (changed);
+            return packages;
+        }
+        
+        function unloadPackage(options, callback) {
+            var toUnload = Object.create(null);
+            var config = architectApp.config;
+            function addPath(path) {
+                config.forEach(function(p) {
+                    if (!p.packagePath) return;
+                    if (p.packagePath.startsWith(path)) {
+                        p.provides.forEach(function(name) {
+                            toUnload[name] = 0;
+                        });
+                    }
+                });
+            }
+            if (options.path) {
+                addPath(options.path);
+            }
+            if (options.paths) {
+                options.path.forEach(addPath);
+            }
+            if (options.services) {
+                options.services.forEach(function(name) {
+                    toUnload[name] = 0;
+                });
+            }
+            
+            addAllDependents(toUnload);
+            
+            var services = architectApp.services;
+            var serviceToPlugin = architectApp.serviceToPlugin;
+            Object.keys(toUnload).forEach(function(name) {
+                recurUnload(name);
+            });
+            
+            function recurUnload(name) {
+                var service = services[name];
+                
+                if (!service || !service.loaded)
+                    return;
+                
+                // Find all the dependencies
+                var deps = ext.getDependents(service.name);
+                
+                // Unload all the dependencies (and their deps)
+                deps.forEach(function(name) {
+                    recurUnload(name);
+                });
+                
+                console.log(name);
+                
+                // Unload plugin
+                service.unload();
+                
+                var pluginConfig = serviceToPlugin[name];
+                if (pluginConfig && toUnload[name] == 0)
+                    pluginConfig.__userDisabled = true;
+            }
+            
+            reloadModel();
+        }
+        
+        function loadPackage(options, callback) {
+            // 1 {url, }
+            // 2 
+            var paths = {};
+            paths[options.id] = options.staticPrefix;
+
+            requirejs.config({ paths: paths });
+            requirejs.undef(options.id, true);
+
+            require([options.url], function(installed) {
+                var plugins = require(options.id + "/package.json.js");
+
+                var architectConfig = plugins.map(function(plugin) {
+                    if (typeof plugin == "string")
+                        plugin = { packagePath: plugin };
+                    return plugin;
+                });
+                architectApp.loadAdditionalPlugins(architectConfig, function(err) {
+                    callback && callback(err);
+                });
+
+            }, function(err) {
+                callback && callback(err);
             });
         }
+        
+        function cleanupCache(packagePath) {
+            var options = architectApp.pathToPackage[packagePath];
+            var url = require.toUrl(options.packagePath, ".js");
+            if (!define.fetchedUrls[url]) return false;
+            
+            delete options.provides;
+            delete options.consumes;
+            delete options.setup;
+            
+            requirejs.undef(options.packagePath);
+            return true;
+        }
+        
+        function addStaticPlugin(type, pluginName, filename, data, plugin) {
+            var services = architectApp.services;
+            var path = "plugins/" + pluginName + "/" 
+                + (type == "installer" ? "" : type + "/") 
+                + filename.replace(/\.js$/, "");
+            
+            switch (type) {
+                case "builders":
+                    data = util.safeParseJson(data, function() {});
+                    if (!data) return;
+                    if (!services.build.addBuilder) return;
+                    
+                    services.build.addBuilder(filename, data, plugin);
+                    break;
+                case "keymaps":
+                    data = util.safeParseJson(data, function() {});
+                    if (!data) return;
+                    if (!services["preferences.keybindings"].addCustomKeymap) return;
+                    
+                    services["preferences.keybindings"].addCustomKeymap(filename, data, plugin);
+                    break;
+                case "modes":
+                    if (!services.ace) return;
+                    var mode = {};
+                    var firstLine = data.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
+                    firstLine.split(";").forEach(function(n) {
+                        if (!n) return;
+                        var info = n.split(":");
+                        mode[info[0].trim()] = info[1].trim();
+                    });
+                    
+                    services.ace.defineSyntax({
+                        name: path,
+                        caption: mode.caption,
+                        extensions: (mode.extensions || "").trim()
+                            .replace(/\s*,\s*/g, "|").replace(/(^|\|)\./g, "$1")
+                    });
+                    break;
+                case "outline":
+                    if (!data) return;
+                    if (!services.outline.addOutlinePlugin) return;
+                    
+                    services.outline.addOutlinePlugin(path, data, plugin);
+                    break;
+                case "runners":
+                    data = util.safeParseJson(data, function() {});
+                    if (!data) return;
+                    
+                    services.run.addRunner(data.caption || filename, data, plugin);
+                    break;
+                case "snippets":
+                    services["language.complete"].addSnippet(data, plugin);
+                    break;
+                case "themes":
+                    services.ace.addTheme(data, plugin);
+                    break;
+                case "templates":
+                    services.newresource.addFileTemplate(data, plugin);
+                    break;
+                case "installer":
+                    console.error("Installer is not supported.");
+                default:
+                    console.error("Unsupported type", type);
+            }
+        }
+
 
         /***** Lifecycle *****/
 
@@ -858,15 +1164,12 @@ define(function(require, exports, module) {
             loaded = false;
             drawn = false;
 
-            architect = null;
             model = null;
             datagrid = null;
             filterbox = null;
             btnUninstall = null;
-            btnReport = null;
-            btnReadme = null;
-            btnCloud9 = null;
-            btnReload = null;
+            localPlugins = null;
+            api = null;
         });
 
         /***** Register and define API *****/
@@ -875,17 +1178,6 @@ define(function(require, exports, module) {
          *
          **/
         plugin.freezePublicAPI({
-            /**
-             *
-             */
-            get architect() { throw new Error(); },
-            set architect(v) {
-                architect = v;
-                architect.on("ready-additional", function() {
-                    reloadModel();
-                });
-            },
-
             /**
              *
              */
@@ -899,27 +1191,27 @@ define(function(require, exports, module) {
             /**
              *
              */
-            uninstall: uninstall,
+            unloadPackage: unloadPackage,
+            
+            /**
+             *
+             */
+            addStaticPlugin: addStaticPlugin,
 
             /**
              *
              */
-            enable: enable,
-
-            /**
-             *
-             */
-            disable: disable,
-
-            /**
-             *
-             */
-            reload: reload
+            reload: reload,
+            
+            loadVFSExtension: loadVFSExtension
         });
+
+        var shim = new Plugin();
 
         register(null, {
             "pluginManager": plugin,
-            "plugin.manager": plugin
+            "plugin.manager": shim,
+            "plugin.debug": shim,
         });
     }
 });

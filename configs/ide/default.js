@@ -19,6 +19,7 @@ module.exports = function(options) {
     options.workspaceDir = normalize(options.workspaceDir);
     options.installPath = normalize(options.installPath);
     options.home = normalize(options.home);
+    options.sourceDir = options.sourceDir && normalize(options.sourceDir);
 
     var workspaceDir = options.workspaceDir;
     var debug = options.debug !== undefined ? options.debug : false;
@@ -63,7 +64,8 @@ module.exports = function(options) {
             projectName: options.projectName || "Project",
             configName: options.configName,
             standalone: options.standalone,
-            dashboardUrl: options.dashboardUrl
+            dashboardUrl: options.dashboardUrl,
+            sourceDir: options.sourceDir,
         },
         {
             packagePath: "plugins/c9.core/settings",
