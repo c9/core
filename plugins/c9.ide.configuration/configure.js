@@ -3,7 +3,7 @@ define(function(require, exports, module) {
         "Plugin", "dialog.error", "ui", "settings", "tabManager", "save", 
         "menus", "preferences.keybindings", "preferences.general",
         "preferences.project", "c9", "commands", "watcher", "fs", 
-        "tree.favorites", "preferences", "util"
+        "tree.favorites", "util", "hub"
     ];
     main.provides = ["configure"];
     return main;
@@ -16,13 +16,13 @@ define(function(require, exports, module) {
         var menus = imports.menus;
         var watcher = imports.watcher;
         var tabManager = imports.tabManager;
-        var preferences = imports.preferences;
         var ui = imports.ui;
         var c9 = imports.c9;
         var fs = imports.fs;
         var kbprefs = imports["preferences.keybindings"];
         var genprefs = imports["preferences.general"];
         var prjprefs = imports["preferences.project"];
+        var services = imports.hub.app.services;
         var showError = imports["dialog.error"].show;
         var favs = imports["tree.favorites"];
         var util = imports.util;
@@ -35,7 +35,7 @@ define(function(require, exports, module) {
         // var emit = plugin.getEmitter();
         
         var cssSession = new Plugin("Ajax.org", main.consumes);
-        var services, initPlugin;
+        var initPlugin;
         
         var pathFromFavorite = options.pathFromFavorite;
         
@@ -292,20 +292,17 @@ define(function(require, exports, module) {
         }
         
         function editStylesCss() {
-            // preferences.hide();
             var css = settings.get("user/config/styles.css") || "";
             openTab("~/.c9/styles.css", css, "css");
         }
         
         function editProjectSettings() {
-            // preferences.hide();
             var value = JSON.stringify(settings.model.project, 0, "    ")
                 .replace(/"true"/g, "true")
                 .replace(/"false"/g, "false");
             openTab(settings.paths.project, value, "javascript");
         }
         function editUserSettings() {
-            // preferences.hide();
             var value = JSON.stringify(settings.model.user, 0, "    ")
                 .replace(/"true"/g, "true")
                 .replace(/"false"/g, "false");
@@ -353,9 +350,6 @@ define(function(require, exports, module) {
          * 
          **/
         plugin.freezePublicAPI({
-            get services() { return services; },
-            set services(value) { services = value; },
-            
             /**
              * 
              */
