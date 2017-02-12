@@ -82,29 +82,14 @@ module.exports = function(options) {
         // },
         "plugins/c9.core/util",
         {
-            packagePath: "plugins/c9.ide.plugins/loader",
-            plugins: options.plugins || [],
-            loadFromDisk: options.standalone
-        },
-        {
-            packagePath: "plugins/c9.ide.plugins/installer",
-            updates: options.pluginUpdates || []
-        },
-        {
             packagePath: "plugins/c9.ide.plugins/manager",
             staticPrefix: staticPrefix + "/plugins/c9.ide.plugins",
             devel: devel
         },
-        {
-            packagePath: "plugins/c9.ide.plugins/debug"
-        },
-        {
-            packagePath: "plugins/c9.ide.plugins/packages"
-        },
-        {
-            packagePath: "plugins/c9.ide.plugins/test",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.plugins"
-        },
+        // {
+        //     packagePath: "plugins/c9.ide.plugins/test",
+        //     staticPrefix: staticPrefix + "/plugins/c9.ide.plugins"
+        // },
         
         // VFS
         "plugins/c9.vfs.client/vfs.ping",
