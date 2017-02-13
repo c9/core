@@ -94,7 +94,6 @@
 }
 .envcontainer .blackdg{
     border-top: 1px solid #363636;
-    max-height : 300px;
 }
 .tree-row.newenv:not(.selected) {
     color: rgb(151, 151, 151);
