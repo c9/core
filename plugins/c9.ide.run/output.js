@@ -483,10 +483,9 @@ define(function(require, exports, module) {
                 
                 layout.on("eachTheme", function(e) {
                     var height = parseInt(ui.getStyleRule(".blackdg .row", "height"), 10) || 24;
-                    model.rowHeightInner = height - 1;
                     model.rowHeight = height;
                     
-                    if (e.changed) (datagrid).resize(true);
+                    if (e.changed) datagrid.resize(true);
                 });
 
                 model.$sorted = false;
@@ -510,7 +509,6 @@ define(function(require, exports, module) {
 
                 datagrid = new Tree(div);
                 datagrid.renderer.setTheme({ cssClass: "blackdg" });
-                datagrid.setOption("maxLines", 200);
                 datagrid.setDataProvider(model);
                 datagrid.edit = new TreeEditor(datagrid);
 
@@ -818,14 +816,18 @@ define(function(require, exports, module) {
                         return;
 
                     drawEnv();
-                    datagrid.resize();
-
                     model.session = currentSession;
                     if (!model.session.config.env)
                         model.session.config.env = {};
-
                     reloadModel();
-
+                    
+                    var rect = mnuEnv.opener.$ext.getBoundingClientRect();
+                    var top = rect.top;
+                    var bottom = window.innerHeight - rect.bottom;
+                    
+                    var maxRows = Math.floor(Math.max(top, bottom) / datagrid.model.rowHeight) - 2;
+                    datagrid.setOption("maxLines", maxRows);
+                    datagrid.resize();
                     mnuEnv.resize();
 
                     var node = datagrid.getFirstNode();

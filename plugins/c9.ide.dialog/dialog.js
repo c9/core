@@ -133,15 +133,20 @@ define(function(require, module, exports) {
                     emit("resize");
                 });
                 var escHandler = function(e) {
-                    dialog.dispatchEvent("keydown", e);
+                    if (dialog.visible) {
+                        dialog.dispatchEvent("keydown", e);
+                        if (e.keyCode == 27) e.stopPropagation();
+                    }
                 };
-                document.body.addEventListener("keydown", escHandler, true);
-                plugin.on("hide", function() {
-                    document.removeEventListener("keydown", escHandler, true);
-                });
-                plugin.on("unload", function() {
-                    document.removeEventListener("keydown", escHandler, true);
-                });
+                var addEscHandler = function() {
+                    document.body.addEventListener("keydown", escHandler, true);
+                };
+                var removeEscHandler = function() {
+                    document.body.removeEventListener("keydown", escHandler, true);
+                };
+                plugin.on("show", addEscHandler);
+                plugin.on("hide", removeEscHandler);
+                plugin.on("unload", removeEscHandler);
                 
                 titles = plugin.getElement("titles");
                 buttons = plugin.getElement("buttons");
