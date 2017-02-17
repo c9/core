@@ -153,6 +153,7 @@ define(function(require, exports, module) {
             function done(err) {
                 if (err) {
                     console.error(err, err.stack);
+                    console.trace();
                     process.exit(1);
                 }
                 pending--;
