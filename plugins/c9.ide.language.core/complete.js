@@ -791,7 +791,7 @@ define(function(require, exports, module) {
                 else
                     forceOpen = true;
             }
-            ace.addEventListener("change", deferredInvoke);
+            
             var pos = ace.getCursorPosition();
             var line = ace.getSession().getLine(pos.row);
             worker.emit("complete", { data: {
@@ -816,7 +816,6 @@ define(function(require, exports, module) {
             var line = editor.ace.getSession().getLine(pos.row);
             isDocsRequested = !event.data.noDoc;
             
-            editor.ace.removeEventListener("change", deferredInvoke);
             killCrashedCompletionInvoke.cancel();
     
             if (!completeUtil.canCompleteForChangedLine(event.data.line, line, event.data.pos, pos, getIdentifierRegex(null, editor.ace)))
