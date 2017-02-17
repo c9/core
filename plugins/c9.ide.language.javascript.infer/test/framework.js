@@ -70,7 +70,7 @@ function extractTypeAnnotations(code) {
 
 exports.buildTest = function(filename, exportSymbol) {
     return function(done) {
-        var code = fs.readFileSync(__dirname + "/" + filename, 'utf-8');
+        var code = fs.readFileSync(__dirname + "/" + filename, 'utf-8').replace(/\r/g, "");
         var builtins1 = fs.readFileSync(__dirname + "/../builtin.jst", 'utf-8');
         var builtins2 = fs.readFileSync(__dirname + "/../builtin.custom.jst", 'utf-8');
         var builtins3 = fs.readFileSync(__dirname + "/../builtin.nodejs.jst", 'utf-8');
