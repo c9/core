@@ -1315,6 +1315,8 @@ define(function(require, exports, module) {
                 write: write,
                 
                 getPathAsync: function(callback) {
+                    if (!currentSession || !currentSession.getStatus)
+                        return callback("not ready");
                     currentSession.getStatus({}, function(err, result) {
                         callback(err, result && util.normalizePath(result.path));
                     });
