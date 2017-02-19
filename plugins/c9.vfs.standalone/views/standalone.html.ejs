@@ -103,6 +103,7 @@
                 function done(){
                     var vfs = app.services.vfs;
                     var c9 = app.services.c9;
+                    var settings = app.services.settings;
                     
                     c9.ready();
                     c9.totalLoadTime = Date.now() - start;
@@ -110,13 +111,13 @@
                     console.warn("Total Load Time: ", Date.now() - start);
                     
                     if (window.hideLoader) {
-                        if (vfs.connected)
-                            window.hideLoader();
-                        else {
-                            vfs.once("connect", function(){
-                                window.hideLoader();
-                            });
-                        }
+                        var waitVfs = function(fn) {
+                            vfs.connected ? fn() : vfs.once("connect", fn);
+                        };
+                        var waitSettings = function(fn) {
+                            settings.inited ? fn() : settings.once("read", fn);
+                        };
+                        waitVfs(waitSettings.bind(null, window.hideLoader));
                     }
                 }
             }, function loadError(mod) {
