@@ -54,16 +54,6 @@ require(["lib/architect/architect", "lib/chai/chai"],
         },
         "plugins/c9.fs/fs.cache.xml",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "commands", "layout", "watcher", "proc",
-                "save", "anims", "clipboard", "dialog.alert", "auth.bootstrap",
-                "info", "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["tabManager", "ui", "fs.cache", "fs"],
             provides: [],
@@ -112,6 +102,21 @@ require(["lib/architect/architect", "lib/chai/chai"],
             
             var text;
             describe("open(), openFile(), openEditor() and reload()", function() {
+                it('should recover from state with no panes', function(done) {
+                    var oldState = tabs.getState();
+                    tabs.setState({
+                        "nodes": [],
+                        "type": "hsplitbox"
+                    }, function() {});
+                    tabs.openEditor("timeview", function(err, tab) {
+                        expect(tabs.getTabs()).length(1);
+                        
+                        expect(tabs.focussedTab)
+                            .to.exist
+                            .to.equal(tab);
+                        tabs.setState(oldState, done);
+                    });
+                });
                 it('should open a pane from a path', function(done) {
                     var vpath = "/file.txt";
                     tabs.openFile(vpath, function(err, tab) {
