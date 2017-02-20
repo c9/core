@@ -498,8 +498,13 @@ define(function(require, module, exports) {
                     state.pane = panes[i];
                 }
                 if (!state.pane) {
-                    throw new Error("Called open too early. Please wait until "
-                        + "a pane is available. Use the ready event.");
+                    if (isReady) {
+                        state.pane = createPane({});
+                        container.appendChild(state.pane.aml);
+                    } else {
+                        throw new Error("Called open too early. Please wait until "
+                            + "a pane is available. Use the ready event.");
+                    }
                 }
             }
             

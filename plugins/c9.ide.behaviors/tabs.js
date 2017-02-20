@@ -68,8 +68,8 @@ define(function(require, exports, module) {
             ["tab9", "Command-9", "Ctrl-9", null, "navigate to the ninth tab"],
             ["tab0", "Command-0", "Ctrl-0", null, "navigate to the tenth tab"],
             ["revealtab", "Command-Shift-L", "Ctrl-Shift-L", ACTIVEPATH, "reveal current tab in the file tree"],
-            ["nexttab", "Option-Tab", "Ctrl-Tab", MORETABSINPANE, "navigate to the next tab in the stack of accessed tabs"],
-            ["previoustab", "Option-Shift-Tab", "Ctrl-Shift-Tab", MORETABSINPANE, "navigate to the previous tab in the stack of accessed tabs"],
+            ["nexttab", "Option-Tab", "Ctrl-Tab|Alt-`", MORETABSINPANE, "navigate to the next tab in the stack of accessed tabs"],
+            ["previoustab", "Option-Shift-Tab", "Ctrl-Shift-Tab|Alt-Shift-`", MORETABSINPANE, "navigate to the previous tab in the stack of accessed tabs"],
             ["nextpane", "Option-ESC", "Ctrl-`", MOREPANES, "navigate to the next tab in the stack of panes"],
             ["previouspane", "Option-Shift-ESC", "Ctrl-Shift-`", MOREPANES, "navigate to the previous tab in the stack of panes"],
             ["gotopaneright", "Ctrl-Meta-Right", "Ctrl-Meta-Right", null, "navigate to the pane on the right"],
@@ -120,7 +120,7 @@ define(function(require, exports, module) {
                     list.remove(null);
                     paneList = list;
                 }
-            });
+            }, plugin);
             
             settings.on("write", function(e) {
                 var list;
@@ -134,7 +134,7 @@ define(function(require, exports, module) {
                     settings.setJson("state/panecycle", list);
                     paneList.changed = false;
                 }
-            });
+            }, plugin);
     
             // Preferences
             prefs.add({
@@ -472,7 +472,7 @@ define(function(require, exports, module) {
                     meta.accessList = [];
                 if (!meta.accessList.toJson)
                     meta.accessList.toJson = accessListToJson;
-            });
+            }, plugin);
     
             //@todo store the stack for availability after reload
             tabs.on("tabBeforeClose", function(e) {
@@ -489,14 +489,14 @@ define(function(require, exports, module) {
                     closeallbutme(tab);
                     return false;
                 }
-            });
+            }, plugin);
             
             tabs.on("tabAfterClose", function(e) {
                 // Hack to force focus on the right pane
                 var accessList = e.tab.pane.meta.accessList;
                 if (tabs.focussedTab == e.tab && accessList[1])
                     e.tab.pane.aml.nextTabInLine = accessList[1].aml;
-            });
+            }, plugin);
             
             tabs.on("tabBeforeReparent", function(e) {
                 // Move to new access list
@@ -512,7 +512,7 @@ define(function(require, exports, module) {
                 // Hack to force focus on the right pane
                 if (tabs.focussedTab == e.tab && lastList[0])
                     e.lastPane.aml.nextTabInLine = lastList[0].aml;
-            });
+            }, plugin);
             
             tabs.on("tabAfterClose", function(e) {
                 var tab = e.tab;
@@ -522,7 +522,7 @@ define(function(require, exports, module) {
                 addTabToClosedMenu(tab);
                 tab.pane.meta.accessList.remove(tab);
                 paneList.remove(tab);
-            });
+            }, plugin);
             
             tabs.on("tabCreate", function(e) {
                 var tab = e.tab;
@@ -565,7 +565,7 @@ define(function(require, exports, module) {
                     else
                         paneList[idx] = tab;
                 }
-            });
+            }, plugin);
     
             tabs.on("focusSync", function(e) {
                 var tab = e.tab;
@@ -588,7 +588,7 @@ define(function(require, exports, module) {
                   && settings.getBool('user/general/@revealfile')) {
                     revealtab(tab, true);
                 }
-            });
+            }, plugin);
             tabs.on("tabAfterActivate", function(e) {
                 var tab = e.tab;
                 if (tab == tabs.focussedTab || !tab.loaded) 
@@ -605,7 +605,7 @@ define(function(require, exports, module) {
                     
                     settings.save();
                 }
-            });
+            }, plugin);
     
             apf.addEventListener("keydown", function(eInfo) {
                 if (eInfo.keyCode == 17 || eInfo.keyCode == 18) {
