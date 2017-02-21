@@ -50,10 +50,12 @@ define(function(require, module, exports) {
             apf.initialize('<a:application xmlns:a="http://ajax.org/2005/aml" />');
             
             window.addEventListener("mousedown", function() {
+                apf.isMousePressed = true;
                 document.body.classList.add("disableIframe");
             }, true);
             
             window.addEventListener("mouseup", function() {
+                apf.isMousePressed = false;
                 document.body.classList.remove("disableIframe");
             }, true);
         }
