@@ -3,9 +3,13 @@ var assert = require("assert");
 module.exports = function(manifest, installPath) {
     if (!manifest) {
         manifest = require(__dirname + "/../package.json");
-        manifest.revision = 
-            manifest.revision ||
-            require("c9/git").getHeadRevisionSync(__dirname + "/..");
+        if (!manifest.revision) { 
+            try {
+                manifest.revision = require("c9/git").getHeadRevisionSync(__dirname + "/..");
+            } catch (e) {
+                console.error(e);
+            }
+        }
     }
     
     var path = require("path");
