@@ -1224,7 +1224,7 @@ define(function(require, module, exports) {
              * See also joinWithSession() for what happens to the current text.
              */
             function rejoin(reason) {
-                logger.log("[OT] rejoining document", docId, "reason: ", reason);
+                console.log("[OT] rejoining document", docId, "reason: ", reason);
                 resetState();
                 rejoinReason = reason;
                 var sameSession = session;
