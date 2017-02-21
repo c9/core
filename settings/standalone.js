@@ -1,3 +1,5 @@
+var assert = require("assert");
+
 module.exports = function(manifest, installPath) {
     if (!manifest) {
         manifest = require(__dirname + "/../package.json");
@@ -19,6 +21,7 @@ module.exports = function(manifest, installPath) {
         readWin32Settings();
     
     var home = process.env.HOME;
+    assert(home, "home directory must be set");
     
     if (!installPath)
         installPath = path.join(home, ".c9");
