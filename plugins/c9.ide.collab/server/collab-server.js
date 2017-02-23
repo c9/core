@@ -38,7 +38,9 @@ var Sequelize;
 var nodePath = getHomeDir() + "/.c9/node_modules";
 
 var debug = false;
-
+var logVerbose = function() {};
+var logVerboseError = function() {};
+var logError = function() { console.error.apply(console, arguments); };
 
 function getHomeDir() {
     return process.env.HOME || DEFAULT_HOME;
@@ -61,7 +63,7 @@ function installServer(callback) {
             Sequelize = require(root + "sequelize");
             return true;
         } catch (err) {
-            console.error(err);
+            logError(err);
             return false;
         }
     }
@@ -109,9 +111,9 @@ function checkDBCorruption (err, callback) {
         collabError: err
     });
     
-    console.error("[vfs-collab] CheckDBCorruption encountered error: ", err);
+    logError("[vfs-collab] CheckDBCorruption encountered error: ", err);
     if (err.code === "SQLITE_CORRUPT" || err.code === "SQLITE_NOTADB" || err.code === "SQLITE_IOERR") {
-        console.error("[vfs-collab] found a corrupted database - backing up and starting with a fresh collab database");
+        logError("[vfs-collab] found a corrupted database - backing up and starting with a fresh collab database");
         broadcast({
             type: "ERROR",
             err: new Error("Collab database corrupt")
@@ -126,7 +128,7 @@ function checkDBCorruption (err, callback) {
         totalWriteAttempts++;
         lastFailedWrite = Date.now();
         if (totalWriteAttempts >= MAX_WRITE_ATTEMPTS) {
-            console.error("[vfs-collab] Failed to write " + MAX_WRITE_ATTEMPTS + " times, checking if database is corrupt");
+            logError("[vfs-collab] Failed to write " + MAX_WRITE_ATTEMPTS + " times, checking if database is corrupt");
             
             // If the database is really corrupt this should return a corruption error which will be caught above
             var sequelize = connectToDB();
@@ -161,7 +163,7 @@ function connectToDB() {
             firstLine = firstLine.length < MAX_LOG_LINE_LENGTH ? firstLine : (firstLine.substring(0, MAX_LOG_LINE_LENGTH) + "...");
             var lastLine = lines[lines.length - 1];
             lastLine = lastLine.length < MAX_LOG_LINE_LENGTH ? lastLine : (lastLine.substring(lastLine.length - MAX_LOG_LINE_LENGTH) + "...");
-            console.error("[vfs-collab] DB", lines.length === 1
+            logVerbose("[vfs-collab] DB", lines.length === 1
                 ? (lines[0].length <= (2 * MAX_LOG_LINE_LENGTH) ? lines[0] : (firstLine + lines[0].substring(Math.max(MAX_LOG_LINE_LENGTH, lines[0].length - MAX_LOG_LINE_LENGTH))))
                 : (firstLine + " --- " + lastLine));
         },
@@ -319,7 +321,7 @@ function initDB(readonly, callback) {
                 return next();
             var migApplied = migNum;
             async.forEachSeries(migrations.slice(migNum - migrations.length), function (migration, next) {
-                console.error("[vfs-collab] applying database migration:", migration.query);
+                logVerbose("[vfs-collab] applying database migration:", migration.query);
                 wrapSeq(sequelize.query(migration.query), function(err) {
                     if (err && !migration.skipError)
                         return next(err);
@@ -336,7 +338,7 @@ function initDB(readonly, callback) {
     ], function(err) {
         if (!err)
             return callback();
-        console.error("[vfs-collab] initDB attempt failed:", err);
+        logError("[vfs-collab] initDB attempt failed:", err);
         checkDBCorruption(err, callback);
     });
 }
@@ -348,7 +350,7 @@ function parseJSONField(val) {
             val = JSON.parse(val);
         }
     } catch (e) {
-        console.error("[vfs-collab] parseJSONField failed:", val, e);
+        logError("[vfs-collab] parseJSONField failed:", val, e);
         val = {};
     }
     return val;
@@ -361,7 +363,7 @@ function parseJSONField(val) {
 
 function resetDB(callback) {
     if (resettingDatabase || !isMaster) return callback();
-    console.error("[vfs-collab] resetting collab database");
+    logError("[vfs-collab] resetting collab database");
     resettingDatabase = true;
     Fs.rename(dbFilePath, dbFilePath + ".old", function (err) {
         if (err && err.code !== "ENOENT") {
@@ -924,7 +926,7 @@ var Store = (function () {
         doc.contents = new Buffer(doc.contents);
         doc.updated_at = new Date();
         doc.lastUpdate = doc.updated_at.getTime();
-        console.error("Saving document to db with lastUpdate: " + doc.lastUpdate);
+        logVerbose("Saving document to db with lastUpdate: " + doc.lastUpdate);
 
         return wrapSeq(
             doc.save(),
@@ -1143,7 +1145,7 @@ function handleConnect(userIds, client) {
     function done(err) {
         if (!err)
             return;
-        console.error(err);
+        logError(err);
         client.send({
             type: "CONNECT",
             error: err
@@ -1218,7 +1220,7 @@ function handleConnect(userIds, client) {
                 return done("[vfs-collab] getUsers " + String(err));
 
             if (users.length > 1)
-                console.error("[vfs-collab] User", userIds.userId, "is connecting to a workspace with",
+                logVerbose("[vfs-collab] User", userIds.userId, "is connecting to a workspace with",
                     users.length - 1, "other workspace members");
 
             var onlineUsers = {};
@@ -1237,7 +1239,7 @@ function handleConnect(userIds, client) {
             }
 
             if (Object.keys(onlineUsers).length > 1)
-                console.error("[vfs-collab] User", userIds.userId, "is connecting Collab with",
+                logVerbose("[vfs-collab] User", userIds.userId, "is connecting Collab with",
                     Object.keys(clients).length - 1, "other clients & online workspace members", onlineUsers);
 
             var usersMap = {};
@@ -1274,7 +1276,7 @@ function handleConnect(userIds, client) {
 
             Store.recentChatHistory(100, function (err, chatHistory) {
                 if (err)
-                    console.error("[vfs-collab] recentChatHistory", err);
+                    logError("[vfs-collab] recentChatHistory", err);
 
                 client.send({
                     type: "CONNECT",
@@ -1343,12 +1345,12 @@ function applyOperation(userIds, docId, doc, op, callback) {
         }
         var contentsHash = hashString(doc.contents);
         doc.revNum++;
-        console.error("[vfs-collab] applyOperation saveDocument User " + userId + " client " + userIds.clientId + " doc " + docId + " revNum " + doc.revNum + " fsHash " + doc.fsHash + " contentsHash " + contentsHash + " time: " + Date.now());
+        logVerbose("[vfs-collab] applyOperation saveDocument User " + userId + " client " + userIds.clientId + " doc " + docId + " revNum " + doc.revNum + " fsHash " + doc.fsHash + " contentsHash " + contentsHash + " time: " + Date.now());
         Store.saveDocument(doc, function (err) {
             if (err)
                 return callback(err);
                 
-            console.error("[vfs-collab] applyOperation successfully saved User " + userId + " client " + userIds.clientId + " doc " + docId + " revNum " + doc.revNum + " fsHash " + doc.fsHash + " contentsHash " + contentsHash + " time: " + Date.now());
+            logVerbose("[vfs-collab] applyOperation successfully saved User " + userId + " client " + userIds.clientId + " doc " + docId + " revNum " + doc.revNum + " fsHash " + doc.fsHash + " contentsHash " + contentsHash + " time: " + Date.now());
             var msg = {
                 docId: docId,
                 clientId: userIds.clientId,
@@ -1363,7 +1365,7 @@ function applyOperation(userIds, docId, doc, op, callback) {
 
 function detectCodeRevertError(operation, lastRevisionNum, doc) {
     Store.getRevisions(doc, function(err, revisions) {
-        if (err) return console.error("[vfs-collab] Failed to get document revisions in detectCodeRevertError");
+        if (err) return logError("[vfs-collab] Failed to get document revisions in detectCodeRevertError");
         
         var lastRevision = revisions[lastRevisionNum];
         if (!lastRevision || !lastRevision.operation) return;
@@ -1374,7 +1376,7 @@ function detectCodeRevertError(operation, lastRevisionNum, doc) {
         
         if (!areOperationsMirrored(operation, lastOperation)) return;
         
-        console.error("[vfs-collab] ERROR: Detected code revert by system in ", doc.path, "revision " + (lastRevisionNum + 1) + ". Investigation needed.");
+        logError("[vfs-collab] ERROR: Detected code revert by system in ", doc.path, "revision " + (lastRevisionNum + 1) + ". Investigation needed.");
     });
 }
 
@@ -1435,7 +1437,7 @@ function handleEditUpdate(userIds, client, data) {
     var newRev = data.revNum;
     var docL;
 
-    console.error("[vfs-collab] handleEditUpdate User " + userId + " client " + clientId + " doc " + docId + " revision " + newRev);
+    logVerbose("[vfs-collab] handleEditUpdate User " + userId + " client " + clientId + " doc " + docId + " revision " + newRev);
     function done(err) {
         unlock(docId);
         if (err) {
@@ -1445,7 +1447,7 @@ function handleEditUpdate(userIds, client, data) {
 
     // the user's edit couldn't be commited, please try again
     function syncCommit(err) {
-        console.error("[vfs-collab] encountered syncCommit error User " + userId + " client " + clientId + " doc " + docId + " revision " + newRev + " err " + err.message);
+        logVerboseError("[vfs-collab] encountered syncCommit error User " + userId + " client " + clientId + " doc " + docId + " revision " + newRev + " err " + err.message);
         client.send({
             type: "SYNC_COMMIT",
             data: {
@@ -1489,7 +1491,7 @@ function handleEditUpdate(userIds, client, data) {
 
                 msg.selection = data.selection;
                 var contentsHash = hashString(doc.contents);
-                console.error("[vfs-collab] broadcasting EDIT_UPDATE User " + userId + " client " + clientId + " doc " + docId + " revision " + newRev + " fsHash " + doc.fsHash + " contentsHash " + contentsHash);
+                logVerbose("[vfs-collab] broadcasting EDIT_UPDATE User " + userId + " client " + clientId + " doc " + docId + " revision " + newRev + " fsHash " + doc.fsHash + " contentsHash " + contentsHash);
                 broadcast({
                     type: "EDIT_UPDATE",
                     data: msg
@@ -1517,7 +1519,7 @@ function handleEditUpdate(userIds, client, data) {
 
 function handleResolveConflict(userInfo, client, data) {
     var docId = data.docId;
-    console.error("[vfs-collab] Handling resolve conflict with data: ", data, " doc is: ", documents[docId]);
+    logVerbose("[vfs-collab] Handling resolve conflict with data: ", data, " doc is: ", documents[docId]);
     broadcast({
         type: "RESOLVE_CONFLICT",
         data: data
@@ -1551,13 +1553,13 @@ function handleUpdateNlChar(userInfo, client, data) {
         return missingInfo();
 
     function missingInfo() {
-        console.error("[vfs-collab] updateNlChar missing info:", docId, nlCharLog);
+        logError("[vfs-collab] updateNlChar missing info:", docId, nlCharLog);
     }
 
     function done(err) {
         unlock(docId);
         if (err)
-            console.error("[vfs-collab] updateNlChar failed:", err);
+            logError("[vfs-collab] updateNlChar failed:", err);
     }
 
     // Lock a document while updating - to stop any possible inconsistencies
@@ -1571,7 +1573,7 @@ function handleUpdateNlChar(userInfo, client, data) {
             Store.saveDocument(doc, function (err) {
                 if (err)
                     return done(err);
-                console.error("[vfs-collab] updateNlChar changed", newLineChar);
+                logVerbose("[vfs-collab] updateNlChar changed", newLineChar);
 
                 broadcast({
                     type: "UPDATE_NL_CHAR",
@@ -1599,7 +1601,7 @@ function handleChatMessage(userIds, client, data) {
     // Save the chat message and broadcast it
     Store.saveChatMessage(text, userId, function (err, message) {
       if (err)
-          return console.error("[vfs-collab] saveChatMessage:", err);
+          return logError("[vfs-collab] saveChatMessage:", err);
       var msg = {
           type: "CHAT_MESSAGE",
           data: {
@@ -1625,7 +1627,7 @@ function handleCursorUpdate(userIds, client, data) {
     var clientId = userIds.clientId;
 
     if (!documents[docId] || !documents[docId][clientId] || !client.openDocIds[docId])
-        return console.error("[vfs-collab] Trying to select in a non-member document!",
+        return logError("[vfs-collab] Trying to select in a non-member document!",
             docId, clientId, documents[docId] && Object.keys(documents[docId]), Object.keys(client.openDocIds),
             Object.keys(documents), Object.keys(clients));
 
@@ -1655,8 +1657,6 @@ function broadcast(message, sender, docId) {
         client.send(message);
         audienceNum++;
     }
-    // if (audienceNum)
-    //    console.error("[vfs-collab] Broadcast to:", audienceNum, "clients", message);
 }
 
 function getAbsolutePath(docId) {
@@ -1675,7 +1675,7 @@ function initVfsWatcher(docId) {
 
     function done(err) {
         if (err)
-            console.error("[vfs-collab] WATCH ERR:", docId, err);
+            logError("[vfs-collab] WATCH ERR:", docId, err);
         unlock(docId);
     }
 
@@ -1684,11 +1684,11 @@ function initVfsWatcher(docId) {
         var ctime = new Date(stats.ctime).getTime();
         var watcher = watchers[docId];
         var timeDiff = ctime - watcher.ctime;
-        console.error("[vfs-collab] WATCH CHANGE:", docId, "last ctime:", watcher.ctime, "new ctime:", ctime);
+        logVerbose("[vfs-collab] WATCH CHANGE:", docId, "last ctime:", watcher.ctime, "new ctime:", ctime);
         if (watcher.ctime && timeDiff < 1)
             return;
         lock(docId, function () {
-            console.error("[vfs-collab] WATCH SYNC:", docId, "time diff: ", timeDiff);
+            logVerbose("[vfs-collab] WATCH SYNC:", docId, "time diff: ", timeDiff);
             watcher.ctime = ctime;
             Store.getDocument(docId, function (err, oldDoc) {
                 if (err)
@@ -1711,7 +1711,7 @@ function initVfsWatcher(docId) {
 
     localfsAPI.watch(absPath, {}, function (err, meta) {
         if (err)
-            return console.error("[vfs-collab] WATCH INIT ERR:", docId, err);
+            return logError("[vfs-collab] WATCH INIT ERR:", docId, err);
 
         var watcher = meta.watcher;
         watcher.on("change", function (event, filename, stat, files) {
@@ -1720,7 +1720,7 @@ function initVfsWatcher(docId) {
             doWatcherSync(stat, done);
         });
         watcher.on("error", function(err) {
-            console.error("[vfs-collab] WATCH ERR:", docId, err);
+            logError("[vfs-collab] WATCH ERR:", docId, err);
         });
         watchers[docId] = watcher;
         watcher.ctime = Date.now();
@@ -1742,11 +1742,11 @@ function handleJoinDocument(userIds, client, data) {
     var clientId = userIds.clientId;
     var userId = userIds.userId;
     
-    console.error("[vfs-collab] User", clientId, "trying to join document", docId);
+    logVerbose("[vfs-collab] User", clientId, "trying to join document", docId);
 
     function done(err) {
         if (err) {
-            console.error("[vfs-collab] handleJoinDocument ERR:", docId, err);
+            logError("[vfs-collab] handleJoinDocument ERR:", docId, err);
             client.send({
                 type: "JOIN_DOC",
                 data: {
@@ -1756,7 +1756,7 @@ function handleJoinDocument(userIds, client, data) {
                 }
             });
         }
-        console.error("[vfs-collab] User", clientId, "joined document", docId);
+        logVerbose("[vfs-collab] User", clientId, "joined document", docId);
         unlock(docId);
     }
 
@@ -1768,7 +1768,7 @@ function handleJoinDocument(userIds, client, data) {
             if (doc && documents[docId])
                 return fetchMetadataThenJoinDocument(doc);
 
-            console.error("[vfs-collab] Joining a closed document", docId, " - Syncing");
+            logVerbose("[vfs-collab] Joining a closed document", docId, " - Syncing");
             syncDocument(docId, doc, client, false, function(err, doc2) {
                 if (err)
                     return done(err);
@@ -1780,11 +1780,11 @@ function handleJoinDocument(userIds, client, data) {
     function fetchMetadataThenJoinDocument(doc) {
         localfsAPI.getMetadata(docId, { sandbox: basePath }, function(err, metadata) {
             if (err)
-                console.error("[vfs-collab] Warning: failed to fetch metadata!", docId, err);
+                logError("[vfs-collab] Warning: failed to fetch metadata!", docId, err);
             var file = getAbsolutePath(docId);
             isVeryLargeFile(file, doc.contents, function(err, isLarge) {
                 if (err)
-                    console.error("[vfs-collab] isVeryLargeFile failed:", err);
+                    logError("[vfs-collab] isVeryLargeFile failed:", err);
                 if (!isLarge)
                     return joinDocument(doc, String(metadata || ""));
                 client.send({
@@ -1804,10 +1804,10 @@ function handleJoinDocument(userIds, client, data) {
         if (!documents[docId]) {
             documents[docId] = {};
             initVfsWatcher(docId);
-            console.error("[vfs-collab] User", clientId, "is joining document", docId);
+            logVerbose("[vfs-collab] User", clientId, "is joining document", docId);
         }
         else {
-            console.error("[vfs-collab] User", clientId, "is joining a document", docId, "with",
+            logVerbose("[vfs-collab] User", clientId, "is joining a document", docId, "with",
                 Object.keys(documents[docId]).length, "other document members");
         }
 
@@ -1830,7 +1830,7 @@ function handleJoinDocument(userIds, client, data) {
         documents[docId][clientId] = userIds;
         client.openDocIds[docId] = true;
         
-        console.error("[vfs-collab] User", clientId, "is opening", docId, "revNum", doc.revNum, "docHash", docHash, "fsHash", doc.fsHash);
+        logVerbose("[vfs-collab] User", clientId, "is opening", docId, "revNum", doc.revNum, "docHash", docHash, "fsHash", doc.fsHash);
 
         // Cut the document to pices and stream to the client
         var chunkSize = 10 * 1024; // 10 KB
@@ -1853,7 +1853,7 @@ function handleJoinDocument(userIds, client, data) {
         }
         
         if (doc.hasPendingChanges) {
-            console.error("Sending doc ", docId, " has pending changes to user ", userId, " client ", clientId);
+            logVerbose("Sending doc ", docId, " has pending changes to user ", userId, " client ", clientId);
             client.send({
                 type: "DOC_HAS_PENDING_CHANGES",
                 data: {
@@ -1866,7 +1866,7 @@ function handleJoinDocument(userIds, client, data) {
         }
 
         if (doc.changedOnDisk) {
-            console.error("Sending doc ", docId, " has changed on disk to user ", userId, " client ", clientId);
+            logVerbose("Sending doc ", docId, " has changed on disk to user ", userId, " client ", clientId);
             client.send({
                 type: "DOC_CHANGED_ON_DISK",
                 data: {
@@ -1932,7 +1932,7 @@ function syncDocument(docId, doc, client, forceSync, callback) {
             if (!isLarge)
                 return doSyncDocument();
             
-            console.error("[vfs-collab] File is too large, ignoring: " + file);
+            logError("[vfs-collab] File is too large, ignoring: " + file);
             err = new Error("File is too large");
             err.code = "ELARGE";
             callback(err);
@@ -1956,7 +1956,7 @@ function syncDocument(docId, doc, client, forceSync, callback) {
                 doc.fsHash = hashString(doc.contents);
 
             if (!doc) {
-                console.error("[vfs-collab] SYNC: Creating document:", docId, fsHash);
+                logVerbose("[vfs-collab] SYNC: Creating document:", docId, fsHash);
 
                 Store.newDocument({
                     path: docId,
@@ -1967,7 +1967,7 @@ function syncDocument(docId, doc, client, forceSync, callback) {
             }
             // update database OT state
             else if (fsHash !== doc.fsHash && doc.contents != normContents) {
-                console.error("[vfs-collab] Doc", docId, " revnum: ", doc.revNum, "with hash:", doc.fsHash, "does not match file system hash", fsHash);
+                logVerbose("[vfs-collab] Doc", docId, " revnum: ", doc.revNum, "with hash:", doc.fsHash, "does not match file system hash", fsHash);
                 if (forceSync) return syncCollabDocumentWithDisk();
                 
                 // Check if the document was updated at the same time as this revision. 
@@ -1978,12 +1978,12 @@ function syncDocument(docId, doc, client, forceSync, callback) {
                     var lastFileChange = stats.ctime.getTime();
                     var lastCollabChange = doc.lastUpdate;
                     var lastSaveStart = lastSaveStarts[docId];
-                    console.error("[vfs-collab] Doc", docId, "Last file change:", lastFileChange, " last collab change:", lastCollabChange, " last save start: ", lastSaveStart);
+                    logVerbose("[vfs-collab] Doc", docId, "Last file change:", lastFileChange, " last collab change:", lastCollabChange, " last save start: ", lastSaveStart);
                     
                     // Never sync if the last doc change is older than the last collab change
                     if (lastFileChange < lastCollabChange) {
                         if (!client) {
-                            console.error("[vfs-collab] Broadcasting document", docId, "has pending changes");
+                            logVerbose("[vfs-collab] Broadcasting document", docId, "has pending changes");
                             broadcast({
                                 type: "DOC_HAS_PENDING_CHANGES",
                                 data: {
@@ -2010,7 +2010,7 @@ function syncDocument(docId, doc, client, forceSync, callback) {
                 if (wasLatestRevisionSaved(doc)) {
                     return syncCollabDocumentWithDisk();
                 } else if (timeSinceLastCollabChange > UNSAVED_CHANGE_EXPIRY_TIME) {
-                    console.error("[vfs-collab] Doc ", docId, " last collab change was " + (timeSinceLastCollabChange / 1000) + "s ago. Expiring change and syncing from disk");
+                    logVerbose("[vfs-collab] Doc ", docId, " last collab change was " + (timeSinceLastCollabChange / 1000) + "s ago. Expiring change and syncing from disk");
                     return syncCollabDocumentWithDisk();
                 }
                 
@@ -2019,7 +2019,7 @@ function syncDocument(docId, doc, client, forceSync, callback) {
             
             function informUserFileContentsHaveChanged() {
                 if (!client) {
-                    console.error("[vfs-collab] Broadcasting document", docId, "contents have changed");
+                    logVerbose("[vfs-collab] Broadcasting document", docId, "contents have changed");
                     broadcast({
                         type: "DOC_CHANGED_ON_DISK",
                         data: {
@@ -2034,7 +2034,7 @@ function syncDocument(docId, doc, client, forceSync, callback) {
             
             function syncCollabDocumentWithDisk() {
                 var op = operations.operation(doc.contents, normContents);
-                console.error("[vfs-collab] SYNC: Syncing document from disk:", docId, op.length, "fsHash", fsHash, "docHash", doc.fsHash);
+                logVerbose("[vfs-collab] SYNC: Syncing document from disk:", docId, op.length, "fsHash", fsHash, "docHash", doc.fsHash);
                 // non-user sync operation
                 doc.fsHash = fsHash; // applyOperation will save it for me
                 
@@ -2082,7 +2082,7 @@ function handleGetRevisions(userIds, client, data) {
 
     function done(err) {
         if (err)
-            console.error("[vfs-collab] handleGetRevisions ERR:", docId, err);
+            logError("[vfs-collab] handleGetRevisions ERR:", docId, err);
         unlock(docId);
     }
 
@@ -2142,7 +2142,7 @@ function handleSaveFile(userIds, client, data) {
     function done(err, result) {
         unlock(docId);
         if (err) {
-            console.error("[vfs-collab] Failed to save file. docID: " + docId + " Err: ", err);
+            logError("[vfs-collab] Failed to save file. docID: " + docId + " Err: ", err);
             client.send({
                 type: "FILE_SAVED",
                 data: {
@@ -2156,7 +2156,7 @@ function handleSaveFile(userIds, client, data) {
         broadcast({ type: "FILE_SAVED", data: result }, null, docId);
     }
 
-    console.error("[vfs-collab] Saving file", docId);
+    logVerbose("[vfs-collab] Saving file", docId);
     client.send({ type: "FILE_LOCKING", data: { docId: docId }});
 
     lock(docId, function () {
@@ -2195,7 +2195,7 @@ function handleSaveFile(userIds, client, data) {
                 
                 client.send({ type: "DATA_WRITTEN", data: { docId: docId }});
                 doSaveDocument(docId, doc, userId, !data.silent, function (err, result) {
-                    console.error("[vfs-collab] Saving took", Date.now() - st, "ms - time is now: " + Date.now() + " file:", docId, !err);
+                    logVerbose("[vfs-collab] Saving took", Date.now() - st, "ms - time is now: " + Date.now() + " file:", docId, !err);
                     if (err) {
                         client.send({		
                             type: "POST_PROCESSOR_ERROR",		
@@ -2275,7 +2275,7 @@ function doSaveDocument(docId, doc, userId, star, callback) {
     Store.saveDocument(doc, function (err) {
         if (err)
             return callback(err);
-        console.error("[vfs-collab] User", userId, "saved document", docId, "revision", doc.revNum, "hash", fsHash);
+        logVerbose("[vfs-collab] User", userId, "saved document", docId, "revision", doc.revNum, "hash", fsHash);
         callback(null, {
             userId: userId,
             docId: docId,
@@ -2307,23 +2307,23 @@ function handleLeaveDocument(userIds, client, data) {
     var clientId = userIds.clientId;
     var userDisconnected = data.disconnected;
     if (!documents[docId] || !documents[docId][clientId] || !client.openDocIds[docId])
-        return console.error("[vfs-collab] Trying to leave a non-member document!",
+        return logError("[vfs-collab] Trying to leave a non-member document!",
             docId, clientId, documents[docId] && Object.keys(documents[docId]), Object.keys(client.openDocIds),
             Object.keys(documents), Object.keys(clients));
     delete client.openDocIds[docId];
-    console.error("[vfs-collab]", clientId, "is leaving document", docId);
+    logVerbose("[vfs-collab]", clientId, "is leaving document", docId);
     delete documents[docId][clientId];
     if (!Object.keys(documents[docId]).length) {
-        console.error("[vfs-collab] Closing document", docId);
+        logVerbose("[vfs-collab] Closing document", docId);
         if (!userDisconnected) {
             // If the user closed this on purpose and it's the last user
             // Resync this document with what's on disk to remove unsaved collab changes
-            console.error("[vfs-collab] Last user closed document ", docId, " resyncing it from disk");
+            logVerbose("[vfs-collab] Last user closed document ", docId, " resyncing it from disk");
             Store.getDocument(docId, function (err, doc) {
-                if (err) return console.error("[vfs-collab] Failed to get doc", docId, " from the store. Error is: ", err.message);
+                if (err) return logError("[vfs-collab] Failed to get doc", docId, " from the store. Error is: ", err.message);
                 syncDocument(docId, doc, null, true, function(err) {
-                    if (err) return console.error("[vfs-collab] Failed to sync", docId, "with disk. Error is: ", err.message);
-                    console.error("[vfs-collab] Successfully synced document", docId, " with disk.");
+                    if (err) return logError("[vfs-collab] Failed to sync", docId, "with disk. Error is: ", err.message);
+                    logVerbose("[vfs-collab] Successfully synced document", docId, " with disk.");
                 });
             });
         }
@@ -2351,10 +2351,10 @@ function handleLargeDocument(userIds, client, data) {
     var docId = data.docId;
     var userId = userIds.userId;
     var clientId = userIds.clientId;
-    console.error("[vfs-collab] ", docId);
+    logVerbose("[vfs-collab] ", docId);
     delete documents[docId][clientId];
     if (!Object.keys(documents[docId]).length) {
-        console.error("[vfs-collab] File has grown too large, ignoring: " + docId);
+        logVerbose("[vfs-collab] File has grown too large, ignoring: " + docId);
         closeDocument(docId);
     }
 
@@ -2377,7 +2377,7 @@ function handleLargeDocument(userIds, client, data) {
 function handleUserState(userIds, client, data) {
     var userId = userIds.userId;
     var clientId = userIds.clientId;
-    console.error("[vfs-collab]", clientId, "is switching to", data.state);
+    logVerbose("[vfs-collab]", clientId, "is switching to", data.state);
     clients[clientId].state = data.state;
     var isUserIdle = Object.keys(clients)
         .map(function(cliId) {
@@ -2406,10 +2406,10 @@ function handleUserState(userIds, client, data) {
  * @param {Object} data    - either id: $id of the message to be deleted or clear: true to clear all of the chat history
  */
 function handleClearChat(userIds, client, data) {
-    console.error("[vfs-collab] Clear chat history: ", data.id, data.clear, userIds.fs);
+    logVerbose("[vfs-collab] Clear chat history: ", data.id, data.clear, userIds.fs);
 
     if (!collabWriteAccess(userIds.fs))
-        return console.error("[vfs-collab] clearChat: User don't have write access!");
+        return logError("[vfs-collab] clearChat: User don't have write access!");
 
     var stmt;
     if (data.clear)
@@ -2417,10 +2417,10 @@ function handleClearChat(userIds, client, data) {
     else if (data.id)
         stmt = ChatMessage.destroy({ id: data.id });
     else
-        return console.error("[vfs-collab] clearChat: Invalid message", data);
+        return logError("[vfs-collab] clearChat: Invalid message", data);
 
     wrapSeq(stmt, function(err) {
-        console.error("[vfs-collab] Chat clear:", err ? err : "SUCCESS");
+        logError("[vfs-collab] Chat clear:", err ? err : "SUCCESS");
         if (err)
             return;
         broadcast({
@@ -2438,7 +2438,7 @@ function handleClearChat(userIds, client, data) {
  * @param {Object} data    - either id: $id of the message to be deleted or clear: true to clear all of the chat history
  */
 function broadcastUserMessage(userIds, client, data) {
-    console.error("[vfs-collab] Clear chat history: ", data.id, data.clear, userIds.fs);
+    logVerbose("[vfs-collab] Clear chat history: ", data.id, data.clear, userIds.fs);
 
     broadcast({
         type: "MESSAGE",
@@ -2538,19 +2538,19 @@ function onConnect(userIds, client) {
     var userId = userIds.userId;
     var clientId = userIds.clientId;
 
-    console.error("[vfs-collab] CONNECTED UserID: " + userId + " & ClientId: " + clientId);
+    logVerbose("[vfs-collab] CONNECTED UserID: " + userId + " & ClientId: " + clientId);
 
     client.on("message", function (messag) {
-        // console.error("[vfs-collab] Message from ",  userIds, ": " + messag);
+        // logVerbose("[vfs-collab] Message from ",  userIds, ": " + messag);
         try {
             messag = JSON.parse(messag);
         } catch (e) {
-            return console.error("[vfs-collab] Can't parse client data!", messag);
+            return logVerboseError("[vfs-collab] Can't parse client data!", messag);
         }
         try {
             handleUserMessage(userIds, client, messag);
         } catch (e) {
-            return console.error("[vfs-collab] Can't handle user messag", messag, e);
+            return logVerboseError("[vfs-collab] Can't handle user messag", messag, e);
         }
     });
 
@@ -2566,7 +2566,7 @@ function onConnect(userIds, client) {
                 clientId: clientId
             }
         }, client);
-        console.error("[vfs-collab] DISCONNECTED a socket with userId " + userId);
+        logVerbose("[vfs-collab] DISCONNECTED a socket with userId " + userId);
     });
 }
 
@@ -2632,7 +2632,7 @@ function compressDocument(docId, options, callback) {
         if (err === ALREADY_COMPRESSED)
             err = undefined;
         if (err)
-            console.error("[vfs-collab] ERROR Closing Document", docId, err);
+            logError("[vfs-collab] ERROR Closing Document", docId, err);
         callback && callback(err);
     }
 
@@ -2720,7 +2720,7 @@ function compressDocument(docId, options, callback) {
             function compressDoc(next) {
                 var shouldCompress = revisions.length - COMPRESSED_REV_NUM;
 
-                console.error("[vfs-collab] Compress document trial", docId, shouldCompress, mergeDifferentAuthors, isAggressive);
+                logVerbose("[vfs-collab] Compress document trial", docId, shouldCompress, mergeDifferentAuthors, isAggressive);
 
                 newRevisions = [ cloneRevision(revisions[0], 0) ];
                 newStarRevNums = [];
@@ -2756,20 +2756,20 @@ function compressDocument(docId, options, callback) {
                     }
                 }
                 else if (!mergeDifferentAuthors) {
-                    console.error("[vfs-collab] Merge single-author failed to compact the document enough", revisions.length, newRevisions.length);
+                    logError("[vfs-collab] Merge single-author failed to compact the document enough", revisions.length, newRevisions.length);
                     mergeDifferentAuthors = true;
                     return compressDoc(next);
                 }
                 else if (!isAggressive) {
-                    console.error("[vfs-collab] Merge multi-author failed to compact the document enough", revisions.length, newRevisions.length);
+                    logError("[vfs-collab] Merge multi-author failed to compact the document enough", revisions.length, newRevisions.length);
                     isAggressive = true;
                     return compressDoc(next);
                 }
                 else if (newRevisions.length >= MAX_REVISION_NUM) {
-                    console.error("[vfs-collab] All compression modes failed to compact the document enough", revisions.length, newRevisions.length);
+                    logError("[vfs-collab] All compression modes failed to compact the document enough", revisions.length, newRevisions.length);
                 }
 
-                console.error("[vfs-collab] Compressed document:", revisions.length, newRevisions.length,
+                logError("[vfs-collab] Compressed document:", revisions.length, newRevisions.length,
                     "Different Authors:", mergeDifferentAuthors,
                     "isAggressive:", isAggressive);
 
@@ -2778,9 +2778,9 @@ function compressDocument(docId, options, callback) {
                 //     var newRev = newRevisions[i];
                 //     newContents = applyContents(newRev.operation, newContents);
                 // }
-                // console.error("[vfs-collab] Compressed document:", newContents == doc.contents, revisions.length, newRevisions.length);
-                // console.error("[vfs-collab] New Revisions:", newRevisions);
-                // console.error("[vfs-collab] Stars:", doc.starRevNums, newStarRevNums);
+                // logVerbose("[vfs-collab] Compressed document:", newContents == doc.contents, revisions.length, newRevisions.length);
+                // logVerbose("[vfs-collab] New Revisions:", newRevisions);
+                // logVerbose("[vfs-collab] Stars:", doc.starRevNums, newStarRevNums);
 
                 next();
             },
@@ -2812,7 +2812,7 @@ function compressDocument(docId, options, callback) {
 function createServer() {
     var server = net.createServer(function(client) {
 
-        // console.error("[vfs-collab] Client connected");
+        // logVerbose("[vfs-collab] Client connected");
         var userIds;
         var isClosed = false;
 
@@ -2830,13 +2830,13 @@ function createServer() {
 
             userIds = JSON.parse(data);
             if (!collabReadAccess(userIds.fs))
-                return console.error("[vfs-collab] Client don't have read access to workspace! - " +
+                return logVerbose("[vfs-collab] Client don't have read access to workspace! - " +
                     "Note that visitors of private workspaces can't use collab features");
 
             client.userIds = userIds;
             client.openDocIds = {};
             clients[userIds.clientId] = client;
-            // console.error("[vfs-collab] Server handshaked", Object.keys(clients).length);
+            // logVerbose("[vfs-collab] Server handshaked", Object.keys(clients).length);
 
             // handshaking the client
             client.write(data.toString());
@@ -2875,12 +2875,12 @@ function createServer() {
             isClosed = true;
             delete clients[userIds.clientId];
             client.emit("disconnect");
-            // console.error("[vfs-collab] Client disconnected", Object.keys(clients).length);
+            // logVerbose("[vfs-collab] Client disconnected", Object.keys(clients).length);
         }
 
         client.on("error", function (err) {
             onClose();
-            console.error("[vfs-collab] CLIENT SOCKET ERROR", err);
+            logError("[vfs-collab] CLIENT SOCKET ERROR", err);
             client.destroy();
         });
     });
@@ -2901,7 +2901,7 @@ function initSocket(userIds, callback) {
 
     function startServer() {
         server = createServer();
-        console.error("[vfs-collab] PID:", PID, "Socket:", sockPath,
+        logVerbose("[vfs-collab] PID:", PID, "Socket:", sockPath,
              "ClinetId:", userIds.clientId, " & UserId:", userIds.userId);
 
         async.series([
@@ -2935,10 +2935,10 @@ function initSocket(userIds, callback) {
 
             function closeServerThenCallback(err) {
                 try {
-                    console.error("[vfs-collab] Shuting down a faulty collab server - reason: ", err);
+                    logError("[vfs-collab] Shuting down a faulty collab server - reason: ", err);
                     server.close();
                 } catch (e) {
-                    console.error("[vfs-collab] Can't shutdown faulty collab server", e);
+                    logError("[vfs-collab] Can't shutdown faulty collab server", e);
                 }
                 callback(err);
             }
@@ -2966,7 +2966,7 @@ function initSocket(userIds, callback) {
                 });
 
                 server.on("close", function () {
-                    console.error("[vfs-collab] Server closed");
+                    logVerbose("[vfs-collab] Server closed");
                     // Should handover to another server (if exists)
                     // e.g. Elect the first client as the new master.
                 });
@@ -2976,7 +2976,7 @@ function initSocket(userIds, callback) {
                 // if another connection/thread was able to listen as collab-server, let's just connect to it
                 if (err.code === "EADDRINUSE")
                     return clientConnect();
-                console.error("[vfs-collab] Server error", err);
+                logError("[vfs-collab] Server error", err);
             });
         });
     }
@@ -2994,10 +2994,10 @@ function initSocket(userIds, callback) {
 
             client.userIds = userIds;
             client.clientStream = stream;
-            // console.error("[vfs-collab] User connected:", userIds.clientId);
+            // logVerbose("[vfs-collab] User connected:", userIds.clientId);
 
             client.on("data", function handShake(data) {
-                // console.error("[vfs-collab]", "Client handshaked", data.toString());
+                // logVerbose("[vfs-collab]", "Client handshaked", data.toString());
                 client.removeListener("data", handShake);
                 client.on("data", onData);
             });
@@ -3020,7 +3020,7 @@ function initSocket(userIds, callback) {
             }
 
             client.on("close", function() {
-                // console.error("[vfs-collab] Connection closed :", userIds.userId);
+                // logVerbose("[vfs-collab] Connection closed :", userIds.userId);
                 stream.emit("end");
             });
 
@@ -3034,10 +3034,10 @@ function initSocket(userIds, callback) {
                 startServer();
             }
             else {
-                console.error("[vfs-collab] CLIENT SOCK ERR", err, client.userIds);
+                logError("[vfs-collab] CLIENT SOCK ERR", err, client.userIds);
                 // mock client.write
                 client.write = function () {
-                    console.error("[vfs-collab] CLIENT SOCK WRITE AFTER ERROR", client.userIds);
+                    logError("[vfs-collab] CLIENT SOCK WRITE AFTER ERROR", client.userIds);
                     console.trace();
                 };
                 stream.emit("end");
@@ -3084,7 +3084,7 @@ var exports = module.exports = function(vfs, options, register) {
         function cleanOldClient() {
             if (!vfsClientMap[clientId])
                 return;
-            console.error("[vfs-collab] Disposing old client - possible reconnect?", clientId);
+            logVerbose("[vfs-collab] Disposing old client - possible reconnect?", clientId);
             dispose(clientId);
         }
 
@@ -3107,7 +3107,7 @@ var exports = module.exports = function(vfs, options, register) {
     }
 
     function send(clientId, msg) {
-        // console.error("[vfs-collab] IN-STREAM", msg);
+        // logVerbose("[vfs-collab] IN-STREAM", msg);
         var client = vfsClientMap[clientId];
         if (client)
             client.write(JSON.stringify(msg) + "\0\0");
