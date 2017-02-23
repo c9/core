@@ -12,6 +12,7 @@ var localfsAPI; // Set on VFS register
 var DEFAULT_NL_CHAR_FILE = "\n";
 var DEFAULT_NL_CHAR_DOC = "";
 var MAX_WRITE_ATTEMPTS = 3;
+var DEFAULT_HOME = "/home/ubuntu";
 
 // If you leave unsaved changes for more than 24 hours and the file on disk changes 
 // those unsaved changes will be lost. Don't want them hanging around forever. 
@@ -40,13 +41,13 @@ var debug = false;
 
 
 function getHomeDir() {
-    return process.env.HOME;
+    return process.env.HOME || DEFAULT_HOME;
 }
 
 function getProjectWD() {
     var env = process.env;
     var pidStr = env.BASE_PROC ? "" : String(PID);
-    return Path.resolve(env.BASE_PROC || env.HOME, ".c9", pidStr);
+    return Path.resolve(env.BASE_PROC || env.HOME || DEFAULT_HOME, ".c9", pidStr);
 }
 
 /**
