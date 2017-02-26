@@ -2,8 +2,8 @@
 define(function(require, exports, module) {
     main.consumes = [
         "PreferencePanel", "settings", "ui", "util", "ext", "c9", "Plugin",
-        "dialog.alert", "dialog.confirm", "layout", "proc", "menus", "commands",
-        "dialog.error", "dialog.info", "tree.favorites", "fs", "tree",
+        "layout", "proc", "menus", "commands",
+        "dialog.error", "dialog.info", "tree.favorites", "fs", "tree", "vfs",
         "preferences.experimental", "apf", "hub", "dialog.notification"
     ];
     main.provides = ["pluginManager", "plugin.manager", "plugin.debug"];
@@ -26,8 +26,7 @@ define(function(require, exports, module) {
         var util = imports.util;
         var qs = require("querystring");
         var apf = imports.apf;
-        var alert = imports["dialog.alert"].show;
-        var confirm = imports["dialog.confirm"].show;
+        var vfs = imports.vfs;
         var showError = imports["dialog.error"].show;
         var showInfo = imports["dialog.info"].show;
         var notify = imports["dialog.notification"].show;
@@ -41,6 +40,7 @@ define(function(require, exports, module) {
         var join = require("path").join;
         var basename = require("path").basename;
         var dirname = require("path").dirname;
+        var async = require("async");
         
         var escapeHTML = require("ace/lib/lang").escapeHTML;
 
@@ -82,7 +82,7 @@ define(function(require, exports, module) {
         var btnUninstall, btnServices, btnReadme, btnReload;
         var btnReloadLast;
         var localPlugins;
-        var api;
+        var disabledPlugins = Object.create(null);
 
         var loaded = false;
         function load() {
@@ -93,7 +93,7 @@ define(function(require, exports, module) {
             menus.addItemByPath("Tools/~", new ui.divider(), 100000, plugin);
             menus.addItemByPath("Tools/Developer", null, 100100, plugin);
 
-            if (!ENABLED) {
+            if (!DEBUG) {
                 menus.addItemByPath("Tools/Developer/Start in Debug Mode", new ui.item({
                     onclick: function() {
                         var url = location.href + (location.href.indexOf("?") > -1
@@ -102,6 +102,8 @@ define(function(require, exports, module) {
                         util.openNewWindow(url);
                     }
                 }), 900, plugin);
+            }
+            if (!ENABLED) {
                 return;
             }
 
@@ -142,26 +144,10 @@ define(function(require, exports, module) {
                     }
                 }, plugin);
                 
-                menus.addItemByPath("Tools/Developer/Reload All Custom Plugins", new ui.item({
-                    command: "reloadAllCustomPlugins"
-                }), 1200, plugin);
-                
                 menus.addItemByPath("Tools/Developer/Reload Last Plugin", new ui.item({
                     command: "reloadLastPlugin",
                     isAvailable: getLastReloaded
                 }), 1300, plugin);
-                
-                commands.addCommand({
-                    name: "reloadAllCustomPlugins",
-                    group: "Plugins",
-                    bindKey: { 
-                        mac: "Command-Enter", 
-                        win: "Ctrl-Enter" 
-                    },
-                    exec: function() { 
-                        reloadAllCustomPlugins();
-                    }
-                }, plugin);
             }
 
             menus.addItemByPath("File/New Plugin", null, 210, plugin);
@@ -276,7 +262,10 @@ define(function(require, exports, module) {
                         class: "btn-red",
                         onclick: function() {
                             var item = datagrid.selection.getCursor();
-                            unloadPackage({ path: item.path });
+                            if (item.enabled)
+                                unloadPackage({ path: item.path });
+                            else
+                                loadPackage({ path: item.filePath || item.path });
                         }
                     }),
                     btnReload = new ui.button({
@@ -284,7 +273,7 @@ define(function(require, exports, module) {
                         caption: "Reload",
                         onclick: function() {
                             var item = datagrid.selection.getCursor();
-                            if (item.enabled && item.name)
+                            if (item.name)
                                 reload(item.name);
                         }
                     })
@@ -403,7 +392,7 @@ define(function(require, exports, module) {
                     return;
                 }
                 var item = items[0];
-                while (item && !item.readme) {
+                while (item && !item.packageOptions) {
                     item = item.parent;
                 }
                 if (!item) {
@@ -411,12 +400,24 @@ define(function(require, exports, module) {
                     return;
                 }
                 
-                if (readmeCache[item.readme]) {
-                    descriptionBar.$ext.textContent = readmeCache[item.readme];
+                if (readmeCache[item.readmePath]) {
+                    descriptionBar.$ext.textContent = readmeCache[item.readmePath];
                     return;
                 }
                 descriptionBar.$ext.textContent = "Loading...";
-                // fs.readFile()
+                var parts = item.filePath.split("/");
+                parts.pop();
+                parts.push("README.md");
+                var path = parts.join("/");
+                fs.readFile(path, function(e, v) {
+                    if (e)
+                        return descriptionBar.$ext.textContent = "Readme is not available.";
+                    var div = document.createElement("div");
+                    div.textContent = v;
+                    div.style.cssText = "padding: 5px; white-space: pre-wrap";
+                    descriptionBar.$ext.textContent = "";
+                    descriptionBar.$ext.appendChild(div);
+                });
             }
             
             function renderServiceDetails(items) {
@@ -563,6 +564,28 @@ define(function(require, exports, module) {
                 hoverDetails.highlighted = hoverDetails.hovered;
             }
             window.requestAnimationFrame(renderDetails);
+            
+             var mnuCtxTree = new ui.menu({
+                id: "mnuChat",
+            }, plugin);
+            menus.decorate(mnuCtxTree);
+            plugin.addElement(mnuCtxTree);
+            menus.addItemByPath("context/pluginManager/", mnuCtxTree, 0, plugin);
+            menus.addItemByPath("context/pluginManager/Reveal in File Tree", new ui.item({
+                isAvailable: function() {
+                    var selected = datagrid.selection.getCursor();
+                    return selected && selected.filePath;
+                    
+                },
+                onclick: function() {
+                    var selected = datagrid.selection.getCursor();
+                    var tabbehavior = architectApp.services.tabbehavior;
+                    if (selected.filePath) {
+                        tabbehavior.revealtab({ path: selected.filePath });
+                    }
+                },
+            }), plugin);
+            treeBar.setAttribute("contextmenu", mnuCtxTree);
         }
         
 
@@ -659,9 +682,15 @@ define(function(require, exports, module) {
             if (localPlugins) {
                 groups.pre.map = groups.pre.map || Object.create(null);
                 localPlugins.forEach(function(x) {
-                    groups.vfs.map[x] = {
+                    groups.vfs.map[x] = groups.vfs.map[x] || {
+                        filePath: "~/.c9/plugins/" + x + "/package.json",
+                        path: "plugins/" + x,
                         name: x,
-                        enabled: 0
+                        enabled: 0,
+                        parent: groups.vfs,
+                        packageOptions: {
+                            name: x,
+                        }
                     };
                 });
             }
@@ -674,7 +703,7 @@ define(function(require, exports, module) {
                 }
                 if (node.items) {
                     node.items.forEach(flatten);
-                    if (node.items.length == 1) {
+                    if (node.items.length == 1 && !node.isGroup) {
                         var other = node.items[0];
                         if (node.parent && node.parent.items[index] == node) {
                             node.parent.items[index] = other;
@@ -722,8 +751,9 @@ define(function(require, exports, module) {
         function createNewPlugin(template) {
             if (!template)
                 template = "c9.ide.default";
-
-            var url = staticPrefix + "/" + join("templates", template + ".tar.gz");
+            
+            var tarSourcePath = join("templates", template + ".tar.gz")
+            var url = staticPrefix + "/" + tarSourcePath;
             if (!url.match(/^http/))
                 url = location.origin + url;
 
@@ -755,8 +785,12 @@ define(function(require, exports, module) {
                     args: ["-c", [
                         // using mkdirp since "--create-dirs" is broken on windows
                         "mkdir", "-p", util.escapeShell(dirname(tarPathAbsolute)), ";",
-                        "curl", "-L", util.escapeShell(url), "-o", util.escapeShell(tarPathAbsolute)].join(" ")
-                    ]
+                    ].concat(
+                        c9.sourceDir
+                        ? [ "cp", util.escapeShell(c9.sourceDir + "/plugins/c9.ide.plugins/" + tarSourcePath),
+                            util.escapeShell(tarPathAbsolute) ]
+                        : [ "curl", "-L", util.escapeShell(url), "-o", util.escapeShell(tarPathAbsolute) ]
+                    ).join(" ")]
                 }, function(err, stderr, stdout) {
                     if (err)
                         return handleError(err);
@@ -782,6 +816,8 @@ define(function(require, exports, module) {
 
                                 // Select and expand the folder of the plugin
                                 tree.expandAndSelect(path);
+                                
+                                readAvailablePlugins(reloadModel);
                             });
                         });
                     });
@@ -814,102 +850,6 @@ define(function(require, exports, module) {
             } else {
                 btnReloadLast.visible = false;
             }
-        }
-        
-        function loadVFSExtension(callback) {
-            if (api)
-                return callback(null, api);
-            ext.loadRemotePlugin("pluginLoader", {
-                code: c9.standalone ? undefined : require("text!./vfs.package.reader.js"),
-                file: c9.standalone ? "c9.ide.plugins/vfs.package.reader.js" : undefined,
-                redefine: true
-            }, function(err, remote) {
-                if (err)
-                    return callback(err);
-
-                api = remote;
-                return callback(null, api);
-            });
-        }
-        
-        function reloadPackage(path) {
-            var unloaded = [];
-            
-            function recurUnload(name) {
-                var plugin = architectApp.services[name];
-                unloaded.push(name);
-                
-                // Find all the dependencies
-                var deps = ext.getDependents(plugin.name);
-                
-                // Unload all the dependencies (and their deps)
-                deps.forEach(function(name) {
-                    recurUnload(name);
-                });
-                
-                // Unload plugin
-                plugin.unload();
-            }
-            
-            // Recursively unload plugin
-            var p = architectApp.lut[path];
-            if (p.provides) { // Plugin might not been initialized all the way
-                p.provides.forEach(function(name) {
-                    recurUnload(name);
-                });
-            }
-            
-            // create reverse lookup table
-            var rlut = {};
-            for (var packagePath in architectApp.lut) {
-                var provides = architectApp.lut[packagePath].provides;
-                if (provides) { // Plugin might not been initialized all the way
-                    provides.forEach(function(name) {
-                        rlut[name] = packagePath;
-                    });
-                }
-            }
-            
-            // Build config of unloaded plugins
-            var config = [], done = {};
-            unloaded.forEach(function(name) {
-                var packagePath = rlut[name];
-                
-                // Make sure we include each plugin only once
-                if (done[packagePath]) return;
-                done[packagePath] = true;
-                
-                var options = architectApp.lut[packagePath];
-                delete options.provides;
-                delete options.consumes;
-                delete options.setup;
-                
-                config.push(options);
-                
-                // Clear require cache
-                requirejs.undef(options.packagePath); // global
-            });
-            
-            // Load all plugins again
-            architectApp.loadAdditionalPlugins(config, function(err) {
-                if (err) console.error(err);
-            });
-        }
-        
-        function reloadAllCustomPlugins() {
-            var list = [];
-            Object.keys(architectApp.serviceToPlugin).forEach(function(name) {
-                if (architectApp.serviceToPlugin[name].isAdditionalMode)
-                    list.push(architectApp.serviceToPlugin[name].path);
-            });
-            
-            var path = list[list.length - 1];
-            reloadPackage(path.replace(/^~\/\.c9\//, ""));
-            
-            // Avoid confusion with "Reload Last Plugin"
-            var href = document.location.href.replace(/[?&]reload=[^&]+/, "");
-            window.history.replaceState(window.history.state, null, href);
-            showInfo("Reloaded " + path + ".", 1000);
         }
         
         function showReloadTip(name) {
@@ -1037,25 +977,86 @@ define(function(require, exports, module) {
         function loadPackage(options, callback) {
             // 1 {url, }
             // 2 
-            var paths = {};
-            paths[options.id] = options.staticPrefix;
-
-            requirejs.config({ paths: paths });
-            requirejs.undef(options.id, true);
-
-            require([options.url], function(installed) {
-                var plugins = require(options.id + "/package.json.js");
-
-                var architectConfig = plugins.map(function(plugin) {
-                    if (typeof plugin == "string")
-                        plugin = { packagePath: plugin };
-                    return plugin;
-                });
-                architectApp.loadAdditionalPlugins(architectConfig, function(err) {
+            if (Array.isArray(options))
+                return async.map(options, loadPackage, callback);
+            
+            if (typeof options == "string") {
+                options = /^https?:/.test(options)
+                    ? { path: options }
+                    : { url: options };
+            }
+            
+            if (!options.url && options.path)
+                options.url = vfs.url(options.path);
+            
+            var parts = options.url.split("/");
+            var root = parts.pop();
+            options.url = parts.join("/");
+            
+            if (!options.name) {
+                options.name = parts[parts.length - 1];
+                if (options.name == "build")
+                    options.name = parts[parts.length - 2];
+                options.name = options.name.replace(/@.*$/, "");
+            }
+            if (!options.packageName)
+                options.packageName = root;
+            
+            if (!options.rootDir)
+                options.rootDir = "plugins";
+            
+            var id = options.rootDir + "/" + options.name;
+            var pathMappings = {};
+            
+            pathMappings[id] = options.url;
+            requirejs.config({ paths: pathMappings });
+            requirejs.undef(id + "/", true);
+            
+            if (/\.js$/.test(root)) {
+                require([options.url + "/" + root], function(json) {
+                    json = json || require(options.id + "/" + options.packageName);
+                    getPluginsFromPackage(json, callback);
+                }, function(err) {
                     callback && callback(err);
                 });
-
-            }, function(err) {
+            }
+            else if (options.path && /\.json$/.test(root)) {
+                fs.readFile(options.path, function(e, value) {
+                    try {
+                        var json = JSON.parse(value);
+                    } catch (e) {
+                        return callback(e);
+                    }
+                    getPluginsFromPackage(json);
+                });
+            }
+            else {
+                callback(new Error("Missing path and url"));
+            }
+            
+            function getPluginsFromPackage(json, callback) {
+                var plugins = [];
+                if (json.name != options.name)
+                    json.name = options.name;
+                
+                if (json.plugins) {
+                    Object.keys(json.plugins).forEach(function(name) {
+                        var plugin = json.plugins[name];
+                        if (typeof plugin == "string")
+                            plugin = { packagePath: plugin };
+                        if (!plugin.packagePath)
+                            plugin.packagePath = id + "/" + name;
+                        plugin.staticPrefix = options.url;
+                        plugins.push(plugin);
+                    });
+                }
+                enablePlugins(plugins, callback);
+            }
+        }
+        
+        function enablePlugins(plugins, callback) {
+            
+            architectApp.loadAdditionalPlugins(plugins, function(err) {
                 callback && callback(err);
             });
         }
@@ -1169,7 +1170,7 @@ define(function(require, exports, module) {
             filterbox = null;
             btnUninstall = null;
             localPlugins = null;
-            api = null;
+            disabledPlugins = null;
         });
 
         /***** Register and define API *****/
@@ -1202,8 +1203,6 @@ define(function(require, exports, module) {
              *
              */
             reload: reload,
-            
-            loadVFSExtension: loadVFSExtension
         });
 
         var shim = new Plugin();

@@ -1520,7 +1520,7 @@ apf.item = function(struct, tagName) {
             return;
         
         var opener = this.parentNode.opener;
-        if (opener && opener.parentNode.$showingSubMenu)
+        if (opener && opener.parentNode && opener.parentNode.$showingSubMenu)
             selectItem(opener);
         
         if (!force && (apf.isChildOf(this.$ext, e.toElement || e.explicitOriginalTarget)
