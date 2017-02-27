@@ -66,7 +66,7 @@ define(function(require, exports, module) {
                         "Custom Code Formatter": {
                             position: 360,
                             type: "textbox",
-                            path: "project/format/@formatter",
+                            path: "project/python/@formatter",
                         }
                     }
                 }
