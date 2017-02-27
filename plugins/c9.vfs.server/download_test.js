@@ -90,7 +90,7 @@ describe(__filename, function() {
     
                     res.pipe(file);
                     
-                    res.on("end", function() {
+                    file.on("finish", function() {
                         execFile("tar", ["-zxvf", filename, "c9.vfs.server/download.js"], { cwd: path }, function(err, stdout, stderr) {
                             assert.equal(err, null);
                             assert.equal(
@@ -113,7 +113,7 @@ describe(__filename, function() {
                 http.get(base + "/test?download=download.tar.gz", function(res) {
                     res.pipe(file);
                     
-                    res.on("end", function() {
+                    file.on("finish", function() {
                         execFile("tar", ["-zxvf", filename, "test/dir1/testdata1.txt"], { cwd: path }, function(err) {
                             assert.equal(err, null);
                             assert.equal(
@@ -139,7 +139,7 @@ describe(__filename, function() {
                     
                     res.pipe(file);
                     
-                    res.on("end", function() {
+                    file.on("finish", function() {
                         execFile("tar", ["-zxvf", filename, "test/dir1/testdata1.txt"], { cwd: path }, function(err) {
                             assert.equal(err, null);
                             assert.equal(
@@ -161,7 +161,7 @@ describe(__filename, function() {
                 var file = fs.createWriteStream(path + "/" + filename);
                 http.get(base + "/test/dir2/testdata2a.txt,/test/dir2/testdata2b.txt?download=download.tar.gz", function(res) {
                     res.pipe(file);
-                    res.on("end", function() {
+                    file.on("finish", function() {
                         execFile("tar", ["-zxvf", filename], { cwd: path }, function(err) {
                             assert.equal(err, null);
                             assert.equal(
@@ -187,7 +187,7 @@ describe(__filename, function() {
                 var file = fs.createWriteStream(path + "/" + filename);
                 http.get(base + "/test/dir1/testdata1.txt,/test/dir2/testdata2a.txt?download=download.tar.gz", function(res) {
                     res.pipe(file);
-                    res.on("end", function() {
+                    file.on("finish", function() {
                         execFile("tar", ["-zxvf", filename], { cwd: path }, function(err) {
                             assert.equal(err, null);
                             assert.equal(
@@ -216,7 +216,7 @@ describe(__filename, function() {
 
                     res.pipe(file);
 
-                    res.on("end", function() {
+                    file.on("finish", function() {
                         execFile("unzip", [filename, "c9.vfs.server/download.js"], { cwd: path }, function(err, stdout, stderr) {
                             assert.equal(err, null);
                             assert.equal(
@@ -239,7 +239,7 @@ describe(__filename, function() {
                 http.get(base + "/test?download=download.zip", function(res) {
                     res.pipe(file);
 
-                    res.on("end", function() {
+                    file.on("finish", function() {
                         execFile("unzip", [filename, "test/dir1/testdata1.txt"], { cwd: path }, function(err) {
                             assert.equal(err, null);
                             assert.equal(
@@ -261,7 +261,7 @@ describe(__filename, function() {
                 var file = fs.createWriteStream(path + "/" + filename);
                 http.get(base + "/test/dir2/testdata2a.txt,/test/dir2/testdata2b.txt?download=download.zip", function(res) {
                     res.pipe(file);
-                    res.on("end", function() {
+                    file.on("finish", function() {
                         execFile("unzip", [filename], { cwd: path }, function(err) {
                             assert.equal(err, null);
                             assert.equal(
@@ -287,7 +287,7 @@ describe(__filename, function() {
                 var file = fs.createWriteStream(path + "/" + filename);
                 http.get(base + "/test/dir1/testdata1.txt,/test/dir2/testdata2a.txt?download=download.zip", function(res) {
                     res.pipe(file);
-                    res.on("end", function() {
+                    file.on("finish", function() {
                         execFile("unzip", [filename], { cwd: path }, function(err) {
                             assert.equal(err, null);
                             assert.equal(
