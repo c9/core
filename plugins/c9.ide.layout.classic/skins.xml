@@ -663,32 +663,7 @@
             <div class="divider"> </div>
         </a:divider>
     </a:presentation>
-</a:toolbar>
-<a:errorbox  name="errorbox">
-        
-
-        <a:presentation>
-            <a:main container="div[1]/span" caption="div[1]/span" for="@for" close="div[3]/a" maxwidth="275">
-                <div class="errorbox">
-                    <div class="errorboxContent">
-                        <span> </span>
-                    </div>
-                    <div class="errorbox_ctl"> </div>
-                    <div class="errorbox_ctr">
-                        <a class="close" href="javascript:void(0)" onclick="return false;"> </a>
-                    </div>
-                    <div class="errorbox_cbl"> </div>
-                    <div class="errorbox_cbr"> </div>
-                    <div class="errorbox_bt">
-                        <div class="errbox_arrow"> </div>
-                    </div>
-                    <div class="errorbox_bl"> </div>
-                    <div class="errorbox_br"> </div>
-                    <div class="errorbox_bb"> </div>
-                </div>
-            </a:main>
-        </a:presentation>
-    </a:errorbox>
+</a:toolbar> 
 <a:img  name="img">
         
 
