@@ -273,20 +273,22 @@ define(function(require, exports, module) {
             layout.on("themeChange", function(e) {
                 setSettings();
                 
-                var skin = e.oldTheme;
-                if (!(settings.get("user/terminal/@backgroundColor") == defaults[skin][0] &&
-                  settings.get("user/terminal/@foregroundColor") == defaults[skin][1] &&
-                  settings.get("user/terminal/@selectionColor") == defaults[skin][2] &&
-                  settings.get("user/terminal/@antialiasedfonts") == defaults[skin][3]))
+                var colors = defaults[e.oldTheme];
+                if (!colors) return;
+                if (!(settings.get("user/terminal/@backgroundColor") == colors[0] &&
+                  settings.get("user/terminal/@foregroundColor") == colors[1] &&
+                  settings.get("user/terminal/@selectionColor") == colors[2] &&
+                  settings.get("user/terminal/@antialiasedfonts") == colors[3]))
                     return false;
             });
             
             layout.on("themeDefaults", function(e) {
-                var skin = e.theme;
-                settings.set("user/terminal/@backgroundColor", defaults[skin][0]);
-                settings.set("user/terminal/@foregroundColor", defaults[skin][1]);
-                settings.set("user/terminal/@selectionColor", defaults[skin][2]);
-                settings.set("user/terminal/@antialiasedfonts", defaults[skin][3]);
+                var colors = defaults[e.theme];
+                if (!colors) return;
+                settings.set("user/terminal/@backgroundColor", colors[0]);
+                settings.set("user/terminal/@foregroundColor", colors[1]);
+                settings.set("user/terminal/@selectionColor", colors[2]);
+                settings.set("user/terminal/@antialiasedfonts", colors[3]);
             }, handle);
     
             // Settings UI

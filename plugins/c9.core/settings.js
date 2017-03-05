@@ -177,7 +177,7 @@ define(function(require, exports, module) {
                     if (!node) return;
                     
                     // Get XML string
-                    var json = util.stableStringify(node, 0, "    ");
+                    var json = util.stableStringify(node, null, type == "state" ? "" : 4);
                     if (cache[type] == json) return; // Ignore if same as cache
                     
                     // Set Cache
@@ -192,7 +192,7 @@ define(function(require, exports, module) {
                     // Detect whether we're in standalone mode
                     var standalone = !options.hosted;
                     
-                    if (standalone || type == "project") {
+                    if (standalone || type == "project" || skipCloud[type]) {
                         fs.writeFile(PATH[type], json, forceSync, function(err) {});
                         
                         if (standalone && !saveToCloud[type] || skipCloud[type])
@@ -237,7 +237,7 @@ define(function(require, exports, module) {
                 });
             }
     
-            if (!c9.debug) {
+            if (!c9.debug && !testing) {
                 try {
                     emit("read", {
                         model: model,
@@ -245,6 +245,8 @@ define(function(require, exports, module) {
                         reset: isReset
                     });
                 } catch (e) {
+                    console.error("Error loading settings, reseting to defaults");
+                    console.error(e);
                     fs.writeFile(PATH.project 
                         + ".broken", JSON.stringify(json), function() {});
     
