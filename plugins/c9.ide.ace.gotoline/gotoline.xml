@@ -12,8 +12,6 @@
             <a:textbox id="input" focusselect="true" />
             <a:list id="list"
               flex    = "1"
-              caption = "[@nr]"
-              each    = "[line]"
               autoselect    = "false"
               multiselect   = "false"
               empty-message = "empty" />

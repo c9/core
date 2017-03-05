@@ -1275,11 +1275,6 @@ apf.splitter.templates = {
                     }
                 }
                 
-                //e.returnValue = false;
-                //e.cancelBubble = true;
-                //apf.stopEvent(e);
-                
-                
                 apf.plane.show(this);
                 
     
@@ -1551,8 +1546,6 @@ apf.splitter.templates = {
                     update(e);
                     
                     apf.stopEvent(e);
-                    //e.returnValue = false;
-                    //e.cancelBubble = true;
                     
                     _self.dispatchEvent("dragmove");
                 };

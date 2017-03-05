@@ -378,10 +378,10 @@ define(function(require, exports, module) {
             }
 
             ddSFSelection.childNodes[1].setAttribute("caption",
-                apf.escapeXML("Project (excludes .gitignore'd)"));
+                "Project (excludes .gitignore'd)");
 
             ddSFSelection.childNodes[2].setAttribute("caption",
-                apf.escapeXML("Selection: " + (name || "/")));
+                "Selection: " + (name || "/"));
 
             if (ddSFSelection.value == "selection") {
                 ddSFSelection.setAttribute("value", "");

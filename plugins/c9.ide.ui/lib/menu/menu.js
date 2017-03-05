@@ -1042,7 +1042,7 @@ apf.divider = function(struct, tagName) {
     this.minwidth = 0;
     this.minheight = 0;
 
-    this.implement(apf.ChildValue);
+    // this.implement(apf.ChildValue);
     this.$childProperty = "caption";
     
     //@todo apf3.0 fix this
@@ -1143,7 +1143,7 @@ apf.item = function(struct, tagName) {
     this.checked = false;
     this.selected = false;
 
-    this.implement(apf.ChildValue);
+    // this.implement(apf.ChildValue);
 
     // *** Properties and Attributes *** //
     
@@ -1519,7 +1519,7 @@ apf.item = function(struct, tagName) {
         this.parentNode.$hideTree = true;
         
         //@todo This statement makes the menu loose focus.
-        if (!this.parentNode.sticky)
+        if (!this.parentNode.sticky && this.parentNode.localName != "dropdown")
             this.parentNode.hide();//true not focus?/
 
         this.parentNode.dispatchEvent("itemclick", {
@@ -1664,108 +1664,6 @@ apf.item = function(struct, tagName) {
         var p = this.parentNode;
         while (p.$canLeechSkin == "item")
             p = p.parentNode;
-        
-        if (p.hasFeature(apf.__MULTISELECT__)) {
-            var _self = this;
-            
-            //@todo DOMNodeInserted should reset this
-            //@todo DOMNodeRemoved should reset this
-            if (!this.$hasSetSkinListener) {
-                var f;
-                this.parentNode.addEventListener("$skinchange", f = function() {
-                    if (_self.$amlDestroyed) //@todo apf3.x
-                        return;
-                    
-                    if (_self.$ext.parentNode)
-                        this.$deInitNode(_self, _self.$ext);
-    
-                    var oInt = p == _self.parentNode ? p.$container : _self.parentNode.$container;
-                    var node = oInt.lastChild;//@todo this should be more generic
-                    p.$add(_self, _self.getAttribute(apf.xmldb.xmlIdTag) + "|" + this.$uniqueId, 
-                        _self.parentNode, oInt != p.$container && oInt, null);
-                    p.$fill();
-                    
-                    if (p.$isTreeArch) {
-                        _self.$container = p.$getLayoutNode("item", "container", 
-                           _self.$ext = node && node.nextSibling || oInt.firstChild);//@todo this should be more generic
-                    }
-                    else _self.$ext = node && node.nextSibling || oInt.firstChild;
-                    
-                    var ns = _self;
-                    while ((ns = ns.nextSibling) && ns.nodeType != 1);
-        
-                    if (!ns || ns.$canLeechSkin != "item")
-                        p.dispatchEvent("afterload");
-                });
-                this.addEventListener("DOMNodeRemoved", function(e) {
-                    if (e.currentTarget == this)
-                        this.parentNode.removeEventListener("$skinchange", f);
-                });
-                
-                this.$hasSetSkinListener = true;
-            }
-            
-            if (!p.$itemInited) {
-                p.canrename = false; //@todo fix rename
-                p.$removeClearMessage(); //@todo this should be more generic
-                p.$itemInited = [p.getTraverseNodes, p.getFirstTraverseNode, p.getTraverseParent];
-                
-                p.getTraverseNodes = function(xmlNode) {
-                    return (xmlNode || p).getElementsByTagNameNS(apf.ns.apf, "item");
-                };
-                p.getFirstTraverseNode = function(xmlNode) {
-                    return (xmlNode || p).getElementsByTagNameNS(apf.ns.apf, "item")[0];
-                };
-                p.getTraverseParent = function(xmlNode) {
-                    return xmlNode && xmlNode.parentNode;
-                };
-                p.each = (this.prefix ? this.prefix + ":" : "") + "item";
-
-                //@todo this is all an ugly hack (copied to baselist.js line 868)
-                p.$preventDataLoad = true;//@todo apf3.0 add remove for this
-
-                p.$initingModel = true;
-                p.$setDynamicProperty("icon", "[@icon]");
-                p.$setDynamicProperty("image", "[@image]");
-                p.$setDynamicProperty("caption", "[label/text()|@caption|text()]");
-                p.$setDynamicProperty("eachvalue", "[value/text()|@value|text()]");
-                p.$canLoadDataAttr = false;
-                
-                if (!p.xmlRoot)
-                    p.xmlRoot = p;
-            }
-            
-            this.$loadAml = function() {
-                //hack
-                if (!this.getAttribute("caption"))
-                    this.setAttribute("caption", this.caption);
-                
-                var oInt = p == this.parentNode ? p.$container : this.parentNode.$container;
-                var node = oInt.lastChild;//@todo this should be more generic
-                if (!p.documentId)
-                    p.documentId = apf.xmldb.getXmlDocId(this);
-                p.$add(this, apf.xmldb.nodeConnect(p.documentId, this, null, p), 
-                    this.parentNode, oInt != p.$container && oInt, null);
-                p.$fill();
-    
-                if (p.$isTreeArch) {
-                    this.$container = p.$getLayoutNode("item", "container", 
-                       this.$ext = node && node.nextSibling || oInt.firstChild);//@todo this should be more generic
-                }
-                else this.$ext = node && node.nextSibling || oInt.firstChild;
-                
-                var ns = this;
-                while ((ns = ns.nextSibling) && ns.nodeType != 1);
-    
-                if (!ns || ns.$canLeechSkin != "item") {
-                    p.dispatchEvent("afterload");
-                    if (p.autoselect)
-                        p.$selectDefault(this.parentNode);
-                }
-            };
-            
-            return;
-        }
         
         this.$ext = this.$getExternal(this.$isLeechingSkin
           ? "item" //this.type 

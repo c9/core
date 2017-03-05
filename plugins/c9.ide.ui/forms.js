@@ -200,10 +200,8 @@ define(function(require, exports, module) {
                     break;
                     case "dropdown":
                         var model = options.model || new ui.model();
-                        var data = options.items && options.items.map(function(item) {
-                            return "<item value='" + item.value + "'><![CDATA[" + item.caption + "]]></item>";
-                        }).join("");
-                        if (data) model.load("<items>" + data + "</items>");
+                        var data = options.items;
+                        if (data) model.load(data);
                         
                         var dd;
                         childNodes = [
@@ -224,9 +222,9 @@ define(function(require, exports, module) {
                                 value: options.path
                                     ? settings.get(options.path)
                                     : (options.defaultValue || ""),
-                                each: options.each || "[item]",
-                                caption: options.caption || "[text()]",
-                                eachvalue: options.eachvalue || "[@value]",
+                                each: options.each || "item",
+                                caption: options.caption,
+                                eachvalue: options.eachvalue || "value",
                                 "empty-message": options["empty-message"]
                             })
                         ];

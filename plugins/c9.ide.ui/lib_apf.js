@@ -6301,113 +6301,6 @@ if (apf.history)
 
 
 
-
-/**
- * Creates a model object based on a {@link term.datainstruction data instruction}.
- *
- * @param {String} instruction  The {@link term.datainstruction data instruction} to be used to retrieve the data for the model
- * @param {apf.AmlNode} amlNode     The element the model is added to
- */
-apf.setModel = function(instruction, amlNode) {
-    if (!instruction) return;
-
-    //Find existing model
-    var fParsed = instruction.indexOf("{") > -1 || instruction.indexOf("[") > -1
-        ? apf.lm.compile(instruction, {
-            //precall  : false, 
-            alwayscb: true
-        })
-        : {
-            type: 2,
-            str: instruction
-        };
-
-    if (instruction == "@default" || fParsed.type == 2) {
-        
-        var model = apf.nameserver.get("model", instruction);
-        if (model)
-            return model.register(amlNode);
-        else
-        
-            if (instruction == "@default")
-            return;
-        
-        //@todo apf3.0 check here if string is valid url (relative or absolute)
-        if (instruction.indexOf(".") == -1 && instruction.indexOf("/") == -1) {
-            
-            return;
-        }
-    }
-
-    //Just an xpath doesnt work. We don't have context
-    //var l, x;
-    if (fParsed.type == 3) {//This won't work for complex xpaths
-        if (fParsed.models) { //check for # in xpaths[i] to determine if its calculated
-            if (fParsed.xpaths.length == 2 && fParsed.xpaths[0] != '#' && fParsed.xpaths [1] != '#') {
-                
-                
-                
-                apf.nameserver.get("model", fParsed.xpaths[0]).register(amlNode, fParsed.xpaths[1]);
-                
-                return;
-            }
-        }
-        
-    }
-
-    if (amlNode.clear)
-        amlNode.clear("loading");
-
-    //Complex data fetch (possibly async) - data is loaded only once. 
-    //Potential property binding has to take of the rest
-    apf.getData(instruction, {
-      parsed: fParsed, 
-      xmlNode: amlNode && amlNode.xmlRoot,
-      callback: function(data, state, extra) {
-        //@todo apf3.0 call onerror on amlNode
-        if (state != apf.SUCCESS) {
-            throw new Error(apf.formatErrorString(0, null,
-                "Loading new data", "Could not load data into model. \
-                \nMessage: " + extra.message + "\
-                \nInstruction: '" + instruction + "'"));
-        }
-        
-        if (!data)
-            return amlNode.clear && amlNode.clear();
-
-        if (typeof data == "string") {
-            if (data.charAt(0) == "<")
-                data = apf.getXml(data);
-            else {
-                //Assuming web service returned url
-                if (data.indexOf("http://") == 0)
-                    return apf.setModel(data, amlNode);
-                else {
-                    throw new Error("Invalid data from server");//@todo apf3.0 make proper apf error handling. apf.onerror
-                }
-            }
-        }
-        
-        if (data.nodeFunc) { //Assuming a model was passed -- data.localName == "model" && 
-            data.register(amlNode);
-            return;
-        }
-        
-        var model = apf.xmldb.findModel(data); //See if data is already loaded into a model
-        if (model)
-            model.register(amlNode, apf.xmlToXpath(data, model.data)); //@todo move function to xml library
-        else
-            new apf.model().register(amlNode).load(data);
-    }});
-};
-
-
-
-
-
-
-
-
 /*
  * @version: 1.0 Alpha-1
  * @author: Coolite Inc. http://www.coolite.com/
@@ -12424,33 +12317,10 @@ apf.AmlText = function(isPrototype) {
         var pHtmlNode;
         if (!(pHtmlNode = this.parentNode.$int) || this.parentNode.hasFeature(apf.__CHILDVALUE__)) 
             return;
-
+debugger
         this.$amlLoaded = true;
         
         var nodeValue = this.nodeValue;
-
-        //@todo optimize for inside elements?
-        if (apf.config.liveText && !this.parentNode.hasFeature(apf.__CHILDVALUE__) 
-          && (nodeValue.indexOf("{") > -1 || nodeValue.indexOf("[") > -1)) {
-            
-            //Convert to live markup pi
-            this.$supportedProperties = [];
-            this.$propHandlers = {};
-            this.$booleanProperties = {};
-            this.$inheritProperties = {};
-            
-            this.$propHandlers["calcdata"] = apf.LiveMarkupPi.prototype.$propHandlers["calcdata"];
-            
-            this.$setInheritedAttribute = apf.AmlElement.prototype.$setInheritedAttribute;
-            
-            this.implement(apf.StandardBinding);
-            
-            
-            pHtmlNode.appendChild(this.$ext = document.createElement("span"));
-            this.$setDynamicProperty("calcdata", this.nodeValue);
-            
-            return;
-        }
 
         if (apf.hasTextNodeWhiteSpaceBug) {
             var nodeValue = nodeValue.replace(/[\t\n\r ]+/g, " ");

@@ -75,21 +75,19 @@ define(function(require, exports, module) {
             
             settings.on("read", function() {
                 var lines = settings.getJson("state/gotoline") || [];
-                var xml = "";
-                for (var i = 0, l = lines.length; i < l; i += 2) {
-                    xml += "<line nr='" + lines[i] + "' />";
-                }
-                model.load("<lines>" + xml + "</lines>");
+                lines = lines.map(function(i) {
+                    return { value: i };
+                });
+                model.load(lines);
             }, plugin);
             
             settings.on("write", function() {
                 if (changed) {
-                    var nodes = model.data.childNodes;
-                    var lines = [];
-                    for (var i = 0, l = Math.min(20, nodes.length); i < l; i++) {
-                        lines.push(nodes[i].getAttribute("nr"));
-                    }
+                    var lines = (model.data || []).map(function(n) {
+                        return n.value;
+                    });
                     settings.setJson("state/gotoline", lines);
+                    changed = false;
                 }
             }, plugin);
         }
