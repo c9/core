@@ -414,7 +414,7 @@ define(function(require, exports, module) {
                         // watch children
                         var substr = id[id.length - 1] !== "/" ? id + "/" : id;
                         Object.keys(expandedList).forEach(function(path) {
-                            if (path.lastIndexOf(substr, 0) === 0) {
+                            if (path.startsWith(substr) && path.indexOf("/", substr.length) == -1) {
                                 watcher.watch(path, refresh);
                             }
                         });
