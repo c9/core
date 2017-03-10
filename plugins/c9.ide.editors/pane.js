@@ -208,7 +208,6 @@ define(function(require, module, exports) {
                 var tooltipHideTimer;
                 var currentTarget;
                 function hide() {
-                    console.log("hide", currentTarget)
                     if (tooltipTimer) tooltipTimer = clearTimeout(tooltipTimer);
                     if (tooltipHideTimer) tooltipHideTimer = clearTimeout(tooltipHideTimer);
                     if (tooltip) tooltip.hide();
@@ -239,7 +238,8 @@ define(function(require, module, exports) {
                 });
 
                 function updateTooltip() {
-                    console.log("show", currentTarget)
+                    if (apf.isMousePressed)
+                        return tooltip && tooltip.hide();
                     tooltipTimer = clearTimeout(tooltipTimer);
                     tooltipHideTimer = clearTimeout(tooltipHideTimer);
                     var tab = currentTarget;
