@@ -428,26 +428,6 @@
         </a:divider>
     </a:presentation>
 </a:menu>
-<a:scrollbar  name="sbios">
-    
-    
-
-    <a:presentation>
-        <a:main indicator="div/div">
-            <div class="sbios">
-                <div class="filler">
-                    <div class="indicator">
-                        <div class="indi_left"/>
-                        <div class="indi_middle"/>
-                        <div class="indi_right"/>
-                    </div>
-                </div>
-                <div class="mainrail"/>
-                <span> </span>
-            </div>
-        </a:main>
-    </a:presentation>
-</a:scrollbar>
 <a:modalwindow  name="bk-window">
     
 
