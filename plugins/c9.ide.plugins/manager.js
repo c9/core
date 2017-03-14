@@ -76,19 +76,19 @@ define(function(require, exports, module) {
             index: 200,
             visible: ENABLED,
         });
-        // var emit = plugin.getEmitter();
+        var emit = plugin.getEmitter();
 
         var model, datagrid, filterbox;
         var btnUninstall, btnServices, btnReadme, btnReload;
         var btnReloadLast;
         var localPlugins;
         var disabledPlugins = Object.create(null);
+        var packages = Object.create(null);
 
         var loaded = false;
         function load() {
             if (loaded) return false;
             loaded = true;
-            
             
             menus.addItemByPath("Tools/~", new ui.divider(), 100000, plugin);
             menus.addItemByPath("Tools/Developer", null, 100100, plugin);
@@ -162,6 +162,12 @@ define(function(require, exports, module) {
             ext.on("register", function() {
                 setTimeout(reloadModel);
             });
+            
+            if (DEBUG && sessionStorage.localPackages) {
+                loadPackage(
+                    util.safeParseJson(sessionStorage.localPackages) || []
+                );
+            }
         }
 
         var drawn;
@@ -234,7 +240,6 @@ define(function(require, exports, module) {
                         height: 27,
                         width: 250,
                         singleline: true,
-                        clearbutton: true,
                         "initial-message": "Search installed plugins"
                     }),
                     btnReadme = new ui.button({
@@ -243,7 +248,7 @@ define(function(require, exports, module) {
                         class: "serviceButton",
                         onclick: function() {
                             mode = "readme";
-                            window.requestAnimationFrame(renderDetails);
+                            scheduleRedraw();
                         }
                     }),
                     btnServices = new ui.button({
@@ -252,7 +257,7 @@ define(function(require, exports, module) {
                         class: "serviceButton",
                         onclick: function() {
                             mode = "services";
-                            window.requestAnimationFrame(renderDetails);
+                            scheduleRedraw();
                         }
                     }),
                     new ui.filler({}),
@@ -262,10 +267,18 @@ define(function(require, exports, module) {
                         class: "btn-red",
                         onclick: function() {
                             var item = datagrid.selection.getCursor();
-                            if (item.enabled)
-                                unloadPackage({ path: item.path });
-                            else
-                                loadPackage({ path: item.filePath || item.path });
+                            if (item.packageConfig) {
+                                if (item.enabled)
+                                    unloadPackage(item.packageConfig);
+                                else
+                                    loadPackage(item.packageConfig);
+                            }
+                            else {
+                                if (item.enabled)
+                                    unloadPlugins(item);
+                                else
+                                    loadPlugins(item);
+                            }
                         }
                     }),
                     btnReload = new ui.button({
@@ -337,12 +350,10 @@ define(function(require, exports, module) {
                 datagrid.resize(true);
             });
 
-            datagrid.on("changeSelection", function(e) {
-                window.requestAnimationFrame(renderDetails);
-            });
-            model.on("change", function(e) {
-                window.requestAnimationFrame(renderDetails);
-            });
+            datagrid.on("changeSelection", scheduleRedraw);
+            model.on("change", scheduleRedraw);
+            
+            plugin.on("reloadModel", scheduleRedraw);
             
             model.getCheckboxHTML = function(node) {
                 var enabled = node.enabled;
@@ -563,7 +574,10 @@ define(function(require, exports, module) {
                 }
                 hoverDetails.highlighted = hoverDetails.hovered;
             }
-            window.requestAnimationFrame(renderDetails);
+            
+            function scheduleRedraw() {
+                window.requestAnimationFrame(renderDetails);
+            }
             
              var mnuCtxTree = new ui.menu({
                 id: "mnuChat",
@@ -645,12 +659,13 @@ define(function(require, exports, module) {
                 });
             }
             
-            architectApp.config.forEach(function(plugin) {
+            function addPlugin(plugin, node) {
+                if (!plugin.provides || !plugin.consumes)
+                    return console.error("Broken plugin", plugin);
                 if (plugin.packagePath) {
                     var parts = plugin.packagePath.split("/");
                     
                     var path = parts.shift();
-                    var node = CORE[plugin.packagePath] ? groups.core : groups.pre;
                     parts.forEach(function(p, i) {
                         path = path + "/" + p;
                         if (!node.map)
@@ -665,22 +680,26 @@ define(function(require, exports, module) {
                         if (i == parts.length - 1) {
                             var enabled = 1;
                             node.map[p].provides = plugin.provides;
-                            node.map[p].time = plugin.provides.reduce(function(sum, x) {
+                            plugin.provides.forEach(function(x) {
                                 var service = architectApp.services[x];
                                 if (!service || (!service.loaded && service.unload)) {
                                     enabled = 0;
                                 }
-                                return sum + (service && service.time || 0);
-                            }, 0);
+                            });
                             node.map[p].enabled = enabled;
                         }
                         node = node.map[p];
+                        node.className = plugin.__error ? "load-error" : "";
                     });
                 }
+            }
+            
+            architectApp.config.forEach(function(plugin) {
+                var node = CORE[plugin.packagePath] ? groups.core : groups.pre;
+                addPlugin(plugin, node);
             });
             
             if (localPlugins) {
-                groups.pre.map = groups.pre.map || Object.create(null);
                 localPlugins.forEach(function(x) {
                     groups.vfs.map[x] = groups.vfs.map[x] || {
                         filePath: "~/.c9/plugins/" + x + "/package.json",
@@ -695,6 +714,17 @@ define(function(require, exports, module) {
                 });
             }
             
+            Object.keys(packages).forEach(function(n) {
+                var node = groups.vfs;
+                var pkg = packages[n];
+                
+                if (pkg.c9.plugins) {
+                    pkg.c9.plugins.forEach(function(plugin) {
+                        addPlugin(plugin, node);
+                    });
+                }
+            });
+            
             function flatten(node, index) {
                 if (node.map) {
                     node.items = node.children = Object.keys(node.map).map(function(x) {
@@ -708,6 +738,9 @@ define(function(require, exports, module) {
                         if (node.parent && node.parent.items[index] == node) {
                             node.parent.items[index] = other;
                             other.name = node.name + "/" + other.name;
+                            other.packageOptions = node.packageOptions;
+                            other.filePath = node.filePath;
+                            other.url = node.url;
                         }
                     }
                     if (!node.isGroup) {
@@ -727,6 +760,8 @@ define(function(require, exports, module) {
             flatten(model.cachedRoot);
 
             applyFilter();
+            
+            emit("reloadModel");
         }
 
         function applyFilter() {
@@ -752,7 +787,7 @@ define(function(require, exports, module) {
             if (!template)
                 template = "c9.ide.default";
             
-            var tarSourcePath = join("templates", template + ".tar.gz")
+            var tarSourcePath = join("templates", template + ".tar.gz");
             var url = staticPrefix + "/" + tarSourcePath;
             if (!url.match(/^http/))
                 url = location.origin + url;
@@ -869,54 +904,65 @@ define(function(require, exports, module) {
             return qs.parse(document.location.search.substr(1)).reload;
         }
         
-        function addAllDependents(packages) {
+        function getAllPlugins() {
             var config = architectApp.config;
+            Object.keys(packages).forEach(function(n) {
+                if (packages[n] && packages[n].c9 && packages[n].c9.plugins)
+                    config = config.concat(packages[n].c9.plugins);
+            });
+            return config.filter(function(x) {
+                return x.consumes && x.provides;
+            });
+        }
+        
+        function addAllDependents(plugins) {
+            var config = getAllPlugins();
             var level = 0;
             do {
                 level++;
                 var changed = false;
-                var packageNames = Object.keys(packages);
+                var packageNames = Object.keys(plugins);
                 config.forEach(function(x) {
                     packageNames.forEach(function(p) {
                         if (x.consumes.indexOf(p) != -1) {
                             x.provides.forEach(function(name) {
-                                if (packages[name] == null) {
+                                if (plugins[name] == null) {
                                     changed = true;
-                                    packages[name] = level;
+                                    plugins[name] = level;
                                 }
                             });
                         }
                     });
                 });
             } while (changed);
-            return packages;
+            return plugins;
         }
         
-        function addAllProviders(packages) {
+        function addAllProviders(plugins) {
             var serviceToPlugin = architectApp.serviceToPlugin;
             var level = 0;
             do {
                 level--;
                 var changed = false;
-                var packageNames = Object.keys(packages);
+                var packageNames = Object.keys(plugins);
                 packageNames.forEach(function(p) {
                     var service = serviceToPlugin[p];
                     if (service && service.consumes) {
                         service.consumes.forEach(function(name) {
-                            if (packages[name] == null) {
+                            if (plugins[name] == null) {
                                 changed = true;
-                                packages[name] = level;
+                                plugins[name] = level;
                             }
                         });
                     }
                 });
             } while (changed);
-            return packages;
+            return plugins;
         }
         
         function unloadPackage(options, callback) {
             var toUnload = Object.create(null);
-            var config = architectApp.config;
+            var config = getAllPlugins();
             function addPath(path) {
                 config.forEach(function(p) {
                     if (!p.packagePath) return;
@@ -1027,7 +1073,7 @@ define(function(require, exports, module) {
                     } catch (e) {
                         return callback(e);
                     }
-                    getPluginsFromPackage(json);
+                    getPluginsFromPackage(json, callback);
                 });
             }
             else {
@@ -1050,15 +1096,24 @@ define(function(require, exports, module) {
                         plugins.push(plugin);
                     });
                 }
-                enablePlugins(plugins, callback);
+                
+                packages[json.name] = json;
+                if (!json.c9)
+                    json.c9 = {};
+                json.c9.plugins = plugins;
+                
+                loadPlugins(plugins, callback);
             }
         }
         
-        function enablePlugins(plugins, callback) {
-            
+        function loadPlugins(plugins, callback) {
             architectApp.loadAdditionalPlugins(plugins, function(err) {
                 callback && callback(err);
             });
+        }
+        
+        function unloadPlugins() {
+            
         }
         
         function cleanupCache(packagePath) {

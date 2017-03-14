@@ -11,3 +11,6 @@
     color: @preferences-intro-link-color;
     text-decoration : underline;
 }
+.tree-row.load-error {
+    color: #e44;
+}
