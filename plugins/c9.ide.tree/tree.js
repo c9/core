@@ -483,7 +483,7 @@ define(function(require, exports, module) {
                 if (!c9.has(c9.STORAGE))
                     return false;
     
-                if (getSelectedNode().path == "/") {
+                if (e.path == "/") {
                     alert(
                         "Cannot rename project folder",
                         "Unable to rename the project folder",
