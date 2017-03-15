@@ -99,16 +99,18 @@ define(function(require, exports, module) {
                 
                 menus.addItemByPath("Tools/Preview/", submenu, 1000, handle);
                 liveMenuItem = new ui.item({
-                    onclick: function() { commands.exec("preview"); }
+                    onclick: function(e) { commands.exec("preview", { newTab: e && e.button == 1 }); }
                 });
                 menus.addItemByPath("Tools/Preview/Live Preview Files",
                     liveMenuItem, 100, handle);
-                menus.addItemByPath("Tools/Preview/Preview Running Application", 
-                    new ui.item({
-                        onclick: function() {
-                            commands.exec("preview", null, { server: true });
-                        }
-                    }), 200, handle);
+                menus.addItemByPath("Tools/Preview/Preview Running Application", new ui.item({
+                    onclick: function(e) {
+                        commands.exec("preview", null, {
+                            server: true,
+                            newTab: e && e.button == 1
+                        });
+                    }
+                }), 200, handle);
             }
             
             settings.on("read", function(e) {
@@ -199,13 +201,15 @@ define(function(require, exports, module) {
                         };
                         
                         function done() {
+                            var path = (options.local ? "http" : "https") 
+                                + "://" + hostname;
+                            if (args.newTab)
+                                return util.openNewWindow(path);
+                            
                             // Open Pane
                             pane = findPane();
                             
                             // Open Preview
-                            var path = (options.local ? "http" : "https") 
-                                + "://" + hostname;
-                            
                             openPreview(path, pane, args && args.active);
                         }
                         
