@@ -305,7 +305,7 @@ define(function(require, exports, module) {
                     },
                     "JavaScript Support": {
                         position: 1100,
-                        "Customize JavaScript Warnings With <a href=\"http://eslint.org/docs/configuring/\" target=\"blank\">.eslintrc</a>": {
+                        "Customize JavaScript Warnings With <a href=\"http://eslint.org/docs/user-guide/configuring\" target=\"blank\">.eslintrc</a>": {
                             position: 210,
                             type: "checkbox",
                             path: "project/language/@eslintrc",

@@ -32,7 +32,7 @@ module.exports = function(options) {
 
     var runners = options.runners || {};
     var builders = options.builders || {};
-    var hosted = !options.local && !options.dev;
+    var hosted = !options.local && !options.standalone && !options.dev;
     var devel = options.standalone && !options.local || options.mode === "devel" || options.mode == "onlinedev" || options.dev;
     
     var localExtendFiles = options.localExtend || options.standalone;

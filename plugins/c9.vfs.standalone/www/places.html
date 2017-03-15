@@ -12,9 +12,9 @@ var places = {
         IDE: ["/ide.html", "?devel=1", "?reset=state", "?reset=settings", "?reset=1", "?noworker=1", "?packed=1", "?collab=0"],
         VFS: "/vfs",
         Preview: "/preview",
+        StaticIde: ["/static/ide.html", "/static/ide.offline.html"],
         Test: "/static/test.html",
         List_of_tests: "/static/test.html?",
-        testsuite: "/static/testsuite.html?"
     },
     Collab: {
         main: "/static/plugins/c9.ide.collab/collab_test.html",
@@ -53,7 +53,7 @@ for (var i in places) {
         if (subPaths) {
             html.push("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(");
             subPaths.forEach(function(x, i) {
-                html.push("<a href='", path, x, "'>", x, "</a>");
+                html.push("<a href='", x[0] == "/" ? "" : path, x, "'>", x, "</a>");
                 if (i != subPaths.length - 1)
                     html.push(",&nbsp;&nbsp;&nbsp;");
             });

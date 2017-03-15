@@ -7,7 +7,7 @@ return function(vfs, base, baseProc, cli) {
 
     var resolvePath = function(path, basePath) { 
         if (path.charAt(0) == "~") {
-            if (cli)
+            if (cli && typeof process != "undefined")
                 return process.env.HOME + "/" + path.substr(1);
             return path;
         }
@@ -254,7 +254,9 @@ return function(vfs, base, baseProc, cli) {
         symlink: symlink,
         watch: watch,
         unwatch: unwatch,
-        vfs: vfs
+        vfs: vfs,
+        metadata: vfs.metadata,
+        readFileWithMetadata: vfs.readFileWithMetadata
     };
 };
 

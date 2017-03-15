@@ -1,0 +1,480 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Cloud9</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> 
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+</head>
+<body>
+    <link rel="stylesheet" type="text/css" href="./plugins/c9.ide.layout.classic/loading-flat.css" />
+    <div id="loadingcontainer" class="">
+        <div id="loadingide">
+            <div class="cool-message">Loading offline ide example</div>
+            <div class="status" style="display:none"><div class="spinner"></div></div>
+            
+            <div id="content" class="loading-progress">
+            </div>
+            <div class="footer">
+                <a href="https://docs.c9.io">Documentation</a> | 
+                <a href="http://status.c9.io">Server Status</a> | 
+                <a href="http://support.c9.io">Support</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        var loadingIde = document.querySelector("#loadingide");
+        document.body.className = "loading " + loadingIde.className;
+    
+        setTimeout(function(){
+            var s = document.querySelector("#loadingide .status");
+            if (s) s.style.display = "block";
+        }, 2000);
+        
+        window.hideLoader = function(){
+            var loader = document.getElementById("loadingcontainer");
+            loader.parentNode.removeChild(loader);
+            
+            document.body.className = document.body.className.replace("loading " + loadingIde.className, "");
+        };
+    </script>
+    <script src="/static/mini_require.js"></script>
+    <script src="/configs/require_config.js"></script>
+    <script>
+        var vfsPlugin = {
+            consumes: [],
+            provides: ["vfs", "vfs.ping", "vfs.log", "vfs.endpoint"],
+            setup: function(options, imports, register) {
+                var Stream = require("stream").Stream;
+                var noop = function() { debugger; };
+                var silent = function() {};
+                var connection = {};
+                // initialize mock fsData
+                var fsData = {};
+                findNode("/hello", true, "world");
+                findNode("~", true);
+                // Try loading data from localStorage
+                try {
+                    fsData = JSON.parse(localStorage.fsData);
+                } catch (e) {}
+                window.addEventListener("beforeunload", function(e) {
+                    localStorage.fsData = JSON.stringify(fsData);
+                });
+                
+                var vfsApi = {
+                    on: function() {},
+                    once: function() {},
+                    connected: true,
+                    
+                    get connection() { return connection; },
+                    get connecting() { return false; },
+                    get connected() { return true },
+                    
+                    get previewUrl() { throw new Error("gone"); },
+                    get serviceUrl() { return serviceUrl; },
+                    get id() { return id; },
+                    get baseUrl() { return vfsBaseUrl; },
+                    get region() { return ""; },
+                    
+                    rest: noop,
+                    download: noop,
+                    url: noop,
+                    reconnect: noop,
+                    
+                    vfsUrl: noop,
+        
+                    // File management
+                    resolve: noop,
+                    stat: function(path, options, cb) {
+                        var data = findNode(path);
+                        var name = path.split("/").pop();
+                        setTimeout(function() {
+                            if (data == null)
+                                return cb(ENOENT());
+                            var isFile = typeof data == "string";
+                            var stat = {
+                                name: name.substr(1),
+                                size: isFile ? data.length : 1,
+                                mtime: 0,
+                                ctime: 0,
+                                mime: isFile ? "" : "folder"
+                            };
+                            cb(null, stat);
+                        }, 20);
+                    },
+                    readfile: function(path, options, cb) {
+                        var data = findNode(path);
+                        setTimeout(function() {
+                            if (typeof data != "string")
+                                return cb(ENOENT());
+                            sendStream(data, cb);
+                        }, 20);
+                    },
+                    readdir: function(path, options, cb) {
+                        var data = findNode(path);
+                        setTimeout(function() {
+                            if (!data || typeof data == "string")
+                                return cb(ENOENT());
+                            var stats = Object.keys(data).map(function(n) {
+                                var isFile = typeof data[n] == "string";
+                                return {
+                                    name: n.substr(1),
+                                    size: isFile ? data[n].length : 1,
+                                    mtime: 0,
+                                    ctime: 0,
+                                    mime: isFile ? "" : "folder"
+                                };
+                            });
+                            sendStream(stats, cb);
+                        });
+                    },
+                    mkfile: function(path, options, cb) {
+                        var parts = path.split("/")
+                        var name = "!" + parts.pop();
+                        var parent = findNode(parts.join("/"), true);
+                        var val = "";
+                        options.stream.on("data", function(e) {
+                            if (e) val += e;
+                        });
+                        options.stream.on("end", function(e) {
+                            if (e) val += e; 
+                            setTimeout(function() {
+                                if (!parent || typeof parent[name] == "object")
+                                    return cb(ENOENT());
+                                parent[name] = val;
+                                cb(null);
+                            });
+                        });
+                    },
+                    mkdir:  function(path, options, cb) {
+                        var data = findNode(path, true);
+                        setTimeout(function() {
+                            if (!data)
+                                return cb(ENOENT());
+                            cb();
+                        });
+                    },
+                    mkdirP: function(path, options, cb) {
+                        var data = findNode(path, true);
+                        setTimeout(function() {
+                            if (!data)
+                                return cb(ENOENT());
+                            cb();
+                        });
+                    },
+                    appendfile: noop,
+                    rmfile: function(path, options, cb) {
+                        var parts = path.split("/")
+                        var name = "!" + parts.pop();
+                        setTimeout(function() {
+                            var parent = findNode(parts.join("/"));
+                            if (!parent || !parent[name])
+                                return cb(ENOENT());
+                            if (typeof parent[name] != "string")
+                                return cb(new Error("EISDIR"))
+                            delete parent[name];
+                            cb();
+                        });
+                    },
+                    rmdir: function(path, options, cb) {
+                        var parts = path.split("/")
+                        var name = "!" + parts.pop();
+                        setTimeout(function() {
+                            var parent = findNode(parts.join("/"));
+                            if (!parent || !parent[name])
+                                return cb(ENOENT());
+                            if (typeof parent[name] == "string")
+                                return cb(new Error("EISFILE"))
+                            delete parent[name];
+                            cb();
+                        });
+                    },
+                    rename: function(to, options, cb) {
+                        setTimeout(function() {
+                            var from = options.from;
+                            var overwrite = options.overwrite;
+                            
+                            var parts = to.split("/")
+                            var toName = "!" + parts.pop();
+                            var toParent = findNode(parts.join("/"));
+                            
+                            parts = from.split("/")
+                            var fromName = "!" + parts.pop();
+                            var fromParent = findNode(parts.join("/"));
+                            if (toParent[toName] != null && !overwrite)
+                                return cb(ENOENT());
+                            
+                            toParent[toName] = fromParent[fromName];
+                            delete fromParent[fromName];
+                            cb(null);
+                        })
+                    },
+                    copy: function(from, options, cb) {
+                        setTimeout(function() {
+                            var to = options.to;
+                            var overwrite = options.overwrite;
+                            
+                            var toParts = to.split("/")
+                            var toName = "!" + toParts.pop();
+                            var toParent = findNode(toParts.join("/"));
+                            
+                            var parts = from.split("/")
+                            var fromName = "!" + parts.pop();
+                            var fromParent = findNode(parts.join("/"));
+                            var counter = 0;
+                            var name = toName;
+                            while (toParent[toName] != null && !options.overwrite)
+                                toName = name + "." + (++counter);
+                            
+                            toParent[toName] = fromParent[fromName];
+                            toParts.push(toName.substr(1))
+                            cb(null, {to: toParts.join("/")});
+                        })
+                    },
+                    chmod: noop,
+                    symlink: noop,
+        
+                    // Save and retrieve Metadata
+                    metadata: function(path, value, sync, cb) {
+                        setTimeout(function() {
+                            cb()
+                        });
+                    },
+                    readFileWithMetadata: function(path, options, cb) {
+                        var data = findNode(path);
+                        setTimeout(function() {
+                            if (typeof data != "string")
+                                return cb(ENOENT());
+                            // TODO metadata
+                            cb(null, data)
+                        });
+                        return { abort: function() {} };
+                    },
+        
+                    // Wrapper around fs.watch or fs.watchFile
+                    watch: silent,
+        
+                    // Network connection
+                    connect: noop,
+        
+                    // Process Management
+                    spawn: silent,
+                    pty: silent,
+                    tmux: silent,
+                    execFile: silent,
+                    killtree: silent,
+        
+                    // Extending the API
+                    use: silent,
+                    extend: silent,
+                    unextend: silent,
+                    
+                    isIdle: function() { return true },
+                }
+                
+                function findNode(path, create, val) {
+                    if (!path) path = "/";
+                    var parts = path.split("/");
+                    if (!parts[parts.length - 1])
+                        parts.pop();
+                    var data = fsData;
+                    var prev = null;
+                    for (var i = 0; i < parts.length; i++) {
+                        prev = data;
+                        data = data["!" + parts[i]];
+                        if (data == null) {
+                            if (create && typeof prev != "string")
+                                data = prev["!" + parts[i]] = {};
+                            else
+                                return;
+                        }
+                    }
+                    if (val)
+                        data = prev["!" + parts[parts.length - 1]] = val;
+                    return data;
+                }
+                function ENOENT() {
+                    var err = new Error("ENOENT");
+                    err.code = "ENOENT";
+                    return err;
+                }
+                function sendStream(data, cb) {
+                    var stream = new Stream();
+                    stream.readable = true;
+                    cb(null, { stream: stream });
+                    if (Array.isArray(data)) {
+                        data.forEach(function(x) { 
+                            stream.emit("data", x);
+                        });
+                    } else {
+                        stream.emit("data", data);
+                    }
+                    stream.emit("end");
+                }
+                register(null, {
+                    "vfs": vfsApi,
+                    "vfs.ping": {},
+                    "vfs.log": {
+                        log: function() {}
+                    },
+                    "vfs.endpoint": {
+                        clearCache: function() {}
+                    }
+                });
+            }
+        };
+        function offlineConfig(plugins) {
+            var excludes = [
+                "plugins/c9.ide.immediate/evaluators/debugnode",
+                "plugins/c9.ide.test.mocha/mocha",
+                "plugins/c9.ide.find/find.nak",
+                "plugins/c9.ide.terminal/terminal",
+                "plugins/c9.ide.test/all",
+                "plugins/c9.ide.find/find",
+                "plugins/c9.ide.language.jsonalyzer/jsonalyzer",
+                "plugins/c9.ide.terminal/link_handler",
+                "plugins/c9.ide.test/coverage",
+                "plugins/c9.ide.test/coverage",
+                "plugins/c9.ide.test/results",
+                "plugins/c9.ide.test/testrunner",
+                
+                "plugins/c9.ide.find.infiles/findinfiles",
+                "plugins/c9.ide.language.codeintel/codeintel",
+                "plugins/c9.ide.language.core/outline",
+                "plugins/c9.ide.language.go/go",
+                "plugins/c9.ide.language.python/python",
+                "plugins/c9.ide.navigate/navigate",
+                "plugins/c9.ide.test/coverageview",
+                "plugins/c9.ide.tree/favorites",
+                "plugins/c9.cli.bridge/bridge_commands",
+                "plugins/c9.ide.ace.keymaps/cli",
+                "plugins/c9.ide.configuration/configure",
+                "plugins/c9.ide.plugins/manager",
+                "plugins/c9.ide.ace.keymaps/keymaps",
+                "plugins/c9.ide.ace/themes",
+            ]
+            plugins = plugins.filter(function(p) {
+                var packagePath = typeof p == "string" ? p : p.packagePath;
+                if (/\/c9.ide.run/.test(packagePath)) return false;
+                if (/\/c9.ide.collab/.test(packagePath)) return false;
+                if (/\/c9.ide.installer/.test(packagePath)) return false;
+                if (/\/c9.vfs.client/.test(packagePath)) return false;
+                if (/\/c9.ide.plugins/.test(packagePath)) return false;
+                if (excludes.indexOf(packagePath) != -1) return false;
+                
+                if (packagePath == "plugins/c9.fs/fs")
+                    p.cli = true;
+                if (packagePath == "plugins/c9.core/settings")
+                    ; // place to modify settings
+                    
+                if (packagePath == "plugins/c9.ide.console/console")
+                    p.defaultState = { type: "pane", nodes: [] }; // prevent console from opening terminal
+                
+                return true;
+            });
+            plugins.push(vfsPlugin);
+            return plugins;
+        }
+    </script>
+    <script>
+    
+        var start = Date.now();
+        
+        var plugins;
+        require(["lib/architect/architect", "configs/ide/default"], function (architect, defaultConfig) {
+            var plugins = defaultConfig({
+                staticPrefix: "/static",
+                workspaceDir: "/",
+                workspaceId: "/",
+                workspaceName: "/",
+                home: "/",
+                platform: "linux",
+                installPath: "/",
+                manifest: {},
+                project: {},
+                user: {},
+                standalone: true,
+                previewUrl: "",
+                dashboardUrl: "",
+                themePrefix: "/static/standalone/skin/default",
+            });
+            plugins = offlineConfig(plugins);
+            
+            plugins.push({
+                consumes: [],
+                provides: ["auth.bootstrap"],
+                setup: function(options, imports, register) {
+                    register(null, {
+                        "auth.bootstrap": {
+                            login: function(callback) { callback(); }
+                        }
+                    });
+                }
+            });
+            window.plugins = plugins;
+            
+            architect.resolveConfig(plugins, function (err, config) {
+                if (err) throw err;
+
+                var errored;
+                var app = architect.createApp(config, function(err, app){
+                    if (err) {
+                        errored = true;
+                        console.error(err.stack);
+                        alert(err);
+                    }
+                });
+                
+                app.on("error", function(err){
+                    console.error(err.stack);
+                    if (!errored)
+                        alert(err);
+                });
+                
+                app.on("service", function(name, plugin, options) {
+                    if (!plugin.name)
+                        plugin.name = name;
+                });
+                
+                app.on("ready", function() {
+                    window.app = app.services;
+                    window.app.__defineGetter__("_ace", function(){
+                        return this.tabManager.focussedTab.editor.ace;
+                    });
+                    Object.keys(window.app).forEach(function(n) {
+                        if (/[^\w]/.test(n))
+                            window.app[n.replace(/[^\w]/, "_") + "_"] = window.app[n];
+                    });
+                    
+                    done();
+                });
+
+                // For Development only
+                function done() {
+                    var vfs = app.services.vfs;
+                    var c9 = app.services.c9;
+                    var settings = app.services.settings;
+                    
+                    c9.ready();
+                    c9.totalLoadTime = Date.now() - start;
+
+                    console.warn("Total Load Time: ", Date.now() - start);
+                    
+                    if (window.hideLoader) {
+                        var waitVfs = function(fn) {
+                            vfs.connected ? fn() : vfs.once("connect", fn);
+                        };
+                        var waitSettings = function(fn) {
+                            settings.inited ? fn() : settings.once("read", fn);
+                        };
+                        waitVfs(waitSettings.bind(null, window.hideLoader));
+                    }
+                }
+            }, function loadError(mod) {
+                if (mod.id === "plugins/c9.ide.clipboard/html5")
+                    return alert("Unable to load html5.js.\n\nThis may be caused by a false positive in your virus scanner. Please try reloading with ?packed=1 added to the URL.");
+            });
+        });
+    </script>
+</body>
+</html>
