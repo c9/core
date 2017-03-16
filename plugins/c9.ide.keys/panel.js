@@ -94,6 +94,9 @@ define(function(require, exports, module) {
                 }, {
                     bindKey: "Shift-Enter",
                     exec: function() { execCommand(false, true); }
+                }, {
+                    bindKey: "F2",
+                    exec: function() { showKeyEditor(); }
                 }
             ]);
             function forwardToTree() {
@@ -166,6 +169,10 @@ define(function(require, exports, module) {
         }
         
         /***** Methods *****/
+        
+        function showKeyEditor() {
+            commands.exec("openpreferences", null, { panel: "preferences.keybindings" });
+        }
     
         /**
          * Searches through the dataset

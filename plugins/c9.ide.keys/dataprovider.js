@@ -106,22 +106,24 @@ define(function(require, exports, module) {
                 + (available && this.getClassName(row))
                 + (available ? "" : " notAvailable")
                 + "' style='height:" + this.innerRowHeight + "px'>"
-                + "<span class='keys'>" + keys + "</span>"
                 + "<span class='caption'>"
-                + this.replaceStrong((command.group || "General") + ": " + name)
-                + "</span><span class='path'>"
-                + (command.hint 
-                    ? this.replaceStrong(command.hint)
-                    : "")
+                + this.replaceStrong(name)
+                + "</span><span class='keys'>" + keys + "</span>"
+                + "<span class='path'>"
+                + ((command.group || "General"))
                 + "</span></div>");
         };
         
         this.getText = function(node) {
             var command = this.commands.commands[node.id];
             if (!command) return "";
+            
+            var keys = (command.bindKey || 0)[this.commands.platform] || "";
             return (command.group || "General") + ": "
                 + (command.displayName || command.name || node.id)
-                + (command.hint ? "\n" + command.hint : "");
+                + (command.hint ? "\n" + command.hint : "")
+                + (keys ? "\n" + keys : "")
+                + "\nPress F2 to change keybinding";
         };
         
         this.getClassName = function(row) {
