@@ -94,6 +94,9 @@ define(function(require, exports, module) {
                 }, {
                     bindKey: "Shift-Enter",
                     exec: function() { execCommand(false, true); }
+                }, {
+                    bindKey: "F2",
+                    exec: function() { showKeyEditor(); }
                 }
             ]);
             function forwardToTree() {
@@ -142,7 +145,8 @@ define(function(require, exports, module) {
                 var to = e.toElement;
                 if (!to || apf.isChildOf(winCommands, to, true))
                     return;
-                
+                if (to.localName == "menu")
+                    return;
                 // TODO add better support for overlay panels
                 setTimeout(function() { plugin.hide(); }, 10);
             }
@@ -165,6 +169,10 @@ define(function(require, exports, module) {
         }
         
         /***** Methods *****/
+        
+        function showKeyEditor() {
+            commands.exec("openpreferences", null, { panel: "preferences.keybindings" });
+        }
     
         /**
          * Searches through the dataset

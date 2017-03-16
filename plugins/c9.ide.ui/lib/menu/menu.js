@@ -1500,7 +1500,7 @@ apf.item = function(struct, tagName) {
     
     };
 
-    this.$up = function() {
+    this.$up = function(e) {
    
         
         if (this.type == "radio")
@@ -1533,7 +1533,8 @@ apf.item = function(struct, tagName) {
         
         this.dispatchEvent("click", {
             xmlContext: (this.parentNode || 0).xmlReference,
-            opener: (this.parentNode || 0).opener
+            opener: (this.parentNode || 0).opener,
+            button: e && e.button
         });
         
         

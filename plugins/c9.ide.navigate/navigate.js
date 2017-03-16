@@ -282,6 +282,8 @@ define(function(require, exports, module) {
                   || lastPreviewed.aml == to))) {
                     return;
                 }
+                if (to.localName == "menu")
+                    return;
                 
                 // TODO add better support for overlay panels
                 setTimeout(function() { plugin.hide(); }, 10);
