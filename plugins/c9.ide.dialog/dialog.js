@@ -133,9 +133,9 @@ define(function(require, module, exports) {
                     emit("resize");
                 });
                 var escHandler = function(e) {
-                    if (dialog.visible) {
+                    if (dialog.visible && e.keyCode == 27) {
                         dialog.dispatchEvent("keydown", e);
-                        if (e.keyCode == 27) e.stopPropagation();
+                        e.stopPropagation();
                     }
                 };
                 var addEscHandler = function() {
