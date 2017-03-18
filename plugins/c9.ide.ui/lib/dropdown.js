@@ -2594,7 +2594,6 @@ apf.config.$inheritProperties["loading-message"] = 1;
 apf.config.$inheritProperties["offline-message"] = 1;
 apf.config.$inheritProperties["noloading"] = 1;
 
-apf.Init.run("databinding");
 
 
 
@@ -3944,7 +3943,6 @@ apf.StandardBinding = function() {
 };
 apf.StandardBinding.prototype = new apf.DataBinding();
 
-apf.Init.run("standardbinding");
 
 
 

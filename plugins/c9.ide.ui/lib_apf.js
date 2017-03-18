@@ -392,9 +392,6 @@ VERSION: '3.0beta',
         this.hasClickFastBug = apf.isIE;
         this.hasExecScript = window.execScript ? true : false;
         this.canDisableKeyCodes = apf.isIE;
-        this.hasTextNodeWhiteSpaceBug = apf.isIE || apf.isIE >= 8;
-        this.hasCssUpdateScrollbarBug = apf.isIE;
-        this.canUseInnerHtmlWithTables = !apf.isIE;
         this.hasSingleResizeEvent = !apf.isIE;
         this.hasDynamicItemList = !apf.isIE || apf.isIE >= 7;
         this.hasSingleRszEvent = !apf.isIE;
@@ -638,14 +635,7 @@ VERSION: '3.0beta',
         else if (apf.isWebkit) apf.runWebkit();
         else if (this.isGecko) apf.runGecko();
         else if (!this.isOpera) apf.runIE(); // ie11
-        // apf.runIE();
 
-        
-        // Load user defined includes
-        this.Init.addConditional(this.parseAppMarkup, apf, ["body"]);
-        //@todo, as an experiment I removed 'HTTP' and 'Teleport'
-        
-        
         
         this.started = true;
         
@@ -655,19 +645,8 @@ VERSION: '3.0beta',
             this.execDeferred();
         
 
-        //try{apf.root = !window.opener || !window.opener.apf;}
-        //catch(e){apf.root = false}
         this.root = true;
         
-        
-        for (var i = 0; i < apf.$required.length; i++) {
-            apf.include(apf.$required[i]);
-        }
-        apf.require = apf.include;
-        
-        
-        
-
     },
 
     nsqueue: {},
@@ -970,118 +949,7 @@ VERSION: '3.0beta',
         return apf.isMac ? event.metaKey : event.ctrlKey;
     },
 
-    /**
-     * Loads Javascript from a specific URL.
-     * 
-     * @param {String}    sourceFile The URL where the JavaScript is located.
-     * @param {Boolean}   [doBase]   Checks for a base path via [[apf.getAbsolutePath]]
-     * @param {String}    [type]     Sets the type of a script tag, for later use
-     * @param {String}    [text]     
-     * @param {Function}  [callback] Calls this function after the script is loaded
-     * @returns {String} The constructed script tag    
-     */
-    include: function(sourceFile, doBase, type, text, callback) {
         
-        
-        var sSrc = doBase ? apf.getAbsolutePath(apf.basePath || "", sourceFile) : sourceFile;
-        var head = document.getElementsByTagName("head")[0],//$("head")[0]
-            elScript = document.createElement("script");
-        //elScript.defer = true;
-        if (type)
-            elScript.setAttribute("_apf_type", type);
-        if (text) {
-            elScript.text = text;
-        }
-        else 
-            elScript.src = sSrc;
-        head.appendChild(elScript);
-
-        if (callback)
-            elScript["onload"] = callback;
-        
-        return elScript;
-    },
-    
-    $required: [],
-    require: function(){
-        var dir = apf.getDirname(location.href),
-            i = 0,
-            l = arguments.length;
-        for (; i < l; i++)
-            this.$required.push(apf.getAbsolutePath(dir, arguments[i]));
-    },
-
-    /**
-     * @private
-     */
-    Init: {
-        queue: [],
-        cond: {
-            combined: []
-        },
-        done: {},
-
-        add: function(func, o) {
-            if (this.inited)
-                func.call(o);
-            else if (func)
-                this.queue.push([func, o]);
-        },
-
-        addConditional: function(func, o, strObj) {
-            if (typeof strObj != "string") {
-                if (this.checkCombined(strObj))
-                    return func.call(o);
-                this.cond.combined.push([func, o, strObj]);
-            }
-            else if (self[strObj]) {
-                func.call(o);
-            }
-            else {
-                if (!this.cond[strObj])
-                    this.cond[strObj] = [];
-                this.cond[strObj].push([func, o]);
-
-                this.checkAllCombined();
-            }
-        },
-
-        checkAllCombined: function(){
-            for (var i = 0; i < this.cond.combined.length; i++) {
-                if (!this.cond.combined[i]) continue;
-
-                if (this.checkCombined(this.cond.combined[i][2])) {
-                    this.cond.combined[i][0].call(this.cond.combined[i][1])
-                    this.cond.combined[i] = null;
-                }
-            }
-        },
-        
-        checkCombined: function(arr) {
-            for (var i = 0; i < arr.length; i++) {
-                if (!this.done[arr[i]])
-                    return false;
-            }
-
-            return true;
-        },
-
-        run: function(strObj) {
-            this.inited = this.done[strObj] = true;
-
-            this.checkAllCombined();
-
-            var data = strObj ? this.cond[strObj] : this.queue;
-            if (!data) return;
-            for (var i = 0; i < data.length; i++)
-                data[i][0].call(data[i][1]);
-        }
-    },
-
-    
-    
-    
-
     /**
      * Determines the way APF tries to render this application. Set this value
      * before APF is starts parsing.
@@ -1098,25 +966,6 @@ VERSION: '3.0beta',
 
     
 
-    /**
-     * @private
-     */
-    parseAppMarkup: function(docElement) {
-        var isEmptyDocument = false;
-        
-        if (document.documentElement.getAttribute("skipParse") == "true") {
-            return;
-        }
-        
-        
-
-        
-
-        
-
-        
-    },
-    
     namespaces: {},
     setNamespace: function(namespaceURI, oNamespace) {
         this.namespaces[namespaceURI] = oNamespace;
@@ -1127,15 +976,6 @@ VERSION: '3.0beta',
      * @private
      */
     initialize: function(xmlStr) {
-        
-        
-        
-
-        apf.console.info("Initializing...");
-        clearInterval(apf.Init.interval);
-
-        // Run Init
-        apf.Init.run(); //Process load dependencies
         
         
         
@@ -1325,9 +1165,6 @@ apf.setTimeout = function(f, t) {
 document.documentElement.className += " has_apf";
 
 apf.browserDetect();
-apf.Init.run("apf");
-
-
 
 
 
@@ -2200,7 +2037,6 @@ apf.Class.prototype = new (function(){
 })();
 
 apf.extend(apf, new apf.Class().$init());
-apf.Init.run("class");
 
 
 
@@ -6361,8 +6197,6 @@ apf.extend(apf.config, {
     disableTabbing: false,
     resourcePath: null,
     initdelay: true,
-    liveText: false,
-    
     
     
     skinset: "default",
@@ -13471,29 +13305,6 @@ apf.XhtmlElement = function(struct, tagName) {
     
 }).call(apf.XhtmlElement.prototype = new apf.AmlElement());
 
-apf.Init.addConditional(function(){
-    if (apf.isO3) return;
-    var prot = apf.XhtmlElement.prototype;
-
-    //prot.implement(apf.Interactive);
-    prot.implement(
-        
-        apf.Anchoring
-        
-    );
-
-    
-    prot.$drawn = true;
-    prot.$setLayout = apf.GuiElement.prototype.$setLayout;
-    
-    prot.addEventListener("DOMNodeInserted", function(e) {
-        if (e.currentTarget == this 
-          && "vbox|hbox|table".indexOf(this.parentNode.localName) == -1) {
-            this.$setLayout();
-        }
-    }); 
-    
-}, null, ["interactive"]);
 
 apf.xhtml.setElement("@default", apf.XhtmlElement);
 
@@ -13502,93 +13313,6 @@ apf.xhtml.setElement("@default", apf.XhtmlElement);
 
 
 
-
-
-apf.XhtmlBodyElement = function(struct, tagName) {
-    this.$init(tagName || "body", apf.NODE_VISIBLE, struct);
-};
-
-(function(){
-    
-    
-    this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
-        if (!this.ownerDocument.body)
-            this.ownerDocument.body = this;
-        
-        this.$ext = 
-        this.$int = document.body;
-    }, true);
-}).call(apf.XhtmlBodyElement.prototype = new apf.AmlElement());
-
-apf.Init.addConditional(function(){
-    if (apf.isO3) return;
-    var prot = apf.XhtmlBodyElement.prototype;
-
-    
-}, null, ["interactive"]);
-
-apf.xhtml.setElement("body", apf.XhtmlBodyElement);
-
-
-
-
-
-
-
-
-/**
- * @todo description
- *
- * @author      Ruben Daniels (ruben AT ajax DOT org)
- * @version     %I%, %G%
- * @since       0.4
- */
-apf.XhtmlHtmlElement = function(struct, tagName) {
-    this.$init(tagName || "html", apf.NODE_VISIBLE, struct);
-    
-    
-    
-    this.$ext = document.documentElement;
-    this.$ext.host = this;
-    
-    this.$int = document.body;
-    this.$tabList = []; //Prevents documentElement from being focussed
-    this.$focussable = apf.KEYBOARD;
-    this.focussable = true;
-    this.visible = true;
-    this.$isWindowContainer = true;
-    //this.focus = function(){ this.dispatchEvent("focus"); };
-    //this.blur = function(){ this.dispatchEvent("blur"); };
-    
-    this.implement(apf.Focussable);
-    
-    
-    apf.window.$addFocus(this);
-    
-    
-    this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
-        var i, l, n, a, c,
-            attr = this.attributes, doc = this.ownerDocument;
-        for (i = 0, l = attr.length; i < l; i++) {
-            n = (a = attr[i]).nodeName.split(":");
-            if (n[0] == "xmlns") {
-                if (c = n[1]) {
-                    doc.$prefixes[c] = a.nodeValue;
-                    doc.$namespaceURIs[a.nodeValue] = c;
-                }
-                else {
-                    doc.namespaceURI = a.nodeValue;
-                }
-            }
-        }
-        
-        if (!doc.namespaceURI)
-            doc.namespaceURI = apf.ns.xhtml;
-    });
-};
-apf.XhtmlHtmlElement.prototype = new apf.XhtmlElement();
-
-apf.xhtml.setElement("html", apf.XhtmlHtmlElement);
 
 
 
@@ -13773,23 +13497,7 @@ apf.aml.setElement("include", apf.XiInclude);
         if (typeof value != "string")
             return finish.call(this, value);
         
-        if (value.trim().charAt(0) == "<") {
-            loadIncludeFile.call(this, value.trim());
-            return;
-        }
-
-        this.$path = value.charAt(0) == "{" //@todo this shouldn't happen anymore
-          ? value
-          : apf.getAbsolutePath(apf.hostPath, value);
-        
-        var domParser = this.ownerDocument.$domParser;
-        if (!this.defer) {
-            domParser.$pauseParsing.apply(domParser, 
-              this.$parseContext = domParser.$parseContext || [this.parentNode]);
-        }
-
-        //var basePath = apf.hostPath;//only for recursion: apf.getDirname(xmlNode.getAttribute("filename")) || 
-        loadIncludeFile.call(this, this.$path);
+        throw new Error("not implemented")
     };
     
     function done(xmlNode) {
@@ -13860,58 +13568,6 @@ apf.aml.setElement("include", apf.XiInclude);
             
             done.call(this, xmlNode);
         }
-    }
-    
-    function loadIncludeFile(path) {
-        
-
-        var _self = this;
-        apf.getData(path, apf.extend(this.options || {}, {
-            
-            callback: function(xmlString, state, extra) {
-                if (state != apf.SUCCESS) {
-                    var oError = new Error(apf.formatErrorString(1007,
-                        _self, "Loading Includes", "Could not load Include file '"
-                        + (path || _self.src)
-                        + "'\nReason: " + extra.message));
-
-                    if (extra.tpModule.retryTimeout(extra, state, null, oError) === true)
-                        return true;
-
-                    apf.console.error(oError.message);
-
-                    finish.call(_self, null);
-
-                    //throw oError;
-                    return;
-                }
-
-                //@todo apf3.0 please make one way of doing this
-                xmlString = xmlString.replace(/\<\!DOCTYPE[^>]*>/, "")
-                    .replace(/^[\r\n\s]*/, ""); //.replace(/&nbsp;/g, " ")
-                if (!apf.supportNamespaces)
-                    xmlString = xmlString.replace(/xmlns\=\"[^"]*\"/g, "");
-                
-                if (xmlString.indexOf("<a:application") == -1)
-                    xmlString = "<a:application xmlns:a='" + apf.ns.aml +"'>"
-                      + xmlString + "</a:application>";
-
-                var xmlNode = apf.getXml(xmlString, null, true);//apf.getAmlDocFromString(xmlString);
-            
-                if (!xmlNode) {
-                    throw new Error(apf.formatErrorString(0, null,
-                        "Loading include",
-                        "Could not parse include file. Maybe the file does not exist?", xmlNode));
-                }
-                xmlNode.setAttribute("filename", extra.url);
-
-                
-
-                finish.call(_self, xmlNode); //@todo add recursive includes support here
-            },
-            async: true,
-            ignoreOffline: true
-        }));
     }
 }).call(apf.XiInclude.prototype = new apf.AmlElement());
 
@@ -14960,46 +14616,7 @@ apf.GuiElement = function(){
         
         if (!this.contextmenus) return;
         
-        if (this.hasFeature(apf.__DATABINDING__)) {
-            var contextmenu;
-            var xmlNode = this.hasFeature(apf.__MULTISELECT__)
-                ? this.selected
-                : this.xmlRoot;
 
-            var i, l, m, isRef, sel, menuId, cm, result;
-            for (i = 0, l = this.contextmenus.length; i < l; i++) {
-                isRef = (typeof (cm = this.contextmenus[i]) == "string");
-                result = null;
-                if (!isRef && cm.match && xmlNode) {//@todo apf3.0 cache this statement
-                    result = (cm.cmatch || (cm.cmatch = apf.lm.compile(cm.match, {
-                        xpathmode: 3,
-                        injectself: true
-                    })))(xmlNode)
-                }
-
-                if (isRef || xmlNode && result || !cm.match) { //!xmlNode && 
-                    menuId = isRef
-                        ? cm
-                        : cm.menu;
-                        
-                    var menu = cm.localName == "menu" ? cm : self[menuId];
-
-                    if (!menu) {
-                        
-                        
-                        return;
-                    }
-
-                    menu.display(e.x, e.y, null, this, xmlNode);
-
-                    e.returnValue = false;//htmlEvent.
-                    e.cancelBubble = true;
-                    break;
-                }
-            }
-
-        }
-        else {
             var menu;
             if (typeof this.contextmenus[0] == "string")
                 menu = self[this.contextmenus[0]];
@@ -15018,7 +14635,6 @@ apf.GuiElement = function(){
 
             e.returnValue = false;//htmlEvent.
             e.cancelBubble = true;
-        }
     });
     
 }).call(apf.GuiElement.prototype = new apf.AmlElement());
@@ -15339,7 +14955,30 @@ apf.GuiElement.propHandlers = {
 
 
 
+// crazy stuff!
+!function(){
+    if (apf.isO3) return;
+    var prot = apf.XhtmlElement.prototype;
 
+    //prot.implement(apf.Interactive);
+    prot.implement(
+        
+        apf.Anchoring
+        
+    );
+
+    
+    prot.$drawn = true;
+    prot.$setLayout = apf.GuiElement.prototype.$setLayout;
+    
+    prot.addEventListener("DOMNodeInserted", function(e) {
+        if (e.currentTarget == this 
+          && "vbox|hbox|table".indexOf(this.parentNode.localName) == -1) {
+            this.$setLayout();
+        }
+    }); 
+    
+}()
 
 
 
@@ -15906,19 +15545,6 @@ apf.Presentation = function(){
             return;
 
         this.$setStyleClass(this.oFocus || this.$ext, "", [this.$baseCSSname + "Focus"]);
-    };
-
-    this.$fixScrollBug = function(){
-        if (this.$int != this.$ext)
-            this.oFocus = this.$int;
-        else {
-            this.oFocus =
-            this.$int = 
-                this.$ext.appendChild(document.createElement("div"));
-
-            this.$int.style.height = "100%";
-            this.$int.className = "focusbug"
-        }
     };
 
     // *** Caching *** //
@@ -18082,7 +17708,6 @@ apf.GuiElement.propHandlers["draggable"] = function(value) {
     this.$propHandlers["draggable"].apply(this, arguments);
 };
 
-apf.Init.run("interactive");
 
 
 
@@ -18507,18 +18132,6 @@ apf.window = function(){
         return this.$at
     };
 
-    /*
-     * @private
-     */
-    this.loadCodeFile = function(url) {
-        //if(apf.isWebkit) return;
-        if (self[url])
-            apf.importClass(self[url], true, this.win);
-        else
-            apf.include(url);//, this.document);
-    };
-
-    
 
     /**
      * Show the browser window.
@@ -20132,28 +19745,6 @@ apf.runNonIe = function (){
         
         apf.xmldb.setReadyState(oDoc, 4);
     };
-    
-    //
-    //Fix XML Data-Island Support Problem with Form Tag
-    apf.Init.add(function(){
-        var i, nodes = document.getElementsByTagName("form");
-        for (i = 0; i < nodes.length; i++)
-            nodes[i].removeNode();
-        nodes = document.getElementsByTagName("xml");
-        for (i = 0; i < nodes.length; i++)
-            nodes[i].removeNode();
-        nodes = null;
-    });
-    
-    /*window.onerror = function(message, filename, linenr) {
-        if (++ERROR_COUNT > MAXMSG) return;
-        filename = filename ? filename.match(/\/([^\/]*)$/)[1] : "[Mozilla Library]";
-        new Error("---- APF Error ----\nProcess : Javascript code in '" + filename +  "'\nLine : " + linenr + "\nMessage : " + message);
-        return false;
-    }*/
-    
-    if (document.body)
-        document.body.focus = function(){};
     
     
 
@@ -21959,25 +21550,7 @@ apf.lm = new (function(){
             f = apf.lm_exec.compile(code);
         }
         else {
-            try {
-                f = apf.lm_exec.compile(code);
-            }
-            catch (e) {
-                if (!apf.isIE) {
-                    var oErr = window.onerror;
-                    window.onerror = function(x,y,line) {
-                        window.onerror = oErr;
-                        handleError(e, last_line, null, line);
-                        return true;
-                    }
-                    apf.include("", "", null, o.join(""));
-                    window.onerror = oErr;
-                }
-                else {
-                    handleError(e,last_line);
-                }
-                return null;
-            }
+            f = apf.lm_exec.compile(code);
         }
         f.type = (o_segs == 1 && o_xpaths == 1) ? 3 : (is_single_prop?4:1);
         f.xpaths = o_xpathpairs, f.models = o_models,
@@ -24882,6 +24455,7 @@ apf.button = function(struct, tagName) {
      * specified in the `values` attribute.
      * @param {String} value the new value of this element
      */
+    this.change = 
     this.setValue = function(value) {
         this.setProperty("value", value, false, true);
     };
@@ -25229,8 +24803,8 @@ apf.checkbox = function(struct, tagName) {
      * specified in the [[apf.checkbox.values]] attribute.
      * @param {String} value The new value of this element
      */
+    this.change = 
     this.setValue = function(value) {
-        if (!this.$values) return;
         this.setProperty("value", value, false, true);
     };
 
@@ -25751,6 +25325,7 @@ apf.preview = function(struct, tagName) {
      * specified in the `values` attribute.
      * @param {String} value The new value of this element
      */
+    this.change = 
     this.setValue = function(value) {
         this.setProperty("value", value, false, true);
     };
@@ -25984,6 +25559,7 @@ apf.label = function(struct, tagName) {
      * specified in the values attribute.
      * @param {String} value The new value of this element
      */
+    this.change = 
     this.setValue = function(value) {
         this.setProperty("value", value, false, true);
     };
@@ -26082,6 +25658,7 @@ apf.colorbox = function(struct, tagName) {
      * specified in the values attribute.
      * @param {String} value The new value of this element
      */
+    this.change = 
     this.setValue = function(value) {
         this.setProperty("value", value, false, true);
     };
@@ -27378,6 +26955,7 @@ apf.progressbar = function(struct, tagName) {
      * specified in the `values` attribute.
      * @param {String} value The new value of this element
      */
+    this.change = 
     this.setValue = function(value) {
         this.setProperty("value", value, false, true);
     };
@@ -27733,6 +27311,7 @@ apf.radiobutton = function(struct, tagName) {
      * specified in the `values` attribute.
      * @param {String} value The new value of this element
      */
+    this.change = 
     this.setValue = function(value) {
         this.setProperty("value", value, false, true);
     };
@@ -28034,6 +27613,7 @@ apf.$group = apf.group = function(struct, tagName) {
     /**
      * Sets the current value of this element.
      */
+    this.change = 
     this.setValue = function(value) {
         this.setProperty("value", value);
     };
@@ -28058,118 +27638,6 @@ apf.aml.setElement("group", apf.$group);
 
 
 
-
-
-
-/**
- * This element loads JavaScript into the application.
- * 
- * #### Example
- *
- * ```xml
- *  <a:script src="code.js" />
- * ```
- *
- * #### Example
- *
- * ```xml
- *  <a:script>//<!-- 
- *      for (var i = 0; i < 2; i++) {
- *          alert(i);
- *      }
- *  //--></a:script>
- * ```
- *
- * @class apf.script
- * @inherits apf.AmlElement
- * @define script
- * @logic
- * @author      Ruben Daniels (ruben AT ajax DOT org)
- * @version     %I%, %G%
- * @since       0.4
- *
- */
-/**
- * @attribute {String} src the location of the script file.
- *
- *
- */
-apf.script = function(){
-    this.$init("script", apf.NODE_HIDDEN);
-};
-
-(function(){
-    this.$propHandlers["src"] = function(value) {
-        if (!this.type)
-            this.type = this.getAttribute("type");
-
-        if (!this.type || this.type == "text/javascript") {
-            if (apf.isOpera) {
-                $setTimeout(function(){
-                    apf.window.loadCodeFile(apf.hostPath
-                        + value);
-                }, 1000);
-            }
-            else {
-                apf.window.loadCodeFile(apf.getAbsolutePath(apf.hostPath,
-                    value));
-            }
-        }
-        else {
-            var _self = this;
-            apf.ajax(value, {callback: function(data, state, extra) {
-                if (state != apf.SUCCESS) {
-                    return apf.console.warn("Could not load script " + value);
-                }
-                
-                _self.$execute(data);
-            }});
-        }
-    }
-    
-    this.$execute = function(code, e) {
-        if (!this.type || this.type == "text/javascript") {
-            apf.jsexec(code);
-        }
-        else if (this.type.indexOf("livemarkup") > -1
-          || this.type.indexOf("lm") > -1) { //@todo this is wrong, it should start in code mode
-            var func = apf.lm.compile(code, {event: true, parsecode: true, funcglobal: true, nostring: true});
-            func(e || {});
-        }
-    }
-    
-    this.addEventListener("DOMNodeInserted", function(e) {
-        if (e.currentTarget.nodeType == 3 || e.currentTarget.nodeType == 4) {
-            this.$execute(e.currentTarget.nodeValue, apf.isIE && window.event);
-        }
-    });
-    
-    //@todo this should use text node insertion
-    this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
-        var nodes = this.childNodes, s = [];
-        for (var i = 0, l = nodes.length; i < l; i++) {
-            s[s.length] = nodes[i].nodeValue;
-        }
-        
-        var code = s.join("\n");
-        
-        this.$execute(code);
-    });
-}).call(apf.script.prototype = new apf.AmlElement());
-
-apf.aml.setElement("script", apf.script);
-
-
-
-
-
-
-
-
-
-apf.GuiElement.propHandlers["scrollbar"] = function(value) {
-    debugger
-};
 
 
 
@@ -28512,6 +27980,7 @@ apf.spinner = function(struct, tagName) {
      * specified in the `values` attribute.
      * @param {String} value The new value of this element
      */
+    this.change = 
     this.setValue = function(value) {
        this.setProperty("value", value, false, true);
     };
@@ -29816,8 +29285,6 @@ apf.text = function(struct, tagName) {
 (function(){
     this.implement(
         
-        apf.Cache,
-        
         apf.ChildValue
     );
 
@@ -29973,6 +29440,7 @@ apf.text = function(struct, tagName) {
      * specified in the `values` attribute.
      * @param {String} value The new value of this element
      */
+    this.change = 
     this.setValue = function(value) {
         this.setProperty("value", value, false, true);
     };
@@ -30063,9 +29531,6 @@ apf.text = function(struct, tagName) {
     this.$draw = function(){
         this.$ext = this.$getExternal();
         this.$container = this.$getLayoutNode("main", "container", this.$ext);
-
-        if (apf.hasCssUpdateScrollbarBug && !apf.getStyle(this.$container, "padding"))
-            this.$fixScrollBug();
 
         this.$scrollArea = this.oFocus ? this.oFocus.parentNode : this.$container;
 
@@ -30542,6 +30007,7 @@ apf.textbox = function(struct, tagName) {
      * specified in the `values` attribute.
      * @param {String} value The new value of this element
      */
+    this.change = 
     this.setValue = function(value) {
         return this.setProperty("value", value, false, true);
     };
@@ -31686,13 +31152,6 @@ require("./lib/flexbox")(apf);
 require("./lib/page")(apf);
 
 
-
-apf.Init.addConditional(function(){
-    apf.dispatchEvent("domready");
-}, null, ["body", "class"]);
-
-
-    apf.addDomLoadEvent(function(){apf.Init.run('body');});
 
 //Start
 apf.start();
