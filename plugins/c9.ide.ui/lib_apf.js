@@ -217,7 +217,6 @@ VERSION: '3.0beta',
     crypto: {}, //namespace
     config: {},
     _GET: {},
-    $asyncObjects: {"apf.oHttp" : 1, "apf.ajax": 1},
     
     /**
      * A string specifying the basepath for loading APF from seperate files.
@@ -312,15 +311,6 @@ VERSION: '3.0beta',
                 Platform: {
                     name: ua.match(/ip(?:ad|od|hone)/) ? 'ios' : (ua.match(/(?:webos|android)/) || platform.match(/mac|win|linux/) || ['other'])[0]
                 },
-
-                Features: {
-                    xpath: !!(document.evaluate),
-                    air: !!(window.runtime),
-                    query: !!(document.querySelector),
-                    json: !!(window.JSON)
-                },
-
-                Plugins: {}
             };
 
             b[b.name] = true;
@@ -345,28 +335,6 @@ VERSION: '3.0beta',
         this.isMac = Browser.Platform.mac;
         this.isLinux = Browser.Platform.linux;
         this.isIphone = Browser.Platform.ios || UA.indexOf("aspen simulator") != -1;
-        this.isAIR = Browser.Features.air;
-        
-        // @deprecated, cleanup in apf modules 
-        this.versionWebkit = this.isWebkit ? Browser.version : null;
-        this.versionGecko = this.isGecko ? Browser.version : null;
-        // @deprecated, cleanup in apf modules 
-        this.isGecko3 = Browser.firefox3;
-        this.isGecko35 = this.isGecko3 && Browser.version >= 3.5;
-        // @deprecated, cleanup in apf modules 
-        this.versionFF = this.isGecko ? Browser.version : null;
-        this.versionSafari = this.isSafari ? Browser.version : null;
-        this.versionChrome = this.isChrome ? Browser.version : null;
-        this.versionOpera = this.isOpera ? Browser.version : null;
-        // bad logic, needs review among apf modules 
-        this.isIE6 = this.isIE && Browser.ie6;
-        this.isIE7 = this.isIE && Browser.ie7;
-        this.isIE8 = this.isIE && Browser.ie8;
-        this.isIE7Emulate = this.isIE && document.documentMode && Browser.ie7;
-        this.isIE = this.isIE ? Browser.version : null;
-
-        
-        
         
     },
 
@@ -508,12 +476,6 @@ VERSION: '3.0beta',
         
     },
 
-    hasGeoLocation: function() {
-        
-        return false;
-        
-    },
-
     
 
     /**
@@ -550,59 +512,6 @@ VERSION: '3.0beta',
         return dest;
     },
     
-    
-    /**
-     * Sends and retrieves data from remote locations over http.
-     * 
-     * #### Example
-     * 
-     * ```javascript
-     *  var content = apf.ajax("http://www.ajax.org", {
-     *      method   : "POST",
-     *      data     : "<data />",
-     *      async    : false,
-     *      callback : function( data, state ) {
-     *          if (state == apf.SUCCESS)
-     *              alert("Success");
-     *          else
-     *              alert("Failure")
-     *      }
-     *  });
-     *  alert(content);
-     * ```
-     *
-     * @param {String}   url       The url that is accessed.
-     * @param {Object}   options   The options for the HTTP request. It has the following properties:
-     *   - async ([[Boolean]]): Whether the request is sent asynchronously. Defaults to true.
-     *   - userdata (`Mixed`): Custom data that is available to the callback function.
-     *   - method ([[String]]): The request method (`POST`|`GET`|`PUT`|`DELETE`). Defaults to `GET`.
-     *   - nocache ([[Boolean]]): Specifies whether browser caching is prevented.
-     *   - data ([[String]]): The data sent in the body of the message.
-     *   - useXML ([[Boolean]]): Specifies whether the result should be interpreted as xml.
-     *   - autoroute ([[Boolean]]): Specifies whether the request can fallback to a server proxy.
-     *   - caching ([[Boolean]]): Specifies whether the request should use internal caching.
-     *   - ignoreOffline ([[Boolean]]): Specifies whether to ignore offline catching.
-     *   - contentType ([[String]]): The MIME type of the message
-     *   - callback ([[Function]]): The handler that gets called whenever the
-     *                            request completes successfully, with an error, or times out.
-     */
-    ajax: (function(){
-        var f = function(){
-            return this.oHttp.get.apply(this.oHttp, arguments);
-        };
-        
-        f.exec = function(method, args, callback, options) {
-            if (method == "ajax" && args[0]) {
-                var opt = args[1] || {};
-                return this.oHttp.exec(opt.method || "GET", [args[0]], 
-                    opt.callback, apf.extend(options || {}, opt));
-            }
-        };
-
-        return f;
-    })(),
-    
-
     /**
      * Starts the application.
      * @private
@@ -614,14 +523,7 @@ VERSION: '3.0beta',
         //Set Variables
         this.host = location.hostname && sHref.replace(/(\/\/[^\/]*)\/.*$/, "$1");
         this.hostPath = sHref.replace(/\/[^\/]*$/, "") + "/";
-
         
-
-        //mozilla root detection
-        //try{ISROOT = !window.opener || !window.opener.apf}catch(e){ISROOT = true}
-
-        //Browser Specific Stuff
-        //this.browserDetect();
         this.setCompatFlags();
 
         if (apf.onstart && apf.onstart() === false)
@@ -635,7 +537,7 @@ VERSION: '3.0beta',
         else if (apf.isWebkit) apf.runWebkit();
         else if (this.isGecko) apf.runGecko();
         else if (!this.isOpera) apf.runIE(); // ie11
-
+        
         
         this.started = true;
         
@@ -650,43 +552,6 @@ VERSION: '3.0beta',
     },
 
     nsqueue: {},
-
-    
-    /**
-     * @private
-     */
-    findPrefix: function(xmlNode, xmlns) {
-        var docEl;
-        if (xmlNode.nodeType == 9) {
-            if (!xmlNode.documentElement)
-                return false;
-            if (xmlNode.documentElement.namespaceURI == xmlns)
-                return xmlNode.prefix || xmlNode.scopeName;
-            docEl = xmlNode.documentElement;
-        }
-        else {
-            if (xmlNode.namespaceURI == xmlns)
-                return xmlNode.prefix || xmlNode.scopeName;
-            docEl = xmlNode.ownerDocument.documentElement;
-            if (docEl && docEl.namespaceURI == xmlns)
-                return xmlNode.prefix || xmlNode.scopeName;
-
-            while (xmlNode.parentNode) {
-                xmlNode = xmlNode.parentNode;
-                if (xmlNode.namespaceURI == xmlns)
-                    return xmlNode.prefix || xmlNode.scopeName;
-            }
-        }
-
-        if (docEl) {
-            for (var i = 0; i < docEl.attributes.length; i++) {
-                if (docEl.attributes[i].nodeValue == xmlns)
-                    return docEl.attributes[i][apf.TAGNAME]
-            }
-        }
-
-        return false;
-    },
     
 
     /**
@@ -705,14 +570,6 @@ VERSION: '3.0beta',
                               .replace(/\}\s*$/, "");
 
         return apf.jsexec(q, win);
-    },
-
-    /**
-    * This method returns a string representation of the object
-    * @return {String}    Returns a string representing the object.
-    */
-    toString: function(){
-        return "[Ajax.org Platform (apf)]";
     },
 
     all: [],
@@ -1376,7 +1233,7 @@ apf.Class.prototype = new (function(){
      * @param  {String}  pValue The dynamic property binding rule.
      */
     this.$attrExcludePropBind = false;
-    this.$setDynamicProperty = function(prop, pValue) {
+    this.$setDynamicProperty = function(prop, pValue) {debugger
         var exclNr = this.$attrExcludePropBind[prop],
             options;
 
@@ -6301,6 +6158,113 @@ if (apf.history)
 
 
 
+
+/**
+ * Creates a model object based on a {@link term.datainstruction data instruction}.
+ *
+ * @param {String} instruction  The {@link term.datainstruction data instruction} to be used to retrieve the data for the model
+ * @param {apf.AmlNode} amlNode     The element the model is added to
+ */
+apf.setModel = function(instruction, amlNode) {
+    if (!instruction) return;
+
+    //Find existing model
+    var fParsed = instruction.indexOf("{") > -1 || instruction.indexOf("[") > -1
+        ? apf.lm.compile(instruction, {
+            //precall  : false, 
+            alwayscb: true
+        })
+        : {
+            type: 2,
+            str: instruction
+        };
+
+    if (instruction == "@default" || fParsed.type == 2) {
+        
+        var model = apf.nameserver.get("model", instruction);
+        if (model)
+            return model.register(amlNode);
+        else
+        
+            if (instruction == "@default")
+            return;
+        
+        //@todo apf3.0 check here if string is valid url (relative or absolute)
+        if (instruction.indexOf(".") == -1 && instruction.indexOf("/") == -1) {
+            
+            return;
+        }
+    }
+
+    //Just an xpath doesnt work. We don't have context
+    //var l, x;
+    if (fParsed.type == 3) {//This won't work for complex xpaths
+        if (fParsed.models) { //check for # in xpaths[i] to determine if its calculated
+            if (fParsed.xpaths.length == 2 && fParsed.xpaths[0] != '#' && fParsed.xpaths [1] != '#') {
+                
+                
+                
+                apf.nameserver.get("model", fParsed.xpaths[0]).register(amlNode, fParsed.xpaths[1]);
+                
+                return;
+            }
+        }
+        
+    }
+
+    if (amlNode.clear)
+        amlNode.clear("loading");
+
+    //Complex data fetch (possibly async) - data is loaded only once. 
+    //Potential property binding has to take of the rest
+    apf.getData(instruction, {
+      parsed: fParsed, 
+      xmlNode: amlNode && amlNode.xmlRoot,
+      callback: function(data, state, extra) {
+        //@todo apf3.0 call onerror on amlNode
+        if (state != apf.SUCCESS) {
+            throw new Error(apf.formatErrorString(0, null,
+                "Loading new data", "Could not load data into model. \
+                \nMessage: " + extra.message + "\
+                \nInstruction: '" + instruction + "'"));
+        }
+        
+        if (!data)
+            return amlNode.clear && amlNode.clear();
+
+        if (typeof data == "string") {
+            if (data.charAt(0) == "<")
+                data = apf.getXml(data);
+            else {
+                //Assuming web service returned url
+                if (data.indexOf("http://") == 0)
+                    return apf.setModel(data, amlNode);
+                else {
+                    throw new Error("Invalid data from server");//@todo apf3.0 make proper apf error handling. apf.onerror
+                }
+            }
+        }
+        
+        if (data.nodeFunc) { //Assuming a model was passed -- data.localName == "model" && 
+            data.register(amlNode);
+            return;
+        }
+        
+        var model = apf.xmldb.findModel(data); //See if data is already loaded into a model
+        if (model)
+            model.register(amlNode, apf.xmlToXpath(data, model.data)); //@todo move function to xml library
+        else
+            new apf.model().register(amlNode).load(data);
+    }});
+};
+
+
+
+
+
+
+
+
 /*
  * @version: 1.0 Alpha-1
  * @author: Coolite Inc. http://www.coolite.com/
@@ -7654,7 +7618,6 @@ apf.layout = {
                 strRules.push(rules[id]);
             }
 
-            //apf.console.info(strRules.join("\n"));
             rsz = apf.needsCssPx
                 ? new Function(strRules.join("\n"))
                 : new Function(strRules.join("\n").replace(/ \+ 'px'|try\{\}catch\(e\)\{\}\n/g,""))
@@ -12317,7 +12280,7 @@ apf.AmlText = function(isPrototype) {
         var pHtmlNode;
         if (!(pHtmlNode = this.parentNode.$int) || this.parentNode.hasFeature(apf.__CHILDVALUE__)) 
             return;
-debugger
+
         this.$amlLoaded = true;
         
         var nodeValue = this.nodeValue;
@@ -23291,17 +23254,6 @@ apf.aml.setElement("application", apf.application);
  * @attribute {Boolean} disable-f5              Sets or gets whether the F5 key for refreshing is disabled.
  */
 /**
- * @attribute {Boolean} auto-hide-loading       Sets or gets whether the load screen defined by the loader element is automatically hidden. Setting this to `false` enables you to control when the loading screen is hidden. 
- * 
- * The following code shows how this can be done:
- *
- * ```javascript
- *  apf.document.getElementsByTagName("a:loader")[0].hide()
- *  //or
- *  loaderId.hide()
- * ```
- */
-/**
  * @attribute {Boolean} disable-space           Sets or gets whether the space button default behavior of scrolling the page is disabled.
  */
 /**
@@ -23409,7 +23361,7 @@ apf.appsettings = function(struct, tagName) {
     this.$supportedProperties = ["debug", "name", "baseurl", "resource-path", 
         "disable-right-click", "allow-select", "allow-blur", 
         "auto-disable-actions", "auto-disable", "disable-f5", 
-        "auto-hide-loading", "disable-space", "disable-backspace", "undokeys", 
+        "disable-space", "disable-backspace", "undokeys", 
         "initdelay", "default-page", "query-append", "outline", "drag-outline", 
         "resize-outline", "resize-outline", "iepngfix", "iepngfix-elements", 
         "iphone-fullscreen", "iphone-statusbar", "iphone-icon", 
@@ -23424,7 +23376,6 @@ apf.appsettings = function(struct, tagName) {
         "auto-disable-actions":1,
         "auto-disable":1,
         "disable-f5":1,
-        "auto-hide-loading":1,
         "disable-space":1,
         "disable-backspace":1,
         "undokeys":1,

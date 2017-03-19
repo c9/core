@@ -145,8 +145,9 @@ define(function(require, module, exports) {
                         }
                 }, plugin);
                 
-                mnuItem.setAttribute("hotkey",
-                  "{commands.commandManager." + options.name + "}");
+                // TODO
+                // mnuItem.setAttribute("hotkey",
+                //   "{commands.commandManager." + options.name + "}");
                 
                 
                 if (button && button.setAttribute) {

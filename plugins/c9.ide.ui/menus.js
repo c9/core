@@ -79,9 +79,10 @@ define(function(require, exports, module) {
                     this.onclick = null;
                     return;
                 }
-    
-                this.setAttribute("hotkey",
-                    value && "{commands.commandManager." + value + "}" || "");
+                
+                // TODO
+                // this.setAttribute("hotkey",
+                //     value && "{commands.commandManager." + value + "}" || "");
     
                 this.onclick = function(e) {
                     if (e && e.htmlEvent && e.htmlEvent.button) return;

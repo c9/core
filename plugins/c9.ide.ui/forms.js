@@ -166,7 +166,7 @@ define(function(require, exports, module) {
                     if (Form.proxy[name] != value)
                         Form.proxy.setProperty(name, value);
                 }, plugin);
-                return "{Form.proxy." + name + "}";
+                return name //"{Form.proxy." + name + "}";
             }
 
             function createItem(heading, name, options, foreign) {
@@ -222,9 +222,9 @@ define(function(require, exports, module) {
                                 value: options.path
                                     ? settings.get(options.path)
                                     : (options.defaultValue || ""),
-                                each: options.each || "item",
+                                // each: options.each || "item",
                                 caption: options.caption,
-                                eachvalue: options.eachvalue || "value",
+                                // eachvalue: options.eachvalue || "value",
                                 "empty-message": options["empty-message"]
                             })
                         ];

@@ -9,8 +9,7 @@
         <a:label id="lblSelectionLength" 
           caption = "" 
           style   = "cursor:pointer"
-          margin  = "1 10 4 3"
-          visible = "{this.caption != ''}" />
+          margin  = "1 10 4 3" />
         <a:label id="lblRowCol"
           class   = "lbl_row_col"
           style   = "cursor:pointer"
@@ -18,21 +17,18 @@
         <a:label id="lblEditorStatus" 
           caption = "" 
           class   = "nounderline"
-          margin  = "1 10 4 3" 
-          visible = "{this.caption != ''}" />
+          margin  = "1 10 4 3"  />
         <a:button id="lblSyntax" 
           skin    = "label"
           style   = "cursor:pointer"
           caption = "" 
           margin  = "1 10 4 3"
-          visible = "{this.caption != ''}" 
           submenudir = "up" />
         <a:button id="lblTabs" 
           skin    = "label"
           style   = "cursor:pointer"
           caption = "" 
           margin  = "1 10 4 3"
-          visible = "{this.caption != ''}"
           submenudir = "up" />
         <a:button id="btnSbPrefs"
           skin    = "btn-statusbar-icon" 
