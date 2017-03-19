@@ -94,12 +94,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
                 throw new Error("Wrong Event Count: "
                     + count + " of " + expected);
         }
-        
-        expect.html.setConstructor(function(node) {
-            if (node.$ext) return node.$ext;
-
-            return apf.xmldb.getHtmlNode(node, datagrid);
-        });
 
         var testDebugger = new EventEmitter();
         testDebugger.attach = function () {
