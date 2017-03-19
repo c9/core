@@ -777,11 +777,6 @@ define(function(require, module, exports) {
             /**
              * @ignore
              */
-            xmldb: apf.xmldb,
-            
-            /**
-             * @ignore
-             */
             getCleanCopy: apf.getCleanCopy,
             
             /**

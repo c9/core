@@ -1,10 +1,4 @@
 <a:application xmlns:a="http://ajax.org/2005/aml">
-    <a:appsettings name="ide" debug="false"
-      disable-space             = "true"
-      allow-select              = "false"
-      allow-blur                = "true"
-      initdelay                 = "false"/>
-    
     <a:vsplitbox id="root" anchors="0 0 0 0">
         <a:bar id="barQuestion" height="0" visible="false">
         </a:bar>

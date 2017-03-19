@@ -1147,11 +1147,6 @@ apf.item = function(struct, tagName) {
 
     // *** Properties and Attributes *** //
     
-    //1 = force no bind rule, 2 = force bind rule
-    this.$attrExcludePropBind = apf.extend({
-        "match": 1
-    }, this.$attrExcludePropBind);
-
     this.$booleanProperties["checked"] = true;
     this.$booleanProperties["selected"] = true;
 
