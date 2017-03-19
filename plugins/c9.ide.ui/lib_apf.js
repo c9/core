@@ -1009,27 +1009,6 @@ apf.Class.prototype = new (function(){
 
         //Check if property has changed
         if (isChanged) {
-            if (!forceOnMe) { //Recursion protection
-                //Check if this property is bound to data
-                if (typeof value != OBJ //this.xmlRoot &&
-                  && (!(s = {}[prop]))// || s == 2
-                  && (r = (this.$attrBindings && this.$attrBindings[prop]
-                  || prop != VALUE && this.xmlRoot && this.$bindings[prop]
-                  && this.$bindings[prop][0]))) {
-
-                    //Check if rule has single xpath
-                    if (r.cvalue.type == 3) {
-                        
-
-                        //Set the xml value - this should probably use execProperty
-                        return apf.setNodeValue(
-                            this.$getDataNode(prop.toLowerCase(), this.xmlRoot, true),
-                            value, true);
-                    }
-                }
-                
-            }
-
             if (setAttr && !this.$funcHandlers[prop])
                 this.setAttribute(prop, value, true);
 
@@ -2771,8 +2750,8 @@ apf.plane = {
             if (!_self.options || !_self.options.customCover)
                 return obj;
             
-            obj.innerHTML = apf.getXmlString(_self.options.customCover);
-            return obj.firstChild;
+            debugger
+            return obj;
         }
         
         function createCover(){
@@ -4070,128 +4049,6 @@ apf.getChildNumber = function(node, fromList) {
     return -1;
 };
 
-
- // @todo More information will follow....when?
-/**
- * Integrates nodes as children of a parent. Optionally, attributes are
- * copied as well.
- *
- * @param {XMLNode} xmlNode The data to merge.
- * @param {XMLNode} parent  The node to merge on.
- * @param {Object}  options An object with the following optional properties:
- *   - [copyAttributes] ([[Boolean]]): Whether the attributes of `xmlNode` are copied as well.
- *   - [clearContents] ([[Boolean]]): Whether the contents of parent is cleared.
- *   - [start] ([[Number]]): This feature is used for the virtual viewport. More information will follow.
- *   - [length] ([[Number]]): This feature is used for the virtual viewport. More information will follow.
- *   - [documentId] ([[Number]]): This feature is used for the virtual viewport. More information will follow.
- *   - [marker] ([[XMLElement]]): This feature is used for the virtual viewport. More information will follow.
- * @return  {XMLNode}  The created xml node
- */
-apf.mergeXml = function(XMLRoot, parentNode, options) {
-    if (typeof parentNode != "object")
-        parentNode = apf.xmldb.getElementById(parentNode);
-
-    if (options && options.clearContents) {
-        //Signal listening elements
-        var node, j, i,
-            nodes = parentNode.selectNodes("descendant::node()[@" + apf.xmldb.xmlListenTag + "]");
-        for (i = nodes.length - 1; i >= 0; i--) {
-            var s = nodes[i].getAttribute(apf.xmldb.xmlListenTag).split(";");
-            for (j = s.length - 1; j >= 0; j--) {
-                node = apf.all[s[j]];
-                if (!node) continue;
-                if (node.dataParent && node.dataParent.xpath)
-                    node.dataParent.parent.signalXmlUpdate[node.$uniqueId] = true;
-                else if (node.$model)
-                    node.$model.$waitForXml(node);
-            }
-        }
-
-        //clean parent
-        nodes = parentNode.childNodes;
-        for (i = nodes.length - 1; i >= 0; i--)
-            apf.xmldb.removeNode(nodes[i]);
-            // parentNode.removeChild(nodes[i]);
-    }
-
-    
-    if (options && options.start) { //Assuming each node is in count
-        var reserved, beforeNode, nodes, doc, i, l, marker = options.marker;
-        if (!marker) {
-            //optionally find marker
-        }
-
-        //This code assumes that the dataset fits inside this marker
-
-        //Start of marker
-        if (marker.getAttribute("start") - options.start == 0) {
-            marker.setAttribute("start", options.start + options.length);
-            reserved = parseInt(marker.getAttribute("reserved"), 10);
-            marker.setAttribute("reserved", reserved + options.length);
-            beforeNode = marker;
-        }
-        //End of marker
-        else if (options.start + options.length == marker.getAttribute("end")) {
-            marker.setAttribute("end", options.start + options.length);
-            beforeNode = marker.nextSibling;
-            reserved = parseInt(marker.getAttribute("reserved"), 10) +
-                parseInt(marker.getAttribute("end"), 10) - options.length;
-        }
-        //Middle of marker
-        else {
-            var m2 = marker.parentNode.insertBefore(marker.cloneNode(true), marker);
-            m2.setAttribute("end", options.start - 1);
-            marker.setAttribute("start", options.start + options.length);
-            reserved = parseInt(marker.getAttribute("reserved"), 10);
-            marker.setAttribute("reserved", reserved + options.length);
-            beforeNode = marker;
-        }
-
-        nodes = XMLRoot.childNodes;
-
-        if (parentNode.ownerDocument.importNode) {
-            doc = parentNode.ownerDocument;
-            for (i = 0, l = nodes.length; i < l; i++) {
-                parentNode.insertBefore(doc.importNode(nodes[i], true), beforeNode)
-                  .setAttribute(apf.xmldb.xmlIdTag, options.documentId + "|" + (reserved + i));
-            }
-        }
-        else {
-            for (i = nodes.length - 1; i >= 0; i--) {
-                parentNode.insertBefore(nodes[0], beforeNode)
-                  .setAttribute(apf.xmldb.xmlIdTag, options.documentId + "|" + (reserved + i));
-            }
-        }
-    }
-    else
-    
-    {
-        beforeNode = options && options.beforeNode ? options.beforeNode : apf.getNode(parentNode, [0]);
-        nodes = XMLRoot.childNodes;
-        
-        if (options.filter)
-            nodes = options.filter(parentNode, nodes);
-
-        if (parentNode.ownerDocument.importNode) {
-            doc = parentNode.ownerDocument;
-            for (i = 0, l = nodes.length; i < l; i++)
-                parentNode.insertBefore(doc.importNode(nodes[i], true), beforeNode);
-        }
-        else
-            for (i = nodes.length - 1; i >= 0; i--)
-                parentNode.insertBefore(nodes[0], beforeNode);
-    }
-
-    if (options && options.copyAttributes) {
-        var attr = XMLRoot.attributes;
-        for (i = 0; i < attr.length; i++)
-            if (attr[i].nodeName != apf.xmldb.xmlIdTag)
-                parentNode.setAttribute(attr[i].nodeName, attr[i].nodeValue);
-    }
-
-    return parentNode;
-};
-
 /**
  * Sets the node value of a DOM node.
  *
@@ -4201,118 +4058,25 @@ apf.mergeXml = function(XMLRoot, parentNode, options) {
  * @param {Boolean}    applyChanges  Whether the changes are propagated to the databound elements.
  * @param {apf.UndoData}    undoObj       The undo object that is responsible for archiving the changes.
  */
-apf.setNodeValue = function(xmlNode, nodeValue, applyChanges, options) {
+apf.setNodeValue = function(xmlNode, nodeValue) {
     if (!xmlNode)
         return;
-
-    var undoObj, xpath, newNodes;
-    if (options) {
-        undoObj = options.undoObj;
-        xpath = options.xpath;
-        newNodes = options.newNodes;
-
-        undoObj.extra.oldValue = options.forceNew
-            ? ""
-            : apf.queryValue(xmlNode, xpath);
-
-        undoObj.xmlNode = xmlNode;
-        if (xpath) {
-            xmlNode = apf.createNodeFromXpath(xmlNode, xpath, newNodes, options.forceNew);
-        }
-
-        undoObj.extra.appliedNode = xmlNode;
-    }
 
     if (xmlNode.nodeType == 1) {
         if (!xmlNode.firstChild)
             xmlNode.appendChild(xmlNode.ownerDocument.createTextNode(""));
 
         xmlNode.firstChild.nodeValue = apf.isNot(nodeValue) ? "" : nodeValue;
-
-        if (applyChanges)
-            apf.xmldb.applyChanges("text", xmlNode, undoObj);
     }
     else {
-        // @todo: this should be fixed in libxml
-        if (apf.isO3 && xmlNode.nodeType == 2)
-            nodeValue = nodeValue.replace(/&/g, "&amp;");
-
         var oldValue = xmlNode.nodeValue;
         xmlNode.nodeValue = nodeValue === undefined || nodeValue === null ||
             nodeValue == NaN ? "" : String(nodeValue);
 
-        if (undoObj) {
-            undoObj.name = xmlNode.nodeName;
-        }
-
         //AML support - getters/setters would be awesome
         if (xmlNode.$triggerUpdate)
             xmlNode.$triggerUpdate(null, oldValue);
-
-        if (applyChanges) {
-            apf.xmldb.applyChanges(xmlNode.nodeType == 2 ? "attribute" : "text", xmlNode.parentNode ||
-                xmlNode.ownerElement || xmlNode.selectSingleNode(".."), undoObj);
-        }
     }
-
-    
-    if (applyChanges) {
-        var node;
-        if (xpath) {
-            var node = undoObj.xmlNode;//.selectSingleNode(newNodes.foundpath);
-            if (node.nodeType == 9) {
-                node = node.documentElement;
-                xpath = xpath.replace(/^[^\/]*\//, "");//xpath.substr(newNodes.foundpath.length);
-            }
-        }
-        else
-            node = xmlNode;
-
-        apf.xmldb.applyRDB(["setValueByXpath", node, nodeValue, xpath,
-            options && options.forceNew],
-            undoObj || {xmlNode: xmlNode}
-        );
-    }
-    
-};
-
-/**
- * Sets a value of an XML node based on an xpath statement executed on a referenced XMLNode.
- *
- * @param  {XMLNode}  xmlNode  The reference XML node.
- * @param  {String}  xpath  The xpath used to select a XML node.
- * @param  {String}  value  The value to set.
- * @param  {Boolean}  local  Whether the call updates databound UI.
- * @return  {XMLNode}  The changed XML node
- */
-apf.setQueryValue = function(xmlNode, xpath, value, local) {
-    var node = apf.createNodeFromXpath(xmlNode, xpath);
-    if (!node)
-        return null;
-
-    apf.setNodeValue(node, value, !local);
-    //apf.xmldb.setTextNode(node, value);
-    return node;
-};
-
-/**
- * Removes an XML node based on an xpath statement executed on a referenced XML node.
- *
- * @param  {XMLNode}  xmlNode  The reference XML node.
- * @param  {String}  xpath  The xpath used to select a XML node.
- * @return  {XMLNode}  The changed XML node
- */
-apf.removeQueryNode = function(xmlNode, xpath, local) {
-    var node = apf.queryNode(xmlNode, xpath);
-    if (!node)
-        return false;
-
-    if (local)
-        node.parentNode.removeChild(node);
-    else
-        apf.xmldb.removeNode(node);
-
-    return node;
 };
 
 /**
@@ -4584,17 +4348,6 @@ apf.serializeChildren = function(xmlNode) {
 };
 
 /**
- * Returns a string version of the {@link term.datanode data node}.
- *
- * @param {XMLElement} xmlNode The {@link term.datanode data node} to serialize.
- * @return {String} The serialized version of the {@link term.datanode data node}.
- */
-apf.getXmlString = function(xmlNode) {
-    var xml = apf.xmldb.cleanNode(xmlNode.cloneNode(true));
-    return xml.xml || xml.serialize();
-};
-
-/**
  * Creates XML nodes from an XML string recursively.
  *
  * @param {String}  strXml     The XML definition
@@ -4814,115 +4567,6 @@ apf.extend(apf.config, {
         }
     }
 });
-
-
-
-
-
-
-
-
-
-/**
- * Creates a model object based on a {@link term.datainstruction data instruction}.
- *
- * @param {String} instruction  The {@link term.datainstruction data instruction} to be used to retrieve the data for the model
- * @param {apf.AmlNode} amlNode     The element the model is added to
- */
-apf.setModel = function(instruction, amlNode) {
-    if (!instruction) return;
-
-    //Find existing model
-    var fParsed = instruction.indexOf("{") > -1 || instruction.indexOf("[") > -1
-        ? apf.lm.compile(instruction, {
-            //precall  : false, 
-            alwayscb: true
-        })
-        : {
-            type: 2,
-            str: instruction
-        };
-
-    if (instruction == "@default" || fParsed.type == 2) {
-        
-        var model = apf.nameserver.get("model", instruction);
-        if (model)
-            return model.register(amlNode);
-        else
-        
-            if (instruction == "@default")
-            return;
-        
-        //@todo apf3.0 check here if string is valid url (relative or absolute)
-        if (instruction.indexOf(".") == -1 && instruction.indexOf("/") == -1) {
-            
-            return;
-        }
-    }
-
-    //Just an xpath doesnt work. We don't have context
-    //var l, x;
-    if (fParsed.type == 3) {//This won't work for complex xpaths
-        if (fParsed.models) { //check for # in xpaths[i] to determine if its calculated
-            if (fParsed.xpaths.length == 2 && fParsed.xpaths[0] != '#' && fParsed.xpaths [1] != '#') {
-                
-                
-                
-                apf.nameserver.get("model", fParsed.xpaths[0]).register(amlNode, fParsed.xpaths[1]);
-                
-                return;
-            }
-        }
-        
-    }
-
-    if (amlNode.clear)
-        amlNode.clear("loading");
-
-    //Complex data fetch (possibly async) - data is loaded only once. 
-    //Potential property binding has to take of the rest
-    apf.getData(instruction, {
-      parsed: fParsed, 
-      xmlNode: amlNode && amlNode.xmlRoot,
-      callback: function(data, state, extra) {
-        //@todo apf3.0 call onerror on amlNode
-        if (state != apf.SUCCESS) {
-            throw new Error(apf.formatErrorString(0, null,
-                "Loading new data", "Could not load data into model. \
-                \nMessage: " + extra.message + "\
-                \nInstruction: '" + instruction + "'"));
-        }
-        
-        if (!data)
-            return amlNode.clear && amlNode.clear();
-
-        if (typeof data == "string") {
-            if (data.charAt(0) == "<")
-                data = apf.getXml(data);
-            else {
-                //Assuming web service returned url
-                if (data.indexOf("http://") == 0)
-                    return apf.setModel(data, amlNode);
-                else {
-                    throw new Error("Invalid data from server");//@todo apf3.0 make proper apf error handling. apf.onerror
-                }
-            }
-        }
-        
-        if (data.nodeFunc) { //Assuming a model was passed -- data.localName == "model" && 
-            data.register(amlNode);
-            return;
-        }
-        
-        var model = apf.xmldb.findModel(data); //See if data is already loaded into a model
-        if (model)
-            model.register(amlNode, apf.xmlToXpath(data, model.data)); //@todo move function to xml library
-        else
-            new apf.model().register(amlNode).load(data);
-    }});
-};
-
-
 
 
 
@@ -5969,107 +5613,6 @@ apf.setModel = function(instruction, amlNode) {
 
 
 
-
-
-/**
- * @class apf.layout
- *
- * Takes care of the spatial order of elements within the display area
- * of the browser. Layouts can be saved to XML and loaded again. Window
- * elements are dockable, which means the user can change the layout as s/he
- * wishes. The state of the layout can be saved as XML at any time.
- *
- * #### Example
- * 
- * This example shows five windows which have a layout defined in layout.xml.
- * 
- * ```xml
- *  <a:appsettings layout="[mdlLayouts::layout[1]]" />
- *  <a:model id="mdlLayouts" src="layout.xml" />
- *  
- *  <a:window title="Main Window" id="b1" />
- *  <a:window title="Tree Window" id="b2" />
- *  <a:window title="Window of Oppertunity" id="b3" />
- *  <a:window title="Small window" id="b4" />
- *  <a:window title="Some Window" id="b5" />
- * ```
- *
- * This is the layout file containing two layouts (_layout.xml_):
- * 
- * ```xml
- *  <layouts>
- *      <layout name="Layout 1" margin="2,2,2,2">
- *          <vbox edge="splitter">
- *              <node name="b1" edge="2"/>
- *              <hbox edge="2">
- *                  <vbox weight="1">
- *                      <node name="b2"/>
- *                      <node name="b3"/>
- *                  </vbox>
- *                  <node name="b4" weight="1" />
- *              </hbox>
- *              <node name="b5" height="20" />
- *          </vbox>
- *      </layout>
- *
- *      <layout name="Layout 2">
- *          <vbox edge="splitter">
- *              <node name="b1" edge="2" />
- *              <node name="b2" height="100" />
- *              <hbox edge="2">
- *                  <node name="b3" width="20%" />
- *                  <node name="b4" width="100" />
- *              </hbox>
- *              <node name="b5" height="20" />
- *          </vbox>
- *      </layout>
- *  </layouts>
- * ```
- *
- * By binding on the _layout.xml_ you can easily create a layout manager.
- * 
- * ```xml
- *  <a:list id="lstLayouts"
- *    model = "mdlLayouts"
- *    allowdeselect = "false"
- *    onafterselect = "
- *      if (!this.selected || apf.layout.isLoadedXml(this.selected))
- *          return;
- *     
- *      apf.layout.saveXml();
- *      apf.layout.loadXml(this.selected);
- *    "
- *    onbeforeremove = "return confirm('Do you want to delete this layout?')">
- *      <a:bindings>
- *          <a:caption match="[@name]" />
- *          <a:icon value="layout.png" />
- *          <a:each match="[layout]" />
- *      </a:bindings>
- *      <a:actions>
- *          <a:rename match="[.]" />
- *          <a:remove match="[.]" />
- *      </a:actions>
- *  </a:list>
- *  <a:button
- *    onclick = "
- *      if (!lstLayouts.selected)
- *          return;
- *     
- *      var newLayout = apf.layout.getXml(document.body);
- *      newLayout.setAttribute('name', 'New');
- *      apf.xmldb.appendChild(lstLayouts.selected.parentNode, newLayout);
- *      lstLayouts.select(newLayout, null, null, null, null, true);
- *      apf.layout.loadXml(newLayout);
- *      lstLayouts.startRename();
- *    ">
- *    Add Layout
- *  </a:button>
- * ```
- *
- * @default_private
- */
- // @todo a __WITH_DOM_REPARENTING should be added which can remove many of the functions of this element.
-
 apf.layout = {
     compile: function(oHtml) {
         var l = this.layouts[oHtml.getAttribute("id")];
@@ -6549,9 +6092,6 @@ apf.queue = {
         if (apf.layout && apf.layout.$hasQueue)
             apf.layout.processQueue();
         
-        
-        if (apf.xmldb && apf.xmldb.$hasQueue)
-            apf.xmldb.notifyQueued();
         
 
         var q = this.q;
@@ -13049,7 +12589,6 @@ apf.BaseButton = function(){
  * @baseclass
  *
  * @inherits apf.StandardBinding
- * @inherits apf.DataAction
  *
  * @author      Ruben Daniels (ruben AT ajax DOT org)
  * @version     %I%, %G%
@@ -13060,9 +12599,6 @@ apf.BaseSimple = function(){
 };
 
 (function() {
-    
-    this.implement(apf.DataAction);
-    
     
     this.getValue = function(){
         return this.value;
@@ -14775,347 +14311,6 @@ apf.__MEDIA__ = 1 << 20;
 
 
 
-apf.__MULTICHECK__ = 1 << 22;
-
-
-
-/**
- * All elements inheriting from this {@link term.baseclass baseclass} have checkable items.
- *
- * @class apf.MultiCheck
- * @baseclass
- * @author      Ruben Daniels (ruben AT ajax DOT org)
- * @version     %I%, %G%
- * @since       3.0
- *
- *
- */
-// @todo type detection, errors (see functions in multiselect)
-apf.MultiCheck = function(){
-    this.$regbase = this.$regbase | apf.__MULTICHECK__;
-
-    // *** Properties *** //
-
-    this.multicheck = true;
-    this.checklength = 0;
-    this.$checkedList = [];
-
-    // *** Public Methods *** //
-
-    /**
-     * @event  beforecheck  Fires before a check is made
-     * @param {Object} e The standard event object, with the following properties:
-     *   - `xmlNode` ([[XMLElement]]): the {@link term.datanode data node} that will be checked.
-     */
-    /**
-     * @event  aftercheck  Fires after a check is made
-     * @param {Object} e The standard event object, with the following properties:
-     *   - `xmlNode` ([[XMLElement]]): the {@link term.datanode data node} that was checked.
-     *
-     */    
-    /**
-     * Checks a single, or a set of, elements.
-     *
-     * The checking can be visually represented in this element.
-     * The element can be checked, partialy checked, or unchecked
-     *
-     * @param {Mixed}   xmlNode      The identifier to determine the selection.
-     * @return  {Boolean}  Indicates whether the selection could not be made (`false`)
-     */
-    this.check = function(xmlNode, userAction) {
-        if (userAction && this.disabled 
-          || this.$checkedList.indexOf(xmlNode) > -1)
-            return;
-
-        if (userAction
-          && this.$executeSingleValue("check", "checked", xmlNode, "true") !== false)
-            return;
-        
-        if (this.dispatchEvent("beforecheck", {xmlNode : xmlNode}) === false)
-            return false;
-        
-        if (!this.multicheck && this.$checkedList.length)
-            this.clearChecked(true);
-
-        this.$checkedList.push(xmlNode);
-        
-        
-
-        this.$setStyleClass(apf.xmldb.getHtmlNode(xmlNode, this),
-            "checked", ["partial"]);
-        
-//        this.dispatchEvent("aftercheck", {
-//            list        : this.$checkedList,
-//            xmlNode     : xmlNode
-//        });
-    };
-
-    /**
-     * @event  beforeuncheck  Fires before a uncheck is made
-     * @param {Object} e The standard event object, with the following properties:
-     *   - `xmlNode` ([[XMLElement]]): the {@link term.datanode data node} that will be unchecked.
-     *
-     */
-    /**
-     * @event  afteruncheck  Fires after a uncheck is made
-     * @param {Object} e The standard event object, with the following properties:
-     *   - `xmlNode` ([[XMLElement]]): the {@link term.datanode data node} that was unchecked.
-     *
-     */     
-    /**
-     * Unchecks a single, or set of, elements.
-     *
-     * @param {Mixed}   xmlNode      The identifier to determine the selection.
-     * @return  {Boolean}  Indicates if the selection could be made (`false`)
-     */
-    this.uncheck = function(xmlNode, userAction) {
-        if (userAction && this.disabled 
-          || this.$checkedList.indexOf(xmlNode) == -1)
-            return;
-        
-        if (userAction
-          && this.$executeSingleValue("check", "checked", xmlNode, "false") !== false)
-            return;
-        
-        
-        
-        if (this.dispatchEvent("beforeuncheck", {
-            xmlNode: xmlNode
-        }) === false)
-            return false;
-
-        this.$checkedList.remove(xmlNode);
-        this.$setStyleClass(apf.xmldb.getHtmlNode(xmlNode, this), 
-            "", ["checked", "partial"]);
-        
-        this.dispatchEvent("afteruncheck", {
-            list: this.$checkedList,
-            xmlNode: xmlNode
-        });
-    };
-
-    /**
-     * Toggles between a check and uncheck of a single, or set of, elements.
-     *
-     * @param {Mixed}   xmlNode    The identifier to determine the selection.
-     *
-     */
-    this.checkToggle = function(xmlNode, userAction) {
-        if (userAction && this.disabled)
-            return;
-        
-        if (xmlNode.style) {
-            var htmlNode = xmlNode,
-                id = htmlNode.getAttribute(apf.xmldb.htmlIdTag);
-            while (!id && htmlNode.parentNode)
-                id = (htmlNode = htmlNode.parentNode)
-                    .getAttribute(apf.xmldb.htmlIdTag);
-            xmlNode = apf.xmldb.getNode(htmlNode)
-        }
-
-        if (this.$checkedList.indexOf(xmlNode) > -1)
-            this.uncheck(xmlNode, userAction);
-        else
-            this.check(xmlNode, userAction);
-    };
-    
-    /**
-     * Checks a set of items.
-     *
-     * @param {Array} xmlNodeList The {@link term.datanode data nodes} that will be selected.
-     * @param {Boolean} uncheck If `true`, checks the items
-     * @param {Boolean} noClear If `true`, does not also clears the selection
-     * @param {Boolean} noEvent Indicates whether to call any events
-     * @event  beforecheck  Fires before a check is made
-     *   object:
-     *   
-     * @event  aftercheck   Fires after a check is made
-     *   object:
-     *   {XMLElement} xmlNode   the {@link term.datanode data node} that is deselected.
-     */
-    this.checkList = function(xmlNodeList, uncheck, noClear, noEvent, userAction) {
-        if (!xmlNodeList.indexOf)
-            xmlNodeList = apf.getArrayFromNodelist(xmlNodeList);
-            //@todo is this need for ie8 and/or other browsers
-
-        if (userAction) {
-            if (this.disabled) 
-                return;
-            
-            var changes = [];
-            for (var c, i = 0; i < xmlNodeList.length; i++) {
-                c = this.$executeSingleValue("check", "checked", xmlNodeList[i], uncheck ? "false" : "true", true)
-                if (c === false) break;
-                changes.push(c);
-            }
-    
-            if (changes.length) {
-                return this.$executeAction("multicall", changes, "checked", 
-                  xmlNodeList[0], null, null, 
-                  xmlNodeList.length > 1 ? xmlNodeList : null);
-            }
-        }
-        
-        if (userAction && this.disabled) return;
-        
-        if (!noEvent && this.dispatchEvent("beforecheck", {
-            list: xmlNodeList
-        }) === false)
-            return false;
-        
-        if (!uncheck && !noClear) 
-            this.clearChecked(true);
-        
-        if (!this.multicheck)
-            xmlNodeList = [xmlNodeList[0]];
-
-        var i;
-        if (uncheck) {
-            for (i = xmlNodeList.length - 1; i >= 0; i--) {
-                this.$checkedList.remove(xmlNodeList[i]);
-                this.$setStyleClass(
-                    apf.xmldb.getHtmlNode(xmlNodeList[i], this), "", ["checked"]);
-            }
-        }
-        else {
-            for (i = xmlNodeList.length - 1; i >= 0; i--) {
-                this.$checkedList.push(xmlNodeList[i]);
-                this.$setStyleClass(
-                    apf.xmldb.getHtmlNode(xmlNodeList[i], this), "checked");
-            }
-        }
-
-        
-        
-        if (!noEvent)
-            this.dispatchEvent("aftercheck", {
-                list: xmlNodeList
-            });
-    };
-
-    /**
-     * Removes the selection of one or more checked nodes.
-     *
-     * @param {Boolean} [noEvent]    Indicates whether to call any events
-     */
-    this.clearChecked = function(noEvent) {
-        if (!noEvent && this.dispatchEvent("beforeuncheck", {
-            xmlNode: this.$checkedList
-        }) === false)
-            return false;
-        
-        for (var i = this.$checkedList.length - 1; i >= 0; i--) {
-            this.$setStyleClass(
-                apf.xmldb.getHtmlNode(this.$checkedList[i], this), "", ["checked"]);
-        }
-        
-        this.$checkedList.length = 0;
-        
-        if (!noEvent) {
-            this.dispatchEvent("afteruncheck", {
-                list: this.$checkedList
-            });
-        }
-    };
-    
-    /**
-     * Determines whether a node is checked.
-     *
-     * @param  {XMLElement} xmlNode  The {@link term.datanode data node} to be checked.
-     * @return  {Boolean} Whether the element is selected.
-     */
-    this.isChecked = function(xmlNode) {
-        return this.$checkedList.indexOf(xmlNode) > -1;
-    };
-
-    /**
-     * Retrieves an array or a document fragment containing all the checked
-     * {@link term.datanode data nodes} from this element.
-     *
-     * @param {Boolean} [xmldoc] Specifies whether the method should return a document fragment.
-     * @return {Mixed} The selection of this element.
-     */
-    this.getChecked = function(xmldoc) {
-        var i, r;
-        if (xmldoc) {
-            r = this.xmlRoot
-                ? this.xmlRoot.ownerDocument.createDocumentFragment()
-                : apf.getXmlDom().createDocumentFragment();
-            for (i = 0; i < this.$checkedList.length; i++)
-                apf.xmldb.cleanNode(r.appendChild(
-                    this.$checkedList[i].cloneNode(true)));
-        }
-        else {
-            for (r = [], i = 0; i < this.$checkedList.length; i++)
-                r.push(this.$checkedList[i]);
-        }
-
-        return r;
-    };
-    
-    /**
-     * Checks all the {@link term.eachnode each nodes} of this element
-     *
-     */
-    this.checkAll = function(userAction) {
-        if (!this.multicheck || userAction && this.disabled || !this.xmlRoot)
-            return;
-
-        var nodes = this.$isTreeArch
-            ? this.xmlRoot.selectNodes(".//" 
-              + this.each.split("|").join("|.//"))
-            : this.getTraverseNodes();
-        
-        this.checkList(nodes);
-    };
-    
-    this.addEventListener("beforeload", function(){
-        if (!this.$hasBindRule("checked")) //only reset state when check state isnt recorded
-            this.clearChecked(true);
-    });
-    
-    this.addEventListener("afterload", function(){
-        if (!this.$hasBindRule("checked") && this.$checkedList.length) //only reset state when check state isnt recorded
-            this.checkList(this.$checkedList, false, true, false); //@todo could be optimized (no event calling)
-    });
-    
-    this.addEventListener("xmlupdate", function(e) {
-        if (e.action == "attribute" || e.action == "text"
-          || e.action == "synchronize" || e.action == "update") {
-            //@todo list support!
-            var c1 = apf.isTrue(this.$applyBindRule("checked", e.xmlNode));
-            var c2 = this.isChecked(e.xmlNode);
-            if (c1 != c2) {
-                if (c1) {
-                    this.check(e.xmlNode);
-                }
-                else {
-                    this.uncheck(e.xmlNode);
-                }
-            }
-        }
-    });
-    
-    
-    this.addEventListener("aftercheck", function(){
-        //@todo inconsistent because setting this is in event callback
-        if (this.checklength != this.$checkedList.length)
-            this.setProperty("checklength", this.$checkedList.length);
-    });
-    
-    this.addEventListener("afteruncheck", function(){
-        //@todo inconsistent because setting this is in event callback
-        if (this.checklength != this.$checkedList.length)
-            this.setProperty("checklength", this.$checkedList.length);
-    });
-    
-};
-
-
-
-
-
-
 
 
 apf.__TRANSACTION__ = 1 << 3;
@@ -16638,38 +15833,6 @@ apf.runNonIe = function (){
         this.parentNode.removeChild(this);
     };
     
-    //XMLDocument.load
-    XMLDocument.prototype.$load = XMLDocument.prototype.load;
-    XMLDocument.prototype.load = function(sURI) {
-        var oDoc = document.implementation.createDocument("", "", null);
-        oDoc.$copyDOM(this);
-        this.parseError = 0;
-        apf.xmldb.setReadyState(this, 1);
-    
-        try {
-            if (this.async == false && ASYNCNOTSUPPORTED) {
-                var tmp = new XMLHttpRequest();
-                tmp.open("GET", sURI, false);
-                tmp.overrideMimeType("text/xml");
-                tmp.send(null);
-                apf.xmldb.setReadyState(this, 2);
-                this.$copyDOM(tmp.responseXML);
-                apf.xmldb.setReadyState(this, 3);
-            } else
-                this.$load(sURI);
-        }
-        catch (objException) {
-            this.parseError = -1;
-        }
-        finally {
-            apf.xmldb.loadHandler(this);
-        }
-    
-        return oDoc;
-    };
-    
-    
-    
     
     
     /**
@@ -16689,14 +15852,7 @@ apf.runNonIe = function (){
     XMLDocument.prototype.setProperty = function(x,y) {};
     
     /* ******** XML Compatibility ************************************************
-        Extensions to the xmldb
     ****************************************************************************/
-    apf.getHttpReq = function(){
-        if (apf.availHTTP.length)
-            return apf.availHTTP.pop();
-        return new XMLHttpRequest();
-    };
-
     apf.getXmlDom = function(message, noError, preserveWhiteSpaces) {
         var xmlParser;
         if (message) {
@@ -18484,12 +17640,6 @@ apf.checkbox = function(struct, tagName) {
 };
 
 (function() {
-    this.implement(
-        
-        
-        apf.DataAction
-        
-    );
 
     //Options
     this.$focussable = apf.KEYBOARD; // This object can get the focus
@@ -19306,9 +18456,6 @@ apf.label = function(struct, tagName) {
 
 (function(){
     this.implement(
-        
-        apf.DataAction,
-        
         apf.ChildValue
     );
 
@@ -19405,9 +18552,6 @@ apf.colorbox = function(struct, tagName) {
 
 (function(){
     this.implement(
-        
-        apf.DataAction,
-        
         apf.ChildValue
     );
 
@@ -20605,8 +19749,6 @@ apf.aml.setElement("param", apf.param);
  * @allowchild {smartbinding}
  *
  * @form
- * @inherits apf.StandardBinding
- * @inherits apf.DataAction
  * 
  * @author      Ruben Daniels (ruben AT ajax DOT org)
  * @version     %I%, %G%
@@ -20645,9 +19787,6 @@ apf.progressbar = function(struct, tagName) {
 
 (function(){
     
-    this.implement(apf.DataAction);
-    
-
     this.$focussable = false; // This object can get the focus
 
     // *** Properties and Attributes *** //
@@ -21307,11 +20446,7 @@ apf.$group = apf.group = function(struct, tagName) {
     this.$init(tagName || "group", apf.NODE_VISIBLE, struct);
     
     this.implement(
-        apf.StandardBinding,
-        
-        apf.DataAction
-        
-        
+        apf.StandardBinding
     );
 
     var radiobuttons = [];
@@ -21662,7 +20797,6 @@ apf.aml.setElement("skin", apf.skin);
  * @version     %I%, %G%
  * 
  * @inherits apf.StandardBinding
- * @inherits apf.DataAction
  * @inheritsElsewhere apf.XForms
  *
  */
@@ -21692,13 +20826,6 @@ apf.spinner = function(struct, tagName) {
 };
 
 (function() {
-    this.implement(
-        
-        apf.DataAction
-        
-        
-    );
-
     this.$supportedProperties.push("width", "value", "max", "min", "caption", "realtime");
 
     this.$booleanProperties["realtime"] = true;
@@ -23027,13 +22154,6 @@ apf.textbox = function(struct, tagName) {
 };
 
 (function(){
-    this.implement(
-        
-        apf.DataAction
-        
-        
-    );
-
     this.$focussable = true; // This object can get the focus
     this.$masking = false;
     this.$autoComplete = false;
