@@ -360,7 +360,7 @@ define(function(require, module, exports) {
             menus.addItemToMenu(tabs.getElement("mnuEditors"), 
                 new ui.item({
                     caption: "New Run Configuration",
-                    // hotkey: "{commands.commandManager.showoutput}",
+                    hotkey: "commands.showoutput",
                     onclick: function(e) {
                         commands.exec("showoutput", null, {
                             pane: this.parentNode.pane

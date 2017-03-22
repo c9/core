@@ -597,15 +597,6 @@ define(function(require, module, exports) {
              */
             insertByIndex: insertByIndex,
             
-            /**
-             * @ignore
-             */
-            n: apf.n,
-            
-            /**
-             * @ignore
-             */
-            b: apf.b,
             
             /**
              * Escapes "&amp;", greater than, less than signs, quotation marks, 
@@ -742,11 +733,6 @@ define(function(require, module, exports) {
             removeClass: removeClass,
             
             /**
-             * @ignore
-             */
-            createNodeFromXpath: apf.createNodeFromXpath,
-            
-            /**
              * Determines whether a string is true (in the HTML attribute sense).
              * @param {Mixed} value The variable to check. Possible truth values include:
              * 
@@ -774,10 +760,6 @@ define(function(require, module, exports) {
              */
             isFalse: apf.isFalse,
             
-            /**
-             * @ignore
-             */
-            getCleanCopy: apf.getCleanCopy,
             
             /**
              * This method retrieves the current value of a CSS property on an 

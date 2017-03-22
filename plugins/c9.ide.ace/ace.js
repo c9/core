@@ -240,7 +240,7 @@ define(function(require, exports, module) {
             // detected from document value
             ["newLineMode", "unix", STRING, "newlinemode", 1],
             // Per document
-            ["tabSize", "4", NUMBER, "tabsize", 1],
+            ["tabSize", 4, NUMBER, "tabsize", 1],
             ["useSoftTabs", true, BOOL, "softtabs", 1],
             ["guessTabSize", true, BOOL, "guesstabsize", 1],
             ["useWrapMode", false, BOOL, "wrapmode"],

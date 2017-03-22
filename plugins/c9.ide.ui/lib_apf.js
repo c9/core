@@ -1009,13 +1009,8 @@ apf.Class.prototype = new (function(){
 
         //Check if property has changed
         if (isChanged) {
-            if (setAttr && !this.$funcHandlers[prop])
-                this.setAttribute(prop, value, true);
-
             if (this.$handlePropSet(prop, value, forceOnMe) === false)
                 return;
-
-            
 
             value = this[prop];
         }
@@ -1342,17 +1337,13 @@ apf.Class.prototype = new (function(){
 
         
         //Remove dynamic properties
-        /*var f, i, l, h;
-        for (prop in this.$funcHandlers) {
-            h = this.$funcHandlers[prop];
-
+        for (var prop in this.$funcHandlers) {
+            var f = this.$funcHandlers[prop];
             //Remove any bounds if relevant
-            if (h && typeof h != FUN) {
-                for (i = 0, l = h.length; i < l; i++) {
-                    (f = h[i]).amlNode.removeEventListener(PROP + f.prop, f.handler);
-                }
+            if (f && f.amlNode) {
+                f.amlNode.removeEventListener(PROP + f.prop, f.handler);
             }
-        }*/
+        }
         
 
         if (this.attributes) {
@@ -1372,9 +1363,9 @@ apf.Class.prototype = new (function(){
         }
         catch (ex) {}
 
-        for (var prop in this.$captureStack) this.$captureStack[prop] = null;
-        for (var prop in this.$eventsStack) this.$eventsStack[prop] = null;
-        for (var prop in this.$funcHandlers) this.$funcHandlers[prop] = null;
+        this.$eventsStack = {};
+        this.$captureStack = {};
+        this.$funcHandlers = {};
 
         if (this.$bufferEvents) {
             for (var i = this.$bufferEvents.length - 1; i >= 0; i--)
@@ -4191,106 +4182,6 @@ apf.getInheritedAttribute = function(xml, attr, func) {
         ? apf.config[attr]
         : result;
 };
-
-
-/**
- * Creates an XML node based on an xpath statement.
- *
- * @param {DOMNode} contextNode  The DOM node that is subject to the query
- * @param {String}  xPath        The xpath query
- * @param {Array}   [addedNodes] An array that is filled with the added nodes
- * @param {Boolean} [forceNew]   Defines whether a new node is always created
- * @return {DOMNode} The last element found
- */
-apf.createNodeFromXpath = function(contextNode, xPath, addedNodes, forceNew) {
-    // @todo generalize this to include attributes in if format []
-    var xmlNode, foundpath = "", paths = xPath.replace(/('.*?')|(".*?")|\|/g, function(m, m1, m2) {
-        if (m1 || m2) return m1 || m2;
-        return "-%-|-%-";
-    }).split("-%-|-%-")[0].replace(/('.*?')|(".*?")|\/(?!\/)/g, function(m, m1, m2) {
-        if (m1 || m2) return m1 || m2;
-        return "-%-|-%-";
-    }).split("-%-|-%-");
-    
-    if (!forceNew && (xmlNode = contextNode.selectSingleNode(xPath)))
-        return xmlNode;
-
-    var len = paths.length - 1;
-    if (forceNew) {
-        if (paths[len].trim().match(/^\@(.*)$|^text\(\)$/))
-            len--;
-    }
-
-    //Directly forwarding to the document element because of a bug in the o3 xml lib
-    if (!paths[0]) {
-        contextNode = contextNode.ownerDocument.documentElement;
-        paths.shift();paths.shift();
-        len--;len--;
-    }
-
-    for (var addedNode, isAdding = false, i = 0; i < len; i++) {
-        if (!isAdding && contextNode.selectSingleNode(foundpath
-          + (i != 0 ? "/" : "") + paths[i])) {
-            foundpath += (i != 0 ? "/" : "") + paths[i];// + "/";
-            continue;
-        }
-
-        //Temp hack
-        var isAddId = paths[i].match(/(\w+)\[@([\w-]+)=(\w+)\]/);
-        
-
-        if (isAddId)
-            paths[i] = isAddId[1];
-
-        isAdding = true;
-        addedNode = contextNode.selectSingleNode(foundpath || ".")
-            .appendChild(contextNode.ownerDocument.createElement(paths[i]));
-
-        if (isAddId) {
-            addedNode.setAttribute(isAddId[2], isAddId[3]);
-            foundpath += (foundpath ? "/" : "") + isAddId[0];// + "/";
-        }
-        else
-            foundpath += (foundpath ? "/" : "") + paths[i];// + "/";
-
-        if (addedNodes)
-            addedNodes.push(addedNode);
-    }
-
-    if (!foundpath)
-        foundpath = ".";
-    if (addedNodes)
-        addedNodes.foundpath = foundpath;
-
-    var newNode, lastpath = paths[len],
-        doc = contextNode.nodeType == 9 ? contextNode : contextNode.ownerDocument;
-    do {
-        if (lastpath.match(/^\@(.*)$/)) {
-            (newNode || contextNode.selectSingleNode(foundpath))
-                .setAttributeNode(newNode = doc.createAttribute(RegExp.$1));
-        }
-        else if (lastpath.trim() == "text()") {
-            newNode = (newNode || contextNode.selectSingleNode(foundpath))
-                .appendChild(doc.createTextNode(""));
-        }
-        else {
-            var hasId = lastpath.match(/(\w+)\[@([\w-]+)=(\w+)\]/);
-            if (hasId) lastpath = hasId[1];
-            newNode = (newNode || contextNode.selectSingleNode(foundpath))
-                .appendChild(doc.createElement(lastpath));
-            if (hasId)
-                newNode.setAttribute(hasId[2], hasId[3]);
-        }
-
-        if (addedNodes)
-            addedNodes.push(newNode);
-
-        foundpath += (foundpath ? "/" : "") + paths[len];
-    } while ((lastpath = paths[++len]));
-
-    return newNode;
-};
-
 
 /**
  * Returns the first text or cdata child of a [[term.datanode data node]].
@@ -8981,14 +8872,7 @@ apf.AmlElement = function(struct, tagName) {
             this.$inheritProperties[prop] = 2;
         
         if (value) {
-            
-            if (typeof value == "string" 
-              && (value.indexOf("{") > -1 || value.indexOf("[") > -1)) {
-                this.$setDynamicProperty(prop, value);
-            }
-            else 
-            
-                this.setProperty(prop, value, false, false, 2);
+            this.setProperty(prop, value, false, false, 2);
         }
         
         return value;
@@ -9263,15 +9147,7 @@ apf.AmlAttr = function(ownerElement, name, value) {
             return;
         }
         
-        if (host.localName != "page" && typeof value == "string" && (
-          (value.indexOf("{") > -1 || value.indexOf("[") > -1)))
-            host.$setDynamicProperty(name, value);
-        else
-        
-        {
-            host.setProperty(name, value); //@todo apf3.0 is this a lot slower?
-        }
-        //host.$handlePropSet(name, value);
+        host.setProperty(name, value); //@todo apf3.0 is this a lot slower?
 
         if (this.specified) {
             //@todo apf3.0 domattr - slow?
@@ -17190,51 +17066,6 @@ apf.button = function(struct, tagName) {
     };
 
     
-    /**
-     * @attribute {String} hotkey Sets or gets the key combination a user can press
-     * to active the function of this element. Use any combination of
-     * [[keys: Ctrl]], [[keys: Shift]], [[keys: Alt]], [[keys: F1]]-[[keys: F12]], and alphanumerical characters. Use a
-     * space, a minus or plus sign as a seperator.
-     *
-     * #### Example
-     *
-     * ```xml
-     *  <a:button hotkey="Ctrl-Z">Undo</a:button>
-     * ```
-     */
-    this.$propHandlers["hotkey"] = function(value) {
-        if (this.$hotkey)
-            apf.setNodeValue(this.$hotkey, value);
-
-        if (this.$lastHotkey) {
-            apf.hotkeys.remove(this.$lastHotkey[0], this.$lastHotkey[1]);
-            delete this.$lastHotkey[0];
-        }
-
-        if (value) {
-            this.$lastHotkey = [value];
-            var _self = this;
-            apf.hotkeys.register(value, this.$lastHotkey[1] = function(){
-                //hmm not very scalable...
-                _self.$setState("Over", {});
-
-                $setTimeout(function(){
-                    _self.$setState("Out", {});
-                }, 200);
-
-                if (_self.$clickHandler && _self.$clickHandler())
-                    _self.$updateState(e || event, "click");
-                else
-                    _self.dispatchEvent("click");
-            });
-        }
-
-        if (this.tooltip)
-            apf.GuiElement.propHandlers.tooltip.call(this, this.tooltip);
-    }
-    
-
-    
 
     //@todo move this to menu.js
     function menuKeyHandler(e) {
@@ -17729,6 +17560,7 @@ apf.checkbox = function(struct, tagName) {
     this.change = 
     this.setValue = function(value) {
         this.setProperty("value", value, false, true);
+        this.dispatchEvent("afterchange", { value: value });
     };
 
     /**
@@ -20868,7 +20700,8 @@ apf.spinner = function(struct, tagName) {
      */
     this.change = 
     this.setValue = function(value) {
-       this.setProperty("value", value, false, true);
+       this.setProperty("value", value, false, true); 
+       this.dispatchEvent("afterchange", { value: value });
     };
 
     /**

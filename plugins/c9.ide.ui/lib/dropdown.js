@@ -104,10 +104,6 @@ apf.ChildValue = function(){
         this.$norecur = true;
 
         
-        if (v.indexOf("{") > -1 || v.indexOf("[") > -1)
-            this.$setDynamicProperty(this.$childProperty, v);
-        else
-        
         if (this[this.$childProperty] != v)
             this.setProperty(this.$childProperty, v);
        
@@ -144,13 +140,8 @@ apf.ChildValue = function(){
                 v = m && m[2] || "";
             if (m && m[1])
                 v = "{" + v + "}";
-
             
-            if (v.indexOf("{") > -1 || v.indexOf("[") > -1)
-                this.$setDynamicProperty(this.$childProperty, v);
-            else
-            
-                this.setProperty(this.$childProperty, apf.html_entity_decode(v)); //@todo should be xml entity decode
+            this.setProperty(this.$childProperty, apf.html_entity_decode(v)); //@todo should be xml entity decode
         }
         else if (hasNoProp)
             this.$propHandlers[this.$childProperty].call(this, "");
@@ -490,6 +481,10 @@ apf.dropdown = function(struct, tagName) {
     };
 
     this.addEventListener("popuphide", this.slideUp);
+    
+    this.setChildren = function(data) {
+        
+    };
     
     // *** Keyboard Support *** //
     

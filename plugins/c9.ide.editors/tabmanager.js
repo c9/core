@@ -364,7 +364,7 @@ define(function(require, module, exports) {
                 new ui.item({
                     caption: "New File",
                     // TODO
-                    // hotkey: "{commands.commandManager.newfile}",
+                    hotkey: "commands.newfile",
                     onclick: function(e) {
                         e.pane = this.parentNode.pane;
                         plusNewFile(e, true);

@@ -1298,51 +1298,7 @@ apf.item = function(struct, tagName) {
      * ```
      */
     this.$propHandlers["hotkey"] = function(value) {
-        if (!this.$amlLoaded) {
-            var _self = this;
-            this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
-                if (_self.$hotkey && _self.hotkey)
-                    apf.setNodeValue(this.$hotkey, apf.isMac 
-                      ? apf.hotkeys.toMacNotation(_self.hotkey) : _self.hotkey);
-            });
-        }
-        else if (this.$hotkey)
-            apf.setNodeValue(this.$hotkey, apf.isMac ? apf.hotkeys.toMacNotation(value) : value);
-
-        if (this.$lastHotkey) {
-            apf.hotkeys.remove(this.$lastHotkey[0], this.$lastHotkey[1]);
-            delete this.$lastHotkey[0];
-        }
-
-        if (value) {
-            this.$lastHotkey = [value];
-            var _self = this;
-            apf.hotkeys.register(value, this.$lastHotkey[1] = function() {
-                if (_self.disabled || !_self.visible)
-                    return;
-                
-                //hmm not very scalable...
-                if (_self.parentNode) {
-                    var buttons = apf.document.getElementsByTagNameNS(apf.ns.aml, "button");
-                    for (var i = 0; i < buttons.length; i++) {
-                        if (buttons[i].submenu == _self.parentNode.name) {
-                            var btn = buttons[i];
-                            btn.$setState("Over", {});
-    
-                            $setTimeout(function() {
-                                btn.$setState("Out", {});
-                            }, 200);
-    
-                            break;
-                        }
-                    }
-                }
-                
-                _self.$down();
-                _self.$up();
-                _self.$click();
-            });
-        }
+        
     };
     
     /**
