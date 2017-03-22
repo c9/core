@@ -121,7 +121,7 @@ apf.ChildValue = function(){
     
     this.$init(function() {
        this.addEventListener("prop." + this.$childProperty, function(e) {
-           if (!this.$norecur && !e.value && !this.getAttributeNode(this.$childProperty))
+           if (!this.$norecur && !e.value && !this.hasAttribute(this.$childProperty))
                f.call(this);
        });
     });
@@ -486,6 +486,9 @@ apf.dropdown = function(struct, tagName) {
         
     };
     
+    this.setValue = function() {
+        
+    };
     // *** Keyboard Support *** //
     
     

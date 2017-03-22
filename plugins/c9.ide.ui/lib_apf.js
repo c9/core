@@ -1211,8 +1211,6 @@ apf.Class.prototype = new (function(){
     };
 
     var realAddEventListener = function(eventName, callback, useCapture) {
-        
-
         if (eventName.substr(0, 2) == "on")
             eventName = eventName.substr(2);
 
@@ -1327,7 +1325,7 @@ apf.Class.prototype = new (function(){
         if (this.parentNode && this.removeNode)
             this.removeNode();
         else if (this.ownerElement && !this.ownerElement.$amlDestroyed)
-            this.ownerElement.removeAttributeNode(this);
+            this.ownerElement.removeAttribute(this.name);
 
         //Remove from focus list - Should be in AmlNode
         
@@ -4126,9 +4124,6 @@ apf.queryValues = function(xmlNode, xpath) {
 apf.queryNodes = function(contextNode, sExpr) {
     if (contextNode && (apf.hasXPathHtmlSupport && contextNode.selectSingleNode || !contextNode.style))
         return contextNode.selectNodes(sExpr); //IE55
-    //if (contextNode.ownerDocument != document)
-    //    return contextNode.selectNodes(sExpr);
-console.log(sExpr)
     return apf.XPath.selectNodes(sExpr, contextNode);
 };
 
@@ -8344,7 +8339,6 @@ apf.AmlNode = function(){
         
         if (!apf.XPath)
             apf.runXpath();
-console.log(sExpr)
         return apf.XPath.selectNodes(sExpr,
             contextNode || (this.nodeType == 9 ? this.documentElement : this));
     };
@@ -8457,8 +8451,6 @@ apf.AmlElement = function(struct, tagName) {
                 //These exceptions should be generalized
                 if (prop == "id")
                     this.$propHandlers["id"].call(this, this.id = struct.id);
-                else if (prop == "hotkey")
-                    this.$propHandlers["hotkey"].call(this, this.hotkey = struct.hotkey);
                 else if (prop.substr(0, 2) == "on")
                     attr.$triggerUpdate();
 
@@ -8664,22 +8656,8 @@ apf.AmlElement = function(struct, tagName) {
     };
     
     //@todo apf3.0 domattr
-    this.setAttributeNode = function(attrNode) {
-        this.attributes.setNamedItem(attrNode);
-    };
-    
-    this.setAttributeNS = function(namespaceURI, name, value) {
-        return this.setAttribute(name, value);
-    };
-    
-    //@todo apf3.0 domattr
     this.hasAttribute = function(name) {
-        return this.getAttributeNode(name) ? true : false;
-    };
-    
-    //@todo
-    this.hasAttributeNS = function(namespaceURI, name) {
-        return this.hasAttribute(name);
+        return this.attributes.getNamedItem(name) ? true : false;
     };
     
     /**
@@ -8693,16 +8671,6 @@ apf.AmlElement = function(struct, tagName) {
         return this;
     };
     
-    //@todo apf3.0 domattr
-    this.removeAttributeNS = function(namespaceURI, name) {
-        return this.removeAttribute(name);
-    };
-    
-    //@todo apf3.0 domattr
-    this.removeAttributeNode = function(attrNode) {
-        this.attributes.removeNamedItem(attrNode.name); //@todo this should probably be slightly different.
-    };
-
     /**
      * Retrieves the value of an attribute of this element.
      *
@@ -8717,16 +8685,6 @@ apf.AmlElement = function(struct, tagName) {
             : item.nodeValue) : null;
     };
     
-    /**
-     * Retrieves the attribute node for a given name
-     *
-     * @param {String} name The name of the attribute to find.
-     * @return {apf.AmlNode} The attribute node, or `null` if none was found with the name specified.
-     */
-    this.getAttributeNode = function(name) {
-        return this.attributes.getNamedItem(name);
-    };
-
     this.getBoundingClientRect = function(){
         return new apf.AmlTextRectangle(this);
     };
@@ -8747,50 +8705,6 @@ apf.AmlElement = function(struct, tagName) {
     };
     
     /**
-     * Replaces the child AML elements with new AML.
-     * @param {Mixed}       amlDefNode  The AML to be loaded. This can be a string or a parsed piece of XML.
-     * @param {HTMLElement} oInt        The HTML parent of the created AML elements.
-     */
-    this.replaceMarkup = function(amlDefNode, options) {
-        
-
-        if (!options)
-            options = {};
-
-        if (!options.$intAML)
-            options.$intAML = this.$aml;
-        if (!options.$int)
-            options.$int = this.$int;
-        options.clear = true;
-        
-        //Remove All the childNodes
-        for (var i = this.childNodes.length - 1; i >= 0; i--) {
-            var oItem = this.childNodes[i];
-            /*var nodes = oItem.childNodes;
-            for (var k = 0; k < nodes.length; k++)
-                if (nodes[k].destroy)
-                    nodes[k].destroy(true);
-
-            if (oItem.$aml && oItem.$aml.parentNode)
-                oItem.$aml.parentNode.removeChild(oItem.$aml);*/
-
-            if (oItem.destroy)
-                oItem.destroy(true);
-
-            if (oItem.$ext != this.$int)
-                apf.destroyHtmlNode(oItem.$ext);
-        }
-        
-        this.childNodes.length = 0;
-        
-        if (options.noLoadingMsg !== false)
-            this.$int.innerHTML = "<div class='loading'>loading...</div>";
-
-        //Do an insertMarkup
-        this.insertMarkup(amlDefNode, options);
-    };
-
-    /**
      * Inserts new AML into this element.
      * @param {Mixed}       amlDefNode  The AML to be loaded. This can be a string or a parsed piece of XML.
      * @param {Object}      options     Additional options to pass. It can include the following properties:
@@ -8798,10 +8712,6 @@ apf.AmlElement = function(struct, tagName) {
      *                                  - clear ([[Boolean]]): If set, the AML has the attribute "clear" attached to it
      */
     this.insertMarkup = function(amlDefNode, options) {
-        
-
-        
-
         var _self = this;
         var include = new apf.XiInclude();
         
@@ -11425,25 +11335,6 @@ apf.GuiElement.propHandlers = {
             
         }
     },
-    
-    
-    //Load subAML
-    /**
-     * @attribute {String} aml Sets or gets  the {@link term.datainstruction data instruction} 
-     * that loads new AML as children of this element.
-     */
-    "aml": function(value) {
-        this.replaceMarkup(value);
-    }
-
-    /*
-     * @attribute {String} sets this aml element to be editable
-     * that loads new aml as children of this element.
-     */
-    // @todo Doc WTF?
-    
-   
-    
 };
 
 
@@ -11973,20 +11864,17 @@ apf.Presentation = function(){
         var oExt = this.$getLayoutNode(tag);
         
         var node;
-        if (node = (aml || this).getAttributeNode("style"))
-            oExt.setAttribute("style", node.nodeValue);
-
-        //if (node = (aml || this).getAttributeNode("class"))
-            //this.$setStyleClass(oExt, (oldClass = node.nodeValue));
+        if (node = (aml || this).getAttribute("style"))
+            oExt.setAttribute("style", node);
 
         if (func)
             func.call(this, oExt);
 
         oExt = apf.insertHtmlNode(oExt, pNode);
         oExt.host = this;
-        if (node = (aml || this).getAttributeNode("bgimage"))
+        if (node = (aml || this).getAttribute("bgimage"))
             oExt.style.backgroundImage = "url(" + apf.getAbsolutePath(
-                this.mediaPath, node.nodeValue) + ")";
+                this.mediaPath, node) + ")";
 
         if (!this.$baseCSSname)
             this.$baseCSSname = oExt.className.trim().split(" ")[0];
@@ -15487,8 +15375,6 @@ apf.runIE = function(){
         try {var m = this.sns(sExpr, contextNode); } catch(e) {}
         silent = !true
         if (n != m && m) {
-            console.log(sExpr)
-            debugger
             n = m
             findNode(contextNode, sExpr);
         }
@@ -15532,7 +15418,6 @@ function findNode(htmlNode, textNode, parts, maxRecur) {
             if (ch[i].nodeType == 3 || ch[i].nodeType == 4)
                 return ch[i];
         }
-        debugger
         throw new Error("can't find node " + textNode);
     } else if (textNode[0] == "@") {
         var name = textNode.substr(1);

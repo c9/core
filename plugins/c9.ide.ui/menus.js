@@ -62,7 +62,7 @@ define(function(require, exports, module) {
                 if (oldHandler && oldHandler.value != value) {
                     commands.commandManager.off("prop." + oldHandler.prop, oldHandler.handler);
                 }
-                if (value && /^commands./.test(value)) {
+                if (value && /^commands./.test(value) && commands.commandManager) {
                     // TODO replace this with the mechanism from events
                     oldHandler = amlNode.$funcHandlers.hotkey = oldHandler || {
                         handler: function(e) {

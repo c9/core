@@ -40,10 +40,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         var Plugin = imports.Plugin;
         
         describe('ui', function() {
-            it('should provide an easy way to create xml nodes', function(done) {
-                expect(ui.n("<test />").xml()).to.equal("<test/>");
-                done();
-            });
             it('should provide a way to insert CSS into the browser', function(done) {
                 var plugin = new Plugin("", []);
                 plugin.load("test");
