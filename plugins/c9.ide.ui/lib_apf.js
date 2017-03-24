@@ -3976,50 +3976,6 @@ apf.setNodeValue = function(xmlNode, nodeValue) {
 };
 
 /**
- * Queries an XML node using xpath for a single string value.
- * @param {XMLElement} xmlNode The XML element to query
- * @param {String}     xpath   The xpath query
- * @return {String} The value of the query result or empty string
- */
-apf.queryValue = function (xmlNode, xpath) {
-    if (!xmlNode)
-        return "";
-    if (xmlNode.nodeType == 2)
-        return xmlNode.nodeValue;
-
-    if (xpath) {
-        xmlNode = xmlNode.selectSingleNode(xpath);
-        if (!xmlNode)
-            return "";
-    }
-   return xmlNode.nodeType == 1
-        ? (!xmlNode.firstChild ? "" : xmlNode.firstChild.nodeValue)
-        : xmlNode.nodeValue;
-};
-
-/**
- * Queries an xml node using xpath for multiple string value.
- * @param {XMLElement} xmlNode The xml element to query
- * @param {String}     xpath   The xpath query
- * @return {Array} A list of values resulting from the query
- */
-apf.queryValues = function(xmlNode, xpath) {
-    var out = [];
-    if (!xmlNode) return out;
-
-    var nodes = xmlNode.selectNodes(xpath);
-    if (!nodes.length) return out;
-
-    for (var i = 0; i < nodes.length; i++) {
-        var n = nodes[i];
-        if (n.nodeType == 1)
-            n = n.firstChild;
-        out.push(n.nodeValue || "");
-    }
-    return out;
-};
-
-/**
  * Executes an xpath expression on any DOM node. This is especially useful
  * for DOM nodes that don't have a good native xpath processor, such as HTML
  * in some versions of Internet Explorer and XML in Webkit.
@@ -4029,9 +3985,7 @@ apf.queryValues = function(xmlNode, xpath) {
  * @returns {Array} A list of found XML nodes. The list can be empty
  */
 apf.queryNodes = function(contextNode, sExpr) {
-    if (contextNode && (apf.hasXPathHtmlSupport && contextNode.selectSingleNode || !contextNode.style))
-        return contextNode.selectNodes(sExpr); //IE55
-    return apf.XPath.selectNodes(sExpr, contextNode);
+    return contextNode.selectNodes(sExpr);
 };
 
 /**
@@ -4045,14 +3999,7 @@ apf.queryNodes = function(contextNode, sExpr) {
  * @returns {XMLNode} The DOM node, or `null` if none was found.
  */
 apf.queryNode = function(contextNode, sExpr) {
-    if (contextNode && (apf.hasXPathHtmlSupport && contextNode.selectSingleNode || !contextNode.style))
-        return contextNode.selectSingleNode(sExpr); //IE55
-    //if (contextNode.ownerDocument != document)
-    //    return contextNode.selectSingleNode(sExpr);
-
-    var nodeList = apf.queryNodes(contextNode ? contextNode : null,
-        sExpr + (apf.isIE ? "" : "[1]"));
-    return nodeList.length > 0 ? nodeList[0] : null;
+    return contextNode.selectSingleNode(sExpr);
 };
 
 /**
@@ -4100,47 +4047,6 @@ apf.getTextNode = function(x) {
 };
 
 /**
- * @private
- */
-apf.getBoundValue = function(amlNode, xmlRoot, applyChanges) {
-    if (!xmlRoot && !amlNode.xmlRoot)
-        return "";
-
-    var xmlNode = amlNode.$getDataNode("value", amlNode.xmlRoot);
-
-    return xmlNode ? apf.queryValue(xmlNode) : "";
-};
-
-/**
- * @private
- */
-apf.getArrayFromNodelist = function(nodelist) {
-    for (var nodes = [], j = 0, l = nodelist.length; j < l; ++j)
-        nodes.push(nodelist[j]);
-    return nodes;
-};
-
-/**
- * Serializes the children of a node into a string.
- *
- * @param {XMLElement} xmlNode The XML node to serialize.
- * @return {String} The children as a string
- */
-apf.serializeChildren = function(xmlNode) {
-    var node,
-        s = [],
-        nodes = xmlNode.childNodes,
-        i = 0,
-        l = nodes.length;
-    for (; i < l; ++i) {
-        s[i] = (node = nodes[i]).nodeType == 1
-            ? node.xml || node.serialize()
-            : (node.nodeType == 8 ? "" : node.nodeValue);
-    }
-    return s.join("");
-};
-
-/**
  * Creates XML nodes from an XML string recursively.
  *
  * @param {String}  strXml     The XML definition
@@ -4152,35 +4058,6 @@ apf.serializeChildren = function(xmlNode) {
  */
 apf.getXml = function(strXml, noError, preserveWhiteSpace) {
     return apf.getXmlDom(strXml, noError, preserveWhiteSpace).documentElement;
-};
-
-/**
- * Formats an XML string with proper indentation. Also known as pretty printing.
- * @param {String} strXml The XML string to format.
- * @return {String} The formatted string.
- */
-apf.formatXml = function(strXml) {
-    strXml = strXml.trim();
-
-    var lines = strXml.split("\n"),
-        depth = 0,
-        i = 0,
-        l = lines.length;
-    for (; i < l; ++i)
-        lines[i] = lines[i].trim();
-    lines = lines.join("\n").replace(/\>\n/g, ">").replace(/\>/g, ">\n")
-        .replace(/\n\</g, "<").replace(/\</g, "\n<").split("\n");
-    lines.removeIndex(0);//test if this is actually always fine
-    lines.removeIndex(lines.length);
-
-    for (i = 0, l = lines.length; i < l; i++)
-        lines[i] = "    ".repeat((lines[i].match(/^\s*\<\//)
-            ? (depth==0)?0:--depth
-            : (lines[i].match(/^\s*\<[^\?][^>]+[^\/]\>/) ? depth++ : depth))) + lines[i];
-    if (!strXml)
-        return "";
-
-    return lines.join("\n");
 };
 
 
@@ -6155,12 +6032,6 @@ apf.skins = {
         return originals;
     },
 
-    getCssString: function(skinName) {
-        return apf.queryValue($xmlns(this.skins[skinName.split(":")[0]].xml,
-            "style", apf.ns.aml)[0], "text()");
-    },
-
-    
     changeSkinset: function(value) {
         var node = apf.document.documentElement;
         while (node) {
@@ -8008,23 +7879,6 @@ apf.AmlNode = function(){
         function triggerUpdate(){
             amlNode.$pHtmlNode = _self.canHaveChildren ? _self.$int : document.body;
 
-            //@todo this is a hack, a good solution should be found
-            if (document.adoptNode && amlNode.$ext && amlNode.$ext.nodeType == 1) {
-                var reappendlist = [];
-                var iframelist = apf.getArrayFromNodelist(
-                    amlNode.$ext.getElementsByTagName("iframe"));
-                if (amlNode.$ext.tagName == "IFRAME")
-                    document.adoptNode(amlNode.$ext);
-                    
-                for (var i = 0; i < iframelist.length; i++) {
-                    reappendlist[i] = [
-                        iframelist[i].parentNode,
-                        iframelist[i].nextSibling,
-                        document.adoptNode(iframelist[i]),
-                    ]
-                }
-            }
-
             var nextNode = beforeNode;
             if (!initialAppend && !noHtmlDomEdit && amlNode.$ext && !amlNode.$coreHtml) {
                 nextNode = beforeNode;
@@ -8035,12 +7889,6 @@ apf.AmlNode = function(){
                 amlNode.$pHtmlNode.insertBefore(amlNode.$altExt || amlNode.$ext,
                     nextNode && (nextNode.$altExt || nextNode.$ext) || null);
                     
-                for (var i = reappendlist.length - 1; i >= 0; i--) {
-                    reappendlist[i][0].insertBefore(
-                        reappendlist[i][2],
-                        reappendlist[i][1]);
-                }
-                reappendlist = [];
             }
             
             //Signal node and all it's ancestors
@@ -8062,11 +7910,6 @@ apf.AmlNode = function(){
                 amlNode.$pHtmlNode.insertBefore(amlNode.$altExt || amlNode.$ext,
                     nextNode && (nextNode.$altExt || nextNode.$ext) || null);
                 
-                for (var i = reappendlist.length - 1; i >= 0; i--) {
-                    reappendlist[i][0].insertBefore(
-                        reappendlist[i][2],
-                        reappendlist[i][1]);
-                }
             }
         }
 
@@ -8242,12 +8085,10 @@ apf.AmlNode = function(){
      * @returns {NodeList} List of found nodes.
      */
     this.selectNodes = function(sExpr, contextNode) {
-        if (!apf) return;
-        
-        if (!apf.XPath)
-            apf.runXpath();
-        return apf.XPath.selectNodes(sExpr,
-            contextNode || (this.nodeType == 9 ? this.documentElement : this));
+        if (!contextNode)
+            contextNode = (this.nodeType == 9 ? this.documentElement : this)
+    
+        return findNodes(contextNode, sExpr);
     };
 
     /**
@@ -8259,12 +8100,7 @@ apf.AmlNode = function(){
      * @returns {apf.AmlNode} The first node that matches the query.
      */
     this.selectSingleNode = function(sExpr, contextNode) {
-        if (!apf) return;
-        
-        if (!apf.XPath)
-            apf.runXpath();
-        return apf.XPath.selectNodes(sExpr,
-            contextNode || (this.nodeType == 9 ? this.documentElement : this))[0];
+        return  this.selectNodes(sExpr, contextNode)[0];
     };
     
     /*this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
@@ -11655,15 +11491,11 @@ apf.Presentation = function(){
     this.$getOption = function(type, section) {
         type = type.toLowerCase(); //HACK: lowercasing should be solved in the comps.
 
-        //var node = this.$pNodes[type];
         var node = this.$pNodes[type] || this.$originalNodes[type];
         if (!section || !node)
-            return node;//apf.getFirstElement(node);
-        //var option = node.selectSingleNode("@" + section);
-        //option = option ? option.value : ""
+            return node;
         var attr = node.getAttribute(section) || ""
-        //if (option != attr)
-        //    debugger
+        
         return attr;
     };
 
@@ -15036,14 +14868,15 @@ function findNode(htmlNode, textNode, parts, maxRecur) {
         throw new Error("can't find node " + textNode);
     } else if (textNode[0] == "@") {
         var name = textNode.substr(1);
-        return htmlNode.getAttributeNode(name);
+        if (htmlNode.getAttributeNode)
+            return htmlNode.getAttributeNode(name);
         
         var value = htmlNode.getAttribute(name);
         return {
-             name: name,
-             value: value,
-             nodeValue: value,
-             nodeType:2
+            name: name,
+            value: value,
+            nodeValue: value,
+            nodeType:2
         };
     } else {
         var index = 0;
@@ -15052,9 +14885,11 @@ function findNode(htmlNode, textNode, parts, maxRecur) {
             return "";
         });
         
+        var re = new RegExp("^(" + textNode + ")$", "i");
+        
         var ch = htmlNode.childNodes;
         for (var i = 0; i < ch.length; i++) {
-            if (ch[i].tagName && ch[i].tagName.toLowerCase() === textNode) {
+            if (ch[i].localName && re.test(ch[i].localName)) {
                 if (index) index--;
                 else if (parts.length) return findNode(ch[i], "", parts);
                 else return ch[i];
@@ -15063,6 +14898,27 @@ function findNode(htmlNode, textNode, parts, maxRecur) {
     }
 }
 
+function findNodes(htmlNode, textNode, result, re) {
+    var recursive = true;
+    if (!result) {
+        result = [];
+        if (textNode[0] == ".")
+            textNode = textNode.substr(1);
+        if (textNode.startsWith("//"))
+            textNode = textNode.substr(2);
+        else
+            recursive = false;
+        re = new RegExp("^(" + textNode.replace(/a:/g, "") + ")$", "i");
+    }
+    var ch = htmlNode.childNodes;
+    for (var i = 0; i < ch.length; i++) {
+        if (ch[i].localName && re.test(ch[i].localName))
+            result.push(ch[i]);
+        if (recursive)
+            findNodes(ch[i], textNode, result, re)
+    }
+    return result;
+}
 
 
 
@@ -15454,627 +15310,6 @@ apf.runWebkit = function(){
 
 
 
-
-/**
- * @private
- */
-apf.runXpath = function(){
-
-/**
- *    Workaround for the lack of having an XPath parser on safari.
- *    It works on Safari's document and XMLDocument object.
- *
- *    It doesn't support the full XPath spec, but just enought for
- *    the skinning engine which needs XPath on the HTML document.
- *
- *    Supports:
- *    - Compilation of xpath statements
- *    - Caching of XPath statements
- *
- * @parser
- * @private
- */
-apf.XPath = {
-    cache: {},
-
-    getSelf: function(htmlNode, tagName, info, count, num, sResult) {
-        var numfound = 0, result = null, data = info[count];
-
-        if (data)
-            data[0](htmlNode, data[1], info, count + 1, numfound++ , sResult);
-        else
-            sResult.push(htmlNode);
-    },
-
-    getChildNode: function(htmlNode, tagName, info, count, num, sResult) {
-        var numfound = 0, result = null, data = info[count];
-
-        var nodes = htmlNode.childNodes;
-        if (!nodes) return; //Weird bug in Safari
-        for (var i = 0; i < nodes.length; i++) {
-            //if (nodes[i].nodeType != 1)
-                //continue;
-
-            if (tagName && (tagName != nodes[i].tagName) && (nodes[i].style
-              ? nodes[i].tagName.toLowerCase()
-              : nodes[i].tagName) != tagName)
-                continue;// || numsearch && ++numfound != numsearch
-            
-            htmlNode = nodes[i];
-
-            if (data)
-                data[0](nodes[i], data[1], info, count + 1, numfound++ , sResult);
-            else
-                sResult.push(nodes[i]);
-        }
-
-        //commented out :  && (!numsearch || numsearch == numfound)
-    },
-
-    doQuery: function(htmlNode, qData, info, count, num, sResult) {
-        var result = null, data = info[count];
-        var query = qData[0];
-        var returnResult = qData[1];
-        try {
-            var qResult = eval(query);
-        }catch(e) {
-            apf.console.error(e.name + " " + e.type + ":" + apf.XPath.lastExpr + "\n\n" + query);
-            //throw new Error(e.name + " " + e.type + ":" + apf.XPath.lastExpr + "\n\n" + query);
-            return;
-        }
-
-        if (returnResult)
-            return sResult.push(qResult);
-        if (!qResult || qResult.dataType == apf.ARRAY && !qResult.length) 
-            return;
-
-        if (data)
-            data[0](htmlNode, data[1], info, count + 1, 0, sResult);
-        else
-            sResult.push(htmlNode);
-    },
-
-    getTextNode: function(htmlNode, empty, info, count, num, sResult) {
-        var data = info[count],
-            nodes = htmlNode.childNodes;
-
-        for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].nodeType != 3 && nodes[i].nodeType != 4)
-                continue;
-
-            if (data)
-                data[0](nodes[i], data[1], info, count + 1, i, sResult);
-            else
-                sResult.push(nodes[i]);
-        }
-    },
-
-    getAnyNode: function(htmlNode, empty, info, count, num, sResult) {
-        var data = info[count],
-            nodes = htmlNode.getElementsByTagName("*");//childNodes;
-
-        for (var i = 0; i < nodes.length; i++) {
-            if (data)
-                data[0](nodes[i], data[1], info, count + 1, i, sResult);
-            else
-                sResult.push(nodes[i]);
-        }
-    },
-
-    getAttributeNode: function(htmlNode, attrName, info, count, num, sResult) {
-        if (!htmlNode || htmlNode.nodeType != 1) return;
-
-        if (attrName == "*") {
-            var nodes = htmlNode.attributes;
-            for (var i = 0; i < nodes.length; i++) {
-                arguments.callee.call(this, htmlNode, nodes[i].nodeName, info,
-                    count, i, sResult);
-            }
-            return;
-        }
-
-        var data = info[count],
-            value = htmlNode.getAttributeNode(attrName);//htmlNode.attributes[attrName];//
-
-        if (data)
-            data[0](value, data[1], info, count + 1, 0, sResult);
-        else if (value)
-            sResult.push(value);
-    },
-
-    getAllNodes: function(htmlNode, x, info, count, num, sResult) {
-        var data = info[count],
-            tagName = x[0],
-            inclSelf = x[1],
-            prefix = x[2],
-            nodes, i, l;
-
-        if (inclSelf && (htmlNode.tagName == tagName || tagName == "*" || tagName == "node()")) {
-            if (data)
-                data[0](htmlNode, data[1], info, count + 1, 0, sResult);
-            else
-                sResult.push(htmlNode);
-        }
-
-        if (tagName == "node()") {
-            tagName = "*";
-            prefix = "";
-            if (apf.isIE) {
-                nodes = htmlNode.getElementsByTagName("*");
-            }
-            else {
-                nodes = [];
-                (function recur(x) {
-                    for (var n, i = 0; i < x.childNodes.length; i++) {
-                        n = x.childNodes[i];
-                        if (n.nodeType != 1)
-                            continue;
-                        nodes.push(n);
-                        
-                        recur(n);
-                    }
-                })(htmlNode);
-            }
-        }
-        else {
-            nodes = htmlNode.getElementsByTagName((prefix
-              && (apf.isGecko || apf.isOpera || htmlNode.nodeFunc) ? prefix + ":" : "") + tagName);
-        }
-
-        for (i = 0, l = nodes.length; i < l; i++) {
-            if (data)
-                data[0](nodes[i], data[1], info, count + 1, i, sResult);
-            else
-                sResult.push(nodes[i]);
-        }
-    },
-
-    getAllAncestorNodes: function(htmlNode, x, info, count, num, sResult) {
-        var data = info[count],
-            tagName = x[0],
-            inclSelf = x[1],
-            i = 0,
-            s = inclSelf ? htmlNode : htmlNode.parentNode;
-        while (s && s.nodeType == 1) {
-            if (s.tagName == tagName || tagName == "*" || tagName == "node()") {
-                if (data)
-                    data[0](s, data[1], info, count + 1, ++i, sResult);
-                else
-                    sResult.push(s);
-            }
-            s = s.parentNode
-        }
-    },
-
-    getParentNode: function(htmlNode, empty, info, count, num, sResult) {
-        var data = info[count],
-            node = htmlNode.parentNode;
-
-        if (data)
-            data[0](node, data[1], info, count + 1, 0, sResult);
-        else if (node)
-            sResult.push(node);
-    },
-
-    //precsiblg[3] might not be conform spec
-    getPrecedingSibling: function(htmlNode, tagName, info, count, num, sResult) {
-        var data = info[count],
-            node = htmlNode.previousSibling;
-
-        while (node) {
-            if (tagName != "node()" && (node.style
-              ? node.tagName.toLowerCase()
-              : node.tagName) != tagName) {
-                node = node.previousSibling;
-                continue;
-            }
-
-            if (data)
-                data[0](node, data[1], info, count+1, 0, sResult);
-            else if (node) {
-                sResult.push(node);
-                break;
-            }
-        }
-    },
-
-    //flwsiblg[3] might not be conform spec
-    getFollowingSibling: function(htmlNode, tagName, info, count, num, sResult) {
-        var result = null, data = info[count];
-
-        var node = htmlNode.nextSibling;
-        while (node) {
-            if (tagName != "node()" && (node.style
-              ? node.tagName.toLowerCase()
-              : node.tagName) != tagName) {
-                node = node.nextSibling;
-                continue;
-            }
-
-            if (data)
-                data[0](node, data[1], info, count+1, 0, sResult);
-            else if (node) {
-                sResult.push(node);
-                break;
-            }
-        }
-    },
-
-    multiXpaths: function(contextNode, list, info, count, num, sResult) {
-        for (var i = 0; i < list.length; i++) {
-            info = list[i][0];
-            var rootNode = (info[3]
-                ? contextNode.ownerDocument.documentElement
-                : contextNode);//document.body
-            info[0](rootNode, info[1], list[i], 1, 0, sResult);
-        }
-
-        sResult.makeUnique();
-    },
-
-    compile: function(sExpr) {
-        var isAbsolute = sExpr.match(/^\//);//[^\/]/
-
-        sExpr = sExpr.replace(/\[(\d+)\]/g, "/##$1")
-            .replace(/\|\|(\d+)\|\|\d+/g, "##$1")
-            .replace(/\.\|\|\d+/g, ".")
-            .replace(/\[([^\]]*)\]/g, function(match, m1) {
-                return "/##" + m1.replace(/\|/g, "_@_");
-            }); //wrong assumption think of |
-
-        if (sExpr == "/" || sExpr == ".")
-            return sExpr;
-
-        //Mark // elements
-        //sExpr = sExpr.replace(/\/\//g, "/[]/self::");
-
-        //Check if this is an absolute query
-        return this.processXpath(sExpr.replace(/\/\//g, "descendant::"), isAbsolute);
-    },
-
-    processXpath: function(sExpr, isAbsolute) {
-        var results = [],
-            i, l, m, query;
-        sExpr = sExpr.replace(/'[^']*'/g, function(m) {
-            return m.replace("|", "_@_");
-        });
-
-        sExpr = sExpr.split("\|");
-        for (i = 0, l = sExpr.length; i < l; i++)
-            sExpr[i] = sExpr[i].replace(/_\@\_/g, "|");//replace(/('[^']*)\_\@\_([^']*')/g, "$1|$2");
-
-        if (sExpr.length == 1) {
-            sExpr = sExpr[0];
-        }
-        else {
-            for (i = 0, l = sExpr.length; i < l; i++)
-                sExpr[i] = this.processXpath(sExpr[i]);
-            results.push([this.multiXpaths, sExpr]);
-            return results;
-        }
-
-        var sections = sExpr.split("/");
-        for (i = 0, l = sections.length; i < l; i++) {
-            if (sections[i] == "." || sections[i] == "")
-                continue;
-            else if (sections[i] == "..")
-                results.push([this.getParentNode, null]);
-            else if (sections[i].match(/^[\w\-_\.]+(?:\:[\w\-_\.]+){0,1}$/))
-                results.push([this.getChildNode, sections[i]]);//.toUpperCase()
-            else if (sections[i].match(/^\#\#(\d+)$/))
-                results.push([this.doQuery, ["num+1 == " + parseInt(RegExp.$1)]]);
-            else if (sections[i].match(/^\#\#(.*)$/)) {
-                //FIX THIS CODE
-                query = RegExp.$1;
-                m = [query.match(/\(/g), query.match(/\)/g)];
-                if (m[0] || m[1]) {
-                    while (!m[0] && m[1] || m[0] && !m[1]
-                      || m[0].length != m[1].length) {
-                        if (!sections[++i]) break;
-                        query += "/" + sections[i];
-                        m = [query.match(/\(/g), query.match(/\)/g)];
-                    }
-                }
-
-                results.push([this.doQuery, [this.compileQuery(query)]]);
-            }
-            else if (sections[i] == "*")
-                results.push([this.getChildNode, null]); //FIX - put in def function
-            else if (sections[i].substr(0,2) == "[]")
-                results.push([this.getAllNodes, ["*", false]]);//sections[i].substr(2) ||
-            else if (sections[i].match(/descendant-or-self::node\(\)$/))
-                results.push([this.getAllNodes, ["*", true]]);
-            else if (sections[i].match(/descendant-or-self::([^\:]*)(?:\:(.*)){0,1}$/))
-                results.push([this.getAllNodes, [RegExp.$2 || RegExp.$1, true, RegExp.$1]]);
-            else if (sections[i].match(/descendant::([^\:]*)(?:\:(.*)){0,1}$/))
-                results.push([this.getAllNodes, [RegExp.$2 || RegExp.$1, false, RegExp.$1]]);
-            else if (sections[i].match(/ancestor-or-self::([^\:]*)(?:\:(.*)){0,1}$/))
-                results.push([this.getAllAncestorNodes, [RegExp.$2 || RegExp.$1, true, RegExp.$1]]);
-            else if (sections[i].match(/ancestor::([^\:]*)(?:\:(.*)){0,1}$/))
-                results.push([this.getAllAncestorNodes, [RegExp.$2 || RegExp.$1, false, RegExp.$1]]);
-            else if (sections[i].match(/^\@(.*)$/))
-                results.push([this.getAttributeNode, RegExp.$1]);
-            else if (sections[i] == "text()")
-                results.push([this.getTextNode, null]);
-            else if (sections[i] == "node()")
-                results.push([this.getChildNode, null]);//FIX - put in def function
-            else if (sections[i].match(/following-sibling::(.*)$/))
-                results.push([this.getFollowingSibling, RegExp.$1.toLowerCase()]);
-            else if (sections[i].match(/preceding-sibling::(.*)$/))
-                results.push([this.getPrecedingSibling, RegExp.$1.toLowerCase()]);
-            else if (sections[i] == "self::node()")
-                results.push([this.getSelf, null]);
-            else if (sections[i].match(/self::(.*)$/))
-                results.push([this.doQuery, ["apf.XPath.doXpathFunc(htmlNode, 'local-name') == '" + RegExp.$1 + "'"]]);
-            else {
-                //@todo FIX THIS CODE
-                //add some checking here
-                query = sections[i];
-                m = [query.match(/\(/g), query.match(/\)/g)];
-                if (m[0] || m[1]) {
-                    while (!m[0] && m[1] || m[0] && !m[1] || m[0].length != m[1].length) {
-                        if (!sections[++i]) break;
-                        query += "/" + sections[i];
-                        m = [query.match(/\(/g), query.match(/\)/g)];
-                    }
-                }
-
-                results.push([this.doQuery, [this.compileQuery(query), true]])
-
-                //throw new Error("---- APF Error ----\nMessage : Could not match XPath statement: '" + sections[i] + "' in '" + sExpr + "'");
-            }
-        }
-
-        results[0][3] = isAbsolute;
-        return results;
-    },
-
-    compileQuery: function(code) {
-        return new apf.CodeCompilation(code).compile();
-    },
-
-    doXpathFunc: function(contextNode, type, nodelist, arg2, arg3, xmlNode, force) {
-        if (!nodelist || nodelist.length == 0)
-            nodelist = "";
-
-        if (type == "not")
-            return !nodelist;
-
-        if (!force) {
-            var arg1, i, l;
-            if (typeof nodelist == "object" || nodelist.dataType == apf.ARRAY) {
-                if (nodelist && !nodelist.length)
-                    nodelist = [nodelist];
-                
-                var res = false, value;
-                for (i = 0, l = nodelist.length; i < l; i++) {
-                    xmlNode = nodelist[i];
-                    if (!xmlNode || typeof xmlNode == "string"
-                      || "position|last|count|local-name|name".indexOf(type) > -1) {
-                        value = xmlNode;
-                    }
-                    else {
-                        if (xmlNode.nodeType == 1 && xmlNode.firstChild && xmlNode.firstChild.nodeType != 1)
-                            xmlNode = xmlNode.firstChild;
-                        value = xmlNode.nodeValue;
-                    }
-    
-                    if (res = arguments.callee.call(this, contextNode, type, value, arg2, arg3, xmlNode, true))
-                        return res;
-                }
-                return res;
-            }
-            else {
-                arg1 = nodelist;
-            }
-        }
-        else {
-            arg1 = nodelist;
-        }
-        
-        switch(type) {
-            case "position":
-                return apf.getChildNumber(contextNode) + 1;
-            case "format-number":
-                return apf.formatNumber(arg1); //@todo this should actually do something
-            case "floor":
-                return Math.floor(arg1);
-            case "ceiling":
-                return Math.ceil(arg1);
-            case "starts-with":
-                return arg1 ? arg1.substr(0, arg2.length) == arg2 : false;
-            case "string-length":
-                return arg1 ? arg1.length : 0;
-            case "count":
-                return arg1 ? arg1.length : 0;
-            case "last":
-                return arg1 ? arg1[arg1.length-1] : null;
-            case "name":
-                var c = xmlNode || contextNode;
-                return c.nodeName || c.tagName;
-            case "local-name":
-                var c = xmlNode || contextNode;
-                if (c.nodeType != 1) return false;
-                return c.localName || (c.tagName || "").split(":").pop();//[apf.TAGNAME]
-            case "substring":
-                return arg1 && arg2 ? arg1.substring(arg2, arg3 || 0) : "";
-            case "contains":
-                return arg1 && arg2 ? arg1.indexOf(arg2) > -1 : false;
-            case "concat":
-                var str = ""
-                for (i = 1, l = arguments.length; i < l; i++) {
-                    if (typeof arguments[i] == "object") {
-                        str += getNodeValue(arguments[i][0]);
-                        continue;
-                    }
-                    str += arguments[i];
-                }
-                return str;
-            case "translate":
-                for (i = 0, l = arg2.length; i < l; i++)
-                    arg1 = arg1.replace(arg2.substr(i,1), arg3.substr(i,1));
-                return arg1;
-        }
-    },
-
-    selectNodeExtended: function(sExpr, contextNode, match) {
-        var sResult = this.selectNodes(sExpr, contextNode);
-
-        if (sResult.length == 0)
-            return null;
-        if (!match)
-            return sResult;
-
-        for (var i = 0, l = sResult.length; i < l; i++) {
-            if (String(getNodeValue(sResult[i])) == match)
-                return [sResult[i]];
-        }
-
-        return null;
-    },
-    
-    getRoot: function(xmlNode) {
-        while (xmlNode.parentNode && xmlNode.parentNode.nodeType == 1)
-            xmlNode = xmlNode.parentNode;
-        
-        return xmlNode.parentNode;
-    },
-
-    selectNodes: function(sExpr, contextNode) {
-        if (!this.cache[sExpr])
-            this.cache[sExpr] = this.compile(sExpr);
-
-        
-        
-        if (typeof this.cache[sExpr] == "string"){
-            if (this.cache[sExpr] == ".")
-                return [contextNode];
-            if (this.cache[sExpr] == "/") {
-                return [(contextNode.nodeType == 9
-                    ? contextNode.documentElement
-                    : this.getRoot(contextNode))];
-            }
-        }
-
-        if (typeof this.cache[sExpr] == "string" && this.cache[sExpr] == ".")
-            return [contextNode];
-
-        var info = this.cache[sExpr][0],
-            rootNode = (info[3]
-                ? (contextNode.nodeType == 9
-                    ? contextNode.documentElement
-                    : this.getRoot(contextNode))
-                : contextNode),//document.body*/
-            sResult = [];
-
-        if (rootNode)
-            info[0](rootNode, info[1], this.cache[sExpr], 1, 0, sResult);
-
-        return sResult;
-    }
-};
-
-function getNodeValue(sResult) {
-    if (sResult.nodeType == 1)
-        return sResult.firstChild ? sResult.firstChild.nodeValue : "";
-    if (sResult.nodeType > 1 || sResult.nodeType < 5)
-        return sResult.nodeValue;
-    return sResult;
-}
-
-/**
- * @constructor
- * @private
- */
-apf.CodeCompilation = function(code) {
-    this.data = {
-        F: [],
-        S: [],
-        I: [],
-        X: []
-    };
-
-    this.compile = function(){
-        code = code.replace(/ or /g, " || ")
-            .replace(/ and /g, " && ")
-            .replace(/!=/g, "{}")
-            .replace(/=/g, "==")
-            .replace(/\{\}/g, "!=");
-
-        // Tokenize
-        this.tokenize();
-
-        // Insert
-        this.insert();
-        
-        code = code.replace(/, \)/g, ", htmlNode)");
-
-        return code;
-    };
-
-    this.tokenize = function(){
-        //Functions
-        var data = this.data.F;
-        code = code.replace(/(translate|format-number|contains|substring|local-name|last|position|round|starts-with|string|string-length|sum|floor|ceiling|concat|count|not)\s*\(/g,
-            function(d, match) {
-                return (data.push(match) - 1) + "F_";
-            }
-        );
-
-        //Strings
-        data = this.data.S;
-        code = code.replace(/'([^']*)'/g, function(d, match) {
-                return (data.push(match) - 1) + "S_";
-            })
-            .replace(/"([^"]*)"/g, function(d, match) {
-                return (data.push(match) - 1) + "S_";
-            });
-
-        //Xpath
-        data = this.data.X;
-        code = code.replace(/(^|\W|\_)([\@\.\/A-Za-z\*][\*\.\@\/\w\:\-]*(?:\(\)){0,1})/g,
-            function(d, m1, m2) {
-                return m1 + (data.push(m2) - 1) + "X_";
-            })
-            .replace(/(\.[\.\@\/\w]*)/g, function(d, m1, m2) {
-                return (data.push(m1) - 1) + "X_";
-            });
-
-        //Ints
-        data = this.data.I;
-        code = code.replace(/(\d+)(\W)/g, function(d, m1, m2) {
-            return (data.push(m1) - 1) + "I_" + m2;
-        });
-    };
-
-    this.insert = function(){
-        var data = this.data;
-        code = code.replace(/(\d+)X_\s*==\s*(\d+S_)/g, function(d, nr, str) {
-                return "apf.XPath.selectNodeExtended('"
-                    +  data.X[nr].replace(/'/g, "\\'") + "', htmlNode, " + str + ")";
-            })
-            .replace(/(\d+)([FISX])_/g, function(d, nr, type) {
-                var value = data[type][nr];
-
-                if (type == "F") {
-                    return "apf.XPath.doXpathFunc(htmlNode, '" + value + "', ";
-                }
-                else if (type == "S") {
-                    return "'" + value + "'";
-                }
-                else if (type == "I") {
-                    return value;
-                }
-                else if (type == "X") {
-                    return "apf.XPath.selectNodeExtended('"
-                        + value.replace(/'/g, "\\'") + "', htmlNode)";
-                }
-            })
-            .replace(/, \)/g, ")");
-    };
-};
-
-};
 /*
  * @todo description
  *
@@ -16243,7 +15478,8 @@ apf.aml.setElement("bar", apf.bar);
 apf.aml.setElement("menubar", apf.menubar);
 apf.aml.setElement("section", apf.section);
 
-
+apf.list = apf.bar;
+apf.aml.setElement("list", apf.list);
 
 
 
@@ -20814,155 +20050,6 @@ apf.aml.setElement("splitbutton",  apf.splitbutton);
 
 
 
-
-/**
- * An element that groups state elements together and
- * provides a way to set a default state.
- * 
- * #### Example
- *
- * ```xml
- *  <a:state-group
- *    loginMsg.visible = "false"
- *    winLogin.disabled = "false">
- *      <a:state id="stFail"
- *          loginMsg.value = "Username or password incorrect"
- *          loginMsg.visible = "true" />
- *      <a:state id="stError"
- *          loginMsg.value = "An error has occurred. Please check your network."
- *          loginMsg.visible = "true" />
- *      <a:state id="stLoggingIn"
- *          loginMsg.value = "Please wait while logging in..."
- *          loginMsg.visible = "true"
- *          winLogin.disabled = "true" />
- *      <a:state id="stIdle" />
- *  </a:state-group>
- * ```
- *
- * @class apf.stateGroup
- * @define state-group
- * @logic
- * @inherits apf.AmlElement
- *
- * @see apf.state
- *
- * @author      Ruben Daniels (ruben AT ajax DOT org)
- * @version     %I%, %G%
- * @since       0.4
- */
-apf.stateGroup = function(){
-    this.$init("state-group", apf.NODE_HIDDEN);
-};
-apf.aml.setElement("state-group", apf.stateGroup);
-
-(function(){
-    this.$handlePropSet = function(prop, value, force) {
-        if (prop == "id")
-            return;
-        
-        var node, nodes = this.childNodes;
-        for (var i = 0, l = nodes.length; i < l; i++){
-            node = nodes[i];
-        
-            if (node.nodeType != 1 || node.localName != "state")
-                continue;
-
-            if (!node[prop] || node.$inheritProperties[prop] == 2) {
-                node.$inheritProperties[prop] = 2;
-                node.setProperty(prop, value);
-            }
-        }
-    };
-    
-    //@todo this should use text node insertion
-    this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
-        if (!this.id)
-            this.id = "stategroup" + this.$uniqueId;
-        
-        //apf.StateServer.addGroup(this.id, null, this.parentNode); //@todo rearch this
-        
-        var nodes = this.childNodes;
-        for (var i = 0, l = nodes.length; i < l; i++){
-            nodes[i].setProperty("group", this.id);
-        }
-    });
-}).call(apf.stateGroup.prototype = new apf.AmlElement());
-
-
-
-
-
-
-
-
-/**
- * @private
- */
-apf.StateServer = {
-    states: {},
-    groups: {},
-    locs: {},
-
-    removeGroup: function(name, elState) {
-        this.groups[name].remove(elState);
-        if (!this.groups[name].length) {
-            if (self[name]) {
-                self[name].destroy();
-                self[name] = null;
-            }
-
-            delete this.groups[name];
-        }
-    },
-
-    addGroup: function(name, elState, pNode) {
-        if (!this.groups[name]) {
-            this.groups[name] = [];
-
-            var pState = new apf.state({
-                id: name
-            });
-            pState.parentNode = pNode;
-            //pState.implement(apf.AmlNode);
-            //pState.name = name;
-            pState.toggle = function(){
-                for (var next = 0, i = 0; i < apf.StateServer.groups[name].length; i++) {
-                    if (apf.StateServer.groups[name][i].active) {
-                        next = i + 1;
-                        break;
-                    }
-                }
-
-                apf.StateServer.groups[name][
-                    (next == apf.StateServer.groups[name].length) ? 0 : next
-                  ].activate();
-            }
-
-            this.groups[name].pState = self[name] = pState;
-        }
-
-        if (elState)
-            this.groups[name].push(elState);
-
-        return this.groups[name].pState;
-    },
-
-    removeState: function(elState) {
-        delete this.states[elState.name];
-    },
-
-    addState: function(elState) {
-        this.states[elState.name] = elState;
-    }
-}
-
-
-
-
-
-
-
-
 /**
  * This element displays a rectangle containing arbitrary (X)HTML.
  *
@@ -21226,28 +20313,6 @@ apf.text = function(struct, tagName) {
 
     // *** Private methods *** //
 
-    this.$canLoadData = function(){
-        return this.$attrBindings.value ? true : false;
-    }
-
-    this.$add = function(xmlNode, Lid, xmlParentNode, htmlParentNode, beforeNode) {
-        var f = this.$attrBindings.value.cvalue;
-        var html = f(xmlNode);
-        html = "<div id='" + Lid + "'>" + html + "</div>";
-        if (htmlParentNode) {
-            if (beforeNode)
-                beforeNode.insertAdjacentHTML("beforebegin", html);
-            else 
-                this.$container.insertAdjacentHTML("beforeend", html);
-            //apf.insertHtmlNode(oItem, htmlParentNode, beforeNode);
-    
-            if (this.scrolldown && this.$scrolldown)
-                this.$scrollArea.scrollTop = this.$scrollArea.scrollHeight;
-        }
-        else
-            this.$nodes.push(html);
-    }
-    
     this.$fill = function(){
         //apf.insertHtmlNode(null, this.$container, null, this.$nodes.join(""));
         this.$container.insertAdjacentHTML("beforeend", this.$nodes.join(""));
@@ -21272,9 +20337,6 @@ apf.text = function(struct, tagName) {
             node.className = this.$ext.className;
             this.$ext = this.$container = node;
         }
-        
-        if (this.getAttribute("each"))
-            this.$eachHandler();
     };
 
     this.addEventListener("DOMNodeRemovedFromDocument", function() {

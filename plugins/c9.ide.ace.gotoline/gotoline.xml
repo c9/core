@@ -11,10 +11,7 @@
         <a:vbox top="0" right="0" bottom="0" width="61" padding="0" edge="5">
             <a:textbox id="input" focusselect="true" />
             <a:list id="list"
-              flex    = "1"
-              autoselect    = "false"
-              multiselect   = "false"
-              empty-message = "empty" />
+              flex    = "1" />
         </a:vbox>
     </a:bar>
 </a:application>

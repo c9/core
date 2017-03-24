@@ -1,3 +1,4 @@
+/*global apf*/
 define(function(require, module, exports) {
     main.consumes = ["Plugin", "apf"];
     main.provides = ["ui"];

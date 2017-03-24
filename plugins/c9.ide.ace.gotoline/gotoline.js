@@ -15,7 +15,6 @@ define(function(require, exports, module) {
         var settings = imports.settings;
         var ui = imports.ui;
         var anims = imports.anims;
-        var util = imports.util;
         var menus = imports.menus;
         var commands = imports.commands;
         var tabs = imports.tabManager;
@@ -30,16 +29,14 @@ define(function(require, exports, module) {
         
         var originalLine, originalColumn, control, lastLine, lineControl; 
         var nohide, originalPath;
-        var win, input, list, model; // ui elements
+        var win, input, list, lines; // ui elements
         
         var loaded = false, changed = false;
         function load() {
             if (loaded) return false;
             loaded = true;
             
-            model = new ui.model();
-            
-            menus.addItemByPath("Goto/Goto Line...", new apf.item({
+            menus.addItemByPath("Goto/Goto Line...", new ui.item({
                 caption: "Goto Line...",
                 hint: "enter a line number and jump to it in the active document",
                 command: "gotoline"
@@ -78,14 +75,11 @@ define(function(require, exports, module) {
                 lines = lines.map(function(i) {
                     return { value: i };
                 });
-                model.load(lines);
+                
             }, plugin);
             
             settings.on("write", function() {
                 if (changed) {
-                    var lines = (model.data || []).map(function(n) {
-                        return n.value;
-                    });
                     settings.setJson("state/gotoline", lines);
                     changed = false;
                 }
@@ -111,7 +105,7 @@ define(function(require, exports, module) {
             input = plugin.getElement("input");
             list = plugin.getElement("list");
             
-            list.setAttribute("model", model);
+            // list.setAttribute("model", model);
             
             list.addEventListener("afterchoose", function() {
                 if (list.selected) {
@@ -324,20 +318,14 @@ define(function(require, exports, module) {
                 });
             }
             else {
-                //win.hide();
                 hide();
-    
-                var lineNode = model.queryNode("line[@nr='" + line + "']");
                 
-                if (!lineNode) {
-                    lineNode = ui.n("<line />")
-                        .attr("nr", line)
-                        .node();
-                }
-    
-                var pNode = model.data;
-                if (lineNode != pNode.firstChild) {
-                    apf.xmldb.appendChild(pNode, lineNode, pNode.firstChild);
+                var i = lines.indexOf(line);
+                if (i != -1)
+                    lines.splice(i, 1);
+                
+                if (i) {
+                    lines.unshift(line);
                     changed = true;
                     settings.save();
                 }

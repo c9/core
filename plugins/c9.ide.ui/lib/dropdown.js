@@ -630,8 +630,7 @@ apf.dropdown = function(struct, tagName) {
         this.$container.host = this;
         
         //Set up the popup
-        this.$pHtmlDoc = apf.popup.setContent(this.$uniqueId, this.oSlider,
-            apf.skins.getCssString(this.skinName));
+        this.$pHtmlDoc = apf.popup.setContent(this.$uniqueId, this.oSlider);
         
         //Get Options form skin
         //Types: 1=One dimensional List, 2=Two dimensional List
