@@ -1211,7 +1211,7 @@ apf.Class.prototype = new (function(){
     };
 
     var realAddEventListener = function(eventName, callback, useCapture) {
-        if (eventName.substr(0, 2) == "on")
+        if (eventName[0] == "o" && eventName[1] == "n")
             eventName = eventName.substr(2);
 
         var s, stack = useCapture ? this.$captureStack : this.$eventsStack;
@@ -1346,9 +1346,10 @@ apf.Class.prototype = new (function(){
 
         if (this.attributes) {
             var attr = this.attributes;
+            var keys = Object.keys(attr)
             for (var i = attr.length - 1; i >= 0; i--) {
                 
-                attr[i].destroy();
+                attr[keys[i]].destroy();
             }
         }
 
@@ -7273,15 +7274,7 @@ apf.DOMParser.prototype = new (function(){
         if (this.$waitQueue[amlNode.$uniqueId]
           && this.$waitQueue[amlNode.$uniqueId].$shouldWait)
             return (docFrag || doc);
-
-        if (options.timeout) {
-            $setTimeout(function(){
-                _self.$continueParsing(amlNode, options);
-            });
-        }
-        else {
             this.$continueParsing(amlNode, options);
-        }
 
         return (docFrag || doc);
     };
@@ -7430,8 +7423,9 @@ apf.DOMParser.prototype = new (function(){
                     //attributes
                     var attr = xmlNode.attributes, n;
                     for (var a, na, i = 0, l = attr.length; i < l; i++) {
-                        o.attributes.push(na = new apf.AmlAttr(o,
-                            (n = (a = attr[i]).nodeName), a.value));
+                        na = new apf.AmlAttr(o,
+                            (n = (a = attr[i]).nodeName), a.value)
+                        o.attributes[na.nodeName] = na;
                         
                         if (n == "render")
                             o.render = true;
@@ -7565,7 +7559,6 @@ apf.setNamespace("http://ajax.org/2005/aml", apf.aml);
 apf.__AMLNODE__ = 1 << 14;
 
 
-
 /**
  * All elements inheriting from this {@link term.baseclass baseclass} have Document Object Model (DOM) support. The DOM
  * is the primary method for accessing and manipulating an XML document. This
@@ -7658,22 +7651,6 @@ apf.AmlNode = function(){
 };
 
 (function() {
-
-    
-    /**
-     * Returns a string representation of this object.
-     * @returns A string defining the object.
-     */
-    this.toString = function(){
-        if (this.nodeName)
-            return "[" + this.nodeName.uCaseFirst() + " Node]";
-        
-        return "[" + this.localName.uCaseFirst() + " Element Node, <" 
-            + (this.prefix ? this.prefix + ":" : "") + this.localName + " "
-            + this.attributes.join(" ")
-            + " /> : " + (this.name || this.$uniqueId || "") + "]";
-    };
-    
     
     /**
      * Number specifying the type of node within the document.
@@ -7742,8 +7719,6 @@ apf.AmlNode = function(){
      */
     this.NODE_NOTATION = 12;
     
-    
-
     /**
      * The document node of this application
      * @type {apf.AmlDocument}
@@ -8029,7 +8004,7 @@ apf.AmlNode = function(){
     };
     
     this.hasAttributes = function(){
-        return this.attributes && this.attributes.length;
+        return Object.kesy(this.attributes).length;
     };
     
     this.hasChildNodes = function(){
@@ -8146,22 +8121,7 @@ apf.AmlElement = function(struct, tagName) {
         this.$events = {};
         this.$inheritProperties = {};
         
-        /*
-         * A node list containing all the attributes. This is implemented according to the
-         * W3C specification.
-         * 
-         * For more information, see [[apf.AmlElement.getAttribute]] and [[apf.AmlElement.setAttribute]].
-         *
-         * #### Example
-         * 
-         * ```javascript
-         *  for (var i = 0; i < obj.attributes.length; i++) {
-         *      alert(obj.attributes.item(i));
-         *  }
-         * ```
-         * @type {apf.AmlNamedNodeMap}
-         */
-        this.attributes = new apf.AmlNamedNodeMap(this); //@todo apf3.0 move to init?
+        this.attributes = {}; //@todo apf3.0 move to init?
         
         /**
          * Defines the purpose of this element. Possible values include:
@@ -8197,7 +8157,7 @@ apf.AmlElement = function(struct, tagName) {
                 else if (prop.substr(0, 2) == "on")
                     attr.$triggerUpdate();
 
-                this.attributes.push(attr);
+                this.attributes[attr.name] = attr;
             }
             
             if (!this.ownerDocument) {
@@ -8363,9 +8323,9 @@ apf.AmlElement = function(struct, tagName) {
     this.setAttribute = function(name, value, noTrigger) {
         name = name.toLowerCase();
         
-        var a = this.attributes.getNamedItem(name);
+        var a = this.attributes[name];
         if (!a) {
-            this.attributes.push(a = new apf.AmlAttr(this, name, value));
+            this.attributes[name] = (a = new apf.AmlAttr(this, name, value));
         
             if (!this.$amlLoaded && name != "id" && name != "hotkey")
                 return;
@@ -8400,7 +8360,7 @@ apf.AmlElement = function(struct, tagName) {
     
     //@todo apf3.0 domattr
     this.hasAttribute = function(name) {
-        return this.attributes.getNamedItem(name) ? true : false;
+        return this.attributes[name] ? true : false;
     };
     
     /**
@@ -8410,7 +8370,7 @@ apf.AmlElement = function(struct, tagName) {
      * @returns {apf.AmlElement} The modified element.
      */
     this.removeAttribute = function(name){ //@todo apf3.0 domattr
-        this.attributes.removeNamedItem(name);
+        delete this.attributes[name];
         return this;
     };
     
@@ -8422,10 +8382,8 @@ apf.AmlElement = function(struct, tagName) {
      * @return {String} The value of the attribute, or `null` if none was found with the name specified.
      */
     this.getAttribute = function(name, inherited) {
-        var item = this.attributes.getNamedItem(name);
-        return item ? (inherited 
-            ? item.inheritedValue || item.nodeValue 
-            : item.nodeValue) : null;
+        var item = this.attributes[name];
+        return item ? item.nodeValue : null;
     };
     
     this.getBoundingClientRect = function(){
@@ -8473,34 +8431,6 @@ apf.AmlElement = function(struct, tagName) {
             });
         };
         this.appendChild(include);
-    };
-    
-    //@todo prefix only needs on top element
-    this.serialize = function(shallow) {
-        if (shallow || !this.firstChild) {
-            return "<" 
-                + (this.prefix 
-                  ? this.prefix + ":" + this.localName + " xmlns:" 
-                    + this.prefix + "=\"" + this.namespaceURI + "\""
-                  : this.localName) + (this.attributes && this.attributes.length ? " " : "")
-                + (this.attributes && this.attributes.join(" ") || "")
-                + "/>";
-        }
-        else {
-            var str = ["<" 
-                + (this.prefix 
-                  ? this.prefix + ":" + this.localName + " xmlns:" 
-                    + this.prefix + "=\"" + this.namespaceURI + "\""
-                  : this.localName) + (this.attributes && this.attributes.length ? " " : "")
-                + (this.attributes && this.attributes.join(" ") || "")
-                + ">"];
-            
-            for (var i = this.firstChild; i; i = i.nextSibling)
-                str.push(i.serialize());
-            
-            return str.join("") + "</" + (this.prefix ? this.prefix 
-                + ":" + this.localName : this.localName) + ">";
-        }
     };
     
     this.$setInheritedAttribute = function(prop) {
@@ -8598,19 +8528,11 @@ apf.AmlElement = function(struct, tagName) {
           && handler.call(this, value, prop, force);
     };
     
-    //var aci = apf.config.$inheritProperties; << UNUSED
     this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
-        var a, i, l, attr = this.attributes;
-
-        
-
-        
-        
-        
-
+        var a, i, l, attr = this.attributes, keys = Object.keys(attr);
         //Set all attributes
-        for (i = 0, l = attr.length; i < l; i++) {
-            attr[i].dispatchEvent("DOMNodeInsertedIntoDocument");
+        for (i = 0, l = keys.length; i < l; i++) {
+            attr[keys[i]].dispatchEvent("DOMNodeInsertedIntoDocument");
         }
     }, true);
     
@@ -9200,99 +9122,6 @@ apf.AmlEvent.prototype = {
         
     }
 };
-
-
-
-
-
-
-
-//@todo apf3.0
-apf.AmlNamedNodeMap = function(host) {
-    this.$host = host;
-};
-
-(function(){
-    this.getNamedItem = function(name) {
-        for (var i = 0; i < this.length; i++) {
-            if (this[i].name == name)
-                return this[i];
-        }
-        return false;
-    };
-    
-    this.setNamedItem = function(node) {
-        var name = node.name;
-        for (var item, i = this.length - 1; i >= 0; i--) {
-            if (this[i].name == name) {
-                this[i].ownerElement = null;
-                this.splice(i, 1);
-                break;
-            }
-        }
-        
-        this.push(node);
-        
-        node.ownerElement = this.$host;
-        node.ownerDocument = this.$host.ownerDocument;
-        node.$triggerUpdate();
-    };
-    
-    //@todo apf3.0 domattr
-    this.removeNamedItem = function(name) {
-        //Should deconstruct dynamic properties
-        
-        for (var item, i = this.length - 1; i >= 0; i--) {
-            if (this[i].name == name) {
-                item = this[i];
-                this.splice(i, 1);
-                break;
-            }
-        }
-        if (!item) return false;
-
-        //@todo hack!
-        //this should be done properly
-        var oldValue = item.nodeValue;
-        item.nodeValue = item.value = "";
-        item.$triggerUpdate(null, oldValue);
-        item.ownerElement = null;
-        item.nodeValue = item.value = oldValue;
-        
-        return item;
-    };
-    
-    this.item = function(i) {
-        return this[i];
-    };
-
-    //if (apf.isIE < 8) { //Only supported by IE8 and above
-        this.length = 0;
-        
-        this.splice = function(pos, length) {
-            for (var i = pos, l = this.length - length; i < l; i++) {
-                this[i] = this[i + 1];
-            }
-            delete this[i];
-            this.length -= length;
-        }
-        
-        this.push = function(o) {
-            this[this.length++] = o;
-            return this.length;
-        }
-    //}
-    
-    this.join = function(glue) {
-        var x = [];
-        for (var e, a, i = 0, l = this.length; i < l; i++) {
-            if ((e = (a = this[i]).ownerElement) && e.$inheritProperties[a.nodeName] != 2)
-                x.push(this[i]);
-        }
-        return x.join(glue);
-    }
-}).call(apf.AmlNamedNodeMap.prototype = {}); //apf.isIE < 8 ? {} : []
-
 
 
 
@@ -11327,9 +11156,7 @@ apf.Presentation = function(){
           || e.currentTarget != this || !e.$oldParent))
             return;
 
-        this.$setInheritedAttribute(this, "skinset");
-
-        if (this.attributes.getNamedItem("skin"))
+        if (this.attributes["skin"])
             return;
 
         //e.relatedNode
@@ -17715,13 +17542,6 @@ apf.AmlWindow = function(struct, tagName) {
             if (!_self.$lastState.normal)
                 return false;
         }
-        
-        
-
-        /*var v;
-        if (!((v = this.getAttribute("visible")).indexOf("{") > -1 || v.indexOf("[") > -1)) {
-            this.$aml.setAttribute("visible", "{" + apf.isTrue(v) + "}");
-        }*/
     };
 
     this.$loadAml = function(x) {
@@ -19172,7 +18992,7 @@ apf.aml.setElement("skin", apf.skin);
     }
     
     this.$propHandlers["name"] = function(value) {
-        if (!this.src && !this.attributes.getNamedItem("src")) {
+        if (!this.src && !this.getAttribute("src")) {
             this.$path = apf.getAbsolutePath(apf.hostPath, value) + "/index.xml";
             getSkin.call(this, this.$path);
         }
@@ -19184,7 +19004,7 @@ apf.aml.setElement("skin", apf.skin);
     function checkForAmlNamespace(xmlNode) {
         if (!xmlNode.ownerDocument.documentElement)
             return false;
-
+debugger
         var nodes = xmlNode.ownerDocument.documentElement.attributes;
         for (var found = false, i=0; i<nodes.length; i++) {
             if (nodes[i].nodeValue == apf.ns.aml) {
@@ -19204,8 +19024,8 @@ apf.aml.setElement("skin", apf.skin);
         if (!apf.skins.$first)
             apf.skins.$first = this;
         
-        var defer = this.attributes.getNamedItem("defer");
-        if (!defer || !apf.isTrue(defer.nodeValue)) {
+        var defer = this.getAttribute("defer");
+        if (!apf.isTrue(defer)) {
             domParser.$pauseParsing.apply(domParser, 
                 this.$parseContext = domParser.$parseContext || [this.ownerDocument.documentElement]);
         }
