@@ -146,11 +146,6 @@ function(require, module, exports) {
      * @type {Number}
      */
     NODE_VISIBLE: 102,
-    /**
-     * A constant for an o3 widget.
-     * @type {Number}
-     */
-    NODE_O3 : 103,
 
     /**
      * A constant for specifying that a widget is using only the keyboard to receive focus.
@@ -215,7 +210,6 @@ function(require, module, exports) {
      */
     crypto: {}, //namespace
     config: {},
-    _GET: {},
     
     /**
      * A string specifying the basepath for loading APF from seperate files.
@@ -238,9 +232,6 @@ function(require, module, exports) {
         xforms: "http://www.w3.org/2002/xforms",
         ev: "http://www.w3.org/2001/xml-events"
     },
-    
-    
-    xPathAxis: {"self":1, "following-sibling":1, "ancestor":1}, //@todo finish list
     
     /**
      * @private
@@ -607,108 +598,6 @@ function(require, module, exports) {
         return null;
     },
 
-    /**
-     * Sets a reference to an object (by name) in the global JavaScript space.
-     * @param {String} name The name of the reference.
-     * @param {Mixed}  o    The reference to the object subject to the reference.
-     */
-    setReference: function(name, o) {
-        return self[name] && self[name].hasFeature
-            ? 0
-            : (self[name] = o);
-    },
-
-    /*
-     * The console outputs to the debug screen and offers differents ways to do
-     * this.
-     */
-    console: {
-        
-
-        /**
-         * Writes a message to the console.
-         * @param {String} msg      The message to display in the console.
-         * @param {String} subtype  The category for this message. This is used for filtering the messages.
-         * @param {String} data     Extra data that might help in debugging.
-         */
-        debug: function(msg, subtype, data) {
-            
-        },
-
-        /**
-         * Writes a message to the console with the time icon next to it.
-         * @param {String} msg      The message to display in the console.
-         * @param {String} subtype  The category for this message. This is used for filtering the messages.
-         * @param {String} data     Extra data that might help in debugging.
-         */
-        time: function(msg, subtype, data) {
-            
-        },
-
-        /**
-         * Writes a message to the console.
-         * @param {String} msg      The message to display in the console.
-         * @param {String} subtype  The category for this message. This is used for filtering the messages.
-         * @param {String} data     Extra data that might help in debugging.
-         */
-        log: function(msg, subtype, data) {
-            
-        },
-
-        /**
-         * Writes a message to the console with the visual "info" icon and color
-         * coding.
-         * @param {String} msg      The message to display in the console.
-         * @param {String} subtype  The category for this message. This is used for filtering the messages.
-         * @param {String} data     Extra data that might help in debugging.
-         */
-        info: function(msg, subtype, data) {
-            
-        },
-
-        /**
-         * Writes a message to the console with the visual "warning" icon and
-         * color coding.
-         * @param {String} msg      The message to display in the console.
-         * @param {String} subtype  The category for this message. This is used for filtering the messages.
-         * @param {String} data     Extra data that might help in debugging.
-         */
-        warn: function(msg, subtype, data) {
-            
-        },
-
-        /**
-         * Writes a message to the console with the visual "error" icon and
-         * color coding.
-         * @param {String} msg      The message to display in the console.
-         * @param {String} subtype  The category for this message. This is used for filtering the messages.
-         * @param {String} data     Extra data that might help in debugging.
-         */
-        error: function(msg, subtype, data) {
-            
-        },
-
-        /**
-         * Prints a listing of all properties of the object.
-         * @param {Mixed} obj The object whose properties you want displayed.
-         */
-        dir: function(obj) {
-            var s = apf.$debugwin.$serializeObject(obj, "Inspected via apf.console.dir");
-            if (typeof s == "string") {
-                this.write(s, "custom", null, null, null, true);
-            }
-            else {
-                this.write(obj
-                    ? "Could not serialize object: " + s.message
-                    : obj, "error", null, null, null, true);
-            }
-            
-            //this.info(apf.vardump(obj, null, false).replace(/ /g, "&nbsp;").replace(/</g, "&lt;"));
-        }
-        
-        
-    },
-
     html_entity_decode: function(s){return s},
     htmlentities: function(s){return s},
 
@@ -740,22 +629,6 @@ function(require, module, exports) {
             ? url
             : (!url || !base || url.match(/^\w+\:\/\//) ? url : base.replace(/\/$/, "") + "/" + url.replace(/^\//, ""));
     },
-    
-        
-    /**
-     * Determines the way APF tries to render this application. Set this value
-     * before APF is starts parsing.
-     *   
-     * Possible values include:
-     *   - 0    Auto (The default)
-     *   - 1    Partial
-     *   - 11   Partial from a comment
-     *   - 2    Full from serialized document or file fallback
-     *   - 21   Full from file
-     * @type {Number}
-     */
-    parseStrategy: 0,
-
     
 
     namespaces: {},
@@ -1017,15 +890,6 @@ apf.Class.prototype = new (function(){
 
         //Optimized event calling
         if ((arr = this.$eventsStack[eventName]) && isChanged) {
-            /*for (i = 0, l = arr.length; i < l; i++) {
-                if (arr[i].call(this, e || (e = new apf.AmlEvent(eventName, {
-                    prop: prop,
-                    value: value,
-                    oldvalue: oldvalue
-                }))) === false) {
-                    e.returnValue = false;
-                }
-            }*/
             if (this.dispatchEvent(eventName, {
                 prop: prop,
                 value: value,
@@ -3369,38 +3233,6 @@ apf.isCharacter = function(charCode) {
       && (charCode == 32 || charCode > 42 || charCode == 8);
 };
 
-/**
- * Checks if the string contains curly braces at the start and end. If so, it's
- * processed as Javascript via `eval()`. Otherwise, the original string is returned.
- * @param {String} str The string to parse.
- * @return {String} The result of the parsing.
- */
-apf.parseExpression = function(str) {
-    if (!apf.parseExpression.regexp.test(str))
-        return str;
-
-    
-        return eval(RegExp.$1);
-    
-};
-apf.parseExpression.regexp = /^\{([\s\S]*)\}$/;
-
-/**
- * @private
- */
-apf.formatNumber = function(num, prefix) {
-    var nr = parseFloat(num);
-    if (!nr) return num;
-
-    var str = new String(Math.round(nr * 100) / 100).replace(/(\.\d?\d?)$/, function(m1) {
-        return m1.pad(3, "0", apf.PAD_RIGHT);
-    });
-    if (str.indexOf(".") == -1)
-        str += ".00";
-
-    return prefix + str;
-};
-
 /*
  * Shorthand for an empty function.
  */
@@ -3466,21 +3298,6 @@ apf.isFalse = function(c) {
 apf.isNot = function(c) {
     // a var that is null, false, undefined, Infinity, NaN and c isn't a string
     return (!c && typeof c != "string" && c !== 0 || (typeof c == "number" && !isFinite(c)));
-};
-
-/**
- * Creates a relative URL based on an absolute URL.
- * @param {String} base The start of the URL to which relative URL's work.
- * @param {String} url  The URL to transform.
- * @return {String} The relative URL.
- */
-apf.removePathContext = function(base, url) {
-    if (!url)  return "";
-
-    if (url.indexOf(base) > -1)
-        return url.substr(base.length);
-
-    return url;
 };
 
 /*
@@ -4195,18 +4012,6 @@ apf.extend(apf.config, {
     $inheritProperties: {},
     
     $propHandlers: {
-        "baseurl" : function(value) {
-            this.baseurl = apf.parseExpression(value);
-        },
-        "language" : function(value) {
-            
-        },
-        "resource-path" : function(value) {
-            this.resourcePath = apf.parseExpression(value || "")
-              .replace(/resources\/?|\/$/g, '');
-        },
-        
-        
         "skinset" : function(value) {
             if (this.$amlLoaded)
                 apf.skins .changeSkinset(value);
@@ -7124,22 +6929,14 @@ apf.DOMParser.prototype = new (function(){
             /\<\!(DOCTYPE|doctype)[^>]*>/,
             /&nbsp;/g,
             /<\s*\/?\s*(?:\w+:\s*)[\w-]*[\s>\/]/g
-        ],
-        XPATH = "//@*[not(contains(local-name(), '.')) and not(translate(local-name(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = local-name())]";
+        ];
 
     this.parseFromString = function(xmlStr, mimeType, options) {
         var xmlNode;
         if (this.caseInsensitive) {
-            //replace(/&\w+;/, ""). replace this by something else
-            //.replace(RE[1], " ")
             var str = xmlStr.replace(RE[0], "")
               .replace(RE[2], //.replace(/^[\r\n\s]*/, "")
                 function(m){ return m.toLowerCase(); });
-
-            /* @todo apf3.0 integrate this
-            x.ownerDocument.setProperty("SelectionNamespaces",
-                                    "xmlns:a='" + apf.ns.aml + "'");
-            */
 
             if (!this.supportNamespaces)
                 str = str.replace(/xmlns\=\"[^"]*\"/g, "");
@@ -9844,9 +9641,6 @@ apf.Anchoring = function(){
         this.$rule_header = getRuleHeader.call(this);
         rules = this.$rule_header + "\n" + this.$rule_v + "\n" + this.$rule_h;
 
-        //@todo sometimes the content is not displayed anymore (when reparenting by xinclude)
-        //this.$ext.style.display = "none";
-
         l.setRules(this.$pHtmlNode, this.$uniqueId + "_anchors", rules);
         l.queue(this.$pHtmlNode, this);
     };
@@ -10078,14 +9872,6 @@ apf.Anchoring = function(){
         this.$disableAnchoring();
     });
 };
-
-
-
-
-
-
-
-apf.__CONTENTEDITABLE__ = 1 << 24;
 
 
 
@@ -11397,10 +11183,6 @@ require("./lib/crypto")(apf);
 
 
 
-apf.__ALIGNMENT__ = 1 << 29;
-
-
-
 
 
 
@@ -12630,12 +12412,6 @@ apf.Focussable = function(){
 
 
 
-
-
-apf.__INTERACTIVE__ = 1 << 21;
-
-
-
 /**
  * All elements inheriting from this {@link term.baseclass baseclass} have interactive features, making an
  * element draggable and resizable.
@@ -12724,8 +12500,6 @@ apf.Interactive = function(){
         tMin, w, h, we, no, ea, so, rszborder, rszcorner, marginBox,
         verdiff, hordiff, _self = this, posAbs, oX, oY, overThreshold,
         dragOutline, resizeOutline, myPos, startGeo;
-
-    this.$regbase = this.$regbase | apf.__INTERACTIVE__;
 
     this.$dragStart = function(e, reparent) {
         var nativeEvent = e || event;
@@ -18037,26 +17811,6 @@ apf.aml.setElement("event", apf.event);
 
 
 
-/**
- * element specifying an argument of a method in an rpc element.
- * @attribute {String}  name             the argument name.
- * @attribute {String}  [value]          the value of the argument.
- * @attribute {String}  [default]        the default value of the argument. If
- *                                       no value is specified when this function
- *                                       is called, the default value is used.
- */
-apf.param = function(struct, tagName) {
-    this.$init(tagName || "param", apf.NODE_HIDDEN, struct);
-};
-
-apf.param.prototype = new apf.AmlElement();
-apf.param.prototype.$parsePrio = "002";
-apf.aml.setElement("variable", apf.param); //backwards compatibility
-apf.aml.setElement("param", apf.param);
-
-
-
-
 
 
 
@@ -21221,13 +20975,6 @@ apf.toolbar = function(struct, tagName) {
 }).call(apf.toolbar.prototype = new apf.Presentation());
 
 apf.aml.setElement("toolbar", apf.toolbar);
-
-
-
-
-
-
-
 
 
 
