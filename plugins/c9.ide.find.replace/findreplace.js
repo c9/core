@@ -355,9 +355,12 @@ define(function(require, exports, module) {
             var cbs = parent.selectNodes("//a:checkbox");
 
             cbs.forEach(function(cb) {
-                cb.on("click", function() {
-                    if (this.name == "chkSearchSelection") 
-                        updateFindInRangeMarker({});
+                cb.on("click", function(e) {
+                    if (this.name == "chkSearchSelection") {
+                        if (chk.searchSelection.checked && !txtReplace.ace.isFocused())
+                            txtFind.focus();
+                        updateFindInRangeMarker(e);
+                    }
                     execFind(undefined, "highlight");
                 });
 
@@ -908,7 +911,7 @@ define(function(require, exports, module) {
                 execFind(false, "highlight");
             }
             
-            if (!startPos.searchRange || startPos.id !== getSessionId(ace.session))
+            if (!startPos.searchRange || startPos.id !== getSessionId(ace.session) || e.name == "click")
                 setStartPos(ace);
             
             if (chk.searchSelection.checked)
