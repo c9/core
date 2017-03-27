@@ -258,7 +258,7 @@ define(function(require, exports, module) {
                     };
                     e.confirm = function () {
                         if (node.status === "predicted")
-                            node.status = "pending";
+                            node.status = isFolder ? "pending" : "loaded";
                     };
                     node.status = "predicted";
                 }
