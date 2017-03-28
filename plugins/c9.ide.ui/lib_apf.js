@@ -508,8 +508,8 @@ define(["require", "module", "exports", "./lib/menu/menu", "./lib/crypto",
     /**
      * @private
      */
-    initialize: function(xmlStr) {
-        apf.window.init(xmlStr);
+    initialize: function() {
+        apf.window.init();
     },
 
     fireEvent: function(el, type, e, capture) {
@@ -677,15 +677,9 @@ apf.Class.prototype = new (function(){
 
         if (struct && (struct.htmlNode || this.nodeFunc == apf.NODE_HIDDEN)) {
             this.$pHtmlNode = struct.htmlNode;
-
-            
-                if (this.ownerDocument && this.ownerDocument.$domParser)
-                    this.ownerDocument.$domParser.$continueParsing(this);
-
-                
+                if (this.$onInsertedIntoDocument)
+                    this.$onInsertedIntoDocument();
                 apf.queue.empty();
-                
-            
         }
 
         return this;
@@ -898,9 +892,6 @@ apf.Class.prototype = new (function(){
         }
         
         if (--apf.$eventDepth == 0 && this.ownerDocument
-          && !this.ownerDocument.$domParser.$parseContext
-          && !apf.isDestroying && apf.loaded
-          
           && apf.queue
         ) {
             apf.queue.empty();
@@ -1001,7 +992,7 @@ apf.Class.prototype = new (function(){
 
         this.dispatchEvent("DOMNodeRemoved", {
             relatedNode: this.parentNode,
-            bubbles: !apf.isDestroying
+            bubbles: true
         });
         this.dispatchEvent("DOMNodeRemovedFromDocument");
 
@@ -5620,409 +5611,6 @@ return {
 
 
 
-
-/**
- * The parser of the Ajax.org Markup Language. Besides aml this parser takes care
- * of distributing parsing tasks to other parsers like the native html parser and
- * the xsd parser.
- * @parser
- * @private
- *
- * @define include element that loads another aml files.
- * Example:
- * <code>
- *   <a:include src="bindings.aml" />
- * </code>
- * @attribute {String} src the location of the aml file to include in this application.
- *
- */
-apf.DOMParser = function(){};
-
-apf.DOMParser.prototype = new (function(){
-    this.caseInsensitive = true;
-    this.preserveWhiteSpace = false; //@todo apf3.0 whitespace issue
-
-    this.$waitQueue = {}
-    this.$callCount = 0;
-
-    // privates
-    var RE = [
-            /\<\!(DOCTYPE|doctype)[^>]*>/,
-            /&nbsp;/g,
-            /<\s*\/?\s*(?:\w+:\s*)[\w-]*[\s>\/]/g
-        ];
-
-    this.parseFromString = function(xmlStr, mimeType, options) {
-        var xmlNode;
-        if (this.caseInsensitive) {
-            var str = xmlStr.replace(RE[0], "")
-              .replace(RE[2], //.replace(/^[\r\n\s]*/, "")
-                function(m){ return m.toLowerCase(); });
-
-            if (!this.supportNamespaces)
-                str = str.replace(/xmlns\=\"[^"]*\"/g, "");
-
-            
-
-            var xmlNode = apf.getXmlDom(str);
-            if (apf.xmlParseError) apf.xmlParseError(xmlNode);
-            xmlNode = xmlNode.documentElement;
-            
-        }
-        else {
-            xmlNode = apf.getXmlDom(xmlStr, null, this.preserveWhiteSpace || apf.debug).documentElement;
-        }
-
-        return this.parseFromXml(xmlNode, options);
-    };
-
-    //@todo prevent leakage by not recording .$aml
-    this.parseFromXml = function(xmlNode, options) {
-        var doc, docFrag, amlNode, beforeNode;
-        if (!options)
-            options = {};
-
-        if (!options.delayedRender && !options.include) {
-            //Create a new document
-            if (options.doc) {
-                doc = options.doc;
-                docFrag = options.docFrag || doc.createDocumentFragment();
-            }
-            else {
-                doc = new apf.AmlDocument();
-                doc.$aml = xmlNode;
-                doc.$domParser = this;
-            }
-            if (options.host)
-                doc.$parentNode = options.host; //This is for sub docs that need to access the outside tree
-
-            
-
-            //Let's start building our tree
-            amlNode = this.$createNode(doc, xmlNode.nodeType, xmlNode); //Root node
-            (docFrag || doc).appendChild(amlNode);
-            if (options.htmlNode)
-                amlNode.$int = options.htmlNode;
-        }
-        else {
-            amlNode = options.amlNode;
-            doc = options.doc;
-
-            if (options.include) {
-                var n = amlNode.childNodes;
-                var p = n.indexOf(options.beforeNode);
-                var rest = p ? n.splice(p, n.length - p) : [];
-            }
-        }
-
-        //Set parse context
-        this.$parseContext = [amlNode, options];
-
-        this.$addParseState(amlNode, options || {});
-
-        //First pass - Node creation
-        var nodes, nodelist = {}, prios = [], _self = this;
-        var recur;
-        (recur = function(amlNode, nodes) {
-            var cL, newNode, node, nNodes,
-                cNodes = amlNode.childNodes,
-                i = 0,
-                l = nodes.length;
-            for (; i < l; i++) {
-                //Create child
-                newNode = _self.$createNode(doc, (node = nodes[i]).nodeType, node);
-                if (!newNode) continue; //for preserveWhiteSpace support
-
-                cNodes[cL = cNodes.length] = newNode; //Add to children
-
-                //Set tree refs
-                newNode.parentNode = amlNode;
-                if (cL > 0)
-                    (newNode.previousSibling = cNodes[cL - 1]).nextSibling = newNode;
-
-                //Create children
-                if (!newNode.render && newNode.canHaveChildren && (nNodes = node.childNodes).length)
-                    recur(newNode, nNodes);
-
-                //newNode.$aml = node; //@todo should be deprecated...
-
-                //Store high prio nodes for prio insertion
-                if (newNode.$parsePrio) {
-                    if (newNode.$parsePrio == "001") {
-                        newNode.dispatchEvent("DOMNodeInsertedIntoDocument"); //{relatedParent : nodes[j].parentNode}
-                        continue;
-                    }
-
-                    (nodelist[newNode.$parsePrio] || (prios.push(newNode.$parsePrio)
-                      && (nodelist[newNode.$parsePrio] = []))).push(newNode); //for second pass
-                }
-            }
-
-            amlNode.firstChild = cNodes[0];
-            amlNode.lastChild = cNodes[cL];
-        })(amlNode, xmlNode.childNodes);
-
-        if (options.include && rest.length) {
-            var index = n.length - 1;
-            n.push.apply(n, rest);
-            var last = n[index];
-            var next = n[index + 1];
-            (next.previousSibling = last).nextSibling = next;
-            amlNode.lastChild = n[n.length - 1];
-        }
-
-        if (options.delay) {
-            amlNode.$parseOptions = {
-                prios: prios,
-                nodelist: nodelist
-            };
-            return (docFrag || doc);
-        }
-
-        //Second pass - Document Insert signalling
-        prios.sort();
-        var i, j, l, l2;
-        for (i = 0, l = prios.length; i < l; i++) {
-            nodes = nodelist[prios[i]];
-            for (j = 0, l2 = nodes.length; j < l2; j++) {
-                nodes[j].dispatchEvent("DOMNodeInsertedIntoDocument"); //{relatedParent : nodes[j].parentNode}
-            }
-        }
-
-        if (this.$waitQueue[amlNode.$uniqueId]
-          && this.$waitQueue[amlNode.$uniqueId].$shouldWait)
-            return (docFrag || doc);
-            this.$continueParsing(amlNode, options);
-
-        return (docFrag || doc);
-    };
-
-    this.$isPaused = function(amlNode) {
-        return this.$waitQueue[amlNode.$uniqueId] &&
-          this.$waitQueue[amlNode.$uniqueId].$shouldWait > 0;
-    }
-
-    this.$addParseState = function(amlNode, options) {
-        var waitQueue = this.$waitQueue[amlNode.$uniqueId]
-            || (this.$waitQueue[amlNode.$uniqueId] = [])
-        waitQueue.pushUnique(options);
-
-        return waitQueue;
-    }
-
-    this.$pauseParsing = function(amlNode, options) {
-        var waitQueue = this.$waitQueue[amlNode.$uniqueId];
-        if (!waitQueue.$shouldWait) waitQueue.$shouldWait = 0;
-        waitQueue.$shouldWait++;
-    }
-
-    this.$continueParsing = function(amlNode, options) {
-        if (!amlNode)
-            amlNode = apf.document.documentElement;
-
-        var uId = amlNode.$uniqueId;
-        if (uId in this.$waitQueue) {
-            var item = this.$waitQueue[uId];
-
-            if (item.$shouldWait && --item.$shouldWait)
-                return false;
-
-            var node = amlNode.parentNode;
-            while (node && node.nodeType == 1) {
-                if (this.$waitQueue[node.$uniqueId]
-                  && this.$waitQueue[node.$uniqueId].$shouldWait)
-                    return false;
-                node = node.parentNode;
-            }
-
-            var parseAmlNode = apf.all[uId];
-            delete this.$waitQueue[uId];
-            if (parseAmlNode) {
-                for (var i = 0; i < item.length; i++)
-                    this.$parseState(parseAmlNode, item[i]);
-            }
-
-            //@todo Check for shouldWait here?
-        }
-        else
-            this.$parseState(amlNode, options || {});
-
-        delete this.$parseContext;
-    }
-
-    this.$parseState = function(amlNode, options) {
-        if (amlNode.$amlDestroyed)
-            return;
-        
-        this.$callCount++;
-
-        if (amlNode.$parseOptions) {
-            var prios = amlNode.$parseOptions.prios,
-                nodelist = amlNode.$parseOptions.nodelist,
-                i, j, l, l2, node;
-            delete amlNode.$parseOptions;
-
-            //Second pass - Document Insert signalling
-            prios.sort();
-            for (i = 0, l = prios.length; i < l; i++) {
-                var nodes = nodelist[prios[i]];
-                for (j = 0, l2 = nodes.length; j < l2; j++) {
-                    if (!(node = nodes[j]).parentNode || node.$amlLoaded) //@todo generalize this using compareDocumentPosition
-                        continue;
-                    nodes[j].dispatchEvent("DOMNodeInsertedIntoDocument"); //{relatedParent : nodes[j].parentNode}
-                }
-            }
-        }
-
-        //instead of $amlLoaded use something more generic see compareDocumentPosition
-        if (!options.ignoreSelf && !amlNode.$amlLoaded)
-            amlNode.dispatchEvent("DOMNodeInsertedIntoDocument"); //{relatedParent : nodes[j].parentNode}
-
-        //Recursively signal non prio nodes
-        (function _recur(nodes) {
-            var node, nNodes;
-            for (var i = 0, l = nodes.length; i < l; i++) {
-                if (!(node = nodes[i]).$amlLoaded) {
-                    node.dispatchEvent("DOMNodeInsertedIntoDocument"); //{relatedParent : nodes[j].parentNode}
-                }
-
-                //Create children
-                if (!node.render && (nNodes = node.childNodes).length)
-                    _recur(nNodes);
-            }
-        })(amlNode.childNodes);
-
-        if (!--this.$callCount && !options.delay)
-            apf.queue.empty();
-
-        if (options.callback)
-            options.callback.call(amlNode.ownerDocument);
-    };
-
-    this.$createNode = function(doc, nodeType, xmlNode, namespaceURI, nodeName, nodeValue) {
-        var o;
-
-        switch (nodeType) {
-            case 1:
-                var id, prefix;
-                if (xmlNode) {
-                    if ((namespaceURI = xmlNode.namespaceURI || apf.ns.xhtml)
-                      && !(prefix = doc.$prefixes[namespaceURI])) {
-                        doc.$prefixes[prefix = xmlNode.prefix || xmlNode.scopeName || ""] = namespaceURI;
-                        doc.$namespaceURIs[namespaceURI] = prefix;
-
-                        if (!doc.namespaceURI && !prefix) {
-                            doc.namespaceURI = namespaceURI;
-                            doc.prefix = prefix;
-                        }
-                    }
-                    nodeName = xmlNode.baseName || xmlNode.localName || xmlNode.tagName.split(":").pop();
-                }
-                else {
-                    prefix = doc.$prefixes[namespaceURI] || "";
-                }
-
-                
-
-                var els = apf.namespaces[namespaceURI].elements;
-
-                
-
-                o = new (els[nodeName] || els["@default"])(null, nodeName);
-
-                o.prefix = prefix || "";
-                o.namespaceURI = namespaceURI;
-                o.tagName = prefix ? prefix + ":" + nodeName : nodeName;
-
-                if (xmlNode) {
-                    if ((id = xmlNode.getAttribute("id")) && !self[id])
-                        o.$propHandlers["id"].call(o, o.id = id);
-
-                    //attributes
-                    var attr = xmlNode.attributes, n;
-                    for (var a, na, i = 0, l = attr.length; i < l; i++) {
-                        na = new apf.AmlAttr(o,
-                            (n = (a = attr[i]).nodeName), a.value)
-                        o.attributes[na.nodeName] = na;
-                        
-                        if (n == "render")
-                            o.render = true;
-                        else
-                        
-                        if (n.substr(0, 2) == "on")
-                            na.$triggerUpdate();
-                    }
-                }
-
-                break;
-            case 2:
-                o = new apf.AmlAttr();
-                o.name = o.nodeName = nodeName;
-                if (nodeValue || (nodeValue = xmlNode && xmlNode.nodeValue))
-                    o.value = o.nodeValue = nodeValue;
-
-                if (xmlNode) {
-                    if (xmlNode.namespaceURI && !(o.prefix = doc.$namespaceURIs[o.namespaceURI = xmlNode.namespaceURI]))
-                        doc.$prefixes[o.prefix = xmlNode.prefix || xmlNode.scopeName] = o.namespaceURI;
-                }
-                else {
-                    o.prefix = doc.$prefixes[namespaceURI];
-                }
-
-                break;
-            case 3:
-                if (xmlNode)
-                    nodeValue = xmlNode && xmlNode.nodeValue;
-                if (!this.preserveWhiteSpace && !(nodeValue || "").trim())
-                    return;
-
-                o = new apf.AmlText();
-                o.nodeValue = nodeValue || xmlNode && xmlNode.nodeValue;
-                break;
-            case 7:
-                var target = nodeName || xmlNode && xmlNode.nodeName;
-                
-                o = new apf.aml.processingInstructions[target]();
-
-                o.target = o.nodeName = target;
-                o.data = o.nodeValue = nodeValue || xmlNode && xmlNode.nodeValue;
-                break;
-            case 4:
-                o = new apf.AmlCDATASection();
-                o.nodeValue = nodeValue || xmlNode && xmlNode.nodeValue;
-                break;
-            case 5: //unsupported
-                o = new apf.AmlNode();
-                o.nodeType = nodeType;
-                break;
-            case 6: //unsupported
-                o = new apf.AmlNode();
-                o.nodeType = nodeType;
-                break;
-            case 8:
-                o = new apf.AmlComment();
-                o.nodeValue = nodeValue || xmlNode && xmlNode.nodeValue;
-                break;
-            case 9:
-                o = new apf.AmlDocument();
-                o.$domParser = this;
-                break;
-            case 10: //unsupported
-                o = new apf.AmlNode();
-                o.nodeType = nodeType;
-                break;
-            case 11:
-                o = new apf.AmlDocumentFragment();
-                break;
-        }
-
-        o.ownerDocument = doc;
-        o.$aml = xmlNode;
-
-        return o;
-    };
-})();
-
 /**
  *
  * @author      Ruben Daniels (ruben AT ajax DOT org)
@@ -6402,7 +5990,7 @@ apf.AmlNode = function(){
         }
 
         var doc = this.nodeType == this.NODE_DOCUMENT ? this : this.ownerDocument;
-        if (!doc || doc.$domParser.$isPaused(this))
+        if (!doc)
             return amlNode;
 
         // Don't update the tree if this is a doc fragment or if this element is not inited yet
@@ -6410,13 +5998,32 @@ apf.AmlNode = function(){
             return amlNode; 
 
         //@todo review this...
-        if (initialAppend && !amlNode.render) { // && (nNodes = node.childNodes).length ??
-            (this.ownerDocument || this).$domParser.$continueParsing(amlNode, {delay: true});
+        if (initialAppend && !amlNode.render) {
+            this.$onInsertedIntoDocument();
         }
 
         triggerUpdate();
         return amlNode;
     };
+
+    this.$onInsertedIntoDocument = function() {
+        var amlNode = this
+        if (!options.ignoreSelf && !amlNode.$amlLoaded)
+            amlNode.dispatchEvent("DOMNodeInsertedIntoDocument");
+
+        //Recursively signal non prio nodes
+        (function _recur(nodes) {
+            for (var i = 0, l = nodes.length; i < l; i++) {
+                var node = nodes[i];
+                if (!node.$amlLoaded)
+                    node.dispatchEvent("DOMNodeInsertedIntoDocument");
+                //Create children
+                var nNodes = node.childNodes;
+                if (!node.render && nNodes && nNodes.length)
+                    _recur(nNodes);
+            }
+        })(amlNode.childNodes);
+    }
 
     /**
      * Removes this element from the document hierarchy. Call-chaining is
@@ -6434,7 +6041,7 @@ apf.AmlNode = function(){
         this.parentNode.childNodes.remove(this);
 
         //If we're not loaded yet, just remove us from the aml to be parsed
-        if (this.$amlLoaded && !apf.isDestroying) {
+        if (this.$amlLoaded) {
             //this.parentNode.$aml.removeChild(this.$aml);
 
             this.dispatchEvent("DOMNodeRemoved", {
@@ -6928,6 +6535,40 @@ apf.AmlElement = function(struct, tagName) {
         
     };
     
+    
+    function create(node, parent) {
+        if (node.nodeType == node.ELEMENT_NODE) {
+            var el
+            if (node.localName == "application") {
+                el = parent;
+            } else {
+                var ElementType = apf.aml.elements[node.localName] || apf.aml.elements["@default"];
+                var el = new ElementType({}, node.localName);
+                var a = node.attributes;
+                for (var i =0; i < a.length; i++) {
+                    el.setAttribute(a[i].name, a[i].value);
+                }
+                el.$aml = node;
+            }
+            
+            var list = node.childNodes;
+            for (var i = 0; i < list.length; i++) {
+                create(list[i], el);
+            }
+            if (el != parent)
+                parent.appendChild(el);
+        } else if (node.nodeType == node.TEXT_NODE) {
+            var text = node.data.trim();
+            if (text) {
+                var o = new apf.AmlText();
+                o.nodeValue = text;
+                parent.appendChild(o);
+            }
+        } else if (node.nodeType == node.DOCUMENT_NODE) {
+            create(node.documentElement, parent)
+        }
+    }
+    
     /**
      * Inserts new AML into this element.
      * @param {Mixed}       amlDefNode  The AML to be loaded. This can be a string or a parsed piece of XML.
@@ -6936,24 +6577,8 @@ apf.AmlElement = function(struct, tagName) {
      *                                  - clear ([[Boolean]]): If set, the AML has the attribute "clear" attached to it
      */
     this.insertMarkup = function(amlDefNode, options) {
-        var _self = this;
-        var include = new apf.XiInclude();
-        
-        if (amlDefNode.trim().charAt(0) == "<")
-            amlDefNode = apf.getXml(amlDefNode);
-        
-        include.setAttribute("href", amlDefNode);
-        if (options && options.clear)
-            include.setAttribute("clear", true);
-        include.options = options;
-        include.callback = function(){
-            _self.dispatchEvent("afteramlinserted", {src: amlDefNode});
-            options && options.callback && options.callback();
-            setTimeout(function(){
-                include.destroy(true, true);
-            });
-        };
-        this.appendChild(include);
+        var xmlNode = apf.getXml(amlDefNode);
+        create(xmlNode, this);
     };
     
     this.$setInheritedAttribute = function(prop) {
@@ -7447,8 +7072,8 @@ apf.AmlDocument = function(){
      * @return {apf.AmlElement} The created AML element
      */
     this.createElement = function(qualifiedName) {
-        return this.$domParser.$createNode(this, this.NODE_ELEMENT, null,
-            this.namespaceURI, qualifiedName);
+        var ElementType = apf.aml.elements[qualifiedName] || apf.aml.elements["@default"];
+        return new ElementType({}, qualifiedName);
     };
 
     /**
@@ -7462,8 +7087,8 @@ apf.AmlDocument = function(){
      * @return {apf.AmlElement} The created AML element
      */        
     this.createElementNS = function(namespaceURI, qualifiedName) {
-        return this.$domParser.$createNode(this, this.NODE_ELEMENT, null,
-            namespaceURI, qualifiedName);
+        var ElementType = apf.aml.elements[qualifiedName] || apf.aml.elements["@default"];
+        return new ElementType({});
     };
     
     /**
@@ -7479,16 +7104,9 @@ apf.AmlDocument = function(){
      * @return {apf.AmlNode} The Text node
      */      
     this.createTextNode = function(nodeValue) {
-        return this.$domParser.$createNode(this, this.NODE_TEXT, null, null,
-            null, nodeValue);
-    };
-
-    /**
-     * Creates and returns a new document fragment.
-     */ 
-
-    this.createDocumentFragment = function(){
-        return this.$domParser.$createNode(this, this.NODE_DOCUMENT_FRAGMENT);
+        var o = new apf.AmlText();
+        o.nodeValue = nodeValue || "";
+        return o;
     };
 
     // @todo
@@ -7617,7 +7235,7 @@ apf.AmlTextRectangle.prototype = new apf.Class();
  * @version     %I%, %G%
  * @since       0.8
  */
-apf.xhtml = new apf.AmlNamespace();
+apf.xhtml = apf.aml;
 apf.setNamespace("http://www.w3.org/1999/xhtml", apf.xhtml);
 
 
@@ -7883,141 +7501,6 @@ apf.xhtml.setElement("pre", apf.XhtmlSkipChildrenElement);
 
 
 
-
-
-//XForms
-
-/**
- * Object creating the XML Include namespace for the aml parser.
- *
- * @constructor
- * @parser
- *
- * @allownode simpleType, complexType
- *
- * @author      Ruben Daniels (ruben AT ajax DOT org)
- * @version     %I%, %G%
- * @since       0.8
- */
-apf.xinclude = new apf.AmlNamespace();
-apf.setNamespace("http://www.w3.org/2001/XInclude", apf.xinclude);
-
-
-
-
-
-
-
-
-/**
- * Defines a list of acceptable values
- */
-apf.XiInclude = function(struct, tagName) {
-    this.$init(tagName || "include", apf.NODE_HIDDEN, struct);
-};
-
-apf.xinclude.setElement("include", apf.XiInclude);
-apf.aml.setElement("include", apf.XiInclude);
-
-//@todo test defer="true" situation
-(function(){
-    this.$parsePrio = "002";
-
-    this.$propHandlers["href"] = 
-    this.$propHandlers["src"] = function(value) {
-        if (typeof value != "string")
-            return finish.call(this, value);
-        
-        throw new Error("not implemented")
-    };
-    
-    function done(xmlNode) {
-        var addedNode = this.previousSibling || this.nextSibling;
-        
-        if (this.callback) {
-            this.callback({
-                xmlNode: xmlNode,
-                amlNode: this.parentNode,
-                addedNode: addedNode
-            })
-        }
-        
-        addedNode.dispatchEvent("DOMNodeInserted", {
-            $beforeNode: addedNode.nextSibling,
-            relatedNode: this.parentNode,
-            $isMoveWithinParent: false,
-            bubbles: true
-        });
-        
-        //@todo hack!! this should never happen. Find out why it happens
-        if (this.parentNode)
-            this.parentNode.removeChild(this);
-    }
-    
-    function finish(xmlNode) {
-        var domParser = this.ownerDocument.$domParser;
-
-        if (this.clear)
-            this.parentNode.$int.innerHTML = "";
-
-        if (xmlNode) {
-            domParser.parseFromXml(xmlNode, {
-                doc: this.ownerDocument,
-                amlNode: this.parentNode,
-                beforeNode: this,
-                include: true
-            });
-
-            if (!this.defer && this.$parseContext) {
-                var o = (this.$parseContext[1] || (this.$parseContext[1] = {})),
-                    cb = o.callback,
-                    _self = this;
-
-                o.callback = function(){
-                    done.call(_self, xmlNode);
-                    if (cb)
-                        cb.call(_self.ownerDocument);
-                };
-
-                //@todo this is wrong... probably based on load order of last include element. Please rearchitect parse continuation.
-                if (domParser.$continueParsing(this.$parseContext[0]) === false) {
-                    var o2 = (domParser.$parseContext[1] || (domParser.$parseContext[1] = {})),
-                        cb2 = o.callback;
-                    o2.callback = function(){
-                        if (cb)
-                            cb.call(_self.ownerDocument);
-                        domParser.$continueParsing(_self.$parseContext[0]);
-                    };
-                }
-            }
-            else
-                done.call(this, xmlNode);
-        }
-        else {
-            if (!this.defer)
-                domParser.$continueParsing(this.$parseContext[0]);
-            
-            done.call(this, xmlNode);
-        }
-    }
-}).call(apf.XiInclude.prototype = new apf.AmlElement());
-
-
-
-
-
-
-
-
-apf.__LIVEEDIT__ = 1 << 23;
-
-
-
-
-
-
-
-
 apf.__ANCHORING__ = 1 << 13;
 
 
@@ -8113,7 +7596,7 @@ apf.Anchoring = function(){
         if (!this.$anchoringEnabled && !this.$setLayout("anchoring"))
             return;
 
-        if (!this.$updateQueue && apf.loaded)
+        if (!this.$updateQueue)
             l.queue(this.$pHtmlNode, this);
         this.$updateQueue = this.$updateQueue | HORIZONTAL | VERTICAL;
     };
@@ -10893,14 +10376,7 @@ apf.DelayedRender = function(){
         // redrawing browsers like firefox
         this.$ext.style.visibility = "hidden";
 
-        var domParser = this.ownerDocument.$domParser;
-        domParser.parseFromXml(this.$aml, {
-            amlNode: this,
-            doc: this.ownerDocument,
-            //nodelay       : true,
-            delayedRender: true
-        });
-        domParser.$continueParsing(this);
+        this.childNodes.forEach(function(i) { i.$onInsertedIntoDocument(); })
 
         this.$rendered = true;
 
@@ -10911,11 +10387,6 @@ apf.DelayedRender = function(){
 
         this.$ext.style.visibility = "";
     };
-    
-    /*var _self = this;
-    if (apf.window.vManager.check(this, "delayedrender", function(){
-        _self.$render();
-    })) this.$render();*/
     
     var f;
     this.addEventListener("prop.visible", f = function(){
@@ -11884,7 +11355,6 @@ apf.window = function(){
             jdwin.Hide();
         }
         else {
-            this.loaded = false;
             if (this.win)
                 this.win.close();
         }
@@ -12530,7 +12000,7 @@ apf.window = function(){
             //(!amlNode.canHaveChildren || !apf.isChildOf(amlNode.$int, e.srcElement))
             if (!apf.config.allowSelect 
               && (amlNode && amlNode.nodeType != amlNode.NODE_PROCESSING_INSTRUCTION 
-              && !amlNode.textselect)) //&& !amlNode.$int // getElementsByTagNameNS(apf.ns.xhtml, "*").length
+              && !amlNode.textselect))
                 canSelect = false;
         }
 
@@ -12767,56 +12237,10 @@ apf.window = function(){
     
     apf.document = {};
     this.init = function(strAml) {
-        //Put this in callback in between the two phases
-        
-
-        this.$domParser = new apf.DOMParser();
-        this.document = apf.document = this.$domParser.parseFromString(strAml, 
-          "text/xml", {
-            
-            timeout: apf.config.initdelay,
-            
-            callback: function(doc) {
-                //@todo apf3.0
-
-                //Call the onload event (prevent recursion)
-                if (apf.parsed != 2) {
-                    //@todo apf3.0 onload is being called too often
-                    var inital = apf.parsed;
-                    apf.parsed = 2;
-                    apf.dispatchEvent("parse", { //@todo apf3.0 document
-                        initial: inital
-                    });
-                    apf.parsed = true;
-                }
-        
-                if (!apf.loaded) {
-                    
-        
-                    
-                    //Set the default selected element
-                    if (!apf.window.activeElement && (!apf.config.allowBlur 
-                      || apf.document.documentElement 
-                      && apf.document.documentElement.editable))
-                        apf.window.focusDefault();
-                    
-
-                    apf.loaded = true;
-                    $setTimeout(function() {
-                        apf.dispatchEvent("load");
-                        apf.addEventListener("$event.load", function(cb) {
-                            cb();
-                        });
-                    });
-                }
-        
-                //END OF ENTIRE APPLICATION STARTUP
-        
-                
-                
-                
-          }
-        }); //async
+        apf.document = this.document = new apf.AmlDocument();
+        this.document.documentElement = new apf.application();
+        this.document.documentElement.ownerDocument = this.document;
+        this.document.appendChild(this.document.documentElement);
     };
     
     

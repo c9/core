@@ -48,7 +48,7 @@ define(function(require, module, exports) {
             apf.preProcessCSS = insertLess;
             
             // Load a basic document into APF
-            apf.initialize('<a:application xmlns:a="http://ajax.org/2005/aml" />');
+            apf.initialize();
             
             window.addEventListener("mousedown", function() {
                 apf.isMousePressed = true;
