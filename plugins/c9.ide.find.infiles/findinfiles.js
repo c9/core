@@ -520,16 +520,10 @@ define(function(require, exports, module) {
             if (cb && typeof cb != "function")
                 cb = undefined; // called from libsearch
             options = options || getOptions();
-
-            // Open Console
-            if (chkSFConsole.checked)
-                c9console.show();
             
             makeSearchResultsPanel(function(err, tab) {
-                if (err) {
-                    c9console.error("Error creating search panel");
-                    return;
-                }
+                if (err)
+                    return console.error("Error creating search panel");
                 
                 var session = tab.document.getSession();
                 var acesession = session.session;
@@ -822,13 +816,12 @@ define(function(require, exports, module) {
             return /.*/.exec(str)[0];
         }
 
-        var searchPanel = {};
         function makeSearchResultsPanel(callback) {
-            var tab = searchPanel[chkSFConsole.checked];
+            var tab = tabs.findTab("/.c9/searchresults");
             
-            if (!tab || !tab.loaded) {
+            if (!tab) {
                 var root = chkSFConsole.checked ? c9console : tabs;
-                searchPanel[chkSFConsole.checked] = root.open({
+                root.open({
                     path: "/.c9/searchresults", // This allows the tab to be saved
                     focus: true,
                     document: {
