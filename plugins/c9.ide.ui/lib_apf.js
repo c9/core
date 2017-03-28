@@ -320,28 +320,14 @@ function(require, module, exports) {
         //Set Compatibility
         this.TAGNAME = apf.isIE ? "baseName" : "localName";
         this.styleSheetRules = apf.isIE ? "rules" : "cssRules";
-        this.canUseHtmlAsXml = apf.isIE;
-        this.supportNamespaces = !apf.isIE && !apf.isIE11;
-        this.hasConditionCompilation = apf.isIE;
-        this.supportOverflowComponent = apf.isIE;
        
-        this.hasFileApi = !!(window["File"] && window["FileReader"] && window["Blob"] && window["FileError"]);
-        this.hasEventSrcElement = apf.isIE;
         this.canHaveHtmlOverSelects = !apf.isIE6 && !apf.isIE5;
         this.hasInnerText = apf.isIE;
         this.hasMsRangeObject = apf.isIE;
-        this.descPropJs = apf.isIE;
-        this.hasClickFastBug = apf.isIE;
         this.hasExecScript = window.execScript ? true : false;
         this.canDisableKeyCodes = apf.isIE;
         this.hasSingleResizeEvent = !apf.isIE;
-        this.hasDynamicItemList = !apf.isIE || apf.isIE >= 7;
         this.hasSingleRszEvent = !apf.isIE;
-        this.hasXPathHtmlSupport = !apf.isIE;
-        this.hasFocusBug = apf.isIE;
-        this.hasHeightAutoDrawBug = apf.isIE && apf.isIE < 8;
-        //this.hasIndexOfNodeList = !apf.isIE;
-        this.hasReadyStateBug = apf.isIE50;
         this.dateSeparator = apf.isIE ? "-" : "/";
         this.canCreateStyleNode = !apf.isIE;
         this.supportFixedPosition = !apf.isIE || apf.isIE >= 7;
@@ -360,7 +346,6 @@ function(require, module, exports) {
         var t = document.createElement("div");
         this.hasContentEditable = (typeof t.contentEditable == "string"
                                        || typeof t.contentEditable == "boolean");
-        apf.hasContentEditableContainerBug = apf.isWebkit;
         
         // use display: flex; instead of old version http://css-tricks.com/snippets/css/a-guide-to-flexbox/
         this.hasFlex = "flexFlow" in  t.style;
@@ -392,36 +377,6 @@ function(require, module, exports) {
         }
         t = null;
 
-        this.supportVML = apf.isIE;
-        this.supportSVG = !apf.isIE || apf.isIE > 8;
-        this.supportCanvas = !!document.createElement("canvas").getContext;
-        this.supportCanvasText = !!(this.supportCanvas
-            && typeof document.createElement("canvas").getContext("2d").fillText == "function")
-
-        this.hasVideo = !!document.createElement("video")["canPlayType"];
-        this.hasAudio = !!document.createElement("audio")["canPlayType"];
-        this.supportHashChange = ("onhashchange" in self) && (!apf.isIE || apf.isIE >= 8);
-
-        if (self.XMLHttpRequest) {
-            var xhr = new XMLHttpRequest();
-            this.hasXhrProgress = !!xhr.upload;
-            if (this.hasXhrBinary = !!(xhr.sendAsBinary || xhr.upload)) {
-                this.hasHtml5File = !!(File && File.prototype.getAsDataURL);
-                this.hasHtml5FileSlice = !!(File && File.prototype.slice);
-            }
-        }
-        else {
-            this.hasXhrProgress = this.hasXhrBinary = this.hasHtml5File 
-                = this.hasHtml5FileSlice = false;
-        }
-
-        this.windowHorBorder = 
-        this.windowVerBorder = apf.isIE8 && (!self.frameElement 
-            || parseInt(self.frameElement.frameBorder)) ? 4 : 0;
-        
-        
-
-        this.enableAnim = !apf.isIE || apf.isIE > 8;
         this.animSteps = apf.isIE ? 0.3 : 1;
         this.animInterval = apf.isIE ? 7 : 1;
 
@@ -435,19 +390,9 @@ function(require, module, exports) {
             apf.CSS_FLEX_PROP = apf.CSSPREFIX + "BoxFlex";
             apf.CSS_DISPLAY_FLEX = apf.CSSPREFIX2 + "-box";
         }
-
-        //Other settings
-        this.maxHttpRetries = apf.isOpera ? 0 : 3;
-
         
         this.percentageMatch = new RegExp();
         this.percentageMatch.compile("([\\-\\d\\.]+)\\%", "g");
-        
-        
-        this.reMatchXpath = new RegExp();
-        this.reMatchXpath.compile("(^|\\|)(?!\\@|[\\w-]+::)", "g");
-
-        
     },
 
     
@@ -641,16 +586,7 @@ function(require, module, exports) {
      * @private
      */
     initialize: function(xmlStr) {
-        
-        
-        
-        var bodyMarginTop = parseFloat(apf.getStyle(document.body, "marginTop"));
-        apf.doesNotIncludeMarginInBodyOffset = (document.body.offsetTop !== bodyMarginTop);
-
-        
-        {
-            apf.window.init(xmlStr);
-        }
+        apf.window.init(xmlStr);
     },
 
     fireEvent: function(el, type, e, capture) {
@@ -797,7 +733,6 @@ apf.Class.prototype = new (function(){
         }
 
         this.addEventListener = realAddEventListener;
-        //this.$removalQueue = [];
 
         if (this.nodeType != 2) //small little hack
             this.$uniqueId = apf.all.push(this) - 1;
@@ -3040,7 +2975,7 @@ apf.getPositionedParent = function(o) {
  * @returns {Array} The x- and y-coordinates of `oHtml`.
  */
 apf.getAbsolutePosition = function(o, refParent, inclSelf) {
-    if (apf.doesNotIncludeMarginInBodyOffset && o == document.body) {
+    if (o == document.body) {
         return [
             o.offsetLeft + (parseFloat(apf.getStyle(o, "marginLeft")) || 0),
               + (o.scrollLeft || 0),
@@ -7310,17 +7245,12 @@ apf.DOMParser.prototype = new (function(){
  */
 apf.AmlNamespace = function(){
     this.elements = {};
-    this.processingInstructions = {};
 };
 
 apf.AmlNamespace.prototype = {
     setElement: function(tagName, fConstr) {
         return this.elements[tagName] = fConstr;
     },
-
-    setProcessingInstruction: function(target, fConstr) {
-        this.processingInstructions[target] = fConstr;
-    }
 };
 
 
@@ -8738,48 +8668,7 @@ apf.AmlDocument = function(){
         return this.$domParser.$createNode(this, this.NODE_ELEMENT, null,
             namespaceURI, qualifiedName);
     };
-
-    /**
-     * Creates a copy of a node from an external document that can be inserted into the current document.
-     *
-     * @param  {apf.AmlNode}  node  The node to import and copy
-     * @param {Boolean} [deep]      Indicates whether the descendants of the imported node should also be imported
-     * @return {apf.AmlNode} The imported node
-     */     
-    this.importNode = function(node, deep) {
-        if (deep && node.nodeType == 1) {
-            return this.$domParser.parseFromXml(node, {
-                doc: this,
-                delay: true
-            }).childNodes[0];
-        }
-        else {
-            return this.$domParser.$createNode(this, node.nodeType, node);
-        }
-    };
     
-    /**
-     * Creates and returns a new attribute node.
-     *
-     * @param  {String}  nodeName  The name of the attribute
-     * @return {apf.AmlNode} The attribute node
-     */ 
-    this.createAttribute = function(nodeName) {
-        return this.$domParser.$createNode(this, this.NODE_ATTRIBUTE, null,
-            this.nameSpaceURI, nodeName);
-    };
-    
-    /**
-     * Creates and returns a new attribute node, within a specified URI.
-     *
-     * @param  {String} nameSpaceURI  The name of the URI
-     * @param  {String}  nodeName  The name of the attribute
-     * @return {apf.AmlNode} The attribute node
-     */ 
-    this.createAttributeNS = function(nameSpaceURI, nodeName) {
-        return this.$domParser.$createNode(this, this.NODE_ATTRIBUTE, null,
-            nameSpaceURI, nodeName);
-    };
     /**
      * Creates and returns a new [[apf.AmlEvent]] .
      */     
@@ -8787,37 +8676,6 @@ apf.AmlDocument = function(){
         return new apf.AmlEvent();
     };
 
-    /**
-     * Creates and returns a new comment node.
-     * @param {String} nodeValue The data to be added to the comment
-     * @return {apf.AmlNode} The comment node
-     */    
-    this.createComment = function(nodeValue) {
-        return this.$domParser.$createNode(this, this.NODE_COMMENT, null, null,
-            null, nodeValue);
-    };
-
-    /**
-     * Creates and returns a new processing instruction node.
-     * @param {String} target The target part of the processing instruction node, like `<?_target_ ...?>`
-     * @param {String} data The data to be added to the PI
-     * @return {apf.AmlNode} The processing instruction node
-     */     
-    this.createProcessingInstruction = function(target, data) {
-        return this.$domParser.$createNode(this, this.NODE_PROCESSING_INSTRUCTION,
-            null, null, target, data);
-    };
- 
-    /**
-     * Creates and returns a new CDATA section node.
-     * @param {String} nodeValue The data to be added to the CDATA node
-     * @return {apf.AmlNode} The CDATA section node
-     */     
-    this.createCDATASection = function(nodeValue) {
-        return this.$domParser.$createNode(this, this.NODE_CDATA_SECTION, null,
-            null, null, nodeValue);
-    };
-  
     /**
      * Creates and returns a new Text node.
      * @param {String} nodeValue The data to be added to the text node
@@ -11413,11 +11271,6 @@ apf.BaseButton = function(){
             if (!_self.disabled)
                 _self.$updateState(e, "mouseout");
         };
-
-        
-
-        if (apf.hasClickFastBug)
-            this.$ext.ondblclick = this.$ext.onmouseup;
     };
 
     this.$doBgSwitch = function(nr) {
@@ -15454,9 +15307,6 @@ apf.button = function(struct, tagName) {
             if (this.parentNode.hasMoved)
                 this.value = false;
 
-            if (apf.hasFocusBug)
-                apf.window.$focusfix();
-
             return false;
         }
 
@@ -18732,7 +18582,6 @@ apf.skin = function(struct, tagName) {
 apf.aml.setElement("skin", apf.skin);
 
 (function(){
-    this.$parsePrio = "002";
     this.$includesRemaining = 0;
     
     this.$propHandlers["src"] = function(value) {

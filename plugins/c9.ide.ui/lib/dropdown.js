@@ -406,9 +406,7 @@ apf.dropdown = function(struct, tagName) {
         
         this.oSlider.style.display = "block";
         if (!this.ignoreOverflow) {
-            this.oSlider.style[apf.supportOverflowComponent
-                ? "overflowY"
-                : "overflow"] = "visible";
+            this.oSlider.style.overflowY = "visible";
             this.$container.style.overflowY = "hidden";
         }
         

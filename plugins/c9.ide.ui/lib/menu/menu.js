@@ -440,7 +440,7 @@ apf.popup = {
 apf.menu = function(struct, tagName) {
     this.$init(tagName || "menu", apf.NODE_VISIBLE, struct);
     
-    this.animate = apf.enableAnim;
+    this.animate = true;
 };
 
 (function() {

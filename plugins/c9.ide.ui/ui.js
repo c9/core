@@ -282,11 +282,7 @@ define(function(require, module, exports) {
             //var allMarker = apf.all.length;
             var childMarker = parent.childNodes.length;
             
-            parent.insertMarkup(markup, {
-                callback: function() {
-                    
-                }
-            });
+            parent.insertMarkup(markup);
             
             //var allNodes = apf.all.slice(allMarker);
             var childNodes = parent.childNodes.slice(childMarker);
@@ -306,7 +302,7 @@ define(function(require, module, exports) {
             
             if (typeof item == "string") {
                 var bar = new apf.bar({ htmlNode: document.createElement("div") });
-                bar.insertMarkup(item, { callback: function() {} });
+                bar.insertMarkup(item);
                 item = bar.childNodes.slice();
                 bar.childNodes.length = 0;
                 bar.destroy();
