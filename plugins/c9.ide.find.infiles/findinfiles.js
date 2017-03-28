@@ -529,6 +529,7 @@ define(function(require, exports, module) {
                 var acesession = session.session;
                 var doc = acesession.getDocument();
                 
+                acesession.mergeUndoDeltas = false;
                 if (settings.getBool("user/findinfiles/@clear"))
                     doc.setValue("");
 
@@ -598,6 +599,7 @@ define(function(require, exports, module) {
                 }
                 find.findFiles(options, function(err, stream, process) {
                     if (err) {
+                        acesession.mergeUndoDeltas = true;
                         appendLines(doc, "Error executing search: " + err.message);
                         tab.classList.remove("loading");
                         tab.classList.add("error");
@@ -613,6 +615,7 @@ define(function(require, exports, module) {
                             doc.ace.scrollToLine(currLength, false, true);
                             firstRun = false;
                         }
+                        acesession.mergeUndoDeltas = true;
                         appendLines(doc,
                             reBase ? chunk.replace(reBase, "") : chunk);
                     });
@@ -628,6 +631,7 @@ define(function(require, exports, module) {
                             var line = doc.getLine(endRow - i);
                             if (line && /Found \d+/.test(line)) {
                                 var headerRow = doc.lastHeaderRow;
+                                acesession.mergeUndoDeltas = true;
                                 doc.insertInLine({
                                     row: headerRow,
                                     column: doc.getLine(headerRow).length
