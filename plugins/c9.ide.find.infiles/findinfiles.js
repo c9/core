@@ -520,21 +520,16 @@ define(function(require, exports, module) {
             if (cb && typeof cb != "function")
                 cb = undefined; // called from libsearch
             options = options || getOptions();
-
-            // Open Console
-            if (chkSFConsole.checked)
-                c9console.show();
             
             makeSearchResultsPanel(function(err, tab) {
-                if (err) {
-                    c9console.error("Error creating search panel");
-                    return;
-                }
+                if (err)
+                    return console.error("Error creating search panel");
                 
                 var session = tab.document.getSession();
                 var acesession = session.session;
                 var doc = acesession.getDocument();
                 
+                acesession.mergeUndoDeltas = false;
                 if (settings.getBool("user/findinfiles/@clear"))
                     doc.setValue("");
 
@@ -604,6 +599,7 @@ define(function(require, exports, module) {
                 }
                 find.findFiles(options, function(err, stream, process) {
                     if (err) {
+                        acesession.mergeUndoDeltas = true;
                         appendLines(doc, "Error executing search: " + err.message);
                         tab.classList.remove("loading");
                         tab.classList.add("error");
@@ -619,6 +615,7 @@ define(function(require, exports, module) {
                             doc.ace.scrollToLine(currLength, false, true);
                             firstRun = false;
                         }
+                        acesession.mergeUndoDeltas = true;
                         appendLines(doc,
                             reBase ? chunk.replace(reBase, "") : chunk);
                     });
@@ -634,6 +631,7 @@ define(function(require, exports, module) {
                             var line = doc.getLine(endRow - i);
                             if (line && /Found \d+/.test(line)) {
                                 var headerRow = doc.lastHeaderRow;
+                                acesession.mergeUndoDeltas = true;
                                 doc.insertInLine({
                                     row: headerRow,
                                     column: doc.getLine(headerRow).length
@@ -822,13 +820,12 @@ define(function(require, exports, module) {
             return /.*/.exec(str)[0];
         }
 
-        var searchPanel = {};
         function makeSearchResultsPanel(callback) {
-            var tab = searchPanel[chkSFConsole.checked];
+            var tab = tabs.findTab("/.c9/searchresults");
             
-            if (!tab || !tab.loaded) {
+            if (!tab) {
                 var root = chkSFConsole.checked ? c9console : tabs;
-                searchPanel[chkSFConsole.checked] = root.open({
+                root.open({
                     path: "/.c9/searchresults", // This allows the tab to be saved
                     focus: true,
                     document: {
