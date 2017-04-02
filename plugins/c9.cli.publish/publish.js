@@ -11,7 +11,6 @@ define(function(require, exports, module) {
         var api = imports.api;
         
         var TEST_MODE = !!process.env.C9_TEST_MODE;
-        var SHELLSCRIPT = TEST_MODE ? "" : require("text!./publish.git.sh");
         var TAR = "tar";
         var APIHOST = options.apiHost;
         var BASICAUTH = process.env.C9_TEST_AUTH;
@@ -32,9 +31,6 @@ define(function(require, exports, module) {
         
         var fs = require("fs");
         var join = require("path").join;
-        var os = require("os");
-        var FormData = require("form-data");
-        var http = require(APIHOST.indexOf("localhost") > -1 ? "http" : "https");
         var Path = require("path");
         var basename = require("path").basename;
         var dirname = require("path").dirname;
@@ -43,7 +39,6 @@ define(function(require, exports, module) {
         var verbose = false;
         var force = false;
         var dryRun = false;
-        var createTag = false;
         var compress = false;
         
         // Set up basic auth for api if needed
@@ -60,80 +55,13 @@ define(function(require, exports, module) {
             loaded = true;
             
             cmd.addCommand({
-                name: "publish", 
-                info: "  Publishes a cloud9 package.",
-                usage: "[--verbose] [--force] [<newversion> | major | minor | patch | build]",
-                options: {
-                    "verbose": {
-                        "description": "Output more information",
-                        "alias": "v",
-                        "default": false,
-                        "boolean": true
-                    },
-                    "force": {
-                        "description": "Ignore warnings",
-                        "alias": "f",
-                        "default": false,
-                        "boolean": true
-                    },
-                    "dry-run": {
-                        "description": "Only build a test version",
-                        "default": false,
-                        "boolean": true
-                    },
-                    "tag": {
-                        "description": "Create git tag for published version",
-                        "alias": "t",
-                        "default": false,
-                        "boolean": true
-                    },
-                    "compress": {
-                        "description": "Minify output with uglify.js",
-                        "default": true,
-                        "boolean": true
-                    }
-                },
-                check: function(argv) {
-                    
-                },
-                exec: function(argv) {
-                    verbose = argv["verbose"];
-                    force = argv["force"];
-                    dryRun = argv["dry-run"];
-                    createTag = argv["tag"];
-                    
-                    publish(
-                        argv._[1],
-                        function(err, data) {
-                            if (err) {
-                                if (err.message || typeof err == "string")
-                                    console.error(err.message || err);
-                                
-                                if (!verbose)
-                                    console.error("\nTry running with --verbose flag for more information");
-                                process.exit(1);
-                            }
-                            else if (!dryRun) {
-                                console.log("Successfully published version", data.version);
-                                process.exit(0);
-                            }
-                        });
-                }
-            });
-            
-            cmd.addCommand({
                 name: "build", 
-                info: "    Builds development version of package to load in non-debug mode.",
-                usage: "[--devel]",
+                info: "    Builds cloud9 package for loading from cdn.",
+                usage: "[--compress]",
                 options: {
-                    "devel": {
-                        "description": "",
-                        "alias": "d",
-                        "default": false,
-                        "boolean": true
-                    },
                     "compress": {
                         "description": "Minify output with uglify.js",
+                        "alias": "c",
                         "default": false,
                         "boolean": true
                     }
@@ -142,116 +70,23 @@ define(function(require, exports, module) {
                     compress = argv["compress"];
                     verbose = argv["verbose"];
                     force = argv["force"];
-                    if (argv["devel"]) {
-                        var code = function(argument) {
-                            /* TODO explain */
-                            define("plugins/PACKAGE_NAME/__installed__", [], [
-                                "plugins/PACKAGE_NAME/__debug__"
-                            ]);
-                            define("plugins/PACKAGE_NAME/__debug__", [], function(require, exports, module) {
-                                main.consumes = ["plugin.debug"];
-                                main.provides = [];
-                                return main;
-                            
-                                function main(options, imports, register) {
-                                    var debug = imports["plugin.debug"];
-                                    debug.loadPackage("PACKAGE_NAME");
-                                }
-                            });
-                        }.toString();
-                        var cwd = process.cwd();
-                        var packageName = basename(cwd);
-                        var indent = code.match(/\n\r?(\s*)/)[1].length;
-                        code = code
-                            .replace(/\r/g, "")
-                            .replace(new RegExp("^ {" + indent + "}", "gm"), "")
-                            .replace(/^.*?{|}$/g, "")
-                            .trim()
-                            .replace(/PACKAGE_NAME/g, packageName);
-                                    
-                        fs.writeFileSync(cwd + "/__installed__.js", code, "utf8");
-                    } 
-                    else {
-                        dryRun = true;
-                        publish({ local: true }, function(err, result) {
-                            if (err) {
-                                console.error(err);
-                                if (!verbose)
-                                    console.error("\nTry running with --verbose flag for more information");
-                                process.exit(1);
-                            }
-                            console.log("Done!");
-                        });
-                    }
-                }
-            });
-            
-            cmd.addCommand({
-                name: "unpublish", 
-                info: "Disables a cloud9 package.",
-                usage: "[--verbose]",
-                options: {
-                    "verbose": {
-                        "description": "Output more information",
-                        "alias": "v",
-                        "default": false,
-                        "boolean": true
-                    }
-                },
-                check: function(argv) {},
-                exec: function(argv) {
-                    verbose = argv["verbose"];
-                    compress = argv["compress"];
-                    
-                    unpublish(
-                        function(err, data) {
-                            if (err) {
-                                console.error(err.message || err || "Terminated.");
-                                process.exit(1);
-                            }
-                            else {
-                                console.log("Successfully disabled package");
-                                process.exit(0);
-                            }
-                        });
+                    dryRun = true;
+                    publish({ local: false }, function(err, result) {
+                        if (err) {
+                            console.error(err);
+                            if (!verbose)
+                                console.error("\nTry running with --verbose flag for more information");
+                            process.exit(1);
+                        }
+                        console.log("Done!");
+                    });
                 }
             });
         }
 
         /***** Methods *****/
-        
-        function spawn(command, options, callback) {
-            if (options.stdio == null) {
-                // if verbose, echo stdout
-                // always echo stderr
-                options.stdio = [
-                    "pipe",
-                    verbose ? process.stdout : "ignore",
-                    process.stderr
-                ];
-            }
-            
-            proc.spawn(command, options, function(err, child) {
-                if (err) return callback(err);
-                
-                child.on("exit", function(code) {
-                    if (code !== 0) {
-                        var error = new Error("Command failed: " + command);
-                        error.code = code;
-                        return callback(error);
-                    }
-                    
-                    callback();
-                });
-            });
-        }
-        
-        function stringifyError(err) {
-            return (verbose ? JSON.stringify(err, 4, "    ") : (typeof err == "string" ? err : err.message));
-        }
-        
+
         function addMissingValues(json) {
-            json.permissions = json.permissions || "world";
             
             return json;
         }
@@ -260,10 +95,6 @@ define(function(require, exports, module) {
             var cwd = process.cwd();
             
             // Basic Validation
-            if (json.private)
-                return new Error("ERROR: Private flag in package.json prevents from publishing");
-            if (!json.name)
-                return new Error("ERROR: Missing name property in package.json");
             if (!json.name.match(/^[\w\._]+$/))
                 return new Error("ERROR: Package name can only contain Alphanumeric characters, periods and underscores");
             if (basename(cwd) != json.name) {
@@ -271,14 +102,6 @@ define(function(require, exports, module) {
                 if (!force)
                     return new Error("Use --force to ignore this warning.");
             }
-            if (!json.repository)
-                return new Error("ERROR: Missing repository property in package.json");
-            if (!json.repository.url)
-                return new Error("ERROR: Missing repository.url property in package.json");
-            if (!json.categories || json.categories.length == 0)
-                return new Error("ERROR: At least one category is required in package.json");
-            if (!json.permissions || !json.permissions.match(/org|world/)) 
-                return new Error("ERROR: Permissions must be 'org' or 'world'");
         }
         
         function publish(options, callback) {
@@ -297,11 +120,9 @@ define(function(require, exports, module) {
                     return callback(new Error("ERROR: Could not parse package.json: ", e.message)); 
                 }
                 
-                console.log("Permissions are: ", json.permissions);
                 console.log("Data is: ", data);
                 json = addMissingValues(json);
                 
-                console.log("Permissions are: ", json.permissions);
                 var validationError = validateConfig(json);
                 if (validationError) return callback(validationError);
                 
@@ -309,16 +130,6 @@ define(function(require, exports, module) {
                 
                 if (description)
                     console.warn("WARNING: Description property in package.json will be ignored. README.md will be used.");
-                
-                // Validate README.md
-                if (fs.existsSync(join(cwd, "README.md"))) {
-                    description = fs.readFileSync(join(cwd, "README.md"), "utf8")
-                        .replace(/^\#.*\n*/, "");
-                } else {
-                    console.warn("WARNING: README.md is missing.");
-                    if (!force)
-                        return callback(new Error("Use --force to ignore these warnings."));
-                }
                 
                 // Validate plugins
                 var plugins = {};
@@ -385,7 +196,7 @@ define(function(require, exports, module) {
                     // Write the package.json file
                     var indent = data.match(/{\n\r?^ {4}"/) ? 4 : 2;
                     var newData = JSON.stringify(json, null, indent);
-                    fs.writeFile(cwd + "/.c9/.build/package.json", newData, function() {
+                    fs.writeFile(cwd + "/.build/package.json", newData, function() {
                         if (dryRun)
                             return next(); // if dry-run is passed only update path in .build
                         fs.writeFile(packagePath, newData, function(err) {
@@ -395,9 +206,6 @@ define(function(require, exports, module) {
                     });
                 }
                 
-                // Build the package
-                // @TODO add a .c9exclude file that excludes files
-                var zipFilePath;
                 function build() {
                     var base = dirname(cwd);
                     var packageName = json.name;
@@ -514,7 +322,7 @@ define(function(require, exports, module) {
                                     });
                                 }
                                 
-                                packedFiles.push(cwd + "/__installed__.js");
+                                packedFiles.push(cwd + "/package." + packageName + ".js");
                                 
                                 if (json.installer) {
                                     var path = join(cwd, json.installer);
@@ -592,16 +400,21 @@ define(function(require, exports, module) {
                                 additional.push(staticPlugin);
                                 packedConfig.push(staticPlugin.id);
                             }
-                            var path = "plugins/" + packageName + "/__installed__";
+                            var path = "plugins/" + packageName + "/package." + packageName;
+                            
+                            if (!json.c9) json.c9 = {};
+                            json.c9.plugins = packedConfig.map(function(p) {
+                                var name = p.slice(p.lastIndexOf("/") + 1);
+                                var options = json.plugins[name] || {};
+                                options.packagePath = p;
+                                return options;
+                            });
+                            json.name = packageName;
+                            json.plugins = undefined;
+                            
                             additional.push({
                                 id: path,
-                                source: 'define("' + path + '", [],' + 
-                                    JSON.stringify(packedConfig.map(function(p) {
-                                        var name = p.slice(p.lastIndexOf("/") + 1);
-                                        var options = json.plugins[name] || {};
-                                        options.packagePath = p;
-                                        return options;
-                                    }), null, 4) + ');',
+                                source: 'define("' + path + '", [], ' + JSON.stringify(json, null, 4) + ');',
                                 literal: true,
                                 order: -1
                             });
@@ -630,7 +443,7 @@ define(function(require, exports, module) {
                         },
                         function(next) {
                             if (options.local)
-                                return fs.writeFile(cwd + "/__installed__.js", result.code, "utf8", callback);
+                                return fs.writeFile(cwd + "/package." + packageName + ".js", result.code, "utf8", callback);
                             next();
                         },
                         function(next) {
@@ -638,17 +451,17 @@ define(function(require, exports, module) {
                                 args: ["-rf", ".c9/.build"],
                                 cwd: cwd
                             }, function() {
-                                mkdirP(cwd + "/.c9/.build");
-                                fs.writeFile(cwd + "/.c9/.build/__installed__.js", result.code, "utf8", next);
+                                mkdirP(cwd + "/.build");
+                                fs.writeFile(cwd + "/.build/package." + packageName + ".js", result.code, "utf8", next);
                             });
                         },
                         function(next) {
                             var copy = require("architect-build/copy");
                             
-                            var excludeRe = /^\.(gitignore|hgignore|git|c9|hg)$/;
+                            var excludeRe = /^\.(\w*ignore|git|c9|hg|build)$/;
                             var excludeMap = Object.create(null);
                             
-                            packedFiles.push(cwd + "/__installed__.js");
+                            packedFiles.push(cwd + "/package." + packageName + ".js");
                             packedFiles.forEach(function(p) {
                                 p = "/" + normalizePath(Path.relative(cwd, p));
                                 excludeMap[p] = 1;
@@ -657,7 +470,7 @@ define(function(require, exports, module) {
                             if (json.installer)
                                 excludeMap["/" + normalizePath(Path.relative(cwd, json.installer))] = 0;
                             
-                            copy(cwd, cwd + "/.c9/.build", {
+                            copy(cwd, cwd + "/.build", {
                                 exclude: function(name, parent) {
                                     if (excludeRe.test(name))
                                         return true;
@@ -669,182 +482,9 @@ define(function(require, exports, module) {
                             });
                             next();
                         },
-                        updatePackageJSON,
-                        function(next) {
-                            zip();
-                        }
+                        updatePackageJSON
                     ]);
- 
                 }
-                
-                function zip() {
-                    zipFilePath = join(os.tmpDir(), json.name + "@" + json.version) + ".tar.gz";
-                    var tarArgs = ["-zcvf", normalizePath(zipFilePath)]; 
-                    var c9ignore = normalizePath(process.env.HOME + "/.c9/.c9ignore");
-                    fs.exists(c9ignore, function (exists) {
-                        if (exists) {
-                            tarArgs.push("--exclude-from=" + c9ignore);
-                        }
-                        tarArgs.push(".");
-                        spawn(TAR, {
-                            args: tarArgs,
-                            cwd: cwd + "/.c9/.build"
-                        }, function(err) {
-                            if (err)
-                                return callback(new Error("ERROR: Could not package directory"));
-                                
-                            console.log("Built package", json.name + "@" + json.version +
-                                (dryRun ? " at " + zipFilePath : ""));
-                            
-                            if (dryRun) return callback();
-                            
-                            upload();
-                        });
-                    });
-                }
-                
-                // Update c9.io with the new version being published.
-                function upload() {
-                    // Check if the plugin is already registered
-                    if (verbose)
-                        console.log("Uploading package " + json.name);
-                    
-                    api.packages.get(json.name, function(err, pkg) {
-                        if (err) {} // Ignore error, if we don't get a response it means this package hasn't been published yet
-                        
-                        if (!pkg || pkg.error) {
-                            if (verbose)
-                                console.log("Package not registered, creating new.");
-                            
-                            // Registers the package name on c9.io if it is being published for the first time. 
-                            api.user.get("", function(err, user) {
-                                if (err) return callback(new Error("ERROR: Failed to get user details from API - " + stringifyError(err)));
-                                
-                                api.packages.post("", {
-                                    contentType: "application/json",
-                                    body: {
-                                        name: json.name,
-                                        description: description,
-                                        owner_type: "user", // @TODO implement this when adding orgs
-                                        owner_id: parseInt(user.id),
-                                        permissions: json.permissions,
-                                        categories: json.categories,
-                                        repository: json.repository,
-                                        longname: json.longname,
-                                        website: json.website,
-                                        screenshots: json.screenshots || [],
-                                        pricing: json.pricing || {}
-                                    }
-                                }, function(err, pkg) {
-                                    if (err) {
-                                        return callback(new Error("ERROR: Failed to upload new package to API - " 
-                                            + stringifyError(err)));
-                                    }
-                                    
-                                    next(pkg);
-                                });
-                            });
-                        }
-                        else {
-                            if (verbose)
-                                console.log("Plugin already registered, updating.");
-                            
-                            api.packages.put(json.name, {
-                                contentType: "application/json",
-                                body: {
-                                    permissions: json.permissions,
-                                    categories: json.categories,
-                                    repository: json.repository,
-                                    longname: json.longname,
-                                    website: json.website,
-                                    description: description,
-                                    screenshots: json.screenshots,
-                                    pricing: json.pricing,
-                                    enabled: true
-                                }
-                            }, function(err, pkg) {
-                                if (err) 
-                                    return callback(new Error("ERROR: Failed to update existing package - " 
-                                        + stringifyError(err)));
-                                if (verbose)
-                                    console.log("Successfully updated metadata of existing package");
-                                
-                                next(pkg);
-                            });
-                        }
-                        
-                        function next(pkg) {
-                            // Create Version
-                            if (verbose)
-                                console.log("Sending new version ", json.version);
-                            
-                            var form = new FormData();
-                            form.append('version', json.version);
-                            form.append('options', JSON.stringify(json.plugins));
-                            form.append('package', fs.createReadStream(zipFilePath));
-                            
-                            var path = "/packages/" + json.name 
-                                + "/versions?access_token=" 
-                                + encodeURIComponent(auth.accessToken);
-                            var host = APIHOST.split(":")[0];
-                            var port = parseInt(APIHOST.split(":")[1]) || null;
-                            
-                            var request = http.request({
-                                agent: false,
-                                method: "post",
-                                host: host, 
-                                port: port,
-                                path: path, 
-                                auth: BASICAUTH,
-                                headers: form.getHeaders()
-                            });
-                            
-                            form.pipe(request);
-                            
-                            request.on('response', function(res) {
-                                // TODO better handle version exists error
-                                if (res.statusCode == 412)
-                                    console.error("ERROR: most likely version " + json.version + " already exisits, try increasing version");
-                                if (res.statusCode != 200)
-                                    return callback(new Error("ERROR: Unknown Error:" + res.statusCode));
-                            
-                                commitAndPush();
-                            });
-                        }
-                    });
-                }
-                
-                function commitAndPush() {
-                    // Create Version Complete
-                    if (!createTag)
-                        callback(null, json);
-                                
-                    spawn("bash", {
-                        args: ["-c", SHELLSCRIPT, "--", json.version, normalizePath(packagePath)]
-                    }, function(err, p) {
-                        if (err) return callback(err);                            
-                        console.log("Created tag and updated package.json to version", json.version);                            
-                        callback(null, json);
-                    });
-                }
-            });
-        }
-        
-        function unpublish(callback) {
-            var packagePath = process.cwd() + "/package.json";
-            fs.readFile(packagePath, function(err, data) {
-                if (err) return callback(err); // @TODO package.json not found
-                
-                var json;
-                try { json = JSON.parse(data); }
-                catch (e) { 
-                    return callback(new Error("ERROR: Could not parse package.json: ", e.message)); 
-                }
-                
-                if (!json.name)
-                    return callback(new Error("ERROR: Missing name property in package.json"));
-                
-                api.packages.put(json.name + "/disable", {}, callback);
             });
         }
         
@@ -893,11 +533,6 @@ define(function(require, exports, module) {
              *
              */
             publish: publish,
-            
-            /**
-             * 
-             */
-            unpublish: unpublish
         });
         
         register(null, {

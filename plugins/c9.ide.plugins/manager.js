@@ -3,10 +3,10 @@ define(function(require, exports, module) {
     main.consumes = [
         "PreferencePanel", "settings", "ui", "util", "Form", "ext", "c9",
         "dialog.alert", "dialog.confirm", "layout", "proc", "menus", "commands",
-        "dialog.error", "dialog.info", "tree.favorites", "fs", "tree", "plugin.debug",
+        "dialog.error", "dialog.info", "tree.favorites", "fs", "tree", "vfs", "plugin.debug",
         "preferences.experimental"
     ];
-    main.provides = ["plugin.manager"];
+    main.provides = ["plugin.manager", "pluginManager"];
     return main;
 
     /*
@@ -53,6 +53,8 @@ define(function(require, exports, module) {
         var proc = imports.proc;
         var util = imports.util;
         var qs = require("querystring");
+        var apf = imports.apf;
+        var vfs = imports.vfs;
         var alert = imports["dialog.alert"].show;
         var confirm = imports["dialog.confirm"].show;
         var showError = imports["dialog.error"].show;
@@ -67,6 +69,7 @@ define(function(require, exports, module) {
         var join = require("path").join;
         var basename = require("path").basename;
         var dirname = require("path").dirname;
+        var async = require("async");
 
         var staticPrefix = options.staticPrefix;
         var architect;
@@ -696,6 +699,140 @@ define(function(require, exports, module) {
         function getLastReloaded() {
             return qs.parse(document.location.search.substr(1)).reload;
         }
+        
+        var packages = {};
+        function loadPackage(options, callback) {
+            if (Array.isArray(options))
+                return async.map(options, loadPackage, callback || function() {});
+            
+            if (typeof options == "string") {
+                if (/^https?:/.test(options)) {
+                   options = { url: options };
+                } else if (/^[~\/]/.test(options)) {
+                    options = { path: options };
+                } else if (/^[~\/]/.test(options)) {
+                    options =  { url: require.toUrl(options) };
+                }
+            }
+            
+            if (!options.url && options.path)
+                options.url = vfs.vfsUrl(options.path);
+            
+            var parts = options.url.split("/");
+            var root = parts.pop();
+            options.url = parts.join("/");
+            
+            if (!options.name) {
+                // try to find the name from file name
+                options.name = /^package\.(.*)\.js$|$/.exec(root)[1];
+                // try folder name
+                if (!options.name || options.name == "json")
+                    options.name = parts[parts.length - 1];
+                // try parent folder name
+                if (/^(.?build|master)/.test(options.name))
+                    options.name = parts[parts.length - 2];
+                // remove version from the name
+                options.name = options.name.replace(/@.*$/, "");
+            }
+            if (!options.packageName)
+                options.packageName = root.replace(/\.js$/, "");
+            
+            if (!options.rootDir)
+                options.rootDir = "plugins";
+            
+            var name = options.name;
+            var id = options.rootDir + "/" + name;
+            var pathMappings = {};
+            
+            pathMappings[id] = options.url;
+            requirejs.config({ paths: pathMappings });
+            requirejs.undef(id + "/", true);
+            
+            if (/\.js$/.test(root)) {
+                require([options.url + "/" + root], function(json) {
+                    json = json || require(id + "/" + options.packageName);
+                    getPluginsFromPackage(json, callback);
+                }, function(err) {
+                    addError("Error loading plugin", err);
+                });
+            }
+            else if (options.path && /\.json$/.test(root)) {
+                fs.readFile(options.path, function(err, value) {
+                    if (err) return addError("Error reading " + options.path, err);
+                    try {
+                        var json = JSON.parse(value);
+                    } catch (e) {
+                        return addError("Error parsing package.json", e);
+                    }
+                    json.fromVfs = true;
+                    getPluginsFromPackage(json, callback);
+                });
+            }
+            else if (options.url && /\.json$/.test(root)) {
+                require(["text!" + options.id + "/" + root], function(value) {
+                    try {
+                        var json = JSON.parse(value);
+                    } catch (e) {
+                        return addError("Error parsing package.json", e);
+                    }
+                    getPluginsFromPackage(json, callback);
+                }, function(err) {
+                    addError("Error loading plugin", err);
+                });
+            }
+            else {
+                callback && callback(new Error("Missing path and url"));
+            }
+            
+            function addError(message, err) {
+                if (!packages[name])
+                    packages[name] = {};
+                packages[name].filePath = options.path;
+                packages[name].url = options.url;
+                packages[name].__error = new Error(message + "\n" + err.message);
+                
+                reloadModel();
+                
+                callback && callback(err);
+            }
+            
+            function getPluginsFromPackage(json, callback) {
+                var plugins = [];
+                if (json.name != name)
+                    name = json.name;
+                var unhandledPlugins = json.c9 && json.c9.plugins || json.plugins;
+                if (unhandledPlugins) {
+                    Object.keys(unhandledPlugins).forEach(function(name) {
+                        var plugin = unhandledPlugins[name];
+                        if (typeof plugin == "string")
+                            plugin = { packagePath: plugin };
+                        if (!plugin.packagePath)
+                            plugin.packagePath = id + "/" + name;
+                        plugin.staticPrefix = options.url;
+                        plugins.push(plugin);
+                    });
+                }
+                
+                packages[json.name] = json;
+                json.filePath = options.path;
+                json.url = options.url;
+                
+                if (!json.c9)
+                    json.c9 = {};
+                
+                json.c9.plugins = plugins;
+                json.enabled = true;
+                json.path = id;
+                
+                loadPlugins(plugins, callback);
+            }
+        }
+        
+        function loadPlugins(plugins, callback) {
+            architect.loadAdditionalPlugins(plugins, function(err) {
+                callback && callback && callback(err);
+            });
+        }
 
         /***** Lifecycle *****/
 
@@ -757,6 +894,11 @@ define(function(require, exports, module) {
             /**
              *
              */
+            loadPackage: loadPackage,
+            
+            /**
+             *
+             */
             uninstall: uninstall,
 
             /**
@@ -776,6 +918,7 @@ define(function(require, exports, module) {
         });
 
         register(null, {
+            "pluginManager": plugin,
             "plugin.manager": plugin
         });
     }

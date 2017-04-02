@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-    main.consumes = ["Plugin", "cli_commands", "workspace"];
+    main.consumes = ["Plugin", "cli_commands"];
     main.provides = ["cli"];
     return main;
 
@@ -10,8 +10,6 @@ define(function(require, exports, module) {
         var fs = require("fs");
         var resolve = require("path").resolve;
 
-        var optimist;
-        
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
@@ -44,15 +42,20 @@ define(function(require, exports, module) {
                 }
             }
             
-            optimist = require('optimist');
+            var optimist = require('optimist');
             
-            if (!module || !commands[module]) {
+            var def = commands[module];
+            
+            if (!module || !def) {
                 if (process.argv.indexOf("--version") != -1) {
                     console.log(require("../../package.json").version);
                     process.exit(0);
                 }
                 
-                argv = optimist
+                if (module && !def)
+                    console.error(module + " is not a c9 command\n");
+                
+                optimist
                     .usage("The Cloud9 CLI.\nUsage: c9 [--verbose] <command> [<args>]\n\n"
                             + "The most commonly used c9 commands are:\n" 
                             + Object.keys(commands).map(function(name) {
@@ -67,13 +70,10 @@ define(function(require, exports, module) {
                             default: false
                         }
                     })
-                    .check(function() {
-                        throw new Error("See 'c9 <command> --help' for more information on a specific command.");
-                    })
-                    .argv;
+                    .showHelp();
+                return;
             }
-
-            var def = commands[module];
+            
             def.options.help = {
                 alias: "h",
                 description: "Output help information"
@@ -84,10 +84,7 @@ define(function(require, exports, module) {
                 .options(def.options);
             
             if (argv.argv.help)
-                argv = argv.check(function() {
-                    if (argv.help)
-                        throw new Error("Help Requested");
-                });
+                return argv.showHelp();
             if (def.check) 
                 argv = argv.check(def.check);
             argv = argv.argv;
