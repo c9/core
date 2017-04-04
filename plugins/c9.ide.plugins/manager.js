@@ -729,7 +729,7 @@ define(function(require, exports, module) {
                 if (!options.name || options.name == "json")
                     options.name = parts[parts.length - 1];
                 // try parent folder name
-                if (/^(.?build|master)/.test(options.name))
+                if (/^(.?build|master|c9build)/.test(options.name))
                     options.name = parts[parts.length - 2];
                 // remove version from the name
                 options.name = options.name.replace(/@.*$/, "");

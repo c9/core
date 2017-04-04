@@ -196,9 +196,9 @@ define(function(require, exports, module) {
                     // Write the package.json file
                     var indent = data.match(/{\n\r?^ {4}"/) ? 4 : 2;
                     var newData = JSON.stringify(json, null, indent);
-                    fs.writeFile(cwd + "/.build/package.json", newData, function() {
+                    fs.writeFile(cwd + "/c9build/package.json", newData, function() {
                         if (dryRun)
-                            return next(); // if dry-run is passed only update path in .build
+                            return next(); // if dry-run is passed only update path in c9build
                         fs.writeFile(packagePath, newData, function(err) {
                             if (err) return callback(err);
                             return next();
@@ -448,17 +448,17 @@ define(function(require, exports, module) {
                         },
                         function(next) {
                             proc.execFile("rm", {
-                                args: ["-rf", ".c9/.build"],
+                                args: ["-rf", "c9build"],
                                 cwd: cwd
                             }, function() {
-                                mkdirP(cwd + "/.build");
-                                fs.writeFile(cwd + "/.build/package." + packageName + ".js", result.code, "utf8", next);
+                                mkdirP(cwd + "/c9build");
+                                fs.writeFile(cwd + "/c9build/package." + packageName + ".js", result.code, "utf8", next);
                             });
                         },
                         function(next) {
                             var copy = require("architect-build/copy");
                             
-                            var excludeRe = /^\.(\w*ignore|git|c9|hg|build)$/;
+                            var excludeRe = /^\.(\w*ignore|git|c9|hg|build)$|^(c9)?build$/;
                             var excludeMap = Object.create(null);
                             
                             packedFiles.push(cwd + "/package." + packageName + ".js");
@@ -470,7 +470,7 @@ define(function(require, exports, module) {
                             if (json.installer)
                                 excludeMap["/" + normalizePath(Path.relative(cwd, json.installer))] = 0;
                             
-                            copy(cwd, cwd + "/.build", {
+                            copy(cwd, cwd + "/c9build", {
                                 exclude: function(name, parent) {
                                     if (excludeRe.test(name))
                                         return true;
