@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-// Architect
-var architect = require("architect");
-
 // Add ability to load AMD modules
 require("amd-loader");
+
+// Architect
+var architect = require("architect");
 
 
 architect.resolveConfig(require("../configs/cli.js")(),

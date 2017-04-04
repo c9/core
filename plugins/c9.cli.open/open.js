@@ -60,6 +60,7 @@ define(function(require, exports, module) {
         function open(paths, wait, callback) {
             try {
                 paths = paths.map(function(path) {
+                    path = String(path);
                     var isDir = fs.existsSync(path) && fs.statSync(path).isDirectory();
                     path = PATH.resolve(path);
                     if (path.substr(0, process.env.HOME.length) == process.env.HOME)
@@ -71,9 +72,7 @@ define(function(require, exports, module) {
                     };
                 });
             } catch (e) {
-                var msg = e.message.split(",")[1].trim();
-                console.error(msg.charAt(0).toUpperCase() + msg.substr(1));
-                return;
+                return console.error(e);
             }
             
             var last;
@@ -95,15 +94,11 @@ define(function(require, exports, module) {
                     }
                 }
             });
-            // cwd = last || process.cwd();
-            // else if (workspace == ".")
-            //     cwd = process.cwd();
             
             var message = {
                 type: "open",
                 workspace: "local",
                 wait: wait,
-                // cwd       : cwd,
                 paths: paths
             };
             
