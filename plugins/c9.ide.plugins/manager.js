@@ -151,10 +151,10 @@ define(function(require, exports, module) {
                     bindKey: { mac: "F4", win: "F4" },
                     hint: "reload plugin last reloaded in plugin manager",
                     exec: function() {
-                        var name = getLastReloaded();
-                        if (!name)
+                        var names = getLastReloaded();
+                        if (!names)
                             return commands.exec("openPluginManager", null, { panel: plugin });
-                        reload(name);
+                        reload(names);
                     }
                 }, plugin);
                 
@@ -372,11 +372,10 @@ define(function(require, exports, module) {
                 var hasEnabled = 0;
                 var hasDisabled = 0;
                 items.forEach(function(x) {
-                    if (x.enabled) {
+                    if (x.enabled != 0)
                         hasEnabled = true;
-                    } else {
+                    if (x.enabled != 1)
                         hasDisabled = true;
-                    }
                 });
                 btnUninstall.setProperty("visible", hasEnabled);
                 btnInstall.setProperty("visible", hasDisabled);
@@ -601,7 +600,6 @@ define(function(require, exports, module) {
                 isAvailable: function() {
                     var selected = datagrid.selection.getCursor();
                     return selected && selected.packageConfig && selected.packageConfig.filePath;
-                    
                 },
                 onclick: function() {
                     var selected = datagrid.selection.getCursor();
@@ -611,6 +609,23 @@ define(function(require, exports, module) {
                         tabbehavior.revealtab({ path: filePath });
                     }
                 },
+            }), plugin);
+            menus.addItemByPath("context/pluginManager/Disable", new ui.item({
+                isAvailable: function() {
+                    var selected = datagrid.selection.getCursor();
+                    return selected && selected.enabled != 0;
+                },
+                onclick: function() { reloadGridSelection(false); },
+            }), plugin);
+            menus.addItemByPath("context/pluginManager/Enable", new ui.item({
+                isAvailable: function() {
+                    var selected = datagrid.selection.getCursor();
+                    return selected && selected.enabled != 1;
+                },
+                onclick: function() { reloadGridSelection(true); },
+            }), plugin);
+            menus.addItemByPath("context/pluginManager/Reload", new ui.item({
+                onclick: function() { reloadGridSelection(); },
             }), plugin);
             treeBar.setAttribute("contextmenu", mnuCtxTree);
         }
@@ -892,39 +907,78 @@ define(function(require, exports, module) {
             });
         }
 
-        function reload(name) {
-            showReloadTip(name);
+        function reload(names) {
+            var nodes = names.split(/\s*,\s*/).map(function(name) {
+                if (packages[name])
+                    return { packageConfig: packages[name] };
+                return { path: name };
+            });
             
-            var href = document.location.href.replace(/[?&]reload=[^&]+/, "");
-            href += (href.match(/\?/) ? "&" : "?") + "reload=" + name;
-            window.history.replaceState(window.history.state, null, href);
-            
-            for (var plugin in architectApp.lut) {
-                if (architectApp.lut[plugin].provides.indexOf(name) < 0)
-                    continue;
-
-                reloadPackage(plugin);
-                return;
-            }
-            updateReloadLastButton();
+            reloadGridSelection(null, nodes);
         }
         
-        function reloadGridSelection(mode) {
-            var nodes = datagrid.selection.getSelectedNodes();
-            console.log(nodes, mode);
+        function reloadGridSelection(mode, nodes) {
+            if (!nodes)
+                nodes = datagrid.selection.getSelectedNodes();
+            var reloadLast = [];
             nodes.forEach(function(node) {
+                var id;
                 if (node.packageConfig) {
+                    var config = node.packageConfig;
                     if (!mode)
-                        unloadPackage(node.packageConfig.name);
+                        unloadPackage(config.name);
                     if (mode != false)
-                        loadPackage(node.packageConfig.filePath);
+                        loadPackage(config.filePath || config.url);
+                    id = config.name;
                 }
                 else {
                     if (!mode)
                         unloadPlugins({ path: node.path });
                     if (mode != false)
                         loadPlugins({ path: node.path });
+                    id = node.path;
                 }
+                
+                reloadLast.push(id);
+                if (mode == false)
+                    disabledPlugins[id] = true;
+                else
+                    delete disabledPlugins[id];
+            });
+            if (reloadLast.length && mode == null) {
+                var href = document.location.href.replace(/[?&]reload=[^&]+/, "");
+                href += (href.match(/\?/) ? "&" : "?") + "reload=" + reloadLast.join(",");
+                window.history.replaceState(window.history.state, null, href);
+
+                showReloadTip();
+                updateReloadLastButton();
+            }
+        }
+        
+        function checkPluginsWithMissingDependencies() {
+            var services = architectApp.services;
+            var plugins = [];
+            getAllPlugins().forEach(function(p) {
+                if (!p.provides.length) return;
+                var packagePath = p.packagePath;
+                var isDisabled = p.provides.every(function(name) {
+                    if (!services[name]) return true;
+                    if (!services[name].loaded && typeof services[name].load == "function")
+                        return true;
+                });
+                if (isDisabled && packagePath) {
+                    var packageName = packagePath.split("/")[1];
+                    if (disabledPlugins[packageName]) return;
+                    while (packagePath && !disabledPlugins[packagePath]) {
+                        var i = packagePath.lastIndexOf("/");
+                        packagePath = packagePath.slice(0, i > 0 ? i : 0);
+                    }
+                    if (!packagePath) plugins.push(p);
+                }
+            });
+            if (!plugins.length) return;
+            architectApp.loadAdditionalPlugins(plugins, function(err) { 
+                if (err) return showError(err);
             });
         }
         
@@ -938,7 +992,7 @@ define(function(require, exports, module) {
             }
         }
         
-        function showReloadTip(name) {
+        function showReloadTip() {
             if (options.devel) {
                 var key = commands.getHotkey("reloadLastPlugin");
                 if (commands.platform == "mac")
@@ -955,13 +1009,13 @@ define(function(require, exports, module) {
             return qs.parse(document.location.search.substr(1)).reload;
         }
         
-        function getAllPlugins() {
+        function getAllPlugins(includeDisabled) {
             var config = architectApp.config;
             Object.keys(packages).forEach(function(n) {
                 if (packages[n] && packages[n].c9 && packages[n].c9.plugins)
                     config = config.concat(packages[n].c9.plugins);
             });
-            return config.filter(function(x) {
+            return includeDisabled ? config : config.filter(function(x) {
                 return x.consumes && x.provides;
             });
         }
@@ -1027,10 +1081,16 @@ define(function(require, exports, module) {
                 return async.map(options, loadPackage, callback || function() {});
             
             if (typeof options == "string") {
-                options = /^https?:/.test(options)
-                    ? { url: options }
-                    : { path: options };
+                if (/^https?:/.test(options)) {
+                   options = { url: options };
+                } else if (/^[~\/]/.test(options)) {
+                    options = { path: options };
+                } else if (/^[~\/]/.test(options)) {
+                    options =  { url: require.toUrl(options) };
+                }
             }
+            
+            var url = options.url;
             
             if (!options.url && options.path)
                 options.url = vfs.url(options.path);
@@ -1040,13 +1100,19 @@ define(function(require, exports, module) {
             options.url = parts.join("/");
             
             if (!options.name) {
-                options.name = parts[parts.length - 1];
-                if (options.name == "build")
+                // try to find the name from file name
+                options.name = /^package\.(.*)\.js$|$/.exec(root)[1];
+                // try folder name
+                if (!options.name || options.name == "json")
+                    options.name = parts[parts.length - 1];
+                // try parent folder name
+                if (/^(.?build|master|c9build)/.test(options.name))
                     options.name = parts[parts.length - 2];
+                // remove version from the name
                 options.name = options.name.replace(/@.*$/, "");
             }
             if (!options.packageName)
-                options.packageName = root;
+                options.packageName = root.replace(/\.js$/, "");
             
             if (!options.rootDir)
                 options.rootDir = "plugins";
@@ -1086,6 +1152,8 @@ define(function(require, exports, module) {
                         return addError("Error parsing package.json", e);
                     }
                     json.fromVfs = true;
+                    // handle the old format
+                    if (!json.c9) loadBundleFiles(json, options);
                     getPluginsFromPackage(json, callback);
                 });
             }
@@ -1109,7 +1177,7 @@ define(function(require, exports, module) {
                 if (!packages[name])
                     packages[name] = {};
                 packages[name].filePath = options.path;
-                packages[name].url = options.url;
+                packages[name].url = url;
                 packages[name].__error = new Error(message + "\n" + err.message);
                 packages[name].loading = false;
                 
@@ -1122,10 +1190,10 @@ define(function(require, exports, module) {
                 var plugins = [];
                 if (json.name != name)
                     json.name = name;
-                
-                if (json.plugins) {
-                    Object.keys(json.plugins).forEach(function(name) {
-                        var plugin = json.plugins[name];
+                var unhandledPlugins = json.c9 && json.c9.plugins || json.plugins;
+                if (unhandledPlugins) {
+                    Object.keys(unhandledPlugins).forEach(function(name) {
+                        var plugin = unhandledPlugins[name];
                         if (typeof plugin == "string")
                             plugin = { packagePath: plugin };
                         if (!plugin.packagePath)
@@ -1137,10 +1205,11 @@ define(function(require, exports, module) {
                 
                 packages[json.name] = json;
                 json.filePath = options.path;
-                json.url = options.url;
+                json.url = url;
                 
                 if (!json.c9)
                     json.c9 = {};
+                
                 json.c9.plugins = plugins;
                 json.enabled = true;
                 json.path = id;
@@ -1154,15 +1223,109 @@ define(function(require, exports, module) {
                     callback && callback(err, result);
                 });
             }
+            
+            function loadBundleFiles(json, options, callback) {
+                var cwd = dirname(options.path);
+                var resourceHolder = new Plugin();
+                fs.readdir(cwd, function(err, files) {
+                    if (err) return callback && callback(err);
+                    function forEachFile(dir, fn) {
+                        fs.readdir(dir, function(err, files) {
+                            if (err) return callback && callback(err);
+                            files.forEach(function(stat) {
+                                fs.readFile(dir + "/" + stat.name, function(err, value) {
+                                    if (err) return callback && callback(err);
+                                    fn(stat.name, value);
+                                });
+                            });
+                        });
+                    }
+                    function parseHeader(data, filename) {
+                        var firstLine = data.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
+                        var info = {};
+                        firstLine.split(";").forEach(function(n) {
+                            var key = n.split(":");
+                            if (key.length != 2)
+                                return console.error("Ignoring invalid key " + n + " in " + filename);
+                            info[key[0].trim()] = key[1].trim();
+                        });
+                        info.data = firstLine;
+                        return info;
+                    }
+                    function addResource(type) {
+                        forEachFile(cwd + "/" + type, function(filename, data) {
+                            addStaticPlugin(type, options.name, filename, data, plugin);
+                            
+                        });
+                    }
+                    function addMode(type) {
+                         forEachFile(cwd + "/modes", function(filename, data) {
+                            if (/(?:_highlight_rules|_test|_worker|_fold|_behaviou?r)\.js$/.test(filename))
+                                return;
+                            if (!/\.js$/.test(filename))
+                                return;
+                            var info = parseHeader(data, cwd + "/modes/" + filename);
+                            
+                            if (!info.caption) info.caption = filename;
+
+                            info.type = "modes";
+                            info.filename = filename;
+                            addStaticPlugin(type, options.name, filename, data, plugin);
+                        });
+                    }
+                    var handlers = {
+                        templates: addResource,
+                        snippets: addResource,
+                        builders: addResource,
+                        keymaps: addResource,
+                        outline: addResource,
+                        runners: addResource,
+                        themes: addResource,
+                        modes: addMode,
+                    };
+                    files.forEach(function(stat) {
+                        var type = stat.name;
+                        if (handlers.hasOwnProperty(type))
+                            handlers[type](type);
+                    });
+                    
+                    var name = options.name + ".bundle";
+                    var bundle = {
+                        packagePath: id + "/" + name,
+                        consumes: [],
+                        provides: [name],
+                        setup: function(imports, options, register) {
+                            var ret = {};
+                            ret[name] = resourceHolder;
+                            register(null, ret);
+                        }
+                    };
+                    json.c9.plugins.push(bundle);
+                    architectApp.loadAdditionalPlugins([bundle], function() {});
+                });
+            }
         }
         
         function loadPlugins(plugins, callback) {
+            if (!Array.isArray(plugins)) {
+                options = plugins;
+                plugins = [];
+                Object.keys(getServiceNamesByPath(options)).forEach(function(n) {
+                    var plugin = architectApp.serviceToPlugin[n];
+                    if (plugin && plugin.packagePath) {
+                        unloadPluginConfig(plugin);
+                        plugins.push(plugin);
+                    }
+                });
+            }
+            
             architectApp.loadAdditionalPlugins(plugins, function(err) {
+                setTimeout(checkPluginsWithMissingDependencies);
                 callback && callback && callback(err);
             });
         }
         
-        function unloadPlugins(options, callback) {
+        function getServiceNamesByPath(options) {
             var toUnload = Object.create(null);
             var config = getAllPlugins();
             function addPath(path) {
@@ -1189,7 +1352,11 @@ define(function(require, exports, module) {
                     toUnload[name] = 0;
                 });
             }
-            
+            return toUnload;
+        }
+        
+        function unloadPlugins(options, callback) {
+            var toUnload = getServiceNamesByPath(options);
             addAllDependents(toUnload);
             
             var services = architectApp.services;
@@ -1225,19 +1392,19 @@ define(function(require, exports, module) {
             reloadModel();
         }
         
-        function cleanupCache(packagePath) {
-            var options = architectApp.pathToPackage[packagePath];
-            var url = require.toUrl(options.packagePath, ".js");
+        function unloadPluginConfig(plugin) {
+            var url = requirejs.toUrl(plugin.packagePath, ".js");
             if (!define.fetchedUrls[url]) return false;
             
-            delete options.provides;
-            delete options.consumes;
-            delete options.setup;
+            delete plugin.provides;
+            delete plugin.consumes;
+            delete plugin.setup;
             
-            requirejs.undef(options.packagePath);
+            requirejs.undef(plugin.packagePath);
             return true;
         }
         
+        // TODO optimize this
         function addStaticPlugin(type, pluginName, filename, data, plugin) {
             var services = architectApp.services;
             var path = "plugins/" + pluginName + "/" 
@@ -1264,14 +1431,14 @@ define(function(require, exports, module) {
                     var mode = {};
                     var firstLine = data.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
                     firstLine.split(";").forEach(function(n) {
-                        if (!n) return;
                         var info = n.split(":");
+                        if (info.length != 2) return;
                         mode[info[0].trim()] = info[1].trim();
                     });
                     
                     services.ace.defineSyntax({
                         name: path,
-                        caption: mode.caption,
+                        caption: mode.caption || filename,
                         extensions: (mode.extensions || "").trim()
                             .replace(/\s*,\s*/g, "|").replace(/(^|\|)\./g, "$1")
                     });
@@ -1298,7 +1465,20 @@ define(function(require, exports, module) {
                     services.newresource.addFileTemplate(data, plugin);
                     break;
                 case "installer":
-                    console.error("Installer is not supported.");
+                    if (data) {
+                        services.installer.createSession(pluginName, data, function(v, o) {
+                            require([path], function(fn) {
+                                fn(v, o);
+                            });
+                        });
+                    }
+                    else {
+                        require([path], function(fn) {
+                            services.installer.createSession(pluginName, fn.version, function(v, o) {
+                                fn(v, o);
+                            });
+                        });
+                    }
                 default:
                     console.error("Unsupported type", type);
             }
@@ -1377,6 +1557,7 @@ define(function(require, exports, module) {
         });
 
         var shim = new Plugin();
+        shim.addStaticPlugin = addStaticPlugin;
 
         register(null, {
             "pluginManager": plugin,

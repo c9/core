@@ -1,10 +1,12 @@
 define(function(require, exports, module) {
-    main.consumes = [];
+    main.consumes = ["hub"];
     main.provides = ["ext", "Plugin"];
     return main;
 
     function main(options, imports, register) {
         var Emitter = require("events").EventEmitter;
+        var architectApp = imports.hub.app;
+
 
         var plugins = [];
         var lut = {};
@@ -18,12 +20,7 @@ define(function(require, exports, module) {
         
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
-        var vfs, settings, api;
-        
-        plugin.__defineSetter__("vfs", function(remote) {
-            vfs = remote;
-            delete plugin.vfs;
-        });
+        var settings, api;
         
         plugin.__defineSetter__("settings", function(remote) {
             settings = remote;
@@ -146,12 +143,14 @@ define(function(require, exports, module) {
         }
         
         function loadRemotePlugin(id, options, callback) {
+            var vfs = architectApp.services.vfs;
             vfs.extend(id, options, function(err, meta) {
                 callback(err, meta && meta.api);
             });
         }
         
         function fetchRemoteApi(id, callback) {
+            var vfs = architectApp.services.vfs;
             vfs.use(id, {}, function(err, meta) {
                 callback(err, meta && meta.api);
             });
