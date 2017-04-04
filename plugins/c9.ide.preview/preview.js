@@ -64,27 +64,8 @@ define(function(require, exports, module) {
             if (!options.hideButton) {
                 var submenu = new ui.menu({
                     "onprop.visible": function(e) {
-                        var tab = tabs.focussedTab;
-                        var isKnown = false;
-                        
-                        if (tab && tab.path) {
-                            var path = tab.path;
-                            for (var name in previewers) {
-                                if (previewers[name].matcher(path)) {
-                                    isKnown = true;
-                                    break;
-                                }
-                            }
-                            
-                            liveMenuItem.setAttribute("caption", isKnown
-                                ? "Live Preview File (" + basename(path) + ")"
-                                : "Raw Content of " + basename(path)
-                            );
-                            liveMenuItem.enable();
-                        }
-                        else {
-                            liveMenuItem.disable();
-                        }
+                        if (e.value)
+                            updatePreviewMenu(e, submenu);
                     }
                 });
                 
@@ -99,7 +80,7 @@ define(function(require, exports, module) {
                 
                 menus.addItemByPath("Tools/Preview/", submenu, 1000, handle);
                 liveMenuItem = new ui.item({
-                    onclick: function(e) { commands.exec("preview", { newTab: e && e.button == 1 }); }
+                    onclick: function(e) { commands.exec("preview", null, { newTab: e && e.button == 1 }); }
                 });
                 menus.addItemByPath("Tools/Preview/Live Preview Files",
                     liveMenuItem, 100, handle);
@@ -111,6 +92,14 @@ define(function(require, exports, module) {
                         });
                     }
                 }), 200, handle);
+                menus.addItemByPath("Tools/Preview/~", new ui.divider({}), 2000, handle);
+                menus.addItemByPath("Tools/Preview/~", new ui.divider({}), 4000, handle);
+                menus.addItemByPath("Tools/Preview/Configure Preview URL...", new ui.item({
+                    onclick: function(e) { commands.exec("openpreferences", null, {panel: "project", section: "Run & Debug"}); }
+                }), 4200, handle);
+                menus.addItemByPath("Tools/Preview/Show Active Servers...", new ui.item({
+                    onclick: function(e) { commands.exec("showprocesslist", null, { mode: "lsof" }); }
+                }), 4300, handle);
             }
             
             settings.on("read", function(e) {
@@ -122,18 +111,18 @@ define(function(require, exports, module) {
             }, handle);
             
             // Context menu for tree
-            var itemCtxTreePreview = new ui.item({
-                match: "file",
-                caption: "Preview",
-                isAvailable: function() {
-                    return tree.selectedNode && !tree.selectedNode.isFolder
-                        && (options.local || util.normalizePath(tree.selectedNode.path).charAt(0) != "~");
-                },
-                onclick: function() {
-                    openPreview(tree.selected);
-                }
-            });
             tree.getElement("mnuCtxTree", function(mnuCtxTree) {
+                var itemCtxTreePreview = new ui.item({
+                    match: "file",
+                    caption: "Preview",
+                    isAvailable: function() {
+                        return tree.selectedNode && !tree.selectedNode.isFolder
+                            && (options.local || util.normalizePath(tree.selectedNode.path).charAt(0) != "~");
+                    },
+                    onclick: function() {
+                        openPreview(tree.selected);
+                    }
+                });
                 ui.insertByIndex(mnuCtxTree, itemCtxTreePreview, 160, handle);
             });
             
@@ -163,70 +152,30 @@ define(function(require, exports, module) {
                             var nodes = tab.pane.group;
                             if (!nodes)
                                 pane = tab.pane.hsplit(true);
-                            else {
+                            else
                                 pane = nodes[nodes.indexOf(tab.pane) === 0 ? 1 : 0];
-                            }
                         }
                         
                         return pane;
                     }
                     
                     if (args.server) {
-                        var hostname = c9.hostname || "localhost:8080";
+                        var openInNewTab = args.newTab;
+                        path = args.url;
                         
-                        var cb = function(err, stderr, stdout) {
-                            if (err && err.code != 1) 
-                                showError("Could not check if server is running.");
-                            else if (stderr || !stdout || !stdout.length) {
-                                
-                                // Check for project run config
-                                var json = settings.getJson("project/run/configs") || {};
-                                for (var name in json) { 
-                                    if (json[name]["default"]) {
-                                        commands.exec("run", null, {
-                                            callback: function(proc) {
-                                                proc.on("started", function() {
-                                                    setTimeout(done, 1000);
-                                                });
-                                            }
-                                        });
-                                        return;
-                                    }
-                                }
-                                
-                                warnNoServer(hostname);
-                            }
-                            
-                            done();
-                        };
+                        if (!path)
+                            path = "https://$C9_HOSTNAME";
                         
-                        function done() {
-                            var path = (options.local ? "http" : "https") 
-                                + "://" + hostname;
-                            if (args.newTab)
-                                return util.openNewWindow(path);
-                            
-                            // Open Pane
-                            pane = findPane();
-                            
-                            // Open Preview
-                            openPreview(path, pane, args && args.active);
-                        }
+                        path = expandUrl(path);
                         
-                        if (args.nocheck)
-                            done();
-                        else if (options.local) {
-                            proc.execFile("lsof", { 
-                                args: ["-i", ":8080"] 
-                            }, cb);
-                        }
-                        else {
-                            proc.execFile("nc", { 
-                                args: ["-zv", hostname, "80"] 
-                            }, cb);
-                        }
+                        if (window.location.protocol == "https:" && !path.startsWith("https:"))
+                            openInNewTab = true;
                         
-                        return;
+                        if (openInNewTab)
+                            return util.openNewWindow(path);
+                        
+                        pane = findPane();
+                        return openPreview(path, pane, args && args.active);
                     }
                     else if (args.path) {
                         path = args.path;
@@ -284,6 +233,20 @@ define(function(require, exports, module) {
             var key = commands.getHotkey("reloadpreview");
             if (commands.platform == "mac")
                 key = apf.hotkeys.toMacNotation(key);
+            
+            prefs.add({
+                "Project": {
+                    position: 100,
+                    "Run & Debug": {
+                        position: 300,
+                        "Preview URL": {
+                            type: "textbox",
+                            path: "project/preview/@url"
+                        },
+                    }
+                }
+            }, handle);
+            
             prefs.add({
                 "Run": {
                     position: 600,
@@ -312,7 +275,7 @@ define(function(require, exports, module) {
                                 { caption: "Only on " + key, value: "false" },
                                 { caption: "Always", value: "true" },
                             ]
-                        }
+                        },
                     }
                 }
             }, handle);
@@ -355,6 +318,13 @@ define(function(require, exports, module) {
                 return true;
             });
             return pane;
+        }
+        
+        function expandUrl(url) {
+            var hostname = c9.hostname;
+            if (!c9.hosted && !hostname)
+                hostname = window.location.hostname;
+            return url.replace(/\$C9_HOSTNAME\b/, hostname);
         }
         
         function registerPlugin(plugin, matcher) {
@@ -407,6 +377,73 @@ define(function(require, exports, module) {
                 "Please start your server at " + hostname + " to enable preview "
                 + "via this menu. Alternatively you can start a regular preview "
                 + "and change the hostname in the location bar.");
+        }
+        
+        function updatePreviewMenu(e, submenu) {
+            var tab = tabs.focussedTab;
+            var isKnown = false;
+            var title = "Live Preview File";
+            if (tab && tab.path) {
+                var path = tab.path;
+                for (var name in previewers) {
+                    if (previewers[name].matcher(path)) {
+                        isKnown = true;
+                        break;
+                    }
+                }
+                if (!isKnown) {
+                    title = "Raw Content of " + basename(path);
+                    isKnown = true;
+                }
+                else {
+                    title += " (" + basename(path) + ")";
+                }
+            }
+            
+            liveMenuItem.setAttribute("caption", title);  
+            if (isKnown) 
+                liveMenuItem.enable();
+            else
+                liveMenuItem.disable();
+            // user configured elements
+            var url = settings.get("project/preview/@url");
+            if (!Array.isArray(url)) url = [url];
+            var added = false;
+            var index = 0;
+            var children = submenu.childNodes;
+            while (children[index] && children[index].localName != "divider") {
+                index++;
+            }
+            var appMenu = children[index - 1];
+            var firstDivider = children[index];
+            index++;
+            for (var i = 0; i < url.length; i++) {
+                if (typeof url[i] != "string" || !url[i]) continue;
+                var oldNode = children[index];
+                if (!oldNode || oldNode.localName != "item") {
+                    oldNode = submenu.insertBefore(new ui.item({
+                        onclick: openUrl
+                    }), oldNode);
+                }
+                oldNode.value = url[i];
+                var caption = "Open " + expandUrl(url[i]);
+                oldNode.setAttribute("caption", caption);
+                added = true;
+                index++;
+            }
+            while(index < children.length - 3) 
+                submenu.removeChild(children[index]);
+            
+            appMenu.setAttribute("visible", !added);
+            firstDivider.setAttribute("visible", added);
+            
+            function openUrl(e) {
+                commands.exec("preview", null, { 
+                    newTab: e.button == 1,
+                    url: e.currentTarget.value,
+                    server: true
+                });
+            }
         }
         
         /**
