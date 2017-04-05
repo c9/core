@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
     main.consumes = [
-        "ui", "layout", "commands", "Dialog", "proc", "util", "menus"
+        "ui", "layout", "commands", "Dialog", "proc", "util", "menus", "dialog.error"
     ];
     main.provides = ["processlist"];
     return main;
@@ -15,6 +15,7 @@ define(function(require, exports, module) {
         var proc = imports.proc;
         var util = imports.util;
         var menus = imports.menus;
+        var showError = imports["dialog.error"].show;
         
         var search = require("../c9.ide.navigate/search");
         var Tree = require("ace_tree/tree");
@@ -47,6 +48,8 @@ define(function(require, exports, module) {
         var INTERVAL = 5000;
         var model, datagrid, btnKill, btnForceKill, tbFilter, timer;
         
+        var mode = "ps";
+        
         var loaded = false;
         function load() {
             if (loaded) return false;
@@ -55,8 +58,8 @@ define(function(require, exports, module) {
             commands.addCommand({
                 name: "showprocesslist",
                 bindKey: { mac: "Command-Option-P", win: "Ctrl-Alt-P" },
-                exec: function() {
-                    plugin.show();
+                exec: function(editor, args) {
+                    plugin.show(args.mode || "ps");
                 }
             }, plugin);
             
@@ -82,10 +85,11 @@ define(function(require, exports, module) {
             model.$sortNodes = true;
             
             model.$sorted = true;
-            model.columns = [{
+            model.columnsPs = [{
                 caption: "Process Name",
                 value: "name",
-                width: "100%"
+                width: "100%",
+                type: "tree",
             }, {
                 caption: "CPU",
                 // value: "cpu",
@@ -99,7 +103,7 @@ define(function(require, exports, module) {
             }, {
                 caption: "Process Time",
                 value: "ptime",
-                width: "100",
+                width: "50",
             }, {
                 caption: "PID",
                 value: "pid",
@@ -109,6 +113,30 @@ define(function(require, exports, module) {
                 value: "user",
                 width: "80",
             }];
+            
+            model.columnsLsof = [{
+                caption: "Address",
+                value: "address",
+                width: "100%",
+            }, {
+                caption: "Process Name",
+                value: "command",
+                width: "80",
+            }, {
+                caption: "Status",
+                value: "status",
+                width: "50",
+            }, {
+                caption: "PID",
+                value: "pid",
+                width: "50",
+            }, {
+                caption: "Type",
+                value: "type",
+                width: "50",
+            }];
+            
+            model.columns = model.columnsPs;
             
             var datagridDiv = pNode.appendChild(document.createElement("div"));
             datagrid = new Tree(datagridDiv);
@@ -148,50 +176,112 @@ define(function(require, exports, module) {
                 applyFilter();
             });
             
-            updateProcessList();
+            update();
             
             emit("draw");
         }
         
         /***** Methods *****/
         
+        function update() {
+            if (mode == "ps")
+                updateProcessList();
+            else
+                updateServerList();
+        }
+        
         function updateProcessList() {
-            var sel = datagrid.selection.getSelectedNodes();
-            
-            proc.execFile("ps", { args: ["auxc"]}, function(err, stdout, stderr) {
+            setModel(null, model.columnsPs);
+            proc.execFile("ps", { args: ["axh", "-ouser,pid:1,ppid:1,pcpu:1,pmem:1,time:1,command:1"] }, function(err, stdout, stderr) {
                 if (err) return;
+                var hiddenRegex = /^\[kthreadd|/
                 
-                var lines = stdout.substr(0, stdout.length - 1).split("\n"); lines.shift();
+                var oldNodes = model.pidMap;
+                if (!oldNodes || oldNodes.mode != mode)
+                    oldNodes = { mode: mode };
+                var pidMap = model.pidMap = { mode: mode };
+                
+                var lines = stdout.substr(0, stdout.length - 1).split("\n");
                 var json = lines.map(function(line) {
                     var item = line.split(/\s+/);
-                    var name = item.splice(10).join(" ");
-                    return {
-                        name: name,
-                        cpu: item[2],
-                        mem: item[3],
-                        ptime: item[9],
-                        pid: item[1],
-                        user: item[0]
-                    };
+                    var name = item.slice(6).join(" ");
+                    var pid = item[1];
+                    var node = oldNodes[pid] || { pid: pid, isOpen: hiddenRegex.test(name) };
+                    pidMap[pid] = node;
+                    
+                    node.cpu = item[3];
+                    node.mem = item[4];
+                    node.ppid = item[2];
+                    node.name = name;
+                    node.user = item[0];
+                    node.ptime = item[5];
+                    
+                    node.items = node.children = null;
+                    
+                    return node;
                 });
                 
+                var root = [];
+                json.forEach(function(node) {
+                    var parent = pidMap[node.ppid];
+                    if (!parent) return root.push(node);
+                    if (!parent.items) parent.items = [];
+                    parent.items.push(node);
+                });
+                json = root;
+                
+                setModel(json, model.columnsPs);
+            });
+        }
+        
+        function updateServerList() {
+            setModel(null, model.columnsLsof);
+            proc.execFile("bash", { args: ["-c", 
+                "sudo -n lsof -P -i -F pcnTtu || lsof -P -i -F pcnTtu"
+            ]}, function(err, stdout, stderr) {
+                if (err) return;
+                var json = [];
+                var node;
+                var oldNodes = model.pidMap;
+                if (!oldNodes || oldNodes.mode != mode)
+                    oldNodes = { mode: mode };
+                model.pidMap = { mode: mode };
+                stdout.split("\n").forEach(function(part) {
+                    if (part[0] == "p") {
+                        if (node) json.push(node);
+                        var pid = part.slice(1);
+                        node = oldNodes[pid] || { pid: pid };
+                        model.pidMap[pid] = node;
+                    }
+                    if (part[0] == "c")
+                        node.command = part.slice(1);
+                    if (part[0] == "n")
+                        node.address = part.slice(1);
+                    if (part[0] == "T" && /^TST=/.test(part))
+                        node.status = part.slice(4);
+                    if (part[0] == "t")
+                        node.type = part.slice(1);
+                    if (part[0] == "u")
+                        node.uid = parseInt(part.slice(1), 10);
+                });
+                if (node) json.push(node);
+                
+                setModel(json, model.columnsLsof);
+            });
+        }
+        
+        function setModel(json, columns) {
+            if (model.columns != columns) {
+                model.columns = columns;
+                datagrid.setDataProvider(model);
+                if (!json) json = [];
+            }
+            if (json) {
                 model.cachedRoot = json;
                 model.setRoot(json);
-                
-                if (model.keyword)
-                    applyFilter();
-                
-                if (sel) {
-                    var nodes = [];
-                    var pids = sel.map(function(n) { return n.pid; });
-                    
-                    model.root.items.forEach(function(item) {
-                        if (pids.indexOf(item.pid) > -1)
-                            nodes.push(item);
-                    });
-                    datagrid.selection.setSelection(nodes);
-                }
-            });
+            }
+            if (model.keyword)
+                applyFilter();
         }
         
         function forceKill() {
@@ -201,22 +291,21 @@ define(function(require, exports, module) {
         function kill(force) {
             var nodes = datagrid.selection.getSelectedNodes();
             if (!nodes.length) return;
-            
             var button = force ? btnForceKill : btnKill;
             
             async.each(nodes, function(row, next) {
+                if (!/^\d+$/.test(row.pid)) return next();
                 button.disable();
-                
-                var args = [];
-                if (force) args.push("-9");
-                args.push(row.pid);
-                
-                proc.execFile("kill", { args: args }, function(err, stdout, stderr) {
+                var args = (force ? "" : "-9 ") + row.pid;
+                proc.execFile("bash", { 
+                    args: ["-c", "sudo -n kill " + args + " || kill " + args] 
+                }, function(err, stdout, stderr) {
                     next(err);
                 });
             }, function(err) {
                 button.enable();
-                if (!err) updateProcessList();
+                if (err) return showError(err); 
+                update();
             });
             
         }
@@ -235,29 +324,33 @@ define(function(require, exports, module) {
             }
         }
         
-        function show(reset, options) {
+        function show(mode, options) {
             if (!options)
                 options = {};
             
+            setMode(mode);
             return plugin.queue(function() {
-                // if (reset || current == -1) {
-                //     path = [startPage];
-                //     current = 0;
-                //     activate(startPage);
-                // }
                     
             }, true);
+        }
+        
+        function setMode(val) {
+            if ((val == "ps" || val == "lsof") && mode != val) {
+                mode = val;
+                if (timer) update();
+            }
         }
         
         /***** Lifecycle *****/
         
         plugin.on("show", function() {
             timer = setInterval(function() {
-                updateProcessList();
+                update();
             }, INTERVAL);
+            update();
         });
         plugin.on("hide", function() {
-            clearInterval(timer);
+            timer = clearInterval(timer);
         });
         plugin.on("draw", function(options) {
             draw(options);

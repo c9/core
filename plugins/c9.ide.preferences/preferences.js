@@ -192,7 +192,7 @@ define(function(require, exports, module) {
                 var panels = navigation && navigation.$ext && navigation.$ext.children;
                 if (panels) {
                     for (var i = 0; i < panels.length; i++) {
-                        if (panels[i].name == panel) {
+                        if (panels[i].name == panel || panels[i].name == "preferences." + panel) {
                             panel = panels[i].hostPlugin;
                             break;
                         }
