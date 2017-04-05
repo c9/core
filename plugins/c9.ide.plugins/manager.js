@@ -1,7 +1,7 @@
 /*global requirejs*/
 define(function(require, exports, module) {
     main.consumes = [
-        "PreferencePanel", "settings", "ui", "util", "Form", "ext", "c9",
+        "PreferencePanel", "settings", "ui", "util", "Form", "ext", "c9", "apf",
         "dialog.alert", "dialog.confirm", "layout", "proc", "menus", "commands",
         "dialog.error", "dialog.info", "tree.favorites", "fs", "tree", "vfs", "plugin.debug",
         "preferences.experimental"
