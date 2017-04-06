@@ -2821,7 +2821,7 @@ function createServer() {
                 return;
             msg.command = msg.command || "vfs-collab";
             var strMsg = JSON.stringify(msg);
-            client.write(strMsg + "\0\0");
+            client.write(strMsg + "\0");
         };
 
         client.on("data", function handShake(data) {
@@ -2855,12 +2855,12 @@ function createServer() {
             data = data.toString();
             var idx;
             while (true) {
-                idx = data.indexOf("\0\0");
+                idx = data.indexOf("\0");
                 if (idx === -1)
                     return data && buff.push(data);
                 buff.push(data.substring(0, idx));
                 var clientMsg = buff.join("");
-                data = data.substring(idx + 2);
+                data = data.substring(idx + 1);
                 buff = [];
                 client.emit("message", clientMsg);
             }
@@ -3008,12 +3008,12 @@ function initSocket(userIds, callback) {
                 data = data.toString();
                 var idx;
                 while (true) {
-                    idx = data.indexOf("\0\0");
+                    idx = data.indexOf("\0");
                     if (idx === -1)
                         return buff.push(data);
                     buff.push(data.substring(0, idx));
                     var streamData = buff.join("");
-                    data = data.substring(idx + 2);
+                    data = data.substring(idx + 1);
                     buff = [];
                     stream.emit("data", streamData);
                 }
@@ -3110,7 +3110,7 @@ var exports = module.exports = function(vfs, options, register) {
         // logVerbose("[vfs-collab] IN-STREAM", msg);
         var client = vfsClientMap[clientId];
         if (client)
-            client.write(JSON.stringify(msg) + "\0\0");
+            client.write(JSON.stringify(msg) + "\0");
     }
 
     function dispose(clientId) {
