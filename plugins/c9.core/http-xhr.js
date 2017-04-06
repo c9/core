@@ -119,7 +119,7 @@ define(function(require, module, exports) {
                     }
                 }
                 
-                if (xhr.status > 299 || xhr.status == 208) {
+                if (xhr.status > 299 || res.headers["content-type"] == "text/x-error") {
                     var err = new Error(xhr.responseText);
                     err.code = xhr.status;
                     if (debug && xhr.status > 299)
