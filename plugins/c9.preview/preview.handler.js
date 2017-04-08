@@ -167,7 +167,7 @@ define(function(require, exports, module) {
                         port: parsedUrl.port,
                         headers: req.headers
                     }, function(request) {
-                        if (request.statusCode >= 400)
+                        if (request.statusCode >= 400 || request.headers["content-type"] == "text/x-error")
                             handleError(request);
                         else if (isDir)
                             serveListing(request);
