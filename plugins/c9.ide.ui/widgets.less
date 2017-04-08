@@ -65,6 +65,22 @@
     background-color: #565656;
     background-position: -2px -18px;
 }
+.ace_tree .tree-row .checkbox.loading:after{
+    content:" ";
+    position:relative;
+    display:block;
+    top:0; left:0;
+    width: 100%;
+    height: 100%;
+    border-radius: 20%;
+    background-color: @color;
+    animation: scaleout 1.2s infinite ease-in-out
+}
+@keyframes scaleout {
+    0% { transform: scale(0) }
+    80% { transform: scale(1); opacity: 0;}
+    100% { transform: scale(1); opacity: 0;}
+}
 
 .custom-tree.ace_tree .tree-row .toggler{
     .image-2x("@{tree-arrow}", 20px, 10px);

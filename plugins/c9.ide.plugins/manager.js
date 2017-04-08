@@ -130,8 +130,22 @@ define(function(require, exports, module) {
                 btnReloadLast.onclick = function() { commands.exec("reloadLastPlugin") };
                 updateReloadLastButton();
                 
-                readAvailablePlugins();
-                    
+                readAvailablePlugins(function() {
+                    if (sessionStorage.localPackages) {
+                        loadPackage(
+                            util.safeParseJson(sessionStorage.localPackages) || []
+                        );
+                    }
+                    var updateSessionStorage = function() {
+                        sessionStorage.localPackages = JSON.stringify(Object.keys(packages).map(function(x) {
+                            if (packages[x] && packages[x].fromVfs && packages[x].enabled)
+                                return packages[x].filePath;
+                        }).filter(Boolean));
+                    };
+                    plugin.on("enablePackage", updateSessionStorage);
+                    plugin.on("disablePackage", updateSessionStorage);
+                });
+                
                 commands.addCommand({
                     name: "reloadLastPlugin",
                     bindKey: { mac: "F4", win: "F4" },
@@ -162,22 +176,6 @@ define(function(require, exports, module) {
             ext.on("register", function() {
                 setTimeout(reloadModel);
             });
-            
-            if (DEBUG) {
-                if (sessionStorage.localPackages) {
-                    loadPackage(
-                        util.safeParseJson(sessionStorage.localPackages) || []
-                    );
-                }
-                var updateSessionStorage = function() {
-                    sessionStorage.localPackages = JSON.stringify(Object.keys(packages).map(function(x) {
-                        if (packages[x] && packages[x].fromVfs && packages[x].enabled)
-                            return packages[x].filePath;
-                    }).filter(Boolean));
-                };
-                plugin.on("enablePackage", updateSessionStorage);
-                plugin.on("disablePackage", updateSessionStorage);
-            }
         }
 
         var drawn;
@@ -360,6 +358,7 @@ define(function(require, exports, module) {
                 var enabled = node.enabled;
                 if (enabled == null || node.isGroup) return "";
                 return "<span class='checkbox " 
+                    + (node.loading ? "loading" : "")
                     + (enabled == -1 
                         ? "half-checked " 
                         : (enabled ? "checked " : ""))
@@ -723,6 +722,7 @@ define(function(require, exports, module) {
                 node.packageConfig = pkg;
                 node.className = pkg.__error ? "load-error" : "";
                 node.__error = pkg.__error;
+                node.loading = pkg.loading;
             }
             
             architectApp.config.forEach(function(plugin) {
@@ -771,6 +771,7 @@ define(function(require, exports, module) {
                             other.packageConfig = node.packageConfig;
                             other.filePath = node.filePath;
                             other.url = node.url;
+                            other.loading = node.loading;
                         }
                     }
                     if (!node.isGroup) {
@@ -1054,6 +1055,8 @@ define(function(require, exports, module) {
             var id = options.rootDir + "/" + name;
             var pathMappings = {};
             
+            if (packages[name]) packages[name].loading = true;
+            
             unloadPlugins("plugins/" + options.name);
             
             pathMappings[id] = options.url;
@@ -1062,7 +1065,13 @@ define(function(require, exports, module) {
             
             if (/\.js$/.test(root)) {
                 require([options.url + "/" + root], function(json) {
-                    json = json || require(options.id + "/" + options.packageName);
+                    json = json || require(id + "/" + options.packageName);
+                    if (!json) {
+                        var err = new Error("Didn't provide " + id + "/" + options.packageName);
+                        return addError("Error loading plugin", err);
+                    }
+                    if (json.name && json.name != name)
+                        name = json.name;
                     getPluginsFromPackage(json, callback);
                 }, function(err) {
                     addError("Error loading plugin", err);
@@ -1102,6 +1111,7 @@ define(function(require, exports, module) {
                 packages[name].filePath = options.path;
                 packages[name].url = options.url;
                 packages[name].__error = new Error(message + "\n" + err.message);
+                packages[name].loading = false;
                 
                 reloadModel();
                 
@@ -1136,7 +1146,13 @@ define(function(require, exports, module) {
                 json.path = id;
                 
                 emit("enablePackage", json);
-                loadPlugins(plugins, callback);
+                loadPlugins(plugins, function(err, result) {
+                    if (err) return addError("Error loading plugins", err);
+                    if (packages[name])
+                        packages[name].loading = false;
+                    reloadModel();
+                    callback && callback(err, result);
+                });
             }
         }
         
