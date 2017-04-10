@@ -1383,7 +1383,7 @@ apf.item = function(struct, tagName) {
     };
     
     this.select = function() {
-        this.parentNode.select(this.group, this.value || this.caption);
+        this.parentNode.select(this.group, this.value != undefined ? this.value : this.caption);
     };
     
     this.check = function() {
@@ -1455,7 +1455,7 @@ apf.item = function(struct, tagName) {
    
         
         if (this.type == "radio")
-            this.parentNode.select(this.group, this.value || this.caption);
+            this.parentNode.select(this.group, this.value != undefined ? this.value : this.caption);
 
         else if (this.type == "check") {
             this.setProperty("checked", !this.checked);
@@ -1474,7 +1474,7 @@ apf.item = function(struct, tagName) {
             this.parentNode.hide();//true not focus?/
 
         this.parentNode.dispatchEvent("itemclick", {
-            value: this.value || this.caption,
+            value: this.value != undefined ? this.value : this.caption,
             relatedNode: this,
             checked: this.checked,
             selected: this.selected

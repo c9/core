@@ -315,6 +315,62 @@ apf.dropdown = function(struct, tagName) {
         this.$setStyleClass(this.oSlider, e.value);
     });
     
+    
+    this.$propHandlers["value"] = function(value) {
+        var items = this.items || this.childNodes;
+        for (var i = 0; i < items.length; i++) {
+            var x = items[i];
+            var itemValue = x.value;
+            if (itemValue == undefined && x.getAttribute)
+                itemValue = x.getAttribute("value");
+            if (isValueEqual(value, itemValue)) {
+                this.$setLabel(x.caption || (x.getAttribute && x.getAttribute("caption")) || value);
+                return;
+            }
+        }
+    };
+    
+    function isValueEqual(v1, v2) {
+        if (v1 == v2) return true;
+        if (typeof v1 != "object" && typeof v2 != "object")
+            return v1 + "" == v2 + "";
+    }
+
+    this.$updateChildren = function() {
+        var items = this.items;
+        var children = this.childNodes;
+        if (items) {
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                var ch = children[i];
+                if (!ch) {
+                    ch = new apf.item(item);
+                    this.appendChild(ch);
+                    ch.item = item;
+                } else if (ch.item != item) {
+                    ch.item = item;
+                    ch.setAttribute("value", item.value);
+                    ch.setAttribute("caption", item.caption);
+                }
+            }
+            
+            while (i < children.length) {
+                children[i].destroy(true, true);
+            }
+        }
+        
+        this.$int = this.$container;
+        for (var i = 0; i < children.length; i++) {
+            ch = children[i];
+            if (ch.$pHtmlNode != this.$int)
+                ch.dispatchEvent("DOMNodeInsertedIntoDocument", {});
+            if (isValueEqual(ch.getAttribute("value"), this.value))
+                ch.$ext && ch.$ext.classList.add("selected");
+            else
+                ch.$ext && ch.$ext.classList.remove("selected");
+        }
+    };
+    
     // *** Public methods *** //
     
     /*
@@ -342,6 +398,7 @@ apf.dropdown = function(struct, tagName) {
             return false;
         
         this.isOpen = true;
+        this.$updateChildren();
 
         this.$propHandlers["maxitems"].call(this, this.xmlRoot && this.each 
             ? this.getTraverseNodes().length : this.childNodes.length); //@todo apf3.0 count element nodes
@@ -402,24 +459,8 @@ apf.dropdown = function(struct, tagName) {
         return false;
     };
     
-    
-    this.load = function(data, options) {
-        if (typeof data == "string" || options) {
-            debugger
-        }
-        this.data = data;
-    };
-    
     this.select = function(value) {
-        var caption = "";
-        this.childNodes.some(function(x) { 
-            if (x.getAttribute("value") == value) {
-                caption = x.getAttribute("caption") || value;
-                return true;
-            }
-        });
-        this.$setLabel(caption);
-        "afterselect"
+        this.setValue(value);
     };
     
     // *** Private methods and event handlers *** //
@@ -433,30 +474,6 @@ apf.dropdown = function(struct, tagName) {
             !value ? [] : [this.$baseCSSname + "Initial"]);
     };
 
-    this.addEventListener("afterselect", function(e) {
-        debugger
-    //     if (!e) e = event;
-
-    //     this.slideUp();
-    //     if (!this.isOpen)
-    //         this.$setStyleClass(this.$ext, "", [this.$baseCSSname + "Over"]);
-        
-    //     this.$setLabel(e.selection.length
-    //       ? this.$applyBindRule("caption", this.selected)
-    //       : "");
-    });
-    
-    function setMaxCount() {
-        if (this.isOpen == 2)
-            this.slideDown();
-    }
-
-    this.addEventListener("afterload", setMaxCount);
-    this.addEventListener("xmlupdate", function() {
-        setMaxCount.call(this);
-        this.$setLabel(this.$applyBindRule("caption", this.selected));
-    });
-    
     // Private functions
     this.$blur = function() {
         this.slideUp();
@@ -482,20 +499,39 @@ apf.dropdown = function(struct, tagName) {
 
     this.addEventListener("popuphide", this.slideUp);
     
+    this.load =
     this.setChildren = function(data) {
-        
+        this.items = data;
+        if (this.isOpen)
+            this.$updateChildren();
     };
     
-    this.setValue = function() {
-        
+    this.change =
+    this.setValue = function(value) {
+        if (this.value != value) {
+            this.setAttribute("value", value);
+            this.dispatchEvent("afterchange", { value: value });
+        }
     };
     // *** Keyboard Support *** //
     
+    this.getSelectedNode = function() {
+        if (!this.isOpen)
+            this.$updateChildren();
+        var items = this.childNodes;
+        for (var i = 0; i < items.length; i++) {
+            var x = items[i];
+            var itemValue = x.value;
+            if (itemValue == undefined && x.getAttribute)
+                itemValue = x.getAttribute("value");
+            if (isValueEqual(this.value, itemValue)) {
+                return x;
+            }
+        }
+    };
     
     this.addEventListener("keydown", function(e) {
-        debugger
         var key = e.keyCode;
-        
         var node;
         
         switch (key) {
@@ -504,19 +540,13 @@ apf.dropdown = function(struct, tagName) {
             break;
             case 38:
                 //UP
-                if (e.altKey) {
-                    this.slideToggle(e.htmlEvent);
-                    return;
-                }
-                
-                if (!this.selected) 
-                    return;
-                    
-                node = this.getNextTraverseSelected(this.caret
-                    || this.selected, false);
-
+                if (e.altKey)
+                    return this.slideToggle(e.htmlEvent);
+                node = this.getSelectedNode();
                 if (node)
-                    this.select(node);
+                    node = node.previousSibling;
+                if (node)
+                    this.select(node.value);
             break;
             case 40:
                 //DOWN
@@ -524,18 +554,11 @@ apf.dropdown = function(struct, tagName) {
                     this.slideToggle(e.htmlEvent);
                     return;
                 }
-                
-                if (!this.selected) {
-                    node = this.getFirstTraverseNode();
-                    if (!node) 
-                        return;
-                } 
-                else
-                    node = this.getNextTraverseSelected(this.selected, true);
-                
+                node = this.getSelectedNode();
                 if (node)
-                    this.select(node);
-                
+                    node = node.nextSibling;
+                if (node)
+                    this.select(node.value);
             break;
             default:
                 if (key == 9 || !this.xmlRoot) return;  
@@ -549,14 +572,6 @@ apf.dropdown = function(struct, tagName) {
 
                 this.lookup.str += String.fromCharCode(key);
                 
-                var caption, nodes = this.getTraverseNodes();
-                for (var i = 0; i < nodes.length; i++) {
-                    caption = this.$applyBindRule("caption", nodes[i]);
-                    if (caption && caption.indexOf(this.lookup.str) > -1) {
-                        this.select(nodes[i]);
-                        return;
-                    }
-                }
             return;
         }
 

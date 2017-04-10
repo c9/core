@@ -244,8 +244,8 @@ define(function(require, exports, module) {
                                 label: name + ":",
                                 skin: "checkbox_black",
                                 onafterchange: function(e) {
-                                    if (options.path)
-                                        settings.set(options.path, e.value);
+                                    if (options.checkboxPath)
+                                        settings.set(options.checkboxPath, e.value);
                                     if (options.onchange)
                                         options.onchange({ value: e.value, type: "checkbox" });
                                 }, 

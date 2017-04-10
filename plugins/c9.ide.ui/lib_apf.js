@@ -2736,10 +2736,6 @@ apf.plane = {
         function getCover(){
             var obj = document.createElement("DIV");
             
-            if (!_self.options || !_self.options.customCover)
-                return obj;
-            
-            debugger
             return obj;
         }
         
@@ -3324,31 +3320,6 @@ apf.getHtmlInnerHeight = function(oHtml) {
         - (parseInt(apf.getStyle(oHtml, "borderBottomWidth")) || 0));
 };
 
-/**
- * Returns the viewport of a window.
- *
- * @param  {WindowImplementation} [win] The window to take the measurements of.
- * @returns {Object}                    Viewport object with  x, y, w, and h properties.
- */
-apf.getViewPort = function(win) {
-    win = win || window;
-    var doc = (!win.document.compatMode
-      || win.document.compatMode == "CSS1Compat")
-        //documentElement for an iframe
-        ? win.document.html || win.document.documentElement
-        : win.document.body;
-
-    // Returns viewport size excluding scrollbars
-    return {
-        x: win.pageXOffset || doc.scrollLeft,
-        y: win.pageYOffset || doc.scrollTop,
-        width: win.innerWidth  || doc.clientWidth,
-        height: win.innerHeight || doc.clientHeight
-    };
-};
-
-
-
 
 
 
@@ -3765,70 +3736,6 @@ apf.visibilitymanager = function(){
         add();
         
         return false;
-    }
-    
-    this.permanent = function(amlNode, show, hide) {
-        var state = amlNode.$ext && (amlNode.$ext.offsetHeight || amlNode.$ext.offsetWidth);
-        function check(e) {
-            var newState = amlNode.$ext && (amlNode.$ext.offsetHeight || amlNode.$ext.offsetWidth);
-            if (newState == state)
-                return;
-            
-            if (newState) show();
-            else hide();
-            
-            state = newState;
-        }
-
-        //Set events on the parent tree
-        /*var p = amlNode;
-        while (p) {
-            p.addEventListener("prop.visible", check);
-            p = p.parentNode || p.$parentNode;
-        }*/
-        
-        function cleanup(setInsertion) {
-            var p = amlNode;
-            while (p) {
-                p.removeEventListener("prop.visible", check);
-                p.removeEventListener("DOMNodeRemoved", remove); 
-                p.removeEventListener("DOMNodeRemovedFromDocument", remove); 
-                if (setInsertion)
-                    p.addEventListener("DOMNodeInserted", add);
-                p = p.parentNode || p.$parentNode;
-            }
-            
-            check();
-        }
-
-        function remove(e) {
-            if (e.currentTarget != this)
-                return;
-            
-            cleanup(e.name == "DOMNodeRemoved");
-        }
-
-        function add(){
-            //Set events on the parent tree
-            var p = amlNode;
-            while (p) {
-                p.addEventListener("prop.visible", check);
-                p.addEventListener("DOMNodeRemoved", remove); 
-                p.addEventListener("DOMNodeRemovedFromDocument", remove); 
-                p.removeEventListener("DOMNodeInserted", add);
-                p = p.parentNode || p.$parentNode;
-            }
-            
-            check();
-        }
-        
-        add();
-
-        return state;
-    }
-    
-    this.removePermanent = function(amlNode) {
-        
     }
 };
 
@@ -10522,7 +10429,6 @@ apf.__CONTENTEDITABLE__ = 1 << 24;
 
 
 apf.__GUIELEMENT__ = 1 << 15;
-apf.__VALIDATION__ = 1 << 6;
 
 
 
@@ -10644,12 +10550,6 @@ apf.GuiElement = function(){
     this.minwidth = 0;
     this.minheight = 0;
     
-    /*this.minwidth = 5;
-    this.minheight = 5;
-    this.maxwidth = 10000;
-    this.maxheight = 10000;*/
-    
-    
     this.$booleanProperties["disable-keyboard"] = true;
     
     this.$booleanProperties["visible"] = true;
@@ -10667,7 +10567,7 @@ apf.GuiElement = function(){
     this.$supportedProperties.push(
         "focussable", "zindex", "disabled", "tabindex",
         "disable-keyboard", "contextmenu", "visible", "autosize", 
-        "loadaml", "actiontracker", "alias",
+        "loadaml", "alias",
         "width", "left", "top", "height", "tooltip"
     );
 
@@ -10721,13 +10621,7 @@ apf.GuiElement = function(){
        }
     }); 
 
-    this.implement(
-        
-        apf.Anchoring
-        
-        
-        
-    );
+    this.implement(apf.Anchoring);
     
     // **** Convenience functions for gui nodes **** //
 
@@ -10910,16 +10804,8 @@ apf.GuiElement = function(){
     this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
         var x = this.$aml;
 
-        // will $pHtmlNode be deprecated soon?
-        // check used to be:
-        //if (!this.$pHtmlNode && this.parentNode)
-        if (this.parentNode) {
-            if (this.localName == "item" 
-              && this.parentNode.hasFeature(apf.__MULTISELECT__)) //special case for item nodes, using multiselect rendering
-                this.$pHtmlNode = this.parentNode.$container;
-            else
-                this.$pHtmlNode = this.parentNode.$int; //@todo apf3.0 change this in the mutation events
-        }
+        if (this.parentNode)
+            this.$pHtmlNode = this.parentNode.$int;
 
         if (!this.$pHtmlNode) //@todo apf3.0 retry on DOMNodeInserted
             return;
@@ -10959,28 +10845,6 @@ apf.GuiElement = function(){
                 this.maxwidth = apf.getCoord(hasPres && parseInt(this.$getOption(type, "maxwidth")), 10000);
             if (this.maxheight == undefined)
                 this.maxheight = apf.getCoord(hasPres && parseInt(this.$getOption(type, "maxheight")), 10000);
-
-            //--#ifdef __WITH_CONTENTEDITABLE
-            //@todo slow??
-            if (this.minwidth || this.minheight || this.maxwidth != 10000 || this.maxheight != 10000) {
-                var diff = apf.getDiff(this.$ext);
-                if (this.minwidth)
-                    this.$ext.style.minWidth = Math.max(0, this.minwidth - diff[0]) + "px";
-                if (this.minheight)
-                    this.$ext.style.minHeight = Math.max(0, this.minheight - diff[1]) + "px";
-                if (this.maxwidth != 10000)
-                    this.$ext.style.maxWidth = Math.max(0, this.maxwidth - diff[0]) + "px";
-                if (this.maxheight != 10000)
-                    this.$ext.style.maxHeight = Math.max(0, this.maxheight - diff[1]) + "px";
-
-                if (this.$altExt && apf.isGecko) {
-                    this.$altExt.style.minHeight = this.$ext.style.minHeight;
-                    this.$altExt.style.maxHeight = this.$ext.style.maxHeight;
-                    this.$altExt.style.minWidth = this.$ext.style.minWidth;
-                    this.$altExt.style.maxWidth = this.$ext.style.maxWidth;
-                }
-            }
-            //--#endif
         }
         
         if (this.$loadAml)
@@ -11292,49 +11156,6 @@ apf.GuiElement.propHandlers = {
     "contextmenu": function(value) {
         this.contextmenus = [value];
     },
-    
-
-    
-    /**
-     * @attribute {String} actiontracker Sets or gets the name of the [[apf.actiontracker action tracker]] that
-     * is used for this element and its children. If the actiontracker doesn't
-     * exist yet, it is created.
-     *
-     * #### Example
-     *
-     * In this example, the list uses a different action tracker than the two
-     * textboxes which determine their actiontracker based on the one that
-     * is defined on the bar.
-     * 
-     * ```xml
-     *  <a:list actiontracker="newAT" />
-     *
-     *  <a:bar actiontracker="someAT">
-     *      <a:textbox />
-     *      <a:textbox />
-     *  </a:bar>
-     * ```
-     */
-    "actiontracker": function(value) {
-        if (!value) {
-            this.$at = null;
-        }
-        else if (typeof value == "object") {
-            this.$at = value;
-        }
-        else {
-            
-            this.$at = typeof value == "string" && self[value]
-              ? apf.nameserver.get("actiontracker", value) || self[value].getActionTracker()
-              : apf.setReference(value,
-                  apf.nameserver.register("actiontracker",
-                      value, new apf.actiontracker()));
-
-            if (!this.$at.name)
-                this.$at.name = value;
-            
-        }
-    },
 };
 
 
@@ -11344,13 +11165,9 @@ apf.GuiElement.propHandlers = {
     if (apf.isO3) return;
     var prot = apf.XhtmlElement.prototype;
 
-    //prot.implement(apf.Interactive);
     prot.implement(
-        
         apf.Anchoring
-        
     );
-
     
     prot.$drawn = true;
     prot.$setLayout = apf.GuiElement.prototype.$setLayout;
@@ -11902,11 +11719,6 @@ apf.Presentation = function(){
         this.$setStyleClass(this.oFocus || this.$ext, "", [this.$baseCSSname + "Focus"]);
     };
 
-    // *** Caching *** //
-    /*
-    this.$setClearMessage = function(msg) {};
-    this.$updateClearMessage = function(){}
-    this.$removeClearMessage = function(){};*/
 }).call(apf.Presentation.prototype = new apf.GuiElement());
 
 apf.config.$inheritProperties["skinset"] = 1;
@@ -11914,114 +11726,6 @@ apf.config.$inheritProperties["skinset"] = 1;
 
 
 
-
-
-
-
-apf.__VALIDATION__ = 1 << 6;
-
-
-
-//if checkequal then notnull = true
-apf.validator = {
-    macro: {
-        
-
-        //var temp
-        "pattern"     : "value.match(",
-        "pattern_"    : ")",
-        "custom"      : "(",
-        "custom_"     : ")",
-        "min"         : "parseInt(value) >= ",
-        "max"         : "parseInt(value) <= ",
-        "maxlength"   : "value.toString().length <= ",
-        "minlength"   : "value.toString().length >= ",
-        "notnull"     : "value.toString().length > 0",
-        "checkequal"  : "!(temp = ",
-        "checkequal_" : ").isValid() || temp.getValue() == value"
-    },
-    
-    compile: function(options) {
-        var m = this.macro, s = ["var temp, valid = true; \
-            if (!validityState) \
-                validityState = new apf.validator.validityState(); "];
-
-        if (options.required) {
-            s.push("if (checkRequired && (!value || value.toString().trim().length == 0)) {\
-                validityState.$reset();\
-                validityState.valueMissing = true;\
-                valid = false;\
-            }")
-        }
-        
-        s.push("validityState.$reset();\
-            if (value) {");
-        
-        for (prop in options) {
-            if (!m[prop]) continue;
-            s.push("if (!(", m[prop], options[prop], m[prop + "_"] || "", ")){\
-                validityState.$set('", prop, "');\
-                valid = false;\
-            }");
-        }
-
-        s.push("};validityState.valid = valid; return validityState;");
-        return new Function('value', 'checkRequired', 'validityState', s.join(""));
-    }
-};
-
-/**
- * Object containing information about the validation state. It contains
- * properties that specify whether a certain validation was passed.
- * Remarks:
- * This is part of {@link http://www.whatwg.org/specs/web-apps/current-work/multipage/forms.html#validitystatethe HTML 5 specification}.
- */
-apf.validator.validityState = function(){
-    this.valueMissing = false,
-    this.typeMismatch = false,
-    this.patternMismatch = false,
-    this.tooLong = false,
-    this.rangeUnderflow = false,
-    this.rangeOverflow = false,
-    this.stepMismatch = false,
-    this.customError = false,
-    this.valid = true,
-
-    this.$reset = function(){
-        for (var prop in this) {
-            if (prop.substr(0,1) == "$") 
-                continue;
-            this[prop] = false;
-        }
-        this.valid = true;
-    },
-
-    this.$set = function(type) {
-        switch (type) {
-            case "min"         : this.rangeUnderflow = true; break;
-            case "max"         : this.rangeOverflow = true; break;
-            case "minlength"   : this.tooShort = true; break;
-            case "maxlength"   : this.tooLong = true; break;
-            case "pattern"     : this.patternMismatch = true; break;
-            case "datatype"    : this.typeMismatch = true; break;
-            case "notnull"     : this.typeMismatch = true; break;
-            case "checkequal"  : this.typeMismatch = true; break;
-        }
-    }
-};
-
-
-apf.GuiElement.propHandlers["required"] = 
-apf.GuiElement.propHandlers["pattern"] = 
-apf.GuiElement.propHandlers["min"] = 
-apf.GuiElement.propHandlers["max"] = 
-apf.GuiElement.propHandlers["maxlength"] = 
-apf.GuiElement.propHandlers["minlength"] = 
-apf.GuiElement.propHandlers["notnull"] = 
-apf.GuiElement.propHandlers["checkequal"] = 
-apf.GuiElement.propHandlers["validtest"] = function(value, prop) {
-    debugger
-}
 
 
 
@@ -14063,45 +13767,6 @@ apf.GuiElement.propHandlers["draggable"] = function(value) {
 
 
 
-
-
-
-apf.__MEDIA__ = 1 << 20;
-
-
-
-
-
-
-
-
-
-
-apf.__TRANSACTION__ = 1 << 3;
-
-
-
-
-
-
-
-
-
-
-apf.__XFORMS__ = 1 << 17;
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  * Object representing the window of the AML application. The semantic is
  * similar to that of a window in the browser, except that this window is not
@@ -14135,14 +13800,6 @@ apf.window = function(){
         return "[apf.window]";
     };
     
-    /**
-     * Retrieves the primary {@link apf.actiontracker action tracker} of the application.
-     */
-    this.getActionTracker = function(){
-        return this.$at
-    };
-
-
     /**
      * Show the browser window.
      */
@@ -14420,20 +14077,7 @@ apf.window = function(){
             }
 
             if (!node)
-                this.$focus(apf.document.documentElement);//return false;//
-
-            /*@todo get this back from SVN
-            var node, list = amlNode.$tabList;
-            for (var i = 0; i < list.length; i++) {
-                node = list[i];
-                if (node.focussable !== false && node.$focussable === true
-                  && (ignoreVisible || node.$ext.offsetHeight)) {
-                    this.$focus(node, e, true);
-                    return;
-                }
-            }
-
-            this.$focus(apf.document.documentElement);*/
+                this.$focus(apf.document.documentElement);
         }
     };
 
@@ -14463,7 +14107,6 @@ apf.window = function(){
         do {
             node = node.parentNode;
         } while (node && !node.$isWindowContainer);
-        //(!node.$focussable || node.focussable === false)
 
         return node || apf.document.documentElement;
     }
@@ -14757,14 +14400,6 @@ apf.window = function(){
                       || apf.window.activeElement.$focusParent != amlNode)
                         apf.window.$focusLast(amlNode, {mouse: true, ctrlKey: e.ctrlKey});
                 }
-//                else {
-//                    if (!apf.config.allowBlur || amlNode != apf.document.documentElement)
-//                        apf.window.$focusDefault(amlNode, {mouse: true, ctrlKey: e.ctrlKey});
-//                }
-            }
-            else {
-                // Disabled this to prevent menus from becoming unclickable
-                // apf.window.$focusDefault(amlNode, {mouse: true, ctrlKey: e.ctrlKey});
             }
     
             
@@ -14778,10 +14413,6 @@ apf.window = function(){
             amlNode: amlNode || apf.document.documentElement
         });
 
-        //Non IE/ iPhone selection handling
-        if (apf.isIE || apf.isIphone)
-            return;
-
         var canSelect = !((!apf.document
           && (!apf.isParsingPartial || amlNode)
           || apf.dragMode) && !ta[e.target && e.target.tagName]);
@@ -14794,10 +14425,9 @@ apf.window = function(){
                 || amlNode.$isTextInput
                 && amlNode.$isTextInput(e) && amlNode.disabled < 1;
 
-            //(!amlNode.canHaveChildren || !apf.isChildOf(amlNode.$int, e.srcElement))
             if (!apf.config.allowSelect && !isTextInput
               && amlNode.nodeType != amlNode.NODE_PROCESSING_INSTRUCTION 
-              && !amlNode.textselect) //&& (!amlNode.$int || amlNode.$focussable) //getElementsByTagNameNS(apf.ns.xhtml, "*").length
+              && !amlNode.textselect)
                 canSelect = false;
         }
         
@@ -15089,21 +14719,6 @@ apf.window = function(){
     
     apf.document = {};
     this.init = function(strAml) {
-        
-        if (apf.actiontracker) {
-            this.$at = new apf.actiontracker();
-            this.$at.name = "default";
-            
-            apf.nameserver.register("actiontracker", "default", this.$at);
-            
-        }
-        
-        
-        
-
-         
-        
-        
         //Put this in callback in between the two phases
         
 
@@ -17103,6 +16718,7 @@ apf.button = function(struct, tagName) {
     this.change = 
     this.setValue = function(value) {
         this.setProperty("value", value, false, true);
+        this.dispatchEvent("afterchange", { value: value });
     };
 
     /**
@@ -18287,6 +17903,7 @@ apf.colorbox = function(struct, tagName) {
     this.change = 
     this.setValue = function(value) {
         this.setProperty("value", value, false, true);
+        this.dispatchEvent("afterchange", { value: value });
     };
     
     /**
@@ -19579,6 +19196,7 @@ apf.progressbar = function(struct, tagName) {
     this.change = 
     this.setValue = function(value) {
         this.setProperty("value", value, false, true);
+        this.dispatchEvent("afterchange", { value: value });
     };
 
     /**
@@ -19930,6 +19548,7 @@ apf.radiobutton = function(struct, tagName) {
     this.change = 
     this.setValue = function(value) {
         this.setProperty("value", value, false, true);
+        this.dispatchEvent("afterchange", { value: value });
     };
 
     /**
@@ -20228,6 +19847,7 @@ apf.$group = apf.group = function(struct, tagName) {
     this.change = 
     this.setValue = function(value) {
         this.setProperty("value", value);
+        this.dispatchEvent("afterchange", { value: value });
     };
     
     /**
@@ -20677,17 +20297,8 @@ apf.spinner = function(struct, tagName) {
 
     this.addEventListener("keyup", function(e) {
         if (this.realtime)
-            this.setProperty("value", this.oInput.value);
+            this.change(parseInt(this.oInput.value));
     }, true);
-    
-    
-    this.increment = function() {
-        this.change(parseInt(this.oInput.value) + 1);
-    };
-    
-    this.decrement = function() {
-        this.change(parseInt(this.oInput.value) - 1);
-    };
     
     /**
      * @event click     Fires when the user presses a mousebutton while over this element and then lets the mousebutton go. 
@@ -21537,10 +21148,6 @@ apf.text = function(struct, tagName) {
             this.$scrollArea.scrollTop = this.$scrollArea.scrollHeight;
     };
     
-    this.$eachHandler = function(value) {
-        debugger
-    };
-    this.addEventListener("prop.each", this.$eachHandler);
     
     this.addEventListener("$clear", function(){
         this.$container.innerHTML = "";
@@ -22127,7 +21734,8 @@ apf.textbox = function(struct, tagName) {
      */
     this.change = 
     this.setValue = function(value) {
-        return this.setProperty("value", value, false, true);
+        this.setProperty("value", value, false, true);
+        this.dispatchEvent("afterchange", { value: value });
     };
 
     /**
