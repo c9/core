@@ -71,11 +71,9 @@ define(function(require, exports, module) {
             }, plugin);
             
             settings.on("read", function() {
-                var lines = settings.getJson("state/gotoline") || [];
-                lines = lines.map(function(i) {
-                    return { value: i };
-                });
-                
+                lines = settings.getJson("state/gotoline") || [];
+                if (!Array.isArray(lines))
+                    lines = [];
             }, plugin);
             
             settings.on("write", function() {
@@ -105,44 +103,39 @@ define(function(require, exports, module) {
             input = plugin.getElement("input");
             list = plugin.getElement("list");
             
-            // list.setAttribute("model", model);
+            list.$ext.textContent = "";
+            list.drawContents = function() {
+                var ch = list.$ext.children;
+                for (var i = 0; i < lines.length; i++) {
+                    var el = ch[i];
+                    if (!el) el = document.createElement("div");
+                    el.setAttribute("index", i);
+                    el.textContent = lines[i];
+                    el.className = i == list.selected ? "selected" : "";
+                    if (el.parentNode != list.$ext)
+                        list.$ext.appendChild(el);
+                }
+                while (ch.length > lines.length)
+                    ch[lines.length].remove();
+            };
+            list.selected = -1;
             
-            list.addEventListener("afterchoose", function() {
-                if (list.selected) {
-                    execGotoLine(parseInt(list.selected.getAttribute("nr"), 10));
-                }
-                else {
-                    execGotoLine();
+            list.$ext.addEventListener("mouseup", function(e) {
+                var i = parseInt(e.target.getAttribute("index"), 10);
+                if (i >= 0) {
+                    list.selected = i;
+                    input.setValue(lines[list.selected]);
+                    list.drawContents();
+                    execGotoLine(null, null, e.detail == 1);
+                    if (e.detail != 1) hide();
                 }
             });
-            list.addEventListener("afterselect", function() {
-                if (!list.selected)
-                    return;
-    
-                var line = list.selected.getAttribute("nr");
-                input.setValue(line);
-                
-                // Focus the list
-                list.focus();
-                
-                // Go to the right line
-                execGotoLine(null, null, true);
+            
+            list.$altExt.addEventListener("mousedown", function(e) {
+                input.focus();
+                e.preventDefault();
+                e.stopPropagation();
             });
-    
-            var restricted = [38, 40, 36, 35];
-            list.addEventListener("keydown", function(e) {
-                if (e.keyCode == 13 && list.selected) {
-                    return false;
-                }
-                else if (e.keyCode == 38) {
-                    if (list.selected == list.getFirstTraverseNode()) {
-                        input.focus();
-                        list.clearSelection();
-                    }
-                }
-                else if (restricted.indexOf(e.keyCode) == -1)
-                    input.focus();
-            }, true);
     
             input.addEventListener("keydown", function(e) {
                 var NotANumber = (e.keyCode > 57 || e.keyCode == 32) 
@@ -153,12 +146,18 @@ define(function(require, exports, module) {
                     return false;
                 }
                 else if (e.keyCode == 40) {
-                    var first = list.getFirstTraverseNode();
-                    if (first) {
-                        list.select(first);
-                        list.$container.scrollTop = 0;
-                        list.focus();
-                    }
+                    if (list.selected == -1)
+                        list.cache = input.getValue();
+                    if (list.selected < lines.length -1)
+                        list.selected++;
+                    input.setValue(lines[list.selected]);
+                    list.drawContents();
+                }
+                else if (e.keyCode == 38) {
+                    if (list.selected > -1)
+                        list.selected--;
+                    input.setValue(lines[list.selected] || list.cache);
+                    list.drawContents();
                 }
                 else if (NotANumber && !e.metaKey && !e.ctrlKey && !e.altKey) {
                     return false;
@@ -203,6 +202,8 @@ define(function(require, exports, module) {
     
             //Set the current line
             input.setValue(input.getValue() || cursor.row + 1);
+            
+            list.drawContents();
     
             //Determine the position of the window
             var pos = ace.renderer.textToScreenCoordinates(cursor.row, cursor.column);
