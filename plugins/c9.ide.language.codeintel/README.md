@@ -79,13 +79,21 @@ and work out of the box.
    sudo pip install virtualenv
    ```
 
-2. Install CodeIntel 0.9.3
+3. Install and setup virtualenv
+
+   ```
+   sudo pip install -U virtualenv
+   virtualenv --python=python2 $HOME/.c9/python2
+   source $HOME/.c9/python2/bin/activate
+   ```
+
+3. Install CodeIntel 0.9.3
 
    ```
    pip install codeintel==0.9.3
    ```
 
-3. Reload Cloud9.
+4. Reload Cloud9.
 
 ## Windows
 
