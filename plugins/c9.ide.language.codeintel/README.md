@@ -79,7 +79,7 @@ and work out of the box.
    sudo pip install virtualenv
    ```
 
-3. Install and setup virtualenv
+2. Install and setup virtualenv
 
    ```
    sudo pip install -U virtualenv
