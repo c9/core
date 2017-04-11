@@ -328,6 +328,7 @@ apf.dropdown = function(struct, tagName) {
                 return;
             }
         }
+        this.$setLabel(String(value));
     };
     
     function isValueEqual(v1, v2) {
@@ -469,7 +470,6 @@ apf.dropdown = function(struct, tagName) {
     this.$setLabel = function(value) {
         this.oLabel.innerHTML = value || this["initial-message"] || "";
         
-
         this.$setStyleClass(this.$ext, value ? "" : this.$baseCSSname + "Initial",
             !value ? [] : [this.$baseCSSname + "Initial"]);
     };
@@ -477,17 +477,12 @@ apf.dropdown = function(struct, tagName) {
     // Private functions
     this.$blur = function() {
         this.slideUp();
-        //this.$ext.dispatchEvent("mouseout")
         if (!this.isOpen)
-            this.$setStyleClass(this.$ext, "", [this.$baseCSSname + "Over"])
+            this.$setStyleClass(this.$ext, "", [this.$baseCSSname + "Over"]);
         
         this.$setStyleClass(this.$ext, "", [this.$baseCSSname + "Focus"]);
     };
     
-    /*this.$focus = function(){
-        apf.popup.forceHide();
-        this.$setStyleClass(this.oFocus || this.$ext, this.$baseCSSname + "Focus");
-    }*/
     
     this.$setClearMessage = function(msg) {
         this.$setLabel(msg);
@@ -504,6 +499,7 @@ apf.dropdown = function(struct, tagName) {
         this.items = data;
         if (this.isOpen)
             this.$updateChildren();
+         this.$propHandlers["value"].call(this, this.value);
     };
     
     this.change =

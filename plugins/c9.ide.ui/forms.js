@@ -203,9 +203,7 @@ define(function(require, exports, module) {
                                 value: options.path
                                     ? settings.get(options.path)
                                     : (options.defaultValue || ""),
-                                // each: options.each || "item",
                                 caption: options.caption,
-                                // eachvalue: options.eachvalue || "value",
                                 "empty-message": options["empty-message"]
                             })
                         ];
@@ -458,16 +456,11 @@ define(function(require, exports, module) {
                         case "dropdown":
                             var dropdown = el.lastChild;
                             
-                            if (item.items) {
+                            if (item.items)
                                 dropdown.setChildren(item.items);
                                 
-                                var value = item.value || dropdown.value;
-                                dropdown.value = -999;
-                                dropdown.setAttribute("value", value);
-                            }
-                            else if (item.value) {
+                            if (item.value != null)
                                 dropdown.setAttribute("value", item.value);
-                            }
                         break;
                         default:
                             // supported attributes
