@@ -17,18 +17,6 @@ apf.popup = {
             height: height
         };
         content.style.position = "absolute";
-        //if(content.parentNode) content.parentNode.removeChild(content);
-        //if(style) apf.importCssString(style, this.popup.document);
-        
-        content.onmousedown = function(e) {
-            if (!e) e = event;
-
-            
-            
-            //@todo can this cancelBubble just go?
-            //apf.cancelBubble(e, null, true);
-            //e.cancelBubble = true;
-        };
         
         return content.ownerDocument;
     },
@@ -1042,7 +1030,6 @@ apf.divider = function(struct, tagName) {
     this.minwidth = 0;
     this.minheight = 0;
 
-    // this.implement(apf.ChildValue);
     this.$childProperty = "caption";
     
     //@todo apf3.0 fix this
@@ -1142,8 +1129,6 @@ apf.item = function(struct, tagName) {
 
     this.checked = false;
     this.selected = false;
-
-    // this.implement(apf.ChildValue);
 
     // *** Properties and Attributes *** //
     

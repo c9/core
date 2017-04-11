@@ -7801,7 +7801,7 @@ apf.AmlNode = function(){
     };
     
     this.hasAttributes = function(){
-        return Object.kesy(this.attributes).length;
+        return Object.keys(this.attributes).length;
     };
     
     this.hasChildNodes = function(){
@@ -14485,7 +14485,7 @@ function findNode(htmlNode, textNode, parts, maxRecur) {
             index = parseInt(x.slice(1, -1)) - 1;
             return "";
         });
-        
+        // allows to emulate xpath features like vbox|hbox
         var re = new RegExp("^(" + textNode + ")$", "i");
         
         var ch = htmlNode.childNodes;
@@ -18736,127 +18736,7 @@ apf.aml.setElement("skin", apf.skin);
     this.$includesRemaining = 0;
     
     this.$propHandlers["src"] = function(value) {
-        if (value.trim().charAt(0) == "<") {
-            apf.skins.Init(apf.getXml(value), this, this.$path);
-            return;
-        }
-        
-        this.$path = apf.getAbsolutePath(apf.hostPath, value)
-        getSkin.call(this, this.$path);
-    }
-    
-    this.$propHandlers["name"] = function(value) {
-        if (!this.src && !this.getAttribute("src")) {
-            this.$path = apf.getAbsolutePath(apf.hostPath, value) + "/index.xml";
-            getSkin.call(this, this.$path);
-        }
-    };
-    
-    /**
-     * @private
-     */
-    function checkForAmlNamespace(xmlNode) {
-        if (!xmlNode.ownerDocument.documentElement)
-            return false;
-debugger
-        var nodes = xmlNode.ownerDocument.documentElement.attributes;
-        for (var found = false, i=0; i<nodes.length; i++) {
-            if (nodes[i].nodeValue == apf.ns.aml) {
-                found = true;
-                break;
-            }
-        }
-
-        
-
-        return found;
-    }
-    
-    function getSkin(path) {
-        var domParser = this.ownerDocument.$domParser;
-        
-        if (!apf.skins.$first)
-            apf.skins.$first = this;
-        
-        var defer = this.getAttribute("defer");
-        if (!apf.isTrue(defer)) {
-            domParser.$pauseParsing.apply(domParser, 
-                this.$parseContext = domParser.$parseContext || [this.ownerDocument.documentElement]);
-        }
-        
-        loadSkinFile.call(this, path);
-        
-    }
-    
-    function finish(xmlNode) {
-        if (xmlNode)
-            apf.skins.Init(xmlNode, this, this.$path);
-
-        if (!this.defer) {// && this.$parseContext
-            var domParser = this.ownerDocument.$domParser;
-            domParser.$continueParsing(this.$parseContext[0]);
-        }
-    }
-    
-    
-    
-    function loadSkinFile(path) {
-        
-
-        var _self = this;
-        
-        apf.getData(
-        
-          path, {
-          
-          callback: function(xmlString, state, extra) {
-             if (state != apf.SUCCESS) {
-                var oError = new Error(apf.formatErrorString(1007,
-                    _self, "Loading skin file", "Could not load skin file '"
-                    + (path || _self.src)
-                    + "'\nReason: " + extra.message));
-
-                if (extra.tpModule.retryTimeout(extra, state, null, oError) === true)
-                    return true;
-
-                
-
-                throw oError;
-            }
-
-            //if (!apf.supportNamespaces)
-            xmlString = xmlString.replace(/\<\!DOCTYPE[^>]*>/, "")
-                .replace(/^[\r\n\s]*/, "") //.replace(/&nbsp;/g, " ")
-                .replace(/xmlns\=\"[^"]*\"/g, "");
-            
-            if (!xmlString) {
-                throw new Error(apf.formatErrorString(0, _self,
-                    "Loading skin",
-                    "Empty skin file. Maybe the file does not exist?", _self));
-            }
-            
-            var xmlNode = apf.getXml(xmlString);//apf.getAmlDocFromString(xmlString);
-            
-            
-            
-            if (!xmlNode) {
-                throw new Error(apf.formatErrorString(0, _self,
-                    "Loading skin",
-                    "Could not parse skin. Maybe the file does not exist?", _self));
-            }
-            
-            xmlNode.setAttribute("filename", extra.url);
-            
-            
-            {
-                
-                
-                finish.call(_self, xmlNode);
-            }
-          }, 
-          async: true,
-          ignoreOffline: true
-        });
+        apf.skins.Init(apf.getXml(value), this, this.$path);
     }
     
     //@todo use mutation events to update
@@ -18865,14 +18745,6 @@ debugger
             return;
         
         apf.skins.Init(this.$aml || this);
-        
-        //@todo implied skin
-        /*if (this.parentNode && this.parentNode.parentNode) {
-            var name = "skin" + Math.round(Math.random() * 100000);
-            q.parentNode.setAttribute("skin", name);
-            apf.skins.skins[name] = {name: name, templates: {}};
-            apf.skins.skins[name].templates[q.parentNode[apf.TAGNAME]] = q;
-        }*/
     });
 }).call(apf.skin.prototype = new apf.AmlElement());
 

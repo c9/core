@@ -363,7 +363,6 @@ define(function(require, module, exports) {
             menus.addItemToMenu(mnuEditors,
                 new ui.item({
                     caption: "New File",
-                    // TODO
                     hotkey: "commands.newfile",
                     onclick: function(e) {
                         e.pane = this.parentNode.pane;

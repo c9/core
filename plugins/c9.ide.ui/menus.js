@@ -63,7 +63,7 @@ define(function(require, exports, module) {
                     commands.commandManager.off("prop." + oldHandler.prop, oldHandler.handler);
                 }
                 if (value && /^commands./.test(value) && commands.commandManager) {
-                    // TODO replace this with the mechanism from events
+                    // this allows to remove event handler when node.destroy is called 
                     oldHandler = amlNode.$funcHandlers.hotkey = oldHandler || {
                         handler: function(e) {
                             amlNode.$propHandlers["hotkey"].call(amlNode, amlNode.hotkey);
