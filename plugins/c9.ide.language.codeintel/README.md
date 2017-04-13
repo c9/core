@@ -79,11 +79,21 @@ and work out of the box.
    sudo pip install virtualenv
    ```
 
-2. That's it! Cloud9 should be able to install the stock CodeIntel 0.9.3
-   based on this config. On OSX it is not necessary to follow the steps above
-   to patch the package before installing it.
+2. Install and setup virtualenv
 
-3. Reload Cloud9.
+   ```
+   sudo pip install -U virtualenv
+   virtualenv --python=python2 $HOME/.c9/python2
+   source $HOME/.c9/python2/bin/activate
+   ```
+
+3. Install CodeIntel 0.9.3
+
+   ```
+   pip install codeintel==0.9.3
+   ```
+
+4. Reload Cloud9.
 
 ## Windows
 
