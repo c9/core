@@ -1,81 +1,8 @@
 define(function(require, module, exports) {
 return function(apf) {
-var $setTimeout = setTimeout;
-var $setInterval = setInterval;
 
-
-
-
-
-apf.model = function(struct, tagName) {
-    console.trace()
-    this.$init(tagName || "model", apf.NODE_HIDDEN, struct);
-    
-    this.$amlNodes = {};
-    this.$propBinds = {};
-    
-    this.$listeners = {};
-    this.$proplisteners = {};
-    
-    this.data = [];
-};
-
-(function() {
-    /**
-     * Loads data into this model.
-     *
-     * @param  {Mixed} [xmlNode]  The data to load in this model. A string specifies the data instruction how to retrieve the data, which can be an XML string. `null` will clear the data from this model.
-     * @param {Object} [options] Additional options to pass. This can contain the following properties:
-     *   
-     *   - `xmlNode` ([[XMLElement]]):   the {@link term.datanode data node} that provides context to the data instruction.
-     *   - `callback` ([[Function]]): the code executed when the data request returns.
-     *   - `[]` (`Mixed`): custom properties available in the data instruction.
-     *   - `[nocopy]` ([[Boolean]]): specifies whether the data loaded will not overwrite the reset point.
-     */
-    this.load = function(data, options) {
-        if (typeof data == "string" || options) {
-            debugger
-            }
-        this.data = data;
-    };
-    
-    this.update = function(data, options) {
-        debugger
-        }
-        
-    this.$destroy = function() {
-    };
-}).call(apf.model.prototype = new apf.AmlElement());
-
-apf.aml.setElement("model", apf.model);
-
-
-
-
-
-
-
-/**
- * The baseclass for all standard data binding rules.
- *
- * @class apf.StandardBinding
- * @private
- * @baseclass
- * @inherits apf.DataBinding
- */
 apf.StandardBinding = apf.Presentation;
-
-
-
-
-
-
 apf.MultiSelect = apf.StandardBinding;
-
-
-
-
-
 apf.__CHILDVALUE__ = 1 << 27;
 
 

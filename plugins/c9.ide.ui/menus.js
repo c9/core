@@ -51,7 +51,7 @@ define(function(require, exports, module) {
             
             function formatHotkey(value) {
                 if (value && /^commands./.test(value))
-                    value = commands.getHotkey(value.slice(9));
+                    value = commands.getHotkey(value.slice("commands.".length));
                 if (apf.isMac && value)
                     value = apf.hotkeys.toMacNotation(value);
                 return value;
@@ -69,7 +69,7 @@ define(function(require, exports, module) {
                             amlNode.$propHandlers["hotkey"].call(amlNode, amlNode.hotkey);
                         }
                     };
-                    oldHandler.prop = value.slice(9);
+                    oldHandler.prop = value.slice("commands.".length);
                     oldHandler.amlNode = commands.commandManager;
                     commands.commandManager.on("prop." + oldHandler.prop, oldHandler.handler);
                 }
