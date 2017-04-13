@@ -63,12 +63,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     + count + " of " + expected);
         }
         
-        expect.html.setConstructor(function(node) {
-            if (node.$ext) return node.$ext;
-
-            return apf.xmldb.getHtmlNode(node, datagrid);
-        });
-        
         describe('breakpoints', function() {
             before(function(done) {
                 apf.config.setProperty("allow-select", false);

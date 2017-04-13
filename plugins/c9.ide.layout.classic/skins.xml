@@ -412,44 +412,6 @@
         </a:empty>
     </a:presentation>
 </a:list>
-<a:list  name="lineselect">
-    
-
-    <a:presentation>
-        <a:main container=".">
-            <div class="lineselect">
-            </div>
-        </a:main>
-        <a:item class="." container="." caption="." select=".">
-            <div> </div>
-        </a:item>
-        <a:empty caption=".">
-            <div class="message">-</div>
-        </a:empty>
-    </a:presentation>
-</a:list>
-<a:list  name="list_dark">
-    
-
-    <a:presentation>
-        <a:main container=".">
-            <div class="c9menu list_dark">
-            </div>
-        </a:main>
-        <a:item class="." caption="text()" select="." inherit="true">
-            <div class="menu_item">-</div>
-        </a:item>
-        <a:dragindicator>
-            <div class="draglist"><span><u>-</u></span></div>
-        </a:dragindicator>
-        <a:loading>
-            <div class="loading">Loading...</div>
-        </a:loading>
-        <a:empty caption=".">
-            <div class="message">-</div>
-        </a:empty>
-    </a:presentation>
-</a:list>
 <a:menu  name="menu">
     
     <a:presentation>
@@ -466,26 +428,6 @@
         </a:divider>
     </a:presentation>
 </a:menu>
-<a:scrollbar  name="sbios">
-    
-    
-
-    <a:presentation>
-        <a:main indicator="div/div">
-            <div class="sbios">
-                <div class="filler">
-                    <div class="indicator">
-                        <div class="indi_left"/>
-                        <div class="indi_middle"/>
-                        <div class="indi_right"/>
-                    </div>
-                </div>
-                <div class="mainrail"/>
-                <span> </span>
-            </div>
-        </a:main>
-    </a:presentation>
-</a:scrollbar>
 <a:modalwindow  name="bk-window">
     
 
@@ -645,8 +587,6 @@
     </a:presentation>
 </a:textbox>
 <a:toolbar  name="toolbar">
-    
-
     <a:presentation>
         <a:main container=".">
             <div class="toolbar"> </div>
@@ -663,32 +603,7 @@
             <div class="divider"> </div>
         </a:divider>
     </a:presentation>
-</a:toolbar>
-<a:errorbox  name="errorbox">
-        
-
-        <a:presentation>
-            <a:main container="div[1]/span" caption="div[1]/span" for="@for" close="div[3]/a" maxwidth="275">
-                <div class="errorbox">
-                    <div class="errorboxContent">
-                        <span> </span>
-                    </div>
-                    <div class="errorbox_ctl"> </div>
-                    <div class="errorbox_ctr">
-                        <a class="close" href="javascript:void(0)" onclick="return false;"> </a>
-                    </div>
-                    <div class="errorbox_cbl"> </div>
-                    <div class="errorbox_cbr"> </div>
-                    <div class="errorbox_bt">
-                        <div class="errbox_arrow"> </div>
-                    </div>
-                    <div class="errorbox_bl"> </div>
-                    <div class="errorbox_br"> </div>
-                    <div class="errorbox_bb"> </div>
-                </div>
-            </a:main>
-        </a:presentation>
-    </a:errorbox>
+</a:toolbar> 
 <a:img  name="img">
         
 

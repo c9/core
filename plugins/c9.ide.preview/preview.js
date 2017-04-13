@@ -230,9 +230,7 @@ define(function(require, exports, module) {
             menu = new Menu({}, handle);
             
             // Preferences
-            var key = commands.getHotkey("reloadpreview");
-            if (commands.platform == "mac")
-                key = apf.hotkeys.toMacNotation(key);
+            var key = commands.getPrettyHotkey("reloadpreview");
             
             prefs.add({
                 "Project": {

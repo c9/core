@@ -399,9 +399,9 @@ define(function(require, exports, module) {
                 var ace = editor.ace;
                 if (!ace || !drawn || !ace.selection) return;
                 
+                var selLen;
                 if (!ace.selection.isEmpty()) {
                     var range = ace.getSelectionRange();
-                    var selLen;
                     
                     if (showRange) {
                         selLen = "(" +
@@ -411,18 +411,14 @@ define(function(require, exports, module) {
                     else {
                         selLen = "(" + ace.session.getTextRange(range).length + " Bytes)";
                     }
-                    
-                    lblSelection.setAttribute("caption", selLen);
                 } 
-                else {
-                    lblSelection.setAttribute("caption", "");
-                }
+                setCaption(lblSelection, selLen);
                 
                 var cursor = ace.selection.lead;
                 var columnText = (cursor.row + 1) + ":" + (cursor.column + 1);
                 if (ace.selection.rangeCount)
                     columnText += " &#91;" + ace.selection.rangeCount + "\u202f]";
-                lblRowCol.setAttribute("caption", columnText);
+                setCaption(lblRowCol, columnText);
             }
             
             function updateStatus() {
@@ -431,7 +427,7 @@ define(function(require, exports, module) {
                 
                 updateSelStatus();
                 
-                lblTabs.setAttribute("caption", 
+                setCaption(lblTabs, 
                     (ace.getOption("useSoftTabs") ? "Spaces" : "Tabs") + ": "
                       + ace.getOption("tabSize")); // "\\[" + + "\\]");
                 
@@ -439,10 +435,17 @@ define(function(require, exports, module) {
                 if (ace.commands.recording)
                     status = "REC";
                     
-                lblStatus.setAttribute("caption", status);
+                setCaption(lblStatus, status);
                 
                 var caption = aceHandle.getSyntaxCaption(ace.session.syntax);
-                lblSyntax && lblSyntax.setAttribute("caption", caption);
+                setCaption(lblSyntax, caption);
+            }
+            
+            function setCaption(lbl, value) {
+                if (!lbl) return;
+                if (!value) return lbl.hide();
+                if (!lbl.visible) lbl.show();
+                lbl.setAttribute("caption", value);
             }
             
             /***** Lifecycle *****/

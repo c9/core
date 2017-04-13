@@ -90,7 +90,7 @@ define(function(require, exports, module) {
             menus.addItemToMenu(menu, 
                 new ui.item({
                     caption: "Open Preferences",
-                    hotkey: "{commands.commandManager.openpreferences}",
+                    hotkey: "commands.openpreferences",
                     onclick: function(e) {
                         if (focusOpenPrefs())
                             return;

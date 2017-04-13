@@ -174,7 +174,7 @@ define(function(require, exports, module) {
             var ctxItem = menus.addItemToMenu(menu, 
                 new ui.item({
                     caption: "New Terminal",
-                    hotkey: "{commands.commandManager.openterminal}",
+                    hotkey: "commands.openterminal",
                     onclick: function(e) {
                         tabs.open({
                             active: true,

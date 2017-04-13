@@ -236,14 +236,9 @@ define(function(require, module, exports) {
                     switch (el.type || el.tagName) {
                         case "dropdown":
                             var dropdown = el;
-                            
-                            var data = item.items.map(function(item) {
-                                return "<item value='" + item.value 
-                                  + "'><![CDATA[" + item.caption + "]]></item>";
-                            }).join("");
-                            if (data) 
-                                dropdown.$model.load("<items>" + data + "</items>");
-                            if (item.value)
+                            if (item.items)
+                                dropdown.setChildren(item.items);
+                            if (item.value != null)
                                 dropdown.setAttribute("value", item.value);
                         break;
                         default:
@@ -277,20 +272,12 @@ define(function(require, module, exports) {
                         });
                     break;
                     case "dropdown":
-                        var model = options.model || new ui.model();
-                        var data = options.items && options.items.map(function(item) {
-                            return "<item value='" + item.value + "'><![CDATA[" + item.caption + "]]></item>";
-                        }).join("");
-                        if (data) model.load("<items>" + data + "</items>");
-                        
                         node = new ui.dropdown({
-                            model: model,
+                            items: options.items,
                             width: options.width || widths.dropdown,
                             skin: "black_dropdown",
-                            value: options.defaultValue || "",
-                            each: options.each || "[item]",
-                            caption: options.caption || "[text()]",
-                            eachvalue: options.eachvalue || "[@value]",
+                            value: options.defaultValue,
+                            caption: options.caption,
                             "empty-message": options["empty-message"]
                         });
                     break;

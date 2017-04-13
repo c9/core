@@ -25,9 +25,7 @@ define(function(require, exports, module) {
             loaded = true;
             
             commands.on("update", function() {
-                var key = commands.getHotkey("quickfix");
-                if (commands.platform == "mac")
-                    key = apf.hotkeys.toMacNotation(key);
+                var key = commands.getPrettyHotkey("quickfix");
                 
                 language.getWorker(function(err, result) {
                     if (err) return console.error(err);

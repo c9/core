@@ -26,11 +26,6 @@ define(function(require, exports, module) {
 
             var debug = location.href.indexOf('menus=1') > -1;
             var headings = {};
-            
-            if (!Form.proxy) {
-                Form.proxy = new apf.Class().$init();
-                apf.nameserver.register("all", "Form", Form);
-            }
 
             var loaded;
             function load() {
@@ -155,19 +150,6 @@ define(function(require, exports, module) {
                     name = name.replace(/@(.*)/, "$1Attribute");
                 return name;
             }
-            
-            function createBind(path) {
-                var name = getName(path);
-                Form.proxy.setProperty(name, settings.get(path));
-                Form.proxy.on("prop." + name, function(e) {
-                    settings.set(path, e.value);
-                });
-                settings.on(path, function(value) {
-                    if (Form.proxy[name] != value)
-                        Form.proxy.setProperty(name, value);
-                }, plugin);
-                return "{Form.proxy." + name + "}";
-            }
 
             function createItem(heading, name, options, foreign) {
                 if (!foreign) foreign = plugin;
@@ -187,11 +169,14 @@ define(function(require, exports, module) {
                             new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
                             new ui.checkbox({
                                 value: options.path 
-                                    ? createBind(options.path) 
+                                    ? settings.get(options.path) 
                                     : (options.defaultValue || ""),
                                 values: options.values,
                                 skin: "cboffline",
                                 onafterchange: function(e) {
+                                    if (options.path)
+                                        settings.set(options.path, e.value);
+                                        
                                     if (options.onchange)
                                         options.onchange({ value: e.value });
                                 }
@@ -199,17 +184,11 @@ define(function(require, exports, module) {
                         ];
                     break;
                     case "dropdown":
-                        var model = options.model || new ui.model();
-                        var data = options.items && options.items.map(function(item) {
-                            return "<item value='" + item.value + "'><![CDATA[" + item.caption + "]]></item>";
-                        }).join("");
-                        if (data) model.load("<items>" + data + "</items>");
-                        
                         var dd;
                         childNodes = [
                             new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
                             dd = new ui.dropdown({
-                                model: model,
+                                items: options.items,
                                 width: options.width || widths.dropdown,
                                 skin: "black_dropdown",
                                 margin: "-1 0 0 0",
@@ -224,9 +203,7 @@ define(function(require, exports, module) {
                                 value: options.path
                                     ? settings.get(options.path)
                                     : (options.defaultValue || ""),
-                                each: options.each || "[item]",
-                                caption: options.caption || "[text()]",
-                                eachvalue: options.eachvalue || "[@value]",
+                                caption: options.caption,
                                 "empty-message": options["empty-message"]
                             })
                         ];
@@ -241,12 +218,14 @@ define(function(require, exports, module) {
                             new ui.spinner({
                                 width: options.width || widths.spinner,
                                 value: options.path 
-                                    ? createBind(options.path) 
+                                    ? settings.get(options.path) 
                                     : (options.defaultValue || ""),
                                 min: options.min || 0,
                                 max: options.max || 10,
                                 realtime: typeof options.realtime !== "undefined" ? options.realtime : 1,
                                 onafterchange: function(e) {
+                                    if (options.path)
+                                        settings.set(options.path, e.value);
                                     if (options.onchange)
                                         options.onchange({ value: e.value });
                                 }, 
@@ -257,12 +236,14 @@ define(function(require, exports, module) {
                         childNodes = [
                             new ui.checkbox({
                                 value: options.checkboxPath 
-                                    ? createBind(options.checkboxPath) 
+                                    ? settings.get(options.checkboxPath) 
                                     : (options.defaultCheckboxValue || ""),
                                 width: width, maxwidth: maxwidth, 
                                 label: name + ":",
                                 skin: "checkbox_black",
                                 onafterchange: function(e) {
+                                    if (options.checkboxPath)
+                                        settings.set(options.checkboxPath, e.value);
                                     if (options.onchange)
                                         options.onchange({ value: e.value, type: "checkbox" });
                                 }, 
@@ -270,12 +251,14 @@ define(function(require, exports, module) {
                             new ui.spinner({
                                 width: options.width || widths["checked-spinner"],
                                 value: options.path 
-                                    ? createBind(options.path) 
+                                    ? settings.get(options.path) 
                                     : (options.defaultValue || ""),
                                 min: options.min || 0,
                                 max: options.max || 10,
                                 realtime: typeof options.realtime !== "undefined" ? options.realtime : 1,
                                 onafterchange: function(e) {
+                                    if (options.path)
+                                        settings.set(options.path, e.value);
                                     if (options.onchange)
                                         options.onchange({ value: e.value, type: "spinner" });
                                 }, 
@@ -286,12 +269,14 @@ define(function(require, exports, module) {
                         childNodes = [
                             new ui.checkbox({
                                 value: options.path
-                                    ? createBind(options.path) 
+                                    ? settings.get(options.path) 
                                     : (options.defaultValue || ""),
                                 width: options.width || widths["checked-single"], 
                                 label: name,
                                 skin: "checkbox_black",
                                 onafterchange: function(e) {
+                                    if (options.path)
+                                        settings.set(options.path, e.value);
                                     if (options.onchange)
                                         options.onchange({ value: e.value });
                                 } 
@@ -307,10 +292,12 @@ define(function(require, exports, module) {
                                 "initial-message": options.message || "",
                                 width: options.width || widths.textbox,
                                 value: options.path 
-                                    ? createBind(options.path) 
+                                    ? settings.get(options.path) 
                                     : (options.defaultValue || ""),
                                 realtime: typeof options.realtime !== "undefined" ? options.realtime : 1,
                                 onafterchange: function(e) {
+                                    if (options.path)
+                                        settings.set(options.path, e.value);
                                     if (options.onchange)
                                         options.onchange({ value: e.value });
                                 },
@@ -324,7 +311,7 @@ define(function(require, exports, module) {
                                 skin: skins.password || "forminput",
                                 width: options.width || widths.password,
                                 value: options.path 
-                                    ? createBind(options.path) 
+                                    ? settings.get(options.path) 
                                     : (options.defaultValue || ""),
                                 realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
                             })
@@ -336,9 +323,15 @@ define(function(require, exports, module) {
                             new ui.colorbox({
                                 width: options.width || widths.colorbox,
                                 value: options.path 
-                                    ? createBind(options.path) 
+                                    ? settings.get(options.path) 
                                     : (options.defaultValue || ""),
-                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
+                                realtime: typeof options.realtime !== "undefined" ? options.realtime : 1,
+                                onafterchange: function(e) {
+                                    if (options.path)
+                                        settings.set(options.path, e.value);
+                                    if (options.onchange)
+                                        options.onchange({ value: e.value });
+                                },
                             })
                         ];
                     break;
@@ -397,7 +390,7 @@ define(function(require, exports, module) {
                                 width: options.width || widths.textarea,
                                 height: options.height || 200,
                                 value: options.path 
-                                    ? createBind(options.path) 
+                                    ? settings.get(options.path) 
                                     : (options.defaultValue || ""),
                                 realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
                             })
@@ -419,7 +412,7 @@ define(function(require, exports, module) {
                                         ? "font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace; font-size: 10px"
                                         : "",
                                     value: options.path 
-                                        ? createBind(options.path) 
+                                        ? settings.get(options.path) 
                                         : (options.defaultValue || ""),
                                     realtime: typeof options.realtime !== "undefined" ? options.realtime : 1
                                 })
@@ -463,26 +456,11 @@ define(function(require, exports, module) {
                         case "dropdown":
                             var dropdown = el.lastChild;
                             
-                            if (item.items) {
-                                var data = item.items.map(function(item) {
-                                    return "<item value='" + item.value 
-                                      + "'><![CDATA[" + item.caption + "]]></item>";
-                                }).join("");
-                                if (data) {
-                                    setTimeout(function() {
-                                        dropdown.$model.load("<items>" + data + "</items>");
-                                        
-                                        setTimeout(function() {
-                                            var value = item.value || dropdown.value;
-                                            dropdown.value = -999;
-                                            dropdown.setAttribute("value", value);
-                                        });
-                                    });
-                                }
-                            }
-                            else if (item.value) {
+                            if (item.items)
+                                dropdown.setChildren(item.items);
+                                
+                            if (item.value != null)
                                 dropdown.setAttribute("value", item.value);
-                            }
                         break;
                         default:
                             // supported attributes

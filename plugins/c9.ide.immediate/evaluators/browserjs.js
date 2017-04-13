@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-    main.consumes = ["immediate", "settings", "Evaluator", "ui"];
+    main.consumes = ["Evaluator", "ui"];
     main.provides = ["immediate.browserjs"];
     return main;
     
@@ -19,8 +19,6 @@ define(function(require, exports, module) {
 
     function main(options, imports, register) {
         var Evaluator = imports.Evaluator;
-        var settings = imports.settings;
-        var immediate = imports.immediate;
         var ui = imports.ui;
         
         /***** Initialization *****/
@@ -36,13 +34,11 @@ define(function(require, exports, module) {
         });
         // var emit = plugin.getEmitter();
         
-        var iframe, win;
+        var iframe;
+        var win;
         
-        var loaded;
-        function load() {
-            if (loaded) return;
-            loaded = true;
-            
+        function createIframe() {
+            if (iframe) return;
             iframe = document.body.appendChild(document.createElement("iframe"));
             iframe.setAttribute("nwdisable", "nwdisable");
 
@@ -411,6 +407,7 @@ define(function(require, exports, module) {
         }
         
         function evaluate(expression, cell, cb) {
+            if (!iframe) createIframe();
             // Ignore heroku command if typed
             // str = str.replace(/^heroku\s+/, "");
             
@@ -445,6 +442,7 @@ define(function(require, exports, module) {
         }
         
         function evaluateHeadless(expression) {
+            if (!iframe) createIframe();
             try {
                 win.thrown = false;
                 win.result = win.eval(expression);
@@ -485,7 +483,6 @@ define(function(require, exports, module) {
         /***** Lifecycle *****/
         
         plugin.on("load", function() {
-            load();
         });
         plugin.on("canEvaluate", function(e) {
             return canEvaluate(e.expression);
@@ -500,7 +497,8 @@ define(function(require, exports, module) {
             
         });
         plugin.on("unload", function() {
-            loaded = false;
+            iframe && iframe.remove();
+            win = iframe = null;
         });
         
         /***** Register and define API *****/

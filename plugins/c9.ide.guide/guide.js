@@ -178,10 +178,7 @@ define(function(require, exports, module) {
             thingy.onclick = function() { togglePopup(def); };
             
             def.body = def.body.replace(/\$\{key:([a-zA-Z]+)\}/g, function(match, name) {
-                var key = commands.getHotkey(name);
-                if (commands.platform == "mac")
-                    key = apf.hotkeys.toMacNotation(key);
-               return key;
+                return commands.getPrettyHotkey(name);
             });
             
             def.el = el;

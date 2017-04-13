@@ -15,7 +15,6 @@ define(function(require, exports, module) {
         var settings = imports.settings;
         var ui = imports.ui;
         var anims = imports.anims;
-        var util = imports.util;
         var menus = imports.menus;
         var commands = imports.commands;
         var tabs = imports.tabManager;
@@ -30,16 +29,14 @@ define(function(require, exports, module) {
         
         var originalLine, originalColumn, control, lastLine, lineControl; 
         var nohide, originalPath;
-        var win, input, list, model; // ui elements
+        var win, input, list, lines; // ui elements
         
         var loaded = false, changed = false;
         function load() {
             if (loaded) return false;
             loaded = true;
             
-            model = new ui.model();
-            
-            menus.addItemByPath("Goto/Goto Line...", new apf.item({
+            menus.addItemByPath("Goto/Goto Line...", new ui.item({
                 caption: "Goto Line...",
                 hint: "enter a line number and jump to it in the active document",
                 command: "gotoline"
@@ -74,22 +71,15 @@ define(function(require, exports, module) {
             }, plugin);
             
             settings.on("read", function() {
-                var lines = settings.getJson("state/gotoline") || [];
-                var xml = "";
-                for (var i = 0, l = lines.length; i < l; i += 2) {
-                    xml += "<line nr='" + lines[i] + "' />";
-                }
-                model.load("<lines>" + xml + "</lines>");
+                lines = settings.getJson("state/gotoline") || [];
+                if (!Array.isArray(lines))
+                    lines = [];
             }, plugin);
             
             settings.on("write", function() {
                 if (changed) {
-                    var nodes = model.data.childNodes;
-                    var lines = [];
-                    for (var i = 0, l = Math.min(20, nodes.length); i < l; i++) {
-                        lines.push(nodes[i].getAttribute("nr"));
-                    }
                     settings.setJson("state/gotoline", lines);
+                    changed = false;
                 }
             }, plugin);
         }
@@ -113,44 +103,39 @@ define(function(require, exports, module) {
             input = plugin.getElement("input");
             list = plugin.getElement("list");
             
-            list.setAttribute("model", model);
+            list.$ext.textContent = "";
+            list.drawContents = function() {
+                var ch = list.$ext.children;
+                for (var i = 0; i < lines.length; i++) {
+                    var el = ch[i];
+                    if (!el) el = document.createElement("div");
+                    el.setAttribute("index", i);
+                    el.textContent = lines[i];
+                    el.className = i == list.selected ? "selected" : "";
+                    if (el.parentNode != list.$ext)
+                        list.$ext.appendChild(el);
+                }
+                while (ch.length > lines.length)
+                    ch[lines.length].remove();
+            };
+            list.selected = -1;
             
-            list.addEventListener("afterchoose", function() {
-                if (list.selected) {
-                    execGotoLine(parseInt(list.selected.getAttribute("nr"), 10));
-                }
-                else {
-                    execGotoLine();
+            list.$ext.addEventListener("mouseup", function(e) {
+                var i = parseInt(e.target.getAttribute("index"), 10);
+                if (i >= 0) {
+                    list.selected = i;
+                    input.setValue(lines[list.selected]);
+                    list.drawContents();
+                    execGotoLine(null, null, e.detail == 1);
+                    if (e.detail != 1) hide();
                 }
             });
-            list.addEventListener("afterselect", function() {
-                if (!list.selected)
-                    return;
-    
-                var line = list.selected.getAttribute("nr");
-                input.setValue(line);
-                
-                // Focus the list
-                list.focus();
-                
-                // Go to the right line
-                execGotoLine(null, null, true);
+            
+            list.$altExt.addEventListener("mousedown", function(e) {
+                input.focus();
+                e.preventDefault();
+                e.stopPropagation();
             });
-    
-            var restricted = [38, 40, 36, 35];
-            list.addEventListener("keydown", function(e) {
-                if (e.keyCode == 13 && list.selected) {
-                    return false;
-                }
-                else if (e.keyCode == 38) {
-                    if (list.selected == list.getFirstTraverseNode()) {
-                        input.focus();
-                        list.clearSelection();
-                    }
-                }
-                else if (restricted.indexOf(e.keyCode) == -1)
-                    input.focus();
-            }, true);
     
             input.addEventListener("keydown", function(e) {
                 var NotANumber = (e.keyCode > 57 || e.keyCode == 32) 
@@ -161,12 +146,18 @@ define(function(require, exports, module) {
                     return false;
                 }
                 else if (e.keyCode == 40) {
-                    var first = list.getFirstTraverseNode();
-                    if (first) {
-                        list.select(first);
-                        list.$container.scrollTop = 0;
-                        list.focus();
-                    }
+                    if (list.selected == -1)
+                        list.cache = input.getValue();
+                    if (list.selected < lines.length -1)
+                        list.selected++;
+                    input.setValue(lines[list.selected]);
+                    list.drawContents();
+                }
+                else if (e.keyCode == 38) {
+                    if (list.selected > -1)
+                        list.selected--;
+                    input.setValue(lines[list.selected] || list.cache);
+                    list.drawContents();
                 }
                 else if (NotANumber && !e.metaKey && !e.ctrlKey && !e.altKey) {
                     return false;
@@ -211,6 +202,8 @@ define(function(require, exports, module) {
     
             //Set the current line
             input.setValue(input.getValue() || cursor.row + 1);
+            
+            list.drawContents();
     
             //Determine the position of the window
             var pos = ace.renderer.textToScreenCoordinates(cursor.row, cursor.column);
@@ -326,20 +319,14 @@ define(function(require, exports, module) {
                 });
             }
             else {
-                //win.hide();
                 hide();
-    
-                var lineNode = model.queryNode("line[@nr='" + line + "']");
                 
-                if (!lineNode) {
-                    lineNode = ui.n("<line />")
-                        .attr("nr", line)
-                        .node();
-                }
-    
-                var pNode = model.data;
-                if (lineNode != pNode.firstChild) {
-                    apf.xmldb.appendChild(pNode, lineNode, pNode.firstChild);
+                var i = lines.indexOf(line);
+                if (i != -1)
+                    lines.splice(i, 1);
+                
+                if (i) {
+                    lines.unshift(line);
                     changed = true;
                     settings.save();
                 }

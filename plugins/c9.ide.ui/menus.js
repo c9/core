@@ -1,3 +1,4 @@
+/*global apf*/
 define(function(require, exports, module) {
     main.consumes = ["Plugin", "settings", "commands", "layout", "anims", "ui", "c9"];
     main.provides = ["menus", "Menu", "MenuItem", "Divider"];
@@ -48,13 +49,44 @@ define(function(require, exports, module) {
             
             // Hook deep into APF to make hotkeys work as we want
             
+            function formatHotkey(value) {
+                if (value && /^commands./.test(value))
+                    value = commands.getHotkey(value.slice("commands.".length));
+                if (apf.isMac && value)
+                    value = apf.hotkeys.toMacNotation(value);
+                return value;
+            }
+            
+            function addHotkeyListener(amlNode, value) {
+                var oldHandler = amlNode.$funcHandlers.hotkey;
+                if (oldHandler && oldHandler.value != value) {
+                    commands.commandManager.off("prop." + oldHandler.prop, oldHandler.handler);
+                }
+                if (value && /^commands./.test(value) && commands.commandManager) {
+                    // this allows to remove event handler when node.destroy is called 
+                    oldHandler = amlNode.$funcHandlers.hotkey = oldHandler || {
+                        handler: function(e) {
+                            amlNode.$propHandlers["hotkey"].call(amlNode, amlNode.hotkey);
+                        }
+                    };
+                    oldHandler.prop = value.slice("commands.".length);
+                    oldHandler.amlNode = commands.commandManager;
+                    commands.commandManager.on("prop." + oldHandler.prop, oldHandler.handler);
+                }
+            }
+            
             apf.button.prototype.$propHandlers["hotkey"] = function(value) {
                 if (this.$hotkey)
-                    apf.setNodeValue(this.$hotkey, apf.isMac
-                          ? apf.hotkeys.toMacNotation(this.hotkey) : this.hotkey);
-    
-                if (this.tooltip)
-                    apf.GuiElement.propHandlers.tooltip.call(this, this.tooltip);
+                    apf.setNodeValue(this.$hotkey, formatHotkey(value));
+                this.$propHandlers["tooltip"].call(this, this.tooltip);
+                addHotkeyListener(this, value);
+            };
+            apf.button.prototype.$propHandlers["tooltip"] = function(value) {
+                if (this.$ext) {
+                    var hotkey = formatHotkey(this.hotkey);
+                    this.$ext.setAttribute("title", (this.tooltip || "")
+                        + (hotkey ? " (" + hotkey + ")" : ""));
+                }
             };
     
             apf.item.prototype.$propHandlers["hotkey"] = function(value) {
@@ -62,13 +94,12 @@ define(function(require, exports, module) {
                     var _self = this;
                     this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
                         if (_self.$hotkey && _self.hotkey)
-                            apf.setNodeValue(this.$hotkey, apf.isMac
-                              ? apf.hotkeys.toMacNotation(this.hotkey) : this.hotkey);
+                            apf.setNodeValue(this.$hotkey, formatHotkey(_self.hotkey));
                     });
                 }
                 else if (this.$hotkey)
-                    apf.setNodeValue(this.$hotkey,
-                        apf.isMac ? apf.hotkeys.toMacNotation(value || "") : value);
+                    apf.setNodeValue(this.$hotkey, formatHotkey(value));
+                addHotkeyListener(this, value);
             };
     
             apf.splitbutton.prototype.$propHandlers["command"] =
@@ -79,9 +110,8 @@ define(function(require, exports, module) {
                     this.onclick = null;
                     return;
                 }
-    
-                this.setAttribute("hotkey",
-                    value && "{commands.commandManager." + value + "}" || "");
+                
+                this.setAttribute("hotkey", value && "commands." + value || "");
     
                 this.onclick = function(e) {
                     if (e && e.htmlEvent && e.htmlEvent.button) return;
@@ -89,7 +119,7 @@ define(function(require, exports, module) {
                     var command = commands.commands[value];
                     if (command && command.focusContext)
                         emit("focusEditor");
-                } || null;
+                };
             };
     
             settings.on("read", function(e) {
@@ -394,7 +424,7 @@ define(function(require, exports, module) {
                 if (itemName != "~") {
                     if (debug)
                         itemName = "(" + index + ") " + itemName;
-                    item.setAttribute("caption", itemName.replace(/[\[\]]/, "\\$&"));
+                    item.setAttribute("caption", itemName);
                 }
             }
 

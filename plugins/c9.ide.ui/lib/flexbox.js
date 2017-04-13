@@ -864,8 +864,6 @@ apf.vbox = function(struct, tagName) {
         var ooffset = this.$vbox ? "offsetHeight" : "offsetWidth";
         var getDiff = this.$vbox ? "getWidthDiff" : "getHeightDiff";
         var ogetDiff = this.$vbox ? "getHeightDiff" : "getWidthDiff";
-        var inner = this.$vbox ? "getHtmlInnerWidth" : "getHtmlInnerHeight";
-        var oinner = this.$vbox ? "getHtmlInnerHeight" : "getHtmlInnerWidth";
         var borders = this.$vbox ? "getVerBorders" : "getHorBorders";
 
         var nodes = this.childNodes, hNodes = [], fW = 0, max = 0;

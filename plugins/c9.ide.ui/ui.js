@@ -1,3 +1,4 @@
+/*global apf*/
 define(function(require, module, exports) {
     main.consumes = ["Plugin", "apf"];
     main.provides = ["ui"];
@@ -281,11 +282,7 @@ define(function(require, module, exports) {
             //var allMarker = apf.all.length;
             var childMarker = parent.childNodes.length;
             
-            parent.insertMarkup(markup, {
-                callback: function() {
-                    
-                }
-            });
+            parent.insertMarkup(markup);
             
             //var allNodes = apf.all.slice(allMarker);
             var childNodes = parent.childNodes.slice(childMarker);
@@ -305,7 +302,7 @@ define(function(require, module, exports) {
             
             if (typeof item == "string") {
                 var bar = new apf.bar({ htmlNode: document.createElement("div") });
-                bar.insertMarkup(item, { callback: function() {} });
+                bar.insertMarkup(item);
                 item = bar.childNodes.slice();
                 bar.childNodes.length = 0;
                 bar.destroy();
@@ -597,15 +594,6 @@ define(function(require, module, exports) {
              */
             insertByIndex: insertByIndex,
             
-            /**
-             * @ignore
-             */
-            n: apf.n,
-            
-            /**
-             * @ignore
-             */
-            b: apf.b,
             
             /**
              * Escapes "&amp;", greater than, less than signs, quotation marks, 
@@ -742,11 +730,6 @@ define(function(require, module, exports) {
             removeClass: removeClass,
             
             /**
-             * @ignore
-             */
-            createNodeFromXpath: apf.createNodeFromXpath,
-            
-            /**
              * Determines whether a string is true (in the HTML attribute sense).
              * @param {Mixed} value The variable to check. Possible truth values include:
              * 
@@ -774,15 +757,6 @@ define(function(require, module, exports) {
              */
             isFalse: apf.isFalse,
             
-            /**
-             * @ignore
-             */
-            xmldb: apf.xmldb,
-            
-            /**
-             * @ignore
-             */
-            getCleanCopy: apf.getCleanCopy,
             
             /**
              * This method retrieves the current value of a CSS property on an 

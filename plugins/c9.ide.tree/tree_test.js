@@ -451,8 +451,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     done();
                 });
                 it('should update a name', function(done) {
-                    // TODO these were using setAttribute ui.xmldb.setAttribute
-                    // we don't have equivalent method for now
                     var node = fsCache.findNode("/gtest");
                     fsCache.createNode("/atest", null, node);
                     expect.html("/gtest").to.not.exist;
