@@ -1030,7 +1030,6 @@ apf.divider = function(struct, tagName) {
     this.minwidth = 0;
     this.minheight = 0;
 
-    this.implement(apf.ChildValue);
     this.$childProperty = "caption";
     
     //@todo apf3.0 fix this
@@ -1126,7 +1125,6 @@ apf.item = function(struct, tagName) {
 (function() {
     this.$focussable = false;
     
-    this.implement(apf.ChildValue);
     this.$childProperty = "caption";
     this.$canLeechSkin = "item";
 

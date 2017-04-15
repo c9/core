@@ -7147,7 +7147,9 @@ apf.AmlText = function(isPrototype) {
 
     this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
         var pHtmlNode;
-        if (!(pHtmlNode = this.parentNode.$int) || this.parentNode.hasFeature(apf.__CHILDVALUE__)) 
+        if (this.parentNode.$childProperty)
+            return this.parentNode.setAttribute(this.parentNode.$childProperty, this.nodeValue)
+        if (!(pHtmlNode = this.parentNode.$int)) 
             return;
 
         this.$amlLoaded = true;
@@ -9848,9 +9850,6 @@ apf.BaseButton = function(){
 };
 
 (function() {
-    
-    this.implement(apf.ChildValue);
-    
     
     this.$refKeyDown = // Number of keys pressed.
     this.$refMouseDown = 0;     // Mouse button down?
@@ -14004,8 +14003,8 @@ apf.button = function(struct, tagName) {
     };
 
     this.$propHandlers["caption"] = function(value) {
-        if (!this.oCaption)
-            return;
+        // if (!this.oCaption)
+        //     return;
 
         if (value)
             this.$setStyleClass(this.$ext, "", [this.$baseCSSname + "Empty"]);
@@ -14293,6 +14292,9 @@ apf.button = function(struct, tagName) {
         this.$ext = this.$getExternal();
         this.oIcon = this.$getLayoutNode("main", "icon", this.$ext);
         this.oCaption = this.$getLayoutNode("main", "caption", this.$ext);
+        
+        if (this.oCaption.nodeValue && !this.caption)
+            this.$propHandlers["caption"].call(this, "");
 
         this.$useExtraDiv = apf.isTrue(this.$getOption("main", "extradiv"));
         if (!apf.button.$extradiv && this.$useExtraDiv) {
@@ -15230,10 +15232,6 @@ apf.label = function(struct, tagName) {
 };
 
 (function(){
-    this.implement(
-        apf.ChildValue
-    );
-
     var _self = this;
     
     this.$focussable = false;
@@ -15326,10 +15324,6 @@ apf.colorbox = function(struct, tagName) {
 };
 
 (function(){
-    this.implement(
-        apf.ChildValue
-    );
-
     var _self = this;
     
     this.$focussable = false;
@@ -16790,7 +16784,6 @@ apf.radiobutton = function(struct, tagName) {
 };
 
 (function(){
-    this.implement(apf.ChildValue);
     this.$childProperty = "label";
     
     this.$focussable = apf.KEYBOARD; // This object can get the focus
@@ -18135,10 +18128,6 @@ apf.text = function(struct, tagName) {
 };
 
 (function(){
-    this.implement(
-        
-        apf.ChildValue
-    );
 
     this.$focussable = true; // This object can't get the focus
     this.focussable = false;
