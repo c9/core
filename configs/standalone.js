@@ -107,13 +107,23 @@ module.exports = function(config, optimist) {
         console.log("or use -a username:password to setup HTTP authentication\n");
     }
 
+    if (argv.secure) {
+        var certPath = path.isAbsolute(argv.secure) ? argv.secure : path.join(__dirname, "..", argv.secure);
+        var key = require("fs").readFileSync(certPath , "utf8");
+        config.secure = {
+            key: key.match(/^(-+BEGIN RSA PRIVATE KEY[\s\S]*END RSA PRIVATE KEY-+)/m)[0],
+            cert: key.match(/^(-+BEGIN CERTIFICATE[\s\S]*END CERTIFICATE-+)/m)[0],
+        };
+    }
+
     var plugins = [
         {
             packagePath: "connect-architect/connect",
             port: port,
             host: host,
             websocket: true,
-            showRealIP: !config.mode
+            showRealIP: !config.mode,
+            secure: config.secure,
         },
         {
             packagePath: "connect-architect/connect.basicauth",
