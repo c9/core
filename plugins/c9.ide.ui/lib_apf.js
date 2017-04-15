@@ -136,11 +136,6 @@ define(["require", "module", "exports", "./lib/menu/menu", "./lib/crypto",
     AppModules: [],
     
     /**
-     * Specifies whether APF tries to load a skin from skins.xml when no skin element is specified.
-     * @type {Boolean}
-     */
-    autoLoadSkin: false,
-    /**
      * Specifies whether APF has started loading scripts and started the init process.
      * @type {Boolean}
      */
@@ -151,13 +146,6 @@ define(["require", "module", "exports", "./lib/menu/menu", "./lib/crypto",
      */
     crypto: {}, //namespace
     config: {},
-    
-    /**
-     * A string specifying the basepath for loading APF from seperate files.
-     * @type {String}
-     */
-    basePath: "",
-
     
     /**
      * Contains several known and often used namespace URI's.
@@ -268,16 +256,9 @@ define(["require", "module", "exports", "./lib/menu/menu", "./lib/crypto",
         this.TAGNAME = apf.isIE ? "baseName" : "localName";
         this.styleSheetRules = apf.isIE ? "rules" : "cssRules";
        
-        this.canHaveHtmlOverSelects = !apf.isIE6 && !apf.isIE5;
-        this.hasInnerText = apf.isIE;
         this.hasMsRangeObject = apf.isIE;
-        this.hasExecScript = window.execScript ? true : false;
-        this.canDisableKeyCodes = apf.isIE;
         this.hasSingleResizeEvent = !apf.isIE;
         this.hasSingleRszEvent = !apf.isIE;
-        this.dateSeparator = apf.isIE ? "-" : "/";
-        this.canCreateStyleNode = !apf.isIE;
-        this.supportFixedPosition = !apf.isIE || apf.isIE >= 7;
         this.needsCssPx = !apf.isIE;
 
         this.hasAutocompleteXulBug = apf.isGecko;
@@ -285,10 +266,6 @@ define(["require", "module", "exports", "./lib/menu/menu", "./lib/crypto",
         this.hasComputedStyle = typeof document.defaultView != "undefined"
                                            && typeof document.defaultView.getComputedStyle != "undefined";
         this.w3cRange = Boolean(window["getSelection"]);
-        this.locale = (apf.isIE
-                                            ? navigator.userLanguage
-                                            : navigator.language).toLowerCase();
-        this.characterSet = document.characterSet || document.defaultCharset || "utf-8";
         var t = document.createElement("div");
         this.hasContentEditable = (typeof t.contentEditable == "string"
                                        || typeof t.contentEditable == "boolean");
@@ -2288,12 +2265,6 @@ apf.hotkeys = {};
         if (/*!eInfo.isTextInput && */_self.$exec(eInfo) === false
           || eInfo.returnValue === false) {
             apf.stopEvent(e);
-            if (apf.canDisableKeyCodes) {
-                try {
-                    e.keyCode = 0;
-                }
-                catch (e) {}
-            }
             return false;
         }
 
@@ -2725,27 +2696,12 @@ apf.setStyleClass = function(oHtml, className, exclusion, userAction) {
  */
 apf.importCssString = function(cssString, doc, media) {
     doc = doc || document;
-    var htmlNode = doc.getElementsByTagName("head")[0];//doc.documentElement.getElementsByTagName("head")[0];
-
-    
-
-    if (apf.canCreateStyleNode) {
-        //var head = document.getElementsByTagName("head")[0];
-        var style = doc.createElement("style");
-        style.appendChild(doc.createTextNode(cssString));
-        if (media)
-            style.setAttribute('media', media);
-        htmlNode.appendChild(style);
-    }
-    else {
-        htmlNode.insertAdjacentHTML("beforeend", ".<style media='"
-         + (media || "all") + "'>" + cssString + "</style>");
-
-        /*if(document.body) {
-            document.body.style.height = "100%";
-            $setTimeout('document.body.style.height = "auto"');
-        }*/
-    }
+    var htmlNode = doc.getElementsByTagName("head")[0];
+    var style = doc.createElement("style");
+    style.appendChild(doc.createTextNode(cssString));
+    if (media)
+        style.setAttribute('media', media);
+    htmlNode.appendChild(style);
 };
 
 /**
@@ -4514,30 +4470,6 @@ apf.skins = {
         }
 
         this.purgeCss(mediaPath, iconPath);
-        
-        if (this.queue[name]) {
-            for (var prop in this.queue[name]) {
-                this.queue[name][prop]();
-            }
-        }
-    },
-
-    /**
-     * Loads a stylesheet from a URL.
-     * @param {String}    filename  The url to load the stylesheet from
-     * @param {String}    [title]  Title of the stylesheet to load
-     * @method loadStylesheet
-     */
-    loadStylesheet: function(filename, title) {
-        var o;
-        with (o = document.getElementsByTagName("head")[0].appendChild(document.createElement("LINK"))) {
-            rel = "stylesheet";
-            type = "text/css";
-            href = filename;
-            title = title;
-        }
-
-        return o;
     },
 
     /* ***********
@@ -4548,29 +4480,21 @@ apf.skins = {
         for (i = 0, l = nodes.length; i < l; i++) {
             node = nodes[i];
 
-            if (node.getAttribute("src"))
-                this.loadStylesheet(apf.getAbsolutePath(basepath, node.getAttribute("src")));
-            else {
-                var test = true;
-                if (node.getAttribute("condition")) {
-                    try {
-                        test = eval(node.getAttribute("condition"));
-                    }
-                    catch (e) {
-                        test = false;
-                    }
+            var test = true;
+            if (node.getAttribute("condition")) {
+                try {
+                    test = eval(node.getAttribute("condition"));
                 }
+                catch (e) {
+                    test = false;
+                }
+            }
 
-                if (test) {
-                    //#-ifndef __PROCESSED
-                    tnode = node.firstChild;
-                    while (tnode) {
-                        this.css.push(tnode.nodeValue);
-                        tnode = tnode.nextSibling;
-                    }
-                    /*#-else
-                    this.css.push(nodes[i].firstChild.nodeValue);
-                    #-endif*/
+            if (test) {
+                tnode = node.firstChild;
+                while (tnode) {
+                    this.css.push(tnode.nodeValue);
+                    tnode = tnode.nextSibling;
                 }
             }
         }
@@ -4597,18 +4521,6 @@ apf.skins = {
         this.css = [];
     },
 
-    loadCssInWindow: function(skinName, win, imagepath, iconpath) {
-        this.css = [];
-        var name = skinName.split(":");
-        var skin = this.skins[name[0]];
-        var template = skin.templates[name[1]];
-        this.importSkinDef(template, skin.base, skin.name);
-        var cssString = this.css.join("\n").replace(/images\//g, imagepath).replace(/icons\//g, iconpath);
-        apf.importCssString(cssString);
-
-        this.css = [];
-    },
-
     /* ***********
      Retrieve
      ************/
@@ -4616,8 +4528,6 @@ apf.skins = {
         skinName = skinName.split(":");
         var name = skinName[0];
         var type = skinName[1];
-
-        
 
         amlNode.iconPath = this.skins[name].iconPath;
         amlNode.mediaPath = this.skins[name].mediaPath;
@@ -4685,18 +4595,6 @@ apf.skins = {
         }
     },
     
-    
-    queue: {},
-    waitForSkin: function(skinset, id, callback) {
-        if (this.skins[skinset])
-            return;
-        
-        (this.queue[skinset] || (this.queue[skinset] = {}))[id] = callback;
-        return true;
-    },
-
-    
-
     setIcon: function(oHtml, strQuery, iconPath) {
         if (!strQuery) {
             oHtml.style.backgroundImage = "";
@@ -7482,7 +7380,6 @@ apf.AmlDocument = function(){
     this.doctype = null;
     this.domConfig = null;
     this.implementation = null;
-    this.characterSet = apf.characterSet;
     
     /**
      * The root element node of the AML application. This is an element with
@@ -12793,12 +12690,6 @@ apf.window = function(){
           ? aEl.dispatchEvent("keydown", eInfo) 
           : apf.dispatchEvent("keydown", eInfo)) === false) {
             apf.stopEvent(e);
-            if (apf.canDisableKeyCodes) {
-                try {
-                    e.keyCode = 0;
-                }
-                catch (e) {}
-            }
             return false;
         }
         
@@ -12836,12 +12727,6 @@ apf.window = function(){
         if (apf.config.disableBackspace
           && e.keyCode == 8// || (altKey && (e.keyCode == 37 || e.keyCode == 39)))
           && !isTextInput) {
-            if (apf.canDisableKeyCodes) {
-                try {
-                    e.keyCode = 0;
-                }
-                catch (e) {}
-            }
             e.returnValue = false;
         }
 
@@ -12853,16 +12738,8 @@ apf.window = function(){
 
         //Disable F5 refresh behaviour
         if (apf.config.disableF5 && (e.keyCode == 116 || e.keyCode == 117)) {
-            if (apf.canDisableKeyCodes) {
-                try {
-                    e.keyCode = 0;
-                }
-                catch (e) {}
-            }
-            else {
-                e.preventDefault();
-                e.stopPropagation();
-            }
+            e.preventDefault();
+            e.stopPropagation();
             //return false;
         }
         
@@ -15847,22 +15724,6 @@ apf.AmlWindow = function(struct, tagName) {
             this.state = this.state.split("|").remove("closed").join("|");
 
             this.$ext.style.display = ""; //Some form of inheritance detection
-
-            //if (this.modal) 
-                //this.$ext.style.position = "fixed";
-            
-            if (!apf.canHaveHtmlOverSelects && this.hideselects) {
-                hEls = [];
-                var nodes = document.getElementsByTagName("select");
-                for (var i = 0; i < nodes.length; i++) {
-                    var oStyle = apf.getStyle(nodes[i], "display");
-                    hEls.push([nodes[i], oStyle]);
-                    nodes[i].style.display = "none";
-                }
-            }
-
-            //if (this.modal)
-                //this.$ext.style.zIndex = apf.plane.$zindex - 1;
             
             if (this.$rendered === false)
                 this.addEventListener("afterrender", this.$afterRender);
@@ -15874,12 +15735,6 @@ apf.AmlWindow = function(struct, tagName) {
                 apf.plane.hide(this.$uniqueId);
 
             this.$ext.style.display = "none";
-
-            if (!apf.canHaveHtmlOverSelects && this.hideselects) {
-                for (var i = 0; i < hEls.length; i++) {
-                    hEls[i][0].style.display = hEls[i][1];
-                }
-            }
 
             if (this.hasFocus())
                 apf.window.moveNext(true, this, true);//go backward to detect modals
