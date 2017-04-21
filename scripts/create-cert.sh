@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e 
+set -eo pipefail
 
 # http://apetec.com/support/GenerateSAN-CSR.htm
 # http://chschneider.eu/linux/server/openssl.shtml
@@ -22,7 +22,7 @@ CRT_NAME=$DOMAIN
 echo creating certificates for $FQDN at CRT_NAME
 
 mkdir -p tmp
-pushd tmp
+
 echo '
 [req]
 distinguished_name = req_distinguished_name
@@ -40,34 +40,34 @@ extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
 
 [alt_names]
-'"$FQDN" > openssl.cnf
+'"$FQDN" > tmp/openssl.cnf
 
 # Generate a private key
-openssl genrsa -out $CRT_NAME.key 2048
+openssl genrsa -out tmp/$CRT_NAME.key 2048
 # Create the CSR file
-openssl req -new -out $CRT_NAME.csr -key $CRT_NAME.key -config openssl.cnf \
+openssl req -new -out tmp/$CRT_NAME.csr -key tmp/$CRT_NAME.key -config tmp/openssl.cnf \
     -subj "/C=NL/ST=Noord-Holland/L=Amsterdam/OU=ACME Self Signed CA"
     
 # check
 # openssl req -text -noout -in $CRT_NAME.csr
 
 # Self-sign and create the certificate:
-openssl x509 -req -days 3650 -in $CRT_NAME.csr -signkey $CRT_NAME.key\
-	-out $CRT_NAME.crt -extensions v3_req -extfile openssl.cnf
+openssl x509 -req -days 3650 -in tmp/$CRT_NAME.csr -signkey tmp/$CRT_NAME.key\
+    -out tmp/$CRT_NAME.crt -extensions v3_req -extfile tmp/openssl.cnf
 
-cat $CRT_NAME.crt >  $CRT_NAME.pem
-cat $CRT_NAME.key >> $CRT_NAME.pem
+cat tmp/$CRT_NAME.crt >  tmp/$CRT_NAME.pem
+cat tmp/$CRT_NAME.key >> tmp/$CRT_NAME.pem
 
-mv $CRT_NAME.pem ../$CRT_NAME.pem
-mv $CRT_NAME.crt ../$CRT_NAME.crt
-popd
+mv tmp/$CRT_NAME.pem ./$CRT_NAME.pem
+mv tmp/$CRT_NAME.crt ./$CRT_NAME.crt
+
 rm -r tmp
 
 echo '
 To add the custom cerificate:
 On Windows run
-    cmd.exe /c "certmgr.msc" # to see installed certificates
     certutil -addstore "Root" '"$CRT_NAME"'.crt # to add certificate to root
+    cmd.exe /c "certmgr.msc" # to see installed certificates
 On Mac
     sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain '"$CRT_NAME"'.crt
 On Linux
