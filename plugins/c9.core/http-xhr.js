@@ -119,11 +119,11 @@ define(function(require, module, exports) {
                     }
                 }
                 
-                if (this.status > 299) {
+                if (xhr.status > 299 || res.headers["content-type"] == "text/x-error") {
                     var err = new Error(xhr.responseText);
                     err.code = xhr.status;
-                    if (debug)
-                        console.error("HTTP error " + this.status + ": " + xhr.responseText);
+                    if (debug && xhr.status > 299)
+                        console.error("HTTP error " + xhr.status + ": " + xhr.responseText);
                     return done(err, data, res);
                 }
                 
