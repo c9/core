@@ -29,7 +29,6 @@ define(function(require, exports, module) {
         // Disabled: bad performance, openshift specific, possibly unreliable
         // var Monitor = require("./monitor.js");
         var markup = require("text!./terminal.xml");
-        var markupMenu = require("text!./menu.xml");
         var Aceterm = require("./aceterm/aceterm");
         var libterm = require("./aceterm/libterm");
         
@@ -368,15 +367,90 @@ define(function(require, exports, module) {
         });
         
         handle.draw = function() {
-            ui.insertMarkup(null, markupMenu, handle);
-            mnuTerminal = handle.getElement("mnuTerminal");
-            
-            if (c9.platform == "win32") {
-                var nodes = mnuTerminal.childNodes;
-                while (nodes[6]) {
-                    mnuTerminal.removeChild(nodes[6]);
+            menus.addItemByPath("context/terminal/", new ui.menu(), handle);
+            var c = 100;
+            menus.addItemByPath("context/terminal/New Terminal Tab", new ui.item({ command: "openterminal" }), c += 100, handle);
+            menus.addItemByPath("context/terminal/~", new ui.divider({}), c += 100, handle);
+            menus.addItemByPath("context/terminal/Copy", new ui.item({ command: "copy" }), c += 100, handle);
+            menus.addItemByPath("context/terminal/Paste", new ui.item({ command: "paste" }), c += 100, handle);
+            menus.addItemByPath("context/terminal/Select All", new ui.item({ command: "selectall" }), c += 100, handle);
+            menus.addItemByPath("context/terminal/Clear Buffer", new ui.item({ command: "clearterm" }), c += 100, handle);
+            menus.addItemByPath("context/terminal/~", new ui.divider({}), c += 100, handle);
+            var SESSIONS_MENU = "context/terminal/Other sessions/";
+            menus.addItemByPath(SESSIONS_MENU, new ui.menu({
+                "onprop.visible": function(e) {
+                    if (e.value) {
+                        var currentName = tabs.focussedTab.document.getSession().id;
+                        proc.tmux("", { listSessions: true }, function(err, pty, pid, meta) {
+                            menus.remove(SESSIONS_MENU);
+                            if (err) {
+                                menus.addItemByPath(SESSIONS_MENU + "Error loading session list:(",
+                                    new ui.item({ disabled: true }), handle);
+                            }
+                            meta.sessions.forEach(function(x) {
+                                if (/output/.test(x.name)) return;
+                                var label = x.name + "\t(" + x.width + "x" + x.height + ")\t" + x.clientCount + " connected clients";
+                                menus.addItemByPath(SESSIONS_MENU + menus.escape(label),
+                                    new ui.item({ value: x, class: x.name == currentName ? "strong" : "" }), handle);
+                            });
+                        });
+                    }
+                },
+                "onitemclick": function(e) {
+                    var options = e.relatedNode.value;
+                    if (options) {
+                        var id = options.name;
+                        tabs.getTabs().some(function(tab) {
+                            if (tab.editorType == "terminal" || tab.editorType == "output") {
+                                if (tab.document.getSession() && tab.document.getSession().id == id) {
+                                    tabs.focusTab(tab);
+                                    return true;
+                                }
+                            }
+                        }) || tabs.open({
+                            editorType: /output/.test(id) ? "output" : "terminal",
+                            document: { terminal: { id: id } },
+                            focus: true,
+                            pane: tabs.focussedTab.pane
+                        });
+                    }
                 }
+            }), c += 100, handle);
+            menus.addItemByPath("context/terminal/Other sessions/Loading...", new ui.item({ disabled: "true" }), 0, handle);
+            
+            if (c9.platform != "win32") {
+                menus.addItemByPath("context/terminal/Tmux/", new ui.menu(), c += 100, handle);
+                menus.addItemByPath("context/terminal/~", new ui.divider({}), c += 100, handle);
+                menus.addItemByPath("context/terminal/Detach Other Clients", new ui.item({
+                    command: "term_detach" }), c += 100, handle);
+                menus.addItemByPath("context/terminal/Hint: Use Alt To Toggle Mouse Mode", new ui.item({
+                    disabled: "true" }), c += 100, handle);
+                
+                var c1 = 0;
+                menus.addItemByPath("context/terminal/Tmux/Close Active Pane", new ui.item({
+                    command: "close_term_pane" }), c1 += 100, handle);
+                menus.addItemByPath("context/terminal/Tmux/Split Active Pane", new ui.item({
+                    command: "split_term_pane" }), c1 += 100, handle);
+                menus.addItemByPath("context/terminal/Tmux/~", new ui.divider({}), c1 += 100, handle);
+                menus.addItemByPath("context/terminal/Tmux/Horizontal Layout (even)", new ui.item({
+                    command: "layout_term_hor_even" }), c1 += 100, handle);
+                menus.addItemByPath("context/terminal/Tmux/Vertical Layout (even)", new ui.item({
+                    command: "layout_term_ver_even" }), c1 += 100, handle);
+                menus.addItemByPath("context/terminal/Tmux/Horizonal Layout (main)", new ui.item({
+                    command: "layout_term_hor_main" }), c1 += 100, handle);
+                menus.addItemByPath("context/terminal/Tmux/Vertical Layout (main)", new ui.item({
+                    command: "layout_term_ver_main" }), c1 += 100, handle);
+                menus.addItemByPath("context/terminal/Tmux/~", new ui.divider({}), c1 += 100, handle);
+                menus.addItemByPath("context/terminal/Tmux/Toggle Status Bar", new ui.item({
+                    command: "toggle_term_status" }), c1 += 100, handle);
+                menus.addItemByPath("context/terminal/Tmux/~", new ui.divider({}), c1 += 100, handle);
+                menus.addItemByPath("context/terminal/Tmux/Restart All Terminal Sessions", new ui.item({ 
+                    command: "term_restart" }), c1 += 100, handle);
+                menus.addItemByPath("context/terminal/Tmux/Show More Terminal Commands...", new ui.item({
+                    command: "term_help" }), c1 += 100, handle);
             }
+            menus.addItemByPath("context/terminal/Hint: Use Alt To Toggle Mouse Mode", new ui.item({ disabled: "true" }), c += 100, handle);
+            mnuTerminal = menus.get("context/terminal").menu;
             
             handle.draw = function() {};
         };
