@@ -285,7 +285,8 @@ define(function(require, exports, module) {
         function warnBrokenSafariVersion() {
             if (apf.isSafari && apf.versionSafari == "10.1") {
                 showAlert("Broken Browser Version Detected", "Websockets are broken in Safari version 10.1.",
-                    "Due to https://bugs.webkit.org/show_bug.cgi?id=170463, websockets do not work well on this browser version. "
+                    "Due to https://bugs.webkit.org/show_bug.cgi?id=170463, websockets do not work well"
+                    + " on this browser version which may result in frequent disconnects from the service."
                     + " Please use Chrome, 'Safari Technology Preview' or another browser "
                     + " until the Safari updates to version 10.2.");
             }
