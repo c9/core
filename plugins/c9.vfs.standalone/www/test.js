@@ -90,6 +90,7 @@ require([
                 x.connected = true;
                 return x;
             })(),
+            apf: {},
             vfs: (function() {
                 var x = new EventEmitter();
                 return x;

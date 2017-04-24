@@ -310,6 +310,12 @@ function(require, module, exports) {
         this.isLinux = Browser.Platform.linux;
         this.isIphone = Browser.Platform.ios || UA.indexOf("aspen simulator") != -1;
         
+        this.versionWebkit = this.isWebkit ? Browser.version : null;
+        this.versionGecko = this.isGecko ? Browser.version : null;
+        this.versionFF = this.isGecko ? Browser.version : null;
+        this.versionSafari = this.isSafari ? Browser.version : null;
+        this.versionChrome = this.isChrome ? Browser.version : null;
+        this.versionOpera = this.isOpera ? Browser.version : null;
     },
 
     /**

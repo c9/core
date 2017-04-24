@@ -3,7 +3,7 @@ define(function(require, exports, module) {
     
     main.consumes = [
         "Plugin", "auth", "vfs.endpoint", "dialog.error",
-        "dialog.alert", "error_handler", "metrics"
+        "dialog.alert", "error_handler", "metrics", "apf"
     ];
     main.provides = ["vfs"];
     return main;
@@ -32,6 +32,7 @@ define(function(require, exports, module) {
         var showAlert = imports["dialog.alert"].show;
         var errorHandler = imports.error_handler;
         var metrics = imports.metrics;
+        var apf = imports.apf;
         
         var eio = require("engine.io");
         var Consumer = require("vfs-socket/consumer").Consumer;
@@ -137,6 +138,8 @@ define(function(require, exports, module) {
                     });
                 }
             }
+            
+            plugin.once("connect", warnBrokenSafariVersion);
         }
         
         /***** Methods *****/
@@ -279,6 +282,16 @@ define(function(require, exports, module) {
                 console.error("Fatal connection error:", err);
         }
 
+        function warnBrokenSafariVersion() {
+            if (apf.isSafari && apf.versionSafari == "10.1") {
+                showAlert("Broken Browser Version Detected", "Websockets are broken in Safari version 10.1.",
+                    "Due to https://bugs.webkit.org/show_bug.cgi?id=170463, websockets do not work well"
+                    + " on this browser version which may result in frequent disconnects from the service."
+                    + " Please use Chrome, 'Safari Technology Preview' or another browser "
+                    + " until the Safari updates to version 10.2.");
+            }
+        }
+        
         function onDisconnect() {
             vfs = null;
             emit("disconnect");
