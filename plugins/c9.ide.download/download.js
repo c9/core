@@ -2,7 +2,7 @@ define(function(require, exports, module) {
     "use strict";
     
     main.consumes = [
-        "Plugin", "c9", "ui", "menus", "tree", "info", "vfs", "preferences", "settings"
+        "Plugin", "c9", "ui", "menus", "tree", "info", "vfs", "preferences", "settings", "util"
     ];
     main.provides = ["download"];
     return main;
@@ -11,6 +11,7 @@ define(function(require, exports, module) {
         var Plugin = imports.Plugin;
         var ui = imports.ui;
         var c9 = imports.c9;
+        var util = imports.util;
         var menus = imports.menus;
         var tree = imports.tree;
         var vfs = imports.vfs;
@@ -77,17 +78,16 @@ define(function(require, exports, module) {
             if (!node) return;
             
             var paths = tree.selectedNodes.map(function(node) {
-                return node.path;
+                return util.normalizePath(node.path);
             });
             if (node.isFolder && node.path == "/")
                 downloadProject();
             else if (paths.length > 1)
                 downloadPaths(paths);
             else if (node.isFolder)
-                downloadFolder(node.path);
+                downloadFolder(paths[0]);
             else
-                downloadFile(node.path);
-
+                downloadFile(paths[0]);
         }
 
         function downloadProject() {
