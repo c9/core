@@ -10,9 +10,7 @@
       skin      = "win-help-about"
       class     = "aboutDialogBox">
         <div class="aboutImage">
-            <div id="c9Version" textselect="true"><?lm
-                Version {cloud9config.version}
-            ?></div>
+            <div id="c9Version" textselect="true">Version</div>
              <!-- <div class="c9Legal">
             <p><a href="http://www.bettercallsaul.com/">Click here for legal notices.</p>
             </div> -->

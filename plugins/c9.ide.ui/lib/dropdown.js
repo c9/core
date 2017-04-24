@@ -434,6 +434,7 @@ apf.dropdown = function(struct, tagName) {
             this.dispatchEvent("afterchange", { value: value });
         }
     };
+    this.getValue = function() { return this.value; };
     // *** Keyboard Support *** //
     
     this.getSelectedNode = function() {
