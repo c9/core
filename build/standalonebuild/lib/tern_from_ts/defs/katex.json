@@ -1,0 +1,20 @@
+{
+  "katex": {
+    "KatexOptions": {
+      "displayMode": "bool",
+      "breakOnUnsupportedCmds": "bool",
+      "errorColor": "string"
+    },
+    "ParseError": {
+      "!type": "fn(message: string, lexer: ?, position: number)",
+      "prototype": {
+        "name": "string",
+        "message": "string",
+        "position": "number"
+      }
+    },
+    "render": "fn(tex: string, element: HTMLElement, options?: KatexOptions)",
+    "renderToString": "fn(tex: string, options?: KatexOptions) -> string"
+  },
+  "!name": "katex"
+}

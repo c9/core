@@ -1,0 +1,158 @@
+{
+  "TComb": {
+    "tcomb": {
+      "format": "fn(format: string, values: [?])",
+      "getFunctionName": "fn(fn: Function)",
+      "getTypeName": "fn(type: TCombBase)",
+      "mixin": "fn(target: ?, source: ?, overwrite?: bool)",
+      "slice": "Array.prototype.slice",
+      "shallowCopy": "fn(x: TCombBase)",
+      "update": "fn(instance: ?, spec: ?)",
+      "assert": "fn(condition: bool, message?: string, values: [?])",
+      "fail": "fn(message?: string)",
+      "Any": "Any_Static",
+      "Nil": "Nil_Static",
+      "Str": "Str_Static",
+      "Num": "Num_Static",
+      "Bool": "Bool_Static",
+      "Arr": "Arr_Static",
+      "Obj": "Obj_Static",
+      "Func": "Func_Static",
+      "func": {},
+      "Err": "Err_Static",
+      "Re": "Re_Static",
+      "Dat": "Dat_Static",
+      "Type": "Type_Static",
+      "irreducible": "fn(name: string, is: TypePredicate)",
+      "struct": "fn(props: Object, name?: string)",
+      "Union": "Union_Static",
+      "Maybe": "Maybe_Static",
+      "enums": "fn(map: Object, name?: string) -> TCombBase",
+      "union": "fn(types: [TCombBase], name?: string) -> Union_Static",
+      "maybe": "fn(type: TCombBase, name?: string) -> Maybe_Static",
+      "Tuple": "Tuple_Static",
+      "tuple": "fn(types: [TCombBase], name?: string)",
+      "Subtype": "Subtype_Static",
+      "List": "List_Static",
+      "list": "fn(type: TCombBase, name?: string)",
+      "Dict": "Dict_Static",
+      "dict": "fn(domain: TCombBase, codomain: TCombBase, name?: string)",
+      "subtype": "fn(type: TCombBase, predicate: TypePredicate, name?: string) -> Subtype_Static"
+    },
+    "TCombBase": {
+      "meta": {
+        "kind": "string",
+        "name": "string"
+      },
+      "displayName": "string",
+      "is": "fn(value: ?) -> bool",
+      "update": "fn(instance: ?, spec: ?) -> TCombBase"
+    },
+    "TypePredicate": {},
+    "Any_Instance": {},
+    "Any_Static": {},
+    "Nil_Instance": {},
+    "Nil_Static": {},
+    "Str_Instance": {},
+    "Str_Static": {
+      "meta": {
+        "kind": "string",
+        "name": "string",
+        "is": "TypePredicate"
+      }
+    },
+    "Num_Instance": {},
+    "Num_Static": {},
+    "Bool_Instance": {},
+    "Bool_Static": {},
+    "Arr_Instance": {},
+    "Arr_Static": {},
+    "Obj_Instance": {},
+    "Obj_Static": {},
+    "Func_Instance": {},
+    "Func_Static": {
+      "meta": {
+        "kind": "string",
+        "name": "string",
+        "domain": "?",
+        "codomain": "TCombBase"
+      },
+      "of": "fn(fn: Function) -> Function"
+    },
+    "Err_Instance": {},
+    "Err_Static": {},
+    "Re_Instance": {},
+    "Re_Static": {},
+    "Dat_Instance": {},
+    "Dat_Static": {},
+    "Type_Instance": {},
+    "Type_Static": {},
+    "Struct_Static": {
+      "meta": {
+        "kind": "string",
+        "name": "string",
+        "props": "[?]"
+      },
+      "extend": "fn(mixins: Object, name?: string) -> Struct_Static"
+    },
+    "Struct_Instance": {},
+    "enums": {
+      "of": "fn(keys: [string], name?: string) -> TCombBase"
+    },
+    "Union_Static": {
+      "meta": {
+        "kind": "string",
+        "name": "string",
+        "types": "[TCombBase]"
+      },
+      "dispatch": "fn(x: ?) -> TCombBase"
+    },
+    "Union_Instance": {},
+    "Maybe_Static": {
+      "meta": {
+        "kind": "string",
+        "name": "string",
+        "typee": "TCombBase"
+      }
+    },
+    "Maybe_Instance": {},
+    "Tuple_Static": {
+      "meta": {
+        "kind": "string",
+        "name": "string",
+        "types": "[TCombBase]"
+      }
+    },
+    "Tuple_Instance": {},
+    "Subtype_Static": {
+      "meta": {
+        "kind": "string",
+        "name": "string",
+        "type": "TCombBase",
+        "predicate": "TypePredicate"
+      }
+    },
+    "Subtype_Instance": {},
+    "list": "fn(type: TCombBase, name?: string) -> List_Static",
+    "List_Static": {
+      "meta": {
+        "kind": "string",
+        "name": "string",
+        "'type'": "TCombBase"
+      }
+    },
+    "List_Instance": {},
+    "Dict_Static": {
+      "meta": {
+        "kind": "string",
+        "name": "string",
+        "domain": "TCombBase",
+        "codomain": "TCombBase"
+      }
+    },
+    "Dict_Instance": {}
+  },
+  "t": "TComb.tcomb",
+  "tcomb": "t",
+  "!name": "tcomb"
+}

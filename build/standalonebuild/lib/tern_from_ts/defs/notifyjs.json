@@ -1,0 +1,33 @@
+{
+  "Notify": {
+    "needsPermission": "bool",
+    "requestPermission": "fn(onPermissionGrantedCallback?: fn(), onPermissionDeniedCallback?: fn())",
+    "isSupported": "bool",
+    "permissionLevel": "string"
+  },
+  "notifyjs": {
+    "INotify": {
+      "show": "fn()",
+      "destroy": "fn()",
+      "close": "fn()",
+      "onShowNotification": "fn(e: Event)",
+      "onCloseNotification": "fn()",
+      "onClickNotification": "fn()",
+      "onErrorNotification": "fn()",
+      "handleEvent": "fn(e: Event)"
+    },
+    "INotifyOption": {
+      "body": "string",
+      "icon": "string",
+      "tag": "string",
+      "timeout": "number",
+      "notifyShow": "fn(e: Event) -> ?",
+      "notifyClose": "Function",
+      "notifyClick": "Function",
+      "notifyError": "Function",
+      "permissionGranted": "Function",
+      "permissionDenied": "Function"
+    }
+  },
+  "!name": "notifyjs"
+}

@@ -1,0 +1,51 @@
+{
+  "Tracker": {
+    "prototype": {
+      "_trackPageview": "fn()",
+      "_getName": "fn() -> string",
+      "_getAccount": "fn() -> string",
+      "_getVersion": "fn() -> string",
+      "_getVisitorCustomVar": "fn(index: number) -> string",
+      "_setAccount": "fn() -> string",
+      "_setCustomVar": "fn(index: number, name: string, value: string, opt_scope?: number) -> bool",
+      "_setSampleRate": "fn(newRate: string)",
+      "_setSessionCookieTimeout": "fn(cookieTimeoutMillis: number)",
+      "_setSiteSpeedSampleRate": "fn(sampleRate: number)",
+      "_setVisitorCookieTimeout": "fn(milliseconds: number)",
+      "_trackPageLoadTime": "fn()"
+    }
+  },
+  "GoogleAnalyticsCode": {
+    "push": "fn(commandArray: [string])"
+  },
+  "GoogleAnalyticsTracker": {
+    "_getTracker": "fn(account: string) -> Tracker",
+    "_createTracker": "fn(opt_account: string, opt_name?: string) -> Tracker",
+    "_getTrackerByName": "fn(opt_name?: string) -> Tracker",
+    "_anonymizeIp": "fn()"
+  },
+  "GoogleAnalytics": {
+    "type": "string",
+    "src": "string",
+    "async": "bool"
+  },
+  "UniversalAnalytics": {
+    "ga": {
+      "l": "number",
+      "q": "[?]",
+      "create": "fn(trackingId: string, opt_configObject?: ?) -> UniversalAnalytics.Tracker",
+      "getAll": "fn() -> [UniversalAnalytics.Tracker]",
+      "getByName": "fn(name: string) -> UniversalAnalytics.Tracker"
+    },
+    "Tracker": {
+      "get": "fn(fieldName: string) -> T",
+      "send": "fn(hitType: string, opt_fieldObject?: ?)",
+      "set": "fn(fieldName: string, value: string)"
+    }
+  },
+  "gaClassic": "GoogleAnalytics",
+  "ga": "UniversalAnalytics.ga",
+  "_gaq": "GoogleAnalyticsCode",
+  "_gat": "GoogleAnalyticsTracker",
+  "!name": "ga.d.ts"
+}

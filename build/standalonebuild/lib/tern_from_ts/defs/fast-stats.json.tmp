@@ -1,0 +1,40 @@
+{
+  "'fast-stats'": {
+    "StatsOpts": {
+      "bucket_precision": "number",
+      "buckets": "[number]",
+      "bucket_extension_interval": "number",
+      "store_data": "bool",
+      "sampling": "bool"
+    },
+    "Bucket": {
+      "bucket": "number",
+      "range": "[number]",
+      "count": "number"
+    },
+    "Stats": {
+      "!type": "fn(opts?: StatsOpts)",
+      "prototype": {
+        "push": "fn(args: [number])",
+        "pop": "fn() -> number",
+        "shift": "fn() -> number",
+        "unshift": "fn(args: [number])",
+        "length": "number",
+        "reset": "fn()",
+        "copy": "fn() -> Stats",
+        "amean": "fn() -> number",
+        "gmean": "fn() -> number",
+        "median": "fn() -> number",
+        "percentile": "fn(n: number) -> number",
+        "range": "fn() -> [number]",
+        "distribution": "fn() -> [Bucket]",
+        "stddev": "fn() -> number",
+        "gstddev": "fn() -> number",
+        "moe": "fn() -> number",
+        "band_pass": "fn(low: number, high: number, open?: bool) -> Stats",
+        "iqr": "fn() -> Stats"
+      }
+    }
+  },
+  "!name": "fast-stats.d.ts"
+}

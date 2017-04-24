@@ -1,0 +1,54 @@
+{
+  "THREE": {
+    "SpriteCanvasMaterialParameters": {
+      "color": "number",
+      "program": "fn(context: ?, color: Color)"
+    },
+    "SpriteCanvasMaterial": {
+      "!type": "fn(parameters?: SpriteCanvasMaterialParameters)",
+      "prototype": {
+        "color": "Color",
+        "program": "fn(context: ?, color: Color)",
+        "clone": "fn() -> SpriteCanvasMaterial"
+      }
+    },
+    "CanvasRendererParameters": {
+      "canvas": "HTMLCanvasElement",
+      "devicePixelRatio": "number"
+    },
+    "CanvasRenderer": {
+      "!type": "fn(parameters?: CanvasRendererParameters)",
+      "prototype": {
+        "domElement": "HTMLCanvasElement",
+        "autoClear": "bool",
+        "sortObjects": "bool",
+        "sortElements": "bool",
+        "info": {
+          "render": {
+            "vertices": "number",
+            "faces": "number"
+          }
+        },
+        "supportsVertexTextures": "fn()",
+        "setFaceCulling": "fn()",
+        "getPixelRatio": "fn() -> number",
+        "setPixelRatio": "fn(value: number)",
+        "setSize": "fn(width: number, height: number, updateStyle?: bool)",
+        "setViewport": "fn(x: number, y: number, width: number, height: number)",
+        "setScissor": "fn()",
+        "enableScissorTest": "fn()",
+        "setClearColor": "fn(color: Color, opacity?: number)",
+        "setClearColorHex": "fn(hex: number, alpha?: number)",
+        "getClearColor": "fn() -> Color",
+        "getClearAlpha": "fn() -> number",
+        "getMaxAnisotropy": "fn() -> number",
+        "clear": "fn()",
+        "clearColor": "fn()",
+        "clearDepth": "fn()",
+        "clearStencil": "fn()",
+        "render": "fn(scene: Scene, camera: Camera)"
+      }
+    }
+  },
+  "!name": "three-canvasrenderer.d.ts"
+}

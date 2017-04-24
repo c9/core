@@ -1,0 +1,12 @@
+{
+  "SharedWorker": {
+    "AbstractWorker": {
+      "onerror": "fn(ev: ErrorEvent)"
+    },
+    "SharedWorker": {
+      "port": "MessagePort"
+    },
+    "prototype": "SharedWorker.SharedWorker"
+  },
+  "!name": "SharedWorker"
+}

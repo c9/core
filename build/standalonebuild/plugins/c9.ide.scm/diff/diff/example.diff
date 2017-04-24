@@ -1,0 +1,81 @@
+diff --git a/plugins/c9.ide.behaviors/page.js b/plugins/c9.ide.behaviors/page.js
+index 27771ba..db96ed7 100644
+--- a/plugins/c9.ide.behaviors/page.js
++++ b/plugins/c9.ide.behaviors/page.js
+@@ -47,11 +47,14 @@ define(function(require, exports, module) {
+             }, handle);
+             
+             tabs.on("tabDestroy", function(e) {
++                if (e.tab.meta.$isLastTabOfPane)
++                    setTimeout(function() { e.tab.pane.unload(); }, 0);
++            }, handle);
++            
++            tabs.on("tabAfterClose", function(e) {
+                 if (e.last && canTabBeRemoved(e.tab.pane, 1)
+                   && settings.getBool("user/tabs/@autoclosepanes")) {
+-                    setTimeout(function() {
+-                        e.tab.pane.unload();
+-                    }, 0);
++                    e.tab.meta.$skipAnimation = true;
+                 }
+             }, handle);
+             
+diff --git a/plugins/c9.ide.editors/pane.js b/plugins/c9.ide.editors/pane.js
+index 9a040d9..d796518 100644
+--- a/plugins/c9.ide.editors/pane.js
++++ b/plugins/c9.ide.editors/pane.js
+@@ -103,23 +103,30 @@ define(function(require, module, exports) {
+                         emit("afterClose", event);
+                         
+                         if (tab.aml.$amlDestroyed) {
+-                            tab.unload(e);
++                            tab.unload(event);
+                             closing--;
+                         }
++                        else if (tab.meta.$skipAnimation) {
++                            closeNow();
++                        }
+                         else {
+                             tab.aml.on("afterclose", function(){
+-                                if (tab.meta.$closeSync) {
+-                                    tab.unload(e);
+-                                    closing--;
+-                                }
+-                                else {
+-                                    setTimeout(function(){
+-                                        tab.unload(e);
+-                                        closing--;
+-                                    });
+-                                }
++                                closeNow();
+                             });
+                         }
++                        
++                        function closeNow(){
++                            if (tab.meta.$closeSync) {
++                                tab.unload(event);
++                                closing--;
++                            }
++                            else {
++                                setTimeout(function(){
++                                    tab.unload(event);
++                                    closing--;
++                                });
++                            }
++                        }
+                     },
+                     overactivetab: true,
+                     childNodes: [
+diff --git a/plugins/c9.ide.editors/tab.js b/plugins/c9.ide.editors/tab.js
+index 83f0722..ea64787 100644
+--- a/plugins/c9.ide.editors/tab.js
++++ b/plugins/c9.ide.editors/tab.js
+@@ -304,7 +304,7 @@ define(function(require, module, exports) {
+                 if (rule)
+                     ui.removeStyleRule(rule, stylesheet);
+                 // If there are no more pages left, reset location
+-                var last = amlPane.getPages().length === 0;
++                var last = e.last || amlPane.getPages().length === 0;
+                 if (last)
+                     apf.setStyleClass(amlPane.$ext, "empty");
+ 

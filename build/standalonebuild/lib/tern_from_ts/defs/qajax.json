@@ -1,0 +1,13 @@
+{
+  "Qajax": {
+    "defaults": "?",
+    "filterStatus": "fn(validStatus: number) -> fn(xhr: XMLHttpRequest)",
+    "filterSuccess": "fn() -> ?",
+    "toJSON": "fn(xhr: XMLHttpRequest) -> ?",
+    "getJSON": "fn(url: string) -> ?",
+    "serialize": "fn(paramsObj: ?) -> string",
+    "!type": "fn(url: string) -> ?"
+  },
+  "qajax": "Qajax",
+  "!name": "qajax"
+}

@@ -1,0 +1,14 @@
+{
+    "cmd": [
+        "node",
+        "${debug?--nocrankshaft}",
+        "${debug?--nolazy}",
+        "${debug?`node --version | grep -vqE \"v0\\..\\.\" && echo --nodead_code_elimination`}",
+        "${debug?--debug-brk=15454}",
+        "$file",
+        "$args"
+    ],
+    "debugger": "v8",
+    "debugport": 15454,
+    "selector": "source.js"
+}

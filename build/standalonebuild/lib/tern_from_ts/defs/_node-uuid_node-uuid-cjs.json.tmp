@@ -1,0 +1,4 @@
+{
+  "node-uuid": "uuid",
+  "!name": "node-uuid-cjs.d.ts"
+}

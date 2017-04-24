@@ -1,0 +1,11 @@
+{
+  "BlobStream": {
+    "IBlobStream": {
+      "toBlob": "fn(type?: string) -> Blob",
+      "toBlobURL": "fn(type?: string) -> string"
+    },
+    "!type": "fn() -> BlobStream.IBlobStream"
+  },
+  "blob-stream": "BlobStream",
+  "!name": "blob-stream.d.ts"
+}

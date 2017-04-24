@@ -1,0 +1,27 @@
+{
+  "JQuery": {
+    "tipsy": "JQueryTipsy.Tipsy"
+  },
+  "JQueryTipsy": {
+    "Options": {
+      "delayIn": "number",
+      "delayOut": "number",
+      "fade": "bool",
+      "fallback": "string",
+      "gravity": "?",
+      "html": "bool",
+      "live": "bool",
+      "offset": "number",
+      "opacity": "number",
+      "title": "?",
+      "trigger": "string"
+    },
+    "Tipsy": {
+      "autoNS": "fn()",
+      "autoWE": "fn()",
+      "autoSWSE": "fn()",
+      "autoNWNE": "fn()"
+    }
+  },
+  "!name": "jquery.tipsy.d.ts"
+}

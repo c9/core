@@ -1,0 +1,35 @@
+{
+  "SpinnerOptions": {
+    "lines": "number",
+    "length": "number",
+    "width": "number",
+    "radius": "number",
+    "corners": "number",
+    "rotate": "number",
+    "direction": "number",
+    "color": "?",
+    "speed": "number",
+    "trail": "number",
+    "shadow": "bool",
+    "hwaccel": "bool",
+    "className": "string",
+    "zIndex": "number",
+    "top": "string",
+    "left": "string",
+    "scale": "number",
+    "opacity": "number",
+    "fps": "number",
+    "position": "string"
+  },
+  "Spinner": {
+    "!type": "fn(options?: SpinnerOptions)",
+    "prototype": {
+      "el": "HTMLElement",
+      "spin": "fn(target?: HTMLElement) -> Spinner",
+      "stop": "fn() -> Spinner",
+      "lines": "fn(el: HTMLElement, o: SpinnerOptions) -> HTMLElement",
+      "opacity": "fn(el: HTMLElement, i: number, val: number, o: SpinnerOptions)"
+    }
+  },
+  "!name": "spin.d.ts"
+}

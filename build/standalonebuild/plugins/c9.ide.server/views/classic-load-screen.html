@@ -1,0 +1,38 @@
+<link rel="stylesheet" type="text/css" href="<%=staticPrefix%>/plugins/c9.ide.layout.classic/loading.css" />
+<div id="loadingide">
+    <div id="header"></div>
+    <div id="content" class="loading-progress">
+        <div id="progress-msg">
+            Loading your workspace <span id="dots"></span>
+        </div>
+        <div class="loading-seperator" id="loading-seperator"></div>
+        <div class="loading-msg" id="loading-msg">Everything as you left it</div>
+        
+        <div class="ui-progress-bar ui-container" id="progress_bar">
+            <div class="ui-progress" style="width: 7%;">
+              <span class="ui-label" style="display:none;"></span>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <a href="https://docs.c9.io">Documentation</a> | 
+        <a href="http://status.c9.io">Server Status</a> | 
+        <% if (!standalone) { %>
+            <a href="http://support.c9.io">Support</a>
+        <% } %>
+    </div>
+</div>
+<script type="text/javascript">
+    var dots = document.getElementById("dots");
+    var cnt  = 0;
+    window.dotsAnim = setInterval(function () {
+        dots.textContent = "...".slice(0, (++cnt)%4);
+    }, 500);
+    
+    window.hideLoader = function(){
+        var loader = document.getElementById("loadingide");
+        loader.parentNode.removeChild(loader);
+        
+        clearInterval(window.dotsAnim);
+    };
+</script>

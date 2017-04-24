@@ -1,0 +1,47 @@
+{
+  "EventEmitter2Configuration": {
+    "wildcard": "bool",
+    "delimiter": "string",
+    "newListener": "bool",
+    "maxListeners": "number"
+  },
+  "EventEmitter2": {
+    "!type": "fn(conf?: EventEmitter2Configuration)",
+    "prototype": {
+      "addListener": "fn(event: string, listener: Function) -> EventEmitter2",
+      "on": "fn(event: string, listener: Function) -> EventEmitter2",
+      "onAny": "fn(listener: Function) -> EventEmitter2",
+      "offAny": "fn(listener?: Function) -> EventEmitter2",
+      "once": "fn(event: string, listener: Function) -> EventEmitter2",
+      "many": "fn(event: string, timesToListen: number, listener: Function) -> EventEmitter2",
+      "removeListener": "fn(event: string, listener: Function) -> EventEmitter2",
+      "off": "fn(event: string, listener: Function) -> EventEmitter2",
+      "removeAllListeners": "fn(event?: string) -> EventEmitter2",
+      "setMaxListeners": "fn(n: number)",
+      "listeners": "fn(event: string) -> [Function]",
+      "listenersAny": "fn() -> [Function]",
+      "emit": "fn(event: string, args: [?]) -> bool"
+    }
+  },
+  "eventemitter2": {
+    "EventEmitter2": {
+      "!type": "fn(conf?: EventEmitter2Configuration)",
+      "prototype": {
+        "addListener": "fn(event: string, listener: Function) -> EventEmitter2",
+        "on": "fn(event: string, listener: Function) -> EventEmitter2",
+        "onAny": "fn(listener: Function) -> EventEmitter2",
+        "offAny": "fn(listener: Function) -> EventEmitter2",
+        "once": "fn(event: string, listener: Function) -> EventEmitter2",
+        "many": "fn(event: string, timesToListen: number, listener: Function) -> EventEmitter2",
+        "removeListener": "fn(event: string, listener: Function) -> EventEmitter2",
+        "off": "fn(event: string, listener: Function) -> EventEmitter2",
+        "removeAllListeners": "fn(event?: string) -> EventEmitter2",
+        "setMaxListeners": "fn(n: number)",
+        "listeners": "fn(event: string) -> [Function]",
+        "listenersAny": "fn() -> [Function]",
+        "emit": "fn(event: string, args: [?]) -> bool"
+      }
+    }
+  },
+  "!name": "eventemitter2.d.ts"
+}

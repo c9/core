@@ -1,0 +1,5 @@
+{
+  "envify": "envify",
+  "envify/custom": "envify",
+  "!name": "envify.d.ts"
+}

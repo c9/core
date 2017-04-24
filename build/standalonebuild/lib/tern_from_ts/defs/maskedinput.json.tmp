@@ -1,0 +1,46 @@
+{
+  "JQueryMaskedInputOptions": {
+    "mask": "string",
+    "alias": "string",
+    "placeholder": "string",
+    "repeat": "number",
+    "greedy": "bool",
+    "skipOptionalPartCharacter": "string",
+    "clearIncomplete": "bool",
+    "clearMaskOnLostFocus": "bool",
+    "autoUnmask": "bool",
+    "showMaskOnFocus": "bool",
+    "showMaskOnHover": "bool",
+    "showToolTip": "bool",
+    "isComplete": "fn(buffer: ?, options: ?)",
+    "numeric": "bool",
+    "radixPoint": "string",
+    "rightAlignNumerics": "bool",
+    "oncomplete": "fn(value?: ?)",
+    "onincomplete": "fn()",
+    "oncleared": "fn()",
+    "onUnMask": "fn(maskedValue: ?, unmaskedValue: ?)",
+    "onBeforeMask": "fn(initialValue: ?)",
+    "onKeyValidation": "fn(result: ?)",
+    "onBeforePaste": "fn(pastedValue: ?)"
+  },
+  "MaskedInputStatic": {
+    "defaults": "MaskedInputDefaults",
+    "isValid": "fn(value: string, options: MaskedInputStaticDefaults)",
+    "format": "fn(value: string, options: MaskedInputStaticDefaults)"
+  },
+  "MaskedInputStaticDefaults": {
+    "alias": "string"
+  },
+  "MaskedInputDefaults": {
+    "aliases": "?",
+    "definitions": "?"
+  },
+  "JQueryStatic": {
+    "mask": "MaskedInputStatic"
+  },
+  "JQuery": {
+    "mask": "fn(mask: string, options?: JQueryMaskedInputOptions) -> JQuery"
+  },
+  "!name": "maskedinput.d.ts"
+}

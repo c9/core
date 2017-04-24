@@ -1,0 +1,23 @@
+{
+  "Rx": {
+    "VirtualTimeScheduler": {
+      "advanceBy": "fn(time: TRelative)",
+      "advanceTo": "fn(time: TAbsolute)",
+      "scheduleAbsolute": "fn(dueTime: TAbsolute, action: fn()) -> IDisposable",
+      "scheduleAbsoluteWithState": "fn(state: TState, dueTime: TAbsolute, action: fn(scheduler: IScheduler, state: TState)) -> IDisposable",
+      "scheduleRelative": "fn(dueTime: TRelative, action: fn()) -> IDisposable",
+      "scheduleRelativeWithState": "fn(state: TState, dueTime: TRelative, action: fn(scheduler: IScheduler, state: TState)) -> IDisposable",
+      "sleep": "fn(time: TRelative)",
+      "start": "fn() -> IDisposable",
+      "stop": "fn()",
+      "isEnabled": "bool",
+      "add": "fn(from: TAbsolute, by: TRelative) -> TAbsolute",
+      "toDateTimeOffset": "fn(duetime: TAbsolute) -> number",
+      "toRelative": "fn(duetime: number) -> TRelative",
+      "getNext": "fn() -> ?"
+    },
+    "HistoricalScheduler": {}
+  },
+  "rx.virtualtime": "Rx",
+  "!name": "rx.virtualtime"
+}

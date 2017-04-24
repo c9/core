@@ -1,0 +1,21 @@
+{
+  "flux-standard-action": {
+    "ErrorAction": {
+      "error": "bool"
+    },
+    "Action": {
+      "type": "string",
+      "payload": "T",
+      "error": "bool"
+    },
+    "AnyMeta": {
+      "meta": "?"
+    },
+    "TypedMeta": {
+      "meta": "T"
+    },
+    "isFSA": "fn(action: ?) -> bool",
+    "isError": "fn(action: ?) -> bool"
+  },
+  "!name": "flux-standard-action.d.ts"
+}

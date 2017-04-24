@@ -1,0 +1,172 @@
+{
+  "Thenable": {
+    "then": "fn(onFulfilled: fn(value: R), onRejected: fn(error: ?)) -> ?"
+  },
+  "Dexie": {
+    "!type": "fn(databaseName: string)",
+    "addons": "?",
+    "version": "number",
+    "getDatabaseNames": "fn() -> ?",
+    "getByKeyPath": "fn(obj: Object, keyPath: string) -> ?",
+    "setByKeyPath": "fn(obj: Object, keyPath: string, value: ?)",
+    "delByKeyPath": "fn(obj: Object, keyPath: string)",
+    "shallowClone": "fn(obj: Object) -> Object",
+    "deepClone": "fn(obj: Object) -> Object",
+    "prototype": {
+      "name": "string",
+      "tables": "[?]",
+      "verno": "number",
+      "version": "fn(versionNumber: number) -> Dexie.Version",
+      "on": {
+        "ready": "Dexie.DexieOnReadyEvent",
+        "error": "Dexie.DexieErrorEvent",
+        "populate": "Dexie.DexieEvent",
+        "blocked": "Dexie.DexieEvent",
+        "versionchange": "Dexie.DexieVersionChangeEvent"
+      },
+      "open": "fn() -> ?",
+      "table": "fn(tableName: string) -> ?",
+      "transaction": "fn(mode: string, table: ?, scope: fn()) -> ?",
+      "close": "fn()",
+      "delete": "fn() -> ?",
+      "isOpen": "fn() -> bool",
+      "hasFailed": "fn() -> bool",
+      "backendDB": "fn() -> IDBDatabase",
+      "vip": "fn(scopeFunction: fn()) -> U"
+    },
+    "Promise": {
+      "!type": "fn(callback: fn(resolve: fn(value?: ?), reject: fn(error?: ?)))",
+      "prototype": {
+        "then": "fn(onFulfilled: fn(value: R), onRejected: fn(error: ?)) -> ?",
+        "catch": "fn(onRejected: fn(error: ?)) -> ?",
+        "finally": "fn(onFinally: fn()) -> ?",
+        "onuncatched": "fn()"
+      },
+      "resolve": "fn(value?: ?) -> ?",
+      "reject": "fn(error: ?) -> ?",
+      "all": "fn(promises: [?]) -> ?",
+      "race": "fn(promises: [?]) -> ?",
+      "newPSD": "fn(scope: fn()) -> R",
+      "PSD": "?",
+      "on": {
+        "error": "DexieErrorEvent"
+      }
+    },
+    "Version": {
+      "stores": "fn(schema: ?) -> Version",
+      "upgrade": "fn(fn: fn(trans: Transaction)) -> Version"
+    },
+    "Transaction": {
+      "active": "bool",
+      "db": "Dexie",
+      "mode": "string",
+      "idbtrans": "IDBTransaction",
+      "tables": {},
+      "storeNames": "?",
+      "on": {
+        "complete": "DexieEvent",
+        "abort": "DexieEvent",
+        "error": "DexieEvent"
+      },
+      "abort": "fn()",
+      "table": "fn(tableName: string) -> ?"
+    },
+    "DexieEvent": {
+      "subscribe": "fn(fn: fn())",
+      "unsubscribe": "fn(fn: fn())",
+      "fire": "fn() -> ?"
+    },
+    "DexieErrorEvent": {
+      "subscribe": "fn(fn: fn(error: ?))",
+      "unsubscribe": "fn(fn: fn(error: ?))",
+      "fire": "fn(error: ?) -> ?"
+    },
+    "DexieVersionChangeEvent": {
+      "subscribe": "fn(fn: fn(event: IDBVersionChangeEvent))",
+      "unsubscribe": "fn(fn: fn(event: IDBVersionChangeEvent))",
+      "fire": "fn(event: IDBVersionChangeEvent) -> ?"
+    },
+    "DexieOnReadyEvent": {
+      "subscribe": "fn(fn: fn(), bSticky: bool)",
+      "unsubscribe": "fn(fn: fn())",
+      "fire": "fn() -> ?"
+    },
+    "Table": {
+      "name": "string",
+      "schema": "TableSchema",
+      "hook": {
+        "creating": "DexieEvent",
+        "reading": "DexieEvent",
+        "updating": "DexieEvent",
+        "deleting": "DexieEvent"
+      },
+      "get": "fn(key: Key) -> ?",
+      "where": "fn(index: string) -> ?",
+      "filter": "fn(fn: fn(obj: T)) -> ?",
+      "count": "fn() -> ?",
+      "offset": "fn(n: number) -> ?",
+      "limit": "fn(n: number) -> ?",
+      "each": "fn(callback: fn(obj: T, cursor: IDBCursor)) -> ?",
+      "toArray": "fn() -> ?",
+      "toCollection": "fn() -> ?",
+      "orderBy": "fn(index: string) -> ?",
+      "reverse": "fn() -> ?",
+      "mapToClass": "fn(constructor: Function) -> Function",
+      "add": "fn(item: T, key?: Key) -> ?",
+      "update": "fn(key: Key, changes: ?) -> ?",
+      "put": "fn(item: T, key?: Key) -> ?",
+      "delete": "fn(key: Key) -> ?",
+      "clear": "fn() -> ?"
+    },
+    "WhereClause": {
+      "above": "fn(key: number) -> ?",
+      "aboveOrEqual": "fn(key: number) -> ?",
+      "anyOf": "fn(keys: ?) -> ?",
+      "below": "fn(key: number) -> ?",
+      "belowOrEqual": "fn(key: number) -> ?",
+      "between": "fn(lower: number, upper: number, includeLower?: bool, includeUpper?: bool) -> ?",
+      "equals": "fn(key: number) -> ?",
+      "equalsIgnoreCase": "fn(key: string) -> ?",
+      "startsWith": "fn(key: string) -> ?",
+      "startsWithIgnoreCase": "fn(key: string) -> ?"
+    },
+    "Collection": {
+      "and": "fn(filter: fn(x: T)) -> ?",
+      "count": "fn() -> ?",
+      "distinct": "fn() -> ?",
+      "each": "fn(callback: fn(obj: T, cursor: IDBCursor)) -> ?",
+      "eachKey": "fn(callback: fn(key: Key, cursor: IDBCursor)) -> ?",
+      "eachUniqueKey": "fn(callback: fn(key: Key, cursor: IDBCursor)) -> ?",
+      "first": "fn() -> ?",
+      "keys": "fn() -> ?",
+      "last": "fn() -> ?",
+      "limit": "fn(n: number) -> ?",
+      "offset": "fn(n: number) -> ?",
+      "or": "fn(indexOrPrimayKey: string) -> ?",
+      "reverse": "fn() -> ?",
+      "sortBy": "fn(keyPath: string) -> ?",
+      "toArray": "fn() -> ?",
+      "uniqueKeys": "fn() -> ?",
+      "until": "fn(filter: fn(value: T), includeStopEntry?: bool) -> ?",
+      "delete": "fn() -> ?",
+      "modify": "fn(changes: ?) -> ?"
+    },
+    "TableSchema": {
+      "name": "string",
+      "primKey": "IndexSpec",
+      "indexes": "[IndexSpec]",
+      "mappedClass": "Function"
+    },
+    "IndexSpec": {
+      "name": "string",
+      "keyPath": "?",
+      "unique": "bool",
+      "multi": "bool",
+      "auto": "bool",
+      "compound": "bool",
+      "src": "string"
+    }
+  },
+  "'dexie'": "Dexie",
+  "!name": "dexie.d.ts"
+}

@@ -1,0 +1,153 @@
+{
+  "Giraffe": {
+    "GiraffeObject": {
+      "app": "App",
+      "appEvents": "StringMap",
+      "dataEvents": "StringMap",
+      "defaultOptions": "DefaultOptions",
+      "initialize": "fn()",
+      "beforeInitialize": "fn()",
+      "afterInitialize": "fn()",
+      "dispose": "fn()",
+      "beforeDispose": "fn()",
+      "afterDispose": "fn()"
+    },
+    "AttachmentOptions": {
+      "method": "string",
+      "forceRender": "bool",
+      "suppressRender": "bool"
+    },
+    "DefaultOptions": {
+      "disposeOnDetach": "bool",
+      "alwaysRender": "bool",
+      "saveScrollPosition": "bool",
+      "documentTitle": "string"
+    },
+    "AppMap": {},
+    "ViewMap": {},
+    "StringMap": {},
+    "app": "App",
+    "apps": "AppMap",
+    "defaultOptions": "DefaultOptions",
+    "version": "string",
+    "views": "?",
+    "bindAppEvents": "fn(instance: GiraffeObject) -> GiraffeObject",
+    "bindDataEvents": "fn(instance: GiraffeObject) -> GiraffeObject",
+    "bindEvent": "fn(context: Backbone.Events, target: Backbone.Events, event: ?, callback: Function)",
+    "unbindEvent": "fn(context: Backbone.Events, target: Backbone.Events, event: ?, callback: Function)",
+    "bindEventMap": "fn(context: Backbone.Events, target: Backbone.Events, eventMap: ?)",
+    "unbindEventMap": "fn(context: Backbone.Events, target: Backbone.Events, eventMap: ?)",
+    "configure": "fn(instance: ?, options?: ?)",
+    "dispose": "fn(instance: GiraffeObject, args: [?]) -> GiraffeObject",
+    "disposeThis": "fn(args: [?]) -> GiraffeObject",
+    "wrapFn": "fn(obj: ?, name: string, before: Function, after: Function)",
+    "Collection": {
+      "prototype": {
+        "app": "App",
+        "model": {}
+      }
+    },
+    "Model": {
+      "prototype": {
+        "app": "App"
+      }
+    },
+    "Router": {
+      "prototype": {
+        "app": "App",
+        "namespace": "string",
+        "triggers": "StringMap",
+        "cause": "fn(appEvent: string, args: [?])",
+        "isCaused": "fn(appEvent: string, args: [?]) -> bool",
+        "getRoute": "fn(appEvent: string, args: [?]) -> string",
+        "reload": "fn(url: string)"
+      }
+    },
+    "View": {
+      "detachByElement": "fn(el: ?, preserve?: bool) -> ?",
+      "getClosestView": "fn(el: ?) -> ?",
+      "getByCid": "fn(cid: string) -> ?",
+      "to$El": "fn(el: ?, parent?: ?, allowParentMatch?: bool) -> JQuery",
+      "setDocumentEvents": "fn(events: [string], prefix?: string) -> [string]",
+      "removeDocumentEvents": "fn(prefix?: string)",
+      "setDocumentEventPrefix": "fn(prefix?: string)",
+      "setTemplateStrategy": "fn(strategy: ?, instance?: ?)",
+      "prototype": {
+        "app": "App",
+        "appEvents": "StringMap",
+        "children": "[?]",
+        "dataEvents": "StringMap",
+        "defaultOptions": "DefaultOptions",
+        "documentTitle": "string",
+        "parent": "?",
+        "template": "?",
+        "ui": "StringMap",
+        "attachTo": "fn(el: ?, options?: AttachmentOptions) -> ?",
+        "attach": "fn(view: ?, options?: AttachmentOptions) -> ?",
+        "isAttached": "fn(el: ?) -> bool",
+        "render": "fn(options?: ?) -> ?",
+        "beforeRender": "fn()",
+        "afterRender": "fn()",
+        "templateStrategy": "fn() -> string",
+        "serialize": "fn() -> ?",
+        "setParent": "fn(parent: ?) -> ?",
+        "addChild": "fn(child: ?) -> ?",
+        "addChildren": "fn(children: [?]) -> ?",
+        "removeChild": "fn(child: ?, preserve?: bool) -> ?",
+        "removeChildren": "fn(preserve?: bool) -> ?",
+        "detach": "fn(preserve?: bool) -> ?",
+        "detachChildren": "fn(preserve?: bool) -> ?",
+        "invoke": "fn(method: string, args: [?])",
+        "dispose": "fn() -> ?",
+        "beforeDispose": "fn() -> ?",
+        "afterDispose": "fn() -> ?"
+      }
+    },
+    "App": {
+      "prototype": {
+        "routes": "StringMap",
+        "addInitializer": "fn(initializer: fn(options?: ?, callback?: fn())) -> App",
+        "start": "fn(options?: ?) -> App"
+      }
+    },
+    "Contrib": {
+      "Controller": {
+        "prototype": {
+          "app": "App"
+        }
+      },
+      "CollectionView": {
+        "getDefaults": "fn(ctx: ?) -> ?",
+        "prototype": {
+          "collection": "?",
+          "modelView": "?",
+          "modelViewArgs": "[?]",
+          "modelViewEl": "?",
+          "renderOnChange": "bool",
+          "findByModel": "fn(model: Model) -> ?",
+          "addOne": "fn(model: Model) -> ?",
+          "removeOne": "fn(model: Model) -> ?"
+        }
+      },
+      "FastCollectionView": {
+        "getDefaults": "fn(ctx: ?) -> ?",
+        "prototype": {
+          "collection": "?",
+          "modelTemplate": "?",
+          "modelTemplateStrategy": "string",
+          "modelEl": "?",
+          "renderOnChange": "bool",
+          "modelSerialize": "fn() -> ?",
+          "addAll": "fn() -> ?",
+          "addOne": "fn(model: Model) -> ?",
+          "removeOne": "fn(model: Model) -> ?",
+          "removeByIndex": "fn(index: number) -> ?",
+          "findElByModel": "fn(model: Model) -> JQuery",
+          "findElByIndex": "fn(index: number) -> JQuery",
+          "findModelByEl": "fn(el: ?) -> Model"
+        }
+      }
+    }
+  },
+  "!name": "giraffe"
+}

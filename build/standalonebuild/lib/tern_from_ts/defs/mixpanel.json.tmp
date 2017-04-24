@@ -1,0 +1,34 @@
+{
+  "Mixpanel": {
+    "people": "Mixpanel.People",
+    "init": "fn(token: string, config?: ?, libraryName?: string) -> Mixpanel",
+    "push": "fn(item: [?])",
+    "disable": "fn(events?: [string])",
+    "track": "fn(eventName: string, params?: ?, callback?: fn())",
+    "track_links": "fn(querySelector: string, eventName: string, params?: ?)",
+    "track_forms": "fn(querySelector: string, eventName: string, params?: ?)",
+    "register": "fn(params: ?, days?: number)",
+    "register_once": "fn(params: ?, defaultValue?: string, days?: number)",
+    "unregister": "fn(propertyName: string)",
+    "identify": "fn(id?: string)",
+    "get_distinct_id": "fn() -> string",
+    "alias": "fn(alias: string, currentId?: string)",
+    "set_config": "fn(config: ?)",
+    "get_config": "fn() -> ret",
+    "get_property": "fn(propertyName: string) -> ?",
+    "People": {
+      "set": "fn(keys: ?, callback?: fn())",
+      "set_once": "fn(keys: ?, callback?: fn())",
+      "increment": "fn(key: string)",
+      "append": "fn(keys: ?)",
+      "track_charge": "fn(amount: number, params?: ?, callback?: fn())",
+      "clear_charges": "fn()",
+      "delete_user": "fn()"
+    }
+  },
+  "mixpanel": "Mixpanel",
+  "!name": "mixpanel.d.ts",
+  "!define": {
+    "ret": {}
+  }
+}

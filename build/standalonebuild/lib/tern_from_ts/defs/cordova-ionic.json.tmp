@@ -1,0 +1,6 @@
+{
+  "CordovaPlugins": {
+    "Keyboard": "Ionic.Keyboard"
+  },
+  "!name": "cordova-ionic.d.ts"
+}

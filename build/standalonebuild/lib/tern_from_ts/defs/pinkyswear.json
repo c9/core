@@ -1,0 +1,13 @@
+{
+  "PinkySwear": {
+    "Promise": {
+      "then": "fn() -> Promise"
+    },
+    "GenericPromise": {
+      "then": "fn(onFulfilled?: fn(value: T), onRejected?: fn(value: T)) -> ?"
+    }
+  },
+  "PinkySwearStatic": {},
+  "pinkySwear": "PinkySwearStatic",
+  "!name": "pinkyswear"
+}

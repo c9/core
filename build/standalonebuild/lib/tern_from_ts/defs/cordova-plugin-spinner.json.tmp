@@ -1,0 +1,10 @@
+{
+  "SpinnerPlugin": {
+    "SpinnerPluginStatic": {
+      "activityStart": "fn(labelText?: string, successCallback?: fn(), failureCallback?: fn(error: string))",
+      "activityStop": "fn(successCallback?: fn(), failureCallback?: fn(error: string))"
+    },
+    "!type": "SpinnerPlugin.SpinnerPluginStatic"
+  },
+  "!name": "cordova-plugin-spinner.d.ts"
+}

@@ -1,0 +1,57 @@
+{
+  "EpicEditorOptions": {
+    "container": "?",
+    "textarea": "?",
+    "basePath": "string",
+    "clientSideStorage": "bool",
+    "localStorageName": "string",
+    "useNativeFullsreen": "bool",
+    "parser": "?",
+    "file": {
+      "name": "string",
+      "defaultContent": "string",
+      "autoSave": "?"
+    },
+    "theme": {
+      "base": "string",
+      "preview": "string",
+      "editor": "string"
+    },
+    "focusOnLoad": "bool",
+    "shortcut": {
+      "modifier": "number",
+      "fullscreen": "number",
+      "preview": "number"
+    },
+    "string": {
+      "togglePreview": "string",
+      "toggleEdit": "string",
+      "toggleFullscreen": "string"
+    }
+  },
+  "EpicEditor": {
+    "!type": "fn()",
+    "prototype": {
+      "load": "fn(callback?: Function) -> EpicEditor",
+      "unload": "fn(callback?: Function) -> EpicEditor",
+      "getElement": "fn(element: string) -> ?",
+      "is": "fn(state: string) -> bool",
+      "open": "fn(filename: string)",
+      "importFile": "fn(filename?: string, content?: string)",
+      "exportFile": "fn(filename?: string, type?: string) -> ?",
+      "rename": "fn(oldName: string, newName: string)",
+      "save": "fn()",
+      "remove": "fn(filename: string)",
+      "getFiles": "fn(filename?: string) -> ?",
+      "on": "fn(event: string, handler: Function)",
+      "emit": "fn(event: string)",
+      "removeListener": "fn(event: string, handler?: Function)",
+      "preview": "fn()",
+      "edit": "fn()",
+      "enterFullscreen": "fn()",
+      "exitFullscreen": "fn()",
+      "reflow": "fn(type?: string)"
+    }
+  },
+  "!name": "epiceditor"
+}

@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+// Add ability to load AMD modules
+require("amd-loader");
+
+// Architect
+var architect = require("architect");
+
+
+architect.resolveConfig(require("../configs/cli.js")(),
+  __dirname + "/../plugins", function (err, config) {
+    if (err) throw err.message;
+
+    var cli;
+    var app = architect.createApp(config, function(err, app){
+        if (err) throw err;
+
+        cli.start();
+    });
+    app.on("service", function(name, plugin){
+        if (name == "cli")
+            cli = plugin;
+        
+        if (!plugin.name)
+            plugin.name = name;
+    });
+});

@@ -1,0 +1,38 @@
+{
+  "GoogleAppsScript": {
+    "URL_Fetch": {
+      "HTTPResponse": {
+        "getAllHeaders": "fn() -> Object",
+        "getAs": "fn(contentType: string) -> Base.Blob",
+        "getBlob": "fn() -> Base.Blob",
+        "getContent": "fn() -> [Byte]",
+        "getContentText": "fn() -> string",
+        "getHeaders": "fn() -> Object",
+        "getResponseCode": "fn() -> Integer"
+      },
+      "OAuthConfig": {
+        "getAccessTokenUrl": "fn() -> string",
+        "getAuthorizationUrl": "fn() -> string",
+        "getMethod": "fn() -> string",
+        "getParamLocation": "fn() -> string",
+        "getRequestTokenUrl": "fn() -> string",
+        "getServiceName": "fn() -> string",
+        "setAccessTokenUrl": "fn(url: string)",
+        "setAuthorizationUrl": "fn(url: string)",
+        "setConsumerKey": "fn(consumerKey: string)",
+        "setConsumerSecret": "fn(consumerSecret: string)",
+        "setMethod": "fn(method: string)",
+        "setParamLocation": "fn(location: string)",
+        "setRequestTokenUrl": "fn(url: string)"
+      },
+      "UrlFetchApp": {
+        "fetch": "fn(url: string) -> HTTPResponse",
+        "getRequest": "fn(url: string) -> Object",
+        "addOAuthService": "fn(serviceName: string) -> OAuthConfig",
+        "removeOAuthService": "fn(serviceName: string)"
+      }
+    }
+  },
+  "UrlFetchApp": "GoogleAppsScript.URL_Fetch.UrlFetchApp",
+  "!name": "google-apps-script.url-fetch.d.ts"
+}

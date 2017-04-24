@@ -1,0 +1,45 @@
+{
+  "JQuery": {
+    "glide": "fn(options?: JQueryGlide.IGlideOptions) -> JQuery"
+  },
+  "JQueryGlide": {
+    "IGlideOptions": {
+      "autoplay": "?",
+      "hoverpause": "bool",
+      "circular": "bool",
+      "animationDuration": "number",
+      "animationTimingFunc": "string",
+      "arrows": "?",
+      "arrowsWrapperClass": "string",
+      "arrowMainClass": "string",
+      "arrowRightClass": "string",
+      "arrowRightText": "string",
+      "arrowLeftClass": "string",
+      "arrowLeftText": "string",
+      "navigation": "?",
+      "navigationCenter": "bool",
+      "navigationClass": "string",
+      "navigationItemClass": "string",
+      "navigationCurrentItemClass": "string",
+      "keyboard": "bool",
+      "touchDistance": "?",
+      "beforeInit": "Function",
+      "afterInit": "Function",
+      "beforeTransition": "Function",
+      "afterTransition": "Function"
+    },
+    "IGlideApi": {
+      "current": "fn() -> number",
+      "reinit": "fn()",
+      "destroy": "fn()",
+      "play": "fn()",
+      "pause": "fn()",
+      "next": "fn(callback: Function)",
+      "prev": "fn(callback: Function)",
+      "jump": "fn(distance: number, callback: Function)",
+      "nav": "fn(target: string)",
+      "arrows": "fn(target: string)"
+    }
+  },
+  "!name": "glidejs"
+}

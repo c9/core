@@ -1,0 +1,29 @@
+{
+  "jsyaml": {
+    "safeLoad": "fn(str: string, opts?: LoadOptions) -> ?",
+    "load": "fn(str: string, opts?: LoadOptions) -> ?",
+    "safeLoadAll": "fn(str: string, iterator: fn(doc: ?), opts?: LoadOptions) -> ?",
+    "loadAll": "fn(str: string, iterator: fn(doc: ?), opts?: LoadOptions) -> ?",
+    "safeDump": "fn(obj: ?, opts?: DumpOptions) -> string",
+    "dump": "fn(obj: ?, opts?: DumpOptions) -> string",
+    "LoadOptions": {
+      "filename": "string",
+      "strict": "bool",
+      "schema": "?"
+    },
+    "DumpOptions": {
+      "indent": "number",
+      "skipInvalid": "bool",
+      "flowLevel": "number",
+      "styles": "Object",
+      "schema": "?"
+    },
+    "FAILSAFE_SCHEMA": "?",
+    "JSON_SCHEMA": "?",
+    "CORE_SCHEMA": "?",
+    "DEFAULT_SAFE_SCHEMA": "?",
+    "DEFAULT_FULL_SCHEMA": "?"
+  },
+  "'js-yaml'": "jsyaml",
+  "!name": "js-yaml"
+}

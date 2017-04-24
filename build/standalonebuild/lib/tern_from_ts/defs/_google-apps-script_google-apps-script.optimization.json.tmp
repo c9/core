@@ -1,0 +1,32 @@
+{
+  "GoogleAppsScript": {
+    "Optimization": {
+      "LinearOptimizationConstraint": {
+        "setCoefficient": "fn(variableName: string, coefficient: Number) -> LinearOptimizationConstraint"
+      },
+      "LinearOptimizationEngine": {
+        "addConstraint": "fn(lowerBound: Number, upperBound: Number) -> LinearOptimizationConstraint",
+        "addVariable": "fn(name: string, lowerBound: Number, upperBound: Number) -> LinearOptimizationEngine",
+        "setMaximization": "fn() -> LinearOptimizationEngine",
+        "setMinimization": "fn() -> LinearOptimizationEngine",
+        "setObjectiveCoefficient": "fn(variableName: string, coefficient: Number) -> LinearOptimizationEngine",
+        "solve": "fn() -> LinearOptimizationSolution"
+      },
+      "LinearOptimizationService": {
+        "Status": "Status",
+        "VariableType": "VariableType",
+        "createEngine": "fn() -> LinearOptimizationEngine"
+      },
+      "LinearOptimizationSolution": {
+        "getObjectiveValue": "fn() -> Number",
+        "getStatus": "fn() -> Status",
+        "getVariableValue": "fn(variableName: string) -> Number",
+        "isValid": "fn() -> bool"
+      },
+      "Status": "number",
+      "VariableType": "number"
+    }
+  },
+  "LinearOptimizationService": "GoogleAppsScript.Optimization.LinearOptimizationService",
+  "!name": "google-apps-script.optimization.d.ts"
+}

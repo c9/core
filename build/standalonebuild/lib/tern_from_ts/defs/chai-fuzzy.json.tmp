@@ -1,0 +1,22 @@
+{
+  "Chai": {
+    "Assertion": {
+      "like": "fn(expected: ?, message?: string) -> Assertion",
+      "notLike": "fn(expected: ?, message?: string) -> Assertion",
+      "containOneLike": "fn(expected: ?, message?: string) -> Assertion",
+      "notContainOneLike": "fn(expected: ?, message?: string) -> Assertion",
+      "jsonOf": "fn(expected: ?, message?: string) -> Assertion",
+      "notJsonOf": "fn(expected: ?, message?: string) -> Assertion"
+    },
+    "Assert": {
+      "like": "fn(actual: ?, expected: ?, message?: string)",
+      "notLike": "fn(actual: ?, expected: ?, message?: string)",
+      "containOneLike": "fn(actual: ?, expected: ?, message?: string)",
+      "notContainOneLike": "fn(actual: ?, expected: ?, message?: string)",
+      "jsonOf": "fn(actual: ?, expected: ?, message?: string)",
+      "notJsonOf": "fn(actual: ?, expected: ?, message?: string)"
+    }
+  },
+  "chai-fuzzy": "chaiFuzzy",
+  "!name": "chai-fuzzy.d.ts"
+}

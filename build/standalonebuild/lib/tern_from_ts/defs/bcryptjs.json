@@ -1,0 +1,14 @@
+{
+  "bcryptjs": {
+    "setRandomFallback": "fn(random: fn(random: number))",
+    "genSaltSync": "fn(rounds?: number) -> string",
+    "genSalt": "fn(callback: fn(err: Error, salt: string))",
+    "hashSync": "fn(s: string, salt?: number, string: ?) -> string",
+    "hash": "fn(s: string, salt: number, string: ?, callback: fn(err: Error, hash: string), progressCallback?: fn(percent: number))",
+    "compareSync": "fn(s: string, hash: string) -> bool",
+    "compare": "fn(s: string, hash: string, callback: fn(err: Error, success: bool), progressCallback?: fn(percent: number))",
+    "getRounds": "fn(hash: string) -> number",
+    "getSalt": "fn(hash: string) -> string"
+  },
+  "!name": "bcryptjs"
+}

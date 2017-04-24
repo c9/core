@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <meta charset='utf-8'> 
+    <title><%=error%></title>
+    <link rel="stylesheet" type="text/css" href="<%=staticPrefix%>/error_handler/style.css" />
+  </head>
+  <body class="errorUnknown light">
+    <div id="wrapper">
+      <h1><%=title%></h1>
+      <h2><em><%=statusCode%> - <%=scope%></em> <%=error%></h2>
+      <p style="margin-bottom:20px;width:540px">
+        Please refresh to re-enter your login credentials.
+      </p>
+      
+      <a href="http://status.c9.io">Status Page</a> |
+      <a href="https://c9.io/support">Support</a> |
+      <a href="https://c9.io/dashboard.html">Dashboard</a> |
+      <a href="https://c9.io">Home</a>
+    </div>
+  </body>
+</html>

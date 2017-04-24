@@ -1,0 +1,29 @@
+{
+  "Scroller": {
+    "!type": "fn(a: fn(left: number, top: number, zoom: number), b?: ?)",
+    "prototype": {
+      "setDimensions": "fn(clientWidth: number, clientHeight: number, contentWidth: number, contentHeight: number)",
+      "setPosition": "fn(clientLeft: number, clientTop: number)",
+      "setSnapSize": "fn(width: number, height: number)",
+      "activatePullToRefresh": "fn(height: number, activate: fn(), deactivate: fn(), start: fn())",
+      "finishPullToRefresh": "fn()",
+      "getValues": "fn() -> ret",
+      "zoomTo": "fn(level: number, animate?: bool, originLeft?: number, originTop?: number)",
+      "zoomBy": "fn(factor: number, animate?: bool, originLeft?: number, originTop?: number)",
+      "scrollTo": "fn(left: number, top: number, animate?: bool)",
+      "scrollBy": "fn(leftOffset: number, topOffset: number, animate?: bool)",
+      "doMouseZoom": "fn(wheelData: number, timeStamp: number, pageX: number, pageY: number)",
+      "doTouchStart": "fn(touches: ?, timeStamp: number)",
+      "doTouchMove": "fn(touches: ?, timeStamp: number, scale?: number)",
+      "doTouchEnd": "fn(timeStamp: number)"
+    }
+  },
+  "!name": "zynga-scroller",
+  "!define": {
+    "ret": {
+      "left": "number",
+      "top": "number",
+      "zoom": "number"
+    }
+  }
+}

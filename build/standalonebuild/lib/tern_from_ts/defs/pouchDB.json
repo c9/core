@@ -1,0 +1,139 @@
+{
+  "PouchError": {
+    "status": "number",
+    "error": "string",
+    "reason": "string"
+  },
+  "PouchApi": {
+    "type": "fn() -> string",
+    "id": "fn() -> string",
+    "close": "fn(callback: fn())",
+    "info": "fn(callback: fn(err: PouchError, res: PouchInfoResponse))",
+    "get": "fn(id: string, opts: PouchGetOptions, callback: fn(err: PouchError, res: PouchGetResponse))",
+    "allDocs": "fn(opts: PouchAllDocsOptions, callback: fn(err: PouchError, res: PouchAllDocsResponse))",
+    "bulkDocs": "fn(req: PouchBulkDocsRequest, opts: PouchUpdateOptions, callback: fn(err: PouchError, res: [PouchUpdateResponse]))",
+    "post": "fn(doc: ?, opts: PouchUpdateOptions, callback: fn(err: PouchError, res: PouchUpdateResponse))",
+    "put": "fn(doc: ?, opts: PouchUpdateOptions, callback: fn(err: PouchError, res: PouchUpdateResponse))",
+    "remove": "fn(doc: ?, opts: PouchUpdateOptions, callback: fn(err: PouchError, res: PouchUpdateResponse))",
+    "query": "fn(fun: string, opts: PouchQueryOptions, callback: fn(err: PouchError, res: PouchQueryResponse))",
+    "getAttachment": "fn(id: string, opts: PouchAttachmentOptions, callback: fn(err: PouchError, res: ?))",
+    "putAttachment": "fn(id: string, rev: string, doc: ?, type: string, callback: fn(err: PouchError, res: PouchUpdateResponse))",
+    "removeAttachment": "fn(id: string, rev: string, callback: fn(err: PouchError, res: PouchUpdateResponse))",
+    "changes": "fn(opts: PouchChangesOptions, callback: fn(err: PouchError, res: PouchChanges)) -> PouchCancellable",
+    "revsDiff": "fn(req: ?, opts: PouchRevsDiffOptions, callback: fn(missing: ?))",
+    "replicate": "PouchReplicate"
+  },
+  "PouchInfoResponse": {
+    "db_name": "string",
+    "doc_count": "number",
+    "update_seq": "string"
+  },
+  "PouchGetOptions": {
+    "rev": "string",
+    "revs": "bool",
+    "revs_info": "bool",
+    "conflicts": "bool",
+    "attachments": "bool"
+  },
+  "PouchGetResponse": {
+    "_id": "string",
+    "_rev": "string",
+    "_attachments": "?"
+  },
+  "PouchAllDocsOptions": {
+    "startkey": "string",
+    "endKey": "string",
+    "descending": "bool",
+    "include_docs": "bool",
+    "conflicts": "bool"
+  },
+  "PouchAllDocsItem": {
+    "id": "string",
+    "key": "string",
+    "value": "?",
+    "doc": "?"
+  },
+  "PouchAllDocsResponse": {
+    "total_rows": "number",
+    "rows": "[PouchAllDocsItem]"
+  },
+  "PouchBulkDocsRequest": {
+    "docs": "[?]"
+  },
+  "PouchUpdateOptions": {
+    "new_edits": "bool"
+  },
+  "PouchUpdateResponse": {
+    "ok": "bool",
+    "id": "string",
+    "rev": "string"
+  },
+  "PouchFilter": {
+    "map": "fn(doc: ?)",
+    "reduce": "fn(key: string, value: ?)"
+  },
+  "PouchQueryOptions": {
+    "complete": "?",
+    "include_docs": "bool",
+    "error": "fn(err: PouchError)",
+    "descending": "bool",
+    "reduce": "bool"
+  },
+  "PouchQueryResponse": {
+    "rows": "[?]"
+  },
+  "PouchAttachmentOptions": {
+    "decode": "bool"
+  },
+  "PouchCancellable": {
+    "cancel": "fn()"
+  },
+  "PouchChangesOptions": {
+    "onChange": "fn(change: PouchChange)",
+    "complete": "fn(err: PouchError, res: PouchChanges)",
+    "seq": "number",
+    "since": "number",
+    "descending": "bool",
+    "filter": "PouchFilter",
+    "continuous": "bool",
+    "include_docs": "bool",
+    "conflicts": "bool"
+  },
+  "PouchChange": {
+    "changes": "?",
+    "doc": "PouchGetResponse",
+    "id": "string",
+    "seq": "number"
+  },
+  "PouchChanges": {
+    "results": "[PouchChange]"
+  },
+  "PouchRevsDiffOptions": {},
+  "PouchReplicateOptions": {
+    "continuous": "bool",
+    "onChange": "fn(any: ?)",
+    "filter": "?",
+    "complete": "fn(err: PouchError, res: PouchChanges)"
+  },
+  "PouchReplicateResponse": {
+    "ok": "bool",
+    "start_time": "Date",
+    "end_time": "Date",
+    "docs_read": "number",
+    "docs_written": "number"
+  },
+  "PouchReplicate": {
+    "from": "fn(url: string, opts: PouchReplicateOptions, callback: fn(err: PouchError, res: PouchReplicateResponse)) -> PouchCancellable",
+    "to": "fn(dbName: string, opts: PouchReplicateOptions, callback: fn(err: PouchError, res: PouchReplicateResponse)) -> PouchCancellable"
+  },
+  "PouchOptions": {
+    "name": "string",
+    "adapter": "string"
+  },
+  "PouchDB": {
+    "destroy": "fn(name: string, callback: fn(err: PouchError))"
+  },
+  "'pouchdb'": "PouchDB",
+  "emit": "fn(key: ?, value: ?)",
+  "!name": "pouch"
+}

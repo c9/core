@@ -1,0 +1,40 @@
+{
+  "Emissary": {
+    "IEmitterStatic": {},
+    "IEmitter": {
+      "on": "fn(eventNames: string, handler: Function) -> ?",
+      "once": "fn(eventName: string, handler: Function) -> ?",
+      "signal": "fn(eventName: string)",
+      "behavior": "fn(eventName: string, initialValue: ?)",
+      "emit": "fn(eventName: string, args: [?])",
+      "off": "fn(eventNames: string, handler: Function)",
+      "pauseEvents": "fn(eventNames: string)",
+      "resumeEvents": "fn(eventNames: string)",
+      "incrementSubscriptionCount": "fn(eventName: string) -> number",
+      "decrementSubscriptionCount": "fn(eventName: string) -> number",
+      "getSubscriptionCount": "fn(eventName: string) -> number",
+      "hasSubscriptions": "fn(eventName: string) -> bool"
+    },
+    "ISubscriberStatic": {},
+    "ISubscriber": {
+      "subscribeWith": "fn(eventEmitter: ?, methodName: string, args: ?) -> ISubscription",
+      "addSubscription": "fn(subscription: ?) -> ISubscription",
+      "subscribe": "fn(eventEmitterOrSubscription: ?, args: [?]) -> ISubscription",
+      "subscribeToCommand": "fn(eventEmitter: ?, args: [?]) -> ISubscription",
+      "unsubscribe": "fn(object?: ?) -> ?"
+    },
+    "ISubscriptionStatic": {},
+    "ISubscription": {
+      "cancelled": "bool",
+      "off": "fn() -> ?"
+    }
+  },
+  "emissary": {
+    "Emitter": "Emissary.IEmitterStatic",
+    "Subscriber": "Emissary.ISubscriberStatic",
+    "Signal": "Function",
+    "Behavior": "Function",
+    "combine": "Function"
+  },
+  "!name": "emissary.d.ts"
+}

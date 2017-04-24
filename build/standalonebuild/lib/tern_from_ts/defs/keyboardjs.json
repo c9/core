@@ -1,0 +1,39 @@
+{
+  "KeyboardJSSubBinding": {
+    "clear": "fn()"
+  },
+  "KeyboardJSBinding": {
+    "clear": "fn()",
+    "on": "fn(eventName: string, callbacks?: ?) -> KeyboardJSSubBinding"
+  },
+  "KeyboardJSLocale": {
+    "map": "?",
+    "macros": "[?]"
+  },
+  "KeyboardJSStatic": {
+    "enable": "fn()",
+    "disable": "fn()",
+    "activeKeys": "fn() -> [string]",
+    "on": "fn(keyCombo: string, onDownCallback?: fn(keyEvent: Event, keysPressed: [string], keyCombo: string), onUpCallback?: fn(keyEvent: Event, keysPressed: [string], keyCombo: string)) -> KeyboardJSBinding",
+    "clear": {
+      "key": "fn(keyName: string)"
+    },
+    "locale": {
+      "register": "fn(localeName: string, localeDefinition: KeyboardJSLocale)"
+    },
+    "macro": {
+      "remove": "fn(keyCombo: string)"
+    },
+    "key": {
+      "name": "fn(keyCode: number) -> [string]",
+      "code": "fn(keyName: string) -> ?"
+    },
+    "combo": {
+      "active": "fn(keyCombo: string) -> bool",
+      "parse": "fn(keyCombo: ?) -> [?]",
+      "stringify": "fn(keyComboArray: ?) -> string"
+    }
+  },
+  "KeyboardJS": "KeyboardJSStatic",
+  "!name": "keyboardjs"
+}

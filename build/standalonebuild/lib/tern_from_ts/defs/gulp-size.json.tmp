@@ -1,0 +1,4 @@
+{
+  "'gulp-size'": "size",
+  "!name": "gulp-size.d.ts"
+}

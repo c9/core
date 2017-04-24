@@ -1,0 +1,36 @@
+{
+  "tempfs": {
+    "dir": {
+      "path": "String",
+      "recursive": "Boolean",
+      "unlink": "fn(callback?: fn(error: Error)) -> ?",
+      "!type": "fn() -> string"
+    },
+    "file": {
+      "path": "String",
+      "fd": "Number",
+      "unlink": "fn(callback?: fn(error: Error)) -> ?"
+    },
+    "options": {
+      "dir": "String",
+      "limit": "Number",
+      "mode": "Number",
+      "name": "String",
+      "prefix": "String",
+      "recursive": "Boolean",
+      "suffix": "String",
+      "template": "String",
+      "track": "Boolean"
+    },
+    "clear": "fn(callback?: fn()) -> ?",
+    "clearSync": "fn() -> ?",
+    "mkdir": "fn(options?: options, callback?: fn(err: ?, dir: dir)) -> ?",
+    "mkdirSync": "fn(options?: options) -> dir",
+    "name": "fn(options?: options) -> string",
+    "open": "fn(options?: options, callback?: fn(err: ?, file: file)) -> ?",
+    "openSync": "fn(options?: options) -> file",
+    "track": "fn(on?: Boolean)"
+  },
+  "temp-fs": "tempfs",
+  "!name": "temp-fs"
+}

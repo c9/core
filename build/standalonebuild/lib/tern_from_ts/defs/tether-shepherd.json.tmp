@@ -1,0 +1,68 @@
+{
+  "TetherShepherd": {
+    "ShepherdStatic": {
+      "on": "fn(eventName: string, handler: Function, context?: ?) -> ?",
+      "off": "fn(eventName: string, handler?: Function) -> ?",
+      "once": "fn(eventName: string, handler: Function, context?: ?) -> ?",
+      "activeTour": "IShepherdTour",
+      "Tour": "IShepherdTour"
+    },
+    "IShepherdTourOptions": {
+      "steps": "[IShepherdTourStep]",
+      "defaults": "IShepherdTourStepOptions"
+    },
+    "IShepherdTour": {
+      "addStep": "fn(id: string, options: IShepherdTourStepOptions) -> IShepherdTour",
+      "getById": "fn(id: string) -> IShepherdTourStep",
+      "next": "fn()",
+      "back": "fn()",
+      "cancel": "fn()",
+      "hide": "fn()",
+      "show": "fn()",
+      "start": "fn()",
+      "getCurrentStep": "fn() -> IShepherdTourStep",
+      "on": "fn(eventName: string, handler: Function, context?: ?) -> ?",
+      "off": "fn(eventName: string, handler?: Function) -> ?",
+      "once": "fn(eventName: string, handler: Function, context?: ?) -> ?"
+    },
+    "IShepherdTourStep": {
+      "show": "fn()",
+      "hide": "fn()",
+      "cancel": "fn()",
+      "complete": "fn()",
+      "scrollTo": "fn()",
+      "isOpen": "fn() -> bool",
+      "destroy": "fn()",
+      "on": "fn(eventName: string, handler: Function, context?: ?) -> ?",
+      "off": "fn(eventName: string, handler?: Function) -> ?",
+      "once": "fn(eventName: string, handler: Function, context?: ?) -> ?"
+    },
+    "IShepherdTourStepOptions": {
+      "text": "?",
+      "title": "string",
+      "attachTo": "?",
+      "beforeShowPromise": "?",
+      "classes": "string",
+      "buttons": "[IShepherdTourButton]",
+      "advanceOn": "?",
+      "showCancelLink": "bool",
+      "scrollTo": "bool",
+      "when": "?",
+      "showOn": "fn()",
+      "tetherOptions": "?"
+    },
+    "IShepherdTourButton": {
+      "text": "string",
+      "classes": "string",
+      "action": "Function",
+      "events": "IShepherdTourButtonEventHash"
+    },
+    "IShepherdTourButtonEventHash": {},
+    "IShepherdTourAttachProperties": {
+      "element": "string",
+      "on": "string"
+    }
+  },
+  "Shepherd": "TetherShepherd.ShepherdStatic",
+  "!name": "tether-shepherd.d.ts"
+}

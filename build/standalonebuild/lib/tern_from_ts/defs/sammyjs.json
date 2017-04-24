@@ -1,0 +1,209 @@
+{
+  "Sammy": {
+    "SammyFunc": {},
+    "Cache": "fn(app: ?, options: ?)",
+    "DataCacheProxy": "fn(initial: ?, $element: ?)",
+    "DataLocationProxy": {
+      "fullPath": "fn(location_obj: ?) -> string",
+      "bind": "fn()",
+      "unbind": "fn()",
+      "setLocation": "fn(new_location: string) -> string",
+      "_startPolling": "fn(every: number)"
+    },
+    "DefaultLocationProxy": "fn(app: ?, run_interval_every: ?)",
+    "EJS": "fn(app: ?, method_alias: ?)",
+    "Exceptional": "fn(app: ?, errorReporter: ?)",
+    "Flash": "fn(app: ?)",
+    "FormBuilder": {
+      "checkbox": "fn(keypath: string, value: ?, attributes: [?]) -> string",
+      "close": "fn() -> string",
+      "hidden": "fn(keypath: string, attributes: [?]) -> string",
+      "label": "fn(keypath: string, content: ?, attributes: [?]) -> string",
+      "open": "fn(attributes: [?])",
+      "password": "fn(keypath: string, attributes: [?]) -> string",
+      "radio": "fn(keypath: string, value: ?, attributes: [?]) -> string",
+      "select": "fn(keypath: string, options: ?, attributes: [?]) -> string",
+      "submit": "fn(attributes: [?]) -> string",
+      "text": "fn(keypath: string, attributes: [?]) -> string",
+      "textarea": "fn(keypath: string, attributes: [?]) -> string"
+    },
+    "Form": {
+      "formFor": "fn(name: string, object: ?, content_callback: Function) -> FormBuilder",
+      "!type": "fn(app: ?)"
+    },
+    "Haml": {
+      "!type": "fn(app: ?, method_alias: ?)"
+    },
+    "Handlebars": {
+      "!type": "fn(app: ?, method_alias: ?)"
+    },
+    "Hogan": {
+      "!type": "fn(app: ?, method_alias: ?)"
+    },
+    "Hoptoad": "fn(app: ?, errorReporter: ?)",
+    "JSON": {
+      "!type": "fn(app: ?)"
+    },
+    "Meld": "fn(app: ?, method_alias: ?)",
+    "MemoryCacheProxy": "fn(initial: ?)",
+    "Mustache": {
+      "!type": "fn(app: ?, method_alias: ?)"
+    },
+    "NestedParams": "fn(app: ?)",
+    "OAuth2": "fn(app: ?)",
+    "PathLocationProxy": "fn(app: ?)",
+    "Pure": "fn(app: ?, method_alias: ?)",
+    "PushLocationProxy": "fn(app: ?)",
+    "Session": "fn(app: ?, options: ?)",
+    "Storage": "fn(app: ?)",
+    "Store": {
+      "stores": "?",
+      "clear": "fn(key: string) -> ?",
+      "clearAll": "fn()",
+      "each": "fn(callback: Function) -> bool",
+      "exists": "fn(key: string) -> bool",
+      "fetch": "fn(key: string, callback: Function) -> ?",
+      "filter": "fn(callback: Function) -> bool",
+      "first": "fn(callback: Function) -> bool",
+      "get": "fn(key: string) -> ?",
+      "isAvailable": "fn() -> bool",
+      "keys": "fn() -> [string]",
+      "load": "fn(key: string, path: string, callback: Function)",
+      "set": "fn(key: string, value: ?) -> ?",
+      "Cookie": "fn(name: ?, element: ?, options: ?)",
+      "Data": "fn(name: ?, element: ?)",
+      "LocalStorage": "fn(name: ?, element: ?)",
+      "Memory": "fn(name: ?, element: ?)",
+      "SessionStorage": "fn(name: ?, element: ?)",
+      "Template": "fn(app: ?, method_alias: ?)"
+    },
+    "Title": "fn()",
+    "Template": "fn(app: ?, method_alias: ?)",
+    "Tmpl": "fn(app: ?, method_alias: ?)",
+    "addLogger": "fn(logger: ?)",
+    "log": "fn(args: [?])",
+    "Object": {
+      "!type": "fn(obj: ?)",
+      "prototype": {
+        "escapeHTML": "fn(s: string) -> string",
+        "h": "fn(s: string) -> string",
+        "has": "fn(key: string) -> bool",
+        "join": "fn(args: [?]) -> string",
+        "keys": "fn(attributes_only?: bool) -> [string]",
+        "log": "fn(args: [?])",
+        "toHTML": "fn() -> string",
+        "toHash": "fn() -> ?"
+      }
+    },
+    "Application": {
+      "ROUTE_VERBS": "[string]",
+      "APP_EVENTS": "[string]",
+      "$element": "fn(selector?: string) -> JQuery",
+      "after": "fn(callback: Function) -> Application",
+      "any": "fn(verb: string, path: string, callback: Function)",
+      "around": "fn(callback: Function) -> Application",
+      "before": "fn(callback: Function) -> Application",
+      "bind": "fn(name: string, callback: Function) -> Application",
+      "bindToAllEvents": "fn(callback: Function) -> Application",
+      "clearTemplateCache": "fn() -> ?",
+      "contextMatchesOptions": "fn(context: ?, match_options: ?, positive?: bool) -> bool",
+      "del": "fn(path: string, callback: Function) -> Application",
+      "destroy": "fn() -> Application",
+      "error": "fn(message: string, original_error: Error)",
+      "eventNamespace": "fn() -> string",
+      "get": "fn(path: string, callback: Function) -> Application",
+      "getLocation": "fn() -> string",
+      "helper": "fn(name: string, method: Function) -> ?",
+      "helpers": "fn(extensions: ?) -> ?",
+      "isRunning": "fn() -> bool",
+      "log": "fn(params: [?])",
+      "lookupRoute": "fn(verb: string, path: string) -> ?",
+      "mapRoutes": "fn(route_array: [?]) -> Application",
+      "notFound": "fn(verb: string, path: string) -> ?",
+      "post": "fn(path: string, callback: Function) -> Application",
+      "put": "fn(path: string, callback: Function) -> Application",
+      "refresh": "fn() -> Application",
+      "routablePath": "fn(path: string) -> string",
+      "route": "fn(verb: string, path: string, callback: Function) -> Application",
+      "run": "fn(start_url?: string) -> Application",
+      "runRoute": "fn(verb: string, path?: string, params?: ?, target?: ?) -> ?",
+      "send": "fn(params: [?])",
+      "setLocation": "fn(new_location: string) -> string",
+      "setLocationProxy": "fn(new_proxy: DataLocationProxy)",
+      "swap": "fn(content: ?, callback: Function) -> ?",
+      "templateCache": "fn(key: string, value: ?) -> ?",
+      "trigger": "fn(name: string, data?: ?) -> Application",
+      "unload": "fn() -> Application",
+      "use": "fn(params: [?])",
+      "last_location": "[string]",
+      "oauthorize": "string",
+      "requireOAuth": "fn()"
+    },
+    "EventContext": {
+      "$element": "fn() -> JQuery",
+      "engineFor": "fn(engine: ?) -> ?",
+      "eventNamespace": "fn() -> string",
+      "interpolate": "fn(content: ?, data: ?, engine: ?, partials: ?) -> EventContext",
+      "json": "fn(str: ?) -> ?",
+      "load": "fn(location: ?, options?: ?, callback?: Function) -> ?",
+      "loadPartials": "fn(partials: ?)",
+      "notFound": "fn() -> ?",
+      "partial": "fn(location: string, data?: ?, callback?: Function, partials?: ?) -> RenderContext",
+      "partials": "?",
+      "params": "?",
+      "redirect": "fn(params: [?])",
+      "render": "fn(location: string, data?: ?, callback?: Function, partials?: ?) -> RenderContext",
+      "renderEach": "fn(location: ?, data?: [data], callback?: Function) -> RenderContext",
+      "send": "fn(params: [?]) -> RenderContext",
+      "swap": "fn(contents: ?, callback: Function) -> string",
+      "trigger": "fn(name: string, data?: ?) -> EventContext",
+      "name": "?",
+      "title": "?"
+    },
+    "GoogleAnalytics": {
+      "noTrack": "fn()",
+      "track": "fn(path: ?)"
+    },
+    "RenderContext": {
+      "appendTo": "fn(selector: string) -> RenderContext",
+      "collect": "fn(array: [?], callback: Function, now?: bool) -> RenderContext",
+      "interpolate": "fn(data: ?, engine?: ?, retain?: bool) -> RenderContext",
+      "load": "fn(location: string, options?: ?, callback?: Function) -> RenderContext",
+      "loadPartials": "fn(partials?: ?) -> RenderContext",
+      "next": "fn(content: ?)",
+      "partial": "fn(location: string, callback: Function, partials: ?) -> RenderContext",
+      "prependTo": "fn(selector: string) -> RenderContext",
+      "render": "fn(callback: Function) -> RenderContext",
+      "renderEach": "fn(location: string, name?: string, data?: ?, callback?: Function) -> RenderContext",
+      "replace": "fn(selector: string) -> RenderContext",
+      "send": "fn(params: [?]) -> RenderContext",
+      "swap": "fn(callback?: Function) -> RenderContext",
+      "then": "fn(callback: Function) -> RenderContext",
+      "trigger": "fn(name: ?, data: ?)",
+      "wait": "fn()"
+    },
+    "StoreOptions": {
+      "name": "string",
+      "element": "string",
+      "type": "string",
+      "memory": "?",
+      "data": "?",
+      "cookie": "?",
+      "local": "?",
+      "session": "?"
+    },
+    "!type": "fn() -> Sammy.Application"
+  },
+  "sammy": "Sammy",
+  "JQueryStatic": {
+    "sammy": "Sammy.SammyFunc",
+    "log": "Function"
+  },
+  "!name": "sammyjs",
+  "!define": {
+    "data": {
+      "name": "string",
+      "data": "?"
+    }
+  }
+}

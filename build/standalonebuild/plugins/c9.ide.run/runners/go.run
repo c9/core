@@ -1,0 +1,20 @@
+{
+  "script": [
+    "set -e",
+    "if [ \"$debug\" == true ]; then ",
+    "    go build -gcflags \"-N -l\" $file",
+    "    node $HOME/.c9/bin/c9gdbshim.js \"$file_path/$file_base_name\" $args",
+    "else",
+    "    go run $file $args",
+    "fi"
+  ],
+  "info": "Running ... $file",
+  
+  "debugger": "gdb",
+  "$debugDefaultState": false,
+  
+  "env": {},
+  
+  "selector": "source.go"
+}
+

@@ -1,0 +1,219 @@
+{
+  "Physijs": {
+    "noConflict": "fn() -> Object",
+    "createMaterial": "fn(material: THREE.Material, friction?: number, restitution?: number) -> Material",
+    "Material": {
+      "_physijs": {
+        "id": "number",
+        "friction": "number",
+        "restriction": "number"
+      }
+    },
+    "Constraint": {
+      "getDefinition": "fn() -> ?"
+    },
+    "PointConstraintDefinition": {
+      "type": "string",
+      "id": "number",
+      "objecta": "THREE.Object3D",
+      "objectb": "THREE.Object3D",
+      "positiona": "THREE.Vector3",
+      "positionb": "THREE.Vector3"
+    },
+    "PointConstraint": {
+      "!type": "fn(objecta: THREE.Object3D, objectb: THREE.Object3D, position?: THREE.Vector3)",
+      "prototype": {
+        "getDefinition": "fn() -> PointConstraintDefinition"
+      }
+    },
+    "HingeConstraintDefinition": {
+      "type": "string",
+      "id": "number",
+      "objecta": "THREE.Object3D",
+      "objectb": "THREE.Object3D",
+      "positiona": "THREE.Vector3",
+      "positionb": "THREE.Vector3",
+      "axis": "THREE.Vector3"
+    },
+    "HingeConstraint": {
+      "!type": "fn(objecta: THREE.Object3D, objectb: THREE.Object3D, position: THREE.Vector3, axis?: THREE.Vector3)",
+      "prototype": {
+        "getDefinition": "fn() -> HingeConstraintDefinition",
+        "setLimits": "fn(low: number, high: number, bias_factor: number, relaxation_factor: number)",
+        "enableAngularMotor": "fn(velocity: number, acceleration: number)",
+        "disableMotor": "fn()"
+      }
+    },
+    "SliderConstraintDefinition": {
+      "type": "string",
+      "id": "number",
+      "objecta": "THREE.Object3D",
+      "objectb": "THREE.Object3D",
+      "positiona": "THREE.Vector3",
+      "positionb": "THREE.Vector3",
+      "axis": "THREE.Vector3"
+    },
+    "SliderConstraint": {
+      "!type": "fn(objecta: THREE.Object3D, objectb: THREE.Object3D, position: THREE.Vector3, axis?: THREE.Vector3)",
+      "prototype": {
+        "getDefinition": "fn() -> SliderConstraintDefinition",
+        "setLimits": "fn(lin_lower: number, lin_upper: number, ang_lower: number, ang_upper: number)",
+        "setRestitution": "fn(linear: number, angular: number)",
+        "enableLinearMotor": "fn(velocity: number, acceleration: number)",
+        "disableLinearMotor": "fn()",
+        "enableAngularMotor": "fn(velocity: number, acceleration: number)",
+        "disableAngularMotor": "fn()"
+      }
+    },
+    "ConeTwistConstraintDefinition": {
+      "type": "string",
+      "id": "number",
+      "objecta": "THREE.Object3D",
+      "objectb": "THREE.Object3D",
+      "positiona": "THREE.Vector3",
+      "positionb": "THREE.Vector3",
+      "axisa": "THREE.Vector3",
+      "axisb": "THREE.Vector3"
+    },
+    "ConeTwistConstraint": {
+      "!type": "fn(objecta: THREE.Object3D, objectb: THREE.Object3D, position: THREE.Vector3)",
+      "prototype": {
+        "getDefinition": "fn() -> ConeTwistConstraintDefinition",
+        "setLimit": "fn(x: number, y: number, z: number)",
+        "enableMotor": "fn()",
+        "setMaxMotorImpulse": "fn(max_impulse: number)",
+        "setMotorTarget": "fn(target: THREE.Vector3)",
+        "disableMotor": "fn()"
+      }
+    },
+    "DOFConstraintDefinition": {
+      "type": "string",
+      "id": "number",
+      "objecta": "THREE.Object3D",
+      "objectb": "THREE.Object3D",
+      "positiona": "THREE.Vector3",
+      "positionb": "THREE.Vector3",
+      "axisa": "THREE.Vector3",
+      "axisb": "THREE.Vector3"
+    },
+    "DOFConstraint": {
+      "!type": "fn(objecta: THREE.Object3D, objectb: THREE.Object3D, position?: THREE.Vector3)",
+      "prototype": {
+        "getDefinition": "fn() -> DOFConstraintDefinition",
+        "setLinearLowerLimit": "fn(limit: THREE.Vector3)",
+        "setLinearUpperLimit": "fn(limit: THREE.Vector3)",
+        "setAngularLowerLimit": "fn(limit: THREE.Vector3)",
+        "setAngularUpperLimit": "fn(limit: THREE.Vector3)",
+        "enableAngularMotor": "fn(which: number)",
+        "configureAngularMotor": "fn(which: number, low_angle: number, high_angle: number, velocity: number, max_force: number)",
+        "disableAngularMotor": "fn(which: number)"
+      }
+    },
+    "scripts": {
+      "worker": "string",
+      "ammo": "string"
+    },
+    "SceneParameters": {
+      "ammo": "string",
+      "fixedTimeStep": "number",
+      "rateLimit": "bool"
+    },
+    "Scene": {
+      "!type": "fn(param?: SceneParameters)",
+      "prototype": {
+        "addConstraint": "fn(constraint: Constraint, show_marker?: bool)",
+        "onSimulationResume": "fn()",
+        "removeConstraint": "fn(constraint: Constraint)",
+        "execute": "fn(cmd: string, params: ?)",
+        "add": "fn(object: THREE.Object3D)",
+        "remove": "fn(object: THREE.Object3D)",
+        "setFixedTimeStep": "fn(fixedTimeStep: number)",
+        "setGravity": "fn(gravity: number)",
+        "simulate": "fn(timeStep?: number, maxSubSteps?: number) -> bool",
+        "addEventListener": "fn(event_name: string, callback: fn(event: ?))",
+        "removeEventListener": "fn(event_name: string, callback: fn(event: ?))",
+        "dispatchEvent": "fn(event_name: string)"
+      }
+    },
+    "Mesh": {
+      "!type": "fn(geometry: THREE.Geometry, material?: THREE.Material, mass?: number)",
+      "prototype": {
+        "applyCentralImpulse": "fn(force: THREE.Vector3)",
+        "applyImpulse": "fn(force: THREE.Vector3, offset: THREE.Vector3)",
+        "applyCentralForce": "fn(force: THREE.Vector3)",
+        "applyForce": "fn(force: THREE.Vector3, offset: THREE.Vector3)",
+        "getAngularVelocity": "fn() -> THREE.Vector3",
+        "setAngularVelocity": "fn(velocity: THREE.Vector3)",
+        "getLinearVelocity": "fn() -> THREE.Vector3",
+        "setLinearVelocity": "fn(velocity: THREE.Vector3)",
+        "setAngularFactor": "fn(factor: THREE.Vector3)",
+        "setLinearFactor": "fn(factor: THREE.Vector3)",
+        "setDamping": "fn(linear: number, angular: number)",
+        "setCcdMotionThreshold": "fn(threshold: number)",
+        "setCcdSweptSphereRadius": "fn(radius: number)",
+        "addEventListener": "fn(event_name: string, callback: fn(event: ?))",
+        "removeEventListener": "fn(event_name: string, callback: fn(event: ?))",
+        "dispatchEvent": "fn(event_name: string)"
+      }
+    },
+    "PlaneMesh": {
+      "!type": "fn(geometry: THREE.Geometry, material: THREE.Material, mass?: number)",
+      "prototype": {}
+    },
+    "HeightfieldMesh": {
+      "!type": "fn(geometry: THREE.Geometry, material: THREE.Material, mass?: number, xdiv?: number, ydiv?: number)",
+      "prototype": {}
+    },
+    "BoxMesh": {
+      "!type": "fn(geometry: THREE.Geometry, material: THREE.Material, mass?: number)",
+      "prototype": {}
+    },
+    "SphereMesh": {
+      "!type": "fn(geometry: THREE.Geometry, material: THREE.Material, mass?: number)",
+      "prototype": {}
+    },
+    "CylinderMesh": {
+      "!type": "fn(geometry: THREE.Geometry, material: THREE.Material, mass?: number)",
+      "prototype": {}
+    },
+    "CapsuleMesh": {
+      "!type": "fn(geometry: THREE.Geometry, material: THREE.Material, mass?: number)",
+      "prototype": {}
+    },
+    "ConeMesh": {
+      "!type": "fn(geometry: THREE.Geometry, material: THREE.Material, mass?: number)",
+      "prototype": {}
+    },
+    "ConcaveMesh": {
+      "!type": "fn(geometry: THREE.Geometry, material: THREE.Material, mass?: number)",
+      "prototype": {}
+    },
+    "ConvexMesh": {
+      "!type": "fn(geometry: THREE.Geometry, material: THREE.Material, mass?: number)",
+      "prototype": {}
+    },
+    "Vehicle": {
+      "!type": "fn(mesh: Mesh, tuning?: VehicleTuning)",
+      "prototype": {
+        "mesh": "THREE.Mesh",
+        "wheels": "[THREE.Mesh]",
+        "addWheel": "fn(wheel_geometry: THREE.Geometry, wheel_material: THREE.Material, connection_point: THREE.Vector3, wheel_direction: THREE.Vector3, wheel_axle: THREE.Vector3, suspension_rest_length: number, wheel_radius: number, is_front_wheel: bool, tuning?: VehicleTuning)",
+        "setSteering": "fn(amount: number, wheel?: THREE.Mesh)",
+        "setBrake": "fn(amount: number, wheel?: THREE.Mesh)",
+        "applyEngineForce": "fn(amount: number, wheel?: THREE.Mesh)"
+      }
+    },
+    "VehicleTuning": {
+      "!type": "fn(suspension_stiffness?: number, suspension_compression?: number, suspension_damping?: number, max_suspension_travel?: number, friction_slip?: number, max_suspension_force?: number)",
+      "prototype": {
+        "suspension_stiffness": "number",
+        "suspension_compression": "number",
+        "suspension_damping": "number",
+        "max_suspension_travel": "number",
+        "friction_slip": "number",
+        "max_suspension_force": "number"
+      }
+    }
+  },
+  "!name": "physijs"
+}

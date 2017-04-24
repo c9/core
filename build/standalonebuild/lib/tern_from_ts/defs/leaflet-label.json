@@ -1,0 +1,64 @@
+{
+  "L": {
+    "IconOptions": {
+      "labelAnchor": "Point"
+    },
+    "PathOptions": {
+      "labelAnchor": "Point"
+    },
+    "CircleMarkerOptions": {
+      "labelAnchor": "Point"
+    },
+    "Marker": {
+      "showLabel": "fn() -> Marker",
+      "hideLabel": "fn() -> Marker",
+      "setLabelNoHide": "fn(noHide: bool)",
+      "bindLabel": "fn(content: string, options?: LabelOptions) -> Marker",
+      "unbindLabel": "fn() -> Marker",
+      "updateLabelContent": "fn(content: string)",
+      "getLabel": "fn() -> Label",
+      "setOpacity": "fn(opacity: number, labelHasSemiTransparency: bool)"
+    },
+    "CircleMarker": {
+      "showLabel": "fn() -> CircleMarker",
+      "hideLabel": "fn() -> CircleMarker",
+      "setLabelNoHide": "fn(noHide: bool)",
+      "bindLabel": "fn(content: string, options?: LabelOptions) -> CircleMarker",
+      "unbindLabel": "fn() -> CircleMarker",
+      "updateLabelContent": "fn(content: string)",
+      "getLabel": "fn() -> Label"
+    },
+    "FeatureGroup": {
+      "clearLayers": "fn() -> ?",
+      "bindLabel": "fn(content: string, options?: LabelOptions) -> ?",
+      "unbindLabel": "fn() -> ?",
+      "updateLabelContent": "fn(content: string) -> ?"
+    },
+    "Path": {
+      "bindLabel": "fn(content: string, options?: LabelOptions) -> Path",
+      "unbindLabel": "fn() -> Path",
+      "updateLabelContent": "fn(content: string)"
+    },
+    "LabelOptions": {
+      "className": "string",
+      "clickable": "bool",
+      "direction": "string",
+      "pane": "string",
+      "noHide": "bool",
+      "offset": "Point",
+      "opacity": "number",
+      "zoomAnimation": "bool"
+    },
+    "LabelStatic": {},
+    "Label": {
+      "onAdd": "fn(map: Map)",
+      "onRemove": "fn(map: Map)",
+      "setLatLng": "fn(latlng: LatLng) -> Label",
+      "setContent": "fn(content: string) -> Label",
+      "close": "fn()",
+      "updateZIndex": "fn(zIndex: number)",
+      "setOpacity": "fn(opacity: number)"
+    }
+  },
+  "!name": "leaflet-label"
+}

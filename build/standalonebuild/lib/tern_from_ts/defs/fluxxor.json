@@ -1,0 +1,53 @@
+{
+  "Fluxxor": {
+    "Dispatcher": {
+      "!type": "fn(stores: ?)",
+      "prototype": {
+        "addStore": "fn(name: string, store: Store)",
+        "dispatch": "fn(action: Function)",
+        "doDispatchLoop": "fn(action: Function)",
+        "waitForStores": "fn(store: Store, stores: [string], fn: Function)"
+      }
+    },
+    "Flux": {
+      "!type": "fn(stores: ?, actions: ?)",
+      "prototype": {
+        "addActions": "fn(actions: ?)",
+        "addAction": "fn(args: ?, Function: ?)",
+        "store": "fn(name: string) -> ?",
+        "addStore": "fn(name: string, store: Store)",
+        "addStores": "fn(stores: ?)",
+        "stores": "?",
+        "actions": "?"
+      }
+    },
+    "Store": {
+      "bindActions": "fn(args: ?, Function: ?)",
+      "waitFor": "fn(stores: [string], fn: Function)"
+    },
+    "StoreSpec": {
+      "initialize": "fn(instance?: ?, options?: ?)",
+      "actions": "?"
+    },
+    "StoreClass": {},
+    "Context": {
+      "flux": "Flux"
+    },
+    "FluxMixin": {
+      "getFlux": "fn() -> Flux",
+      "!type": "fn(React: __React) -> FluxMixin"
+    },
+    "FluxChildMixin": {
+      "getFlux": "fn() -> Flux",
+      "!type": "fn(React: __React) -> FluxChildMixin"
+    },
+    "StoreWatchMixin": {
+      "getStateFromFlux": "fn() -> StoreState",
+      "!type": "fn(storeNames: [string]) -> ?"
+    },
+    "createStore": "fn(spec: StoreSpec) -> StoreClass",
+    "version": "string"
+  },
+  "'fluxxor'": "Fluxxor",
+  "!name": "fluxxor"
+}

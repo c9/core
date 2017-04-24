@@ -1,0 +1,18 @@
+{
+  "JQueryCookieOptions": {
+    "expires": "?",
+    "path": "string",
+    "domain": "string",
+    "secure": "bool"
+  },
+  "JQueryCookieStatic": {
+    "raw": "bool",
+    "json": "bool",
+    "defaults": "JQueryCookieOptions"
+  },
+  "JQueryStatic": {
+    "cookie": "JQueryCookieStatic",
+    "removeCookie": "fn(name: string) -> bool"
+  },
+  "!name": "jquery.cookie.d.ts"
+}

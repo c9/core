@@ -1,0 +1,35 @@
+{
+  "ngCordova": {
+    "AndroidTheme": "number",
+    "DatePickerOptions": {
+      "mode": "string",
+      "date": "Date",
+      "string": "?",
+      "number": "?",
+      "minDate": "Date",
+      "maxDate": "Date",
+      "titleText": "string",
+      "okText": "string",
+      "cancelText": "string",
+      "todayText": "string",
+      "nowText": "string",
+      "is24Hour": "bool",
+      "androidTheme": "AndroidTheme",
+      "allowOldDates": "bool",
+      "allowFutureDates": "bool",
+      "doneButtonLabel": "string",
+      "doneButtonColor": "string",
+      "cancelButtonLabel": "string",
+      "cancelButtonColor": "string",
+      "x": "number",
+      "y": "number",
+      "minuteInterval": "number",
+      "popoverArrowDirection": "string",
+      "locale": "string"
+    },
+    "IDatePickerService": {
+      "show": "fn(options?: DatePickerOptions) -> ?"
+    }
+  },
+  "!name": "datepicker"
+}

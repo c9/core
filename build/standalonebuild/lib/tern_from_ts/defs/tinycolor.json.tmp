@@ -1,0 +1,84 @@
+{
+  "tinycolor": {
+    "fromRatio": "fn(ratio: ?) -> tinycolorInstance",
+    "readability": "fn(firstColor: tinycolorInstance, secondColor: tinycolorInstance) -> Readable.Readable",
+    "isReadable": "fn(foreColor: tinycolorInstance, backColor: tinycolorInstance) -> bool",
+    "mostReadable": "fn(color: tinycolorInstance, colorsToCompare: [tinycolorInstance]) -> tinycolorInstance",
+    "mix": "fn(color1: tinycolorInstance, color2: tinycolorInstance, amount?: number) -> tinycolorInstance",
+    "random": "fn() -> tinycolorInstance",
+    "hexNames": {},
+    "names": {},
+    "!type": "tinycolor"
+  },
+  "tinycolorInstance": {
+    "isValid": "fn() -> bool",
+    "isLight": "fn() -> bool",
+    "isDark": "fn() -> bool",
+    "getFormat": "fn() -> string",
+    "getOriginalInput": "fn() -> ?",
+    "getAlpha": "fn() -> number",
+    "getBrightness": "fn() -> number",
+    "setAlpha": "fn(alpha: number) -> tinycolorInstance",
+    "toHsv": "fn() -> ColorFormats.HSVA",
+    "toHsvString": "fn() -> string",
+    "toHsl": "fn() -> ColorFormats.HSLA",
+    "toHslString": "fn() -> string",
+    "toHex": "fn() -> string",
+    "toHexString": "fn() -> string",
+    "toHex8": "fn() -> string",
+    "toHex8String": "fn() -> string",
+    "toRgb": "fn() -> ColorFormats.RGBA",
+    "toRgbString": "fn() -> string",
+    "toPercentageRgb": "fn() -> ColorFormats.RGBA",
+    "toPercentageRgbString": "fn() -> string",
+    "toName": "fn() -> string",
+    "toFilter": "fn() -> string",
+    "lighten": "fn(amount?: number) -> tinycolorInstance",
+    "brighten": "fn(amount?: number) -> tinycolorInstance",
+    "darken": "fn(amount?: number) -> tinycolorInstance",
+    "desaturate": "fn(amount?: number) -> tinycolorInstance",
+    "saturate": "fn(amount?: number) -> tinycolorInstance",
+    "greyscale": "fn() -> tinycolorInstance",
+    "spin": "fn(amount?: number) -> tinycolorInstance",
+    "analogous": "fn(results?: number, slices?: number) -> [tinycolorInstance]",
+    "monochromatic": "fn(results?: number) -> [tinycolorInstance]",
+    "splitcomplement": "fn() -> [tinycolorInstance]",
+    "triad": "fn() -> [tinycolorInstance]",
+    "tetrad": "fn() -> [tinycolorInstance]",
+    "complement": "fn() -> tinycolorInstance"
+  },
+  "Readable": {
+    "Readable": {
+      "brightness": "number",
+      "color": "number"
+    }
+  },
+  "ColorFormats": {
+    "RGB": {
+      "r": "number",
+      "g": "number",
+      "b": "number"
+    },
+    "RGBA": {
+      "a": "number"
+    },
+    "HSL": {
+      "h": "number",
+      "s": "number",
+      "l": "number"
+    },
+    "HSLA": {
+      "a": "number"
+    },
+    "HSV": {
+      "h": "number",
+      "s": "number",
+      "v": "number"
+    },
+    "HSVA": {
+      "a": "number"
+    }
+  },
+  "'tinycolor2'": "tinycolor",
+  "!name": "tinycolor.d.ts"
+}

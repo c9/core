@@ -1,0 +1,22 @@
+{
+  "ProgressJsStatic": {},
+  "ProgressJs": {
+    "start": "fn() -> ProgressJs",
+    "set": "fn(percent: number) -> ProgressJs",
+    "autoIncrease": "fn(size: number, millisecond: number) -> ProgressJs",
+    "increase": "fn(size?: number) -> ProgressJs",
+    "end": "fn() -> ProgressJs",
+    "setOption": "fn(option: string, value: string) -> ProgressJs",
+    "setOptions": "fn(options: ProgressJsOptions) -> ProgressJs",
+    "onbeforeend": "fn(providedCallback: fn()) -> ProgressJs",
+    "onbeforestart": "fn(providedCallback: fn()) -> ProgressJs",
+    "onprogress": "fn(providedCallback: fn(targetElement: string, percent: number)) -> ProgressJs"
+  },
+  "ProgressJsOptions": {
+    "theme": "string",
+    "overlayMode": "bool",
+    "considerTransition": "bool"
+  },
+  "progressJs": "ProgressJsStatic",
+  "!name": "progress.d.ts"
+}

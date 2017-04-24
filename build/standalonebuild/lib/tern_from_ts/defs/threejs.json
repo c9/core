@@ -1,0 +1,12 @@
+{
+  "DetectorStatic": {
+    "canvas": "bool",
+    "webgl": "bool",
+    "workers": "bool",
+    "fileapi": "bool",
+    "getWebGLErrorMessage": "fn() -> HTMLElement",
+    "addGetWebGLMessage": "fn(parameters?: ?)"
+  },
+  "Detector": "DetectorStatic",
+  "!name": "detector"
+}

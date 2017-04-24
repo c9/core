@@ -1,0 +1,117 @@
+{
+  "KnockoutValidationGroupingOptions": {
+    "deep": "bool",
+    "observable": "bool"
+  },
+  "KnockoutValidationConfiguration": {
+    "registerExtenders": "bool",
+    "messagesOnModified": "bool",
+    "messageTemplate": "string",
+    "insertMessages": "bool",
+    "parseInputAttributes": "bool",
+    "writeInputAttributes": "bool",
+    "decorateInputElement": "bool",
+    "errorClass": "string",
+    "errorElementClass": "string",
+    "errorMessageClass": "string",
+    "grouping": "KnockoutValidationGroupingOptions"
+  },
+  "KnockoutValidationUtils": {
+    "isArray": "fn(o: ?) -> bool",
+    "isObject": "fn(o: ?) -> bool",
+    "values": "fn(o: ?) -> [?]",
+    "getValue": "fn(o: ?) -> ?",
+    "hasAttribute": "fn(node: Element, attr: string) -> bool",
+    "isValidatable": "fn(o: ?) -> bool",
+    "insertAfter": "fn(node: Element, newNode: Element)",
+    "newId": "fn() -> number",
+    "getConfigOptions": "fn(element: Element) -> KnockoutValidationConfiguration",
+    "setDomData": "fn(node: Element, data: KnockoutValidationConfiguration)",
+    "getDomData": "fn(node: Element) -> KnockoutValidationConfiguration",
+    "contextFor": "fn(node: Element) -> KnockoutValidationConfiguration",
+    "isEmptyVal": "fn(val: ?) -> bool"
+  },
+  "KnockoutValidationAsyncCallbackArgs": {
+    "isValid": "bool",
+    "message": "string"
+  },
+  "KnockoutValidationAsyncCallback": {},
+  "KnockoutValidationRuleBase": {
+    "message": "string"
+  },
+  "KnockoutValidationRuleDefinition": {
+    "validator": "fn(value: ?, params: ?) -> bool"
+  },
+  "KnockoutValidationAsyncRuleDefinition": {
+    "async": "bool",
+    "validator": "fn(value: ?, params: ?, callback: KnockoutValidationAsyncCallback)"
+  },
+  "KnockoutValidationAnonymousRuleDefinition": {
+    "validation": "KnockoutValidationRuleDefinition"
+  },
+  "KnockoutValidationRuleDefinitions": {
+    "date": "KnockoutValidationRuleDefinition",
+    "dateISO": "KnockoutValidationRuleDefinition",
+    "digit": "KnockoutValidationRuleDefinition",
+    "email": "KnockoutValidationRuleDefinition",
+    "equal": "KnockoutValidationRuleDefinition",
+    "max": "KnockoutValidationRuleDefinition",
+    "maxLength": "KnockoutValidationRuleDefinition",
+    "min": "KnockoutValidationRuleDefinition",
+    "minLength": "KnockoutValidationRuleDefinition",
+    "notEqual": "KnockoutValidationRuleDefinition",
+    "number": "KnockoutValidationRuleDefinition",
+    "pattern": "KnockoutValidationRuleDefinition",
+    "phoneUS": "KnockoutValidationRuleDefinition",
+    "required": "KnockoutValidationRuleDefinition",
+    "step": "KnockoutValidationRuleDefinition",
+    "unique": "KnockoutValidationRuleDefinition"
+  },
+  "KnockoutValidationRule": {
+    "rule": "string",
+    "params": "?",
+    "message": "string",
+    "condition": "fn()"
+  },
+  "KnockoutValidationErrors": {
+    "showAllMessages": "fn()"
+  },
+  "KnockoutValidationGroup": {
+    "errors": "KnockoutValidationErrors",
+    "isValid": "fn()",
+    "isAnyMessageShown": "fn()"
+  },
+  "KnockoutValidationStatic": {
+    "init": "fn(options?: KnockoutValidationConfiguration, force?: bool)",
+    "reset": "fn()",
+    "group": "fn(obj: ?, options?: ?) -> KnockoutValidationErrors",
+    "formatMessage": "fn(message: string, params: string) -> string",
+    "addRule": "fn(observable: ?, rule: KnockoutValidationRule) -> ?",
+    "addAnonymousRule": "fn(observable: ?, ruleObj: KnockoutValidationAnonymousRuleDefinition)",
+    "insertValidationMessage": "fn(element: Element) -> Element",
+    "parseInputValidationAttributes": "fn(element: Element, valueAccessor: fn())",
+    "rules": "KnockoutValidationRuleDefinitions",
+    "addExtender": "fn(ruleName: string)",
+    "registerExtenders": "fn()",
+    "utils": "KnockoutValidationUtils",
+    "localize": "fn(msgTranslations: ?)",
+    "validateObservable": "fn(observable: ?) -> bool"
+  },
+  "KnockoutStatic": {
+    "validation": "KnockoutValidationStatic",
+    "validatedObservable": "fn(initialValue?: T) -> ?",
+    "applyBindingsWithValidation": "fn(viewModel: ?, rootNode?: ?, options?: KnockoutValidationConfiguration)"
+  },
+  "KnockoutSubscribableFunctions": {
+    "isValid": "?",
+    "isValidating": "?",
+    "rules": "?",
+    "isModified": "?",
+    "error": "?",
+    "setError": "fn(error: string)",
+    "clearError": "fn()"
+  },
+  "knockout.validation": "validation",
+  "validation": "KnockoutValidationStatic",
+  "!name": "knockout.validation.d.ts"
+}

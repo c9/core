@@ -1,0 +1,46 @@
+{
+  "swfobject": {
+    "SwfObject": {
+      "ua": {
+        "w3": "bool",
+        "pv": "[number]",
+        "wk": "?",
+        "ie": "bool",
+        "win": "bool",
+        "mac": "bool"
+      },
+      "registerObject": "fn(objectIdStr: string, swfVersionStr: string, xiSwfUrlStr?: string, callbackFn?: fn(callbackObj: ICallbackObj))",
+      "getObjectById": "fn(objectIdStr: string) -> HTMLElement",
+      "embedSWF": "fn(swfUrlStr: string, replaceElemIdStr: string, widthStr: string, heightStr: string, swfVersionStr: string, xiSwfUrlStr?: string, flashvarsObj?: Object, parObj?: Object, attObj?: Object, callbackFn?: fn(callbackObj: ICallbackObj))",
+      "switchOffAutoHideShow": "fn()",
+      "getFlashPlayerVersion": "fn() -> IFlashPlayerVersion",
+      "hasFlashPlayerVersion": "fn(rv: string) -> bool",
+      "createSWF": "fn(attObj: ISwfObjectAttribute, parObj: ISwfObjectParameter, replaceElemIdStr: string) -> HTMLElement",
+      "showExpressInstall": "fn(att: ISwfObjectAttribute, par: ISwfObjectParameter, replaceElemIdStr: string, callbackFn?: fn(callbackObj: ICallbackObj))",
+      "removeSWF": "fn(objElemIdStr: string)",
+      "createCSS": "fn(selStr: string, declStr: string, mediaStr?: string, newStyleBoolean?: bool)",
+      "addDomLoadEvent": "fn(fn: fn())",
+      "addLoadEvent": "fn(fn: fn(event?: Event))",
+      "getQueryParamValue": "fn(param?: string) -> string"
+    },
+    "IFlashPlayerVersion": {
+      "major": "number",
+      "minor": "number",
+      "release": "number"
+    },
+    "ISwfObjectAttribute": {
+      "id": "string",
+      "width": "string",
+      "height": "string"
+    },
+    "ISwfObjectParameter": {
+      "flashvars": "string"
+    },
+    "ICallbackObj": {
+      "success": "bool",
+      "id": "string",
+      "ref": "HTMLElement"
+    }
+  },
+  "!name": "swfobject"
+}

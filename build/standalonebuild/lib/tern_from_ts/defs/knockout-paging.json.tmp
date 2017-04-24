@@ -1,0 +1,52 @@
+{
+  "KnockoutStatic": {
+    "paging": "KnockoutPagingOptions",
+    "pagedObservableArray": "fn(initialValue?: [T], options?: KnockoutPagedOptions) -> ?"
+  },
+  "KnockoutPagingOptions": {
+    "defaults": "KnockoutPagingDefaultOptions",
+    "generators": {
+      "'sliding'": "KnockoutSlidingPageGenerator"
+    }
+  },
+  "KnockoutPagingDefaultOptions": {
+    "pageNumber": "number",
+    "pageSize": "number"
+  },
+  "KnockoutPagedObservableArray": {
+    "pageSize": "?",
+    "pageNumber": "?",
+    "pageItems": "?",
+    "pageCount": "?",
+    "itemCount": "?",
+    "firstItemOnPage": "?",
+    "lastItemOnPage": "?",
+    "hasPreviousPage": "?",
+    "hasNextPage": "?",
+    "isFirstPage": "?",
+    "isLastPage": "?",
+    "pages": "?",
+    "toNextPage": "fn()",
+    "toPreviousPage": "fn()",
+    "toLastPage": "fn()",
+    "toFirstPage": "fn()"
+  },
+  "KnockoutPagedOptions": {
+    "pageSize": "number",
+    "pageNumber": "number",
+    "pageGenerator": "string"
+  },
+  "KnockoutObservableArray": {
+    "extend": "fn(requestedExtenders: ?) -> ?"
+  },
+  "KnockoutPageGenerator": {
+    "generate": "fn(pagedObservable: ?) -> [number]"
+  },
+  "KnockoutSlidingPageGenerator": {
+    "windowSize": "?"
+  },
+  "KnockoutExtenders": {
+    "paged": "fn(target: ?, options: KnockoutPagedOptions) -> ?"
+  },
+  "!name": "knockout-paging.d.ts"
+}

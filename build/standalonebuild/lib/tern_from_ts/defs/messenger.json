@@ -1,0 +1,33 @@
+{
+  "IMessenger": {
+    "options": "MessengerOptions"
+  },
+  "Messenger": {
+    "post": "fn(options: MessageOptions) -> Message",
+    "hideAll": "fn()"
+  },
+  "Message": {
+    "show": "fn()",
+    "hide": "fn()",
+    "cancel": "fn()",
+    "update": "fn(options: MessageOptions)"
+  },
+  "MessageOptions": {
+    "message": "string",
+    "hideAfter": "number",
+    "hideOnNavigate": "bool",
+    "id": "string",
+    "showCloseButton": "bool",
+    "singleton": "bool",
+    "theme": "string",
+    "type": "string"
+  },
+  "MessengerOptions": {
+    "extraClasses": "string",
+    "maxMessages": "number",
+    "messageDefaults": "MessageOptions",
+    "parentLocations": "[string]",
+    "theme": "string"
+  },
+  "!name": "messenger"
+}

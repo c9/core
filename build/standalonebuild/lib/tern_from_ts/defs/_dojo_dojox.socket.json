@@ -1,0 +1,13 @@
+{
+  "dojox": {
+    "socket": {
+      "LongPoll": {},
+      "replace": {},
+      "WebSocket": {},
+      "Reconnect": {}
+    }
+  },
+  "dojox/socket": "exp",
+  "dojox/socket/Reconnect": "exp",
+  "!name": "dojox.socket"
+}

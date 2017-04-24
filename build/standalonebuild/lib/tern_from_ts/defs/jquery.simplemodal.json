@@ -1,0 +1,52 @@
+{
+  "SimpleModal": {
+    "SimpleModalOptions": {
+      "appendTo": "string",
+      "focus": "bool",
+      "opacity": "number",
+      "overlayId": "string",
+      "overlayCss": "Object",
+      "containerId": "string",
+      "containerCss": "Object",
+      "dataId": "string",
+      "dataCss": "Object",
+      "minHeight": "number",
+      "minWidth": "number",
+      "maxHeight": "number",
+      "maxWidth": "number",
+      "autoResize": "bool",
+      "autoPosition": "bool",
+      "zIndex": "number",
+      "close": "bool",
+      "closeHTML": "string",
+      "closeClass": "string",
+      "escClose": "bool",
+      "overlayClose": "bool",
+      "position": "?",
+      "persist": "bool",
+      "modal": "bool",
+      "onOpen": "fn(dialog: SimpleModalDialog)",
+      "onShow": "fn(dialog: SimpleModalDialog)",
+      "onClose": "fn(dialog: SimpleModalDialog)"
+    },
+    "SimpleModalDialog": {
+      "overlay": "JQuery",
+      "container": "JQuery",
+      "data": "?",
+      "iframe": "JQuery"
+    },
+    "Static": {
+      "defaults": "SimpleModalOptions",
+      "close": "fn()"
+    },
+    "JQueryExtension": {}
+  },
+  "JQueryStatic": {
+    "modal": "SimpleModal.Static"
+  },
+  "JQuery": {
+    "modal": "SimpleModal.JQueryExtension"
+  },
+  "'simplemodal'": "SimpleModal",
+  "!name": "jquery.simplemodal"
+}

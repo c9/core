@@ -1,0 +1,79 @@
+{
+  "AtomDocTypes": {
+    "Metadata": {
+      "classes": {}
+    },
+    "ClassInfo": {
+      "name": "string",
+      "superClass": "string",
+      "visibility": "string",
+      "filename": "string",
+      "srcUrl": "string",
+      "summary": "string",
+      "description": "string",
+      "examples": "[Example]",
+      "sections": "[Section]",
+      "classMethods": "[ClassMethod]",
+      "classProperties": "[ClassProperty]",
+      "instanceMethods": "[InstanceMethod]",
+      "instanceProperties": "[InstanceProperty]"
+    },
+    "Example": {
+      "description": "string",
+      "lang": "string",
+      "code": "string",
+      "raw": "string"
+    },
+    "Section": {
+      "name": "string",
+      "description": "string"
+    },
+    "ClassMethod": {
+      "name": "string",
+      "sectionName": "string",
+      "srcUrl": "string",
+      "visibility": "string",
+      "summary": "string",
+      "description": "string",
+      "arguments": "[Argument]",
+      "returnValues": "[ReturnValue]"
+    },
+    "ClassProperty": {},
+    "InstanceMethod": {
+      "name": "string",
+      "sectionName": "string",
+      "srcUrl": "string",
+      "visibility": "string",
+      "summary": "string",
+      "description": "string",
+      "arguments": "[Argument]",
+      "returnValues": "[ReturnValue]",
+      "titledArguments": "[TitledArgument]"
+    },
+    "InstanceProperty": {
+      "name": "string",
+      "sectionName": "string",
+      "srcUrl": "string",
+      "visibility": "string",
+      "summary": "string",
+      "description": "string"
+    },
+    "Argument": {
+      "name": "string",
+      "description": "string",
+      "type": "string",
+      "isOptional": "bool",
+      "children": "[Argument]"
+    },
+    "TitledArgument": {
+      "title": "string",
+      "description": "string",
+      "arguments": "[Argument]"
+    },
+    "ReturnValue": {
+      "type": "string",
+      "description": "string"
+    }
+  },
+  "!name": "api-docs.d.ts"
+}

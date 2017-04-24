@@ -1,0 +1,15 @@
+{
+  "Zone": {
+    "!type": "fn(parentZone: Zone, data: ?)",
+    "bindPromiseFn": "fn(fn: T) -> T",
+    "longStackTraceZone": {},
+    "prototype": {
+      "fork": "fn(locals?: ?) -> Zone",
+      "bind": "fn(fn: Function, skipEnqueue?: bool)",
+      "bindOnce": "fn(fn: Function) -> ?",
+      "run": "fn(fn: Function, applyTo?: ?, applyWith?: ?)",
+      "isRootZone": "fn() -> bool"
+    }
+  },
+  "!name": "zone.js.d.ts"
+}

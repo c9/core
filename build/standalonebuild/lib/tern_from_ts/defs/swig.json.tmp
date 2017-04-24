@@ -1,0 +1,65 @@
+{
+  "swig": {
+    "Swig": {
+      "!type": "fn(options?: SwigOptions)",
+      "prototype": {
+        "setFilter": "fn(name: string, method: fn(input: ?, args: [?]))",
+        "setTag": "fn(name: string, parse: fn(str?: string, line?: string, parser?: Object, types?: lexer.TYPES, stack?: ?, opts?: Object, swig?: Swig), compile: fn(compiler?: fn(content?: string, parents?: ?, options?: ?, blockName?: string), args?: [?], content?: string, parents?: ?, options?: ?, blockName?: string), ends?: bool, blockLevel?: bool)",
+        "setExtension": "fn(name: string, object: ?)",
+        "parseFile": "fn(pathName: string, options?: ?) -> parser.ParseReturn",
+        "precompile": "fn(source: string, options?: SwigOptions) -> ?",
+        "compile": "fn(source: string, options?: SwigOptions) -> fn(locals?: ?)",
+        "compileFile": "fn(pathname: string, options: SwigOptions, cb: fn(err: Error, compiledRender: fn(locals?: ?)))",
+        "render": "fn(source: string, options?: SwigOptions) -> string",
+        "renderFile": "fn(pathName: string, locals: ?, cb: fn(err: Error, output: string))",
+        "run": "fn(templateFn: Function, locals?: ?, filePath?: string) -> string",
+        "invalidateCache": "fn()",
+        "loaders": "loaders"
+      }
+    },
+    "lexer": {
+      "TYPES": "number",
+      "read": "fn(str: string) -> [string]"
+    },
+    "parser": {
+      "ParseReturn": {
+        "name": "string",
+        "parent": "?",
+        "tokens": "[?]",
+        "blocks": "?"
+      }
+    },
+    "SwigOptions": {
+      "autoescape": "bool",
+      "cache": "?",
+      "cmtControls": "[string]",
+      "loader": "TemplateLoader",
+      "locals": "?",
+      "tagControls": "[string]",
+      "varControls": "[string]"
+    },
+    "TemplateLoader": {
+      "resolve": "fn(to: string, from: string) -> string",
+      "load": "fn(identifier: string, callback?: fn(err: Error, data: ?))"
+    },
+    "loaders": {
+      "fs": "fn(basepath?: string, encoding?: string) -> TemplateLoader",
+      "memory": "fn(mapping: ?, basepath?: string) -> TemplateLoader"
+    },
+    "version": "string",
+    "setDefaults": "fn(options: SwigOptions)",
+    "setDefaultTZOffset": "fn(offset: number)",
+    "setFilter": "fn(name: string, method: fn(input: ?, args: [?]))",
+    "setTag": "fn(name: string, parse: fn(str?: string, line?: string, parser?: Object, types?: lexer.TYPES, stack?: ?, opts?: Object, swig?: Swig), compile: fn(compiler?: fn(content?: string, parents?: ?, options?: ?, blockName?: string), args?: [?], content?: string, parents?: ?, options?: ?, blockName?: string), ends?: bool, blockLevel?: bool)",
+    "setExtension": "fn(name: string, object: ?)",
+    "parseFile": "fn(pathName: string, options?: ?) -> parser.ParseReturn",
+    "precompile": "fn(source: string, options?: SwigOptions) -> ?",
+    "compile": "fn(source: string, options?: SwigOptions) -> fn(locals?: ?)",
+    "compileFile": "fn(pathname: string, options: SwigOptions, cb: fn(err: Error, compiledRender: fn(locals?: ?)))",
+    "render": "fn(source: string, options?: SwigOptions) -> string",
+    "renderFile": "fn(pathName: string, locals: ?, cb: fn(err: Error, output: string))",
+    "run": "fn(templateFn: Function, locals?: ?, filePath?: string) -> string",
+    "invalidateCache": "fn()"
+  },
+  "!name": "swig.d.ts"
+}

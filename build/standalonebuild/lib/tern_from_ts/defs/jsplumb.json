@@ -1,0 +1,106 @@
+{
+  "jsPlumb": "jsPlumbInstance",
+  "jsPlumbInstance": {
+    "setRenderMode": "fn(renderMode: string) -> string",
+    "bind": "fn(event: string, callback: fn(e: ?))",
+    "unbind": "fn(event?: string)",
+    "ready": "fn(callback: fn())",
+    "importDefaults": "fn(defaults: Defaults)",
+    "Defaults": "Defaults",
+    "restoreDefaults": "fn()",
+    "addClass": "fn(el: ?, clazz: string)",
+    "addEndpoint": "fn(ep: string) -> ?",
+    "removeClass": "fn(el: ?, clazz: string)",
+    "hasClass": "fn(el: ?, clazz: string)",
+    "draggable": "fn(el: string, options?: DragOptions) -> jsPlumbInstance",
+    "connect": "fn(connection: ConnectParams, referenceParams?: ConnectParams) -> Connection",
+    "makeSource": "fn(el: string, options: SourceOptions)",
+    "makeTarget": "fn(el: string, options: TargetOptions)",
+    "repaintEverything": "fn()",
+    "detachEveryConnection": "fn()",
+    "detachAllConnections": "fn(el: string)",
+    "removeAllEndpoints": "fn(el: string, recurse?: bool) -> jsPlumbInstance",
+    "select": "fn(params: SelectParams) -> Connections",
+    "getConnections": "fn(options?: ?, flat?: ?) -> [?]",
+    "deleteEndpoint": "fn(uuid: string, doNotRepaintAfterwards?: bool) -> jsPlumbInstance",
+    "repaint": "fn(el: string) -> jsPlumbInstance",
+    "getInstance": "fn() -> jsPlumbInstance",
+    "getInstanceIndex": "fn() -> number",
+    "SVG": "string",
+    "CANVAS": "string",
+    "VML": "string"
+  },
+  "Defaults": {
+    "Endpoint": "[?]",
+    "PaintStyle": "PaintStyle",
+    "HoverPaintStyle": "PaintStyle",
+    "ConnectionsDetachable": "bool",
+    "ReattachConnections": "bool",
+    "ConnectionOverlays": "[[?]]",
+    "Container": "?",
+    "DragOptions": "DragOptions"
+  },
+  "PaintStyle": {
+    "strokeStyle": "string",
+    "lineWidth": "number"
+  },
+  "ArrowOverlay": {
+    "location": "number",
+    "id": "string",
+    "length": "number",
+    "foldback": "number"
+  },
+  "LabelOverlay": {
+    "label": "string",
+    "id": "string",
+    "location": "number"
+  },
+  "Connections": {
+    "detach": "fn()",
+    "length": "number"
+  },
+  "ConnectParams": {
+    "source": "?",
+    "target": "?",
+    "detachable": "bool",
+    "deleteEndpointsOnDetach": "bool",
+    "endPoint": "string",
+    "anchor": "string",
+    "anchors": "[?]",
+    "label": "string"
+  },
+  "DragOptions": {
+    "containment": "string"
+  },
+  "SourceOptions": {
+    "parent": "string",
+    "endpoint": "string",
+    "anchor": "string",
+    "connector": "[?]",
+    "connectorStyle": "PaintStyle"
+  },
+  "TargetOptions": {
+    "isTarget": "bool",
+    "maxConnections": "number",
+    "uniqueEndpoint": "bool",
+    "deleteEndpointsOnDetach": "bool",
+    "endpoint": "string",
+    "dropOptions": "DropOptions",
+    "anchor": "?"
+  },
+  "DropOptions": {
+    "hoverClass": "string"
+  },
+  "SelectParams": {
+    "scope": "string",
+    "source": "string",
+    "target": "string"
+  },
+  "Connection": {
+    "setDetachable": "fn(detachable: bool)",
+    "setParameter": "fn(name: string, value: T)",
+    "endpoints": "[Endpoint]"
+  },
+  "Endpoint": {},
+  "!name": "jquery.jsPlumb"
+}

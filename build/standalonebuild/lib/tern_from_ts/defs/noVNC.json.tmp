@@ -1,0 +1,128 @@
+{
+  "NvPoint": {
+    "x": "number",
+    "y": "number"
+  },
+  "NvFeatures": {
+    "xpath": "bool",
+    "air": "bool",
+    "query": "bool"
+  },
+  "NvEngine": {
+    "presto": "bool",
+    "trident": "bool",
+    "webkit": "bool",
+    "gecko": "bool"
+  },
+  "NvFlash": {
+    "version": "number",
+    "build": "number"
+  },
+  "NvBox": {
+    "x": "number",
+    "y": "number",
+    "w": "number",
+    "h": "number"
+  },
+  "NvCleanDirtyBox": {
+    "cleanBox": "NvBox",
+    "dirtyBoxes": "[NvBox]"
+  },
+  "NvUtilStatic": {
+    "init_logging": "fn(level?: string)",
+    "get_logging": "fn() -> string",
+    "conf_default": "fn(cfg: ?, api: ?, defaults: ?, v: ?, mode: ?, type: ?, defval: ?, desc: ?)",
+    "conf_defaults": "fn(cfg: ?, api: ?, defaults: ?, arr: ?)",
+    "get_include_uri": "fn() -> string",
+    "load_scripts": "fn(files: [string])",
+    "getPosition": "fn(obj: HTMLElement) -> NvPoint",
+    "getEventPosition": "fn(e: Event, obj: HTMLElement, scale: number) -> NvPoint",
+    "addEvent": "fn(obj: HTMLElement, evType: string, fn: Function)",
+    "removeEvent": "fn(obj: HTMLElement, evType: string, fn: Function)",
+    "stopEvent": "fn(e: Event)",
+    "Features": "NvFeatures",
+    "Engine": "NvEngine",
+    "Flash": "fn() -> NvFlash"
+  },
+  "NvRenderAction": {
+    "type": "string",
+    "old_x": "number",
+    "old_y": "number",
+    "x": "number",
+    "y": "number",
+    "width": "number",
+    "height": "number"
+  },
+  "NvRFBDefaults": {
+    "target": "HTMLCanvasElement",
+    "focusContainer": "HTMLElement",
+    "encrypt": "bool",
+    "true_color": "bool",
+    "local_cursor": "bool",
+    "shared": "bool",
+    "view_only": "bool",
+    "connectTimeout": "number",
+    "disconnectTimeout": "number",
+    "viewportDrag": "bool",
+    "check_rate": "number",
+    "fbu_req_rate": "number",
+    "repeaterID": "string",
+    "onUpdateState": "fn(rfb: RFB, state: ?, oldstate: ?, statusMsg: string)",
+    "onPasswordRequired": "fn(rfb: RFB)",
+    "onClipboard": "fn(rfb: RFB, text: string)",
+    "onBell": "fn(rfb: RFB)",
+    "onFBUReceive": "fn(rfb: RFB, fbu: ?)",
+    "onFBUComplete": "fn(rfb: RFB, fbu: ?)",
+    "onFBResize": "fn(rfb: RFB, width: number, height: number)"
+  },
+  "RFB": {
+    "!type": "fn(defaults: ?)",
+    "prototype": {
+      "set_local_cursor": "fn(cursor: ?)",
+      "get_display": "fn() -> Display",
+      "get_keyboard": "fn() -> Keyboard",
+      "get_mouse": "fn() -> Mouse",
+      "connect": "fn(host: string, port: number, password: string, path: string)",
+      "disconnect": "fn()",
+      "sendPassword": "fn(passwd: string)",
+      "sendCtrlAltDel": "fn()",
+      "sendKey": "fn(code: number, down: bool)",
+      "clipboardPasteFrom": "fn(text: string)",
+      "testMode": "fn(override_send: fn(arr: [?]), data_mode: string)"
+    }
+  },
+  "Display": {
+    "get_context": "fn() -> CanvasRenderingContext2D",
+    "set_scale": "fn(scale: number)",
+    "set_width": "fn(val: number)",
+    "get_width": "fn() -> number",
+    "set_height": "fn(val: number)",
+    "get_height": "fn() -> number",
+    "viewportChange": "fn(deltaX: number, deltaY: number, width: number, height: number)",
+    "getCleanDirtyReset": "fn() -> NvCleanDirtyBox",
+    "absX": "fn(x: number) -> number",
+    "absY": "fn(y: number) -> number",
+    "resize": "fn(width: number, height: number)",
+    "clear": "fn()",
+    "fillRect": "fn(x: number, y: number, width: number, height: number, color: [number])",
+    "copyImage": "fn(old_x: number, old_y: number, new_x: number, new_y: number, w: number, h: number)",
+    "startTile": "fn(x: number, y: number, width: number, height: number, color: [number])",
+    "subTile": "fn(x: number, y: number, w: number, h: number, color: [number])",
+    "finishTile": "fn()",
+    "blitImage": "fn(x: number, y: number, width: number, height: number, arr: [?], offset: number)",
+    "blitRgbImage": "fn(x: number, y: number, width: number, height: number, arr: [?], offset: number)",
+    "blitStringImage": "fn(str: string, x: number, y: number)",
+    "drawImage": "fn(img: HTMLImageElement, x: number, y: number)",
+    "renderQ_push": "fn(action: NvRenderAction)"
+  },
+  "Keyboard": {
+    "grab": "fn()",
+    "ungrab": "fn()"
+  },
+  "Mouse": {
+    "grab": "fn()",
+    "ungrab": "fn()"
+  },
+  "Util": "NvUtilStatic",
+  "!name": "noVNC.d.ts"
+}

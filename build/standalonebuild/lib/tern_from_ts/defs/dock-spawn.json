@@ -1,0 +1,110 @@
+{
+  "dockspawn": {
+    "DockManager": {
+      "!type": "fn(element: HTMLDivElement)",
+      "prototype": {
+        "context": "DockManagerContext",
+        "initialize": "fn()",
+        "rebuildLayout": "fn(node: DockNode)",
+        "invalidate": "fn()",
+        "resize": "fn(width: number, height: number)",
+        "setModel": "fn(model: DockModel)",
+        "setRootNode": "fn(node: DockNode)",
+        "dockDialogLeft": "fn(referenceNode: DockNode, dialog: Dialog) -> DockNode",
+        "dockDialogRight": "fn(referenceNode: DockNode, dialog: Dialog) -> DockNode",
+        "dockDialogUp": "fn(referenceNode: DockNode, dialog: Dialog) -> DockNode",
+        "dockDialogDown": "fn(referenceNode: DockNode, dialog: Dialog) -> DockNode",
+        "dockDialogFill": "fn(referenceNode: DockNode, container: PanelContainer) -> DockNode",
+        "dockLeft": "fn(referenceNode: DockNode, container: PanelContainer, ratio: number) -> DockNode",
+        "dockRight": "fn(referenceNode: DockNode, container: PanelContainer, ratio: number) -> DockNode",
+        "dockUp": "fn(referenceNode: DockNode, container: PanelContainer, ratio: number) -> DockNode",
+        "dockDown": "fn(referenceNode: DockNode, container: PanelContainer, ratio: number) -> DockNode",
+        "dockFill": "fn(referenceNode: DockNode, container: PanelContainer) -> DockNode",
+        "suspendLayout": "fn()",
+        "resumeLayout": "fn()",
+        "saveState": "fn() -> string",
+        "loadState": "fn(state: string)"
+      }
+    },
+    "DockManagerContext": {
+      "!type": "fn(dockManager: DockManager)",
+      "prototype": {
+        "dockManager": "DockManager",
+        "model": "DockModel",
+        "documentManagerView": "DocumentManagerContainer"
+      }
+    },
+    "DockModel": {
+      "prototype": {
+        "rootNode": "DockNode",
+        "documentManagerNode": "DockNode"
+      }
+    },
+    "DockNode": {
+      "!type": "fn(container: PanelContainer)",
+      "prototype": {
+        "detachFromParent": "fn()"
+      }
+    },
+    "TabHost": {
+      "!type": "fn(tabStripDirection?: TabStripDirection, displayCloseButton?: bool)",
+      "prototype": {
+        "tabStripDirection": "TabStripDirection",
+        "displayCloseButton": "bool",
+        "pages": "[TabPage]",
+        "hostElement": "HTMLDivElement",
+        "tabListElement": "HTMLDivElement",
+        "separatorElement": "HTMLDivElement",
+        "contentElement": "HTMLDivElement",
+        "setActiveTab": "fn(container: PanelContainer)",
+        "onTabPageSelected": "fn(page: TabPage)",
+        "resize": "fn(width: number, height: number)"
+      }
+    },
+    "TabPage": {
+      "!type": "fn(host: TabHost, container: PanelContainer)",
+      "prototype": {}
+    },
+    "TabStripDirection": "number",
+    "FillDockContainer": {
+      "!type": "fn(dockManager: DockManager, tabStripDirection?: TabStripDirection)",
+      "prototype": {
+        "tabOrientation": "TabStripDirection",
+        "element": "HTMLDivElement",
+        "tabHost": "TabHost",
+        "dockManager": "DockManager",
+        "name": "string",
+        "containerType": "string",
+        "minimumAllowedChildNodes": "number"
+      }
+    },
+    "DocumentManagerContainer": {
+      "!type": "fn(dockManager: DockManager)",
+      "prototype": {
+        "selectedTab": "TabPage",
+        "saveState": "fn(state: string)"
+      }
+    },
+    "PanelContainer": {
+      "!type": "fn(element: HTMLElement, dockManager: DockManager, title?: string)",
+      "prototype": {
+        "width": "number",
+        "height": "number",
+        "setTitle": "fn(title: string)",
+        "setTitleIcon": "fn(iconName: string)"
+      }
+    },
+    "Dialog": {
+      "fromElement": "fn(id: string, dockManager: DockManager) -> Dialog",
+      "!type": "fn(panel: PanelContainer, dockManager: DockManager)",
+      "prototype": {
+        "setPosition": "fn(x: number, y: number)",
+        "resize": "fn(width: number, height: number)",
+        "setTitle": "fn(title: string)",
+        "setTitleIcon": "fn(iconName: string)",
+        "bringToFront": "fn()"
+      }
+    }
+  },
+  "!name": "dock-spawn"
+}

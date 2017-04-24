@@ -1,0 +1,272 @@
+{
+  "String": {
+    "yellow": "string",
+    "cyan": "string",
+    "white": "string",
+    "magenta": "string",
+    "green": "string",
+    "red": "string",
+    "grey": "string",
+    "blue": "string"
+  },
+  "node": {
+    "NodePackage": {
+      "name": "string",
+      "version": "string",
+      "description": "string",
+      "keywords": "[string]",
+      "homepage": "string"
+    }
+  },
+  "minimatch": {
+    "IMinimatchOptions": {
+      "debug": "bool",
+      "nobrace": "bool",
+      "noglobstar": "bool",
+      "dot": "bool",
+      "noext": "bool",
+      "nocase": "bool",
+      "nonull": "bool",
+      "matchBase": "bool",
+      "nocomment": "bool",
+      "nonegate": "bool",
+      "flipNegate": "bool"
+    }
+  },
+  "grunt": {
+    "config": {
+      "IProjectConfig": {},
+      "ConfigModule": {
+        "init": "fn(config: IProjectConfig)",
+        "get": "fn(prop: string) -> T",
+        "process": "fn(value: string) -> T",
+        "getRaw": "fn(prop: string) -> T",
+        "set": "fn(prop: string, value: T) -> T",
+        "escape": "fn(propString: string) -> string",
+        "requires": "fn(prop: string, andProps: [string])",
+        "merge": "fn(configObject: T)"
+      }
+    },
+    "event": {
+      "EventModule": {
+        "addListener": "fn(event: string, listener: Function) -> EventModule",
+        "on": "fn(event: string, listener: Function) -> EventModule",
+        "onAny": "fn(listener: Function) -> EventModule",
+        "offAny": "fn(listener: Function) -> EventModule",
+        "once": "fn(event: string, listener: Function) -> EventModule",
+        "many": "fn(event: string, timesToListen: number, listener: Function) -> EventModule",
+        "removeListener": "fn(event: string, listener: Function) -> EventModule",
+        "off": "fn(event: string, listener: Function) -> EventModule",
+        "removeAllListeners": "fn(event: string) -> EventModule",
+        "setMaxListener": "fn(n: number)",
+        "listeners": "fn(event: string) -> [Function]",
+        "listenersAny": "fn() -> [Function]",
+        "emit": "fn(event: string, args: [?]) -> ?"
+      }
+    },
+    "fail": {
+      "ErrorCode": "number",
+      "FailModule": {
+        "warn": "fn(error: string, errorCode?: ErrorCode)",
+        "fatal": "fn(error: string, errorCode?: ErrorCode)"
+      }
+    },
+    "file": {
+      "IFileEncodedOption": {
+        "encoding": "string"
+      },
+      "IFileWriteOptions": {
+        "noProcess": "?"
+      },
+      "IFileWriteBufferOption": {
+        "process": "fn(buffer: Buffer)"
+      },
+      "IFileWriteStringOption": {
+        "process": "fn(file: string)"
+      },
+      "FileModule": {
+        "defaultEncoding": "string",
+        "read": "fn(filepath: string) -> string",
+        "readJSON": "fn(filepath: string) -> ?",
+        "readYAML": "fn(filepath: string) -> ?",
+        "write": "fn(filepath: string, contents: string, options?: IFileEncodedOption)",
+        "copy": "fn(srcpath: string, destpath: string)",
+        "delete": "fn(filepath: string, options?: ?) -> bool",
+        "mkdir": "fn(dirpath: string, mode?: string)",
+        "recurse": "fn(rootdir: string, callback: fn(abspath: string, rootdir: string, subdir: string, filename: string))",
+        "expand": "fn(patterns: [string]) -> [string]",
+        "expandMapping": "fn(patterns: [string], dest: string, options: IExpandedFilesConfig) -> ?",
+        "match": "fn(pattern: string, filepath: string) -> [string]",
+        "isMatch": "fn(pattern: string, filepath: string) -> bool",
+        "exists": "fn(path: string, append: [string]) -> bool",
+        "isLink": "fn(path: string, append: [string]) -> bool",
+        "isDir": "fn(path: string, append: [string]) -> bool",
+        "isFile": "fn(path: string, append: [string]) -> bool",
+        "isPathAbsolute": "fn(path: string, append: [string]) -> bool",
+        "arePathsEquivalent": "fn(path: string, append: [string]) -> bool",
+        "doesPathContain": "fn(ancestorPath: string, decendantPaths: [string]) -> bool",
+        "isPathCwd": "fn(path: string, append: [string]) -> bool",
+        "setBase": "fn(path: string, append: [string])",
+        "glob": "?",
+        "minimatch": "?",
+        "findup": "?"
+      },
+      "IFilesArray": {},
+      "IFilesConfig": {
+        "src": "[string]",
+        "dest": "string",
+        "expand": "bool",
+        "filter": "?"
+      },
+      "IExpandedFilesConfig": {
+        "expand": "bool",
+        "cwd": "string",
+        "ext": "string",
+        "flatten": "bool",
+        "rename": "Function"
+      },
+      "IFileMap": {
+        "src": "[string]",
+        "dest": "string"
+      }
+    },
+    "log": {
+      "CommonLogging": {
+        "write": "fn(msg: string) -> T",
+        "writeln": "fn(msg: string) -> T",
+        "error": "fn(msg: string) -> T",
+        "errorlns": "fn(msg: string) -> T",
+        "ok": "fn(msg: string) -> T",
+        "oklns": "fn(msg: string) -> T",
+        "subhead": "fn(msg: string) -> T",
+        "writeflags": "fn(obj: ?) -> T",
+        "warn": "fn(msg: string) -> T"
+      },
+      "VerboseLogModule": {
+        "or": "NotVerboseLogModule"
+      },
+      "NotVerboseLogModule": {
+        "or": "VerboseLogModule"
+      },
+      "LogModule": {
+        "verbose": "VerboseLogModule",
+        "notverbose": "NotVerboseLogModule"
+      }
+    },
+    "option": {
+      "OptionModule": {
+        "init": "fn(initObject?: ?)",
+        "flags": "[grunt.IFlag]"
+      }
+    },
+    "task": {
+      "CommonTaskModule": {
+        "registerTask": "fn(taskName: string, taskList: [string])",
+        "registerMultiTask": "fn(taskName: string, taskFunction: Function)",
+        "exists": "fn(name: string) -> bool",
+        "renameTask": "fn(oldname: string, newname: string)"
+      },
+      "TaskModule": {
+        "run": "fn(tasks: [string])",
+        "clearQueue": "fn()",
+        "normalizeMultiTaskFiles": "fn(data: grunt.config.IProjectConfig, targetname?: string) -> ?",
+        "current": "?"
+      },
+      "AsyncResultCatcher": {},
+      "ITask": {
+        "async": "fn() -> AsyncResultCatcher",
+        "requires": "fn(tasks: [string])",
+        "requiresConfig": "fn(prop: string, andProps: [string])",
+        "name": "string",
+        "nameArgs": "string",
+        "args": "[string]",
+        "flags": "[grunt.IFlag]",
+        "errorCount": "number",
+        "options": "fn(defaultsObj: ?) -> ITaskOptions"
+      },
+      "IMultiTask": {
+        "target": "string",
+        "files": "grunt.file.IFilesArray",
+        "filesSrc": "[string]",
+        "data": "T"
+      },
+      "ITaskOptions": {
+        "options": "?",
+        "files": "?"
+      },
+      "ITaskCompactOptions": {}
+    },
+    "template": {
+      "TemplateModule": {
+        "process": "fn(template: string) -> fn(options: ?)",
+        "setDelimiters": "fn(name: string)",
+        "addDelimiters": "fn(name: string, opener: string, closer: string)",
+        "date": "fn(date?: Date, format?: string) -> string",
+        "today": "fn(format?: string) -> string"
+      }
+    },
+    "util": {
+      "UtilModule": {
+        "kindOf": "fn(value: ?) -> string",
+        "error": "fn(message: string, origError?: Error) -> Error",
+        "linefeed": "string",
+        "normalizelf": "fn(str: string) -> string",
+        "recurse": "fn(object: ?, callbackFunction: fn(value: ?), continueFunction: fn(objOrValue: ?))",
+        "repeat": "fn(n: number, str: string) -> string",
+        "pluralize": "fn(n: number, str: string, separator?: string) -> string",
+        "spawn": "fn(options: ISpawnOptions, done: fn(error: Error, result: ISpawnResult, code: number)) -> ISpawnedChild",
+        "toArray": "fn(arrayLikeObject: ?) -> [T]",
+        "callbackify": "fn(syncOrAsyncFunction: fn()) -> fn(callback: fn(result: R))",
+        "namespace": "?",
+        "task": "?"
+      },
+      "ISpawnOptions": {
+        "cmd": "string",
+        "grunt": "bool",
+        "args": "[string]",
+        "opts": {
+          "cwd": "string",
+          "stdio": "?",
+          "custom": "?",
+          "env": "?",
+          "detached": "bool"
+        },
+        "fallback": "?"
+      },
+      "ISpawnResult": {
+        "stdout": "string",
+        "stderr": "string",
+        "code": "number"
+      },
+      "ISpawnedChild": {
+        "start": "fn()",
+        "once": "fn()",
+        "forever": "fn()",
+        "kill": "fn()"
+      }
+    },
+    "IFlag": {},
+    "IConfigComponents": {
+      "initConfig": "fn(config: grunt.config.IProjectConfig)"
+    },
+    "ITaskComponents": {
+      "loadTasks": "fn(tasksPath: string)",
+      "loadNpmTasks": "fn(pluginName: string)"
+    }
+  },
+  "IGrunt": {
+    "config": "grunt.config.ConfigModule",
+    "event": "grunt.event.EventModule",
+    "fail": "grunt.fail.FailModule",
+    "file": "grunt.file.FileModule",
+    "log": "grunt.log.LogModule",
+    "option": "grunt.option.OptionModule",
+    "task": "grunt.task.TaskModule",
+    "template": "grunt.template.TemplateModule",
+    "util": "grunt.util.UtilModule",
+    "package": "node.NodePackage",
+    "version": "string"
+  },
+  "'grunt'": "grunt",
+  "!name": "gruntjs.d.ts"
+}

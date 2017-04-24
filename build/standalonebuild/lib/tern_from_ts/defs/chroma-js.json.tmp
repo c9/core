@@ -1,0 +1,61 @@
+{
+  "Chroma": {
+    "ChromaStatic": {
+      "color": "fn(a: number, b: number, c: number, colorSpace?: string) -> Color",
+      "contrast": "fn(color1: Color, color2: Color) -> number",
+      "css": "fn(color: string) -> Color",
+      "hex": "fn(color: string) -> Color",
+      "rgb": "fn(red: number, green: number, blue: number, alpha?: number) -> Color",
+      "hsl": "fn(hue: number, saturation: number, lightness: number, alpha?: number) -> Color",
+      "hsv": "fn(hue: number, saturation: number, value: number, alpha?: number) -> Color",
+      "lab": "fn(lightness: number, a: number, b: number, alpha?: number) -> Color",
+      "lch": "fn(lightness: number, chroma: number, hue: number, alpha?: number) -> Color",
+      "gl": "fn(red: number, green: number, blue: number, alpha?: number) -> Color",
+      "interpolate": "InterpolateFunction",
+      "mix": "InterpolateFunction",
+      "luminance": "fn(color: Color) -> number",
+      "scale": "fn(name: string) -> Scale",
+      "scales": "PredefinedScales"
+    },
+    "InterpolateFunction": {
+      "bezier": "fn(colors: [?]) -> fn(t: number)"
+    },
+    "PredefinedScales": {
+      "cool": "Scale",
+      "hot": "Scale"
+    },
+    "Color": {
+      "hex": "fn() -> string",
+      "luminance": "fn() -> number",
+      "name": "fn() -> string",
+      "alpha": "fn() -> number",
+      "css": "fn(mode?: string) -> string",
+      "interpolate": "fn(color: Color, f: number, mode?: string) -> Color",
+      "premultiply": "fn() -> Color",
+      "rgb": "fn() -> [number]",
+      "rgba": "fn() -> [number]",
+      "hsl": "fn() -> [number]",
+      "hsv": "fn() -> [number]",
+      "lab": "fn() -> [number]",
+      "lch": "fn() -> [number]",
+      "hsi": "fn() -> [number]",
+      "gl": "fn() -> [number]",
+      "darken": "fn(amount?: number) -> Color",
+      "darker": "fn(amount: number) -> Color",
+      "brighten": "fn(amount?: number) -> Color",
+      "brighter": "fn(amount: number) -> Color",
+      "saturate": "fn(amount?: number) -> Color",
+      "desaturate": "fn(amount?: number) -> Color"
+    },
+    "Scale": {
+      "colors": "fn(mode?: string) -> [?]",
+      "correctLightness": "fn() -> bool",
+      "domain": "fn() -> [number]",
+      "mode": "fn(colorSpace: string) -> Scale",
+      "out": "fn(mode: string) -> Scale",
+      "range": "fn(colors: [string]) -> Scale"
+    }
+  },
+  "chroma": "Chroma.ChromaStatic",
+  "!name": "chroma-js.d.ts"
+}

@@ -1,0 +1,335 @@
+{
+  "describe": "fn(description: string, specDefinitions: fn())",
+  "fdescribe": "fn(description: string, specDefinitions: fn())",
+  "xdescribe": "fn(description: string, specDefinitions: fn())",
+  "it": "fn(expectation: string, assertion?: fn(), timeout?: number)",
+  "fit": "fn(expectation: string, assertion?: fn(), timeout?: number)",
+  "xit": "fn(expectation: string, assertion?: fn(), timeout?: number)",
+  "pending": "fn(reason?: string)",
+  "beforeEach": "fn(action: fn(), timeout?: number)",
+  "afterEach": "fn(action: fn(), timeout?: number)",
+  "beforeAll": "fn(action: fn(), timeout?: number)",
+  "afterAll": "fn(action: fn(), timeout?: number)",
+  "expect": "fn(spy: Function) -> jasmine.Matchers",
+  "fail": "fn(e?: ?)",
+  "spyOn": "fn(object: ?, method: string) -> jasmine.Spy",
+  "runs": "fn(asyncMethod: Function)",
+  "waitsFor": "fn(latchMethod: fn(), failureMessage?: string, timeout?: number)",
+  "waits": "fn(timeout?: number)",
+  "jasmine": {
+    "clock": "fn()",
+    "any": "fn(aclass: ?) -> Any",
+    "anything": "fn() -> Any",
+    "arrayContaining": "fn(sample: [?]) -> ArrayContaining",
+    "objectContaining": "fn(sample: ?) -> ObjectContaining",
+    "createSpy": "fn(name: string, originalFn?: Function) -> Spy",
+    "createSpyObj": "fn(baseName: string, methodNames: [?]) -> ?",
+    "pp": "fn(value: ?) -> string",
+    "getEnv": "fn() -> Env",
+    "addCustomEqualityTester": "fn(equalityTester: CustomEqualityTester)",
+    "addMatchers": "fn(matchers: CustomMatcherFactories)",
+    "stringMatching": "fn(str: string) -> Any",
+    "Any": {
+      "jasmineMatches": "fn(other: ?) -> bool",
+      "jasmineToString": "fn() -> string"
+    },
+    "ArrayLike": {
+      "length": "number"
+    },
+    "ArrayContaining": {
+      "asymmetricMatch": "fn(other: ?) -> bool",
+      "jasmineToString": "fn() -> string"
+    },
+    "ObjectContaining": {
+      "jasmineMatches": "fn(other: ?, mismatchKeys: [?], mismatchValues: [?]) -> bool",
+      "jasmineToString": "fn() -> string"
+    },
+    "Block": {
+      "execute": "fn(onComplete: fn())"
+    },
+    "WaitsBlock": {},
+    "WaitsForBlock": {},
+    "Clock": {
+      "install": "fn()",
+      "uninstall": "fn()",
+      "tick": "fn(ms: number)",
+      "mockDate": "fn(date?: Date)"
+    },
+    "CustomEqualityTester": {},
+    "CustomMatcher": {
+      "compare": "fn(actual: T, expected: T) -> CustomMatcherResult"
+    },
+    "CustomMatcherFactory": {},
+    "CustomMatcherFactories": {},
+    "CustomMatcherResult": {
+      "pass": "bool",
+      "message": "string"
+    },
+    "MatchersUtil": {
+      "equals": "fn(a: ?, b: ?, customTesters?: ?) -> bool",
+      "contains": "fn(haystack: ?, string: ?, needle: ?, customTesters?: ?) -> bool",
+      "buildFailureMessage": "fn(matcherName: string, isNot: bool, actual: ?, expected: ?) -> string"
+    },
+    "Env": {
+      "setTimeout": "?",
+      "clearTimeout": "?",
+      "setInterval": "?",
+      "clearInterval": "?",
+      "updateInterval": "number",
+      "currentSpec": "Spec",
+      "matchersClass": "Matchers",
+      "version": "fn() -> ?",
+      "versionString": "fn() -> string",
+      "nextSpecId": "fn() -> number",
+      "addReporter": "fn(reporter: Reporter)",
+      "execute": "fn()",
+      "describe": "fn(description: string, specDefinitions: fn()) -> Suite",
+      "beforeEach": "fn(beforeEachFunction: fn())",
+      "beforeAll": "fn(beforeAllFunction: fn())",
+      "currentRunner": "fn() -> Runner",
+      "afterEach": "fn(afterEachFunction: fn())",
+      "afterAll": "fn(afterAllFunction: fn())",
+      "xdescribe": "fn(desc: string, specDefinitions: fn()) -> XSuite",
+      "it": "fn(description: string, func: fn()) -> Spec",
+      "xit": "fn(desc: string, func: fn()) -> XSpec",
+      "compareRegExps_": "fn(a: RegExp, b: RegExp, mismatchKeys: [string], mismatchValues: [string]) -> bool",
+      "compareObjects_": "fn(a: ?, b: ?, mismatchKeys: [string], mismatchValues: [string]) -> bool",
+      "equals_": "fn(a: ?, b: ?, mismatchKeys: [string], mismatchValues: [string]) -> bool",
+      "contains_": "fn(haystack: ?, needle: ?) -> bool",
+      "addCustomEqualityTester": "fn(equalityTester: CustomEqualityTester)",
+      "addMatchers": "fn(matchers: CustomMatcherFactories)",
+      "specFilter": "fn(spec: Spec) -> bool"
+    },
+    "FakeTimer": {
+      "reset": "fn()",
+      "tick": "fn(millis: number)",
+      "runFunctionsWithinRange": "fn(oldMillis: number, nowMillis: number)",
+      "scheduleFunction": "fn(timeoutKey: ?, funcToCall: fn(), millis: number, recurring: bool)"
+    },
+    "HtmlReporter": {},
+    "HtmlSpecFilter": {},
+    "Result": {
+      "type": "string"
+    },
+    "NestedResults": {
+      "description": "string",
+      "totalCount": "number",
+      "passedCount": "number",
+      "failedCount": "number",
+      "skipped": "bool",
+      "rollupCounts": "fn(result: NestedResults)",
+      "log": "fn(values: ?)",
+      "getItems": "fn() -> [Result]",
+      "addResult": "fn(result: Result)",
+      "passed": "fn() -> bool"
+    },
+    "MessageResult": {
+      "values": "?",
+      "trace": "Trace"
+    },
+    "ExpectationResult": {
+      "matcherName": "string",
+      "passed": "fn() -> bool",
+      "expected": "?",
+      "actual": "?",
+      "message": "string",
+      "trace": "Trace"
+    },
+    "Trace": {
+      "name": "string",
+      "message": "string",
+      "stack": "?"
+    },
+    "PrettyPrinter": {
+      "format": "fn(value: ?)",
+      "iterateObject": "fn(obj: ?, fn: fn(property: string, isGetter: bool))",
+      "emitScalar": "fn(value: ?)",
+      "emitString": "fn(value: string)",
+      "emitArray": "fn(array: [?])",
+      "emitObject": "fn(obj: ?)",
+      "append": "fn(value: ?)"
+    },
+    "StringPrettyPrinter": {},
+    "Queue": {
+      "env": "Env",
+      "ensured": "[bool]",
+      "blocks": "[Block]",
+      "running": "bool",
+      "index": "number",
+      "offset": "number",
+      "abort": "bool",
+      "addBefore": "fn(block: Block, ensure?: bool)",
+      "add": "fn(block: ?, ensure?: bool)",
+      "insertNext": "fn(block: ?, ensure?: bool)",
+      "start": "fn(onComplete?: fn())",
+      "isRunning": "fn() -> bool",
+      "next_": "fn()",
+      "results": "fn() -> NestedResults"
+    },
+    "Matchers": {
+      "env": "Env",
+      "actual": "?",
+      "spec": "Env",
+      "isNot": "bool",
+      "message": "fn() -> ?",
+      "toBe": "fn(expected: ?, expectationFailOutput?: ?) -> bool",
+      "toEqual": "fn(expected: ?, expectationFailOutput?: ?) -> bool",
+      "toMatch": "fn(expected: string, RegExp: ?, expectationFailOutput?: ?) -> bool",
+      "toBeDefined": "fn(expectationFailOutput?: ?) -> bool",
+      "toBeUndefined": "fn(expectationFailOutput?: ?) -> bool",
+      "toBeNull": "fn(expectationFailOutput?: ?) -> bool",
+      "toBeNaN": "fn() -> bool",
+      "toBeTruthy": "fn(expectationFailOutput?: ?) -> bool",
+      "toBeFalsy": "fn(expectationFailOutput?: ?) -> bool",
+      "toHaveBeenCalled": "fn() -> bool",
+      "toHaveBeenCalledWith": "fn(params: [?]) -> bool",
+      "toContain": "fn(expected: ?, expectationFailOutput?: ?) -> bool",
+      "toBeLessThan": "fn(expected: number, expectationFailOutput?: ?) -> bool",
+      "toBeGreaterThan": "fn(expected: number, expectationFailOutput?: ?) -> bool",
+      "toBeCloseTo": "fn(expected: number, precision: ?, expectationFailOutput?: ?) -> bool",
+      "toThrow": "fn(expected?: ?) -> bool",
+      "toThrowError": "fn(message?: string, RegExp: ?) -> bool",
+      "not": "Matchers",
+      "Any": "Any"
+    },
+    "Reporter": {
+      "reportRunnerStarting": "fn(runner: Runner)",
+      "reportRunnerResults": "fn(runner: Runner)",
+      "reportSuiteResults": "fn(suite: Suite)",
+      "reportSpecStarting": "fn(spec: Spec)",
+      "reportSpecResults": "fn(spec: Spec)",
+      "log": "fn(str: string)"
+    },
+    "MultiReporter": {
+      "addReporter": "fn(reporter: Reporter)"
+    },
+    "Runner": {
+      "execute": "fn()",
+      "beforeEach": "fn(beforeEachFunction: SpecFunction)",
+      "afterEach": "fn(afterEachFunction: SpecFunction)",
+      "beforeAll": "fn(beforeAllFunction: SpecFunction)",
+      "afterAll": "fn(afterAllFunction: SpecFunction)",
+      "finishCallback": "fn()",
+      "addSuite": "fn(suite: Suite)",
+      "add": "fn(block: Block)",
+      "specs": "fn() -> [Spec]",
+      "suites": "fn() -> [Suite]",
+      "topLevelSuites": "fn() -> [Suite]",
+      "results": "fn() -> NestedResults"
+    },
+    "SpecFunction": {},
+    "SuiteOrSpec": {
+      "id": "number",
+      "env": "Env",
+      "description": "string",
+      "queue": "Queue"
+    },
+    "Spec": {
+      "suite": "Suite",
+      "afterCallbacks": "[SpecFunction]",
+      "spies_": "[Spy]",
+      "results_": "NestedResults",
+      "matchersClass": "Matchers",
+      "getFullName": "fn() -> string",
+      "results": "fn() -> NestedResults",
+      "log": "fn(arguments: ?) -> ?",
+      "runs": "fn(func: SpecFunction) -> Spec",
+      "addToQueue": "fn(block: Block)",
+      "addMatcherResult": "fn(result: Result)",
+      "expect": "fn(actual: ?) -> ?",
+      "waits": "fn(timeout: number) -> Spec",
+      "waitsFor": "fn(latchFunction: SpecFunction, timeoutMessage?: string, timeout?: number) -> Spec",
+      "fail": "fn(e?: ?)",
+      "getMatchersClass_": "fn() -> Matchers",
+      "addMatchers": "fn(matchersPrototype: CustomMatcherFactories)",
+      "finishCallback": "fn()",
+      "finish": "fn(onComplete?: fn())",
+      "after": "fn(doAfter: SpecFunction)",
+      "execute": "fn(onComplete?: fn()) -> ?",
+      "addBeforesAndAftersToQueue": "fn()",
+      "explodes": "fn()",
+      "spyOn": "fn(obj: ?, methodName: string, ignoreMethodDoesntExist: bool) -> Spy",
+      "removeAllSpies": "fn()"
+    },
+    "XSpec": {
+      "id": "number",
+      "runs": "fn()"
+    },
+    "Suite": {
+      "parentSuite": "Suite",
+      "getFullName": "fn() -> string",
+      "finish": "fn(onComplete?: fn())",
+      "beforeEach": "fn(beforeEachFunction: SpecFunction)",
+      "afterEach": "fn(afterEachFunction: SpecFunction)",
+      "beforeAll": "fn(beforeAllFunction: SpecFunction)",
+      "afterAll": "fn(afterAllFunction: SpecFunction)",
+      "results": "fn() -> NestedResults",
+      "add": "fn(suiteOrSpec: SuiteOrSpec)",
+      "specs": "fn() -> [Spec]",
+      "suites": "fn() -> [Suite]",
+      "children": "fn() -> [?]",
+      "execute": "fn(onComplete?: fn())"
+    },
+    "XSuite": {
+      "execute": "fn()"
+    },
+    "Spy": {
+      "identity": "string",
+      "and": "SpyAnd",
+      "calls": "Calls",
+      "mostRecentCall": {
+        "args": "[?]"
+      },
+      "argsForCall": "[?]",
+      "wasCalled": "bool"
+    },
+    "SpyAnd": {
+      "callThrough": "fn() -> Spy",
+      "returnValue": "fn(val: ?)",
+      "callFake": "fn(fn: Function) -> Spy",
+      "throwError": "fn(msg: string)",
+      "stub": "fn() -> Spy"
+    },
+    "Calls": {
+      "any": "fn() -> bool",
+      "count": "fn() -> number",
+      "argsFor": "fn(index: number) -> [?]",
+      "allArgs": "fn() -> [?]",
+      "all": "fn() -> [CallInfo]",
+      "mostRecent": "fn() -> CallInfo",
+      "first": "fn() -> CallInfo",
+      "reset": "fn()"
+    },
+    "CallInfo": {
+      "object": "?",
+      "args": "[?]"
+    },
+    "Util": {
+      "inherit": "fn(childClass: Function, parentClass: Function) -> ?",
+      "formatException": "fn(e: ?) -> ?",
+      "htmlEscape": "fn(str: string) -> string",
+      "argsToArray": "fn(args: ?) -> ?",
+      "extend": "fn(destination: ?, source: ?) -> ?"
+    },
+    "JsApiReporter": {
+      "started": "bool",
+      "finished": "bool",
+      "result": "?",
+      "messages": "?",
+      "suites": "fn() -> [Suite]",
+      "summarize_": "fn(suiteOrSpec: SuiteOrSpec) -> ?",
+      "results": "fn() -> ?",
+      "resultsForSpec": "fn(specId: ?) -> ?",
+      "log": "fn(str: ?) -> ?",
+      "resultsForSpecs": "fn(specIds: ?) -> ?",
+      "summarizeResult_": "fn(result: ?) -> ?"
+    },
+    "Jasmine": {
+      "Spec": "Spec",
+      "clock": "Clock",
+      "util": "Util"
+    },
+    "DEFAULT_TIMEOUT_INTERVAL": "number"
+  },
+  "!name": "jasmine"
+}

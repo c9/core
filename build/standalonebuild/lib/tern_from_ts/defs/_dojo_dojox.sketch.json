@@ -1,0 +1,385 @@
+{
+  "dojox": {
+    "sketch": {
+      "_Plugin": {
+        "!type": "fn(args?: Object)",
+        "prototype": {
+          "button": "Object",
+          "figure": "Object",
+          "iconClassPrefix": "string",
+          "itemGroup": "string",
+          "queryCommand": "Object",
+          "shape": "string",
+          "useDefaultCommand": "bool",
+          "activate": "fn(e: ?)",
+          "attr": "fn(name: ?, value: ?) -> ?",
+          "buttonClass": "fn()",
+          "connect": "fn(o: ?, f: ?, tf: ?)",
+          "destroy": "fn(f: ?)",
+          "setFigure": "fn(figure: dijit._Widget)",
+          "setToolbar": "fn(toolbar: dijit._Widget)",
+          "onActivate": "fn()",
+          "onMouseDown": "fn(e: ?)",
+          "onMouseMove": "fn(e: ?)",
+          "onMouseUp": "fn(e: ?)"
+        }
+      },
+      "Slider": {
+        "!type": "fn(args?: Object)",
+        "prototype": {
+          "button": "Object",
+          "figure": "Object",
+          "iconClassPrefix": "string",
+          "itemGroup": "string",
+          "queryCommand": "Object",
+          "shape": "string",
+          "useDefaultCommand": "bool",
+          "activate": "fn(e: ?)",
+          "attr": "fn(name: ?, value: ?) -> ?",
+          "buttonClass": "fn()",
+          "connect": "fn(o: ?, f: ?, tf: ?)",
+          "destroy": "fn(f: ?)",
+          "reset": "fn()",
+          "setFigure": "fn(figure: dijit._Widget)",
+          "setToolbar": "fn(t: ?)",
+          "onActivate": "fn()",
+          "onMouseDown": "fn(e: ?)",
+          "onMouseMove": "fn(e: ?)",
+          "onMouseUp": "fn(e: ?)"
+        }
+      },
+      "UndoStack": {
+        "!type": "fn(figure: ?)",
+        "prototype": {
+          "add": "fn(cmd: String, ann: dojox.sketch.Annotation, before: String)",
+          "apply": "fn(state: ?, from: ?, to: ?)",
+          "destroy": "fn()",
+          "redo": "fn()",
+          "undo": "fn()"
+        }
+      },
+      "Toolbar": {
+        "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+        "prototype": {
+          "attachScope": "Object",
+          "set": "fn(property: string, value: Object)",
+          "get": "fn(property: string) -> Object",
+          "watch": "fn(property: string, callback: ?) -> ret",
+          "attributeMap": "Object",
+          "baseClass": "string",
+          "class": "string",
+          "containerNode": "HTMLElement",
+          "dir": "string",
+          "domNode": "HTMLElement",
+          "figure": "Object",
+          "focused": "bool",
+          "focusedChild": "Object",
+          "id": "string",
+          "lang": "string",
+          "multiCharSearchDuration": "number",
+          "ownerDocument": "Object",
+          "plugins": "Object",
+          "searchContainerNode": "bool",
+          "srcNodeRef": "HTMLElement",
+          "style": "string",
+          "tabIndex": "string",
+          "templatePath": "string",
+          "templateString": "string",
+          "title": "string",
+          "tooltip": "string",
+          "addChild": "fn(widget: dijit._WidgetBase, insertIndex: number)",
+          "addGroupItem": "fn(item: dojox.sketch._Plugin, group: ?)",
+          "attr": "fn(name: String, value: Object) -> ?",
+          "buildRendering": "fn()",
+          "childSelector": "fn(node: HTMLElement) -> ?",
+          "connect": "fn(obj: Object, event: String, method: String) -> ?",
+          "connectKeyNavHandlers": "fn(prevKeyCodes: dojo.keys, nextKeyCodes: dojo.keys)",
+          "defer": "fn(fcn: Function, delay: number) -> Object",
+          "destroy": "fn()",
+          "destroyDescendants": "fn(preserveDom: bool)",
+          "destroyRecursive": "fn(preserveDom: bool)",
+          "destroyRendering": "fn(preserveDom?: bool)",
+          "disconnect": "fn(handle: ?)",
+          "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+          "focus": "fn()",
+          "focusChild": "fn(widget: dijit._WidgetBase, last: bool)",
+          "focusFirstChild": "fn()",
+          "focusLastChild": "fn()",
+          "focusNext": "fn()",
+          "focusPrev": "fn()",
+          "getChildren": "fn() -> [?]",
+          "getDescendants": "fn() -> [?]",
+          "getIndexOfChild": "fn(child: dijit._WidgetBase) -> ?",
+          "getParent": "fn() -> ?",
+          "hasChildren": "fn() -> bool",
+          "isFocusable": "fn() -> ?",
+          "isLeftToRight": "fn() -> ?",
+          "on": "fn(type: String, func: Function) -> ?",
+          "own": "fn() -> ?",
+          "placeAt": "fn(reference: String, position: String) -> ?",
+          "postCreate": "fn()",
+          "postMixInProperties": "fn()",
+          "removeChild": "fn(widget: dijit._WidgetBase)",
+          "reset": "fn()",
+          "setAttribute": "fn(attr: String, value: ?)",
+          "setFigure": "fn(f: ?)",
+          "startup": "fn()",
+          "startupKeyNavChildren": "fn()",
+          "subscribe": "fn(t: String, method: Function) -> ?",
+          "uninitialize": "fn() -> bool",
+          "unsubscribe": "fn(handle: Object)",
+          "getCachedTemplate": "fn() -> ?",
+          "onBlur": "fn()",
+          "onClick": "fn(event: ?)",
+          "onClose": "fn() -> bool",
+          "onDblClick": "fn(event: ?)",
+          "onFocus": "fn()",
+          "onHide": "fn()",
+          "onKeyboardSearch": "fn(item: dijit._WidgetBase, evt: Event, searchString: String, numMatches: number)",
+          "onKeyDown": "fn(event: ?)",
+          "onKeyPress": "fn(event: ?)",
+          "onKeyUp": "fn(event: ?)",
+          "onMouseDown": "fn(event: ?)",
+          "onMouseEnter": "fn(event: ?)",
+          "onMouseLeave": "fn(event: ?)",
+          "onMouseMove": "fn(event: ?)",
+          "onMouseOut": "fn(event: ?)",
+          "onMouseOver": "fn(event: ?)",
+          "onMouseUp": "fn(event: ?)",
+          "onShow": "fn()"
+        }
+      },
+      "Anchor": {
+        "count": "number"
+      },
+      "Annotation": {
+        "calculate": "Object",
+        "Modes": {
+          "Edit": "number",
+          "View": "number"
+        },
+        "apply": {},
+        "beginEdit": {},
+        "destroy": {},
+        "draw": {},
+        "drawBBox": {},
+        "endEdit": {},
+        "getBBox": {},
+        "getTextBox": {},
+        "getType": {},
+        "initialize": {},
+        "property": {},
+        "readCommonAttrs": {},
+        "register": {},
+        "serialize": {},
+        "setBinding": {},
+        "setMode": {},
+        "type": {},
+        "writeCommonAttrs": {},
+        "zoom": {}
+      },
+      "DoubleArrowAnnotation": {
+        "anchors": "Object",
+        "control": {
+          "x": "number",
+          "y": "number"
+        },
+        "end": {
+          "x": "number",
+          "y": "number"
+        },
+        "endArrow": "Object",
+        "endArrowGroup": "Object",
+        "endRotation": "number",
+        "labelShape": "Object",
+        "pathShape": "Object",
+        "start": {
+          "x": "number",
+          "y": "number"
+        },
+        "startArrow": "Object",
+        "startArrowGroup": "Object",
+        "startRotation": "number",
+        "textAlign": "string",
+        "textOffset": "number",
+        "textPosition": {
+          "x": "number",
+          "y": "number"
+        },
+        "textYOffset": "number",
+        "transform": {
+          "dx": "number",
+          "dy": "number"
+        },
+        "apply": {},
+        "destroy": {},
+        "draw": {},
+        "getBBox": {},
+        "getType": {},
+        "initialize": {},
+        "serialize": {},
+        "type": {},
+        "zoom": {}
+      },
+      "Figure": {
+        "gridSize": "number",
+        "add": {},
+        "convert": {},
+        "destroy": {},
+        "draw": {},
+        "getAnnotator": {},
+        "getFit": {},
+        "getValue": {},
+        "initialize": {},
+        "initUndoStack": {},
+        "load": {},
+        "nextKey": {},
+        "redo": {},
+        "remove": {},
+        "serialize": {},
+        "setTool": {},
+        "setValue": {},
+        "undo": {},
+        "unzoom": {},
+        "zoom": {}
+      },
+      "LeadAnnotation": {
+        "apply": {},
+        "destroy": {},
+        "draw": {},
+        "getBBox": {},
+        "getType": {},
+        "initialize": {},
+        "serialize": {},
+        "type": {}
+      },
+      "PreexistingAnnotation": {
+        "apply": {},
+        "destroy": {},
+        "draw": {},
+        "getBBox": {},
+        "getType": {},
+        "initialize": {},
+        "serialize": {},
+        "type": {},
+        "zoom": {}
+      },
+      "SingleArrowAnnotation": {
+        "apply": {},
+        "destroy": {},
+        "draw": {},
+        "getBBox": {},
+        "getType": {},
+        "initialize": {},
+        "serialize": {},
+        "type": {},
+        "zoom": {}
+      },
+      "UnderlineAnnotation": {
+        "apply": {},
+        "destroy": {},
+        "draw": {},
+        "getBBox": {},
+        "getType": {},
+        "initialize": {},
+        "serialize": {},
+        "type": {},
+        "zoom": {}
+      }
+    }
+  },
+  "dojox/sketch": "exp",
+  "dojox/sketch/_Plugin": "exp",
+  "dojox/sketch/Slider": "exp",
+  "dojox/sketch/UndoStack": "exp",
+  "dojox/sketch/Toolbar": "exp",
+  "dojox/sketch/Anchor": "exp",
+  "dojox/sketch/Annotation": "exp",
+  "dojox/sketch/Annotation.Modes": "exp",
+  "dojox/sketch/DoubleArrowAnnotation": "exp",
+  "dojox/sketch/DoubleArrowAnnotation.control": "exp",
+  "dojox/sketch/DoubleArrowAnnotation.start": "exp",
+  "dojox/sketch/DoubleArrowAnnotation.textPosition": "exp",
+  "dojox/sketch/DoubleArrowAnnotation.transform": "exp",
+  "dojox/sketch/DoubleArrowAnnotation.end": "exp",
+  "dojox/sketch/Figure": "exp",
+  "dojox/sketch/PreexistingAnnotation": "exp",
+  "dojox/sketch/LeadAnnotation": "exp",
+  "dojox/sketch/SingleArrowAnnotation": "exp",
+  "dojox/sketch/UnderlineAnnotation": "exp",
+  "!name": "dojox.sketch",
+  "!define": {
+    "ret": {
+      "unwatch": "fn()"
+    },
+    "ret1": {
+      "unwatch": "fn()"
+    },
+    "ret2": {
+      "unwatch": "fn()"
+    },
+    "ret3": {
+      "unwatch": "fn()"
+    },
+    "ret4": {
+      "unwatch": "fn()"
+    },
+    "ret5": {
+      "unwatch": "fn()"
+    },
+    "ret6": {
+      "unwatch": "fn()"
+    },
+    "ret7": {
+      "unwatch": "fn()"
+    },
+    "ret8": {
+      "unwatch": "fn()"
+    },
+    "ret9": {
+      "unwatch": "fn()"
+    },
+    "ret10": {
+      "unwatch": "fn()"
+    },
+    "ret11": {
+      "unwatch": "fn()"
+    },
+    "ret12": {
+      "unwatch": "fn()"
+    },
+    "ret13": {
+      "unwatch": "fn()"
+    },
+    "ret14": {
+      "unwatch": "fn()"
+    },
+    "ret15": {
+      "unwatch": "fn()"
+    },
+    "ret16": {
+      "unwatch": "fn()"
+    },
+    "ret17": {
+      "unwatch": "fn()"
+    },
+    "ret18": {
+      "unwatch": "fn()"
+    },
+    "ret19": {
+      "unwatch": "fn()"
+    },
+    "ret20": {
+      "unwatch": "fn()"
+    },
+    "ret21": {
+      "unwatch": "fn()"
+    },
+    "ret22": {
+      "unwatch": "fn()"
+    },
+    "ret23": {
+      "unwatch": "fn()"
+    }
+  }
+}

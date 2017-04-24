@@ -1,0 +1,43 @@
+{
+  "TweenLite": {
+    "!type": "fn(target: ?, duration: number, vars: ?)",
+    "defaultEase": "Ease",
+    "defaultOverwrite": "string",
+    "selector": "fn(query: string)",
+    "ticker": "?",
+    "delayedCall": "fn(delay: number, callback: Function, params?: [?], scope?: ?, useFrames?: bool) -> TweenLite",
+    "from": "fn(target: ?, duration: number, vars: ?) -> TweenLite",
+    "fromTo": "fn(target: ?, duration: number, fromVars: ?, toVars: ?) -> TweenLite",
+    "getTweensOf": "fn(target: ?, onlyActive?: bool) -> [TweenLite]",
+    "killDelayedCallsTo": "fn(func: Function)",
+    "killTweensOf": "fn(target: ?, onlyActive?: bool, vars?: ?)",
+    "lagSmoothing": "fn(threshold: number, adjustedLag: number)",
+    "render": "fn()",
+    "set": "fn(target: ?, vars: ?) -> TweenLite",
+    "to": "fn(target: ?, duration: number, vars: ?) -> TweenLite",
+    "prototype": {
+      "target": "?",
+      "invalidate": "fn() -> TweenLite",
+      "delay": "fn() -> number",
+      "duration": "fn() -> number",
+      "eventCallback": "fn(type: string) -> Function",
+      "kill": "fn(vars?: ?, target?: ?) -> TweenLite",
+      "pause": "fn(atTime?: ?, suppressEvents?: bool) -> TweenLite",
+      "paused": "fn() -> bool",
+      "play": "fn(from?: ?, suppressEvents?: bool) -> TweenLite",
+      "progress": "fn() -> number",
+      "restart": "fn(includeDelay?: bool, suppressEvents?: bool) -> TweenLite",
+      "resume": "fn(from?: ?, suppressEvents?: bool) -> TweenLite",
+      "reverse": "fn(from?: ?, suppressEvents?: bool) -> TweenLite",
+      "reversed": "fn() -> bool",
+      "seek": "fn(time: ?, suppressEvents?: bool) -> TweenLite",
+      "startTime": "fn() -> number",
+      "time": "fn() -> number",
+      "timeScale": "fn() -> number",
+      "totalDuration": "fn() -> number",
+      "totalProgress": "fn() -> number",
+      "totalTime": "fn() -> number"
+    }
+  },
+  "!name": "TweenLite"
+}

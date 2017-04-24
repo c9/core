@@ -1,0 +1,30 @@
+{
+  "TextEncoding": {
+    "TextDecoderOptions": {
+      "fatal": "bool",
+      "ignoreBOM": "bool"
+    },
+    "TextDecodeOptions": {
+      "stream": "bool"
+    },
+    "TextEncoderOptions": {
+      "NONSTANDARD_allowLegacyEncoding": "bool"
+    },
+    "TextDecoder": {
+      "encoding": "string",
+      "fatal": "bool",
+      "ignoreBOM": "bool",
+      "decode": "fn(input?: ArrayBufferView, options?: TextDecodeOptions) -> string"
+    },
+    "TextEncoder": {
+      "encoding": "string",
+      "encode": "fn(input?: string, options?: TextEncodeOptions) -> Uint8Array"
+    },
+    "TextEncodeOptions": {
+      "stream": "bool"
+    }
+  },
+  "TextDecoder": {},
+  "TextEncoder": {},
+  "!name": "text-encoding"
+}

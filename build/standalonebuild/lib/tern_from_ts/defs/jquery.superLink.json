@@ -1,0 +1,6 @@
+{
+  "JQuery": {
+    "superLink": "fn(link?: string) -> JQuery"
+  },
+  "!name": "jquery.superLink.d.ts"
+}

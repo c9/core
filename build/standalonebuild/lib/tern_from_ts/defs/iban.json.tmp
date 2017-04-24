@@ -1,0 +1,12 @@
+{
+  "IBANStatic": {
+    "electronicFormat": "fn(iban: string) -> string",
+    "fromBBAN": "fn(countryCode: string, bban: string) -> string",
+    "isValid": "fn(iban: string) -> bool",
+    "isValidBBAN": "fn(countryCode: string, bban: string) -> bool",
+    "printFormat": "fn(iban: string, separator: [string]) -> string",
+    "toBBAN": "fn(iban: string, separator: [string]) -> string"
+  },
+  "IBAN": "IBANStatic",
+  "!name": "iban.d.ts"
+}

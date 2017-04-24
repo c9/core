@@ -1,0 +1,22 @@
+{
+  "KnockoutSubscribableFunctions": {
+    "toObservable": "fn(event?: string) -> ?"
+  },
+  "KnockoutObservableFunctions": {
+    "toObservableWithReplyLatest": "fn() -> ?",
+    "toSubject": "fn() -> ?"
+  },
+  "KnockoutComputedFunctions": {
+    "toObservableWithReplyLatest": "fn() -> ?"
+  },
+  "Rx": {
+    "Observable": {
+      "toKoSubscribable": "fn() -> ?",
+      "toKoObservable": "fn(initialValue?: T) -> ?"
+    },
+    "Subject": {
+      "toKoObservable": "fn(initialValue?: T) -> ?"
+    }
+  },
+  "!name": "knockout.rx.d.ts"
+}

@@ -1,0 +1,23 @@
+{
+  "THREE": {
+    "CSS3DObject": {
+      "!type": "fn(element: ?)",
+      "prototype": {
+        "element": "?"
+      }
+    },
+    "CSS3DSprite": {
+      "!type": "fn(element: ?)",
+      "prototype": {}
+    },
+    "CSS3DRenderer": {
+      "!type": "fn()",
+      "prototype": {
+        "domElement": "HTMLElement",
+        "setSize": "fn(width: number, height: number)",
+        "render": "fn(scene: THREE.Scene, camera: THREE.Camera)"
+      }
+    }
+  },
+  "!name": "three-css3drenderer"
+}

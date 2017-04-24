@@ -1,0 +1,13 @@
+{
+  "LZString": {
+    "LZStringStatic": {
+      "compress": "fn(uncompressed: string) -> string",
+      "decompress": "fn(compressed: string) -> string",
+      "compressToUTF16": "fn(uncompressed: string) -> string",
+      "decompressFromUTF16": "fn(compressed: string) -> string",
+      "compressToBase64": "fn(uncompressed: string) -> string",
+      "decompressFromBase64": "fn(compressed: string) -> string"
+    }
+  },
+  "!name": "lz-string"
+}

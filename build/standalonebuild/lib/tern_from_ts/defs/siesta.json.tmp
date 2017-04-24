@@ -1,0 +1,547 @@
+{
+  "Siesta": {
+    "IHarness": {
+      "alsoPreload": "[?]",
+      "autoCheckGlobals": "bool",
+      "cachePreload": "bool",
+      "defaultTimeout": "bool",
+      "disableColoring": "bool",
+      "expectedGlobals": "[string]",
+      "isReadyTimeout": "number",
+      "keepNLastResults": "number",
+      "keepResults": "bool",
+      "listenters": {},
+      "maxThreads": "number",
+      "needDone": "bool",
+      "overrideSetTimeout": "bool",
+      "pauseBetweenTests": "number",
+      "preload": "[?]",
+      "runCore": "string",
+      "subTestTimeout": "number",
+      "testClass": "Siesta.ITest",
+      "title": "string",
+      "transparentEx": "bool",
+      "waitForTimeout": "number",
+      "configure": "fn(config: ?)",
+      "start": "fn(descriptors: [?])"
+    },
+    "Harness": {
+      "ITestGroupDescriptor": {
+        "group": "string",
+        "items": "[?]"
+      },
+      "ITestUrlDescriptor": {
+        "url": "string"
+      },
+      "IPreloadUrlDescriptor": {
+        "type": "string",
+        "url": "string"
+      },
+      "IPreloadContentDescriptor": {
+        "type": "string",
+        "content": "string"
+      },
+      "IPreloadTextDescriptor": {
+        "text": "string"
+      },
+      "IBrowser": {
+        "autoRun": "bool",
+        "autoScrollElementsIntoView": "bool",
+        "breakOnFail": "bool",
+        "coverageUnit": "string",
+        "disableCaching": "bool",
+        "enableCodeCoverage": "bool",
+        "excludeCoverageUnits": "RegExp",
+        "hostPageUrl": "string",
+        "includeCoverageUnits": "RegExp",
+        "maintainViewportSize": "bool",
+        "runCore": "string",
+        "separateContext": "bool",
+        "simulateEventsWith": "string",
+        "speedRun": "bool",
+        "useStrictMode": "bool",
+        "viewDOM": "bool",
+        "viewportHeight": "number",
+        "viewportWidth": "number"
+      },
+      "IBrowserExtJSCore": {
+        "coverageUnit": "string",
+        "excludeCoverageUnits": "RegExp",
+        "installLoaderInstrumentationHook": "bool"
+      },
+      "IBrowserExtJS": {
+        "allowExtVersionChange": "bool",
+        "loaderPath": "?",
+        "waitForAppReady": "?",
+        "waitForExtReady": "?"
+      },
+      "IBrowserSenchaTouch": {
+        "loaderPath": "?",
+        "performSetup": "bool",
+        "runCore": "string",
+        "transparentEx": "bool"
+      },
+      "IBrowserSingleton": {
+        "ExtJS": "IBrowserExtJS",
+        "SenchaTouch": "IBrowserSenchaTouch"
+      },
+      "IHarnessNodeJS": {},
+      "Browser": "IBrowserSingleton",
+      "NodeJS": "IHarnessNodeJS"
+    },
+    "ITest": {
+      "isReadyTimeout": "number",
+      "beginAsync": "fn(time: number, errback: Function) -> ?",
+      "compareObjects": "fn(obj1: ?, obj2: ?, strict?: bool, onlyPrimitives?: bool, asObjects?: bool) -> bool",
+      "diag": "fn(desc: string)",
+      "done": "fn(delay: number)",
+      "endAsync": "fn(frame: ?)",
+      "endWait": "fn(title: string)",
+      "fail": "fn(desc: string, annotation: ?)",
+      "getSubTest": "fn(name: string, code: fn(t: ITest), timeout?: number) -> ITest",
+      "is": "fn(got: ?, expected: ?, desc: string)",
+      "isNot": "fn(got: ?, expected: ?, desc: string)",
+      "isNotStrict": "fn(got: ?, expected: ?, desc: string)",
+      "isReady": "fn() -> ?",
+      "isStrict": "fn(got: ?, expected: ?, desc: string)",
+      "launchSubTest": "fn(subTest: ITest, callback: Function)",
+      "notOk": "fn(value: ?, desc: string)",
+      "ok": "fn(value: ?, desc: string)",
+      "pass": "fn(desc: string, annotation: ?)",
+      "subTest": "fn(desc: string, code: fn(t: ITest), callback: Function, timeout?: number)",
+      "todo": "fn(why: string, code: Function)",
+      "typeOf": "fn(object: ?) -> string",
+      "wait": "fn(title: string, howLong: number)"
+    },
+    "Test": {
+      "IActionCall": {},
+      "IActionConfig": {
+        "action": "IActionCall",
+        "timeout": "number"
+      },
+      "IAction": {
+        "desc": "string"
+      },
+      "Action": {
+        "Role": {
+          "IHasTarget": {
+            "passTargetToNext": "bool",
+            "target": "?",
+            "el": "?"
+          }
+        },
+        "Click": {
+          "options": "?"
+        },
+        "Done": {
+          "delay": "number"
+        },
+        "DoubleClick": {
+          "options": "?"
+        },
+        "DoubleTap": {},
+        "Drag": {
+          "by": "?",
+          "dragOnly": "bool",
+          "source": "?",
+          "target": "?",
+          "to": "?"
+        },
+        "Eval": {
+          "options": "?"
+        },
+        "LongPress": {},
+        "MouseDown": {
+          "options": "?"
+        },
+        "MouseUp": {
+          "options": "?"
+        },
+        "MoveCursor": {
+          "by": "?",
+          "to": "?"
+        },
+        "MoveCursorTo": {},
+        "RightClick": {
+          "options": "?"
+        },
+        "Swipe": {
+          "direction": "string"
+        },
+        "Tap": {
+          "options": "?",
+          "text": "string"
+        },
+        "Type": {},
+        "Wait": {
+          "args": "[?]",
+          "delay": "number",
+          "timeout": "number",
+          "waitFor": "string"
+        }
+      },
+      "IBDD": {
+        "any": "fn(clsConstructor: Function) -> ?",
+        "ddescribe": "fn(name: string, code: Function, timeout?: number)",
+        "describe": "fn(name: string, code: Function, timeout?: number)",
+        "expect": "fn(value: ?) -> BDD.Expectation",
+        "iit": "fn(name: string, code: Function, timeout?: number)",
+        "it": "fn(name: string, code: Function, timeout?: number)",
+        "xdescribe": "fn(name: string, code: Function, timeout?: number)",
+        "xit": "fn(name: string, code: Function, timeout?: number)"
+      },
+      "BDD": {
+        "Expectation": {
+          "not": "Expectation",
+          "toBe": "fn(expectedValue: ?)",
+          "toBeCloseTo": "fn(expectedValue: number, precision?: number)",
+          "toBeDefined": "fn(expectedValue: ?)",
+          "toBeFalsy": "fn(expectedValue: ?)",
+          "toBeGreaterThan": "fn(expectedValue: ?)",
+          "toBeLessThan": "fn(expectedValue: ?)",
+          "toBeNaN": "fn(expectedValue: ?)",
+          "toBeNull": "fn(expectedValue: ?)",
+          "toBeTruthy": "fn(expectedValue: ?)",
+          "toBeUndefined": "fn(value: ?)",
+          "toContain": "fn(element: ?)",
+          "toEqual": "fn(expectedValue: ?)",
+          "toMatch": "fn(regexp: RegExp)",
+          "toThrow": "fn()"
+        }
+      },
+      "IExtJSAjax": {
+        "ajaxRequestAndThen": "fn(url: string, callback: Function, scope: ?)",
+        "isAjaxLoading": "fn(object?: ?, description?: string)",
+        "waitForAjaxRequest": "fn(callback: Function, scope?: ?, timeout?: number)"
+      },
+      "IExtJSComponent": {
+        "destroysOk": "fn(components: ?, description?: string)",
+        "hasPosition": "fn(component: ?, x: number, y: number, description?: string)",
+        "hasSize": "fn(component: ?, width: number, height: number, description?: string)",
+        "waitForCQ": "fn(query: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForCQNotFound": "fn(query: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForCQNotVisible": "fn(query: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForCQVisible": "fn(query: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForComponent": "fn(component: string, rendered: bool, callback: Function, scope?: ?, timeout?: number)",
+        "waitForComponentNotVisible": "fn(component: ?, callback: Function, scope?: ?, timeout?: number)",
+        "waitForComponentQuery": "fn(query: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForComponentQueryNotFound": "fn(query: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForComponentQueryNotVisible": "fn(query: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForComponentQueryVisible": "fn(query: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForComponentVisible": "fn(component: ?, callback: Function, scope?: ?, timeout?: number)",
+        "waitForCompositeQuery": "fn(query: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForCompositeQueryNotFound": "fn(query: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForXType": "fn(xtype: string, callback: Function, scope?: ?, timeout?: number)"
+      },
+      "IExtJSDataView": {
+        "getFirstItem": "fn(view: ?) -> ?",
+        "waitForViewRendered": "fn(view: ?, callback: Function, scope?: ?, timeout?: number)"
+      },
+      "IExtJSElement": {
+        "hasRegion": "fn(el: ?, region: ?, description?: string)"
+      },
+      "IExtJSFormField": {
+        "fieldHasValue": "fn(field: ?, value: ?, description?: string)",
+        "isFieldEmpty": "fn(field: ?, description?: string)"
+      },
+      "IExtJSGrid": {
+        "getCell": "fn(panel: ?, row: number, column: number) -> HTMLElement",
+        "getFirstCell": "fn(panel: ?) -> HTMLElement",
+        "getFirstRow": "fn(panel: ?) -> ?",
+        "getLastCellInRow": "fn(panel: ?, row: number) -> HTMLElement",
+        "getRow": "fn(panel: ?, index: number) -> ?",
+        "matchGridCellContent": "fn(panel: ?, row: number, column: number, string: RegExp, description?: string)",
+        "waitForRowsVisible": "fn(panel: ?, callback: Function, scope?: ?, timeout?: number)"
+      },
+      "IExtJSObservable": {
+        "firesAtLeastNTimes": "fn(observable: ?, event: string, n: number, desc: string)",
+        "firesOnce": "fn(observable: ?, event: string, desc: string)",
+        "hasListener": "fn(observable: ?, eventName: string, description?: string)",
+        "isFiredWithSignature": "fn(observable: ?, event: string, checkerFn: Function, desc: string)",
+        "waitForEvent": "fn(observable: ?, event: string, callback: Function, scope?: ?, timeout?: number)",
+        "wontFire": "fn(observable: ?, event: string, desc: string)"
+      },
+      "IExtJSStore": {
+        "isStoreEmpty": "fn(store: ?, description?: string)",
+        "loadStoresAndThen": "fn(args: [?])",
+        "waitForStoresToLoad": "fn(args: [?])"
+      },
+      "ExtJS": {
+        "assertMaxNumberOfGlobalExtOverrides": "fn(maxNumber: number, description?: ?)",
+        "assertNoGlobalExtOverrides": "fn(description?: string)",
+        "assertNoLayoutTriggered": "fn(fn: Function, scope: ?, description?: string)",
+        "getTotalLayoutCounter": "fn() -> number",
+        "waitForPageLoad": "fn(callback: Function, scope?: ?)"
+      },
+      "Simulate": {
+        "IEvent": {
+          "simulateEventsWith": "string",
+          "simulateEvent": "fn(el: ?, type: string, the?: ?, suppressLog?: bool)"
+        },
+        "IKeyboard": {
+          "keyPress": "fn(el: ?, key: string, options: ?)",
+          "type": "fn(el: ?, text: string, callback?: Function, scope?: ?, options?: ?)"
+        },
+        "KeyCodes": {
+          "'\\b'": "number",
+          "'BACKSPACE'": "number",
+          "'\\t'": "number",
+          "'TAB'": "number",
+          "'\\r'": "number",
+          "'RETURN'": "number",
+          "'ENTER'": "number",
+          "'SHIFT'": "number",
+          "'CTRL'": "number",
+          "'ALT'": "number",
+          "'PAUSE-BREAK'": "number",
+          "'CAPS'": "number",
+          "'ESCAPE'": "number",
+          "'NUM-LOCK'": "number",
+          "'SCROLL-LOCK'": "number",
+          "'PRINT'": "number",
+          "'PAGE-UP'": "number",
+          "'PAGE-DOWN'": "number",
+          "'END'": "number",
+          "'HOME'": "number",
+          "'LEFT'": "number",
+          "'UP'": "number",
+          "'RIGHT'": "number",
+          "'DOWN'": "number",
+          "'INSERT'": "number",
+          "'DELETE'": "number",
+          "' '": "number",
+          "'0'": "number",
+          "'1'": "number",
+          "'2'": "number",
+          "'3'": "number",
+          "'4'": "number",
+          "'5'": "number",
+          "'6'": "number",
+          "'7'": "number",
+          "'8'": "number",
+          "'9'": "number",
+          "'A'": "number",
+          "'B'": "number",
+          "'C'": "number",
+          "'D'": "number",
+          "'E'": "number",
+          "'F'": "number",
+          "'G'": "number",
+          "'H'": "number",
+          "'I'": "number",
+          "'J'": "number",
+          "'K'": "number",
+          "'L'": "number",
+          "'M'": "number",
+          "'N'": "number",
+          "'O'": "number",
+          "'P'": "number",
+          "'Q'": "number",
+          "'R'": "number",
+          "'S'": "number",
+          "'T'": "number",
+          "'U'": "number",
+          "'V'": "number",
+          "'W'": "number",
+          "'X'": "number",
+          "'Y'": "number",
+          "'Z'": "number",
+          "'NUM0'": "number",
+          "'NUM1'": "number",
+          "'NUM2'": "number",
+          "'NUM3'": "number",
+          "'NUM4'": "number",
+          "'NUM5'": "number",
+          "'NUM6'": "number",
+          "'NUM7'": "number",
+          "'NUM8'": "number",
+          "'NUM9'": "number",
+          "'NUM*'": "number",
+          "'NUM+'": "number",
+          "';'": "number",
+          "'='": "number",
+          "','": "number",
+          "'-'": "number",
+          "'.'": "number",
+          "'/'": "number",
+          "'`'": "number",
+          "'['": "number",
+          "'\\\\'": "number",
+          "']'": "number",
+          "'\\''": "number",
+          "'F1'": "number",
+          "'F2'": "number",
+          "'F3'": "number",
+          "'F4'": "number",
+          "'F5'": "number",
+          "'F6'": "number",
+          "'F7'": "number",
+          "'F8'": "number",
+          "'F9'": "number",
+          "'F10'": "number",
+          "'F11'": "number",
+          "'F12'": "number"
+        },
+        "IMouse": {
+          "dragDelay": "number",
+          "dragPrecision": "number",
+          "moveCursorBetweenPoints": "bool",
+          "click": "fn(el?: ?, callback?: Function, scope?: ?, options?: ?)",
+          "doubleClick": "fn(el?: ?, callback?: Function, scope?: ?, options?: ?)",
+          "drag": "fn(source: ?, target?: ?, delta?: [number], callback?: Function, scope?: ?, options?: ?)",
+          "dragBy": "fn(source: ?, delta: [number], callback?: Function, scope?: ?, options?: ?, dragOnly?: bool)",
+          "dragTo": "fn(source: ?, target: ?, callback?: Function, scope?: ?, options?: ?, dragOnly?: bool)",
+          "mouseDown": "fn(el: ?, options: ?)",
+          "mouseOut": "fn(el: ?, options: ?)",
+          "mouseOver": "fn(el: ?, options: ?)",
+          "mouseUp": "fn(el: ?, options: ?)",
+          "moveCursorBy": "fn(delta: [number], callback?: Function, scope?: ?)",
+          "moveCursorTo": "fn(target?: ?, callback?: Function, scope?: ?)",
+          "moveMouseBy": "fn(delta: [number], callback?: Function, scope?: ?)",
+          "moveMouseTo": "fn(target?: ?, callback?: Function, scope?: ?)",
+          "rightClick": "fn(el?: ?, callback?: Function, scope?: ?, options?: ?)"
+        }
+      },
+      "Browser": {
+        "clearTimeout": "fn(timeoutId: number)",
+        "elementFromPoint": "fn(x: number, y: number, shallow?: bool) -> HTMLElement",
+        "firesAtLeastNTimes": "fn(observable: ?, event: string, n: number, desc: string)",
+        "firesOk": "fn(options: ?)",
+        "firesOnce": "fn(observable: ?, event: string, desc: string)",
+        "isntFired": "fn(observable: ?, event: string, desc: string)",
+        "setTimeout": "fn(func: Function, delay: number) -> number",
+        "waitForEvent": "fn(observable: ?, event: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForPageLoad": "fn(callback: Function, scope?: ?)",
+        "willFireNTimes": "fn(observable: ?, event: string, n: number, desc: string)",
+        "wontFire": "fn(observable: ?, event: string, desc: string)"
+      },
+      "IDate": {
+        "isDateEqual": "fn(got: Date, expectedDate: Date, description?: string)"
+      },
+      "IElement": {
+        "chainClick": "fn(elements: [?], callback: Function)",
+        "clickSelector": "fn(selector: string, callback: Function, scope?: ?)",
+        "contentLike": "fn(el: ?, text: string, description?: string)",
+        "contentNotLike": "fn(el: ?, text: string, description?: string)",
+        "elementIsAt": "fn(el: ?, xy: [number], allowChildren: bool, description?: string)",
+        "elementIsInView": "fn(el: ?)",
+        "elementIsNotTopElement": "fn(el: ?, allowChildren: bool, description?: string)",
+        "elementIsNotVisible": "fn(el: ?, description?: string)",
+        "elementIsTop": "fn(el: ?, allowChildren: bool) -> bool",
+        "elementIsTopElement": "fn(el: ?, allowChildren: bool, description?: string, strict?: ?)",
+        "elementIsVisible": "fn(el: ?, description?: string)",
+        "findCenter": "fn(el: ?, local?: bool) -> [number]",
+        "hasCls": "fn(el: ?, cls: string, description?: string)",
+        "hasNotCls": "fn(el: ?, cls: string, description?: string)",
+        "hasNotStyle": "fn(el: ?, property: string, value: string, description?: string)",
+        "hasStyle": "fn(el: ?, property: string, value: string, description?: string)",
+        "isElementVisible": "fn(el: ?) -> bool",
+        "isInView": "fn(el: ?, description?: string)",
+        "monkeyTest": "fn(el: ?, nbrInteractions: number, description?: string, callback?: Function, scope?: ?)",
+        "scrollHorizontallyTo": "fn(el: ?, newLeft: number, delay?: number, callback?: Function) -> number",
+        "scrollVerticallyTo": "fn(el: ?, newTop: number, delay?: number, callback?: Function) -> number",
+        "selectorCountIs": "fn(selector: string, count: number, description: string)",
+        "selectorExists": "fn(selector: string, description?: string)",
+        "selectorIsAt": "fn(selector: string, xy: [number], allowChildren: bool, description?: string)",
+        "selectorNotExists": "fn(selector: string, description?: string)",
+        "waitForContentLike": "fn(el: ?, text: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForContentNotLike": "fn(el: ?, text: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForElementNotTop": "fn(el: ?, callback: Function, scope?: ?, timeout?: number)",
+        "waitForElementNotVisible": "fn(el: ?, callback: Function, scope?: ?, timeout?: number)",
+        "waitForElementTop": "fn(el: ?, callback: Function, scope?: ?, timeout?: number)",
+        "waitForElementVisible": "fn(el: ?, callback: Function, scope?: ?, timeout?: number)",
+        "waitForScrollChange": "fn(el: ?, side: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForScrollLeftChange": "fn(el: ?, callback: Function, scope?: ?, timeout?: number)",
+        "waitForScrollTopChange": "fn(el: ?, callback: Function, scope?: ?, timeout?: number)",
+        "waitForSelector": "fn(selector: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForSelectorAt": "fn(xy: [number], selector: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForSelectorAtCursor": "fn(xy: [number], selector: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForSelectorNotFound": "fn(selector: string, callback: Function, scope?: ?, timeout?: number)",
+        "waitForSelectors": "fn(selectors: [string], callback: Function, scope?: ?, timeout?: number)",
+        "waitUntilInView": "fn(el: ?, callback: Function, scope?: ?, timeout?: number)"
+      },
+      "IExtJSCore": {
+        "Ext": "fn() -> ?",
+        "clickCQ": "fn(selector: string, root: ?, callback: Function)",
+        "clickComponentQuery": "fn(selector: string, root: ?, callback: Function)",
+        "compositeQuery": "fn(selector: string, root: ?, allowEmpty: bool) -> [HTMLElement]",
+        "cq": "fn(selector: string)",
+        "cq1": "fn(selector: string)",
+        "getExt": "fn() -> ?",
+        "knownBugIn": "fn(frameworkVersion: string, fn: Function, reason: string)",
+        "requireOk": "fn(args: [?])"
+      },
+      "IFunction": {
+        "isCalled": "fn(fn: string, host: ?, desc: string)",
+        "isCalledNTimes": "fn(fn: string, host: ?, n: number, desc: string)",
+        "isCalledOnce": "fn(fn: string, host: ?, desc: string)",
+        "isntCalled": "fn(fn: string, host: ?, n: number, desc: string)",
+        "methodIsCalled": "fn(fn: string, className: string, desc: string)",
+        "methodIsCalledNTimes": "fn(fn: string, className: string, n: number, desc: string)",
+        "methodIsntCalled": "fn(fn: string, className: string, desc: string)"
+      },
+      "jQuery": {
+        "get$": "fn() -> ?"
+      },
+      "IWaitForConfig": {
+        "method": "Function",
+        "callback": "Function",
+        "scope": "?",
+        "timeout": "number",
+        "interval": "number"
+      },
+      "IWaitForReturn": {
+        "force": "Function"
+      },
+      "IMore": {
+        "waitForTimeout": "number",
+        "chain": "fn(steps: [IAction])",
+        "expectGlobals": "fn(names: [?])",
+        "isApprox": "fn(value1: number, value2: number, threshHold: number, desc: string)",
+        "isArray": "fn(value: ?, desc: string)",
+        "isBoolean": "fn(value: ?, desc: string)",
+        "isDate": "fn(value: ?, desc: string)",
+        "isDeeply": "fn(obj1: ?, obj2: ?, desc: string)",
+        "isDeeplyStrict": "fn(obj1: ?, obj2: ?, desc: string)",
+        "isFunction": "fn(value: ?, desc: string)",
+        "isGreater": "fn(value1: ?, value2: ?, desc: string)",
+        "isGreaterOrEqual": "fn(value1: ?, value2: ?, desc: string)",
+        "isLess": "fn(value1: ?, value2: ?, desc: string)",
+        "isLessOrEqual": "fn(value1: ?, value2: ?, desc: string)",
+        "isNumber": "fn(value: ?, desc: string)",
+        "isObject": "fn(value: ?, desc: string)",
+        "isRegExp": "fn(value: ?, desc: string)",
+        "isString": "fn(value: ?, desc: string)",
+        "isaOk": "fn(value: ?, className: string, desc: string)",
+        "like": "fn(string: string, regex: string, desc: string)",
+        "livesOk": "fn(func: Function, desc: string)",
+        "throwsOk": "fn(func: Function, expected: string, desc: string)",
+        "unlike": "fn(string: string, regex: string, desc: string)",
+        "verifyGlobals": "fn(names: [string])",
+        "waitFor": "fn(wait: number, callback: Function, scope?: ?, timeout?: number, interval?: number) -> IWaitForReturn"
+      },
+      "IPositionConfig": {
+        "x": "number",
+        "y": "number"
+      },
+      "SenchaTouch": {
+        "doubleTap": "fn(target: ?, callback?: Function, scope?: ?, offset?: [number])",
+        "longpress": "fn(target: ?, callback?: Function, scope?: ?, offset?: [number])",
+        "moveFingerBy": "fn(delta: [number], callback?: Function, scope?: ?)",
+        "moveFingerTo": "fn(target: ?, callback?: Function, scope?: ?, offset?: [number])",
+        "scrollUntilElementVisible": "fn(scrollable: ?, direction: string, actionTarget: ?, callback: Function, scope: ?)",
+        "swipe": "fn(target: ?, direction: string, callback?: Function, scope?: ?)",
+        "tap": "fn(target: ?, callback?: Function, scope?: ?)",
+        "waitForScrollerPosition": "fn(scroller: ?, position: IPositionConfig, callback: Function, scope?: ?, timeout?: number)"
+      },
+      "ITextSelection": {
+        "getSelectedText": "fn(el: ?) -> string",
+        "selectText": "fn(el: ?, start?: number, end?: number)"
+      }
+    }
+  },
+  "StartTest": "fn(testScript: fn(t: Siesta.ITest))",
+  "startTest": "StartTest",
+  "describe": "StartTest",
+  "!name": "siesta.d.ts"
+}

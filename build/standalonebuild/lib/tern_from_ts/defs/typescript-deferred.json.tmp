@@ -1,0 +1,24 @@
+{
+  "typescript-deferred": {
+    "ImmediateSuccessCB": {},
+    "ImmediateErrorCB": {},
+    "DeferredSuccessCB": {},
+    "DeferredErrorCB": {},
+    "ThenableInterface": {
+      "then": "fn(successCB?: ?, errorCB?: ?) -> ?"
+    },
+    "PromiseInterface": {
+      "then": "fn(successCB?: ?, errorCB?: ?) -> ?",
+      "otherwise": "fn(errorCB?: ?) -> ?",
+      "always": "fn(errorCB?: ?) -> ?"
+    },
+    "DeferredInterface": {
+      "resolve": "fn(value?: ?) -> ?",
+      "reject": "fn(error?: ?) -> ?",
+      "promise": "?"
+    },
+    "create": "fn() -> ?",
+    "when": "fn(value?: ?) -> ?"
+  },
+  "!name": "typescript-deferred.d.ts"
+}

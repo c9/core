@@ -1,0 +1,22 @@
+{
+  "jsf": {
+    "ajax": {
+      "RequestData": {
+        "status": "string",
+        "description": "string"
+      },
+      "RequestOptions": {
+        "execute": "String",
+        "render": "String",
+        "onevent": "fn(callback: fn(data: RequestData))",
+        "onerror": "fn(callback: fn(data: RequestData))",
+        "params": "?"
+      },
+      "addOnEvent": "fn(callback: fn(data: RequestData))",
+      "addOnError": "fn(callback: fn(data: RequestData))",
+      "request": "fn(source: ?, event?: String, options?: RequestOptions)",
+      "response": "fn(request: ?, context: ?)"
+    }
+  },
+  "!name": "jsf"
+}

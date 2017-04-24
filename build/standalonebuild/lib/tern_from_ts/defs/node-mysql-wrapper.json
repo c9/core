@@ -1,0 +1,40 @@
+{
+  "Mongo": {
+    "Collection": {
+      "allow": "fn(options: ?) -> bool",
+      "deny": "fn(options: ?) -> bool",
+      "find": "fn(selector?: ?, options?: ?) -> ?",
+      "findOne": "fn(selector?: ?, options?: ?) -> T",
+      "insert": "fn(doc: T, callback?: Function) -> string",
+      "rawCollection": "fn() -> ?",
+      "rawDatabase": "fn() -> ?",
+      "remove": "fn(selector: ?, callback?: Function)",
+      "update": "fn(selector: ?, modifier: ?, options?: ?, callback?: Function) -> number",
+      "upsert": "fn(selector: ?, modifier: ?, options?: ?, callback?: Function) -> ret",
+      "_ensureIndex": "fn(indexName: string, options?: ?)"
+    },
+    "CollectionStatic": {},
+    "Cursor": {
+      "count": "fn() -> number",
+      "fetch": "fn() -> ?",
+      "forEach": "fn(callback: fn(doc: T, index: number, cursor: ?), thisArg?: ?)",
+      "map": "fn(callback: fn(doc: T, index: number, cursor: ?), thisArg?: ?) -> ?",
+      "observe": "fn(callbacks: Object) -> ?",
+      "observeChanges": "fn(callbacks: Object) -> ?"
+    },
+    "CursorStatic": {},
+    "ObjectID": {},
+    "ObjectIDStatic": {}
+  },
+  "Meteor": {
+    "isServer": "bool",
+    "isClient": "bool"
+  },
+  "!name": "my-meteor",
+  "!define": {
+    "ret": {
+      "numberAffected": "number",
+      "insertedId": "string"
+    }
+  }
+}

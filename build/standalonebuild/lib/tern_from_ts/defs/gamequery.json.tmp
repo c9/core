@@ -1,0 +1,116 @@
+{
+  "PlaygroundOptions": {
+    "height": "number",
+    "width": "number",
+    "refreshRate": "number",
+    "keyTracker": "bool",
+    "mouseTracker": "bool",
+    "position": "string",
+    "disableCollision": "bool"
+  },
+  "Coordinate3D": {
+    "x": "number",
+    "y": "number",
+    "z": "number"
+  },
+  "Size": {
+    "w": "number",
+    "h": "number"
+  },
+  "SpriteOptions": {
+    "animation": "?",
+    "height": "number",
+    "width": "number",
+    "posx": "number",
+    "posy": "number",
+    "callback": "fn()"
+  },
+  "GroupOptions": {
+    "overflow": "string",
+    "height": "number",
+    "width": "number",
+    "posx": "number",
+    "posy": "number"
+  },
+  "TileMapOptions": {
+    "sizex": "number",
+    "sizey": "number",
+    "height": "number",
+    "width": "number",
+    "posx": "number",
+    "posy": "number",
+    "buffer": "number"
+  },
+  "AnimationOptions": {
+    "imageURL": "string",
+    "numberOfFrame": "number",
+    "delta": "number",
+    "rate": "number",
+    "type": "number",
+    "distance": "number",
+    "offsetx": "number",
+    "offsety": "number"
+  },
+  "Animation": {
+    "imageURL": "string",
+    "numberOfFrame": "number",
+    "delta": "number",
+    "rate": "number",
+    "type": "number",
+    "distance": "number",
+    "offsetx": "number",
+    "offsety": "number"
+  },
+  "GameQuery": {
+    "ANIMATION_VERTICAL": "number",
+    "ANIMATION_HORIZONTAL": "number",
+    "ANIMATION_ONCE": "number",
+    "ANIMATION_CALLBACK": "number",
+    "ANIMATION_MULTI": "number",
+    "ANIMATION_PINGPONG": "number",
+    "Animation": "Animation",
+    "keyTracker": "[bool]",
+    "spriteCssClass": "string",
+    "groupCssClass": "string",
+    "tilemapCssClass": "string",
+    "tileCssClass": "string",
+    "tileTypePrefix": "string",
+    "tileIdPrefix": "string"
+  },
+  "JQuery": {
+    "playground": "fn(options?: PlaygroundOptions) -> JQuery",
+    "collision": "fn(query?: ?) -> JQuery",
+    "startGame": "fn(callback?: fn()) -> JQuery",
+    "pauseGame": "fn() -> JQuery",
+    "resumeGame": "fn(callback?: fn()) -> JQuery",
+    "registerCallback": "fn(callback: fn(), rate: number) -> JQuery",
+    "clearScenegraph": "fn() -> JQuery",
+    "clearAll": "fn(clearCallbacks?: bool) -> JQuery",
+    "loadCallback": "fn(callback: fn(percent: number)) -> JQuery",
+    "rotate": "fn(angle: number, relative?: bool) -> JQuery",
+    "scale": "fn(ratio: number, relative?: bool) -> JQuery",
+    "flipv": "fn(flip?: bool) -> JQuery",
+    "fliph": "fn(flip?: bool) -> JQuery",
+    "xyz": "fn(x: number, y: number, z: number, relative?: bool) -> JQuery",
+    "xy": "fn(x: number, y: number, relative?: bool) -> JQuery",
+    "x": "fn(value: number, relative?: bool) -> JQuery",
+    "y": "fn(value: number, relative?: bool) -> JQuery",
+    "z": "fn(value: number, relative?: bool) -> JQuery",
+    "wh": "fn(width: number, height: number, relative?: bool) -> JQuery",
+    "w": "fn(value: number, relative?: bool) -> JQuery",
+    "h": "fn(value: number, relative?: bool) -> JQuery",
+    "addSprite": "fn(name: string, options: SpriteOptions) -> JQuery",
+    "addGroup": "fn(name: string, options: GroupOptions) -> JQuery",
+    "addTilemap": "fn(name: string, tileDescription: [[number]], animationList: [Animation], options: TileMapOptions) -> JQuery",
+    "gQ": "GameQuery",
+    "setAnimation": "fn(animation: Animation, callback?: fn()) -> JQuery",
+    "pauseAnimation": "fn() -> JQuery",
+    "resumeAnimation": "fn() -> JQuery"
+  },
+  "JQueryStatic": {
+    "playground": "fn() -> JQuery",
+    "gQ": "GameQuery",
+    "gameQuery": "GameQuery"
+  },
+  "!name": "gamequery.d.ts"
+}

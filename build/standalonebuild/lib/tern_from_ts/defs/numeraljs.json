@@ -1,0 +1,37 @@
+{
+  "NumeralJSLanguage": {
+    "delimiters": {
+      "thousands": "string",
+      "decimal": "string"
+    },
+    "abbreviations": {
+      "thousand": "string",
+      "million": "string",
+      "billion": "string",
+      "trillion": "string"
+    },
+    "ordinal": "fn(num: number) -> string",
+    "currency": {
+      "symbol": "string"
+    }
+  },
+  "Numeral": {
+    "version": "string",
+    "isNumeral": "bool",
+    "language": "fn(key: string, values?: NumeralJSLanguage) -> Numeral",
+    "zeroFormat": "fn(format: string) -> string",
+    "clone": "fn() -> Numeral",
+    "format": "fn(inputString?: string) -> string",
+    "formatCurrency": "fn(inputString?: string) -> string",
+    "unformat": "fn(inputString: string) -> number",
+    "value": "fn() -> number",
+    "set": "fn(value: ?) -> Numeral",
+    "add": "fn(value: ?) -> Numeral",
+    "subtract": "fn(value: ?) -> Numeral",
+    "multiply": "fn(value: ?) -> Numeral",
+    "divide": "fn(value: ?) -> Numeral",
+    "difference": "fn(value: ?) -> number"
+  },
+  "numeral": "Numeral",
+  "!name": "numeraljs"
+}

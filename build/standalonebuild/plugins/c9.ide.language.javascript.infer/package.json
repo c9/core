@@ -1,0 +1,24 @@
+{
+    "name": "c9.ide.language.javascript.infer",
+    "description": "The repository for c9.ide.language.javascript.infer, a Cloud9 core plugin",
+    "version": "3.0.0",
+    "author": "Cloud9",
+    "contributors": [],
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/c9/c9.ide.language.javascript.infer.git"
+    },
+    "scripts": {
+        "cov": "istanbul cover _mocha $(find . | grep '_test.js$')",
+        "test": "mocha $(find . | grep '_test.js$')"
+     },
+    "plugins": {
+        "jsinfer": {}
+    },
+    "categories": [
+        "core"
+    ],
+    "licenses": [
+        "C9SDK"
+    ]
+}

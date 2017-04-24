@@ -1,0 +1,13 @@
+{
+  "form-data": {
+    "FormData": {
+      "prototype": {
+        "append": "fn(key: string, value: ?, options?: ?) -> FormData",
+        "getHeaders": "fn() -> Object",
+        "pipe": "fn(to: ?) -> ?",
+        "submit": "fn(params: string, Object: ?, callback: fn(error: ?, response: ?)) -> ?"
+      }
+    }
+  },
+  "!name": "form-data"
+}

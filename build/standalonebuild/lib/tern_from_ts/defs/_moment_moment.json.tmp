@@ -1,0 +1,4 @@
+{
+  "moment": "moment.MomentStatic",
+  "!name": "moment.d.ts"
+}

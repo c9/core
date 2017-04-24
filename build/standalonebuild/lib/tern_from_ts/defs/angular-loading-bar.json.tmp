@@ -1,0 +1,8 @@
+{
+  "angular": {
+    "IRequestShortcutConfig": {
+      "ignoreLoadingBar": "bool"
+    }
+  },
+  "!name": "angular-loading-bar.d.ts"
+}

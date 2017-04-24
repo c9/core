@@ -1,0 +1,26 @@
+{
+  "IX2JS": {
+    "getVersion": "fn() -> string",
+    "xml2json": "fn(dom: Node) -> T",
+    "json2xml": "fn(json: T) -> Node",
+    "xml_str2json": "fn(xml: string) -> T",
+    "json2xml_str": "fn(json: T) -> string",
+    "parseXmlString": "fn(xml: string) -> Node",
+    "asArray": "fn(prop: ?) -> [?]",
+    "asDateTime": "fn(key: string) -> string",
+    "asXmlDateTime": "fn(date: Date) -> string"
+  },
+  "IX2JSOption": {
+    "escapeMode": "bool",
+    "attributePrefix": "string",
+    "arrayAccessForm": "string",
+    "emptyNodeForm": "string",
+    "enableToStringFunc": "bool",
+    "arrayAccessFormPaths": "[?]",
+    "skipEmptyTextNodesForObj": "bool",
+    "stripWhitespaces": "bool",
+    "datetimeAccessFormPaths": "[?]"
+  },
+  "X2JS": "IX2JS",
+  "!name": "xml2json"
+}

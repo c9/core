@@ -1,0 +1,195 @@
+{
+  "'mandrill-api'": {
+    "ICallback": {},
+    "IErrorCallback": {},
+    "Mandrill": {
+      "!type": "fn(apikey: string, debug?: bool)",
+      "prototype": {
+        "apikey": "string",
+        "debug": "bool",
+        "templates": "Templates",
+        "exports": "Exports",
+        "users": "Users",
+        "rejects": "Rejects",
+        "inbound": "Inbound",
+        "tags": "Tags",
+        "messages": "Messages",
+        "whitelists": "Whitelists",
+        "ips": "Ips",
+        "internal": "Internal",
+        "subaccounts": "Subaccounts",
+        "urls": "Urls",
+        "webhooks": "Webhooks",
+        "senders": "Senders",
+        "metadata": "Metadata",
+        "onerror": "IErrorCallback",
+        "call": "fn(uri: string, params: ?, onresult?: ICallback, onerror?: ICallback)"
+      }
+    },
+    "Templates": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {
+        "add": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "info": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "update": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "publish": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "delete": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "list": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "timeSeries": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "render": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)"
+      }
+    },
+    "Exports": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {
+        "info": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "list": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "rejects": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "whitelist": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "activity": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)"
+      }
+    },
+    "Users": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {
+        "info": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "ping": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "ping2": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "senders": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)"
+      }
+    },
+    "Rejects": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {
+        "add": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "list": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "delete": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)"
+      }
+    },
+    "Inbound": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {
+        "domains": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "addDomain": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "checkDomain": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "deleteDomain": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "routes": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "addRoute": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "updateRoute": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "deleteRoute": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "sendRaw": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)"
+      }
+    },
+    "Tags": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {
+        "list": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "delete": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "info": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "timeSeries": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "allTimeSeries": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)"
+      }
+    },
+    "Messages": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {
+        "send": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "sendTemplate": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "search": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "searchTimeSeries": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "info": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "content": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "parse": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "sendRaw": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "listScheduled": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "cancelScheduled": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "reschedule": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)"
+      }
+    },
+    "Whitelists": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {
+        "add": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "list": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "delete": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)"
+      }
+    },
+    "Ips": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {
+        "list": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "info": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "provision": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "startWarmup": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "cancelWarmup": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "setPool": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "delete": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "listPools": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "poolInfo": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "createPool": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "deletePool": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "checkCustomDns": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "setCustomDns": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)"
+      }
+    },
+    "Internal": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {}
+    },
+    "Subaccounts": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {
+        "list": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "add": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "info": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "update": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "delete": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "pause": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "resume": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)"
+      }
+    },
+    "Urls": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {
+        "list": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "search": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "timeSeries": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "trackingDomains": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "addTrackingDomain": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "checkTrackingDomain": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)"
+      }
+    },
+    "Webhooks": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {
+        "list": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "add": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "info": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "update": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "delete": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)"
+      }
+    },
+    "Senders": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {
+        "list": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "domains": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "addDomain": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "checkDomain": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "verifyDomain": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "info": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "timeSeries": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)"
+      }
+    },
+    "Metadata": {
+      "!type": "fn(master: Mandrill)",
+      "prototype": {
+        "list": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "add": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "update": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)",
+        "delete": "fn(params: ?, onsuccess?: ICallback, onerror?: ICallback)"
+      }
+    }
+  },
+  "!name": "mandrill-api"
+}

@@ -1,0 +1,45 @@
+{
+  "dojox": {
+    "css3": {
+      "transit": {},
+      "transition": {
+        "autoClear": "bool",
+        "deferred": "Object",
+        "direction": "number",
+        "duration": "number",
+        "endState": {},
+        "in_": "bool",
+        "node": "Object",
+        "playing": {},
+        "startState": {},
+        "beforeClear": {},
+        "beforeStart": {},
+        "chainedPlay": {},
+        "clear": {},
+        "fade": {},
+        "flip": {},
+        "getWaitingList": {},
+        "groupedPlay": {},
+        "initState": {},
+        "play": {},
+        "slide": {},
+        "start": {}
+      },
+      "fx": {
+        "bounce": "fn(args: Object) -> ?",
+        "expand": "fn(args: Object) -> ?",
+        "flip": "fn(args: Object) -> ?",
+        "puff": "fn(args: Object) -> ?",
+        "rotate": "fn(args: Object) -> ?",
+        "shrink": "fn(args: Object) -> ?"
+      }
+    }
+  },
+  "dojox/css3/transit": "exp",
+  "dojox/css3/transition": "exp",
+  "dojox/css3/transition.endState": "exp",
+  "dojox/css3/transition.playing": "exp",
+  "dojox/css3/transition.startState": "exp",
+  "dojox/css3/fx": "exp",
+  "!name": "dojox.css3"
+}

@@ -1,0 +1,31 @@
+{
+  "Chai": {
+    "Assertion": {
+      "afterDate": "fn(date: Date) -> Assertion",
+      "beforeDate": "fn(date: Date) -> Assertion",
+      "equalDate": "fn(date: Date) -> Assertion",
+      "afterTime": "fn(date: Date) -> Assertion",
+      "beforeTime": "fn(date: Date) -> Assertion",
+      "equalTime": "fn(date: Date) -> Assertion"
+    },
+    "Assert": {
+      "equalTime": "fn(val: Date, exp: Date, msg?: string)",
+      "notEqualTime": "fn(val: Date, exp: Date, msg?: string)",
+      "beforeTime": "fn(val: Date, exp: Date, msg?: string)",
+      "notBeforeTime": "fn(val: Date, exp: Date, msg?: string)",
+      "afterTime": "fn(val: Date, exp: Date, msg?: string)",
+      "notAfterTime": "fn(val: Date, exp: Date, msg?: string)",
+      "equalDate": "fn(val: Date, exp: Date, msg?: string)",
+      "notEqualDate": "fn(val: Date, exp: Date, msg?: string)",
+      "beforeDate": "fn(val: Date, exp: Date, msg?: string)",
+      "notBeforeDate": "fn(val: Date, exp: Date, msg?: string)",
+      "afterDate": "fn(val: Date, exp: Date, msg?: string)",
+      "notAfterDate": "fn(val: Date, exp: Date, msg?: string)"
+    }
+  },
+  "Date": {
+    "should": "Chai.Assertion"
+  },
+  "chai-datetime": "chaiDateTime",
+  "!name": "chai-datetime.d.ts"
+}

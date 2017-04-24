@@ -1,0 +1,62 @@
+{
+  "phantom": {
+    "create": "fn(callback: fn(ph: PhantomJS))",
+    "PhantomJS": {
+      "createPage": "fn(callback: fn(page: WebPage))",
+      "exit": "fn(returnValue?: number)",
+      "injectJs": "fn(filename: string, callback?: fn(result: bool))",
+      "addCookie": "fn(name: string, value: string, domain: string, callback?: fn(res: bool))",
+      "clearCookies": "fn(callback?: fn())",
+      "getCookies": "fn(callback: fn(cookies: [callback.cookies]))"
+    },
+    "WebPage": {
+      "open": "fn(url: string, callback: fn(status: string))",
+      "close": "fn()",
+      "get": "fn(key: string, callback: fn(result: ?))",
+      "set": "fn(key: string, value: ?, callback?: fn(result: ?))",
+      "setHeaders": "fn(headers: Object, callback?: fn())",
+      "setViewportSize": "fn(width: number, height: number, callback?: fn())",
+      "setPaperSize": "fn(options: IPaperSizeOptions, callback?: fn())",
+      "setZoomFactor": "fn(factor: number, callback?: fn())",
+      "evaluate": "fn(callback: fn())",
+      "includeJs": "fn(url: string, callback?: fn())",
+      "injectJs": "fn(filename: string, callback?: fn(res: bool))",
+      "sendEvent": "fn(mouseEventType: string, mouseX: number, mouseY: number, button?: string)",
+      "uploadFile": "fn(selector: string, filename: string)",
+      "render": "fn(filename: string, callback?: fn())",
+      "renderBase64": "fn(type: string, callback: fn(data: string))",
+      "goBack": "fn()",
+      "goForward": "fn()",
+      "reload": "fn()",
+      "getContent": "fn(callback: fn(content: string))",
+      "setContent": "fn(html: string, url: string, callback?: fn(status: string))",
+      "getCookies": "fn(callback: fn(cookies: [callback.cookies1]))"
+    },
+    "ICreateOptions": {
+      "binary": "string",
+      "hostname": "string",
+      "path": "string",
+      "port": "number"
+    },
+    "IPaperSizeOptions": {
+      "width": "string",
+      "height": "string",
+      "format": "string",
+      "orientation": "string",
+      "margin": "?"
+    }
+  },
+  "!name": "phantom",
+  "!define": {
+    "callback.cookies": {
+      "name": "string",
+      "value": "string",
+      "domain": "string"
+    },
+    "callback.cookies1": {
+      "name": "string",
+      "value": "string",
+      "domain": "string"
+    }
+  }
+}

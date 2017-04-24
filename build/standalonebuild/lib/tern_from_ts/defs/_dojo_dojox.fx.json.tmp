@@ -1,0 +1,261 @@
+{
+  "dojox": {
+    "fx": {
+      "Shadow": {
+        "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+        "prototype": {
+          "animate": "bool",
+          "set": "fn(property: string, value: bool)",
+          "get": "fn(property: string) -> bool",
+          "watch": "fn(property: string, callback: ?) -> ret",
+          "attributeMap": "Object",
+          "baseClass": "string",
+          "class": "string",
+          "containerNode": "HTMLElement",
+          "dir": "string",
+          "domNode": "HTMLElement",
+          "focused": "bool",
+          "id": "string",
+          "lang": "string",
+          "node": "HTMLElement",
+          "observer": "string",
+          "opacity": "number",
+          "ownerDocument": "Object",
+          "shadowOffset": "number",
+          "shadowPng": "string",
+          "shadowThickness": "number",
+          "srcNodeRef": "HTMLElement",
+          "style": "string",
+          "title": "string",
+          "tooltip": "string",
+          "attr": "fn(name: String, value: Object) -> ?",
+          "buildRendering": "fn()",
+          "connect": "fn(obj: Object, event: String, method: String) -> ?",
+          "defer": "fn(fcn: Function, delay: number) -> Object",
+          "destroy": "fn(preserveDom?: bool)",
+          "destroyDescendants": "fn(preserveDom: bool)",
+          "destroyRecursive": "fn(preserveDom: bool)",
+          "destroyRendering": "fn(preserveDom?: bool)",
+          "disconnect": "fn(handle: ?)",
+          "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+          "getChildren": "fn() -> [?]",
+          "getDescendants": "fn() -> [?]",
+          "getParent": "fn() -> ?",
+          "isFocusable": "fn() -> ?",
+          "isLeftToRight": "fn() -> ?",
+          "on": "fn(type: String, func: Function) -> ?",
+          "own": "fn() -> ?",
+          "placeAt": "fn(reference: String, position: String) -> ?",
+          "postCreate": "fn()",
+          "postMixInProperties": "fn()",
+          "resize": "fn(args: Object)",
+          "setAttribute": "fn(attr: String, value: ?)",
+          "setDisabled": "fn(disabled: bool)",
+          "setOpacity": "fn(n: number, animArgs: Object)",
+          "startup": "fn()",
+          "subscribe": "fn(t: String, method: Function) -> ?",
+          "uninitialize": "fn() -> bool",
+          "unsubscribe": "fn(handle: Object)",
+          "onBlur": "fn()",
+          "onClick": "fn(event: ?)",
+          "onClose": "fn() -> bool",
+          "onDblClick": "fn(event: ?)",
+          "onFocus": "fn()",
+          "onHide": "fn()",
+          "onKeyDown": "fn(event: ?)",
+          "onKeyPress": "fn(event: ?)",
+          "onKeyUp": "fn(event: ?)",
+          "onMouseDown": "fn(event: ?)",
+          "onMouseEnter": "fn(event: ?)",
+          "onMouseLeave": "fn(event: ?)",
+          "onMouseMove": "fn(event: ?)",
+          "onMouseOut": "fn(event: ?)",
+          "onMouseOver": "fn(event: ?)",
+          "onMouseUp": "fn(event: ?)",
+          "onShow": "fn()"
+        }
+      },
+      "_base": {
+        "addClass": "fn(node: String, cssClass: String, args: Object) -> ?",
+        "animateTimeline": "fn(options: Object, node: HTMLElement)",
+        "flip": "fn(args: Object)",
+        "flipCube": "fn(args: Object)",
+        "flipGrid": "fn(args: Object)",
+        "flipPage": "fn(args: Object)",
+        "removeClass": "fn(node: ?, cssClass: ?, args: ?) -> ?",
+        "smoothScroll": "fn(args: Object)",
+        "toggleClass": "fn(node: String, cssClass: String, condition: bool, args: Object) -> ?"
+      },
+      "easing": {},
+      "_arg": {
+        "ShadowResizeArgs": {},
+        "StyleArgs": {}
+      },
+      "flip": {
+        "addClass": "fn(node: String, cssClass: String, args: Object) -> ?",
+        "animateTimeline": "fn(options: Object, node: HTMLElement)",
+        "flip": "fn(args: Object)",
+        "flipCube": "fn(args: Object)",
+        "flipGrid": "fn(args: Object)",
+        "flipPage": "fn(args: Object)",
+        "removeClass": "fn(node: ?, cssClass: ?, args: ?) -> ?",
+        "smoothScroll": "fn(args: Object)",
+        "toggleClass": "fn(node: String, cssClass: String, condition: bool, args: Object) -> ?"
+      },
+      "style": {
+        "addClass": "fn(node: String, cssClass: String, args: Object) -> ?",
+        "removeClass": "fn(node: ?, cssClass: ?, args: ?) -> ?",
+        "toggleClass": "fn(node: String, cssClass: String, condition: bool, args: Object) -> ?"
+      },
+      "split": {
+        "addClass": "fn(node: String, cssClass: String, args: Object) -> ?",
+        "animateTimeline": "fn(options: Object, node: HTMLElement)",
+        "flip": "fn(args: Object)",
+        "flipCube": "fn(args: Object)",
+        "flipGrid": "fn(args: Object)",
+        "flipPage": "fn(args: Object)",
+        "removeClass": "fn(node: ?, cssClass: ?, args: ?) -> ?",
+        "smoothScroll": "fn(args: Object)",
+        "toggleClass": "fn(node: String, cssClass: String, condition: bool, args: Object) -> ?"
+      },
+      "text": {
+        "backspace": "fn(args: Object)",
+        "blockFadeIn": "fn(args: Object)",
+        "blockFadeOut": "fn(args: Object)",
+        "build": "fn(args: Object)",
+        "converge": "fn(args: Object)",
+        "disintegrate": "fn(args: Object)",
+        "explode": "fn(args: Object)",
+        "type": "fn(args: Object)"
+      },
+      "Timeline": {
+        "addClass": "fn(node: String, cssClass: String, args: Object) -> ?",
+        "animateTimeline": "fn(options: Object, node: HTMLElement)",
+        "flip": "fn(args: Object)",
+        "flipCube": "fn(args: Object)",
+        "flipGrid": "fn(args: Object)",
+        "flipPage": "fn(args: Object)",
+        "removeClass": "fn(node: ?, cssClass: ?, args: ?) -> ?",
+        "smoothScroll": "fn(args: Object)",
+        "toggleClass": "fn(node: String, cssClass: String, condition: bool, args: Object) -> ?"
+      },
+      "_core": {
+        "end": "number",
+        "start": "number",
+        "getValue": {}
+      },
+      "scroll": {},
+      "ext_dojo": {
+        "reverse": {
+          "beforeBegin": "Object",
+          "curve": "Object",
+          "delay": "Object",
+          "duration": "number",
+          "easing": "Object",
+          "onAnimate": "Object",
+          "onBegin": "Object",
+          "onEnd": "Object",
+          "onPause": "Object",
+          "onPlay": "Object",
+          "onStop": "Object",
+          "rate": "Object",
+          "repeat": "Object",
+          "gotoPercent": {},
+          "pause": {},
+          "play": {},
+          "reverse": {},
+          "status": {},
+          "stop": {}
+        },
+        "complex": {},
+        "NodeList": {},
+        "NodeList_style": {}
+      }
+    }
+  },
+  "dojox/fx": "exp",
+  "dojox/fx/Shadow": "exp",
+  "dojox/fx/_core": "exp",
+  "dojox/fx/scroll": "exp",
+  "dojox/fx/_arg": "exp",
+  "dojox/fx/easing": "exp",
+  "dojox/fx/_base": "exp",
+  "dojox/fx/flip": "exp",
+  "dojox/fx/style": "exp",
+  "dojox/fx/text": "exp",
+  "dojox/fx/split": "exp",
+  "dojox/fx/Timeline": "exp",
+  "dojox/fx/ext-dojo/reverse": "exp",
+  "dojox/fx/ext-dojo/complex": "exp",
+  "dojox/fx/ext-dojo/NodeList": "exp",
+  "dojox/fx/ext-dojo/NodeList-style": "exp",
+  "!name": "dojox.fx.d.ts",
+  "!define": {
+    "ret": {
+      "unwatch": "fn()"
+    },
+    "ret1": {
+      "unwatch": "fn()"
+    },
+    "ret2": {
+      "unwatch": "fn()"
+    },
+    "ret3": {
+      "unwatch": "fn()"
+    },
+    "ret4": {
+      "unwatch": "fn()"
+    },
+    "ret5": {
+      "unwatch": "fn()"
+    },
+    "ret6": {
+      "unwatch": "fn()"
+    },
+    "ret7": {
+      "unwatch": "fn()"
+    },
+    "ret8": {
+      "unwatch": "fn()"
+    },
+    "ret9": {
+      "unwatch": "fn()"
+    },
+    "ret10": {
+      "unwatch": "fn()"
+    },
+    "ret11": {
+      "unwatch": "fn()"
+    },
+    "ret12": {
+      "unwatch": "fn()"
+    },
+    "ret13": {
+      "unwatch": "fn()"
+    },
+    "ret14": {
+      "unwatch": "fn()"
+    },
+    "ret15": {
+      "unwatch": "fn()"
+    },
+    "ret16": {
+      "unwatch": "fn()"
+    },
+    "ret17": {
+      "unwatch": "fn()"
+    },
+    "ret18": {
+      "unwatch": "fn()"
+    },
+    "ret19": {
+      "unwatch": "fn()"
+    },
+    "ret20": {
+      "unwatch": "fn()"
+    },
+    "ret21": {
+      "unwatch": "fn()"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "ngStomp": {
+    "sock": "?",
+    "stomp": "?",
+    "debug": "?",
+    "off": "?",
+    "setDebug": "fn(callback: Function)",
+    "connect": "fn(endpoint: string, headers?: Headers)",
+    "disconnect": "fn(callback: fn())",
+    "subscribe": "fn(destination: string, callback: fn(payload: string, headers: Headers, res: Function), headers?: Headers, scope?: ?)",
+    "unsubscribe": "fn()",
+    "send": "fn(destination: string, body: ?, headers: Headers)"
+  },
+  "Headers": {},
+  "!name": "ng-stomp"
+}

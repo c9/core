@@ -1,0 +1,51 @@
+{
+  "IFirebaseSimpleLoginError": {
+    "code": "string",
+    "message": "string"
+  },
+  "IFirebaseSimpleLoginOptions": {
+    "debug": "bool",
+    "rememberMe": "bool",
+    "email": "string",
+    "password": "string",
+    "preferRedirect": "bool",
+    "scope": "string",
+    "access_token": "string",
+    "oauth_token": "string",
+    "backgroundColor": "string",
+    "privacyPolicy": "string",
+    "siteLogo": "string",
+    "siteName": "string",
+    "termsOfService": "string"
+  },
+  "IFirebaseSimpleLoginUser": {
+    "firebaseAuthToken": "string",
+    "id": "string",
+    "provider": "string",
+    "uid": "string",
+    "md5_hash": "string",
+    "email": "string",
+    "accessToken": "string",
+    "displayName": "string",
+    "thirdPartyUserData": "Object",
+    "username": "string",
+    "accessTokenSecret": "string"
+  },
+  "FirebaseSimpleLogin": {
+    "!type": "fn(firebase: Firebase, callback: fn(err: IFirebaseSimpleLoginError, user: IFirebaseSimpleLoginUser))",
+    "prototype": {
+      "email": "string",
+      "id": "string",
+      "provider": "string",
+      "uid": "string",
+      "username": "string",
+      "login": "fn(loginType: string, options?: IFirebaseSimpleLoginOptions)",
+      "logout": "fn()",
+      "createUser": "fn(email: string, password: string, callback?: fn(err: IFirebaseSimpleLoginError, user: IFirebaseSimpleLoginUser))",
+      "changePassword": "fn(email: string, oldPassword: string, newPassword: string, callback?: fn(err: IFirebaseSimpleLoginError, success: bool))",
+      "sendPasswordResetEmail": "fn(email: string, callback?: fn(err: IFirebaseSimpleLoginError, success: bool))",
+      "removeUser": "fn(email: string, password: string, callback?: fn(err: IFirebaseSimpleLoginError, success: bool))"
+    }
+  },
+  "!name": "firebase-simplelogin.d.ts"
+}

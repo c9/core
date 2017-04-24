@@ -1,0 +1,15 @@
+{
+  "precond": {
+    "checkArgument": "fn(value: ?, message?: string, formatArgs: [?])",
+    "checkState": "fn(value: ?, message?: string, formatArgs: [?])",
+    "checkIsDef": "fn(value: ?, message?: string, formatArgs: [?]) -> ?",
+    "checkIsDefAndNotNull": "fn(value: ?, message?: string, formatArgs: [?]) -> ?",
+    "checkIsString": "fn(value: ?, message?: string, formatArgs: [?]) -> ?",
+    "checkIsArray": "fn(value: ?, message?: string, formatArgs: [?]) -> ?",
+    "checkIsNumber": "fn(value: ?, message?: string, formatArgs: [?]) -> ?",
+    "checkIsBoolean": "fn(value: ?, message?: string, formatArgs: [?]) -> ?",
+    "checkIsFunction": "fn(value: ?, message?: string, formatArgs: [?]) -> ?",
+    "checkIsObject": "fn(value: ?, message?: string, formatArgs: [?]) -> ?"
+  },
+  "!name": "precond.d.ts"
+}

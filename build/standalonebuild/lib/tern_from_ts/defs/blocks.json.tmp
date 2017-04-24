@@ -1,0 +1,174 @@
+{
+  "BlocksStatic": {
+    "query": "fn(model: ?)",
+    "extend": "fn(obj: Object, objects: [?])",
+    "each": "fn(collection: ?, callback: fn(value: ?, index: ?, collection: ?), thisArg?: ?)",
+    "eachRight": "fn(collection: ?, callback: fn(value: ?, index: ?, collection: ?), thisArg?: ?)",
+    "isArray": "fn(value: ?) -> bool",
+    "noop": "fn() -> Function",
+    "type": "fn(value: ?) -> string",
+    "is": "fn(value: ?, type: string) -> bool",
+    "has": "fn(obj: ?, key: string) -> bool",
+    "unwrap": "fn(value: ?) -> ?",
+    "toArray": "fn(value: ?) -> [?]",
+    "toUnit": "fn(value: ?) -> ?",
+    "clone": "fn(value: ?) -> ?",
+    "isElements": "fn(value: ?) -> bool",
+    "isElement": "fn(value: ?) -> bool",
+    "isBoolean": "fn(value: ?) -> bool",
+    "isObject": "fn(obj: ?) -> bool",
+    "isPlainObject": "fn(obj: ?) -> bool",
+    "bind": "fn(func: Function, thisArg: ?, args: [?]) -> Function",
+    "equals": "fn(a: ?, b: ?) -> bool",
+    "context": "fn(element: ?) -> ?",
+    "dataItem": "fn(element: ?) -> ?",
+    "isObservable": "fn(value: ?) -> bool",
+    "unwrapObservable": "fn(value: ?) -> ?",
+    "route": "fn(route: string) -> BlocksStatic",
+    "optional": "fn(param: string) -> BlocksStatic",
+    "range": "fn(start: number, end: number) -> BlocksStatic",
+    "server": "fn() -> ret",
+    "observable": "fn() -> BlocksObservable",
+    "Application": "fn() -> App"
+  },
+  "BlocksObservable": {
+    "update": "fn() -> BlocksObservable",
+    "on": "fn(event: string, trigger: Function) -> BlocksObservable"
+  },
+  "BlocksArray": {
+    "update": "fn() -> BlocksArray",
+    "extend": "fn(options: [?]) -> BlocksArray",
+    "reset": "fn(value: [?]) -> BlocksArray",
+    "add": "fn(value: ?) -> BlocksArray",
+    "addMany": "fn(value: [?]) -> BlocksArray",
+    "swap": "fn(indexA: number, indexB: number) -> BlocksArray",
+    "move": "fn(sourceIndex: number, targetIndex: number) -> BlocksArray",
+    "remove": "fn(value: ?) -> BlocksArray",
+    "removeAt": "fn(index: number) -> BlocksArray",
+    "removeAll": "fn() -> BlocksArray",
+    "concat": "fn(arrays: [?]) -> [?]",
+    "slice": "fn(start: number) -> [?]",
+    "join": "fn() -> string",
+    "pop": "fn() -> ?",
+    "push": "fn(values: [?]) -> number",
+    "reverse": "fn() -> [?]",
+    "shift": "fn() -> ?",
+    "sort": "fn() -> [?]",
+    "splice": "fn(index: number, howMany: number, items: [?]) -> [?]",
+    "unshift": "fn(items: [?]) -> number"
+  },
+  "App": {
+    "Property": "fn() -> ?",
+    "View": "fn(name: string, prototype: ViewPrototype) -> ?",
+    "Model": "fn(prototype: ModelPrototype) -> Model",
+    "Collection": "fn(prototype: CollectionPrototype) -> Collection"
+  },
+  "PropertyPrototype": {
+    "defaultValue": "?",
+    "isObservable": "bool",
+    "field": "string",
+    "value": "?",
+    "validateOnChange": "bool",
+    "maxErrors": "number",
+    "validateInitially": "bool",
+    "required": "Validator",
+    "minlength": "Validator",
+    "maxlength": "Validator",
+    "min": "Validator",
+    "max": "Validator",
+    "email": "Validator",
+    "url": "Validator",
+    "date": "Validator",
+    "creditcard": "Validator",
+    "regexp": "Validator",
+    "number": "Validator",
+    "digits": "Validator",
+    "letters": "Validator",
+    "equals": "Validator"
+  },
+  "Validator": {},
+  "ViewPrototype": {
+    "parentView": "?",
+    "route": "fn(name: string) -> ViewPrototype",
+    "isActive": "fn() -> bool",
+    "init": "Function",
+    "routed": "Function",
+    "navigateTo": "Function",
+    "ready": "Function",
+    "options": {
+      "route": "?",
+      "url": "string"
+    }
+  },
+  "Model": {
+    "read": "fn() -> Model",
+    "sync": "fn() -> Model"
+  },
+  "ModelPrototype": {
+    "init": "Function",
+    "validate": "fn() -> bool",
+    "dataItem": "fn() -> Object",
+    "reset": "fn(dataItem: ModelPrototype) -> ModelPrototype",
+    "isNew": "fn() -> bool",
+    "options": {
+      "idAttr": "string",
+      "baseUrl": "string",
+      "read": {
+        "url": "string"
+      },
+      "create": {
+        "url": "string"
+      },
+      "destroy": {
+        "url": "string"
+      },
+      "update": {
+        "url": "string"
+      }
+    },
+    "boolean": "?",
+    "Object": "?",
+    "Validator": "?"
+  },
+  "Collection": {
+    "read": "fn() -> Collection",
+    "clearChanges": "fn() -> Collection",
+    "sync": "fn() -> Collection",
+    "update": "fn(id: number, newValues: Object) -> Collection"
+  },
+  "CollectionPrototype": {
+    "options": {
+      "read": {
+        "url": "string"
+      },
+      "create": {
+        "url": "string"
+      },
+      "destroy": {
+        "url": "string"
+      },
+      "update": {
+        "url": "string"
+      }
+    }
+  },
+  "Extendable": {
+    "extend": "fn(name?: string, options: [?]) -> T"
+  },
+  "Server": {
+    "port": "number",
+    "static": "string",
+    "cache": "bool",
+    "use": "?"
+  },
+  "blocks": "BlocksStatic",
+  "!name": "blocks.d.ts",
+  "!define": {
+    "ret": {
+      "express": "fn() -> ?"
+    },
+    "ret1": {
+      "express": "fn() -> ?"
+    }
+  }
+}

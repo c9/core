@@ -1,0 +1,147 @@
+{
+  "Window": {
+    "webcl": "WEBCL.WebCL"
+  },
+  "WebCLEvent": {},
+  "WEBCL": {
+    "WebCLBuffer": {
+      "createSubBuffer": "fn(memFlags: MemFlagsBits, origin: number, sizeInBytes: number) -> WebCLBuffer"
+    },
+    "WebCLCallback": {},
+    "WebCLCommandQueue": {
+      "enqueueCopyBuffer": "fn(srcBuffer: WebCLBuffer, dstBuffer: WebCLBuffer, srcOffset: number, dstOffset: number, numBytes: number, eventWaitList?: [WebCLEvent], event?: WebCLEvent)",
+      "enqueueCopyBufferRect": "fn(srcBuffer: WebCLBuffer, dstBuffer: WebCLBuffer, srcOrigin: [number], dstOrigin: [number], region: [number], srcRowPitch: number, srcSlicePitch: number, dstRowPitch: number, dstSlicePitch: number, eventWaitList?: [WebCLEvent], event?: WebCLEvent)",
+      "enqueueCopyImage": "fn(srcImage: WebCLImage, dstImage: WebCLImage, srcOrigin: [number], dstOrigin: [number], region: [number], eventWaitList?: [WebCLEvent], event?: WebCLEvent)",
+      "enqueueCopyImageToBuffer": "fn(srcImage: WebCLImage, dstBuffer: WebCLBuffer, srcOrigin: [number], srcRegion: [number], dstOffset: number, eventWaitList?: [WebCLEvent], event?: WebCLEvent)",
+      "enqueueCopyBufferToImage": "fn(srcBuffer: WebCLBuffer, dstImage: WebCLImage, srcOffset: number, dstOrigin: [number], dstRegion: [number], eventWaitList?: [WebCLEvent], event?: WebCLEvent)",
+      "enqueueReadBuffer": "fn(buffer: WebCLBuffer, blockingRead: bool, bufferOffset: number, numBytes: number, hostPtr: ArrayBufferView, eventWaitList?: [WebCLEvent], event?: WebCLEvent)",
+      "enqueueReadBufferRect": "fn(buffer: WebCLBuffer, blockingRead: bool, bufferOrigin: [number], hostOrigin: [number], region: [number], bufferRowPitch: number, bufferSlicePitch: number, hostRowPitch: number, hostSlicePitch: number, hostPtr: ArrayBufferView, eventWaitList?: [WebCLEvent], event?: WebCLEvent)",
+      "enqueueReadImage": "fn(image: WebCLImage, blockingRead: bool, origin: [number], region: [number], hostRowPitch: number, hostPtr: ArrayBufferView, eventWaitList?: [WebCLEvent], event?: WebCLEvent)",
+      "enqueueWriteBuffer": "fn(buffer: WebCLBuffer, blockingWrite: bool, bufferOffset: number, numBytes: number, hostPtr: ArrayBufferView, eventWaitList?: [WebCLEvent], event?: WebCLEvent)",
+      "enqueueWriteBufferRect": "fn(buffer: WebCLBuffer, blockingWrite: bool, bufferOrigin: [number], hostOrigin: [number], region: [number], bufferRowPitch: number, bufferSlicePitch: number, hostRowPitch: number, hostSlicePitch: number, hostPtr: ArrayBufferView, eventWaitList?: [WebCLEvent], event?: WebCLEvent)",
+      "enqueueWriteImage": "fn(image: WebCLImage, blockingWrite: bool, origin: [number], region: [number], hostRowPitch: number, hostPtr: ArrayBufferView, eventWaitList?: [WebCLEvent], event?: WebCLEvent)",
+      "enqueueNDRangeKernel": "fn(kernel: WebCLKernel, workDim: number, globalWorkOffset: [number], globalWorkSize: [number], localWorkSize?: [number], eventWaitList?: [WebCLEvent], event?: WebCLEvent)",
+      "enqueueMarker": "fn(event: WebCLEvent)",
+      "enqueueBarrier": "fn()",
+      "enqueueWaitForEvents": "fn(eventWaitList: [WebCLEvent])",
+      "finish": "fn(whenFinished?: WebCLCallback)",
+      "flush": "fn()",
+      "getInfo": "fn(name: ContextProperties) -> ?",
+      "release": "fn()"
+    },
+    "WebCLContext": {
+      "createBuffer": "fn(memFlags: MemFlagsBits, sizeInBytes: number, hostPtr?: ArrayBufferView) -> WebCLBuffer",
+      "createCommandQueue": "fn(device: WebCLDevice, properties?: CommandQueueProperties) -> WebCLCommandQueue",
+      "createImage": "fn(memFlags: MemFlagsBits, descriptor: WebCLImageDescriptor, hostPtr?: ArrayBufferView) -> WebCLImage",
+      "createProgram": "fn(source: string) -> WebCLProgram",
+      "createSampler": "fn(normalizedCoords: number, addressingMode: AddressingMode, filterMode: FilterMode) -> WebCLSampler",
+      "createUserEvent": "fn() -> WebCLUserEvent",
+      "getInfo": "fn(name: ContextInfo) -> ?",
+      "getSupportedImageFormats": "fn(memFlags?: MemFlagsBits) -> [WebCLImageDescriptor]",
+      "release": "fn()",
+      "releaseAll": "fn()"
+    },
+    "WebCLDevice": {
+      "getInfo": "fn(name: DeviceInfo) -> ?",
+      "getSupportedExtensions": "fn() -> [string]",
+      "enableExtension": "fn(extensionName: string) -> bool"
+    },
+    "WebCLEvent": {
+      "getInfo": "fn(name: EventInfo) -> ?",
+      "getProfilingInfo": "fn(name: ProfilingInfo) -> number",
+      "setCallback": "fn(commandExecCallbackType: CommandExecutionStatus, notify: WebCLCallback)",
+      "release": "fn()"
+    },
+    "WebCLException": {
+      "name": "string",
+      "message": "string"
+    },
+    "WebCLImage": {
+      "getInfo": "fn() -> WebCLImageDescriptor"
+    },
+    "WebCLImageDescriptor": {
+      "channelOrder": "ChannelOrder",
+      "channelType": "ChannelType",
+      "width": "number",
+      "height": "number",
+      "rowPitch": "number"
+    },
+    "WebCLKernel": {
+      "getInfo": "fn(name: KernelInfo) -> ?",
+      "getWorkGroupInfo": "fn(device: WebCLDevice, name: KernelWorkGroupInfo) -> ?",
+      "getArgInfo": "fn(index: number) -> WebCLKernelArgInfo",
+      "setArg": "fn(index: number, buffer: WebCLBuffer)",
+      "release": "fn()"
+    },
+    "WebCLKernelArgInfo": {
+      "name": "string",
+      "typeName": "string",
+      "addressQualifier": "string",
+      "accessQualifier": "string"
+    },
+    "WebCLMemoryObject": {
+      "getInfo": "fn(name: MemInfo) -> ?",
+      "release": "fn()"
+    },
+    "WebCLPlatform": {
+      "getInfo": "fn(name: PlatformInfo) -> ?",
+      "getDevices": "fn(deviceType?: DeviceTypeBits) -> [WebCLDevice]",
+      "getSupportedExtensions": "fn() -> [string]",
+      "enableExtension": "fn(extensionName: string) -> bool"
+    },
+    "WebCLProgram": {
+      "getInfo": "fn(name: ProgramInfo) -> ?",
+      "getBuildInfo": "fn(device: WebCLDevice, name: ProgramBuildInfo) -> ?",
+      "build": "fn(devices?: [WebCLDevice], options?: string, whenFinished?: WebCLCallback)",
+      "createKernel": "fn(kernelName: string) -> WebCLKernel",
+      "createKernelsInProgram": "fn() -> [WebCLKernel]",
+      "release": "fn()"
+    },
+    "WebCLSampler": {
+      "getInfo": "fn(name: SamplerInfo) -> ?",
+      "release": "fn()"
+    },
+    "WebCLUserEvent": {
+      "setStatus": "fn(executionStatus: CommandExecutionStatus)"
+    },
+    "ErrorCodes": "number",
+    "Bool": "number",
+    "PlatformInfo": "number",
+    "DeviceTypeBits": "number",
+    "DeviceInfo": "number",
+    "DeviceFPConfigBits": "number",
+    "DeviceMemCacheType": "number",
+    "DeviceLocalMemType": "number",
+    "DeviceExecCapabilitiesBits": "number",
+    "CommandQueueProperties": "number",
+    "ContextInfo": "number",
+    "ContextProperties": "number",
+    "MemFlagsBits": "number",
+    "ChannelOrder": "number",
+    "ChannelType": "number",
+    "MemObjectType": "number",
+    "MemInfo": "number",
+    "ImageInfo": "number",
+    "AddressingMode": "number",
+    "FilterMode": "number",
+    "SamplerInfo": "number",
+    "ProgramInfo": "number",
+    "ProgramBuildInfo": "number",
+    "BuildStatus": "number",
+    "KernelInfo": "number",
+    "KernelWorkGroupInfo": "number",
+    "EventInfo": "number",
+    "CommandType": "number",
+    "CommandExecutionStatus": "number",
+    "ProfilingInfo": "number",
+    "WebCL": {
+      "getPlatforms": "fn() -> [WebCLPlatform]",
+      "createContext": "fn(deviceType?: DeviceTypeBits) -> WebCLContext",
+      "getSupportedExtensions": "fn() -> [string]",
+      "enableExtension": "fn(extensionName: string) -> bool",
+      "waitForEvents": "fn(eventWaitList: [WebCLEvent], whenFinished?: WebCLCallback)",
+      "releaseAll": "fn()"
+    }
+  },
+  "!name": "webcl"
+}

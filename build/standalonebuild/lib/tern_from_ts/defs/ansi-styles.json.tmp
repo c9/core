@@ -1,0 +1,34 @@
+{
+  "ansi-styles": {
+    "EscapeCodePair": {
+      "open": "string",
+      "close": "string"
+    },
+    "reset": "EscapeCodePair",
+    "bold": "EscapeCodePair",
+    "dim": "EscapeCodePair",
+    "italic": "EscapeCodePair",
+    "underline": "EscapeCodePair",
+    "inverse": "EscapeCodePair",
+    "hidden": "EscapeCodePair",
+    "strikethrough": "EscapeCodePair",
+    "black": "EscapeCodePair",
+    "red": "EscapeCodePair",
+    "green": "EscapeCodePair",
+    "yellow": "EscapeCodePair",
+    "blue": "EscapeCodePair",
+    "magenta": "EscapeCodePair",
+    "cyan": "EscapeCodePair",
+    "white": "EscapeCodePair",
+    "gray": "EscapeCodePair",
+    "bgBlack": "EscapeCodePair",
+    "bgRed": "EscapeCodePair",
+    "bgGreen": "EscapeCodePair",
+    "bgYellow": "EscapeCodePair",
+    "bgBlue": "EscapeCodePair",
+    "bgMagenta": "EscapeCodePair",
+    "bgCyan": "EscapeCodePair",
+    "bgWhite": "EscapeCodePair"
+  },
+  "!name": "ansi-styles.d.ts"
+}

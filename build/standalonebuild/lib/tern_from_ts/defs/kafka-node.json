@@ -1,0 +1,111 @@
+{
+  "'kafka-node'": {
+    "Client": {
+      "!type": "fn(connectionString: string, clientId: string, options?: ZKOptions)",
+      "prototype": {
+        "close": "fn(callback?: Function)"
+      }
+    },
+    "Producer": {
+      "!type": "fn(client: Client)",
+      "prototype": {
+        "on": "fn(eventName: string, cb: fn())",
+        "send": "fn(payloads: ?, cb: fn(error: ?, data: ?))",
+        "createTopics": "fn(topics: ?, async: bool, cb?: fn(error: ?, data: ?))"
+      }
+    },
+    "HighLevelProducer": {
+      "!type": "fn(client: Client)",
+      "prototype": {
+        "on": "fn(eventName: string, cb: fn())",
+        "send": "fn(payloads: ?, cb: fn(error: ?, data: ?))",
+        "createTopics": "fn(topics: ?, async: bool, cb?: fn(error: ?, data: ?))"
+      }
+    },
+    "Consumer": {
+      "!type": "fn(client: Client, fetchRequests: ?, options: ConsumerOptions)",
+      "prototype": {
+        "on": "fn(eventName: string, cb: fn(message: string))",
+        "addTopics": "fn(topics: ?, cb: fn(error: ?, added: bool))",
+        "removeTopics": "fn(topics: ?, cb: fn(error: ?, removed: bool))",
+        "commit": "fn(cb: fn(error: ?, data: ?))",
+        "setOffset": "fn(topic: string, partition: number, offset: number)",
+        "pause": "fn()",
+        "resume": "fn()",
+        "pauseTopics": "fn(topics: ?)",
+        "resumeTopics": "fn(topics: ?)",
+        "close": "fn(force: bool, cb: fn())"
+      }
+    },
+    "HighLevelConsumer": {
+      "!type": "fn(client: Client, payloads: ?, options: ConsumerOptions)",
+      "prototype": {
+        "on": "fn(eventName: string, cb: fn(message: string))",
+        "addTopics": "fn(topics: ?, cb: fn(error: ?, added: bool))",
+        "removeTopics": "fn(topics: ?, cb: fn(error: ?, removed: bool))",
+        "commit": "fn(cb: fn(error: ?, data: ?))",
+        "setOffset": "fn(topic: string, partition: number, offset: number)",
+        "pause": "fn()",
+        "resume": "fn()",
+        "pauseTopics": "fn(topics: ?)",
+        "resumeTopics": "fn(topics: ?)",
+        "close": "fn(force: bool, cb: fn())"
+      }
+    },
+    "Offset": {
+      "!type": "fn(client: Client)",
+      "prototype": {
+        "on": "fn(eventName: string, cb: fn())",
+        "fetch": "fn(payloads: ?, cb: fn(error: ?, data: ?))",
+        "commit": "fn(groupId: string, payloads: ?, cb: fn(error: ?, data: ?))",
+        "fetchCommits": "fn(groupId: string, payloads: ?, cb: fn(error: ?, data: ?))"
+      }
+    },
+    "KeyedMessage": {
+      "!type": "fn(key: string, message: string)",
+      "prototype": {}
+    },
+    "ZKOptions": {
+      "sessionTimeout": "number",
+      "spinDelay": "number",
+      "retries": "number"
+    },
+    "ProduceRequest": {
+      "topic": "string",
+      "messages": "?",
+      "partition": "number",
+      "attributes": "number"
+    },
+    "ConsumerOptions": {
+      "groupId": "string",
+      "autoCommit": "bool",
+      "autoCommitIntervalMs": "number",
+      "fetchMaxWaitMs": "number",
+      "fetchMinBytes": "number",
+      "fetchMaxBytes": "number",
+      "fromOffset": "bool",
+      "encoding": "string"
+    },
+    "Topic": {
+      "topic": "string",
+      "offset": "number"
+    },
+    "OffsetRequest": {
+      "topic": "string",
+      "partition": "number",
+      "time": "number",
+      "maxNum": "number"
+    },
+    "OffsetCommitRequest": {
+      "topic": "string",
+      "partition": "number",
+      "offset": "number",
+      "metadata": "string"
+    },
+    "OffsetFetchRequest": {
+      "topic": "string",
+      "partition": "number"
+    }
+  },
+  "!name": "kafka-node"
+}

@@ -1,0 +1,16 @@
+{
+  "YUI": {
+    "Test": "YUITest.YUITestStatic",
+    "Assert": "YUITest.IAssert",
+    "add": "fn(name: string, fn: fn(Y: YUI, name: string), version: string, details?: Y.IConfig) -> YUI",
+    "mix": "fn(receiver: Function, supplier: Function, overwrite?: bool, whitelist?: [string], mode?: number, merge?: bool) -> ?"
+  },
+  "Y": {
+    "IConfig": {
+      "requires": "[string]",
+      "optional": "[string]",
+      "use": "[string]"
+    }
+  },
+  "!name": "yui"
+}

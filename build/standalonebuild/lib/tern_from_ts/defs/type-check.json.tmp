@@ -1,0 +1,17 @@
+{
+  "TypeCheck": {
+    "CustomType": {},
+    "Options": {
+      "customTypes": "CustomType"
+    },
+    "TC": {
+      "VERSION": "string",
+      "typeCheck": "fn(typeDescription: string, inst: ?, options?: Options)",
+      "parseType": "fn(typeDescription: string)",
+      "parsedTypeCheck": "fn(parsedType: ?, obj: ?)"
+    }
+  },
+  "typecheck": "TypeCheck.TC",
+  "type-check": "typecheck",
+  "!name": "type-check.d.ts"
+}

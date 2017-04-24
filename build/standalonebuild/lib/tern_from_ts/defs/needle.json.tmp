@@ -1,0 +1,57 @@
+{
+  "Needle": {
+    "ReadableStream": {},
+    "Callback": {},
+    "RequestOptions": {
+      "timeout": "number",
+      "follow": "number",
+      "follow_max": "number",
+      "multipart": "bool",
+      "proxy": "string",
+      "agent": "string",
+      "headers": "HttpHeaderOptions",
+      "auth": "string",
+      "json": "bool",
+      "compressed": "bool",
+      "cookies": {},
+      "username": "string",
+      "password": "string"
+    },
+    "ResponseOptions": {
+      "decode": "bool",
+      "parse": "bool",
+      "output": "?"
+    },
+    "HttpHeaderOptions": {
+      "cookies": {},
+      "compressed": "bool",
+      "accept": "string",
+      "connection": "string",
+      "user_agent": "string",
+      "username": "string",
+      "password": "string"
+    },
+    "TLSOptions": {
+      "pfx": "?",
+      "key": "?",
+      "passphrase": "string",
+      "cert": "?",
+      "ca": "?",
+      "ciphers": "?",
+      "rejectUnauthorized": "bool",
+      "secureProtocol": "?"
+    },
+    "NeedleOptions": {},
+    "NeedleStatic": {
+      "defaults": "fn(options?: ?)",
+      "head": "fn(url: string) -> ReadableStream",
+      "get": "fn(url: string) -> ReadableStream",
+      "post": "fn(url: string, data: ?) -> ReadableStream",
+      "put": "fn(url: string, data: ?) -> ReadableStream",
+      "delete": "fn(url: string, data: ?) -> ReadableStream",
+      "request": "fn(method: string, url: string, data: ?) -> ReadableStream"
+    }
+  },
+  "needle": "needle",
+  "!name": "needle.d.ts"
+}

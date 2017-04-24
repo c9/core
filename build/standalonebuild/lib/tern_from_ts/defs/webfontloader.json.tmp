@@ -1,0 +1,43 @@
+{
+  "WebFont": {
+    "load": "fn(config: WebFont.Config)",
+    "Config": {
+      "classes": "bool",
+      "events": "bool",
+      "timeout": "number",
+      "loading": "fn()",
+      "active": "fn()",
+      "inactive": "fn()",
+      "fontloading": "fn(familyName: string, fvd: string)",
+      "fontactive": "fn(familyName: string, fvd: string)",
+      "fontinactive": "fn(familyName: string, fvd: string)",
+      "context": "?",
+      "custom": "Custom",
+      "google": "Google",
+      "typekit": "Typekit",
+      "fontdeck": "Fontdeck",
+      "monotype": "Monotype"
+    },
+    "Google": {
+      "families": "?",
+      "text": "string"
+    },
+    "Typekit": {
+      "id": "?"
+    },
+    "Custom": {
+      "families": "?",
+      "urls": "?",
+      "testStrings": {}
+    },
+    "Fontdeck": {
+      "id": "string"
+    },
+    "Monotype": {
+      "projectId": "string",
+      "version": "number"
+    }
+  },
+  "webfontloader": "WebFont",
+  "!name": "webfontloader.d.ts"
+}

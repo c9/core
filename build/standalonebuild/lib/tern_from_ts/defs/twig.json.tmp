@@ -1,0 +1,29 @@
+{
+  "twig": {
+    "Parameters": {
+      "id": "?",
+      "ref": "?",
+      "href": "?",
+      "path": "?",
+      "debug": "bool",
+      "trace": "bool",
+      "strict_variables": "bool",
+      "data": "?"
+    },
+    "Template": {},
+    "CompileOptions": {
+      "filename": "string",
+      "settings": "?"
+    },
+    "twig": "fn(params: Parameters) -> Template",
+    "extendFilter": "fn(name: string, definition: fn(left: ?, params: [?]))",
+    "extendFunction": "fn(name: string, definition: fn(params: [?]))",
+    "extendTest": "fn(name: string, definition: fn(value: ?))",
+    "extendTag": "fn(definition: ?)",
+    "compile": "fn(markup: string, options: CompileOptions) -> fn(context: ?)",
+    "renderFile": "fn(path: string, options: CompileOptions, fn: fn(err: Error, result: ?))",
+    "__express": "fn(path: string, options: CompileOptions, fn: fn(err: Error, result: ?))",
+    "cache": "fn(value: bool)"
+  },
+  "!name": "twig.d.ts"
+}

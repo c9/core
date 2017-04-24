@@ -1,0 +1,6 @@
+{
+    "cmd": ["bash", "--login", "-c", "rvm use 2.2>/dev/null 2>&1; rails server -p $port -b $ip $args"],
+    "working_dir": "$project_path",
+    "info": "Your code is running at \\033[01;34m$url\\033[00m.\n\\033[01;31m",
+    "selector": "source.ru"
+}

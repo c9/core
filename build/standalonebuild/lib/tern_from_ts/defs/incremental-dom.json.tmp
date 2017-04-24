@@ -1,0 +1,13 @@
+{
+  "incremental-dom": {
+    "patch": "fn(el: Node, fn: Function)",
+    "elementOpen": "fn(tag: string, key?: string, statics?: [?], var_args: [?])",
+    "elementOpenStart": "fn(tag: string, key?: ?, statics: [?])",
+    "attr": "fn(name: string, value: ?)",
+    "elementOpenEnd": "fn()",
+    "elementClose": "fn()",
+    "elementVoid": "fn(tag: string, key?: string, statics?: ?, var_args: [?])",
+    "text": "fn(value: string)"
+  },
+  "!name": "incremental-dom.d.ts"
+}

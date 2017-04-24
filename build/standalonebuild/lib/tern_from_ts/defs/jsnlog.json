@@ -1,0 +1,64 @@
+{
+  "JSNLog": {
+    "JSNLogOptions": {
+      "enabled": "bool",
+      "maxMessages": "number",
+      "defaultAjaxUrl": "string",
+      "clientIP": "string",
+      "requestId": "string",
+      "defaultBeforeSend": "fn(xhr: XMLHttpRequest)"
+    },
+    "JSNLogFilterOptions": {
+      "level": "number",
+      "ipRegex": "string",
+      "userAgentRegex": "string",
+      "disallow": "string"
+    },
+    "JSNLogLoggerOptions": {
+      "appenders": "[JSNLogAppender]",
+      "onceOnly": "[string]"
+    },
+    "JSNLogAppenderOptions": {
+      "sendWithBufferLevel": "number",
+      "storeInBufferLevel": "number",
+      "bufferSize": "number",
+      "batchSize": "number"
+    },
+    "JSNLogAjaxAppenderOptions": {
+      "url": "string",
+      "beforeSend": "fn(xhr: XMLHttpRequest)"
+    },
+    "JSNLogLogger": {
+      "setOptions": "fn(options: JSNLogLoggerOptions) -> JSNLogLogger",
+      "trace": "fn(logObject: ?) -> JSNLogLogger",
+      "debug": "fn(logObject: ?) -> JSNLogLogger",
+      "info": "fn(logObject: ?) -> JSNLogLogger",
+      "warn": "fn(logObject: ?) -> JSNLogLogger",
+      "error": "fn(logObject: ?) -> JSNLogLogger",
+      "fatal": "fn(logObject: ?) -> JSNLogLogger",
+      "fatalException": "fn(logObject: ?, e: ?) -> JSNLogLogger",
+      "log": "fn(level: number, logObject: ?, e?: ?) -> JSNLogLogger"
+    },
+    "JSNLogAppender": {
+      "setOptions": "fn(options: JSNLogAppenderOptions) -> JSNLogAppender"
+    },
+    "JSNLogAjaxAppender": {
+      "setOptions": "fn(options: JSNLogAjaxAppenderOptions) -> JSNLogAjaxAppender"
+    },
+    "JSNLogConsoleAppender": {},
+    "JSNLogStatic": {
+      "setOptions": "fn(options: JSNLogOptions) -> JSNLogStatic",
+      "createAjaxAppender": "fn(appenderName: string) -> JSNLogAjaxAppender",
+      "createConsoleAppender": "fn(appenderName: string) -> JSNLogConsoleAppender",
+      "getTraceLevel": "fn() -> number",
+      "getDebugLevel": "fn() -> number",
+      "getInfoLevel": "fn() -> number",
+      "getWarnLevel": "fn() -> number",
+      "getErrorLevel": "fn() -> number",
+      "getFatalLevel": "fn() -> number"
+    }
+  },
+  "__jsnlog_configure": "fn(jsnlog: JSNLog.JSNLogStatic)",
+  "JL": "JSNLog.JSNLogStatic",
+  "!name": "jsnlog"
+}

@@ -1,0 +1,63 @@
+{
+  "Chai": {
+    "ChaiStatic": {
+      "request": "ChaiHttpRequest"
+    },
+    "ChaiHttpRequest": {
+      "agent": "fn(server: ?) -> ChaiHttp.Agent",
+      "addPromises": "fn(promiseConstructor: ?)"
+    },
+    "Assertion": {
+      "status": "fn(code: number) -> Assertion",
+      "header": "fn(key: string, value?: string) -> Assertion",
+      "headers": "Assertion",
+      "json": "Assertion",
+      "text": "Assertion",
+      "html": "Assertion",
+      "redirect": "Assertion",
+      "redirectTo": "fn(location: string) -> Assertion",
+      "param": "fn(key: string, value?: string) -> Assertion",
+      "cookie": "fn(key: string, value?: string) -> Assertion"
+    },
+    "TypeComparison": {
+      "ip": "Assertion"
+    }
+  },
+  "ChaiHttp": {
+    "Promise": {
+      "then": "fn(onFulfilled: fn(value: T), onRejected?: fn(reason: ?)) -> ?"
+    },
+    "Response": {
+      "body": "?",
+      "type": "string",
+      "status": "number"
+    },
+    "Request": {
+      "attach": "fn(field: string, file: string, Buffer: ?, filename: string) -> Request",
+      "set": "fn(field: string, val: string) -> Request",
+      "query": "fn(params: Object) -> Request",
+      "send": "fn(data: Object) -> Request",
+      "auth": "fn(user: string, name: string) -> Request",
+      "field": "fn(name: string, val: string) -> Request",
+      "end": "fn(callback?: fn(err: ?, res: Response)) -> FinishedRequest"
+    },
+    "FinishedRequest": {
+      "then": "fn(success?: fn(res: Response), failure?: fn(err: ?)) -> FinishedRequest",
+      "catch": "fn(failure?: fn(err: ?)) -> FinishedRequest"
+    },
+    "Agent": {
+      "get": "fn(url: string, callback?: fn(err: ?, res: Response)) -> Request",
+      "post": "fn(url: string, callback?: fn(err: ?, res: Response)) -> Request",
+      "put": "fn(url: string, callback?: fn(err: ?, res: Response)) -> Request",
+      "head": "fn(url: string, callback?: fn(err: ?, res: Response)) -> Request",
+      "del": "fn(url: string, callback?: fn(err: ?, res: Response)) -> Request",
+      "options": "fn(url: string, callback?: fn(err: ?, res: Response)) -> Request",
+      "patch": "fn(url: string, callback?: fn(err: ?, res: Response)) -> Request"
+    },
+    "TypeComparison": {
+      "ip": "?"
+    }
+  },
+  "chai-http": "chaiHttp",
+  "!name": "chai-http"
+}

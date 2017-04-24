@@ -1,0 +1,88 @@
+{
+  "GoogleAppsScript": {
+    "Maps": {
+      "Avoid": "number",
+      "Color": "number",
+      "DirectionFinder": {
+        "addWaypoint": "fn(latitude: Number, longitude: Number) -> DirectionFinder",
+        "clearWaypoints": "fn() -> DirectionFinder",
+        "getDirections": "fn() -> Object",
+        "setAlternatives": "fn(useAlternatives: bool) -> DirectionFinder",
+        "setArrive": "fn(time: Date) -> DirectionFinder",
+        "setAvoid": "fn(avoid: string) -> DirectionFinder",
+        "setDepart": "fn(time: Date) -> DirectionFinder",
+        "setDestination": "fn(latitude: Number, longitude: Number) -> DirectionFinder",
+        "setLanguage": "fn(language: string) -> DirectionFinder",
+        "setMode": "fn(mode: string) -> DirectionFinder",
+        "setOptimizeWaypoints": "fn(optimizeOrder: bool) -> DirectionFinder",
+        "setOrigin": "fn(latitude: Number, longitude: Number) -> DirectionFinder",
+        "setRegion": "fn(region: string) -> DirectionFinder"
+      },
+      "DirectionFinderEnums": {
+        "Avoid": "Avoid",
+        "Mode": "Mode"
+      },
+      "ElevationSampler": {
+        "sampleLocation": "fn(latitude: Number, longitude: Number) -> Object",
+        "sampleLocations": "fn(points: [Number]) -> Object",
+        "samplePath": "fn(points: [Number], numSamples: Integer) -> Object"
+      },
+      "Format": "number",
+      "Geocoder": {
+        "geocode": "fn(address: string) -> Object",
+        "reverseGeocode": "fn(latitude: Number, longitude: Number) -> Object",
+        "setBounds": "fn(swLatitude: Number, swLongitude: Number, neLatitude: Number, neLongitude: Number) -> Geocoder",
+        "setLanguage": "fn(language: string) -> Geocoder",
+        "setRegion": "fn(region: string) -> Geocoder"
+      },
+      "Maps": {
+        "DirectionFinder": "DirectionFinderEnums",
+        "StaticMap": "StaticMapEnums",
+        "decodePolyline": "fn(polyline: string) -> [Number]",
+        "encodePolyline": "fn(points: [Number]) -> string",
+        "newDirectionFinder": "fn() -> DirectionFinder",
+        "newElevationSampler": "fn() -> ElevationSampler",
+        "newGeocoder": "fn() -> Geocoder",
+        "newStaticMap": "fn() -> StaticMap",
+        "setAuthentication": "fn(clientId: string, signingKey: string)"
+      },
+      "MarkerSize": "number",
+      "Mode": "number",
+      "StaticMap": {
+        "addAddress": "fn(address: string) -> StaticMap",
+        "addMarker": "fn(latitude: Number, longitude: Number) -> StaticMap",
+        "addPath": "fn(points: [Number]) -> StaticMap",
+        "addPoint": "fn(latitude: Number, longitude: Number) -> StaticMap",
+        "addVisible": "fn(latitude: Number, longitude: Number) -> StaticMap",
+        "beginPath": "fn() -> StaticMap",
+        "clearMarkers": "fn() -> StaticMap",
+        "clearPaths": "fn() -> StaticMap",
+        "clearVisibles": "fn() -> StaticMap",
+        "endPath": "fn() -> StaticMap",
+        "getAs": "fn(contentType: string) -> Base.Blob",
+        "getBlob": "fn() -> Base.Blob",
+        "getMapImage": "fn() -> [Byte]",
+        "getMapUrl": "fn() -> string",
+        "setCenter": "fn(latitude: Number, longitude: Number) -> StaticMap",
+        "setCustomMarkerStyle": "fn(imageUrl: string, useShadow: bool) -> StaticMap",
+        "setFormat": "fn(format: string) -> StaticMap",
+        "setLanguage": "fn(language: string) -> StaticMap",
+        "setMapType": "fn(mapType: string) -> StaticMap",
+        "setMarkerStyle": "fn(size: string, color: string, label: string) -> StaticMap",
+        "setMobile": "fn(useMobileTiles: bool) -> StaticMap",
+        "setPathStyle": "fn(weight: Integer, color: string, fillColor: string) -> StaticMap",
+        "setSize": "fn(width: Integer, height: Integer) -> StaticMap",
+        "setZoom": "fn(zoom: Integer) -> StaticMap"
+      },
+      "StaticMapEnums": {
+        "Color": "Color",
+        "Format": "Format",
+        "MarkerSize": "MarkerSize",
+        "Type": "Type"
+      },
+      "Type": "number"
+    }
+  },
+  "Maps": "GoogleAppsScript.Maps.Maps",
+  "!name": "google-apps-script.maps.d.ts"
+}

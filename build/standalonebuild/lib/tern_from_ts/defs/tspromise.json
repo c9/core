@@ -1,0 +1,12 @@
+{
+  "Thenable": {
+    "prototype": {
+      "then": "fn(onFulfilled: fn(value: T), onRejected?: fn(error: Error)) -> ?",
+      "catch": "fn(onRejected: fn(error: Error)) -> ?"
+    }
+  },
+  "NodeCallback": {},
+  "tspromise": "Promise",
+  "yield": "fn(promise: ?) -> T",
+  "!name": "tspromise"
+}

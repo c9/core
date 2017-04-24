@@ -1,0 +1,4 @@
+{
+  "gulp-less": "less",
+  "!name": "gulp-less.d.ts"
+}

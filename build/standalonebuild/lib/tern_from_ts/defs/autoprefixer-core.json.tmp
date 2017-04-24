@@ -1,0 +1,4 @@
+{
+  "autoprefixer-core": "exports",
+  "!name": "autoprefixer-core.d.ts"
+}

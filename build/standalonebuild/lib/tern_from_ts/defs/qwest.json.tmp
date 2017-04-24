@@ -1,0 +1,34 @@
+{
+  "Qwest": {
+    "Static": {
+      "base": "string",
+      "xhr2": "bool",
+      "limit": "fn(by: number)",
+      "setDefaultXdrResponseType": "fn(type: string)",
+      "before": "fn(callback: fn()) -> Static",
+      "get": "fn(url: string, data?: ?, options?: Options) -> Promise",
+      "post": "fn(url: string, data?: ?, options?: Options) -> Promise",
+      "put": "fn(url: string, data?: ?, options?: Options) -> Promise",
+      "delete": "fn(url: string, data?: ?, options?: Options) -> Promise"
+    },
+    "Promise": {
+      "then": "fn(callback: fn(response: ?)) -> Promise",
+      "catch": "fn(callback: fn(e: ?, response: ?)) -> Promise",
+      "complete": "fn(callback: fn()) -> Promise"
+    },
+    "Options": {
+      "dataType": "string",
+      "responseType": "string",
+      "cache": "bool",
+      "async": "bool",
+      "user": "string",
+      "password": "string",
+      "headers": {},
+      "withCredentials": "bool",
+      "timeout": "number",
+      "attempts": "number"
+    }
+  },
+  "qwest": "qwest",
+  "!name": "qwest.d.ts"
+}

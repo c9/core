@@ -1,0 +1,4 @@
+{
+  "'gulp-debug'": "debug",
+  "!name": "gulp-debug.d.ts"
+}

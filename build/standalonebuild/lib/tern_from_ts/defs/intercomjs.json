@@ -1,0 +1,21 @@
+{
+  "intercom": {
+    "Intercom": {
+      "emit": "fn(name: string, message?: ?)",
+      "on": "fn(name: string, fn: Function)",
+      "off": "fn(name: string, fn: Function)",
+      "once": "fn(key: string, fn: Function, ttl?: number)",
+      "bind": "fn(socket: ?, options?: intercom.SocketBindingOptions)"
+    },
+    "SocketBindingOptions": {
+      "send": "?",
+      "receive": "?"
+    }
+  },
+  "IntercomStatic": {
+    "getInstance": "fn() -> intercom.Intercom",
+    "destroy": "fn()"
+  },
+  "Intercom": "IntercomStatic",
+  "!name": "intercom"
+}

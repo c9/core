@@ -1,0 +1,22 @@
+{
+  "KnockoutAMDModule": {
+    "baseDir": "string",
+    "initializer": "string",
+    "disposeMethod": "string",
+    "templateProperty": "string"
+  },
+  "KnockoutAMDTemplate": {
+    "defaultPath": "string",
+    "defaultSuffix": "string",
+    "defaultRequireTextPluginName": "string"
+  },
+  "KnockoutBindingHandlers": {
+    "module": "KnockoutAMDModule"
+  },
+  "KnockoutStatic": {
+    "amdTemplateEngine": "KnockoutAMDTemplate"
+  },
+  "knockout-amd-helpers": "ko",
+  "ko": "KnockoutStatic",
+  "!name": "knockout-amd-helpers.d.ts"
+}

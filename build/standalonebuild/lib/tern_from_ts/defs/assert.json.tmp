@@ -1,0 +1,29 @@
+{
+  "assert": {
+    "AssertionError": {
+      "!type": "fn(options?: ?)",
+      "prototype": {
+        "name": "string",
+        "message": "string",
+        "actual": "?",
+        "expected": "?",
+        "operator": "string",
+        "generatedMessage": "bool"
+      }
+    },
+    "fail": "fn(actual?: ?, expected?: ?, message?: string, operator?: string)",
+    "ok": "fn(value: ?, message?: string)",
+    "equal": "fn(actual: ?, expected: ?, message?: string)",
+    "notEqual": "fn(actual: ?, expected: ?, message?: string)",
+    "deepEqual": "fn(actual: ?, expected: ?, message?: string)",
+    "notDeepEqual": "fn(acutal: ?, expected: ?, message?: string)",
+    "strictEqual": "fn(actual: ?, expected: ?, message?: string)",
+    "notStrictEqual": "fn(actual: ?, expected: ?, message?: string)",
+    "throws": {},
+    "doesNotThrow": {},
+    "ifError": "fn(value: ?)",
+    "!type": "fn(value: ?, message?: string)"
+  },
+  "power-assert": "assert",
+  "!name": "assert.d.ts"
+}

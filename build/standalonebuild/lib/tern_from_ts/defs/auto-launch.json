@@ -1,0 +1,17 @@
+{
+  "AutoLaunchOption": {
+    "name": "string",
+    "isHidden": "bool",
+    "path": "string"
+  },
+  "AutoLaunch": {
+    "!type": "fn(opts: AutoLaunchOption)",
+    "prototype": {
+      "enable": "fn(callback?: fn(err: Error))",
+      "disable": "fn(callback?: fn(err: Error))",
+      "isEnabled": "fn(callback: fn(enabled: bool))"
+    }
+  },
+  "auto-launch": "al",
+  "!name": "auto-launch"
+}

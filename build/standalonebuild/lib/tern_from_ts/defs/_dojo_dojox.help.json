@@ -1,0 +1,11 @@
+{
+  "dojox": {
+    "help": {
+      "_base": {},
+      "console": {}
+    }
+  },
+  "dojox/help/_base": "exp",
+  "dojox/help/console": "exp",
+  "!name": "dojox.help"
+}

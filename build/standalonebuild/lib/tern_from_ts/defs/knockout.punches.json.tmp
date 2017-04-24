@@ -1,0 +1,11 @@
+{
+  "KnockoutPunchesStatic": {
+    "enableAll": "fn()"
+  },
+  "KnockoutStatic": {
+    "punches": "KnockoutPunchesStatic"
+  },
+  "knockout.punches": "punches",
+  "punches": "KnockoutPunchesStatic",
+  "!name": "knockout.punches.d.ts"
+}

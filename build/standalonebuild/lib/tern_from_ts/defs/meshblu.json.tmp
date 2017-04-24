@@ -1,0 +1,118 @@
+{
+  "'meshblu'": "Meshblu",
+  "MeshbluStatic": {
+    "createConnection": "fn(opt: Meshblu.ConnectionOptions) -> Meshblu.Connection"
+  },
+  "Meshblu": {
+    "Connection": {
+      "identify": "fn() -> Connection",
+      "sign": "fn(data: ?) -> string",
+      "verify": "fn(message: ?, signature: ?) -> ?",
+      "encryptMessage": "fn(uuid: string, message: ?, options: Meshblu.ConnectionOptions, fn: fn(result: ?)) -> Connection",
+      "message": "fn(payload: MessagePayload, fn: fn(result: ?)) -> Connection",
+      "update": "fn(data: UpdateData, fn: fn(result: UpdateSuccess)) -> Connection",
+      "register": "fn(data: RegisterData, fn: fn(result: RegisterResponse)) -> Connection",
+      "unregister": "fn(data: Device, fn: fn(result: Device)) -> Connection",
+      "whoami": "fn(data: ?, fn: fn(result: DeviceResponse)) -> Connection",
+      "device": "fn(data: Device, fn: fn(result: DeviceResponse)) -> Connection",
+      "devices": "fn(data: Color, fn: fn(result: [DeviceResponse])) -> Connection",
+      "subscribe": "fn(data: SubscribeData, fn: fn(result: ?)) -> Connection",
+      "unsubscribe": "fn(data: UnsubscribeData, fn: fn(result: ?)) -> Connection",
+      "data": "fn(data: DataInput, fn: fn(result: ?)) -> Connection",
+      "getdata": "fn(data: GetDataInput, fn: fn(result: ?)) -> Connection",
+      "generateAndStoreToken": "fn(data: Device, fn: fn(result: ConnectionOptions))",
+      "revokeToken": "fn(data: ConnectionOptions, fn: fn(result: Device))",
+      "getPublicKey": "fn(uuid: string, fn: fn(err: Error, publicKey: ?))",
+      "send": "fn(text: string) -> Connection",
+      "bufferedSocketEmit": "fn()",
+      "parseUrl": "fn(serverUrl: string, port: string) -> string",
+      "generateKeyPair": "fn() -> KeyPair",
+      "setPrivateKey": "fn(privateKey: string)",
+      "setup": "fn() -> Connection",
+      "connect": "fn()",
+      "reconnect": "fn()",
+      "claimdevice": "fn(data: Device, fn: fn(result: Device)) -> Connection",
+      "mydevices": "fn(data: ?, fn: fn(result: ?)) -> Connection",
+      "status": "fn(data: ?) -> Connection",
+      "authenticate": "fn(data: ?, fn: fn(result: ?)) -> Connection",
+      "events": "fn(data: ?, fn: fn(result: ?)) -> Connection",
+      "localdevices": "fn(fn: fn(result: ?)) -> Connection",
+      "unclaimeddevices": "fn(data: ?, fn: fn(result: ?)) -> Connection",
+      "textBroadcast": "fn(data: ?) -> Connection",
+      "directText": "fn(data: ?) -> Connection",
+      "subscribeText": "fn(data: ?, fn: fn(result: ?)) -> Connection",
+      "unsubscribeText": "fn(data: ?, fn: fn(result: ?)) -> Connection",
+      "close": "fn(fn: fn(result: ?)) -> Connection",
+      "resetToken": "fn(data: ?, fn: fn(result: ?))"
+    },
+    "ConnectionOptions": {
+      "uuid": "string",
+      "token": "string"
+    },
+    "KeyPair": {
+      "privateKey": "string",
+      "publicKey": "string"
+    },
+    "MessagePayload": {
+      "devices": "[string]",
+      "topic": "string",
+      "payload": "?",
+      "qos": "number"
+    },
+    "UpdateData": {
+      "uuid": "string",
+      "color": "string"
+    },
+    "UpdateSuccess": {
+      "uuid": "string",
+      "token": "string",
+      "status": "string"
+    },
+    "RegisterData": {
+      "type": "string"
+    },
+    "RegisterResponse": {
+      "uuid": "string",
+      "token": "string",
+      "type": "string"
+    },
+    "Device": {
+      "uuid": "string"
+    },
+    "DeviceResponse": {
+      "uuid": "string",
+      "online": "bool",
+      "color": "string"
+    },
+    "Color": {
+      "color": "string"
+    },
+    "SubscribeData": {
+      "uuid": "string",
+      "types": "[string]",
+      "topics": "[string]"
+    },
+    "UnsubscribeData": {
+      "uuid": "string",
+      "types": "[string]"
+    },
+    "DataInput": {
+      "uuid": "string",
+      "online": "bool",
+      "x": "number",
+      "y": "number"
+    },
+    "GetDataInput": {
+      "uuid": "string",
+      "start": "string",
+      "finish": "string",
+      "limit": "number"
+    },
+    "IdentifySuccess": {
+      "uuid": "string",
+      "token": "string",
+      "status": "string"
+    }
+  },
+  "!name": "meshblu.d.ts"
+}

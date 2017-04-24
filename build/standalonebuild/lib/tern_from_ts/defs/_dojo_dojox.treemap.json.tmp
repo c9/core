@@ -1,0 +1,239 @@
+{
+  "dojox": {
+    "treemap": {
+      "DrillDownUp": {
+        "!type": "fn()",
+        "prototype": {
+          "drillDown": "fn(renderer: HTMLElement)",
+          "drillUp": "fn(renderer: HTMLElement)",
+          "postCreate": "fn()"
+        }
+      },
+      "GroupLabel": {
+        "!type": "fn()",
+        "prototype": {
+          "createRenderer": "fn(item: ?, level: ?, kind: ?) -> ?",
+          "styleRenderer": "fn(renderer: ?, item: ?, level: ?, kind: ?)"
+        }
+      },
+      "Keyboard": {
+        "!type": "fn()",
+        "prototype": {
+          "tabIndex": "string",
+          "createRenderer": "fn(item: ?, level: ?, kind: ?) -> ?",
+          "postCreate": "fn()"
+        }
+      },
+      "ScaledLabel": {
+        "!type": "fn()",
+        "prototype": {
+          "createRenderer": "fn(item: ?, level: ?, kind: ?) -> ?",
+          "styleRenderer": "fn(renderer: ?, item: ?, level: ?, kind: ?)",
+          "onRendererUpdated": "fn(evt: ?)"
+        }
+      },
+      "TreeMap": {
+        "!type": "fn()",
+        "prototype": {
+          "areaAttr": "string",
+          "set": "fn(property: string, value: string)",
+          "get": "fn(property: string) -> string",
+          "watch": "fn(property: string, callback: ?) -> ret",
+          "attributeMap": "Object",
+          "baseClass": "string",
+          "class": "string",
+          "colorAttr": "string",
+          "colorModel": "Object",
+          "containerNode": "HTMLElement",
+          "dir": "string",
+          "domNode": "HTMLElement",
+          "focused": "bool",
+          "groupAttrs": "[?]",
+          "groupFuncs": "[?]",
+          "id": "string",
+          "invalidatingProperties": "Object",
+          "invalidRendering": "bool",
+          "itemToRenderer": "Object",
+          "labelAttr": "string",
+          "labelThreshold": "number",
+          "lang": "string",
+          "ownerDocument": "Object",
+          "query": "Object",
+          "queryOptions": "Object",
+          "rootItem": "Object",
+          "selectedItem": "Object",
+          "selectedItems": "Object",
+          "selectionMode": "string",
+          "srcNodeRef": "HTMLElement",
+          "store": "Object",
+          "style": "string",
+          "title": "string",
+          "tooltip": "string",
+          "tooltipAttr": "string",
+          "addInvalidatingProperties": "fn(properties: [String])",
+          "areaFunc": "fn(item: Object, store: dojo.store.api.Store) -> number",
+          "buildRendering": "fn()",
+          "colorFunc": "fn(item: Object, store: dojo.store.api.Store) -> ?",
+          "connect": "fn(obj: Object, event: String, method: String) -> ?",
+          "createRenderer": "fn(item: Object, level: number, kind: String) -> ?",
+          "defer": "fn(fcn: Function, delay: number) -> Object",
+          "destroy": "fn(preserveDom?: bool)",
+          "destroyDescendants": "fn(preserveDom: bool)",
+          "destroyRecursive": "fn(preserveDom: bool)",
+          "destroyRendering": "fn(preserveDom?: bool)",
+          "disconnect": "fn(handle: ?)",
+          "dispatchChange": "fn(oldSelectedItem: Object, newSelectedItem: Object, renderer: Object, triggerEvent: Event)",
+          "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+          "getChildren": "fn() -> [?]",
+          "getColorForItem": "fn(item: Object) -> ?",
+          "getIdentity": "fn(item: ?) -> ?",
+          "getLabelForItem": "fn(item: Object) -> ?",
+          "getParent": "fn() -> ?",
+          "invalidateRendering": "fn()",
+          "isFocusable": "fn() -> ?",
+          "isItemSelected": "fn(item: Object) -> ?",
+          "isLeftToRight": "fn() -> ?",
+          "isValid": {},
+          "labelFunc": "fn(item: Object, store: dojo.store.api.Store) -> ?",
+          "on": "fn(type: String, func: Function) -> ?",
+          "own": "fn() -> ?",
+          "placeAt": "fn(reference: String, position: String) -> ?",
+          "postCreate": "fn()",
+          "postMixInProperties": "fn()",
+          "refreshRendering": "fn()",
+          "resize": "fn(box: ?)",
+          "selectFromEvent": "fn(e: Event, item: Object, renderer: Object, dispatch: bool) -> ?",
+          "setItemSelected": "fn(item: Object, value: bool)",
+          "startup": "fn()",
+          "styleRenderer": "fn(renderer: HTMLElement, item: Object, level: number, kind: String)",
+          "subscribe": "fn(t: String, method: Function) -> ?",
+          "tooltipFunc": "fn(item: Object, store: dojo.store.api.Store) -> ?",
+          "uninitialize": "fn() -> bool",
+          "unsubscribe": "fn(handle: Object)",
+          "updateRenderers": "fn(items: ?)",
+          "validateRendering": "fn()",
+          "onBlur": "fn()",
+          "onChange": "fn()",
+          "onFocus": "fn()",
+          "onItemRollOut": "fn()",
+          "onItemRollOver": "fn()",
+          "onRendererUpdated": "fn()"
+        }
+      },
+      "_utils": {
+        "find": "fn(array: [?], callback: Function) -> ?",
+        "group": "fn(items: [?], groupingFunctions: [?], measureFunction: Function) -> Object",
+        "initElements": "fn(items: ?, areaFunc: ?) -> Object",
+        "solve": "fn(items: ?, width: ?, height: ?, areaFunc: ?, rtl: ?) -> Object"
+      }
+    }
+  },
+  "dojox/treemap/_utils": "exp",
+  "dojox/treemap/GroupLabel": "exp",
+  "dojox/treemap/DrillDownUp": "exp",
+  "dojox/treemap/Keyboard": "exp",
+  "dojox/treemap/ScaledLabel": "exp",
+  "dojox/treemap/TreeMap": "exp",
+  "!name": "dojox.treemap.d.ts",
+  "!define": {
+    "ret": {
+      "unwatch": "fn()"
+    },
+    "ret1": {
+      "unwatch": "fn()"
+    },
+    "ret2": {
+      "unwatch": "fn()"
+    },
+    "ret3": {
+      "unwatch": "fn()"
+    },
+    "ret4": {
+      "unwatch": "fn()"
+    },
+    "ret5": {
+      "unwatch": "fn()"
+    },
+    "ret6": {
+      "unwatch": "fn()"
+    },
+    "ret7": {
+      "unwatch": "fn()"
+    },
+    "ret8": {
+      "unwatch": "fn()"
+    },
+    "ret9": {
+      "unwatch": "fn()"
+    },
+    "ret10": {
+      "unwatch": "fn()"
+    },
+    "ret11": {
+      "unwatch": "fn()"
+    },
+    "ret12": {
+      "unwatch": "fn()"
+    },
+    "ret13": {
+      "unwatch": "fn()"
+    },
+    "ret14": {
+      "unwatch": "fn()"
+    },
+    "ret15": {
+      "unwatch": "fn()"
+    },
+    "ret16": {
+      "unwatch": "fn()"
+    },
+    "ret17": {
+      "unwatch": "fn()"
+    },
+    "ret18": {
+      "unwatch": "fn()"
+    },
+    "ret19": {
+      "unwatch": "fn()"
+    },
+    "ret20": {
+      "unwatch": "fn()"
+    },
+    "ret21": {
+      "unwatch": "fn()"
+    },
+    "ret22": {
+      "unwatch": "fn()"
+    },
+    "ret23": {
+      "unwatch": "fn()"
+    },
+    "ret24": {
+      "unwatch": "fn()"
+    },
+    "ret25": {
+      "unwatch": "fn()"
+    },
+    "ret26": {
+      "unwatch": "fn()"
+    },
+    "ret27": {
+      "unwatch": "fn()"
+    },
+    "ret28": {
+      "unwatch": "fn()"
+    },
+    "ret29": {
+      "unwatch": "fn()"
+    },
+    "ret30": {
+      "unwatch": "fn()"
+    },
+    "ret31": {
+      "unwatch": "fn()"
+    },
+    "ret32": {
+      "unwatch": "fn()"
+    }
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "google": {
+    "picker": {
+      "PickerBuilder": {
+        "!type": "fn()",
+        "prototype": {
+          "addView": "fn(viewOrId: ?) -> PickerBuilder",
+          "addViewGroup": "fn(viewGroup: ?) -> PickerBuilder",
+          "disableFeature": "fn(feature: string) -> PickerBuilder",
+          "enableFeature": "fn(feature: string) -> PickerBuilder",
+          "getRelayUrl": "fn() -> string",
+          "getTitle": "fn() -> string",
+          "hideTitleBar": "fn() -> PickerBuilder",
+          "isFeatureEnabled": "fn(feature: string) -> bool",
+          "setAppId": "fn(appId: string) -> PickerBuilder",
+          "setCallback": "fn(method: Function) -> PickerBuilder",
+          "setDeveloperKey": "fn(key: string) -> PickerBuilder",
+          "setDocument": "fn(document: string) -> PickerBuilder",
+          "setLocale": "fn(locale: string) -> PickerBuilder",
+          "setOAuthToken": "fn(token: string) -> PickerBuilder",
+          "setOrigin": "fn(origin: string) -> PickerBuilder",
+          "setRelayUrl": "fn(url: string) -> PickerBuilder",
+          "setSelectableMimeTypes": "fn(type: string) -> PickerBuilder",
+          "setSize": "fn() -> PickerBuilder",
+          "setTitle": "fn(title: string) -> PickerBuilder",
+          "setUploadToAlbumId": "fn(albumId: string) -> PickerBuilder",
+          "toUri": "fn() -> string",
+          "build": "fn() -> Picker"
+        }
+      },
+      "Picker": {
+        "isVisible": "fn() -> bool",
+        "setCallback": "fn() -> Picker",
+        "setRelayUrl": "fn(url: string) -> Picker",
+        "setVisible": "fn(visible: bool) -> Picker"
+      },
+      "DocsUploadView": {
+        "!type": "fn()",
+        "prototype": {
+          "setIncludeFolders": "fn(included: bool) -> DocsUploadView",
+          "setParent": "fn(parentId: string) -> DocsUploadView"
+        }
+      },
+      "DocsView": {
+        "!type": "fn(viewId?: string)",
+        "prototype": {
+          "setIncludeFolders": "fn(included: bool) -> DocsView",
+          "setSelectFolderEnabled": "fn(enabled: bool) -> DocsView",
+          "setMode": "fn(mode: string) -> DocsView",
+          "setOwnedByMe": "fn(me?: bool) -> DocsView",
+          "setParent": "fn(parentId: string) -> DocsView",
+          "setStarred": "fn(starred: bool) -> DocsView"
+        }
+      },
+      "DocsViewMode": {
+        "GRID": "string",
+        "LIST": "string"
+      },
+      "Feature": {
+        "MINE_ONLY": "string",
+        "MULTISELECT_ENABLED": "string",
+        "NAV_HIDDEN": "string",
+        "SIMPLE_UPLOAD_ENABLED": "string"
+      },
+      "ViewId": {
+        "DOCS": "string",
+        "DOCS_IMAGES": "string",
+        "DOCS_IMAGES_AND_VIDEOS": "string",
+        "DOCS_VIDEOS": "string",
+        "DOCUMENTS": "string",
+        "DRAWINGS": "string",
+        "FOLDERS": "string",
+        "FORMS": "string",
+        "IMAGE_SEARCH": "string",
+        "MAPS": "string",
+        "PDFS": "string",
+        "PHOTOS": "string",
+        "PHOTO_ALBUMS": "string",
+        "PHOTO_UPLOAD": "string",
+        "PRESENTATIONS": "string",
+        "RECENTLY_PICKED": "string",
+        "SPREADSHEETS": "string",
+        "VIDEO_SEARCH": "string",
+        "WEBCAM": "string",
+        "YOUTUBE": "string"
+      },
+      "Action": {
+        "CANCEL": "string",
+        "PICKED": "string"
+      },
+      "Document": {
+        "ADDRESS_LINES": "string",
+        "AUDIENCE": "string",
+        "DESCRIPTION": "string",
+        "DURATION": "string",
+        "EMBEDDABLE_URL": "string",
+        "ICON_URL": "string",
+        "ID": "string",
+        "IS_NEW": "string",
+        "LAST_EDITED_UTC": "string",
+        "LATITUDE": "string",
+        "LONGITUDE": "string",
+        "MIME_TYPE": "string",
+        "NAME": "string",
+        "NUM_CHILDREN": "string",
+        "PARENT_ID": "string",
+        "PHONE_NUMBERS": "string",
+        "SERVICE_ID": "string",
+        "THUMBNAILS": "string",
+        "TYPE": "string",
+        "URL": "string"
+      },
+      "Response": {
+        "ACTION": "string",
+        "DOCUMENTS": "string",
+        "PARENTS": "string",
+        "VIEW": "string"
+      },
+      "Type": {
+        "ALBUM": "string",
+        "DOCUMENT": "string",
+        "LOCATION": "string",
+        "PHOTO": "string",
+        "URL": "string",
+        "VIDEO": "string"
+      }
+    }
+  },
+  "!name": "google.picker"
+}

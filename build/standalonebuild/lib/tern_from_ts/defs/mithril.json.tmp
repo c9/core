@@ -1,0 +1,64 @@
+{
+  "MithrilStatic": {
+    "prop": "fn(value?: T) -> fn(value?: T)",
+    "withAttr": "fn(property: string, callback: fn(value: ?)) -> fn(e: Event)",
+    "module": "fn(rootElement: Node, module: MithrilModule)",
+    "trust": "fn(html: string) -> String",
+    "render": "fn(rootElement: Element, children?: ?)",
+    "redraw": "MithrilRedraw",
+    "route": "MithrilRoute",
+    "request": "fn(options: MithrilXHROptions) -> ?",
+    "deferred": "fn() -> ?",
+    "sync": "fn(promises: [?]) -> ?",
+    "startComputation": "fn()",
+    "endComputation": "fn()"
+  },
+  "MithrilRoute": {
+    "mode": "string",
+    "param": "MithrilParam",
+    "buildQueryString": "fn(data: Object) -> string",
+    "parseQueryString": "fn(queryString: string) -> Object"
+  },
+  "MithrilParam": {},
+  "MithrilRedraw": {
+    "strategy": "fn(value?: string)"
+  },
+  "MithrilVirtualElement": {
+    "tag": "string",
+    "attrs": "Object",
+    "children": "?"
+  },
+  "MithrilModule": {
+    "controller": "Function",
+    "view": "fn(controller?: ?)"
+  },
+  "MithrilDeferred": {
+    "resolve": "fn(value?: T)",
+    "reject": "fn(value?: ?)",
+    "promise": "?"
+  },
+  "MithrilPromise": {
+    "then": "fn(successCallback?: fn(value: T), errorCallback?: fn(value: ?)) -> ?"
+  },
+  "MithrilPromiseProperty": {
+    "toJSON": "fn() -> T"
+  },
+  "MithrilXHROptions": {
+    "method": "string",
+    "url": "string",
+    "user": "string",
+    "password": "string",
+    "data": "?",
+    "background": "bool",
+    "unwrapSuccess": "fn(data: ?) -> ?",
+    "unwrapError": "fn(data: ?) -> ?",
+    "serialize": "fn(dataToSerialize: ?) -> string",
+    "deserialize": "fn(dataToDeserialize: string) -> ?",
+    "extract": "fn(xhr: XMLHttpRequest, options: MithrilXHROptions) -> string",
+    "type": "fn(data: Object)",
+    "config": "fn(xhr: XMLHttpRequest, options: MithrilXHROptions) -> XMLHttpRequest"
+  },
+  "Mithril": "MithrilStatic",
+  "m": "MithrilStatic",
+  "!name": "mithril.d.ts"
+}

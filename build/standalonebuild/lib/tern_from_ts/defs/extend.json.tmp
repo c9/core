@@ -1,0 +1,4 @@
+{
+  "extend": "extend",
+  "!name": "extend.d.ts"
+}

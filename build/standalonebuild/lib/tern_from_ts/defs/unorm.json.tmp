@@ -1,0 +1,17 @@
+{
+  "unorm": {
+    "0": "u",
+    "1": "n",
+    "2": "o",
+    "3": "r",
+    "4": "m",
+    "Static": {
+      "nfd": "fn(str: string) -> string",
+      "nfkd": "fn(str: string) -> string",
+      "nfc": "fn(str: string) -> string",
+      "nfkc": "fn(str: string) -> string"
+    },
+    "!type": "unorm.Static"
+  },
+  "!name": "unorm.d.ts"
+}

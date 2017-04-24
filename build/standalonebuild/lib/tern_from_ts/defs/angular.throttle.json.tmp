@@ -1,0 +1,8 @@
+{
+  "angular": {
+    "IAngularStatic": {
+      "throttle": "fn(fn: Function, throttle: number, options?: ?)"
+    }
+  },
+  "!name": "angular.throttle.d.ts"
+}

@@ -1,0 +1,8 @@
+{
+  "addToHome": {
+    "show": "fn(overrideChecks: bool)",
+    "close": "fn()",
+    "reset": "fn()"
+  },
+  "!name": "add2home"
+}

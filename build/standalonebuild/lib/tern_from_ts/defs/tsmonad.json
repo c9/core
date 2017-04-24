@@ -1,0 +1,102 @@
+{
+  "TsMonad": {
+    "EitherType": "number",
+    "EitherPatterns": {
+      "left": "fn(l: L)",
+      "right": "fn(r: R)"
+    },
+    "either": "fn(l?: L, r?: R) -> ?",
+    "Either": {
+      "!type": "fn(type: EitherType, l?: L, r?: R)",
+      "left": "fn(l: L) -> ?",
+      "right": "fn(r: R) -> ?",
+      "prototype": {
+        "type": "?",
+        "l": "?",
+        "r": "?",
+        "unit": "fn(t: T) -> ?",
+        "bind": "fn(f: fn(r: R)) -> ?",
+        "of": "fn(t: T)",
+        "chain": "fn(f: fn(r: R))",
+        "fmap": "fn(f: fn(r: R)) -> ?",
+        "lift": "fn(f: fn(r: R))",
+        "map": "fn(f: fn(r: R))",
+        "caseOf": "fn(pattern: ?) -> T",
+        "equals": "fn(other: ?) -> ?"
+      }
+    },
+    "eq": "fn(a: ?, b: ?) -> ?",
+    "Eq": {
+      "equals": "fn(t: T) -> bool"
+    },
+    "Monad": {
+      "unit": "fn(t: U) -> ?",
+      "bind": "fn(f: fn(t: T)) -> ?",
+      "of": "fn(t: U) -> ?",
+      "chain": "fn(f: fn(t: T)) -> ?"
+    },
+    "Functor": {
+      "fmap": "fn(f: fn(t: T)) -> ?",
+      "lift": "fn(f: fn(t: T)) -> ?",
+      "map": "fn(f: fn(t: T)) -> ?"
+    },
+    "MaybeType": "number",
+    "MaybePatterns": {
+      "just": "fn(t: T)",
+      "nothing": "fn()"
+    },
+    "maybe": "fn(t: T) -> ?",
+    "Maybe": {
+      "!type": "fn(type: MaybeType, value?: T)",
+      "maybe": "fn(t: T) -> ?",
+      "just": "fn(t: T) -> ?",
+      "nothing": "fn() -> ?",
+      "prototype": {
+        "type": "?",
+        "value": "?",
+        "unit": "fn(u: U) -> ?",
+        "bind": "fn(f: fn(t: T)) -> ?",
+        "of": "fn(u: U)",
+        "chain": "fn(f: fn(t: T))",
+        "fmap": "fn(f: fn(t: T)) -> ?",
+        "lift": "fn(f: fn(t: T))",
+        "map": "fn(f: fn(t: T))",
+        "caseOf": "fn(patterns: ?) -> U",
+        "equals": "fn(other: ?) -> ?"
+      }
+    },
+    "WriterPatterns": {
+      "writer": "fn(story: [S], value: T)"
+    },
+    "writer": "fn(story: [S], value: T) -> ?",
+    "Writer": {
+      "!type": "fn(story: [S], value: T)",
+      "writer": "fn(story: [S], value: T) -> ?",
+      "tell": "fn(s: S) -> ?",
+      "prototype": {
+        "story": "?",
+        "value": "?",
+        "unit": "fn(u: U) -> ?",
+        "bind": "fn(f: fn(t: T)) -> ?",
+        "of": "fn(u: U)",
+        "chain": "fn(f: fn(t: T))",
+        "fmap": "fn(f: fn(t: T)) -> ?",
+        "lift": "fn(f: fn(t: T))",
+        "map": "fn(f: fn(t: T))",
+        "caseOf": "fn(patterns: ?) -> U",
+        "equals": "fn(other: ?) -> bool"
+      }
+    }
+  },
+  "module": {
+    "exports": "?",
+    "require": "fn(id: string) -> ?",
+    "id": "string",
+    "filename": "string",
+    "loaded": "bool",
+    "parent": "?",
+    "children": "[?]"
+  },
+  "'tsmonad'": "TsMonad",
+  "!name": "tsmonad"
+}

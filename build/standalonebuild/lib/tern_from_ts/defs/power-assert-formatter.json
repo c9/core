@@ -1,0 +1,22 @@
+{
+  "powerAssertFormatter": {
+    "Options": {
+      "lineDiffThreshold": "number",
+      "maxDepth": "number",
+      "outputOffset": "number",
+      "anonymous": "string",
+      "circular": "string",
+      "lineSeparator": "string",
+      "ambiguousEastAsianCharWidth": "number",
+      "widthOf": "Function",
+      "stringify": "Function",
+      "diff": "Function",
+      "writerClass": {},
+      "renderers": "[?]"
+    },
+    "Formatter": {},
+    "defaultOptions": "fn() -> Options",
+    "!type": "fn(options?: powerAssertFormatter.Options) -> powerAssertFormatter.Formatter"
+  },
+  "!name": "power-assert-formatter"
+}

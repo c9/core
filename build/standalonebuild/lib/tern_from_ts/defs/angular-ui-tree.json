@@ -1,0 +1,58 @@
+{
+  "AngularUITree": {
+    "IEventSourceInfo": {
+      "cloneModel": "?",
+      "index": "number",
+      "nodeScope": "ITreeNodeScope",
+      "nodesScope": "ITreeNodeScope"
+    },
+    "IPosition": {
+      "dirAx": "number",
+      "dirX": "number",
+      "dirY": "number",
+      "distAxX": "number",
+      "distAxY": "number",
+      "distX": "number",
+      "distY": "number",
+      "lastDirX": "number",
+      "lastDirY": "number",
+      "lastX": "number",
+      "lastY": "number",
+      "moving": "bool",
+      "nowX": "number",
+      "nowY": "number",
+      "offsetX": "number",
+      "offsetY": "number",
+      "startX": "number",
+      "startY": "number"
+    },
+    "IEventInfo": {
+      "dest": {
+        "index": "number",
+        "nodesScope": "IParentTreeNodeScope"
+      },
+      "elements": "?",
+      "pos": "IPosition",
+      "source": "IEventSourceInfo"
+    },
+    "IAcceptCallback": {},
+    "IDroppedCallback": {},
+    "ICallbacks": {
+      "accept": "IAcceptCallback",
+      "dropped": "IDroppedCallback"
+    },
+    "ITreeNodeScope": {
+      "node": "ITreeNode"
+    },
+    "IParentTreeNodeScope": {
+      "isParent": "fn(nodeScope: ITreeNodeScope) -> bool"
+    },
+    "ITreeNode": {
+      "id": "number",
+      "string": "?",
+      "nodes": "[ITreeNode]",
+      "title": "string"
+    }
+  },
+  "!name": "angular-ui-tree"
+}

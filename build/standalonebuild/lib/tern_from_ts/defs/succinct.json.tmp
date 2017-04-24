@@ -1,0 +1,13 @@
+{
+  "JQuerySuccinct": {
+    "Options": {
+      "size": "number",
+      "omission": "string",
+      "ignore": "bool"
+    }
+  },
+  "JQuery": {
+    "succinct": "fn(settings?: JQuerySuccinct.Options) -> JQuery"
+  },
+  "!name": "succinct.d.ts"
+}

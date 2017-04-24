@@ -1,0 +1,18 @@
+{
+  "MobileDetect": {
+    "!type": "fn(userAgent: string, maxPhoneWidth?: number)",
+    "prototype": {
+      "is": "fn(key: string) -> bool",
+      "match": "fn(pattern: string, RegExp: ?) -> bool",
+      "mobile": "fn() -> string",
+      "mobileGrade": "fn() -> string",
+      "os": "fn() -> string",
+      "phone": "fn() -> string",
+      "tablet": "fn() -> string",
+      "userAgent": "fn() -> string",
+      "version": "fn(value: string) -> number",
+      "versionStr": "fn(value: string) -> string"
+    }
+  },
+  "!name": "mobile-detect.d.ts"
+}

@@ -1,0 +1,32 @@
+{
+  "SwipeViewEvent": {},
+  "SwipeViewOptions": {
+    "text": "string",
+    "numberOfPages": "number",
+    "snapThreshold": "number",
+    "hastyPageFlip": "bool",
+    "loop": "bool"
+  },
+  "SwipeView": {
+    "!type": "fn(element: string)",
+    "prototype": {
+      "masterPages": "[HTMLElement]",
+      "currentMasterPage": "number",
+      "wrapper": "HTMLElement",
+      "slider": "HTMLElement",
+      "destroy": "fn()",
+      "refreshSize": "fn()",
+      "updatePageCount": "fn(n: number)",
+      "goToPage": "fn(p: number)",
+      "next": "fn()",
+      "prev": "fn()",
+      "handleEvent": "fn(e: Event)",
+      "onFlip": "SwipeViewEvent",
+      "onMoveOut": "SwipeViewEvent",
+      "onMoveIn": "SwipeViewEvent",
+      "onTouchStart": "SwipeViewEvent",
+      "wrapperHeight": "number"
+    }
+  },
+  "!name": "swipeview.d.ts"
+}

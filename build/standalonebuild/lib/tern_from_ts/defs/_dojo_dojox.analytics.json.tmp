@@ -1,0 +1,21 @@
+{
+  "dojox": {
+    "analytics": {
+      "Urchin": {
+        "!type": "fn(args: ?)",
+        "prototype": {
+          "acct": "string",
+          "GAonLoad": "fn()",
+          "trackPageView": "fn(url: String)"
+        }
+      },
+      "plugins": {
+        "consoleMessages": {}
+      }
+    }
+  },
+  "dojox/analytics": "exp",
+  "dojox/analytics/Urchin": "exp",
+  "dojox/analytics/plugins/consoleMessages": "exp",
+  "!name": "dojox.analytics.d.ts"
+}

@@ -1,0 +1,94 @@
+{
+  "DDS": {
+    "Policy": {},
+    "HistoryKind": "number",
+    "History": {
+      "KeepAll": "?",
+      "KeepLast": "?",
+      "prototype": {}
+    },
+    "ReliabilityKind": "number",
+    "Reliability": {
+      "Reliable": "?",
+      "BestEffort": "?",
+      "prototype": {}
+    },
+    "Partition": "fn(policies: [string]) -> Policy",
+    "ContentFilter": "fn(expr: string) -> Policy",
+    "TimeFilter": "fn(period: number) -> Policy",
+    "DurabilityKind": "number",
+    "Durability": {
+      "Volatile": "?",
+      "TransientLocal": "?",
+      "Transient": "?",
+      "Persistent": "?",
+      "prototype": {}
+    },
+    "EntityQos": {
+      "add": "fn(policy: Policy) -> EntityQos"
+    },
+    "TopicQos": "EntityQos",
+    "DataReaderQos": "EntityQos",
+    "DataWriterQos": "EntityQos",
+    "Topic": {
+      "!type": "fn(did: number, tname: string, qos: EntityQos, ttype?: string, tregtype?: string)",
+      "prototype": {
+        "onregistered": "fn()",
+        "onunregistered": "fn()"
+      }
+    },
+    "DataReader": {
+      "!type": "fn(runtime: Runtime, topic: Topic, qos: EntityQos)",
+      "prototype": {
+        "resetStats": "fn()",
+        "addListener": "fn(l: fn(msg: ?)) -> number",
+        "removeListener": "fn(idx: number)",
+        "close": "fn()"
+      }
+    },
+    "DataWriter": {
+      "!type": "fn(runtime: Runtime, topic: Topic, qos: EntityQos)",
+      "prototype": {
+        "write": "fn(ds: [?])",
+        "close": "fn()"
+      }
+    },
+    "DataCache": {
+      "!type": "fn(depth: number, cache: ?)",
+      "prototype": {
+        "addListener": "fn(l: fn(data: ?), p?: fn(data: ?))",
+        "write": "fn(k: ?, data: ?) -> ?",
+        "forEachN": "fn(f: fn(data: ?), n: number) -> [?]",
+        "forEach": "fn(f: fn(data: ?)) -> [?]",
+        "map": "fn(f: fn(data: ?)) -> DataCache",
+        "filter": "fn(f: fn(data: ?)) -> [?]",
+        "filterNot": "fn(f: fn(data: ?)) -> [?]",
+        "read": "fn() -> [?]",
+        "readLast": "fn() -> ?",
+        "takeAll": "fn() -> [?]",
+        "take": "fn() -> ?",
+        "takeWithFilter": "fn(f: fn(data: ?)) -> [?]",
+        "get": "fn(k: ?) -> ?",
+        "getOrElse": "fn(k: ?, f: fn(data: ?)) -> ?",
+        "fold": "fn(z: ?, f: fn(data: ?))",
+        "clear": "fn()"
+      }
+    },
+    "Runtime": {
+      "connect": "fn(server: string, authToken?: string)",
+      "disconnect": "fn()",
+      "registerTopic": "fn(t: Topic)",
+      "onconnect": "fn(e: ?)",
+      "ondisconnect": "fn(e: ?)",
+      "close": "fn()",
+      "isConnected": "fn() -> bool",
+      "isClosed": "fn() -> bool"
+    },
+    "runtime": {
+      "Runtime": "Runtime"
+    },
+    "VERSION": "string"
+  },
+  "dds": "DDS",
+  "!name": "vortex-web-client"
+}

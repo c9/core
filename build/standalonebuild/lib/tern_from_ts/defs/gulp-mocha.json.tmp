@@ -1,0 +1,4 @@
+{
+  "gulp-mocha": "mocha",
+  "!name": "gulp-mocha.d.ts"
+}

@@ -1,0 +1,22 @@
+{
+  "wrench": {
+    "readdirSyncRecursive": "fn(baseDir: string) -> [string]",
+    "rmdirSyncRecursive": "fn(path: string, failSilent?: bool)",
+    "copyDirSyncRecursive": "fn(sourceDir: string, newDirLocation: string, opts?: ?)",
+    "chmodSyncRecursive": "fn(sourceDir: string, filemode: number)",
+    "chownSyncRecursive": "fn(sourceDir: string, uid: number, gid: number)",
+    "mkdirSyncRecursivefunction": "fn(path: string, mode: number)",
+    "readdirRecursive": "fn(baseDir: string, fn: fn(err: Error, files: [string]))",
+    "rmdirRecursive": "fn(path: string, fn: fn(err: Error))",
+    "copyDirRecursive": "fn(srcDir: string, newDir: string, fn: fn(err: Error))",
+    "LineReader": {
+      "!type": "fn(filename: string, bufferSize?: number)",
+      "prototype": {
+        "getBufferAndSetCurrentPosition": "fn(position: number) -> number",
+        "hasNextLine": "fn() -> bool",
+        "getNextLine": "fn() -> string"
+      }
+    }
+  },
+  "!name": "wrench"
+}

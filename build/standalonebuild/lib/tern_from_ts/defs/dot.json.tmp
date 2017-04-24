@@ -1,0 +1,30 @@
+{
+  "doT": {
+    "doTStatic": {
+      "version": "string",
+      "templateSettings": "TemplateSettings",
+      "template": "fn(tmpl: string, c?: TemplateSettings, def?: Object) -> Function",
+      "compile": "fn(tmpl: string, def?: Object) -> Function"
+    },
+    "TemplateSettings": {
+      "evaluate": "RegExp",
+      "interpolate": "RegExp",
+      "encode": "RegExp",
+      "use": "RegExp",
+      "useParams": "RegExp",
+      "define": "RegExp",
+      "defineParams": "RegExp",
+      "conditional": "RegExp",
+      "iterate": "RegExp",
+      "varname": "string",
+      "strip": "bool",
+      "append": "bool",
+      "selfcontained": "bool"
+    },
+    "!type": "doT.doTStatic"
+  },
+  "String": {
+    "encodeHTML": "fn() -> string"
+  },
+  "!name": "dot.d.ts"
+}

@@ -1,0 +1,36 @@
+{
+  "Axios": {
+    "AxiosXHRConfigBase": {
+      "transformRequest": "fn()",
+      "transformResponse": "fn(data: T)",
+      "headers": "Object",
+      "params": "Object",
+      "withCredentials": "bool",
+      "responseType": "string",
+      "xsrfCookieName": "string",
+      "xsrfHeaderName": "string"
+    },
+    "AxiosXHRConfig": {
+      "url": "string",
+      "method": "string",
+      "data": "T"
+    },
+    "AxiosXHR": {
+      "data": "T",
+      "status": "number",
+      "statusText": "string",
+      "headers": "Object",
+      "config": "?"
+    },
+    "AxiosStatic": {
+      "get": "fn(url: string, config?: ?) -> ?",
+      "delete": "fn(url: string, config?: ?) -> ?",
+      "head": "fn(url: string, config?: ?) -> ?",
+      "post": "fn(url: string, data?: ?, config?: ?) -> ?",
+      "put": "fn(url: string, data?: ?, config?: ?) -> ?",
+      "patch": "fn(url: string, data?: ?, config?: ?) -> ?"
+    }
+  },
+  "axios": "Axios.AxiosStatic",
+  "!name": "axios.d.ts"
+}

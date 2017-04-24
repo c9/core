@@ -1,0 +1,285 @@
+{
+  "Xrm": {
+    "ClientContext": {
+      "getClient": "fn() -> string",
+      "getClientState": "fn() -> string"
+    },
+    "Context": {
+      "client": "ClientContext",
+      "getClientUrl": "fn() -> string",
+      "getCurrentTheme": "fn() -> string",
+      "getOrgLcid": "fn() -> number",
+      "getOrgUniqueName": "fn() -> string",
+      "getQueryStringParameters": "fn() -> ret",
+      "getUserId": "fn() -> string",
+      "getUserLcid": "fn() -> number",
+      "getUserName": "fn() -> string",
+      "getUserRoles": "fn() -> [string]",
+      "prependOrgName": "fn(sPath: string) -> string"
+    },
+    "Async": {
+      "SuccessCallbackDelegate": {},
+      "ErrorCallbackDelegate": {},
+      "XrmPromise": {
+        "then": "fn(successCallback: SuccessCallbackDelegate, errorCallback: ErrorCallbackDelegate)"
+      }
+    },
+    "Collection": {
+      "MatchingDelegate": {},
+      "IterativeDelegate": {},
+      "ItemCollection": {
+        "forEach": "fn(delegate: ?)",
+        "get": "fn(delegate: ?) -> [T]",
+        "getLength": "fn() -> number"
+      }
+    },
+    "Page": {
+      "FormType": "number",
+      "SaveMode": "number",
+      "EventContext": {
+        "getContext": "fn() -> Context",
+        "getDepth": "fn() -> number",
+        "getEventArgs": "fn() -> SaveEventArguments",
+        "getEventSource": "fn() -> Xrm.Page.Attribute",
+        "Xrm": "?",
+        "Page": "?",
+        "Entity": "?",
+        "getSharedVariable": "fn(key: string) -> T",
+        "setSharedVariable": "fn(key: string, value: T)"
+      },
+      "ContextSensitiveHandler": {},
+      "UiElement": {
+        "getLabel": "fn() -> string",
+        "getVisible": "fn() -> bool",
+        "setLabel": "fn(label: string)",
+        "setVisible": "fn(visible: bool)"
+      },
+      "UiFocusable": {
+        "setFocus": "fn()"
+      },
+      "LookupValue": {
+        "id": "string",
+        "name": "string",
+        "entityType": "string"
+      },
+      "OptionSetValue": {
+        "text": "string",
+        "value": "string"
+      },
+      "Privilege": {
+        "canRead": "bool",
+        "canUpdate": "bool",
+        "canCreate": "bool"
+      },
+      "Attribute": {
+        "controls": "?",
+        "addOnChange": "fn(handler: ContextSensitiveHandler)",
+        "fireOnChange": "fn()",
+        "getAttributeType": "fn() -> string",
+        "getFormat": "fn() -> string",
+        "getIsDirty": "fn() -> bool",
+        "getName": "fn() -> string",
+        "getParent": "fn() -> Entity",
+        "getRequiredLevel": "fn() -> string",
+        "getSubmitMode": "fn() -> string",
+        "getUserPrivilege": "fn() -> Privilege",
+        "removeOnChange": "fn(handler: ContextSensitiveHandler)",
+        "setRequiredLevel": "fn(requirementLevel: string)",
+        "setSubmitMode": "fn(submitMode: string)"
+      },
+      "NumberAttribute": {
+        "getMax": "fn() -> number",
+        "getMin": "fn() -> number",
+        "getPrecision": "fn() -> number",
+        "getValue": "fn() -> number",
+        "setValue": "fn(value: number)"
+      },
+      "StringAttribute": {
+        "getMaxLength": "fn() -> number",
+        "getValue": "fn() -> string",
+        "setValue": "fn(value: string)"
+      },
+      "EnumAttribute": {
+        "getInitialValue": "fn() -> number",
+        "boolean": "?"
+      },
+      "BooleanAttribute": {
+        "getValue": "fn() -> bool",
+        "setValue": "fn(value: bool)"
+      },
+      "DateAttribute": {
+        "getValue": "fn() -> Date",
+        "setValue": "fn(value: Date)"
+      },
+      "OptionSetAttribute": {
+        "getOption": "fn(value: number) -> OptionSetValue",
+        "getOptions": "fn() -> [OptionSetValue]",
+        "getSelectedOption": "fn() -> OptionSetValue",
+        "getText": "fn() -> string",
+        "getValue": "fn() -> number",
+        "setValue": "fn(value: number)"
+      },
+      "LookupAttribute": {
+        "getIsPartyList": "fn() -> bool",
+        "getValue": "fn() -> [LookupValue]",
+        "setValue": "fn(value: [LookupValue])"
+      },
+      "Entity": {
+        "attributes": "?",
+        "addOnSave": "fn(handler: ContextSensitiveHandler)",
+        "getDataXml": "fn() -> string",
+        "getEntityName": "fn() -> string",
+        "getId": "fn() -> string",
+        "getIsDirty": "fn() -> bool",
+        "getPrimaryAttributeValue": "fn() -> string",
+        "removeOnSave": "fn(handler: ContextSensitiveHandler)",
+        "save": "fn()"
+      },
+      "SaveEventArguments": {
+        "getSaveMode": "fn() -> SaveMode",
+        "isDefaultPrevented": "fn() -> bool",
+        "preventDefault": "fn()"
+      },
+      "Data": {
+        "entity": "Entity",
+        "refresh": "fn(save: bool) -> Async.XrmPromise",
+        "save": "fn() -> Async.XrmPromise"
+      },
+      "Control": {
+        "clearNotification": "fn(uniqueId?: string) -> bool",
+        "getControlType": "fn() -> string",
+        "getDisabled": "fn() -> bool",
+        "getName": "fn() -> string",
+        "getParent": "fn() -> Section",
+        "setDisabled": "fn(disabled: bool)",
+        "setNotification": "fn(message: string, uniqueId: string) -> bool"
+      },
+      "StandardControl": {
+        "getAttribute": "fn() -> T"
+      },
+      "DateControl": {
+        "getAttribute": "fn() -> DateAttribute",
+        "setShowTime": "fn(showTimeValue: bool)"
+      },
+      "LookupControl": {
+        "addPreSearch": "fn(handler: fn())",
+        "addCustomFilter": "fn(filter: string, entityLogicalName?: string)",
+        "addCustomView": "fn(viewId: string, entityName: string, viewDisplayName: string, fetchXml: string, layoutXml: string, isDefault: bool)",
+        "getAttribute": "fn() -> LookupAttribute",
+        "getDefaultView": "fn() -> string",
+        "removePreSearch": "fn(handler: fn())",
+        "setDefaultView": "fn(viewGuid: string)"
+      },
+      "OptionSetControl": {
+        "addOption": "fn(option: OptionSetValue, index?: number)",
+        "clearOptions": "fn()",
+        "getAttribute": "fn() -> OptionSetAttribute",
+        "removeOption": "fn(value: number)"
+      },
+      "GridControl": {
+        "refresh": "fn()"
+      },
+      "FramedControl": {
+        "getObject": "fn() -> HTMLIFrameElement",
+        "getSrc": "fn() -> string",
+        "setSrc": "fn(src: string)"
+      },
+      "IframeControl": {
+        "getInitialUrl": "fn() -> string"
+      },
+      "SilverlightControl": {
+        "getData": "fn() -> string",
+        "setData": "fn(data: string)",
+        "getObject": "fn() -> HTMLObjectElement"
+      },
+      "Tab": {
+        "sections": "?",
+        "getDisplayState": "fn() -> string",
+        "getName": "fn() -> string",
+        "getParent": "fn() -> Ui",
+        "setDisplayState": "fn(displayState: string)"
+      },
+      "Section": {
+        "controls": "?",
+        "getName": "fn() -> string",
+        "getParent": "fn() -> Tab"
+      },
+      "Ui": {
+        "controls": "?",
+        "formSelector": "FormSelector",
+        "navigation": "Navigation",
+        "tabs": "?",
+        "clearFormNotification": "fn(uniqueId: string) -> bool",
+        "close": "fn()",
+        "getFormType": "fn() -> FormType",
+        "getViewPortHeight": "fn() -> number",
+        "getViewPortWidth": "fn() -> number",
+        "refreshRibbon": "fn()",
+        "setFormNotification": "fn(message: string, level: string, uniqueId: string) -> bool"
+      },
+      "NavigationItem": {
+        "getId": "fn() -> string"
+      },
+      "Navigation": {
+        "items": "?"
+      },
+      "FormItem": {
+        "getId": "fn() -> string",
+        "getLabel": "fn() -> string",
+        "navigate": "fn()"
+      },
+      "FormSelector": {
+        "getCurrentItem": "fn() -> FormItem",
+        "items": "?"
+      },
+      "context": "Context",
+      "ui": "Ui",
+      "data": "Data",
+      "getAttribute": "fn() -> [Attribute]",
+      "getControl": "fn() -> [Control]"
+    },
+    "Url": {
+      "ViewType": "number",
+      "FormOpenParameters": {
+        "etn": "string",
+        "extraqs": "string",
+        "cmdbar": "string",
+        "navbar": "string"
+      },
+      "ViewOpenParameters": {
+        "etn": "string",
+        "viewid": "string",
+        "viewtype": "ViewType",
+        "cmdbar": "string",
+        "navbar": "string"
+      },
+      "DialogOpenParameters": {
+        "DialogId": "string",
+        "EntityName": "string",
+        "ObjectId": "string"
+      },
+      "ReportOpenParameters": {
+        "action": "string",
+        "helpID": "string",
+        "id": "string"
+      }
+    },
+    "Utility": {
+      "FormOpenParameters": {
+        "formid": "string",
+        "navbar": "string",
+        "cmdbar": "string"
+      },
+      "alertDialog": "fn(message: string, onCloseCallback: fn())",
+      "confirmDialog": "fn(message: string, yesCloseCallback: fn(), noCloseCallback: fn())",
+      "isActivityType": "fn(entityType: string) -> bool",
+      "openEntityForm": "fn(name: string, id?: string, parameters?: FormOpenParameters)",
+      "openWebResource": "fn(webResourceName: string, webResourceData?: string, width?: number, height?: number) -> Window"
+    }
+  },
+  "GetGlobalContext": "fn() -> Xrm.Context",
+  "!name": "xrm-6",
+  "!define": {
+    "ret": {}
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "gulp-rename": "rename",
+  "!name": "gulp-rename.d.ts"
+}

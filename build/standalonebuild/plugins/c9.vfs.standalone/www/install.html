@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Cloud9 Installer</title>
+</head>
+<body>
+    <script src="/static/require.js"></script>
+    <script src="/configs/require_config.js"></script>
+    <script>
+
+        // Architect Boot Loader
+        var packages = [
+            "/static/configs/installer.js",
+            "lib/architect/architect"
+        ];
+
+        require(packages, function (x, architect) {
+            architect.resolveConfig(require.plugins, function (err, config) {
+                if (err) throw err;
+                
+                var app = architect.createApp(config, function(err, app){
+                    if (err) throw err;
+                });
+                
+                app.on("error", function(err){
+                    console.error(err);
+                });
+                
+                app.on("service", function(name, plugin){
+                    if (!plugin.name)
+                        plugin.name = name;
+                });
+                
+                app.on("ready", function(){
+                    // if (app.services.c9.debug)
+                        window.app = app.services;
+                    app.services.c9.ready();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

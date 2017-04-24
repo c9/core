@@ -1,0 +1,24 @@
+{
+  "ngCordova": {
+    "IDeviceMotionAcceleration": {
+      "x": "number",
+      "y": "number",
+      "z": "number",
+      "timestamp": "number"
+    },
+    "IDeviceMotionAccelerometerOptions": {
+      "frequency": "number"
+    },
+    "IDeviceMotionWatchPromise": {
+      "watchID": "number",
+      "cancel": "fn()",
+      "clearWatch": "fn(watchId?: number)"
+    },
+    "IDeviceMotionService": {
+      "getCurrentAcceleration": "fn() -> ?",
+      "watchAcceleration": "fn(options: IDeviceMotionAccelerometerOptions) -> IDeviceMotionWatchPromise",
+      "clearWatch": "fn(watchId: number)"
+    }
+  },
+  "!name": "deviceMotion.d.ts"
+}

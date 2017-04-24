@@ -1,0 +1,117 @@
+{
+  "mock": {
+    "ProtractorHttpMock": {
+      "teardown": "fn()",
+      "requestsMade": "fn() -> ?",
+      "clearRequests": "fn() -> ?",
+      "config": {
+        "rootDirectory": "string",
+        "protractorConfig": "string"
+      }
+    },
+    "ReceivedRequest": {
+      "url": "string",
+      "method": "string"
+    },
+    "requests": {
+      "BaseRequest": {
+        "request": {
+          "method": "string",
+          "path": "string"
+        },
+        "response": {
+          "status": "number",
+          "data": "TResponse"
+        }
+      },
+      "Get": {
+        "request": {
+          "method": "string",
+          "path": "string",
+          "params": "Object",
+          "queryString": "Object",
+          "headers": "Object",
+          "interceptedRequest": "bool",
+          "interceptedAnonymousRequest": "bool"
+        },
+        "response": {
+          "status": "number",
+          "data": "TResponse"
+        }
+      },
+      "PostData": {
+        "request": {
+          "path": "string",
+          "method": "string",
+          "data": "TPayload"
+        },
+        "response": {
+          "status": "number",
+          "data": "TResponse"
+        }
+      },
+      "Post": {
+        "request": {
+          "path": "string",
+          "method": "string"
+        },
+        "response": {
+          "status": "number",
+          "data": "TResponse"
+        }
+      },
+      "Head": {
+        "request": {
+          "path": "string",
+          "method": "string"
+        },
+        "response": {
+          "status": "number",
+          "data": "TResponse"
+        }
+      },
+      "Delete": {
+        "request": {
+          "path": "string",
+          "method": "string"
+        },
+        "response": {
+          "status": "number",
+          "data": "TResponse"
+        }
+      },
+      "Put": {
+        "request": {
+          "path": "string",
+          "method": "string"
+        },
+        "response": {
+          "status": "number",
+          "data": "TResponse"
+        }
+      },
+      "Patch": {
+        "request": {
+          "path": "string",
+          "method": "string"
+        },
+        "response": {
+          "status": "number",
+          "data": "TResponse"
+        }
+      },
+      "Jsonp": {
+        "request": {
+          "path": "string",
+          "method": "string"
+        },
+        "response": {
+          "status": "number",
+          "data": "TResponse"
+        }
+      }
+    }
+  },
+  "'protractor-http-mock'": "mock",
+  "!name": "protractor-http-mock"
+}

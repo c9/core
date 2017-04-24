@@ -1,0 +1,338 @@
+{
+  "sjcl": {
+    "bn": "BigNumberStatic",
+    "bitArray": "BitArrayStatic",
+    "codec": "SjclCodecs",
+    "hash": "SjclHashes",
+    "exception": "SjclExceptions",
+    "cipher": "SjclCiphers",
+    "mode": "SjclModes",
+    "misc": "SjclMisc",
+    "ecc": "SjclEllipticCurveCryptography",
+    "random": "SjclRandom",
+    "prng": "SjclRandomStatic",
+    "keyexchange": "SjclKeyExchange",
+    "json": "SjclJson",
+    "encrypt": "SjclConveninceEncryptor",
+    "decrypt": "SjclConveninceDecryptor",
+    "BigNumber": {
+      "radix": "number",
+      "maxMul": "number",
+      "copy": "fn() -> BigNumber",
+      "initWith": "TypeHelpers.BigNumberBinaryOperator",
+      "equals": "fn(that: number) -> bool",
+      "getLimb": "fn(index: number) -> number",
+      "greaterEquals": "fn(that: number) -> bool",
+      "addM": "TypeHelpers.BigNumberBinaryOperator",
+      "doubleM": "fn() -> BigNumber",
+      "halveM": "fn() -> BigNumber",
+      "subM": "TypeHelpers.BigNumberBinaryOperator",
+      "mod": "TypeHelpers.BigNumberBinaryOperator",
+      "inverseMod": "TypeHelpers.BigNumberBinaryOperator",
+      "add": "TypeHelpers.BigNumberBinaryOperator",
+      "sub": "TypeHelpers.BigNumberBinaryOperator",
+      "mul": "TypeHelpers.BigNumberBinaryOperator",
+      "square": "fn() -> BigNumber",
+      "power": "fn(n: number) -> BigNumber",
+      "mulmod": "TypeHelpers.BigNumberTrinaryOperator",
+      "powermod": "TypeHelpers.BigNumberTrinaryOperator",
+      "trim": "fn() -> BigNumber",
+      "reduce": "fn() -> BigNumber",
+      "fullReduce": "fn() -> BigNumber",
+      "normalize": "fn() -> BigNumber",
+      "cnormalize": "fn() -> BigNumber",
+      "toBits": "fn(len?: number) -> BitArray",
+      "bitLength": "fn() -> number"
+    },
+    "BigNumberStatic": {
+      "fromBits": "fn(bits: BitArray) -> BigNumber",
+      "random": "?",
+      "prime": {
+        "p127": "PseudoMersennePrimeStatic",
+        "p25519": "PseudoMersennePrimeStatic",
+        "p192k": "PseudoMersennePrimeStatic",
+        "p224k": "PseudoMersennePrimeStatic",
+        "p256k": "PseudoMersennePrimeStatic",
+        "p192": "PseudoMersennePrimeStatic",
+        "p224": "PseudoMersennePrimeStatic",
+        "p256": "PseudoMersennePrimeStatic",
+        "p384": "PseudoMersennePrimeStatic",
+        "p521": "PseudoMersennePrimeStatic"
+      },
+      "pseudoMersennePrime": "fn(exponent: number, coeff: [[number]]) -> PseudoMersennePrimeStatic"
+    },
+    "PseudoMersennePrime": {
+      "reduce": "fn() -> PseudoMersennePrime",
+      "fullReduce": "fn() -> PseudoMersennePrime",
+      "inverse": "fn() -> PseudoMersennePrime"
+    },
+    "PseudoMersennePrimeStatic": {},
+    "BitArray": {},
+    "BitArrayStatic": {
+      "bitSlice": "fn(a: BitArray, bstart: number, bend: number) -> BitArray",
+      "extract": "fn(a: BitArray, bstart: number, blenth: number) -> number",
+      "concat": "fn(a1: BitArray, a2: BitArray) -> BitArray",
+      "bitLength": "fn(a: BitArray) -> number",
+      "clamp": "fn(a: BitArray, len: number) -> BitArray",
+      "partial": "fn(len: number, x: number, _end?: number) -> number",
+      "getPartial": "fn(x: number) -> number",
+      "equal": "fn(a: BitArray, b: BitArray) -> bool",
+      "_shiftRight": "fn(a: BitArray, shift: number, carry?: number, out?: BitArray) -> BitArray",
+      "_xor4": "fn(x: [number], y: [number]) -> [number]"
+    },
+    "SjclCodec": {
+      "fromBits": "fn(bits: BitArray) -> T",
+      "toBits": "fn(value: T) -> BitArray"
+    },
+    "SjclCodecs": {
+      "utf8String": "?",
+      "hex": "?",
+      "bytes": "?",
+      "base64": "?",
+      "base64url": "?"
+    },
+    "SjclHash": {
+      "reset": "fn() -> SjclHash",
+      "update": "fn(data: string) -> SjclHash",
+      "finalize": "fn() -> BitArray"
+    },
+    "SjclHashStatic": {
+      "hash": "fn(data: string) -> BitArray"
+    },
+    "SjclHashes": {
+      "sha1": "SjclHashStatic",
+      "sha256": "SjclHashStatic",
+      "sha512": "SjclHashStatic"
+    },
+    "SjclExceptions": {
+      "corrupt": "SjclExceptionFactory",
+      "invalid": "SjclExceptionFactory",
+      "bug": "SjclExceptionFactory",
+      "notReady": "SjclExceptionFactory"
+    },
+    "SjclExceptionFactory": {},
+    "SjclCiphers": {
+      "aes": "SjclCipherStatic"
+    },
+    "SjclCipher": {
+      "encrypt": "fn(data: [number]) -> [number]",
+      "decrypt": "fn(data: [number]) -> [number]"
+    },
+    "SjclCipherStatic": {},
+    "SjclModes": {
+      "gcm": "SjclGCMMode",
+      "ccm": "SjclCCMMode",
+      "ocb2": "SjclOCB2Mode",
+      "cbc": "SjclCBCMode"
+    },
+    "SjclGCMMode": {
+      "encrypt": "fn(prp: SjclCipher, plaintext: BitArray, iv: BitArray, adata?: BitArray, tlen?: number) -> BitArray",
+      "decrypt": "fn(prp: SjclCipher, ciphertext: BitArray, iv: BitArray, adata?: BitArray, tlen?: number) -> BitArray"
+    },
+    "SjclCCMMode": {
+      "encrypt": "fn(prp: SjclCipher, plaintext: BitArray, iv: BitArray, adata?: BitArray, tlen?: number) -> BitArray",
+      "decrypt": "fn(prp: SjclCipher, ciphertext: BitArray, iv: BitArray, adata?: BitArray, tlen?: number) -> BitArray"
+    },
+    "SjclOCB2Mode": {
+      "encrypt": "fn(prp: SjclCipher, plaintext: BitArray, iv: BitArray, adata?: BitArray, tlen?: number, premac?: bool) -> BitArray",
+      "decrypt": "fn(prp: SjclCipher, ciphertext: BitArray, iv: BitArray, adata?: BitArray, tlen?: number, premac?: bool) -> BitArray",
+      "pmac": "fn(prp: SjclCipher, adata: BitArray) -> [number]"
+    },
+    "SjclCBCMode": {
+      "encrypt": "fn(prp: SjclCipher, plaintext: BitArray, iv: BitArray, adata?: BitArray) -> BitArray",
+      "decrypt": "fn(prp: SjclCipher, ciphertext: BitArray, iv: BitArray, adata?: BitArray) -> BitArray"
+    },
+    "Pbkdf2Params": {
+      "iter": "number",
+      "salt": "BitArray"
+    },
+    "SjclMisc": {
+      "pbkdf2": "fn(password: string, salt: string, count?: number, length?: number, Prff?: SjclPseudorandomFunctionFamilyStatic) -> BitArray",
+      "hmac": "SjclHmacStatic",
+      "cachedPbkdf2": "fn(password: string, obj?: Pbkdf2Params) -> ret"
+    },
+    "SjclPseudorandomFunctionFamily": {
+      "prototype": {
+        "encrypt": "fn(data: string) -> BitArray"
+      }
+    },
+    "SjclHmac": {
+      "mac": "fn(data: string) -> BitArray",
+      "reset": "fn()",
+      "update": "fn(data: string)",
+      "digest": "fn() -> BitArray"
+    },
+    "SjclPseudorandomFunctionFamilyStatic": {},
+    "SjclHmacStatic": {},
+    "SjclEllipticCurveCryptography": {
+      "point": "SjclEllipticalPointStatic",
+      "pointJac": "SjclPointJacobianStatic",
+      "curve": "SjclEllipticalCurveStatic",
+      "curves": {
+        "c192": "SjclEllipticalCurve",
+        "c224": "SjclEllipticalCurve",
+        "c256": "SjclEllipticalCurve",
+        "c384": "SjclEllipticalCurve",
+        "k192": "SjclEllipticalCurve",
+        "k224": "SjclEllipticalCurve",
+        "k256": "SjclEllipticalCurve"
+      },
+      "basicKey": "SjclECCBasic",
+      "elGamal": "SjclElGamal",
+      "ecdsa": "SjclEcdsa"
+    },
+    "SjclEllipticalPoint": {
+      "toJac": "fn() -> SjclPointJacobian",
+      "mult": "fn(k: BigNumber) -> SjclEllipticalPoint",
+      "mult2": "fn(k: BigNumber, k2: BigNumber, affine2: SjclEllipticalPoint) -> SjclEllipticalPoint",
+      "multiples": "fn() -> ?",
+      "isValid": "fn() -> bool",
+      "toBits": "fn() -> BitArray"
+    },
+    "SjclEllipticalPointStatic": {},
+    "SjclPointJacobian": {
+      "add": "fn(T: SjclEllipticalPoint) -> SjclPointJacobian",
+      "doubl": "fn() -> SjclPointJacobian",
+      "toAffine": "fn() -> SjclEllipticalPoint",
+      "mult": "fn(k: BigNumber, affine: SjclEllipticalPoint) -> SjclPointJacobian",
+      "mult2": "fn(k1: BigNumber, affine: SjclEllipticalPoint, k2: BigNumber, affine2: SjclEllipticalPoint) -> SjclPointJacobian",
+      "isValid": "fn() -> bool"
+    },
+    "SjclPointJacobianStatic": {},
+    "SjclEllipticalCurve": {
+      "fromBits": "fn(bits: BitArray) -> SjclEllipticalPoint"
+    },
+    "SjclEllipticalCurveStatic": {},
+    "SjclKeyPair": {
+      "pub": "P",
+      "sec": "S"
+    },
+    "SjclKeysGenerator": {},
+    "SjclECCPublicKeyData": {
+      "x": "BitArray",
+      "y": "BitArray"
+    },
+    "SjclECCPublicKey": {
+      "prototype": {
+        "get": "fn() -> SjclECCPublicKeyData"
+      }
+    },
+    "SjclECCSecretKey": {
+      "prototype": {
+        "get": "fn() -> BitArray"
+      }
+    },
+    "SjclECCPublicKeyFactory": {},
+    "SjclECCSecretKeyFactory": {},
+    "SjclECCBasic": {
+      "publicKey": "?",
+      "secretKey": "?",
+      "generateKeys": "fn(cn: string) -> ?"
+    },
+    "SjclElGamalPublicKey": {
+      "prototype": {
+        "kem": "fn(paranoia: number) -> ret1"
+      }
+    },
+    "SjclElGamalSecretKey": {
+      "prototype": {
+        "unkem": "fn(tag: BitArray) -> BitArray",
+        "dh": "fn(pk: SjclECCPublicKey) -> BitArray"
+      }
+    },
+    "SjclElGamal": {
+      "publicKey": "?",
+      "secretKey": "?",
+      "generateKeys": "?"
+    },
+    "SjclEcdsaPublicKey": {
+      "prototype": {
+        "verify": "fn(hash: BitArray, rs: BitArray, fakeLegacyVersion: bool) -> bool"
+      }
+    },
+    "SjclEcdsaSecretKey": {
+      "prototype": {
+        "sign": "fn(hash: BitArray, paranoia: number, fakeLegacyVersion: bool, fixedKForTesting?: BigNumber) -> BitArray"
+      }
+    },
+    "SjclEcdsa": {
+      "publicKey": "?",
+      "secretKey": "?",
+      "generateKeys": "?"
+    },
+    "SjclRandom": {
+      "randomWords": "fn(nwords: number, paranoia?: number) -> BitArray",
+      "setDefaultParanoia": "fn(paranoia: number, allowZeroParanoia: string)",
+      "addEntropy": "fn(data: number, estimatedEntropy: number, source: string)",
+      "isReady": "fn(paranoia?: number) -> bool",
+      "getProgress": "fn(paranoia?: number) -> number",
+      "startCollectors": "fn()",
+      "stopCollectors": "fn()",
+      "addEventListener": "fn(name: string, cb: Function)",
+      "removeEventListener": "fn(name: string, cb: Function)"
+    },
+    "SjclRandomStatic": {},
+    "SjclKeyExchange": {
+      "srp": "SecureRemotePassword"
+    },
+    "SjclSRPGroup": {
+      "N": "BigNumber",
+      "g": "BigNumber"
+    },
+    "SecureRemotePassword": {
+      "makeVerifier": "fn(username: string, password: string, salt: BitArray, group: SjclSRPGroup) -> BitArray",
+      "makeX": "fn(username: string, password: string, salt: BitArray) -> BitArray",
+      "knownGroup": "fn(i: string) -> SjclSRPGroup"
+    },
+    "SjclCipherParams": {
+      "v": "number",
+      "iter": "number",
+      "ks": "number",
+      "ts": "number",
+      "mode": "string",
+      "adata": "string",
+      "cipher": "string"
+    },
+    "SjclCipherEncryptParams": {
+      "salt": "BitArray",
+      "iv": "BitArray"
+    },
+    "SjclCipherDecryptParams": {
+      "salt": "BitArray",
+      "iv": "BitArray"
+    },
+    "SjclCipherEncrypted": {
+      "kemtag": "BitArray",
+      "ct": "BitArray"
+    },
+    "SjclCipherDecrypted": {
+      "key": "BitArray"
+    },
+    "SjclConveninceEncryptor": {},
+    "SjclConveninceDecryptor": {},
+    "SjclJson": {
+      "encrypt": "SjclConveninceEncryptor",
+      "decrypt": "SjclConveninceDecryptor",
+      "encode": "fn(obj: Object) -> string",
+      "decode": "fn(obj: string) -> Object"
+    },
+    "TypeHelpers": {
+      "One": {},
+      "BigNumberBinaryOperator": {},
+      "Two": {},
+      "Bind1": {},
+      "BigNumberTrinaryOperator": {}
+    }
+  },
+  "!name": "sjcl",
+  "!define": {
+    "ret": {
+      "key": "BitArray",
+      "salt": "BitArray"
+    },
+    "ret1": {
+      "key": "BitArray",
+      "tag": "BitArray"
+    }
+  }
+}

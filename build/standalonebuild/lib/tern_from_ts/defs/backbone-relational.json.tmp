@@ -1,0 +1,86 @@
+{
+  "Backbone": {
+    "RelationalModel": {
+      "prototype": {
+        "relations": "?",
+        "subModelTypes": "?",
+        "subModelTypeAttribute": "?",
+        "initializeRelations": "fn(options: ?)",
+        "updateRelations": "fn(options: ?)",
+        "queue": "fn(func: ?)",
+        "processQueue": "fn()",
+        "getRelation": "fn(name: string) -> Relation",
+        "getRelations": "fn() -> [Relation]",
+        "fetchRelated": "fn(key: string, options?: ?, update?: bool) -> ?",
+        "toJSON": "fn() -> ?",
+        "setup": "fn()",
+        "build": "fn(attributes: ?, options?: ?)",
+        "findOrCreate": "fn(attributes: string, options?: ?)"
+      }
+    },
+    "Relation": {
+      "prototype": {
+        "options": "?",
+        "instance": "?",
+        "key": "?",
+        "keyContents": "?",
+        "relatedModel": "?",
+        "relatedCollection": "?",
+        "reverseRelation": "?",
+        "related": "?",
+        "checkPreconditions": "fn() -> bool",
+        "setRelated": "fn(related: Model)",
+        "getReverseRelations": "fn(model: RelationalModel) -> Relation",
+        "destroy": "fn()"
+      }
+    },
+    "HasOne": {
+      "prototype": {
+        "collectionType": "?",
+        "findRelated": "fn(options: ?) -> Model",
+        "setKeyContents": "fn(keyContents: string)",
+        "onChange": "fn(model: Model, attr: ?, options: ?)",
+        "handleAddition": "fn(model: Model, coll: ?, options: ?)",
+        "handleRemoval": "fn(model: Model, coll: ?, options: ?)",
+        "handleReset": "fn(coll: ?, options: ?)",
+        "tryAddRelated": "fn(model: Model, coll: ?, options: ?)",
+        "addRelated": "fn(model: Model, options: ?)",
+        "removeRelated": "fn(model: Model, coll: ?, options: ?)"
+      }
+    },
+    "HasMany": {
+      "prototype": {
+        "collectionType": "?",
+        "findRelated": "fn(options: ?) -> Model",
+        "setKeyContents": "fn(keyContents: string)",
+        "onChange": "fn(model: Model, attr: ?, options: ?)",
+        "tryAddRelated": "fn(model: Model, coll: ?, options: ?)",
+        "addRelated": "fn(model: Model, options: ?)",
+        "removeRelated": "fn(model: Model, coll: ?, options: ?)"
+      }
+    },
+    "Store": {
+      "prototype": {
+        "initializeRelation": "fn(model: ?, relation: ?, options: ?)",
+        "addModelScope": "fn(scope: ?)",
+        "removeModelScope": "fn(scope: ?)",
+        "addSubModels": "fn(subModelTypes: RelationalModel, superModelType: RelationalModel)",
+        "setupSuperModel": "fn(modelType: RelationalModel)",
+        "addReverseRelation": "fn(relation: ?)",
+        "addOrphanRelation": "fn(relation: ?)",
+        "processOrphanRelations": "fn()",
+        "retroFitRelation": "fn(relation: RelationalModel, create: bool) -> ?",
+        "getCollection": "fn(type: RelationalModel, create: bool) -> ?",
+        "getObjectByName": "fn(name: string) -> ?",
+        "resolveIdForItem": "fn(type: ?, item: ?) -> ?",
+        "find": "fn(type: ?, item: string) -> RelationalModel",
+        "register": "fn(model: RelationalModel)",
+        "checkId": "fn(model: RelationalModel, id: ?)",
+        "update": "fn(model: RelationalModel)",
+        "unregister": "fn(model: RelationalModel, collection: ?, options: ?)",
+        "reset": "fn()"
+      }
+    }
+  },
+  "!name": "backbone-relational.d.ts"
+}

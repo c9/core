@@ -1,0 +1,12 @@
+{
+  "UrlTemplate": {
+    "TemplateParser": {
+      "parse": "fn(template: string) -> Template"
+    },
+    "Template": {
+      "expand": "fn(parameters: ?) -> string"
+    }
+  },
+  "url-template": "urlTemplate",
+  "!name": "url-template"
+}

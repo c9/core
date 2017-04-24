@@ -1,0 +1,14 @@
+{
+  "Slick": {
+    "SlickGridAutoTooltipsOption": {
+      "enableForCells": "bool",
+      "enableForHeaderCells": "bool",
+      "maxToolTipLength": "number"
+    },
+    "AutoTooltips": {
+      "!type": "fn(option?: SlickGridAutoTooltipsOption)",
+      "prototype": {}
+    }
+  },
+  "!name": "slick.autotooltips"
+}

@@ -1,0 +1,17 @@
+{
+  "Rx": {
+    "Observable": {
+      "pausable": "fn(pauser?: ?) -> ?",
+      "pausableBuffered": "fn(pauser?: ?) -> ?",
+      "controlled": "fn(enableQueue?: bool) -> ?"
+    },
+    "ControlledObservable": {
+      "request": "fn(numberOfItems?: number) -> IDisposable"
+    },
+    "PausableObservable": {
+      "pause": "fn()",
+      "resume": "fn()"
+    }
+  },
+  "!name": "rx.backpressure-lite.d.ts"
+}

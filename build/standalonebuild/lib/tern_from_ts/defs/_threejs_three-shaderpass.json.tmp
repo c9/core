@@ -1,0 +1,21 @@
+{
+  "THREE": {
+    "ShaderPass": {
+      "!type": "fn(shader: Shader, textureID?: string)",
+      "prototype": {
+        "textureID": "string",
+        "uniforms": "?",
+        "material": "ShaderMaterial",
+        "renderToScreen": "bool",
+        "enabled": "bool",
+        "needsSwap": "bool",
+        "clear": "bool",
+        "camera": "Camera",
+        "scene": "Scene",
+        "quad": "Mesh",
+        "render": "fn(renderer: WebGLRenderer, writeBuffer: WebGLRenderTarget, readBuffer: WebGLRenderTarget, delta: number)"
+      }
+    }
+  },
+  "!name": "three-shaderpass.d.ts"
+}

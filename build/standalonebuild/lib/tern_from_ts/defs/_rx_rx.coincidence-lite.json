@@ -1,0 +1,9 @@
+{
+  "Rx": {
+    "Observable": {
+      "pairwise": "fn() -> ?",
+      "partition": "fn(predicate: fn(value: T, index: number, source: ?), thisArg: ?) -> [?]"
+    }
+  },
+  "!name": "rx.coincidence-lite"
+}

@@ -1,0 +1,103 @@
+{
+  "Popcorn": "PopcornStatic",
+  "PopcornStatic": {
+    "plugin": {
+      "debug": "bool",
+      "errors": "[?]"
+    },
+    "util": {
+      "toSeconds": "fn(smpte: string, fps?: number) -> number"
+    },
+    "destroy": "fn(insntace: PopcornImpl)",
+    "extend": "fn(target: string, source: ?, rest: [?])",
+    "forEach": "fn(object: ?, callback: Function, context?: ?)",
+    "getJSONP": "fn(url: string, successCallback: Function)",
+    "getScript": "fn(url: string, successCallback: Function)",
+    "guid": "fn(prefix: string)",
+    "locale": "PopcornLocale",
+    "parser": "fn(parserName: ?, fn: ?, data: ?)"
+  },
+  "PopcornLocale": {
+    "get": "fn() -> string",
+    "set": "fn(langRegion: string)"
+  },
+  "PopcornImpl": {
+    "media": "HTMLMediaElement",
+    "footnote": "fn(data: Footnote)",
+    "autoplay": "fn(flag: bool)",
+    "buffered": "fn() -> TimeRanges",
+    "compose": "fn(name: string, definitionObject: ?, manifest?: ?)",
+    "controls": "fn(flag: bool)",
+    "cue": "fn(time: string, callback: Function)",
+    "currentTime": "fn(time?: string) -> number",
+    "defaults": "fn(pluginName: string, options: ?)",
+    "destroy": "fn()",
+    "disable": "fn(pluginName: string)",
+    "duration": "fn() -> number",
+    "emit": "fn(eventName: string, dataObject?: ?)",
+    "enable": "fn(pluginName: string) -> PopcornImpl",
+    "exec": "fn(time: string, callback: Function)",
+    "listen": "fn(eventName: string, callback: Function)",
+    "load": "fn()",
+    "loop": "fn(flag: bool)",
+    "mute": "fn()",
+    "muted": "fn(flag: bool)",
+    "off": "fn(eventName: string, callback: Function)",
+    "on": "fn(eventName: string, callback: Function)",
+    "pause": "fn(time?: number)",
+    "paused": "fn() -> bool",
+    "play": "fn(time?: number)",
+    "playbackRate": "fn(rate?: number)",
+    "played": "fn() -> TimeRanges",
+    "position": "fn() -> ClientRect",
+    "preload": "fn(state: string)",
+    "readyState": "fn() -> number",
+    "roundTime": "fn() -> number",
+    "seekable": "fn() -> ?",
+    "seeking": "fn() -> bool",
+    "toggle": "fn(pluginName: string)",
+    "trigger": "fn(eventName: string, dataObject?: ?)",
+    "unlisten": "fn(eventName: string, callback: Function)",
+    "unmute": "fn()",
+    "volume": "fn(value?: number) -> number",
+    "getLastTrackEventId": "fn() -> string",
+    "removeTrackEvent": "fn(id: string)"
+  },
+  "PopcornPlugin": {
+    "_setup": "fn(track?: TrackEvent)",
+    "_update": "fn(track?: TrackEvent)",
+    "_teardown": "fn(track?: TrackEvent)",
+    "start": "fn(event: ?, track?: TrackEvent)",
+    "end": "fn(event: ?, track?: TrackEvent)",
+    "frame": "fn(event: ?, track?: TrackEvent)",
+    "manifest": "PopcornManifest"
+  },
+  "PopcornManifest": {
+    "about": "PopcornManifestAbout",
+    "options": "PopcornManifestOptions"
+  },
+  "PopcornManifestAbout": {
+    "name": "string",
+    "version": "string",
+    "author": "string",
+    "website": "string"
+  },
+  "PopcornManifestOptions": {
+    "start": "PopcornManifestOption",
+    "end": "PopcornManifestOption",
+    "target": "string",
+    "text": "PopcornManifestOption"
+  },
+  "PopcornManifestOption": {
+    "elem": "string",
+    "type": "string",
+    "label": "string"
+  },
+  "Footnote": {
+    "start": "number",
+    "end": "number",
+    "target": "string",
+    "text": "string"
+  },
+  "!name": "popcorn.d.ts"
+}

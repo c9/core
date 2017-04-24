@@ -1,0 +1,18 @@
+{
+  "dojox": {
+    "json": {
+      "query": {},
+      "schema": {},
+      "ref": {
+        "refAttribute": "string",
+        "serializeFunctions": "bool",
+        "fromJson": "fn(str: String, args: Object) -> ?",
+        "resolveJson": "fn(root: Object, args: Object) -> ?",
+        "toJson": "fn(it: Object, prettyPrint: bool, idPrefix: Object, indexSubObjects: Object) -> ?"
+      }
+    }
+  },
+  "dojox/json/query": "exp",
+  "dojox/json/ref": "exp",
+  "!name": "dojox.json"
+}

@@ -1,0 +1,27 @@
+{
+  "Rx": {
+    "TimeInterval": {
+      "value": "T",
+      "interval": "number"
+    },
+    "Timestamp": {
+      "value": "T",
+      "timestamp": "number"
+    },
+    "Observable": {
+      "delay": "fn(dueTime: Date, scheduler?: IScheduler) -> ?",
+      "debounce": "fn(dueTime: number, scheduler?: IScheduler) -> ?",
+      "throttleWithTimeout": "fn(dueTime: number, scheduler?: IScheduler) -> ?",
+      "throttle": "fn(dueTime: number, scheduler?: IScheduler) -> ?",
+      "timeInterval": "fn(scheduler?: IScheduler) -> ?",
+      "timestamp": "fn(scheduler?: IScheduler) -> ?",
+      "sample": "fn(interval: number, scheduler?: IScheduler) -> ?",
+      "timeout": "fn(dueTime: Date, other?: ?, scheduler?: IScheduler) -> ?"
+    },
+    "ObservableStatic": {
+      "interval": "fn(period: number, scheduler?: IScheduler) -> ?",
+      "timer": "fn(dueTime: number, period: number, scheduler?: IScheduler) -> ?"
+    }
+  },
+  "!name": "rx.time-lite.d.ts"
+}

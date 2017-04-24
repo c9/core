@@ -1,0 +1,219 @@
+body {
+    margin: 0;
+    padding: 80px 100px;
+    font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
+    background: #ECE9E9 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
+    background: #ECE9E9 -moz-linear-gradient(top, #fff, #ECE9E9);
+    background-repeat: no-repeat;
+    color: #555;
+    -webkit-font-smoothing: antialiased;
+}
+body.light{
+    color: #f1f1f1;
+    text-shadow: 0 1px 10px rgba(0,0,0,0.1);
+}
+
+h1, h2, h3 {
+    margin: 0;
+    font-size: 22px;
+    color: #343434;
+}
+body.light h1, h2, h3{
+    color: rgba(255, 255, 255, 0.5);
+}
+h1 em, h2 em {
+    padding: 0 5px;
+    font-weight: normal;
+}
+h1 {
+    font-size: 40px;
+}
+h2 {
+    margin-top: 10px;
+}
+h3 {
+    margin: 5px 0 10px 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+    font-size: 18px;
+}
+ul {
+    margin: 3px 0 0 0;
+    padding: 0;
+}
+ul li {
+    margin: 0 0;
+    padding: 2px 8px;
+    list-style: none;
+}
+/*ul li:hover {*/
+/*    cursor: pointer;*/
+/*    color: #2e2e2e;*/
+/*}*/
+/*body.light ul li:hover{*/
+/*    color: #bbb;*/
+/*}*/
+ul li .path {
+    padding-left: 5px;
+    font-weight: bold;
+}
+ul li .line {
+    padding-right: 5px;
+    font-style: italic;
+}
+ul li:first-child .path {
+    padding-left: 0;
+}
+p {
+    line-height: 1.5;
+    font-size: 16px;
+}
+a {
+    color: #555;
+    text-decoration: none;
+}
+a:hover {
+    color: #303030;
+}
+body.light a{ color: #C3D7EB };
+body.light a:hover{ color: blue };
+
+#stacktrace {
+    margin-top: 15px;
+}
+.directory h1 {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+ul#files {
+    width: 100%;
+    height: 500px;
+}
+ul#files li {
+    padding: 0;
+}
+ul#files li img {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+ul#files li a {
+     position: relative;
+    display: block;
+    margin: 1px;
+    width: 30%;
+    height: 25px;
+    line-height: 25px;
+    text-indent: 8px;
+    float: left;
+    border: 1px solid transparent;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+ul#files li a.icon {
+    text-indent: 25px;
+}
+ul#files li a:focus,
+ul#files li a:hover {
+    outline: none;
+    background: rgba(255,255,255,0.65);
+    border: 1px solid #ececec;
+}
+ul#files li a.highlight {
+    -webkit-transition: background .4s ease-in-out;
+    background: #ffff4f;
+    border-color: #E9DC51;
+}
+#search {
+    display: block;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 90px;
+    -webkit-transition: width ease 0.2s, opacity ease 0.4s;
+    -moz-transition: width ease 0.2s, opacity ease 0.4s;
+    -webkit-border-radius: 32px;
+    -moz-border-radius: 32px;
+    -webkit-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.25), inset 0px 1px 3px rgba(0, 0, 0, 0.7), 0px 1px 0px rgba(255, 255, 255, 0.03);
+    -moz-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.25), inset 0px 1px 3px rgba(0, 0, 0, 0.7), 0px 1px 0px rgba(255, 255, 255, 0.03);
+    -webkit-font-smoothing: antialiased;
+    text-align: left;
+    font: 13px "Helvetica Neue", Arial, sans-serif;
+    padding: 4px 10px;
+    border: none;
+    background: transparent;
+    margin-bottom: 0;
+    outline: none;
+    opacity: 0.7;
+    color: #888;
+}
+#search:focus {
+    width: 120px;
+    opacity: 1.0; 
+}
+.stacktrace{
+    margin-bottom:20px;
+}
+.stacktrace .toggle{
+    cursor: pointer;
+}
+.stacktrace .toggle:hover{
+    text-decoration: underline;
+}
+
+body:after{
+    content: "";
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: url("images/c9logo.png");
+    width: 195px;
+    height : 150px;
+}
+
+body.error404 {
+    background-image: url("images/dandelions.jpg");
+    background-position: bottom;
+    background-color: #305581;
+}
+
+body.error500 {
+    background-image: url("images/bulb.jpg");
+    background-position: bottom;
+    background-size: 100%;
+    background-color: #000;
+}
+
+body.error503 {
+    background-image: url("images/bench.jpg");
+    background-position: 50% 50%;
+    background-color: #000;
+}
+
+/*body.errorUnknown {*/
+/*    background-image: url("images/chamomile.jpg");*/
+/*    background-position: bottom right;*/
+/*    background-color: #1b3c83;*/
+/*}*/
+
+body.errorUnknown {
+    background-image: url("images/apple.jpg");
+    background-position: bottom;
+    background-color: #68b7bc;
+}
+
+/*body.errorUnknown {*/
+/*    background-image: url("images/flowersfence.jpg");*/
+/*    background-position: top;*/
+/*    background-color: #f1eace;*/
+/*}*/
+
+/*body.errorUnknown {*/
+/*    background-image: url("images/bookmark.jpg");*/
+/*    background-position: 35% top;*/
+/*    background-color: #f1eace;*/
+/*}*/

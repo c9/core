@@ -1,0 +1,21 @@
+{
+  "convert-source-map": {
+    "SourceMapConverter": {
+      "toObject": "fn() -> ?",
+      "toJSON": "fn(space?: ?) -> string",
+      "toBase64": "fn() -> string",
+      "toComment": "fn() -> string",
+      "addProperty": "fn(key: string, value: ?) -> SourceMapConverter",
+      "setProperty": "fn(key: string, value: ?) -> SourceMapConverter",
+      "getProperty": "fn(key: string) -> ?"
+    },
+    "removeComments": "fn(src: string) -> string",
+    "commentRegex": "RegExp",
+    "fromObject": "fn(obj: ?) -> SourceMapConverter",
+    "fromJSON": "fn(json: string) -> SourceMapConverter",
+    "fromBase64": "fn(base64: string) -> SourceMapConverter",
+    "fromComment": "fn(comment: string) -> SourceMapConverter",
+    "fromSource": "fn(source: string) -> SourceMapConverter"
+  },
+  "!name": "convert-source-map"
+}

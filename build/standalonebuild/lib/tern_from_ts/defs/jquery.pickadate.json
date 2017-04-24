@@ -1,0 +1,164 @@
+{
+  "pickerOptions": {
+    "clear": "string",
+    "container": "?",
+    "onStart": "fn(event: ?)",
+    "onRender": "fn(event: ?)",
+    "onOpen": "fn(event: ?)",
+    "onClose": "fn(event: ?)",
+    "onSet": "fn(event: ?)",
+    "onStop": "fn(event: ?)"
+  },
+  "pickadateOptions": {
+    "monthsFull": "[string]",
+    "monthsShort": "[string]",
+    "weekdaysFull": "[string]",
+    "weekdaysShort": "[string]",
+    "showMonthsShort": "bool",
+    "showWeekdaysFull": "bool",
+    "today": "string",
+    "format": "string",
+    "formatSubmit": "string",
+    "hiddenPrefix": "string",
+    "hiddenSuffix": "string",
+    "selectYears": "?",
+    "selectMonths": "bool",
+    "firstDay": "?",
+    "min": "?",
+    "max": "?",
+    "disable": "[?]",
+    "klass": {
+      "input": "string",
+      "active": "string",
+      "picker": "string",
+      "opened": "string",
+      "focused": "string",
+      "holder": "string",
+      "frame": "string",
+      "wrap": "string",
+      "box": "string",
+      "header": "string",
+      "navPrev": "string",
+      "navNext": "string",
+      "navDisabled": "string",
+      "month": "string",
+      "year": "string",
+      "selectMonth": "string",
+      "selectYear": "string",
+      "table": "string",
+      "weekdays": "string",
+      "day": "string",
+      "disabled": "string",
+      "selected": "string",
+      "highlighted": "string",
+      "now": "string",
+      "infocus": "string",
+      "outfocus": "string",
+      "footer": "string",
+      "buttonClear": "string",
+      "buttonToday": "string"
+    }
+  },
+  "pickatimeOptions": {
+    "format": "string",
+    "formatLabel": "?",
+    "formatSubmit": "string",
+    "hiddenPrefix": "string",
+    "hiddenSuffix": "string",
+    "interval": "number",
+    "min": "?",
+    "max": "?",
+    "disable": "[?]",
+    "klass": {
+      "input": "string",
+      "active": "string",
+      "picker": "string",
+      "opened": "string",
+      "focused": "string",
+      "holder": "string",
+      "frame": "string",
+      "wrap": "string",
+      "box": "string",
+      "list": "string",
+      "listItem": "string",
+      "disabled": "string",
+      "selected": "string",
+      "highlighted": "string",
+      "viewset": "string",
+      "now": "string",
+      "buttonClear": "string"
+    }
+  },
+  "PickerItemObject": {
+    "pick": "number"
+  },
+  "DatePickerItemObject": {
+    "year": "number",
+    "month": "number",
+    "date": "number",
+    "day": "number",
+    "obj": "Date"
+  },
+  "TimePickerItemObject": {
+    "hour": "number",
+    "mins": "number"
+  },
+  "CallbackObject": {
+    "open": "fn()",
+    "close": "fn()",
+    "render": "fn()",
+    "start": "fn()",
+    "stop": "fn()",
+    "set": "fn()"
+  },
+  "SetThings": {
+    "clear": "?",
+    "select": "?",
+    "highlight": "?",
+    "view": "?",
+    "min": "?",
+    "max": "?",
+    "disable": "?",
+    "enable": "?"
+  },
+  "TimePickerSetThings": {
+    "interval": "?"
+  },
+  "PickerObject": {
+    "$node": "JQuery",
+    "$root": "JQuery"
+  },
+  "DatePickerObject": {
+    "open": "fn(withoutFocus?: bool) -> DatePickerObject",
+    "close": "fn(withFocus?: bool) -> DatePickerObject",
+    "start": "fn() -> DatePickerObject",
+    "stop": "fn() -> DatePickerObject",
+    "render": "fn(entirePicker?: bool) -> DatePickerObject",
+    "clear": "fn() -> DatePickerObject",
+    "get": "fn() -> string",
+    "set": "fn(thing: string, value?: ?) -> DatePickerObject",
+    "on": "fn(methodName: ?, callback: fn()) -> DatePickerObject",
+    "trigger": "fn(event: string) -> DatePickerObject"
+  },
+  "TimePickerObject": {
+    "open": "fn(withoutFocus?: bool) -> TimePickerObject",
+    "close": "fn(withFocus?: bool) -> TimePickerObject",
+    "start": "fn() -> TimePickerObject",
+    "stop": "fn() -> TimePickerObject",
+    "render": "fn(entirePicker?: bool) -> TimePickerObject",
+    "clear": "fn() -> TimePickerObject",
+    "get": "fn() -> string",
+    "set": "fn(thing: string, value?: ?) -> TimePickerObject",
+    "on": "fn(methodName: ?, callback: fn()) -> TimePickerObject",
+    "trigger": "fn(event: string) -> TimePickerObject"
+  },
+  "JQuery": {
+    "pickadate": "fn(options?: pickadateOptions) -> HTMLInputElement",
+    "pickatime": "fn(options?: pickatimeOptions) -> HTMLInputElement"
+  },
+  "HTMLInputElement": {
+    "pickadate": "fn(picker: string) -> DatePickerObject",
+    "pickatime": "fn(picker: string) -> TimePickerObject"
+  },
+  "!name": "jquery.pickadate.d.ts"
+}

@@ -1,0 +1,10 @@
+{
+  "JavaAppletStatus": "number",
+  "JavaApplet": {
+    "onError": "Function",
+    "onLoad": "Function",
+    "onStop": "Function",
+    "status": "JavaAppletStatus"
+  },
+  "!name": "java-applet.d.ts"
+}

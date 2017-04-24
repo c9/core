@@ -1,0 +1,8 @@
+{
+  "script": [ 
+    "javac $file_name",
+    "java $file_base_name"
+  ],
+  "info": "Building $file_name and running $file_base_name",
+  "selector": "^.*\\.(java)$"
+}

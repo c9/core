@@ -1,0 +1,13 @@
+{
+  "cookie": {
+    "set": "fn(key: string, value: string, options?: ?)",
+    "remove": "fn(key: string)",
+    "empty": "fn()",
+    "get": "fn(key: string, fallback?: string) -> string",
+    "all": "fn() -> ?",
+    "enabled": "fn() -> bool",
+    "!type": "fn(key: string, fallback?: string) -> string"
+  },
+  "cookiejs": "cookie",
+  "!name": "cookiejs"
+}

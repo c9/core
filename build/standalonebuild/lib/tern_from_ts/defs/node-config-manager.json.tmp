@@ -1,0 +1,4 @@
+{
+  "node-config-manager": "cfgManager",
+  "!name": "node-config-manager.d.ts"
+}

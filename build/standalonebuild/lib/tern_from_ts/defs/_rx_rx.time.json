@@ -1,0 +1,29 @@
+{
+  "Rx": {
+    "Observable": {
+      "delaySubscription": "fn(dueTime: number, scheduler?: IScheduler) -> ?",
+      "delayWithSelector": "fn(delayDurationSelector: fn(item: T)) -> ?",
+      "timeoutWithSelector": "fn(firstTimeout: ?, timeoutdurationSelector?: fn(item: T), other?: ?) -> ?",
+      "debounceWithSelector": "fn(debounceDurationSelector: fn(item: T)) -> ?",
+      "throttleWithSelector": "fn(debounceDurationSelector: fn(item: T)) -> ?",
+      "skipLastWithTime": "fn(duration: number, scheduler?: IScheduler) -> ?",
+      "takeLastWithTime": "fn(duration: number, timerScheduler?: IScheduler, loopScheduler?: IScheduler) -> ?",
+      "takeLastBufferWithTime": "fn(duration: number, scheduler?: IScheduler) -> ?",
+      "takeWithTime": "fn(duration: number, scheduler?: IScheduler) -> ?",
+      "skipWithTime": "fn(duration: number, scheduler?: IScheduler) -> ?",
+      "skipUntilWithTime": "fn(startTime: Date, scheduler?: IScheduler) -> ?",
+      "takeUntilWithTime": "fn(endTime: Date, scheduler?: IScheduler) -> ?",
+      "windowWithTime": "fn(timeSpan: number, timeShift: number, scheduler?: IScheduler) -> ?",
+      "windowWithTimeOrCount": "fn(timeSpan: number, count: number, scheduler?: IScheduler) -> ?",
+      "bufferWithTime": "fn(timeSpan: number, timeShift: number, scheduler?: IScheduler) -> ?",
+      "bufferWithTimeOrCount": "fn(timeSpan: number, count: number, scheduler?: IScheduler) -> ?"
+    },
+    "ObservableStatic": {
+      "timer": "fn(dueTime: Date, period: number, scheduler?: IScheduler) -> ?",
+      "generateWithRelativeTime": "fn(initialState: TState, condition: fn(state: TState), iterate: fn(state: TState), resultSelector: fn(state: TState), timeSelector: fn(state: TState), scheduler?: IScheduler) -> ?",
+      "generateWithAbsoluteTime": "fn(initialState: TState, condition: fn(state: TState), iterate: fn(state: TState), resultSelector: fn(state: TState), timeSelector: fn(state: TState), scheduler?: IScheduler) -> ?"
+    }
+  },
+  "rx.time": "Rx",
+  "!name": "rx.time"
+}

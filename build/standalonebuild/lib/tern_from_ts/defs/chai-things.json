@@ -1,0 +1,38 @@
+{
+  "Chai": {
+    "ArrayAssertion": {
+      "include": "ArrayInclude",
+      "contain": "ArrayInclude",
+      "not": "ArrayAssertion",
+      "all": "Assertion"
+    },
+    "ArrayInclude": {
+      "a": "Item",
+      "an": "Item",
+      "one": "Something",
+      "some": "Something",
+      "something": "Something",
+      "any": "Anything"
+    },
+    "Anything": {
+      "that": "Assertion",
+      "with": "Assertion"
+    },
+    "Something": {
+      "that": "Assertion",
+      "with": "Assertion"
+    },
+    "Item": {
+      "item": "Something",
+      "thing": "Something"
+    },
+    "Deep": {
+      "equals": "Equal"
+    }
+  },
+  "Array": {
+    "should": "Chai.ArrayAssertion"
+  },
+  "chai-things": "chaiThings",
+  "!name": "chai-things"
+}

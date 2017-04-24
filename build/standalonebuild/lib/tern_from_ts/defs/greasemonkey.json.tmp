@@ -1,0 +1,85 @@
+{
+  "unsafeWindow": "Window",
+  "GM_info": {
+    "script": {
+      "description": "string",
+      "excludes": "[string]",
+      "includes": "[string]",
+      "matches": "[string]",
+      "name": "string",
+      "namespace": "string",
+      "resources": "Object",
+      "run-at": "string",
+      "unwrap": "bool",
+      "version": "string"
+    },
+    "scriptMetaStr": "string",
+    "scriptWillUpdate": "bool",
+    "version": "string"
+  },
+  "GM_deleteValue": "fn(name: string)",
+  "GM_getValue": "fn(name: string, defaultValue?: ?) -> ?",
+  "GM_listValues": "fn() -> [string]",
+  "GM_setValue": "fn(name: string, value: string)",
+  "GM_getResourceText": "fn(resourceName: string) -> string",
+  "GM_getResourceURL": "fn(resourceName: string) -> string",
+  "GM_addStyle": "fn(css: string)",
+  "GM_log": "fn(message: ?)",
+  "GM_openInTab": "fn(url: string) -> Window",
+  "GM_registerMenuCommand": "fn(caption: string, commandFunc: Function, accessKey?: string)",
+  "GM_setClipboard": "fn(text: string)",
+  "GMXMLHttpRequestOptions": {
+    "binary": "bool",
+    "context": "?",
+    "data": "string",
+    "headers": "Object",
+    "method": "string",
+    "onabort": "fn(response: GMXMLHttpRequestResponse)",
+    "onerror": "fn(response: GMXMLHttpRequestResponse)",
+    "onload": "fn(response: GMXMLHttpRequestResponse)",
+    "onprogress": "fn(response: GMXMLHttpRequestProgressResponse)",
+    "onreadystatechange": "fn(response: GMXMLHttpRequestResponse)",
+    "ontimeout": "fn(response: GMXMLHttpRequestResponse)",
+    "overrideMimeType": "string",
+    "password": "string",
+    "synchronous": "bool",
+    "timeout": "number",
+    "upload": {
+      "onabort": "fn(response: GMXMLHttpRequestResponse)",
+      "onerror": "fn(response: GMXMLHttpRequestResponse)",
+      "onload": "fn(response: GMXMLHttpRequestResponse)",
+      "onprogress": "fn(response: GMXMLHttpRequestProgressResponse)"
+    },
+    "url": "string",
+    "user": "string"
+  },
+  "GMXMLHttpRequestResponse": {
+    "readyState": "number",
+    "responseHeaders": "string",
+    "responseText": "string",
+    "status": "number",
+    "statusText": "string",
+    "context": "?",
+    "finalUrl": "string"
+  },
+  "GMXMLHttpRequestProgressResponse": {
+    "lengthComputable": "bool",
+    "loaded": "number",
+    "total": "number"
+  },
+  "GMXMLHttpRequestAsyncResult": {
+    "abort": "fn()"
+  },
+  "GMXMLHttpRequestSyncResult": {
+    "abort": "fn()",
+    "finalUrl": "string",
+    "readyState": "number",
+    "responseHeaders": "string",
+    "responseText": "string",
+    "status": "number",
+    "statusText": "string"
+  },
+  "GMXMLHttpRequestResult": {},
+  "GM_xmlhttpRequest": "fn(options: GMXMLHttpRequestOptions) -> GMXMLHttpRequestResult",
+  "!name": "greasemonkey.d.ts"
+}

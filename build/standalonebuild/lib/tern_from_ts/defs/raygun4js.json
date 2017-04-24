@@ -1,0 +1,83 @@
+{
+  "raygun": {
+    "IStackTrace": {
+      "LineNumber": "number",
+      "ColumnNumber": "number",
+      "ClassName": "string",
+      "FileName": "string",
+      "MethodName": "string"
+    },
+    "IPayload": {
+      "OccurredOn": "Date",
+      "Details": {
+        "Error": {
+          "ClassName": "string",
+          "Message": "string",
+          "StackTrace": "[IStackTrace]"
+        },
+        "Environment": {
+          "UtcOffset": "number",
+          "'User-Language'": "string",
+          "'Document-Mode'": "number",
+          "'Browser-Width'": "number",
+          "'Browser-Height'": "number",
+          "'Screen-Width'": "number",
+          "'Screen-Height'": "number",
+          "'Color-Depth'": "number",
+          "Browser": "string",
+          "'Browser-Name'": "string",
+          "'Browser-Version'": "string",
+          "Platform": "string"
+        },
+        "Client": {
+          "Name": "string",
+          "Version": "string"
+        },
+        "UserCustomData": "?",
+        "Tags": "[string]",
+        "Request": {
+          "Url": "string",
+          "QueryString": "string",
+          "Headers": {
+            "'User-Agent'": "string",
+            "Referer": "string",
+            "Host": "string"
+          }
+        },
+        "Version": "string"
+      }
+    },
+    "IRaygunOptions": {
+      "allowInsecureSubmissions": "bool",
+      "ignoreAjaxAbort": "bool",
+      "ignoreAjaxError": "bool",
+      "disableAnonymousUserTracking": "bool",
+      "excludedHostnames": "bool",
+      "excludedUserAgents": "bool",
+      "wrapAsynchronousCallbacks": "bool",
+      "debugMode": "bool",
+      "ignore3rdPartyErrors": "bool"
+    },
+    "RaygunStatic": {
+      "noConflict": "fn() -> RaygunStatic",
+      "constructNewRaygun": "fn() -> RaygunStatic",
+      "init": "fn(apiKey: string, options?: IRaygunOptions, customdata?: ?) -> RaygunStatic",
+      "withCustomData": "fn(customdata: ?) -> RaygunStatic",
+      "withTags": "fn(tags: [string]) -> RaygunStatic",
+      "attach": "fn() -> RaygunStatic",
+      "detach": "fn() -> RaygunStatic",
+      "send": "fn(e: Error, customData?: ?, tags?: [string]) -> RaygunStatic",
+      "setUser": "fn(user: string, isAnonymous?: bool, email?: string, fullName?: string, firstName?: string, uuid?: string) -> RaygunStatic",
+      "resetAnonymousUser": "fn()",
+      "setVersion": "fn(version: string) -> RaygunStatic",
+      "saveIfOffline": "fn(enableOffline: bool) -> RaygunStatic",
+      "filterSensitiveData": "fn(filteredKeys: [string]) -> RaygunStatic",
+      "setFilterScope": "fn(scope: string) -> RaygunStatic",
+      "whitelistCrossOriginDomains": "fn(whitelist: [string]) -> RaygunStatic",
+      "onBeforeSend": "fn(callback: fn(payload: IPayload)) -> RaygunStatic"
+    }
+  },
+  "Raygun": "raygun.RaygunStatic",
+  "'Raygun'": "Raygun",
+  "!name": "raygun4js"
+}

@@ -1,0 +1,133 @@
+{
+  "kuromoji": {
+    "ConnectionCosts": {
+      "buffer": "Int16Array",
+      "put": "fn(forward_id: number, backward_id: number, cost: number)",
+      "get": "fn(forward_id: number, backward_id: number) -> number",
+      "loadConnectionCosts": "fn(connection_costs_buffer: Int16Array)"
+    },
+    "DynamicDictionaries": {
+      "trie": "doublearray.DoubleArray",
+      "token_info_dictionary": "TokenInfoDictionary",
+      "connection_costs": "ConnectionCosts",
+      "unknown_dictionary": "UnknownDictionary",
+      "loadTrie": "fn(base_buffer: Int32Array, check_buffer: Int32Array) -> DynamicDictionaries"
+    },
+    "TokenInfoDictionary": {
+      "buildDictionary": "fn(entries: [[?]]) -> ret",
+      "put": "fn(left_id: number, right_id: number, word_cost: number, surface_form: string, feature: string) -> number",
+      "addMapping": "fn(source: number, target: number)",
+      "targetMapToBuffer": "fn() -> Uint8Array",
+      "loadDictionary": "fn(array_buffer: Uint8Array) -> TokenInfoDictionary",
+      "loadPosVector": "fn(array_buffer: Uint8Array) -> TokenInfoDictionary",
+      "loadTargetMap": "fn(array_buffer: Uint8Array) -> TokenInfoDictionary",
+      "getFeatures": "fn(token_info_id_str: string) -> string"
+    },
+    "UnknownDictionary": {},
+    "ByteBuffer": {
+      "buffer": "Uint8Array",
+      "position": "number",
+      "size": "fn() -> number",
+      "reallocate": "fn()",
+      "shrink": "fn() -> Uint8Array",
+      "put": "fn(b: number)",
+      "get": "fn(index: number) -> number",
+      "putShort": "fn(num: number)",
+      "getShort": "fn(index: number) -> number",
+      "putInt": "fn(num: number)",
+      "getInt": "fn(index: number) -> number",
+      "readInt": "fn() -> number",
+      "putString": "fn(str: string)",
+      "getString": "fn(index: number) -> string"
+    },
+    "DictionaryBuilder": {
+      "tid_entries": "[string]",
+      "unk_entries": "[string]",
+      "addTokenInfoDictionary": "fn(text: string) -> DictionaryBuilder",
+      "costMatrix": "fn(matrix_text: string) -> DictionaryBuilder",
+      "charDef": "fn(char_text: string) -> DictionaryBuilder",
+      "unkDef": "fn(text: string) -> DictionaryBuilder",
+      "build": "fn() -> DynamicDictionaries",
+      "buildTokenInfoDictionary": "fn() -> ret1",
+      "buildUnknownDictionary": "fn() -> UnknownDictionary",
+      "buildConnectionCosts": "fn() -> ConnectionCosts",
+      "buildDoubleArray": "fn() -> doublearray.DoubleArray"
+    },
+    "Formatter": {
+      "formatEntry": "fn(word_id: number, position: number, type: string, features: [string]) -> T",
+      "formatUnknownEntry": "fn(word_id: number, position: number, type: string, features: [string]) -> T"
+    },
+    "IpadicFormatter": {},
+    "IpadicFeatures": {
+      "word_id": "number",
+      "word_type": "string",
+      "word_position": "number",
+      "surface_form": "string",
+      "pos": "string",
+      "pos_detail_1": "string",
+      "pos_detail_2": "string",
+      "pos_detail_3": "string",
+      "conjugated_type": "string",
+      "conjugated_form": "string",
+      "basic_form": "string",
+      "reading": "string",
+      "pronunciation": "string"
+    },
+    "ViterbiBuilder": {
+      "trie": "doublearray.DoubleArray",
+      "token_info_dictionary": "TokenInfoDictionary",
+      "unknown_dictionary": "UnknownDictionary",
+      "build": "fn(sentence_str: string) -> ViterbiLattice"
+    },
+    "ViterbiLattice": {
+      "append": "fn(node: ViterbiNode)",
+      "appendEos": "fn()"
+    },
+    "ViterbiNode": {
+      "name": "string",
+      "cost": "number",
+      "start_pos": "number",
+      "length": "number",
+      "left_id": "number",
+      "right_id": "number",
+      "prev": "ViterbiNode",
+      "surface_form": "string",
+      "shortest_cost": "number",
+      "type": "string"
+    },
+    "ViterbiSearcher": {
+      "connection_costs": "ConnectionCosts",
+      "search": "fn(lattice: ViterbiLattice) -> [ViterbiNode]",
+      "forward": "fn(lattice: ViterbiLattice) -> ViterbiLattice",
+      "backward": "fn(lattice: ViterbiLattice) -> [ViterbiNode]"
+    },
+    "TokenizerStatic": {
+      "splitByPunctuation": "fn(input: string) -> [string]"
+    },
+    "Tokenizer": {
+      "token_info_dictionary": "TokenInfoDictionary",
+      "unknown_dictionary": "UnknownDictionary",
+      "viterbi_builder": "ViterbiBuilder",
+      "viterbi_searcher": "ViterbiSearcher",
+      "formatter": "?",
+      "tokenize": "fn(text: string) -> [T]",
+      "getLattice": "fn(text: string) -> ViterbiLattice"
+    },
+    "TokenizerBuilder": {
+      "build": "fn(callback: fn(err: Error, tokenizer: ?))"
+    },
+    "TokenizerBuilderOption": {
+      "dicPath": "string"
+    },
+    "builder": "fn(option: TokenizerBuilderOption) -> ?",
+    "dictionaryBuilder": "fn() -> DictionaryBuilder"
+  },
+  "!name": "kuromoji.d.ts",
+  "!define": {
+    "ret": {},
+    "ret1": {
+      "trie": "doublearray.DoubleArray",
+      "token_info_dictionary": "TokenInfoDictionary"
+    }
+  }
+}

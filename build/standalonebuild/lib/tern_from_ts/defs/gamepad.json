@@ -1,0 +1,28 @@
+{
+  "Gamepad": {
+    "Gamepad": {
+      "id": "string",
+      "index": "number",
+      "timestamp": "number",
+      "axes": "[number]",
+      "buttons": "[GamepadButton]",
+      "connected": "bool",
+      "mapping": "string"
+    },
+    "GamepadEvent": {
+      "gamepad": "Gamepad"
+    },
+    "GamepadList": {
+      "length": "number"
+    },
+    "GamepadButton": {
+      "pressed": "bool",
+      "value": "number"
+    }
+  },
+  "Navigator": {
+    "getGamepads": "fn() -> [Gamepad.Gamepad]",
+    "webkitGetGamepads": "fn() -> Gamepad.GamepadList"
+  },
+  "!name": "gamepad"
+}

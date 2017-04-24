@@ -1,0 +1,6 @@
+{
+  "JQuery": {
+    "placeholder": "fn(options: ?) -> JQuery"
+  },
+  "!name": "jquery.placeholder.d.ts"
+}

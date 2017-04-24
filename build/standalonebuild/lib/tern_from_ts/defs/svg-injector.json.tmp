@@ -1,0 +1,10 @@
+{
+  "SVGInjector": {},
+  "SVGInjectorOptions": {
+    "evalScripts": "string",
+    "pngFallback": "string",
+    "each": "fn(svg: SVGElement, string: ?)"
+  },
+  "svg-injector": "SVGInjector",
+  "!name": "svg-injector.d.ts"
+}

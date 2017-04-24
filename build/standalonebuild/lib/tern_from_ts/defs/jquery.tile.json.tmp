@@ -1,0 +1,6 @@
+{
+  "JQuery": {
+    "tile": "fn(columns?: number)"
+  },
+  "!name": "jquery.tile.d.ts"
+}

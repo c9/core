@@ -1,0 +1,21 @@
+{
+  "FlatTypes": {
+    "FlattenOptions": {
+      "delimiter": "string",
+      "safe": "bool",
+      "maxDepth": "number"
+    },
+    "Flatten": {
+      "flatten": "Flatten",
+      "unflatten": "Unflatten"
+    },
+    "UnflattenOptions": {
+      "delimiter": "string",
+      "object": "bool",
+      "overwrite": "bool"
+    },
+    "Unflatten": {}
+  },
+  "flat": "flatten",
+  "!name": "flat.d.ts"
+}

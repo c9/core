@@ -1,0 +1,41 @@
+{
+  "tether": {
+    "TetherStatic": {},
+    "ITetherOptions": {
+      "attachment": "string",
+      "classes": {},
+      "classPrefix": "string",
+      "constraints": "[ITetherConstraint]",
+      "element": "HTMLElement",
+      "string": "?",
+      "any": "?",
+      "enabled": "bool",
+      "offset": "string",
+      "optimizations": "?",
+      "target": "HTMLElement",
+      "targetAttachment": "string",
+      "targetOffset": "string",
+      "targetModifier": "string"
+    },
+    "ITetherConstraint": {
+      "attachment": "string",
+      "outOfBoundsClass": "string",
+      "pin": "bool",
+      "string": "?",
+      "pinnedClass": "string",
+      "to": "string",
+      "HTMLElement": "?",
+      "number": "?"
+    },
+    "Tether": {
+      "setOptions": "fn(options: ITetherOptions)",
+      "disable": "fn()",
+      "enable": "fn()",
+      "destroy": "fn()",
+      "position": "fn()"
+    },
+    "!type": "tether"
+  },
+  "Tether": "tether.TetherStatic",
+  "!name": "tether.d.ts"
+}

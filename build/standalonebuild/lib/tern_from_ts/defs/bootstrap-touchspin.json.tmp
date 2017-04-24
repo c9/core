@@ -1,0 +1,31 @@
+{
+  "TouchSpinOptions": {
+    "initval": "number",
+    "string": "?",
+    "min": "number",
+    "max": "number",
+    "step": "number",
+    "forcestepdivisibility": "string",
+    "decimals": "number",
+    "stepinterval": "number",
+    "stepintervaldelay": "number",
+    "verticalbuttons": "bool",
+    "verticalupclass": "string",
+    "verticaldownclass": "string",
+    "prefix": "string",
+    "postfix": "string",
+    "prefix_extraclass": "string",
+    "postfix_extraclass": "string",
+    "booster": "bool",
+    "boostat": "number",
+    "maxboostedstep": "number",
+    "boolean": "?",
+    "mousewheel": "bool",
+    "buttondown_class": "string",
+    "buttonup_class": "string"
+  },
+  "JQuery": {
+    "TouchSpin": "fn() -> JQuery"
+  },
+  "!name": "bootstrap-touchspin.d.ts"
+}

@@ -1,0 +1,15 @@
+{
+  "LivestampGlobal": {
+    "update": "fn()",
+    "pause": "fn()",
+    "resume": "fn()",
+    "interval": "fn() -> number"
+  },
+  "JQueryStatic": {
+    "livestamp": "LivestampGlobal"
+  },
+  "JQuery": {
+    "livestamp": "fn(date: Date) -> JQuery"
+  },
+  "!name": "jquery.livestampjs"
+}

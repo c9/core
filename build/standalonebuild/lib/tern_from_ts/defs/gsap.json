@@ -1,0 +1,61 @@
+{
+  "Animation": {
+    "!type": "fn(duration?: number, vars?: ?)",
+    "prototype": {
+      "data": "?",
+      "timeline": "SimpleTimeLine",
+      "vars": "?",
+      "delay": "fn() -> number",
+      "duration": "fn() -> number",
+      "eventCallback": "fn(type: string) -> Function",
+      "invalidate": "fn() -> Animation",
+      "isActive": "fn() -> bool",
+      "kill": "fn(vars?: ?, target?: ?) -> Animation",
+      "pause": "fn(atTime?: ?, suppressEvents?: bool) -> Animation",
+      "paused": "fn() -> bool",
+      "play": "fn(from?: ?, suppressEvents?: bool) -> Animation",
+      "progress": "fn() -> number",
+      "restart": "fn(includeDelay?: bool, suppressEvents?: bool) -> Animation",
+      "resume": "fn(from?: ?, suppressEvents?: bool) -> Animation",
+      "reverse": "fn(from?: ?, suppressEvents?: bool) -> Animation",
+      "reversed": "fn() -> bool",
+      "seek": "fn(time: ?, suppressEvents?: bool) -> Animation",
+      "startTime": "fn() -> number",
+      "time": "fn() -> number",
+      "timeScale": "fn() -> number",
+      "totalDuration": "fn() -> number",
+      "totalProgress": "fn() -> number",
+      "totalTime": "fn() -> number"
+    }
+  },
+  "SimpleTimeLine": {
+    "!type": "fn(vars?: ?)",
+    "prototype": {
+      "autoRemoveChildren": "bool",
+      "smoothChildTiming": "bool",
+      "add": "fn(child: ?, position?: ?, align?: string, stagger?: number) -> SimpleTimeLine",
+      "render": "fn(time: number, suppressEvents?: bool, force?: bool) -> SimpleTimeLine",
+      "delay": "fn() -> number",
+      "duration": "fn() -> number",
+      "eventCallback": "fn(type: string) -> Function",
+      "invalidate": "fn() -> SimpleTimeLine",
+      "kill": "fn(vars?: ?, target?: ?) -> SimpleTimeLine",
+      "pause": "fn(atTime?: ?, suppressEvents?: bool) -> SimpleTimeLine",
+      "paused": "fn() -> bool",
+      "play": "fn(from?: ?, suppressEvents?: bool) -> SimpleTimeLine",
+      "progress": "fn() -> number",
+      "restart": "fn(includeDelay?: bool, suppressEvents?: bool) -> SimpleTimeLine",
+      "resume": "fn(from?: ?, suppressEvents?: bool) -> SimpleTimeLine",
+      "reverse": "fn(from?: ?, suppressEvents?: bool) -> SimpleTimeLine",
+      "reversed": "fn() -> bool",
+      "seek": "fn(time: ?, suppressEvents?: bool) -> SimpleTimeLine",
+      "startTime": "fn() -> number",
+      "time": "fn() -> number",
+      "timeScale": "fn() -> number",
+      "totalDuration": "fn() -> number",
+      "totalProgress": "fn() -> number",
+      "totalTime": "fn() -> number"
+    }
+  },
+  "!name": "Core"
+}

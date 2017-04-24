@@ -1,0 +1,20 @@
+{
+  "KnockoutTransformations": {
+    "Mapping": {},
+    "MappingOption": {
+      "mapping": "?",
+      "disposeItem": "fn(item: TResult)"
+    },
+    "MappingWithDisposeCallbackOption": {
+      "mappingWithDisposeCallback": "fn(value: T)"
+    }
+  },
+  "KnockoutObservableArrayFunctions": {
+    "map": "fn(mapping: ?) -> ?",
+    "filter": "fn(predicate: fn(value: T)) -> ?",
+    "sortBy": "fn(sorter: fn(value: T, descending: fn(sorter: ?))) -> ?",
+    "indexBy": "fn(indexer: fn(value: T)) -> ?",
+    "uniqueIndexBy": "fn(indexer: fn(value: T)) -> ?"
+  },
+  "!name": "knockout-transformations"
+}

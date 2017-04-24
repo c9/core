@@ -1,0 +1,487 @@
+{
+  "dojox": {
+    "image": {
+      "FlickrBadge": {
+        "!type": "fn()",
+        "prototype": {
+          "apikey": "string",
+          "children": "string",
+          "searchText": "string",
+          "setid": "string",
+          "tags": "string",
+          "target": "string",
+          "userid": "string",
+          "username": "string",
+          "postCreate": "fn()",
+          "startup": "fn()"
+        }
+      },
+      "Badge": {
+        "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+        "prototype": {
+          "attachScope": "Object",
+          "set": "fn(property: string, value: Object)",
+          "get": "fn(property: string) -> Object",
+          "watch": "fn(property: string, callback: ?) -> ret",
+          "attributeMap": "Object",
+          "baseClass": "string",
+          "cellMargin": "number",
+          "cellSize": "number",
+          "children": "string",
+          "class": "string",
+          "cols": "number",
+          "containerNode": "HTMLElement",
+          "delay": "number",
+          "dir": "string",
+          "domNode": "HTMLElement",
+          "easing": "Function",
+          "focused": "bool",
+          "id": "string",
+          "lang": "string",
+          "observer": "string",
+          "ownerDocument": "Object",
+          "rows": "number",
+          "searchContainerNode": "bool",
+          "srcNodeRef": "HTMLElement",
+          "style": "string",
+          "templatePath": "string",
+          "templateString": "string",
+          "threads": "number",
+          "title": "string",
+          "tooltip": "string",
+          "attr": "fn(name: String, value: Object) -> ?",
+          "buildRendering": "fn()",
+          "connect": "fn(obj: Object, event: String, method: String) -> ?",
+          "defer": "fn(fcn: Function, delay: number) -> Object",
+          "destroy": "fn(preserveDom?: bool)",
+          "destroyDescendants": "fn(preserveDom: bool)",
+          "destroyRecursive": "fn(preserveDom: bool)",
+          "destroyRendering": "fn(preserveDom?: bool)",
+          "disconnect": "fn(handle: ?)",
+          "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+          "getChildren": "fn() -> [?]",
+          "getDescendants": "fn() -> [?]",
+          "getParent": "fn() -> ?",
+          "isFocusable": "fn() -> ?",
+          "isLeftToRight": "fn() -> ?",
+          "on": "fn(type: String, func: Function) -> ?",
+          "own": "fn() -> ?",
+          "placeAt": "fn(reference: String, position: String) -> ?",
+          "postCreate": "fn()",
+          "postMixInProperties": "fn()",
+          "setAttribute": "fn(attr: String, value: ?)",
+          "startup": "fn()",
+          "subscribe": "fn(t: String, method: Function) -> ?",
+          "uninitialize": "fn() -> bool",
+          "unsubscribe": "fn(handle: Object)",
+          "getCachedTemplate": "fn() -> ?",
+          "onBlur": "fn()",
+          "onClick": "fn(event: ?)",
+          "onClose": "fn() -> bool",
+          "onDblClick": "fn(event: ?)",
+          "onFocus": "fn()",
+          "onHide": "fn()",
+          "onKeyDown": "fn(event: ?)",
+          "onKeyPress": "fn(event: ?)",
+          "onKeyUp": "fn(event: ?)",
+          "onMouseDown": "fn(event: ?)",
+          "onMouseEnter": "fn(event: ?)",
+          "onMouseLeave": "fn(event: ?)",
+          "onMouseMove": "fn(event: ?)",
+          "onMouseOut": "fn(event: ?)",
+          "onMouseOver": "fn(event: ?)",
+          "onMouseUp": "fn(event: ?)",
+          "onShow": "fn()"
+        }
+      },
+      "Lightbox": {
+        "!type": "fn()",
+        "prototype": {
+          "duration": "number",
+          "group": "string",
+          "href": "string",
+          "modal": "bool",
+          "title": "string",
+          "destroy": "fn()",
+          "disable": "fn()",
+          "enable": "fn()",
+          "hide": "fn()",
+          "LightboxDialog": "fn()",
+          "show": "fn()",
+          "startup": "fn()",
+          "onClick": "fn()"
+        },
+        "LightboxDialog": {
+          "!type": "fn(args: ?)",
+          "prototype": {
+            "adjust": "bool",
+            "errorImg": "Object",
+            "errorMessage": "string",
+            "imageClass": "string",
+            "imgUrl": "string",
+            "inGroup": "[?]",
+            "modal": "bool",
+            "templateString": "string",
+            "title": "string",
+            "addImage": "fn(child: Object, group: String)",
+            "hide": "fn()",
+            "removeGroup": "fn(group: ?)",
+            "removeImage": "fn(child: Object)",
+            "resizeTo": "fn(size: Object, forceTitle: ?)",
+            "show": "fn(groupData: Object)",
+            "startup": "fn() -> ?",
+            "onClick": "fn(groupData: ?)"
+          }
+        }
+      },
+      "LightboxNano": {
+        "!type": "fn(p?: Object, n?: HTMLElement)",
+        "prototype": {
+          "duration": "number",
+          "href": "string",
+          "preloadDelay": "number",
+          "destroy": "fn()",
+          "show": "fn(args: Object)"
+        }
+      },
+      "Magnifier": {
+        "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+        "prototype": {
+          "attributeMap": "Object",
+          "set": "fn(property: string, value: Object)",
+          "get": "fn(property: string) -> Object",
+          "watch": "fn(property: string, callback: ?) -> ret28",
+          "baseClass": "string",
+          "class": "string",
+          "containerNode": "HTMLElement",
+          "dir": "string",
+          "domNode": "HTMLElement",
+          "focused": "bool",
+          "glassSize": "number",
+          "id": "string",
+          "lang": "string",
+          "observer": "string",
+          "ownerDocument": "Object",
+          "scale": "Object",
+          "srcNodeRef": "HTMLElement",
+          "style": "string",
+          "title": "string",
+          "tooltip": "string",
+          "attr": "fn(name: String, value: Object) -> ?",
+          "buildRendering": "fn()",
+          "connect": "fn(obj: Object, event: String, method: String) -> ?",
+          "defer": "fn(fcn: Function, delay: number) -> Object",
+          "destroy": "fn(finalize: ?)",
+          "destroyDescendants": "fn(preserveDom: bool)",
+          "destroyRecursive": "fn(preserveDom: bool)",
+          "destroyRendering": "fn(preserveDom?: bool)",
+          "disconnect": "fn(handle: ?)",
+          "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+          "getChildren": "fn() -> [?]",
+          "getDescendants": "fn() -> [?]",
+          "getParent": "fn() -> ?",
+          "isFocusable": "fn() -> ?",
+          "isLeftToRight": "fn() -> ?",
+          "on": "fn(type: String, func: Function) -> ?",
+          "own": "fn() -> ?",
+          "placeAt": "fn(reference: String, position: String) -> ?",
+          "postCreate": "fn()",
+          "postMixInProperties": "fn()",
+          "setAttribute": "fn(attr: String, value: ?)",
+          "startup": "fn()",
+          "subscribe": "fn(t: String, method: Function) -> ?",
+          "uninitialize": "fn() -> bool",
+          "unsubscribe": "fn(handle: Object)",
+          "onBlur": "fn()",
+          "onClick": "fn(event: ?)",
+          "onClose": "fn() -> bool",
+          "onDblClick": "fn(event: ?)",
+          "onFocus": "fn()",
+          "onHide": "fn()",
+          "onKeyDown": "fn(event: ?)",
+          "onKeyPress": "fn(event: ?)",
+          "onKeyUp": "fn(event: ?)",
+          "onMouseDown": "fn(event: ?)",
+          "onMouseEnter": "fn(event: ?)",
+          "onMouseLeave": "fn(event: ?)",
+          "onMouseMove": "fn(event: ?)",
+          "onMouseOut": "fn(event: ?)",
+          "onMouseOver": "fn(event: ?)",
+          "onMouseUp": "fn(event: ?)",
+          "onShow": "fn()"
+        }
+      },
+      "MagnifierLite": {
+        "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+        "prototype": {
+          "attributeMap": "Object",
+          "set": "fn(property: string, value: Object)",
+          "get": "fn(property: string) -> Object",
+          "watch": "fn(property: string, callback: ?) -> ret46",
+          "baseClass": "string",
+          "class": "string",
+          "containerNode": "HTMLElement",
+          "dir": "string",
+          "domNode": "HTMLElement",
+          "focused": "bool",
+          "glassSize": "number",
+          "id": "string",
+          "lang": "string",
+          "observer": "string",
+          "ownerDocument": "Object",
+          "scale": "Object",
+          "srcNodeRef": "HTMLElement",
+          "style": "string",
+          "title": "string",
+          "tooltip": "string",
+          "attr": "fn(name: String, value: Object) -> ?",
+          "buildRendering": "fn()",
+          "connect": "fn(obj: Object, event: String, method: String) -> ?",
+          "defer": "fn(fcn: Function, delay: number) -> Object",
+          "destroy": "fn(finalize: ?)",
+          "destroyDescendants": "fn(preserveDom: bool)",
+          "destroyRecursive": "fn(preserveDom: bool)",
+          "destroyRendering": "fn(preserveDom?: bool)",
+          "disconnect": "fn(handle: ?)",
+          "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+          "getChildren": "fn() -> [?]",
+          "getDescendants": "fn() -> [?]",
+          "getParent": "fn() -> ?",
+          "isFocusable": "fn() -> ?",
+          "isLeftToRight": "fn() -> ?",
+          "on": "fn(type: String, func: Function) -> ?",
+          "own": "fn() -> ?",
+          "placeAt": "fn(reference: String, position: String) -> ?",
+          "postCreate": "fn()",
+          "postMixInProperties": "fn()",
+          "setAttribute": "fn(attr: String, value: ?)",
+          "startup": "fn()",
+          "subscribe": "fn(t: String, method: Function) -> ?",
+          "uninitialize": "fn() -> bool",
+          "unsubscribe": "fn(handle: Object)",
+          "onBlur": "fn()",
+          "onClick": "fn(event: ?)",
+          "onClose": "fn() -> bool",
+          "onDblClick": "fn(event: ?)",
+          "onFocus": "fn()",
+          "onHide": "fn()",
+          "onKeyDown": "fn(event: ?)",
+          "onKeyPress": "fn(event: ?)",
+          "onKeyUp": "fn(event: ?)",
+          "onMouseDown": "fn(event: ?)",
+          "onMouseEnter": "fn(event: ?)",
+          "onMouseLeave": "fn(event: ?)",
+          "onMouseMove": "fn(event: ?)",
+          "onMouseOut": "fn(event: ?)",
+          "onMouseOver": "fn(event: ?)",
+          "onMouseUp": "fn(event: ?)",
+          "onShow": "fn()"
+        }
+      },
+      "_base": {}
+    }
+  },
+  "dojox/image": "exp",
+  "dojox/image/FlickrBadge": "exp",
+  "dojox/image/Lightbox": "exp",
+  "dojox/image/Lightbox.LightboxDialog": "exp",
+  "dojox/image/LightboxNano": "exp",
+  "dojox/image/Badge": "exp",
+  "dojox/image/Magnifier": "exp",
+  "dojox/image/MagnifierLite": "exp",
+  "!name": "dojox.image",
+  "!define": {
+    "ret": {
+      "unwatch": "fn()"
+    },
+    "ret1": {
+      "unwatch": "fn()"
+    },
+    "ret2": {
+      "unwatch": "fn()"
+    },
+    "ret3": {
+      "unwatch": "fn()"
+    },
+    "ret4": {
+      "unwatch": "fn()"
+    },
+    "ret5": {
+      "unwatch": "fn()"
+    },
+    "ret6": {
+      "unwatch": "fn()"
+    },
+    "ret7": {
+      "unwatch": "fn()"
+    },
+    "ret8": {
+      "unwatch": "fn()"
+    },
+    "ret9": {
+      "unwatch": "fn()"
+    },
+    "ret10": {
+      "unwatch": "fn()"
+    },
+    "ret11": {
+      "unwatch": "fn()"
+    },
+    "ret12": {
+      "unwatch": "fn()"
+    },
+    "ret13": {
+      "unwatch": "fn()"
+    },
+    "ret14": {
+      "unwatch": "fn()"
+    },
+    "ret15": {
+      "unwatch": "fn()"
+    },
+    "ret16": {
+      "unwatch": "fn()"
+    },
+    "ret17": {
+      "unwatch": "fn()"
+    },
+    "ret18": {
+      "unwatch": "fn()"
+    },
+    "ret19": {
+      "unwatch": "fn()"
+    },
+    "ret20": {
+      "unwatch": "fn()"
+    },
+    "ret21": {
+      "unwatch": "fn()"
+    },
+    "ret22": {
+      "unwatch": "fn()"
+    },
+    "ret23": {
+      "unwatch": "fn()"
+    },
+    "ret24": {
+      "unwatch": "fn()"
+    },
+    "ret25": {
+      "unwatch": "fn()"
+    },
+    "ret26": {
+      "unwatch": "fn()"
+    },
+    "ret27": {
+      "unwatch": "fn()"
+    },
+    "ret28": {
+      "unwatch": "fn()"
+    },
+    "ret29": {
+      "unwatch": "fn()"
+    },
+    "ret30": {
+      "unwatch": "fn()"
+    },
+    "ret31": {
+      "unwatch": "fn()"
+    },
+    "ret32": {
+      "unwatch": "fn()"
+    },
+    "ret33": {
+      "unwatch": "fn()"
+    },
+    "ret34": {
+      "unwatch": "fn()"
+    },
+    "ret35": {
+      "unwatch": "fn()"
+    },
+    "ret36": {
+      "unwatch": "fn()"
+    },
+    "ret37": {
+      "unwatch": "fn()"
+    },
+    "ret38": {
+      "unwatch": "fn()"
+    },
+    "ret39": {
+      "unwatch": "fn()"
+    },
+    "ret40": {
+      "unwatch": "fn()"
+    },
+    "ret41": {
+      "unwatch": "fn()"
+    },
+    "ret42": {
+      "unwatch": "fn()"
+    },
+    "ret43": {
+      "unwatch": "fn()"
+    },
+    "ret44": {
+      "unwatch": "fn()"
+    },
+    "ret45": {
+      "unwatch": "fn()"
+    },
+    "ret46": {
+      "unwatch": "fn()"
+    },
+    "ret47": {
+      "unwatch": "fn()"
+    },
+    "ret48": {
+      "unwatch": "fn()"
+    },
+    "ret49": {
+      "unwatch": "fn()"
+    },
+    "ret50": {
+      "unwatch": "fn()"
+    },
+    "ret51": {
+      "unwatch": "fn()"
+    },
+    "ret52": {
+      "unwatch": "fn()"
+    },
+    "ret53": {
+      "unwatch": "fn()"
+    },
+    "ret54": {
+      "unwatch": "fn()"
+    },
+    "ret55": {
+      "unwatch": "fn()"
+    },
+    "ret56": {
+      "unwatch": "fn()"
+    },
+    "ret57": {
+      "unwatch": "fn()"
+    },
+    "ret58": {
+      "unwatch": "fn()"
+    },
+    "ret59": {
+      "unwatch": "fn()"
+    },
+    "ret60": {
+      "unwatch": "fn()"
+    },
+    "ret61": {
+      "unwatch": "fn()"
+    },
+    "ret62": {
+      "unwatch": "fn()"
+    },
+    "ret63": {
+      "unwatch": "fn()"
+    }
+  }
+}

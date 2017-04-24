@@ -1,0 +1,6 @@
+{
+  "'blueimp-md5'": {
+    "md5": "fn(value: string, key?: string, raw?: bool) -> string"
+  },
+  "!name": "blueimp-md5.d.ts"
+}

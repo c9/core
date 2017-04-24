@@ -1,0 +1,446 @@
+{
+  "photonui": {
+    "Helpers": {
+      "escapeHtml": "fn(string: string)",
+      "uuid4": "fn() -> string",
+      "cleanNode": "fn(node: HTMLElement)",
+      "getAbsolutePosition": "fn(element: HTMLElement, string: ?) -> ret",
+      "numberToCssSize": "fn(value: number, defaultValue?: number, nullValue?: string) -> string"
+    },
+    "Base": {
+      "!type": "fn(params?: ?)",
+      "prototype": {
+        "destroy": "fn()",
+        "registerCallback": "fn(id: string, wEvent: string, callback: Function, thisArg: ?)",
+        "removeCallback": "fn(id: string)"
+      }
+    },
+    "Widget": {
+      "getWidget": "fn(name: string) -> Widget",
+      "domInsert": "fn(widget: Widget, element?: HTMLElement, string: ?)",
+      "prototype": {
+        "absolutePosition": {
+          "x": "number",
+          "y": "number"
+        },
+        "contextMenu": "PopupWindow",
+        "contextMenuName": "string",
+        "html": "HTMLElement",
+        "layoutOptions": {},
+        "name": "string",
+        "offsetWidth": "number",
+        "offsetHeight": "number",
+        "parent": "Widget",
+        "parentName": "string",
+        "tooltip": "string",
+        "visible": "bool",
+        "show": "fn()",
+        "hide": "fn()",
+        "unparent": "fn()",
+        "addClass": "fn(className: string)",
+        "removeClass": "fn(className: string)"
+      }
+    },
+    "domInsert": "fn(widget: Widget, element?: HTMLElement, string: ?)",
+    "getWidget": "fn(name: string) -> Widget",
+    "FileManager": {
+      "prototype": {
+        "acceptedExts": "[string]",
+        "acceptedMimes": "[string]",
+        "dropZone": "HTMLElement",
+        "multiselect": "bool",
+        "open": "fn()"
+      }
+    },
+    "Translation": {
+      "prototype": {
+        "locale": "string",
+        "addCatalogs": "fn(catalogs: ?)",
+        "guessUserLanguage": "fn() -> string",
+        "gettext": "fn(string: string, replacements?: ?) -> string",
+        "lazyGettext": "fn(string: string, replacements?: ?) -> string",
+        "enableDomScan": "fn(enable: bool)",
+        "updateDomTranslation": "fn()"
+      }
+    },
+    "AccelManager": {
+      "prototype": {
+        "addAccel": "fn(id: string, keys: string, callback: Function, safe?: bool)",
+        "removeAccel": "fn(id: string)"
+      }
+    },
+    "MouseManager": {
+      "!type": "fn(params?: ?)",
+      "prototype": {
+        "element": "HTMLElement",
+        "threshold": "number",
+        "action": "string",
+        "btnLeft": "bool",
+        "btnMiddle": "bool",
+        "btnRight": "bool",
+        "button": "string",
+        "pageX": "number",
+        "pageY": "number",
+        "x": "number",
+        "y": "number",
+        "deltaX": "number",
+        "deltaY": "number"
+      }
+    },
+    "BaseIcon": {
+      "prototype": {}
+    },
+    "FAIcon": {
+      "!type": "fn(params?: ?)",
+      "prototype": {
+        "color": "string",
+        "iconName": "string",
+        "size": "string"
+      }
+    },
+    "SpriteIcon": {
+      "!type": "fn(params?: ?)",
+      "prototype": {
+        "icon": "string",
+        "iconName": "string",
+        "spriteSheetName": "string"
+      }
+    },
+    "Image": {
+      "prototype": {
+        "width": "number",
+        "height": "number",
+        "url": "string"
+      }
+    },
+    "SpriteSheet": {
+      "getSpriteSheet": "fn(name: string) -> SpriteSheet",
+      "prototype": {
+        "name": "string",
+        "imageUrl": "string",
+        "size": "string",
+        "icons": {},
+        "addIcon": "fn(iconName: string, x: number, y: number)",
+        "removeIcon": "fn(iconName: string)",
+        "getIconPosition": "fn(iconName: string) -> ret1",
+        "getIconCSS": "fn(iconName: string) -> string"
+      }
+    },
+    "Canvas": {
+      "prototype": {
+        "canvas": "HTMLElement",
+        "interactiveMode": "HTMLElement",
+        "width": "number",
+        "height": "number",
+        "getContext": "fn(contextId: string) -> ?",
+        "setContext": "fn(contextId: string)",
+        "supportsContext": "fn(contextId: string) -> bool",
+        "toBlod": "fn(imageFormat: string) -> ?",
+        "toBlodHD": "fn(imageFormat: string) -> ?",
+        "toDataUrl": "fn(imageFormat: string) -> string",
+        "toDataUrlHD": "fn(imageFormat: string) -> string",
+        "transferControlToProxy": "fn()"
+      }
+    },
+    "Label": {
+      "!type": "fn(params?: ?)",
+      "prototype": {
+        "forInput": "Field",
+        "CheckBox": "?",
+        "forInputName": "string",
+        "text": "string",
+        "textAlign": "string"
+      }
+    },
+    "Text": {
+      "prototype": {
+        "rawHtml": "string",
+        "text": "string"
+      }
+    },
+    "ProgressBar": {
+      "prototype": {
+        "orientation": "string",
+        "pulsate": "bool",
+        "textVisible": "bool",
+        "value": "number"
+      }
+    },
+    "Separator": {
+      "prototype": {
+        "orientation": "string"
+      }
+    },
+    "Button": {
+      "prototype": {
+        "appearance": "string",
+        "buttonColor": "string",
+        "leftIconName": "string",
+        "leftIcon": "BaseIcon",
+        "leftIconVisible": "bool",
+        "rightIconName": "string",
+        "rightIcon": "BaseIcon",
+        "rightIconVisible": "bool",
+        "text": "string",
+        "textVisible": "bool"
+      }
+    },
+    "ColorButton": {
+      "prototype": {
+        "color": "Color",
+        "dialogOnly": "bool",
+        "value": "string"
+      }
+    },
+    "CheckBox": {
+      "prototype": {
+        "value": "bool"
+      }
+    },
+    "Switch": {
+      "prototype": {}
+    },
+    "ToggleButton": {
+      "prototype": {}
+    },
+    "Color": {
+      "!type": "fn(color: string)",
+      "prototype": {
+        "hexString": "string",
+        "rgbString": "string",
+        "rgbaString": "string",
+        "red": "number",
+        "green": "number",
+        "blue": "number",
+        "alpha": "number",
+        "hue": "number",
+        "saturation": "number",
+        "brightness": "number",
+        "setRGB": "fn(red: number, green: number, blue: number)",
+        "getRGB": "fn() -> [number]",
+        "setRGBA": "fn(red: number, green: number, blue: number, alpha: number)",
+        "getRGBA": "fn() -> [number]",
+        "setHSB": "fn(hue: number, saturation: number, brightness: number)"
+      }
+    },
+    "ColorPalette": {
+      "palette": "?",
+      "prototype": {
+        "color": "Color",
+        "palette": "?",
+        "value": "string"
+      }
+    },
+    "ColorPicker": {
+      "prototype": {
+        "color": "Color",
+        "value": "string"
+      }
+    },
+    "Field": {
+      "prototype": {
+        "placeholder": "string",
+        "value": "bool"
+      }
+    },
+    "NumericField": {
+      "prototype": {
+        "min": "number",
+        "max": "number",
+        "step": "number",
+        "decimalDigits": "number",
+        "decimalSymbol": "string"
+      }
+    },
+    "Slider": {
+      "prototype": {
+        "fieldVisible": "bool"
+      }
+    },
+    "TextAreaField": {
+      "prototype": {
+        "cols": "number",
+        "rows": "number"
+      }
+    },
+    "TextField": {
+      "prototype": {
+        "type": "string"
+      }
+    },
+    "Select": {
+      "prototype": {
+        "children": "[Widget]",
+        "childrenNames": "[string]",
+        "iconVisible": "bool",
+        "placeholder": "string",
+        "popupWidth": "number",
+        "popupHeight": "number",
+        "popupMaxWidth": "number",
+        "popupMinWidth": "number",
+        "popupMaxHeight": "number",
+        "popupMinHeight": "number",
+        "popupOffsetWidth": "number",
+        "popupOffsetHeight": "number",
+        "popupPadding": "number",
+        "value": "?",
+        "addChild": "fn(widget: Widget, layoutOptions?: ?)"
+      }
+    },
+    "FontSelect": {
+      "prototype": {
+        "fonts": "[string]",
+        "addFont": "fn(fontName: string)"
+      }
+    },
+    "Container": {
+      "prototype": {
+        "child": "Widget",
+        "childName": "string",
+        "containerNode": "HTMLElement",
+        "horizontalChildExpansion": "bool",
+        "verticalChildExpansion": "bool",
+        "removeChild": "fn(widget: Widget)"
+      }
+    },
+    "Layout": {
+      "prototype": {
+        "children": "[Widget]",
+        "childrenNames": "[string]",
+        "addChild": "fn(widget: Widget, layoutOptions?: ?)",
+        "empty": "fn()"
+      }
+    },
+    "BoxLayout": {
+      "prototype": {
+        "horizontalPadding": "number",
+        "verticalPadding": "number",
+        "orientation": "string",
+        "spacing": "number"
+      }
+    },
+    "FluidLayout": {
+      "prototype": {
+        "horizontalPadding": "number",
+        "verticalPadding": "number"
+      }
+    },
+    "GridLayout": {
+      "prototype": {
+        "horizontalPadding": "number",
+        "verticalPadding": "number",
+        "horizontalSpacing": "number",
+        "verticalSpacing": "number"
+      }
+    },
+    "Menu": {
+      "prototype": {
+        "iconVisible": "bool"
+      }
+    },
+    "MenuItem": {
+      "prototype": {
+        "active": "bool",
+        "icon": "BaseIcon",
+        "iconName": "string",
+        "text": "string",
+        "value": "?"
+      }
+    },
+    "SubMenuItem": {
+      "prototype": {
+        "menu": "Menu",
+        "menuName": "string"
+      }
+    },
+    "Viewport": {
+      "prototype": {
+        "width": "number",
+        "minWidth": "number",
+        "maxWidth": "number",
+        "height": "number",
+        "minHeight": "number",
+        "maxHeight": "number",
+        "padding": "number",
+        "horizontalScrollbar": "bool",
+        "verticalScrollbar": "bool"
+      }
+    },
+    "BaseWindow": {
+      "prototype": {
+        "width": "number",
+        "minWidth": "number",
+        "maxWidth": "number",
+        "height": "number",
+        "minHeight": "number",
+        "maxHeight": "number",
+        "padding": "number",
+        "position": {
+          "x": "number",
+          "y": "number"
+        },
+        "x": "number",
+        "y": "number",
+        "center": "fn()"
+      }
+    },
+    "PopupWindow": {
+      "prototype": {
+        "popupXY": "fn(x: number, y: number)",
+        "popupWidget": "fn(widget: Widget)"
+      }
+    },
+    "PopupMenu": {
+      "prototype": {}
+    },
+    "Window": {
+      "prototype": {
+        "closeButtonVisible": "bool",
+        "modal": "bool",
+        "movable": "bool",
+        "title": "string",
+        "moveToFront": "fn()",
+        "moveToBack": "fn()"
+      }
+    },
+    "Dialog": {
+      "prototype": {
+        "buttons": "[Widget]",
+        "buttonNames": "[string]",
+        "addButton": "fn(widget: Widget, layoutOptions: ?)",
+        "removeButton": "fn(widget: Widget)"
+      }
+    },
+    "ColorPickerDialog": {
+      "prototype": {
+        "color": "Color"
+      }
+    },
+    "TabItem": {
+      "prototype": {
+        "tabHtml": "HTMLElement",
+        "title": "string"
+      }
+    },
+    "TabLayout": {
+      "prototype": {
+        "activeTab": "Widget",
+        "activeTabName": "string",
+        "padding": "number",
+        "tabsPosition": "string"
+      }
+    }
+  },
+  "_": "fn(string: string, replacements?: ?) -> string",
+  "!name": "photonui.d.ts",
+  "!define": {
+    "ret": {
+      "x": "number",
+      "y": "number"
+    },
+    "ret1": {
+      "x": "number",
+      "y": "number"
+    }
+  }
+}

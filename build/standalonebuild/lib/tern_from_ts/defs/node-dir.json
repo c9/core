@@ -1,0 +1,27 @@
+{
+  "node-dir": {
+    "Options": {
+      "encoding": "string",
+      "exclude": "RegExp",
+      "string": "?",
+      "excludeDir": "RegExp",
+      "match": "RegExp",
+      "matchDir": "RegExp",
+      "recursive": "bool",
+      "reverse": "bool",
+      "shortName": "bool",
+      "sort": "bool",
+      "doneOnErr": "bool"
+    },
+    "FileCallback": {},
+    "FileNamedCallback": {},
+    "StreamCallback": {},
+    "FinishedCallback": {},
+    "readFiles": "fn(dir: string, fileCallback: FileCallback, finishedCallback?: FinishedCallback)",
+    "readFilesStream": "fn(dir: string, options: Options, streamCallback: StreamCallback, finishedCallback?: FinishedCallback)",
+    "files": "fn(dir: string, callback: fn(error: ?, files: ?))",
+    "subdirs": "fn(dir: string, callback: fn(error: ?, subdirs: ?))",
+    "paths": "fn(dir: string, callback: fn(error: ?, paths: ?))"
+  },
+  "!name": "node-dir"
+}

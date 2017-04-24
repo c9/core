@@ -1,0 +1,45 @@
+{
+  "dojox": {
+    "math": {
+      "BigInteger": {
+        "am": {}
+      },
+      "BigInteger_ext": {
+        "am": {}
+      },
+      "round": {},
+      "_base": {},
+      "curves": {},
+      "matrix": {},
+      "random": {
+        "prng4": {
+          "size": "number"
+        },
+        "Secure": {
+          "!type": "fn(prng: Function, noEvents?: bool)",
+          "prototype": {
+            "destroy": "fn()",
+            "nextBytes": "fn(byteArray: [?])",
+            "seedTime": "fn()"
+          }
+        },
+        "Simple": {
+          "!type": "fn()",
+          "prototype": {
+            "destroy": "fn()",
+            "nextBytes": "fn(byteArray: [?])"
+          }
+        }
+      },
+      "stats": {}
+    }
+  },
+  "dojox/math": "exp",
+  "dojox/math/BigInteger": "exp",
+  "dojox/math/BigInteger-ext": "exp",
+  "dojox/math/round": "exp",
+  "dojox/math/random/prng4": "exp",
+  "dojox/math/random/Simple": "exp",
+  "dojox/math/random/Secure": "exp",
+  "!name": "dojox.math"
+}

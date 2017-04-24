@@ -1,0 +1,38 @@
+{
+  "JQueryFormOptions": {
+    "beforeSerialize": "fn($form: JQuery, options: JQueryFormOptions)",
+    "beforeSubmit": "fn(formData: [?], $form: JQuery, options: JQueryFormOptions)",
+    "clearForm": "bool",
+    "forceSync": "bool",
+    "iframe": "bool",
+    "iframeSrc": "string",
+    "iframeTarget": "?",
+    "replaceTarget": "bool",
+    "resetForm": "bool",
+    "semantic": "bool",
+    "target": "?",
+    "uploadProgress": "fn(event: ProgressEvent, position: number, total: number, percentComplete: number)"
+  },
+  "JQueryForm": {},
+  "JQueryFormWithDebug": {
+    "debug": "bool"
+  },
+  "JQueryStatic": {
+    "fieldValue": "fn(element: Element, successful?: bool) -> string"
+  },
+  "JQuery": {
+    "ajaxForm": "JQueryForm",
+    "ajaxSubmit": "JQueryFormWithDebug",
+    "formSerialize": "fn() -> string",
+    "fieldSerialize": "fn() -> string",
+    "fieldValue": "fn(successful?: bool) -> [string]",
+    "resetForm": "fn() -> JQuery",
+    "clearForm": "fn() -> JQuery",
+    "clearFields": "fn() -> JQuery",
+    "ajaxFormUnbind": "fn()",
+    "formToArray": "fn(semantic?: bool, elements?: [Element])",
+    "enable": "fn(enable?: bool)",
+    "selected": "fn(select?: bool)"
+  },
+  "!name": "jquery.form.d.ts"
+}

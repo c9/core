@@ -1,0 +1,336 @@
+{
+  "FoundationSites": {
+    "Abide": {
+      "requiredChedck": "fn(element: Object) -> bool",
+      "findLabel": "fn(element: Object) -> bool",
+      "addErrorClasses": "fn(element: Object)",
+      "removeErrorClasses": "fn(element: Object)",
+      "validateInput": "fn(element: Object, form: Object)",
+      "validateForm": "fn(element: Object)",
+      "validateText": "fn(element: Object) -> bool",
+      "validateRadio": "fn(group: string) -> bool",
+      "resetForm": "fn($form: Object)"
+    },
+    "IAbidePatterns": {
+      "alpha": "RegExp",
+      "alpha_numeric": "RegExp",
+      "integer": "RegExp",
+      "number": "RegExp",
+      "card": "RegExp",
+      "cvv": "RegExp",
+      "email": "RegExp",
+      "url": "RegExp",
+      "domain": "RegExp",
+      "datetime": "RegExp",
+      "date": "RegExp",
+      "time": "RegExp",
+      "dateISO": "RegExp",
+      "month_day_year": "RegExp",
+      "day_month_year": "RegExp",
+      "color": "RegExp"
+    },
+    "IAbideOptions": {
+      "slideSpeed": "number",
+      "multiOpen": "bool",
+      "patters": "IAbidePatterns"
+    },
+    "Accordion": {
+      "toggle": "fn($target: JQuery)",
+      "down": "fn($target: JQuery, firstTime: bool)",
+      "up": "fn($target: JQuery)",
+      "destroy": "fn()"
+    },
+    "IAccordionOptions": {
+      "slideSpeed": "number",
+      "multiOpen": "bool"
+    },
+    "AccordionMenu": {
+      "toggle": "fn($target: JQuery)",
+      "down": "fn($target: JQuery, firstTime: bool)",
+      "up": "fn($target: JQuery)",
+      "destroy": "fn()"
+    },
+    "IAccordionMenuOptions": {
+      "slideSpeed": "number",
+      "multiOpen": "bool"
+    },
+    "Drilldown": {
+      "_hideAll": "fn($elem: JQuery)",
+      "_show": "fn($elem: JQuery)",
+      "_hide": "fn($elem: JQuery)",
+      "destroy": "fn()"
+    },
+    "IDrilldownOptions": {
+      "backButton": "string",
+      "wrapper": "string",
+      "closeOnClick": "bool"
+    },
+    "Dropdown": {
+      "getPositionClass": "fn() -> string",
+      "open": "fn()",
+      "close": "fn()",
+      "toggle": "fn()",
+      "destroy": "fn()"
+    },
+    "IDropdownOptions": {
+      "hoverDelay": "number",
+      "hover": "bool",
+      "vOffset": "number",
+      "hOffset": "number",
+      "positionClass": "string",
+      "trapFocus": "bool",
+      "autoFocus": "bool"
+    },
+    "DropdownMenu": {
+      "destroy": "fn()"
+    },
+    "IDropdownMenuOptions": {
+      "disableHover": "bool",
+      "autoclose": "bool",
+      "hoverDelay": "number",
+      "clickOpen": "bool",
+      "closingTime": "number",
+      "alignments": "string",
+      "verticalClasss": "string",
+      "rightClasss": "string"
+    },
+    "Equalizer": {
+      "getHeights": "fn(element: Object) -> ?",
+      "applyHeight": "fn($eqParent: Object, heights: ?)",
+      "destroy": "fn()"
+    },
+    "IEqualizerOptions": {
+      "equalizeOnStack": "bool",
+      "throttleInterval": "number"
+    },
+    "Interchange": {
+      "replace": "fn(path: string)",
+      "destroy": "fn()"
+    },
+    "IInterchangeOptions": {
+      "rules": "?"
+    },
+    "Magellan": {
+      "calcPoints": "fn()",
+      "reflow": "fn()",
+      "destroy": "fn()"
+    },
+    "IMagellanOptions": {
+      "animationDuration": "number",
+      "animationEasing": "string",
+      "threshold": "number",
+      "activeClass": "string",
+      "deepLinking": "bool"
+    },
+    "OffCanvas": {
+      "open": "fn(event: Object, trigger: JQuery)",
+      "toggle": "fn(event: Object, trigger: JQuery)",
+      "close": "fn()",
+      "destroy": "fn()"
+    },
+    "IOffCanvasOptions": {
+      "closeOnClick": "bool",
+      "transitionTime": "number",
+      "position": "string",
+      "forceTop": "bool",
+      "isRevealed": "bool",
+      "revealOn": "string",
+      "autoFocus": "bool",
+      "revealClass": "string"
+    },
+    "Orbit": {
+      "changeSlide": "fn(isLTR: bool, chosenSlide?: Object, idx?: number)",
+      "geoSync": "fn()",
+      "destroy": "fn()"
+    },
+    "IOrbitOptions": {
+      "bullets": "bool",
+      "navButtons": "bool",
+      "animInFromRight": "string",
+      "animOutToRight": "string",
+      "animInFromLeft": "string",
+      "animOutToLeft": "string",
+      "autoPlay": "bool",
+      "timerDelay": "number",
+      "infiniteWrap": "bool",
+      "swipe": "bool",
+      "pauseOnHover": "bool",
+      "accessible": "bool",
+      "containerClass": "string",
+      "slideClass": "string",
+      "boxOfBullets": "string",
+      "nextClass": "string",
+      "prevClass": "string"
+    },
+    "Reveal": {
+      "open": "fn()",
+      "toggle": "fn()",
+      "close": "fn()",
+      "destroy": "fn()"
+    },
+    "IRevealOptions": {
+      "animationIn": "string",
+      "animationOut": "string",
+      "showDelay": "number",
+      "hideDelay": "number",
+      "closeOnClick": "bool",
+      "closeOnEsc": "bool",
+      "multipleOpened": "bool",
+      "vOffset": "number",
+      "hOffset": "number",
+      "fullScreen": "bool",
+      "btmOffsetPct": "number",
+      "overlay": "bool",
+      "resetOnClose": "bool"
+    },
+    "Slider": {
+      "destroy": "fn()"
+    },
+    "ISliderOptions": {
+      "start": "number",
+      "end": "number",
+      "step": "number",
+      "initialStart": "number",
+      "initialEnd": "number",
+      "binding": "bool",
+      "clickSelect": "bool",
+      "vertical": "bool",
+      "draggable": "bool",
+      "disabled": "bool",
+      "doubleSided": "bool",
+      "decimal": "number",
+      "moveTime": "number",
+      "disabledClass": "string"
+    },
+    "Sticky": {
+      "_pauseListeners": "fn(scrollListener: string)",
+      "_calc": "fn(checkSizes: bool, scroll: number)",
+      "destroy": "fn()",
+      "emCalc": "fn(number: ?)"
+    },
+    "IStickyOptions": {
+      "container": "string",
+      "stickTo": "string",
+      "anchor": "string",
+      "topAnchor": "string",
+      "btmAnchor": "string",
+      "marginTop": "number",
+      "marginBottom": "number",
+      "stickyOn": "string",
+      "stickyClass": "string",
+      "containerClass": "string",
+      "checkEvery": "number"
+    },
+    "Tabs": {
+      "_handleTabChange": "fn($target: JQuery)",
+      "selectTab": "fn($target: JQuery)",
+      "destroy": "fn()"
+    },
+    "ITabsOptions": {
+      "animate": "bool"
+    },
+    "Toggler": {
+      "toggle": "fn()",
+      "destroy": "fn()"
+    },
+    "ITogglerOptions": {
+      "animate": "bool"
+    },
+    "Tooltip": {
+      "show": "fn()",
+      "hide": "fn()",
+      "toggle": "fn()",
+      "destroy": "fn()"
+    },
+    "ITooltipOptions": {
+      "hoverDelay": "number",
+      "fadeInDuration": "number",
+      "fadeOutDuration": "number",
+      "disableHover": "bool",
+      "templateClasses": "string",
+      "tooltipClass": "string",
+      "triggerClass": "string",
+      "showOn": "string",
+      "template": "string",
+      "tipText": "string",
+      "clickOpen": "bool",
+      "positionClass": "string",
+      "vOffset": "number",
+      "hOffset": "number"
+    },
+    "Box": {
+      "ImNotTouchingYou": "fn(element: Object, parent?: Object, lrOnly?: bool, tbOnly?: bool) -> bool",
+      "GetDimensions": "fn(element: Object) -> Object",
+      "GetOffsets": "fn(element: Object, anchor: Object, position: string, vOffset: number, hOffset: number, isOverflow: bool) -> Object"
+    },
+    "KeyBoard": {
+      "parseKey": "fn(event: ?) -> string",
+      "findFocusable": "fn($element: Object) -> Object"
+    },
+    "MediaQuery": {
+      "get": "fn(size: string) -> string",
+      "atLeast": "fn(size: string) -> bool",
+      "queries": "?",
+      "current": "?"
+    },
+    "Motion": {
+      "animateIn": "fn(element: Object, animation: ?, cb: Function)",
+      "animateOut": "fn(element: Object, animation: ?, cb: Function)"
+    },
+    "Move": {},
+    "Nest": {},
+    "Timer": {
+      "start": "fn()",
+      "restart": "fn()",
+      "pause": "fn()"
+    },
+    "Touch": {},
+    "Triggers": {},
+    "FoundationSitesStatic": {
+      "version": "string",
+      "rtl": "fn() -> bool",
+      "plugin": "fn(plugin: Object, name: string)",
+      "registerPlugin": "fn(plugin: Object)",
+      "unregisterPlugin": "fn(plugin: Object)",
+      "GetYoDigits": "fn(length: number, namespace?: string) -> string",
+      "reflow": "fn(elem: Object, plugins?: ?, string: ?)",
+      "getFnName": "fn(fn: string) -> string",
+      "transitionend": "fn() -> string",
+      "util": {
+        "throttle": "fn(func: fn(args: [?]), delay: number) -> fn(args: [?])"
+      },
+      "onImagesLoaded": "fn(images: Object, cb: Function)",
+      "Abide": "fn(element: Object, options?: IAbideOptions) -> Abide",
+      "Accordion": "fn(element: Object, options?: IAccordionOptions) -> Accordion",
+      "AccordionMenu": "fn(element: Object, options?: IAccordionMenuOptions) -> AccordionMenu",
+      "DrillDown": "fn(element: Object, options?: IDrilldownOptions) -> Drilldown",
+      "Dropdown": "fn(element: Object, options?: IDropdownOptions) -> Dropdown",
+      "DropdownMenu": "fn(element: Object, options?: IDropdownMenuOptions) -> DropdownMenu",
+      "Equalizer": "fn(element: Object, options?: IEqualizerOptions) -> Equalizer",
+      "Interchange": "fn(element: Object, options?: IInterchangeOptions) -> Interchange",
+      "Magellan": "fn(element: Object, options?: IMagellanOptions) -> Magellan",
+      "OffCanvas": "fn(element: Object, options?: IOffCanvasOptions) -> OffCanvas",
+      "Orbit": "fn(element: Object, options?: IOrbitOptions) -> Orbit",
+      "Reveal": "fn(element: Object, options?: IRevealOptions) -> Reveal",
+      "Slider": "fn(element: Object, options?: ISliderOptions) -> Slider",
+      "Sticky": "fn(element: Object, options?: IStickyOptions) -> Sticky",
+      "Tabs": "fn(element: Object, options?: ITabsOptions) -> Tabs",
+      "Toggler": "fn(element: Object, options?: ITogglerOptions) -> Toggler",
+      "Tooltip": "fn(element: Object, options?: ITooltipOptions) -> Tooltip",
+      "Box": "Box",
+      "KeyBoard": "KeyBoard",
+      "MediaQuery": "MediaQuery",
+      "Motion": "Motion",
+      "Move": "Move",
+      "Nest": "Nest",
+      "Timer": "Timer",
+      "Touch": "Touch",
+      "Triggers": "Triggers"
+    }
+  },
+  "JQuery": {
+    "foundation": "fn(method?: string, Array: ?) -> JQuery"
+  },
+  "Foundation": "FoundationSites.FoundationSitesStatic",
+  "!name": "foundation"
+}

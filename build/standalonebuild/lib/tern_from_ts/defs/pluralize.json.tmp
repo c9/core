@@ -1,0 +1,12 @@
+{
+  "PluralizeStatic": {
+    "plural": "fn(word: string) -> string",
+    "singular": "fn(word: string) -> string",
+    "addPluralRule": "fn(rule: string, RegExp: ?, replacemant: string)",
+    "addSingularRule": "fn(rule: string, RegExp: ?, replacemant: string)",
+    "addIrregularRule": "fn(single: string, plural: string)",
+    "addUncountableRule": "fn(word: string, RegExp: ?)"
+  },
+  "pluralize": "pluralize",
+  "!name": "pluralize.d.ts"
+}

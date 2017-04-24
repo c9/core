@@ -1,0 +1,67 @@
+{
+  "GitHubElectron": {
+    "ContentTracing": {
+      "getCategories": "fn(callback: fn(categoryGroups: [?]))",
+      "startRecording": "fn(categoryFilter: string, options: number, callback: Function)",
+      "stopRecording": "fn(resultFilePath: string, callback: fn(filePath: string))",
+      "startMonitoring": "fn(categoryFilter: string, options: number, callback: Function)",
+      "stopMonitoring": "fn(callback: Function)",
+      "captureMonitoringSnapshot": "fn(resultFilePath: string, callback: fn(filePath: string))",
+      "getTraceBufferUsage": "fn(callback: Function)",
+      "setWatchEvent": "fn(categoryName: string, eventName: string, callback: Function)",
+      "cancelWatchEvent": "fn()",
+      "DEFAULT_OPTIONS": "number",
+      "ENABLE_SYSTRACE": "number",
+      "ENABLE_SAMPLING": "number",
+      "RECORD_CONTINUOUSLY": "number"
+    },
+    "Dialog": {
+      "showOpenDialog": "GitHubElectron.Dialog.showOpenDialog",
+      "showSaveDialog": "GitHubElectron.Dialog.showSaveDialog",
+      "showMessageBox": "GitHubElectron.Dialog.showMessageBox",
+      "showErrorBox": "fn(title: string, content: string)"
+    },
+    "GlobalShortcut": {
+      "register": "fn(accelerator: string, callback: Function)",
+      "isRegistered": "fn(accelerator: string) -> bool",
+      "unregister": "fn(accelerator: string)",
+      "unregisterAll": "fn()"
+    },
+    "RequestFileJob": {
+      "!type": "fn(path: string)",
+      "prototype": {}
+    },
+    "RequestStringJob": {
+      "!type": "fn(options?: ?)",
+      "prototype": {}
+    },
+    "RequestBufferJob": {
+      "!type": "fn(options?: ?)",
+      "prototype": {}
+    },
+    "Protocol": {
+      "registerProtocol": "fn(scheme: string, handler: fn(request: ?))",
+      "unregisterProtocol": "fn(scheme: string)",
+      "isHandledProtocol": "fn(scheme: string) -> bool",
+      "interceptProtocol": "fn(scheme: string, handler: fn(request: ?))",
+      "uninterceptProtocol": "fn(scheme: string)",
+      "RequestFileJob": "RequestFileJob",
+      "RequestStringJob": "RequestStringJob",
+      "RequestBufferJob": "RequestBufferJob"
+    }
+  },
+  "'app'": "_app",
+  "'auto-updater'": "_autoUpdater",
+  "'browser-window'": "BrowserWindow",
+  "'content-tracing'": "contentTracing",
+  "'dialog'": "dialog",
+  "'global-shortcut'": "globalShortcut",
+  "'ipc'": "ipc",
+  "'menu'": "Menu",
+  "'menu-item'": "MenuItem",
+  "'power-monitor'": "powerMonitor",
+  "'protocol'": "protocol",
+  "'tray'": "Tray",
+  "NodeRequireFunction": {},
+  "!name": "github-electron-main.d.ts"
+}

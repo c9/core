@@ -1,0 +1,14 @@
+{
+  "ngCordova": {
+    "IBadgeService": {
+      "hasPermission": "fn() -> ?",
+      "promptForPermission": "fn() -> ?",
+      "set": "fn(badge: number, callback?: Function, scope?: ?) -> ?",
+      "get": "fn() -> ?",
+      "clear": "fn(callback?: Function, scope?: ?) -> ?",
+      "increase": "fn(count?: number, callback?: Function, scope?: ?) -> ?",
+      "decrease": "fn(count?: number, callback?: Function, scope?: ?) -> ?"
+    }
+  },
+  "!name": "badge.d.ts"
+}

@@ -1,0 +1,13 @@
+{
+  "'ncp'": {
+    "ncp": "fn(source: string, destination: string, callback: fn(err: Error))",
+    "Options": {
+      "filter": "RegExp",
+      "transform": "fn(read: NodeJS.ReadableStream, write: NodeJS.WritableStream)",
+      "clobber": "bool",
+      "stopOnErr": "bool",
+      "errs": "NodeJS.WritableStream"
+    }
+  },
+  "!name": "ncp.d.ts"
+}

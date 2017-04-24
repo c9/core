@@ -1,0 +1,16 @@
+{
+  "JQuery": {
+    "fullscreen": "fn(options?: Object)"
+  },
+  "JQueryFullscreen": {
+    "open": "fn(element: Element, options?: Object)",
+    "close": "fn()",
+    "isFullScreen": "fn() -> bool",
+    "isNativelySupported": "fn() -> bool",
+    "exit": "fn()"
+  },
+  "JQueryStatic": {
+    "fullscreen": "JQueryFullscreen"
+  },
+  "!name": "jquery.fullscreen.d.ts"
+}

@@ -1,0 +1,79 @@
+{
+  "THREE": {
+    "RenderableObject": {
+      "!type": "fn()",
+      "prototype": {
+        "id": "number",
+        "object": "Object",
+        "z": "number"
+      }
+    },
+    "RenderableFace": {
+      "!type": "fn()",
+      "prototype": {
+        "id": "number",
+        "v1": "RenderableVertex",
+        "v2": "RenderableVertex",
+        "v3": "RenderableVertex",
+        "normalModel": "Vector3",
+        "vertexNormalsModel": "[Vector3]",
+        "vertexNormalsLength": "number",
+        "color": "Color",
+        "material": "Material",
+        "uvs": "[[Vector2]]",
+        "z": "number"
+      }
+    },
+    "RenderableVertex": {
+      "!type": "fn()",
+      "prototype": {
+        "position": "Vector3",
+        "positionWorld": "Vector3",
+        "positionScreen": "Vector4",
+        "visible": "bool",
+        "copy": "fn(vertex: RenderableVertex)"
+      }
+    },
+    "RenderableLine": {
+      "!type": "fn()",
+      "prototype": {
+        "id": "number",
+        "v1": "RenderableVertex",
+        "v2": "RenderableVertex",
+        "vertexColors": "[Color]",
+        "material": "Material",
+        "z": "number"
+      }
+    },
+    "RenderableSprite": {
+      "!type": "fn()",
+      "prototype": {
+        "id": "number",
+        "object": "Object",
+        "x": "number",
+        "y": "number",
+        "z": "number",
+        "rotation": "number",
+        "scale": "Vector2",
+        "material": "Material"
+      }
+    },
+    "Projector": {
+      "!type": "fn()",
+      "prototype": {
+        "projectVector": "fn(vector: Vector3, camera: Camera) -> Vector3",
+        "unprojectVector": "fn(vector: Vector3, camera: Camera) -> Vector3",
+        "projectScene": "fn(scene: Scene, camera: Camera, sortObjects: bool, sortElements?: bool) -> ret"
+      }
+    }
+  },
+  "!name": "three-projector",
+  "!define": {
+    "ret": {
+      "objects": "[Object3D]",
+      "sprites": "[Object3D]",
+      "lights": "[Light]",
+      "elements": "[Face3]"
+    }
+  }
+}

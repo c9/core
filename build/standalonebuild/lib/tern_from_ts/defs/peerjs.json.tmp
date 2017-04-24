@@ -1,0 +1,74 @@
+{
+  "PeerJs": {
+    "PeerJSOption": {
+      "key": "string",
+      "host": "string",
+      "port": "number",
+      "path": "string",
+      "secure": "bool",
+      "config": "RTCPeerConnectionConfig",
+      "debug": "number"
+    },
+    "PeerConnectOption": {
+      "label": "string",
+      "metadata": "?",
+      "serialization": "string",
+      "reliable": "bool"
+    },
+    "DataConnection": {
+      "send": "fn(data: ?)",
+      "close": "fn()",
+      "on": "fn(event: string, cb: fn())",
+      "off": "fn(event: string, fn: Function, once?: bool)",
+      "dataChannel": "RTCDataChannel",
+      "label": "string",
+      "metadata": "?",
+      "open": "bool",
+      "peerConnection": "?",
+      "peer": "string",
+      "reliable": "bool",
+      "serialization": "string",
+      "type": "string",
+      "buffSize": "number"
+    },
+    "MediaConnection": {
+      "answer": "fn(stream?: ?)",
+      "close": "fn()",
+      "on": "fn(event: string, cb: fn())",
+      "off": "fn(event: string, fn: Function, once?: bool)",
+      "open": "bool",
+      "metadata": "?",
+      "peer": "string",
+      "type": "string"
+    },
+    "utilSupportsObj": {
+      "audioVideo": "bool",
+      "data": "bool",
+      "binary": "bool",
+      "reliable": "bool"
+    },
+    "util": {
+      "browser": "string",
+      "supports": "utilSupportsObj"
+    },
+    "Peer": {
+      "connect": "fn(id: string, options?: PeerJs.PeerConnectOption) -> PeerJs.DataConnection",
+      "call": "fn(id: string, stream: ?, options?: ?) -> PeerJs.MediaConnection",
+      "on": "fn(event: string, cb: fn())",
+      "off": "fn(event: string, fn: Function, once?: bool)",
+      "disconnect": "fn()",
+      "reconnect": "fn()",
+      "destroy": "fn()",
+      "getConnection": "fn(peer: Peer, id: string) -> ?",
+      "listAllPeers": "fn(callback: fn(peerIds: ?))",
+      "id": "string",
+      "connections": "?",
+      "disconnected": "bool",
+      "destroyed": "bool"
+    }
+  },
+  "Peer": {
+    "prototype": "RTCIceServer"
+  },
+  "!name": "peerjs.d.ts"
+}

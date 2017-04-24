@@ -1,0 +1,51 @@
+{
+  "JQRangeSliderNumericRange": {
+    "min": "number",
+    "max": "number"
+  },
+  "JQRangeSliderDateRange": {
+    "min": "Date",
+    "max": "Date"
+  },
+  "JQRangeSliderRangeLength": {
+    "min": "?",
+    "max": "?"
+  },
+  "JQRangeSliderDateSteps": {
+    "years": "number",
+    "months": "number",
+    "weeks": "number",
+    "days": "number",
+    "hours": "number",
+    "minutes": "number",
+    "seconds": "number"
+  },
+  "JQRangeSliderOptions": {
+    "wheelMode": "string",
+    "wheelSpeed": "number",
+    "arrows": "bool",
+    "valueLabels": "string",
+    "durationIn": "number",
+    "durationOut": "number",
+    "delayOut": "number",
+    "range": "JQRangeSliderRangeLength"
+  },
+  "JQNumericRangeSliderOptions": {
+    "bounds": "JQRangeSliderNumericRange",
+    "defaultValues": "JQRangeSliderNumericRange",
+    "formatter": "fn(integer: ?)",
+    "step": "number"
+  },
+  "JQDateRangeSliderOptions": {
+    "bounds": "JQRangeSliderDateRange",
+    "defaultValues": "JQRangeSliderDateRange",
+    "formatter": "fn(Date: ?)",
+    "step": "JQRangeSliderDateSteps"
+  },
+  "JQuery": {
+    "rangeSlider": "fn(method: string) -> ?",
+    "editRangeSlider": "fn(method: string) -> ?",
+    "dateRangeSlider": "fn(method: string) -> ?"
+  },
+  "!name": "jqrangeslider"
+}

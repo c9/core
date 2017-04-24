@@ -1,0 +1,27 @@
+{
+  "GalleriaJS": {
+    "GalleriaOptions": {
+      "dataSource": "[GalleriaEntry]",
+      "autoplay": "bool",
+      "lightbox": "bool"
+    },
+    "GalleriaEntry": {
+      "image": "string",
+      "thumbnail": "string",
+      "title": "string",
+      "description": "string"
+    },
+    "GalleriaFactory": {
+      "run": "fn() -> GalleriaFactory",
+      "loadTheme": "fn(url: String) -> GalleriaFactory",
+      "configure": "fn(options: GalleriaOptions) -> GalleriaFactory",
+      "ready": "fn(method: fn())",
+      "refreshImage": "fn() -> GalleriaFactory",
+      "resize": "fn() -> GalleriaFactory",
+      "load": "fn(data: [GalleriaEntry]) -> GalleriaFactory",
+      "setOptions": "fn(options: GalleriaOptions) -> GalleriaFactory"
+    }
+  },
+  "Galleria": "GalleriaJS.GalleriaFactory",
+  "!name": "jquery-galleria"
+}

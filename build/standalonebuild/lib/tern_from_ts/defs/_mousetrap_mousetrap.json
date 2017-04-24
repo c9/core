@@ -1,0 +1,22 @@
+{
+  "ExtendedKeyboardEvent": {
+    "returnValue": "bool"
+  },
+  "MousetrapStatic": {
+    "stopCallback": "fn(e: ExtendedKeyboardEvent, element: Element, combo: string)",
+    "bind": "fn(keys: string, callback: fn(e: ExtendedKeyboardEvent, combo: string), action?: string)",
+    "unbind": "fn(keys: string, action?: string)",
+    "trigger": "fn(keys: string, action?: string)",
+    "reset": "fn()"
+  },
+  "MousetrapInstance": {
+    "stopCallback": "fn(e: ExtendedKeyboardEvent, element: Element, combo: string)",
+    "bind": "fn(keys: string, callback: fn(e: ExtendedKeyboardEvent, combo: string), action?: string)",
+    "unbind": "fn(keys: string, action?: string)",
+    "trigger": "fn(keys: string, action?: string)",
+    "reset": "fn()"
+  },
+  "Mousetrap": "MousetrapStatic",
+  "mousetrap": "Mousetrap",
+  "!name": "mousetrap"
+}

@@ -1,0 +1,15 @@
+{
+  "JasminePromiseMatchers": {
+    "install": "fn()",
+    "uninstall": "fn()"
+  },
+  "jasmine": {
+    "Matchers": {
+      "toBeRejected": "fn(done?: fn()) -> bool",
+      "toBeRejectedWith": "fn(value: ?, done?: fn()) -> bool",
+      "toBeResolved": "fn(done?: fn()) -> bool",
+      "toBeResolvedWith": "fn(value: ?, done?: fn()) -> bool"
+    }
+  },
+  "!name": "jasmine-es6-promise-matchers.d.ts"
+}

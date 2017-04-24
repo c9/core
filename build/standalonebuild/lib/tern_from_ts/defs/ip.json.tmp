@@ -1,0 +1,32 @@
+{
+  "NodeBuffer": {},
+  "SubnetInfo": {
+    "networkAddress": "string",
+    "firstAddress": "string",
+    "lastAddress": "string",
+    "broadcastAddress": "string",
+    "subnetMask": "string",
+    "subnetMaskLength": "number",
+    "numHosts": "number",
+    "length": "number"
+  },
+  "ip": {
+    "isEqual": "fn(ip1: string, ip2: string) -> bool",
+    "toBuffer": "fn(ip: string, buffer?: number, offset?: number) -> NodeBuffer",
+    "fromPrefixLen": "fn(prefixLength: number, family?: string) -> string",
+    "mask": "fn(ip: string, mask: string) -> string",
+    "cidr": "fn(cidr: string) -> string",
+    "not": "fn(ip: string) -> string",
+    "or": "fn(ip: string, mask: string) -> string",
+    "isPrivate": "fn(ip: string) -> bool",
+    "isPublic": "fn(ip: string) -> bool",
+    "isLoopback": "fn(ip: string) -> bool",
+    "loopback": "fn(family?: string) -> string",
+    "address": "fn(name?: string, family?: string) -> string",
+    "toLong": "fn(ip: string) -> number",
+    "fromLong": "fn(ip: number) -> string",
+    "subnet": "fn(ip: string, subnet: string) -> SubnetInfo",
+    "cidrSubnet": "fn(cidr: string) -> SubnetInfo"
+  },
+  "!name": "ip.d.ts"
+}

@@ -1,0 +1,4 @@
+{
+  "gulp-concat": "_tmp",
+  "!name": "gulp-concat.d.ts"
+}

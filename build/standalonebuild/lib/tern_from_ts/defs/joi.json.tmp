@@ -1,0 +1,190 @@
+{
+  "'joi'": {
+    "ValidationOptions": {
+      "abortEarly": "bool",
+      "convert": "bool",
+      "allowUnknown": "bool",
+      "skipFunctions": "bool",
+      "stripUnknown": "bool",
+      "language": "Object",
+      "presence": "string",
+      "context": "Object"
+    },
+    "RenameOptions": {
+      "alias": "bool",
+      "multiple": "bool",
+      "override": "bool",
+      "ignoreUndefined": "bool"
+    },
+    "EmailOptions": {
+      "errorLevel": "number",
+      "boolean": "?",
+      "tldWhitelist": "[string]",
+      "Object": "?",
+      "minDomainAtoms": "number"
+    },
+    "IpOptions": {
+      "version": "string",
+      "string": "?",
+      "cidr": "string"
+    },
+    "UriOptions": {
+      "scheme": "string",
+      "RegExp": "?",
+      "Array": "fn()"
+    },
+    "WhenOptions": {
+      "is": "Schema",
+      "then": "Schema",
+      "otherwise": "Schema"
+    },
+    "ReferenceOptions": {
+      "separator": "string",
+      "contextPrefix": "string"
+    },
+    "IPOptions": {
+      "version": "?",
+      "cidr": "string"
+    },
+    "ValidationError": {
+      "message": "string",
+      "details": "[ValidationErrorItem]",
+      "simple": "fn() -> string",
+      "annotated": "fn() -> string"
+    },
+    "ValidationErrorItem": {
+      "message": "string",
+      "type": "string",
+      "path": "string",
+      "options": "ValidationOptions"
+    },
+    "ValidationResult": {
+      "error": "ValidationError",
+      "value": "T"
+    },
+    "SchemaMap": {},
+    "Schema": {},
+    "Reference": {},
+    "AnySchema": {
+      "allow": "fn(value: ?, values: [?]) -> T",
+      "valid": "fn(value: ?, values: [?]) -> T",
+      "only": "fn(value: ?, values: [?]) -> T",
+      "equal": "fn(value: ?, values: [?]) -> T",
+      "invalid": "fn(value: ?, values: [?]) -> T",
+      "disallow": "fn(value: ?, values: [?]) -> T",
+      "not": "fn(value: ?, values: [?]) -> T",
+      "required": "fn() -> T",
+      "optional": "fn() -> T",
+      "forbidden": "fn() -> T",
+      "strip": "fn() -> T",
+      "description": "fn(desc: string) -> T",
+      "notes": "fn(notes: string) -> T",
+      "tags": "fn(notes: string) -> T",
+      "meta": "fn(meta: Object) -> T",
+      "example": "fn(value: ?) -> T",
+      "unit": "fn(name: string) -> T",
+      "options": "fn(options: ValidationOptions) -> T",
+      "strict": "fn(isStrict?: bool) -> T",
+      "default": "fn(value: ?, description?: string) -> T",
+      "concat": "fn(schema: T) -> T",
+      "when": "fn(ref: string, options: WhenOptions) -> AlternativesSchema",
+      "label": "fn(name: string) -> T",
+      "raw": "fn(isRaw?: bool) -> T",
+      "empty": "fn(schema?: ?) -> T"
+    },
+    "BooleanSchema": {},
+    "NumberSchema": {
+      "min": "fn(limit: number) -> NumberSchema",
+      "max": "fn(limit: number) -> NumberSchema",
+      "greater": "fn(limit: number) -> NumberSchema",
+      "less": "fn(limit: number) -> NumberSchema",
+      "integer": "fn() -> NumberSchema",
+      "precision": "fn(limit: number) -> NumberSchema",
+      "multiple": "fn(base: number) -> NumberSchema",
+      "positive": "fn() -> NumberSchema",
+      "negative": "fn() -> NumberSchema"
+    },
+    "StringSchema": {
+      "insensitive": "fn() -> StringSchema",
+      "min": "fn(limit: number, encoding?: string) -> StringSchema",
+      "max": "fn(limit: number, encoding?: string) -> StringSchema",
+      "creditCard": "fn() -> StringSchema",
+      "length": "fn(limit: number, encoding?: string) -> StringSchema",
+      "regex": "fn(pattern: RegExp, name?: string) -> StringSchema",
+      "replace": "fn(pattern: RegExp, replacement: string) -> StringSchema",
+      "alphanum": "fn() -> StringSchema",
+      "token": "fn() -> StringSchema",
+      "email": "fn(options?: EmailOptions) -> StringSchema",
+      "ip": "fn(options?: IpOptions) -> StringSchema",
+      "uri": "fn(options?: UriOptions) -> StringSchema",
+      "guid": "fn() -> StringSchema",
+      "hex": "fn() -> StringSchema",
+      "hostname": "fn() -> StringSchema",
+      "isoDate": "fn() -> StringSchema",
+      "lowercase": "fn() -> StringSchema",
+      "uppercase": "fn() -> StringSchema",
+      "trim": "fn() -> StringSchema"
+    },
+    "ArraySchema": {
+      "sparse": "fn(enabled?: ?) -> ArraySchema",
+      "single": "fn(enabled?: ?) -> ArraySchema",
+      "items": "fn(type: Schema, types: [Schema]) -> ArraySchema",
+      "min": "fn(limit: number) -> ArraySchema",
+      "max": "fn(limit: number) -> ArraySchema",
+      "length": "fn(limit: number) -> ArraySchema",
+      "unique": "fn() -> ArraySchema"
+    },
+    "ObjectSchema": {
+      "keys": "fn(schema?: SchemaMap) -> ObjectSchema",
+      "min": "fn(limit: number) -> ObjectSchema",
+      "max": "fn(limit: number) -> ObjectSchema",
+      "length": "fn(limit: number) -> ObjectSchema",
+      "pattern": "fn(regex: RegExp, schema: Schema) -> ObjectSchema",
+      "and": "fn(peer1: string, peers: [string]) -> ObjectSchema",
+      "nand": "fn(peer1: string, peers: [string]) -> ObjectSchema",
+      "or": "fn(peer1: string, peers: [string]) -> ObjectSchema",
+      "xor": "fn(peer1: string, peers: [string]) -> ObjectSchema",
+      "with": "fn(key: string, peers: string) -> ObjectSchema",
+      "without": "fn(key: string, peers: string) -> ObjectSchema",
+      "rename": "fn(from: string, to: string, options?: RenameOptions) -> ObjectSchema",
+      "assert": "fn(ref: string, schema: Schema, message: string) -> ObjectSchema",
+      "unknown": "fn(allow?: bool) -> ObjectSchema",
+      "type": "fn(constructor: Function, name?: string) -> ObjectSchema",
+      "requiredKeys": "fn(children: string) -> ObjectSchema",
+      "optionalKeys": "fn(children: string) -> ObjectSchema"
+    },
+    "BinarySchema": {
+      "encoding": "fn(encoding: string) -> BinarySchema",
+      "min": "fn(limit: number) -> BinarySchema",
+      "max": "fn(limit: number) -> BinarySchema",
+      "length": "fn(limit: number) -> BinarySchema"
+    },
+    "DateSchema": {
+      "min": "fn(date: Date) -> DateSchema",
+      "max": "fn(date: Date) -> DateSchema",
+      "format": "fn(format: string) -> DateSchema",
+      "iso": "fn() -> DateSchema"
+    },
+    "FunctionSchema": {},
+    "AlternativesSchema": {
+      "try": "fn(schemas: [Schema]) -> AlternativesSchema",
+      "when": "fn(ref: string, options: WhenOptions) -> AlternativesSchema"
+    },
+    "any": "fn() -> Schema",
+    "array": "fn() -> ArraySchema",
+    "bool": "fn() -> BooleanSchema",
+    "boolean": "fn() -> BooleanSchema",
+    "binary": "fn() -> BinarySchema",
+    "date": "fn() -> DateSchema",
+    "func": "fn() -> FunctionSchema",
+    "number": "fn() -> NumberSchema",
+    "object": "fn(schema?: SchemaMap) -> ObjectSchema",
+    "string": "fn() -> StringSchema",
+    "alternatives": "fn(types: [Schema]) -> Schema",
+    "validate": "fn(value: T, schema: Schema, callback: fn(err: ValidationError, value: T))",
+    "compile": "fn(schema: Object) -> Schema",
+    "assert": "fn(value: ?, schema: Schema, message?: string, Error: ?)",
+    "ref": "fn(key: string, options?: ReferenceOptions) -> Reference"
+  },
+  "!name": "joi.d.ts"
+}

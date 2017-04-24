@@ -1,0 +1,114 @@
+{
+  "Ix": {
+    "Disposable": {
+      "dispose": "fn()"
+    },
+    "Enumerator": {
+      "moveNext": "fn() -> bool",
+      "getCurrent": "fn() -> T"
+    },
+    "EnumeratorStatic": {
+      "create": "fn(moveNext: fn(), getCurrent: fn(), dispose?: fn()) -> ?"
+    },
+    "EnumerableFunc": {},
+    "EnumerablePredicate": {},
+    "Predicate": {},
+    "EqualityComparer": {},
+    "Comparer": {},
+    "Enumerable": {
+      "getEnumerator": "fn() -> ?",
+      "aggregate": "fn(seed: TAccumulate, func: fn(accumulate: TAccumulate, current: T, index: number, self: ?), resultSelector: fn(accumulate: TAccumulate)) -> TResult",
+      "reduce": "fn(func: fn(accumulate: T, current: T, index: number, self: ?)) -> T",
+      "all": "fn(predicate: ?, thisArg?: ?) -> bool",
+      "every": "fn(predicate: ?, thisArg?: ?) -> bool",
+      "any": "fn(predicate?: ?, thisArg?: ?) -> bool",
+      "some": "fn(predicate?: ?, thisArg?: ?) -> bool",
+      "average": "fn(selector?: ?) -> number",
+      "max": "fn() -> T",
+      "min": "fn() -> T",
+      "sum": "fn(selector?: ?) -> number",
+      "concat": "fn(sources: [?]) -> ?",
+      "contains": "fn(value: TValue, comparer: ?) -> bool",
+      "count": "fn(predicate?: ?, thisArg?: ?) -> number",
+      "defaultIfEmpty": "fn(defaultValue?: T) -> ?",
+      "distinct": "fn(comparer?: ?) -> ?",
+      "elementAt": "fn(index: number) -> T",
+      "elementAtOrDefault": "fn(index: number) -> T",
+      "except": "fn(second: ?, comparer: ?) -> ?",
+      "first": "fn(predicate?: ?) -> T",
+      "firstOrDefault": "fn(predicate?: ?) -> T",
+      "last": "fn(predicate?: ?) -> T",
+      "lastOrDefault": "fn(predicate?: ?) -> T",
+      "single": "fn(predicate?: ?) -> T",
+      "singleOrDefault": "fn(predicate?: ?) -> T",
+      "forEach": "fn(action: ?, thisArg?: ?)",
+      "groupBy": "fn(keySelector: fn(item: T), elementSelector: fn(item: T), resultSelector: fn(key: TKey, values: ?), comparer?: ?) -> ?",
+      "groupJoin": "fn(inner: ?, outerKeySelector: fn(item: T), innerKeySelector: fn(item: TInner), resultSelector: fn(outer: T, innerSequence: ?), comparer: ?) -> ?",
+      "join": "fn(inner: ?, outerKeySelector: fn(item: T), innerKeySelector: fn(item: TInner), resultSelector: fn(outer: T, inner: TInner), comparer: ?) -> ?",
+      "intersect": "fn(second: ?, comparer: ?) -> ?",
+      "union": "fn(second: ?, comparer?: ?) -> ?",
+      "orderBy": "fn(keySelector: fn(item: T), comparer?: ?) -> ?",
+      "orderByDescending": "fn(keySelector: fn(item: T), comparer?: ?) -> ?",
+      "reverse": "fn() -> ?",
+      "select": "fn(selector: ?, thisArg?: ?) -> ?",
+      "map": "fn(selector: ?, thisArg?: ?) -> ?",
+      "selectMany": "fn(collectionSelector: fn(item: T, index: number), resultSelector: fn(outer: T, inner: TCollection)) -> ?",
+      "sequenceEqual": "fn(second: ?, comparer: ?) -> bool",
+      "skip": "fn(count: number) -> ?",
+      "skipWhile": "fn(selector: ?, thisArg?: ?) -> ?",
+      "take": "fn(count: number) -> ?",
+      "takeWhile": "fn(selector: ?, thisArg?: ?) -> ?",
+      "toArray": "fn() -> [T]",
+      "toDictionary": "fn(keySelector: fn(item: T), elementSelector: fn(item: T), comparer?: ?) -> ?",
+      "toLookup": "fn(keySelector: fn(item: T), elementSelector: fn(item: T), comparer?: ?) -> ?",
+      "where": "fn(selector: ?, thisArg?: ?) -> ?",
+      "filter": "fn(selector: ?, thisArg?: ?) -> ?",
+      "zip": "fn(right: ?, selector: fn(left: T, right: TRight)) -> ?"
+    },
+    "Grouping": {
+      "key": "TKey"
+    },
+    "OrderedEnumerable": {
+      "thenBy": "fn(keySelector: fn(item: T), comparer?: ?) -> ?",
+      "thenByDescending": "fn(keySelector: fn(item: T), comparer?: ?) -> ?"
+    },
+    "Dictionary": {
+      "!type": "fn(capacity?: number, comparer?: ?)",
+      "prototype": {
+        "toEnumerable": "fn() -> ?",
+        "add": "fn(key: TKey, value: TValue)",
+        "remove": "fn(key: TKey) -> bool",
+        "clear": "fn()",
+        "length": "fn() -> number",
+        "tryGetValue": "fn(key: TKey) -> TValue",
+        "get": "fn(key: TKey) -> TValue",
+        "set": "fn(key: TKey, value: TValue)",
+        "getValues": "fn() -> [TValue]",
+        "has": "fn(key: TKey) -> bool"
+      }
+    },
+    "KeyValuePair": {
+      "key": "TKey",
+      "value": "TValue"
+    },
+    "Lookup": {
+      "toEnumerable": "fn() -> ?",
+      "has": "fn(key: TKey) -> bool",
+      "length": "fn() -> number",
+      "get": "fn(key: TKey) -> ?"
+    },
+    "EnumerableStatic": {
+      "create": "fn(getEnumerator: fn()) -> ?",
+      "concat": "fn(sources: [?]) -> ?",
+      "empty": "fn() -> ?",
+      "fromArray": "fn(array: [T]) -> ?",
+      "return": "fn(value: T) -> ?",
+      "returnValue": "fn(value: T) -> ?",
+      "range": "fn(start: number, count: number) -> ?",
+      "repeat": "fn(value: T, repeatCount?: number) -> ?",
+      "sequenceEqual": "fn(first: ?, second: ?, comparer: ?) -> bool"
+    }
+  },
+  "l2o": "Ix",
+  "!name": "l2o"
+}

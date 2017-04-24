@@ -1,0 +1,25 @@
+{
+  "IDOMPurify": {
+    "sanitize": "fn(s: string) -> string",
+    "addHook": "fn(hook: string, cb: fn(currentNode: Element, data: ?, config: IDOMPurifyConfig))"
+  },
+  "IDOMPurifyConfig": {
+    "ADD_ATTR": "[string]",
+    "ADD_TAGS": "[string]",
+    "ALLOW_DATA_ATTR": "bool",
+    "ALLOWED_ATTR": "[string]",
+    "ALLOWED_TAGS": "[string]",
+    "FORBID_ATTR": "[string]",
+    "FORBID_TAGS": "[string]",
+    "KEEP_CONTENT": "bool",
+    "RETURN_DOM": "bool",
+    "RETURN_DOM_FRAGMENT": "bool",
+    "RETURN_DOM_IMPORT": "bool",
+    "SAFE_FOR_JQUERY": "bool",
+    "SANITIZE_DOM": "bool",
+    "WHOLE_DOCUMENT": "bool"
+  },
+  "DOMPurify": "IDOMPurify",
+  "'dompurify'": "DOMPurify",
+  "!name": "dompurify"
+}

@@ -1,0 +1,487 @@
+{
+  "MathJax": "jax.IMathJax",
+  "jax": {
+    "IMathJax": {
+      "Hub": "IMathJaxHub",
+      "Ajax": "IAjax",
+      "Message": "IMessage",
+      "HTML": "IHTML",
+      "Callback": "ICallback",
+      "Localization": "ILocalization",
+      "InputJax": "IInputJax",
+      "OutputJax": "IOutputJax"
+    },
+    "ICallback": {
+      "Delay": "fn(time: number, callback: ?) -> ICallbackObject",
+      "Queue": "fn(args: [?]) -> IQueue",
+      "Signal": "fn(name: string) -> ISignal",
+      "ExecuteHooks": "fn(hooks: [?], data: [?], reset: bool) -> ICallbackObject",
+      "Hooks": "fn(reset: bool) -> IHooks"
+    },
+    "IHooks": {
+      "Add": "fn(hook: ?, priority: number) -> ICallbackObject",
+      "Remove": "fn(hook: ICallbackObject)",
+      "Execute": "fn() -> ICallbackObject"
+    },
+    "IQueue": {
+      "pending": "number",
+      "running": "number",
+      "queue": "[?]",
+      "Push": "fn(specs: [?]) -> ICallbackObject",
+      "Process": "fn()",
+      "Suspend": "fn()",
+      "Resume": "fn()",
+      "wait": "fn(callback: Function) -> Function",
+      "call": "fn()"
+    },
+    "ISignal": {
+      "name": "string",
+      "posted": "[?]",
+      "listeners": "[ICallbackObject]",
+      "Post": "fn(message: string) -> ICallbackObject",
+      "Clear": "fn() -> ICallbackObject",
+      "Interest": "fn(callback: ICallbackObject) -> ICallbackObject",
+      "NoInterest": "fn(callback: ICallbackObject)",
+      "MessageHook": "fn(message: string, callback: ICallbackObject) -> ICallbackObject",
+      "ExecuteHook": "fn(message: string)"
+    },
+    "ICallbackObject": {
+      "hook": "number",
+      "data": "[?]",
+      "object": "?",
+      "called": "bool",
+      "autoReset": "bool",
+      "reset": "fn()"
+    },
+    "IMathJaxHub": {
+      "config": "IMathJaxConfig",
+      "processUpdateTime": "number",
+      "processUpdateDelay": "number",
+      "signal": "ISignal",
+      "queue": "?",
+      "Browser": "IBrowserInfo",
+      "inputJax": "?",
+      "outputJax": "?",
+      "Register": "IRegister",
+      "Config": "fn(config: IMathJaxConfig)",
+      "Configured": "fn()",
+      "Queue": "fn(callBack: ?) -> ?",
+      "Typeset": "fn(element: ?, callBack: ?) -> ?",
+      "PreProcess": "fn(element: ?, callBack: ?) -> ?",
+      "Process": "fn(element: ?, callBack: ?) -> ?",
+      "Update": "fn(element: ?, callBack: ?) -> ?",
+      "Reprocess": "fn(element: ?, callBack: ?) -> ?",
+      "Rerender": "fn(element: ?, callBack: ?) -> ?",
+      "getAllJax": "fn(element: ?) -> [?]",
+      "getJaxByType": "fn(type: string, element: ?)",
+      "getJaxByInputType": "fn(type: string, element: ?)",
+      "getJaxFor": "fn(element: ?) -> ?",
+      "isJax": "fn(element: ?) -> number",
+      "setRenderer": "fn(renderer: string, type: string)",
+      "Insert": "fn(dst: ?, src: ?) -> ?",
+      "formatError": "fn(script: ?, error: ?)"
+    },
+    "IRegister": {
+      "PreProcessor": "fn(callBack: ?)",
+      "MessageHook": "fn(type: string, callBack: ?)",
+      "StartupHook": "fn(type: string, callBack: ?)",
+      "LoadHook": "fn(file: string, callBack: Function)"
+    },
+    "IBrowserInfo": {
+      "version": "string",
+      "isMac": "bool",
+      "isPC": "bool",
+      "isMobile": "bool",
+      "isFirefox": "bool",
+      "isSafari": "bool",
+      "isChrome": "bool",
+      "isOpera": "bool",
+      "isMSIE": "bool",
+      "isKonqueror": "bool",
+      "versionAtLeast": "fn(version: string)",
+      "Select": "fn(choices: ?)"
+    },
+    "IAjax": {
+      "timeout": "number",
+      "STATUS": "ISTATUS",
+      "loaded": "?",
+      "loading": "bool",
+      "loadHooks": "?",
+      "Require": "fn(file: string, callBack: ?) -> ?",
+      "Load": "fn(file: string, callBack: ?) -> ?",
+      "loadComplete": "fn(file: string)",
+      "loadTimeout": "fn(file: string)",
+      "loadError": "fn(file: string)",
+      "LoadHook": "fn(file: string, callBack: ?) -> ?",
+      "Preloading": "fn(args: [?])",
+      "Styles": "fn(styles: ?, callback: ?) -> ?",
+      "fileURL": "fn(file: string) -> string"
+    },
+    "ISTATUS": {
+      "OK": "string",
+      "ERROR": "string"
+    },
+    "IMessage": {
+      "Set": "fn(message: string, n: number, delay: number) -> number",
+      "Clear": "fn(n: number, delay: number)",
+      "Remove": "fn()",
+      "File": "fn(file: string) -> number",
+      "filterText": "fn(text: string, n: number) -> string",
+      "Log": "fn() -> string"
+    },
+    "IHTML": {
+      "Cookie": "ICookie",
+      "Element": "fn(type: string, attributes: ?, contents: ?) -> ?",
+      "addElement": "fn(parent: ?, type: string, attributes: ?, content: ?) -> ?",
+      "TextNode": "fn(text: string) -> ?",
+      "addText": "fn(parent: ?, text: string) -> ?",
+      "setScript": "fn(script: string, text: string)",
+      "getScript": "fn(script: string) -> string"
+    },
+    "ICookie": {
+      "prefix": "string",
+      "expires": "number",
+      "Set": "fn(name: string, data: ?)",
+      "Get": "fn(name: string) -> ?"
+    },
+    "IMenuSettings": {
+      "zoom": "string",
+      "CTRL": "bool",
+      "ALT": "bool",
+      "CMD": "bool",
+      "Shift": "bool",
+      "zscale": "string",
+      "context": "string",
+      "texHints": "bool",
+      "mpContext": "bool",
+      "mpMouse": "bool"
+    },
+    "IErrorSettings": {
+      "message": "[string]",
+      "style": "?"
+    },
+    "IMathJaxConfig": {
+      "MathZoom": "IMathZoom",
+      "MathMenu": "IMathMenu",
+      "MathEvents": "IMathEvents",
+      "FontWarnings": "IFontWarnings",
+      "Safe": "ISafe",
+      "MatchWebFonts": "IMatchWebFonts",
+      "SVG": "ISVGOutputProcessor",
+      "MMLorHTML": "IMMLorHTMLConfiguration",
+      "NativeMML": "INativeMMLOutputProcessor",
+      "HTML-CSS": "IHTMLCSSOutputProcessor",
+      "AsciiMath": "IAsciiMathInputProcessor",
+      "MathML": "IMathMLInputProcessor",
+      "TeX": "ITeXInputProcessor",
+      "jsMath2jax": "IJSMath2jaxPreprocessor",
+      "asciimath2jax": "IAsciimath2jaxPreprocessor",
+      "mml2jax": "IMML2jaxPreprocessor",
+      "tex2jax": "ITEX2jaxPreprocessor",
+      "jax": "[string]",
+      "extensions": "[string]",
+      "config": "[string]",
+      "styleSheets": "[string]",
+      "styles": "?",
+      "preJax": "?",
+      "postJax": "?",
+      "preRemoveClass": "string",
+      "showProcessingMessages": "bool",
+      "messageStyle": "string",
+      "displayAlign": "string",
+      "displayIndent": "string",
+      "delayStartupUntil": "string",
+      "skipStartupTypeset": "bool",
+      "elements": "[string]",
+      "positionToHash": "bool",
+      "showMathMenu": "bool",
+      "showMathMenuMSIE": "bool",
+      "menuSettings": "IMenuSettings",
+      "errorSettings": "IErrorSettings",
+      "v1.0-compatible": "bool"
+    },
+    "IMathZoom": {
+      "styles": "?"
+    },
+    "IMathMenu": {
+      "delay": "number",
+      "helpURL": "string",
+      "showRenderer": "bool",
+      "showFontMenu": "bool",
+      "showLocale": "bool",
+      "showMathPlayer": "bool",
+      "showContext": "bool",
+      "semanticsAnnotations": "?",
+      "windowSettings": "?",
+      "styles": "?"
+    },
+    "IMathEvents": {
+      "hover": "number",
+      "styles": "?"
+    },
+    "IFontWarnings": {
+      "messageStyle": "?",
+      "Message": "IHTMLMessages",
+      "HTML": "IHTMLSnippets",
+      "removeAfter": "number",
+      "fadeoutSteps": "number",
+      "fadeoutTime": "number"
+    },
+    "IHTMLMessages": {
+      "webFont": "[?]",
+      "imageFonts": "[?]",
+      "noFonts": "[?]"
+    },
+    "IHTMLSnippets": {
+      "closeBox": "string",
+      "webfonts": "string",
+      "fonts": "string",
+      "STIXfonts": "string",
+      "TeXfonts": "string"
+    },
+    "ISafe": {
+      "allow": "ISafeAllow",
+      "sizeMin": "number",
+      "sizeMax": "number",
+      "safeProtocols": "ISafeProtocols",
+      "safeStyles": "ISafeStyles",
+      "safeRequire": "ISafeRequire"
+    },
+    "ISafeAllow": {
+      "URLs": "string",
+      "classes": "string",
+      "cssIDs": "string",
+      "styles": "string",
+      "require": "string",
+      "fontsize": "string"
+    },
+    "ISafeProtocols": {
+      "http": "bool",
+      "https": "bool",
+      "file": "bool",
+      "javascript": "bool"
+    },
+    "ISafeStyles": {
+      "color": "bool",
+      "backgroundColor": "bool",
+      "border": "bool",
+      "cursor": "bool",
+      "margin": "bool",
+      "padding": "bool",
+      "textShadow": "bool",
+      "fontFamily": "bool",
+      "fontSize": "bool",
+      "fontStyle": "bool",
+      "fontWeight": "bool",
+      "opacity": "bool",
+      "outline": "bool"
+    },
+    "ISafeRequire": {
+      "action": "bool",
+      "amscd": "bool",
+      "amsmath": "bool",
+      "amssymbols": "bool",
+      "autobold": "bool",
+      "autoload-all": "bool",
+      "bbox": "bool",
+      "begingroup": "bool",
+      "boldsymbol": "bool",
+      "cancel": "bool",
+      "color": "bool",
+      "enclose": "bool",
+      "extpfeil": "bool",
+      "HTML": "bool",
+      "mathchoice": "bool",
+      "mhchem": "bool",
+      "newcommand": "bool",
+      "noErrors": "bool",
+      "noUndefined": "bool",
+      "unicode": "bool",
+      "verb": "bool"
+    },
+    "IMatchWebFonts": {
+      "matchFor": "IMatchFor",
+      "fontCheckDelay": "number",
+      "fontCheckTimeout": "number"
+    },
+    "IMatchFor": {
+      "HTML-CSS": "bool",
+      "NativeMML": "bool",
+      "SVG": "bool"
+    },
+    "ISVGOutputProcessor": {
+      "scale": "number",
+      "minScaleAdjust": "number",
+      "font": "string",
+      "blacker": "number",
+      "undefinedFamily": "[string]",
+      "mtextFontInherit": "bool",
+      "addMMLclasses": "bool",
+      "EqnChunk": "number",
+      "EqnChunkFactor": "number",
+      "EqnChunkDelay": "number",
+      "matchFontHeight": "bool",
+      "linebreaks": "ILineBreaks",
+      "styles": "?",
+      "tooltip": "IToolTip"
+    },
+    "ILineBreaks": {
+      "automatic": "bool",
+      "width": "string"
+    },
+    "IToolTip": {
+      "delayPost": "number",
+      "delayClear": "number",
+      "offsetX": "number",
+      "offsetY": "number"
+    },
+    "IMMLorHTMLConfiguration": {
+      "prefer": "IBrowserPreference"
+    },
+    "IBrowserPreference": {
+      "MSIE": "string",
+      "Firefox": "string",
+      "Safari": "string",
+      "Chrome": "string",
+      "Opera": "string",
+      "other": "string"
+    },
+    "INativeMMLOutputProcessor": {
+      "scale": "number",
+      "minScaleAdjust": "number",
+      "matchFontHeight": "bool",
+      "styles": "?"
+    },
+    "IHTMLCSSOutputProcessor": {
+      "scale": "number",
+      "minScaleAdjust": "number",
+      "availableFonts": "[string]",
+      "preferredFont": "string",
+      "webFont": "string",
+      "imageFont": "string",
+      "undefinedFamily": "[string]",
+      "mtextFontInherit": "bool",
+      "EqnChunk": "number",
+      "EqnChunkFactor": "number",
+      "EqnChunkDelay": "number",
+      "matchFontHeight": "bool",
+      "linebreaks": "ILineBreaks",
+      "styles": "?",
+      "showMathMenu": "bool",
+      "tooltip": "IToolTip"
+    },
+    "IAsciiMathInputProcessor": {
+      "displaystyle": "bool",
+      "decimal": "string"
+    },
+    "IMathMLInputProcessor": {
+      "useMathMLspacing": "bool"
+    },
+    "ITeXInputProcessor": {
+      "TagSide": "string",
+      "TagIndent": "string",
+      "MultLineWidth": "string",
+      "equationNumbers": "IEquationNumbers",
+      "Macros": "?",
+      "MAXMACROS": "number",
+      "MAXBUFFER": "number",
+      "extensions": "[string]"
+    },
+    "IEquationNumbers": {
+      "autoNumber": "string",
+      "formatNumber": "fn(n: number)",
+      "formatTag": "fn(n: number)",
+      "formatID": "fn()",
+      "formatURL": "fn(id: string)",
+      "useLabelIds": "bool"
+    },
+    "IJSMath2jaxPreprocessor": {
+      "preview": "?"
+    },
+    "IAsciimath2jaxPreprocessor": {
+      "delimiters": "?",
+      "preview": "?",
+      "skipTags": "[string]",
+      "ignoreClass": "string",
+      "processClass": "string"
+    },
+    "IMML2jaxPreprocessor": {
+      "preview": "?"
+    },
+    "ITEX2jaxPreprocessor": {
+      "inlineMath": "?",
+      "displayMath": "?",
+      "balanceBraces": "bool",
+      "processEscapes": "bool",
+      "processEnvironments": "bool",
+      "preview": "?",
+      "skipTags": "[string]",
+      "ignoreClass": "string",
+      "processClass": "string"
+    },
+    "ILocalization": {
+      "locale": "string",
+      "directory": "string",
+      "strings": "?",
+      "_": "fn(id: number, message: string, args: [?])",
+      "setLocale": "fn(locale: string)",
+      "addTranslation": "fn(locale: string, domain: string, def: ?)",
+      "setCSS": "fn(div: ?) -> ?",
+      "fontFamily": "fn() -> string",
+      "fontDirection": "fn() -> string",
+      "plural": "fn(value: ?) -> number",
+      "number": "fn(value: number) -> string",
+      "loadDomain": "fn(domain: string) -> ICallbackObject",
+      "Try": "fn(spec: ?)"
+    },
+    "IInputJax": {
+      "id": "string",
+      "version": "string",
+      "directory": "string",
+      "elementJax": "string",
+      "Process": "fn(script: ?, state: ?) -> ?",
+      "Translate": "fn(script: ?, state: ?) -> IElementJax",
+      "Register": "fn(mimetype: string)",
+      "needsUpdate": "fn(element: ?) -> bool"
+    },
+    "IOutputJax": {
+      "id": "string",
+      "version": "string",
+      "directory": "string",
+      "fontDir": "string",
+      "imageDir": "string",
+      "preProcess": "fn(state: ?)",
+      "preTranslate": "fn(state: ?)",
+      "Translate": "fn(script: ?, state: ?) -> IElementJax",
+      "postTranslate": "fn(state: ?)",
+      "Register": "fn(mimetype: string)",
+      "Remove": "fn(jax: ?)",
+      "getJaxFromMath": "fn(math: ?) -> IElementJax",
+      "Zoom": "fn(jax: ?, span: ?, math: ?, Mw: number, Mh: number) -> IZoomStruct"
+    },
+    "IZoomStruct": {
+      "Y": "number",
+      "mW": "number",
+      "mH": "number",
+      "zW": "number",
+      "zH": "number"
+    },
+    "IElementJax": {
+      "id": "string",
+      "version": "string",
+      "directory": "string",
+      "inputJax": "string",
+      "outputJax": "string",
+      "inputID": "string",
+      "originalText": "string",
+      "mimeType": "string",
+      "Text": "fn(text: string) -> ICallbackObject",
+      "Rerender": "fn(callback: ?) -> ICallbackObject",
+      "Reprocess": "fn(callback: ?) -> ICallbackObject",
+      "Remove": "fn()",
+      "SourceElement": "fn() -> ?",
+      "needsUpdate": "fn() -> bool"
+    }
+  },
+  "!name": "mathjax"
+}

@@ -1,0 +1,4 @@
+{
+  "gulp-gh-pages": "ghPages",
+  "!name": "gulp-gh-pages.d.ts"
+}

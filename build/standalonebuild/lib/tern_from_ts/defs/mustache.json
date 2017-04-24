@@ -1,0 +1,42 @@
+{
+  "MustacheScanner": {
+    "string": "string",
+    "tail": "string",
+    "pos": "number",
+    "eos": "fn() -> bool",
+    "scan": "fn(re: RegExp) -> string",
+    "scanUntil": "fn(re: RegExp) -> string"
+  },
+  "MustacheContext": {
+    "view": "?",
+    "parent": "MustacheContext",
+    "clearCache": "fn()",
+    "push": "fn(view: ?) -> MustacheContext",
+    "lookup": "fn(name: string) -> ?"
+  },
+  "MustacheWriter": {
+    "clearCache": "fn()",
+    "compile": "fn(template: string, tags: ?) -> ?",
+    "compilePartial": "fn(name: string, template: string, tags: ?) -> ?",
+    "compileTokens": "fn(tokens: [string], template: string) -> ?",
+    "render": "fn(template: string, view: ?, partials: ?) -> ?"
+  },
+  "MustacheStatic": {
+    "name": "string",
+    "version": "string",
+    "tags": "string",
+    "Scanner": "MustacheScanner",
+    "Context": "MustacheContext",
+    "Writer": "MustacheWriter",
+    "escape": "?",
+    "parse": "fn(template: string, tags: ?) -> ?",
+    "clearCache": "fn() -> MustacheWriter",
+    "compile": "fn(template: string) -> MustacheWriter",
+    "compilePartial": "fn(name: string, template: string, tags: ?) -> MustacheWriter",
+    "compileTokens": "fn(tokens: [string], template: string) -> MustacheWriter",
+    "render": "fn(template: string, view: ?, partials?: ?) -> string",
+    "to_html": "fn(template: string, view: ?, partials?: ?, send?: ?) -> string"
+  },
+  "Mustache": "MustacheStatic",
+  "!name": "mustache-0.7.3"
+}

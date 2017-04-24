@@ -1,0 +1,45 @@
+{
+  "KnockoutMappingCreateOptions": {
+    "data": "?",
+    "parent": "?"
+  },
+  "KnockoutMappingUpdateOptions": {
+    "data": "?",
+    "parent": "?",
+    "observable": "?"
+  },
+  "KnockoutMappingOptions": {
+    "ignore": "[string]",
+    "include": "[string]",
+    "copy": "[string]",
+    "mappedProperties": "[string]",
+    "deferEvaluation": "bool",
+    "create": "fn(options: KnockoutMappingCreateOptions)",
+    "update": "fn(options: KnockoutMappingUpdateOptions)",
+    "key": "fn(data: ?)"
+  },
+  "KnockoutMapping": {
+    "isMapped": "fn(viewModel: ?) -> bool",
+    "fromJS": "fn(jsObject: ?) -> ?",
+    "fromJSON": "fn(jsonString: string) -> ?",
+    "toJS": "fn(rootObject: ?, options?: KnockoutMappingOptions) -> ?",
+    "toJSON": "fn(rootObject: ?, options?: KnockoutMappingOptions) -> ?",
+    "defaultOptions": "fn() -> KnockoutMappingOptions",
+    "resetDefaultOptions": "fn()",
+    "getType": "fn(x: ?) -> ?",
+    "visitModel": "fn(rootObject: ?, callback: Function, options?: ?) -> ?"
+  },
+  "KnockoutObservableArrayFunctions": {
+    "mappedCreate": "fn(item: T) -> T",
+    "mappedRemove": "fn(item: T) -> [T]",
+    "mappedRemoveAll": "fn(items: [T]) -> [T]",
+    "mappedDestroy": "fn(item: T)",
+    "mappedDestroyAll": "fn(items: [T])"
+  },
+  "KnockoutStatic": {
+    "mapping": "KnockoutMapping"
+  },
+  "knockout.mapping": "mapping",
+  "mapping": "KnockoutMapping",
+  "!name": "knockout.mapping.d.ts"
+}

@@ -1,0 +1,20 @@
+{
+  "'sanitizer'": {
+    "ISaxHandler": {
+      "startTag": "fn(name: string, attribs: [string], param: ?)",
+      "endTag": "fn(name: string, param: ?)",
+      "pcdata": "fn(text: string, param: ?)",
+      "cdata": "fn(text: string, param: ?)",
+      "rcdata": "fn(text: string, param: ?)",
+      "comment": "fn(text: string, param: ?)",
+      "startDoc": "fn(param: ?)",
+      "endDoc": "fn(param: ?)"
+    },
+    "escape": "fn(s: string) -> string",
+    "makeSaxParser": "fn(yourHandler: ISaxHandler) -> fn(any: [?])",
+    "normalizeRCData": "fn(s: string) -> string",
+    "sanitize": "fn(s: string) -> string",
+    "unescapeEntities": "fn(s: string) -> string"
+  },
+  "!name": "sanitizer"
+}

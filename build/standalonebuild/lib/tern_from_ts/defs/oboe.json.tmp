@@ -1,0 +1,40 @@
+{
+  "oboe": {
+    "0": "o",
+    "1": "b",
+    "2": "o",
+    "3": "e",
+    "OboeFunction": {
+      "drop": "Object"
+    },
+    "Oboe": {
+      "done": "fn(callback: fn(result: ?)) -> Oboe",
+      "fail": "fn(callback: fn(result: FailReason)) -> Oboe",
+      "node": "fn(pattern: string, callback: CallbackSignature) -> Oboe",
+      "on": "fn(event: string, pattern: string, callback: CallbackSignature) -> Oboe",
+      "path": "fn(pattern: string, callback: CallbackSignature) -> Oboe",
+      "removeListener": "fn(eventPattern: string, callback: CallbackSignature) -> Oboe",
+      "start": "fn(callback: fn(status: number, headers: Object)) -> Oboe",
+      "abort": "fn()",
+      "source": "string"
+    },
+    "CallbackSignature": {},
+    "Options": {
+      "url": "string",
+      "method": "string",
+      "headers": "Object",
+      "body": "?",
+      "cached": "bool",
+      "withCredentials": "bool"
+    },
+    "FailReason": {
+      "thrown": "Error",
+      "statusCode": "number",
+      "body": "string",
+      "jsonBody": "Object"
+    },
+    "PatternMap": {},
+    "!type": "oboe.OboeFunction"
+  },
+  "!name": "oboe.d.ts"
+}

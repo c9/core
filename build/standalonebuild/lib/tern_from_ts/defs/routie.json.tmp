@@ -1,0 +1,24 @@
+{
+  "routie": {
+    "Route": {
+      "addHandler": "fn(fn: Function)",
+      "removeHandler": "fn(fn: Function)",
+      "run": "fn(params: ?)",
+      "match": "fn(path: string, params: ?) -> bool",
+      "toURL": "fn(params: ?) -> string"
+    },
+    "Routie": {},
+    "RoutieStatic": {
+      "lookup": "fn(name: string, fn: Function) -> string",
+      "remove": "fn(path: string, fn: Function)",
+      "removeAll": "fn()",
+      "navigate": "fn(path: string, options?: RouteOptions)",
+      "noConflict": "fn() -> Routie"
+    },
+    "RouteOptions": {
+      "silent": "bool"
+    },
+    "!type": "routie.Routie"
+  },
+  "!name": "routie.d.ts"
+}

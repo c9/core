@@ -1,0 +1,21 @@
+{
+    "name": "c9.ide.immediate",
+    "description": "The repository for c9.ide.immediate, a Cloud9 core plugin",
+    "version": "3.0.0",
+    "author": "Cloud9",
+    "contributors": [],
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/c9/c9.ide.immediate.git"
+    },
+    "plugins": {
+        "evaluator": {},
+        "immediate": {}
+    },
+    "categories": [
+        "core"
+    ],
+    "licenses": [
+        "MIT"
+    ]
+}

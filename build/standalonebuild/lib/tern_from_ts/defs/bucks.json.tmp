@@ -1,0 +1,27 @@
+{
+  "Bucks": {
+    "BucksStatic": {
+      "VERSION": "string",
+      "DEBUG": "bool",
+      "running": "[Bucks]",
+      "living": "[Bucks]",
+      "onError": "fn(onError: fn(err: Error, bucks: Bucks))"
+    },
+    "Bucks": {
+      "add": "fn(task: TaskWithNext) -> Bucks",
+      "then": "fn(onSuccess: fn(res: ?, next?: Task)) -> Bucks",
+      "empty": "fn() -> Bucks",
+      "error": "fn(onError: fn(err: Error, next?: Task)) -> Bucks",
+      "parallel": "fn(tasks: [TaskWithNext]) -> Bucks",
+      "waterfall": "fn(tasks: [TaskWithNext]) -> Bucks",
+      "delay": "fn(ms: number) -> Bucks",
+      "dispose": "fn()",
+      "destroy": "fn(err?: Error) -> Bucks",
+      "end": "fn(callback?: Task, errback?: fn(err: Error))"
+    },
+    "TaskWithNext": {},
+    "Task": {},
+    "!type": "Bucks.BucksStatic"
+  },
+  "!name": "bucks.d.ts"
+}

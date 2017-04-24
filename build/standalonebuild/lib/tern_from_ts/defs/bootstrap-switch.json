@@ -1,0 +1,58 @@
+{
+  "BootstrapSwitch": {
+    "BootstrapSwitchChangeEventObject": {
+      "state": "bool"
+    },
+    "BootstrapSwitchEventObject": {},
+    "BootstrapSwitchOptions": {
+      "state": "bool",
+      "size": "string",
+      "animate": "bool",
+      "disabled": "bool",
+      "readonly": "bool",
+      "indeterminate": "bool",
+      "invers": "bool",
+      "radioAllOff": "bool",
+      "onColor": "string",
+      "offColor": "string",
+      "onText": "string",
+      "offText": "string",
+      "labelText": "string",
+      "handleWidth": "string",
+      "labelWidth": "string",
+      "baseClass": "string",
+      "wrapperClass": "string",
+      "onInit": "?",
+      "onSwitchChange": "?"
+    },
+    "Switch": {
+      "toggleAnimate": "fn() -> JQuery",
+      "toggleDisabled": "fn() -> JQuery",
+      "toggleReadonly": "fn() -> JQuery",
+      "toggleIndeterminate": "fn() -> JQuery",
+      "toggleInverse": "fn() -> JQuery",
+      "destroy": "fn() -> JQuery",
+      "state": "fn() -> bool",
+      "toggleState": "fn(skip?: bool) -> JQuery",
+      "radioAllOff": "fn() -> bool",
+      "size": "fn() -> string",
+      "animate": "fn() -> bool",
+      "disabled": "fn() -> bool",
+      "readonly": "fn() -> bool",
+      "toggleReadOnly": "fn() -> JQuery",
+      "onColor": "fn() -> string",
+      "offColor": "fn() -> string",
+      "onText": "fn() -> string",
+      "offText": "fn() -> string",
+      "labelText": "fn() -> string",
+      "baseClass": "fn() -> string",
+      "wrapperClass": "fn() -> string"
+    }
+  },
+  "JQuery": {
+    "bootstrapSwitch": "fn() -> JQuery",
+    "off": "fn(events: string, selector?: string, handler?: fn(eventobject: BootstrapSwitch.BootstrapSwitchEventObject)) -> JQuery",
+    "on": "fn(events: string, selector?: string, handler?: fn(eventobject: BootstrapSwitch.BootstrapSwitchEventObject)) -> JQuery"
+  },
+  "!name": "bootstrap-switch"
+}

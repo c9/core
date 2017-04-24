@@ -1,0 +1,60 @@
+{
+  "mariasql": {
+    "MariaCallBackError": {},
+    "MariaCallBackResult": {},
+    "MariaCallBackRow": {},
+    "MariaCallBackBoolean": {},
+    "MariaCallBackObject": {},
+    "MariaCallBackInfo": {},
+    "MariaCallBackVoid": {},
+    "Dictionary": {},
+    "MariaInfo": {
+      "affectedRows": "number",
+      "insertId": "number",
+      "numRows": "number"
+    },
+    "MariaPreparedQuery": {},
+    "ClientConfig": {
+      "host": "string",
+      "user": "string",
+      "password": "string",
+      "db": "string",
+      "port": "number",
+      "unixSocket": "string",
+      "keepQueries": "bool",
+      "multiStatements": "bool",
+      "connTimeout": "number",
+      "pingInterval": "number",
+      "secureAuth": "bool",
+      "compress": "bool",
+      "ssl": "?",
+      "local_infile": "bool",
+      "read_default_group": "string",
+      "charset": "string"
+    },
+    "MariaResult": {
+      "on": "fn(signal: string, cb: MariaCallBackInfo) -> MariaResult",
+      "abort": "fn()"
+    },
+    "MariaQuery": {
+      "on": "fn(signal: string, cb: MariaCallBackResult) -> MariaQuery",
+      "abort": "fn()"
+    },
+    "MariaClient": {
+      "connect": "fn(config: ClientConfig)",
+      "end": "fn()",
+      "destroy": "fn()",
+      "escape": "fn(query: string) -> string",
+      "query": "fn(q: string, placeHolders?: Dictionary, useArray?: bool) -> MariaQuery",
+      "prepare": "fn(query: string) -> MariaPreparedQuery",
+      "isMariaDB": "fn() -> bool",
+      "on": "fn(signal: string, cb: MariaCallBackError) -> MariaClient",
+      "connected": "bool",
+      "threadId": "string"
+    },
+    "Client": {
+      "prototype": "MariaClient"
+    }
+  },
+  "!name": "mariasql"
+}

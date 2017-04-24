@@ -1,0 +1,88 @@
+{
+  "restful.js": {
+    "Headers": {},
+    "Api": {
+      "all": "fn(name: string) -> CollectionEndpoint",
+      "allUrl": "fn(name: string, url: string) -> CollectionEndpoint",
+      "one": "fn(name: string, id: ?) -> MemberEndpoint",
+      "oneUrl": "fn(name: string, url: string) -> MemberEndpoint",
+      "protocol": "fn(protocol: string) -> Api",
+      "baseUrl": "fn(protocol: string) -> Api",
+      "port": "fn(port: number) -> Api",
+      "prefixUrl": "fn(prefix: string) -> Api",
+      "customUrl": "fn(url: string) -> Api"
+    },
+    "MemberEndpoint": {
+      "all": "fn(name: string) -> CollectionEndpoint",
+      "allUrl": "fn(name: string, url: string) -> CollectionEndpoint",
+      "one": "fn(name: string, id: ?) -> MemberEndpoint",
+      "oneUrl": "fn(name: string, url: string) -> MemberEndpoint",
+      "get": "fn(params?: ?, headers?: Headers) -> ?",
+      "put": "fn(data: ?, headers?: Headers) -> ?",
+      "delete": "fn(data?: ?, headers?: Headers) -> ?",
+      "patch": "fn(data: ?, headers?: Headers) -> ?",
+      "head": "fn(headers?: ?) -> ?",
+      "customUrl": "fn(url: string) -> MemberEndpoint"
+    },
+    "CollectionEndpoint": {
+      "get": "fn(id: ?, params?: ?, headers?: Headers) -> ?",
+      "getAll": "fn(params?: ?, headers?: Headers) -> ?",
+      "post": "fn(data: ?, headers?: Headers) -> ?",
+      "put": "fn(id: ?, data: ?, headers?: Headers) -> ?",
+      "delete": "fn(id: ?, data?: ?, headers?: Headers) -> ?",
+      "patch": "fn(id: ?, data: ?, headers?: Headers) -> ?",
+      "head": "fn(id: ?, headers?: Headers) -> ?"
+    },
+    "Endpoint": {
+      "url": "fn() -> string",
+      "addResponseInterceptor": "fn(interceptor: ResponseInterceptor) -> Self",
+      "responseInterceptors": "fn() -> [ResponseInterceptor]",
+      "addRequestInterceptor": "fn(interceptor: RequestInterceptor) -> Self",
+      "requestInterceptors": "fn() -> [RequestInterceptor]",
+      "addFullResponseInterceptor": "fn(interceptor: ResponseInterceptor) -> Self",
+      "fullResponseInterceptors": "fn() -> [ResponseInterceptor]",
+      "addFullRequestInterceptor": "fn(interceptor: FullRequestInterceptor) -> Self",
+      "fullRequestInterceptors": "fn() -> [FullRequestInterceptor]",
+      "header": "fn(name: string, value: ?) -> Self",
+      "headers": "fn() -> Headers"
+    },
+    "MemberResponse": {
+      "body": "fn() -> ?"
+    },
+    "CollectionResponse": {
+      "body": "fn() -> [?]"
+    },
+    "ResponseBase": {
+      "status": "fn() -> number",
+      "headers": "fn() -> Headers",
+      "config": "fn() -> ?"
+    },
+    "ResponseBody": {
+      "data": "fn() -> T",
+      "all": "fn(entity: string) -> CollectionEndpoint",
+      "one": "fn(entity: string, id: ?) -> MemberEndpoint",
+      "save": "fn(headers?: Headers)",
+      "remove": "fn(headers?: Headers)",
+      "url": "fn() -> string",
+      "id": "fn() -> ?"
+    },
+    "RequestInterceptor": {},
+    "FullRequestInterceptor": {},
+    "FullRequestInterceptorReturnValue": {
+      "params": "?",
+      "headers": "Headers",
+      "data": "?",
+      "method": "string",
+      "url": "string"
+    },
+    "ResponseInterceptor": {},
+    "ResponseInterceptorReturnValue": {
+      "headers": "Headers",
+      "data": "?",
+      "method": "string",
+      "url": "string"
+    },
+    "restful": "fn(endpoint: string) -> Api"
+  },
+  "!name": "restful.js.d.ts"
+}

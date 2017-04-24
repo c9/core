@@ -1,0 +1,11 @@
+{
+  "docCookies": {
+    "setItem": "fn(sKey: string, sValue: string, vEnd?: number, sPath?: string, sDomain?: string, bSecure?: bool) -> bool",
+    "getItem": "fn(sKey: string) -> string",
+    "removeItem": "fn(sKey: string, sPath?: string) -> bool",
+    "hasItem": "fn(sKey: string) -> bool",
+    "keys": "fn() -> [string]",
+    "!type": "docCookies"
+  },
+  "!name": "docCookies.d.ts"
+}

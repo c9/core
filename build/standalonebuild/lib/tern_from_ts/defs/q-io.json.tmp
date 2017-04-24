@@ -1,0 +1,157 @@
+{
+  "QioFS": {
+    "open": "fn(path: string, options?: ?) -> ?",
+    "read": "fn(path: string, options?: ?) -> ?",
+    "write": "fn(path: string, content: Buffer, options?: ?) -> ?",
+    "append": "fn(path: string, content: Buffer, options?: ?) -> ?",
+    "copy": "fn(source: string, target: string) -> ?",
+    "copyTree": "fn(source: string, target: string) -> ?",
+    "list": "fn(path: string) -> ?",
+    "listTree": "fn(path: string, guard?: fn(path: string, stat: ?)) -> ?",
+    "listDirectoryTree": "fn(path: string) -> ?",
+    "makeDirectory": "fn(path: string, mode?: string) -> ?",
+    "makeTree": "fn(path: string, mode?: string) -> ?",
+    "remove": "fn(path: string) -> ?",
+    "removeTree": "fn(path: string) -> ?",
+    "rename": "fn(source: string, target: string) -> ?",
+    "move": "fn(source: string, target: string) -> ?",
+    "link": "fn(source: string, target: ?) -> ?",
+    "symbolicCopy": "fn(source: string, target: string, type: string) -> ?",
+    "symbolicLink": "fn(target: string, link: string, type: string) -> ?",
+    "chown": "fn(path: string, uid: number, gid: number) -> ?",
+    "chmod": "fn(path: string, mode?: string) -> ?",
+    "stat": "fn(path: string) -> ?",
+    "statLink": "fn(path: string) -> ?",
+    "statFd": "fn(fd: number) -> ?",
+    "exists": "fn(path: string) -> ?",
+    "isFile": "fn(path: string) -> ?",
+    "isDirectory": "fn(path: string) -> ?",
+    "isSymbolicLink": "fn(path: string) -> ?",
+    "lastModified": "fn(path: string) -> ?",
+    "lastAccessed": "fn(path: string) -> ?",
+    "split": "fn(path: string) -> [string]",
+    "join": "fn(paths: [string]) -> string",
+    "resolve": "fn(path: [string]) -> string",
+    "normal": "fn(path: [string]) -> string",
+    "absolute": "fn(path: string) -> string",
+    "canonical": "fn(path: string) -> ?",
+    "readLink": "fn(path: string) -> ?",
+    "contains": "fn(parent: string, child: string) -> bool",
+    "relative": "fn(source: string, target: string) -> ?",
+    "relativeFromFile": "fn(source: string, target: string) -> string",
+    "relativeFromDirectory": "fn(source: string, target: string) -> string",
+    "isAbsolute": "fn(path: string) -> bool",
+    "isRelative": "fn(path: string) -> bool",
+    "isRoot": "fn(path: string) -> bool",
+    "root": "fn(path: string) -> string",
+    "directory": "fn(path: string) -> string",
+    "base": "fn(path: string, extension: string) -> string",
+    "extension": "fn(path: string) -> string",
+    "reroot": "fn(path: string) -> QioFS",
+    "toObject": "fn(path: string) -> ret",
+    "Stats": {
+      "node": "NodeStats",
+      "size": "number"
+    },
+    "NodeStats": {
+      "isFile": "fn() -> bool",
+      "isDirectory": "fn() -> bool",
+      "isBlockDevice": "fn() -> bool",
+      "isCharacterDevice": "fn() -> bool",
+      "isSymbolicLink": "fn() -> bool",
+      "isFIFO": "fn() -> bool",
+      "isSocket": "fn() -> bool",
+      "node": "NodeStats",
+      "dev": "number",
+      "ino": "number",
+      "mode": "number",
+      "nlink": "number",
+      "uid": "number",
+      "gid": "number",
+      "rdev": "number",
+      "size": "number",
+      "blksize": "number",
+      "blocks": "number",
+      "atime": "Date",
+      "mtime": "Date",
+      "ctime": "Date"
+    }
+  },
+  "QioHTTP": {
+    "request": "fn(request: Request) -> ?",
+    "read": "fn(request: Request) -> ?",
+    "normalizeRequest": "fn(request: Request) -> Request",
+    "normalizeResponse": "fn(response: Response) -> Response",
+    "Request": {
+      "url": "string",
+      "path": "string",
+      "scriptName": "string",
+      "pathInfo": "string",
+      "version": "[string]",
+      "method": "string",
+      "scheme": "string",
+      "host": "string",
+      "port": "number",
+      "remoteHost": "string",
+      "remotePort": "number",
+      "headers": "Headers",
+      "agent": "?",
+      "body": "?",
+      "node": "?"
+    },
+    "Response": {
+      "status": "number",
+      "headers": "Headers",
+      "body": "Qio.Reader",
+      "onclose": "fn()",
+      "node": "?"
+    },
+    "Headers": {},
+    "Body": {},
+    "Application": {}
+  },
+  "Qio": {
+    "ForEachCallback": {},
+    "ForEach": {
+      "forEach": "fn(callback: ForEachCallback) -> ?"
+    },
+    "Reader": {
+      "read": "fn(charset: string) -> ?",
+      "close": "fn()",
+      "node": "NodeJS.ReadableStream"
+    },
+    "Writer": {
+      "write": "fn(content: string)",
+      "flush": "fn() -> ?",
+      "close": "fn()",
+      "destroy": "fn()",
+      "node": "NodeJS.WritableStream"
+    },
+    "Stream": {
+      "read": "fn(charset: string) -> ?",
+      "write": "fn(content: string)",
+      "flush": "fn() -> ?",
+      "close": "fn()",
+      "destroy": "fn()",
+      "node": "?"
+    },
+    "BufferReader": {}
+  },
+  "QioBufferReader": {
+    "read": "fn(stream: Qio.Reader, charset: string) -> string",
+    "join": "fn(buffers: [Buffer]) -> Buffer"
+  },
+  "QioBufferWriter": {
+    "Writer": "Qio.Writer"
+  },
+  "QioBufferStream": {},
+  "q-io/http": "QioHTTP",
+  "q-io/fs": "QioFS",
+  "q-io/reader": "QioBufferReader",
+  "q-io/writer": "QioBufferWriter",
+  "q-io/buffer-stream": "QioBufferStream",
+  "!name": "Q-io.d.ts",
+  "!define": {
+    "ret": {}
+  }
+}

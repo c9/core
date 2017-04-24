@@ -1,0 +1,58 @@
+{
+  "GeoJSON": {
+    "GeoJsonObject": {
+      "type": "string",
+      "bbox": "[number]",
+      "crs": "CoordinateReferenceSystem"
+    },
+    "Position": {},
+    "GeometryObject": {
+      "coordinates": "?"
+    },
+    "Point": {
+      "coordinates": "Position"
+    },
+    "MultiPoint": {
+      "coordinates": "[Position]"
+    },
+    "LineString": {
+      "coordinates": "[Position]"
+    },
+    "MultiLineString": {
+      "coordinates": "[[Position]]"
+    },
+    "Polygon": {
+      "coordinates": "[[Position]]"
+    },
+    "MultiPolygon": {
+      "coordinates": "[[[Position]]]"
+    },
+    "GeometryCollection": {
+      "geometries": "[GeometryObject]"
+    },
+    "Feature": {
+      "geometry": "GeometryObject",
+      "properties": "?",
+      "id": "string"
+    },
+    "FeatureCollection": {
+      "features": "[Feature]"
+    },
+    "CoordinateReferenceSystem": {
+      "type": "string",
+      "properties": "?"
+    },
+    "NamedCoordinateReferenceSystem": {
+      "properties": {
+        "name": "string"
+      }
+    },
+    "LinkedCoordinateReferenceSystem": {
+      "properties": {
+        "href": "string",
+        "type": "string"
+      }
+    }
+  },
+  "!name": "geojson"
+}

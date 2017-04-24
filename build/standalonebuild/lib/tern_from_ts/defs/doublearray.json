@@ -1,0 +1,59 @@
+{
+  "doublearray": {
+    "KeyValue": {
+      "k": "string",
+      "v": "number"
+    },
+    "BaseAndCheck": {
+      "getBaseBuffer": "fn() -> ?",
+      "getCheckBuffer": "fn() -> ?",
+      "loadBaseBuffer": "fn(base_buffer: Int8Array) -> BaseAndCheck",
+      "loadCheckBuffer": "fn(check_buffer: Int8Array) -> BaseAndCheck",
+      "size": "fn() -> number",
+      "getBase": "fn() -> number",
+      "getCheck": "fn() -> number",
+      "setBase": "fn(index: number, base_value: number)",
+      "setCheck": "fn(index: number, check_value: number)",
+      "setFirstUnusedNode": "fn(index: number)",
+      "getFirstUnusedNode": "fn() -> number",
+      "shrink": "fn()",
+      "calc": "fn() -> ret",
+      "dump": "fn() -> string"
+    },
+    "DoubleArrayBuilder": {
+      "bc": "BaseAndCheck",
+      "keys": "[KeyValue]",
+      "append": "fn(key: string, record: number) -> DoubleArrayBuilder",
+      "build": "fn(keys?: [KeyValue], sorted?: bool) -> DoubleArray",
+      "getChildrenInfo": "fn(position: number, start: number, length: number) -> Int32Array",
+      "setBC": "fn(parent_id: number, children_info: Int32Array, _base: number)",
+      "findAllocatableBase": "fn(children_info: Int32Array) -> number",
+      "isUnusedNode": "fn(index: number) -> bool"
+    },
+    "DoubleArray": {
+      "bc": "BaseAndCheck",
+      "contain": "fn(key: string) -> bool",
+      "lookup": "fn(key: string) -> number",
+      "commonPrefixSearch": "fn(key: string) -> KeyValue",
+      "traverse": "fn(parent: number, code: number) -> number",
+      "size": "fn() -> number",
+      "calc": "fn() -> ret1",
+      "dump": "fn() -> string"
+    },
+    "builder": "fn(initial_size?: number) -> DoubleArrayBuilder",
+    "load": "fn(base_buffer: Int8Array, check_buffer: Int8Array) -> DoubleArray"
+  },
+  "!name": "doublearray",
+  "!define": {
+    "ret": {
+      "all": "number",
+      "unused": "number",
+      "efficiency": "number"
+    },
+    "ret1": {
+      "all": "number",
+      "unused": "number",
+      "efficiency": "number"
+    }
+  }
+}

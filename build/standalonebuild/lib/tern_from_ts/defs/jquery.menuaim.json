@@ -1,0 +1,16 @@
+{
+  "JQueryMenuAimOptions": {
+    "activate": "fn()",
+    "deactivate": "fn()",
+    "enter": "fn()",
+    "exit": "fn()",
+    "exitMenu": "fn()",
+    "rowSelector": "string",
+    "submenuSelector": "string",
+    "submenuDirection": "string"
+  },
+  "JQuery": {
+    "menuAim": "fn(options: JQueryMenuAimOptions) -> JQuery"
+  },
+  "!name": "jquery.menuaim"
+}

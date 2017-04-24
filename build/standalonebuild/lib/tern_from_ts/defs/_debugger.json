@@ -1,0 +1,105 @@
+{
+  "NodeJS": {
+    "_debugger": {
+      "Packet": {
+        "raw": "string",
+        "headers": "[string]",
+        "body": "Message"
+      },
+      "Message": {
+        "seq": "number",
+        "type": "string"
+      },
+      "RequestInfo": {
+        "command": "string",
+        "arguments": "?"
+      },
+      "Request": {},
+      "Event": {
+        "event": "string",
+        "body": "?"
+      },
+      "Response": {
+        "request_seq": "number",
+        "success": "bool",
+        "message": "string",
+        "body": "?"
+      },
+      "BreakpointMessageBody": {
+        "type": "string",
+        "target": "number",
+        "line": "number"
+      },
+      "Protocol": {
+        "prototype": {
+          "res": "Packet",
+          "state": "string",
+          "execute": "fn(data: string)",
+          "serialize": "fn(rq: Request) -> string",
+          "onResponse": "fn(pkt: Packet)"
+        }
+      },
+      "NO_FRAME": "number",
+      "port": "number",
+      "ScriptDesc": {
+        "name": "string",
+        "id": "number",
+        "isNative": "bool",
+        "handle": "number",
+        "type": "string",
+        "lineOffset": "number",
+        "columnOffset": "number",
+        "lineCount": "number"
+      },
+      "Breakpoint": {
+        "id": "number",
+        "scriptId": "number",
+        "script": "ScriptDesc",
+        "line": "number",
+        "condition": "string",
+        "scriptReq": "string"
+      },
+      "RequestHandler": {
+        "request_seq": "number"
+      },
+      "ResponseBodyHandler": {
+        "request_seq": "number"
+      },
+      "ExceptionInfo": {
+        "text": "string"
+      },
+      "BreakResponse": {
+        "script": "ScriptDesc",
+        "exception": "ExceptionInfo",
+        "sourceLine": "number",
+        "sourceLineText": "string",
+        "sourceColumn": "number"
+      },
+      "SourceInfo": "fn(body: BreakResponse) -> string",
+      "ClientInstance": {
+        "protocol": "Protocol",
+        "scripts": "[ScriptDesc]",
+        "handles": "[ScriptDesc]",
+        "breakpoints": "[Breakpoint]",
+        "currentSourceLine": "number",
+        "currentSourceColumn": "number",
+        "currentSourceLineText": "string",
+        "currentFrame": "number",
+        "currentScript": "string",
+        "connect": "fn(port: number, host: string)",
+        "req": "fn(req: ?, cb: RequestHandler)",
+        "reqFrameEval": "fn(code: string, frame: number, cb: RequestHandler)",
+        "mirrorObject": "fn(obj: ?, depth: number, cb: ResponseBodyHandler)",
+        "setBreakpoint": "fn(rq: BreakpointMessageBody, cb: RequestHandler)",
+        "clearBreakpoint": "fn(rq: Request, cb: RequestHandler)",
+        "listbreakpoints": "fn(cb: RequestHandler)",
+        "reqSource": "fn(from: number, to: number, cb: RequestHandler)",
+        "reqScripts": "fn(cb: ?)",
+        "reqContinue": "fn(cb: RequestHandler)"
+      },
+      "Client": {}
+    }
+  },
+  "_debugger": "NodeJS",
+  "!name": "_debugger"
+}

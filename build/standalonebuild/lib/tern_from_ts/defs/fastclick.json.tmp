@@ -1,0 +1,30 @@
+{
+  "FastClickObject": {
+    "lastTouchIdentifier": "number",
+    "layer": "Element",
+    "tapDelay": "number",
+    "targetElement": "?",
+    "touchBoundary": "number",
+    "touchStartX": "number",
+    "touchStartY": "number",
+    "trackingClick": "bool",
+    "trackingClickStart": "number",
+    "destroy": "fn()",
+    "determineEventType": "fn(targetElement: ?) -> string",
+    "findControl": "fn(labelElement: ?) -> ?",
+    "focus": "fn(targetElement: ?)",
+    "getTargetElementFromEventTarget": "fn(eventTarget: EventTarget) -> ?",
+    "needsClick": "fn(target: ?) -> bool",
+    "needsFocus": "fn(target: ?) -> bool"
+  },
+  "FastClickOptions": {
+    "touchBoundary": "number",
+    "tapDelay": "number"
+  },
+  "FastClickStatic": {
+    "attach": "fn(layer: ?, options?: FastClickOptions) -> FastClickObject"
+  },
+  "fastclick": "fastclick",
+  "FastClick": "FastClickStatic",
+  "!name": "fastclick.d.ts"
+}

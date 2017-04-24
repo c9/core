@@ -1,0 +1,48 @@
+{
+  "toasty": {
+    "IToastyService": {
+      "default": "fn(options: IToastyConfig)",
+      "info": "fn(options: IToastyConfig)",
+      "wait": "fn(options: IToastyConfig)",
+      "success": "fn(options: IToastyConfig)",
+      "error": "fn(options: IToastyConfig)",
+      "warning": "fn(options: IToastyConfig)",
+      "clear": "fn(id?: number)",
+      "getGlobalConfig": "fn() -> IGlobalConfig"
+    },
+    "IToastyConfig": {
+      "title": "string",
+      "msg": "string",
+      "showClose": "bool",
+      "clickToClose": "bool",
+      "timeout": "number",
+      "sound": "bool",
+      "html": "bool",
+      "shake": "bool",
+      "theme": "string",
+      "type": "string",
+      "onAdd": "Function",
+      "onRemove": "Function",
+      "onClick": "Function"
+    },
+    "IGlobalConfig": {
+      "limit": "number",
+      "title": "string",
+      "msg": "string",
+      "showClose": "bool",
+      "clickToClose": "bool",
+      "position": "string",
+      "timeout": "number",
+      "boolean": "?",
+      "sound": "bool",
+      "html": "bool",
+      "shake": "bool",
+      "theme": "string"
+    },
+    "IToastyConfigProvider": {
+      "setConfig": "fn(override: IGlobalConfig)",
+      "$get": "fn() -> IGlobalConfig"
+    }
+  },
+  "!name": "angular-toasty"
+}

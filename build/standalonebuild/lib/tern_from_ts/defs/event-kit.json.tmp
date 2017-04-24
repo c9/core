@@ -1,0 +1,37 @@
+{
+  "AtomEventKit": {
+    "IDisposable": {
+      "dispose": "fn()"
+    },
+    "DisposableStatic": {
+      "prototype": "Disposable"
+    },
+    "Disposable": {
+      "disposed": "bool",
+      "!type": "DisposableStatic"
+    },
+    "CompositeDisposableStatic": {
+      "prototype": "CompositeDisposable"
+    },
+    "CompositeDisposable": {
+      "disposed": "bool",
+      "add": "fn(disposables: [IDisposable])",
+      "remove": "fn(disposable: IDisposable)",
+      "clear": "fn()",
+      "!type": "CompositeDisposableStatic"
+    },
+    "EmitterStatic": {
+      "prototype": "Emitter"
+    },
+    "Emitter": {
+      "isDisposed": "bool",
+      "dispose": "fn()",
+      "on": "fn(eventName: string, handler: fn(value: ?), unshift?: bool) -> Disposable",
+      "preempt": "fn(eventName: string, handler: fn(value: ?)) -> Disposable",
+      "emit": "fn(eventName: string, value: ?)",
+      "!type": "EmitterStatic"
+    }
+  },
+  "event-kit": "AtomEventKit",
+  "!name": "event-kit.d.ts"
+}

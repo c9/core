@@ -1,0 +1,10 @@
+{
+  "JQueryBase64Static": {
+    "encode": "fn(data: string, isUTF8?: bool) -> string",
+    "decode": "fn(data: string, isUTF8?: bool) -> string"
+  },
+  "JQueryStatic": {
+    "base64": "JQueryBase64Static"
+  },
+  "!name": "jquery.base64"
+}

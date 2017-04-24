@@ -1,0 +1,14 @@
+{
+  "Utils": {
+    "StringFce": {
+      "format": "fn(s: string, args: ?) -> string",
+      "prototype": {}
+    },
+    "NumberFce": {
+      "GetNegDigits": "fn(value: string) -> number",
+      "prototype": {}
+    }
+  },
+  "node-utils": "Utils",
+  "!name": "Utils"
+}

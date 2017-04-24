@@ -1,0 +1,79 @@
+{
+  "SignaturePad": {
+    "Point": {
+      "!type": "fn(x: number, y: number, time: number)",
+      "prototype": {
+        "x": "number",
+        "y": "number",
+        "time": "number",
+        "velocityFrom": "fn(start: Point) -> number",
+        "distanceTo": "fn(start: Point) -> number"
+      }
+    },
+    "CurveControl": {
+      "!type": "fn(c1: Point, c2: Point)",
+      "prototype": {
+        "c1": "Point",
+        "c2": "Point"
+      }
+    },
+    "Bezier": {
+      "!type": "fn(startPoint: Point, control1: Point, control2: Point, endPoint: Point)",
+      "prototype": {
+        "startPoint": "Point",
+        "control1": "CurveControl",
+        "control2": "CurveControl",
+        "endPoint": "Point",
+        "length": "fn() -> number",
+        "_point": "fn(t: number, start: number, c1: number, c2: number, end: number) -> number"
+      }
+    },
+    "SignaturePadOptions": {
+      "velocityFilterWeight": "number",
+      "minWidth": "number",
+      "maxWidth": "number",
+      "dotSize": "Function",
+      "penColor": "string",
+      "backgroundColor": "string",
+      "onEnd": "Function",
+      "onBegin": "Function"
+    },
+    "!type": "fn(canvas: Element, options?: SignaturePad.SignaturePadOptions)",
+    "prototype": {
+      "points": "?",
+      "_lastVelocity": "number",
+      "_lastWidth": "number",
+      "_isEmpty": "bool",
+      "_mouseButtonDown": "bool",
+      "_ctx": "CanvasRenderingContext2D",
+      "_canvas": "HTMLCanvasElement",
+      "velocityFilterWeight": "number",
+      "minWidth": "number",
+      "maxWidth": "number",
+      "dotSize": "Function",
+      "penColor": "string",
+      "backgroundColor": "string",
+      "onEnd": "Function",
+      "onBegin": "Function",
+      "clear": "fn()",
+      "isEmpty": "fn() -> bool",
+      "fromDataURL": "fn(dataUrl: string)",
+      "toDataURL": "fn() -> string",
+      "_strokeBegin": "fn(event: Event)",
+      "_strokeUpdate": "fn(event: Event)",
+      "_strokeDraw": "fn(point: SignaturePad.Point)",
+      "_strokeEnd": "fn(event: Event)",
+      "_handleMouseEvents": "fn()",
+      "_handleTouchEvents": "fn()",
+      "_reset": "fn()",
+      "_createPoint": "fn(event: Event) -> SignaturePad.Point",
+      "_addPoint": "fn(point: SignaturePad.Point)",
+      "_calculateCurveControlPoints": "fn(point1: SignaturePad.Point, point2: SignaturePad.Point, point3: SignaturePad.Point)",
+      "_addCurve": "fn(curve: SignaturePad.Bezier)",
+      "_drawPoint": "fn(x: number, y: number, size: number)",
+      "_drawCurve": "fn(curve: SignaturePad.Bezier, startWidth: number, endWidth: number)",
+      "_strokeWidth": "fn(velocity: number)"
+    }
+  },
+  "!name": "signature_pad"
+}

@@ -1,0 +1,118 @@
+{
+  "dojox": {
+    "main": {
+      "buddhist": {
+        "locale": "Object",
+        "add": "fn(date: dojox.date.buddhist.Date, interval: String, amount: number)",
+        "compare": "fn(date1: dojox.date.buddhist.Date, date2: dojox.date.buddhist.Date, portion: String)",
+        "difference": "fn(date1: dojox.date.hebrew.Date, date2: dojox.date.hebrew.Date, interval: String)",
+        "getDaysInMonth": "fn(dateObject: dojox.date.buddhist.Date)",
+        "isLeapYear": "fn(dateObject: dojox.date.buddhist.Date)"
+      },
+      "charting": {
+        "hideTooltip": "fn(gfxObject: dojox.gfx.shape.Shape)",
+        "showTooltip": "fn(innerHTML: String, gfxObject: dojox.gfx.shape.Shape, positions: [String])"
+      },
+      "data": "Object",
+      "functional": {
+        "buildLambda": "fn(s: String) -> String",
+        "clearLambdaCache": "fn()",
+        "every": "fn(a: [?], f: Function, o: Object) -> bool",
+        "everyRev": "fn(a: [?], f: Function, o: Object) -> bool",
+        "filter": "fn(a: [?], f: Function, o: Object) -> [?]",
+        "filterIn": "fn(obj: Object, f: Function, o: Object) -> Object",
+        "filterRev": "fn(a: [?], f: Function, o: Object) -> [?]",
+        "foldl": "fn(a: [?], f: Function, z: Object, o: Object) -> ?",
+        "foldl1": "fn(a: [?], f: Function, o: Object) -> ?",
+        "foldr": "fn(a: [?], f: Function, z: Object, o: Object) -> Object",
+        "foldr1": "fn(a: [?], f: Function, o: Object) -> ?",
+        "forEach": "fn(a: [?], f: Function, o: Object) -> String",
+        "forEachRev": "fn(a: [?], f: Function, o: Object)",
+        "forIn": "fn(obj: Object, f: Function, o: Object) -> String",
+        "keys": "fn(obj: Object) -> [?]",
+        "lambda": "fn(s: Function) -> Function",
+        "map": "fn(a: [?], f: Function, o: Object) -> [?]",
+        "mapIn": "fn(obj: Object, f: Function, o: Object) -> Object",
+        "mapRev": "fn(a: [?], f: Function, o: Object) -> ?",
+        "rawLambda": "fn(s: String) -> ?",
+        "reduce": "fn(a: [?], f: Function, z: Object) -> ?",
+        "reduceRight": "fn(a: [?], f: Function, z: Object) -> ?",
+        "repeat": "fn(n: number, f: Function, z: Object, o: Object) -> ?",
+        "scanl": "fn(a: [?], f: Function, z: Object, o: Object) -> [?]",
+        "scanl1": "fn(a: [?], f: Function, o: Object) -> [?]",
+        "scanr": "fn(a: [?], f: Function, z: Object, o: Object) -> ?",
+        "scanr1": "fn(a: [?], f: Function, o: Object) -> ?",
+        "some": "fn(a: [?], f: Function, o: Object) -> bool",
+        "someRev": "fn(a: [?], f: Function, o: Object) -> bool",
+        "unfold": "fn(pr: Function, f: Function, g: Function, z: Object, o: Object) -> [?]",
+        "until": "fn(pr: Function, f: Function, z: Object, o: Object) -> [?]",
+        "values": "fn(obj: Object) -> [?]"
+      },
+      "gesture": "Object",
+      "grid": "Object",
+      "hebrew": {
+        "locale": "Object",
+        "numerals": "Object",
+        "add": "fn(date: dojox.date.hebrew.Date, interval: String, amount: number)",
+        "compare": "fn(dateheb1: dojox.date.hebrew.Date, dateheb2: dojox.date.hebrew.Date, portion: String)",
+        "difference": "fn(date1: dojox.date.hebrew.Date, date2: dojox.date.hebrew.Date, interval: String)",
+        "getDaysInMonth": "fn(month: dojox.date.hebrew.Date)"
+      },
+      "highlight": "Object",
+      "image": "Object",
+      "islamic": {
+        "locale": "Object",
+        "add": "fn(date: dojox.date.islamic.Date, interval: String, amount: number)",
+        "compare": "fn(date1: dojox.date.islamic.Date, date2: dojox.date.islamic.Date, portion: String)",
+        "difference": "fn(date1: dojox.date.islamic.Date, date2: dojox.date.islamic.Date, interval: String)",
+        "getDaysInMonth": "fn(month: dojox.date.islamic.Date)"
+      },
+      "json": "Object",
+      "languages": {
+        "pygments": "Object"
+      },
+      "math": "Object",
+      "persian": {
+        "locale": "Object",
+        "add": "fn(date: dojox.date.persian.Date, interval: String, amount: number)",
+        "compare": "fn(date1: dojox.date.persian.Date, date2: dojox.date.persian.Date, portion: String)",
+        "difference": "fn(date1: dojox.date.persian.Date, date2: dojox.date.persian.Date, interval: String)",
+        "getDaysInMonth": "fn(month: dojox.date.persian.Date)"
+      },
+      "regexp": {},
+      "relative": {
+        "format": "fn(dateObject: Date, options: Object)"
+      },
+      "rpc": "Object",
+      "umalqura": {
+        "locale": "Object",
+        "add": "fn(date: dojox.date.umalqura.Date, interval: String, amount: number)",
+        "compare": "fn(date1: dojox.date.umalqura.Date, date2: dojox.date.umalqura.Date, portion: String)",
+        "difference": "fn(date1: dojox.date.umalqura.Date, date2: dojox.date.umalqura.Date, interval: String)",
+        "getDaysInMonth": "fn(month: dojox.date.umalqura.Date)"
+      },
+      "util": {},
+      "utils": {
+        "coerceType": "fn(target: Object, source: Object) -> ?",
+        "merge": "fn(object: Object, mixin: Object) -> ?",
+        "updateWithObject": "fn(target: Object, source: Object, conv: bool) -> Object",
+        "updateWithPattern": "fn(target: Object, source: Object, pattern: Object, conv: bool) -> Object"
+      },
+      "validate": "Object"
+    }
+  },
+  "dojox/main": "exp",
+  "dojox/main.languages": "exp",
+  "dojox/main.islamic": "exp",
+  "dojox/main.buddhist": "exp",
+  "dojox/main.charting": "exp",
+  "dojox/main.hebrew": "exp",
+  "dojox/main.functional": "exp",
+  "dojox/main.relative": "exp",
+  "dojox/main.util": "exp",
+  "dojox/main.regexp": "exp",
+  "dojox/main.umalqura": "exp",
+  "dojox/main.persian": "exp",
+  "dojox/main.utils": "exp",
+  "!name": "dojox.main"
+}

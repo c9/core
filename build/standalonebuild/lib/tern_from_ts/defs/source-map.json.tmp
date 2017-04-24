@@ -1,0 +1,77 @@
+{
+  "SourceMap": {
+    "StartOfSourceMap": {
+      "file": "string",
+      "sourceRoot": "string"
+    },
+    "RawSourceMap": {
+      "version": "string",
+      "sources": "?",
+      "names": "?",
+      "sourcesContent": "[string]",
+      "mappings": "string"
+    },
+    "Position": {
+      "line": "number",
+      "column": "number"
+    },
+    "MappedPosition": {
+      "source": "string",
+      "name": "string"
+    },
+    "MappingItem": {
+      "source": "string",
+      "generatedLine": "number",
+      "generatedColumn": "number",
+      "originalLine": "number",
+      "originalColumn": "number",
+      "name": "string"
+    },
+    "Mapping": {
+      "generated": "Position",
+      "original": "Position",
+      "source": "string",
+      "name": "string"
+    },
+    "CodeWithSourceMap": {
+      "code": "string",
+      "map": "SourceMapGenerator"
+    },
+    "SourceMapConsumer": {
+      "GENERATED_ORDER": "number",
+      "ORIGINAL_ORDER": "number",
+      "!type": "fn(rawSourceMap: RawSourceMap)",
+      "prototype": {
+        "originalPositionFor": "fn(generatedPosition: Position) -> MappedPosition",
+        "generatedPositionFor": "fn(originalPosition: MappedPosition) -> Position",
+        "sourceContentFor": "fn(source: string) -> string",
+        "eachMapping": "fn(callback: fn(mapping: MappingItem), context?: ?, order?: number)"
+      }
+    },
+    "SourceMapGenerator": {
+      "!type": "fn(startOfSourceMap?: StartOfSourceMap)",
+      "fromSourceMap": "fn(sourceMapConsumer: SourceMapConsumer) -> SourceMapGenerator",
+      "prototype": {
+        "addMapping": "fn(mapping: Mapping)",
+        "setSourceContent": "fn(sourceFile: string, sourceContent: string)",
+        "applySourceMap": "fn(sourceMapConsumer: SourceMapConsumer, sourceFile?: string, sourceMapPath?: string)"
+      }
+    },
+    "SourceNode": {
+      "!type": "fn()",
+      "fromStringWithSourceMap": "fn(code: string, sourceMapConsumer: SourceMapConsumer, relativePath?: string) -> SourceNode",
+      "prototype": {
+        "add": "fn(chunk: ?) -> SourceNode",
+        "prepend": "fn(chunk: ?) -> SourceNode",
+        "setSourceContent": "fn(sourceFile: string, sourceContent: string)",
+        "walk": "fn(fn: fn(chunk: string, mapping: MappedPosition))",
+        "walkSourceContents": "fn(fn: fn(file: string, content: string))",
+        "join": "fn(sep: string) -> SourceNode",
+        "replaceRight": "fn(pattern: string, replacement: string) -> SourceNode",
+        "toStringWithSourceMap": "fn(startOfSourceMap?: StartOfSourceMap) -> CodeWithSourceMap"
+      }
+    }
+  },
+  "'source-map'": "SourceMap",
+  "!name": "source-map.d.ts"
+}

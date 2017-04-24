@@ -1,0 +1,18 @@
+{
+  "JQueryTinyScrollbar": {
+    "JQueryTinyScrollbarOptions": {
+      "invertscroll": "bool",
+      "axis": "string",
+      "wheel": "number",
+      "scroll": "bool",
+      "lockscroll": "bool",
+      "size": "?",
+      "sizethumb": "?"
+    }
+  },
+  "JQuery": {
+    "tinyscrollbar": "fn(options?: JQueryTinyScrollbar.JQueryTinyScrollbarOptions) -> JQuery",
+    "tinyscrollbar_update": "fn(options?: ?) -> JQuery"
+  },
+  "!name": "jquery.tinyscrollbar.d.ts"
+}

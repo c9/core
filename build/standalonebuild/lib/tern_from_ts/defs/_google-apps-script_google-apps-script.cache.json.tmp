@@ -1,0 +1,21 @@
+{
+  "GoogleAppsScript": {
+    "Cache": {
+      "Cache": {
+        "get": "fn(key: string) -> string",
+        "getAll": "fn(keys: [String]) -> Object",
+        "put": "fn(key: string, value: string)",
+        "putAll": "fn(values: Object)",
+        "remove": "fn(key: string)",
+        "removeAll": "fn(keys: [String])"
+      },
+      "CacheService": {
+        "getDocumentCache": "fn() -> Cache",
+        "getScriptCache": "fn() -> Cache",
+        "getUserCache": "fn() -> Cache"
+      }
+    }
+  },
+  "CacheService": "GoogleAppsScript.Cache.CacheService",
+  "!name": "google-apps-script.cache.d.ts"
+}

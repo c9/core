@@ -1,0 +1,66 @@
+{
+  "Flight": {
+    "Base": {
+      "attributes": "fn(obj: Object)",
+      "defaultAttrs": "fn(obj: Object)",
+      "select": "fn(attr: string) -> JQuery",
+      "initialize": "fn(node: ?, options: Object)",
+      "on": "fn(eventType: string, handler: Function)",
+      "off": "fn(eventType: string, handler?: Function)",
+      "trigger": "fn(eventType: string)",
+      "teardown": "fn()"
+    },
+    "Advice": {
+      "after": "fn(method: string, fn: Function)",
+      "around": "fn(method: string, fn: Function)",
+      "before": "fn(method: string, fn: Function)"
+    },
+    "Component": {
+      "node": "Element",
+      "$node": "JQuery"
+    },
+    "AdviceStatic": {
+      "withAdvice": "fn() -> Function"
+    },
+    "ComponentStatic": {
+      "attachTo": "fn(selector: string, options?: Object)",
+      "teardownAll": "fn()"
+    },
+    "ComposeStatic": {
+      "mixin": "fn(base: Object, mixins: [Function])"
+    },
+    "DebugStatic": {
+      "events": {
+        "logAll": "fn()",
+        "logByAction": "fn(action: string)",
+        "logByName": "fn(name: string)",
+        "logNone": "fn()"
+      }
+    },
+    "UtilsStatic": {
+      "compose": "fn(fn1: Function, fn2: Function, fns: [Function]) -> Function",
+      "countThen": "fn(num: number, base: Function) -> Function",
+      "debounce": "fn(func: Function, wait: number, immediate: bool) -> Function",
+      "delegate": "fn(rules: Object)",
+      "isDomObj": "fn(obj: Object) -> bool",
+      "isEnumerable": "fn(obj: Object, property: string) -> bool",
+      "merge": "fn(obj1: Object, obj2: Object, deepClone?: bool) -> Object",
+      "push": "fn(base: Object, extra: Object, protect?: bool)",
+      "throttle": "fn(func: Function, wait: number) -> Function",
+      "toArray": "fn(obj: Object, from?: number) -> [?]",
+      "uniqueArray": "fn(array: [?]) -> [?]"
+    },
+    "EventData": {
+      "el": "HTMLElement"
+    },
+    "FlightStatic": {
+      "advice": "AdviceStatic",
+      "component": "ComponentStatic",
+      "compose": "ComposeStatic",
+      "utils": "UtilsStatic"
+    }
+  },
+  "DEBUG": "Flight.DebugStatic",
+  "flight": "Flight.FlightStatic",
+  "!name": "flight.d.ts"
+}

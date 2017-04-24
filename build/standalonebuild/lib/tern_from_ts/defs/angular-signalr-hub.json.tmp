@@ -1,0 +1,28 @@
+{
+  "ngSignalr": {
+    "HubFactory": {},
+    "Hub": {
+      "prototype": {
+        "hubName": "string",
+        "connection": "SignalR",
+        "proxy": "HubProxy",
+        "on": "fn(event: string, fn: fn(args: [?]))",
+        "invoke": "fn(method: string, args: [?]) -> ?",
+        "disconnect": "fn()",
+        "connect": "fn() -> ?"
+      }
+    },
+    "HubOptions": {
+      "listeners": {},
+      "methods": "?",
+      "rootPath": "string",
+      "queryParams": {},
+      "errorHandler": "fn(error: string)",
+      "logging": "bool",
+      "useSharedConnection": "bool",
+      "transport": "?",
+      "stateChanged": "fn(state: SignalRStateChange)"
+    }
+  },
+  "!name": "angular-signalr-hub.d.ts"
+}

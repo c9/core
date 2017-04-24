@@ -1,0 +1,30 @@
+{
+  "webkitAudioContext": {},
+  "webkitOfflineAudioContext": {},
+  "ChannelCountMode": "number",
+  "ChannelInterpretation": "number",
+  "PanningModelType": "number",
+  "DistanceModelType": "number",
+  "BiquadFilterType": "number",
+  "OverSampleType": "number",
+  "OscillatorType": "number",
+  "AudioContextConstructor": {},
+  "Window": {
+    "AudioContext": "AudioContextConstructor"
+  },
+  "AudioContext": {
+    "createMediaStreamSource": "fn(stream: MediaStream) -> MediaStreamAudioSourceNode",
+    "suspend": "fn() -> ?",
+    "resume": "fn() -> ?",
+    "close": "fn() -> ?"
+  },
+  "MediaStreamAudioSourceNode": {},
+  "AudioBuffer": {
+    "copyFromChannel": "fn(destination: Float32Array, channelNumber: number, startInChannel?: number)",
+    "copyToChannel": "fn(source: Float32Array, channelNumber: number, startInChannel?: number)"
+  },
+  "AudioNode": {
+    "disconnect": "fn(destination: AudioNode)"
+  },
+  "!name": "waa.d.ts"
+}

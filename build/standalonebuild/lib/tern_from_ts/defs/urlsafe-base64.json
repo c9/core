@@ -1,0 +1,9 @@
+{
+  "'urlsafe-base64'": {
+    "version": "string",
+    "encode": "fn(buffer: Buffer) -> string",
+    "decode": "fn(base64: string) -> Buffer",
+    "validate": "fn(base64: string) -> bool"
+  },
+  "!name": "urlsafe-base64"
+}

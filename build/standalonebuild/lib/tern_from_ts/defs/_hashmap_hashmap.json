@@ -1,0 +1,22 @@
+{
+  "HashMap": {
+    "!type": "fn()",
+    "prototype": {
+      "get": "fn(key: TKey) -> TValue",
+      "set": "fn(key: TKey, value: TValue) -> ?",
+      "multi": "fn(keysAndValues: fn(TKey: ?, TValue: ?)) -> ?",
+      "copy": "fn(map: ?) -> ?",
+      "has": "fn(key: TKey) -> bool",
+      "search": "fn(value: TValue) -> TKey",
+      "remove": "fn(key: TKey) -> ?",
+      "keys": "fn() -> [TKey]",
+      "values": "fn() -> [TValue]",
+      "count": "fn() -> number",
+      "clear": "fn() -> ?",
+      "clone": "fn() -> ?",
+      "forEach": "fn(callback: fn(value: TValue, key: TKey)) -> ?"
+    }
+  },
+  "hashmap": "HashMap",
+  "!name": "hashmap"
+}

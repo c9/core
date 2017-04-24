@@ -1,0 +1,37 @@
+{
+  "KeymasterEvent": {
+    "key": "string",
+    "method": "KeyHandler",
+    "mods": "[number]",
+    "scope": "string",
+    "shortcut": "string"
+  },
+  "KeyHandler": {},
+  "FilterEvent": {
+    "target": {
+      "tagName": "string"
+    },
+    "srcElement": {
+      "tagName": "string"
+    }
+  },
+  "Keymaster": {
+    "shift": "bool",
+    "alt": "bool",
+    "option": "bool",
+    "ctrl": "bool",
+    "control": "bool",
+    "command": "bool",
+    "setScope": "fn(scopeName: string)",
+    "getScope": "fn() -> string",
+    "deleteScope": "fn(scopeName: string)",
+    "noConflict": "fn()",
+    "unbind": "fn(key: string)",
+    "isPressed": "fn(keyCode: number) -> bool",
+    "getPressedKeyCodes": "fn() -> [number]",
+    "filter": "fn(event: FilterEvent)"
+  },
+  "key": "Keymaster",
+  "keymaster": "key",
+  "!name": "keymaster.d.ts"
+}

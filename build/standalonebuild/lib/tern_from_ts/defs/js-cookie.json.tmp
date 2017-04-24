@@ -1,0 +1,27 @@
+{
+  "Cookies": {
+    "CookieAttributes": {
+      "expires": "number",
+      "Date": "?",
+      "path": "string",
+      "domain": "string",
+      "secure": "bool"
+    },
+    "CookiesStatic": {
+      "defaults": "CookieAttributes",
+      "set": "fn(name: string, value: string, any: ?, options?: CookieAttributes)",
+      "get": "fn(name: string) -> string",
+      "getJSON": "fn(name: string) -> ?",
+      "remove": "fn(name: string, options?: CookieAttributes)",
+      "noConflict": "fn() -> CookiesStatic",
+      "withConverter": "fn(converter: fn(value: string, name: string)) -> CookiesStatic"
+    },
+    "!type": "Cookies.CookiesStatic"
+  },
+  "'js-cookie'": "Cookies",
+  "!name": "js-cookie.d.ts",
+  "!define": {
+    "ret": {},
+    "ret1": {}
+  }
+}

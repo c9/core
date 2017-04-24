@@ -1,0 +1,4 @@
+{
+  "'on-finished'": "onFinished",
+  "!name": "on-finished.d.ts"
+}

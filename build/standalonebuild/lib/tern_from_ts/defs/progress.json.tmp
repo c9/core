@@ -1,0 +1,4 @@
+{
+  "progress": "ProgressBar",
+  "!name": "progress.d.ts"
+}

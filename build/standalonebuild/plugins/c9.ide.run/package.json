@@ -1,0 +1,23 @@
+{
+    "name": "c9.ide.run",
+    "description": "The repository for c9.ide.run, a Cloud9 core plugin",
+    "version": "3.0.0",
+    "author": "Cloud9",
+    "contributors": [],
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/c9/c9.ide.run.git"
+    },
+    "plugins": {
+        "gui": {},
+        "output": {},
+        "run": {},
+        "run_analytics": {}
+    },
+    "categories": [
+        "core"
+    ],
+    "licenses": [
+        "MIT"
+    ]
+}

@@ -1,0 +1,20 @@
+{
+  "VimeoParams": {
+    "name": "string",
+    "value": "?"
+  },
+  "VimeoPlayerAPI": {},
+  "VimeoPlayer": {
+    "api": "VimeoPlayerAPI",
+    "addEvent": "fn(eventName: string, callback: fn(e: ?)) -> ?",
+    "removeEvent": "fn(eventName: string)",
+    "postMessage": "fn(method: string, params: [VimeoParams], target: ?)",
+    "onMessagReceived": "fn(event: ?)",
+    "storeCallback": "fn(eventName: string, callback: ?, target_id: string)",
+    "getCallback": "fn(eventName: string, target_id: string)",
+    "removeCallback": "fn(eventName: string, target_id: string)",
+    "getDomainFromUrl": "fn(url: string) -> string"
+  },
+  "$f": "VimeoPlayerAPI",
+  "!name": "froogaloop.d.ts"
+}

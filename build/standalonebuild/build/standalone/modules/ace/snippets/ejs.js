@@ -1,0 +1,9 @@
+define("ace/requirejs/text!ace/snippets/ejs.snippets",[],"");
+
+define("ace/snippets/ejs",[], function(require, exports, module) {
+"use strict";
+
+exports.snippetText = require("../requirejs/text!./ejs.snippets");
+exports.scope = "ejs";
+
+});

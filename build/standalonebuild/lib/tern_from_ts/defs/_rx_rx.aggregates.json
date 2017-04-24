@@ -1,0 +1,31 @@
+{
+  "Rx": {
+    "Observable": {
+      "finalValue": "fn() -> ?",
+      "aggregate": "fn(accumulator: fn(acc: T, value: T)) -> ?",
+      "reduce": "fn(accumulator: fn(acc: T, value: T)) -> ?",
+      "any": "fn(predicate?: fn(value: T, index: number, source: ?), thisArg?: ?) -> ?",
+      "some": "fn(predicate?: fn(value: T, index: number, source: ?), thisArg?: ?) -> ?",
+      "isEmpty": "fn() -> ?",
+      "all": "fn(predicate?: fn(value: T), thisArg?: ?) -> ?",
+      "every": "fn(predicate?: fn(value: T), thisArg?: ?) -> ?",
+      "contains": "fn(value: T) -> ?",
+      "count": "fn(predicate?: fn(value: T, index: number, source: ?), thisArg?: ?) -> ?",
+      "sum": "fn(keySelector?: fn(value: T, index: number, source: ?), thisArg?: ?) -> ?",
+      "minBy": "fn(keySelector: fn(item: T), comparer: fn(value1: TKey, value2: TKey)) -> ?",
+      "min": "fn(comparer?: fn(value1: T, value2: T)) -> ?",
+      "maxBy": "fn(keySelector: fn(item: T), comparer: fn(value1: TKey, value2: TKey)) -> ?",
+      "max": "fn(comparer?: fn(value1: T, value2: T)) -> ?",
+      "average": "fn(keySelector?: fn(value: T, index: number, source: ?), thisArg?: ?) -> ?",
+      "sequenceEqual": "fn(second: ?, comparer: fn(value1: T, value2: TOther)) -> ?",
+      "elementAt": "fn(index: number) -> ?",
+      "single": "fn(predicate?: fn(value: T, index: number, source: ?), thisArg?: ?) -> ?",
+      "first": "fn(predicate?: fn(value: T, index: number, source: ?), thisArg?: ?) -> ?",
+      "last": "fn(predicate?: fn(value: T, index: number, source: ?), thisArg?: ?) -> ?",
+      "find": "fn(predicate: fn(value: T, index: number, source: ?), thisArg?: ?) -> ?",
+      "findIndex": "fn(predicate: fn(value: T, index: number, source: ?), thisArg?: ?) -> ?"
+    }
+  },
+  "rx.aggregates": "Rx",
+  "!name": "rx.aggregates"
+}

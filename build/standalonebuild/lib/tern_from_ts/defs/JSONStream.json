@@ -1,0 +1,11 @@
+{
+  "'JSONStream'": {
+    "Options": {
+      "recurse": "bool"
+    },
+    "parse": "fn(pattern: ?) -> NodeJS.ReadWriteStream",
+    "stringify": "fn() -> NodeJS.ReadWriteStream",
+    "stringifyObject": "fn() -> NodeJS.ReadWriteStream"
+  },
+  "!name": "JSONStream"
+}

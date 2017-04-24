@@ -1,0 +1,31 @@
+{
+  "NgBootboxDialog": {
+    "title": "string",
+    "message": "string",
+    "templateUrl": "string",
+    "locale": "string",
+    "callback": "fn()",
+    "onEscape": "fn()",
+    "boolean": "?",
+    "show": "bool",
+    "backdrop": "bool",
+    "closeButton": "bool",
+    "animate": "bool",
+    "className": "string",
+    "size": "string",
+    "buttons": "BootboxButtonMap"
+  },
+  "BootboxService": {
+    "alert": "fn(msg: string) -> ?",
+    "confirm": "fn(msg: string) -> ?",
+    "prompt": "fn(msg: string) -> ?",
+    "customDialog": "fn(options: NgBootboxDialog)",
+    "setDefaults": "fn(options: BootboxDefaultOptions)",
+    "hideAll": "fn()",
+    "addLocale": "fn(name: string, values: BootboxLocaleValues)",
+    "removeLocale": "fn(name: string)",
+    "setLocale": "fn(name: string)"
+  },
+  "$ngBootbox": "BootboxService",
+  "!name": "ngbootbox"
+}

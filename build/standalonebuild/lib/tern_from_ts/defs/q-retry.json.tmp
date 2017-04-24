@@ -1,0 +1,16 @@
+{
+  "Q": {
+    "IRetryOptions": {
+      "limit": "number",
+      "interval": "number",
+      "maxInterval": "number",
+      "intervalMultiplier": "number"
+    },
+    "retry": "fn(process: fn(), onFail: fn(reason: ?, retries: number), limit: number) -> ?",
+    "Promise": {
+      "retry": "fn(process: fn(value: T), onFail: fn(reason: ?, retries: number), limit: number) -> ?"
+    }
+  },
+  "q-retry": "Q",
+  "!name": "q-retry.d.ts"
+}

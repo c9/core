@@ -1,0 +1,37 @@
+{
+  "iScrollEvent": {},
+  "iScrollOptions": {
+    "hScroll": "bool",
+    "vScroll": "bool",
+    "x": "number",
+    "y": "number",
+    "bounce": "bool",
+    "bounceLock": "bool",
+    "momentum": "bool",
+    "lockDirection": "bool",
+    "useTransform": "bool",
+    "useTransition": "bool",
+    "onRefresh": "iScrollEvent",
+    "onBeforeScrollStart": "iScrollEvent",
+    "onScrollStart": "iScrollEvent",
+    "onBeforeScrollMove": "iScrollEvent",
+    "onScrollMove": "iScrollEvent",
+    "onBeforeScrollEnd": "iScrollEvent",
+    "onScrollEnd": "iScrollEvent",
+    "onTouchEnd": "iScrollEvent",
+    "onDestroy": "iScrollEvent"
+  },
+  "iScroll": {
+    "!type": "fn(element: string, options?: iScrollOptions)",
+    "prototype": {
+      "destroy": "fn()",
+      "refresh": "fn()",
+      "scrollTo": "fn(x: number, y: number, time?: number, relative?: bool)",
+      "scrollToElement": "fn(element: string, time?: number)",
+      "disable": "fn()",
+      "enable": "fn()",
+      "stop": "fn()"
+    }
+  },
+  "!name": "iscroll-lite.d.ts"
+}

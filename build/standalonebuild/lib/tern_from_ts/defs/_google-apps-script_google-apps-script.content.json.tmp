@@ -1,0 +1,23 @@
+{
+  "GoogleAppsScript": {
+    "Content": {
+      "ContentService": {
+        "MimeType": "MimeType",
+        "createTextOutput": "fn() -> TextOutput"
+      },
+      "MimeType": "number",
+      "TextOutput": {
+        "append": "fn(addedContent: string) -> TextOutput",
+        "clear": "fn() -> TextOutput",
+        "downloadAsFile": "fn(filename: string) -> TextOutput",
+        "getContent": "fn() -> string",
+        "getFileName": "fn() -> string",
+        "getMimeType": "fn() -> MimeType",
+        "setContent": "fn(content: string) -> TextOutput",
+        "setMimeType": "fn(mimeType: MimeType) -> TextOutput"
+      }
+    }
+  },
+  "ContentService": "GoogleAppsScript.Content.ContentService",
+  "!name": "google-apps-script.content.d.ts"
+}

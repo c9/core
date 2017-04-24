@@ -1,0 +1,12 @@
+{
+  "Cordova": {
+    "getAppVersion": {
+      "getAppName": "fn()",
+      "JQueryPromise": "fn()",
+      "getPackageName": "fn()",
+      "getVersionCode": "fn()",
+      "getVersionNumber": "fn()"
+    }
+  },
+  "!name": "cordova-plugin-app-version.d.ts"
+}

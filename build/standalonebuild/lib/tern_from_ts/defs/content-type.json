@@ -1,0 +1,22 @@
+{
+  "ContentType": {
+    "MediaType": {
+      "type": "string",
+      "q": "number",
+      "params": "?"
+    },
+    "SelectOptions": {
+      "sortAvailable": "bool",
+      "sortAccepted": "bool"
+    },
+    "MediaTypeStatic": {
+      "parseMedia": "fn(type: string) -> MediaType",
+      "splitQuotedString": "fn(str: string, delimiter?: string, quote?: string) -> [string]",
+      "splitContentTypes": "fn(str: string) -> [string]",
+      "select": "fn(availableTypes: [MediaType], acceptedTypes: [MediaType], options?: SelectOptions) -> string",
+      "mediaCmp": "fn(a: MediaType, b: MediaType) -> number"
+    }
+  },
+  "content-type": "x",
+  "!name": "content-type"
+}

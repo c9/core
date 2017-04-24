@@ -1,0 +1,19 @@
+{
+    "name": "c9.ide.run.debug.xdebug",
+    "description": "Xdebug debugger plugin",
+    "version": "3.0.0",
+    "author": "Cloud9",
+    "contributors": [],
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/c9/c9.ide.run.debug.xdebug.git"
+    },
+    "plugins": {
+    },
+    "categories": [
+        "core"
+    ],
+    "licenses": [
+        "MIT"
+    ]
+}

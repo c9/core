@@ -1,0 +1,214 @@
+{
+  "createjs": {
+    "AbstractLoader": {
+      "BINARY": "string",
+      "CSS": "string",
+      "IMAGE": "string",
+      "JAVASCRIPT": "string",
+      "JSON": "string",
+      "JSONP": "string",
+      "MANIFEST": "string",
+      "SOUND": "string",
+      "SPRITESHEET": "string",
+      "SVG": "string",
+      "TEXT": "string",
+      "VIDEO": "string",
+      "XML": "string",
+      "prototype": {
+        "canceled": "bool",
+        "GET": "string",
+        "loaded": "bool",
+        "POST": "string",
+        "progress": "number",
+        "resultFormatter": "fn()",
+        "type": "string",
+        "cancel": "fn()",
+        "destroy": "fn()",
+        "getItem": "fn(value?: string) -> Object",
+        "getLoadedItems": "fn() -> [Object]",
+        "getResult": "fn(value?: ?, rawResult?: bool) -> Object",
+        "getTag": "fn() -> Object",
+        "load": "fn()",
+        "setTag": "fn(tag: Object)"
+      }
+    },
+    "AbstractMediaLoader": {
+      "!type": "fn(loadItem: Object, preferXHR: bool, type: string)",
+      "prototype": {}
+    },
+    "AbstractRequest": {
+      "!type": "fn(item: LoadItem)",
+      "prototype": {
+        "cancel": "fn()",
+        "destroy": "fn()",
+        "load": "fn()"
+      }
+    },
+    "BinaryLoader": {
+      "!type": "fn(loadItem: Object)",
+      "canLoadItem": "fn(item: Object) -> bool",
+      "prototype": {}
+    },
+    "CSSLoader": {
+      "!type": "fn(loadItem: Object, preferXHR: bool)",
+      "prototype": {
+        "canLoadItem": "fn(item: Object) -> bool"
+      }
+    },
+    "DataUtils": {
+      "parseJSON": "fn(value: string) -> Object",
+      "parseXML": "fn(text: string, type: string) -> XMLDocument"
+    },
+    "ErrorEvent": {
+      "!type": "fn(title?: string, message?: string, data?: Object)",
+      "prototype": {
+        "data": "Object",
+        "message": "string",
+        "title": "string"
+      }
+    },
+    "ImageLoader": {
+      "!type": "fn(loadItem: Object, preferXHR: bool)",
+      "canLoadItem": "fn(item: Object) -> bool",
+      "prototype": {}
+    },
+    "JavaScriptLoader": {
+      "!type": "fn(loadItem: Object, preferXHR: bool)",
+      "canLoadItem": "fn(item: Object) -> bool",
+      "prototype": {}
+    },
+    "JSONLoader": {
+      "!type": "fn(loadItem: Object)",
+      "canLoadItem": "fn(item: Object) -> bool",
+      "prototype": {}
+    },
+    "JSONPLoader": {
+      "!type": "fn(loadItem: Object)",
+      "canLoadItem": "fn(item: Object) -> bool",
+      "prototype": {}
+    },
+    "LoadItem": {
+      "create": "fn(value: LoadItem, string: ?, Object: ?) -> Object",
+      "prototype": {
+        "callback": "string",
+        "crossOrigin": "bool",
+        "data": "Object",
+        "headers": "Object",
+        "id": "string",
+        "loadTimeout": "number",
+        "maintainOrder": "bool",
+        "method": "string",
+        "mimeType": "string",
+        "src": "string",
+        "type": "string",
+        "values": "Object",
+        "withCredentials": "bool",
+        "LoadItem": "?",
+        "set": "fn(props: Object) -> LoadItem"
+      }
+    },
+    "LoadQueue": {
+      "!type": "fn(preferXHR?: bool, basePath?: string, crossOrigin?: string, boolean: ?)",
+      "prototype": {
+        "maintainScriptOrder": "bool",
+        "next": "LoadQueue",
+        "stopOnError": "bool",
+        "close": "fn()",
+        "getItems": "fn(loaded: bool) -> [Object]",
+        "installPlugin": "fn(plugin: fn())",
+        "loadFile": "fn(file: Object, string: ?, loadNow?: bool, basePath?: string)",
+        "loadManifest": "fn(manifest: Object, string: ?, any: ?, loadNow?: bool, basePath?: string)",
+        "registerLoader": "fn(loader: AbstractLoader)",
+        "remove": "fn(idsOrUrls: string, any: ?)",
+        "removeAll": "fn()",
+        "reset": "fn()",
+        "setMaxConnections": "fn(value: number)",
+        "setPaused": "fn(value: bool)",
+        "setPreferXHR": "fn(value: bool) -> bool",
+        "setUseXHR": "fn(value: bool)",
+        "unregisterLoader": "fn(loader: AbstractLoader)"
+      }
+    },
+    "ManifestLoader": {
+      "!type": "fn(loadItem: LoadItem, Object: ?)",
+      "canLoadItem": "fn(item: LoadItem, Object: ?) -> bool",
+      "prototype": {}
+    },
+    "MediaTagRequest": {
+      "!type": "fn(loadItem: LoadItem, tag: HTMLAudioElement, HTMLVideoElement: ?, srcAttribute: string)",
+      "prototype": {}
+    },
+    "PreloadJS": {
+      "buildDate": "string",
+      "version": "string",
+      "prototype": {}
+    },
+    "ProgressEvent": {
+      "!type": "fn(loaded: number, total?: number)",
+      "prototype": {
+        "loaded": "number",
+        "progress": "number",
+        "total": "number",
+        "clone": "fn() -> ProgressEvent"
+      }
+    },
+    "RequestUtils": {
+      "ABSOLUTE_PATH": "RegExp",
+      "EXTENSION_PATT": "RegExp",
+      "RELATIVE_PATH": "RegExp",
+      "buildPath": "fn(src: string, data?: Object) -> string",
+      "formatQueryString": "fn(data: Object, query?: [Object]) -> string",
+      "getTypeByExtension": "fn(extension: string) -> string",
+      "isAudioTag": "fn(item: Object) -> bool",
+      "isBinary": "fn(type: string) -> bool",
+      "isCrossDomain": "fn(item: Object) -> bool",
+      "isImageTag": "fn(item: Object) -> bool",
+      "isLocal": "fn(item: Object) -> bool",
+      "isText": "fn(type: string) -> bool",
+      "isVideoTag": "fn(item: Object) -> bool",
+      "parseURI": "fn(path: string) -> Object",
+      "prototype": {}
+    },
+    "SoundLoader": {
+      "!type": "fn(loadItem: Object, preferXHR: bool)",
+      "canLoadItem": "fn(item: Object) -> bool",
+      "prototype": {}
+    },
+    "SpriteSheetLoader": {
+      "!type": "fn(loadItem: Object)",
+      "canLoadItem": "fn(item: Object) -> bool",
+      "prototype": {}
+    },
+    "SVGLoader": {
+      "!type": "fn(loadItem: Object, preferXHR: bool)",
+      "canLoadItem": "fn(item: Object) -> bool",
+      "prototype": {}
+    },
+    "TagRequest": {
+      "prototype": {}
+    },
+    "TextLoader": {
+      "!type": "fn(loadItem: Object)",
+      "canLoadItem": "fn(item: Object) -> bool",
+      "prototype": {}
+    },
+    "VideoLoader": {
+      "!type": "fn(loadItem: Object, preferXHR: bool)",
+      "canLoadItem": "fn(item: Object) -> bool",
+      "prototype": {}
+    },
+    "XHRRequest": {
+      "!type": "fn(item: Object)",
+      "prototype": {
+        "getAllResponseHeaders": "fn() -> string",
+        "getResponseHeader": "fn(header: string) -> string"
+      }
+    },
+    "XMLLoader": {
+      "!type": "fn(loadItem: Object)",
+      "canLoadItem": "fn(item: Object) -> bool",
+      "prototype": {}
+    }
+  },
+  "!name": "preloadjs"
+}

@@ -1,0 +1,9 @@
+{
+  "ScryptAsync": {
+    "CallbackFunc": {},
+    "ScryptStatic": {}
+  },
+  "scrypt": "ScryptAsync.ScryptStatic",
+  "scrypt-async": "scrypt",
+  "!name": "scrypt-async"
+}

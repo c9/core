@@ -1,0 +1,21 @@
+{
+  "Calq": {
+    "action": "Calq.Action",
+    "user": "Calq.User",
+    "init": "fn(writeKey: string, options?: ?)",
+    "Action": {
+      "track": "fn(action: string, params?: ?)",
+      "trackSale": "fn(action: string, params: ?, currency: string, amount: number)",
+      "trackHTMLLink": "fn(action: string, params?: ?)",
+      "trackPageView": "fn(action?: string)",
+      "setGlobalProperty": "fn(name: string, value: ?)"
+    },
+    "User": {
+      "identify": "fn(userId: string)",
+      "clear": "fn()",
+      "profile": "fn(params: ?)"
+    }
+  },
+  "calq": "Calq",
+  "!name": "calq"
+}

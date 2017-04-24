@@ -1,0 +1,90 @@
+{
+  "FileEntry": {},
+  "zip": {
+    "useWebWorkers": "bool",
+    "workerScriptsPath": "string",
+    "workerScripts": {
+      "deflater": "[string]",
+      "inflater": "[string]"
+    },
+    "Reader": {
+      "prototype": {
+        "size": "number",
+        "init": "fn(callback: fn(), onerror: fn(error: ?))",
+        "readUint8Array": "fn(index: number, length: number, callback: fn(result: Uint8Array), onerror?: fn(error: ?))"
+      }
+    },
+    "TextReader": {
+      "!type": "fn(text: string)",
+      "prototype": {}
+    },
+    "BlobReader": {
+      "!type": "fn(blob: Blob)",
+      "prototype": {}
+    },
+    "Data64URIReader": {
+      "!type": "fn(dataURI: string)",
+      "prototype": {}
+    },
+    "HttpReader": {
+      "!type": "fn(url: string)",
+      "prototype": {}
+    },
+    "createReader": "fn(reader: zip.Reader, callback: fn(zipReader: ZipReader), onerror?: fn(error: ?))",
+    "ZipReader": {
+      "prototype": {
+        "getEntries": "fn(callback: fn(entries: [zip.Entry]))",
+        "close": "fn(callback?: fn())"
+      }
+    },
+    "Entry": {
+      "filename": "string",
+      "directory": "bool",
+      "compressedSize": "number",
+      "uncompressedSize": "number",
+      "lastModDate": "Date",
+      "lastModDateRaw": "number",
+      "comment": "string",
+      "crc32": "number",
+      "getData": "fn(writer: zip.Writer, onend: fn(result: ?), onprogress?: fn(progress: number, total: number), checkCrc32?: bool)"
+    },
+    "Writer": {
+      "prototype": {
+        "init": "fn(callback: fn(), onerror?: fn(error: ?))",
+        "writeUint8Array": "fn(array: Uint8Array, callback: fn(), onerror?: fn(error: ?))",
+        "getData": "fn(callback: fn(data: ?), onerror?: fn(error: ?))"
+      }
+    },
+    "TextWriter": {
+      "!type": "fn(encoding: string)",
+      "prototype": {}
+    },
+    "BlobWriter": {
+      "!type": "fn(contentType: string)",
+      "prototype": {}
+    },
+    "FileWriter": {
+      "!type": "fn(fileEntry: FileEntry)",
+      "prototype": {}
+    },
+    "Data64URIWriter": {
+      "!type": "fn(mimeString?: string)",
+      "prototype": {}
+    },
+    "createWriter": "fn(writer: zip.Writer, callback: fn(zipWriter: zip.ZipWriter), onerror?: fn(error: ?), dontDeflate?: bool)",
+    "WriteOptions": {
+      "directory": "bool",
+      "level": "number",
+      "comment": "string",
+      "lastModDate": "Date",
+      "version": "number"
+    },
+    "ZipWriter": {
+      "prototype": {
+        "add": "fn(name: string, reader: zip.Reader, onend: fn(), onprogress?: fn(progress: number, total: number), options?: WriteOptions)",
+        "close": "fn(callback: fn(result: ?))"
+      }
+    }
+  },
+  "!name": "zip.js"
+}

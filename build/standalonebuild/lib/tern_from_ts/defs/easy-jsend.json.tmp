@@ -1,0 +1,30 @@
+{
+  "Express": {
+    "MakePartialInput": {
+      "model": "?",
+      "opts": {
+        "limit": "number",
+        "skip": "number"
+      },
+      "search": "Object",
+      "result": "?"
+    },
+    "PartialInput": {
+      "limit": "number",
+      "offset": "number",
+      "count": "number",
+      "data": "?"
+    },
+    "Response": {
+      "success": "fn(data?: ?, status?: number)",
+      "fail": "fn(data: ?, status?: number)",
+      "error": "fn(err: ?, status?: number)",
+      "partial": "fn(data: PartialInput, status?: number)",
+      "makePartial": "fn(data: MakePartialInput)"
+    }
+  },
+  "easy-jsend": {
+    "init": "fn(conf?: ?)"
+  },
+  "!name": "easy-jsend.d.ts"
+}

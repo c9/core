@@ -1,0 +1,18 @@
+{
+  "Rectangle": {
+    "x": "number",
+    "y": "number",
+    "w": "number",
+    "h": "number"
+  },
+  "RTreeStatic": {
+    "insert": "fn(bounds: Rectangle, element: Object) -> bool",
+    "remove": "fn(area: Rectangle, element?: Object) -> [?]",
+    "geoJSON": "fn(geoJSON: ?)",
+    "bbox": "fn(arg1: ?, arg2?: ?, arg3?: number, arg4?: number) -> [?]",
+    "search": "fn(area: Rectangle, return_node?: bool, return_array?: [?]) -> [?]"
+  },
+  "RTreeFactory": {},
+  "RTree": "RTreeFactory",
+  "!name": "rtree"
+}

@@ -1,0 +1,16 @@
+{
+  "HashMap": {
+    "prototype": {
+      "get": "fn(key: KeyType) -> ValueType",
+      "set": "fn(key: KeyType, value: ValueType)",
+      "has": "fn(key: KeyType) -> bool",
+      "remove": "fn(key: KeyType)",
+      "keys": "fn() -> [KeyType]",
+      "values": "fn() -> [ValueType]",
+      "count": "fn() -> number",
+      "clear": "fn()",
+      "forEach": "fn(callback: fn(value: ValueType, key: KeyType))"
+    }
+  },
+  "!name": "hashmap-1.1.d.ts"
+}

@@ -1,0 +1,30 @@
+{
+  "PgwModalOption": {
+    "content": "string",
+    "target": "string",
+    "url": "string",
+    "title": "string",
+    "titleBar": "bool",
+    "mainClassName": "string",
+    "backdropClassName": "string",
+    "maxWidth": "number",
+    "angular": "bool",
+    "modalData": "?",
+    "ajaxOptions": "?",
+    "closable": "bool",
+    "closeContent": "string",
+    "closeOnEscape": "bool",
+    "closeOnBackgroundClick": "bool",
+    "loadingContent": "string",
+    "errorContent": "string",
+    "pushContent": "string"
+  },
+  "PgwModalMethod": {},
+  "ZeptoStatic": {
+    "pgwModal": "PgwModalMethod"
+  },
+  "JQueryStatic": {
+    "pgwModal": "PgwModalMethod"
+  },
+  "!name": "pgwmodal"
+}

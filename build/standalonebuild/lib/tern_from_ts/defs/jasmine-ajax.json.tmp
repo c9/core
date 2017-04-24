@@ -1,0 +1,66 @@
+{
+  "JasmineAjaxResponse": {
+    "status": "number",
+    "statusText": "string",
+    "responseText": "string",
+    "response": "string",
+    "contentType": "string",
+    "responseHeaders": {}
+  },
+  "JasmineAjaxRequest": {
+    "url": "string",
+    "method": "string",
+    "username": "string",
+    "password": "string",
+    "requestHeaders": {},
+    "overriddenMimeType": "string",
+    "respondWith": "fn(response: JasmineAjaxResponse)"
+  },
+  "JasmineAjaxRequestTracker": {
+    "track": "fn(request: JasmineAjaxRequest)",
+    "first": "fn() -> JasmineAjaxRequest",
+    "count": "fn() -> number",
+    "reset": "fn()",
+    "mostRecent": "fn() -> JasmineAjaxRequest",
+    "at": "fn(index: number) -> JasmineAjaxRequest",
+    "filter": "fn(urlToMatch: RegExp) -> [JasmineAjaxRequest]"
+  },
+  "JasmineAjaxRequestStubReturnOptions": {
+    "status": "number",
+    "contentType": "string",
+    "response": "string",
+    "responseText": "string",
+    "responseHeaders": {}
+  },
+  "JasmineAjaxRequestStub": {
+    "data": "string",
+    "method": "string",
+    "andReturn": "fn(options: JasmineAjaxRequestStubReturnOptions)",
+    "matches": "fn(fullUrl: string, data: string, method: string) -> bool"
+  },
+  "JasmineAjaxStubTracker": {
+    "addStub": "fn(stub: JasmineAjaxRequestStub)",
+    "reset": "fn()",
+    "findStub": "fn(url: string, data?: string, method?: string) -> JasmineAjaxRequestStub"
+  },
+  "JasmineAjaxParamParser": {
+    "test": "fn(xhr: XMLHttpRequest) -> bool",
+    "parse": "fn(paramString: string) -> ?"
+  },
+  "MockAjax": {
+    "!type": "fn(globals: ?)",
+    "prototype": {
+      "install": "fn()",
+      "uninstall": "fn()",
+      "withMock": "fn(closure: fn())",
+      "addCustomParamParser": "fn(parser: JasmineAjaxParamParser)",
+      "stubRequest": "fn(url: RegExp, data?: string, method?: string) -> JasmineAjaxRequestStub",
+      "requests": "JasmineAjaxRequestTracker",
+      "stubs": "JasmineAjaxStubTracker"
+    }
+  },
+  "jasmine": {
+    "Ajax": "MockAjax"
+  },
+  "!name": "jasmine-ajax.d.ts"
+}

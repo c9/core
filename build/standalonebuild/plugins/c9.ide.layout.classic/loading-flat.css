@@ -1,0 +1,190 @@
+#loadingcontainer{
+    background: url(images/loadingbgrepeat.png);
+    background-size: 1px 8px;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 200000;
+    left: 0;
+    top: 0;
+}
+#loadingcontainer.dark{
+    background: url(images/loadingbgrepeat_dark.png);
+    background-size: 1px 8px;
+}
+
+#loadingide {
+    font-style: normal;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 200000;
+    left: 0;
+    top: 0;
+    text-align: center;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+#c9logo{
+    background-image: url(images/c9-logo-blue.png);
+    background-repeat: no-repeat;
+    background-position: 50% 30%;
+    position: relative;
+    top: 15%;
+    margin: 0 auto;
+    background-size: contain;
+    width: 300px;
+    height: 279px;
+}
+.dark #c9logo{
+    background-image: url(images/c9-logo-white.png);
+}
+
+@media screen and (max-height: 600px) {
+    #c9logo{
+        height: 46.5%;
+    }
+}
+
+@media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
+    #c9logo {
+        background-image: url(images/c9-logo-blue@2x.png);
+    }
+    #c9logo.dark {
+        background-image: url(images/c9-logo-white@2x.png);
+    }
+}
+
+#loadingide .loading-progress {
+    font-family: Myriad Pro, Arial;
+    font-size: 18px;
+    color: #9b9b9b;
+    height: 37px;
+    position: absolute;
+    margin: 0 auto;
+    bottom: 10%;
+    width: 100%;
+}
+#progress-msg {
+    position: relative;
+    width: 250px;
+    margin: 0 auto;
+}
+#loadingide .loading-msg {
+    color: #6d6d6d;
+    font-size : 14px;
+    margin-top : 15px;
+}
+#loadingide .footer {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 11px;
+    color: #333;
+    position:absolute;
+    bottom:5px;
+    right:10px;
+    text-align: right;
+    margin: 0;
+}
+#loadingide.dark .footer {
+    color: #818181;
+}
+#loadingide .footer, 
+#loadingide .footer > a:link, 
+#loadingide .footer > a:visited, 
+#loadingide .footer > a:active {
+    color: #333;
+    text-decoration: none;
+}
+#loadingide.dark .footer, 
+#loadingide.dark .footer > a:link, 
+#loadingide.dark .footer > a:visited, 
+#loadingide.dark .footer > a:active {
+    color: #909090;
+}
+#loadingide .footer > a:hover {
+    color: #444;
+    text-decoration: underline;
+}
+#loadingide.dark .footer > a:hover {
+    color: #f1f1f1;
+}
+#errorMessage {
+    display: block;
+    color: #c41117;
+    text-shadow: 0 1px 0 #eee;
+    background: rgba(255, 0, 0, 0.04);
+    padding: 10px;
+    margin: 50px auto;
+    border-radius: 10px;
+
+    font-size: 15px;
+    text-align: center;
+    width: 560px;
+    line-height: 25px;
+}
+#errorMessage a {
+    font-size: 15px;
+    color: #720c10;
+    text-decoration: underline;
+}
+
+#loadingide .status {
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    width: 200px;
+    text-align: center;
+    top: 30%;
+    margin-top: 255px;
+}
+
+@media screen and (max-height: 600px) {
+    #loadingide .status{
+        top: 70%;
+        margin-top: 0;
+    }
+}
+
+#loadingide .cool-message {
+    display: block;
+    font-family: Arial;
+    font-size: 30px;
+    color: #717171;
+    position: absolute;
+    top: 30%;
+    text-align: center;
+    margin-top: 350px;
+    min-width: 100%;
+    padding: 0 30px;
+    box-sizing: border-box;
+    line-height: 1.3em;
+}
+
+@media screen and (max-height: 600px) {
+    #loadingide .cool-message{
+        top: 85%;
+        margin-top: 0;
+    }
+}
+
+#loadingide.dark .cool-message {
+    color: #757575;
+}
+
+#loadingide .spinner {
+    background: url(images/running_flat_light@2x.png);
+    background-size: 300px 20px;
+    animation: rotation 0.6s infinite steps(16);
+    width: 20px !important;
+    height: 20px !important;
+    background-repeat: no-repeat;
+    display: inline-block;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    box-sizing: content-box;
+    border: 0;
+}
+
+@-webkit-keyframes rotation { 0% { -webkit-transform: rotate(0deg); transform: rotate(0deg);  } 100% {-webkit-transform: rotate(359deg); transform: rotate(359deg);}}
+        @keyframes rotation { 0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); } 100% {-webkit-transform: rotate(359deg); transform: rotate(359deg); }}

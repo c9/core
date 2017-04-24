@@ -1,0 +1,4 @@
+{
+  "gulp-replace": "replace",
+  "!name": "gulp-replace.d.ts"
+}

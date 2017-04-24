@@ -1,0 +1,99 @@
+{
+  "argparse": {
+    "ArgumentParser": {
+      "!type": "fn(options?: ArgumentParserOptions)",
+      "prototype": {
+        "addSubparsers": "fn(options?: SubparserOptions) -> SubParser",
+        "parseArgs": "fn(args?: [string], ns?: Namespace, Object: ?) -> ?",
+        "printUsage": "fn()",
+        "printHelp": "fn()",
+        "formatUsage": "fn() -> string",
+        "formatHelp": "fn() -> string",
+        "parseKnownArgs": "fn(args?: [string], ns?: Namespace, Object: ?) -> [?]",
+        "convertArgLineToArg": "fn(argLine: string) -> [string]",
+        "exit": "fn(status: number, message: string)",
+        "error": "fn(err: string, Error: ?)"
+      }
+    },
+    "Namespace": {},
+    "SubParser": {
+      "prototype": {
+        "addParser": "fn(name: string, options?: SubArgumentParserOptions) -> ArgumentParser"
+      }
+    },
+    "ArgumentGroup": {
+      "prototype": {
+        "addArgument": "fn(args: [string], options?: ArgumentOptions)",
+        "addArgumentGroup": "fn(options?: ArgumentGroupOptions) -> ArgumentGroup",
+        "addMutuallyExclusiveGroup": "fn(options?: ?) -> ArgumentGroup",
+        "setDefaults": "fn(options?: ?)",
+        "getDefault": "fn(dest: string) -> ?"
+      }
+    },
+    "SubparserOptions": {
+      "title": "string",
+      "description": "string",
+      "prog": "string",
+      "parserClass": {},
+      "action": "string",
+      "dest": "string",
+      "help": "string",
+      "metavar": "string"
+    },
+    "SubArgumentParserOptions": {
+      "aliases": "[string]",
+      "help": "string"
+    },
+    "ArgumentParserOptions": {
+      "description": "string",
+      "epilog": "string",
+      "addHelp": "bool",
+      "argumentDefault": "?",
+      "parents": "[ArgumentParser]",
+      "prefixChars": "string",
+      "formatterClass": {
+        "ArgumentDefaultsHelpFormatter": "?",
+        "RawDescriptionHelpFormatter": "?",
+        "RawTextHelpFormatter": "?"
+      },
+      "prog": "string",
+      "usage": "string",
+      "version": "string"
+    },
+    "ArgumentGroupOptions": {
+      "prefixChars": "string",
+      "argumentDefault": "?",
+      "title": "string",
+      "description": "string"
+    },
+    "HelpFormatter": {
+      "prototype": {}
+    },
+    "ArgumentDefaultsHelpFormatter": {
+      "prototype": {}
+    },
+    "RawDescriptionHelpFormatter": {
+      "prototype": {}
+    },
+    "RawTextHelpFormatter": {
+      "prototype": {}
+    },
+    "ArgumentOptions": {
+      "action": "string",
+      "optionStrings": "[string]",
+      "dest": "string",
+      "nargs": "string",
+      "number": "?",
+      "constant": "?",
+      "defaultValue": "?",
+      "type": "string",
+      "Function": "?",
+      "choices": "string",
+      "string": "?",
+      "required": "bool",
+      "help": "string",
+      "metavar": "string"
+    }
+  },
+  "!name": "argparse.d.ts"
+}

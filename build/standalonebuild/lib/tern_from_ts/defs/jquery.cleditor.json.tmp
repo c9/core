@@ -1,0 +1,74 @@
+{
+  "CLEditor": {
+    "$area": "JQuery",
+    "$frame": "JQuery",
+    "$main": "JQuery",
+    "$toolbar": "JQuery",
+    "disabled": "bool",
+    "doc": "Document",
+    "options": "JQueryCLEditorOptions",
+    "change": "fn(handler: Function) -> CLEditor",
+    "clear": "fn() -> CLEditor",
+    "disable": "fn(disabled: bool) -> CLEditor",
+    "execCommand": "fn(commands: string, value: ?, useCSS?: bool, button?: ?) -> CLEditor",
+    "focus": "fn() -> CLEditor",
+    "hidePopups": "fn() -> CLEditor",
+    "refresh": "fn() -> CLEditor",
+    "select": "fn() -> CLEditor",
+    "selectedHTML": "fn() -> string",
+    "selectedText": "fn() -> string",
+    "showMessage": "fn(message: string, button?: ?) -> CLEditor",
+    "sourceMode": "fn() -> bool",
+    "updateFrame": "fn() -> CLEditor",
+    "updateTextArea": "fn() -> CLEditor"
+  },
+  "JQueryCLEditorOptions": {
+    "width": "number",
+    "height": "number",
+    "controls": "string",
+    "colors": "string",
+    "fonts": "string",
+    "sizes": "string",
+    "styles": "[[string]]",
+    "useCSS": "bool",
+    "docType": "string",
+    "docCSSFile": "string",
+    "bodyStyle": "string"
+  },
+  "JQueryCLEditorButtonDefinition": {
+    "name": "string",
+    "title": "string",
+    "css": "?",
+    "image": "string",
+    "stripIndex": "number",
+    "command": "string",
+    "popupName": "string",
+    "popupContent": "string",
+    "getEnabled": "fn(data: JQueryCLEditorButtonDefinitionEventData)",
+    "getPressed": "fn(data: JQueryCLEditorButtonDefinitionEventData)",
+    "buttonClick": "fn(event: Event, data: JQueryCLEditorButtonDefinitionEventData)",
+    "popupClick": "fn(event: Event, data: JQueryCLEditorButtonDefinitionEventData)"
+  },
+  "JQueryCLEditorButtonDefinitionEventData": {
+    "editor": "CLEditor",
+    "button": "HTMLElement",
+    "buttonName": "string",
+    "popup": "HTMLElement",
+    "popupName": "string",
+    "command": "string",
+    "value": "?",
+    "useCSS": "bool"
+  },
+  "JQueryCLEditorStatic": {
+    "defaultOptions": "JQueryCLEditorOptions",
+    "buttons": "[JQueryCLEditorButtonDefinition]",
+    "imagesPath": "fn()"
+  },
+  "JQueryStatic": {
+    "cleditor": "JQueryCLEditorStatic"
+  },
+  "JQuery": {
+    "cleditor": "fn(options?: JQueryCLEditorOptions) -> CLEditor"
+  },
+  "!name": "jquery.cleditor.d.ts"
+}

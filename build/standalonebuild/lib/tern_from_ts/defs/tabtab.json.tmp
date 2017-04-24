@@ -1,0 +1,26 @@
+{
+  "tabtab": {
+    "complete": "fn(name: string, cb: CallBack)",
+    "isComplete": "fn() -> bool",
+    "parseOut": "fn(str: string) -> ret",
+    "parseTasks": "fn(str: string, prefix: string, reg?: RegExp, string: ?) -> [string]",
+    "log": "fn(values: [string], data: Data, prefix?: string)",
+    "CallBack": {},
+    "Data": {
+      "line": "string",
+      "words": "number",
+      "point": "number",
+      "partial": "string",
+      "last": "string",
+      "lastPartial": "string",
+      "prev": "string"
+    }
+  },
+  "!name": "tabtab.d.ts",
+  "!define": {
+    "ret": {
+      "shorts": "[string]",
+      "longs": "[string]"
+    }
+  }
+}

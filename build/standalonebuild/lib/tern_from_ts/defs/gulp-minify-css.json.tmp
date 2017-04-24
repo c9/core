@@ -1,0 +1,4 @@
+{
+  "gulp-minify-css": "minifyCSS",
+  "!name": "gulp-minify-css.d.ts"
+}

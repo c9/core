@@ -1,0 +1,96 @@
+{
+  "TWEEN": {
+    "REVISION": "string",
+    "getAll": "fn() -> [Tween]",
+    "removeAll": "fn()",
+    "add": "fn(tween: Tween)",
+    "remove": "fn(tween: Tween)",
+    "update": "fn(time?: number) -> bool",
+    "Tween": {
+      "!type": "fn(object?: ?)",
+      "prototype": {
+        "to": "fn(properties: ?, duration: number) -> Tween",
+        "start": "fn(time?: number) -> Tween",
+        "stop": "fn() -> Tween",
+        "delay": "fn(amount: number) -> Tween",
+        "easing": "fn(easing: fn(k: number)) -> Tween",
+        "interpolation": "fn(interpolation: fn(v: [number], k: number)) -> Tween",
+        "chain": "fn(tweens: [Tween]) -> Tween",
+        "onStart": "fn(callback: fn(object?: ?)) -> Tween",
+        "onUpdate": "fn(callback: fn(object?: ?)) -> Tween",
+        "onComplete": "fn(callback: fn(object?: ?)) -> Tween",
+        "update": "fn(time: number) -> bool",
+        "repeat": "fn(times: number) -> Tween",
+        "yoyo": "fn(enable: bool) -> Tween"
+      }
+    },
+    "Easing": "TweenEasing",
+    "Interpolation": "TweenInterpolation"
+  },
+  "TweenEasing": {
+    "Linear": {
+      "None": "fn(k: number) -> number"
+    },
+    "Quadratic": {
+      "In": "fn(k: number) -> number",
+      "Out": "fn(k: number) -> number",
+      "InOut": "fn(k: number) -> number"
+    },
+    "Cubic": {
+      "In": "fn(k: number) -> number",
+      "Out": "fn(k: number) -> number",
+      "InOut": "fn(k: number) -> number"
+    },
+    "Quartic": {
+      "In": "fn(k: number) -> number",
+      "Out": "fn(k: number) -> number",
+      "InOut": "fn(k: number) -> number"
+    },
+    "Quintic": {
+      "In": "fn(k: number) -> number",
+      "Out": "fn(k: number) -> number",
+      "InOut": "fn(k: number) -> number"
+    },
+    "Sinusoidal": {
+      "In": "fn(k: number) -> number",
+      "Out": "fn(k: number) -> number",
+      "InOut": "fn(k: number) -> number"
+    },
+    "Exponential": {
+      "In": "fn(k: number) -> number",
+      "Out": "fn(k: number) -> number",
+      "InOut": "fn(k: number) -> number"
+    },
+    "Circular": {
+      "In": "fn(k: number) -> number",
+      "Out": "fn(k: number) -> number",
+      "InOut": "fn(k: number) -> number"
+    },
+    "Elastic": {
+      "In": "fn(k: number) -> number",
+      "Out": "fn(k: number) -> number",
+      "InOut": "fn(k: number) -> number"
+    },
+    "Back": {
+      "In": "fn(k: number) -> number",
+      "Out": "fn(k: number) -> number",
+      "InOut": "fn(k: number) -> number"
+    },
+    "Bounce": {
+      "In": "fn(k: number) -> number",
+      "Out": "fn(k: number) -> number",
+      "InOut": "fn(k: number) -> number"
+    }
+  },
+  "TweenInterpolation": {
+    "Linear": "fn(v: [number], k: number) -> number",
+    "Bezier": "fn(v: [number], k: number) -> number",
+    "CatmullRom": "fn(v: [number], k: number) -> number",
+    "Utils": {
+      "Linear": "fn(p0: number, p1: number, t: number) -> number",
+      "Bernstein": "fn(n: number, i: number) -> number",
+      "Factorial": "fn(n: ?) -> number"
+    }
+  },
+  "!name": "tween.js"
+}

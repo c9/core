@@ -1,0 +1,50 @@
+{
+  "dojox": {
+    "rpc": {
+      "Rest": {
+        "_index": {},
+        "_timeStamps": {}
+      },
+      "Client": {},
+      "JsonRPC": {},
+      "ProxiedPath": {},
+      "Service": {},
+      "OfflineRest": {
+        "stores": "[?]",
+        "addStore": "fn(store: dojo.data.api.Read, baseQuery: String)",
+        "downloadChanges": "fn()",
+        "sendChanges": "fn()",
+        "sync": "fn()",
+        "turnOffAutoSync": "fn()"
+      },
+      "JsonRest": {
+        "conflictDateHeader": "string",
+        "schemas": {},
+        "services": {},
+        "byId": "fn(service: ?, id: ?) -> ?",
+        "changing": "fn(object: ?, _deleting: ?)",
+        "commit": "fn(kwArgs: ?) -> [?]",
+        "deleteObject": "fn(object: ?)",
+        "fetch": "fn(absoluteId: ?) -> ?",
+        "getConstructor": "fn(service: Function, schema: ?) -> ?",
+        "getDirtyObjects": "fn() -> [?]",
+        "getIdAttribute": "fn(service: ?) -> String",
+        "getServiceAndId": "fn(absoluteId: String) -> Object",
+        "isDirty": "fn(item: ?, store: ?) -> ?",
+        "query": "fn(service: ?, id: ?, args: ?) -> ?",
+        "registerService": "fn(service: Function, servicePath: String, schema: Object)",
+        "revert": "fn(service: ?)",
+        "sendToServer": "fn(actions: ?, kwArgs: ?)",
+        "serviceClass": "fn(path: String, isJson: bool, schema: Object, getRequest: Function) -> Function"
+      }
+    }
+  },
+  "dojox/rpc/Rest": "exp",
+  "dojox/rpc/Rest._index": "exp",
+  "dojox/rpc/Rest._timeStamps": "exp",
+  "dojox/rpc/OfflineRest": "exp",
+  "dojox/rpc/JsonRest": "exp",
+  "dojox/rpc/JsonRest.services": "exp",
+  "dojox/rpc/JsonRest.schemas": "exp",
+  "!name": "dojox.rpc"
+}

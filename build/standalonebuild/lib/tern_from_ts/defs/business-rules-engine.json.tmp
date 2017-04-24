@@ -1,0 +1,143 @@
+{
+  "Validators": {
+    "LettersOnlyValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "ZipCodeValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "EmailValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "UrlValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "RequiredValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "DateValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "DateISOValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "NumberValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "DigitValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "SignedDigitValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "MinLengthValidator": {
+      "!type": "fn(MinLength?: number)",
+      "prototype": {
+        "MinLength": "number",
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "MaxLengthValidator": {
+      "!type": "fn(MaxLength?: number)",
+      "prototype": {
+        "MaxLength": "number",
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "RangeLengthValidator": {
+      "!type": "fn(RangeLength?: [number])",
+      "prototype": {
+        "RangeLength": "[number]",
+        "isAcceptable": "fn(s: string) -> bool",
+        "MinLength": "number",
+        "MaxLength": "number",
+        "tagName": "string"
+      }
+    },
+    "MinValidator": {
+      "!type": "fn(Min?: number)",
+      "prototype": {
+        "Min": "number",
+        "isAcceptable": "fn(s: ?) -> bool",
+        "tagName": "string"
+      }
+    },
+    "MaxValidator": {
+      "!type": "fn(Max?: number)",
+      "prototype": {
+        "Max": "number",
+        "isAcceptable": "fn(s: ?) -> bool",
+        "tagName": "string"
+      }
+    },
+    "RangeValidator": {
+      "!type": "fn(Range?: [number])",
+      "prototype": {
+        "Range": "[number]",
+        "isAcceptable": "fn(s: ?) -> bool",
+        "Min": "number",
+        "Max": "number",
+        "tagName": "string"
+      }
+    },
+    "StepValidator": {
+      "!type": "fn(Step?: string)",
+      "prototype": {
+        "Step": "string",
+        "isAcceptable": "fn(s: ?) -> bool",
+        "tagName": "string"
+      }
+    },
+    "PatternValidator": {
+      "!type": "fn(Pattern?: string)",
+      "prototype": {
+        "Pattern": "string",
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "ContainsValidator": {
+      "!type": "fn(Options: ?)",
+      "prototype": {
+        "Options": "?",
+        "isAcceptable": "fn(s: string) -> ?",
+        "isAsync": "bool",
+        "tagName": "string"
+      }
+    }
+  },
+  "node-validators": "Validators",
+  "!name": "BasicValidators.d.ts"
+}

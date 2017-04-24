@@ -1,0 +1,43 @@
+{
+  "dat": {
+    "GUI": {
+      "!type": "fn(option?: GUIParams)",
+      "prototype": {
+        "__controllers": "[GUIController]",
+        "__folders": "[GUI]",
+        "domElement": "HTMLElement",
+        "add": "fn(target: Object, propName: string) -> GUIController",
+        "addColor": "fn(target: Object, propName: string) -> GUIController",
+        "addFolder": "fn(propName: string) -> GUI",
+        "close": "fn()",
+        "open": "fn()",
+        "remember": "fn(target: Object)"
+      }
+    },
+    "GUIParams": {
+      "autoPlace": "bool",
+      "closed": "bool",
+      "load": "?",
+      "name": "string",
+      "preset": "string",
+      "width": "number"
+    },
+    "GUIController": {
+      "prototype": {
+        "destroy": "fn()",
+        "fire": "fn() -> GUIController",
+        "getValue": "fn() -> ?",
+        "isModified": "fn() -> bool",
+        "listen": "fn() -> GUIController",
+        "min": "fn(n: number) -> GUIController",
+        "remove": "fn(target: GUIController)",
+        "setValue": "fn(value: ?) -> GUIController",
+        "step": "fn(n: number) -> GUIController",
+        "updateDisplay": "fn()",
+        "onChange": "fn(value?: ?)",
+        "onFinishChange": "fn(value?: ?)"
+      }
+    }
+  },
+  "!name": "dat-gui.d.ts"
+}

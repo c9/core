@@ -1,0 +1,40 @@
+{
+  "expect": "Expectations.IExpectations",
+  "Expectations": {
+    "IExpectations": {
+      "addAssertion": "fn(name: string, matcher: Function)"
+    },
+    "IAssertions": {
+      "pass": "fn(message?: string) -> ?",
+      "fail": "fn(message: string) -> ?"
+    },
+    "Expect": {
+      "!type": "fn(value: ?, assertions?: IAssertions, expr?: ?, parent?: Expect)",
+      "prototype": {
+        "value": "?",
+        "assertions": "IAssertions",
+        "expr": "?",
+        "parent": "Expect",
+        "not": "Expect",
+        "generateMessage": "fn(value: ?, expr: ?, toDo: string, otherVal?: ?) -> string",
+        "toEqual": "fn(val: ?) -> ?",
+        "toNotEqual": "fn(val: ?) -> ?",
+        "toBe": "fn(val: ?) -> ?",
+        "toBeTruthy": "fn() -> ?",
+        "toBeFalsey": "fn() -> ?",
+        "toBeFalsy": "fn() -> ?",
+        "toBeGreaterThan": "fn(val: ?) -> ?",
+        "toBeLessThan": "fn(val: ?) -> ?",
+        "toContain": "fn(val: ?) -> ?",
+        "toMatch": "fn(val: ?) -> ?",
+        "toBeDefined": "fn() -> ?",
+        "toBeUndefined": "fn() -> ?",
+        "toBeNull": "fn() -> ?",
+        "toThrow": "fn() -> ?",
+        "pass": "fn() -> ?",
+        "fail": "fn(why?: string, what?: ?) -> ?"
+      }
+    }
+  },
+  "!name": "expectations"
+}

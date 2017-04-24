@@ -1,0 +1,139 @@
+{
+  "lunr": {
+    "version": "string",
+    "tokenizer": "fn(token: string) -> string",
+    "stemmer": "fn(token: string) -> string",
+    "stopWordFilter": {
+      "stopWords": "?",
+      "!type": "fn(token: string) -> string"
+    },
+    "trimmer": "fn(token: string) -> string",
+    "EventEmitter": {
+      "prototype": {
+        "addListener": "fn(eventName: string, handler: Function)",
+        "removeListener": "fn(eventName: string, handler: Function)",
+        "emit": "fn(eventName: string, args: [?])",
+        "hasHandler": "fn(eventName: string) -> bool"
+      }
+    },
+    "IPipelineFunction": {},
+    "Pipeline": {
+      "load": "fn(serialised: ?) -> Pipeline",
+      "prototype": {
+        "registeredFunctions": {},
+        "registerFunction": "fn(fn: IPipelineFunction, label: string)",
+        "warnIfFunctionNotRegistered": "fn(fn: IPipelineFunction)",
+        "add": "fn(functions: [IPipelineFunction])",
+        "after": "fn(existingFn: IPipelineFunction, newFn: IPipelineFunction)",
+        "before": "fn(existingFn: IPipelineFunction, newFn: IPipelineFunction)",
+        "remove": "fn(fn: IPipelineFunction)",
+        "run": "fn(tokens: [string]) -> [string]",
+        "reset": "fn()",
+        "toJSON": "fn() -> ?"
+      }
+    },
+    "Vector": {
+      "prototype": {
+        "list": "Node",
+        "magnitude": "fn() -> number",
+        "dot": "fn(otherVector: Vector) -> number",
+        "similarity": "fn(otherVector: Vector) -> number"
+      }
+    },
+    "Node": {
+      "!type": "fn(idx: number, val: number, next: Node)",
+      "prototype": {
+        "idx": "number",
+        "val": "number",
+        "next": "Node"
+      }
+    },
+    "SortedSet": {
+      "load": "fn(serialisedData: [T]) -> ?",
+      "prototype": {
+        "elements": "[T]",
+        "length": "number",
+        "add": "fn(values: [T])",
+        "toArray": "fn() -> [T]",
+        "map": "fn(fn: Function, ctx: ?) -> [T]",
+        "forEach": "fn(fn: Function, ctx: ?) -> ?",
+        "indexOf": "fn(elem: T, start?: number, end?: number) -> number",
+        "locationFor": "fn(elem: T, start?: number, end?: number) -> number",
+        "intersect": "fn(otherSet: ?) -> ?",
+        "union": "fn(otherSet: ?) -> ?",
+        "clone": "fn() -> ?",
+        "toJSON": "fn() -> ?"
+      }
+    },
+    "IIndexField": {
+      "name": "string",
+      "boost": "number"
+    },
+    "IIndexSearchResult": {
+      "ref": "?",
+      "score": "number"
+    },
+    "Index": {
+      "load": "fn(serialisedData: ?) -> Index",
+      "prototype": {
+        "eventEmitter": "EventEmitter",
+        "documentStore": "?",
+        "tokenStore": "TokenStore",
+        "corpusTokens": "?",
+        "pipeline": "Pipeline",
+        "_fields": "[IIndexField]",
+        "_ref": "string",
+        "_idfCache": {},
+        "on": "fn(eventName: string, handler: Function)",
+        "off": "fn(eventName: string, handler: Function)",
+        "field": "fn(fieldName: string, options?: ?) -> Index",
+        "ref": "fn(refName: string) -> Index",
+        "add": "fn(doc: ?, emitEvent?: bool)",
+        "remove": "fn(doc: ?, emitEvent?: bool)",
+        "update": "fn(doc: ?, emitEvent?: bool)",
+        "idf": "fn(token: string) -> string",
+        "search": "fn(query: string) -> [IIndexSearchResult]",
+        "documentVector": "fn(documentRef: string) -> Vector",
+        "toJSON": "fn() -> ?",
+        "use": "fn(plugin: Function, args: [?])"
+      }
+    },
+    "Store": {
+      "load": "fn(serialisedData: ?) -> ?",
+      "prototype": {
+        "store": {},
+        "length": "number",
+        "set": "fn(id: string, tokens: ?)",
+        "get": "fn(id: string) -> ?",
+        "has": "fn(id: string) -> bool",
+        "remove": "fn(id: string)",
+        "toJSON": "fn() -> ?"
+      }
+    },
+    "ITokenDocument": {
+      "ref": "number",
+      "tf": "number"
+    },
+    "TokenStore": {
+      "load": "fn(serialisedData: ?) -> TokenStore",
+      "prototype": {
+        "root": {},
+        "docs": {},
+        "length": "number",
+        "add": "fn(token: string, doc: ITokenDocument, root?: TokenStore)",
+        "has": "fn(token: string) -> bool",
+        "getNode": "fn(token: string) -> TokenStore",
+        "get": "fn(token: string, root: TokenStore) -> ret",
+        "count": "fn(token: string, root: TokenStore) -> number",
+        "remove": "fn(token: string, ref: string)",
+        "expand": "fn(token: string, memo?: [string]) -> [string]",
+        "toJSON": "fn() -> ?"
+      }
+    },
+    "!type": "fn(config: Function) -> lunr.Index"
+  },
+  "!name": "lunr",
+  "!define": {
+    "ret": {}
+  }
+}

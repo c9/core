@@ -1,0 +1,6 @@
+{
+  "luaparse": {
+    "parse": "fn(code: string, options?: Object) -> Object"
+  },
+  "!name": "luaparse.d.ts"
+}

@@ -1,0 +1,4 @@
+{
+    "cmd": ["bash", "-i", "-l", "$file", "$args"],
+    "selector": "^.*\\.(sh)$"
+}

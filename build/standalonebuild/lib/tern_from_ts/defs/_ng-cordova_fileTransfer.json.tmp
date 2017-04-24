@@ -1,0 +1,21 @@
+{
+  "ngCordova": {
+    "IFileTransferService": {
+      "download": "fn(url: string, filePath: string, options?: IFileDownloadOptions, trustAllHosts?: bool) -> ?",
+      "upload": "fn(url: string, filePath: string, options?: IFileUploadOptions, trustAllHosts?: bool) -> ?"
+    },
+    "IFileTransferPromise": {
+      "then": "fn(successCallback: fn(promiseValue: T), TResult: ?, errorCallback?: fn(error: FileTransferError), TResult: ?, notifyCallback?: fn(state: ?)) -> ?",
+      "catch": "fn(onRejected: fn(error: FileTransferError), TResult: ?) -> ?"
+    },
+    "IFileDownloadOptions": {
+      "encodeURI": "bool",
+      "timeout": "number"
+    },
+    "IFileUploadOptions": {
+      "encodeURI": "bool",
+      "timeout": "number"
+    }
+  },
+  "!name": "fileTransfer.d.ts"
+}

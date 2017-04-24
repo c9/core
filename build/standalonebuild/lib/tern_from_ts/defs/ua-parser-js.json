@@ -1,0 +1,44 @@
+{
+  "UAParser": {
+    "IBrowser": {
+      "name": "string",
+      "version": "string"
+    },
+    "IDevice": {
+      "model": "string",
+      "type": "string",
+      "vendor": "string"
+    },
+    "IEngine": {
+      "name": "string",
+      "version": "string"
+    },
+    "IOS": {
+      "name": "string",
+      "version": "string"
+    },
+    "ICPU": {
+      "architecture": "string"
+    },
+    "IResult": {
+      "ua": "string",
+      "browser": "IBrowser",
+      "device": "IDevice",
+      "engine": "IEngine",
+      "os": "IOS",
+      "cpu": "ICPU"
+    },
+    "!type": "fn()",
+    "prototype": {
+      "getBrowser": "fn() -> UAParser.IBrowser",
+      "getOS": "fn() -> UAParser.IOS",
+      "getEngine": "fn() -> UAParser.IEngine",
+      "getDevice": "fn() -> UAParser.IDevice",
+      "getCPU": "fn() -> UAParser.ICPU",
+      "getUA": "fn() -> string",
+      "setUA": "fn(ua: string)",
+      "getResult": "fn() -> UAParser.IResult"
+    }
+  },
+  "!name": "ua-parser-js"
+}

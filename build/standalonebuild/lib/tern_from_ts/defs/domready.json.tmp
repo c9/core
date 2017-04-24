@@ -1,0 +1,4 @@
+{
+  "domready": "fn(callback: fn())",
+  "!name": "domready.d.ts"
+}

@@ -1,0 +1,26 @@
+{
+  "donna": {
+    "generateMetadata": "fn(modules: [string]) -> DonnaTypes.Metadata"
+  },
+  "DonnaTypes": {
+    "Metadata": {
+      "files": {}
+    },
+    "File": {
+      "objects": {},
+      "exports": "?"
+    },
+    "Line": {},
+    "Object": {
+      "type": "string",
+      "name": "string",
+      "bindingType": "string",
+      "paramNames": "[string]",
+      "classProperties": "[?]",
+      "prototypeProperties": "[[number]]",
+      "doc": "string",
+      "range": "[[number]]"
+    }
+  },
+  "!name": "donna"
+}

@@ -1,0 +1,22 @@
+{
+  "Inflection": {
+    "indexOf": "fn(arr: [T], item: T2, from_index?: number, compare_func?: fn(arr_item: T, item: T2)) -> number",
+    "pluralize": "fn(str: string, plural?: string) -> string",
+    "singularize": "fn(str: string, singular?: string) -> string",
+    "inflect": "fn(str: string, count: number, singular?: string, plural?: string) -> string",
+    "camelize": "fn(str: string, low_first_letter?: bool) -> string",
+    "underscore": "fn(str: string, all_upper_case?: bool) -> string",
+    "humanize": "fn(str: string, low_first_letter?: bool) -> string",
+    "capitalize": "fn(str: string) -> string",
+    "dasherize": "fn(str: string) -> string",
+    "titleize": "fn(str: string) -> string",
+    "demodulize": "fn(str: string) -> string",
+    "tableize": "fn(str: string) -> string",
+    "classify": "fn(str: string) -> string",
+    "foreign_key": "fn(str: string, drop_id_ubar?: bool) -> string",
+    "ordinalize": "fn(str: string) -> string",
+    "transform": "fn(str: string, arr: [string]) -> string"
+  },
+  "inflection": "inflection",
+  "!name": "inflection"
+}

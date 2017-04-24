@@ -1,0 +1,27 @@
+{
+  "Httpi": {
+    "HttpiPayload": {
+      "method": "string",
+      "url": "string",
+      "params": {},
+      "data": {},
+      "keepTrailingSlash": "bool"
+    },
+    "HttpiFactory": {
+      "resource": "fn(url: string) -> HttpiResource"
+    },
+    "HttpiResource": {
+      "!type": "fn(http: ng.IHttpService, url: string)",
+      "prototype": {
+        "delete": "fn(config: HttpiPayload) -> ?",
+        "get": "fn(config: HttpiPayload) -> ?",
+        "head": "fn(config: HttpiPayload) -> ?",
+        "jsonp": "fn(config: HttpiPayload) -> ?",
+        "post": "fn(config: HttpiPayload) -> ?",
+        "put": "fn(config: HttpiPayload) -> ?",
+        "setKeepTrailingSlash": "fn(newKeepTrailingSlash: bool) -> HttpiResource"
+      }
+    }
+  },
+  "!name": "angular-httpi"
+}

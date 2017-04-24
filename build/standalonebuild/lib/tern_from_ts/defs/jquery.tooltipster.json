@@ -1,0 +1,40 @@
+{
+  "JQueryTooltipsterOptions": {
+    "animation": "string",
+    "arrow": "bool",
+    "arrowColor": "?",
+    "autoClose": "bool",
+    "content": "?",
+    "contentAsHTML": "bool",
+    "contentCloning": "bool",
+    "delay": "number",
+    "fixedWidth": "number",
+    "maxWidth": "number",
+    "functionInit": "fn(origin: ?, content: ?)",
+    "functionBefore": "fn(origin: ?, continueTooltip: ?)",
+    "functionReady": "fn(origin: ?, tooltip: ?)",
+    "functionAfter": "fn(origin: ?)",
+    "icon": "?",
+    "iconCloning": "bool",
+    "iconDesktop": "bool",
+    "iconTheme": "string",
+    "iconTouch": "bool",
+    "interactive": "bool",
+    "interactiveTolerance": "number",
+    "offsetX": "number",
+    "offsetY": "number",
+    "onlyOne": "bool",
+    "position": "string",
+    "positionTracker": "bool",
+    "speed": "number",
+    "timer": "number",
+    "theme": "string",
+    "touchDevices": "bool",
+    "trigger": "string",
+    "updateAnimation": "bool"
+  },
+  "JQuery": {
+    "tooltipster": "fn()"
+  },
+  "!name": "jquery.tooltipster"
+}

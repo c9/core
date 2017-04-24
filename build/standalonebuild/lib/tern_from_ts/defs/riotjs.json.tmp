@@ -1,0 +1,6 @@
+{
+  "JQueryStatic": {
+    "render": "fn(template?: string, data?: ?) -> string"
+  },
+  "!name": "riotjs-render.d.ts"
+}

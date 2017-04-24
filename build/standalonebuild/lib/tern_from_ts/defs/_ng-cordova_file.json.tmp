@@ -1,0 +1,36 @@
+{
+  "ngCordova": {
+    "IFileService": {
+      "getFreeDiskSpace": "fn() -> ?",
+      "checkDir": "fn(path: string, directory: string) -> ?",
+      "checkFile": "fn(path: string, file: string) -> ?",
+      "createDir": "fn(path: string, directory: string, replace?: bool) -> ?",
+      "createFile": "fn(path: string, file: string, replace?: bool) -> ?",
+      "removeDir": "fn(path: string, directory: string) -> ?",
+      "removeFile": "fn(path: string, file: string) -> ?",
+      "removeRecursively": "fn(path: string, directory: string) -> ?",
+      "writeFile": "fn(path: string, file: string, text: string, Blob: ?, replace?: bool) -> ?",
+      "writeExistingFile": "fn(path: string, file: string, text: string, Blob: ?) -> ?",
+      "readAsText": "fn(path: string, file: string) -> ?",
+      "readAsDataURL": "fn(path: string, file: string) -> ?",
+      "readAsBinaryString": "fn(path: string, file: string) -> ?",
+      "readAsArrayBuffer": "fn(path: string, file: string) -> ?",
+      "moveDir": "fn(path: string, directory: string, newPath: string, newDirectory?: string) -> ?",
+      "moveFile": "fn(path: string, file: string, newPath: string, newFile?: string) -> ?",
+      "copyDir": "fn(path: string, directory: string, newPath: string, newDirectory?: string) -> ?",
+      "copyFile": "fn(path: string, file: string, newPath: string, newFile?: string) -> ?"
+    },
+    "IFilePromise": {
+      "then": "fn(successCallback: fn(promiseValue: T), TResult: ?, errorCallback?: fn(error: IFileError), TResult: ?) -> ?",
+      "catch": "fn(onRejected: fn(error: IFileError), TResult: ?) -> ?"
+    },
+    "IFileRemoveResult": {
+      "success": "bool",
+      "fileRemoved": "TEntry"
+    },
+    "IFileError": {
+      "message": "string"
+    }
+  },
+  "!name": "file.d.ts"
+}

@@ -1,0 +1,20 @@
+{
+  "assertsharp": {
+    "Assert": {
+      "AreEqual": "fn(expected: T, actual: T, message?: string)",
+      "AreNotEqual": "fn(notExpected: T, actual: T, message?: string)",
+      "AreNotSame": "fn(notExpected: T, actual: T, message?: string)",
+      "AreSequenceEqual": "fn(expected: [T], actual: [T], equals?: fn(x: ?, y: ?), message?: string)",
+      "Fail": "fn(message?: string)",
+      "IsFalse": "fn(actual: bool, message?: string)",
+      "IsInstanceOfType": "fn(actual: ?, expectedType: Function, message?: string)",
+      "IsNotInstanceOfType": "fn(actual: ?, wrongType: Function, message?: string)",
+      "IsNotNull": "fn(actual: ?, message?: string)",
+      "IsNull": "fn(actual: ?, message?: string)",
+      "IsTrue": "fn(actual: bool, message?: string)",
+      "Throws": "fn(fn: fn(), message?: string)",
+      "prototype": {}
+    }
+  },
+  "!name": "assertsharp"
+}

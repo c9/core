@@ -1,0 +1,294 @@
+{
+  "'couchbase'": {
+    "errors": {
+      "success": "number",
+      "authContinue": "number",
+      "authError": "number",
+      "deltaBadVal": "number",
+      "objectTooBig": "number",
+      "serverBusy": "number",
+      "cLibInternal": "number",
+      "cLibInvalidArgument": "number",
+      "cLibOutOfMemory": "number",
+      "invalidRange": "number",
+      "cLibGenericError": "number",
+      "temporaryError": "number",
+      "keyAlreadyExists": "number",
+      "keyNotFound": "number",
+      "failedToOpenLibrary": "number",
+      "failedToFindSymbol": "number",
+      "networkError": "number",
+      "wrongServer": "number",
+      "notMyVBucket": "number",
+      "notStored": "number",
+      "notSupported": "number",
+      "unknownCommand": "number",
+      "unknownHost": "number",
+      "protocolError": "number",
+      "timedOut": "number",
+      "connectError": "number",
+      "bucketNotFound": "number",
+      "clientOutOfMemory": "number",
+      "clientTemporaryError": "number",
+      "badHandle": "number",
+      "serverBug": "number",
+      "invalidHostFormat": "number",
+      "notEnoughNodes": "number",
+      "duplicateItems": "number",
+      "noMatchingServerForKey": "number",
+      "badEnvironmentVariable": "number",
+      "outOfMemory": "number",
+      "invalidArguments": "number",
+      "schedulingError": "number",
+      "checkResults": "number",
+      "genericError": "number",
+      "durabilityFailed": "number",
+      "restError": "number"
+    },
+    "format": {
+      "raw": "number",
+      "json": "number",
+      "utf8": "number",
+      "auto": "number"
+    },
+    "CAS": {},
+    "Result": {
+      "prototype": {
+        "cas": "CAS",
+        "flags": "number",
+        "value": "?"
+      }
+    },
+    "CouchbaseError": {
+      "code": "number",
+      "innerError": "Error",
+      "reason": "string"
+    },
+    "ConnectCallback": {},
+    "DDocCallback": {},
+    "KeyCallback": {},
+    "MultiCallback": {},
+    "QueryCallback": {},
+    "StatsCallback": {},
+    "ConnectionOptions": {
+      "host": "?",
+      "bucket": "string",
+      "password": "string"
+    },
+    "AddOptions": {
+      "expiry": "number",
+      "flags": "number",
+      "format": "number",
+      "persist_to": "number",
+      "replicate_to": "number"
+    },
+    "AddMultiOptionsForValue": {
+      "value": "?",
+      "expiry": "number",
+      "flags": "number",
+      "format": "number"
+    },
+    "AddMultiOptions": {
+      "expiry": "number",
+      "flags": "number",
+      "format": "number",
+      "persist_to": "number",
+      "replicate_to": "number",
+      "spooled": "bool"
+    },
+    "AppendOptions": {
+      "expiry": "number",
+      "flags": "number",
+      "format": "number",
+      "persist_to": "number",
+      "replicate_to": "number",
+      "cas": "CAS"
+    },
+    "AppendMultiOptionsForValue": {
+      "value": "?",
+      "cas": "CAS",
+      "expiry": "number"
+    },
+    "AppendMultiOptions": {
+      "expiry": "number",
+      "persist_to": "number",
+      "replicate_to": "number",
+      "spooled": "bool"
+    },
+    "DecrOptions": {
+      "offset": "number",
+      "initial": "number",
+      "expiry": "number",
+      "persist_to": "number",
+      "replicate_to": "number"
+    },
+    "DecrMultiOptionsForValue": {
+      "offset": "number",
+      "initial": "number",
+      "expiry": "number"
+    },
+    "DecrMultiOptions": {
+      "spooled": "bool"
+    },
+    "GetOptions": {
+      "expiry": "number",
+      "format": "number"
+    },
+    "GetMultiOptions": {
+      "spooled": "bool",
+      "format": "number"
+    },
+    "GetReplicaOptions": {
+      "index": "number",
+      "format": "number"
+    },
+    "GetReplicaMultiOptions": {
+      "spooled": "bool",
+      "format": "number"
+    },
+    "IncrOptions": {},
+    "IncrMultiOptionsForValue": {},
+    "IncrMultiOptions": {},
+    "LockOptions": {
+      "lockTime": "number"
+    },
+    "LockMultiOptions": {
+      "spooled": "bool",
+      "format": "number"
+    },
+    "ObserveOptions": {
+      "cas": "CAS"
+    },
+    "ObserveMultiOptionsForValue": {
+      "cas": "CAS"
+    },
+    "ObserveMultiOptions": {
+      "spooled": "bool"
+    },
+    "PrependOptions": {
+      "expiry": "number",
+      "flags": "number",
+      "format": "number",
+      "persist_to": "number",
+      "replicate_to": "number",
+      "cas": "CAS"
+    },
+    "PrependMultiOptionsFoValue": {
+      "value": "?",
+      "cas": "CAS",
+      "expiry": "number"
+    },
+    "PrependMultiOptions": {
+      "spooled": "bool",
+      "expiry": "number",
+      "persist_to": "number",
+      "replicate_to": "number"
+    },
+    "RemoveOptions": {
+      "cas": "CAS",
+      "persist_to": "number",
+      "replicate_to": "number"
+    },
+    "RemoveMultiOptionsForValue": {
+      "cas": "CAS"
+    },
+    "RemoveMultiOptions": {
+      "spooled": "bool",
+      "persist_to": "number",
+      "replicate_to": "number"
+    },
+    "ReplaceOptions": {},
+    "ReplaceMultiOptionsForValue": {},
+    "ReplaceMultiOptions": {},
+    "SetOptions": {
+      "expiry": "number",
+      "flags": "number",
+      "format": "number",
+      "persist_to": "number",
+      "replicate_to": "number",
+      "cas": "CAS"
+    },
+    "SetMultiOptionsForValue": {
+      "value": "?",
+      "cas": "CAS",
+      "expiry": "number",
+      "flags": "number",
+      "format": "number"
+    },
+    "SetMultiOptions": {
+      "expiry": "number",
+      "flags": "number",
+      "format": "number",
+      "persist_to": "number",
+      "replicate_to": "number",
+      "spooled": "bool"
+    },
+    "TouchOptions": {
+      "expiry": "number",
+      "persist_to": "number",
+      "replicate_to": "number",
+      "cas": "CAS"
+    },
+    "UnlockOptions": {
+      "cas": "CAS"
+    },
+    "UnlockMultiOptionsForValue": {
+      "cas": "CAS"
+    },
+    "UnlockMultiOptions": {
+      "spooled": "bool"
+    },
+    "Connection": {
+      "!type": "fn(callback: ConnectCallback)",
+      "prototype": {
+        "clientVersion": "[?]",
+        "connectionTimeout": "number",
+        "lcbVersion": "[?]",
+        "operationTimeout": "number",
+        "serverNodes": "[string]",
+        "add": "fn(key: string, value: ?, callback: KeyCallback)",
+        "addMulti": "fn(kv: ?, options: AddMultiOptions, callback: MultiCallback)",
+        "append": "fn(key: string, fragment: string, callback: KeyCallback)",
+        "appendMulti": "fn(kv: ?, options: AppendMultiOptions, callback: MultiCallback)",
+        "decr": "fn(key: string, callback: KeyCallback)",
+        "decrMulti": "fn(kv: ?, options: DecrMultiOptions, callback: MultiCallback)",
+        "get": "fn(key: string, callback: KeyCallback)",
+        "getMulti": "fn(kv: [string], options: ?, callback: MultiCallback)",
+        "getDesignDoc": "fn(name: string, callback: DDocCallback)",
+        "getReplica": "fn(key: string, callback: KeyCallback)",
+        "getReplicaMulti": "fn(kv: [string], options: GetReplicaMultiOptions, callback: MultiCallback)",
+        "incr": "fn(key: string, callback: KeyCallback)",
+        "incrMulti": "fn(kv: ?, options: IncrMultiOptions, callback: MultiCallback)",
+        "lock": "fn(key: string, callback: KeyCallback)",
+        "lockMulti": "fn(kv: [string], options: ?, callback: MultiCallback)",
+        "observe": "fn(key: string, options: ObserveOptions, callback: KeyCallback)",
+        "observeMulti": "fn(kv: ?, options: ?, callback: MultiCallback)",
+        "on": "fn(event: string, listener: Function)",
+        "prepend": "fn(key: string, fragment: string, callback: KeyCallback)",
+        "prependMulti": "fn(kv: ?, options: ?, callback: MultiCallback)",
+        "remove": "fn(key: string, callback: KeyCallback)",
+        "removeMulti": "fn(kv: ?, options: RemoveMultiOptions, callback: MultiCallback)",
+        "removeDesignDoc": "fn(name: string, callback: DDocCallback)",
+        "replace": "fn(key: string, value: ?, callback: KeyCallback)",
+        "replaceMulti": "fn(kv: ?, options: ReplaceMultiOptions, callback: MultiCallback)",
+        "set": "fn(key: string, value: ?, callback: KeyCallback)",
+        "setMulti": "fn(kv: ?, options: SetMultiOptions, callback: MultiCallback)",
+        "setDesignDoc": "fn(name: string, data: ?, callback: DDocCallback)",
+        "shutdown": "fn()",
+        "stats": "fn(callback: StatsCallback)",
+        "strError": "fn(code: number) -> string",
+        "touch": "fn(key: string, callback: KeyCallback)",
+        "unlock": "fn(key: string, options: UnlockOptions, callback: KeyCallback)",
+        "unlockMulti": "fn(kv: ?, options: ?, callback: UnlockMultiOptions)",
+        "view": "fn(ddoc: string, name: string) -> ViewQuery"
+      }
+    },
+    "ViewQuery": {
+      "prototype": {
+        "firstPage": "fn(q: ?, callback: Function)",
+        "query": "fn(q: ?, callback: Function)"
+      }
+    }
+  },
+  "!name": "couchbase"
+}

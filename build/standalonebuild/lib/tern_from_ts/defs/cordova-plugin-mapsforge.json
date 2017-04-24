@@ -1,0 +1,56 @@
+{
+  "Window": {
+    "mapsforge": "MapsforgePlugin"
+  },
+  "mapsforge": "MapsforgePlugin",
+  "MapsforgePlugin": {
+    "embedded": "MapsforgeEmbeddedPlugin",
+    "cache": "MapsforgeCachePlugin"
+  },
+  "MapsforgeEmbeddedPlugin": {
+    "COLOR_DKGRAY": "number",
+    "string": "?",
+    "COLOR_CYAN": "number",
+    "COLOR_BLACK": "number",
+    "COLOR_BLUE": "number",
+    "COLOR_GREEN": "number",
+    "COLOR_RED": "number",
+    "COLOR_WHITE": "number",
+    "COLOR_TRANSPARENT": "number",
+    "COLOR_YELLOW": "number",
+    "MARKER_RED": "number",
+    "MARKER_GREEN": "number",
+    "MARKER_BLUE": "number",
+    "MARKER_YELLOW": "number",
+    "MARKER_BLACK": "number",
+    "MARKER_WHITE": "number",
+    "initialize": "fn(args: [?], success?: fn(), error?: fn(message: string))",
+    "show": "fn(success?: fn(), error?: fn(message: string))",
+    "hide": "fn(success?: fn(), error?: fn(message: string))",
+    "setCenter": "fn(lat: number, lng: number, success?: fn(), error?: fn(message: string))",
+    "setZoom": "fn(zoomLevel: number, success?: fn(), error?: fn(message: string))",
+    "setMaxZoom": "fn(maxZoom: number, success?: fn(), error?: fn(message: string))",
+    "setMinZoom": "fn(minZoom: number, success?: fn(), error?: fn(message: string))",
+    "setOfflineTileLayer": "fn(args: [?], success?: fn(), error?: fn(message: string))",
+    "setOnlineTileLayer": "fn(args: [?], success?: fn(), error?: fn(message: string))",
+    "addMarker": "fn(arg: [?], success?: fn(key: number), error?: fn(message: string))",
+    "addPolyline": "fn(arg: [?], success?: fn(key: number), error?: fn(message: string))",
+    "deleteLayer": "fn(key: number, success?: fn(), error?: fn(message: string))",
+    "onStart": "fn(success?: fn(), error?: fn(message: string))",
+    "onStop": "fn(success?: fn(), error?: fn(message: string))",
+    "onDestroy": "fn(success?: fn(), error?: fn(message: string))"
+  },
+  "MapsforgeCachePlugin": {
+    "initialize": "fn(mapFilePath: string, success?: fn(), error?: fn(message: string))",
+    "getTile": "fn(args: [?], success?: fn(tilePath: string), error?: fn(message: string))",
+    "setCacheEnabled": "fn(enabled: bool, success?: fn(), error?: fn(message: string))",
+    "setExternalCache": "fn(external: bool, success?: fn(), error?: fn(message: string))",
+    "setMapFile": "fn(absolutePath: string, success?: fn(), error?: fn(message: string))",
+    "setMaxCacheAge": "fn(milliseconds: number, success?: fn(), error?: fn(message: string))",
+    "setMaxCacheSize": "fn(sizeInMB: number, success?: fn(), error?: fn(message: string))",
+    "setCacheCleaningTrigger": "fn(sizeInMB: number, success?: fn(), error?: fn(message: string))",
+    "destroyCacheOnExit": "fn(destroy: bool, success?: fn(), error?: fn(message: string))",
+    "onDestroy": "fn(success?: fn(), error?: fn(message: string))"
+  },
+  "!name": "cordova-plugin-mapsforge"
+}

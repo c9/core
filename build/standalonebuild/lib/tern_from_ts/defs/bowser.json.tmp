@@ -1,0 +1,43 @@
+{
+  "'bowser'": "def",
+  "BowserModule": {
+    "IBowserUA": {
+      "msie": "bool",
+      "chrome": "bool",
+      "webkit": "bool",
+      "phantom": "bool",
+      "opera": "bool",
+      "safari": "bool",
+      "android": "bool",
+      "ios": "bool",
+      "webos": "bool",
+      "msedge": "bool",
+      "seamonkey": "bool",
+      "firefox": "bool",
+      "yandexbrowser": "bool",
+      "blackberry": "bool",
+      "tablet": "bool",
+      "mobile": "bool",
+      "silk": "bool",
+      "bada": "bool",
+      "tizen": "bool",
+      "windowsphone": "bool",
+      "firefoxos": "bool",
+      "gecko": "bool",
+      "sailfish": "bool",
+      "chromeBook": "bool",
+      "a": "bool",
+      "c": "bool",
+      "x": "bool",
+      "name": "string",
+      "version": "string",
+      "number": "?",
+      "osversion": "string"
+    },
+    "IBowser": {
+      "test": "fn(browserList: [string]) -> bool",
+      "_detect": "fn(ua: string) -> IBowser"
+    }
+  },
+  "!name": "bowser.d.ts"
+}

@@ -1,0 +1,48 @@
+{
+  "StateMachineErrorCallback": {},
+  "StateMachineEventDef": {
+    "name": "string",
+    "from": "?",
+    "to": "string"
+  },
+  "StateMachineEvent": {},
+  "StateMachineConfig": {
+    "initial": "?",
+    "events": "[StateMachineEventDef]",
+    "callbacks": {},
+    "target": "StateMachine",
+    "error": "StateMachineErrorCallback"
+  },
+  "StateMachineStatic": {
+    "VERSION": "string",
+    "WILDCARD": "string",
+    "ASYNC": "string",
+    "Result": {
+      "SUCCEEDED": "number",
+      "NOTRANSITION": "number",
+      "CANCELLED": "number",
+      "ASYNC": "number"
+    },
+    "Error": {
+      "INVALID_TRANSITION": "number",
+      "PENDING_TRANSITION": "number",
+      "INVALID_CALLBACK": "number"
+    },
+    "create": "fn(config: StateMachineConfig, target?: StateMachine) -> StateMachine"
+  },
+  "StateMachineTransition": {
+    "cancel": "fn()"
+  },
+  "StateMachineIs": {},
+  "StateMachineCan": {},
+  "StateMachine": {
+    "current": "string",
+    "is": "StateMachineIs",
+    "can": "StateMachineCan",
+    "cannot": "StateMachineCan",
+    "error": "StateMachineErrorCallback",
+    "transition": "StateMachineTransition"
+  },
+  "state-machine": "StateMachine",
+  "!name": "state-machine"
+}

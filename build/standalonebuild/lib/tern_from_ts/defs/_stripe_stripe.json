@@ -1,0 +1,56 @@
+{
+  "StripeStatic": {
+    "setPublishableKey": "fn(key: string)",
+    "validateCardNumber": "fn(cardNumber: string) -> bool",
+    "validateExpiry": "fn(month: string, year: string) -> bool",
+    "validateCVC": "fn(cardCVC: string) -> bool",
+    "cardType": "fn(cardNumber: string) -> string",
+    "getToken": "fn(token: string, responseHandler: fn(status: number, response: StripeTokenResponse))",
+    "card": "StripeCardData",
+    "createToken": "fn(data: StripeTokenData, responseHandler: fn(status: number, response: StripeTokenResponse))"
+  },
+  "StripeTokenData": {
+    "number": "string",
+    "exp_month": "number",
+    "exp_year": "number",
+    "cvc": "string",
+    "name": "string",
+    "address_line1": "string",
+    "address_line2": "string",
+    "address_city": "string",
+    "address_state": "string",
+    "address_zip": "string",
+    "address_country": "string"
+  },
+  "StripeTokenResponse": {
+    "id": "string",
+    "card": "StripeCardData",
+    "created": "number",
+    "currency": "string",
+    "livemode": "bool",
+    "object": "string",
+    "used": "bool",
+    "error": "StripeError"
+  },
+  "StripeError": {
+    "message": "string"
+  },
+  "StripeCardData": {
+    "object": "string",
+    "last4": "string",
+    "type": "string",
+    "exp_month": "number",
+    "exp_year": "number",
+    "fingerprint": "string",
+    "country": "string",
+    "name": "string",
+    "address_line1": "string",
+    "address_line2": "string",
+    "address_city": "string",
+    "address_state": "string",
+    "address_zip": "string",
+    "address_country": "string"
+  },
+  "Stripe": "StripeStatic",
+  "!name": "stripe"
+}

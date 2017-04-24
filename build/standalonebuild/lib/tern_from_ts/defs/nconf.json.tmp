@@ -1,0 +1,84 @@
+{
+  "nconf": {
+    "version": "number",
+    "stores": "?",
+    "sources": "[?]",
+    "clear": "fn(key: string, callback?: ICallbackFunction) -> ?",
+    "get": "fn(key: string, callback?: ICallbackFunction) -> ?",
+    "merge": "fn(key: string, value: ?, callback?: ICallbackFunction) -> ?",
+    "set": "fn(key: string, value: ?, callback?: ICallbackFunction) -> ?",
+    "reset": "fn(callback?: ICallbackFunction) -> ?",
+    "load": "fn(callback?: ICallbackFunction) -> ?",
+    "mergeSources": "fn(data: ?)",
+    "loadSources": "fn() -> ?",
+    "save": "fn(value: ?, callback?: ICallbackFunction) -> ?",
+    "add": "fn(name: string, options?: IOptions) -> Provider",
+    "argv": "fn(options?: IOptions) -> Provider",
+    "env": "fn(options?: IOptions) -> Provider",
+    "file": "fn(name: string, options?: IFileOptions) -> Provider",
+    "use": "fn(name: string, options?: IOptions) -> Provider",
+    "defaults": "fn(options?: IOptions) -> Provider",
+    "init": "fn(options?: IOptions)",
+    "overrides": "fn(options?: IOptions) -> Provider",
+    "remove": "fn(name: string)",
+    "create": "fn(name: string, options: IOptions) -> IStore",
+    "key": "fn(values: [?]) -> string",
+    "path": "fn(key: ?) -> [?]",
+    "loadFiles": "fn(files: ?, callback?: ICallbackFunction)",
+    "loadFilesSync": "fn(files: ?, callback?: ICallbackFunction)",
+    "formats": {
+      "json": "IFormat",
+      "ini": "IFormat"
+    },
+    "IFormat": {
+      "stringify": "fn(obj: ?, replacer: ?, spacing?: ?)",
+      "parse": "fn(str: string)"
+    },
+    "IOptions": {
+      "type": "string"
+    },
+    "IFileOptions": {
+      "file": "string",
+      "dir": "string",
+      "search": "bool",
+      "format": "IFormat",
+      "json_spacing": "number"
+    },
+    "ICallbackFunction": {},
+    "Provider": {
+      "!type": "fn(options: IOptions)",
+      "prototype": {
+        "stores": "?",
+        "sources": "[?]",
+        "clear": "fn(key: string, callback?: ICallbackFunction) -> ?",
+        "get": "fn(key: string, callback?: ICallbackFunction) -> ?",
+        "merge": "fn(key: string, value: ?, callback?: ICallbackFunction) -> ?",
+        "set": "fn(key: string, value: ?, callback?: ICallbackFunction) -> ?",
+        "reset": "fn(callback?: ICallbackFunction) -> ?",
+        "load": "fn(callback?: ICallbackFunction) -> ?",
+        "mergeSources": "fn(data: ?)",
+        "loadSources": "fn() -> ?",
+        "save": "fn(value: ?, callback?: ICallbackFunction) -> ?",
+        "add": "fn(name: string, options?: IOptions) -> Provider",
+        "argv": "fn(options?: IOptions) -> Provider",
+        "env": "fn(options?: IOptions) -> Provider",
+        "file": "fn(name: string, options?: IFileOptions) -> Provider",
+        "use": "fn(name: string, options?: IOptions) -> Provider",
+        "defaults": "fn(options?: IOptions) -> Provider",
+        "init": "fn(options?: IOptions)",
+        "overrides": "fn(options?: IOptions) -> Provider",
+        "remove": "fn(name: string)",
+        "create": "fn(name: string, options: IOptions) -> IStore"
+      }
+    },
+    "IStore": {
+      "type": "string",
+      "get": "fn(key: string) -> ?",
+      "set": "fn(key: string, value: ?) -> bool",
+      "clear": "fn(key: string) -> bool",
+      "merge": "fn(key: string, value: ?) -> bool",
+      "reset": "fn(callback?: ICallbackFunction) -> bool"
+    }
+  },
+  "!name": "nconf.d.ts"
+}

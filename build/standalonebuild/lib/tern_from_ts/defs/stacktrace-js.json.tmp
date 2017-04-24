@@ -1,0 +1,24 @@
+{
+  "StackTrace": {
+    "StackTraceOptions": {
+      "filter": "fn(stackFrame: StackFrame)",
+      "sourceCache": {
+        "URL": "string"
+      },
+      "offline": "bool"
+    },
+    "StackFrame": {
+      "functionName": "string",
+      "args": "?",
+      "fileName": "string",
+      "lineNumber": "number",
+      "columnNumber": "number"
+    },
+    "get": "fn(options?: StackTraceOptions) -> ?",
+    "fromError": "fn(error: Error, options?: StackTraceOptions) -> ?",
+    "generateArtificially": "fn(options?: StackTraceOptions) -> ?",
+    "instrument": "fn(fn: fn(), callback: fn(stackFrames: [StackFrame]), errorCallback: fn(error: Error), thisArg?: ?)",
+    "deinstrument": "fn(fn: fn())"
+  },
+  "!name": "stacktrace-js.d.ts"
+}

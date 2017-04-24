@@ -1,0 +1,17 @@
+{
+  "Dagre": {
+    "DagreD3Factory": {
+      "render": "Render"
+    },
+    "Graph": {
+      "graph": "fn() -> Graph",
+      "height": "number",
+      "predecessors": "fn(id: string) -> [string]",
+      "successors": "fn(id: string) -> [string]",
+      "width": "number"
+    },
+    "Render": {}
+  },
+  "dagreD3": "Dagre.DagreD3Factory",
+  "!name": "dagre-d3"
+}

@@ -1,0 +1,175 @@
+{
+  "JSONEditorOptions": {
+    "change": "fn()",
+    "history": "bool",
+    "mode": "string",
+    "name": "string",
+    "search": "bool"
+  },
+  "JSONEditorHistory": {
+    "!type": "fn(editor: JSONEditor)",
+    "prototype": {
+      "onChange": "fn()",
+      "add": "fn(action: string, params: Object)",
+      "clear": "fn()",
+      "canUndo": "fn() -> bool",
+      "canRedo": "fn() -> bool",
+      "undo": "fn()",
+      "redo": "fn()"
+    }
+  },
+  "JSONEditorNodeUpdateDomOptions": {
+    "recurse": "bool",
+    "updateIndexes": "bool"
+  },
+  "JSONEditorNodeType": {
+    "value": "string",
+    "className": "string",
+    "title": "string"
+  },
+  "JSONEditorConstructorParams": {
+    "field": "string",
+    "fieldEditable": "bool",
+    "value": "?"
+  },
+  "JSONEditorNode": {
+    "!type": "fn(editor: JSONEditor, params: JSONEditorConstructorParams)",
+    "prototype": {
+      "setParent": "fn(parent: JSONEditorNode)",
+      "getParent": "fn() -> JSONEditorNode",
+      "setField": "fn(field: string, fieldEditable: bool)",
+      "getField": "fn() -> string",
+      "setValue": "fn(value: ?)",
+      "getValue": "fn() -> ?",
+      "getLevel": "fn() -> number",
+      "clone": "fn() -> JSONEditorNode",
+      "expand": "fn(recurse: bool)",
+      "collapse": "fn(recurse: bool)",
+      "showChilds": "fn()",
+      "hide": "fn()",
+      "hideChilds": "fn()",
+      "appendChild": "fn(node: JSONEditorNode)",
+      "moveBefore": "fn(node: JSONEditorNode, beforeNode: JSONEditorNode)",
+      "moveTo": "fn(node: JSONEditorNode, index: number)",
+      "insertBefore": "fn(node: JSONEditorNode, beforeNode: JSONEditorNode)",
+      "search": "fn(text: string) -> [JSONEditorNode]",
+      "scrollTo": "fn()",
+      "focus": "fn()",
+      "blur": "fn()",
+      "containsNode": "fn(node: JSONEditorNode) -> bool",
+      "removeChild": "fn(node: JSONEditorNode) -> JSONEditorNode",
+      "changeType": "fn(newType: string)",
+      "clearDom": "fn()",
+      "getDom": "fn() -> HTMLElement",
+      "setHighlight": "fn(highlight: bool)",
+      "updateValue": "fn(value: ?)",
+      "updateField": "fn(field: string)",
+      "updateDom": "fn(options: ?)",
+      "onEvent": "fn(event: Event)",
+      "types": "[JSONEditorNodeType]",
+      "getAppend": "fn() -> HTMLElement"
+    }
+  },
+  "JSONEditorAppendNode": {
+    "!type": "fn(editor: JSONEditor)",
+    "prototype": {}
+  },
+  "JSONEditorShowDropDownListParams": {
+    "x": "number",
+    "y": "number",
+    "node": "JSONEditorNode",
+    "value": "string",
+    "values": "[Object]",
+    "optionSelectedClassName": "string",
+    "optionClassName": "string",
+    "callback": "fn(value: ?)"
+  },
+  "JSONEditorSearchBox": {
+    "!type": "fn(editor: JSONEditor, container: HTMLElement)",
+    "prototype": {
+      "next": "fn()",
+      "previous": "fn()",
+      "setActiveResult": "fn(index: number)",
+      "focusActiveResult": "fn()",
+      "clearDelay": "fn()",
+      "onDelayedSearch": "fn(event: Event)",
+      "onSearch": "fn(event: Event, forcedSearch: bool)",
+      "onKeyDown": "fn(event: Event)",
+      "onKeyUp": "fn(event: Event)"
+    }
+  },
+  "JSONEditorBuffer": {
+    "text": "string",
+    "flush": "fn() -> string",
+    "set": "fn(text: string)"
+  },
+  "JSONEditorActionParams": {
+    "node": "JSONEditorNode",
+    "oldValue": "string",
+    "newValue": "string",
+    "startParent": "JSONEditorNode",
+    "endParent": "JSONEditorNode",
+    "startIndex": "number",
+    "endIndex": "number",
+    "clone": "JSONEditorNode",
+    "parent": "JSONEditorNode",
+    "index": "number",
+    "oldType": "JSONEditorNodeType",
+    "newType": "JSONEditorNodeType"
+  },
+  "JSONEditor": {
+    "!type": "fn(container: HTMLElement, options?: JSONEditorOptions, json?: ?)",
+    "focusNode": "JSONEditorNode",
+    "freezeHighlight": "bool",
+    "showDropDownList": "fn(params: ?)",
+    "getNodeFromTarget": "fn(target: HTMLElement) -> JSONEditorNode",
+    "getAbsoluteLeft": "fn(elem: HTMLElement) -> number",
+    "getAbsoluteTop": "fn(elem: HTMLElement)",
+    "addClassName": "fn(elem: HTMLElement, className: string)",
+    "removeClassName": "fn(elem: HTMLElement, className: string)",
+    "stripFormatting": "fn(divElement: HTMLElement)",
+    "setEndOfContentEditable": "fn(contentEditableElement: HTMLElement)",
+    "getInnerText": "fn(element: HTMLElement, buffer: JSONEditorBuffer) -> string",
+    "getInternetExplorerVersion": "fn() -> number",
+    "parse": "fn(jsonString: string) -> Object",
+    "validate": "fn(jsonString: string) -> string",
+    "prototype": {
+      "set": "fn(json: Object, name?: string)",
+      "setName": "fn(name?: string)",
+      "get": "fn() -> Object",
+      "getName": "fn() -> string",
+      "clear": "fn()",
+      "search": "fn(text: string) -> [?]",
+      "expandAll": "fn()",
+      "collapseAll": "fn()",
+      "onAction": "fn(action: string, params: JSONEditorActionParams)",
+      "focus": "fn()",
+      "scrollTo": "fn(top: number)",
+      "History": "JSONEditorHistory",
+      "Node": "JSONEditorNode",
+      "SearchBox": "JSONEditorSearchBox",
+      "number": "?",
+      "Events": {
+        "addEventListener": "fn(element: HTMLElement, action: string, listener: fn(event?: Event), useCapture: bool) -> fn(event?: Event)",
+        "removeEventListener": "fn(element: HTMLElement, action: string, listener: fn(event?: Event), useCapture: bool)",
+        "stopPropagation": "fn(event: Event)",
+        "preventDefault": "fn(event: Event)"
+      }
+    }
+  },
+  "JSONFormatterOptions": {
+    "change": "fn()",
+    "indentation": "number"
+  },
+  "JSONFormatter": {
+    "!type": "fn(container: HTMLElement, options?: JSONFormatterOptions, json?: ?)",
+    "prototype": {
+      "set": "fn(json: Object)",
+      "get": "fn() -> Object",
+      "setText": "fn(jsonString: string)",
+      "getText": "fn() -> string",
+      "onError": "fn(err: string)"
+    }
+  },
+  "!name": "jsoneditoronline.d.ts"
+}

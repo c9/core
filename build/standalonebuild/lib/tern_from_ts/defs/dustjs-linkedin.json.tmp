@@ -1,0 +1,39 @@
+{
+  "dustjs-linkedin": {
+    "Template": {},
+    "Chunk": {
+      "write": "fn(data: string) -> Chunk",
+      "end": "fn(data: string) -> Chunk",
+      "map": "fn(callback: fn(chunk: Chunk)) -> Chunk",
+      "tap": "fn(callback: fn(value: ?)) -> Chunk",
+      "untap": "fn() -> Chunk",
+      "render": "fn(body: ?, context: Context) -> Chunk",
+      "setError": "fn(err: ?) -> Chunk"
+    },
+    "Context": {
+      "get": "fn(key: string) -> ?",
+      "push": "fn(head: ?, idx?: number, len?: number) -> Context",
+      "rebase": "fn(head: ?) -> Context",
+      "current": "fn() -> ?"
+    },
+    "Stream": {
+      "flush": "fn()",
+      "emit": "fn(evt: string, data: ?)",
+      "on": "fn(evt: string, callback: fn(data?: ?))",
+      "pipe": "fn(stream: Stream) -> Stream"
+    },
+    "register": "fn(name: string, tmpl: Template)",
+    "compile": "fn(source: string, name: string, strip?: bool) -> string",
+    "compileFn": "fn(source: string, name?: string) -> Template",
+    "loadSource": "fn(compiled: string) -> Template",
+    "render": "fn(name: string, context: ?, callback: fn(err: ?, out: string))",
+    "renderSource": "fn(source: string, context: ?) -> Stream",
+    "stream": "fn(name: string, context: ?) -> Stream",
+    "makeBase": "fn(global: ?) -> Context",
+    "escapeHtml": "fn(html: string) -> string",
+    "escapeJs": "fn(js: string) -> string",
+    "helpers": {},
+    "filters": {}
+  },
+  "!name": "dustjs-linkedin.d.ts"
+}

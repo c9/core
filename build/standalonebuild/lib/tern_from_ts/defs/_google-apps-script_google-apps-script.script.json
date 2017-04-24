@@ -1,0 +1,88 @@
+{
+  "GoogleAppsScript": {
+    "Script": {
+      "AuthMode": "number",
+      "AuthorizationInfo": {
+        "getAuthorizationStatus": "fn() -> AuthorizationStatus",
+        "getAuthorizationUrl": "fn() -> string"
+      },
+      "AuthorizationStatus": "number",
+      "ClockTriggerBuilder": {
+        "after": "fn(durationMilliseconds: Integer) -> ClockTriggerBuilder",
+        "at": "fn(date: Date) -> ClockTriggerBuilder",
+        "atDate": "fn(year: Integer, month: Integer, day: Integer) -> ClockTriggerBuilder",
+        "atHour": "fn(hour: Integer) -> ClockTriggerBuilder",
+        "create": "fn() -> Trigger",
+        "everyDays": "fn(n: Integer) -> ClockTriggerBuilder",
+        "everyHours": "fn(n: Integer) -> ClockTriggerBuilder",
+        "everyMinutes": "fn(n: Integer) -> ClockTriggerBuilder",
+        "everyWeeks": "fn(n: Integer) -> ClockTriggerBuilder",
+        "inTimezone": "fn(timezone: string) -> ClockTriggerBuilder",
+        "nearMinute": "fn(minute: Integer) -> ClockTriggerBuilder",
+        "onMonthDay": "fn(day: Integer) -> ClockTriggerBuilder",
+        "onWeekDay": "fn(day: Base.Weekday) -> ClockTriggerBuilder"
+      },
+      "DocumentTriggerBuilder": {
+        "create": "fn() -> Trigger",
+        "onOpen": "fn() -> DocumentTriggerBuilder"
+      },
+      "EventType": "number",
+      "FormTriggerBuilder": {
+        "create": "fn() -> Trigger",
+        "onFormSubmit": "fn() -> FormTriggerBuilder",
+        "onOpen": "fn() -> FormTriggerBuilder"
+      },
+      "InstallationSource": "number",
+      "ScriptApp": {
+        "AuthMode": "AuthMode",
+        "AuthorizationStatus": "AuthorizationStatus",
+        "EventType": "EventType",
+        "InstallationSource": "InstallationSource",
+        "TriggerSource": "TriggerSource",
+        "WeekDay": "Base.Weekday",
+        "deleteTrigger": "fn(trigger: Trigger)",
+        "getAuthorizationInfo": "fn(authMode: AuthMode) -> AuthorizationInfo",
+        "getInstallationSource": "fn() -> InstallationSource",
+        "getOAuthToken": "fn() -> string",
+        "getProjectKey": "fn() -> string",
+        "getProjectTriggers": "fn() -> [Trigger]",
+        "getService": "fn() -> Service",
+        "getUserTriggers": "fn(document: Document.Document) -> [Trigger]",
+        "invalidateAuth": "fn()",
+        "newStateToken": "fn() -> StateTokenBuilder",
+        "newTrigger": "fn(functionName: string) -> TriggerBuilder",
+        "getScriptTriggers": "fn() -> [Trigger]"
+      },
+      "Service": "number",
+      "SpreadsheetTriggerBuilder": {
+        "create": "fn() -> Trigger",
+        "onChange": "fn() -> SpreadsheetTriggerBuilder",
+        "onEdit": "fn() -> SpreadsheetTriggerBuilder",
+        "onFormSubmit": "fn() -> SpreadsheetTriggerBuilder",
+        "onOpen": "fn() -> SpreadsheetTriggerBuilder"
+      },
+      "StateTokenBuilder": {
+        "createToken": "fn() -> string",
+        "withArgument": "fn(name: string, value: string) -> StateTokenBuilder",
+        "withMethod": "fn(method: string) -> StateTokenBuilder",
+        "withTimeout": "fn(seconds: Integer) -> StateTokenBuilder"
+      },
+      "Trigger": {
+        "getEventType": "fn() -> EventType",
+        "getHandlerFunction": "fn() -> string",
+        "getTriggerSource": "fn() -> TriggerSource",
+        "getTriggerSourceId": "fn() -> string",
+        "getUniqueId": "fn() -> string"
+      },
+      "TriggerBuilder": {
+        "forDocument": "fn(document: Document.Document) -> DocumentTriggerBuilder",
+        "forForm": "fn(form: Forms.Form) -> FormTriggerBuilder",
+        "forSpreadsheet": "fn(sheet: Spreadsheet.Spreadsheet) -> SpreadsheetTriggerBuilder",
+        "timeBased": "fn() -> ClockTriggerBuilder"
+      },
+      "TriggerSource": "number"
+    }
+  },
+  "ScriptApp": "GoogleAppsScript.Script.ScriptApp",
+  "!name": "google-apps-script.script"
+}

@@ -1,0 +1,12 @@
+{
+  "cron": {
+    "CronJobStatic": {},
+    "CronJob": {
+      "start": "fn()",
+      "stop": "fn()"
+    },
+    "CronTimeStatic": {},
+    "CronTime": {}
+  },
+  "!name": "cron"
+}

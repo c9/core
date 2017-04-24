@@ -1,0 +1,172 @@
+{
+  "Knockback": {
+    "EventWatcherOptions": {
+      "emitter": "fn(newEmitter: ?)",
+      "update": "fn(newValue: ?)",
+      "event_selector": "string",
+      "key": "string"
+    },
+    "FactoryOptions": {
+      "factories": "?"
+    },
+    "StoreOptions": {
+      "creator": "?",
+      "path": "string",
+      "store": "Store",
+      "factory": "Factory"
+    },
+    "Destroyable": {
+      "prototype": {
+        "destroy": "fn()"
+      }
+    },
+    "ViewModel": {
+      "!type": "fn(model?: Backbone.Model, options?: ViewModelOptions, viewModel?: ViewModel)",
+      "prototype": {
+        "shareOptions": "fn() -> ViewModelOptions",
+        "extend": "fn(source: ?)",
+        "model": "fn() -> Backbone.Model"
+      }
+    },
+    "EventWatcher": {
+      "useOptionsOrCreate": "fn(options: ?, emitter: ?, obj: Backbone.Model, callback_options: ?)",
+      "prototype": {
+        "emitter": "fn() -> Backbone.Model",
+        "registerCallbacks": "fn(obj: ?, callback_info: ?)",
+        "releaseCallbacks": "fn(obj: ?)"
+      }
+    },
+    "Factory": {
+      "useOptionsOrCreate": "fn(options: FactoryOptions, obj: ?, owner_path: string)",
+      "!type": "fn(parent_factory: ?)",
+      "prototype": {
+        "hasPath": "fn(path: string) -> bool",
+        "addPathMapping": "fn(path: string, create_info: ?)",
+        "addPathMappings": "fn(factories: ?, owner_path: string)",
+        "hasPathMappings": "fn(factories: ?, owner_path: string) -> bool",
+        "creatorForPath": "fn(obj: ?, path: string)"
+      }
+    },
+    "Store": {
+      "useOptionsOrCreate": "fn(options: StoreOptions, obj: ?, observable: ?)",
+      "!type": "fn(model: Backbone.Model, options: StoreOptions)",
+      "prototype": {
+        "clear": "fn()",
+        "register": "fn(obj: Backbone.Model, observable: ?, options: StoreOptions)",
+        "findOrCreate": "fn(obj: Backbone.Model, options: StoreOptions)"
+      }
+    },
+    "DefaultObservable": {
+      "!type": "fn(targetObservable: ?, defaultValue: ?)",
+      "prototype": {
+        "setToDefault": "fn()"
+      }
+    },
+    "FormattedObservable": {
+      "!type": "fn(format: string, args: [?])",
+      "prototype": {}
+    },
+    "LocalizedObservable": {
+      "destroy": "fn()",
+      "resetToCurrent": "fn()",
+      "observedValue": "fn(value: ?)"
+    },
+    "TriggeredObservable": {
+      "!type": "fn(emitter: Backbone.ModelBase, event: string)",
+      "prototype": {
+        "emitter": "fn() -> Backbone.ModelBase"
+      }
+    },
+    "Statistics": {
+      "!type": "fn()",
+      "prototype": {
+        "clear": "fn()",
+        "addModelEvent": "fn(event: string)",
+        "modelEventsStatsString": "fn()",
+        "register": "fn(key: string, obj: ?)",
+        "unregister": "fn(key: string, obj: ?)",
+        "registeredCount": "fn(type: ?) -> number",
+        "registeredStatsString": "fn(success_message: string) -> string"
+      }
+    },
+    "OptionsBase": {
+      "path": "string",
+      "store": "Store",
+      "factory": "Factory",
+      "options": "?"
+    },
+    "ViewModelOptions": {
+      "internals": "[string]",
+      "requires": "[string]",
+      "keys": "[string]",
+      "if": "fn(objOrArray: ?)",
+      "path": "string",
+      "factories": "?"
+    },
+    "CollectionOptions": {
+      "models_only": "bool",
+      "view_model": "?",
+      "create": "?",
+      "factories": "?",
+      "comparator": "?",
+      "sort_attribute": "string",
+      "filters": "?"
+    },
+    "CollectionObservable": {
+      "collection": "fn(colleciton: ?)",
+      "destroy": "fn()",
+      "shareOptions": "fn() -> CollectionOptions",
+      "filters": "fn(id: ?) -> Backbone.Model",
+      "comparator": "fn(comparatorFunction: ?)",
+      "sortAttribute": "fn(attr: string)",
+      "viewModelByModel": "fn(model: Backbone.Model) -> ViewModel",
+      "hasViewModels": "fn() -> bool"
+    },
+    "Utils": {
+      "wrappedObservable": "fn(obj: ?) -> ?",
+      "wrappedObject": "fn(obj: ?) -> ?",
+      "wrappedModel": "fn(obj: ?) -> ?",
+      "wrappedStore": "fn(obj: ?) -> ?",
+      "wrappedFactory": "fn(obj: ?) -> ?",
+      "wrappedEventWatcher": "fn(obj: ?) -> ?",
+      "wrappedDestroy": "fn(obj: ?)",
+      "valueType": "fn(observable: ?) -> ?",
+      "pathJoin": "fn(path1: string, path2: string) -> string",
+      "optionsPathJoin": "fn(options: ?, path: string) -> ?",
+      "inferCreator": "fn(value: ?, factory: Factory, path: string, owner: ?, key: string)",
+      "createFromDefaultCreator": "fn(obj: ?, options?: ?)",
+      "hasModelSignature": "fn(obj: ?) -> bool",
+      "hasCollectionSignature": "fn(obj: ?) -> bool"
+    },
+    "Static": {
+      "ViewModel": "?",
+      "CollectionObservable": "?",
+      "collectionObservable": "fn(model?: ?, options?: CollectionOptions) -> CollectionObservable",
+      "observable": "fn(model: Backbone.Model, options: IObservableOptions, vm?: ViewModel) -> ?",
+      "viewModel": "fn(model?: Backbone.Model, options?: ?) -> ?",
+      "defaultObservable": "fn(targetObservable: ?, defaultValue: ?) -> ?",
+      "formattedObservable": "fn(format: string, args: [?]) -> ?",
+      "localizedObservable": "fn(data: ?, options: ?) -> ?",
+      "release": "fn(object: ?, pre_release?: fn())",
+      "releaseKeys": "fn(object: ?)",
+      "releaseOnNodeRemove": "fn(viewmodel: ViewModel, node: Element)",
+      "renderTemplate": "fn(template: string, viewModel: ViewModel, options: ?)",
+      "renderAutoReleasedTemplate": "fn(template: string, viewModel: ViewModel, options: ?)",
+      "applyBindings": "fn(viewModel: ViewModel, node?: Element)"
+    },
+    "IObservableOptions": {
+      "key": "string",
+      "read": "fn()",
+      "write": "fn(value: ?)",
+      "args": "[?]",
+      "localizer": "LocalizedObservable",
+      "default": "?",
+      "path": "string",
+      "store": "?",
+      "factory": "?",
+      "options": "?"
+    }
+  },
+  "kb": "Knockback.Static",
+  "!name": "knockback.d.ts"
+}
