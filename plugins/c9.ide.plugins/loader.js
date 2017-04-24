@@ -198,7 +198,7 @@ define(function(require, exports, module) {
                         name: stat.name,
                         path: absolutePath([dirPath, stat.name].join("/")),
                         packagePath: ["plugins", stat.name].join("/"),
-                        staticPrefix: stat.href.replace(/\/$/, ""),
+                        staticPrefix: vfs.url([dirPath, stat.name].join("/")),
                     };
                     done(null, config);
                 }, callback);
