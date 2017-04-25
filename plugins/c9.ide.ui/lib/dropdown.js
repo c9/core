@@ -374,11 +374,6 @@ apf.dropdown = function(struct, tagName) {
         if (this.dispatchEvent("slideup") === false) return false;
         
         this.isOpen = false;
-        if (this.selected) {
-            var htmlNode = apf.xmldb.findHtmlNode(this.selected, this);
-            if (htmlNode) this.$setStyleClass(htmlNode, '', ["hover"]);
-        }
-        
         this.$setStyleClass(this.$ext, '', [this.$baseCSSname + "Down"]);
         if (apf.popup.last == this.$uniqueId)
             apf.popup.hide();
