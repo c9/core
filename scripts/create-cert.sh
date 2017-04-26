@@ -1,15 +1,16 @@
 #!/bin/bash
-set -eo pipefail
+set -euo pipefail
 
 # http://apetec.com/support/GenerateSAN-CSR.htm
 # http://chschneider.eu/linux/server/openssl.shtml
 
-DOMAIN=$1
-IP=$2
-if [ -z "$DOMAIN" ]; then DOMAIN=c9.dev; fi
-if [ -z "$IP" ]; then IP=127.0.0.1; fi
+DOMAIN=${1:-c9.dev}
+IP=${2:-127.0.0.1}
 
-if [[ "$DOMAIN" =~ [/[:space:]] ]]; then echo "Invalid domain name $DOMAIN"; exit 1; fi
+if [[ "$DOMAIN$IP" =~ [/[:space:]] ]]; then
+    echo "$DOMAIN and $IP can't contain special character";
+    exit 1;
+fi
 
 FQDN="
 IP.1 = $IP
