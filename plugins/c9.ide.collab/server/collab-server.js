@@ -1941,6 +1941,9 @@ function syncDocument(docId, doc, client, forceSync, callback) {
     
     function doSyncDocument() {
         Fs.readFile(file, "utf8", function (err, contents) {
+            if (typeof doc.contents != "string" && doc.contents)
+                doc.contents = doc.contents.toString(); // because it can be a buffer
+
             if (err)
                 return callback(err);
 
@@ -2197,14 +2200,14 @@ function handleSaveFile(userIds, client, data) {
                 doSaveDocument(docId, doc, userId, !data.silent, function (err, result) {
                     logVerbose("[vfs-collab] Saving took", Date.now() - st, "ms - time is now: " + Date.now() + " file:", docId, !err);
                     if (err) {
-                        client.send({		
-                            type: "POST_PROCESSOR_ERROR",		
-                            data: {		
-                                code: err.code,		
-                                stderr: result && result.stderr,		
-                                docId: docId,		
-                            }		
-                        });		
+                        client.send({
+                            type: "POST_PROCESSOR_ERROR",
+                            data: {
+                                code: err.code,
+                                stderr: err.stderr,
+                                docId: docId,
+                            }
+                        });
                         return done(err);
                     }
                     
@@ -2223,40 +2226,27 @@ function handleSaveFile(userIds, client, data) {
 
 function execPostProcessor(absPath, docId, doc, fileContents, client, postProcessor, callback) {
     localfsAPI.writeToWatchedFile(absPath, function(afterWrite) {
-        localfsAPI.execFile(
-            postProcessor.command,
-            { args: postProcessor.args.map(function(a) { return a.replace(/\$file/g, absPath); }) },
-            function(err, result) {
-                if (err) return done(err);
-                
-                afterWrite(function() {
-                    Fs.readFile(absPath, "utf8", done);
-                });
-            }
-        );
-    });
-    
-    function done(err, result) {
-        var newFileContents = result && result.toString().replace(/\n/g, doc.newLineChar || DEFAULT_NL_CHAR_FILE);
-        if (!newFileContents || newFileContents === fileContents) {
+        localfsAPI.execFile(postProcessor.command, {
+            args: postProcessor.args.map(function(a) { return a.replace(/\$file/g, absPath); }),
+            cwd: Path.dirname(absPath),
+        },
+        function(err, result) {
             if (err) {
                 client.send({
                     type: "POST_PROCESSOR_ERROR",
                     data: {
                         code: err.code,
-                        stderr: result && result.stderr,
+                        stderr: err.stderr,
                         docId: docId,
                     }
                 });
-                return callback();
             }
-            return callback();
-        }
-        
-        doc.contents = fileContents;
-        
-        syncDocument(docId, doc, null, false, callback);
-    }
+            
+            syncDocument(docId, doc, null, true, function() {
+                afterWrite(callback)
+            });
+        });
+    });
 }
 
 /**
