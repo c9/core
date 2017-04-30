@@ -17,8 +17,24 @@ define(function(require, exports, module) {
         
         var ERROR_NOT_FOUND = 127;
         
+        var fromFormatCommand;
+        
         function load() {
-            collab.on("beforeSave", beforeSave, plugin);
+            collab.on("beforeSave", function(e) {
+                var mode = getMode(e.docId);
+                var enabled = settings.getBool("project/" + mode + "/@formatOnSave");
+                if (!enabled && !fromFormatCommand)
+                    return;
+                if (mode === "javascript" && settings.getBool("project/javascript/@use_jsbeautify"))
+                    return; // use built-in JS Beautify instead
+                var formatter = settings.get("project/" + mode + "/@formatter");
+                if (!formatter)
+                    return showError("No code formatter set for " + mode + ": please check your project settings");
+                e.postProcessor = {
+                    command: "bash",
+                    args: ["-c", formatter]
+                };
+            }, plugin);
             collab.on("postProcessorError", function(e) {
                 var mode = getMode(e.docId) || "language";
                 if (e.code !== ERROR_NOT_FOUND)
@@ -28,29 +44,15 @@ define(function(require, exports, module) {
                     + formatter + " not found, please check your project settings");
             });
             format.on("format", function(e) {
-                if (!settings.get("project/" + e.mode + "/@formatOnSave"))
+                if (!settings.get("project/" + e.mode + "/@formatter"))
                     return;
                 if (e.mode === "javascript" && settings.getBool("project/javascript/@use_jsbeautify"))
                     return; // use built-in JS Beautify instead
-                save.save(tabs.currentTab);
+                fromFormatCommand = true;
+                save.save(tabs.focussedTab);
+                fromFormatCommand = false;
                 return true;
             }, plugin);
-        }
-        
-        function beforeSave(e) {
-            var mode = getMode(e.docId);
-            var enabled = settings.getBool("project/" + mode + "/@formatOnSave");
-            if (!enabled)
-                return;
-            if (mode === "javascript" && settings.getBool("project/javascript/@use_jsbeautify"))
-                return; // use built-in JS Beautify instead
-            var formatter = settings.get("project/" + mode + "/@formatter");
-            if (!formatter)
-                return showError("No code formatter set for " + mode + ": please check your project settings");
-            e.postProcessor = {
-                command: "bash",
-                args: ["-c", formatter]
-            };
         }
         
         function getMode(docId) {
@@ -64,7 +66,7 @@ define(function(require, exports, module) {
             load();
         });
         plugin.on("unload", function() {
-            
+            fromFormatCommand = false;
         });
         
         /**
