@@ -88,6 +88,7 @@ module.exports = function(options) {
             staticPrefix: staticPrefix + "/plugins/c9.ide.plugins",
             devel: devel
         },
+        "plugins/c9.ide.plugins/gui",
         // {
         //     packagePath: "plugins/c9.ide.plugins/test",
         //     staticPrefix: staticPrefix + "/plugins/c9.ide.plugins"
