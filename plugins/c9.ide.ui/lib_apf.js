@@ -3762,6 +3762,52 @@ apf.queryNode = function(contextNode, sExpr) {
 };
 
 /**
+ * Queries an XML node using xpath for a single string value.
+ * @param {XMLElement} xmlNode The XML element to query
+ * @param {String}     xpath   The xpath query
+ * @return {String} The value of the query result or empty string
+ */
+apf.queryValue = function (xmlNode, xpath) {
+    if (!xmlNode)
+        return "";
+    if (xmlNode.nodeType == 2)
+        return xmlNode.nodeValue;
+
+    if (xpath) {
+        xmlNode = apf.queryNode(xmlNode, xpath);
+        if (!xmlNode)
+            return "";
+    }
+   return xmlNode.nodeType == 1
+        ? (!xmlNode.firstChild ? "" : xmlNode.firstChild.nodeValue)
+        : xmlNode.nodeValue;
+};
+
+
+/**
+ * Queries an xml node using xpath for multiple string values.
+ * @param {XMLElement} xmlNode The xml element to query
+ * @param {String}     xpath   The xpath query
+ * @return {Array} A list of values resulting from the query
+ */
+apf.queryValues = function(xmlNode, xpath) {
+    var out = [];
+    if (!xmlNode) return out;
+
+    var nodes = apf.queryNodes(xmlNode, xpath);
+    if (!nodes.length) return out;
+
+    for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        if (n.nodeType == 1)
+            n = n.firstChild;
+        out.push(n.nodeValue || "");
+    }
+    return out;
+};
+
+
+/**
  * Retrieves the attribute of an XML node, or the first parent node that has
  * that attribute set. If no attribute is set, the value is searched for on
  * the appsettings element.
