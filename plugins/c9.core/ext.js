@@ -1,11 +1,11 @@
 define(function(require, exports, module) {
-    main.consumes = ["hub"];
+    main.consumes = ["app"];
     main.provides = ["ext", "Plugin"];
     return main;
 
     function main(options, imports, register) {
         var Emitter = require("events").EventEmitter;
-        var architectApp = imports.hub.app;
+        var architectApp = imports.app;
 
 
         var plugins = [];

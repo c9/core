@@ -3,7 +3,7 @@ define(function(require, exports, module) {
         "Plugin", "dialog.error", "ui", "settings", "tabManager", "save", 
         "menus", "preferences.keybindings", "preferences.general",
         "preferences.project", "c9", "commands", "watcher", "fs", 
-        "tree.favorites", "util", "hub"
+        "tree.favorites", "util", "app"
     ];
     main.provides = ["configure"];
     return main;
@@ -22,7 +22,7 @@ define(function(require, exports, module) {
         var kbprefs = imports["preferences.keybindings"];
         var genprefs = imports["preferences.general"];
         var prjprefs = imports["preferences.project"];
-        var services = imports.hub.app.services;
+        var services = imports.app.services;
         var showError = imports["dialog.error"].show;
         var favs = imports["tree.favorites"];
         var util = imports.util;

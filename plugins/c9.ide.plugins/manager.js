@@ -1,7 +1,7 @@
 /*global requirejs*/
 define(function(require, exports, module) {
     main.consumes = [
-        "hub", "ext", "c9", "Plugin", "proc", "fs", "tree", "vfs",
+        "app", "ext", "c9", "Plugin", "proc", "fs", "tree", "vfs",
         "dialog.error", "tree.favorites"
     ];
     main.provides = ["pluginManager", "plugin.manager", "plugin.debug"];
@@ -19,7 +19,7 @@ define(function(require, exports, module) {
         var vfs = imports.vfs;
         var showError = imports["dialog.error"].show;
         var favs = imports["tree.favorites"];
-        var architectApp = imports.hub.app;
+        var architectApp = imports.app;
 
         var join = require("path").join;
         var basename = require("path").basename;

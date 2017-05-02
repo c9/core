@@ -1,9 +1,9 @@
 define(function(require, exports, module) {
     main.consumes = [
-        "PreferencePanel", "settings", "ui", "util", "ext", "c9", "Plugin",
-        "layout", "proc", "menus", "commands", "pluginManager",
+        "app", "ext", "c9", "PreferencePanel", "settings", "ui", "util",
+        "layout", "menus", "commands", "pluginManager",
         "dialog.error", "dialog.info", "tree.favorites", "fs", "tree", "vfs",
-        "preferences.experimental", "apf", "hub", "dialog.notification"
+        "preferences.experimental", "apf","dialog.notification"
     ];
     main.provides = ["pluginManagerUi"];
     return main;
@@ -26,7 +26,7 @@ define(function(require, exports, module) {
         var notify = imports["dialog.notification"].show;
         var experimental = imports["preferences.experimental"];
         var pluginManager = imports.pluginManager;
-        var architectApp = imports.hub.app;
+        var architectApp = imports.app;
 
         var search = require("../c9.ide.navigate/search");
         var Tree = require("ace_tree/tree");
