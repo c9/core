@@ -14,3 +14,7 @@
 .tree-row.load-error {
     color: #f99145;
 }
+h1.pluginManagerHeader:after {
+    background: none;
+    content: "-";
+}

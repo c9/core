@@ -527,6 +527,9 @@ define(function(require, exports, module) {
                     }
                 });
             }
+            if (!options) {
+                return toUnload;
+            }
             if (typeof options == "string") {
                 addPath(options);
             }

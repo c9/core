@@ -71,6 +71,7 @@ define(function(require, exports, module) {
         var btnReadme;
         var btnReloadLast;
         var localPlugins;
+        var btnSettings;
 
         var loaded = false;
         function load() {
@@ -495,11 +496,11 @@ define(function(require, exports, module) {
                 }
                 
                 descriptionBar.$ext.style.overflow = "auto";
-                var serviceDesc = '<h1>Provided services [' + provided.length + ']</h1>\
+                var serviceDesc = '<h1 class="pluginManagerHeader">Provided services [' + provided.length + ']</h1>\
                     <p type="provided">' + (provided.length ? formatServices(provided) : "") + '</p>\
-                    <h1>Consumed services [' + (consumedList.length - provided.length) + ']</h1>\
+                    <h1 class="pluginManagerHeader">Consumed services [' + (consumedList.length - provided.length) + ']</h1>\
                     <p type="consumed">' + consumedGroups.map(formatServices).join("<br/>") + '</p>\
-                    <h1>Dependent services [' + (depList.length - provided.length) + ']</h1>\
+                    <h1 class="pluginManagerHeader">Dependent services [' + (depList.length - provided.length) + ']</h1>\
                     <p type="dependent">' + depGroups.map(formatServices).join("<br/>") + '</p>\
                     <br/>';
                 descriptionBar.$ext.innerHTML = '<div class="basic intro" \
@@ -589,24 +590,43 @@ define(function(require, exports, module) {
                 window.requestAnimationFrame(renderDetails);
             }
             
-             var mnuCtxTree = new ui.menu({
+            var mnuCtxTree = new ui.menu({
                 id: "mnuChat",
             }, plugin);
             menus.decorate(mnuCtxTree);
             plugin.addElement(mnuCtxTree);
+            
+            
+            btnSettings = new ui.button({
+                skin: "header-btn",
+                class: "panel-settings",
+                submenu: mnuCtxTree
+            });
+            treeBar.appendChild(btnSettings);
+            datagrid.renderer.on("scrollbarVisibilityChanged", updateScrollBarSize);
+            function updateScrollBarSize() {
+                var scrollBarV = datagrid.renderer.scrollBarV;
+                var w = scrollBarV.isVisible ? scrollBarV.getWidth() : 0;
+                btnSettings.$ext.style.marginRight = Math.max(w - 2, 0) + "px";
+            }
+            
             menus.addItemByPath("context/pluginManager/", mnuCtxTree, 0, plugin);
             menus.addItemByPath("context/pluginManager/Reveal in File Tree", new ui.item({
                 isAvailable: function() {
                     var selected = datagrid.selection.getCursor();
-                    return selected && selected.packageConfig && selected.packageConfig.filePath;
+                    return selected && selected.packageConfig && selected.packageConfig.filePath
+                        || c9.sourceDir && selected && selected.path;
                 },
                 onclick: function() {
                     var selected = datagrid.selection.getCursor();
                     var tabbehavior = architectApp.services.tabbehavior;
                     var filePath = selected.packageConfig && selected.packageConfig.filePath;
-                    if (filePath) {
-                        tabbehavior.revealtab({ path: filePath });
-                    }
+                    if (!filePath && c9.sourceDir)
+                        filePath = c9.sourceDir + "/" + selected.path + (selected.items ? "" : ".js");
+                    if (filePath)
+                        tabbehavior.revealtab({ path: util.normalizePath(filePath) });
+                    else
+                        showInfo("Path is not available.");
                 },
             }), plugin);
             menus.addItemByPath("context/pluginManager/Disable", new ui.item({
@@ -830,13 +850,14 @@ define(function(require, exports, module) {
                 nodes = datagrid.selection.getSelectedNodes();
             
             var reloadLast = pluginManager.reload(nodes, mode);
-            if (reloadLast.length && mode == null) {
+            if (reloadLast.length) {
                 var href = document.location.href.replace(/[?&]reload=[^&]+/, "");
                 href += (href.match(/\?/) ? "&" : "?") + "reload=" + reloadLast.join(",");
                 window.history.replaceState(window.history.state, null, href);
-
-                showReloadTip();
-                updateReloadLastButton();
+                if (mode !== false) {
+                    showReloadTip(reloadLast.join(","), mode);
+                    updateReloadLastButton();
+                }
             }
         }
         
@@ -851,17 +872,15 @@ define(function(require, exports, module) {
             }
         }
         
-        function showReloadTip(name) {
+        function showReloadTip(name, mode) {
             if (options.devel) {
-                var key = commands.getHotkey("reloadLastPlugin");
-                if (commands.platform == "mac")
-                    key = apf.hotkeys.toMacNotation(key);
+                var key = commands.getPrettyHotkey("reloadLastPlugin");
                 if (!getLastReloaded()) {
-                    showInfo("Reloaded " + name + ". Press " + key + " to reload again.", 3000);
+                    showInfo("Loaded " + name + ". Press " + key + " to reload again.", 3000);
                     return;
                 }
             }
-            showInfo("Reloaded " + name + ".", 1000);
+            showInfo("Loaded " + name + " for the duration of current browser session.", 1000);
         }
         
         function getLastReloaded() {
