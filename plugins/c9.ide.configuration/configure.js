@@ -288,7 +288,13 @@ define(function(require, exports, module) {
             var script = settings.get("user/config/init.js") || "";
             openTab("~/.c9/init.js", script, "javascript", 
                 "// You can access plugins via the 'services' global variable\n" + 
-                "/*global services, plugin*/\n");
+                "/*global services, plugin*/\n" +
+                "\n" +
+                "// to load plugins use\n" +
+                "// services.pluginManager.loadPackage([\n" +
+                "//     \"https://<user>.github.io/<project>/build/package.<name>.js\",\n" +
+                "//     \"~/.c9/plugins/<name>/package.json\",\n" +
+                "// ]);\n");
         }
         
         function editStylesCss() {
