@@ -1,8 +1,7 @@
 /*global requirejs*/
 define(function(require, exports, module) {
     main.consumes = [
-        "app", "ext", "c9", "Plugin", "proc", "fs", "tree", "vfs",
-        "dialog.error", "tree.favorites"
+        "app", "ext", "c9", "Plugin", "proc", "fs", "vfs", "dialog.error"
     ];
     main.provides = ["pluginManager", "plugin.manager", "plugin.debug"];
     return main;
@@ -12,13 +11,11 @@ define(function(require, exports, module) {
         var c9 = imports.c9;
         var fs = imports.fs;
         var ext = imports.ext;
-        var tree = imports.tree;
         var proc = imports.proc;
         var Plugin = imports.Plugin;
         var util = imports.util;
         var vfs = imports.vfs;
         var showError = imports["dialog.error"].show;
-        var favs = imports["tree.favorites"];
         var architectApp = imports.app;
 
         var join = require("path").join;
@@ -125,6 +122,9 @@ define(function(require, exports, module) {
 
                             // Remove .tar.gz
                             fs.unlink(tarPath, function() {
+                                // using this to allow reloading the tree
+                                var tree = architectApp.services["tree"];
+                                var favs = architectApp.services["tree.favorites"];
 
                                 // Add plugin to favorites
                                 favs.addFavorite(dirname(pluginsDir), "plugins");

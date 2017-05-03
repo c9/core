@@ -629,6 +629,16 @@ define(function(require, exports, module) {
                         showInfo("Path is not available.");
                 },
             }), plugin);
+            menus.addItemByPath("context/pluginManager/Refresh List", new ui.item({
+                onclick: function() {
+                    pluginManager.readAvailablePlugins(function(err, available) {
+                        if (err) return console.error(err);
+                        localPlugins = available;
+                        reloadModel();
+                    });
+                },
+            }), plugin);
+            menus.addItemByPath("context/pluginManager/~", new ui.divider({}), plugin);
             menus.addItemByPath("context/pluginManager/Disable", new ui.item({
                 isAvailable: function() {
                     var selected = datagrid.selection.getCursor();
@@ -644,9 +654,17 @@ define(function(require, exports, module) {
                 onclick: function() { reloadGridSelection(true); },
             }), plugin);
             menus.addItemByPath("context/pluginManager/Reload", new ui.item({
+                isAvailable: function() {
+                    var selected = datagrid.selection.getCursor();
+                    return selected;
+                },
                 onclick: function() { reloadGridSelection(); },
             }), plugin);
             treeBar.setAttribute("contextmenu", mnuCtxTree);
+            
+            model.on("toggleCheckbox", function(e) {
+                reloadGridSelection(!e.target.enabled, e.selectedNodes || [e.target]);
+            });
         }
         
 
@@ -861,7 +879,6 @@ define(function(require, exports, module) {
             }
         }
         
-        
         function updateReloadLastButton() {
             var last = getLastReloaded();
             if (last) {
@@ -880,7 +897,7 @@ define(function(require, exports, module) {
                     return;
                 }
             }
-            showInfo("Loaded " + name + " for the duration of current browser session.", 1000);
+            showInfo("Loaded " + name + " for the duration of current browser session.", 3000);
         }
         
         function getLastReloaded() {
