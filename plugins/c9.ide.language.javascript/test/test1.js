@@ -13,3 +13,9 @@ function simpleFunctionNested(a, b) {
     someFunction.bla = function() {
     };
 })();
+
+class SomeClass {
+    method(x) {
+        
+    }
+}

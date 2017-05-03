@@ -20,7 +20,7 @@
     height: 14px;
     position: relative;
     right: 2px;
-    .image-2x("@{image-path}//@{openfiles-close-button}", 42px, 28px);
+    .image-2x("@{image-path}/@{openfiles-close-button}", 42px, 28px);
     background-position: @openfiles-close-idle-position;
     pointer-events: auto;
     cursor: pointer;

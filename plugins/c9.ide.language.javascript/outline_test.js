@@ -5,6 +5,7 @@
 if (typeof define === "undefined") {
     require("amd-loader");
     require("../../test/setup_paths");
+    require("c9/inline-mocha")(module);
 }
 
 function outlineSync(handler, document, node) {
@@ -35,6 +36,9 @@ define(function(require, exports, module) {
             assert.equal(outline[1].items[0].name, 'nested(c)');
             assert.equal(outline[2].name, 'someFunction(a, b)');
             assert.equal(outline[3].name, 'someFunction.bla()');
+            assert.equal(outline[4].name, 'SomeClass');
+            assert.equal(outline[4].items[0].name, 'method(x)');
+            assert.equal(outline.length, 5);
             done();
         });
     

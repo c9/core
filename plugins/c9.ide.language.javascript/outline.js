@@ -86,7 +86,7 @@ var outlineSync = outlineHandler.outlineSync = function(doc, node, includeProps)
             return this;
         },
         // x : function(...) { ... } -> name is x
-        'PropertyInit(x, Function(name, fargs, body))', function(b) {
+        'PropertyInit(x, Function(name, fargs, body))', 'Method(x, Function(name, fargs, body))', function(b) {
             results.push({
                 icon: 'method',
                 name: b.x.value + fargsToString(b.fargs),
@@ -150,6 +150,16 @@ var outlineSync = outlineHandler.outlineSync = function(doc, node, includeProps)
                 pos: this.getPos(),
                 displayPos: eventHandler.s.getPos(),
                 items: eventHandler.body && outlineSync(doc, eventHandler.body, includeProps)
+            });
+            return this;
+        },
+        'Class(x, y, body)', function(b) {
+            results.push({
+                icon: 'event',
+                name: b.x.value + (b.y.value ? " extends " + b.y.value : ""),
+                pos: this.getPos(),
+                displayPos: b.x.getPos(),
+                items: b.body && outlineSync(doc, b.body, includeProps)
             });
             return this;
         },
