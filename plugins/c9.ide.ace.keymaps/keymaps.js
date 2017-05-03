@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     main.consumes = [
         "Plugin", "ui", "ace", "menus", "settings", "vim.cli", "tabManager",
-        "commands", "c9", "tree", "dialog.error"
+        "commands", "c9", "tree", "dialog.error", "tabbehavior"
     ];
     main.provides = ["keymaps"];
     return main;
@@ -18,6 +18,7 @@ define(function(require, exports, module) {
         var c9 = imports.c9;
         var tree = imports.tree; // TODO: find a way to make dependency on tree optional
         var showError = imports["dialog.error"].show;
+        var tabbehavior = imports.tabbehavior;
         
         /***** Initialization *****/
         
@@ -138,6 +139,8 @@ define(function(require, exports, module) {
                 var kb = path ? require(path) : {};
                 if ("execIdeCommand" in kb)
                     kb.execIdeCommand = commands.exec;
+                if ("tabbehavior" in kb)
+                    kb.tabbehavior = tabbehavior;
                 
                 if (kb.ideCommands) {
                     kb.ideCommands.forEach(function(x) {
