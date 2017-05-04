@@ -8149,6 +8149,16 @@ apf.AmlElement = function(struct, tagName) {
      * @returns {apf.AmlElement} The modified element.
      */
     this.removeAttribute = function(name){ //@todo apf3.0 domattr
+        var item = this.attributes[name];
+        if (item) {
+            //@todo hack!
+            //this should be done properly
+            var oldValue = item.nodeValue;
+            item.nodeValue = item.value = "";
+            item.$triggerUpdate(null, oldValue);
+            item.ownerElement = null;
+            item.nodeValue = item.value = oldValue;
+        }
         delete this.attributes[name];
         return this;
     };
