@@ -675,8 +675,8 @@ define(function(require, exports, module) {
             
             var packages = pluginManager.packages;
             
-            if (!CORE.pluginManager) {
-                CORE.pluginManager = 1;
+            if (!CORE.pluginManagerUi) {
+                CORE.pluginManagerUi = 1;
                 pluginManager.addAllProviders(CORE);
                 Object.keys(CORE).forEach(function(n) {
                     if (architectApp.serviceToPlugin[n])
