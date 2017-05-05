@@ -19,6 +19,7 @@ module.exports = function(options) {
     options.workspaceDir = normalize(options.workspaceDir);
     options.installPath = normalize(options.installPath);
     options.home = normalize(options.home);
+    options.sourceDir = options.sourceDir && normalize(options.sourceDir);
 
     var workspaceDir = options.workspaceDir;
     var debug = options.debug !== undefined ? options.debug : false;
@@ -63,7 +64,8 @@ module.exports = function(options) {
             projectName: options.projectName || "Project",
             configName: options.configName,
             standalone: options.standalone,
-            dashboardUrl: options.dashboardUrl
+            dashboardUrl: options.dashboardUrl,
+            sourceDir: options.sourceDir,
         },
         {
             packagePath: "plugins/c9.core/settings",
@@ -82,29 +84,15 @@ module.exports = function(options) {
         // },
         "plugins/c9.core/util",
         {
-            packagePath: "plugins/c9.ide.plugins/loader",
-            plugins: options.plugins || [],
-            loadFromDisk: options.standalone
-        },
-        {
-            packagePath: "plugins/c9.ide.plugins/installer",
-            updates: options.pluginUpdates || []
-        },
-        {
             packagePath: "plugins/c9.ide.plugins/manager",
             staticPrefix: staticPrefix + "/plugins/c9.ide.plugins",
             devel: devel
         },
-        {
-            packagePath: "plugins/c9.ide.plugins/debug"
-        },
-        {
-            packagePath: "plugins/c9.ide.plugins/packages"
-        },
-        {
-            packagePath: "plugins/c9.ide.plugins/test",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.plugins"
-        },
+        "plugins/c9.ide.plugins/gui",
+        // {
+        //     packagePath: "plugins/c9.ide.plugins/test",
+        //     staticPrefix: staticPrefix + "/plugins/c9.ide.plugins"
+        // },
         
         // VFS
         "plugins/c9.vfs.client/vfs.ping",

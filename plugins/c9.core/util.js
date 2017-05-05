@@ -153,7 +153,7 @@ define(function(require, exports, module) {
             var data = strJson.replace(/(^|\n)\s*\/\/.*/g, "");
                 
             try { return JSON.parse(data); }
-            catch (e) { cb(e); return false; }
+            catch (e) { cb && cb(e); return false; }
         };
         
         /**

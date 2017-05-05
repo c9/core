@@ -78,6 +78,9 @@ module.exports = function(config, optimist) {
     if (argv.hosted)
         config.client_config = "default-hosted";
     
+    if (!argv.hosted)
+        config.sourceDir = path.dirname(__dirname);
+    
     config.workspaceDir = baseProc;
     config.settingDir = argv["setting-path"];
     config.projectName = path.basename(baseProc);
@@ -88,7 +91,7 @@ module.exports = function(config, optimist) {
         config.startBridge = startBridge;
     
     if (testing && argv.k)
-        require("child_process").exec("tmux -L cloud91.9 kill-server", function(){});
+        require("child_process").exec("tmux -L cloud91.9 kill-server", function() {});
 
     var isLocalhost = host == "localhost" || host == "127.0.0.1";
     if (!/:/.test(argv.auth) && !isLocalhost) {

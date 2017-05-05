@@ -38,7 +38,7 @@ define(function(require, exports, module) {
         var cycleKeyPressed, changedTabs, unchangedTabs, dirtyNextTab, dirtyNextPane;
 
         var ACTIVEPAGE = function() { return tabs.focussedTab; };
-        var ACTIVEPATH = function() { var tab = tabs.focussedTab; return tab && (tab.path || tab.relatedPath || tab.editor.getPathAsync); };
+        var ACTIVEPATH = function() { var tab = mnuContext.$tab || tabs.focussedTab; return tab && (tab.path || tab.relatedPath || tab.editor.getPathAsync); };
         var MORETABS = function() { return tabs.getTabs().length > 1; };
         var MORETABSINPANE = function() { return tabs.focussedTab && tabs.focussedTab.pane.getTabs().length > 1; };
         var MOREPANES = function() { return tabs.getPanes().length > 1; };

@@ -99,7 +99,7 @@ describe("client config consistency", function() {
             }
         });
         
-        var provides = {"auth.bootstrap": 1, "hub": 1};
+        var provides = { "auth.bootstrap": 1, "hub": 1, "app": 1 };
         var paths = {};
         clientPlugins.forEach(function(p) {
             if (paths[p.packagePath]) {

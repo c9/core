@@ -9,32 +9,6 @@ define(function(require, exports, module) {
     oop.inherits(DataProvider, TreeData);
     
     (function() {
-            
-        this.getChildren = function(node) {
-            var children = node.items;
-            var ch = children && children[0] && children[0];
-            if (ch) {
-                var d = (node.$depth + 1) || 0;
-                children.forEach(function(n) {
-                    n.$depth = d;
-                    n.parent = node;
-                });
-            }
-    
-            if (this.$sortNodes && !node.$sorted) {
-                children && this.sort(children);
-            }
-            return children;
-        };
-        
-        // this.getRowIndent = function(p){
-        //     return !p.className ? 2 : p.className == "package" ? 1 : 0;
-        // }
-        
-        this.hasChildren = function(node) {
-            return node.items && node.items.length;
-        };
-        
         this.getCaptionHTML = function(node) {
             if (!node.name) return "";
             return node.name.replace(this.reKeyword, "<strong>$1</strong>");

@@ -98,7 +98,6 @@ define(function(require, exports, module) {
                 name: "reverttosavedall",
                 hint: "downgrade the all open tabs to the last saved version",
                 bindKey: { mac: "Option-Shift-Q", win: "Alt-Shift-Q" },
-                isAvailable: available,
                 exec: function () {
                     revertToSavedAll();
                 }

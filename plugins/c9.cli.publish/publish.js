@@ -196,9 +196,9 @@ define(function(require, exports, module) {
                     // Write the package.json file
                     var indent = data.match(/{\n\r?^ {4}"/) ? 4 : 2;
                     var newData = JSON.stringify(json, null, indent);
-                    fs.writeFile(cwd + "/.build/package.json", newData, function() {
+                    fs.writeFile(cwd + "/c9build/package.json", newData, function() {
                         if (dryRun)
-                            return next(); // if dry-run is passed only update path in .build
+                            return next(); // if dry-run is passed only update path in c9build
                         fs.writeFile(packagePath, newData, function(err) {
                             if (err) return callback(err);
                             return next();
@@ -230,97 +230,59 @@ define(function(require, exports, module) {
                                     }
                                 }
                                 
-                                if (files.indexOf("builders") != -1) {
-                                    forEachFile(cwd + "/builders", function(filename, data) {
-                                        packedFiles.push(cwd + "/builders/" + filename);
+                                function parseHeader(data, filename) {
+                                    var firstLine = data.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
+                                    var info = {};
+                                    firstLine.split(";").forEach(function(n) {
+                                        var key = n.split(":");
+                                        if (key.length != 2)
+                                            return console.error("Ignoring invalid key " + n + " in " + filename);
+                                        info[key[0].trim()] = key[1].trim();
+                                    });
+                                    info.data = firstLine;
+                                    return info;
+                                }
+                                
+                                function addResource(type) {
+                                    forEachFile(cwd + "/" + type, function(filename, data) {
+                                        packedFiles.push(cwd + "/"+ type + "/" + filename);
                                         extraCode.push({
-                                            type: "builders",
+                                            type: type,
                                             filename: filename,
                                             data: data
                                         });
                                     });
                                 }
-                                if (files.indexOf("keymaps") != -1) {
-                                    forEachFile(cwd + "/keymaps", function(filename, data) {
-                                        packedFiles.push(cwd + "/keymaps/" + filename);
-                                        extraCode.push({
-                                            type: "keymaps",
-                                            filename: filename,
-                                            data: data
-                                        });
-                                    });
-                                }
-                                if (files.indexOf("modes") != -1) {
-                                    forEachFile(cwd + "/modes", function(filename, data) {
+                                function addMode(type) {
+                                     forEachFile(cwd + "/modes", function(filename, data) {
                                         if (/(?:_highlight_rules|_test|_worker|_fold|_behaviou?r)\.js$/.test(filename))
                                             return;
                                         if (!/\.js$/.test(filename))
                                             return;
-                                        var firstLine = data.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
+                                        var info = parseHeader(data, cwd + "/modes/" + filename);
                                         
-                                        if (!/caption\s*:[^;]+/i.test(firstLine)) {
-                                            packedFiles.push(cwd + "/modes/" + filename);
-                                            console.error("Ignoring mode with invalid header: ", firstLine);
-                                            console.error("    at " + cwd + "/modes/" + filename);
-                                            return;
-                                        }
-                                        extraCode.push({
-                                            type: "modes",
-                                            filename: filename,
-                                            data: firstLine
-                                        });
+                                        if (!info.caption) info.caption = filename;
+
+                                        info.type = "modes";
+                                        info.filename = filename;
+                                        extraCode.push(info);
                                     });
                                 }
-                                if (files.indexOf("outline") != -1) {
-                                    forEachFile(cwd + "/outline", function(filename, data) {
-                                        packedFiles.push(cwd + "/outline/" + filename);
-                                        extraCode.push({
-                                            type: "outline",
-                                            filename: filename,
-                                            data: data
-                                        });
-                                    });
-                                }
-                                if (files.indexOf("runners") != -1) {
-                                    forEachFile(cwd + "/runners", function(filename, data) {
-                                        packedFiles.push(cwd + "/runners/" + filename);
-                                        extraCode.push({
-                                            type: "runners",
-                                            filename: filename,
-                                            data: data
-                                        });
-                                    });
-                                }
-                                if (files.indexOf("snippets") != -1) {
-                                    forEachFile(cwd + "/snippets", function(filename, data) {
-                                        packedFiles.push(cwd + "/snippets/" + filename);
-                                        extraCode.push({
-                                            type: "snippets",
-                                            filename: filename,
-                                            data: data
-                                        });
-                                    });
-                                }
-                                if (files.indexOf("themes") != -1) {
-                                    forEachFile(cwd + "/themes", function(filename, data) {
-                                        packedFiles.push(cwd + "/themes/" + filename);
-                                        extraCode.push({
-                                            type: "themes",
-                                            filename: filename,
-                                            data: data
-                                        });
-                                    });
-                                }
-                                if (files.indexOf("templates") != -1) {
-                                    forEachFile(cwd + "/templates", function(filename, data) {
-                                        packedFiles.push(cwd + "/templates/" + filename);
-                                        extraCode.push({
-                                            type: "templates",
-                                            filename: filename,
-                                            data: data
-                                        });
-                                    });
-                                }
+                                var handlers = {
+                                    templates: addResource,
+                                    snippets: addResource,
+                                    builders: addResource,
+                                    keymaps: addResource,
+                                    outline: addResource,
+                                    runners: addResource,
+                                    themes: addResource,
+                                    modes: addMode,
+                                };
+                                files.forEach(function(type) {
+                                    if (handlers.hasOwnProperty(type))
+                                        handlers[type](type);
+                                });
+
                                 
                                 packedFiles.push(cwd + "/package." + packageName + ".js");
                                 
@@ -348,7 +310,7 @@ define(function(require, exports, module) {
                                         main.consumes = [
                                             "Plugin", "plugin.debug"
                                         ];
-                                        main.provides = [];
+                                        main.provides = ["PACKAGE_NAME.bundle"];
                                         return main;
                                         function main(options, imports, register) {
                                             var debug = imports["plugin.debug"];
@@ -363,7 +325,7 @@ define(function(require, exports, module) {
                                             
                                             plugin.load("PACKAGE_NAME.bundle");
                                             
-                                            register(null, {});
+                                            register(null, {"PACKAGE_NAME.bundle": plugin});
                                         }
                                     });
                                 }).toString();
@@ -382,7 +344,7 @@ define(function(require, exports, module) {
                                 
                                 staticPlugin = {
                                     source: code,
-                                    id: "plugins/" + packageName + "/__static__",
+                                    id: "plugins/" + packageName + "/" + packageName + ".bundle",
                                     path: ""
                                 };
                                 next();
@@ -448,17 +410,17 @@ define(function(require, exports, module) {
                         },
                         function(next) {
                             proc.execFile("rm", {
-                                args: ["-rf", ".c9/.build"],
+                                args: ["-rf", "c9build"],
                                 cwd: cwd
                             }, function() {
-                                mkdirP(cwd + "/.build");
-                                fs.writeFile(cwd + "/.build/package." + packageName + ".js", result.code, "utf8", next);
+                                mkdirP(cwd + "/c9build");
+                                fs.writeFile(cwd + "/c9build/package." + packageName + ".js", result.code, "utf8", next);
                             });
                         },
                         function(next) {
                             var copy = require("architect-build/copy");
                             
-                            var excludeRe = /^\.(\w*ignore|git|c9|hg|build)$/;
+                            var excludeRe = /^\.(\w*ignore|git|c9|hg|build)$|^(c9)?build$|_test\.js$/;
                             var excludeMap = Object.create(null);
                             
                             packedFiles.push(cwd + "/package." + packageName + ".js");
@@ -470,7 +432,7 @@ define(function(require, exports, module) {
                             if (json.installer)
                                 excludeMap["/" + normalizePath(Path.relative(cwd, json.installer))] = 0;
                             
-                            copy(cwd, cwd + "/.build", {
+                            copy(cwd, cwd + "/c9build", {
                                 exclude: function(name, parent) {
                                     if (excludeRe.test(name))
                                         return true;

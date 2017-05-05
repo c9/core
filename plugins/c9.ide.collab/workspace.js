@@ -380,9 +380,9 @@ define(function(require, exports, module) {
             get myUserId() { return myUserId; },
             /**
              * Specifies wether the collab workspace was previously loaded and collab was connected - or not
-             * @property {Boolean} loaded
+             * @property {Boolean} isReady
              */
-            get loaded() { return loadedWorkspace; },
+            get isReady() { return loadedWorkspace; },
             /**
              * Gets my filesystem access to this workspace:
              * Values can be either "r" or "rw"

@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
     main.consumes = [
-        "Plugin", "c9", "util", "settings", "ui", "layout", "findreplace", 
+        "Plugin", "c9", "util", "settings", "ui", "layout", 
         "find", "anims", "menus", "tabManager", "commands", "tooltip", 
         "tree", "apf", "console", "preferences", "dialog.question", 
         "tree.favorites", "save"
@@ -27,6 +27,7 @@ define(function(require, exports, module) {
         var find = imports.find;
         var save = imports.save;
         var question = imports["dialog.question"].show;
+        var apf = imports.apf;
 
         var markup = require("text!./findinfiles.xml");
         var lib = require("plugins/c9.ide.find.replace/libsearch");

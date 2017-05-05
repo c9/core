@@ -14,7 +14,7 @@
             return obj;
         }
         window.isLocalVersion = nRequire ? true : false;
-        window.require        = undefined;
+        window.require = window.module = undefined;
     </script>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> 
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -64,8 +64,6 @@
                     }
                 });
                 
-                app.lut = {};
-                
                 app.on("error", function(err){
                     console.error(err.stack);
                     if (!errored)
@@ -73,20 +71,11 @@
                 });
                 
                 app.on("service", function(name, plugin, options){
-                    if (name == "plugin.loader" || name == "plugin.installer" 
-                      || name == "plugin.debug" || name == "plugin.manager"
-                      || name == "plugin.test")
-                        plugin.architect = app;
                     if (!plugin.name)
                         plugin.name = name;
-                    if (options)
-                        app.lut[(options.packagePath || "").replace(/^.*\/home\/.c9\//, "")] = options;
                 });
                 
-                app.on("ready", function(){
-                    if (app.services.configure)
-                        app.services.configure.services = app.services;
-                    
+                app.once("ready", function() {
                     window.app = app.services;
                     window.app.__defineGetter__("_ace", function(){
                         return this.tabManager.focussedTab.editor.ace;

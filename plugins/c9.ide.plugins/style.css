@@ -4,3 +4,17 @@
 .bk-window.dialog-updater .bk-win-footer {
     display: none;
 }
+.serviceButton {
+    cursor: default;
+}
+.serviceButton:hover, .serviceButtonActive {
+    color: @preferences-intro-link-color;
+    text-decoration : underline;
+}
+.tree-row.load-error {
+    color: #f99145;
+}
+h1.pluginManagerHeader:after {
+    background: none;
+    content: "-";
+}
