@@ -162,7 +162,7 @@ apf.page = function(struct, tagName) {
             .$getLayoutNode("button", "caption", this.$button);
 
         if (node.nodeType == 1)
-            node.innerHTML = value;
+            node.textContent = value;
         else
             node.nodeValue = value;
     };

@@ -252,17 +252,12 @@ define(["require", "module", "exports", "./lib/menu/menu", "./lib/crypto",
      */
     setCompatFlags: function(){
         apf.isIE11 = (!apf.isGecko && !apf.isWebkit && !apf.isOpera && !apf.isIE);
-        //Set Compatibility
-        this.TAGNAME = apf.isIE ? "baseName" : "localName";
-        this.styleSheetRules = apf.isIE ? "rules" : "cssRules";
        
-        this.hasMsRangeObject = apf.isIE;
         this.hasSingleResizeEvent = !apf.isIE;
         this.hasSingleRszEvent = !apf.isIE;
-        this.needsCssPx = !apf.isIE;
 
         this.hasAutocompleteXulBug = apf.isGecko;
-        this.mouseEventBuffer = apf.isIE ? 20 : 6;
+        this.mouseEventBuffer = 6;
         this.hasComputedStyle = typeof document.defaultView != "undefined"
                                            && typeof document.defaultView.getComputedStyle != "undefined";
         this.w3cRange = Boolean(window["getSelection"]);
@@ -300,8 +295,8 @@ define(["require", "module", "exports", "./lib/menu/menu", "./lib/crypto",
         }
         t = null;
 
-        this.animSteps = apf.isIE ? 0.3 : 1;
-        this.animInterval = apf.isIE ? 7 : 1;
+        this.animSteps = 1;
+        this.animInterval = 1;
 
         this.CSSPREFIX = apf.isGecko ? "Moz" : (apf.isWebkit ? "webkit" : "");
         this.CSSPREFIX2 = apf.isGecko ? "-moz" : (apf.isWebkit ? "-webkit" : "");
@@ -375,10 +370,9 @@ define(["require", "module", "exports", "./lib/menu/menu", "./lib/crypto",
 
         //Load Browser Specific Code
         
-        if (this.isIE) apf.runIE();
-        else if (apf.isWebkit) apf.runWebkit();
+        if (apf.isWebkit) apf.runWebkit();
         else if (this.isGecko) apf.runGecko();
-        else if (!this.isOpera) apf.runIE(); // ie11
+        else if (!this.isIE11) apf.runIE(); // ie11
         
         
         this.started = true;
@@ -2578,7 +2572,7 @@ function findCssRule(name, stylesheet, win) {
         var sheets = (win || self).document.styleSheets;
         for (var j = sheets.length - 1; j >= 0; j--) {
             try {
-                var rules = sheets[j][apf.styleSheetRules] || [];
+                var rules = sheets[j].cssRules || [];
                 for (var i = 0; i < rules.length; i++) {
                     if (nameRe.test(rules.item(i).selectorText)) {
                         return rules.item(i);
@@ -2591,7 +2585,7 @@ function findCssRule(name, stylesheet, win) {
     else {
         if (typeof stylesheet == "number")
             stylesheet = (win || self).document.styleSheets[stylesheet || 0];
-        var rules = stylesheet[apf.styleSheetRules];
+        var rules = stylesheet.cssRules;
         if (!rules) return false;
         for (var i = 0; i < rules.length; i++) {
             if (nameRe.test(rules.item(i).selectorText)) {
@@ -2851,10 +2845,8 @@ apf.getAbsolutePosition = function(o, refParent, inclSelf) {
         left -= pos[0];
     }
     
-    if (!(apf.isIE && o == document.documentElement)) {
-        left += (refParent || document.body).scrollLeft || document.documentElement.scrollLeft || 0;
-        top  += (refParent || document.body).scrollTop  || document.documentElement.scrollTop  || 0;
-    }
+    left += (refParent || document.body).scrollLeft || document.documentElement.scrollLeft || 0;
+    top  += (refParent || document.body).scrollTop  || document.documentElement.scrollTop  || 0;
     
     if (inclSelf && !refParent) {
         left += parseInt(apf.getStyle(o, "borderLeftWidth")) || 0
@@ -3114,25 +3106,8 @@ apf.cancelBubble = function(e, o) {
  * @private
  */
 apf.destroyHtmlNode = function (element) {
-    if (!element) return;
-
-    if (!apf.isIE || element.ownerDocument != document) {
-        if (element.parentNode)
-            element.parentNode.removeChild(element);
-        return;
-    }
-
-    var garbageBin = document.getElementById('IELeakGarbageBin');
-    if (!garbageBin) {
-        garbageBin = document.createElement('DIV');
-        garbageBin.id = 'IELeakGarbageBin';
-        garbageBin.style.display = 'none';
-        document.body.appendChild(garbageBin);
-    }
-
-    // move the element to the garbage bin
-    garbageBin.appendChild(element);
-    garbageBin.innerHTML = '';
+    if (element && element.parentNode)
+        element.parentNode.removeChild(element);
 };
 
 
@@ -3146,9 +3121,9 @@ apf.getRules = function(node) {
         if (w.nodeType != 1)
             continue;
         else {
-            if (!rules[w[apf.TAGNAME]])
-                rules[w[apf.TAGNAME]] = [];
-            rules[w[apf.TAGNAME]].push(w);
+            if (!rules[w.localName])
+                rules[w.localName] = [];
+            rules[w.localName].push(w);
         }
     }
 
@@ -3246,23 +3221,6 @@ apf.getLastElement = function(xmlNode) {
         ? xmlNode.lastChild
         : xmlNode.lastChild.previousSibling;
 };
-
-/**
- * Selects the content of an HTML element. This currently only works in
- * Internet Explorer.
- * @param {HTMLElement} oHtml The container in which the content receives the selection.
- */
-apf.selectTextHtml = function(oHtml) {
-    if (!apf.hasMsRangeObject) return;// oHtml.focus();
-
-    var r = document.selection.createRange();
-    try {r.moveToElementText(oHtml);} catch (e) {}
-    r.select();
-};
-
-
-
-
 
 
 
@@ -4071,9 +4029,7 @@ apf.layout = {
                 strRules.push(rules[id]);
             }
 
-            rsz = apf.needsCssPx
-                ? new Function(strRules.join("\n"))
-                : new Function(strRules.join("\n").replace(/ \+ 'px'|try\{\}catch\(e\)\{\}\n/g,""))
+            rsz = new Function(strRules.join("\n"));
 
             oHtml.onresize = rsz;
             if (!no_exec) 
@@ -4551,7 +4507,7 @@ apf.skins = {
             var nodes = $xmlns(skin, "presentation", apf.ns.aml)[0].childNodes;
             for (var i = 0; i < nodes.length; i++) {
                 if (nodes[i].nodeType != 1) continue;
-                originals[nodes[i].baseName || nodes[i][apf.TAGNAME]] = nodes[i];
+                originals[nodes[i].localName] = nodes[i];
             }
         }
 
@@ -5319,7 +5275,7 @@ var ID = "id",
         var result, newvalue, curvalue, j, isColor, style, rules, i,
             tweens = {};
         for (i = 0; i < document.styleSheets.length; i++) {
-            try { rules = document.styleSheets[i][apf.styleSheetRules]; } 
+            try { rules = document.styleSheets[i].cssRules; } 
             catch(e) { rules = false; }
             
             if (!rules || !rules.length)
@@ -6028,16 +5984,11 @@ apf.AmlNode = function(){
     /**
      * Removes this element from the document hierarchy. Call-chaining is
      * supported.
-     *
      */
     this.removeNode = function(doOnlyAdmin, noHtmlDomEdit) {
-        
-
         if (!this.parentNode || !this.parentNode.childNodes)
             return this;
-
         
-
         this.parentNode.childNodes.remove(this);
 
         //If we're not loaded yet, just remove us from the aml to be parsed
@@ -6074,14 +6025,15 @@ apf.AmlNode = function(){
         return this;
     };
 
+
+    this.remove = function() { this.removeNode(); }
+    
     /**
      * Removes a child from the node list of this element. Call-chaining is
      * supported.
      * @param {apf.AmlNode} childNode The child node to remove
      */
     this.removeChild = function(childNode) {
-        
-
         childNode.removeNode();
         return this;
     };
@@ -8154,18 +8106,6 @@ apf.GuiElement = function(){
             return false;
 
         if (this.parentNode) {
-            
-            if (this.parentNode.localName == "table") {
-                if (this.$disableCurrentLayout)
-                    this.$disableCurrentLayout();
-                this.parentNode.register(this, insert);
-                this.$disableCurrentLayout = null;
-                this.$layoutType = null;
-                return type == "table";
-            }else
-            
-
-            
             if (this.parentNode.$box) {
                 if (this.$layoutType != this.parentNode) {
                     if (this.$disableCurrentLayout)
@@ -8175,8 +8115,7 @@ apf.GuiElement = function(){
                     this.$layoutType = this.parentNode;
                 }
                 return type == this.parentNode.localName;
-            } //else
-            
+            }
         }
         
         
@@ -9472,12 +9411,10 @@ apf.BaseButton = function(){
             if (_self.disabled)
                 return;
 
-            if (!apf.isIE) { // && (apf.isGecko || !_self.submenu) Causes a focus problem for menus
-                if (_self.value)
-                    apf.stopEvent(e);
-                else
-                    apf.cancelBubble(e);
-            }
+            if (_self.value)
+                apf.stopEvent(e);
+            else
+                apf.cancelBubble(e);
             
             _self.$updateState(e, "mousedown");
         };
@@ -10010,10 +9947,10 @@ apf.BaseStateButtons = function(){
                             : _self.$maxconf[3]];
                     }
                     else {
-                        w = !apf.isIE && pNode == document.documentElement
+                        w = pNode == document.documentElement
                             ? window.innerWidth
                             : pNode.offsetWidth,
-                        h = !apf.isIE && pNode == document.documentElement
+                        h = pNode == document.documentElement
                             ? window.innerHeight
                             : pNode.offsetHeight;
                     }
@@ -11396,7 +11333,7 @@ apf.window = function(){
      * @private
      */
     this.loadAml = function(x) {
-        if (x[apf.TAGNAME] == "deskrun")
+        if (x.localName == "deskrun")
             this.loadDeskRun(x);
         /*else {
 
@@ -12657,25 +12594,6 @@ apf.runNonIe = function (){
 
             this.parentNode.removeChild(this);
         };
-        
-        //Currently only supported by Gecko
-        if (HTMLElement.prototype.__defineSetter__) {
-            //HTMLElement.innerText
-            HTMLElement.prototype.__defineSetter__("innerText", function(sText) {
-                var s = "" + sText;
-                this.innerHTML = s.replace(/\&/g, "&amp;")
-                    .replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            });
-        
-            HTMLElement.prototype.__defineGetter__("innerText", function(){
-                return this.innerHTML.replace(/<[^>]+>/g,"")
-                    .replace(/\s\s+/g, " ").replace(/^\s+|\s+$/g, " ");
-            });
-            
-            HTMLElement.prototype.__defineGetter__("outerHTML", function(){
-                return (new XMLSerializer()).serializeToString(this);
-            });
-        }
     }
     
     /* ******** XML Compatibility ************************************************
@@ -15558,12 +15476,8 @@ apf.notifier = function(struct, tagName) {
 
         var _self = this,
             oNoti = this.$pHtmlNode.appendChild(this.$ext.cloneNode(true)),
-            ww = apf.isIE
-                ? document.documentElement.offsetWidth
-                : window.innerWidth,
-            wh = apf.isIE
-                ? document.documentElement.offsetHeight
-                : window.innerHeight,
+            ww = window.innerWidth,
+            wh = window.innerHeight,
         
             removed = false,
 
@@ -17670,7 +17584,7 @@ apf.text = function(struct, tagName) {
             this.value += value;
         }
         else
-            this.$container.innerHTML = value;//.replace(/<img[.\r\n]*?>/ig, "")
+            this.$container.innerHTML = value;
 
         if (this.scrolldown && this.$scrolldown)
             this.$scrollArea.scrollTop = this.$scrollArea.scrollHeight;
@@ -18041,14 +17955,10 @@ apf.textbox = function(struct, tagName) {
     });
     
     this.addEventListener("prop.editable", function(e) {
-        if (apf.isIE)
-            this.$input.unselectable = e.value ? "On" : "Off";
-        else {
-            if (e.value) 
-                apf.addListener(this.$input, "mousedown", apf.preventDefault);
-            else
-                apf.removeListener(this.$input, "mousedown", apf.preventDefault);
-        }
+        if (e.value) 
+            apf.addListener(this.$input, "mousedown", apf.preventDefault);
+        else
+            apf.removeListener(this.$input, "mousedown", apf.preventDefault);
     });
 
     /**
@@ -18124,7 +18034,7 @@ apf.textbox = function(struct, tagName) {
      * ```
      */
     this.$propHandlers["mask"] = function(value) {
-        if (this.mask.toLowerCase() == "password")// || !apf.hasMsRangeObject)
+        if (this.mask.toLowerCase() == "password")
             return;
 
         if (!value) {
@@ -18270,16 +18180,10 @@ apf.textbox = function(struct, tagName) {
         var v;
         
         if (this.isHTMLBox) { 
-            if (this.$input.textContent)
-                v = this.$input.textContent;
-            else {
-                //Chrome has a bug, innerText is cleared when display property is changed
-                v = apf.html_entity_decode(this.$input.innerHTML
-                    .replace(/<br\/?\>/g, "\n")
-                    .replace(/<[^>]*>/g, ""));
-            }
-            if (v.charAt(v.length - 1) == "\n")
-                v = v.substr(0, v.length - 1); //Remove the trailing new line
+            //Chrome has a bug, innerText is cleared when display property is changed
+            v = apf.html_entity_decode(this.$input.innerHTML
+                .replace(/<br\/?\>/g, "\n")
+                .replace(/<[^>]*>/g, ""));
         }
         else 
             v = this.$input.value;
@@ -18314,21 +18218,7 @@ apf.textbox = function(struct, tagName) {
      * @private
      */
     this.insert = function(text) {
-        if (apf.hasMsRangeObject) {
-            try {
-                this.$input.focus();
-            }
-            catch (e) {}
-            var range = document.selection.createRange();
-            if (this.oninsert)
-                text = this.oninsert(text);
-            range.pasteHTML(text);
-            range.collapse(true);
-            range.select();
-        }
-        else {
-            this.$input.value += text;
-        }
+        this.$input.value += text;
     };
 
     this.addEventListener("$clear", function(){
@@ -18340,18 +18230,6 @@ apf.textbox = function(struct, tagName) {
         }
         else {
             this.$propHandlers["value"].call(this, "");
-        }
-        
-        if (!this.$input.tagName.toLowerCase().match(/input|textarea/i)) {
-            if (apf.hasMsRangeObject) {
-                try {
-                    var range = document.selection.createRange();
-                    range.moveStart("sentence", -1);
-                    //range.text = "";
-                    range.select();
-                }
-                catch (e) {}
-            }
         }
         
         this.dispatchEvent("clear"); //@todo apf3.0
@@ -18425,12 +18303,7 @@ apf.textbox = function(struct, tagName) {
                 _self.select();
         };
 
-        if ((!e || e.mouse) && apf.isIE) {
-            clearInterval(fTimer);
-            fTimer = setInterval(delay, 1);
-        }
-        else
-            delay();
+        delay();
     };
 
     this.$blur = function(e) {
@@ -18451,14 +18324,8 @@ apf.textbox = function(struct, tagName) {
             apf.setStyleClass(this.$ext, this.$baseCSSname + "Initial");
         }
 
-        /*if (apf.hasMsRangeObject) {
-            var r = this.$input.createTextRange();
-            r.collapse();
-            r.select();
-        }*/
-
         try {
-            if (apf.isIE || !e || e.srcElement != apf.window)
+            if (!e || e.srcElement != apf.window)
                 this.$input.blur();
         }
         catch (e) {}
@@ -18631,29 +18498,19 @@ apf.textbox = function(struct, tagName) {
             //this.$input.style.width = "1px";
 
             this.$input.select = function(){
-                if (apf.hasMsRangeObject) {
-                    var r = document.selection.createRange();
-                    r.moveToElementText(this);
-                    r.select();
-                }
-                else if (_self.isHTMLBox) {
-                    var r = document.createRange();
-                    r.setStart(_self.$input.firstChild || _self.$input, 0);
-                    var lastChild = _self.$input.lastChild || _self.$input;
-                    r.setEnd(lastChild, lastChild.nodeType == 1
-                        ? lastChild.childNodes.length
-                        : lastChild.nodeValue.length);
-                    
-                    var s = window.getSelection();
-                    s.removeAllRanges();
-                    s.addRange(r);
-                }
+                var r = document.createRange();
+                r.setStart(_self.$input.firstChild || _self.$input, 0);
+                var lastChild = _self.$input.lastChild || _self.$input;
+                r.setEnd(lastChild, lastChild.nodeType == 1
+                    ? lastChild.childNodes.length
+                    : lastChild.nodeValue.length);
+                
+                var s = window.getSelection();
+                s.removeAllRanges();
+                s.addRange(r);
             }
             
             this.$input.onpaste = function(e) {
-                if (apf.hasMsRangeObject)
-                    return;
-                
                 if (e.clipboardData.types.indexOf("text/html") == -1)
                     return;
                     
@@ -19098,32 +18955,13 @@ apf.textbox.masking = function(){
         if (p < 0)
             p = 0;
 
-        if (apf.hasMsRangeObject) {
-            var range = oInput.createTextRange();
-            range.expand("textedit");
-            range.select();
-
-            if (pos[p] == null) {
-                range.collapse(false);
-                range.select();
-                lastPos = pos.length;
-                return false;
-            }
-
-            range.collapse();
-            range.moveStart("character", pos[p]);
-            range.moveEnd("character", 1);
-            range.select();
+        if (typeof pos[p] == "undefined") {
+            oInput.selectionStart = oInput.selectionEnd = pos[pos.length - 1] + 1;
+            lastPos = pos.length;
+            return false;
         }
-        else {
-            if (typeof pos[p] == "undefined") {
-                oInput.selectionStart = oInput.selectionEnd = pos[pos.length - 1] + 1;
-                lastPos = pos.length;
-                return false;
-            }
-            oInput.selectionStart = pos[p];
-            oInput.selectionEnd = pos[p] + 1;
-        }
+        oInput.selectionStart = pos[p];
+        oInput.selectionEnd = pos[p] + 1;
 
         lastPos = p;
     }
@@ -19136,24 +18974,12 @@ apf.textbox.masking = function(){
         if (chr == _FALSE_)
             return false;
 
-        if (apf.hasMsRangeObject) {
-            var range = oInput.createTextRange();
-            range.expand("textedit");
-            range.collapse();
-            range.moveStart("character", pos[lastPos]);
-            range.moveEnd("character", 1);
-            range.text = chr;
-            if (apf.document.activeElement == this)
-                range.select();
-        }
-        else {
-            var val = oInput.value;
-            var start = oInput.selectionStart;
-            var end = oInput.selectionEnd;
-            oInput.value = val.substr(0, start) + chr + val.substr(end);
-            oInput.selectionStart = start;
-            oInput.selectionEnd = end;
-        }
+        var val = oInput.value;
+        var start = oInput.selectionStart;
+        var end = oInput.selectionEnd;
+        oInput.value = val.substr(0, start) + chr + val.substr(end);
+        oInput.selectionStart = start;
+        oInput.selectionEnd = end;
         
         myvalue[lastPos] = chr;
         
@@ -19164,24 +18990,12 @@ apf.textbox.masking = function(){
         if (pos[p] == null)
             return false;
         
-        if (apf.hasMsRangeObject) {
-            var range = oInput.createTextRange();
-            range.expand("textedit");
-            range.collapse();
-
-            range.moveStart("character", pos[p]);
-            range.moveEnd("character", 1);
-            range.text = replaceChar;
-            range.select();
-        }
-        else {
-            var val = oInput.value;
-            var start = pos[p];
-            var end = pos[p] + 1;
-            oInput.value = val.substr(0, start) + replaceChar + val.substr(end);
-            oInput.selectionStart = start;
-            oInput.selectionEnd = end;
-        }
+        var val = oInput.value;
+        var start = pos[p];
+        var end = pos[p] + 1;
+        oInput.value = val.substr(0, start) + replaceChar + val.substr(end);
+        oInput.selectionStart = start;
+        oInput.selectionEnd = end;
         
         //ipv lastPos
         myvalue[p] = " ";
@@ -19194,7 +19008,7 @@ apf.textbox.masking = function(){
         var i, j;
         
         try {
-            if (!apf.hasMsRangeObject && oInput.selectionStart == oInput.selectionEnd)
+            if (oInput.selectionStart == oInput.selectionEnd)
                 setPosition(0); // is this always correct? practice will show...
         }
         catch (ex) {
@@ -19232,8 +19046,7 @@ apf.textbox.masking = function(){
         for (i = 0, j = str.length; i < j; i++) {
             lastPos = i;
             setCharacter(str.substr(i, 1));
-            if (!apf.hasMsRangeObject)
-                setPosition(i + 1);
+            setPosition(i + 1);
         }
         if (str.length)
             lastPos++;
@@ -19242,16 +19055,11 @@ apf.textbox.masking = function(){
     function calcPosFromCursor(){
         var range, lt = 0;
 
-        if (!apf.hasMsRangeObject) {
-            lt = oInput.selectionStart;
-        }
-        else {
-            range = document.selection.createRange();
-            var r2 = range.duplicate();
-            r2.expand("textedit");
-            r2.setEndPoint("EndToStart", range);
-            lt = r2.text.length;
-        }
+        range = document.selection.createRange();
+        var r2 = range.duplicate();
+        r2.expand("textedit");
+        r2.setEndPoint("EndToStart", range);
+        lt = r2.text.length;
     
         for (var i = 0; i < pos.length; i++) {
             if (pos[i] > lt)
