@@ -43,13 +43,13 @@ define(function(require, exports, module) {
         
         function load() {
             if (options.hasOwnProperty("loadFromDisk")) {
-                var loadDefaultPlugins = function() {
+                function loadDefaultPlugins() {
                     loadPackage(options.loadFromDisk, function(err) {
                         if (err) return showError(err);
                     });
-                };
+                }
                 if (vfs.connected) loadDefaultPlugins();
-                vfs.once("connect", loadDefaultPlugins);
+                else vfs.once("connect", loadDefaultPlugins);
             }
         }
 
