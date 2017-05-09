@@ -1,7 +1,8 @@
 /*global requirejs*/
 define(function(require, exports, module) {
     main.consumes = [
-        "app", "ext", "c9", "Plugin", "proc", "fs", "vfs", "dialog.error"
+        "app", "ext", "c9", "Plugin", "proc", "fs", "vfs", "dialog.error",
+        "util"
     ];
     main.provides = ["pluginManager", "plugin.manager", "plugin.debug"];
     return main;
@@ -39,6 +40,18 @@ define(function(require, exports, module) {
 
         var disabledPlugins = Object.create(null);
         var packages = Object.create(null);
+        
+        function load() {
+            if (options.hasOwnProperty("loadFromDisk")) {
+                var loadDefaultPlugins = function() {
+                    loadPackage(options.loadFromDisk, function(err) {
+                        if (err) return showError(err);
+                    });
+                };
+                if (vfs.connected) loadDefaultPlugins();
+                vfs.once("connect", loadDefaultPlugins);
+            }
+        }
 
         /***** Methods *****/
         
@@ -325,6 +338,8 @@ define(function(require, exports, module) {
                         var err = new Error("Didn't provide " + id + "/" + options.packageName);
                         return addError("Error loading plugin", err);
                     }
+                    if (Array.isArray(json))
+                        json = { plugins: json };
                     if (json.name && json.name != name)
                         name = json.name;
                     getPluginsFromPackage(json, callback);
@@ -680,6 +695,7 @@ define(function(require, exports, module) {
         /***** Lifecycle *****/
 
         plugin.on("load", function() {
+            load();
         });
         plugin.on("unload", function() {
             disabledPlugins = null;
