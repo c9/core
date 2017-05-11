@@ -396,6 +396,7 @@ require([
             util: {
                 alert: function() {},
                 escapeXml: function(s) { return s; },
+                normalizePath: function(s) { return s; },
                 stableStringify: function(s) { return JSON.stringify(s); },
             },
             gotoline: {
