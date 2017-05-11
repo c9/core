@@ -42,12 +42,15 @@ define(function(require, exports, module) {
         var packages = Object.create(null);
         
         function load() {
-            if (options.hasOwnProperty("loadFromDisk")) {
-                function loadDefaultPlugins() {
+            function loadDefaultPlugins() {
+                // do not allow errors here to interfer with connect event
+                setTimeout(function() {
                     loadPackage(options.loadFromDisk, function(err) {
                         if (err) return showError(err);
                     });
-                }
+                });
+            }
+            if (options.loadFromDisk) {
                 if (vfs.connected) loadDefaultPlugins();
                 else vfs.once("connect", loadDefaultPlugins);
             }
