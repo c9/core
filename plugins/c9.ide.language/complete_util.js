@@ -94,7 +94,8 @@ function fetchText(path, callback) {
     xhr.onload = function (e) {
         if (xhr.readyState !== 4)
             return;
-        if (xhr.status !== 200)
+        // loading from file:// returns 0
+        if (xhr.status !== 200 && xhr.status !== 0)
             return done(new Error(xhr.statusText));
         done(null, xhr.responseText);
     };
