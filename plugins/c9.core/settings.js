@@ -44,9 +44,9 @@ define(function(require, exports, module) {
         var TEMPLATE = options.template || { user: {}, project: {}, state: {}};
         var INTERVAL = 1000;
         var PATH = {
-            "project": c9.toInternalPath(options.projectConfigPath || "/.c9") + "/project.settings",
-            "user": c9.toInternalPath(options.userConfigPath || "~/.c9") + "/user.settings",
-            "state": c9.toInternalPath(options.stateConfigFilePath || (options.stateConfigPath || "/.c9") + "/state.settings")
+            "project": util.normalizePath(c9.toInternalPath(options.projectConfigPath || "/.c9")) + "/project.settings",
+            "user": util.normalizePath(c9.toInternalPath(options.userConfigPath || "~/.c9")) + "/user.settings",
+            "state": util.normalizePath(c9.toInternalPath(options.stateConfigFilePath || (options.stateConfigPath || "/.c9") + "/state.settings"))
         };
         var KEYS = Object.keys(PATH);
         
