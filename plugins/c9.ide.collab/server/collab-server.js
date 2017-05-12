@@ -1941,9 +1941,6 @@ function syncDocument(docId, doc, client, forceSync, callback) {
     
     function doSyncDocument() {
         Fs.readFile(file, "utf8", function (err, contents) {
-            if (typeof doc.contents != "string" && doc.contents)
-                doc.contents = doc.contents.toString(); // because it can be a buffer
-
             if (err)
                 return callback(err);
 
@@ -1954,10 +1951,13 @@ function syncDocument(docId, doc, client, forceSync, callback) {
 
             var fsHash = hashString(normContents);
             
+            if (doc && typeof doc.contents != "string" && doc.contents)
+                doc.contents = doc.contents.toString(); // because it can be a buffer
+            
             // HACK: fsHash from database is unreliable (https://github.com/c9/newclient/issues/3980)
             if (doc)
                 doc.fsHash = hashString(doc.contents);
-
+            
             if (!doc) {
                 logVerbose("[vfs-collab] SYNC: Creating document:", docId, fsHash);
 
