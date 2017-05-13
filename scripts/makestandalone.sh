@@ -12,6 +12,9 @@ while [ "$1" ]; do
     --obfuscate)
       OBFUSCATE_OPTION="--obfuscate"
       ;;
+    --copy-static-resources)
+      COPY_STATICS_OPTION="--copy-static-resources"
+      ;;
     *)
       echo Unknown option: $1
       exit 1
@@ -30,7 +33,8 @@ esac
 CACHE=$CURDIR/../build
 
 #CDN="echo server.js cdn-cli"
-CDN="$CURDIR/../server.js cdn-cli -s standalone --server-config standalone --server-settings standalone --version=standalone --cache $CACHE $COMPRESS_OPTION $OBFUSCATE_OPTION"
+CDN="$CURDIR/../server.js cdn-cli -s standalone --server-config standalone --server-settings standalone
+  --version=standalone --cache $CACHE $COMPRESS_OPTION $OBFUSCATE_OPTION $COPY_STATICS_OPTION"
 
 # build async loaded ace modules
 $CDN --module ace
