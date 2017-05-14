@@ -1,0 +1,22 @@
+{
+  "THREE": {
+    "EffectComposer": {
+      "!type": "fn(renderer: WebGLRenderer, renderTarget?: WebGLRenderTarget)",
+      "prototype": {
+        "renderTarget1": "WebGLRenderTarget",
+        "renderTarget2": "WebGLRenderTarget",
+        "writeBuffer": "WebGLRenderTarget",
+        "readBuffer": "WebGLRenderTarget",
+        "passes": "[?]",
+        "copyPass": "ShaderPass",
+        "swapBuffers": "fn()",
+        "addPass": "fn(pass: ?)",
+        "insertPass": "fn(pass: ?, index: number)",
+        "render": "fn(delta?: number)",
+        "reset": "fn(renderTarget?: WebGLRenderTarget)",
+        "setSize": "fn(width: number, height: number)"
+      }
+    }
+  },
+  "!name": "three-effectcomposer"
+}

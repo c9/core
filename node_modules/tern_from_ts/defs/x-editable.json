@@ -1,0 +1,58 @@
+{
+  "XEditableOptions": {
+    "ajaxOptions": "?",
+    "anim": "string",
+    "autotext": "string",
+    "defaultValue": "?",
+    "disabled": "bool",
+    "display": "?",
+    "emptyclass": "string",
+    "emptytext": "string",
+    "error": "?",
+    "highlight": "?",
+    "mode": "string",
+    "name": "string",
+    "onblur": "string",
+    "params": "?",
+    "pk": "?",
+    "placement": "string",
+    "savenochange": "bool",
+    "selector": "string",
+    "send": "string",
+    "showbuttons": "?",
+    "success": "?",
+    "toggle": "string",
+    "type": "string",
+    "unsavedclass": "string",
+    "url": "?",
+    "validate": "?",
+    "value": "?"
+  },
+  "XEditableSubmitOptions": {
+    "url": "?",
+    "data": "?",
+    "ajaxOptions": "?",
+    "error": "fn(obj: ?)",
+    "success": "fn(obj: ?, config: ?)"
+  },
+  "XEditable": {
+    "options": "XEditableOptions",
+    "activate": "fn()",
+    "destroy": "fn()",
+    "disable": "fn()",
+    "enable": "fn()",
+    "getValue": "fn(isSingle: bool) -> ?",
+    "hide": "fn()",
+    "option": "fn(key: ?, value: ?)",
+    "setValue": "fn(value: ?, convertStr: bool)",
+    "show": "fn(closeAll: bool)",
+    "submit": "fn(options: XEditableSubmitOptions)",
+    "toggle": "fn(closeAll: bool)",
+    "toggleDisabled": "fn()",
+    "validate": "fn()"
+  },
+  "JQuery": {
+    "editable": "fn(options?: ?) -> XEditable"
+  },
+  "!name": "x-editable"
+}

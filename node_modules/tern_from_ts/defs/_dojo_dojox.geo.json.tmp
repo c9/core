@@ -1,0 +1,938 @@
+{
+  "dojox": {
+    "geo": {
+      "charting": {
+        "_Marker": {
+          "!type": "fn(markerData: ?, map: ?)",
+          "prototype": {
+            "hide": "fn()",
+            "show": "fn(featureId: ?, evt: ?)"
+          }
+        },
+        "Feature": {
+          "!type": "fn(parent: ?, name: ?, shapeData: ?)",
+          "prototype": {
+            "isSelected": "bool",
+            "markerText": "Object",
+            "init": "fn()",
+            "select": "fn(selected: bool)",
+            "setValue": "fn(value: number)",
+            "unsetColor": "fn()",
+            "unsetValue": "fn()"
+          }
+        },
+        "KeyboardInteractionSupport": {
+          "!type": "fn(map: dojox.geo.charting.Map, options?: Object)",
+          "prototype": {
+            "connect": "fn()",
+            "disconnect": "fn()",
+            "keydownHandler": "fn(e: KeyboardEvent)",
+            "onBlur": "fn()",
+            "onFocus": "fn(e: Event)"
+          }
+        },
+        "TouchInteractionSupport": {
+          "!type": "fn(map: dojox.geo.charting.Map)",
+          "prototype": {
+            "connect": "fn()",
+            "disconnect": "fn()"
+          }
+        },
+        "MouseInteractionSupport": {
+          "!type": "fn(map: dojox.geo.charting.Map, options?: Object)",
+          "prototype": {
+            "mouseClickThreshold": "number",
+            "connect": "fn()",
+            "disconnect": "fn()",
+            "setEnablePan": "fn(enable: bool)",
+            "setEnableZoom": "fn(enable: bool)"
+          }
+        },
+        "Map": {
+          "!type": "fn(container: HTMLElement, shapeData: String)",
+          "prototype": {
+            "colorAnimationDuration": "number",
+            "dataBindingAttribute": "Object",
+            "dataBindingValueFunction": "Object",
+            "dataStore": "Object",
+            "defaultColor": "string",
+            "enableFeatureZoom": "bool",
+            "highlightColor": "string",
+            "series": "[?]",
+            "showTooltips": "bool",
+            "addSeries": "fn(series: URL)",
+            "deselectAll": "fn()",
+            "fitToMapArea": "fn(mapArea: Object, pixelMargin: number, animate: bool, onAnimationEnd: Function)",
+            "fitToMapContents": "fn(pixelMargin: number, animate: bool, onAnimationEnd: Function)",
+            "getMapCenter": "fn() -> ?",
+            "getMapScale": "fn() -> ?",
+            "mapCoordsToScreenCoords": "fn(mapX: number, mapY: number) -> ?",
+            "resize": "fn(adjustMapCenter: bool, adjustMapScale: bool, animate: bool)",
+            "screenCoordsToMapCoords": "fn(screenX: number, screenY: number) -> ?",
+            "setDataBindingAttribute": "fn(prop: String)",
+            "setDataBindingValueFunction": "fn(valueFunction: Function)",
+            "setDataStore": "fn(dataStore: dojo.data.ItemFileReadStore, dataBindingProp: String)",
+            "setMapCenter": "fn(centerX: number, centerY: number, animate: bool, onAnimationEnd: Function)",
+            "setMapCenterAndScale": "fn(centerX: number, centerY: number, scale: number, animate: bool, onAnimationEnd: Function)",
+            "setMapScale": "fn(scale: number, animate: bool, onAnimationEnd: Function)",
+            "setMapScaleAt": "fn(scale: number, fixedMapX: number, fixedMapY: number, animate: bool, onAnimationEnd: Function)",
+            "setMarkerData": "fn(markerFile: String)",
+            "onFeatureClick": "fn(feature: dojox.geo.charting.Feature)",
+            "onFeatureOver": "fn(feature: dojox.geo.charting.Feature)",
+            "onZoomEnd": "fn(feature: dojox.geo.charting.Feature)"
+          }
+        },
+        "widget": {
+          "Legend": {
+            "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+            "prototype": {
+              "attributeMap": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret",
+              "baseClass": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "focused": "bool",
+              "horizontal": "bool",
+              "id": "string",
+              "lang": "string",
+              "legendBody": "Object",
+              "map": "Object",
+              "observer": "string",
+              "ownerDocument": "Object",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "swatchSize": "number",
+              "title": "string",
+              "tooltip": "string",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getParent": "fn() -> ?",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "refresh": "fn()",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "onBlur": "fn()",
+              "onClick": "fn(event: ?)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onShow": "fn()"
+            }
+          },
+          "Map": {
+            "!type": "fn(options: Object, div: HTMLElement)",
+            "prototype": {
+              "adjustMapCenterOnResize": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret20",
+              "adjustMapScaleOnResize": "Object",
+              "animateOnResize": "Object",
+              "attributeMap": "Object",
+              "baseClass": "string",
+              "class": "string",
+              "colorAnimationDuration": "number",
+              "containerNode": "HTMLElement",
+              "dataBindingAttribute": "string",
+              "dataBindingValueFunction": "Object",
+              "dataStore": "Object",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "enableFeatureZoom": "Object",
+              "enableKeyboardSupport": "bool",
+              "enableMousePan": "Object",
+              "enableMouseSupport": "Object",
+              "enableMouseZoom": "Object",
+              "enableTouchSupport": "Object",
+              "focused": "bool",
+              "id": "string",
+              "lang": "string",
+              "markerData": "string",
+              "mouseClickThreshold": "number",
+              "observer": "string",
+              "onFeatureClick": "Object",
+              "onFeatureOver": "Object",
+              "ownerDocument": "Object",
+              "series": "string",
+              "shapeData": "string",
+              "showTooltips": "bool",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "title": "string",
+              "tooltip": "string",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "create": "fn(params: Object, srcNodeRef: HTMLElement)",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getInnerMap": "fn() -> ?",
+              "getParent": "fn() -> ?",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "resize": "fn(b: Object, height: number)",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "onBlur": "fn()",
+              "onClick": "fn(event: ?)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onShow": "fn()"
+            }
+          }
+        },
+        "_base": {
+          "hideTooltip": "fn(gfxObject: dojox.gfx.shape.Shape)",
+          "showTooltip": "fn(innerHTML: String, gfxObject: dojox.gfx.shape.Shape, positions: [String])"
+        }
+      },
+      "openlayers": {
+        "Collection": {
+          "!type": "fn(coords: Object)",
+          "prototype": {
+            "coordinates": "[?]",
+            "getGeometries": "fn() -> ?",
+            "setGeometries": "fn(g: [?])"
+          }
+        },
+        "Feature": {
+          "!type": "fn()",
+          "prototype": {
+            "getCoordinateSystem": "fn() -> ?",
+            "getLayer": "fn() -> ?",
+            "remove": "fn()",
+            "render": "fn()",
+            "setCoordinateSystem": "fn(cs: Object)"
+          }
+        },
+        "Geometry": {
+          "!type": "fn(coords: Object)",
+          "prototype": {
+            "coordinates": "Object"
+          }
+        },
+        "GfxLayer": {
+          "!type": "fn(name: ?, options: ?)",
+          "prototype": {
+            "added": "fn()",
+            "addFeature": "fn(f: dojox.geo.openlayers.Feature)",
+            "clear": "fn()",
+            "getDojoMap": "fn() -> ?",
+            "getFeatureAt": "fn(i: number) -> ?",
+            "getFeatureCount": "fn() -> ?",
+            "getFeatures": "fn() -> ?",
+            "getSurface": "fn() -> ?",
+            "getViewport": "fn() -> ?",
+            "moveTo": "fn(event: ?)",
+            "redraw": "fn()",
+            "removeFeature": "fn(f: dojox.geo.openlayers.Feature)",
+            "removeFeatureAt": "fn(index: number)",
+            "renderFeature": "fn(f: dojox.geo.openlayers.Feature)",
+            "setMap": "fn(map: ?)",
+            "setViewport": "fn(g: Object)",
+            "onMapResize": "fn()"
+          }
+        },
+        "GeometryFeature": {
+          "!type": "fn(geometry: dojox.geo.openlayers.Geometry)",
+          "prototype": {
+            "createShape": "fn(s: dojox.gfx.Surface, g: dojox.geo.openlayers.Geometry) -> ?",
+            "getCoordinateSystem": "fn() -> ?",
+            "getFill": "fn() -> ?",
+            "getLayer": "fn() -> ?",
+            "getShape": "fn() -> ?",
+            "getShapeProperties": "fn() -> ?",
+            "getStroke": "fn() -> ?",
+            "remove": "fn()",
+            "render": "fn(g?: dojox.geo.openlayers.Geometry)",
+            "renderCollection": "fn(g: dojox.geo.openlayers.Geometry)",
+            "renderLineString": "fn(g: dojox.geo.openlayers.Geometry)",
+            "renderPoint": "fn(g: dojox.geo.openlayers.Point)",
+            "setCoordinateSystem": "fn(cs: Object)",
+            "setFill": "fn(f: Object) -> Function",
+            "setShapeProperties": "fn(s: Object) -> Function",
+            "setStroke": "fn(s: Object) -> Function"
+          }
+        },
+        "LineString": {
+          "!type": "fn(coords: Object)",
+          "prototype": {
+            "coordinates": "Object",
+            "getPoints": "fn() -> ?",
+            "setPoints": "fn(p: [Object])"
+          }
+        },
+        "JsonImport": {
+          "!type": "fn(params: Object)",
+          "prototype": {
+            "loadData": "fn()"
+          }
+        },
+        "Layer": {
+          "!type": "fn(name: String, options: Object)",
+          "prototype": {
+            "added": "fn()",
+            "addFeature": "fn(f: dojox.geo.openlayers.Feature)",
+            "clear": "fn()",
+            "getDojoMap": "fn() -> ?",
+            "getFeatureAt": "fn(i: number) -> ?",
+            "getFeatureCount": "fn() -> ?",
+            "getFeatures": "fn() -> ?",
+            "moveTo": "fn(event: MouseEvent)",
+            "redraw": "fn()",
+            "removeFeature": "fn(f: dojox.geo.openlayers.Feature)",
+            "removeFeatureAt": "fn(index: number)",
+            "renderFeature": "fn(f: dojox.geo.openlayers.Feature)"
+          }
+        },
+        "Map": {
+          "!type": "fn(div: ?, options: ?)",
+          "prototype": {
+            "olMap": "Object",
+            "addLayer": "fn(layer: dojox.geo.openlayers.Layer)",
+            "fitTo": "fn(o: Object)",
+            "getBaseLayerType": "fn() -> ?",
+            "getLayer": "fn(property: String, value: Object) -> ?",
+            "getLayerCount": "fn() -> ?",
+            "getOLMap": "fn() -> ?",
+            "getScale": "fn(geodesic: bool) -> ?",
+            "initialFit": "fn(params: ?)",
+            "layerIndex": "fn(layer: dojox.geo.openlayers.Layer, index: number) -> ?",
+            "removeLayer": "fn(layer: dojox.geo.openlayers.Layer)",
+            "setBaseLayerType": "fn(type: dojox.geo.openlayers.Layer) -> ?",
+            "transform": "fn(p: ?, from: Object, to: ?) -> ?",
+            "transformXY": "fn(x: number, y: number, from: Object, to: Object) -> ?"
+          }
+        },
+        "Point": {
+          "!type": "fn(coords: Object)",
+          "prototype": {
+            "coordinates": "Object",
+            "getPoint": "fn() -> ?",
+            "setPoint": "fn(p: Object)"
+          }
+        },
+        "TouchInteractionSupport": {
+          "!type": "fn(map: dojox.geo.openlayers.Map)",
+          "prototype": {}
+        },
+        "WidgetFeature": {
+          "!type": "fn(params: Object)",
+          "prototype": {
+            "getCoordinateSystem": "fn() -> ?",
+            "getLayer": "fn() -> ?",
+            "getParameters": "fn() -> ?",
+            "remove": "fn()",
+            "render": "fn()",
+            "setCoordinateSystem": "fn(cs: Object)",
+            "setParameters": "fn(params: Object)"
+          }
+        },
+        "widget": {
+          "Map": {
+            "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+            "prototype": {
+              "attributeMap": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret56",
+              "baseClass": "string",
+              "baseLayerType": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "focused": "bool",
+              "id": "string",
+              "initialLocation": "string",
+              "lang": "string",
+              "map": "Object",
+              "observer": "string",
+              "ownerDocument": "Object",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "title": "string",
+              "tooltip": "string",
+              "touchHandler": "bool",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getParent": "fn() -> ?",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "resize": "fn(b: Object, h: number)",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "onBlur": "fn()",
+              "onClick": "fn(event: ?)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onShow": "fn()"
+            }
+          }
+        },
+        "_base": {
+          "BaseLayerType": {
+            "ARCGIS": "string",
+            "BING": "string",
+            "GOOGLE": "string",
+            "OSM": "string",
+            "VIRTUAL_EARTH": "string",
+            "WMS": "string",
+            "YAHOO": "string"
+          },
+          "EPSG4326": "Object",
+          "GreatCircle": {
+            "DEG2RAD": "number",
+            "RAD2DEG": "number",
+            "TOLERANCE": "number",
+            "toGeometryFeature": "fn(p1: dojox.geo.openlayers.Point, p2: dojox.geo.openlayers.Point, increment: number) -> ?",
+            "toLineString": "fn(p1: dojox.geo.openlayers.Point, p2: dojox.geo.openlayers.Point, increment: number) -> ?",
+            "toPointArray": "fn(p1: dojox.geo.openlayers.Point, p2: dojox.geo.openlayers.Point, increment: number) -> [?]"
+          },
+          "widget": {
+            "Map": "fn()"
+          },
+          "Collection": {
+            "!type": "fn(coords: Object)",
+            "prototype": {
+              "coordinates": "[?]",
+              "getGeometries": "fn() -> ?",
+              "setGeometries": "fn(g: [?])"
+            }
+          },
+          "Feature": {
+            "!type": "fn()",
+            "prototype": {
+              "getCoordinateSystem": "fn() -> ?",
+              "getLayer": "fn() -> ?",
+              "remove": "fn()",
+              "render": "fn()",
+              "setCoordinateSystem": "fn(cs: Object)"
+            }
+          },
+          "Geometry": {
+            "!type": "fn(coords: Object)",
+            "prototype": {
+              "coordinates": "Object"
+            }
+          },
+          "GeometryFeature": {
+            "!type": "fn(geometry: dojox.geo.openlayers.Geometry)",
+            "prototype": {
+              "createShape": "fn(s: dojox.gfx.Surface, g: dojox.geo.openlayers.Geometry) -> ?",
+              "getCoordinateSystem": "fn() -> ?",
+              "getFill": "fn() -> ?",
+              "getLayer": "fn() -> ?",
+              "getShape": "fn() -> ?",
+              "getShapeProperties": "fn() -> ?",
+              "getStroke": "fn() -> ?",
+              "remove": "fn()",
+              "render": "fn(g?: dojox.geo.openlayers.Geometry)",
+              "renderCollection": "fn(g: dojox.geo.openlayers.Geometry)",
+              "renderLineString": "fn(g: dojox.geo.openlayers.Geometry)",
+              "renderPoint": "fn(g: dojox.geo.openlayers.Point)",
+              "setCoordinateSystem": "fn(cs: Object)",
+              "setFill": "fn(f: Object) -> Function",
+              "setShapeProperties": "fn(s: Object) -> Function",
+              "setStroke": "fn(s: Object) -> Function"
+            }
+          },
+          "GfxLayer": {
+            "!type": "fn(name: ?, options: ?)",
+            "prototype": {
+              "added": "fn()",
+              "addFeature": "fn(f: dojox.geo.openlayers.Feature)",
+              "clear": "fn()",
+              "getDojoMap": "fn() -> ?",
+              "getFeatureAt": "fn(i: number) -> ?",
+              "getFeatureCount": "fn() -> ?",
+              "getFeatures": "fn() -> ?",
+              "getSurface": "fn() -> ?",
+              "getViewport": "fn() -> ?",
+              "moveTo": "fn(event: ?)",
+              "redraw": "fn()",
+              "removeFeature": "fn(f: dojox.geo.openlayers.Feature)",
+              "removeFeatureAt": "fn(index: number)",
+              "renderFeature": "fn(f: dojox.geo.openlayers.Feature)",
+              "setMap": "fn(map: ?)",
+              "setViewport": "fn(g: Object)",
+              "onMapResize": "fn()"
+            }
+          },
+          "JsonImport": {
+            "!type": "fn(params: Object)",
+            "prototype": {
+              "loadData": "fn()"
+            }
+          },
+          "Layer": {
+            "!type": "fn(name: String, options: Object)",
+            "prototype": {
+              "added": "fn()",
+              "addFeature": "fn(f: dojox.geo.openlayers.Feature)",
+              "clear": "fn()",
+              "getDojoMap": "fn() -> ?",
+              "getFeatureAt": "fn(i: number) -> ?",
+              "getFeatureCount": "fn() -> ?",
+              "getFeatures": "fn() -> ?",
+              "moveTo": "fn(event: MouseEvent)",
+              "redraw": "fn()",
+              "removeFeature": "fn(f: dojox.geo.openlayers.Feature)",
+              "removeFeatureAt": "fn(index: number)",
+              "renderFeature": "fn(f: dojox.geo.openlayers.Feature)"
+            }
+          },
+          "LineString": {
+            "!type": "fn(coords: Object)",
+            "prototype": {
+              "coordinates": "Object",
+              "getPoints": "fn() -> ?",
+              "setPoints": "fn(p: [Object])"
+            }
+          },
+          "Map": {
+            "!type": "fn(div: ?, options: ?)",
+            "prototype": {
+              "olMap": "Object",
+              "addLayer": "fn(layer: dojox.geo.openlayers.Layer)",
+              "fitTo": "fn(o: Object)",
+              "getBaseLayerType": "fn() -> ?",
+              "getLayer": "fn(property: String, value: Object) -> ?",
+              "getLayerCount": "fn() -> ?",
+              "getOLMap": "fn() -> ?",
+              "getScale": "fn(geodesic: bool) -> ?",
+              "initialFit": "fn(params: ?)",
+              "layerIndex": "fn(layer: dojox.geo.openlayers.Layer, index: number) -> ?",
+              "removeLayer": "fn(layer: dojox.geo.openlayers.Layer)",
+              "setBaseLayerType": "fn(type: dojox.geo.openlayers.Layer) -> ?",
+              "transform": "fn(p: ?, from: Object, to: ?) -> ?",
+              "transformXY": "fn(x: number, y: number, from: Object, to: Object) -> ?"
+            }
+          },
+          "parseDMS": "fn(v: String, toDecimal: bool) -> number",
+          "Point": {
+            "!type": "fn(coords: Object)",
+            "prototype": {
+              "coordinates": "Object",
+              "getPoint": "fn() -> ?",
+              "setPoint": "fn(p: Object)"
+            }
+          },
+          "TouchInteractionSupport": {
+            "!type": "fn(map: dojox.geo.openlayers.Map)",
+            "prototype": {}
+          },
+          "WidgetFeature": {
+            "!type": "fn(params: Object)",
+            "prototype": {
+              "getCoordinateSystem": "fn() -> ?",
+              "getLayer": "fn() -> ?",
+              "getParameters": "fn() -> ?",
+              "remove": "fn()",
+              "render": "fn()",
+              "setCoordinateSystem": "fn(cs: Object)",
+              "setParameters": "fn(params: Object)"
+            }
+          },
+          "__JsonImportArgs": {
+            "error": "Function",
+            "nextFeature": "Function",
+            "url": "string"
+          },
+          "__MapArgs": {
+            "baseLayerName": "string",
+            "baseLayerOptions": "string",
+            "baseLayerType": "string",
+            "baseLayerUrl": "string"
+          },
+          "__WidgetFeatureArgs": {
+            "createWidget": "Function",
+            "dijitId": "string",
+            "dojoType": "string",
+            "height": "number",
+            "latitude": "number",
+            "longitude": "number",
+            "widget": "Object",
+            "width": "number"
+          }
+        },
+        "GreatCircle": {
+          "DEG2RAD": "number",
+          "RAD2DEG": "number",
+          "TOLERANCE": "number",
+          "toGeometryFeature": "fn(p1: dojox.geo.openlayers.Point, p2: dojox.geo.openlayers.Point, increment: number) -> ?",
+          "toLineString": "fn(p1: dojox.geo.openlayers.Point, p2: dojox.geo.openlayers.Point, increment: number) -> ?",
+          "toPointArray": "fn(p1: dojox.geo.openlayers.Point, p2: dojox.geo.openlayers.Point, increment: number) -> [?]"
+        },
+        "Patch": {
+          "patchGFX": "fn()"
+        }
+      }
+    }
+  },
+  "dojox/geo/charting/_base": "exp",
+  "dojox/geo/charting/_Marker": "exp",
+  "dojox/geo/charting/Feature": "exp",
+  "dojox/geo/charting/KeyboardInteractionSupport": "exp",
+  "dojox/geo/charting/MouseInteractionSupport": "exp",
+  "dojox/geo/charting/TouchInteractionSupport": "exp",
+  "dojox/geo/charting/Map": "exp",
+  "dojox/geo/charting/widget/Legend": "exp",
+  "dojox/geo/charting/widget/Map": "exp",
+  "dojox/geo/openlayers/_base": "exp",
+  "dojox/geo/openlayers/_base.Geometry": "exp",
+  "dojox/geo/openlayers/_base.Collection": "exp",
+  "dojox/geo/openlayers/_base.Feature": "exp",
+  "dojox/geo/openlayers/_base.JsonImport": "exp",
+  "dojox/geo/openlayers/_base.GfxLayer": "exp",
+  "dojox/geo/openlayers/_base.LineString": "exp",
+  "dojox/geo/openlayers/_base.Layer": "exp",
+  "dojox/geo/openlayers/_base.GeometryFeature": "exp",
+  "dojox/geo/openlayers/_base.Point": "exp",
+  "dojox/geo/openlayers/_base.Map": "exp",
+  "dojox/geo/openlayers/_base.TouchInteractionSupport": "exp",
+  "dojox/geo/openlayers/_base.WidgetFeature": "exp",
+  "dojox/geo/openlayers/_base.__JsonImportArgs": "exp",
+  "dojox/geo/openlayers/_base.__WidgetFeatureArgs": "exp",
+  "dojox/geo/openlayers/_base.__MapArgs": "exp",
+  "dojox/geo/openlayers/_base.BaseLayerType": "exp",
+  "dojox/geo/openlayers/_base.GreatCircle": "exp",
+  "dojox/geo/openlayers/_base.widget": "exp",
+  "dojox/geo/openlayers/GreatCircle": "exp",
+  "dojox/geo/openlayers/Patch": "exp",
+  "dojox/geo/openlayers/Collection": "exp",
+  "dojox/geo/openlayers/Feature": "exp",
+  "dojox/geo/openlayers/Geometry": "exp",
+  "dojox/geo/openlayers/GfxLayer": "exp",
+  "dojox/geo/openlayers/JsonImport": "exp",
+  "dojox/geo/openlayers/Layer": "exp",
+  "dojox/geo/openlayers/LineString": "exp",
+  "dojox/geo/openlayers/GeometryFeature": "exp",
+  "dojox/geo/openlayers/Point": "exp",
+  "dojox/geo/openlayers/WidgetFeature": "exp",
+  "dojox/geo/openlayers/TouchInteractionSupport": "exp",
+  "dojox/geo/openlayers/Map": "exp",
+  "dojox/geo/openlayers/widget/Map": "exp",
+  "!name": "dojox.geo.d.ts",
+  "!define": {
+    "ret": {
+      "unwatch": "fn()"
+    },
+    "ret1": {
+      "unwatch": "fn()"
+    },
+    "ret2": {
+      "unwatch": "fn()"
+    },
+    "ret3": {
+      "unwatch": "fn()"
+    },
+    "ret4": {
+      "unwatch": "fn()"
+    },
+    "ret5": {
+      "unwatch": "fn()"
+    },
+    "ret6": {
+      "unwatch": "fn()"
+    },
+    "ret7": {
+      "unwatch": "fn()"
+    },
+    "ret8": {
+      "unwatch": "fn()"
+    },
+    "ret9": {
+      "unwatch": "fn()"
+    },
+    "ret10": {
+      "unwatch": "fn()"
+    },
+    "ret11": {
+      "unwatch": "fn()"
+    },
+    "ret12": {
+      "unwatch": "fn()"
+    },
+    "ret13": {
+      "unwatch": "fn()"
+    },
+    "ret14": {
+      "unwatch": "fn()"
+    },
+    "ret15": {
+      "unwatch": "fn()"
+    },
+    "ret16": {
+      "unwatch": "fn()"
+    },
+    "ret17": {
+      "unwatch": "fn()"
+    },
+    "ret18": {
+      "unwatch": "fn()"
+    },
+    "ret19": {
+      "unwatch": "fn()"
+    },
+    "ret20": {
+      "unwatch": "fn()"
+    },
+    "ret21": {
+      "unwatch": "fn()"
+    },
+    "ret22": {
+      "unwatch": "fn()"
+    },
+    "ret23": {
+      "unwatch": "fn()"
+    },
+    "ret24": {
+      "unwatch": "fn()"
+    },
+    "ret25": {
+      "unwatch": "fn()"
+    },
+    "ret26": {
+      "unwatch": "fn()"
+    },
+    "ret27": {
+      "unwatch": "fn()"
+    },
+    "ret28": {
+      "unwatch": "fn()"
+    },
+    "ret29": {
+      "unwatch": "fn()"
+    },
+    "ret30": {
+      "unwatch": "fn()"
+    },
+    "ret31": {
+      "unwatch": "fn()"
+    },
+    "ret32": {
+      "unwatch": "fn()"
+    },
+    "ret33": {
+      "unwatch": "fn()"
+    },
+    "ret34": {
+      "unwatch": "fn()"
+    },
+    "ret35": {
+      "unwatch": "fn()"
+    },
+    "ret36": {
+      "unwatch": "fn()"
+    },
+    "ret37": {
+      "unwatch": "fn()"
+    },
+    "ret38": {
+      "unwatch": "fn()"
+    },
+    "ret39": {
+      "unwatch": "fn()"
+    },
+    "ret40": {
+      "unwatch": "fn()"
+    },
+    "ret41": {
+      "unwatch": "fn()"
+    },
+    "ret42": {
+      "unwatch": "fn()"
+    },
+    "ret43": {
+      "unwatch": "fn()"
+    },
+    "ret44": {
+      "unwatch": "fn()"
+    },
+    "ret45": {
+      "unwatch": "fn()"
+    },
+    "ret46": {
+      "unwatch": "fn()"
+    },
+    "ret47": {
+      "unwatch": "fn()"
+    },
+    "ret48": {
+      "unwatch": "fn()"
+    },
+    "ret49": {
+      "unwatch": "fn()"
+    },
+    "ret50": {
+      "unwatch": "fn()"
+    },
+    "ret51": {
+      "unwatch": "fn()"
+    },
+    "ret52": {
+      "unwatch": "fn()"
+    },
+    "ret53": {
+      "unwatch": "fn()"
+    },
+    "ret54": {
+      "unwatch": "fn()"
+    },
+    "ret55": {
+      "unwatch": "fn()"
+    },
+    "ret56": {
+      "unwatch": "fn()"
+    },
+    "ret57": {
+      "unwatch": "fn()"
+    },
+    "ret58": {
+      "unwatch": "fn()"
+    },
+    "ret59": {
+      "unwatch": "fn()"
+    },
+    "ret60": {
+      "unwatch": "fn()"
+    },
+    "ret61": {
+      "unwatch": "fn()"
+    },
+    "ret62": {
+      "unwatch": "fn()"
+    },
+    "ret63": {
+      "unwatch": "fn()"
+    },
+    "ret64": {
+      "unwatch": "fn()"
+    },
+    "ret65": {
+      "unwatch": "fn()"
+    },
+    "ret66": {
+      "unwatch": "fn()"
+    },
+    "ret67": {
+      "unwatch": "fn()"
+    },
+    "ret68": {
+      "unwatch": "fn()"
+    },
+    "ret69": {
+      "unwatch": "fn()"
+    },
+    "ret70": {
+      "unwatch": "fn()"
+    },
+    "ret71": {
+      "unwatch": "fn()"
+    },
+    "ret72": {
+      "unwatch": "fn()"
+    },
+    "ret73": {
+      "unwatch": "fn()"
+    },
+    "ret74": {
+      "unwatch": "fn()"
+    },
+    "ret75": {
+      "unwatch": "fn()"
+    }
+  }
+}

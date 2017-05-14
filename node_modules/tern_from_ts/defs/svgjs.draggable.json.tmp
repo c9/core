@@ -1,0 +1,20 @@
+{
+  "svgjs": {
+    "draggable": {
+      "DragDelta": {
+        "x": "number",
+        "y": "number",
+        "zoom": "number"
+      }
+    },
+    "Element": {
+      "draggable": "fn() -> Element",
+      "fixed": "fn() -> Element",
+      "beforedrag": "fn(event: MouseEvent)",
+      "dragstart": "fn(delta: draggable.DragDelta, event: MouseEvent)",
+      "dragmove": "fn(delta: draggable.DragDelta, event: MouseEvent)",
+      "dragend": "fn(delta: draggable.DragDelta, event: MouseEvent)"
+    }
+  },
+  "!name": "svgjs.draggable.d.ts"
+}

@@ -1,0 +1,172 @@
+{
+  "Handlebars": "HandlebarsStatic",
+  "HandlebarsTemplatable": {
+    "template": "HandlebarsTemplateDelegate"
+  },
+  "HandlebarsTemplateDelegate": {},
+  "HandlebarsCommon": {
+    "registerHelper": "fn(name: string, fn: Function, inverse?: bool)",
+    "registerPartial": "fn(name: string, str: ?)",
+    "K": "fn()",
+    "createFrame": "fn(object: ?) -> ?",
+    "Exception": "fn(message: string)",
+    "SafeString": "hbs.SafeString",
+    "Utils": "hbs.Utils",
+    "logger": "Logger",
+    "log": "fn(level: number, obj: ?)"
+  },
+  "HandlebarsStatic": {
+    "parse": "fn(input: string) -> hbs.AST.ProgramNode",
+    "compile": "fn(input: ?, options?: ?) -> HandlebarsTemplateDelegate"
+  },
+  "HandlebarsTemplates": {},
+  "HandlebarsRuntimeStatic": {
+    "templates": "HandlebarsTemplates"
+  },
+  "hbs": {
+    "SafeString": {
+      "!type": "fn(str: string)",
+      "prototype": {}
+    },
+    "Utils": {
+      "escapeExpression": "fn(str: string) -> string"
+    },
+    "AST": {
+      "IStripInfo": {
+        "left": "bool",
+        "right": "bool",
+        "inlineStandalone": "bool"
+      },
+      "NodeBase": {
+        "prototype": {
+          "firstColumn": "number",
+          "firstLine": "number",
+          "lastColumn": "number",
+          "lastLine": "number",
+          "type": "string"
+        }
+      },
+      "ProgramNode": {
+        "prototype": {
+          "statements": "[NodeBase]"
+        }
+      },
+      "IdNode": {
+        "prototype": {
+          "original": "string",
+          "parts": "[string]",
+          "string": "string",
+          "depth": "number",
+          "idName": "string",
+          "isSimple": "bool",
+          "stringModeValue": "string"
+        }
+      },
+      "HashNode": {
+        "prototype": {
+          "pairs": "[]"
+        }
+      },
+      "SexprNode": {
+        "prototype": {
+          "hash": "HashNode",
+          "id": "NodeBase",
+          "params": "[NodeBase]",
+          "isHelper": "bool",
+          "eligibleHelper": "bool"
+        }
+      },
+      "MustacheNode": {
+        "prototype": {
+          "strip": "IStripInfo",
+          "escaped": "bool",
+          "sexpr": "SexprNode"
+        }
+      },
+      "BlockNode": {
+        "prototype": {
+          "mustache": "MustacheNode",
+          "program": "ProgramNode",
+          "inverse": "ProgramNode",
+          "strip": "IStripInfo",
+          "isInverse": "bool"
+        }
+      },
+      "PartialNameNode": {
+        "prototype": {
+          "name": "string"
+        }
+      },
+      "PartialNode": {
+        "prototype": {
+          "partialName": "PartialNameNode",
+          "context": "NodeBase",
+          "hash": "HashNode",
+          "strip": "IStripInfo"
+        }
+      },
+      "RawBlockNode": {
+        "prototype": {
+          "mustache": "MustacheNode",
+          "program": "ProgramNode"
+        }
+      },
+      "ContentNode": {
+        "prototype": {
+          "original": "string",
+          "string": "string"
+        }
+      },
+      "DataNode": {
+        "prototype": {
+          "id": "IdNode",
+          "stringModeValue": "string",
+          "idName": "string"
+        }
+      },
+      "StringNode": {
+        "prototype": {
+          "original": "string",
+          "string": "string",
+          "stringModeValue": "string"
+        }
+      },
+      "NumberNode": {
+        "prototype": {
+          "original": "string",
+          "number": "string",
+          "stringModeValue": "number"
+        }
+      },
+      "BooleanNode": {
+        "prototype": {
+          "bool": "string",
+          "stringModeValue": "bool"
+        }
+      },
+      "CommentNode": {
+        "prototype": {
+          "comment": "string",
+          "strip": "IStripInfo"
+        }
+      }
+    }
+  },
+  "Logger": {
+    "DEBUG": "number",
+    "INFO": "number",
+    "WARN": "number",
+    "ERROR": "number",
+    "level": "number",
+    "methodMap": {},
+    "log": "fn(level: number, obj: string)"
+  },
+  "handlebars": "Handlebars",
+  "!name": "handlebars-1.0.0.d.ts",
+  "!define": {
+    "": {
+      "0": "string",
+      "1": "NodeBase"
+    }
+  }
+}

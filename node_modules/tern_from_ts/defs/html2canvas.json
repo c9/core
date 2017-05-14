@@ -1,0 +1,20 @@
+{
+  "Html2Canvas": {
+    "Html2CanvasOptions": {
+      "allowTaint": "bool",
+      "background": "string",
+      "height": "number",
+      "letterRendering": "bool",
+      "logging": "bool",
+      "proxy": "string",
+      "taintTest": "bool",
+      "timeout": "number",
+      "width": "number",
+      "useCORS": "bool",
+      "onrendered": "fn(canvas: HTMLCanvasElement)"
+    }
+  },
+  "Html2CanvasStatic": {},
+  "html2canvas": "Html2CanvasStatic",
+  "!name": "html2canvas"
+}

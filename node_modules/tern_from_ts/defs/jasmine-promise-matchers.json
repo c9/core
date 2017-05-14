@@ -1,0 +1,12 @@
+{
+  "installPromiseMatchers": "fn()",
+  "jasmine": {
+    "Matchers": {
+      "toBeRejected": "fn() -> bool",
+      "toBeRejectedWith": "fn(value: ?) -> bool",
+      "toBeResolved": "fn() -> bool",
+      "toBeResolvedWith": "fn(value: ?) -> bool"
+    }
+  },
+  "!name": "jasmine-promise-matchers"
+}

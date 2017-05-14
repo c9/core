@@ -1,0 +1,153 @@
+{
+  "webkitAudioContext": {
+    "destination": "AudioDestinationNode",
+    "sampleRate": "number",
+    "currentTime": "number",
+    "listener": "AudioListener",
+    "activeSourceCount": "number",
+    "createBuffer": "fn(numberOfChannels: number, length: number, sampleRate: number) -> AudioBuffer",
+    "decodeAudioData": "fn(audioData: ArrayBuffer, successCallback: ?, errorCallback?: ?)",
+    "createBufferSource": "fn() -> AudioBufferSourceNode",
+    "createMediaElementSource": "fn(mediaElement: HTMLMediaElement) -> MediaElementAudioSourceNode",
+    "createMediaStreamSource": "fn(mediaStream: MediaStream) -> MediaStreamAudioSourceNode",
+    "createScriptProcessor": "fn(bufferSize: number, numberOfInputChannels?: number, numberOfOutputChannels?: number) -> ScriptProcessorNode",
+    "createAnalyser": "fn() -> AnalyserNode",
+    "createGain": "fn() -> GainNode",
+    "createDelay": "fn(maxDelayTime?: number) -> DelayNode",
+    "createBiquadFilter": "fn() -> BiquadFilterNode",
+    "createWaveShaper": "fn() -> WaveShaperNode",
+    "createPanner": "fn() -> PannerNode",
+    "createConvolver": "fn() -> ConvolverNode",
+    "createChannelSplitter": "fn(numberOfOutputs?: number) -> ChannelSplitterNode",
+    "createChannelMerger": "fn(numberOfInputs?: number) -> ChannelMergerNode",
+    "createDynamicsCompressor": "fn() -> DynamicsCompressorNode",
+    "createOscillator": "fn() -> OscillatorNode",
+    "createWaveTable": "fn(real: ?, imag: ?) -> WaveTable"
+  },
+  "AudioNode": {
+    "connect": "fn(destination: AudioNode, output?: number, input?: number)",
+    "disconnect": "fn(output?: number)",
+    "context": "webkitAudioContext",
+    "numberOfInputs": "number",
+    "numberOfOutputs": "number"
+  },
+  "AudioSourceNode": {},
+  "AudioDestinationNode": {
+    "maxNumberOfChannels": "number",
+    "numberOfChannels": "number"
+  },
+  "AudioParam": {
+    "value": "number",
+    "computedValue": "number",
+    "minValue": "number",
+    "maxValue": "number",
+    "defaultValue": "number",
+    "setValueAtTime": "fn(value: number, startTime: number)",
+    "linearRampToValueAtTime": "fn(value: number, endTime: number)",
+    "exponentialRampToValueAtTime": "fn(value: number, endTime: number)",
+    "setTargetAtTime": "fn(target: number, startTime: number, timeConstant: number)",
+    "setValueCurveAtTime": "fn(values: ?, startTime: number, duration: number)",
+    "cancelScheduledValues": "fn(startTime: number)"
+  },
+  "GainNode": {
+    "gain": "AudioParam"
+  },
+  "DelayNode": {
+    "delayTime": "AudioParam"
+  },
+  "AudioBuffer": {
+    "sampleRate": "number",
+    "length": "number",
+    "duration": "number",
+    "numberOfChannels": "number",
+    "getChannelData": "fn(channel: ?) -> ?"
+  },
+  "AudioBufferSourceNode": {
+    "playbackState": "number",
+    "buffer": "AudioBuffer",
+    "playbackRate": "AudioParam",
+    "loop": "bool",
+    "loopStart": "number",
+    "loopEnd": "number",
+    "start": "fn(when: number, offset?: number, duration?: number)",
+    "stop": "fn(when: number)"
+  },
+  "MediaElementAudioSourceNode": {},
+  "ScriptProcessorNode": {
+    "onaudioproces": "EventListener",
+    "bufferSize": "number"
+  },
+  "AudioProcessingEvent": {
+    "node": "ScriptProcessorNode",
+    "playbackTime": "number",
+    "inputBuffer": "AudioBuffer",
+    "outputBuffer": "AudioBuffer"
+  },
+  "PannerNode": {
+    "panningModel": "number",
+    "distanceModel": "number",
+    "setPosition": "fn(x: number, y: number, z: number)",
+    "setOrientation": "fn(x: number, y: number, z: number)",
+    "setVelocity": "fn(x: number, y: number, z: number)",
+    "refDistance": "number",
+    "maxDistance": "number",
+    "rolloffFactor": "number",
+    "coneInnerAngle": "number",
+    "coneOuterAngle": "number",
+    "coneOuterGain": "number"
+  },
+  "AudioListener": {
+    "dopplerFactor": "number",
+    "speedOfSound": "number",
+    "setPosition": "fn(x: number, y: number, z: number)",
+    "setOrientation": "fn(x: number, y: number, z: number, xUp: number, yUp: number, zUp: number)",
+    "setVelocity": "fn(x: number, y: number, z: number)"
+  },
+  "ConvolverNode": {
+    "buffer": "AudioBuffer",
+    "normalize": "bool"
+  },
+  "AnalyserNode": {
+    "getFloatFrequencyData": "fn(array: ?)",
+    "getByteFrequencyData": "fn(array: ?)",
+    "getByteTimeDomainData": "fn(array: ?)",
+    "fftSize": "number",
+    "frequencyBinCount": "number",
+    "minDecibels": "number",
+    "maxDecibels": "number",
+    "smoothingTimeConstant": "number"
+  },
+  "ChannelSplitterNode": {},
+  "ChannelMergerNode": {},
+  "DynamicsCompressorNode": {
+    "threshold": "AudioParam",
+    "knee": "AudioParam",
+    "ratio": "AudioParam",
+    "reduction": "AudioParam",
+    "attack": "AudioParam",
+    "release": "AudioParam"
+  },
+  "BiquadFilterNode": {
+    "type": "number",
+    "frequency": "AudioParam",
+    "Q": "AudioParam",
+    "gain": "AudioParam",
+    "getFrequencyResponse": "fn(frequencyHz: ?, magResponse: ?, phaseResponse: ?)"
+  },
+  "WaveShaperNode": {
+    "curve": "?"
+  },
+  "OscillatorNode": {
+    "type": "number",
+    "playbackState": "number",
+    "frequency": "AudioParam",
+    "detune": "AudioParam",
+    "start": "fn(when: number)",
+    "stop": "fn(when: number)",
+    "setWaveTable": "fn(waveTable: WaveTable)"
+  },
+  "WaveTable": {},
+  "MediaStreamAudioSourceNode": {},
+  "MediaStream": {},
+  "!name": "waa-nightly.d.ts"
+}

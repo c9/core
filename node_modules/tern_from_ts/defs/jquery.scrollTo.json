@@ -1,0 +1,20 @@
+{
+  "ScrollToOptions": {
+    "axis": "string",
+    "duration": "?",
+    "easing": "string",
+    "margin": "bool",
+    "offset": "?",
+    "over": "?",
+    "queue": "bool",
+    "onAfter": "fn()",
+    "onAfterFirst": "fn()"
+  },
+  "JQuery": {
+    "scrollTo": {}
+  },
+  "JQueryStatic": {
+    "scrollTo": {}
+  },
+  "!name": "jquery.scrollTo"
+}

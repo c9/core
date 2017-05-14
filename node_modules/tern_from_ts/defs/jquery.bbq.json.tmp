@@ -1,0 +1,37 @@
+{
+  "JQueryBbq": {
+    "JQuery": {
+      "pushState": "fn(params?: string, merge_mode?: number)",
+      "getState": "fn(key?: string, coerce?: bool) -> ?",
+      "removeState": "fn(key: [?])"
+    },
+    "ParamFragment": {
+      "noEscape": "fn(chars?: string)",
+      "ajaxCrawlable": "fn(state?: bool) -> bool"
+    },
+    "JQueryDeparam": {
+      "querystring": "fn(url?: string, coerce?: bool) -> ?",
+      "fragment": "fn(url?: string, coerce?: bool) -> ?"
+    },
+    "EventObject": {
+      "fragment": "string",
+      "getState": "fn(key?: string, coerce?: bool)"
+    }
+  },
+  "JQueryParam": {
+    "querystring": "fn(url?: string, coerce?: bool, merge_mode?: number) -> string",
+    "fragment": "JQueryBbq.ParamFragment",
+    "sorted": "fn(obj: ?, traditional?: bool) -> string"
+  },
+  "JQueryStatic": {
+    "bbq": "JQueryBbq.JQuery",
+    "deparam": "JQueryBbq.JQueryDeparam",
+    "elemUrlAttr": "fn(tag_attr?: ?) -> ?"
+  },
+  "JQuery": {
+    "querystring": "fn(attr?: ?, params?: ?, merge_mode?: number) -> JQuery",
+    "fragment": "fn(attr?: ?, params?: ?, merge_mode?: number) -> JQuery",
+    "hashchange": "fn(eventData?: ?, handler?: fn(eventObject: JQueryBbq.EventObject)) -> JQuery"
+  },
+  "!name": "jquery.bbq.d.ts"
+}

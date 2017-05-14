@@ -1,0 +1,37 @@
+{
+  "TV4ErrorCodes": {},
+  "TV4Error": {
+    "code": "number",
+    "message": "string",
+    "dataPath": "string",
+    "schemaPath": "string"
+  },
+  "TV4SchemaMap": {},
+  "TV4BaseResult": {
+    "missing": "[string]",
+    "valid": "bool"
+  },
+  "TV4SingleResult": {
+    "error": "TV4Error"
+  },
+  "TV4MultiResult": {
+    "errors": "[TV4Error]"
+  },
+  "TV4": {
+    "validateResult": "fn(data: ?, schema: ?) -> TV4SingleResult",
+    "validateMultiple": "fn(data: ?, schema: ?) -> TV4MultiResult",
+    "addSchema": "fn(uri: string, schema: ?) -> bool",
+    "getSchema": "fn(uri: string) -> ?",
+    "normSchema": "fn(schema: ?, baseUri: string) -> ?",
+    "resolveUrl": "fn(base: string, href: string) -> string",
+    "freshApi": "fn() -> TV4",
+    "dropSchemas": "fn()",
+    "reset": "fn()",
+    "getMissingUris": "fn(exp?: RegExp) -> [string]",
+    "getSchemaUris": "fn(exp?: RegExp) -> [string]",
+    "getSchemaMap": "fn() -> TV4SchemaMap",
+    "errorCodes": "TV4ErrorCodes"
+  },
+  "tv4": "tv4",
+  "!name": "tv4-1.2.4.d.ts"
+}

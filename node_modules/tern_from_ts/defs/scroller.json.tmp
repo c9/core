@@ -1,0 +1,11 @@
+{
+  "EasyScroller": {
+    "!type": "fn(content: ?, options: ScrollerOptions)",
+    "prototype": {
+      "render": "fn()",
+      "reflow": "fn()",
+      "bindEvents": "fn()"
+    }
+  },
+  "!name": "easyscroller.d.ts"
+}

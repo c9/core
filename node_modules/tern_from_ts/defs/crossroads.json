@@ -1,0 +1,38 @@
+{
+  "CrossroadsJs": {
+    "Route": {
+      "matched": "Signal",
+      "switched": "Signal",
+      "rules": "?",
+      "greedy": "bool",
+      "dispose": "fn()",
+      "match": "fn(request: ?) -> bool",
+      "interpolate": "fn(replacements: ?) -> string",
+      "add": "fn(listener: Function, listenerContext?: ?, priority?: Number) -> SignalBinding"
+    },
+    "CrossRoadsStatic": {
+      "NORM_AS_ARRAY": "Function",
+      "NORM_AS_OBJECT": "Function",
+      "addRoute": "fn(pattern: ?, handler?: Function, priority?: number) -> Route",
+      "removeRoute": "fn(route: Route)",
+      "removeAllRoutes": "fn()",
+      "parse": "fn(request: string, defaultArgs: [?])",
+      "getNumRoutes": "fn() -> number",
+      "bypassed": "Signal",
+      "routed": "Signal",
+      "create": "fn() -> CrossRoadsStatic",
+      "normalizeFn": "Function",
+      "shouldTypecast": "bool",
+      "VERSION": "string",
+      "greedy": "bool",
+      "greedyEnabled": "bool",
+      "resetState": "fn()",
+      "ignoreState": "bool",
+      "pipe": "fn(router: CrossRoadsStatic)",
+      "unpipe": "fn(router: CrossRoadsStatic)"
+    }
+  },
+  "crossroads": "CrossroadsJs.CrossRoadsStatic",
+  "'crossroads'": "crossroads",
+  "!name": "crossroads"
+}

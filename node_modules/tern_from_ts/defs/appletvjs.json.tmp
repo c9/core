@@ -1,0 +1,144 @@
+{
+  "App": "AppleTVJS.App",
+  "Device": "AppleTVJS.Device",
+  "navigationDocument": "AppleTVJS.NavigationDocument",
+  "Settings": "AppleTVJS.Settings",
+  "evaluateScripts": "fn(scripts: [string], complete: fn(success: bool))",
+  "AppleTVJS": {
+    "App": {
+      "onError": "fn(options: ?)",
+      "onExit": "fn(options: ?)",
+      "onLaunch": "fn(options: ?)",
+      "reload": "fn(options?: ?, reloadData?: ?)"
+    },
+    "Device": {
+      "appIdentifier": "string",
+      "appVersion": "string",
+      "model": "string",
+      "productType": "string",
+      "systemVersion": "string",
+      "vendorIdentifier": "string"
+    },
+    "FeatureElement": {
+      "getFeature": "fn(feature: string) -> ?"
+    },
+    "Highlight": {
+      "prototype": {
+        "name": "string",
+        "description": "string",
+        "starttime": "number",
+        "duration": "number",
+        "imageURL": "string"
+      }
+    },
+    "HighlightGroup": {
+      "prototype": {
+        "name": "string",
+        "hightlights": "[Highlight]"
+      }
+    },
+    "Interstitial": {
+      "prototype": {
+        "starttime": "number",
+        "duration": "number"
+      }
+    },
+    "Keyboard": {
+      "text": "string",
+      "onTextChange": "fn()"
+    },
+    "MediaItem": {
+      "!type": "fn(type: string, url?: string)",
+      "prototype": {
+        "contentRatingDomain": "string",
+        "contentRatingRanking": "number",
+        "isExplicit": "bool",
+        "artworkImageURL": "string",
+        "description": "string",
+        "subtitle": "string",
+        "title": "string",
+        "type": "string",
+        "url": "string",
+        "highlightGroups": "[HighlightGroup]",
+        "interstitials": "[Interstitial]",
+        "resumeTime": "number",
+        "loadAssetID": "fn(url: string, callback: fn(assetID: string, error: string))",
+        "loadCertificate": "fn(url: string, callback: fn(certificate: string, error: string))",
+        "loadKey": "fn(url: string, requestData: ?, callback: fn(key: string, renewalDate: string, error: string))"
+      }
+    },
+    "MenuBarDocument": {
+      "getDocument": "fn(menuItem: Element) -> Document",
+      "setDocument": "fn(document: Document, menuItem: Element)",
+      "setSelectedItem": "fn(menuItem: Element)"
+    },
+    "NavigationDocument": {
+      "insertBeforeDocument": "fn(document: Document, beforeDocument?: Document)",
+      "pushDocument": "fn(document: Document)",
+      "replaceDocument": "fn(document: Document, beforeDocument?: Document)",
+      "dismissModal": "fn()",
+      "presentModal": "fn(document: Document)",
+      "documents": "[Document]",
+      "clear": "fn()",
+      "popDocument": "fn()",
+      "popToDocument": "fn(document: Document)",
+      "popToRootDocument": "fn()",
+      "removeDocument": "fn(document: Document)"
+    },
+    "Player": {
+      "prototype": {
+        "overlayDocument": "Document",
+        "playlist": "Playlist",
+        "present": "fn()",
+        "pause": "fn()",
+        "play": "fn()",
+        "playbackState": "string",
+        "seekToTime": "fn(time: number)",
+        "setPlaybackRate": "fn(playbackRate: number)",
+        "stop": "fn()",
+        "currentMediaItem": "MediaItem",
+        "nextMediaItem": "MediaItem",
+        "previousMediaItem": "MediaItem",
+        "mediaItemDidChange": "fn(reason: string)",
+        "requestSeekToTime": "fn(result?: ?)",
+        "shouldHandleStateChange": "fn(result: bool)",
+        "stateDidChange": "fn()",
+        "stateWillChange": "fn()",
+        "timeBoundaryDidCross": "fn()",
+        "timeDidChange": "fn()",
+        "timedMetadata": "fn()"
+      }
+    },
+    "Playlist": {
+      "prototype": {
+        "item": "fn(index: number) -> MediaItem",
+        "length": "number",
+        "pop": "fn() -> MediaItem",
+        "push": "fn(object: MediaItem)",
+        "splice": "fn(index: number, howManu: number, object: MediaItem) -> [MediaItem]"
+      }
+    },
+    "Restrictions": {
+      "allowsExplicit": "bool",
+      "maxMovieRank": "number",
+      "maxMovieRatingForCountry": "fn(countryCode: string) -> string",
+      "maxTVShowRank": "number",
+      "maxTVShowRatingForCountry": "fn(countryCode: string) -> string"
+    },
+    "Settings": {
+      "restrictions": "Restrictions",
+      "language": "string",
+      "storefrontCountryCode": "string",
+      "onRestrictionsChange": "fn()"
+    },
+    "TVError": {
+      "prototype": {
+        "code": "string",
+        "description": "string",
+        "domain": "string",
+        "userInfo": "?"
+      }
+    }
+  },
+  "!name": "appletvjs.d.ts"
+}

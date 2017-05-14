@@ -1,0 +1,4 @@
+{
+  "event-loop-lag": "lag",
+  "!name": "event-loop-lag.d.ts"
+}

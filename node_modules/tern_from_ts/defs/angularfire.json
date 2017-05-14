@@ -1,0 +1,68 @@
+{
+  "AngularFireService": {},
+  "AngularFire": {
+    "$asArray": "fn() -> AngularFireArray",
+    "$asObject": "fn() -> AngularFireObject",
+    "$ref": "fn() -> Firebase",
+    "$push": "fn(data: ?) -> ?",
+    "$set": "fn(key: string, data: ?) -> ?",
+    "$remove": "fn(key?: string) -> ?",
+    "$update": "fn(key: string, data: Object) -> ?",
+    "$transaction": "fn(updateFn: fn(currentData: ?), applyLocally?: bool) -> ?"
+  },
+  "AngularFireObject": {
+    "$id": "string",
+    "$priority": "number",
+    "$value": "?",
+    "$remove": "fn() -> ?",
+    "$save": "fn() -> ?",
+    "$loaded": "fn(resolve?: fn(x: AngularFireObject), reject?: fn(err: ?)) -> ?",
+    "$ref": "fn() -> Firebase",
+    "$bindTo": "fn(scope: ng.IScope, varName: string) -> ?",
+    "$watch": "fn(callback: Function, context?: ?) -> Function",
+    "$destroy": "fn()"
+  },
+  "AngularFireObjectService": {
+    "$extend": "fn(ChildClass: Object, methods?: Object) -> Object"
+  },
+  "AngularFireArray": {
+    "$add": "fn(newData: ?) -> ?",
+    "$save": "fn(recordOrIndex: ?) -> ?",
+    "$remove": "fn(recordOrIndex: ?) -> ?",
+    "$getRecord": "fn(key: string) -> AngularFireSimpleObject",
+    "$keyAt": "fn(recordOrIndex: ?) -> string",
+    "$indexFor": "fn(key: string) -> number",
+    "$loaded": "fn(resolve?: fn(x: AngularFireArray), reject?: fn(err: ?)) -> ?",
+    "$ref": "fn() -> Firebase",
+    "$watch": "fn(cb: fn(event: string, key: string, prevChild: string), context?: ?) -> Function",
+    "$destroy": "fn()"
+  },
+  "AngularFireArrayService": {
+    "$extend": "fn(ChildClass: Object, methods?: Object) -> Object"
+  },
+  "AngularFireSimpleObject": {
+    "$id": "string",
+    "$priority": "number",
+    "$value": "?"
+  },
+  "AngularFireAuthService": {},
+  "AngularFireAuth": {
+    "$authWithCustomToken": "fn(authToken: string, options?: Object) -> ?",
+    "$authAnonymously": "fn(options?: Object) -> ?",
+    "$authWithPassword": "fn(credentials: FirebaseCredentials, options?: Object) -> ?",
+    "$authWithOAuthPopup": "fn(provider: string, options?: Object) -> ?",
+    "$authWithOAuthRedirect": "fn(provider: string, options?: Object) -> ?",
+    "$authWithOAuthToken": "fn(provider: string, credentials: Object, string: ?, options?: Object) -> ?",
+    "$getAuth": "fn() -> FirebaseAuthData",
+    "$onAuth": "fn(callback: Function, context?: ?) -> Function",
+    "$unauth": "fn()",
+    "$waitForAuth": "fn() -> ?",
+    "$requireAuth": "fn() -> ?",
+    "$createUser": "fn(credentials: FirebaseCredentials) -> ?",
+    "$removeUser": "fn(credentials: FirebaseCredentials) -> ?",
+    "$changeEmail": "fn(credentials: FirebaseChangeEmailCredentials) -> ?",
+    "$changePassword": "fn(credentials: FirebaseChangePasswordCredentials) -> ?",
+    "$resetPassword": "fn(credentials: FirebaseResetPasswordCredentials) -> ?"
+  },
+  "!name": "angularfire"
+}

@@ -1,0 +1,12 @@
+{
+  "ngCordova": {
+    "INetworkInformationService": {
+      "getNetwork": "fn() -> string",
+      "isOnline": "fn() -> bool",
+      "isOffline": "fn() -> bool",
+      "clearOfflineWatch": "fn()",
+      "clearOnlineWatch": "fn()"
+    }
+  },
+  "!name": "network"
+}

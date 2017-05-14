@@ -1,0 +1,36 @@
+{
+  "Persona": {
+    "WatchOptions": {
+      "loggedInUser": "String",
+      "onlogin": "fn(String: ?)",
+      "onlogout": "fn()",
+      "onready": "fn()"
+    },
+    "RequestOptions": {
+      "backgroundColor": "String",
+      "siteName": "String",
+      "siteLogo": "String",
+      "termsOfService": "String",
+      "privacyPolicy": "String",
+      "returnTo": "String",
+      "oncancel": "fn()"
+    },
+    "GetOptions": {
+      "backgroundColor": "String",
+      "siteName": "String",
+      "siteLogo": "String",
+      "termsOfService": "String",
+      "privacyPolicy": "String"
+    },
+    "Persona": {
+      "watch": "fn(options: WatchOptions)",
+      "request": "fn(options: RequestOptions)",
+      "logout": "fn()",
+      "get": "fn(gotAssertion: fn(String: ?))"
+    }
+  },
+  "Navigator": {
+    "id": "Persona.Persona"
+  },
+  "!name": "persona"
+}

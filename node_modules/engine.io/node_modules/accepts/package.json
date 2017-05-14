@@ -1,0 +1,52 @@
+{
+  "name": "accepts",
+  "description": "Higher-level content negotiation",
+  "version": "1.1.4",
+  "author": {
+    "name": "Jonathan Ong",
+    "email": "me@jongleberry.com",
+    "url": "http://jongleberry.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jshttp/accepts.git"
+  },
+  "dependencies": {
+    "mime-types": "~2.0.4",
+    "negotiator": "0.4.9"
+  },
+  "devDependencies": {
+    "istanbul": "~0.3.4",
+    "mocha": "~2.0.1"
+  },
+  "files": [
+    "LICENSE",
+    "HISTORY.md",
+    "index.js"
+  ],
+  "engines": {
+    "node": ">= 0.8"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --check-leaks --bail test/",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
+  },
+  "keywords": [
+    "content",
+    "negotiation",
+    "accept",
+    "accepts"
+  ],
+  "readme": "# accepts\n\n[![NPM Version][npm-image]][npm-url]\n[![NPM Downloads][downloads-image]][downloads-url]\n[![Node.js Version][node-version-image]][node-version-url]\n[![Build Status][travis-image]][travis-url]\n[![Test Coverage][coveralls-image]][coveralls-url]\n\nHigher level content negotation based on [negotiator](https://github.com/federomero/negotiator). Extracted from [koa](https://github.com/koajs/koa) for general use.\n\nIn addition to negotatior, it allows:\n\n- Allows types as an array or arguments list, ie `(['text/html', 'application/json'])` as well as `('text/html', 'application/json')`.\n- Allows type shorthands such as `json`.\n- Returns `false` when no types match\n- Treats non-existent headers as `*`\n\n## API\n\n### var accept = new Accepts(req)\n\n```js\nvar accepts = require('accepts')\n\nhttp.createServer(function (req, res) {\n  var accept = accepts(req)\n})\n```\n\n### accept\\[property\\]\\(\\)\n\nReturns all the explicitly accepted content property as an array in descending priority.\n\n- `accept.types()`\n- `accept.encodings()`\n- `accept.charsets()`\n- `accept.languages()`\n\nThey are also aliased in singular form such as `accept.type()`. `accept.languages()` is also aliased as `accept.langs()`, etc.\n\nNote: you should almost never do this in a real app as it defeats the purpose of content negotiation.\n\nExample:\n\n```js\n// in Google Chrome\nvar encodings = accept.encodings() // -> ['sdch', 'gzip', 'deflate']\n```\n\nSince you probably don't support `sdch`, you should just supply the encodings you support:\n\n```js\nvar encoding = accept.encodings('gzip', 'deflate') // -> 'gzip', probably\n```\n\n### accept\\[property\\]\\(values, ...\\)\n\nYou can either have `values` be an array or have an argument list of values.\n\nIf the client does not accept any `values`, `false` will be returned.\nIf the client accepts any `values`, the preferred `value` will be return.\n\nFor `accept.types()`, shorthand mime types are allowed.\n\nExample:\n\n```js\n// req.headers.accept = 'application/json'\n\naccept.types('json') // -> 'json'\naccept.types('html', 'json') // -> 'json'\naccept.types('html') // -> false\n\n// req.headers.accept = ''\n// which is equivalent to `*`\n\naccept.types() // -> [], no explicit types\naccept.types('text/html', 'text/json') // -> 'text/html', since it was first\n```\n\n## License\n\n[MIT](LICENSE)\n\n[npm-image]: https://img.shields.io/npm/v/accepts.svg?style=flat\n[npm-url]: https://npmjs.org/package/accepts\n[node-version-image]: https://img.shields.io/node/v/accepts.svg?style=flat\n[node-version-url]: http://nodejs.org/download/\n[travis-image]: https://img.shields.io/travis/jshttp/accepts.svg?style=flat\n[travis-url]: https://travis-ci.org/jshttp/accepts\n[coveralls-image]: https://img.shields.io/coveralls/jshttp/accepts.svg?style=flat\n[coveralls-url]: https://coveralls.io/r/jshttp/accepts\n[downloads-image]: https://img.shields.io/npm/dm/accepts.svg?style=flat\n[downloads-url]: https://npmjs.org/package/accepts\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/jshttp/accepts/issues"
+  },
+  "homepage": "https://github.com/jshttp/accepts#readme",
+  "_id": "accepts@1.1.4",
+  "_shasum": "d71c96f7d41d0feda2c38cd14e8a27c04158df4a",
+  "_resolved": "https://registry.npmjs.org/accepts/-/accepts-1.1.4.tgz",
+  "_from": "accepts@1.1.4"
+}

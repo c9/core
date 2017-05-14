@@ -1,0 +1,43 @@
+{
+  "radius": {
+    "decode": "fn(args: DecodeArgsWithSecret) -> RadiusPacket",
+    "decode_without_secret": "fn(args: DecodeArgs) -> RadiusPacket",
+    "encode": "fn(args: EncodeArgs) -> Buffer",
+    "encode_response": "fn(args: EncodeResponseArgs) -> Buffer",
+    "verify_response": "fn(args: VerifyResponseArgs) -> bool",
+    "add_dictionary": "fn(path: string)",
+    "unload_dictionaries": "fn()",
+    "DecodeArgs": {
+      "packet": "Buffer"
+    },
+    "DecodeArgsWithSecret": {
+      "secret": "string"
+    },
+    "EncodeArgs": {
+      "code": "string",
+      "secret": "string",
+      "identifier": "number",
+      "attributes": "?",
+      "add_message_authenticator": "bool"
+    },
+    "EncodeResponseArgs": {
+      "packet": "RadiusPacket",
+      "code": "string",
+      "secret": "string",
+      "attributes": "?"
+    },
+    "VerifyResponseArgs": {
+      "request": "Buffer",
+      "response": "Buffer",
+      "secret": "string"
+    },
+    "RadiusPacket": {
+      "code": "string",
+      "identifier": "number",
+      "length": "number",
+      "attributes": "?",
+      "raw_attributes": "?"
+    }
+  },
+  "!name": "radius"
+}

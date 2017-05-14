@@ -1,0 +1,57 @@
+{
+  "scaron_prettyPhoto": {
+    "PrettyPhotoSettings": {
+      "hook": "string",
+      "animation_speed": "string",
+      "ajaxcallback": "fn()",
+      "slideshow": "?",
+      "autoplay_slideshow": "bool",
+      "opacity": "number",
+      "show_title": "bool",
+      "allow_resize": "bool",
+      "allow_expand": "bool",
+      "default_width": "number",
+      "default_height": "number",
+      "counter_separator_label": "string",
+      "theme": "string",
+      "horizontal_padding": "number",
+      "hideflash": "bool",
+      "wmode": "string",
+      "autoplay": "bool",
+      "modal": "bool",
+      "deeplinking": "bool",
+      "overlay_gallery": "bool",
+      "overlay_gallery_max": "number",
+      "keyboard_shortcuts": "bool",
+      "changepicturecallback": "fn()",
+      "callback": "fn()",
+      "ie6_fallback": "bool",
+      "markup": "string",
+      "gallery_markup": "string",
+      "image_markup": "string",
+      "flash_markup": "string",
+      "quicktime_markup": "string",
+      "iframe_markup": "string",
+      "inline_markup": "string",
+      "custom_markup": "string",
+      "social_tools": "?"
+    },
+    "moduleJQuery": {},
+    "moduleJQueryStatic": {
+      "version": "string",
+      "open": "fn() -> bool",
+      "changePage": "fn(direction: string)",
+      "changeGalleryPage": "fn(direction: string)",
+      "startSlideshow": "fn()",
+      "stopSlideshow": "fn()",
+      "close": "fn()"
+    }
+  },
+  "JQuery": {
+    "prettyPhoto": "scaron_prettyPhoto.moduleJQuery"
+  },
+  "JQueryStatic": {
+    "prettyPhoto": "scaron_prettyPhoto.moduleJQueryStatic"
+  },
+  "!name": "jquery.prettyphoto"
+}

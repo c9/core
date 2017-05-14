@@ -1,0 +1,69 @@
+{
+  "HelloJSLoginOptions": {
+    "redirect_uri": "string",
+    "display": "string",
+    "scope": "string",
+    "response_type": "string",
+    "force": "bool",
+    "oauth_proxy": "string",
+    "timeout": "number",
+    "default_service": "string"
+  },
+  "HelloJSLogoutOptions": {
+    "force": "bool"
+  },
+  "HelloJSEvent": {
+    "on": "fn(event: string, callback: fn(auth: HelloJSEventArgument)) -> HelloJSStatic",
+    "off": "fn(event: string, callback: fn(auth: HelloJSEventArgument)) -> HelloJSStatic",
+    "findEvents": "fn(event: string, callback: fn(name: string, index: number))",
+    "emit": "fn(event: string, data: ?) -> HelloJSStatic",
+    "emitAfter": "fn() -> HelloJSStatic",
+    "success": "fn(callback: fn(json?: ?)) -> HelloJSStatic",
+    "error": "fn(callback: fn(json?: ?)) -> HelloJSStatic",
+    "complete": "fn(callback: fn(json?: ?)) -> HelloJSStatic"
+  },
+  "HelloJSEventArgument": {
+    "network": "string",
+    "authResponse": "?"
+  },
+  "HelloJSStatic": {
+    "init": "fn(serviceAppIds: ?, options?: HelloJSLoginOptions)",
+    "login": "fn(network: string, options?: HelloJSLoginOptions, callback?: fn())",
+    "logout": "fn(network: string, options?: HelloJSLogoutOptions, callback?: fn())",
+    "getAuthResponse": "fn(network: string) -> ?",
+    "service": "fn(network: string) -> HelloJSServiceDef",
+    "settings": "HelloJSLoginOptions"
+  },
+  "HelloJSStaticNamed": {
+    "login": "fn(option?: HelloJSLoginOptions, callback?: fn())",
+    "logout": "fn(callback?: fn())",
+    "getAuthResponse": "fn() -> ?",
+    "api": "fn(path?: string, method?: string, data?: ?, callback?: fn(json?: ?)) -> HelloJSStatic"
+  },
+  "HelloJSOAuthDef": {
+    "version": "number",
+    "auth": "string",
+    "request": "string",
+    "token": "string"
+  },
+  "HelloJSServiceDef": {
+    "name": "string",
+    "oauth": "HelloJSOAuthDef",
+    "scope": {},
+    "scope_delim": "string",
+    "autorefresh": "bool",
+    "base": "string",
+    "root": "string",
+    "get": {},
+    "post": {},
+    "del": {},
+    "put": {},
+    "wrap": {},
+    "xhr": "fn(par: ?)",
+    "jsonp": "fn(par: ?)",
+    "form": "fn(par: ?)",
+    "api": "fn(par: [?])"
+  },
+  "hello": "HelloJSStatic",
+  "!name": "hellojs"
+}

@@ -1,0 +1,13 @@
+{
+  "SwiftClickObject": {
+    "addNodeNamesToTrack": "fn(nodeNamesArray: [string])",
+    "replaceNodeNamesToTrack": "fn(nodeNamesArray: [string])",
+    "useCssParser": "fn(useParser: bool)"
+  },
+  "SwiftClickStatic": {
+    "attach": "fn(contextEl: Element) -> SwiftClickObject"
+  },
+  "swiftclick": "SwiftClick",
+  "SwiftClick": "SwiftClickStatic",
+  "!name": "swiftclick"
+}

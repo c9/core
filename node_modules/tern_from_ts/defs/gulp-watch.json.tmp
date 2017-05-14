@@ -1,0 +1,4 @@
+{
+  "'gulp-watch'": "watch",
+  "!name": "gulp-watch.d.ts"
+}

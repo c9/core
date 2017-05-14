@@ -1,0 +1,11 @@
+{
+  "ShouldAssertion": {
+    "Promise": "ShouldAssertion",
+    "fulfilled": "fn() -> ShouldAssertion",
+    "rejected": "fn() -> ShouldAssertion",
+    "rejectedWith": "fn(message: fn(string: ?, Function: ?, RegExp: ?), properties?: Object) -> ShouldAssertion",
+    "finally": "ShouldAssertion",
+    "eventually": "ShouldAssertion"
+  },
+  "!name": "should-promised"
+}

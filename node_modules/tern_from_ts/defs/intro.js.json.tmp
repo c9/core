@@ -1,0 +1,51 @@
+{
+  "IntroJs": {
+    "Step": {
+      "intro": "string",
+      "element": "string",
+      "HTMLElement": "?",
+      "Element": "?",
+      "position": "string"
+    },
+    "Options": {
+      "nextLabel": "string",
+      "prevLabel": "string",
+      "skipLabel": "string",
+      "doneLabel": "string",
+      "tooltipPosition": "string",
+      "tooltipClass": "string",
+      "highlightClass": "string",
+      "exitOnEsc": "bool",
+      "exitOnOverlayClick": "bool",
+      "showStepNumbers": "bool",
+      "keyboardNavigation": "bool",
+      "showButtons": "bool",
+      "showBullets": "bool",
+      "showProgress": "bool",
+      "scrollToElement": "bool",
+      "overlayOpacity": "number",
+      "positionPrecedence": "[string]",
+      "disableInteraction": "bool",
+      "steps": "[Step]"
+    },
+    "IntroJs": {
+      "start": "fn() -> IntroJs",
+      "exit": "fn() -> IntroJs",
+      "goToStep": "fn(step: number) -> IntroJs",
+      "nextStep": "fn() -> IntroJs",
+      "previousStep": "fn() -> IntroJs",
+      "refresh": "fn() -> IntroJs",
+      "setOption": "fn(option: string, value: string, number: ?, boolean: ?) -> IntroJs",
+      "setOptions": "fn(options: Options) -> IntroJs",
+      "onexit": "fn(callback: Function) -> IntroJs",
+      "onbeforechange": "fn(callback: fn(element: HTMLElement)) -> IntroJs",
+      "onafterchange": "fn(callback: fn(element: HTMLElement)) -> IntroJs",
+      "onchange": "fn(callback: Function) -> IntroJs",
+      "oncomplete": "fn(callback: Function) -> IntroJs"
+    },
+    "Factory": {}
+  },
+  "introJs": "IntroJs.Factory",
+  "'intro.js'": "IntroJs",
+  "!name": "intro.js.d.ts"
+}

@@ -1,0 +1,5 @@
+{
+  "fileUrl": "fn(path: string) -> string",
+  "file-url": "fileUrl",
+  "!name": "file-url.d.ts"
+}

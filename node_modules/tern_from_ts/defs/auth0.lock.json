@@ -1,0 +1,52 @@
+{
+  "Auth0LockPopupOptions": {
+    "width": "number",
+    "height": "number",
+    "left": "number",
+    "top": "number"
+  },
+  "Auth0LockOptions": {
+    "authParams": "?",
+    "callbackURL": "string",
+    "connections": "[string]",
+    "container": "string",
+    "closable": "bool",
+    "dict": "?",
+    "defaultUserPasswordConnection": "string",
+    "defaultADUsernameFromEmailPrefix": "bool",
+    "disableResetAction": "bool",
+    "disableSignupAction": "bool",
+    "focusInput": "bool",
+    "forceJSONP": "bool",
+    "gravatar": "bool",
+    "integratedWindowsLogin": "bool",
+    "icon": "string",
+    "loginAfterSignup": "bool",
+    "popup": "bool",
+    "popupOptions": "Auth0LockPopupOptions",
+    "rememberLastLogin": "bool",
+    "resetLink": "string",
+    "responseType": "string",
+    "signupLink": "string",
+    "socialBigButtons": "bool",
+    "sso": "bool",
+    "theme": "string",
+    "usernameStyle": "?"
+  },
+  "Auth0LockConstructorOptions": {
+    "cdn": "string",
+    "assetsUrl": "string",
+    "useCordovaSocialPlugins": "bool"
+  },
+  "Auth0LockStatic": {
+    "show": "fn()",
+    "showSignin": "fn()",
+    "showSignup": "fn()",
+    "showReset": "fn()",
+    "hide": "fn(callback: fn())",
+    "logout": "fn(callback: fn())",
+    "getClient": "fn() -> Auth0Static"
+  },
+  "Auth0Lock": "Auth0LockStatic",
+  "!name": "auth0.lock"
+}

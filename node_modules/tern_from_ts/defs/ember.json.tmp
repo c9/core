@@ -1,0 +1,1026 @@
+{
+  "Handlebars": "HandlebarsStatic",
+  "EmberStates": {
+    "Transition": {
+      "targetName": "string",
+      "urlMethod": "string",
+      "intent": "?",
+      "params": {},
+      "any": "?",
+      "pivotHandler": "?",
+      "resolveIndex": "number",
+      "handlerInfos": "?",
+      "resolvedModels": {},
+      "isActive": "bool",
+      "state": "?",
+      "queryParams": {},
+      "queryParamsOnly": "bool",
+      "isTransition": "bool",
+      "promise": "Ember.RSVP.Promise",
+      "data": "?",
+      "then": "fn(onFulfilled: Function, onRejected?: Function, label?: string) -> Ember.RSVP.Promise",
+      "catch": "fn(onRejection: Function, label?: string) -> Ember.RSVP.Promise",
+      "finally": "fn(callback: Function, label?: string) -> Ember.RSVP.Promise",
+      "abort": "fn() -> EmberStates.Transition",
+      "normalize": "fn(manager: Ember.StateManager, contexts: [?])",
+      "retry": "fn() -> EmberStates.Transition",
+      "method": "fn(method: string) -> EmberStates.Transition",
+      "trigger": "fn(ignoreFailure: bool, eventName: string)",
+      "followRedirects": "fn() -> Ember.RSVP.Promise"
+    }
+  },
+  "EmberTesting": {
+    "Test": {
+      "Adapter": {
+        "prototype": {
+          "asyncEnd": "fn()",
+          "asyncStart": "fn()",
+          "exception": "fn(error: string)"
+        }
+      },
+      "QUnitAdapter": {
+        "prototype": {}
+      }
+    }
+  },
+  "Function": {
+    "observes": "fn(args: [string]) -> Function",
+    "observesBefore": "fn(args: [string]) -> Function",
+    "on": "fn(args: [string]) -> Function",
+    "property": "fn(args: [string]) -> Function"
+  },
+  "String": {
+    "camelize": "fn() -> string",
+    "capitalize": "fn() -> string",
+    "classify": "fn() -> string",
+    "dasherize": "fn() -> string",
+    "decamelize": "fn() -> string",
+    "fmt": "fn(args: [string]) -> string",
+    "htmlSafe": "fn() -> Handlebars.SafeString",
+    "loc": "fn(args: [string]) -> string",
+    "underscore": "fn() -> string",
+    "w": "fn() -> [string]"
+  },
+  "Array": {
+    "activate": "fn()",
+    "addArrayObserver": "fn(target: ?, opts?: EnumerableConfigurationOptions) -> [?]",
+    "addEnumerableObserver": "fn(target: ?, opts: EnumerableConfigurationOptions) -> [?]",
+    "any": "fn(callback: Function, target?: ?) -> bool",
+    "anyBy": "fn(key: string, value?: string) -> bool",
+    "arrayContentDidChange": "fn(startIdx: number, removeAmt: number, addAmt: number) -> [?]",
+    "arrayContentWillChange": "fn(startIdx: number, removeAmt: number, addAmt: number) -> [?]",
+    "someProperty": "fn(key: string, value?: ?) -> bool",
+    "clear": "fn() -> [?]",
+    "compact": "fn() -> [?]",
+    "contains": "fn(obj: ?) -> bool",
+    "enumerableContentDidChange": "fn(start: number, removing: number, adding: number) -> ?",
+    "enumerableContentWillChange": "fn(removing: number, adding: number) -> [?]",
+    "every": "fn(callback: Function, target?: ?) -> bool",
+    "everyBy": "fn(key: string, value?: string) -> bool",
+    "everyProperty": "fn(key: string, value?: ?) -> bool",
+    "filter": "fn(callback: Function, target?: ?) -> [?]",
+    "filterBy": "fn(key: string, value?: string) -> [?]",
+    "find": "fn(callback: Function, target?: ?) -> ?",
+    "findBy": "fn(key: string, value?: string) -> ?",
+    "forEach": "fn(callback: Function, target?: ?) -> ?",
+    "getEach": "fn(key: string) -> [?]",
+    "indexOf": "fn(object: ?, startAt?: number) -> number",
+    "insertAt": "fn(idx: number, object: ?) -> [?]",
+    "invoke": "fn(methodName: string, args: [?]) -> [?]",
+    "lastIndexOf": "fn(object: ?, startAt?: number) -> number",
+    "map": "fn(callback: Function, target?: ?) -> [?]",
+    "mapBy": "fn(key: string) -> [?]",
+    "nextObject": "fn(index: number, previousObject: ?, context: ?) -> ?",
+    "objectAt": "fn(idx: number) -> ?",
+    "objectsAt": "fn(args: [number]) -> [?]",
+    "popObject": "fn() -> ?",
+    "pushObject": "fn(obj: ?) -> ?",
+    "pushObjects": "fn(args: [?]) -> [?]",
+    "reduce": "fn(callback: ReduceCallback, initialValue: ?, reducerProperty: string) -> ?",
+    "reject": "ItemIndexEnumerableCallbackTarget",
+    "rejectBy": "fn(key: string, value?: string) -> [?]",
+    "removeArrayObserver": "fn(target: ?, opts: EnumerableConfigurationOptions) -> [?]",
+    "removeAt": "fn(start: number, len: number) -> ?",
+    "removeEnumerableObserver": "fn(target: ?, opts: EnumerableConfigurationOptions) -> [?]",
+    "replace": "fn(idx: number, amt: number, objects: [?])",
+    "reverseObjects": "fn() -> [?]",
+    "setEach": "fn(key: string, value?: ?) -> ?",
+    "setObjects": "fn(objects: [?]) -> [?]",
+    "shiftObject": "fn() -> ?",
+    "slice": "fn(beginIndex?: number, endIndex?: number) -> [?]",
+    "some": "fn(callback: Function, target?: ?) -> bool",
+    "toArray": "fn() -> [?]",
+    "uniq": "fn() -> [?]",
+    "unshiftObject": "fn(object: ?) -> ?",
+    "unshiftObjects": "fn(objects: [?]) -> [?]",
+    "without": "fn(value: ?) -> [?]",
+    "'[]'": "[?]",
+    "'@each'": "Ember.EachProxy",
+    "Boolean": "bool",
+    "firstObject": "?",
+    "hasEnumerableObservers": "bool",
+    "lastObject": "?",
+    "addObject": "fn(object: ?) -> ?",
+    "addObjects": "fn(objects: Ember.Enumerable) -> [?]",
+    "removeObject": "fn(object: ?) -> ?",
+    "removeObjects": "fn(objects: Ember.Enumerable) -> [?]",
+    "addObserver": "ModifyObserver",
+    "beginPropertyChanges": "fn() -> [?]",
+    "cacheFor": "fn(keyName: string) -> ?",
+    "decrementProperty": "fn(keyName: string, decrement?: number) -> number",
+    "endPropertyChanges": "fn() -> [?]",
+    "get": "fn(keyName: string) -> ?",
+    "getProperties": "fn(args: [string]) -> ret",
+    "getWithDefault": "fn(keyName: string, defaultValue: ?) -> ?",
+    "hasObserverFor": "fn(key: string) -> bool",
+    "incrementProperty": "fn(keyName: string, increment?: number) -> number",
+    "notifyPropertyChange": "fn(keyName: string) -> [?]",
+    "propertyDidChange": "fn(keyName: string) -> [?]",
+    "propertyWillChange": "fn(keyName: string) -> [?]",
+    "removeObserver": "fn(key: string, target: ?, method: string) -> Ember.Observable",
+    "set": "fn(keyName: string, value: ?) -> [?]",
+    "setProperties": "fn(hash: ?) -> [?]",
+    "toggleProperty": "fn(keyName: string) -> ?",
+    "copy": "fn(deep: bool) -> [?]",
+    "frozenCopy": "fn() -> [?]",
+    "isAny": "fn(key: string, value?: string) -> bool",
+    "isEvery": "fn(key: string, value?: string) -> bool"
+  },
+  "ApplicationCreateArguments": {
+    "customEvents": {},
+    "rootElement": "string",
+    "LOG_TRANSITIONS": "bool",
+    "LOG_TRANSITIONS_INTERNAL": "bool"
+  },
+  "ApplicationInitializerArguments": {
+    "name": "string",
+    "initialize": "ApplicationInitializerFunction"
+  },
+  "ApplicationInitializerFunction": {},
+  "CoreObjectArguments": {
+    "init": "Function",
+    "willDestroy": "Function"
+  },
+  "EnumerableConfigurationOptions": {
+    "willChange": "bool",
+    "didChange": "bool"
+  },
+  "ItemIndexEnumerableCallbackTarget": {},
+  "ItemIndexEnumerableCallback": {},
+  "ReduceCallback": {},
+  "TransitionsHash": {
+    "contexts": "[?]",
+    "exitStates": "[Ember.State]",
+    "enterStates": "[Ember.State]",
+    "resolveState": "Ember.State"
+  },
+  "ActionsHash": {
+    "willTransition": "Function",
+    "error": "Function"
+  },
+  "DisconnectOutletOptions": {
+    "outlet": "string",
+    "parentView": "string"
+  },
+  "RenderOptions": {
+    "into": "string",
+    "controller": "string",
+    "model": "?",
+    "outlet": "string",
+    "view": "string"
+  },
+  "ModifyObserver": {},
+  "Ember": {
+    "$": "Ember.$",
+    "A": "Ember.A",
+    "ActionHandlerMixin": {
+      "prototype": {}
+    },
+    "Application": {
+      "prototype": {}
+    },
+    "Array": {
+      "prototype": {}
+    },
+    "ArrayController": {
+      "prototype": {}
+    },
+    "ArrayPolyfills": "Ember.ArrayPolyfills",
+    "ArrayProxy": {
+      "prototype": {}
+    },
+    "BOOTED": "Ember.BOOTED",
+    "Binding": {
+      "prototype": {}
+    },
+    "Button": {
+      "prototype": {}
+    },
+    "Checkbox": {
+      "prototype": {}
+    },
+    "CollectionView": {
+      "prototype": {}
+    },
+    "Comparable": {
+      "prototype": {}
+    },
+    "Component": {
+      "prototype": {}
+    },
+    "ComputedProperty": {
+      "prototype": {}
+    },
+    "Container": {
+      "prototype": {}
+    },
+    "ContainerView": {
+      "prototype": {}
+    },
+    "Controller": {
+      "prototype": {}
+    },
+    "ControllerMixin": {
+      "prototype": {}
+    },
+    "Copyable": {
+      "prototype": {}
+    },
+    "CoreObject": {
+      "prototype": {}
+    },
+    "CoreView": {
+      "prototype": {}
+    },
+    "DAG": {
+      "prototype": {}
+    },
+    "DEFAULT_GETTER_FUNCTION": "Ember.DEFAULT_GETTER_FUNCTION",
+    "DefaultResolver": {
+      "prototype": {}
+    },
+    "Deferred": {
+      "prototype": {
+        "reject": "fn(value: ?)",
+        "resolve": "fn(value: ?)",
+        "then": "fn(resolve: Function, reject: Function)"
+      }
+    },
+    "DeferredMixin": {
+      "prototype": {}
+    },
+    "Descriptor": {
+      "prototype": {}
+    },
+    "EMPTY_META": "Ember.EMPTY_META",
+    "ENV": "Ember.ENV",
+    "EXTEND_PROTOTYPES": "Ember.EXTEND_PROTOTYPES",
+    "EachProxy": {
+      "prototype": {}
+    },
+    "Enumerable": {
+      "prototype": {}
+    },
+    "EnumerableUtils": "Ember.EnumerableUtils",
+    "Error": "Ember.Error",
+    "EventDispatcher": {
+      "prototype": {}
+    },
+    "Evented": {
+      "prototype": {}
+    },
+    "FROZEN_ERROR": "Ember.FROZEN_ERROR",
+    "Freezable": {
+      "prototype": {}
+    },
+    "GUID_KEY": "Ember.GUID_KEY",
+    "Handlebars": {
+      "compile": "Ember.Handlebars.compile",
+      "get": "Ember.Handlebars.get",
+      "helper": "Ember.Handlebars.helper",
+      "helpers": {
+        "prototype": {}
+      },
+      "precompile": "Ember.Handlebars.precompile",
+      "registerBoundHelper": "Ember.Handlebars.registerBoundHelper",
+      "Compiler": {
+        "prototype": {}
+      },
+      "JavaScriptCompiler": {
+        "prototype": {}
+      },
+      "registerHelper": "Ember.Handlebars.registerHelper",
+      "registerPartial": "Ember.Handlebars.registerPartial",
+      "K": "Ember.Handlebars.K",
+      "createFrame": "Ember.Handlebars.createFrame",
+      "Exception": "Ember.Handlebars.Exception",
+      "SafeString": {
+        "prototype": {}
+      },
+      "parse": "Ember.Handlebars.parse",
+      "print": "Ember.Handlebars.print",
+      "logger": "Ember.Handlebars.logger",
+      "log": "Ember.Handlebars.log"
+    },
+    "HashLocation": {
+      "prototype": {}
+    },
+    "HistoryLocation": {
+      "prototype": {}
+    },
+    "IS_BINDING": "Ember.IS_BINDING",
+    "Instrumentation": {
+      "prototype": {}
+    },
+    "K": "Ember.K",
+    "LOG_BINDINGS": "Ember.LOG_BINDINGS",
+    "LOG_STACKTRACE_ON_DEPRECATION": "Ember.LOG_STACKTRACE_ON_DEPRECATION",
+    "LOG_VERSION": "Ember.LOG_VERSION",
+    "LinkView": {
+      "prototype": {}
+    },
+    "Location": {
+      "prototype": {}
+    },
+    "Logger": "Ember.Logger",
+    "MANDATORY_SETTER_FUNCTION": "Ember.MANDATORY_SETTER_FUNCTION",
+    "META_KEY": "Ember.META_KEY",
+    "Map": {
+      "prototype": {}
+    },
+    "MapWithDefault": {
+      "prototype": {}
+    },
+    "Mixin": {
+      "prototype": {}
+    },
+    "MutableArray": {
+      "prototype": {}
+    },
+    "MutableEnumberable": {
+      "prototype": {
+        "addEnumerableObserver": "fn(target: ?, opts: EnumerableConfigurationOptions) -> Enumerable",
+        "addObject": "fn(object: ?) -> ?",
+        "addObjects": "fn(objects: Enumerable) -> MutableEnumberable",
+        "any": "fn(callback: Function, target?: ?) -> bool",
+        "anyBy": "fn(key: string, value?: string) -> bool",
+        "someProperty": "fn(key: string, value?: string) -> bool",
+        "compact": "fn() -> [?]",
+        "contains": "fn(obj: ?) -> bool",
+        "enumerableContentDidChange": "fn(start: number, removing: number, adding: number) -> ?",
+        "enumerableContentWillChange": "fn(removing: number, adding: number) -> Enumerable",
+        "every": "fn(callback: Function, target?: ?) -> bool",
+        "everyBy": "fn(key: string, value?: string) -> bool",
+        "everyProperty": "fn(key: string, value?: string) -> bool",
+        "filter": "fn(callback: Function, target: ?) -> [?]",
+        "filterBy": "fn(key: string, value?: string) -> [?]",
+        "find": "fn(callback: Function, target: ?) -> ?",
+        "findBy": "fn(key: string, value?: string) -> ?",
+        "forEach": "fn(callback: Function, target?: ?) -> ?",
+        "getEach": "fn(key: string) -> [?]",
+        "invoke": "fn(methodName: string, args: [?]) -> [?]",
+        "map": "ItemIndexEnumerableCallbackTarget",
+        "mapBy": "fn(key: string) -> [?]",
+        "nextObject": "fn(index: number, previousObject: ?, context: ?) -> ?",
+        "reduce": "fn(callback: ReduceCallback, initialValue: ?, reducerProperty: string) -> ?",
+        "reject": "ItemIndexEnumerableCallbackTarget",
+        "rejectBy": "fn(key: string, value?: string) -> [?]",
+        "removeEnumerableObserver": "fn(target: ?, opts: EnumerableConfigurationOptions) -> Enumerable",
+        "removeObject": "fn(object: ?) -> ?",
+        "removeObjects": "fn(objects: Enumerable) -> MutableEnumberable",
+        "setEach": "fn(key: string, value?: ?) -> ?",
+        "some": "fn(callback: Function, target?: ?) -> bool",
+        "toArray": "fn() -> [?]",
+        "uniq": "fn() -> Enumerable",
+        "without": "fn(value: ?) -> Enumerable",
+        "'[]'": "[?]",
+        "firstObject": "?",
+        "hasEnumerableObservers": "bool",
+        "lastObject": "?"
+      }
+    },
+    "NAME_KEY": "Ember.NAME_KEY",
+    "Namespace": {
+      "prototype": {}
+    },
+    "NativeArray": {
+      "prototype": {}
+    },
+    "NoneLocation": {
+      "prototype": {}
+    },
+    "ORDER_DEFINITION": "Ember.ORDER_DEFINITION",
+    "Object": {
+      "prototype": {}
+    },
+    "ObjectController": {
+      "prototype": {}
+    },
+    "ObjectProxy": {
+      "prototype": {}
+    },
+    "Observable": {
+      "prototype": {}
+    },
+    "OrderedSet": {
+      "prototype": {}
+    },
+    "RSVP": {
+      "PromiseResolve": {},
+      "PromiseReject": {},
+      "PromiseResolverFunction": {},
+      "Promise": {
+        "prototype": {}
+      }
+    },
+    "RenderBuffer": {
+      "prototype": {}
+    },
+    "Route": {
+      "prototype": {}
+    },
+    "Router": {
+      "prototype": {}
+    },
+    "RouterDSL": {
+      "prototype": {}
+    },
+    "SHIM_ES5": "Ember.SHIM_ES5",
+    "STRINGS": "Ember.STRINGS",
+    "Select": {
+      "prototype": {}
+    },
+    "SelectOption": {
+      "prototype": {}
+    },
+    "Set": {
+      "prototype": {}
+    },
+    "SortableMixin": {
+      "prototype": {}
+    },
+    "State": {
+      "prototype": {}
+    },
+    "StateManager": {
+      "prototype": {}
+    },
+    "String": {
+      "camelize": "Ember.String.camelize",
+      "capitalize": "Ember.String.capitalize",
+      "classify": "Ember.String.classify",
+      "dasherize": "Ember.String.dasherize",
+      "decamelize": "Ember.String.decamelize",
+      "fmt": "Ember.String.fmt",
+      "htmlSafe": "Ember.String.htmlSafe",
+      "loc": "Ember.String.loc",
+      "underscore": "Ember.String.underscore",
+      "w": "Ember.String.w"
+    },
+    "TEMPLATES": "Ember.TEMPLATES",
+    "TargetActionSupport": {
+      "prototype": {}
+    },
+    "Test": {
+      "prototype": {}
+    },
+    "TextArea": {
+      "prototype": {}
+    },
+    "TextField": {
+      "prototype": {}
+    },
+    "TextSupport": {
+      "prototype": {}
+    },
+    "VERSION": "Ember.VERSION",
+    "View": {
+      "prototype": {}
+    },
+    "ViewTargetActionSupport": {
+      "prototype": {}
+    },
+    "ViewUtils": "Ember.ViewUtils",
+    "addBeforeObserver": "Ember.addBeforeObserver",
+    "addListener": "Ember.addListener",
+    "addObserver": "Ember.addObserver",
+    "alias": "Ember.alias",
+    "aliasMethod": "Ember.aliasMethod",
+    "anyUnprocessedMixins": "Ember.anyUnprocessedMixins",
+    "assert": "Ember.assert",
+    "beforeObserver": "Ember.beforeObserver",
+    "beforeObserversFor": "Ember.beforeObserversFor",
+    "beginPropertyChanges": "Ember.beginPropertyChanges",
+    "bind": "Ember.bind",
+    "cacheFor": "Ember.cacheFor",
+    "canInvoke": "Ember.canInvoke",
+    "changeProperties": "Ember.changeProperties",
+    "compare": "Ember.compare",
+    "computed": "Ember.computed",
+    "config": "Ember.config",
+    "controllerFor": "Ember.controllerFor",
+    "copy": "Ember.copy",
+    "create": "Ember.create",
+    "debug": "Ember.debug",
+    "defineProperty": "Ember.defineProperty",
+    "deprecate": "Ember.deprecate",
+    "deprecateFunc": "Ember.deprecateFunc",
+    "destroy": "Ember.destroy",
+    "empty": "Ember.deprecateFunc",
+    "endPropertyChanges": "Ember.endPropertyChanges",
+    "exports": "Ember.exports",
+    "finishChains": "Ember.finishChains",
+    "flushPendingChains": "Ember.flushPendingChains",
+    "generateController": "Ember.generateController",
+    "generateGuid": "Ember.generateGuid",
+    "get": "Ember.get",
+    "getMeta": "Ember.getMeta",
+    "getPath": "Ember.getPath",
+    "getWithDefault": "Ember.getWithDefault",
+    "guidFor": "Ember.guidFor",
+    "handleErrors": "Ember.handleErrors",
+    "hasListeners": "Ember.hasListeners",
+    "immediateObserver": "Ember.immediateObserver",
+    "imports": "Ember.imports",
+    "inspect": "Ember.inspect",
+    "instrument": "Ember.instrument",
+    "isArray": "Ember.isArray",
+    "isEmpty": "Ember.isEmpty",
+    "isEqual": "Ember.isEqual",
+    "isGlobalPath": "Ember.isGlobalPath",
+    "isNamespace": "Ember.isNamespace",
+    "isNone": "Ember.isNone",
+    "isWatching": "Ember.isWatching",
+    "keys": "Ember.keys",
+    "listenersDiff": "Ember.listenersDiff",
+    "listenersFor": "Ember.listenersFor",
+    "listenersUnion": "Ember.listenersUnion",
+    "lookup": "Ember.lookup",
+    "makeArray": "Ember.makeArray",
+    "merge": "Ember.merge",
+    "meta": "Ember.meta",
+    "metaPath": "Ember.metaPath",
+    "mixin": "Ember.mixin",
+    "none": "Ember.none",
+    "normalizeTuple": "Ember.normalizeTuple",
+    "observer": "Ember.observer",
+    "observersFor": "Ember.observersFor",
+    "onLoad": "Ember.onLoad",
+    "oneWay": "Ember.oneWay",
+    "onError": "Ember.onError",
+    "overrideChains": "Ember.overrideChains",
+    "platform": "Ember.platform",
+    "propertyDidChange": "Ember.propertyDidChange",
+    "propertyWillChange": "Ember.propertyWillChange",
+    "removeBeforeObserver": "Ember.removeBeforeObserver",
+    "removeChainWatcher": "Ember.removeChainWatcher",
+    "removeListener": "Ember.removeListener",
+    "removeObserver": "Ember.removeObserver",
+    "required": "Ember.required",
+    "rewatch": "Ember.rewatch",
+    "run": "Ember.run",
+    "runLoadHooks": "Ember.runLoadHooks",
+    "sendEvent": "Ember.sendEvent",
+    "set": "Ember.set",
+    "setMeta": "Ember.setMeta",
+    "setPath": "Ember.setPath",
+    "setProperties": "Ember.setProperties",
+    "subscribe": "Ember.subscribe",
+    "tryCatchFinally": "Ember.tryCatchFinally",
+    "tryFinally": "Ember.tryFinally",
+    "tryInvoke": "Ember.tryInvoke",
+    "trySet": "Ember.trySet",
+    "trySetPath": "Ember.trySetPath",
+    "typeOf": "Ember.typeOf",
+    "unwatch": "Ember.unwatch",
+    "unwatchKey": "Ember.unwatchKey",
+    "unwatchPath": "Ember.unwatchPath",
+    "uuid": "Ember.uuid",
+    "warn": "Ember.warn",
+    "watch": "Ember.watch",
+    "watchKey": "Ember.watchKey",
+    "watchPath": "Ember.watchPath",
+    "watchedEvents": "Ember.watchedEvents",
+    "wrap": "Ember.wrap",
+    "Deffered": {
+      "prototype": {}
+    },
+    "MutableEnumerable": {
+      "prototype": {}
+    }
+  },
+  "Em": {
+    "$": "Ember.$",
+    "A": "Ember.A",
+    "ActionHandlerMixin": {
+      "prototype": {}
+    },
+    "Application": {
+      "prototype": {}
+    },
+    "Array": {
+      "prototype": {}
+    },
+    "ArrayController": {
+      "prototype": {}
+    },
+    "ArrayPolyfills": "Ember.ArrayPolyfills",
+    "ArrayProxy": {
+      "prototype": {}
+    },
+    "BOOTED": "Ember.BOOTED",
+    "Binding": {
+      "prototype": {}
+    },
+    "Button": {
+      "prototype": {}
+    },
+    "Checkbox": {
+      "prototype": {}
+    },
+    "CollectionView": {
+      "prototype": {}
+    },
+    "Comparable": {
+      "prototype": {}
+    },
+    "Component": {
+      "prototype": {}
+    },
+    "ComputedProperty": {
+      "prototype": {}
+    },
+    "Container": {
+      "prototype": {}
+    },
+    "ContainerView": {
+      "prototype": {}
+    },
+    "Controller": {
+      "prototype": {}
+    },
+    "ControllerMixin": {
+      "prototype": {}
+    },
+    "Copyable": {
+      "prototype": {}
+    },
+    "CoreObject": {
+      "prototype": {}
+    },
+    "CoreView": {
+      "prototype": {}
+    },
+    "DAG": {
+      "prototype": {}
+    },
+    "DEFAULT_GETTER_FUNCTION": "Ember.DEFAULT_GETTER_FUNCTION",
+    "DefaultResolver": {
+      "prototype": {}
+    },
+    "Deffered": {
+      "prototype": {}
+    },
+    "DeferredMixin": {
+      "prototype": {}
+    },
+    "Descriptor": {
+      "prototype": {}
+    },
+    "EMPTY_META": "Ember.EMPTY_META",
+    "ENV": "Ember.ENV",
+    "EXTEND_PROTOTYPES": "Ember.EXTEND_PROTOTYPES",
+    "EachProxy": {
+      "prototype": {}
+    },
+    "Enumerable": {
+      "prototype": {}
+    },
+    "EnumerableUtils": "Ember.EnumerableUtils",
+    "Error": "Ember.Error",
+    "EventDispatcher": {
+      "prototype": {}
+    },
+    "Evented": {
+      "prototype": {}
+    },
+    "FROZEN_ERROR": "Ember.FROZEN_ERROR",
+    "Freezable": {
+      "prototype": {}
+    },
+    "GUID_KEY": "Ember.GUID_KEY",
+    "Handlebars": {
+      "compile": "Ember.Handlebars.compile",
+      "get": "Ember.Handlebars.get",
+      "helper": "Ember.Handlebars.helper",
+      "helpers": {
+        "prototype": {}
+      },
+      "precompile": "Ember.Handlebars.precompile",
+      "registerBoundHelper": "Ember.Handlebars.registerBoundHelper",
+      "Compiler": {
+        "prototype": {}
+      },
+      "JavaScriptCompiler": {
+        "prototype": {}
+      },
+      "registerHelper": "Ember.Handlebars.registerHelper",
+      "registerPartial": "Ember.Handlebars.registerPartial",
+      "K": "Ember.Handlebars.K",
+      "createFrame": "Ember.Handlebars.createFrame",
+      "Exception": "Ember.Handlebars.Exception",
+      "SafeString": {
+        "prototype": {}
+      },
+      "parse": "Ember.Handlebars.parse",
+      "print": "Ember.Handlebars.print",
+      "logger": "Ember.Handlebars.logger",
+      "log": "Ember.Handlebars.log"
+    },
+    "HashLocation": {
+      "prototype": {}
+    },
+    "HistoryLocation": {
+      "prototype": {}
+    },
+    "IS_BINDING": "Ember.IS_BINDING",
+    "Instrumentation": {
+      "prototype": {}
+    },
+    "K": "Ember.K",
+    "LOG_BINDINGS": "Ember.LOG_BINDINGS",
+    "LOG_STACKTRACE_ON_DEPRECATION": "Ember.LOG_STACKTRACE_ON_DEPRECATION",
+    "LOG_VERSION": "Ember.LOG_VERSION",
+    "LinkView": {
+      "prototype": {}
+    },
+    "Location": {
+      "prototype": {}
+    },
+    "Logger": "Ember.Logger",
+    "MANDATORY_SETTER_FUNCTION": "Ember.MANDATORY_SETTER_FUNCTION",
+    "META_KEY": "Ember.META_KEY",
+    "Map": {
+      "prototype": {}
+    },
+    "MapWithDefault": {
+      "prototype": {}
+    },
+    "Mixin": {
+      "prototype": {}
+    },
+    "MutableArray": {
+      "prototype": {}
+    },
+    "MutableEnumerable": {
+      "prototype": {}
+    },
+    "NAME_KEY": "Ember.NAME_KEY",
+    "Namespace": {
+      "prototype": {}
+    },
+    "NativeArray": {
+      "prototype": {}
+    },
+    "NoneLocation": {
+      "prototype": {}
+    },
+    "ORDER_DEFINITION": "Ember.ORDER_DEFINITION",
+    "Object": {
+      "prototype": {}
+    },
+    "ObjectController": {
+      "prototype": {}
+    },
+    "ObjectProxy": {
+      "prototype": {}
+    },
+    "Observable": {
+      "prototype": {}
+    },
+    "OrderedSet": {
+      "prototype": {}
+    },
+    "RSVP": {
+      "PromiseResolve": {},
+      "PromiseReject": {},
+      "PromiseResolverFunction": {},
+      "Promise": {
+        "prototype": {}
+      }
+    },
+    "RenderBuffer": {
+      "prototype": {}
+    },
+    "Route": {
+      "prototype": {}
+    },
+    "Router": {
+      "prototype": {}
+    },
+    "RouterDSL": {
+      "prototype": {}
+    },
+    "SHIM_ES5": "Ember.SHIM_ES5",
+    "STRINGS": "Ember.STRINGS",
+    "Select": {
+      "prototype": {}
+    },
+    "SelectOption": {
+      "prototype": {}
+    },
+    "Set": {
+      "prototype": {}
+    },
+    "SortableMixin": {
+      "prototype": {}
+    },
+    "State": {
+      "prototype": {}
+    },
+    "StateManager": {
+      "prototype": {}
+    },
+    "String": {
+      "camelize": "Ember.String.camelize",
+      "capitalize": "Ember.String.capitalize",
+      "classify": "Ember.String.classify",
+      "dasherize": "Ember.String.dasherize",
+      "decamelize": "Ember.String.decamelize",
+      "fmt": "Ember.String.fmt",
+      "htmlSafe": "Ember.String.htmlSafe",
+      "loc": "Ember.String.loc",
+      "underscore": "Ember.String.underscore",
+      "w": "Ember.String.w"
+    },
+    "TEMPLATES": "Ember.TEMPLATES",
+    "TargetActionSupport": {
+      "prototype": {}
+    },
+    "Test": {
+      "prototype": {}
+    },
+    "TextArea": {
+      "prototype": {}
+    },
+    "TextField": {
+      "prototype": {}
+    },
+    "TextSupport": {
+      "prototype": {}
+    },
+    "VERSION": "Ember.VERSION",
+    "View": {
+      "prototype": {}
+    },
+    "ViewTargetActionSupport": {
+      "prototype": {}
+    },
+    "ViewUtils": "Ember.ViewUtils",
+    "addBeforeObserver": "Ember.addBeforeObserver",
+    "addListener": "Ember.addListener",
+    "addObserver": "Ember.addObserver",
+    "alias": "Ember.alias",
+    "aliasMethod": "Ember.aliasMethod",
+    "anyUnprocessedMixins": "Ember.anyUnprocessedMixins",
+    "assert": "Ember.assert",
+    "beforeObserver": "Ember.beforeObserver",
+    "beforeObserversFor": "Ember.beforeObserversFor",
+    "beginPropertyChanges": "Ember.beginPropertyChanges",
+    "bind": "Ember.bind",
+    "cacheFor": "Ember.cacheFor",
+    "canInvoke": "Ember.canInvoke",
+    "changeProperties": "Ember.changeProperties",
+    "compare": "Ember.compare",
+    "computed": "Ember.computed",
+    "config": "Ember.config",
+    "controllerFor": "Ember.controllerFor",
+    "copy": "Ember.copy",
+    "create": "Ember.create",
+    "debug": "Ember.debug",
+    "defineProperty": "Ember.defineProperty",
+    "deprecate": "Ember.deprecate",
+    "deprecateFunc": "Ember.deprecateFunc",
+    "destroy": "Ember.destroy",
+    "empty": "deprecateFunc",
+    "endPropertyChanges": "Ember.endPropertyChanges",
+    "exports": "Ember.exports",
+    "finishChains": "Ember.finishChains",
+    "flushPendingChains": "Ember.flushPendingChains",
+    "generateController": "Ember.generateController",
+    "generateGuid": "Ember.generateGuid",
+    "get": "Ember.get",
+    "getMeta": "Ember.getMeta",
+    "getPath": "Ember.getPath",
+    "getWithDefault": "Ember.getWithDefault",
+    "guidFor": "Ember.guidFor",
+    "handleErrors": "Ember.handleErrors",
+    "hasListeners": "Ember.hasListeners",
+    "immediateObserver": "Ember.immediateObserver",
+    "imports": "Ember.imports",
+    "inspect": "Ember.inspect",
+    "instrument": "Ember.instrument",
+    "isArray": "Ember.isArray",
+    "isEmpty": "Ember.isEmpty",
+    "isEqual": "Ember.isEqual",
+    "isGlobalPath": "Ember.isGlobalPath",
+    "isNamespace": "Ember.isNamespace",
+    "isNone": "Ember.isNone",
+    "isWatching": "Ember.isWatching",
+    "keys": "Ember.keys",
+    "listenersDiff": "Ember.listenersDiff",
+    "listenersFor": "Ember.listenersFor",
+    "listenersUnion": "Ember.listenersUnion",
+    "lookup": "Ember.lookup",
+    "makeArray": "Ember.makeArray",
+    "merge": "Ember.merge",
+    "meta": "Ember.meta",
+    "metaPath": "Ember.metaPath",
+    "mixin": "Ember.mixin",
+    "none": "Ember.none",
+    "normalizeTuple": "Ember.normalizeTuple",
+    "observer": "Ember.observer",
+    "observersFor": "Ember.observersFor",
+    "onLoad": "Ember.onLoad",
+    "oneWay": "Ember.oneWay",
+    "onError": "Ember.onError",
+    "overrideChains": "Ember.overrideChains",
+    "platform": "Ember.platform",
+    "propertyDidChange": "Ember.propertyDidChange",
+    "propertyWillChange": "Ember.propertyWillChange",
+    "removeBeforeObserver": "Ember.removeBeforeObserver",
+    "removeChainWatcher": "Ember.removeChainWatcher",
+    "removeListener": "Ember.removeListener",
+    "removeObserver": "Ember.removeObserver",
+    "required": "Ember.required",
+    "rewatch": "Ember.rewatch",
+    "run": "Ember.run",
+    "runLoadHooks": "Ember.runLoadHooks",
+    "sendEvent": "Ember.sendEvent",
+    "set": "Ember.set",
+    "setMeta": "Ember.setMeta",
+    "setPath": "Ember.setPath",
+    "setProperties": "Ember.setProperties",
+    "subscribe": "Ember.subscribe",
+    "tryCatchFinally": "Ember.tryCatchFinally",
+    "tryFinally": "Ember.tryFinally",
+    "tryInvoke": "Ember.tryInvoke",
+    "trySet": "Ember.trySet",
+    "trySetPath": "Ember.trySetPath",
+    "typeOf": "Ember.typeOf",
+    "unwatch": "Ember.unwatch",
+    "unwatchKey": "Ember.unwatchKey",
+    "unwatchPath": "Ember.unwatchPath",
+    "uuid": "Ember.uuid",
+    "warn": "Ember.warn",
+    "watch": "Ember.watch",
+    "watchKey": "Ember.watchKey",
+    "watchPath": "Ember.watchPath",
+    "watchedEvents": "Ember.watchedEvents",
+    "wrap": "Ember.wrap"
+  },
+  "!name": "ember.d.ts",
+  "!define": {
+    "ret": {},
+    "ret1": {},
+    "ret2": {},
+    "ret3": {},
+    "ret4": {},
+    "ret5": {},
+    "ret6": {},
+    "ret7": {},
+    "ret8": {},
+    "ret9": {},
+    "ret10": {},
+    "ret11": {},
+    "ret12": {},
+    "ret13": {},
+    "ret14": {},
+    "ret15": {},
+    "ret16": {},
+    "ret17": {},
+    "ret18": {},
+    "ret19": {},
+    "ret20": {},
+    "ret21": {},
+    "ret22": {},
+    "ret23": {},
+    "ret24": {},
+    "ret25": {},
+    "ret26": {},
+    "ret27": {},
+    "ret28": {},
+    "ret29": {},
+    "ret30": {},
+    "ret31": {},
+    "ret32": {},
+    "ret33": {},
+    "ret34": {},
+    "ret35": {},
+    "ret36": {},
+    "ret37": {},
+    "ret38": {},
+    "ret39": {},
+    "ret40": {}
+  }
+}

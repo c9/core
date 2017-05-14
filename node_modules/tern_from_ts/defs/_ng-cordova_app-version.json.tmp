@@ -1,0 +1,9 @@
+{
+  "ngCordova": {
+    "IAppVersionService": {
+      "getVersionNumber": "fn() -> ?",
+      "getVersionCode": "fn() -> ?"
+    }
+  },
+  "!name": "app-version.d.ts"
+}

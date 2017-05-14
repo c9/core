@@ -1,0 +1,77 @@
+{
+  "CrossFilter": {
+    "Selector": {},
+    "CrossFilterStatic": {
+      "version": "string",
+      "permute": "fn(array: [T], index: [number]) -> [T]",
+      "bisect": {
+        "by": "fn(value: ?) -> ?"
+      },
+      "heap": {
+        "by": "fn(value: ?) -> ?"
+      },
+      "heapselect": {
+        "by": "fn(value: ?) -> ?"
+      },
+      "insertionsort": {
+        "by": "fn(value: ?) -> ?"
+      },
+      "quicksort": {
+        "by": "fn(value: ?) -> ?"
+      }
+    },
+    "Bisection": {},
+    "Bisector": {
+      "left": "?",
+      "right": "?"
+    },
+    "Heap": {
+      "sort": "fn(array: [T], lo: number, hi: number) -> [T]"
+    },
+    "HeapSelect": {},
+    "Sort": {},
+    "GroupAll": {
+      "reduce": "fn(add: fn(p: TValue, v: T), remove: fn(p: TValue, v: T), initial: fn()) -> ?",
+      "reduceCount": "fn() -> ?",
+      "reduceSum": "fn(value: ?) -> ?",
+      "dispose": "fn() -> ?",
+      "value": "fn() -> T"
+    },
+    "Grouping": {
+      "key": "TKey",
+      "value": "TValue"
+    },
+    "Group": {
+      "top": "fn(k: number) -> [?]",
+      "all": "fn() -> [?]",
+      "reduce": "fn(add: fn(p: TGroup, v: T), remove: fn(p: TGroup, v: T), initial: fn()) -> ?",
+      "reduceCount": "fn() -> ?",
+      "reduceSum": "fn(value: fn(data: T)) -> ?",
+      "order": "fn(value?: ?) -> ?",
+      "orderNatural": "fn() -> ?",
+      "size": "fn() -> number",
+      "dispose": "fn() -> ?"
+    },
+    "CrossFilter": {
+      "add": "fn(records: [T]) -> ?",
+      "remove": "fn() -> ?",
+      "size": "fn() -> number",
+      "groupAll": "fn() -> ?",
+      "dimension": "fn(value: fn(data: T)) -> ?"
+    },
+    "Dimension": {
+      "filter": "fn(value: [TDimension]) -> ?",
+      "filterExact": "fn(value: TDimension) -> ?",
+      "filterRange": "fn(value: [TDimension]) -> ?",
+      "filterFunction": "fn(value: ?) -> ?",
+      "filterAll": "fn() -> ?",
+      "top": "fn(k: number) -> [T]",
+      "bottom": "fn(k: number) -> [T]",
+      "dispose": "fn()",
+      "group": "fn() -> ?",
+      "groupAll": "fn() -> ?"
+    }
+  },
+  "crossfilter": "CrossFilter.CrossFilterStatic",
+  "!name": "crossfilter.d.ts"
+}

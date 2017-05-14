@@ -1,0 +1,39 @@
+{
+  "htmlparser2": {
+    "Handler": {
+      "onopentag": "fn(name: string, attribs: ?)",
+      "onopentagname": "fn(name: string)",
+      "onattribute": "fn(name: string, value: string)",
+      "ontext": "fn(text: string)",
+      "onclosetag": "fn(text: string)",
+      "onprocessinginstruction": "fn(name: string, data: string)",
+      "oncomment": "fn(data: string)",
+      "oncommentend": "fn()",
+      "oncdatastart": "fn()",
+      "oncdataend": "fn()",
+      "onerror": "fn(error: Error)",
+      "onreset": "fn()",
+      "onend": "fn()"
+    },
+    "Options": {
+      "xmlMode": "bool",
+      "decodeEntities": "bool",
+      "lowerCaseTags": "bool",
+      "lowerCaseAttributeNames": "bool",
+      "recognizeCDATA": "bool",
+      "recognizeSelfClosing": "bool"
+    },
+    "Parser": {
+      "!type": "fn(handler: Handler, options?: Options)",
+      "prototype": {
+        "write": "fn(input: string)",
+        "parseChunk": "fn(input: string)",
+        "end": "fn()",
+        "done": "fn()",
+        "parseComplete": "fn(input: string)",
+        "reset": "fn()"
+      }
+    }
+  },
+  "!name": "htmlparser2"
+}

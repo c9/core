@@ -1,0 +1,19 @@
+{
+  "FormSerializer": {
+    "FormSerializerPatterns": {
+      "validate": "RegExp",
+      "key": "RegExp",
+      "push": "RegExp",
+      "fixed": "RegExp",
+      "named": "RegExp"
+    },
+    "patterns": "FormSerializerPatterns"
+  },
+  "jquery-serialize-object": "FormSerializer",
+  "form-serializer": "FormSerializer",
+  "JQuery": {
+    "serializeObject": "fn() -> Object",
+    "serializeJSON": "fn() -> string"
+  },
+  "!name": "form-serializer.d.ts"
+}

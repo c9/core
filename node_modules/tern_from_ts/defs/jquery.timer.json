@@ -1,0 +1,16 @@
+{
+  "JQueryTimer": {
+    "set": "fn(any: ?) -> Object",
+    "once": "fn(time: Number) -> Object",
+    "play": "fn(reset?: Boolean) -> Object",
+    "pause": "fn() -> Object",
+    "stop": "fn() -> Object",
+    "toggle": "fn(reset?: Boolean) -> Object",
+    "isActive": "Boolean",
+    "remaining": "Number"
+  },
+  "JQuery": {
+    "timer": "JQueryTimer"
+  },
+  "!name": "jquery.timer"
+}

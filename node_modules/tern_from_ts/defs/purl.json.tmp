@@ -1,0 +1,9 @@
+{
+  "JQueryStatic": {
+    "url": "fn() -> purl.Url"
+  },
+  "JQuery": {
+    "url": "fn() -> purl.Url"
+  },
+  "!name": "purl-jquery.d.ts"
+}

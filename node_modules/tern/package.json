@@ -1,0 +1,254 @@
+{
+  "name": "tern",
+  "license": "MIT",
+  "version": "0.16.1",
+  "author": {
+    "name": "Marijn Haverbeke",
+    "email": "marijnh@gmail.com"
+  },
+  "description": "A JavaScript code analyzer for deep, cross-editor language support",
+  "main": "lib/tern.js",
+  "bin": {
+    "tern": "./bin/tern"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ternjs/tern.git"
+  },
+  "scripts": {
+    "test": "sh -c './bin/test'"
+  },
+  "dependencies": {
+    "acorn": "^2.5.2",
+    "enhanced-resolve": "^0.9.1",
+    "glob": "3",
+    "minimatch": "0.2",
+    "typescript": "=1.0.1"
+  },
+  "devDependencies": {
+    "codemirror": "git://github.com/codemirror/CodeMirror.git"
+  },
+  "blint": {
+    "allowedGlobals": [
+      "tern",
+      "acorn",
+      "define",
+      "clearTimeout",
+      "setTimeout",
+      "__dirname",
+      "global",
+      "process"
+    ]
+  },
+  "contributors": [
+    {
+      "name": "List of Tern contributors. Updated before every release."
+    },
+    {
+      "name": "Adam Faulkner"
+    },
+    {
+      "name": "Anders Thøgersen"
+    },
+    {
+      "name": "angelozerr"
+    },
+    {
+      "name": "Ben Joldersma"
+    },
+    {
+      "name": "Ben McCormick"
+    },
+    {
+      "name": "Brian Frichette"
+    },
+    {
+      "name": "Claus Reinke"
+    },
+    {
+      "name": "Connor Osborn"
+    },
+    {
+      "name": "Damien Diederen"
+    },
+    {
+      "name": "Dani Hodovic"
+    },
+    {
+      "name": "Dewdrops"
+    },
+    {
+      "name": "dloverin"
+    },
+    {
+      "name": "Dmitry Gutov"
+    },
+    {
+      "name": "Erik Tierney"
+    },
+    {
+      "name": "Forbes Lindesay"
+    },
+    {
+      "name": "Francisc Romano"
+    },
+    {
+      "name": "Hans Huebner"
+    },
+    {
+      "name": "Hiroaki Otsu"
+    },
+    {
+      "name": "impinball"
+    },
+    {
+      "name": "J David Smith"
+    },
+    {
+      "name": "Jeffrey Fisher"
+    },
+    {
+      "name": "Jonathan Persson"
+    },
+    {
+      "name": "Josh Giles"
+    },
+    {
+      "name": "jzhang"
+    },
+    {
+      "name": "katspaugh"
+    },
+    {
+      "name": "Kyle P Davis"
+    },
+    {
+      "name": "Marcel Gerber"
+    },
+    {
+      "name": "Marcello Bastea-Forte"
+    },
+    {
+      "name": "Marijn Haverbeke"
+    },
+    {
+      "name": "Matt"
+    },
+    {
+      "name": "Matthias Dahl"
+    },
+    {
+      "name": "MetaMemoryT"
+    },
+    {
+      "name": "Michael Russell"
+    },
+    {
+      "name": "Michał Grzejszczak"
+    },
+    {
+      "name": "Miguel Castillo"
+    },
+    {
+      "name": "Mihai Bazon"
+    },
+    {
+      "name": "Miroslav Bajtoš"
+    },
+    {
+      "name": "Mounir Lamouri"
+    },
+    {
+      "name": "Nate Eagleson"
+    },
+    {
+      "name": "Nick Malaguti"
+    },
+    {
+      "name": "Nicolas Petton"
+    },
+    {
+      "name": "Nico Weber"
+    },
+    {
+      "name": "othree"
+    },
+    {
+      "name": "Paul Bakker"
+    },
+    {
+      "name": "Paul Verest"
+    },
+    {
+      "name": "Peter Elmers"
+    },
+    {
+      "name": "Peter Farland"
+    },
+    {
+      "name": "Quinn Slack"
+    },
+    {
+      "name": "Randy Edmunds"
+    },
+    {
+      "name": "Renato Ferreira"
+    },
+    {
+      "name": "Reuben Thomas"
+    },
+    {
+      "name": "Ryan Stewart"
+    },
+    {
+      "name": "SAKURAI Masashi"
+    },
+    {
+      "name": "Sean Usick"
+    },
+    {
+      "name": "Sergey Chikuyonok"
+    },
+    {
+      "name": "Sérgio Ramos"
+    },
+    {
+      "name": "sevin7676"
+    },
+    {
+      "name": "Se-Won Kim"
+    },
+    {
+      "name": "Sindre Sorhus"
+    },
+    {
+      "name": "Slava Kim"
+    },
+    {
+      "name": "Stephan Seidt"
+    },
+    {
+      "name": "Steve Purcell"
+    },
+    {
+      "name": "stoskov"
+    },
+    {
+      "name": "Tim M. Madsen"
+    },
+    {
+      "name": "vheon"
+    }
+  ],
+  "gitHead": "39015d544d4c00c7899fea4c95c2e5bc2720e68e",
+  "readme": "# Tern\n\n[![Build Status](https://secure.travis-ci.org/ternjs/tern.png)](http://travis-ci.org/ternjs/tern)\n[![NPM version](https://img.shields.io/npm/v/tern.svg)](https://www.npmjs.org/package/tern)  \n[Funding status: ![maintainer happiness](https://marijnhaverbeke.nl/fund/status_s.png?again)](https://marijnhaverbeke.nl/fund/)\n\nThis is [Tern][1]. Tern is a stand-alone, editor-independent\nJavaScript analyzer that can be used to improve the JavaScript\nintegration of existing editors.\n\nThanks to a group of generous [crowd funders][2], Tern is open-source\nsoftware, under an MIT license.\n\nThere are currently plugins available for [Emacs][emacs] (and Emacs\n[company-mode][cmode]), [Vim][vim], [Sublime Text][st], [Eclipse (and general Java API)][ec],\n[Light Table][lt], [Atom][atom] and [gedit][gedit], and built-in support in\n[Brackets][brackets], [Edge Code][edge_code], and [CodeLite](http://codelite.org/).\n\nFor further documentation, see the [project page][1] and the\n[manual][3]. To report issues, use the\n[issue tracker](https://github.com/ternjs/tern/issues). For questions\nand documentation, see the\n[discussion forum](https://discuss.ternjs.net).\n\n[1]: http://ternjs.net\n[2]: http://www.indiegogo.com/projects/tern-intelligent-javascript-editing\n[3]: http://ternjs.net/doc/manual.html\n\n[emacs]: http://ternjs.net/doc/manual.html#emacs\n[ec]: https://github.com/angelozerr/tern.java\n[vim]: https://github.com/ternjs/tern_for_vim\n[st]: https://github.com/ternjs/tern_for_sublime\n[lt]: https://github.com/mortalapeman/LT-TernJS\n[atom]: https://atom.io/packages/atom-ternjs\n[gedit]: https://github.com/Swatinem/tern_for_gedit\n[brackets]: http://brackets.io\n[edge_code]: http://html.adobe.com/edge/code\n[cmode]: https://github.com/proofit404/company-tern\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/ternjs/tern/issues"
+  },
+  "homepage": "https://github.com/ternjs/tern#readme",
+  "_id": "tern@0.16.1",
+  "_shasum": "371b0dd66ee3801b0166eb4da1b39685a0256486",
+  "_from": "git+https://github.com/cloud9ide/tern.git#39015d544d4c00c7899fea4c95c2e5bc2720e68e",
+  "_resolved": "git+https://github.com/cloud9ide/tern.git#39015d544d4c00c7899fea4c95c2e5bc2720e68e"
+}

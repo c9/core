@@ -1,0 +1,58 @@
+{
+  "JSGit": {
+    "GitObject": {
+      "type": "string",
+      "body": "?"
+    },
+    "GitCommit": {
+      "tree": "string",
+      "author": "GitAuthor",
+      "message": "string"
+    },
+    "GitAuthor": {
+      "name": "string",
+      "email": "string",
+      "date": "Date"
+    },
+    "GitTree": {},
+    "GitTreeElem": {
+      "mode": "number",
+      "name": "string",
+      "hash": "string"
+    },
+    "StringMap": {},
+    "Remote": {
+      "hostname": "string",
+      "pathname": "string",
+      "discover": "fn(callback: fn(err: ?, refs: StringMap))",
+      "fetch": "fn(repo: Repo, opts: Object, callback: fn(err: ?))",
+      "close": "fn(callback?: fn(err: ?))"
+    },
+    "DB": {
+      "get": "fn(key: string, callback: fn(err: ?, value: ?))",
+      "set": "fn(key: string, value: ?, callback: fn(err: ?))",
+      "has": "fn(key: string, callback: fn(err: ?, hasKey: bool))",
+      "del": "fn(key: string, callback: fn(err: ?))",
+      "keys": "fn(prefix: string, callback: fn(err: ?, keys: [string]))",
+      "init": "fn(callback: fn(err: ?))",
+      "clear": "fn(callback: fn(err: ?))"
+    },
+    "Repo": {
+      "load": "fn(hashish: string, callback: fn(err: ?, git_object: GitObject))",
+      "save": "fn(git_object: GitObject, callback: fn(err: ?, hash: string))",
+      "loadAs": "fn(type: string, hash: string, callback: fn(err: ?, body: ?))",
+      "saveAs": "fn(type: string, body: ?, callback: fn(err: ?, hash: string))",
+      "remove": "fn(hash: string, callback: fn(err: ?))",
+      "unpack": "fn(packFileStream: ?, opts: Object, callback: fn(err: ?))",
+      "logWalk": "fn(hashish: string, callback: fn(err: ?, log_stream: ?))",
+      "treeWalk": "fn(hashish: string, callback: fn(err: ?, file_stream: ?))",
+      "walk": "fn(seed: ?, scan: ?, loadKey: ?, compare: ?) -> ?",
+      "resolveHashish": "fn(hashish: string, callback: fn(err: ?, hash: string))",
+      "updateHead": "fn(hash: string, callback: fn(err: ?))",
+      "getHead": "fn(callback: fn(err: ?, ref_name: string))",
+      "setHead": "fn(ref: string, callback: fn(err: ?))",
+      "fetch": "fn(remote: Remote, opts: Object, callback: fn(err: ?))"
+    }
+  },
+  "!name": "js-git"
+}

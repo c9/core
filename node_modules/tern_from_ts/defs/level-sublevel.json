@@ -1,0 +1,12 @@
+{
+  "Hook": {},
+  "Batch": {
+    "prefix": "Sublevel"
+  },
+  "Sublevel": {
+    "sublevel": "fn(key: string) -> Sublevel",
+    "pre": "fn(hook: Hook) -> Function"
+  },
+  "level-sublevel": "sublevel",
+  "!name": "level-sublevel"
+}

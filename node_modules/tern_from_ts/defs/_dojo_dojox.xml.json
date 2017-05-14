@@ -1,0 +1,10 @@
+{
+  "dojox": {
+    "xml": {
+      "parser": {},
+      "Script": {},
+      "widgetParser": {}
+    }
+  },
+  "!name": "dojox.xml"
+}

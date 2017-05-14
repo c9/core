@@ -1,0 +1,48 @@
+{
+  "JQueryJqGridColumn": {
+    "name": "string",
+    "index": "string",
+    "hidden": "bool",
+    "sortable": "bool",
+    "search": "bool",
+    "width": "number",
+    "formatter": "fn(cellvalue: ?, options: ?, rowObject: ?)"
+  },
+  "IJqGridJsonReader": {
+    "repeatitems": "bool",
+    "root": "fn(obj: ?) -> ?",
+    "page": "fn(obj: ?) -> ?",
+    "total": "fn(obj: ?) -> number",
+    "records": "fn(obj: ?) -> number"
+  },
+  "JQueryJqGridOptions": {
+    "datatype": "string",
+    "mtype": "string",
+    "autoencode": "bool",
+    "pager": "string",
+    "rowNum": "number",
+    "rowList": "[number]",
+    "colNames": "[string]",
+    "colModel": "[JQueryJqGridColumn]",
+    "sortname": "string",
+    "sortorder": "string",
+    "multiselect": "bool",
+    "multiboxonly": "bool",
+    "forceFit": "bool",
+    "height": "number",
+    "width": "number",
+    "shrinkToFit": "bool",
+    "url": "string",
+    "jsonReader": "IJqGridJsonReader",
+    "gridComplete": "fn()"
+  },
+  "JQueryJqGridStatic": {},
+  "JQueryStatic": {
+    "jqGrid": "JQueryJqGridStatic"
+  },
+  "JQuery": {
+    "jqGrid": "JQueryJqGridStatic",
+    "setGridParam": "fn(obj: ?)"
+  },
+  "!name": "jqgrid.d.ts"
+}

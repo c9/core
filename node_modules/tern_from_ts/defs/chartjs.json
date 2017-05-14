@@ -1,0 +1,181 @@
+{
+  "ChartDataSet": {
+    "label": "string",
+    "fillColor": "string",
+    "strokeColor": "string",
+    "pointColor": "string",
+    "pointStrokeColor": "string",
+    "pointHighlightFill": "string",
+    "pointHighlightStroke": "string",
+    "highlightFill": "string",
+    "highlightStroke": "string",
+    "data": "[number]"
+  },
+  "LinearChartData": {
+    "labels": "[string]",
+    "datasets": "[ChartDataSet]"
+  },
+  "CircularChartData": {
+    "value": "number",
+    "color": "string",
+    "highlight": "string",
+    "label": "string"
+  },
+  "ChartSettings": {
+    "animation": "bool",
+    "animationSteps": "number",
+    "animationEasing": "string",
+    "showScale": "bool",
+    "scaleOverride": "bool",
+    "scaleSteps": "number",
+    "scaleStepWidth": "number",
+    "scaleStartValue": "number",
+    "scaleLineColor": "string",
+    "scaleLineWidth": "number",
+    "scaleShowLabels": "bool",
+    "scaleLabel": "string",
+    "scaleIntegersOnly": "bool",
+    "scaleBeginAtZero": "bool",
+    "scaleFontFamily": "string",
+    "scaleFontSize": "number",
+    "scaleFontStyle": "string",
+    "scaleFontColor": "string",
+    "responsive": "bool",
+    "maintainAspectRatio": "bool",
+    "showTooltips": "bool",
+    "tooltipEvents": "[string]",
+    "tooltipFillColor": "string",
+    "tooltipFontFamily": "string",
+    "tooltipFontSize": "number",
+    "tooltipFontStyle": "string",
+    "tooltipFontColor": "string",
+    "tooltipTitleFontFamily": "string",
+    "tooltipTitleFontSize": "number",
+    "tooltipTitleFontStyle": "string",
+    "tooltipTitleFontColor": "string",
+    "tooltipYPadding": "number",
+    "tooltipXPadding": "number",
+    "tooltipCaretSize": "number",
+    "tooltipCornerRadius": "number",
+    "tooltipXOffset": "number",
+    "tooltipTemplate": "string",
+    "multiTooltipTemplate": "string",
+    "onAnimationProgress": "fn()",
+    "onAnimationComplete": "fn()"
+  },
+  "ChartOptions": {
+    "scaleShowGridLines": "bool",
+    "scaleGridLineColor": "string",
+    "scaleGridLineWidth": "number",
+    "legendTemplate": "string"
+  },
+  "PointsAtEvent": {
+    "value": "number",
+    "label": "string",
+    "datasetLabel": "string",
+    "strokeColor": "string",
+    "fillColor": "string",
+    "highlightFill": "string",
+    "highlightStroke": "string",
+    "x": "number",
+    "y": "number"
+  },
+  "ChartInstance": {
+    "clear": "fn()",
+    "stop": "fn()",
+    "resize": "fn()",
+    "destroy": "fn()",
+    "toBase64Image": "fn()",
+    "generateLegend": "fn()"
+  },
+  "LinearInstance": {
+    "getPointsAtEvent": "fn(event: Event)",
+    "update": "fn()",
+    "addData": "fn(valuesArray: [number], label: string)",
+    "removeData": "fn()"
+  },
+  "CircularInstance": {
+    "getSegmentsAtEvent": "fn(event: Event)",
+    "update": "fn()",
+    "addData": "fn(valuesArray: CircularChartData, index?: number)",
+    "removeData": "fn(index: number)",
+    "segments": "?"
+  },
+  "LineChartOptions": {
+    "bezierCurve": "bool",
+    "bezierCurveTension": "number",
+    "pointDot": "bool",
+    "pointDotRadius": "number",
+    "pointDotStrokeWidth": "number",
+    "pointHitDetectionRadius": "number",
+    "datasetStroke": "bool",
+    "datasetStrokeWidth": "number",
+    "datasetFill": "bool"
+  },
+  "BarChartOptions": {
+    "scaleBeginAtZero": "bool",
+    "barShowStroke": "bool",
+    "barStrokeWidth": "number",
+    "barValueSpacing": "number",
+    "barDatasetSpacing": "number"
+  },
+  "RadarChartOptions": {
+    "scaleShowLine": "bool",
+    "angleShowLineOut": "bool",
+    "scaleShowLabels": "bool",
+    "scaleBeginAtZero": "bool",
+    "angleLineColor": "string",
+    "angleLineWidth": "number",
+    "pointLabelFontFamily": "string",
+    "pointLabelFontStyle": "string",
+    "pointLabelFontSize": "number",
+    "pointLabelFontColor": "string",
+    "pointDot": "bool",
+    "pointDotRadius": "number",
+    "pointDotStrokeWidth": "number",
+    "pointHitDetectionRadius": "number",
+    "datasetStroke": "bool",
+    "datasetStrokeWidth": "number",
+    "datasetFill": "bool",
+    "legendTemplate": "string"
+  },
+  "PolarAreaChartOptions": {
+    "scaleShowLabelBackdrop": "bool",
+    "scaleBackdropColor": "string",
+    "scaleBeginAtZero": "bool",
+    "scaleBackdropPaddingY": "number",
+    "scaleBackdropPaddingX": "number",
+    "scaleShowLine": "bool",
+    "segmentShowStroke": "bool",
+    "segmentStrokeColor": "string",
+    "segmentStrokeWidth": "number",
+    "animationSteps": "number",
+    "animationEasing": "string",
+    "animateRotate": "bool",
+    "animateScale": "bool",
+    "legendTemplate": "string"
+  },
+  "PieChartOptions": {
+    "segmentShowStroke": "bool",
+    "segmentStrokeColor": "string",
+    "segmentStrokeWidth": "number",
+    "percentageInnerCutout": "number",
+    "animationSteps": "number",
+    "animationEasing": "string",
+    "animateRotate": "bool",
+    "animateScale": "bool",
+    "legendTemplate": "string"
+  },
+  "Chart": {
+    "Line": "fn(data: LinearChartData, options?: LineChartOptions) -> LinearInstance",
+    "Bar": "fn(data: LinearChartData, options?: BarChartOptions) -> LinearInstance",
+    "Radar": "fn(data: LinearChartData, options?: RadarChartOptions) -> LinearInstance",
+    "PolarArea": "fn(data: [CircularChartData], options?: PolarAreaChartOptions) -> CircularInstance",
+    "Pie": "fn(data: [CircularChartData], options?: PieChartOptions) -> CircularInstance",
+    "Doughnut": "fn(data: [CircularChartData], options?: PieChartOptions) -> CircularInstance",
+    "defaults": {
+      "global": "ChartSettings"
+    }
+  },
+  "!name": "chart"
+}

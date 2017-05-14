@@ -1,0 +1,10 @@
+{
+  "sprintf_js": {
+    "sprintf": "fn(fmt: string, args: [?]) -> string",
+    "vsprintf": "fn(fmt: string, args: [?]) -> string"
+  },
+  "sprintf-js": "sprintf_js",
+  "sprintf": "sprintf_js.sprintf",
+  "vsprintf": "sprintf_js.vsprintf",
+  "!name": "sprintf-js"
+}

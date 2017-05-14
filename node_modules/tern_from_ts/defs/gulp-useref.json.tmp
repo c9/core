@@ -1,0 +1,4 @@
+{
+  "'gulp-useref'": "useref",
+  "!name": "gulp-useref.d.ts"
+}

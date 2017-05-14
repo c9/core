@@ -1,0 +1,4 @@
+{
+  "svg2png": "fn(srcFile: string, destFile: string, scale: number, cb: fn(err: Error))",
+  "!name": "svg2png.d.ts"
+}

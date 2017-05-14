@@ -1,0 +1,29 @@
+{
+  "request-ip": {
+    "Request": {
+      "headers": {
+        "'x-client-ip'": "string",
+        "'x-forwarded-for'": "string",
+        "'x-real-ip'": "string",
+        "'x-cluster-client-ip'": "string",
+        "'x-forwarded'": "string",
+        "'forwarded-for'": "string",
+        "'forwarded'": "string"
+      },
+      "connection": {
+        "remoteAddress": "string",
+        "socket": {
+          "remoteAddress": "string"
+        }
+      },
+      "info": {
+        "remoteAddress": "string"
+      },
+      "socket": {
+        "remoteAddress": "string"
+      }
+    },
+    "getClientIp": "fn(req: Request) -> string"
+  },
+  "!name": "request-ip"
+}

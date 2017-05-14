@@ -1,0 +1,26 @@
+{
+  "ArbiterDef": {
+    "SubscribeHandler": {},
+    "SubscribeOptions": {
+      "priority": "number",
+      "async": "bool",
+      "persist": "bool"
+    },
+    "PublishOptions": {
+      "cancelable": "bool",
+      "persist": "bool",
+      "async": "bool"
+    },
+    "ArbiterStatic": {
+      "version": "string",
+      "updated_on": "string",
+      "create": "fn() -> ArbiterStatic",
+      "publish": "fn(msg: string, data?: ?, options?: PublishOptions) -> bool",
+      "subscribe": "fn(msg: string, func: SubscribeHandler) -> ?",
+      "unsubscribe": "fn(subscription_id: number) -> bool",
+      "resubscribe": "fn(subscription_id: number) -> bool"
+    }
+  },
+  "Arbiter": "ArbiterDef.ArbiterStatic",
+  "!name": "Arbiter.d.ts"
+}

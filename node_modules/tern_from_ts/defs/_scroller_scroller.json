@@ -1,0 +1,44 @@
+{
+  "ScrollerOptions": {
+    "scrollingX": "bool",
+    "scrollingY": "bool",
+    "animating": "bool",
+    "animationDuration": "number",
+    "bouncing": "bool",
+    "locking": "bool",
+    "paging": "bool",
+    "snapping": "bool",
+    "zooming": "bool",
+    "minZoom": "number",
+    "maxZoom": "number",
+    "speedMultiplier": "number"
+  },
+  "ScrollValues": {
+    "left": "number",
+    "top": "number"
+  },
+  "ScrollValuesWithZoom": {
+    "zoom": "number"
+  },
+  "Scroller": {
+    "!type": "fn(callback: fn(left: number, top: number, zoom: number), options: ScrollerOptions)",
+    "prototype": {
+      "setDimensions": "fn(clientWidth: number, clientHeight: number, contentWidth: number, contentHeight: number)",
+      "setPosition": "fn(left: number, top: number)",
+      "setSnapSize": "fn(width: number, height: number)",
+      "activatePullToRefresh": "fn(height: number, activateCallback: Function, deactivateCallback: Function, startCallback: Function)",
+      "finishPullToRefresh": "fn()",
+      "getValues": "fn() -> ScrollValuesWithZoom",
+      "getScrollMax": "fn() -> ScrollValues",
+      "zoomTo": "fn(level: number, animate?: bool, originLeft?: number, originTop?: number, callback?: Function)",
+      "zoomBy": "fn(factor: number, animate?: bool, originLeft?: number, originTop?: number, callback?: Function)",
+      "scrollTo": "fn(left?: number, top?: number, animate?: bool, zoom?: number)",
+      "scrollBy": "fn(left?: number, top?: number, animate?: bool)",
+      "doMouseZoom": "fn(wheelDelta: number, timeStamp: number, pageX: number, pageY: number)",
+      "doTouchStart": "fn(touches: [?], timeStamp: number)",
+      "doTouchMove": "fn(touches: [?], timeStamp: number, scale?: number)",
+      "doTouchEnd": "fn(timeStamp: number)"
+    }
+  },
+  "!name": "scroller"
+}

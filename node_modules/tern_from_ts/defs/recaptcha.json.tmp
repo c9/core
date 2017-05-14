@@ -1,0 +1,36 @@
+{
+  "Recaptcha": {
+    "!type": "fn()",
+    "reload": "fn()",
+    "switch_type": "fn(newtype: string)",
+    "showhelp": "fn()",
+    "get_challenge": "fn() -> string",
+    "get_response": "fn() -> string",
+    "focus_response_field": "fn()",
+    "create": "fn(public_key: string, element: string, options: RecaptchaOptions)",
+    "destroy": "fn()",
+    "prototype": {}
+  },
+  "RecaptchaOptions": {
+    "tabindex": "number",
+    "theme": "string",
+    "callback": "Function",
+    "lang": "string",
+    "custom_theme_widget": "string",
+    "custom_translations": "CustomTranslations"
+  },
+  "CustomTranslations": {
+    "visual_challenge": "string",
+    "audio_challenge": "string",
+    "refresh_btn": "string",
+    "instructions_visual": "string",
+    "instructions_audio": "string",
+    "help_btn": "string",
+    "play_again": "string",
+    "cant_hear_this": "string",
+    "incorrect_try_again": "string",
+    "image_alt_text": "string",
+    "privacy_and_terms": "string"
+  },
+  "!name": "recaptcha.d.ts"
+}

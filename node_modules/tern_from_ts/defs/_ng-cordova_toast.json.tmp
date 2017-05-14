@@ -1,0 +1,14 @@
+{
+  "ngCordova": {
+    "IToastService": {
+      "showShortTop": "fn(message: string) -> ?",
+      "showShortCenter": "fn(message: string) -> ?",
+      "showShortBottom": "fn(message: string) -> ?",
+      "showLongTop": "fn(message: string) -> ?",
+      "showLongCenter": "fn(message: string) -> ?",
+      "showLongBottom": "fn(message: string) -> ?",
+      "show": "fn(message: string, duration: string, position: string) -> ?"
+    }
+  },
+  "!name": "toast.d.ts"
+}

@@ -1,0 +1,8 @@
+{
+  "route-recognizer": "RouteRecognizer",
+  "MatchedRoute": {
+    "handler": "H",
+    "params": {}
+  },
+  "!name": "route-recognizer"
+}

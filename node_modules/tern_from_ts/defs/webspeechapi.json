@@ -1,0 +1,119 @@
+{
+  "SpeechRecognition": {
+    "grammars": "SpeechGrammarList",
+    "lang": "string",
+    "continuous": "bool",
+    "interimResults": "bool",
+    "maxAlternatives": "number",
+    "serviceURI": "string",
+    "start": "fn()",
+    "stop": "fn()",
+    "abort": "fn()",
+    "onaudiostart": "fn(ev: Event)",
+    "onsoundstart": "fn(ev: Event)",
+    "onspeechstart": "fn(ev: Event)",
+    "onspeechend": "fn(ev: Event)",
+    "onsoundend": "fn(ev: Event)",
+    "onresult": "fn(ev: SpeechRecognitionEvent)",
+    "onnomatch": "fn(ev: SpeechRecognitionEvent)",
+    "onerror": "fn(ev: SpeechRecognitionError)",
+    "onstart": "fn(ev: Event)",
+    "onend": "fn(ev: Event)"
+  },
+  "SpeechRecognitionStatic": {
+    "prototype": "SpeechRecognition"
+  },
+  "webkitSpeechRecognition": "SpeechRecognitionStatic",
+  "SpeechRecognitionError": {
+    "error": "string",
+    "message": "string"
+  },
+  "SpeechRecognitionAlternative": {
+    "transcript": "string",
+    "confidence": "number"
+  },
+  "SpeechRecognitionResult": {
+    "length": "number",
+    "item": "fn(index: number) -> SpeechRecognitionAlternative",
+    "isFinal": "bool"
+  },
+  "SpeechRecognitionResultList": {
+    "length": "number",
+    "item": "fn(index: number) -> SpeechRecognitionResult"
+  },
+  "SpeechRecognitionEvent": {
+    "resultIndex": "number",
+    "results": "SpeechRecognitionResultList",
+    "interpretation": "?",
+    "emma": "Document"
+  },
+  "SpeechGrammar": {
+    "src": "string",
+    "weight": "number"
+  },
+  "SpeechGrammarStatic": {
+    "prototype": "SpeechGrammar"
+  },
+  "webkitSpeechGrammar": "SpeechGrammarStatic",
+  "SpeechGrammarList": {
+    "length": "number",
+    "item": "fn(index: number) -> SpeechGrammar",
+    "addFromURI": "fn(src: string, weight: number)",
+    "addFromString": "fn(string: string, weight: number)"
+  },
+  "SpeechGrammarListStatic": {
+    "prototype": "SpeechGrammarList"
+  },
+  "webkitSpeechGrammarList": "SpeechGrammarListStatic",
+  "SpeechSynthesis": {
+    "pending": "bool",
+    "speaking": "bool",
+    "paused": "bool",
+    "onvoiceschanged": "fn(ev: Event)",
+    "speak": "fn(utterance: SpeechSynthesisUtterance)",
+    "cancel": "fn()",
+    "pause": "fn()",
+    "resume": "fn()",
+    "getVoices": "fn() -> [SpeechSynthesisVoice]"
+  },
+  "SpeechSynthesisGetter": {
+    "speechSynthesis": "SpeechSynthesis"
+  },
+  "Window": {},
+  "speechSynthesis": "SpeechSynthesis",
+  "SpeechSynthesisUtterance": {
+    "text": "string",
+    "lang": "string",
+    "voice": "SpeechSynthesisVoice",
+    "volume": "number",
+    "rate": "number",
+    "pitch": "number",
+    "onstart": "fn(ev: SpeechSynthesisEvent)",
+    "onend": "fn(ev: SpeechSynthesisEvent)",
+    "onerror": "fn(ev: SpeechSynthesisErrorEvent)",
+    "onpause": "fn(ev: SpeechSynthesisEvent)",
+    "onresume": "fn(ev: SpeechSynthesisEvent)",
+    "onmark": "fn(ev: SpeechSynthesisEvent)",
+    "onboundary": "fn(ev: SpeechSynthesisEvent)"
+  },
+  "SpeechSynthesisUtteranceStatic": {
+    "prototype": "SpeechSynthesisUtterance"
+  },
+  "SpeechSynthesisEvent": {
+    "utterance": "SpeechSynthesisUtterance",
+    "charIndex": "number",
+    "elapsedTime": "number",
+    "name": "string"
+  },
+  "SpeechSynthesisErrorEvent": {
+    "error": "string"
+  },
+  "SpeechSynthesisVoice": {
+    "voiceURI": "string",
+    "name": "string",
+    "lang": "string",
+    "localService": "bool",
+    "default": "bool"
+  },
+  "!name": "webspeechapi"
+}

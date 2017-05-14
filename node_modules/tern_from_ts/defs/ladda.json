@@ -1,0 +1,31 @@
+{
+  "ILaddaButton": {
+    "start": "fn() -> ILaddaButton",
+    "startAfter": "fn(delay: number) -> ILaddaButton",
+    "stop": "fn() -> ILaddaButton",
+    "toggle": "fn() -> ILaddaButton",
+    "setProgress": "fn(progress: number) -> ILaddaButton",
+    "enable": "fn() -> ILaddaButton",
+    "disable": "fn() -> ILaddaButton",
+    "isLoading": "fn() -> bool",
+    "remove": "fn()"
+  },
+  "ILaddaOptions": {
+    "timeout": "number",
+    "callback": "fn(instance: ILaddaButton)"
+  },
+  "ILadda": {
+    "bind": "fn(target: HTMLElement, options?: ILaddaOptions)",
+    "create": "fn(button: Element) -> ILaddaButton",
+    "stopAll": "fn()"
+  },
+  "Ladda": "ILadda",
+  "ladda": "Ladda",
+  "JQuery": {
+    "ladda": "fn() -> JQuery"
+  },
+  "JQueryStatic": {
+    "ladda": "fn(action: string) -> JQuery"
+  },
+  "!name": "ladda"
+}

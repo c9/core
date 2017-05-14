@@ -1,0 +1,56 @@
+{
+  "THREE": {
+    "OrbitControls": {
+      "!type": "fn(object: Camera, domElement?: HTMLElement)",
+      "prototype": {
+        "object": "Camera",
+        "domElement": "HTMLElement",
+        "enabled": "bool",
+        "target": "THREE.Vector3",
+        "center": "THREE.Vector3",
+        "noZoom": "bool",
+        "zoomSpeed": "number",
+        "minDistance": "number",
+        "maxDistance": "number",
+        "noRotate": "bool",
+        "rotateSpeed": "number",
+        "noPan": "bool",
+        "keyPanSpeed": "number",
+        "autoRotate": "bool",
+        "autoRotateSpeed": "number",
+        "minPolarAngle": "number",
+        "maxPolarAngle": "number",
+        "minAzimuthAngle": "number",
+        "maxAzimuthAngle": "number",
+        "noKeys": "bool",
+        "keys": {
+          "LEFT": "number",
+          "UP": "number",
+          "RIGHT": "number",
+          "BOTTOM": "number"
+        },
+        "mouseButtons": {
+          "ORBIT": "MOUSE",
+          "ZOOM": "MOUSE",
+          "PAN": "MOUSE"
+        },
+        "rotateLeft": "fn(angle?: number)",
+        "rotateUp": "fn(angle?: number)",
+        "panLeft": "fn(distance?: number)",
+        "panUp": "fn(distance?: number)",
+        "pan": "fn(deltaX: number, deltaY: number)",
+        "dollyIn": "fn(dollyScale: number)",
+        "dollyOut": "fn(dollyScale: number)",
+        "update": "fn()",
+        "reset": "fn()",
+        "getPolarAngle": "fn() -> number",
+        "getAzimuthalAngle": "fn() -> number",
+        "addEventListener": "fn(type: string, listener: fn(event: ?))",
+        "hasEventListener": "fn(type: string, listener: fn(event: ?))",
+        "removeEventListener": "fn(type: string, listener: fn(event: ?))",
+        "dispatchEvent": "fn(event: ?)"
+      }
+    }
+  },
+  "!name": "three-orbitcontrols"
+}

@@ -1,0 +1,74 @@
+{
+  "Navigator": {
+    "requestMIDIAccess": "fn(options?: WebMidi.MidiOptions) -> ?"
+  },
+  "WebMidi": {
+    "MidiOptions": {
+      "sysex": "bool"
+    },
+    "IteratorItem": {
+      "value": "S",
+      "done": "bool"
+    },
+    "Iterator": {
+      "next": "fn() -> ?"
+    },
+    "Tuple2": {
+      "fst": "A",
+      "snd": "B"
+    },
+    "MIDIInputMap": {
+      "size": "number",
+      "keys": "fn()",
+      "entries": "fn()",
+      "values": "fn() -> ?",
+      "get": "fn(key: string) -> MIDIInput",
+      "has": "fn(key: string) -> bool"
+    },
+    "MIDIOutputMap": {
+      "size": "number",
+      "keys": "fn()",
+      "entries": "fn()",
+      "values": "fn() -> ?",
+      "get": "fn(key: string) -> MIDIOutput",
+      "has": "fn(key: string) -> bool"
+    },
+    "MIDIAccess": {
+      "inputs": "MIDIInputMap",
+      "outputs": "MIDIOutputMap",
+      "onconnect": "fn(event: MIDIConnectionEvent)",
+      "ondisconnect": "fn(event: MIDIConnectionEvent)",
+      "sysexEnabled": "bool"
+    },
+    "MIDIPortType": "number",
+    "MIDIPort": {
+      "id": "string",
+      "manufacture": "string",
+      "name": "string",
+      "type": "MIDIPortType",
+      "version": "string",
+      "ondisconnect": "Function"
+    },
+    "MIDIInput": {
+      "onmidimessage": "fn(event: MIDIMessageEvent)"
+    },
+    "MIDIOutput": {
+      "send": "fn(data: ?, timestamp?: number)"
+    },
+    "MIDIMessageEvent": {
+      "receivedTime": "number",
+      "data": "Uint8Array"
+    },
+    "MIDIMessageEventInit": {
+      "receivedTime": "number",
+      "data": "Uint8Array"
+    },
+    "MIDIConnectionEvent": {
+      "port": "MIDIPort"
+    },
+    "MIDIConnectionEventInit": {
+      "port": "MIDIPort"
+    }
+  },
+  "!name": "webmidi"
+}

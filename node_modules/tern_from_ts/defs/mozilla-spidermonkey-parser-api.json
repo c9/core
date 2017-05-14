@@ -1,0 +1,326 @@
+{
+  "spiderMonkeyParserAPI": {
+    "Syntax": {
+      "Node": {
+        "type": "string",
+        "loc": "SourceLocation"
+      },
+      "SourceLocation": {
+        "source": "string",
+        "start": "Position",
+        "end": "Position"
+      },
+      "Position": {
+        "line": "number",
+        "column": "number"
+      },
+      "Program": {
+        "type": "string",
+        "body": "[Statement]"
+      },
+      "Function": {
+        "id": "Identifier",
+        "params": "[Pattern]",
+        "defaults": "[Expression]",
+        "rest": "Identifier",
+        "body": "BlockStatement",
+        "Expression": "?",
+        "generator": "bool",
+        "expression": "bool"
+      },
+      "Statement": {},
+      "EmptyStatement": {
+        "type": "string"
+      },
+      "BlockStatement": {
+        "type": "string",
+        "body": "[Statement]"
+      },
+      "IfStatement": {
+        "type": "string",
+        "test": "Expression",
+        "consequent": "Statement",
+        "alternate": "Statement"
+      },
+      "LabeledStatement": {
+        "type": "string",
+        "label": "Identifier",
+        "body": "Statement"
+      },
+      "BreakStatement": {
+        "type": "string",
+        "label": "Identifier"
+      },
+      "ContinueStatement": {
+        "type": "string",
+        "label": "Identifier"
+      },
+      "WithStatement": {
+        "type": "string",
+        "object": "Expression",
+        "body": "Statement"
+      },
+      "SwitchStatement": {
+        "type": "string",
+        "discriminant": "Expression",
+        "cases": "[SwitchCase]",
+        "lexical": "bool"
+      },
+      "ReturnStatement": {
+        "type": "string",
+        "argument": "Expression"
+      },
+      "ThrowStatement": {
+        "type": "string",
+        "argument": "Expression"
+      },
+      "TryStatement": {
+        "type": "string",
+        "block": "BlockStatement",
+        "handler": "CatchClause",
+        "guardedHandlers": "[CatchClause]",
+        "finalizer": "BlockStatement"
+      },
+      "WhileStatement": {
+        "type": "string",
+        "test": "Expression",
+        "body": "Statement"
+      },
+      "DoWhileStatement": {
+        "type": "string",
+        "body": "Statement",
+        "test": "Expression"
+      },
+      "ForStatement": {
+        "type": "string",
+        "init": "VariableDeclaration",
+        "Expression": "?",
+        "test": "Expression",
+        "update": "Expression",
+        "body": "Statement"
+      },
+      "ForInStatement": {
+        "type": "string",
+        "left": "VariableDeclaration",
+        "Expression": "?",
+        "right": "Expression",
+        "body": "Statement",
+        "each": "bool"
+      },
+      "ForOfStatement": {
+        "type": "string",
+        "left": "VariableDeclaration",
+        "Expression": "?",
+        "right": "Expression",
+        "body": "Statement"
+      },
+      "LetStatement": {
+        "type": "string",
+        "head": "[VariableDeclarator]",
+        "body": "Statement"
+      },
+      "DebuggerStatement": {
+        "type": "string"
+      },
+      "Declaration": {},
+      "FunctionDeclaration": {
+        "type": "string",
+        "id": "Identifier",
+        "params": "[Pattern]",
+        "defaults": "[Expression]",
+        "rest": "Identifier",
+        "body": "BlockStatement",
+        "Expression": "?",
+        "generator": "bool",
+        "expression": "bool"
+      },
+      "VariableDeclaration": {
+        "type": "string",
+        "declarations": "[VariableDeclarator]",
+        "kind": "string"
+      },
+      "VariableDeclarator": {
+        "type": "string",
+        "id": "Pattern",
+        "init": "Expression"
+      },
+      "Expression": {},
+      "ThisExpression": {
+        "type": "string"
+      },
+      "ArrayExpression": {
+        "type": "string",
+        "elements": "[Expression]"
+      },
+      "ObjectExpression": {
+        "type": "string",
+        "properties": "[Property]"
+      },
+      "Property": {
+        "type": "string",
+        "key": "Literal",
+        "Identifier": "?",
+        "value": "Expression",
+        "kind": "string"
+      },
+      "FunctionExpression": {
+        "type": "string",
+        "id": "Identifier",
+        "params": "[Pattern]",
+        "defaults": "[Expression]",
+        "rest": "Identifier",
+        "body": "BlockStatement",
+        "Expression": "?",
+        "generator": "bool",
+        "expression": "bool"
+      },
+      "ArrowExpression": {
+        "type": "string",
+        "params": "[Pattern]",
+        "defaults": "[Expression]",
+        "rest": "Identifier",
+        "body": "BlockStatement",
+        "Expression": "?",
+        "generator": "bool",
+        "expression": "bool"
+      },
+      "SequenceExpression": {
+        "type": "string",
+        "expressions": "[Expression]"
+      },
+      "UnaryExpression": {
+        "type": "string",
+        "operator": "UnaryOperator",
+        "prefix": "bool",
+        "argument": "Expression"
+      },
+      "BinaryExpression": {
+        "type": "string",
+        "operator": "BinaryOperator",
+        "left": "Expression",
+        "right": "Expression"
+      },
+      "AssignmentExpression": {
+        "type": "string",
+        "operator": "AssignmentOperator",
+        "left": "Expression",
+        "right": "Expression"
+      },
+      "UpdateExpression": {
+        "type": "string",
+        "operator": "UpdateOperator",
+        "argument": "Expression",
+        "prefix": "bool"
+      },
+      "LogicalExpression": {
+        "type": "string",
+        "operator": "LogicalOperator",
+        "left": "Expression",
+        "right": "Expression"
+      },
+      "ConditionalExpression": {
+        "type": "string",
+        "test": "Expression",
+        "alternate": "Expression",
+        "consequent": "Expression"
+      },
+      "NewExpression": {
+        "type": "string",
+        "callee": "Expression",
+        "arguments": "[Expression]"
+      },
+      "CallExpression": {
+        "type": "string",
+        "callee": "Expression",
+        "arguments": "[Expression]"
+      },
+      "MemberExpression": {
+        "type": "string",
+        "object": "Expression",
+        "property": "Identifier",
+        "Expression": "?",
+        "computed": "bool"
+      },
+      "YieldExpression": {
+        "type": "string",
+        "argument": "Expression"
+      },
+      "ComprehensionExpression": {
+        "type": "string",
+        "body": "Expression",
+        "blocks": "[ComprehensionBlock]",
+        "filter": "Expression"
+      },
+      "GeneratorExpression": {
+        "type": "string",
+        "body": "Expression",
+        "blocks": "[ComprehensionBlock]",
+        "filter": "Expression"
+      },
+      "GraphExpression": {
+        "type": "string",
+        "index": "number",
+        "expression": "Literal"
+      },
+      "GraphIndexExpression": {
+        "type": "string",
+        "index": "number"
+      },
+      "LetExpression": {
+        "type": "string",
+        "head": "[VariableDeclarator]",
+        "body": "Expression"
+      },
+      "Pattern": {},
+      "ObjectPattern": {
+        "type": "string",
+        "properties": "[]"
+      },
+      "ArrayPattern": {
+        "type": "string",
+        "elements": "[Pattern]"
+      },
+      "SwitchCase": {
+        "type": "string",
+        "test": "Expression",
+        "consequent": "[Statement]"
+      },
+      "CatchClause": {
+        "type": "string",
+        "param": "Pattern",
+        "guard": "Expression",
+        "body": "BlockStatement"
+      },
+      "ComprehensionBlock": {
+        "type": "string",
+        "left": "Pattern",
+        "right": "Expression",
+        "each": "bool"
+      },
+      "Identifier": {
+        "type": "string",
+        "name": "string"
+      },
+      "Literal": {
+        "type": "string",
+        "value": "string",
+        "boolean": "?",
+        "number": "?",
+        "RegExp": "?"
+      },
+      "UnaryOperator": {},
+      "BinaryOperator": {},
+      "LogicalOperator": {},
+      "AssignmentOperator": {},
+      "UpdateOperator": {}
+    }
+  },
+  "!name": "mozilla-spidermonkey-parser-api.d.ts",
+  "!define": {
+    "": {
+      "key": "Literal",
+      "Identifier": "?",
+      "value": "Pattern"
+    }
+  }
+}

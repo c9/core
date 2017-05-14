@@ -1,0 +1,22 @@
+{
+  "Each": {
+    "paused": "bool",
+    "readable": "bool",
+    "started": "number",
+    "done": "number",
+    "total": "number",
+    "on": "fn(eventName: string, onCallback: Function) -> Each",
+    "parallel": "fn(mode: number) -> Each",
+    "shift": "fn(items: [?])",
+    "write": "fn(items: [?])",
+    "unshift": "fn(items: [?])",
+    "end": "fn() -> Each",
+    "times": "fn() -> Each",
+    "repeat": "fn() -> Each",
+    "sync": "fn() -> Each",
+    "files": "fn(glob: ?)"
+  },
+  "EachStatic": {},
+  "each": "EachStatic",
+  "!name": "each"
+}

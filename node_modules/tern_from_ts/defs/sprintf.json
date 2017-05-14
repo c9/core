@@ -1,0 +1,7 @@
+{
+  "sprintf": {
+    "sprintf": "fn(fmt: string, args: [?]) -> string",
+    "vsprintf": "fn(fmt: string, args: [?]) -> string"
+  },
+  "!name": "sprintf"
+}

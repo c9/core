@@ -1,0 +1,7 @@
+{
+  "jwt-simple": {
+    "decode": "fn(token: ?, key: string, noVerify?: bool) -> ?",
+    "encode": "fn(payload: ?, key: string, algorithm?: string) -> string"
+  },
+  "!name": "jwt-simple.d.ts"
+}

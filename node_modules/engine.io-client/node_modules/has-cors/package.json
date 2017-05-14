@@ -1,0 +1,46 @@
+{
+  "name": "has-cors",
+  "version": "1.1.0",
+  "description": "Detects support for Cross-Origin Resource Sharing",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/component/has-cors.git"
+  },
+  "keywords": [
+    "cors",
+    "cross",
+    "origin",
+    "resource",
+    "sharing",
+    "domain"
+  ],
+  "author": {
+    "name": "Nathan Rajlich",
+    "email": "nathan@tootallnate.net",
+    "url": "http://n8.io/"
+  },
+  "license": "MIT",
+  "component": {
+    "scripts": {
+      "has-cors/index.js": "index.js"
+    }
+  },
+  "devDependencies": {
+    "mocha": "^2.0",
+    "chai": "^1.10"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "readme": "\n# has-cors\n\n  Detects support for Cross-Origin Resource Sharing\n\n## Installation\n\n  Install with [component(1)](http://component.io):\n\n    $ component install component/has-cors\n\n## API\n\nExports `true` if the user-agent supports CORS, or `false` otherwise.\n\n``` js\nvar hasCORS = require('has-cors');\nconsole.log(hasCORS);\n// true\n```\n\n## License\n\n  MIT\n",
+  "readmeFilename": "Readme.md",
+  "bugs": {
+    "url": "https://github.com/component/has-cors/issues"
+  },
+  "homepage": "https://github.com/component/has-cors#readme",
+  "_id": "has-cors@1.1.0",
+  "_shasum": "5e474793f7ea9843d1bb99c23eef49ff126fff39",
+  "_resolved": "https://registry.npmjs.org/has-cors/-/has-cors-1.1.0.tgz",
+  "_from": "has-cors@1.1.0"
+}

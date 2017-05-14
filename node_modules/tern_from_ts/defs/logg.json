@@ -1,0 +1,32 @@
+{
+  "Logger": {
+    "setLogLevel": "fn(level: number)",
+    "getLogLevel": "fn()",
+    "setParent": "fn(logger: Logger)",
+    "getParent": "fn()",
+    "registerWatcher": "fn(watcher: fn(logRecord: string))",
+    "getWatchers": "fn()",
+    "log": "fn(level: number, var_args: [?])",
+    "fine": "fn(var_args: [?])",
+    "info": "fn(var_args: [?])",
+    "warn": "fn(var_args: [?])",
+    "error": "fn(var_args: [?])",
+    "isLoggable": "fn(level: number)"
+  },
+  "loggingLevels": {
+    "SEVERE": "number",
+    "WARN": "number",
+    "INFO": "number",
+    "FINE": "number",
+    "FINER": "number",
+    "FINEST": "number"
+  },
+  "logg": {
+    "getLogger": "fn(name: string) -> Logger",
+    "getTransientLogger": "fn(name: string) -> Logger",
+    "Level": "loggingLevels",
+    "rootLogger": "Logger",
+    "registerWatcher": "fn(watcher: fn(logRecord: string))"
+  },
+  "!name": "logg"
+}

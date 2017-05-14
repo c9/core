@@ -1,0 +1,4 @@
+{
+  "minimatch": "M",
+  "!name": "minimatch.d.ts"
+}

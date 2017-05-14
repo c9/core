@@ -1,0 +1,70 @@
+{
+  "aa": {
+    "ILabelStrategies": {},
+    "IFieldGroupStrategies": {},
+    "IValMsgPlacementStrategies": {},
+    "IValidIconStrategy": {
+      "validIcon": "string",
+      "invalidIcon": "string",
+      "getContainer": "fn(element: ng.IAugmentedJQueryStatic)"
+    },
+    "ISpinnerClickStrategies": {},
+    "IOnNavigateAwayStrategies": {},
+    "IValidationMessages": {},
+    "IGlobalSettings": {},
+    "IFormExtensionsProvider": {
+      "defaultLabelStrategy": "string",
+      "defaultFieldGroupStrategy": "string",
+      "defaultValMsgPlacementStrategy": "string",
+      "validIconStrategy": "IValidIconStrategy",
+      "defaultSpinnerClickStrategy": "string",
+      "defaultNotifyTarget": "string",
+      "defaultOnNavigateAwayStrategy": "string",
+      "validationMessages": "IValidationMessages",
+      "valMsgForTemplate": "string",
+      "confirmResetStrategy": "fn()",
+      "globalSettings": "IGlobalSettings",
+      "labelStrategies": "ILabelStrategies",
+      "fieldGroupStrategies": "IFieldGroupStrategies",
+      "valMsgPlacementStrategies": "IValMsgPlacementStrategies",
+      "spinnerClickStrategies": "ISpinnerClickStrategies",
+      "onNavigateAwayStrategies": "IOnNavigateAwayStrategies"
+    },
+    "INotifyPredicate": {},
+    "INotifyDefaults": {
+      "success": "INotifyPredicate",
+      "info": "INotifyPredicate",
+      "warning": "INotifyPredicate",
+      "danger": "INotifyPredicate",
+      "error": "INotifyPredicate"
+    },
+    "INotifyConfig": {
+      "name": "string",
+      "template": "string",
+      "templateName": "string",
+      "options": "INotifyOptions",
+      "namedDefaults": "INotifyDefaults"
+    },
+    "INotifyOptions": {
+      "cssClasses": "string",
+      "messageType": "string",
+      "allowHtml": "bool",
+      "message": "string"
+    },
+    "INotifyConfigProvider": {
+      "notifyConfigs": "?",
+      "defaultTargetContainerName": "string",
+      "defaultNotifyConfig": "string",
+      "addOrUpdateNotifyConfig": "fn(name: string, opts: INotifyConfig)",
+      "optionsTransformer": "fn(options: INotifyOptions, $sce: ng.ISCEService)"
+    },
+    "IExternalFormValidationConfig": {
+      "validations": "?",
+      "ignore": "?",
+      "globals": "?",
+      "resolve": "?",
+      "resolveFn": "fn(modelValue: string)"
+    }
+  },
+  "!name": "angular-agility"
+}

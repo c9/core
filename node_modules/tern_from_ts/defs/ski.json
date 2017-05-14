@@ -1,0 +1,8 @@
+{
+  "ski": {
+    "S": "fn(x: fn(z: U), y: fn(z: U), z: U) -> T",
+    "K": "fn(x: T) -> fn(y?: S)",
+    "I": "fn(x: T) -> T"
+  },
+  "!name": "ski"
+}

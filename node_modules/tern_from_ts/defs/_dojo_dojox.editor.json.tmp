@@ -1,0 +1,2572 @@
+{
+  "dojox": {
+    "editor": {
+      "plugins": {
+        "_SpellCheckParser": {
+          "!type": "fn()",
+          "prototype": {
+            "lang": "string",
+            "getIndices": "fn() -> ?",
+            "parseIntoWords": "fn(text: String) -> ?"
+          }
+        },
+        "AutoUrlLink": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          }
+        },
+        "Blockquote": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          }
+        },
+        "AutoSave": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "interval": "number",
+            "logResults": "bool",
+            "url": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "save": "fn(content: ?)",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()",
+            "onError": "fn(error: ?, ioargs: ?)",
+            "onSuccess": "fn(resp: ?, ioargs: ?)"
+          },
+          "_AutoSaveSettingDialog": {
+            "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+            "prototype": {
+              "attachScope": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret",
+              "attributeMap": "Object",
+              "baseClass": "string",
+              "btnCancel": "string",
+              "btnOk": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "contextRequire": "Function",
+              "dialogDescription": "string",
+              "dialogTitle": "string",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "focused": "bool",
+              "id": "string",
+              "lang": "string",
+              "ownerDocument": "Object",
+              "paramLabel": "string",
+              "paramName": "string",
+              "searchContainerNode": "bool",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "templatePath": "string",
+              "templateString": "string",
+              "title": "string",
+              "tooltip": "string",
+              "widgetsInTemplate": "bool",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getParent": "fn() -> ?",
+              "hide": "fn()",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "show": "fn()",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "getCachedTemplate": "fn() -> ?",
+              "onBlur": "fn()",
+              "onCancel": "fn()",
+              "onClick": "fn(event: ?)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onOk": "fn()",
+              "onShow": "fn()"
+            }
+          }
+        },
+        "Breadcrumb": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "breadcrumbBar": "Object",
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          },
+          "_BreadcrumbMenuTitle": {
+            "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+            "prototype": {
+              "attachScope": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret27",
+              "attributeMap": "Object",
+              "baseClass": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "focused": "bool",
+              "id": "string",
+              "lang": "string",
+              "menuTitle": "string",
+              "ownerDocument": "Object",
+              "searchContainerNode": "bool",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "templatePath": "string",
+              "templateString": "string",
+              "title": "string",
+              "tooltip": "string",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getIndexInParent": "fn() -> ?",
+              "getNextSibling": "fn() -> ?",
+              "getParent": "fn() -> ?",
+              "getPreviousSibling": "fn() -> ?",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "getCachedTemplate": "fn() -> ?",
+              "onBlur": "fn()",
+              "onClick": "fn(event: ?)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onShow": "fn()"
+            }
+          }
+        },
+        "CollapsibleToolbar": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          },
+          "_CollapsibleToolbarButton": {
+            "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+            "prototype": {
+              "attachScope": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret47",
+              "attributeMap": "Object",
+              "baseClass": "string",
+              "buttonClass": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "focused": "bool",
+              "id": "string",
+              "lang": "string",
+              "ownerDocument": "Object",
+              "searchContainerNode": "bool",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "templatePath": "string",
+              "templateString": "string",
+              "text": "string",
+              "textClass": "string",
+              "title": "string",
+              "tooltip": "string",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getParent": "fn() -> ?",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "getCachedTemplate": "fn() -> ?",
+              "onBlur": "fn()",
+              "onClick": "fn(e: ?)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onShow": "fn()"
+            }
+          }
+        },
+        "_SmileyPalette": {
+          "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+          "prototype": {
+            "active": "bool",
+            "set": "fn(property: string, value: bool)",
+            "get": "fn(property: string) -> bool",
+            "watch": "fn(property: string, callback: ?) -> ret69",
+            "attachScope": "Object",
+            "attributeMap": "Object",
+            "baseClass": "string",
+            "cellClass": "string",
+            "class": "string",
+            "containerNode": "HTMLElement",
+            "cssStateNodes": "Object",
+            "defaultTimeout": "number",
+            "dir": "string",
+            "domNode": "HTMLElement",
+            "focused": "bool",
+            "hovering": "bool",
+            "id": "string",
+            "lang": "string",
+            "ownerDocument": "Object",
+            "searchContainerNode": "bool",
+            "srcNodeRef": "HTMLElement",
+            "style": "string",
+            "tabIndex": "string",
+            "templatePath": "string",
+            "templateString": "string",
+            "timeoutChangeRate": "number",
+            "title": "string",
+            "tooltip": "string",
+            "value": "string",
+            "attr": "fn(name: String, value: Object) -> ?",
+            "buildRendering": "fn()",
+            "connect": "fn(obj: Object, event: String, method: String) -> ?",
+            "defer": "fn(fcn: Function, delay: number) -> Object",
+            "destroy": "fn(preserveDom?: bool)",
+            "destroyDescendants": "fn(preserveDom: bool)",
+            "destroyRecursive": "fn(preserveDom: bool)",
+            "destroyRendering": "fn(preserveDom?: bool)",
+            "disconnect": "fn(handle: ?)",
+            "dyeClass": "fn()",
+            "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+            "Emoticon": "fn()",
+            "focus": "fn()",
+            "getChildren": "fn() -> [?]",
+            "getDescendants": "fn() -> [?]",
+            "getParent": "fn() -> ?",
+            "isFocusable": "fn() -> ?",
+            "isLeftToRight": "fn() -> ?",
+            "on": "fn(type: String, func: Function) -> ?",
+            "own": "fn() -> ?",
+            "placeAt": "fn(reference: String, position: String) -> ?",
+            "postCreate": "fn()",
+            "postMixInProperties": "fn()",
+            "setAttribute": "fn(attr: String, value: ?)",
+            "startup": "fn()",
+            "subscribe": "fn(t: String, method: Function) -> ?",
+            "uninitialize": "fn() -> bool",
+            "unsubscribe": "fn(handle: Object)",
+            "getCachedTemplate": "fn() -> ?",
+            "onBlur": "fn()",
+            "onChange": "fn(value: String)",
+            "onClick": "fn(event: ?)",
+            "onClose": "fn() -> bool",
+            "onDblClick": "fn(event: ?)",
+            "onFocus": "fn()",
+            "onHide": "fn()",
+            "onKeyDown": "fn(event: ?)",
+            "onKeyPress": "fn(event: ?)",
+            "onKeyUp": "fn(event: ?)",
+            "onMouseDown": "fn(event: ?)",
+            "onMouseEnter": "fn(event: ?)",
+            "onMouseLeave": "fn(event: ?)",
+            "onMouseMove": "fn(event: ?)",
+            "onMouseOut": "fn(event: ?)",
+            "onMouseOver": "fn(event: ?)",
+            "onMouseUp": "fn(event: ?)",
+            "onShow": "fn()"
+          },
+          "Emoticon": {
+            "!type": "fn(id: String)",
+            "prototype": {
+              "ascii": "Object",
+              "fillCell": "fn(cell: HTMLElement, blankGif: String)",
+              "fromAscii": "fn(str: String)",
+              "getValue": "fn() -> ?",
+              "imgHtml": "fn(clazz: String) -> ?"
+            }
+          }
+        },
+        "FindReplace": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "useDefaultCommand": "bool",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: ?)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "toggle": "fn()",
+            "updateState": "fn()"
+          },
+          "_FindReplaceCheckBox": {
+            "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+            "prototype": {
+              "attachScope": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret96",
+              "attributeMap": "Object",
+              "baseClass": "string",
+              "checkId": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "contextRequire": "Function",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "focused": "bool",
+              "id": "string",
+              "label": "string",
+              "lang": "string",
+              "ownerDocument": "Object",
+              "searchContainerNode": "bool",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "templatePath": "string",
+              "templateString": "string",
+              "title": "string",
+              "tooltip": "string",
+              "widget": "Object",
+              "widgetsInTemplate": "bool",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getParent": "fn() -> ?",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "getCachedTemplate": "fn() -> ?",
+              "onBlur": "fn()",
+              "onClick": "fn(event: ?)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onShow": "fn()"
+            }
+          },
+          "_FindReplaceCloseBox": {
+            "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+            "prototype": {
+              "attachScope": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret120",
+              "attributeMap": "Object",
+              "baseClass": "string",
+              "btnId": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "contextRequire": "Function",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "focused": "bool",
+              "id": "string",
+              "lang": "string",
+              "ownerDocument": "Object",
+              "searchContainerNode": "bool",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "templatePath": "string",
+              "templateString": "string",
+              "title": "string",
+              "tooltip": "string",
+              "widget": "Object",
+              "widgetsInTemplate": "bool",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getParent": "fn() -> ?",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "getCachedTemplate": "fn() -> ?",
+              "onBlur": "fn()",
+              "onClick": "fn()",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onShow": "fn()"
+            }
+          },
+          "_FindReplaceTextBox": {
+            "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+            "prototype": {
+              "attachScope": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret143",
+              "attributeMap": "Object",
+              "baseClass": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "contextRequire": "Function",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "focused": "bool",
+              "id": "string",
+              "label": "string",
+              "lang": "string",
+              "ownerDocument": "Object",
+              "searchContainerNode": "bool",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "templatePath": "string",
+              "templateString": "string",
+              "textId": "string",
+              "title": "string",
+              "tooltip": "string",
+              "toolTip": "string",
+              "widget": "Object",
+              "widgetsInTemplate": "bool",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "focus": "fn()",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getParent": "fn() -> ?",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "getCachedTemplate": "fn() -> ?",
+              "onBlur": "fn()",
+              "onChange": "fn(val: String)",
+              "onClick": "fn(event: ?)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onShow": "fn()"
+            }
+          },
+          "_FindReplaceToolbar": {
+            "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+            "prototype": {
+              "attachScope": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret168",
+              "attributeMap": "Object",
+              "baseClass": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "focused": "bool",
+              "focusedChild": "Object",
+              "id": "string",
+              "lang": "string",
+              "multiCharSearchDuration": "number",
+              "ownerDocument": "Object",
+              "searchContainerNode": "bool",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "tabIndex": "string",
+              "templatePath": "string",
+              "templateString": "string",
+              "title": "string",
+              "tooltip": "string",
+              "addChild": "fn(widget: dijit._Widget, insertIndex: number)",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "childSelector": "fn(node: HTMLElement) -> ?",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "connectKeyNavHandlers": "fn(prevKeyCodes: dojo.keys, nextKeyCodes: dojo.keys)",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "focus": "fn()",
+              "focusChild": "fn(widget: dijit._WidgetBase, last: bool)",
+              "focusFirstChild": "fn()",
+              "focusLastChild": "fn()",
+              "focusNext": "fn()",
+              "focusPrev": "fn()",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getIndexOfChild": "fn(child: dijit._WidgetBase) -> ?",
+              "getParent": "fn() -> ?",
+              "hasChildren": "fn() -> bool",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "removeChild": "fn(widget: dijit._WidgetBase)",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "startup": "fn()",
+              "startupKeyNavChildren": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "getCachedTemplate": "fn() -> ?",
+              "onBlur": "fn()",
+              "onClick": "fn(event: ?)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyboardSearch": "fn(item: dijit._WidgetBase, evt: Event, searchString: String, numMatches: number)",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onShow": "fn()"
+            }
+          }
+        },
+        "InsertEntity": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          }
+        },
+        "InsertAnchor": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "htmlTemplate": "string",
+            "iconClassPrefix": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "getAnchorStyle": "fn() -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          }
+        },
+        "NormalizeIndentOutdent": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "indentBy": "number",
+            "indentUnits": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          }
+        },
+        "LocalImage": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "baseImageUrl": "string",
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "emailRegExp": "string",
+            "fileMask": "string",
+            "htmlFieldName": "string",
+            "htmlTemplate": "string",
+            "iconClassPrefix": "string",
+            "linkDialogTemplate": "string",
+            "tag": "string",
+            "uploadable": "bool",
+            "uploadUrl": "string",
+            "urlRegExp": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          }
+        },
+        "NormalizeStyle": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "condenseSpans": "bool",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "mode": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          }
+        },
+        "PrettyPrint": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "entityMap": "Object",
+            "iconClassPrefix": "string",
+            "indentBy": "number",
+            "lineLength": "number",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: ?)",
+            "setToolbar": "fn(toolbar: ?)",
+            "updateState": "fn()"
+          }
+        },
+        "PasteFromWord": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "height": "string",
+            "iconClassPrefix": "string",
+            "useDefaultCommand": "bool",
+            "width": "string",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          }
+        },
+        "EntityPalette": {
+          "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+          "prototype": {
+            "active": "bool",
+            "set": "fn(property: string, value: bool)",
+            "get": "fn(property: string) -> bool",
+            "watch": "fn(property: string, callback: ?) -> ret190",
+            "attachScope": "Object",
+            "attributeMap": "Object",
+            "baseClass": "string",
+            "cellClass": "string",
+            "class": "string",
+            "containerNode": "HTMLElement",
+            "cssStateNodes": "Object",
+            "defaultTimeout": "number",
+            "dir": "string",
+            "domNode": "HTMLElement",
+            "dyeClass": "string",
+            "focused": "bool",
+            "hovering": "bool",
+            "id": "string",
+            "lang": "string",
+            "ownerDocument": "Object",
+            "palette": "string",
+            "paletteClass": "string",
+            "searchContainerNode": "bool",
+            "showCode": "bool",
+            "showEntityName": "bool",
+            "showPreview": "bool",
+            "srcNodeRef": "HTMLElement",
+            "style": "string",
+            "tabIndex": "string",
+            "templatePath": "string",
+            "templateString": "string",
+            "timeoutChangeRate": "number",
+            "title": "string",
+            "tooltip": "string",
+            "value": "string",
+            "attr": "fn(name: String, value: Object) -> ?",
+            "buildRendering": "fn()",
+            "connect": "fn(obj: Object, event: String, method: String) -> ?",
+            "defer": "fn(fcn: Function, delay: number) -> Object",
+            "destroy": "fn(preserveDom?: bool)",
+            "destroyDescendants": "fn(preserveDom: bool)",
+            "destroyRecursive": "fn(preserveDom: bool)",
+            "destroyRendering": "fn(preserveDom?: bool)",
+            "disconnect": "fn(handle: ?)",
+            "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+            "focus": "fn()",
+            "getChildren": "fn() -> [?]",
+            "getDescendants": "fn() -> [?]",
+            "getParent": "fn() -> ?",
+            "isFocusable": "fn() -> ?",
+            "isLeftToRight": "fn() -> ?",
+            "LatinEntity": "fn()",
+            "on": "fn(type: String, func: Function) -> ?",
+            "own": "fn() -> ?",
+            "placeAt": "fn(reference: String, position: String) -> ?",
+            "postCreate": "fn()",
+            "postMixInProperties": "fn()",
+            "setAttribute": "fn(attr: String, value: ?)",
+            "startup": "fn()",
+            "subscribe": "fn(t: String, method: Function) -> ?",
+            "uninitialize": "fn() -> bool",
+            "unsubscribe": "fn(handle: Object)",
+            "getCachedTemplate": "fn() -> ?",
+            "onBlur": "fn()",
+            "onChange": "fn(value: String)",
+            "onClick": "fn(event: ?)",
+            "onClose": "fn() -> bool",
+            "onDblClick": "fn(event: ?)",
+            "onFocus": "fn()",
+            "onHide": "fn()",
+            "onKeyDown": "fn(event: ?)",
+            "onKeyPress": "fn(event: ?)",
+            "onKeyUp": "fn(event: ?)",
+            "onMouseDown": "fn(event: ?)",
+            "onMouseEnter": "fn(event: ?)",
+            "onMouseLeave": "fn(event: ?)",
+            "onMouseMove": "fn(event: ?)",
+            "onMouseOut": "fn(event: ?)",
+            "onMouseOver": "fn(event: ?)",
+            "onMouseUp": "fn(event: ?)",
+            "onShow": "fn()"
+          },
+          "LatinEntity": {
+            "!type": "fn(alias: String)",
+            "prototype": {
+              "fillCell": "fn(cell: HTMLElement)",
+              "getValue": "fn() -> String"
+            }
+          }
+        },
+        "PageBreak": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          }
+        },
+        "Preview": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "styles": "string",
+            "stylesheets": "[?]",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          }
+        },
+        "ResizeTableColumn": {
+          "!type": "fn()",
+          "prototype": {
+            "alwaysAvailable": "bool",
+            "button": "Object",
+            "command": "string",
+            "commandName": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "label": "string",
+            "undoEnabled": "bool",
+            "useDefaultCommand": "bool",
+            "begEdit": "fn()",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "endEdit": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "getSelectedCells": "fn() -> ?",
+            "getTableInfo": "fn(forceNewData: ?) -> ?",
+            "makeColumnsEven": "fn()",
+            "modTable": "fn(cmd: ?, args: ?)",
+            "own": "fn() -> ?",
+            "selectTable": "fn()",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: ?)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()",
+            "onDisplayChanged": "fn(withinTable: ?)",
+            "onEditorLoaded": "fn()"
+          }
+        },
+        "ShowBlockNodes": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "toggle": "fn()",
+            "updateState": "fn()"
+          }
+        },
+        "Save": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "logResults": "bool",
+            "url": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "save": "fn(content: ?)",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()",
+            "onError": "fn(error: ?, ioargs: ?)",
+            "onSuccess": "fn(resp: ?, ioargs: ?)"
+          }
+        },
+        "SafePaste": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "height": "string",
+            "iconClassPrefix": "string",
+            "useDefaultCommand": "bool",
+            "width": "string",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          }
+        },
+        "Smiley": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "emoticonImageClass": "string",
+            "emoticonMarker": "string",
+            "iconClassPrefix": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          }
+        },
+        "SpellCheck": {
+          "!type": "fn()",
+          "prototype": {
+            "bufferLength": "number",
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "interactive": "bool",
+            "timeout": "number",
+            "url": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          },
+          "_SpellCheckScriptMultiPart": {
+            "!type": "fn()",
+            "prototype": {
+              "ACTION_QUERY": "string",
+              "ACTION_UPDATE": "string",
+              "callbackHandle": "string",
+              "delimiter": "string",
+              "label": "string",
+              "maxBufferLength": "number",
+              "SEC": "number",
+              "send": "fn(content: String, action: String)",
+              "setWaitingTime": "fn(seconds: number)",
+              "onLoad": "fn(data: String)"
+            }
+          },
+          "_SpellCheckControl": {
+            "!type": "fn()",
+            "prototype": {
+              "attachScope": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret223",
+              "attributeMap": "Object",
+              "baseClass": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "contextRequire": "Function",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "focused": "bool",
+              "id": "string",
+              "lang": "string",
+              "ownerDocument": "Object",
+              "searchContainerNode": "bool",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "templatePath": "string",
+              "templateString": "string",
+              "title": "string",
+              "tooltip": "string",
+              "widgetsInTemplate": "bool",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "focus": "fn()",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getParent": "fn() -> ?",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "getCachedTemplate": "fn() -> ?",
+              "onAddToDic": "fn()",
+              "onBlur": "fn()",
+              "onCancel": "fn()",
+              "onClick": "fn(event: ?)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onEnter": "fn()",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onReplace": "fn()",
+              "onReplaceAll": "fn()",
+              "onShow": "fn()",
+              "onSkip": "fn()",
+              "onSkipAll": "fn()"
+            }
+          }
+        },
+        "StatusBar": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "resizer": "bool",
+            "statusBar": "Object",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(attr: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(attr: ?, val: ?)",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          },
+          "_StatusBar": {
+            "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+            "prototype": {
+              "attachScope": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret244",
+              "attributeMap": "Object",
+              "baseClass": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "focused": "bool",
+              "id": "string",
+              "lang": "string",
+              "ownerDocument": "Object",
+              "searchContainerNode": "bool",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "templatePath": "string",
+              "templateString": "string",
+              "title": "string",
+              "tooltip": "string",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getParent": "fn() -> ?",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "getCachedTemplate": "fn() -> ?",
+              "onBlur": "fn()",
+              "onClick": "fn(event: ?)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onShow": "fn()"
+            }
+          }
+        },
+        "TextColor": {
+          "!type": "fn()",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "useDefaultCommand": "bool",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()"
+          },
+          "_TextColorDropDown": {
+            "!type": "fn()",
+            "prototype": {
+              "attachScope": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret263",
+              "attributeMap": "Object",
+              "baseClass": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "contextRequire": "Function",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "focused": "bool",
+              "id": "string",
+              "lang": "string",
+              "ownerDocument": "Object",
+              "searchContainerNode": "bool",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "templatePath": "string",
+              "templateString": "string",
+              "title": "string",
+              "tooltip": "string",
+              "widgetsInTemplate": "bool",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getParent": "fn() -> ?",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "getCachedTemplate": "fn() -> ?",
+              "onBlur": "fn()",
+              "onCancel": "fn()",
+              "onChange": "fn(value: String)",
+              "onClick": "fn(event: ?)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onShow": "fn()"
+            }
+          }
+        },
+        "UploadImage": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "button": "Object",
+            "command": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "label": "string",
+            "tempImageUrl": "string",
+            "uploadUrl": "string",
+            "useDefaultCommand": "bool",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "createFileInput": "fn()",
+            "destroy": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "insertTempImage": "fn()",
+            "own": "fn() -> ?",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: dijit.Editor)",
+            "setToolbar": "fn(toolbar: ?)",
+            "updateState": "fn()",
+            "onComplete": "fn(data: ?, ioArgs: ?, widgetRef: ?)"
+          }
+        },
+        "TablePlugins": {
+          "!type": "fn(args?: Object)",
+          "prototype": {
+            "alwaysAvailable": "bool",
+            "button": "Object",
+            "command": "string",
+            "commandName": "string",
+            "disabled": "bool",
+            "editor": "Object",
+            "iconClassPrefix": "string",
+            "label": "string",
+            "undoEnabled": "bool",
+            "useDefaultCommand": "bool",
+            "begEdit": "fn()",
+            "buttonClass": "fn()",
+            "connect": "fn(o: ?, f: ?, tf: ?)",
+            "destroy": "fn()",
+            "endEdit": "fn()",
+            "get": "fn(name: ?) -> ?",
+            "getSelectedCells": "fn() -> ?",
+            "getTableInfo": "fn(forceNewData: ?) -> ?",
+            "makeColumnsEven": "fn()",
+            "modTable": "fn(cmd: ?, args: ?)",
+            "own": "fn() -> ?",
+            "selectTable": "fn()",
+            "set": "fn(name: Attr, value: ?) -> ?",
+            "setEditor": "fn(editor: ?)",
+            "setToolbar": "fn(toolbar: dijit.Toolbar)",
+            "updateState": "fn()",
+            "onDisplayChanged": "fn(withinTable: ?)",
+            "onEditorLoaded": "fn()"
+          }
+        },
+        "ToolbarLineBreak": {
+          "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+          "prototype": {
+            "attachScope": "Object",
+            "set": "fn(property: string, value: Object)",
+            "get": "fn(property: string) -> Object",
+            "watch": "fn(property: string, callback: ?) -> ret284",
+            "attributeMap": "Object",
+            "baseClass": "string",
+            "class": "string",
+            "containerNode": "HTMLElement",
+            "dir": "string",
+            "domNode": "HTMLElement",
+            "focused": "bool",
+            "id": "string",
+            "lang": "string",
+            "ownerDocument": "Object",
+            "searchContainerNode": "bool",
+            "srcNodeRef": "HTMLElement",
+            "style": "string",
+            "templatePath": "string",
+            "templateString": "string",
+            "title": "string",
+            "tooltip": "string",
+            "attr": "fn(name: String, value: Object) -> ?",
+            "buildRendering": "fn()",
+            "connect": "fn(obj: Object, event: String, method: String) -> ?",
+            "defer": "fn(fcn: Function, delay: number) -> Object",
+            "destroy": "fn(preserveDom?: bool)",
+            "destroyDescendants": "fn(preserveDom: bool)",
+            "destroyRecursive": "fn(preserveDom: bool)",
+            "destroyRendering": "fn(preserveDom?: bool)",
+            "disconnect": "fn(handle: ?)",
+            "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+            "getChildren": "fn() -> [?]",
+            "getDescendants": "fn() -> [?]",
+            "getParent": "fn() -> ?",
+            "isFocusable": "fn() -> bool",
+            "isLeftToRight": "fn() -> ?",
+            "on": "fn(type: String, func: Function) -> ?",
+            "own": "fn() -> ?",
+            "placeAt": "fn(reference: String, position: String) -> ?",
+            "postCreate": "fn()",
+            "postMixInProperties": "fn()",
+            "setAttribute": "fn(attr: String, value: ?)",
+            "startup": "fn()",
+            "subscribe": "fn(t: String, method: Function) -> ?",
+            "uninitialize": "fn() -> bool",
+            "unsubscribe": "fn(handle: Object)",
+            "getCachedTemplate": "fn() -> ?",
+            "onBlur": "fn()",
+            "onClick": "fn(event: ?)",
+            "onClose": "fn() -> bool",
+            "onDblClick": "fn(event: ?)",
+            "onFocus": "fn()",
+            "onHide": "fn()",
+            "onKeyDown": "fn(event: ?)",
+            "onKeyPress": "fn(event: ?)",
+            "onKeyUp": "fn(event: ?)",
+            "onMouseDown": "fn(event: ?)",
+            "onMouseEnter": "fn(event: ?)",
+            "onMouseLeave": "fn(event: ?)",
+            "onMouseMove": "fn(event: ?)",
+            "onMouseOut": "fn(event: ?)",
+            "onMouseOver": "fn(event: ?)",
+            "onMouseUp": "fn(event: ?)",
+            "onShow": "fn()"
+          }
+        }
+      }
+    }
+  },
+  "dojox/editor/plugins/_SpellCheckParser": "exp",
+  "dojox/editor/plugins/AutoSave": "exp",
+  "dojox/editor/plugins/AutoSave._AutoSaveSettingDialog": "exp",
+  "dojox/editor/plugins/Blockquote": "exp",
+  "dojox/editor/plugins/AutoUrlLink": "exp",
+  "dojox/editor/plugins/Breadcrumb": "exp",
+  "dojox/editor/plugins/Breadcrumb._BreadcrumbMenuTitle": "exp",
+  "dojox/editor/plugins/CollapsibleToolbar": "exp",
+  "dojox/editor/plugins/CollapsibleToolbar._CollapsibleToolbarButton": "exp",
+  "dojox/editor/plugins/_SmileyPalette": "exp",
+  "dojox/editor/plugins/_SmileyPalette.Emoticon": "exp",
+  "dojox/editor/plugins/InsertAnchor": "exp",
+  "dojox/editor/plugins/NormalizeIndentOutdent": "exp",
+  "dojox/editor/plugins/FindReplace": "exp",
+  "dojox/editor/plugins/FindReplace._FindReplaceCloseBox": "exp",
+  "dojox/editor/plugins/FindReplace._FindReplaceCheckBox": "exp",
+  "dojox/editor/plugins/FindReplace._FindReplaceTextBox": "exp",
+  "dojox/editor/plugins/FindReplace._FindReplaceToolbar": "exp",
+  "dojox/editor/plugins/InsertEntity": "exp",
+  "dojox/editor/plugins/PasteFromWord": "exp",
+  "dojox/editor/plugins/PageBreak": "exp",
+  "dojox/editor/plugins/Preview": "exp",
+  "dojox/editor/plugins/PrettyPrint": "exp",
+  "dojox/editor/plugins/ResizeTableColumn": "exp",
+  "dojox/editor/plugins/NormalizeStyle": "exp",
+  "dojox/editor/plugins/EntityPalette": "exp",
+  "dojox/editor/plugins/EntityPalette.LatinEntity": "exp",
+  "dojox/editor/plugins/Save": "exp",
+  "dojox/editor/plugins/SafePaste": "exp",
+  "dojox/editor/plugins/ShowBlockNodes": "exp",
+  "dojox/editor/plugins/LocalImage": "exp",
+  "dojox/editor/plugins/Smiley": "exp",
+  "dojox/editor/plugins/TextColor": "exp",
+  "dojox/editor/plugins/TextColor._TextColorDropDown": "exp",
+  "dojox/editor/plugins/StatusBar": "exp",
+  "dojox/editor/plugins/StatusBar._StatusBar": "exp",
+  "dojox/editor/plugins/SpellCheck": "exp",
+  "dojox/editor/plugins/SpellCheck._SpellCheckScriptMultiPart": "exp",
+  "dojox/editor/plugins/SpellCheck._SpellCheckControl": "exp",
+  "dojox/editor/plugins/TablePlugins": "exp",
+  "dojox/editor/plugins/UploadImage": "exp",
+  "dojox/editor/plugins/ToolbarLineBreak": "exp",
+  "!name": "dojox.editor.d.ts",
+  "!define": {
+    "ret": {
+      "unwatch": "fn()"
+    },
+    "ret1": {
+      "unwatch": "fn()"
+    },
+    "ret2": {
+      "unwatch": "fn()"
+    },
+    "ret3": {
+      "unwatch": "fn()"
+    },
+    "ret4": {
+      "unwatch": "fn()"
+    },
+    "ret5": {
+      "unwatch": "fn()"
+    },
+    "ret6": {
+      "unwatch": "fn()"
+    },
+    "ret7": {
+      "unwatch": "fn()"
+    },
+    "ret8": {
+      "unwatch": "fn()"
+    },
+    "ret9": {
+      "unwatch": "fn()"
+    },
+    "ret10": {
+      "unwatch": "fn()"
+    },
+    "ret11": {
+      "unwatch": "fn()"
+    },
+    "ret12": {
+      "unwatch": "fn()"
+    },
+    "ret13": {
+      "unwatch": "fn()"
+    },
+    "ret14": {
+      "unwatch": "fn()"
+    },
+    "ret15": {
+      "unwatch": "fn()"
+    },
+    "ret16": {
+      "unwatch": "fn()"
+    },
+    "ret17": {
+      "unwatch": "fn()"
+    },
+    "ret18": {
+      "unwatch": "fn()"
+    },
+    "ret19": {
+      "unwatch": "fn()"
+    },
+    "ret20": {
+      "unwatch": "fn()"
+    },
+    "ret21": {
+      "unwatch": "fn()"
+    },
+    "ret22": {
+      "unwatch": "fn()"
+    },
+    "ret23": {
+      "unwatch": "fn()"
+    },
+    "ret24": {
+      "unwatch": "fn()"
+    },
+    "ret25": {
+      "unwatch": "fn()"
+    },
+    "ret26": {
+      "unwatch": "fn()"
+    },
+    "ret27": {
+      "unwatch": "fn()"
+    },
+    "ret28": {
+      "unwatch": "fn()"
+    },
+    "ret29": {
+      "unwatch": "fn()"
+    },
+    "ret30": {
+      "unwatch": "fn()"
+    },
+    "ret31": {
+      "unwatch": "fn()"
+    },
+    "ret32": {
+      "unwatch": "fn()"
+    },
+    "ret33": {
+      "unwatch": "fn()"
+    },
+    "ret34": {
+      "unwatch": "fn()"
+    },
+    "ret35": {
+      "unwatch": "fn()"
+    },
+    "ret36": {
+      "unwatch": "fn()"
+    },
+    "ret37": {
+      "unwatch": "fn()"
+    },
+    "ret38": {
+      "unwatch": "fn()"
+    },
+    "ret39": {
+      "unwatch": "fn()"
+    },
+    "ret40": {
+      "unwatch": "fn()"
+    },
+    "ret41": {
+      "unwatch": "fn()"
+    },
+    "ret42": {
+      "unwatch": "fn()"
+    },
+    "ret43": {
+      "unwatch": "fn()"
+    },
+    "ret44": {
+      "unwatch": "fn()"
+    },
+    "ret45": {
+      "unwatch": "fn()"
+    },
+    "ret46": {
+      "unwatch": "fn()"
+    },
+    "ret47": {
+      "unwatch": "fn()"
+    },
+    "ret48": {
+      "unwatch": "fn()"
+    },
+    "ret49": {
+      "unwatch": "fn()"
+    },
+    "ret50": {
+      "unwatch": "fn()"
+    },
+    "ret51": {
+      "unwatch": "fn()"
+    },
+    "ret52": {
+      "unwatch": "fn()"
+    },
+    "ret53": {
+      "unwatch": "fn()"
+    },
+    "ret54": {
+      "unwatch": "fn()"
+    },
+    "ret55": {
+      "unwatch": "fn()"
+    },
+    "ret56": {
+      "unwatch": "fn()"
+    },
+    "ret57": {
+      "unwatch": "fn()"
+    },
+    "ret58": {
+      "unwatch": "fn()"
+    },
+    "ret59": {
+      "unwatch": "fn()"
+    },
+    "ret60": {
+      "unwatch": "fn()"
+    },
+    "ret61": {
+      "unwatch": "fn()"
+    },
+    "ret62": {
+      "unwatch": "fn()"
+    },
+    "ret63": {
+      "unwatch": "fn()"
+    },
+    "ret64": {
+      "unwatch": "fn()"
+    },
+    "ret65": {
+      "unwatch": "fn()"
+    },
+    "ret66": {
+      "unwatch": "fn()"
+    },
+    "ret67": {
+      "unwatch": "fn()"
+    },
+    "ret68": {
+      "unwatch": "fn()"
+    },
+    "ret69": {
+      "unwatch": "fn()"
+    },
+    "ret70": {
+      "unwatch": "fn()"
+    },
+    "ret71": {
+      "unwatch": "fn()"
+    },
+    "ret72": {
+      "unwatch": "fn()"
+    },
+    "ret73": {
+      "unwatch": "fn()"
+    },
+    "ret74": {
+      "unwatch": "fn()"
+    },
+    "ret75": {
+      "unwatch": "fn()"
+    },
+    "ret76": {
+      "unwatch": "fn()"
+    },
+    "ret77": {
+      "unwatch": "fn()"
+    },
+    "ret78": {
+      "unwatch": "fn()"
+    },
+    "ret79": {
+      "unwatch": "fn()"
+    },
+    "ret80": {
+      "unwatch": "fn()"
+    },
+    "ret81": {
+      "unwatch": "fn()"
+    },
+    "ret82": {
+      "unwatch": "fn()"
+    },
+    "ret83": {
+      "unwatch": "fn()"
+    },
+    "ret84": {
+      "unwatch": "fn()"
+    },
+    "ret85": {
+      "unwatch": "fn()"
+    },
+    "ret86": {
+      "unwatch": "fn()"
+    },
+    "ret87": {
+      "unwatch": "fn()"
+    },
+    "ret88": {
+      "unwatch": "fn()"
+    },
+    "ret89": {
+      "unwatch": "fn()"
+    },
+    "ret90": {
+      "unwatch": "fn()"
+    },
+    "ret91": {
+      "unwatch": "fn()"
+    },
+    "ret92": {
+      "unwatch": "fn()"
+    },
+    "ret93": {
+      "unwatch": "fn()"
+    },
+    "ret94": {
+      "unwatch": "fn()"
+    },
+    "ret95": {
+      "unwatch": "fn()"
+    },
+    "ret96": {
+      "unwatch": "fn()"
+    },
+    "ret97": {
+      "unwatch": "fn()"
+    },
+    "ret98": {
+      "unwatch": "fn()"
+    },
+    "ret99": {
+      "unwatch": "fn()"
+    },
+    "ret100": {
+      "unwatch": "fn()"
+    },
+    "ret101": {
+      "unwatch": "fn()"
+    },
+    "ret102": {
+      "unwatch": "fn()"
+    },
+    "ret103": {
+      "unwatch": "fn()"
+    },
+    "ret104": {
+      "unwatch": "fn()"
+    },
+    "ret105": {
+      "unwatch": "fn()"
+    },
+    "ret106": {
+      "unwatch": "fn()"
+    },
+    "ret107": {
+      "unwatch": "fn()"
+    },
+    "ret108": {
+      "unwatch": "fn()"
+    },
+    "ret109": {
+      "unwatch": "fn()"
+    },
+    "ret110": {
+      "unwatch": "fn()"
+    },
+    "ret111": {
+      "unwatch": "fn()"
+    },
+    "ret112": {
+      "unwatch": "fn()"
+    },
+    "ret113": {
+      "unwatch": "fn()"
+    },
+    "ret114": {
+      "unwatch": "fn()"
+    },
+    "ret115": {
+      "unwatch": "fn()"
+    },
+    "ret116": {
+      "unwatch": "fn()"
+    },
+    "ret117": {
+      "unwatch": "fn()"
+    },
+    "ret118": {
+      "unwatch": "fn()"
+    },
+    "ret119": {
+      "unwatch": "fn()"
+    },
+    "ret120": {
+      "unwatch": "fn()"
+    },
+    "ret121": {
+      "unwatch": "fn()"
+    },
+    "ret122": {
+      "unwatch": "fn()"
+    },
+    "ret123": {
+      "unwatch": "fn()"
+    },
+    "ret124": {
+      "unwatch": "fn()"
+    },
+    "ret125": {
+      "unwatch": "fn()"
+    },
+    "ret126": {
+      "unwatch": "fn()"
+    },
+    "ret127": {
+      "unwatch": "fn()"
+    },
+    "ret128": {
+      "unwatch": "fn()"
+    },
+    "ret129": {
+      "unwatch": "fn()"
+    },
+    "ret130": {
+      "unwatch": "fn()"
+    },
+    "ret131": {
+      "unwatch": "fn()"
+    },
+    "ret132": {
+      "unwatch": "fn()"
+    },
+    "ret133": {
+      "unwatch": "fn()"
+    },
+    "ret134": {
+      "unwatch": "fn()"
+    },
+    "ret135": {
+      "unwatch": "fn()"
+    },
+    "ret136": {
+      "unwatch": "fn()"
+    },
+    "ret137": {
+      "unwatch": "fn()"
+    },
+    "ret138": {
+      "unwatch": "fn()"
+    },
+    "ret139": {
+      "unwatch": "fn()"
+    },
+    "ret140": {
+      "unwatch": "fn()"
+    },
+    "ret141": {
+      "unwatch": "fn()"
+    },
+    "ret142": {
+      "unwatch": "fn()"
+    },
+    "ret143": {
+      "unwatch": "fn()"
+    },
+    "ret144": {
+      "unwatch": "fn()"
+    },
+    "ret145": {
+      "unwatch": "fn()"
+    },
+    "ret146": {
+      "unwatch": "fn()"
+    },
+    "ret147": {
+      "unwatch": "fn()"
+    },
+    "ret148": {
+      "unwatch": "fn()"
+    },
+    "ret149": {
+      "unwatch": "fn()"
+    },
+    "ret150": {
+      "unwatch": "fn()"
+    },
+    "ret151": {
+      "unwatch": "fn()"
+    },
+    "ret152": {
+      "unwatch": "fn()"
+    },
+    "ret153": {
+      "unwatch": "fn()"
+    },
+    "ret154": {
+      "unwatch": "fn()"
+    },
+    "ret155": {
+      "unwatch": "fn()"
+    },
+    "ret156": {
+      "unwatch": "fn()"
+    },
+    "ret157": {
+      "unwatch": "fn()"
+    },
+    "ret158": {
+      "unwatch": "fn()"
+    },
+    "ret159": {
+      "unwatch": "fn()"
+    },
+    "ret160": {
+      "unwatch": "fn()"
+    },
+    "ret161": {
+      "unwatch": "fn()"
+    },
+    "ret162": {
+      "unwatch": "fn()"
+    },
+    "ret163": {
+      "unwatch": "fn()"
+    },
+    "ret164": {
+      "unwatch": "fn()"
+    },
+    "ret165": {
+      "unwatch": "fn()"
+    },
+    "ret166": {
+      "unwatch": "fn()"
+    },
+    "ret167": {
+      "unwatch": "fn()"
+    },
+    "ret168": {
+      "unwatch": "fn()"
+    },
+    "ret169": {
+      "unwatch": "fn()"
+    },
+    "ret170": {
+      "unwatch": "fn()"
+    },
+    "ret171": {
+      "unwatch": "fn()"
+    },
+    "ret172": {
+      "unwatch": "fn()"
+    },
+    "ret173": {
+      "unwatch": "fn()"
+    },
+    "ret174": {
+      "unwatch": "fn()"
+    },
+    "ret175": {
+      "unwatch": "fn()"
+    },
+    "ret176": {
+      "unwatch": "fn()"
+    },
+    "ret177": {
+      "unwatch": "fn()"
+    },
+    "ret178": {
+      "unwatch": "fn()"
+    },
+    "ret179": {
+      "unwatch": "fn()"
+    },
+    "ret180": {
+      "unwatch": "fn()"
+    },
+    "ret181": {
+      "unwatch": "fn()"
+    },
+    "ret182": {
+      "unwatch": "fn()"
+    },
+    "ret183": {
+      "unwatch": "fn()"
+    },
+    "ret184": {
+      "unwatch": "fn()"
+    },
+    "ret185": {
+      "unwatch": "fn()"
+    },
+    "ret186": {
+      "unwatch": "fn()"
+    },
+    "ret187": {
+      "unwatch": "fn()"
+    },
+    "ret188": {
+      "unwatch": "fn()"
+    },
+    "ret189": {
+      "unwatch": "fn()"
+    },
+    "ret190": {
+      "unwatch": "fn()"
+    },
+    "ret191": {
+      "unwatch": "fn()"
+    },
+    "ret192": {
+      "unwatch": "fn()"
+    },
+    "ret193": {
+      "unwatch": "fn()"
+    },
+    "ret194": {
+      "unwatch": "fn()"
+    },
+    "ret195": {
+      "unwatch": "fn()"
+    },
+    "ret196": {
+      "unwatch": "fn()"
+    },
+    "ret197": {
+      "unwatch": "fn()"
+    },
+    "ret198": {
+      "unwatch": "fn()"
+    },
+    "ret199": {
+      "unwatch": "fn()"
+    },
+    "ret200": {
+      "unwatch": "fn()"
+    },
+    "ret201": {
+      "unwatch": "fn()"
+    },
+    "ret202": {
+      "unwatch": "fn()"
+    },
+    "ret203": {
+      "unwatch": "fn()"
+    },
+    "ret204": {
+      "unwatch": "fn()"
+    },
+    "ret205": {
+      "unwatch": "fn()"
+    },
+    "ret206": {
+      "unwatch": "fn()"
+    },
+    "ret207": {
+      "unwatch": "fn()"
+    },
+    "ret208": {
+      "unwatch": "fn()"
+    },
+    "ret209": {
+      "unwatch": "fn()"
+    },
+    "ret210": {
+      "unwatch": "fn()"
+    },
+    "ret211": {
+      "unwatch": "fn()"
+    },
+    "ret212": {
+      "unwatch": "fn()"
+    },
+    "ret213": {
+      "unwatch": "fn()"
+    },
+    "ret214": {
+      "unwatch": "fn()"
+    },
+    "ret215": {
+      "unwatch": "fn()"
+    },
+    "ret216": {
+      "unwatch": "fn()"
+    },
+    "ret217": {
+      "unwatch": "fn()"
+    },
+    "ret218": {
+      "unwatch": "fn()"
+    },
+    "ret219": {
+      "unwatch": "fn()"
+    },
+    "ret220": {
+      "unwatch": "fn()"
+    },
+    "ret221": {
+      "unwatch": "fn()"
+    },
+    "ret222": {
+      "unwatch": "fn()"
+    },
+    "ret223": {
+      "unwatch": "fn()"
+    },
+    "ret224": {
+      "unwatch": "fn()"
+    },
+    "ret225": {
+      "unwatch": "fn()"
+    },
+    "ret226": {
+      "unwatch": "fn()"
+    },
+    "ret227": {
+      "unwatch": "fn()"
+    },
+    "ret228": {
+      "unwatch": "fn()"
+    },
+    "ret229": {
+      "unwatch": "fn()"
+    },
+    "ret230": {
+      "unwatch": "fn()"
+    },
+    "ret231": {
+      "unwatch": "fn()"
+    },
+    "ret232": {
+      "unwatch": "fn()"
+    },
+    "ret233": {
+      "unwatch": "fn()"
+    },
+    "ret234": {
+      "unwatch": "fn()"
+    },
+    "ret235": {
+      "unwatch": "fn()"
+    },
+    "ret236": {
+      "unwatch": "fn()"
+    },
+    "ret237": {
+      "unwatch": "fn()"
+    },
+    "ret238": {
+      "unwatch": "fn()"
+    },
+    "ret239": {
+      "unwatch": "fn()"
+    },
+    "ret240": {
+      "unwatch": "fn()"
+    },
+    "ret241": {
+      "unwatch": "fn()"
+    },
+    "ret242": {
+      "unwatch": "fn()"
+    },
+    "ret243": {
+      "unwatch": "fn()"
+    },
+    "ret244": {
+      "unwatch": "fn()"
+    },
+    "ret245": {
+      "unwatch": "fn()"
+    },
+    "ret246": {
+      "unwatch": "fn()"
+    },
+    "ret247": {
+      "unwatch": "fn()"
+    },
+    "ret248": {
+      "unwatch": "fn()"
+    },
+    "ret249": {
+      "unwatch": "fn()"
+    },
+    "ret250": {
+      "unwatch": "fn()"
+    },
+    "ret251": {
+      "unwatch": "fn()"
+    },
+    "ret252": {
+      "unwatch": "fn()"
+    },
+    "ret253": {
+      "unwatch": "fn()"
+    },
+    "ret254": {
+      "unwatch": "fn()"
+    },
+    "ret255": {
+      "unwatch": "fn()"
+    },
+    "ret256": {
+      "unwatch": "fn()"
+    },
+    "ret257": {
+      "unwatch": "fn()"
+    },
+    "ret258": {
+      "unwatch": "fn()"
+    },
+    "ret259": {
+      "unwatch": "fn()"
+    },
+    "ret260": {
+      "unwatch": "fn()"
+    },
+    "ret261": {
+      "unwatch": "fn()"
+    },
+    "ret262": {
+      "unwatch": "fn()"
+    },
+    "ret263": {
+      "unwatch": "fn()"
+    },
+    "ret264": {
+      "unwatch": "fn()"
+    },
+    "ret265": {
+      "unwatch": "fn()"
+    },
+    "ret266": {
+      "unwatch": "fn()"
+    },
+    "ret267": {
+      "unwatch": "fn()"
+    },
+    "ret268": {
+      "unwatch": "fn()"
+    },
+    "ret269": {
+      "unwatch": "fn()"
+    },
+    "ret270": {
+      "unwatch": "fn()"
+    },
+    "ret271": {
+      "unwatch": "fn()"
+    },
+    "ret272": {
+      "unwatch": "fn()"
+    },
+    "ret273": {
+      "unwatch": "fn()"
+    },
+    "ret274": {
+      "unwatch": "fn()"
+    },
+    "ret275": {
+      "unwatch": "fn()"
+    },
+    "ret276": {
+      "unwatch": "fn()"
+    },
+    "ret277": {
+      "unwatch": "fn()"
+    },
+    "ret278": {
+      "unwatch": "fn()"
+    },
+    "ret279": {
+      "unwatch": "fn()"
+    },
+    "ret280": {
+      "unwatch": "fn()"
+    },
+    "ret281": {
+      "unwatch": "fn()"
+    },
+    "ret282": {
+      "unwatch": "fn()"
+    },
+    "ret283": {
+      "unwatch": "fn()"
+    },
+    "ret284": {
+      "unwatch": "fn()"
+    },
+    "ret285": {
+      "unwatch": "fn()"
+    },
+    "ret286": {
+      "unwatch": "fn()"
+    },
+    "ret287": {
+      "unwatch": "fn()"
+    },
+    "ret288": {
+      "unwatch": "fn()"
+    },
+    "ret289": {
+      "unwatch": "fn()"
+    },
+    "ret290": {
+      "unwatch": "fn()"
+    },
+    "ret291": {
+      "unwatch": "fn()"
+    },
+    "ret292": {
+      "unwatch": "fn()"
+    },
+    "ret293": {
+      "unwatch": "fn()"
+    },
+    "ret294": {
+      "unwatch": "fn()"
+    },
+    "ret295": {
+      "unwatch": "fn()"
+    },
+    "ret296": {
+      "unwatch": "fn()"
+    },
+    "ret297": {
+      "unwatch": "fn()"
+    },
+    "ret298": {
+      "unwatch": "fn()"
+    },
+    "ret299": {
+      "unwatch": "fn()"
+    },
+    "ret300": {
+      "unwatch": "fn()"
+    },
+    "ret301": {
+      "unwatch": "fn()"
+    },
+    "ret302": {
+      "unwatch": "fn()"
+    }
+  }
+}

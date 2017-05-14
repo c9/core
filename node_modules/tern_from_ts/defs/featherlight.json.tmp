@@ -1,0 +1,80 @@
+{
+  "Featherlight": {
+    "Config": {
+      "namespace": "string",
+      "targetAttr": "string",
+      "variant": "string",
+      "resetCss": "bool",
+      "background": "string",
+      "openTrigger": "string",
+      "closeTrigger": "string",
+      "filter": "string",
+      "root": "string",
+      "openSpeed": "number",
+      "string": "?",
+      "closeSpeed": "number",
+      "closeOnClick": "bool",
+      "closeOnEsc": "bool",
+      "closeIcon": "string",
+      "loading": "string",
+      "persist": "bool",
+      "otherClose": "string",
+      "beforeOpen": "fn(event: JQueryEventObject)",
+      "beforeContent": "fn(event: JQueryEventObject)",
+      "beforeClose": "fn(event: JQueryEventObject)",
+      "afterOpen": "fn(event: JQueryEventObject)",
+      "afterContent": "fn(event: JQueryEventObject)",
+      "afterClose": "fn(event: JQueryEventObject)",
+      "onKeyUp": "fn(event: JQueryEventObject)",
+      "onResize": "fn(event: JQueryEventObject)",
+      "type": "string",
+      "contentFilters": "?",
+      "jquery": "JQuery",
+      "image": "string",
+      "html": "string",
+      "ajax": "string",
+      "text": "string"
+    },
+    "ContentFilter": {
+      "regex": "RegExp",
+      "test": "fn(data: JQuery, string: ?) -> bool",
+      "process": "fn(data: JQuery, string: ?) -> JQuery",
+      "JQueryPromise": "fn()"
+    },
+    "ContentFilters": {},
+    "Featherlight": {
+      "target": "JQuery",
+      "string": "?",
+      "$instance": "JQuery",
+      "$content": "JQuery",
+      "setup": "fn(target: JQuery, config?: Config) -> Featherlight",
+      "getContent": "fn() -> JQuery",
+      "JQueryPromise": "fn()",
+      "setContent": "fn($content: JQuery) -> Featherlight",
+      "open": "fn(event?: JQueryEventObject) -> ?",
+      "close": "fn(event?: JQueryEventObject) -> ?"
+    },
+    "FeatherlightStatic": {
+      "attach": "fn($source: JQuery, $content: JQuery, config?: Config) -> JQuery",
+      "id": "number",
+      "autoBind": "bool",
+      "string": "?",
+      "defaults": "Config",
+      "contentFilters": "ContentFilters",
+      "functionAttributes": "[string]",
+      "readElementConfig": "fn(element: HTMLElement, namespace: string) -> ?",
+      "extend": "fn(child: ?, defaults: ?) -> ?",
+      "current": "fn() -> Featherlight",
+      "opened": "fn() -> [Featherlight]",
+      "close": "fn() -> ?"
+    },
+    "JQueryExtension": {}
+  },
+  "JQueryStatic": {
+    "featherlight": "Featherlight.FeatherlightStatic"
+  },
+  "JQuery": {
+    "featherlight": "Featherlight.JQueryExtension"
+  },
+  "!name": "featherlight.d.ts"
+}

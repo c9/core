@@ -1,0 +1,26 @@
+{
+  "dojox": {
+    "gesture": {
+      "Base": {
+        "!type": "fn(args: ?)",
+        "prototype": {
+          "defaultEvent": "string",
+          "subEvents": "[?]",
+          "touchOnly": "bool",
+          "cancel": "fn(data: ?, e: ?)",
+          "destroy": "fn()",
+          "fire": "fn(node: HTMLElement, event: Object)",
+          "init": "fn()",
+          "isLocked": "fn(node: ?) -> bool",
+          "lock": "fn(node: HTMLElement)",
+          "move": "fn(data: ?, e: ?)",
+          "press": "fn(data: ?, e: ?)",
+          "release": "fn(data: ?, e: ?)",
+          "unLock": "fn()"
+        }
+      }
+    }
+  },
+  "dojox/gesture/Base": "exp",
+  "!name": "dojox.gesture.d.ts"
+}

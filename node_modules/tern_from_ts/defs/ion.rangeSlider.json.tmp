@@ -1,0 +1,42 @@
+{
+  "JQuery": {
+    "ionRangeSlider": "fn() -> JQuery"
+  },
+  "IonRangeSliderOptions": {
+    "disable": "bool",
+    "from": "number",
+    "hasGrid": "bool",
+    "hideFromTo": "bool",
+    "hideMinMax": "bool",
+    "max": "number",
+    "maxPostfix": "string",
+    "min": "number",
+    "onChange": "fn(obj: IonRangeSliderEvent)",
+    "onFinish": "fn(obj: IonRangeSliderEvent)",
+    "onLoad": "fn(obj: IonRangeSliderEvent)",
+    "postfix": "string",
+    "prefix": "string",
+    "prettify": "bool",
+    "step": "number",
+    "to": "number",
+    "type": "string",
+    "values": "[?]"
+  },
+  "IonRangeSliderEvent": {
+    "fromNumber": "number",
+    "fromPers": "number",
+    "fromValue": "?",
+    "fromX": "number",
+    "fromX_pure": "number",
+    "input": "JQuery",
+    "max": "number",
+    "min": "number",
+    "slider": "JQuery",
+    "toNumber": "number",
+    "toPers": "number",
+    "toValue": "number",
+    "toX": "number",
+    "toX_pure": "number"
+  },
+  "!name": "ion.rangeSlider-1.9.1.d.ts"
+}

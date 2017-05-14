@@ -1,0 +1,42 @@
+{
+  "'xpath'": {
+    "SelectFn": {},
+    "select": "SelectFn",
+    "select1": "fn(xpathText: string, contextNode: Node) -> ?",
+    "selectWithResolver": "fn(xpathText: string, contextNode: Node, resolver: XPathNSResolver, single?: bool) -> ?",
+    "evaluate": "fn(xpathText: string, contextNode: Node, resolver: XPathNSResolver, resultType: number, result?: XPathResult) -> XPathResult",
+    "useNamespaces": "fn(namespaceMappings: NamespaceMap) -> select",
+    "NamespaceMap": {},
+    "createExpression": "fn(xpathText: string, namespaceURLMapper: XPathNSResolver) -> XPathExpression",
+    "createNSResolver": "fn(node: Node) -> XPathNSResolver",
+    "XPathResult": {
+      "ANY_TYPE": "number",
+      "NUMBER_TYPE": "number",
+      "STRING_TYPE": "number",
+      "BOOLEAN_TYPE": "number",
+      "UNORDERED_NODE_ITERATOR_TYPE": "number",
+      "ORDERED_NODE_ITERATOR_TYPE": "number",
+      "UNORDERED_NODE_SNAPSHOT_TYPE": "number",
+      "ORDERED_NODE_SNAPSHOT_TYPE": "number",
+      "ANY_UNORDERED_NODE_TYPE": "number",
+      "FIRST_ORDERED_NODE_TYPE": "number",
+      "prototype": {
+        "resultType": "number",
+        "iterateNext": "fn() -> Node",
+        "snapshotItem": "fn(index: number) -> Node",
+        "snapshotLength": "number",
+        "booleanValue": "bool",
+        "numberValue": "number",
+        "stringValue": "string",
+        "singleNodeValue": "Node"
+      }
+    },
+    "XPathExpression": {
+      "evaluate": "fn(contextNode: Node, resultType: number, result?: XPathResult) -> XPathResult"
+    },
+    "XPathNSResolver": {
+      "lookupNamespaceURI": "fn(prefix: string) -> string"
+    }
+  },
+  "!name": "xpath.d.ts"
+}

@@ -1,0 +1,126 @@
+{
+  "IContext": {
+    "getCollection": "fn() -> ICollection",
+    "getRequest": "fn() -> IRequest",
+    "getResponse": "fn() -> IResponse"
+  },
+  "I__Object": {
+    "request": "IRequest",
+    "response": "IResponse"
+  },
+  "IQueryAPI": {
+    "filter": "fn(predicate: fn(document: Object), options?: IFeedOptions, callback?: fn(error: IFeedCallbackError, resources: ?, options: IFeedCallbackOptions)) -> IQueryResponse",
+    "map": "fn(predicate: fn(document: Object), options?: IFeedOptions, callback?: fn(error: IFeedCallbackError, resources: ?, options: IFeedCallbackOptions)) -> IQueryResponse",
+    "pluck": "fn(propertyName: string, options?: IFeedOptions, callback?: fn(error: IFeedCallbackError, resources: ?, options: IFeedCallbackOptions)) -> IQueryResponse",
+    "flatten": "fn(isShallow?: bool, options?: IFeedOptions, callback?: fn(error: IFeedCallbackError, resources: ?, options: IFeedCallbackOptions)) -> IQueryResponse",
+    "sortBy": "fn(predicate: fn(document: Object), options?: IFeedOptions, callback?: fn(error: IFeedCallbackError, resources: ?, options: IFeedCallbackOptions)) -> IQueryResponse",
+    "sortByDescending": "fn(predicate: fn(document: Object), options?: IFeedOptions, callback?: fn(error: IFeedCallbackError, resources: ?, options: IFeedCallbackOptions)) -> IQueryResponse",
+    "value": "fn(options?: IFeedOptions, callback?: fn(error: IFeedCallbackError, resources: ?, options: IFeedCallbackOptions)) -> IQueryResponse"
+  },
+  "ICollection": {
+    "chain": "fn() -> IQueryResponse",
+    "createAttachment": "fn(documentLink: string, body: IAttachment, options?: ICreateOptions, callback?: fn(error: IRequestCallbackError, resources: Object, options: IRequestCallbackOptions)) -> bool",
+    "createDocument": "fn(collectionLink: string, body: Object, options?: ICreateOptions, callback?: fn(error: IRequestCallbackError, resources: Object, options: IRequestCallbackOptions)) -> bool",
+    "deleteAttachment": "fn(attachmentLink: string, options?: IDeleteOptions, callback?: fn(error: IRequestCallbackError, resources: Object, options: IRequestCallbackOptions)) -> bool",
+    "deleteDocument": "fn(documentLink: string, options?: IDeleteOptions, callback?: fn(error: IRequestCallbackError, resources: Object, options: IRequestCallbackOptions)) -> bool",
+    "getAltLink": "fn() -> string",
+    "getSelfLink": "fn() -> string",
+    "queryAttachments": "fn(documentLink: string, query: string, options?: IFeedOptions, callback?: fn(error: IFeedCallbackError, resources: ?, options: IFeedCallbackOptions)) -> bool",
+    "queryDocuments": "fn(collectionLink: string, filterQuery: string, options?: IFeedOptions, callback?: fn(error: IFeedCallbackError, resources: ?, options: IFeedCallbackOptions)) -> bool",
+    "readAttachment": "fn(attachmenLink: string, options?: IReadOptions, callback?: fn(error: IRequestCallbackError, resources: Object, options: IRequestCallbackOptions)) -> bool",
+    "readAttachments": "fn(documentLink: string, options?: IFeedOptions, callback?: fn(error: IFeedCallbackError, resources: ?, options: IFeedCallbackOptions)) -> bool",
+    "readDocument": "fn(documentLink: string, options?: IReadOptions, callback?: fn(error: IRequestCallbackError, resources: Object, options: IRequestCallbackOptions)) -> bool",
+    "readDocuments": "fn(collectionLink: string, options?: IFeedOptions, callback?: fn(error: IFeedCallbackError, resources: ?, options: IFeedCallbackOptions)) -> bool",
+    "replaceAttachment": "fn(attachmentLink: string, attachment: Object, options?: IReplaceOptions, callback?: fn(error: IRequestCallbackError, resources: Object, options: IRequestCallbackOptions)) -> bool",
+    "replaceDocument": "fn(documentLink: string, document: Object, options?: IReplaceOptions, callback?: fn(error: IRequestCallbackError, resources: Object, options: IRequestCallbackOptions)) -> bool"
+  },
+  "ICreateOptions": {
+    "indexAction": "string",
+    "disableAutomaticIdGeneration": "string"
+  },
+  "IDeleteOptions": {
+    "etag": "string"
+  },
+  "IFeedCallbackError": {
+    "number": "number",
+    "body": "string"
+  },
+  "IFeedCallbackOptions": {
+    "continuation": "string",
+    "currentCollectionSizeInMB": "string",
+    "maxCollectionSizeInMB": "string"
+  },
+  "IFeedOptions": {
+    "pageSize": "number",
+    "continuation": "string",
+    "enableScan": "bool",
+    "enableLowPrecisionOrderBy": "bool"
+  },
+  "IQueryResponse": {
+    "isAccepted": "bool"
+  },
+  "IReadOptions": {
+    "ifNoneMatch": "string"
+  },
+  "IReplaceOptions": {
+    "indexAction": "string",
+    "etag": "string"
+  },
+  "IRequestCallbackError": {
+    "number": "number",
+    "body": "string"
+  },
+  "IRequestCallbackOptions": {
+    "currentCollectionSizeInMB": "string",
+    "maxCollectionSizeInMB": "string",
+    "notModified": "bool"
+  },
+  "IAttachment": {
+    "contentType": "string",
+    "media": "string"
+  },
+  "IDocumentMeta": {
+    "id": "string",
+    "_self": "string",
+    "_ts": "string",
+    "_rid": "string",
+    "_etag": "string",
+    "_attachments": "string"
+  },
+  "IRequest": {
+    "getBody": "fn() -> Object",
+    "getValue": "fn(key: string) -> string",
+    "setBody": "fn(value: string)",
+    "setValue": "fn(key: string, value: string)"
+  },
+  "IResponse": {
+    "getBody": "fn() -> Object",
+    "getMaxResourceQuota": "fn() -> string",
+    "getResourceQuotaCurrentUsage": "fn() -> string",
+    "getValue": "fn(key: string) -> string",
+    "setBody": "fn(value: string)",
+    "appendBody": "fn(value: string)"
+  },
+  "IParameterizedQuery": {
+    "query": "string",
+    "parameters": "?"
+  },
+  "IQueryParam": {
+    "name": "string",
+    "value": "?"
+  },
+  "IErrorCodes": {
+    "BadRequest": "number",
+    "Forbidden": "number",
+    "NotFound": "number",
+    "Conflict": "number",
+    "PreconditionFailed": "number",
+    "RequestEntityTooLarge": "number",
+    "RetryWith": "number",
+    "InternalServerError": "number"
+  },
+  "getContext": "fn() -> IContext",
+  "__": "I__Object",
+  "ErrorCodes": "IErrorCodes",
+  "!name": "documentdb-server.d.ts"
+}

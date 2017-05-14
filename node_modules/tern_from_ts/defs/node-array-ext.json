@@ -1,0 +1,7 @@
+{
+  "node-array-ext": {
+    "asyncEach": "fn(array: ?, each: fn(i: number, element: T, done: fn(err?: Error)), finish: fn(err?: Error))",
+    "awaitEach": "fn(array: ?, each: fn(i: number, element: T, done: fn(err?: Error)), finish: fn(err?: Error))"
+  },
+  "!name": "node-array-ext"
+}

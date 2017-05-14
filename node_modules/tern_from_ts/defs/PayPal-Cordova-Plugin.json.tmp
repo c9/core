@@ -1,0 +1,127 @@
+{
+  "PayPalItem": {
+    "!type": "fn(name: string, quantity: number, price: string, currency: string, sku?: string)",
+    "prototype": {
+      "name": "string",
+      "quantity": "number",
+      "price": "string",
+      "currency": "string",
+      "sku": "string"
+    }
+  },
+  "PayPalPaymentDetails": {
+    "!type": "fn(subtotal: string, shipping: string, tax: string)",
+    "prototype": {
+      "subtotal": "string",
+      "shipping": "string",
+      "tax": "string"
+    }
+  },
+  "PayPalPayment": {
+    "!type": "fn(amount: string, currency: string, shortDescription: string, intent: string, details?: PayPalPaymentDetails)",
+    "prototype": {
+      "amount": "string",
+      "currency": "string",
+      "shortDescription": "string",
+      "intent": "string",
+      "details": "PayPalPaymentDetails",
+      "invoiceNumber": "string",
+      "custom": "string",
+      "softDescriptor": "string",
+      "bnCode": "string",
+      "items": "[PayPalItem]",
+      "shippingAddress": "PayPalShippingAddress"
+    }
+  },
+  "PayPalShippingAddress": {
+    "!type": "fn(recipientName: string, line1: string, line2: string, city: string, state: string, postalCode: string, countryCode: string)",
+    "prototype": {
+      "recipientName": "string",
+      "line1": "string",
+      "line2": "string",
+      "city": "string",
+      "state": "string",
+      "postalCode": "string",
+      "countryCode": "string"
+    }
+  },
+  "PayPalConfiguration": {
+    "!type": "fn(options?: PayPalConfigurationOptions)",
+    "prototype": {
+      "defaultUserEmail": "string",
+      "defaultUserPhoneCountryCode": "string",
+      "defaultUserPhoneNumber": "string",
+      "merchantName": "string",
+      "merchantPrivacyPolicyURL": "string",
+      "merchantUserAgreementURL": "string",
+      "acceptCreditCards": "bool",
+      "payPalShippingAddressOption": "number",
+      "rememberUser": "bool",
+      "languageOrLocale": "string",
+      "disableBlurWhenBackgrounding": "bool",
+      "presentingInPopover": "bool",
+      "forceDefaultsInSandbox": "bool",
+      "sandboxUserPassword": "string",
+      "sandboxUserPin": "string"
+    }
+  },
+  "PayPalConfigurationOptions": {
+    "defaultUserEmail": "string",
+    "defaultUserPhoneCountryCode": "string",
+    "defaultUserPhoneNumber": "string",
+    "merchantName": "string",
+    "merchantPrivacyPolicyURL": "string",
+    "merchantUserAgreementURL": "string",
+    "acceptCreditCards": "bool",
+    "payPalShippingAddressOption": "number",
+    "rememberUser": "bool",
+    "languageOrLocale": "string",
+    "disableBlurWhenBackgrounding": "bool",
+    "presentingInPopover": "bool",
+    "forceDefaultsInSandbox": "bool",
+    "sandboxUserPassword": "string",
+    "sandboxUserPin": "string"
+  },
+  "PayPalCordovaPlugin": {
+    "PayPalClientIds": {
+      "PayPalEnvironmentProduction": "string",
+      "PayPalEnvironmentSandbox": "string"
+    },
+    "BaseResult": {
+      "client": "Client",
+      "response_type": "string"
+    },
+    "Client": {
+      "paypal_sdk_version": "string",
+      "environment": "string",
+      "platform": "string",
+      "product_name": "string"
+    },
+    "SinglePaymentResult": {
+      "response": {
+        "intent": "string",
+        "id": "string",
+        "state": "string",
+        "authorization_id": "string",
+        "create_time": "string"
+      }
+    },
+    "FuturePaymentResult": {
+      "response": {
+        "code": "string"
+      }
+    },
+    "PayPalMobileStatic": {
+      "version": "fn(completionCallback: fn(result: string))",
+      "init": "fn(clientIdsForEnvironments: PayPalCordovaPlugin.PayPalClientIds, completionCallback: fn())",
+      "prepareToRender": "fn(environment: string, configuration: PayPalConfiguration, completionCallback: fn())",
+      "renderSinglePaymentUI": "fn(payment: PayPalPayment, completionCallback: fn(result: PayPalCordovaPlugin.SinglePaymentResult), cancelCallback: fn(cancelReason: string))",
+      "applicationCorrelationIDForEnvironment": "fn(environment: string, completionCallback: fn(applicationCorrelationId: string))",
+      "clientMetadataID": "fn(completionCallback: fn(clientMetadataId: string))",
+      "renderFuturePaymentUI": "fn(completionCallback: fn(result: PayPalCordovaPlugin.FuturePaymentResult), cancelCallback: fn(cancelReason: string))",
+      "renderProfileSharingUI": "fn(scopes: [string], completionCallback: fn(result: ?), cancelCallback: fn(cancelReason: string))"
+    }
+  },
+  "PayPalMobile": "PayPalCordovaPlugin.PayPalMobileStatic",
+  "!name": "PayPal-Cordova-Plugin.d.ts"
+}

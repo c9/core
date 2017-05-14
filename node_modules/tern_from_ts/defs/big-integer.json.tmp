@@ -1,0 +1,57 @@
+{
+  "BigInteger": {
+    "abs": "fn() -> BigInteger",
+    "add": "fn(number: number) -> BigInteger",
+    "plus": "fn(number: number) -> BigInteger",
+    "minus": "fn(number: number) -> BigInteger",
+    "subtract": "fn(number: number) -> BigInteger",
+    "multiply": "fn(number: number) -> BigInteger",
+    "times": "fn(number: number) -> BigInteger",
+    "divide": "fn(number: number) -> BigInteger",
+    "over": "fn(number: number) -> BigInteger",
+    "pow": "fn(number: number) -> BigInteger",
+    "next": "fn() -> BigInteger",
+    "prev": "fn() -> BigInteger",
+    "mod": "fn(number: number) -> BigInteger",
+    "divmod": "fn(number: number) -> ret",
+    "greater": "fn(number: number) -> bool",
+    "greaterOrEquals": "fn(number: number) -> bool",
+    "lesser": "fn(number: number) -> bool",
+    "lesserOrEquals": "fn(number: number) -> bool",
+    "isEven": "fn() -> bool",
+    "isOdd": "fn() -> bool",
+    "isPositive": "fn() -> bool",
+    "isNegative": "fn() -> bool",
+    "compare": "fn(number: number) -> BigInteger",
+    "compareAbs": "fn(number: number) -> BigInteger",
+    "equals": "fn(number: number) -> bool",
+    "notEquals": "fn(number: number) -> bool",
+    "and": "fn(number: number) -> BigInteger",
+    "not": "fn() -> BigInteger",
+    "or": "fn(number: number) -> BigInteger",
+    "xor": "fn(number: number) -> BigInteger",
+    "toJSNumber": "fn() -> number"
+  },
+  "BigIntegerStatic": {
+    "one": "BigInteger",
+    "zero": "BigInteger",
+    "minusOne": "BigInteger"
+  },
+  "bigInt": "BigIntegerStatic",
+  "big-integer": "bigInt",
+  "!name": "big-integer.d.ts",
+  "!define": {
+    "ret": {
+      "quotient": "BigInteger",
+      "remainder": "BigInteger"
+    },
+    "ret1": {
+      "quotient": "BigInteger",
+      "remainder": "BigInteger"
+    },
+    "ret2": {
+      "quotient": "BigInteger",
+      "remainder": "BigInteger"
+    }
+  }
+}

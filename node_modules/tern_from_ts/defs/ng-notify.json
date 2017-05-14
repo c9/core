@@ -1,0 +1,21 @@
+{
+  "ngNotify": {
+    "IUserOptions": {
+      "type": "string",
+      "theme": "string",
+      "position": "string",
+      "duration": "number",
+      "sticky": "bool",
+      "button": "bool",
+      "html": "bool"
+    },
+    "INotifyService": {
+      "addTheme": "fn(themeName: string, className: string)",
+      "addType": "fn(typeName: string, className: string)",
+      "config": "fn(userOptions: IUserOptions)",
+      "dismiss": "fn()",
+      "set": "fn(message: string)"
+    }
+  },
+  "!name": "ng-notify"
+}

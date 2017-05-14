@@ -1,0 +1,9 @@
+{
+  "dojox": {
+    "rails": {
+      "live": "fn(selector: ?, evtName: ?, fn: ?)"
+    }
+  },
+  "dojox/rails": "exp",
+  "!name": "dojox.rails"
+}

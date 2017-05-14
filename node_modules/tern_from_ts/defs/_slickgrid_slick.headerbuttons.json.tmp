@@ -1,0 +1,33 @@
+{
+  "Slick": {
+    "Column": {
+      "header": "Header"
+    },
+    "Header": {
+      "buttons": "[HeaderButton]"
+    },
+    "HeaderButton": {
+      "command": "string",
+      "cssClass": "string",
+      "handler": "Function",
+      "image": "string",
+      "showOnHover": "bool",
+      "tooltip": "string"
+    },
+    "OnCommandEventArgs": {
+      "grid": "?",
+      "column": "?",
+      "command": "string",
+      "button": "HeaderButton"
+    },
+    "Plugins": {
+      "HeaderButtons": {
+        "!type": "fn()",
+        "prototype": {
+          "onCommand": "?"
+        }
+      }
+    }
+  },
+  "!name": "slick.headerbuttons.d.ts"
+}

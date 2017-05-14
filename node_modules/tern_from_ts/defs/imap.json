@@ -1,0 +1,124 @@
+{
+  "IMAP": {
+    "Config": {
+      "user": "string",
+      "password": "string",
+      "xoauth": "string",
+      "xoauth2": "string",
+      "host": "string",
+      "port": "number",
+      "tls": "bool",
+      "tlsOptions": "Object",
+      "autotls": "string",
+      "connTimeout": "number",
+      "authTimeout": "number",
+      "keepalive": "?",
+      "debug": "Function"
+    },
+    "KeepAlive": {
+      "interval": "number",
+      "idleInterval": "number",
+      "forceNoop": "bool"
+    },
+    "Box": {
+      "name": "string",
+      "readOnly": "bool",
+      "newKeywords": "bool",
+      "uidvalidity": "number",
+      "uidnext": "number",
+      "flags": "[string]",
+      "permFlags": "[string]",
+      "persistentUIDs": "bool",
+      "messages": {
+        "total": "number",
+        "new": "number",
+        "unseen": "number"
+      }
+    },
+    "ImapMessage": {},
+    "FetchOptions": {
+      "markSeen": "bool",
+      "struct": "bool",
+      "envelope": "bool",
+      "size": "bool",
+      "modifiers": "Object",
+      "bodies": "?"
+    },
+    "ImapFetch": {},
+    "Folder": {
+      "attribs": "[string]",
+      "delimiter": "string",
+      "children": "[Folder]",
+      "parent": "Folder"
+    },
+    "MailBoxes": {},
+    "AppendOptions": {
+      "mailbox": "string",
+      "flags": "?",
+      "date": "Date"
+    },
+    "MessageFunctions": {
+      "search": "fn(criteria: [?], callback: fn(error: Error, uids: [string]))",
+      "fetch": "fn(source: ?, options: FetchOptions) -> ImapFetch",
+      "copy": "fn(source: ?, mailboxName: string, callback: fn(error: Error))",
+      "move": "fn(source: ?, mailboxName: string, callback: fn(error: Error))",
+      "addFlags": "fn(source: ?, flags: ?, callback: fn(error: Error))",
+      "delFlags": "fn(source: ?, flags: ?, callback: fn(error: Error))",
+      "setFlags": "fn(source: ?, flags: ?, callback: fn(error: Error))",
+      "addKeywords": "fn(source: ?, keywords: ?, callback: fn(error: Error))",
+      "delKeywords": "fn(source: ?, keywords: ?, callback: fn(error: Error))",
+      "setKeywords": "fn(source: ?, keywords: ?, callback: fn(error: Error))",
+      "serverSupports": "fn(capability: string) -> bool"
+    },
+    "Connection": {
+      "!type": "fn(config: Config)",
+      "parseHeader": "fn(rawHeader: string, disableAutoDecode?: bool) -> ?",
+      "prototype": {
+        "addListener": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "on": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "once": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "removeListener": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "removeAllListeners": "fn(event?: string) -> NodeJS.EventEmitter",
+        "setMaxListeners": "fn(n: number)",
+        "listeners": "fn(event: string) -> [Function]",
+        "emit": "fn(event: string, args: [?]) -> bool",
+        "search": "fn(criteria: [?], callback: fn(error: Error, uids: [string]))",
+        "fetch": "fn(source: ?, options: FetchOptions) -> ImapFetch",
+        "copy": "fn(source: ?, mailboxName: string, callback: fn(error: Error))",
+        "move": "fn(source: ?, mailboxName: string, callback: fn(error: Error))",
+        "addFlags": "fn(source: ?, flags: ?, callback: fn(error: Error))",
+        "delFlags": "fn(source: ?, flags: ?, callback: fn(error: Error))",
+        "setFlags": "fn(source: ?, flags: ?, callback: fn(error: Error))",
+        "addKeywords": "fn(source: ?, keywords: ?, callback: fn(error: Error))",
+        "delKeywords": "fn(source: ?, keywords: ?, callback: fn(error: Error))",
+        "setKeywords": "fn(source: ?, keywords: ?, callback: fn(error: Error))",
+        "serverSupports": "fn(capability: string) -> bool",
+        "state": "string",
+        "delimiter": "string",
+        "namespaces": {
+          "personal": "[?]",
+          "other": "[?]",
+          "shared": "[?]"
+        },
+        "seq": "MessageFunctions",
+        "connect": "fn()",
+        "end": "fn()",
+        "destroy": "fn()",
+        "openBox": "fn(mailboxName: string, callback: fn(error: Error, mailbox: Box))",
+        "closeBox": "fn(callback: fn(error: Error))",
+        "addBox": "fn(mailboxName: string, callback: fn(error: Error))",
+        "delBox": "fn(mailboxName: string, callback: fn(error: Error, uids: [string]))",
+        "renameBox": "fn(oldMailboxName: string, newMailboxName: string, callback: fn(error: Error, mailbox: Box))",
+        "subscribeBox": "fn(mailboxName: string, callback: fn(error: Error))",
+        "unsubscribeBox": "fn(mailboxName: string, callback: fn(error: Error))",
+        "status": "fn(mailboxName: string, callback: fn(error: Error, mailbox: Box))",
+        "getBoxes": "fn(callback: fn(error: Error, mailboxes: MailBoxes))",
+        "getSubscribedBoxes": "fn(callback: fn(error: Error, mailboxes: MailBoxes))",
+        "expunge": "fn(callback: fn(error: Error))",
+        "append": "fn(msgData: ?, callback: fn(error: Error))"
+      }
+    }
+  },
+  "imap": "out",
+  "!name": "imap.d.ts"
+}

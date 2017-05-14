@@ -1,0 +1,130 @@
+{
+  "'socket.io'": "server",
+  "SocketIOStatic": {
+    "listen": "SocketIOStatic"
+  },
+  "SocketIO": {
+    "Server": {
+      "nsps": {},
+      "sockets": "Namespace",
+      "json": "Server",
+      "checkRequest": "fn(req: ?, fn: fn(err: ?, success: bool))",
+      "serveClient": "fn() -> bool",
+      "path": "fn() -> string",
+      "adapter": "fn() -> ?",
+      "origins": "fn() -> string",
+      "attach": "fn(srv: ?, opts?: ServerOptions) -> Server",
+      "listen": "fn(srv: ?, opts?: ServerOptions) -> Server",
+      "bind": "fn(srv: ?) -> Server",
+      "onconnection": "fn(socket: ?) -> Server",
+      "of": "fn(nsp: string) -> Namespace",
+      "close": "fn()",
+      "on": "fn(event: string, listener: fn(socket: Socket)) -> Namespace",
+      "to": "fn(room: string) -> Namespace",
+      "in": "fn(room: string) -> Namespace",
+      "use": "fn(fn: fn(socket: Socket, fn: fn(err?: ?))) -> Namespace",
+      "emit": "fn(event: string, args: [?]) -> Namespace",
+      "send": "fn(args: [?]) -> Namespace",
+      "write": "fn(args: [?]) -> Namespace"
+    },
+    "ServerOptions": {
+      "path": "string",
+      "serveClient": "bool",
+      "adapter": "Adapter",
+      "origins": "string",
+      "pingTimeout": "number",
+      "pingInterval": "number",
+      "maxHttpBufferSize": "number",
+      "allowRequest": "fn(request: ?, callback: fn(err: number, success: bool))",
+      "transports": "[string]",
+      "allowUpgrades": "bool",
+      "perMessageDeflate": "Object",
+      "boolean": "?",
+      "httpCompression": "Object",
+      "cookie": "string"
+    },
+    "Namespace": {
+      "name": "string",
+      "server": "Server",
+      "sockets": "[Socket]",
+      "connected": {},
+      "adapter": "Adapter",
+      "json": "Namespace",
+      "use": "fn(fn: fn(socket: Socket, fn: fn(err?: ?))) -> Namespace",
+      "to": "fn(room: string) -> Namespace",
+      "in": "fn(room: string) -> Namespace",
+      "send": "fn(args: [?]) -> Namespace",
+      "write": "fn(args: [?]) -> Namespace",
+      "on": "fn(event: string, listener: fn(socket: Socket)) -> Namespace"
+    },
+    "Socket": {
+      "nsp": "Namespace",
+      "server": "Server",
+      "adapter": "Adapter",
+      "id": "string",
+      "request": "?",
+      "client": "Client",
+      "conn": {
+        "id": "string",
+        "server": "?",
+        "readyState": "string",
+        "remoteAddress": "string"
+      },
+      "rooms": "[string]",
+      "connected": "bool",
+      "disconnected": "bool",
+      "handshake": {
+        "headers": "?",
+        "time": "string",
+        "address": "string",
+        "xdomain": "bool",
+        "secure": "bool",
+        "issued": "number",
+        "url": "string",
+        "query": "?"
+      },
+      "json": "Socket",
+      "volatile": "Socket",
+      "broadcast": "Socket",
+      "emit": "fn(event: string, args: [?]) -> Socket",
+      "to": "fn(room: string) -> Socket",
+      "in": "fn(room: string) -> Socket",
+      "send": "fn(args: [?]) -> Socket",
+      "write": "fn(args: [?]) -> Socket",
+      "join": "fn(name: string, fn?: fn(err?: ?)) -> Socket",
+      "leave": "fn(name: string, fn?: Function) -> Socket",
+      "leaveAll": "fn()",
+      "disconnect": "fn(close: bool) -> Socket",
+      "on": "fn(event: string, fn: Function) -> Socket",
+      "addListener": "fn(event: string, fn: Function) -> Socket",
+      "once": "fn(event: string, fn: Function) -> Socket",
+      "removeListener": "fn(event: string, fn?: Function) -> Socket",
+      "removeAllListeners": "fn(event?: string) -> Socket",
+      "setMaxListeners": "fn(n: number) -> Socket",
+      "listeners": "fn(event: string) -> [Function]"
+    },
+    "Adapter": {
+      "nsp": "Namespace",
+      "rooms": {},
+      "sids": {},
+      "add": "fn(id: string, room: string, callback?: fn(err?: ?))",
+      "del": "fn(id: string, room: string, callback?: fn(err?: ?))",
+      "delAll": "fn(id: string)",
+      "broadcast": "fn(packet: ?, opts: ?)"
+    },
+    "Client": {
+      "server": "Server",
+      "conn": {
+        "id": "string",
+        "server": "?",
+        "readyState": "string",
+        "remoteAddress": "string"
+      },
+      "id": "string",
+      "request": "?",
+      "sockets": "[Socket]",
+      "nsps": {}
+    }
+  },
+  "!name": "socket.io.d.ts"
+}

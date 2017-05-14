@@ -1,0 +1,144 @@
+{
+  "joint": {
+    "dia": {
+      "IElementSize": {
+        "width": "number",
+        "height": "number"
+      },
+      "Graph": {
+        "prototype": {
+          "addCell": "fn(cell: Cell)",
+          "addCells": "fn(cells: [Cell])",
+          "initialize": "fn()",
+          "fromJSON": "fn(json: ?)",
+          "toJSON": "fn() -> Object",
+          "clear": "fn()",
+          "getConnectedLinks": "fn(cell: Cell, opt?: ?) -> [Link]",
+          "disconnectLinks": "fn(cell: Cell)",
+          "removeLinks": "fn(cell: Cell)",
+          "findModelsFromPoint": "fn(point: ?) -> [Element]"
+        }
+      },
+      "Cell": {
+        "prototype": {
+          "toJSON": "fn() -> Object",
+          "remove": "fn(options?: ?)",
+          "toFront": "fn()",
+          "toBack": "fn()",
+          "embed": "fn(cell: Cell)",
+          "unembed": "fn(cell: Cell)",
+          "getEmbeddedCells": "fn() -> [Cell]",
+          "clone": "fn(opt?: ?) -> Backbone.Model",
+          "attr": "fn(attrs: ?) -> Cell"
+        }
+      },
+      "Element": {
+        "prototype": {
+          "position": "fn(x: number, y: number) -> Element",
+          "translate": "fn(tx: number, ty?: number) -> Element",
+          "resize": "fn(width: number, height: number) -> Element",
+          "rotate": "fn(angle: number, options: ?) -> Element",
+          "remove": "fn()"
+        }
+      },
+      "IDefaults": {
+        "type": "string"
+      },
+      "Link": {
+        "prototype": {
+          "defaults": "fn() -> IDefaults",
+          "disconnect": "fn() -> Link",
+          "label": "fn(idx?: number, value?: ?) -> ?",
+          "remove": "fn()"
+        }
+      },
+      "IOptions": {
+        "width": "number",
+        "height": "number",
+        "gridSize": "number",
+        "perpendicularLinks": "bool",
+        "elementView": "ElementView",
+        "linkView": "LinkView"
+      },
+      "Paper": {
+        "prototype": {
+          "options": "IOptions",
+          "setDimensions": "fn(width: number, height: number)",
+          "scale": "fn(sx: number, sy?: number, ox?: number, oy?: number) -> Paper",
+          "rotate": "fn(deg: number, ox?: number, oy?: number) -> Paper",
+          "findView": "fn(el: ?) -> CellView",
+          "findViewByModel": "fn(modelOrId: ?) -> CellView",
+          "findViewsFromPoint": "fn(p: ?) -> [CellView]",
+          "findViewsInArea": "fn(r: ?) -> [CellView]",
+          "fitToContent": "fn(opt?: ?)"
+        }
+      },
+      "ElementView": {
+        "prototype": {
+          "scale": "fn(sx: number, sy: number)"
+        }
+      },
+      "CellView": {
+        "prototype": {
+          "getBBox": "fn() -> ret",
+          "highlight": "fn(el?: ?)",
+          "unhighlight": "fn(el?: ?)",
+          "findMagnet": "fn(el: ?)",
+          "getSelector": "fn(el: ?)",
+          "pointerdblclick": "fn(evt: ?, x: number, y: number)",
+          "pointerclick": "fn(evt: ?, x: number, y: number)",
+          "pointerdown": "fn(evt: ?, x: number, y: number)",
+          "pointermove": "fn(evt: ?, x: number, y: number)",
+          "pointerup": "fn(evt: ?, x: number, y: number)"
+        }
+      },
+      "LinkView": {
+        "prototype": {
+          "getConnectionLength": "fn() -> number",
+          "getPointAtLength": "fn(length: number) -> ret1"
+        }
+      }
+    },
+    "ui": {},
+    "shapes": {
+      "basic": {
+        "Generic": {
+          "prototype": {}
+        },
+        "Rect": {
+          "prototype": {}
+        },
+        "Text": {
+          "prototype": {}
+        },
+        "Circle": {
+          "prototype": {}
+        },
+        "Image": {
+          "prototype": {}
+        }
+      }
+    },
+    "util": {
+      "uuid": "fn() -> string",
+      "guid": "fn(obj: ?) -> string",
+      "mixin": "fn(objects: [?]) -> ?",
+      "supplement": "fn(objects: [?]) -> ?",
+      "deepMixin": "fn(objects: [?]) -> ?",
+      "deepSupplement": "fn(objects: [?], defaultIndicator?: ?) -> ?"
+    }
+  },
+  "!name": "jointjs",
+  "!define": {
+    "ret": {
+      "x": "number",
+      "y": "number",
+      "width": "number",
+      "height": "number"
+    },
+    "ret1": {
+      "x": "number",
+      "y": "number"
+    }
+  }
+}

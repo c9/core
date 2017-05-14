@@ -1,0 +1,29 @@
+{
+  "IHashtable": {
+    "put": "fn(key: TKey, value: TValue) -> TValue",
+    "putAll": "fn(hashtable: ?, conflictCallback?: fn(key: TKey, thisValue: TValue, value: TValue))",
+    "get": "fn(key: TKey) -> TValue",
+    "containsKey": "fn(key: TKey) -> bool",
+    "containsValue": "fn(value: TValue) -> bool",
+    "clear": "fn()",
+    "isEmpty": "fn() -> bool",
+    "keys": "fn() -> [TKey]",
+    "values": "fn() -> [TValue]",
+    "entries": "fn() -> [[?]]",
+    "remove": "fn(key: TKey) -> TValue",
+    "size": "fn() -> number",
+    "clone": "fn() -> ?",
+    "each": "fn(callback: fn(key: TKey, value: TValue))",
+    "equals": "fn(hashtable: ?) -> bool",
+    "toQueryString": "fn() -> string"
+  },
+  "IHashtableOptions": {
+    "hashCode": "fn(key: TKey)",
+    "equals": "fn(key1: TKey, key2: TKey)",
+    "replaceDuplicateKey": "bool"
+  },
+  "IHashtableStatic": {},
+  "Hashtable": "IHashtableStatic",
+  "hashtable": "Hashtable",
+  "!name": "hashtable"
+}

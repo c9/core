@@ -1,0 +1,41 @@
+{
+  "HistoryAdapter": {
+    "bind": "fn(element: ?, event: string, callback: fn())",
+    "trigger": "fn(element: ?, event: string)",
+    "onDomLoad": "fn(callback: fn())"
+  },
+  "Historyjs": {
+    "enabled": "bool",
+    "pushState": "fn(data: ?, title: string, url: string)",
+    "replaceState": "fn(data: ?, title: string, url: string)",
+    "getState": "fn() -> HistoryState",
+    "getStateByIndex": "fn(index: number) -> HistoryState",
+    "getCurrentIndex": "fn() -> number",
+    "getHash": "fn() -> string",
+    "Adapter": "HistoryAdapter",
+    "back": "fn()",
+    "forward": "fn()",
+    "go": "fn(x: Number)",
+    "log": "fn(messages: [?])",
+    "debug": "fn(messages: [?])",
+    "options": "HistoryOptions"
+  },
+  "HistoryState": {
+    "data": "?",
+    "title": "string",
+    "url": "string"
+  },
+  "HistoryOptions": {
+    "hashChangeInterval": "number",
+    "safariPollInterval": "number",
+    "doubleCheckInterval": "number",
+    "disableSuid": "bool",
+    "storeInterval": "number",
+    "busyDelay": "number",
+    "debug": "bool",
+    "initialTitle": "string",
+    "html4Mode": "bool",
+    "delayInit": "number"
+  },
+  "!name": "history.d.ts"
+}

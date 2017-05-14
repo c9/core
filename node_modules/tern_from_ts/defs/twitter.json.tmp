@@ -1,0 +1,73 @@
+{
+  "Twitter": {
+    "ready": "fn(callback: fn(twttr: Twitter))",
+    "widgets": "TwitterWidgets",
+    "events": "TwitterEvents"
+  },
+  "TwitterWidgets": {
+    "load": "fn()",
+    "createShareButton": "fn(url: string, target: HTMLElement, options?: TwitterButtonWidgetOptions) -> ?",
+    "createFollowButton": "fn(screen_name: string, target: HTMLElement, options?: TwitterButtonWidgetOptions) -> ?",
+    "createHashtagButton": "fn(hashtag: string, target: HTMLElement, options?: TwitterButtonWidgetOptions) -> ?",
+    "createMentionButton": "fn(screen_name: string, target: HTMLElement, options?: TwitterButtonWidgetOptions) -> ?",
+    "createTimeline": "fn(widgetId: string, target: HTMLElement, options?: TwitterTimelineWidgetOptions) -> ?",
+    "createTweet": "fn(tweetId: string, target: HTMLElement, options?: TwitterTweetWidgetOptions) -> ?"
+  },
+  "TwitterWidgetOptions": {
+    "dnt": "bool",
+    "hashtags": "string",
+    "lang": "string",
+    "related": "string",
+    "via": "string"
+  },
+  "TwitterButtonWidgetOptions": {
+    "align": "string",
+    "count": "string",
+    "counturl": "string",
+    "size": "string",
+    "text": "string"
+  },
+  "TwitterTweetWidgetOptions": {
+    "align": "string",
+    "conversation": "string",
+    "cards": "string",
+    "width": "string",
+    "number": "?",
+    "linkColor": "string",
+    "theme": "string"
+  },
+  "TwitterTimelineWidgetOptions": {
+    "ariaPolite": "string",
+    "height": "string",
+    "number": "?",
+    "borderColor": "string",
+    "chrome": "string",
+    "tweetLimit": "number",
+    "screenName": "string",
+    "userId": "string",
+    "showReplies": "bool",
+    "favoritesScreenName": "string",
+    "favoritesUserId": "string",
+    "listOwnerScreenName": "string",
+    "listOwnerId": "string",
+    "listId": "string",
+    "listSlug": "string"
+  },
+  "TwitterEvents": {
+    "bind": "fn(name: string, callback: fn(ev: ?))"
+  },
+  "TwitterIntentEvent": {
+    "target": "HTMLElement",
+    "region": "string",
+    "data": "TwitterIntentEventData",
+    "type": "string"
+  },
+  "TwitterIntentEventData": {
+    "tweet_id": "string",
+    "source_tweet_id": "string",
+    "screen_name": "string",
+    "user_id": "string"
+  },
+  "twttr": "Twitter",
+  "!name": "twitter.d.ts"
+}

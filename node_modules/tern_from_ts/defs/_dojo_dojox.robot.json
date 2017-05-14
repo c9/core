@@ -1,0 +1,9 @@
+{
+  "dojox": {
+    "robot": {
+      "recorder": {}
+    }
+  },
+  "dojox/robot/recorder": "exp",
+  "!name": "dojox.robot"
+}

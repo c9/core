@@ -1,0 +1,219 @@
+{
+  "stringArray": {},
+  "objectArray": {},
+  "PageView": {
+    "getDeviceBackButtonHandler": "fn() -> ?"
+  },
+  "CarouselView": {
+    "next": "fn()",
+    "prev": "fn()",
+    "first": "fn()",
+    "last": "fn()",
+    "setSwipeable": "fn(swipeable: bool)",
+    "isSwipeable": "fn() -> bool",
+    "setActiveCarouselItemIndex": "fn(index: number)",
+    "getActiveCarouselItemIndex": "fn() -> number",
+    "setAutoScrollEnabled": "fn(enabled: bool)",
+    "isAutoScrollEnabled": "fn() -> bool",
+    "setAutoScrollRatio": "fn(ratio: number)",
+    "getAutoScrollRatio": "fn() -> number",
+    "setOverscrollable": "fn(overscrollable: bool)",
+    "isOverscrollable": "fn() -> bool",
+    "refresh": "fn()",
+    "isDisabled": "fn() -> bool",
+    "setDisabled": "fn(disabled: bool)",
+    "on": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "once": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "off": "fn(eventName: string, listener?: fn(eventObject: ?))"
+  },
+  "PullHookView": {
+    "setDisabled": "fn(disabled: bool)",
+    "isDisabled": "fn() -> bool",
+    "setHeight": "fn(height: number)",
+    "setThresholdHeight": "fn(thresholdHeight: number)",
+    "on": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "once": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "off": "fn(eventName: string, listener?: fn(eventObject: ?))"
+  },
+  "SplitView": {
+    "setMainPage": "fn(pageUrl: string)",
+    "setSecondaryPage": "fn(pageUrl: string)",
+    "update": "fn()",
+    "on": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "once": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "off": "fn(eventName: string, listener?: fn(eventObject: ?))"
+  },
+  "dialogOptions": {
+    "animation": "string",
+    "callback": "?"
+  },
+  "AlertDialogView": {
+    "show": "fn(options?: dialogOptions)",
+    "hide": "fn(options?: dialogOptions)",
+    "isShown": "fn() -> bool",
+    "destroy": "fn()",
+    "setCancelable": "fn(cancelable: bool)",
+    "isCancelable": "fn() -> bool",
+    "setDisabled": "fn(disabled: bool)",
+    "isDisabled": "fn() -> bool",
+    "on": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "once": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "off": "fn(eventName: string, listener?: fn(eventObject: ?))"
+  },
+  "DialogView": {
+    "show": "fn(options?: dialogOptions)",
+    "hide": "fn(options?: dialogOptions)",
+    "isShown": "fn() -> bool",
+    "destroy": "fn()",
+    "getDeviceBackButtonHandler": "fn() -> ?",
+    "setCancelable": "fn(cancelable: bool)",
+    "isCancelable": "fn() -> bool",
+    "setDisabled": "fn(disabled: bool)",
+    "isDisabled": "fn() -> bool",
+    "on": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "once": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "off": "fn(eventName: string, listener?: fn(eventObject: ?))"
+  },
+  "ButtonView": {
+    "startSpin": "fn()",
+    "stopSpin": "fn()",
+    "isSpinning": "fn() -> bool",
+    "setSpinAnimation": "fn(animation: string)",
+    "setDisabled": "fn(disabled: bool)",
+    "isDisabled": "fn() -> bool"
+  },
+  "SwitchView": {
+    "isChecked": "fn() -> bool",
+    "setChecked": "fn(checked: bool)",
+    "getCheckboxElement": "fn() -> HTMLElement",
+    "on": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "once": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "off": "fn(eventName: string, listener?: fn(eventObject: ?))"
+  },
+  "ModalView": {
+    "toggle": "fn()",
+    "show": "fn()",
+    "hide": "fn()",
+    "getDeviceBackButtonHandler": "fn() -> ?"
+  },
+  "navigatorOptions": {
+    "animation": "string",
+    "onTransitionEnd": "?"
+  },
+  "NavigatorView": {
+    "pushPage": "fn(pageUrl: string, options?: navigatorOptions)",
+    "insertPage": "fn(index: number, pageUrl: string, options?: navigatorOptions)",
+    "popPage": "fn(options?: navigatorOptions)",
+    "resetToPage": "fn(pageUrl: string, options?: navigatorOptions)",
+    "getCurrentPage": "fn() -> ?",
+    "getPages": "fn() -> objectArray",
+    "getDeviceBackButtonHandler": "fn() -> ?",
+    "on": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "once": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "off": "fn(eventName: string, listener?: fn(eventObject: ?))"
+  },
+  "slidingMenuOptions": {
+    "closeMenu": "bool",
+    "callback": "?"
+  },
+  "SlidingMenuView": {
+    "setMainPage": "fn(pageUrl: string, options?: slidingMenuOptions)",
+    "setMenuPage": "fn(pageUrl: string, options?: slidingMenuOptions)",
+    "openMenu": "fn(options?: slidingMenuOptions)",
+    "closeMenu": "fn(options?: slidingMenuOptions)",
+    "toggleMenu": "fn(options?: slidingMenuOptions)",
+    "isMenuOpened": "fn() -> bool",
+    "getDeviceBackButtonHandler": "fn() -> ?",
+    "setSwipeable": "fn(swipeable: bool)",
+    "on": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "once": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "off": "fn(eventName: string, listener?: fn(eventObject: ?))"
+  },
+  "tabbarOptions": {
+    "keepPage": "bool"
+  },
+  "TabbarView": {
+    "setActiveTab": "fn(index: number, options?: tabbarOptions) -> bool",
+    "getActiveTabIndex": "fn() -> number",
+    "loadPage": "fn(url: string)",
+    "on": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "once": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "off": "fn(eventName: string, listener?: fn(eventObject: ?))"
+  },
+  "popoverOptions": {
+    "animation": "string"
+  },
+  "PopoverView": {
+    "show": "fn(target: ?, options?: popoverOptions)",
+    "hide": "fn(options?: popoverOptions)",
+    "isShown": "fn() -> bool",
+    "destroy": "fn()",
+    "setCancelable": "fn(cancelable: bool)",
+    "isCancelable": "fn() -> bool",
+    "setDisabled": "fn(disabled: bool)",
+    "isDisabled": "fn() -> bool",
+    "on": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "once": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "off": "fn(eventName: string, listener?: fn(eventObject: ?))"
+  },
+  "onsStatic": {
+    "ready": "fn(callback: ?)",
+    "bootstrap": "fn(moduleName?: string, dependencies?: objectArray) -> ?",
+    "enableAutoStatusBarFill": "fn()",
+    "disableAutoStatusBarFill": "fn()",
+    "findParentComponentUntil": "fn(name: string, dom?: ?) -> ?",
+    "findComponent": "fn(selector: string, dom?: HTMLElement) -> ?",
+    "setDefaultDeviceBackButtonListener": "fn(listener: fn(eventObject: ?))",
+    "disableDeviceBackButtonHandler": "fn()",
+    "enableDeviceBackButtonHandler": "fn()",
+    "isReady": "fn() -> bool",
+    "compile": "fn(dom: HTMLElement)",
+    "isWebView": "fn() -> bool",
+    "createAlertDialog": "fn(page: string) -> ?",
+    "createDialog": "fn(page: string) -> ?",
+    "createPopover": "fn(page: string) -> ?",
+    "notification": "onsNotification",
+    "orientation": "onsOrientation",
+    "platform": "onsPlatform"
+  },
+  "alertOptions": {
+    "message": "string",
+    "messageHTML": "string",
+    "buttonLabel": "string",
+    "buttonLabels": "stringArray",
+    "primaryButtonIndex": "number",
+    "cancelable": "bool",
+    "animation": "string",
+    "title": "string",
+    "modifier": "string",
+    "callback": "?"
+  },
+  "onsNotification": {
+    "alert": "fn(options: alertOptions)",
+    "confirm": "fn(options: alertOptions)",
+    "prompt": "fn(options: alertOptions)"
+  },
+  "onsOrientation": {
+    "isPortrait": "fn() -> bool",
+    "isLandscape": "fn() -> bool",
+    "on": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "once": "fn(eventName: string, listener: fn(eventObject: ?))",
+    "off": "fn(eventName: string, listener?: fn(eventObject: ?))"
+  },
+  "onsPlatform": {
+    "isWebView": "fn() -> bool",
+    "isIOS": "fn() -> bool",
+    "isAndroid": "fn() -> bool",
+    "isIPhone": "fn() -> bool",
+    "isIPad": "fn() -> bool",
+    "isBlackBerry": "fn() -> bool",
+    "isOpera": "fn() -> bool",
+    "isFirefox": "fn() -> bool",
+    "isSafari": "fn() -> bool",
+    "isChrome": "fn() -> bool",
+    "isIE": "fn() -> bool",
+    "isIOS7above": "fn() -> bool"
+  },
+  "ons": "onsStatic",
+  "!name": "onsenui"
+}

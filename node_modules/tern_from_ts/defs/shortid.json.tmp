@@ -1,0 +1,10 @@
+{
+  "shortid": {
+    "generate": "fn() -> string",
+    "characters": "fn(string: string) -> string",
+    "isValid": "fn(id: ?) -> bool",
+    "worker": "fn(integer: number)",
+    "seed": "fn(float: number)"
+  },
+  "!name": "shortid.d.ts"
+}

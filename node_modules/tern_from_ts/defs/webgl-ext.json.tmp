@@ -1,0 +1,131 @@
+{
+  "HTMLCanvasElement": {
+    "getContext": "fn(contextId: string) -> WebGLRenderingContext"
+  },
+  "WebGLRenderingContext": {
+    "getExtension": "fn(name: string) -> ANGLEInstancedArrays"
+  },
+  "ANGLEInstancedArrays": {
+    "VERTEX_ATTRIB_ARRAY_DIVISOR_ANGLE": "number",
+    "drawArraysInstancedANGLE": "fn(mode: number, first: number, count: number, primcount: number)",
+    "drawElementsInstancedANGLE": "fn(mode: number, count: number, type: number, offset: number, primcount: number)",
+    "vertexAttribDivisorANGLE": "fn(index: number, divisor: number)"
+  },
+  "EXTBlendMinMax": {
+    "MIN_EXT": "number",
+    "MAX_EXT": "number"
+  },
+  "EXTColorBufferHalfFloat": {
+    "RGBA16F_EXT": "number",
+    "RGB16F_EXT": "number",
+    "FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE_EXT": "number",
+    "UNSIGNED_NORMALIZED_EXT": "number"
+  },
+  "EXTFragDepth": {},
+  "EXTsRGB": {
+    "SRGB_EXT": "number",
+    "SRGB_ALPHA_EXT": "number",
+    "SRGB8_ALPHA8_EXT": "number",
+    "FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING_EXT": "number"
+  },
+  "EXTShaderTextureLOD": {},
+  "EXTTextureFilterAnisotropic": {
+    "TEXTURE_MAX_ANISOTROPY_EXT": "number",
+    "MAX_TEXTURE_MAX_ANISOTROPY_EXT": "number"
+  },
+  "OESElementIndexUint": {},
+  "OESStandardDerivatives": {
+    "FRAGMENT_SHADER_DERIVATIVE_HINT_OES": "number"
+  },
+  "OESTextureFloat": {},
+  "OESTextureFloatLinear": {},
+  "OESTextureHalfFloat": {
+    "HALF_FLOAT_OES": "number"
+  },
+  "OESTextureHalfFloatLinear": {},
+  "WebGLVertexArrayObjectOES": {},
+  "OESVertexArrayObject": {
+    "VERTEX_ARRAY_BINDING_OES": "number",
+    "createVertexArrayOES": "fn() -> WebGLVertexArrayObjectOES",
+    "deleteVertexArrayOES": "fn(arrayObject: WebGLVertexArrayObjectOES)",
+    "isVertexArrayOES": "fn(arrayObject: WebGLVertexArrayObjectOES) -> bool",
+    "bindVertexArrayOES": "fn(arrayObject: WebGLVertexArrayObjectOES)"
+  },
+  "WebGLColorBufferFloat": {
+    "RGBA32F_EXT": "number",
+    "FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE_EXT": "number",
+    "UNSIGNED_NORMALIZED_EXT": "number"
+  },
+  "WebGLCompressedTextureATC": {
+    "COMPRESSED_RGB_ATC_WEBGL": "number",
+    "COMPRESSED_RGBA_ATC_EXPLICIT_ALPHA_WEBGL": "number",
+    "COMPRESSED_RGBA_ATC_INTERPOLATED_ALPHA_WEBGL": "number"
+  },
+  "WebGLCompressedTextureETC1": {
+    "COMPRESSED_RGB_ETC1_WEBGL": "number"
+  },
+  "WebGLCompressedTexturePVRTC": {
+    "COMPRESSED_RGB_PVRTC_4BPPV1_IMG": "number",
+    "COMPRESSED_RGB_PVRTC_2BPPV1_IMG": "number",
+    "COMPRESSED_RGBA_PVRTC_4BPPV1_IMG": "number",
+    "COMPRESSED_RGBA_PVRTC_2BPPV1_IMG": "number"
+  },
+  "WebGLCompressedTextureS3TC": {
+    "COMPRESSED_RGB_S3TC_DXT1_EXT": "number",
+    "COMPRESSED_RGBA_S3TC_DXT1_EXT": "number",
+    "COMPRESSED_RGBA_S3TC_DXT3_EXT": "number",
+    "COMPRESSED_RGBA_S3TC_DXT5_EXT": "number"
+  },
+  "WebGLDebugRendererInfo": {
+    "UNMASKED_VENDOR_WEBGL": "number",
+    "UNMASKED_RENDERER_WEBGL": "number"
+  },
+  "WebGLDebugShaders": {
+    "getTranslatedShaderSource": "fn(shader: WebGLShader) -> string"
+  },
+  "WebGLDepthTexture": {
+    "UNSIGNED_INT_24_8_WEBGL": "number"
+  },
+  "WebGLDrawBuffers": {
+    "COLOR_ATTACHMENT0_WEBGL": "number",
+    "COLOR_ATTACHMENT1_WEBGL": "number",
+    "COLOR_ATTACHMENT2_WEBGL": "number",
+    "COLOR_ATTACHMENT3_WEBGL": "number",
+    "COLOR_ATTACHMENT4_WEBGL": "number",
+    "COLOR_ATTACHMENT5_WEBGL": "number",
+    "COLOR_ATTACHMENT6_WEBGL": "number",
+    "COLOR_ATTACHMENT7_WEBGL": "number",
+    "COLOR_ATTACHMENT8_WEBGL": "number",
+    "COLOR_ATTACHMENT9_WEBGL": "number",
+    "COLOR_ATTACHMENT10_WEBGL": "number",
+    "COLOR_ATTACHMENT11_WEBGL": "number",
+    "COLOR_ATTACHMENT12_WEBGL": "number",
+    "COLOR_ATTACHMENT13_WEBGL": "number",
+    "COLOR_ATTACHMENT14_WEBGL": "number",
+    "COLOR_ATTACHMENT15_WEBGL": "number",
+    "DRAW_BUFFER0_WEBGL": "number",
+    "DRAW_BUFFER1_WEBGL": "number",
+    "DRAW_BUFFER2_WEBGL": "number",
+    "DRAW_BUFFER3_WEBGL": "number",
+    "DRAW_BUFFER4_WEBGL": "number",
+    "DRAW_BUFFER5_WEBGL": "number",
+    "DRAW_BUFFER6_WEBGL": "number",
+    "DRAW_BUFFER7_WEBGL": "number",
+    "DRAW_BUFFER8_WEBGL": "number",
+    "DRAW_BUFFER9_WEBGL": "number",
+    "DRAW_BUFFER10_WEBGL": "number",
+    "DRAW_BUFFER11_WEBGL": "number",
+    "DRAW_BUFFER12_WEBGL": "number",
+    "DRAW_BUFFER13_WEBGL": "number",
+    "DRAW_BUFFER14_WEBGL": "number",
+    "DRAW_BUFFER15_WEBGL": "number",
+    "MAX_COLOR_ATTACHMENTS_WEBGL": "number",
+    "MAX_DRAW_BUFFERS_WEBGL": "number",
+    "drawBuffersWEBGL": "fn(buffers: [number])"
+  },
+  "WebGLLoseContext": {
+    "loseContext": "fn()",
+    "restoreContext": "fn()"
+  },
+  "!name": "webgl-ext.d.ts"
+}

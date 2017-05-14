@@ -1,0 +1,105 @@
+{
+  "dc": {
+    "IGetSet": {},
+    "ILegendwidget": {
+      "x": "?",
+      "y": "?",
+      "gap": "?",
+      "itemHeight": "?",
+      "horizontal": "?",
+      "legendWidth": "?",
+      "itemWidth": "?"
+    },
+    "IBaseChart": {
+      "width": "?",
+      "height": "?",
+      "minWidth": "?",
+      "minHeight": "?",
+      "dimension": "?",
+      "group": "?",
+      "transitionDuration": "?",
+      "colors": "?",
+      "keyAccessor": "?",
+      "valueAccessor": "?",
+      "label": "?",
+      "renderLabel": "?",
+      "renderlet": "fn(fnctn: fn(t: T))",
+      "title": "?",
+      "filter": "?",
+      "filterAll": "fn()",
+      "expireCache": "fn()",
+      "legend": "fn(l: ILegendwidget)",
+      "chartID": "fn()",
+      "options": "fn(o: Object)",
+      "select": "fn(selector: ?)",
+      "selectAll": "fn(selector: ?)"
+    },
+    "IEvents": {
+      "trigger": "fn(fnctn: fn(), delay?: number)"
+    },
+    "events": "IEvents",
+    "IListener": {
+      "on": "fn(eventName: string, fnctn: fn(c: T))"
+    },
+    "ImarginObj": {
+      "top": "number",
+      "right": "number",
+      "bottom": "number",
+      "left": "number"
+    },
+    "IMarginable": {
+      "margins": "?"
+    },
+    "IAbstractColorChart": {
+      "colorDomain": "?"
+    },
+    "IAbstractStackableChart": {
+      "stack": "fn(group: IChartGroup, name?: string, retriever?: fn(d: Object))"
+    },
+    "IAbstractCoordinateGridChart": {
+      "x": "?",
+      "y": "?",
+      "elasticY": "?",
+      "xAxis": "?",
+      "yAxis": "?",
+      "yAxisPadding": "?",
+      "xAxisPadding": "?",
+      "renderHorizontalGridLines": "?"
+    },
+    "IAbstractBubblechart": {
+      "r": "?",
+      "radiusValueAccessor": "?"
+    },
+    "columnFunction": {},
+    "sortbyFunction": {},
+    "orderFunction": {},
+    "IBubblechart": {},
+    "IPiechart": {
+      "radius": "?",
+      "minAngleForLabel": "?"
+    },
+    "IBarchart": {
+      "centerBar": "fn(b: bool)",
+      "gap": "fn(gapBetweenBars: number)"
+    },
+    "ILinechart": {},
+    "IDatachart": {
+      "size": "?",
+      "columns": "?",
+      "sortBy": "?",
+      "order": "?"
+    },
+    "IRowchart": {},
+    "IChartGroup": {},
+    "filterAll": "fn(chartGroup?: IChartGroup)",
+    "renderAll": "fn(chartGroup?: IChartGroup)",
+    "redrawAll": "fn(chartGroup?: IChartGroup)",
+    "bubbleChart": "fn(cssSel: string) -> IBubblechart",
+    "pieChart": "fn(cssSel: string) -> IPiechart",
+    "barChart": "fn(cssSel: string) -> IBarchart",
+    "lineChart": "fn(cssSel: string) -> ILinechart",
+    "dataTable": "fn(cssSel: string) -> IDatachart",
+    "rowChart": "fn(cssSel: string) -> IRowchart"
+  },
+  "!name": "dc-1.6.0"
+}

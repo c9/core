@@ -1,0 +1,27 @@
+{
+  "KnockoutPostBox": {
+    "subscribe": "fn(topic: string, handler: fn(value: T), target?: ?) -> KnockoutSubscription",
+    "publish": "fn(topic: string, value?: T)",
+    "defaultComparer": "fn(newValue: T, oldValue: T) -> bool",
+    "serializer": "fn(object: ?)",
+    "reset": "fn()"
+  },
+  "KnockoutObservable": {
+    "subscribeTo": "fn(topic: string, useLastPublishedValueToInitialize?: bool, transform?: fn(val: ?)) -> ?",
+    "unsubscribeFrom": "fn(topic: string) -> ?",
+    "publishOn": "fn(topic: string, skipInitialPublish?: bool, equalityComparer?: fn(newValue: T, oldValue: T)) -> ?",
+    "stopPublishingOn": "fn(topic: string) -> ?",
+    "syncWith": "fn(topic: string, initializeWithLatestValue?: bool, skipInitialPublish?: bool, equalityComparer?: fn(newValue: T, oldValue: T)) -> ?"
+  },
+  "KnockoutObservableArray": {
+    "subscribeTo": "fn(topic: string, useLastPublishedValueToInitialize?: bool, transform?: fn(val: ?)) -> ?",
+    "unsubscribeFrom": "fn(topic: string) -> ?",
+    "publishOn": "fn(topic: string, skipInitialPublish?: bool, equalityComparer?: fn(newValue: ?, oldValue: ?)) -> ?",
+    "stopPublishingOn": "fn(topic: string) -> ?",
+    "syncWith": "fn(topic: string, initializeWithLatestValue?: bool, skipInitialPublish?: bool, equalityComparer?: fn(newValue: ?, oldValue: ?)) -> ?"
+  },
+  "KnockoutStatic": {
+    "postbox": "KnockoutPostBox"
+  },
+  "!name": "knockout-postbox"
+}

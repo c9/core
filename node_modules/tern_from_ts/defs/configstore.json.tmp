@@ -1,0 +1,11 @@
+{
+  "'configstore'": {
+    "set": "fn(key: string, val: ?)",
+    "get": "fn(key: string) -> ?",
+    "del": "fn(key: string)",
+    "all": "Object",
+    "size": "number",
+    "path": "string"
+  },
+  "!name": "configstore.d.ts"
+}

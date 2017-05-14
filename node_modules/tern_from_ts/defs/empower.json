@@ -1,0 +1,19 @@
+{
+  "empower": {
+    "0": "e",
+    "1": "m",
+    "2": "p",
+    "3": "o",
+    "4": "w",
+    "5": "e",
+    "6": "r",
+    "Options": {
+      "destructive": "bool",
+      "modifyMessageOnRethrow": "bool",
+      "saveContextOnRethrow": "bool",
+      "patterns": "[string]"
+    },
+    "!type": "fn(originalAssert: ?, formatter: ?, options?: empower.Options) -> ?"
+  },
+  "!name": "empower"
+}

@@ -1,0 +1,61 @@
+{
+  "JQueryTooltipster": {
+    "ITooltipsterOptions": {
+      "animation": "string",
+      "arrow": "bool",
+      "arrowColor": "string",
+      "autoClose": "bool",
+      "content": "string",
+      "contentAsHTML": "bool",
+      "contentCloning": "bool",
+      "debug": "bool",
+      "delay": "number",
+      "minWidth": "number",
+      "maxWidth": "number",
+      "functionInit": "fn(origin: JQuery, content: string)",
+      "functionBefore": "fn(origin: JQuery, continueTooltip: fn())",
+      "functionReady": "fn(origin: JQuery, tooltip: JQuery)",
+      "functionAfter": "fn(origin: JQuery)",
+      "hideOnClick": "bool",
+      "icon": "string",
+      "JQuery": "?",
+      "iconCloning": "bool",
+      "iconDesktop": "bool",
+      "iconTheme": "string",
+      "iconTouch": "bool",
+      "interactive": "bool",
+      "interactiveTolerance": "number",
+      "multiple": "bool",
+      "offsetX": "number",
+      "offsetY": "number",
+      "onlyOne": "bool",
+      "position": "string",
+      "positionTracker": "bool",
+      "positionTrackerCallback": "Function",
+      "restoration": "string",
+      "speed": "number",
+      "timer": "number",
+      "theme": "string",
+      "touchDevices": "bool",
+      "trigger": "string",
+      "updateAnimation": "bool"
+    },
+    "ITooltipsterInstance": {
+      "content": "fn(value: string) -> JQuery",
+      "show": "fn()",
+      "hide": "fn()",
+      "disable": "fn()",
+      "enable": "fn()",
+      "destroy": "fn()",
+      "reposition": "fn()",
+      "elementTooltip": "fn() -> JQuery",
+      "elementIcon": "fn() -> JQuery"
+    }
+  },
+  "JQuery": {
+    "tooltipster": "fn(options?: JQueryTooltipster.ITooltipsterOptions) -> JQuery",
+    "JQueryTooltipster": "?",
+    "ITooltipsterInstance": "?"
+  },
+  "!name": "tooltipster"
+}

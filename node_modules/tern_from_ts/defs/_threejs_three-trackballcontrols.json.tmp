@@ -1,0 +1,42 @@
+{
+  "THREE": {
+    "TrackballControls": {
+      "!type": "fn(object: Camera, domElement?: HTMLElement)",
+      "prototype": {
+        "object": "Camera",
+        "domElement": "HTMLElement",
+        "enabled": "bool",
+        "screen": {
+          "left": "number",
+          "top": "number",
+          "width": "number",
+          "height": "number"
+        },
+        "rotateSpeed": "number",
+        "zoomSpeed": "number",
+        "panSpeed": "number",
+        "noRotate": "bool",
+        "noZoom": "bool",
+        "noPan": "bool",
+        "noRoll": "bool",
+        "staticMoving": "bool",
+        "dynamicDampingFactor": "number",
+        "minDistance": "number",
+        "maxDistance": "number",
+        "keys": "[number]",
+        "position0": "THREE.Vector3",
+        "target0": "THREE.Vector3",
+        "up0": "THREE.Vector3",
+        "update": "fn()",
+        "reset": "fn()",
+        "checkDistances": "fn()",
+        "zoomCamera": "fn()",
+        "panCamera": "fn()",
+        "rotateCamera": "fn()",
+        "handleResize": "fn()",
+        "handleEvent": "fn(event: ?)"
+      }
+    }
+  },
+  "!name": "three-trackballcontrols.d.ts"
+}

@@ -1,0 +1,35 @@
+{
+  "JQueryKnob": {
+    "JQueryKnobOptions": {
+      "min": "number",
+      "max": "number",
+      "step": "number",
+      "angleOffset": "number",
+      "angleArc": "number",
+      "stopper": "bool",
+      "readOnly": "bool",
+      "rotation": "string",
+      "cursor": "string",
+      "boolean": "?",
+      "thickness": "number",
+      "lineCap": "string",
+      "width": "number",
+      "displayInput": "bool",
+      "displayPrevious": "bool",
+      "fgColor": "string",
+      "inputColor": "string",
+      "font": "string",
+      "fontWeight": "string",
+      "bgColor": "string",
+      "release": "fn(value: number)",
+      "change": "fn(value: number)",
+      "draw": "fn()",
+      "cancel": "fn()",
+      "format": "fn(value: number)"
+    }
+  },
+  "JQuery": {
+    "knob": "fn(options?: JQueryKnob.JQueryKnobOptions) -> JQuery"
+  },
+  "!name": "jquery-knob.d.ts"
+}

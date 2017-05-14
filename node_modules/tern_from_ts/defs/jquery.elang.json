@@ -1,0 +1,243 @@
+{
+  "IPageResource": {
+    "lang": "IPageLangItems",
+    "selectedLang": "string"
+  },
+  "IPageLangItems": {
+    "en": "IPageLabels",
+    "hu": "IPageLabels"
+  },
+  "IPageLabels": {
+    "lblTitle": "string",
+    "lblPageHeader": "string",
+    "lblSearchField": "string",
+    "lblEditKeyField": "string",
+    "lblEditValueField": "string",
+    "lblFindedExpressionsHead": "string",
+    "lblEditedExpressionsHead": "string",
+    "lblFindHead": "string",
+    "lblEditHead": "string",
+    "lblFind": "string",
+    "lblAdd": "string",
+    "lblModify": "string",
+    "lblRemove": "string",
+    "lblSearchInExpressions": "string",
+    "lblSearchInMeanings": "string",
+    "lblSearchInExpressionsHlp": "string",
+    "lblSearchInMeaningsHlp": "string",
+    "lblTestHead": "string",
+    "lblOrderedTest": "string",
+    "lblRandomlyTest": "string",
+    "lblTypedTest": "string",
+    "lblSelectedTest": "string",
+    "lblWrittedTest": "string",
+    "lblVoicedTest": "string",
+    "lblStartTest": "string",
+    "lblStopTest": "string",
+    "lblTypedTestHlp": "string",
+    "lblSelectedTestHlp": "string",
+    "lblOrderedTestHlp": "string",
+    "lblRandomlyTestHlp": "string",
+    "lblWrittedTestHlp": "string",
+    "lblVoicedTestHlp": "string"
+  },
+  "ELangCommonStatic": {
+    "resource": "IPageResource",
+    "getLabel": "fn(labelid: string, langid?: string) -> string",
+    "setLang": "fn(langid: string, node?: JQuery)"
+  },
+  "IELangDBOptions": {
+    "autocompleteRows": "number"
+  },
+  "IELangDBDelegates": {
+    "selectHandler": "Function",
+    "insertHandler": "Function",
+    "modifyHandler": "Function",
+    "removeHandler": "Function"
+  },
+  "IELangDBEvents": {
+    "select": "?",
+    "insert": "?",
+    "modify": "?",
+    "remove": "?"
+  },
+  "IELangDB": {
+    "cache": "?",
+    "delegates": "IELangDBDelegates",
+    "events": "IELangDBEvents",
+    "isInitialized": "bool",
+    "options": "IELangDBOptions",
+    "name": "string",
+    "description": "string",
+    "initialize": "fn(options?: IELangDBOptions)",
+    "_onSelect": "fn(id: string, callback?: Function)",
+    "_onInsert": "fn(id: string, value: string, callback?: Function)",
+    "_onModify": "fn(id: string, value: string, callback?: Function)",
+    "_onRemove": "fn(id: string, callback?: Function)",
+    "select": "fn(id: string, callback?: Function)",
+    "insert": "fn(id: string, value: string, callback?: Function)",
+    "modify": "fn(id: string, value: string, callback?: Function)",
+    "remove": "fn(id: string, callback?: Function)",
+    "sort": "fn()",
+    "setOptions": "fn(options: IELangDBOptions)",
+    "getIndexHash": "fn(id: string) -> string",
+    "getOptions": "fn() -> IELangDBOptions"
+  },
+  "ELangStatic": {
+    "getInstance": "fn(options?: IELangDBOptions) -> IELangDB"
+  },
+  "IELangBaseDefaults": {
+    "contentCSS": "string",
+    "contentInnerCSS": "string",
+    "resultCSS": "string",
+    "resultHeadCSS": "string",
+    "contentInnerHtml": "string",
+    "fluidRowHtml": "string",
+    "radioGroupHtml": "string",
+    "radioButtonHtml": "string",
+    "submitButtonHtml": "string",
+    "headLabelHtml": "string",
+    "resultHeadLabelHtml": "string",
+    "resultHtml": "string",
+    "headLabel": "string",
+    "resultHeadLabel": "string"
+  },
+  "IELangBase": {
+    "name": "string",
+    "description": "string",
+    "delegates": "?",
+    "element": "JQuery",
+    "events": "?",
+    "options": "?",
+    "defaults": "IELangBaseDefaults",
+    "initialize": "fn(target: HTMLElement, options: ?)",
+    "createContent": "fn()",
+    "createRadioGroup": "fn(node: JQuery, isMethodAppend: bool, buttonNumber: number, defaultButton: number, btnLabels: [string], clickHandler: Function, btnTooltips?: [string])",
+    "appendAsLastChild": "fn(node: JQuery, element: JQuery) -> JQuery",
+    "getLastChild": "fn(node: JQuery) -> JQuery",
+    "isRdoChecked": "fn(eSrc: HTMLElement, rdoId: string) -> bool",
+    "processCommand": "fn(command: string) -> JQuery",
+    "setOptions": "fn(options: ?)"
+  },
+  "IELangSearchDefaults": {
+    "expressionsLabel": "string",
+    "expressionsTooltip": "string",
+    "meaningsLabel": "string",
+    "meaningsTooltip": "string",
+    "searchFormHtml": "string",
+    "searchFieldHtml": "string",
+    "searchButtonLabel": "string"
+  },
+  "IELangSearchDelegates": {
+    "selectHandler": "Function",
+    "selectCallback": "Function",
+    "langDirectionHandler": "Function",
+    "langDirectionClickHandler": "Function",
+    "searchHandler": "Function",
+    "searchClickHandler": "Function"
+  },
+  "IELangSearchEvents": {
+    "select": "?"
+  },
+  "IELangSearch": {
+    "defaults": "IELangSearchDefaults",
+    "delegates": "IELangSearchDelegates",
+    "events": "IELangSearchEvents",
+    "isSearchInExp": "bool",
+    "initialize": "fn(target: HTMLElement, options: ?)",
+    "createContent": "fn()",
+    "_onDirectionClick": "fn(eSrc: HTMLElement)",
+    "_onSelect": "fn(eSrc: HTMLInputElement)",
+    "_onSelectCallback": "fn()",
+    "_select": "fn(eSrc: HTMLInputElement)"
+  },
+  "IELangEditDelegates": {
+    "insertHandler": "Function",
+    "modifyHandler": "Function",
+    "removeHandler": "Function",
+    "selectHandler": "Function",
+    "btnAddHandler": "Function",
+    "btnAddClickHandler": "Function",
+    "insertCallback": "Function",
+    "modifyCallback": "Function",
+    "removeCallback": "Function",
+    "selectCallback": "Function"
+  },
+  "IELangEditEvents": {
+    "insert": "?",
+    "modify": "?",
+    "remove": "?",
+    "select": "?"
+  },
+  "IELangEditDefaults": {
+    "editFormHtml": "string",
+    "editFieldHtml": "string",
+    "addButtonHtml": "string",
+    "addButtonLabel": "string",
+    "editKeyLabel": "string",
+    "editValueLabel": "string"
+  },
+  "IELangEdit": {
+    "defaults": "IELangEditDefaults",
+    "delegates": "IELangEditDelegates",
+    "events": "IELangEditEvents",
+    "initialize": "fn(target: HTMLElement, options: ?)",
+    "createContent": "fn()",
+    "_onAddClick": "fn(key: HTMLInputElement, value: HTMLInputElement)",
+    "_onInsert": "fn()",
+    "_onInsertCallback": "fn()",
+    "_onModify": "fn()",
+    "_onModifyCallback": "fn()",
+    "_onRemove": "fn()",
+    "_onRemoveCallback": "fn()",
+    "_onSelect": "fn()",
+    "_onSelectCallback": "fn()",
+    "_insert": "fn()",
+    "_modify": "fn()",
+    "_remove": "fn()",
+    "_select": "fn()"
+  },
+  "IELangTestDefaults": {
+    "formHtml": "string",
+    "startButtonLabel": "string",
+    "stopButtonLabel": "string",
+    "rdoTypedLabel": "string",
+    "rdoSelectedLabel": "string",
+    "rdoOrderedLabel": "string",
+    "rdoRandomlyLabel": "string",
+    "rdoWrittedLabel": "string",
+    "rdoVoicedLabel": "string",
+    "rdoTypedTooltip": "string",
+    "rdoSelectedTooltip": "string",
+    "rdoOrderedTooltip": "string",
+    "rdoRandomlyTooltip": "string",
+    "rdoWrittedTooltip": "string",
+    "rdoVoicedTooltip": "string"
+  },
+  "IELangTestDelegates": {
+    "startStopHandler": "Function",
+    "rdoVariantHandler": "Function",
+    "rdoModeHandler": "Function",
+    "rdoQuestionHandler": "Function",
+    "rdoVariantClickHandler": "Function",
+    "rdoModeClickHandler": "Function",
+    "rdoQuestionClickHandler": "Function"
+  },
+  "IELangTest": {
+    "defaults": "IELangTestDefaults",
+    "delegates": "IELangTestDelegates",
+    "initialize": "fn(target: HTMLElement, options: ?)",
+    "createContent": "fn()",
+    "_onRdoVariantClick": "fn(eSrc: HTMLElement)",
+    "_onRdoModeClick": "fn(eSrc: HTMLElement)",
+    "_onRdoQuestionClick": "fn(eSrc: HTMLElement)",
+    "_onStartStopClick": "fn()"
+  },
+  "IFnNewInstance": {
+    "createInstance": "fn(el: HTMLElement, options: ?, pluginName: string) -> JQuery"
+  },
+  "IFnJQuery": {
+    "fnPlugin": "fn(context: JQuery, options: ?, command: string, pluginName: string, pluginDataAttribute: string) -> JQuery"
+  },
+  "!name": "jquery.elang"
+}

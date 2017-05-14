@@ -1,0 +1,13 @@
+{
+  "__NodeUUID": {
+    "UUID": {
+      "v1": "fn(options?: UUIDOptions) -> string",
+      "v2": "fn(options?: UUIDOptions) -> string",
+      "v3": "fn(options?: UUIDOptions) -> string",
+      "v4": "fn(options?: UUIDOptions) -> string",
+      "parse": "fn(id: string, buffer?: [number], offset?: number) -> [number]",
+      "unparse": "fn(buffer: [number], offset?: number) -> string"
+    }
+  },
+  "!name": "node-uuid.d.ts"
+}

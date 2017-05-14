@@ -1,0 +1,26 @@
+{
+  "NProgressStatic": {
+    "start": "fn() -> NProgressStatic",
+    "done": "fn(forceShow?: bool) -> NProgressStatic",
+    "inc": "fn() -> NProgressStatic",
+    "remove": "fn()",
+    "set": "fn(progressPercent: number) -> NProgressStatic",
+    "configure": "fn(options: NProgressConfigureOptions) -> NProgressStatic",
+    "version": "string",
+    "status": "?",
+    "isStarted": "fn() -> bool"
+  },
+  "NProgressConfigureOptions": {
+    "minimum": "number",
+    "trickleRate": "number",
+    "trickleSpeed": "number",
+    "showSpinner": "bool",
+    "trickle": "bool",
+    "ease": "string",
+    "speed": "number",
+    "template": "string"
+  },
+  "NProgress": "NProgressStatic",
+  "nprogress": "NProgress",
+  "!name": "NProgress"
+}

@@ -1,0 +1,23 @@
+{
+  "JQuery": {
+    "dotdotdot": "fn(options?: JQueryDotDotDot.IDotDotDotOptions) -> JQuery"
+  },
+  "JQueryDotDotDot": {
+    "IDotDotDotOptions": {
+      "ellipsis": "string",
+      "wrap": "string",
+      "fallbackToLetter": "bool",
+      "after": "JQuery",
+      "watch": "bool",
+      "height": "number",
+      "tolerance": "number",
+      "callback": "fn(isTruncated: bool, orgContent: ?)",
+      "lastCharacter": "IDotDotDotOptionsLastCharacter"
+    },
+    "IDotDotDotOptionsLastCharacter": {
+      "remove": "[string]",
+      "noEllipsis": "[string]"
+    }
+  },
+  "!name": "dotdotdot.d.ts"
+}

@@ -1,0 +1,68 @@
+{
+  "Reveal": "RevealStatic",
+  "RevealStatic": {
+    "initialize": "fn(config: RevealOptions)",
+    "configure": "fn(diff: RevealOptions)",
+    "slide": "fn(h: number, v: number, f?: number, o?: number)",
+    "left": "fn()",
+    "right": "fn()",
+    "up": "fn()",
+    "down": "fn()",
+    "prev": "fn()",
+    "next": "fn()",
+    "prevFragment": "fn() -> bool",
+    "nextFragment": "fn() -> bool",
+    "toggleOverview": "fn(override?: bool)",
+    "getPreviousSlide": "fn() -> Element",
+    "getCurrentSlide": "fn() -> Element",
+    "getIndices": "fn(slide?: Element) -> ret",
+    "addEventListener": "fn(type: string, listener: Function, useCapture?: bool)",
+    "removeEventListener": "fn(type: string, listener: Function, useCapture?: bool)",
+    "layout": "fn()",
+    "togglePause": "fn()",
+    "isOverview": "fn() -> bool",
+    "isPaused": "fn() -> bool",
+    "addEventListeners": "fn()",
+    "removeEventListeners": "fn()",
+    "getSlide": "fn(x: number, y?: number) -> Element",
+    "getScale": "fn() -> number",
+    "getConfig": "fn() -> RevealOptions",
+    "getQueryHash": "fn() -> ?",
+    "isFirstSlide": "fn() -> bool",
+    "isLastSlide": "fn() -> bool"
+  },
+  "RevealOptions": {
+    "controls": "bool",
+    "progress": "bool",
+    "history": "bool",
+    "keyboard": "bool",
+    "overview": "bool",
+    "center": "bool",
+    "touch": "bool",
+    "loop": "bool",
+    "rtl": "bool",
+    "autoSlide": "number",
+    "mouseWheel": "bool",
+    "rollingLinks": "bool",
+    "theme": "string",
+    "transition": "string",
+    "width": "number",
+    "height": "number",
+    "margin": "number",
+    "minScale": "number",
+    "maxScale": "number",
+    "dependencies": "[RevealDependency]"
+  },
+  "RevealDependency": {
+    "src": "string",
+    "condition": "fn()",
+    "async": "bool"
+  },
+  "!name": "reveal.d.ts",
+  "!define": {
+    "ret": {
+      "h": "number",
+      "v": "number"
+    }
+  }
+}

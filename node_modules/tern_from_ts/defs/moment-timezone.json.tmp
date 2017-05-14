@@ -1,0 +1,29 @@
+{
+  "moment": {
+    "Moment": {
+      "tz": "fn() -> string"
+    },
+    "MomentStatic": {
+      "tz": "MomentTimezone"
+    }
+  },
+  "MomentZone": {
+    "name": "string",
+    "abbrs": "[string]",
+    "untils": "[number]",
+    "offsets": "[number]",
+    "abbr": "fn(timestamp: number) -> string",
+    "offset": "fn(timestamp: number) -> number",
+    "parse": "fn(timestamp: number) -> number"
+  },
+  "MomentTimezone": {
+    "zone": "fn(timezone: string) -> MomentZone",
+    "add": "fn(packedZoneString: string)",
+    "link": "fn(packedLinkString: string)",
+    "load": "fn(data: ?)",
+    "names": "fn() -> [string]",
+    "setDefault": "fn(timezone: string)"
+  },
+  "'moment-timezone'": "_tmp",
+  "!name": "moment-timezone.d.ts"
+}

@@ -1,0 +1,14 @@
+{
+    "name": "connect-architect.connect",
+    "version": "0.0.1",
+    "main": "./connect-plugin.js",
+    "private": true,
+
+    "plugin": {
+        "provides": [
+            "connect",
+            "http"
+        ],
+        "consumes": []
+    }
+}

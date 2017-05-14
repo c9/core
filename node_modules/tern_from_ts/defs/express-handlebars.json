@@ -1,0 +1,35 @@
+{
+  "PartialTemplateOptions": {
+    "cache": "bool",
+    "precompiled": "bool"
+  },
+  "RenderOptions": {
+    "cache": "bool",
+    "data": "Object",
+    "helpers": "?",
+    "partials": "?"
+  },
+  "ExphbsOptions": {
+    "handlebars": "?",
+    "extname": "string",
+    "layoutsDir": "string",
+    "partialsDir": "?",
+    "defaultLayout": "string",
+    "helpers": "?",
+    "compilerOptions": "?"
+  },
+  "Exphbs": {
+    "engine": "Function",
+    "extname": "string",
+    "compiled": "Object",
+    "precompiled": "Object",
+    "create": "fn(options?: ExphbsOptions) -> Exphbs",
+    "getPartials": "fn(options?: PartialTemplateOptions) -> ?",
+    "getTemplate": "fn(filePath: string, options?: PartialTemplateOptions) -> ?",
+    "getTemplates": "fn(dirPath: string, options?: PartialTemplateOptions) -> ?",
+    "render": "fn(filePath: string, context: Object, options?: RenderOptions) -> ?",
+    "renderView": "fn(viewPath: string, optionsOrCallback: ?, callback?: fn())"
+  },
+  "express-handlebars": "exphbs",
+  "!name": "express-handlebars"
+}

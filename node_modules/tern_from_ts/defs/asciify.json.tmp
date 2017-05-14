@@ -1,0 +1,10 @@
+{
+  "AsciifyOptions": {
+    "font": "string",
+    "maxWidth": "number",
+    "color": "string"
+  },
+  "AsciifyCallback": {},
+  "asciify": "asciify",
+  "!name": "asciify.d.ts"
+}

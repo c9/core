@@ -1,0 +1,28 @@
+{
+  "IScrollOptions": {
+    "scrollX": "bool",
+    "scrollY": "bool",
+    "x": "number",
+    "y": "number",
+    "bounce": "bool",
+    "bounceLock": "bool",
+    "momentum": "bool",
+    "lockDirection": "bool",
+    "useTransform": "bool",
+    "useTransition": "bool"
+  },
+  "IScroll": {
+    "!type": "fn(element: string, options?: IScrollOptions)",
+    "prototype": {
+      "destroy": "fn()",
+      "refresh": "fn()",
+      "scrollTo": "fn(x: number, y: number, time?: number, relative?: bool)",
+      "scrollToElement": "fn(element: string, time?: number)",
+      "disable": "fn()",
+      "enable": "fn()",
+      "stop": "fn()",
+      "on": "fn(type: string, fn: fn())"
+    }
+  },
+  "!name": "iscroll-5-lite.d.ts"
+}

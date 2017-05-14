@@ -1,0 +1,6 @@
+{
+  "JQuery": {
+    "sortElements": "fn(comparator: Function, getSortable?: Function) -> JQuery"
+  },
+  "!name": "jquery.sortElement.d.ts"
+}

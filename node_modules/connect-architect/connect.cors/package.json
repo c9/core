@@ -1,0 +1,16 @@
+{
+    "name": "c9.connect.cors",
+    "version": "0.0.1",
+
+    "main": "./cors.js",
+    "private": true,
+
+    "plugin": {
+        "consumes": [
+            "connect"
+        ],
+        "provides": [
+            "connect.cors"
+        ]
+    }
+}

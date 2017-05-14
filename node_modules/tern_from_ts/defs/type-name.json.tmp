@@ -1,0 +1,7 @@
+{
+  "typeName": {
+    "!type": "fn(anyVar: ?) -> string"
+  },
+  "type-name": "typeName",
+  "!name": "type-name.d.ts"
+}

@@ -1,0 +1,23 @@
+{
+  "StatusBar": {
+    "IStatusBarViewStatic": {
+      "content": "fn() -> ?"
+    },
+    "IStatusBarView": {
+      "initialize": "fn() -> ?",
+      "attach": "fn() -> ?",
+      "destroy": "fn() -> ?",
+      "appendLeft": "fn(view: View) -> ?",
+      "prependLeft": "fn(view: View) -> ?",
+      "appendRight": "fn(view: View) -> ?",
+      "prependRight": "fn(view: View) -> ?",
+      "getActiveBuffer": "fn() -> TextBuffer.ITextBuffer",
+      "getActiveItem": "fn() -> ?",
+      "storeActiveBuffer": "fn() -> TextBuffer.ITextBuffer",
+      "subscribeToBuffer": "fn(event: string, callback: Function) -> ?",
+      "subscribeAllToBuffer": "fn() -> [?]",
+      "unsubscribeAllFromBuffer": "fn() -> [?]"
+    }
+  },
+  "!name": "status-bar"
+}

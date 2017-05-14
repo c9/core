@@ -1,0 +1,156 @@
+{
+  "GoogleAppsScript": {
+    "XML_Service": {
+      "Attribute": {
+        "getName": "fn() -> string",
+        "getNamespace": "fn() -> Namespace",
+        "getValue": "fn() -> string",
+        "setName": "fn(name: string) -> Attribute",
+        "setNamespace": "fn(namespace: Namespace) -> Attribute",
+        "setValue": "fn(value: string) -> Attribute"
+      },
+      "Cdata": {
+        "append": "fn(text: string) -> Text",
+        "detach": "fn() -> Content",
+        "getParentElement": "fn() -> Element",
+        "getText": "fn() -> string",
+        "getValue": "fn() -> string",
+        "setText": "fn(text: string) -> Text"
+      },
+      "Comment": {
+        "detach": "fn() -> Content",
+        "getParentElement": "fn() -> Element",
+        "getText": "fn() -> string",
+        "getValue": "fn() -> string",
+        "setText": "fn(text: string) -> Comment"
+      },
+      "Content": {
+        "asCdata": "fn() -> Cdata",
+        "asComment": "fn() -> Comment",
+        "asDocType": "fn() -> DocType",
+        "asElement": "fn() -> Element",
+        "asEntityRef": "fn() -> EntityRef",
+        "asProcessingInstruction": "fn() -> ProcessingInstruction",
+        "asText": "fn() -> Text",
+        "detach": "fn() -> Content",
+        "getParentElement": "fn() -> Element",
+        "getType": "fn() -> ContentType",
+        "getValue": "fn() -> string"
+      },
+      "ContentType": "number",
+      "DocType": {
+        "detach": "fn() -> Content",
+        "getElementName": "fn() -> string",
+        "getInternalSubset": "fn() -> string",
+        "getParentElement": "fn() -> Element",
+        "getPublicId": "fn() -> string",
+        "getSystemId": "fn() -> string",
+        "getValue": "fn() -> string",
+        "setElementName": "fn(name: string) -> DocType",
+        "setInternalSubset": "fn(data: string) -> DocType",
+        "setPublicId": "fn(id: string) -> DocType",
+        "setSystemId": "fn(id: string) -> DocType"
+      },
+      "Document": {
+        "addContent": "fn(content: Content) -> Document",
+        "cloneContent": "fn() -> [Content]",
+        "detachRootElement": "fn() -> Element",
+        "getAllContent": "fn() -> [Content]",
+        "getContent": "fn(index: Integer) -> Content",
+        "getContentSize": "fn() -> Integer",
+        "getDescendants": "fn() -> [Content]",
+        "getDocType": "fn() -> DocType",
+        "getRootElement": "fn() -> Element",
+        "hasRootElement": "fn() -> bool",
+        "removeContent": "fn() -> [Content]",
+        "setDocType": "fn(docType: DocType) -> Document",
+        "setRootElement": "fn(element: Element) -> Document"
+      },
+      "Element": {
+        "addContent": "fn(content: Content) -> Element",
+        "cloneContent": "fn() -> [Content]",
+        "detach": "fn() -> Content",
+        "getAllContent": "fn() -> [Content]",
+        "getAttribute": "fn(name: string) -> Attribute",
+        "getAttributes": "fn() -> [Attribute]",
+        "getChild": "fn(name: string) -> Element",
+        "getChildText": "fn(name: string) -> string",
+        "getChildren": "fn() -> [Element]",
+        "getContent": "fn(index: Integer) -> Content",
+        "getContentSize": "fn() -> Integer",
+        "getDescendants": "fn() -> [Content]",
+        "getDocument": "fn() -> Document",
+        "getName": "fn() -> string",
+        "getNamespace": "fn() -> Namespace",
+        "getParentElement": "fn() -> Element",
+        "getQualifiedName": "fn() -> string",
+        "getText": "fn() -> string",
+        "getValue": "fn() -> string",
+        "isAncestorOf": "fn(other: Element) -> bool",
+        "isRootElement": "fn() -> bool",
+        "removeAttribute": "fn(attribute: Attribute) -> bool",
+        "removeContent": "fn() -> [Content]",
+        "setAttribute": "fn(attribute: Attribute) -> Element",
+        "setName": "fn(name: string) -> Element",
+        "setNamespace": "fn(namespace: Namespace) -> Element",
+        "setText": "fn(text: string) -> Element"
+      },
+      "EntityRef": {
+        "detach": "fn() -> Content",
+        "getName": "fn() -> string",
+        "getParentElement": "fn() -> Element",
+        "getPublicId": "fn() -> string",
+        "getSystemId": "fn() -> string",
+        "getValue": "fn() -> string",
+        "setName": "fn(name: string) -> EntityRef",
+        "setPublicId": "fn(id: string) -> EntityRef",
+        "setSystemId": "fn(id: string) -> EntityRef"
+      },
+      "Format": {
+        "format": "fn(document: Document) -> string",
+        "setEncoding": "fn(encoding: string) -> Format",
+        "setIndent": "fn(indent: string) -> Format",
+        "setLineSeparator": "fn(separator: string) -> Format",
+        "setOmitDeclaration": "fn(omitDeclaration: bool) -> Format",
+        "setOmitEncoding": "fn(omitEncoding: bool) -> Format"
+      },
+      "Namespace": {
+        "getPrefix": "fn() -> string",
+        "getURI": "fn() -> string"
+      },
+      "ProcessingInstruction": {
+        "detach": "fn() -> Content",
+        "getData": "fn() -> string",
+        "getParentElement": "fn() -> Element",
+        "getTarget": "fn() -> string",
+        "getValue": "fn() -> string"
+      },
+      "Text": {
+        "append": "fn(text: string) -> Text",
+        "detach": "fn() -> Content",
+        "getParentElement": "fn() -> Element",
+        "getText": "fn() -> string",
+        "getValue": "fn() -> string",
+        "setText": "fn(text: string) -> Text"
+      },
+      "XmlService": {
+        "ContentTypes": "ContentType",
+        "createCdata": "fn(text: string) -> Cdata",
+        "createComment": "fn(text: string) -> Comment",
+        "createDocType": "fn(elementName: string) -> DocType",
+        "createDocument": "fn() -> Document",
+        "createElement": "fn(name: string) -> Element",
+        "createText": "fn(text: string) -> Text",
+        "getCompactFormat": "fn() -> Format",
+        "getNamespace": "fn(uri: string) -> Namespace",
+        "getNoNamespace": "fn() -> Namespace",
+        "getPrettyFormat": "fn() -> Format",
+        "getRawFormat": "fn() -> Format",
+        "getXmlNamespace": "fn() -> Namespace",
+        "parse": "fn(xml: string) -> Document"
+      }
+    }
+  },
+  "XmlService": "GoogleAppsScript.XML_Service.XmlService",
+  "!name": "google-apps-script.xml-service"
+}

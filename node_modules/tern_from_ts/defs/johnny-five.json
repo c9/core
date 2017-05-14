@@ -1,0 +1,517 @@
+{
+  "johnny-five": {
+    "AccelerometerOption": {
+      "controller": "string"
+    },
+    "AccelerometerGeneralOption": {
+      "controller": "string"
+    },
+    "AccelerometerAnalogOption": {
+      "pins": "?",
+      "sensitivity": "number",
+      "aref": "number",
+      "zeroV": "number",
+      "Array": "fn()",
+      "autoCalibrate": "bool"
+    },
+    "AccelerometerMPU6050Option": {
+      "sensitivity": "number"
+    },
+    "AccelerometerMMA7361Option": {
+      "sleepPin": "number",
+      "string": "?"
+    },
+    "Accelerometer": {
+      "!type": "fn(option: AccelerometerGeneralOption, AccelerometerAnalogOption: ?, AccelerometerMPU6050Option: ?, AccelerometerMMA7361Option: ?)",
+      "prototype": {
+        "on": "fn(event: string, cb: fn())",
+        "hasAxis": "fn(name: string)",
+        "enable": "fn()",
+        "disable": "fn()"
+      }
+    },
+    "Animation": {
+      "!type": "fn(option: Servo, Array: ?)",
+      "prototype": {
+        "enqueue": "fn(segment: ?)",
+        "play": "fn()",
+        "pause": "fn()",
+        "stop": "fn()",
+        "next": "fn()",
+        "speed": "fn(speed: ?)",
+        "target": "number",
+        "duration": "number",
+        "cuePoints": "?",
+        "keyFrames": "number",
+        "easing": "string",
+        "loop": "bool",
+        "loopback": "number",
+        "metronomic": "bool",
+        "progress": "number",
+        "currentSpeed": "number",
+        "fps": "number"
+      }
+    },
+    "ButtonOptions": {
+      "pin": "number",
+      "string": "?",
+      "invert": "bool",
+      "isPullup": "bool",
+      "holdtime": "number"
+    },
+    "Button": {
+      "!type": "fn(pin: number, string: ?, ButtonOptions: ?)",
+      "prototype": {
+        "on": "fn(event: string, cb: fn())"
+      }
+    },
+    "BoardOptions": {
+      "id": "number",
+      "string": "?",
+      "port": "string",
+      "any": "?",
+      "repl": "bool"
+    },
+    "Repl": {
+      "inject": "fn(object: ?)"
+    },
+    "Board": {
+      "!type": "fn(option?: BoardOptions)",
+      "prototype": {
+        "on": "fn(event: string, cb: fn())",
+        "pinMode": "fn(pin: number, mode: number)",
+        "analogWrite": "fn(pin: number, value: number)",
+        "analogRead": "fn(pin: number, cb: fn(item: number))",
+        "digitalWrite": "fn(pin: number, value: number)",
+        "digitalRead": "fn(pin: number, cb: fn(item: number))",
+        "shiftOut": "fn(dataPin: Pin, clockPin: Pin, isBigEndian: bool, value: number)",
+        "wait": "fn(ms: number, cb: fn())",
+        "loop": "fn(ms: number, cb: fn())",
+        "isReady": "bool",
+        "io": "?",
+        "id": "string",
+        "pins": "?",
+        "port": "string",
+        "inject": "Repl"
+      }
+    },
+    "CompassOptions": {
+      "controller": "string",
+      "gauss": "number"
+    },
+    "Compass": {
+      "!type": "fn(option: CompassOptions)",
+      "prototype": {
+        "on": "fn(event: string, cb: fn())"
+      }
+    },
+    "ESCOption": {
+      "pin": "number",
+      "string": "?",
+      "range": "?",
+      "startAt": "number"
+    },
+    "ESC": {
+      "!type": "fn(option: number, string: ?, ESCOption: ?)",
+      "prototype": {
+        "speed": "fn(value: number)",
+        "min": "fn()",
+        "max": "fn()",
+        "stop": "fn()"
+      }
+    },
+    "GyroGeneralOption": {
+      "controller": "string"
+    },
+    "GyroAnalogOption": {
+      "pins": "?",
+      "sensitivity": "number",
+      "resolution": "number"
+    },
+    "GyroMPU6050Option": {
+      "sensitivity": "number"
+    },
+    "Gyro": {
+      "!type": "fn(option: GyroGeneralOption, GyroAnalogOption: ?, GyroMPU6050Option: ?)",
+      "prototype": {
+        "on": "fn(event: string, cb: fn())",
+        "recalibrate": "fn()"
+      }
+    },
+    "IMUGeneralOption": {
+      "controller": "string",
+      "freq": "number"
+    },
+    "IMUMPU6050Option": {
+      "address": "number"
+    },
+    "IMU": {
+      "!type": "fn(option: IMUGeneralOption, IMUMPU6050Option: ?)",
+      "prototype": {
+        "on": "fn(event: string, cb: fn())"
+      }
+    },
+    "IR": {
+      "MotionOption": {
+        "pin": "number",
+        "string": "?"
+      },
+      "Motion": {
+        "!type": "fn(option: number, MotionOption: ?)",
+        "prototype": {
+          "on": "fn(event: string, cb: fn())"
+        }
+      },
+      "PloximityOption": {
+        "pin": "number",
+        "string": "?",
+        "controller": "string"
+      },
+      "Proximity": {
+        "!type": "fn(option: number, PloximityOption: ?)",
+        "prototype": {
+          "on": "fn(event: string, cb: fn())"
+        }
+      },
+      "ArrayOption": {
+        "pins": "?",
+        "Array": "fn()",
+        "emitter": "number",
+        "string": "?",
+        "freq": "number"
+      },
+      "LoadCalibrationOption": {
+        "min": "?",
+        "max": "?"
+      },
+      "Reflect": {
+        "Array": {
+          "!type": "fn(option: ArrayOption)",
+          "prototype": {
+            "enable": "fn()",
+            "disable": "fn()",
+            "calibrate": "fn()",
+            "calibrateUntil": "fn(predicate: fn())",
+            "loadCalibration": "fn(option: LoadCalibrationOption)",
+            "on": "fn(event: string, cb: fn())"
+          }
+        }
+      }
+    },
+    "JoystickOption": {
+      "pins": "?"
+    },
+    "Joystick": {
+      "!type": "fn(option: JoystickOption)",
+      "prototype": {
+        "on": "fn(event: string, cb: fn())",
+        "axis": "?",
+        "raw": "?"
+      }
+    },
+    "LCDGeneralOption": {
+      "rows": "number",
+      "cols": "number"
+    },
+    "LCDI2COption": {
+      "controller": "string",
+      "backlight": "number"
+    },
+    "LCDParallelOption": {
+      "pins": "?",
+      "backlight": "number"
+    },
+    "LCD": {
+      "!type": "fn(option: LCDGeneralOption, LCDI2COption: ?, LCDParallelOption: ?)",
+      "prototype": {
+        "print": "fn(message: string)",
+        "useChar": "fn(char: string)",
+        "clear": "fn()",
+        "cursor": "fn(row: number, col: number)",
+        "home": "fn()",
+        "display": "fn()",
+        "noDisplay": "fn()",
+        "blink": "fn()",
+        "noBlink": "fn()",
+        "autoscroll": "fn()",
+        "noAutoscroll": "fn()"
+      }
+    },
+    "LedOption": {
+      "pin": "number",
+      "type": "string",
+      "controller": "string",
+      "address": "number",
+      "isAnode": "bool"
+    },
+    "Led": {
+      "!type": "fn(option: number, LedOption: ?)",
+      "prototype": {
+        "on": "fn()",
+        "off": "fn()",
+        "toggle": "fn()",
+        "strobe": "fn(ms: number)",
+        "blink": "fn()",
+        "brightness": "fn(val: number)",
+        "fade": "fn(brightness: number, ms: number)",
+        "fadeIn": "fn(ms: number)",
+        "fadeOut": "fn(ms: number)",
+        "pulse": "fn(ms: number)",
+        "stop": "fn(ms: number)"
+      },
+      "DigitsOption": {
+        "pins": "?",
+        "devices": "number"
+      },
+      "Digits": {
+        "!type": "fn(option: DigitsOption)",
+        "prototype": {
+          "on": "fn()",
+          "off": "fn()",
+          "clear": "fn()",
+          "brightness": "fn(value: number)",
+          "draw": "fn(position: number, character: number)"
+        }
+      },
+      "MatrixOption": {
+        "pins": "?",
+        "devices": "number"
+      },
+      "MatrixIC2Option": {
+        "controller": "string",
+        "addresses": "?",
+        "isBicolor": "bool",
+        "dims": "?",
+        "rotation": "number"
+      },
+      "Matrix": {
+        "!type": "fn(option: MatrixOption, MatrixIC2Option: ?)",
+        "prototype": {
+          "on": "fn()",
+          "off": "fn()",
+          "clear": "fn()",
+          "brightness": "fn(value: number)",
+          "led": "fn(row: number, col: number, state: ?)",
+          "row": "fn(row: number, val: number)",
+          "column": "fn(row: number, val: number)",
+          "draw": "fn(position: number, character: number)"
+        }
+      },
+      "RGBOption": {
+        "pins": "?",
+        "isAnode": "bool",
+        "controller": "string"
+      },
+      "RGB": {
+        "!type": "fn(option: RGBOption)",
+        "prototype": {
+          "on": "fn()",
+          "off": "fn()",
+          "color": "fn(value: number)",
+          "toggle": "fn()",
+          "strobe": "fn(ms: number)",
+          "brightness": "fn(value: number)",
+          "fadeIn": "fn(ms: number)",
+          "fadeOut": "fn(ms: number)",
+          "pulse": "fn(ms: number)",
+          "stop": "fn(ms: number)"
+        }
+      }
+    },
+    "MotorOption": {
+      "pins": "?",
+      "current": "?",
+      "invertPWM": "bool",
+      "address": "number",
+      "controller": "string",
+      "register": "?",
+      "bits": "?"
+    },
+    "Motor": {
+      "!type": "fn(option: ?, MotorOption: ?)",
+      "prototype": {
+        "forward": "fn(speed: number)",
+        "fwd": "fn(speed: number)",
+        "reverse": "fn(speed: number)",
+        "rev": "fn(speed: number)",
+        "start": "fn()",
+        "stop": "fn()",
+        "brake": "fn()",
+        "release": "fn()"
+      }
+    },
+    "PiezoOption": {
+      "pin": "number"
+    },
+    "Piezo": {
+      "!type": "fn(option: number, PiezoOption: ?)",
+      "prototype": {
+        "frequency": "fn(frequency: number, duration: number)",
+        "play": "fn(tune: ?, cb?: fn())",
+        "tone": "fn(frequency: number, duration: number)",
+        "noTone": "fn()",
+        "off": "fn()"
+      }
+    },
+    "PinOption": {
+      "id": "number",
+      "string": "?",
+      "pin": "number",
+      "type": "string"
+    },
+    "PinState": {
+      "supportedModes": "?",
+      "mode": "number",
+      "value": "number",
+      "report": "number",
+      "analogChannel": "number"
+    },
+    "Pin": {
+      "!type": "fn(option: number, string: ?, PinOption: ?)",
+      "write": "fn(pin: number, value: number)",
+      "read": "fn(pin: number, cb: fn(data: number))",
+      "prototype": {
+        "query": "fn(cb: fn(pin: PinState))",
+        "high": "fn()",
+        "low": "fn()",
+        "write": "fn(value: number)",
+        "read": "fn(cb: fn(value: number))"
+      }
+    },
+    "PingOption": {
+      "pin": "number",
+      "string": "?",
+      "freq": "number",
+      "pulse": "number"
+    },
+    "Ping": {
+      "!type": "fn(option: number, PingOption: ?)",
+      "prototype": {}
+    },
+    "RelayOption": {
+      "pin": "number",
+      "string": "?",
+      "type": "string"
+    },
+    "Relay": {
+      "!type": "fn(option: number, RelayOption: ?)",
+      "prototype": {
+        "open": "fn()",
+        "close": "fn()",
+        "toggle": "fn()"
+      }
+    },
+    "SensorOption": {
+      "pin": "number",
+      "string": "?",
+      "freq": "bool",
+      "threshold": "number"
+    },
+    "Sensor": {
+      "!type": "fn(option: number, string: ?, SensorOption: ?)",
+      "prototype": {
+        "scale": "fn(low: number, high: number) -> Sensor",
+        "booleanAt": "fn(barrier: number) -> bool",
+        "within": "fn(range: ?, cb: fn())",
+        "on": "fn(event: string, cb: fn())"
+      }
+    },
+    "ServoGeneralOption": {
+      "pin": "number",
+      "string": "?",
+      "range": "?",
+      "type": "string",
+      "startAt": "number",
+      "isInverted": "bool",
+      "center": "bool",
+      "controller": "string"
+    },
+    "ServoPCA9685Option": {
+      "address": "number"
+    },
+    "ServoSweepOpts": {
+      "range": "?",
+      "interval": "number",
+      "step": "number"
+    },
+    "Servo": {
+      "!type": "fn(option: number, string: ?, ServoGeneralOption: ?)",
+      "prototype": {
+        "to": "fn(degrees: number, ms?: number, rage?: number)",
+        "min": "fn()",
+        "max": "fn()",
+        "center": "fn()",
+        "sweep": "fn()",
+        "stop": "fn()",
+        "cw": "fn(speed: number)",
+        "ccw": "fn(speed: number)",
+        "on": "fn(event: string, cb: fn())"
+      }
+    },
+    "ShiftRegisterOption": {
+      "pins": "?"
+    },
+    "ShiftRegister": {
+      "!type": "fn(option: ShiftRegisterOption)",
+      "prototype": {
+        "send": "fn(value: [number])"
+      }
+    },
+    "SonarOption": {
+      "pin": "number",
+      "string": "?",
+      "device": "string",
+      "freq": "number",
+      "threshold": "number"
+    },
+    "Sonar": {
+      "!type": "fn(option: number, string: ?, SonarOption: ?)",
+      "prototype": {
+        "within": "fn(range: ?, cb: fn())",
+        "on": "fn(event: string, cb: fn())"
+      }
+    },
+    "StepperOption": {
+      "pins": "?",
+      "stepsPerRev": "number",
+      "type": "number",
+      "rpm": "number",
+      "direction": "number"
+    },
+    "Stepper": {
+      "TYPE": {
+        "DRIVER": "number",
+        "TWO_WIRE": "number",
+        "FOUR_WIRE": "number",
+        "prototype": {}
+      },
+      "!type": "fn(option: number, string: ?, StepperOption: ?)",
+      "prototype": {
+        "step": "fn(stepsOrOpts: ?, cb: fn())",
+        "rpm": "fn() -> Stepper",
+        "speed": "fn() -> Stepper",
+        "direction": "fn() -> Stepper",
+        "accel": "fn() -> Stepper",
+        "decel": "fn() -> Stepper",
+        "cw": "fn() -> Stepper",
+        "ccw": "fn() -> Stepper",
+        "within": "fn(range: ?, cb: fn())",
+        "on": "fn(event: string, cb: fn())"
+      }
+    },
+    "TemperatureOption": {
+      "controller": "string",
+      "pin": "string",
+      "number": "?",
+      "toCelsius": "fn(val: number)",
+      "freq": "number"
+    },
+    "Temperature": {
+      "!type": "fn(option: TemperatureOption)",
+      "prototype": {
+        "on": "fn(event: string, cb: fn())"
+      }
+    }
+  },
+  "!name": "johnny-five"
+}

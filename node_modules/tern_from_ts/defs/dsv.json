@@ -1,0 +1,14 @@
+{
+  "dsv": "loader",
+  "_dsv": {
+    "Dsv": {
+      "prototype": {
+        "parse": "fn(table: string, accessor?: fn(row: ?)) -> [TRow]",
+        "parseRows": "fn(table: string, accessor?: fn(row: [string])) -> [TRow]",
+        "format": "fn(rows: [?]) -> string",
+        "formatRows": "fn(rows: [?]) -> string"
+      }
+    }
+  },
+  "!name": "dsv"
+}

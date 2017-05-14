@@ -1,0 +1,16 @@
+{
+    "name": "c9.connect.remote-address",
+    "version": "0.0.1",
+
+    "main": "./remote-address.js",
+    "private": true,
+
+    "plugin": {
+        "consumes": [
+            "connect"
+        ],
+        "provides": [
+            "connect.remote-address"
+        ]
+    }
+}

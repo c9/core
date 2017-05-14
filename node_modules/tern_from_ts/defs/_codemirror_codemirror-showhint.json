@@ -1,0 +1,46 @@
+{
+  "CodeMirror": {
+    "commands": "?",
+    "showHint": "fn(cm: CodeMirror.Doc, hinter?: fn(doc: CodeMirror.Doc), options?: ShowHintOptions)",
+    "Hints": {
+      "from": "Position",
+      "to": "Position",
+      "list": "fn(Hint: ?, string: ?)"
+    },
+    "Hint": {
+      "text": "string",
+      "className": "string",
+      "displayText": "string",
+      "from": "Position",
+      "hint": "fn(cm: ?, data: Hints, cur: Hint)",
+      "render": "fn(element: HTMLLIElement, data: Hints, cur: Hint)",
+      "to": "Position"
+    },
+    "Editor": {
+      "on": "fn(eventName: string, handler: fn(doc: CodeMirror.Doc, event: ?))",
+      "off": "fn(eventName: string, handler: fn(doc: CodeMirror.Doc, event: ?))"
+    },
+    "Doc": {
+      "showHint": "fn(options: ShowHintOptions)"
+    },
+    "ShowHintOptions": {
+      "completeSingle": "bool",
+      "hint": "fn(doc: CodeMirror.Doc)"
+    },
+    "Handle": {
+      "moveFocus": "fn(n: number, avoidWrap: bool)",
+      "setFocus": "fn(n: number)",
+      "menuSize": "fn() -> number",
+      "length": "number",
+      "close": "fn()",
+      "pick": "fn()",
+      "data": "?"
+    },
+    "EditorConfiguration": {
+      "showHint": "bool",
+      "hintOptions": "ShowHintOptions"
+    }
+  },
+  "codemirror/addon/hint/show-hint": "CodeMirror",
+  "!name": "codemirror-showhint"
+}

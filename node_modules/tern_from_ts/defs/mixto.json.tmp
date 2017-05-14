@@ -1,0 +1,10 @@
+{
+  "Mixto": {
+    "IMixinStatic": {
+      "includeInto": "fn(constructor: ?)",
+      "extend": "fn(object: ?)"
+    }
+  },
+  "mixto": "_tmp",
+  "!name": "mixto.d.ts"
+}

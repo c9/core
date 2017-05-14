@@ -1,0 +1,15 @@
+{
+  "memory-cache": {
+    "put": "fn(key: ?, value: ?, time?: number, timeoutCallback?: fn(key: ?))",
+    "get": "fn(key: ?) -> ?",
+    "del": "fn(key: ?)",
+    "clear": "fn()",
+    "size": "fn() -> number",
+    "memsize": "fn() -> number",
+    "debug": "fn(bool: bool)",
+    "hits": "fn() -> number",
+    "misses": "fn() -> number",
+    "keys": "fn() -> ?"
+  },
+  "!name": "memory-cache"
+}

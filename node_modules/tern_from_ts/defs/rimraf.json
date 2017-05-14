@@ -1,0 +1,4 @@
+{
+  "rimraf": "rimraf",
+  "!name": "rimraf.d.ts"
+}

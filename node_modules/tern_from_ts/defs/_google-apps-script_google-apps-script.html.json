@@ -1,0 +1,40 @@
+{
+  "GoogleAppsScript": {
+    "HTML": {
+      "HtmlOutput": {
+        "append": "fn(addedContent: string) -> HtmlOutput",
+        "appendUntrusted": "fn(addedContent: string) -> HtmlOutput",
+        "asTemplate": "fn() -> HtmlTemplate",
+        "clear": "fn() -> HtmlOutput",
+        "getAs": "fn(contentType: string) -> Base.Blob",
+        "getBlob": "fn() -> Base.Blob",
+        "getContent": "fn() -> string",
+        "getHeight": "fn() -> Integer",
+        "getTitle": "fn() -> string",
+        "getWidth": "fn() -> Integer",
+        "setContent": "fn(content: string) -> HtmlOutput",
+        "setHeight": "fn(height: Integer) -> HtmlOutput",
+        "setSandboxMode": "fn(mode: SandboxMode) -> HtmlOutput",
+        "setTitle": "fn(title: string) -> HtmlOutput",
+        "setWidth": "fn(width: Integer) -> HtmlOutput"
+      },
+      "HtmlService": {
+        "SandboxMode": "SandboxMode",
+        "createHtmlOutput": "fn() -> HtmlOutput",
+        "createHtmlOutputFromFile": "fn(filename: string) -> HtmlOutput",
+        "createTemplate": "fn(blob: Base.BlobSource) -> HtmlTemplate",
+        "createTemplateFromFile": "fn(filename: string) -> HtmlTemplate",
+        "getUserAgent": "fn() -> string"
+      },
+      "HtmlTemplate": {
+        "evaluate": "fn() -> HtmlOutput",
+        "getCode": "fn() -> string",
+        "getCodeWithComments": "fn() -> string",
+        "getRawContent": "fn() -> string"
+      },
+      "SandboxMode": "number"
+    }
+  },
+  "HtmlService": "GoogleAppsScript.HTML.HtmlService",
+  "!name": "google-apps-script.html"
+}

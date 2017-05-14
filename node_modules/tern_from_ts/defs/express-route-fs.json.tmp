@@ -1,0 +1,4 @@
+{
+  "express-route-fs": "routeFs",
+  "!name": "express-route-fs.d.ts"
+}

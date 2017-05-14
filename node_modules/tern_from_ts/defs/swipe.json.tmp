@@ -1,0 +1,26 @@
+{
+  "SwipeOptions": {
+    "startSlide": "number",
+    "speed": "number",
+    "auto": "number",
+    "continuous": "bool",
+    "disableScroll": "bool",
+    "stopPropagation": "bool",
+    "callback": "fn(index: number, elem: HTMLElement)",
+    "transitionEnd": "fn(index: number, elem: HTMLElement)"
+  },
+  "Swipe": {
+    "!type": "fn(container: HTMLElement, options?: SwipeOptions)",
+    "prototype": {
+      "prev": "fn()",
+      "next": "fn()",
+      "getPos": "fn() -> number",
+      "getNumSlides": "fn() -> number",
+      "kill": "fn()",
+      "attachEvents": "fn()",
+      "setup": "fn()",
+      "slide": "fn(index: number, duration: number)"
+    }
+  },
+  "!name": "swipe.d.ts"
+}

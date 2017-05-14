@@ -1,0 +1,169 @@
+{
+  "PjaxSetting": {
+    "gns": "string",
+    "ns": "string",
+    "area": "?",
+    "link": "string",
+    "filter": "?",
+    "form": "string",
+    "scope": "Object",
+    "state": "?",
+    "scrollTop": "?",
+    "scrollLeft": "?",
+    "scroll": {
+      "delay": "number",
+      "record": "bool",
+      "queue": "[number]"
+    },
+    "ajax": "JQueryAjaxSettings",
+    "contentType": "string",
+    "load": {
+      "head": "string",
+      "css": "bool",
+      "script": "bool",
+      "execute": "bool",
+      "reload": "string",
+      "ignore": "string",
+      "sync": "bool",
+      "ajax": "JQueryAjaxSettings",
+      "rewrite": "fn(element: ?)",
+      "redirect": "bool"
+    },
+    "interval": "number",
+    "cache": {
+      "click": "bool",
+      "submit": "bool",
+      "popstate": "bool",
+      "get": "bool",
+      "post": "bool",
+      "page": "bool",
+      "size": "number",
+      "mix": "number",
+      "expires": {
+        "min": "number",
+        "max": "number"
+      }
+    },
+    "wait": "?",
+    "fallback": "?",
+    "fix": {
+      "location": "bool",
+      "history": "bool",
+      "scroll": "bool",
+      "reset": "bool"
+    },
+    "database": "bool",
+    "server": {
+      "query": "?",
+      "header": {
+        "area": "bool",
+        "head": "bool",
+        "css": "bool",
+        "script": "bool"
+      }
+    },
+    "callback": "fn(event: JQueryEventObject, param: ?)",
+    "callbacks": {
+      "before": "fn(event: JQueryEventObject, param: ?)",
+      "after": "fn(event: JQueryEventObject, param: ?)",
+      "ajax": {
+        "xhr": "fn(event: JQueryEventObject, param: ?)",
+        "beforeSend": "fn(event: JQueryEventObject, param: ?, data: ?, ajaxSettings: ?)",
+        "dataFilter": "fn(event: JQueryEventObject, param: ?, data: ?, dataType: ?)",
+        "success": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)",
+        "error": "fn(event: JQueryEventObject, param: ?, XMLHttpRequest: XMLHttpRequest, textStatus: string, errorThrown: ?)",
+        "complete": "fn(event: JQueryEventObject, param: ?, XMLHttpRequest: XMLHttpRequest, textStatus: string)",
+        "done": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)",
+        "fail": "fn(event: JQueryEventObject, param: ?, XMLHttpRequest: XMLHttpRequest, textStatus: string, errorThrown: ?)",
+        "always": "fn(event: JQueryEventObject, param: ?, XMLHttpRequest: XMLHttpRequest, textStatus: string)"
+      },
+      "update": {
+        "before": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)",
+        "after": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)",
+        "cache": {
+          "before": "fn(event: JQueryEventObject, param: ?, cache: ?)",
+          "after": "fn(event: JQueryEventObject, param: ?, cache: ?)"
+        },
+        "redirect": {
+          "before": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)",
+          "after": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)"
+        },
+        "url": {
+          "before": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)",
+          "after": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)"
+        },
+        "title": {
+          "before": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)",
+          "after": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)"
+        },
+        "head": {
+          "before": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)",
+          "after": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)"
+        },
+        "content": {
+          "before": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)",
+          "after": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)"
+        },
+        "scroll": {
+          "before": "fn(event: JQueryEventObject, param: ?)",
+          "after": "fn(event: JQueryEventObject, param: ?)"
+        },
+        "css": {
+          "before": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)",
+          "after": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)"
+        },
+        "script": {
+          "before": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)",
+          "after": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)"
+        },
+        "render": {
+          "before": "fn(event: JQueryEventObject, param: ?)",
+          "after": "fn(event: JQueryEventObject, param: ?)"
+        },
+        "verify": {
+          "before": "fn(event: JQueryEventObject, param: ?)",
+          "after": "fn(event: JQueryEventObject, param: ?)"
+        },
+        "success": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)",
+        "error": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)",
+        "complete": "fn(event: JQueryEventObject, param: ?, data: ?, textStatus: string, XMLHttpRequest: XMLHttpRequest)"
+      },
+      "param": "?",
+      "uuid": "string",
+      "nss": {
+        "name": "string",
+        "event": "[string]",
+        "click": "string",
+        "submit": "string",
+        "popstate": "string",
+        "scroll": "string",
+        "data": "string",
+        "class4html": "string",
+        "requestHeader": "string"
+      },
+      "origLocation": "HTMLAnchorElement",
+      "destLocation": "HTMLAnchorElement",
+      "retry": "bool",
+      "speedcheck": "bool",
+      "disable": "bool",
+      "option": "?"
+    }
+  },
+  "JQueryStatic": {
+    "pjax": {
+      "enable": "fn() -> ?",
+      "disable": "fn() -> ?",
+      "click": "fn(url: string, attr: ?) -> ?",
+      "submit": "fn(url: string, attr: ?, data: ?) -> ?",
+      "follow": "fn(event: JQueryEventObject, ajax: JQueryXHR, timeStamp?: number) -> bool",
+      "setCache": "fn() -> ?",
+      "getCache": "fn() -> ?",
+      "removeCache": "fn(url: string) -> ?",
+      "clearCache": "fn() -> ?"
+    }
+  },
+  "JQuery": {
+    "pjax": "fn(setting?: PjaxSetting) -> ?"
+  },
+  "!name": "jquery.pjax"
+}

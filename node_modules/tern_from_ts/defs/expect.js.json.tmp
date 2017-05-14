@@ -1,0 +1,66 @@
+{
+  "expect": "fn(target?: ?) -> Expect.Root",
+  "Expect": {
+    "Assertion": {
+      "ok": "fn()",
+      "withArgs": "fn(args: [?]) -> Root",
+      "throwError": "fn(fn?: fn(exception: ?))",
+      "throwException": "fn(fn?: fn(exception: ?))",
+      "empty": "fn() -> Assertion",
+      "equal": "fn(obj: ?) -> Assertion",
+      "eql": "fn(obj: ?) -> Assertion",
+      "within": "fn(start: number, finish: number) -> Assertion",
+      "a": "fn(type: string) -> Assertion",
+      "an": "An",
+      "greaterThan": "fn(n: number) -> Assertion",
+      "above": "fn(n: number) -> Assertion",
+      "lessThan": "fn(n: number) -> Assertion",
+      "below": "fn(n: number) -> Assertion",
+      "match": "fn(regexp: RegExp) -> Assertion",
+      "length": "fn(n: number) -> Assertion",
+      "property": "fn(name: string, val?: ?) -> Assertion",
+      "contain": "fn(str: string) -> Assertion",
+      "string": "fn(str: string) -> Assertion",
+      "key": "fn(keys: [string]) -> Assertion",
+      "keys": "fn(keys: [string]) -> Assertion",
+      "fail": "fn(message?: string) -> Assertion"
+    },
+    "Root": {
+      "not": "Not",
+      "to": "To",
+      "only": "Only",
+      "have": "Have",
+      "be": "Be"
+    },
+    "Be": {
+      "an": "An"
+    },
+    "An": {},
+    "Not": {
+      "to": "Expect.ToBase"
+    },
+    "NotBase": {
+      "be": "Be",
+      "have": "Have",
+      "include": "Assertion",
+      "only": "Only"
+    },
+    "To": {
+      "not": "Expect.NotBase"
+    },
+    "ToBase": {
+      "be": "Be",
+      "have": "Have",
+      "include": "Assertion",
+      "only": "Only"
+    },
+    "Only": {
+      "have": "Have"
+    },
+    "Have": {
+      "own": "Assertion"
+    }
+  },
+  "expect.js": "expect",
+  "!name": "expect.js.d.ts"
+}

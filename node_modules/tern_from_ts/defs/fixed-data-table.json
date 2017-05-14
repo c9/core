@@ -1,0 +1,83 @@
+{
+  "FixedDataTable": {
+    "version": "string",
+    "TableProps": {
+      "width": "number",
+      "height": "number",
+      "maxHeight": "number",
+      "ownerHeight": "number",
+      "overflowX": "string",
+      "overflowY": "string",
+      "rowsCount": "number",
+      "rowHeight": "number",
+      "rowHeightGetter": "Function",
+      "rowGetter": "Function",
+      "rowClassNameGetter": "Function",
+      "groupHeaderHeight": "number",
+      "headerHeight": "number",
+      "headerDataGetter": "Function",
+      "footerHeight": "number",
+      "footerData": "?",
+      "footerDataGetter": "Function",
+      "scrollLeft": "number",
+      "scrollToColumn": "number",
+      "scrollTop": "number",
+      "scrollToRow": "number",
+      "onScrollStart": "Function",
+      "onScrollEnd": "Function",
+      "onContentHeightChange": "Function",
+      "onRowClick": "Function",
+      "onRowDoubleClick": "Function",
+      "onRowMouseDown": "Function",
+      "onRowMouseEnter": "Function",
+      "onRowMouseLeave": "Function",
+      "onColumnResizeEndCallback": "Function",
+      "isColumnResizing": "bool"
+    },
+    "ColumnProps": {
+      "align": "string",
+      "headerClassName": "string",
+      "footerClassName": "string",
+      "cellClassName": "string",
+      "cellRenderer": "Function",
+      "cellDataGetter": "Function",
+      "dataKey": "string",
+      "number": "?",
+      "fixed": "bool",
+      "headerRenderer": "Function",
+      "footerRenderer": "Function",
+      "columnData": "?",
+      "label": "string",
+      "width": "number",
+      "minWidth": "number",
+      "maxWidth": "number",
+      "flexGrow": "number",
+      "isResizable": "bool",
+      "allowCellsRecycling": "bool"
+    },
+    "ColumnGroupProps": {
+      "align": "string",
+      "fixed": "bool",
+      "columnGroupData": "?",
+      "label": "string",
+      "groupHeaderRenderer": "Function"
+    },
+    "Table": {
+      "prototype": {
+        "render": "fn() -> ?"
+      }
+    },
+    "Column": {
+      "prototype": {
+        "render": "fn() -> ?"
+      }
+    },
+    "ColumnGroup": {
+      "prototype": {
+        "render": "fn() -> ?"
+      }
+    }
+  },
+  "fixed-data-table": "FixedDataTable",
+  "!name": "fixed-data-table-0.4.7"
+}

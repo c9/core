@@ -1,0 +1,34 @@
+{
+  "JQueryAddressStatic": {
+    "bind": "fn(type: ?, data: ?, callback: Function) -> JQueryAddressStatic",
+    "change": "fn(callback: Function) -> JQueryAddressStatic",
+    "init": "fn(callback: Function) -> JQueryAddressStatic",
+    "internalChange": "fn(eventhandler: Function) -> JQueryAddressStatic",
+    "externalChange": "fn(eventhandler: Function) -> JQueryAddressStatic",
+    "baseURL": "fn() -> string",
+    "autoUpdate": "fn() -> bool",
+    "crawlable": "fn() -> bool",
+    "hash": "fn() -> string",
+    "history": "fn() -> bool",
+    "parameter": "fn(name: string) -> string",
+    "parameterNames": "fn() -> ?",
+    "path": "fn() -> string",
+    "pathNames": "fn() -> ?",
+    "queryString": "fn() -> string",
+    "state": "fn() -> string",
+    "strict": "fn() -> bool",
+    "title": "fn() -> string",
+    "tracker": "fn() -> ?",
+    "value": "fn() -> string",
+    "update": "fn() -> JQueryAddressStatic",
+    "wrap": "fn() -> bool"
+  },
+  "JQueryAddress": {},
+  "JQueryStatic": {
+    "address": "JQueryAddressStatic"
+  },
+  "JQuery": {
+    "address": "JQueryAddress"
+  },
+  "!name": "jquery.address.d.ts"
+}

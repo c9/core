@@ -1,0 +1,4 @@
+{
+  "'gulp-csso'": "csso",
+  "!name": "gulp-csso.d.ts"
+}

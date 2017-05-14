@@ -1,0 +1,37 @@
+{
+  "Rx": {
+    "IScheduler": {
+      "catch": "fn(handler: fn(exception: ?)) -> IScheduler",
+      "catchException": "fn(handler: fn(exception: ?)) -> IScheduler"
+    },
+    "Observer": {
+      "checked": "fn() -> ?"
+    },
+    "ObserverStatic": {
+      "notifyOn": "fn(scheduler: IScheduler) -> ?"
+    },
+    "Observable": {
+      "observeOn": "fn(scheduler: IScheduler) -> ?",
+      "subscribeOn": "fn(scheduler: IScheduler) -> ?",
+      "amb": "fn(rightSource: ?) -> ?",
+      "onErrorResumeNext": "fn(second: ?) -> ?",
+      "bufferWithCount": "fn(count: number, skip?: number) -> ?",
+      "windowWithCount": "fn(count: number, skip?: number) -> ?",
+      "defaultIfEmpty": "fn(defaultValue?: T) -> ?",
+      "distinct": "fn(skipParameter: bool, valueSerializer: fn(value: T)) -> ?",
+      "groupBy": "fn(keySelector: fn(value: T), skipElementSelector?: bool, keySerializer?: fn(key: TKey)) -> ?",
+      "groupByUntil": "fn(keySelector: fn(value: T), skipElementSelector: bool, durationSelector: fn(group: ?), keySerializer?: fn(key: TKey)) -> ?"
+    },
+    "ObservableStatic": {
+      "using": "fn(resourceFactory: fn(), observableFactory: fn(resource: TResource)) -> ?",
+      "amb": "fn(sources: [?]) -> ?",
+      "onErrorResumeNext": "fn(sources: [?]) -> ?"
+    },
+    "GroupedObservable": {
+      "key": "TKey",
+      "underlyingObservable": "?"
+    }
+  },
+  "rx": "Rx",
+  "!name": "rx"
+}

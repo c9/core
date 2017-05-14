@@ -1,0 +1,19 @@
+{
+  "Elm": {
+    "embed": "fn(elmModule: ?, element: Node, initialValues?: Object) -> ?",
+    "fullscreen": "fn(elmModule: ?, initialValues?: Object) -> ?",
+    "worker": "fn(elmModule: ?, initialValues?: Object) -> ?"
+  },
+  "ElmModule": {},
+  "ElmComponent": {
+    "ports": "P"
+  },
+  "PortToElm": {
+    "send": "fn(value: V)"
+  },
+  "PortFromElm": {
+    "subscribe": "fn(handler: fn(value: V))",
+    "unsubscribe": "fn(handler: fn(value: V))"
+  },
+  "!name": "elm"
+}

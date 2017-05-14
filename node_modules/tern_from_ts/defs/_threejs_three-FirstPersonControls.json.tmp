@@ -1,0 +1,39 @@
+{
+  "THREE": {
+    "FirstPersonControls": {
+      "!type": "fn(object: Camera, domElement?: HTMLElement)",
+      "prototype": {
+        "object": "THREE.Object3D",
+        "target": "THREE.Vector3",
+        "domElement": "HTMLCanvasElement",
+        "movementSpeed": "number",
+        "lookSpeed": "number",
+        "noFly": "bool",
+        "lookVertical": "bool",
+        "autoForward": "bool",
+        "activeLook": "bool",
+        "heightSpeed": "bool",
+        "heightCoef": "bool",
+        "heightMin": "bool",
+        "constrainVertical": "bool",
+        "verticalMin": "number",
+        "verticalMax": "number",
+        "autoSpeedFactor": "number",
+        "mouseX": "number",
+        "mouseY": "number",
+        "lat": "number",
+        "lon": "number",
+        "phi": "number",
+        "theta": "number",
+        "moveForward": "bool",
+        "moveBackward": "bool",
+        "moveLeft": "bool",
+        "moveRight": "bool",
+        "freeze": "bool",
+        "mouseDragOn": "bool",
+        "update": "fn(delta?: number)"
+      }
+    }
+  },
+  "!name": "three-FirstPersonControls.d.ts"
+}

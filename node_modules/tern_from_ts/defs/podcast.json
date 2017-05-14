@@ -1,0 +1,68 @@
+{
+  "PodcastStatic": {
+    "item": "fn(options: IItemOptions)",
+    "xml": "fn(indent?: string) -> string"
+  },
+  "IFeedOptions": {
+    "title": "string",
+    "description": "string",
+    "generator": "string",
+    "feed_url": "string",
+    "site_url": "string",
+    "image_url": "string",
+    "docs": "string",
+    "author": "string",
+    "managingEditor": "string",
+    "webMaster": "string",
+    "copyright": "string",
+    "language": "string",
+    "categories": "[string]",
+    "pubDate": "Date",
+    "ttl": "number",
+    "itunesAuthor": "string",
+    "itunesSubtitle": "string",
+    "itunesSummary": "string",
+    "itunesOwner": "IItunesOwner",
+    "itunesExplicit": "bool",
+    "itunesCategory": "IItunesCategory",
+    "itunesImage": "string"
+  },
+  "IItunesOwner": {
+    "name": "string",
+    "email": "string"
+  },
+  "IItunesCategory": {
+    "name": "string",
+    "subcats": "[IItunesSubCategory]"
+  },
+  "IItunesSubCategory": {
+    "name": "string",
+    "subcat": "[string]"
+  },
+  "IItemOptions": {
+    "title": "string",
+    "description": "string",
+    "url": "string",
+    "guid": "string",
+    "categories": "[string]",
+    "author": "string",
+    "date": "Date",
+    "lat": "number",
+    "long": "number",
+    "enclosure": {
+      "url": "string",
+      "file": "string",
+      "size": "number",
+      "mime": "string"
+    },
+    "itunesAuthor": "string",
+    "itunesExplicit": "bool",
+    "itunesSubtitle": "string",
+    "itunesSummary": "string",
+    "itunesDuration": "number",
+    "itunesKeywords": "[string]"
+  },
+  "Podcast": "PodcastStatic",
+  "podcast": "Podcast",
+  "!name": "podcast"
+}

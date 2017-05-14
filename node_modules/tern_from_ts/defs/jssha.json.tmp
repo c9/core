@@ -1,0 +1,15 @@
+{
+  "jsSHA": {
+    "OutputFormatOptions": {
+      "outputUpper": "bool",
+      "b64Pad": "string"
+    },
+    "jsSHA": {
+      "getHash": "fn(variant: string, format: string, numRounds?: number, outputFormatOpts?: OutputFormatOptions) -> string",
+      "getHMAC": "fn(key: string, inputFormat: string, variant: string, outputFormat: string, outputFormatOpts?: OutputFormatOptions) -> string"
+    },
+    "!type": "jsSHA.jsSHA"
+  },
+  "'jssha'": "jsSHA",
+  "!name": "jssha-1.6.0.d.ts"
+}

@@ -1,0 +1,11 @@
+{
+  "JQueryRowGridJSOptions": {
+    "minMargin": "number",
+    "maxMargin": "number",
+    "itemSelector": "string"
+  },
+  "JQuery": {
+    "rowGrid": "fn(options?: JQueryRowGridJSOptions) -> JQuery"
+  },
+  "!name": "jquery.rowGrid"
+}

@@ -1,0 +1,15 @@
+{
+  "linqjs": {
+    "Enumerable": {
+      "tojQuery": "fn() -> JQuery",
+      "tojQueryAsArray": "fn() -> JQuery"
+    }
+  },
+  "JQuery": {
+    "toEnumerable": "fn() -> linqjs.Enumerable"
+  },
+  "JQueryStatic": {
+    "Enumerable": "linq.EnumerableStatic"
+  },
+  "!name": "linq.jquery.d.ts"
+}

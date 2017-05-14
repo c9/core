@@ -1,0 +1,78 @@
+{
+  "GoogleAppsScript": {
+    "Base": {
+      "Blob": {
+        "copyBlob": "fn() -> Blob",
+        "getAs": "fn(contentType: string) -> Blob",
+        "getBytes": "fn() -> [Byte]",
+        "getContentType": "fn() -> string",
+        "getDataAsString": "fn() -> string",
+        "getName": "fn() -> string",
+        "isGoogleType": "fn() -> bool",
+        "setBytes": "fn(data: [Byte]) -> Blob",
+        "setContentType": "fn(contentType: string) -> Blob",
+        "setContentTypeFromExtension": "fn() -> Blob",
+        "setDataFromString": "fn(string: string) -> Blob",
+        "setName": "fn(name: string) -> Blob",
+        "getAllBlobs": "fn() -> [Blob]"
+      },
+      "BlobSource": {
+        "getAs": "fn(contentType: string) -> Blob",
+        "getBlob": "fn() -> Blob"
+      },
+      "Browser": {
+        "Buttons": "ButtonSet",
+        "inputBox": "fn(prompt: string) -> string",
+        "msgBox": "fn(prompt: string) -> string"
+      },
+      "Button": "number",
+      "ButtonSet": "number",
+      "Logger": {
+        "clear": "fn()",
+        "getLog": "fn() -> string",
+        "log": "fn(data: Object) -> Logger"
+      },
+      "Menu": {
+        "addItem": "fn(caption: string, functionName: string) -> Menu",
+        "addSeparator": "fn() -> Menu",
+        "addSubMenu": "fn(menu: Menu) -> Menu",
+        "addToUi": "fn()"
+      },
+      "MimeType": "number",
+      "Month": "number",
+      "PromptResponse": {
+        "getResponseText": "fn() -> string",
+        "getSelectedButton": "fn() -> Button"
+      },
+      "Session": {
+        "getActiveUser": "fn() -> User",
+        "getActiveUserLocale": "fn() -> string",
+        "getEffectiveUser": "fn() -> User",
+        "getScriptTimeZone": "fn() -> string",
+        "getTimeZone": "fn() -> string",
+        "getUser": "fn() -> User"
+      },
+      "Ui": {
+        "Button": "Button",
+        "ButtonSet": "ButtonSet",
+        "alert": "fn(prompt: string) -> Button",
+        "createAddonMenu": "fn() -> Menu",
+        "createMenu": "fn(caption: string) -> Menu",
+        "prompt": "fn(prompt: string) -> PromptResponse",
+        "showModalDialog": "fn(userInterface: Object, title: string)",
+        "showModelessDialog": "fn(userInterface: Object, title: string)",
+        "showSidebar": "fn(userInterface: Object)",
+        "showDialog": "fn(userInterface: Object)"
+      },
+      "User": {
+        "getEmail": "fn() -> string",
+        "getUserLoginId": "fn() -> string"
+      },
+      "Weekday": "number"
+    }
+  },
+  "Browser": "GoogleAppsScript.Base.Browser",
+  "Logger": "GoogleAppsScript.Base.Logger",
+  "Session": "GoogleAppsScript.Base.Session",
+  "!name": "google-apps-script.base.d.ts"
+}

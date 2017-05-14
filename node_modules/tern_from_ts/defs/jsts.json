@@ -1,0 +1,161 @@
+{
+  "jsts": {
+    "version": "string",
+    "geom": {
+      "Coordinate": {
+        "!type": "fn(x: number, y: number)",
+        "prototype": {
+          "x": "number",
+          "y": "number",
+          "z": "number",
+          "setCoordinate": "fn(other: Coordinate)",
+          "clone": "fn() -> Coordinate",
+          "distance": "fn(p: Coordinate) -> number",
+          "equals2D": "fn(other: Coordinate) -> bool",
+          "equals": "fn(other: Coordinate) -> bool",
+          "compareTo": "fn(other: Coordinate) -> number"
+        }
+      },
+      "Envelope": {
+        "intersects": "fn(p1: Coordinate, p2: Coordinate, q: Coordinate) -> bool",
+        "intersectsEnvelope": "fn(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate) -> bool",
+        "!type": "fn(x1: number, x2: number, y1: number, y2: number)",
+        "prototype": {
+          "minx": "number",
+          "maxx": "number",
+          "miny": "number",
+          "maxy": "number",
+          "setToNull": "fn()",
+          "isNull": "fn() -> bool",
+          "getHeight": "fn() -> number",
+          "getWidth": "fn() -> number",
+          "getMinX": "fn() -> number",
+          "getMaxX": "fn() -> number",
+          "getMinY": "fn() -> number",
+          "getMaxY": "fn() -> number",
+          "getArea": "fn() -> number",
+          "expandToInclude": "fn(p: Coordinate)",
+          "expandBy": "fn(distance: number)",
+          "translate": "fn(transX: number, transY: number)",
+          "centre": "fn() -> Coordinate",
+          "intersection": "fn(env: Envelope) -> Envelope",
+          "intersects": "fn(other: Envelope) -> bool",
+          "contains": "fn(other: Envelope) -> bool",
+          "covers": "fn(x: number, y: number) -> bool",
+          "distance": "fn(env: Envelope) -> number",
+          "equals": "fn(other: Envelope) -> bool",
+          "clone": "fn() -> Envelope"
+        }
+      },
+      "Geometry": {
+        "!type": "fn(factory?: ?)",
+        "prototype": {
+          "envelope": "Envelope",
+          "getFactory": "fn() -> ?",
+          "getGeometryType": "fn() -> string",
+          "getNumGeometries": "fn() -> number",
+          "getGeometryN": "fn(n: number) -> Geometry",
+          "getPrecisionModel": "fn() -> ?",
+          "getCoordinate": "fn() -> Coordinate",
+          "getCoordinates": "fn() -> [Coordinate]",
+          "getNumPoints": "fn() -> number",
+          "isSimple": "fn() -> bool",
+          "isValid": "fn() -> bool",
+          "isEmpty": "fn() -> bool",
+          "distance": "fn(g: Geometry) -> number",
+          "isWithinDistance": "fn(geom: Geometry, distance: number) -> bool",
+          "isRectangle": "fn() -> bool",
+          "getArea": "fn() -> number",
+          "getLength": "fn() -> number",
+          "getCentroid": "fn() -> Point",
+          "getInteriorPoint": "fn() -> Point",
+          "getDimension": "fn() -> number",
+          "getBoundary": "fn() -> Geometry",
+          "getBoundaryDimension": "fn() -> number",
+          "getEnvelope": "fn() -> Geometry",
+          "getEnvelopeInternal": "fn() -> Envelope",
+          "disjoint": "fn(g: Geometry) -> bool",
+          "touches": "fn(g: Geometry) -> bool",
+          "intersects": "fn(g: Geometry) -> bool",
+          "crosses": "fn(g: Geometry) -> bool",
+          "within": "fn(g: Geometry) -> bool",
+          "contains": "fn(g: Geometry) -> bool",
+          "overlaps": "fn(g: Geometry) -> bool",
+          "covers": "fn(g: Geometry) -> bool",
+          "coveredBy": "fn(g: Geometry) -> bool",
+          "relate": "fn(g: Geometry, intersectionPattern: string) -> bool",
+          "relate2": "fn(g: Geometry) -> ?",
+          "equalsTopo": "fn(g: Geometry) -> bool",
+          "equals": "fn(o: Object) -> bool",
+          "buffer": "fn(distance: number, quadrantSegments: number, endCapStyle: number) -> Geometry",
+          "convexHull": "fn() -> Geometry",
+          "intersection": "fn(other: Geometry) -> Geometry",
+          "union": "fn(other: Geometry) -> Geometry",
+          "difference": "fn(other: Geometry) -> Geometry",
+          "symDifference": "fn(other: Geometry) -> Geometry",
+          "equalsExact": "fn(other: Geometry, tolerance: number) -> bool",
+          "equalsNorm": "fn(g: Geometry) -> bool",
+          "apply": "fn(filter: ?)",
+          "clone": "fn() -> Geometry",
+          "normalize": "fn()",
+          "norm": "fn() -> Geometry",
+          "compareTo": "fn(o: Geometry) -> number",
+          "isEquivalentClass": "fn(other: Geometry) -> bool",
+          "checkNotGeometryCollection": "fn(g: Geometry)",
+          "isGeometryCollection": "fn() -> bool",
+          "isGeometryCollectionBase": "fn() -> bool",
+          "computeEnvelopeInternal": "fn() -> Envelope",
+          "compareToSameClass": "fn(o: Geometry) -> number",
+          "compare": "fn(a: ?, b: ?) -> number",
+          "equal": "fn(a: Coordinate, b: Coordinate, tolerance: number) -> bool"
+        }
+      },
+      "LinearRing": {
+        "prototype": {}
+      },
+      "LineString": {
+        "!type": "fn(points: ?, factory?: ?)",
+        "prototype": {
+          "getCoordinateN": "fn(n: number) -> Coordinate",
+          "getPointN": "fn(n: number) -> Point",
+          "getStartPoint": "fn() -> Point",
+          "getEndPoint": "fn() -> Point",
+          "isClosed": "fn() -> bool",
+          "isRing": "fn() -> bool"
+        }
+      },
+      "Point": {
+        "!type": "fn(coordinate: Coordinate, factory?: ?)",
+        "prototype": {
+          "getX": "fn() -> number",
+          "getY": "fn() -> number",
+          "reverse": "fn() -> Point"
+        }
+      },
+      "Polygon": {
+        "!type": "fn(shell: LinearRing, holes?: ?, factory?: ?)",
+        "prototype": {
+          "getExteriorRing": "fn() -> LinearRing",
+          "getInteriorRingN": "fn(n: number) -> LinearRing",
+          "getNumInteriorRing": "fn() -> number"
+        }
+      }
+    },
+    "io": {
+      "GeoJSONWriter": {
+        "!type": "fn()",
+        "prototype": {
+          "write": "fn(geometry: geom.Geometry) -> Object"
+        }
+      },
+      "WKTReader": {
+        "!type": "fn(geometryFactory?: ?)",
+        "prototype": {
+          "read": "fn(wkt: string) -> geom.Geometry",
+          "reducePrecision": "fn(geometry: geom.Geometry)"
+        }
+      }
+    }
+  },
+  "!name": "jsts"
+}

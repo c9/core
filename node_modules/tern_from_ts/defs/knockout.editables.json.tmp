@@ -1,0 +1,19 @@
+{
+  "KnockoutEditable": {
+    "addEditable": "fn(target: ?) -> ?",
+    "beginEdit": "fn()",
+    "commit": "fn()",
+    "rollback": "fn()",
+    "hasChanges": "fn() -> bool"
+  },
+  "KnockoutEditableStatic": {
+    "beginEdit": "fn(scope: string)",
+    "commit": "fn(scope: string)",
+    "rollback": "fn(scope: string)",
+    "hasChanges": "fn(scope: string) -> bool"
+  },
+  "KnockoutStatic": {
+    "editable": "KnockoutEditableStatic"
+  },
+  "!name": "ko.editables.d.ts"
+}

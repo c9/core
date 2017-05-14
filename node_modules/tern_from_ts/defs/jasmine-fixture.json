@@ -1,0 +1,7 @@
+{
+  "affix": "fn(selector: string) -> JQuery",
+  "JQuery": {
+    "affix": "fn(selector: string) -> JQuery"
+  },
+  "!name": "jasmine-fixture"
+}

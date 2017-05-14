@@ -1,0 +1,64 @@
+{
+  "BootstrapV3DatetimePicker": {
+    "DatetimepickerChangeEventObject": {
+      "oldDate": "moment.Moment"
+    },
+    "DatetimepickerEventObject": {
+      "date": "moment.Moment"
+    },
+    "DatetimepickerIcons": {
+      "time": "string",
+      "date": "string",
+      "up": "string",
+      "down": "string"
+    },
+    "DatetimepickerOptions": {
+      "pickDate": "bool",
+      "pickTime": "bool",
+      "useMinutes": "bool",
+      "useSeconds": "bool",
+      "useCurrent": "bool",
+      "minuteStepping": "number",
+      "minDate": "moment.Moment",
+      "Date": "?",
+      "string": "?",
+      "maxDate": "moment.Moment",
+      "showToday": "bool",
+      "collapse": "bool",
+      "language": "string",
+      "defaultDate": "moment.Moment",
+      "disabledDates": "?",
+      "enabledDates": "?",
+      "icons": "DatetimepickerIcons",
+      "useStrict": "bool",
+      "direction": "string",
+      "sideBySide": "bool",
+      "daysOfWeekDisabled": "?",
+      "calendarWeeks": "bool",
+      "format": "string",
+      "boolean": "?",
+      "locale": "string",
+      "showTodayButton": "bool",
+      "viewMode": "string",
+      "inline": "bool",
+      "toolbarPlacement": "string",
+      "showClear": "bool"
+    },
+    "Datetimepicker": {
+      "date": "fn(date: moment.Moment, Date: ?, string: ?)",
+      "minDate": "fn(date: moment.Moment, Date: ?, string: ?)",
+      "boolean": "?",
+      "maxDate": "fn(date: moment.Moment, Date: ?, string: ?)",
+      "show": "fn()",
+      "disable": "fn()",
+      "enable": "fn()"
+    }
+  },
+  "JQuery": {
+    "datetimepicker": "fn() -> JQuery",
+    "off": "fn(events: string, selector?: string, handler?: fn(eventobject: BootstrapV3DatetimePicker.DatetimepickerChangeEventObject)) -> JQuery",
+    "on": "fn(events: string, selector: string, data: ?, handler?: fn(eventobject: BootstrapV3DatetimePicker.DatetimepickerChangeEventObject)) -> JQuery",
+    "data": "fn(key: string) -> BootstrapV3DatetimePicker.Datetimepicker"
+  },
+  "!name": "bootstrap.v3.datetimepicker"
+}

@@ -1,0 +1,21 @@
+{
+  "PlatformStatic": {
+    "description": "string",
+    "layout": "string",
+    "manufacturer": "string",
+    "name": "string",
+    "prerelease": "string",
+    "product": "string",
+    "ua": "string",
+    "version": "string",
+    "os": "PlatformOS",
+    "parse": "fn(ua: string) -> PlatformStatic"
+  },
+  "PlatformOS": {
+    "architecture": "number",
+    "family": "string",
+    "version": "string"
+  },
+  "platform": "PlatformStatic",
+  "!name": "platform.d.ts"
+}

@@ -1,0 +1,246 @@
+{
+  "dojox": {
+    "date": {
+      "timezone": {},
+      "buddhist": {
+        "locale": {
+          "addCustomFormats": "fn(packageName: String, bundleName: String)",
+          "format": "fn(dateObject: dojox.date.buddhist.Date, options: Object)",
+          "getNames": "fn(item: String, type: String, context: String, locale: String, date: dojox.date.buddhist.Date)",
+          "parse": "fn(value: String, options: Object)",
+          "regexp": "fn(options: Object)"
+        },
+        "add": "fn(date: dojox.date.buddhist.Date, interval: String, amount: number)",
+        "compare": "fn(date1: dojox.date.buddhist.Date, date2: dojox.date.buddhist.Date, portion: String)",
+        "difference": "fn(date1: dojox.date.hebrew.Date, date2: dojox.date.hebrew.Date, interval: String)",
+        "getDaysInMonth": "fn(dateObject: dojox.date.buddhist.Date)",
+        "isLeapYear": "fn(dateObject: dojox.date.buddhist.Date)",
+        "Date": {
+          "!type": "fn()",
+          "prototype": {
+            "fromGregorian": "fn(gdate: Date) -> Function",
+            "getDate": "fn(isNumber: bool) -> ?",
+            "getDay": "fn() -> ?",
+            "getFullYear": "fn() -> ?",
+            "getHours": "fn() -> ?",
+            "getMilliseconds": "fn() -> ?",
+            "getMinutes": "fn() -> ?",
+            "getMonth": "fn() -> ?",
+            "getSeconds": "fn() -> ?",
+            "setDate": "fn(date: number) -> Function",
+            "setFullYear": "fn(year: number, month: number, date: number)",
+            "setHours": "fn()",
+            "setMilliseconds": "fn(milliseconds: number) -> Function",
+            "setMinutes": "fn(minutes: number) -> Function",
+            "setMonth": "fn(month: number)",
+            "setSeconds": "fn(seconds: number) -> Function",
+            "toGregorian": "fn() -> ?"
+          }
+        }
+      },
+      "hebrew": {
+        "locale": {
+          "addCustomFormats": "fn(packageName: String, bundleName: String)",
+          "format": "fn(dateObject: dojox.date.hebrew, options: Object)",
+          "getNames": "fn(item: String, type: String, context: String, locale: String, date: dojox.date.hebrew.Date)",
+          "parse": "fn(value: String, options: Object)",
+          "regexp": "fn(options: Object)"
+        },
+        "numerals": {
+          "getDayHebrewLetters": "fn(day: ?, nogrsh: bool)",
+          "getMonthHebrewLetters": "fn(month: number)",
+          "getYearHebrewLetters": "fn(year: number)",
+          "parseDayHebrewLetters": "fn(day: String)",
+          "parseMonthHebrewLetters": "fn(monthStr: String)",
+          "parseYearHebrewLetters": "fn(year: String)"
+        },
+        "add": "fn(date: dojox.date.hebrew.Date, interval: String, amount: number)",
+        "compare": "fn(dateheb1: dojox.date.hebrew.Date, dateheb2: dojox.date.hebrew.Date, portion: String)",
+        "difference": "fn(date1: dojox.date.hebrew.Date, date2: dojox.date.hebrew.Date, interval: String)",
+        "getDaysInMonth": "fn(month: dojox.date.hebrew.Date)",
+        "Date": {
+          "!type": "fn()",
+          "prototype": {
+            "fromGregorian": "fn(gdate: Date) -> Function",
+            "getDate": "fn() -> ?",
+            "getDateLocalized": "fn(locale: String) -> ?",
+            "getDay": "fn() -> number",
+            "getDaysInHebrewMonth": "fn(month: number, year: number) -> ?",
+            "getFullYear": "fn() -> ?",
+            "getHours": "fn() -> ?",
+            "getMilliseconds": "fn() -> ?",
+            "getMinutes": "fn() -> ?",
+            "getMonth": "fn() -> ?",
+            "getSeconds": "fn() -> ?",
+            "isLeapYear": "fn(year: number) -> bool",
+            "setDate": "fn(date: number) -> Function",
+            "setFullYear": "fn(year: number, month: number, date: number) -> Function",
+            "setHours": "fn() -> Function",
+            "setMilliseconds": "fn(milliseconds: number) -> Function",
+            "setMinutes": "fn(minutes: number) -> Function",
+            "setMonth": "fn(month: number) -> Function",
+            "setSeconds": "fn(seconds: number) -> Function",
+            "toGregorian": "fn() -> ?"
+          }
+        }
+      },
+      "islamic": {
+        "locale": {
+          "months": "Object",
+          "weekDays": "Object",
+          "addCustomFormats": "fn(packageName: String, bundleName: String)",
+          "format": "fn(dateObject: dojox.date.islamic.Date, options: Object)",
+          "getNames": "fn(item: String, type: String, context: String, locale: String, date: dojox.date.islamic.Date) -> ?",
+          "parse": "fn(value: String, options: Object)",
+          "regexp": "fn(options: Object)"
+        },
+        "add": "fn(date: dojox.date.islamic.Date, interval: String, amount: number)",
+        "compare": "fn(date1: dojox.date.islamic.Date, date2: dojox.date.islamic.Date, portion: String)",
+        "difference": "fn(date1: dojox.date.islamic.Date, date2: dojox.date.islamic.Date, interval: String)",
+        "getDaysInMonth": "fn(month: dojox.date.islamic.Date)",
+        "Date": {
+          "!type": "fn()",
+          "prototype": {
+            "fromGregorian": "fn(gdate: Date) -> Function",
+            "getDate": "fn() -> ?",
+            "getDay": "fn() -> ?",
+            "getDaysInIslamicMonth": "fn(month: number, year: number) -> number",
+            "getFullYear": "fn() -> ?",
+            "getHours": "fn() -> ?",
+            "getMilliseconds": "fn() -> ?",
+            "getMinutes": "fn() -> ?",
+            "getMonth": "fn() -> ?",
+            "getSeconds": "fn() -> ?",
+            "setDate": "fn(date: number) -> Function",
+            "setFullYear": "fn(year: number)",
+            "setHours": "fn()",
+            "setMilliseconds": "fn(milliseconds: number) -> Function",
+            "setMinutes": "fn(minutes: number) -> Function",
+            "setMonth": "fn(month: number)",
+            "setSeconds": "fn(seconds: number) -> Function",
+            "toGregorian": "fn() -> ?"
+          }
+        }
+      },
+      "persian": {
+        "locale": {
+          "months": "Object",
+          "weekDays": "Object",
+          "addCustomFormats": "fn(packageName: String, bundleName: String)",
+          "format": "fn(dateObject: dojox.date.persian.Date, options: Object)",
+          "getNames": "fn(item: String, type: String, context: String, locale: String, date: dojox.date.persian.Date) -> ?",
+          "parse": "fn(value: String, options: Object)",
+          "regexp": "fn(options: Object)"
+        },
+        "add": "fn(date: dojox.date.persian.Date, interval: String, amount: number)",
+        "compare": "fn(date1: dojox.date.persian.Date, date2: dojox.date.persian.Date, portion: String)",
+        "difference": "fn(date1: dojox.date.persian.Date, date2: dojox.date.persian.Date, interval: String)",
+        "getDaysInMonth": "fn(month: dojox.date.persian.Date)",
+        "Date": {
+          "!type": "fn()",
+          "prototype": {
+            "daysInMonth": "[?]",
+            "calcGregorian": "fn(year: ?, month: ?, day: ?) -> ?",
+            "fromGregorian": "fn(gdate: Date) -> Function",
+            "getDate": "fn() -> ?",
+            "getDay": "fn() -> ?",
+            "getDaysInPersianMonth": "fn(month: number, year: number) -> ?",
+            "getFullYear": "fn() -> ?",
+            "getHours": "fn() -> ?",
+            "getMilliseconds": "fn() -> ?",
+            "getMinutes": "fn() -> ?",
+            "getMonth": "fn() -> ?",
+            "getSeconds": "fn() -> ?",
+            "gregorian_to_jd": "fn(year: ?, month: ?, day: ?) -> number",
+            "isLeapYear": "fn(j_y: ?, j_m: ?, j_d: ?) -> bool",
+            "jd_to_gregorian": "fn(jd: ?, jmonth: ?) -> ?",
+            "jd_to_persian": "fn(jd: ?) -> ?",
+            "jwday": "fn(j: ?) -> ?",
+            "leap_gregorian": "fn(year: ?) -> bool",
+            "persian_to_jd": "fn(year: ?, month: ?, day: ?) -> number",
+            "setDate": "fn(date: number) -> Function",
+            "setFullYear": "fn(year: number)",
+            "setHours": "fn()",
+            "setMilliseconds": "fn(milliseconds: number) -> Function",
+            "setMinutes": "fn(minutes: number) -> Function",
+            "setMonth": "fn(month: number)",
+            "setSeconds": "fn(seconds: number) -> Function",
+            "toGregorian": "fn() -> ?"
+          }
+        }
+      },
+      "umalqura": {
+        "locale": {
+          "months": "Object",
+          "weekDays": "Object",
+          "addCustomFormats": "fn(packageName: String, bundleName: String)",
+          "format": "fn(dateObject: dojox.date.umalqura.Date, options: Object)",
+          "getNames": "fn(item: String, type: String, context: String, locale: String, date: dojox.date.umalqura.Date) -> ?",
+          "parse": "fn(value: String, options: Object)",
+          "regexp": "fn(options: Object)"
+        },
+        "add": "fn(date: dojox.date.umalqura.Date, interval: String, amount: number)",
+        "compare": "fn(date1: dojox.date.umalqura.Date, date2: dojox.date.umalqura.Date, portion: String)",
+        "difference": "fn(date1: dojox.date.umalqura.Date, date2: dojox.date.umalqura.Date, interval: String)",
+        "getDaysInMonth": "fn(month: dojox.date.umalqura.Date)",
+        "Date": {
+          "!type": "fn()",
+          "prototype": {
+            "fromGregorian": "fn(gdate: Date) -> Function",
+            "getDate": "fn() -> ?",
+            "getDay": "fn() -> ?",
+            "getDaysInIslamicMonth": "fn(month: number, year: number) -> ?",
+            "getFullYear": "fn() -> ?",
+            "getHours": "fn() -> ?",
+            "getMilliseconds": "fn() -> ?",
+            "getMinutes": "fn() -> ?",
+            "getMonth": "fn() -> ?",
+            "getSeconds": "fn() -> ?",
+            "setDate": "fn(date: number) -> Function",
+            "setFullYear": "fn(year: number)",
+            "setHours": "fn()",
+            "setMilliseconds": "fn(milliseconds: number)",
+            "setMinutes": "fn(minutes: number)",
+            "setMonth": "fn(month: number)",
+            "setSeconds": "fn(seconds: number)",
+            "toGregorian": "fn() -> ?"
+          }
+        }
+      },
+      "php": {
+        "DateFormat": "fn(format: String)",
+        "format": "fn(date: Date, format: String)"
+      },
+      "relative": {
+        "format": "fn(dateObject: Date, options: Object)"
+      },
+      "posix": {
+        "getIsoWeekOfYear": "fn(dateObject: Date)",
+        "getIsoWeeksInYear": "fn(dateObject: Date)",
+        "getStartOfWeek": "fn(dateObject: Date, firstDay: number)",
+        "setIsoWeekOfYear": "fn(dateObject: Date, week: number)",
+        "strftime": "fn(dateObject: Date, format: String, locale: String)"
+      }
+    }
+  },
+  "dojox/date/buddhist": "exp",
+  "dojox/date/buddhist/Date": "exp",
+  "dojox/date/buddhist/locale": "exp",
+  "dojox/date/hebrew": "exp",
+  "dojox/date/hebrew/Date": "exp",
+  "dojox/date/hebrew/locale": "exp",
+  "dojox/date/hebrew/numerals": "exp",
+  "dojox/date/islamic": "exp",
+  "dojox/date/islamic/Date": "exp",
+  "dojox/date/islamic/locale": "exp",
+  "dojox/date/persian": "exp",
+  "dojox/date/persian/Date": "exp",
+  "dojox/date/persian/locale": "exp",
+  "dojox/date/umalqura": "exp",
+  "dojox/date/umalqura/Date": "exp",
+  "dojox/date/umalqura/locale": "exp",
+  "dojox/date/php": "exp",
+  "dojox/date/posix": "exp",
+  "dojox/date/relative": "exp",
+  "!name": "dojox.date.d.ts"
+}

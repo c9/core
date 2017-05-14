@@ -1,0 +1,21 @@
+{
+  "grecaptcha": "ReCaptchaV2.ReCaptcha",
+  "ReCaptchaV2": {
+    "ReCaptcha": {
+      "prototype": {
+        "render": "fn(container: fn(string: ?, HTMLElement: ?), parameters?: Parameters) -> number",
+        "reset": "fn(opt_widget_id?: number)",
+        "getResponse": "fn(opt_widget_id?: number) -> string"
+      }
+    },
+    "Parameters": {
+      "sitekey": "string",
+      "theme": "string",
+      "type": "string",
+      "tabindex": "number",
+      "callback": "fn(response: string)",
+      "expired-callback": "fn()"
+    }
+  },
+  "!name": "grecaptcha"
+}

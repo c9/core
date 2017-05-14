@@ -1,0 +1,1122 @@
+{
+  "fabric": {
+    "isLikelyNode": "bool",
+    "isTouchSupported": "bool",
+    "createCanvasForNode": "fn(width: number, height: number) -> ICanvas",
+    "createSVGRefElementsMarkup": "fn(canvas: IStaticCanvas) -> string",
+    "createSVGFontFacesMarkup": "fn(objects: [IObject]) -> string",
+    "loadSVGFromString": "fn(string: string, callback: fn(results: [IObject], options: ?), reviver?: Function)",
+    "loadSVGFromURL": "fn(url: string, callback: fn(results: [IObject], options: ?), reviver?: Function)",
+    "getCSSRules": "fn(doc: SVGElement) -> ?",
+    "parseElements": "fn(elements: [?], callback: Function, options: ?, reviver?: Function)",
+    "parsePointsAttribute": "fn(points: string) -> [?]",
+    "parseStyleAttribute": "fn(element: SVGElement) -> ?",
+    "parseAttributes": "fn(elemen: HTMLElement, attributes: [string], svgUid?: string) -> ret",
+    "getGradientDefs": "fn(doc: SVGElement) -> ret1",
+    "parseFontDeclaration": "fn(value: string, oStyle: ?)",
+    "parseSVGDocument": "fn(doc: SVGElement, callback: fn(results: [IObject], options: ?), reviver?: Function)",
+    "parseTransformAttribute": "fn(attributeValue: string) -> [number]",
+    "log": "fn(values: [?])",
+    "warn": "fn(values: [?])",
+    "Canvas": "ICanvasStatic",
+    "StaticCanvas": "IStaticCanvasStatic",
+    "Color": "IColorStatic",
+    "Pattern": "IPatternStatic",
+    "Intersection": "IIntersectionStatic",
+    "Point": "IPointStatic",
+    "Circle": "ICircleStatic",
+    "Ellipse": "IEllipseStatic",
+    "Group": "IGroupStatic",
+    "Image": "IImageStatic",
+    "Line": "ILineStatic",
+    "Object": "IObjectStatic",
+    "Path": "IPathStatic",
+    "PathGroup": "IPathGroupStatic",
+    "Polygon": "IPolygonStatic",
+    "Polyline": "IPolylineStatic",
+    "Rect": "IRectStatic",
+    "Shadow": "IShadowStatic",
+    "Text": "ITextStatic",
+    "IText": {
+      "complexity": "fn() -> number",
+      "render": "fn(ctx: CanvasRenderingContext2D, noTransform: bool)",
+      "toObject": "fn(propertiesToInclude?: [?]) -> IObject",
+      "toSVG": "fn(reviver?: Function) -> string",
+      "getFontSize": "fn() -> number",
+      "setFontSize": "fn(fontSize: number) -> IText",
+      "getFontWeight": "fn() -> number",
+      "string": "?",
+      "setFontWeight": "fn(fontWeight: string, number: ?) -> IText",
+      "getFontFamily": "fn() -> string",
+      "setFontFamily": "fn(fontFamily: string) -> IText",
+      "getText": "fn() -> string",
+      "setText": "fn(text: string) -> IText",
+      "getTextDecoration": "fn() -> string",
+      "setTextDecoration": "fn(textDecoration: string) -> IText",
+      "getFontStyle": "fn() -> string",
+      "setFontStyle": "fn(fontStyle: string) -> IText",
+      "getLineHeight": "fn() -> number",
+      "setLineHeight": "fn(lineHeight: number) -> IText",
+      "getTextAlign": "fn() -> string",
+      "setTextAlign": "fn(textAlign: string) -> IText",
+      "getTextBackgroundColor": "fn() -> string",
+      "setTextBackgroundColor": "fn(textBackgroundColor: string) -> IText"
+    },
+    "Triangle": "ITriangleStatic",
+    "util": "IUtil",
+    "IDataURLOptions": {
+      "format": "string",
+      "quality": "number",
+      "multiplier": "number",
+      "left": "number",
+      "top": "number",
+      "width": "number",
+      "height": "number"
+    },
+    "IEvent": {
+      "e": "Event",
+      "target": "IObject"
+    },
+    "IFillOptions": {
+      "source": "string",
+      "HTMLImageElement": "?",
+      "repeat": "string",
+      "offsetX": "number",
+      "offsetY": "number"
+    },
+    "IToSVGOptions": {
+      "suppressPreamble": "bool",
+      "viewBox": "IViewBox",
+      "encoding": "string"
+    },
+    "IViewBox": {
+      "x": "number",
+      "y": "number",
+      "width": "number",
+      "height": "number"
+    },
+    "ICollection": {
+      "add": "fn(object: [IObject]) -> T",
+      "insertAt": "fn(object: IObject, index: number, nonSplicing: bool) -> T",
+      "remove": "fn(object: [IObject]) -> T",
+      "forEachObject": "fn(callback: fn(element: IObject, index: number, array: [IObject]), context?: ?) -> T",
+      "getObjects": "fn(type?: string) -> [IObject]",
+      "item": "fn(index: number) -> T",
+      "isEmpty": "fn() -> bool",
+      "size": "fn() -> number",
+      "contains": "fn(object: IObject) -> bool",
+      "complexity": "fn() -> number"
+    },
+    "IObservable": {
+      "on": "fn(eventName: string, handler: fn(e: IEvent)) -> T",
+      "trigger": "fn(eventName: string, options?: ?) -> T",
+      "off": "fn(eventName?: string, any: ?, handler?: fn(e: IEvent)) -> T"
+    },
+    "ICanvasAnimation": {
+      "FX_DURATION": "number",
+      "fxCenterObjectH": "fn(object: IObject, callbacks?: ?) -> T",
+      "fxCenterObjectV": "fn(object: IObject, callbacks?: ?) -> T",
+      "fxRemove": "fn(object: IObject, callbacks?: ?) -> T"
+    },
+    "IObjectAnimation": {
+      "animate": "fn(property: string, value: number, string: ?, options?: IAnimationOptions) -> IObject"
+    },
+    "IAnimationOptions": {
+      "from": "string",
+      "number": "?",
+      "duration": "number",
+      "onChange": "Function",
+      "onComplete": "Function",
+      "easing": "Function",
+      "by": "number"
+    },
+    "IColor": {
+      "getSource": "fn() -> [number]",
+      "setSource": "fn(source: [number])",
+      "toRgb": "fn() -> string",
+      "toRgba": "fn() -> string",
+      "toHsl": "fn() -> string",
+      "toHsla": "fn() -> string",
+      "toHex": "fn() -> string",
+      "getAlpha": "fn() -> number",
+      "setAlpha": "fn(alpha: number)",
+      "toGrayscale": "fn() -> IColor",
+      "toBlackWhite": "fn(threshold: number) -> IColor",
+      "overlayWith": "fn(otherColor: string, IColor: ?) -> IColor"
+    },
+    "IColorStatic": {
+      "fromRgb": "fn(color: string) -> IColor",
+      "fromRgba": "fn(color: string) -> IColor",
+      "sourceFromRgb": "fn(color: string) -> [number]",
+      "fromHsl": "fn(color: string) -> IColor",
+      "fromHsla": "fn(color: string) -> IColor",
+      "sourceFromHsl": "fn(color: string) -> [number]",
+      "fromHex": "fn(color: string) -> IColor",
+      "sourceFromHex": "fn(color: string) -> [number]",
+      "fromSource": "fn(source: [number]) -> IColor",
+      "prototype": "?"
+    },
+    "IGradientOptions": {
+      "type": "string",
+      "x1": "number",
+      "y1": "number",
+      "x2": "number",
+      "y2": "number",
+      "r1": "number",
+      "r2": "number",
+      "colorStops": "?"
+    },
+    "IGradient": {
+      "addColorStop": "fn(colorStop: ?) -> IGradient",
+      "toObject": "fn() -> ?",
+      "toSVG": "fn(object: IObject, normalize?: bool) -> string",
+      "toLive": "fn(ctx: CanvasRenderingContext2D, object?: IPathGroup) -> CanvasGradient"
+    },
+    "IGrandientStatic": {
+      "fromElement": "fn(el: SVGGradientElement, instance: IObject) -> IGradient",
+      "fromObject": "fn(obj: ?, options: [?]) -> IGradient"
+    },
+    "IIntersection": {
+      "appendPoint": "fn(point: IPoint)",
+      "appendPoints": "fn(points: [IPoint])"
+    },
+    "IIntersectionStatic": {
+      "intersectPolygonPolygon": "fn(points1: [IPoint], points2: [IPoint]) -> IIntersection",
+      "intersectLinePolygon": "fn(a1: IPoint, a2: IPoint, points: [IPoint]) -> IIntersection",
+      "intersectLineLine": "fn(a1: IPoint, a2: IPoint, b1: IPoint, b2: IPoint) -> IIntersection",
+      "intersectPolygonRectangle": "fn(points: [IPoint], r1: number, r2: number) -> IIntersection"
+    },
+    "IPatternOptions": {
+      "repeat": "string",
+      "offsetX": "number",
+      "offsetY": "number",
+      "source": "string",
+      "HTMLImageElement": "?"
+    },
+    "IPattern": {
+      "initialise": "fn(options?: IPatternOptions) -> IPattern",
+      "toLive": "fn(ctx: CanvasRenderingContext2D) -> IPattern",
+      "toObject": "fn() -> ?",
+      "toSVG": "fn(object: IObject) -> string"
+    },
+    "IPatternStatic": {
+      "prototype": "?"
+    },
+    "IPoint": {
+      "x": "number",
+      "y": "number",
+      "add": "fn(that: IPoint) -> IPoint",
+      "addEquals": "fn(that: IPoint) -> IPoint",
+      "scalarAdd": "fn(scalar: number) -> IPoint",
+      "scalarAddEquals": "fn(scalar: number) -> IPoint",
+      "subtract": "fn(that: IPoint) -> IPoint",
+      "subtractEquals": "fn(that: IPoint) -> IPoint",
+      "scalarSubtract": "fn(scalar: number) -> IPoint",
+      "scalarSubtractEquals": "fn(scalar: number) -> IPoint",
+      "multiply": "fn(scalar: number) -> IPoint",
+      "multiplyEquals": "fn(scalar: number) -> IPoint",
+      "divide": "fn(scalar: number) -> IPoint",
+      "divideEquals": "fn(scalar: number) -> IPoint",
+      "eq": "fn(that: IPoint) -> IPoint",
+      "lt": "fn(that: IPoint) -> IPoint",
+      "lte": "fn(that: IPoint) -> IPoint",
+      "gt": "fn(that: IPoint) -> IPoint",
+      "gte": "fn(that: IPoint) -> IPoint",
+      "lerp": "fn(that: IPoint, t: number) -> IPoint",
+      "distanceFrom": "fn(that: IPoint) -> number",
+      "midPointFrom": "fn(that: IPoint) -> IPoint",
+      "min": "fn(that: IPoint) -> IPoint",
+      "max": "fn(that: IPoint) -> IPoint",
+      "setXY": "fn(x: number, y: number) -> IPoint",
+      "setFromPoint": "fn(that: IPoint) -> IPoint",
+      "swap": "fn(that: IPoint) -> IPoint"
+    },
+    "IPointStatic": {
+      "prototype": "?"
+    },
+    "IShadowOptions": {
+      "affectStrike": "bool",
+      "blur": "number",
+      "color": "string",
+      "includeDefaultValues": "bool",
+      "offsetX": "number",
+      "offsetY": "number"
+    },
+    "IShadow": {
+      "initialize": "fn(options?: IShadowOptions, string: ?) -> IShadow",
+      "toObject": "fn() -> IObject",
+      "toSVG": "fn(object: IObject) -> string",
+      "reOffsetsAndBlur": "RegExp"
+    },
+    "IShadowStatic": {
+      "reOffsetsAndBlur": "RegExp"
+    },
+    "ICanvasDimensions": {
+      "width": "number",
+      "height": "number"
+    },
+    "ICanvasDimensionsOptions": {
+      "backstoreOnly": "bool",
+      "cssOnly": "bool"
+    },
+    "IStaticCanvasOptions": {
+      "allowTouchScrolling": "bool",
+      "imageSmoothingEnabled": "bool",
+      "preserveObjectStacking": "bool",
+      "viewportTransform": "[number]",
+      "freeDrawingColor": "string",
+      "freeDrawingLineWidth": "number",
+      "backgroundColor": "string",
+      "IPattern": "?",
+      "backgroundImage": "IImage",
+      "string": "?",
+      "backgroundImageOpacity": "number",
+      "backgroundImageStretch": "number",
+      "clipTo": "fn(context: CanvasRenderingContext2D)",
+      "controlsAboveOverlay": "bool",
+      "includeDefaultValues": "bool",
+      "overlayColor": "string",
+      "overlayImage": "IImage",
+      "overlayImageLeft": "number",
+      "overlayImageTop": "number",
+      "renderOnAddRemove": "bool",
+      "stateful": "bool"
+    },
+    "IStaticCanvas": {
+      "calcOffset": "fn() -> IStaticCanvas",
+      "setOverlayImage": "fn(image: IImage, string: ?, callback: Function, options?: IObjectOptions) -> IStaticCanvas",
+      "setBackgroundImage": "fn(image: IImage, string: ?, callback: Function, options?: IObjectOptions) -> IStaticCanvas",
+      "setOverlayColor": "fn(overlayColor: string, IPattern: ?, callback: Function) -> IStaticCanvas",
+      "setBackgroundColor": "fn(backgroundColor: string, IPattern: ?, callback: Function) -> IStaticCanvas",
+      "getWidth": "fn() -> number",
+      "getHeight": "fn() -> number",
+      "setWidth": "fn(value: number, string: ?, options?: ICanvasDimensionsOptions) -> IStaticCanvas",
+      "setHeight": "fn(value: number, string: ?, options?: ICanvasDimensionsOptions) -> IStaticCanvas",
+      "setDimensions": "fn(dimensions: ICanvasDimensions, options?: ICanvasDimensionsOptions) -> IStaticCanvas",
+      "getZoom": "fn() -> number",
+      "setViewportTransform": "fn(vpt: [number]) -> IStaticCanvas",
+      "zoomToPoint": "fn(point: IPoint, value: number) -> IStaticCanvas",
+      "setZoom": "fn(value: number) -> IStaticCanvas",
+      "absolutePan": "fn(point: IPoint) -> IStaticCanvas",
+      "relativePan": "fn(point: IPoint) -> IStaticCanvas",
+      "getElement": "fn() -> HTMLCanvasElement",
+      "getActiveObject": "fn() -> IObject",
+      "getActiveGroup": "fn() -> IGroup",
+      "clearContext": "fn(ctx: CanvasRenderingContext2D) -> IStaticCanvas",
+      "getContext": "fn() -> CanvasRenderingContext2D",
+      "clear": "fn() -> IStaticCanvas",
+      "renderAll": "fn(allOnTop?: bool) -> IStaticCanvas",
+      "renderTop": "fn() -> IStaticCanvas",
+      "getCenter": "fn() -> ret2",
+      "centerObjectH": "fn(object: IObject) -> IStaticCanvas",
+      "centerObjectV": "fn(object: IObject) -> IStaticCanvas",
+      "centerObject": "fn(object: IObject) -> IStaticCanvas",
+      "toDatalessJSON": "fn(propertiesToInclude?: [?]) -> string",
+      "toObject": "fn(propertiesToInclude?: [?]) -> ?",
+      "toDatalessObject": "fn(propertiesToInclude?: [?]) -> ?",
+      "svgViewportTransformation": "bool",
+      "toSVG": "fn(options: IToSVGOptions, reviver?: Function) -> string",
+      "sendToBack": "fn(object: IObject) -> IStaticCanvas",
+      "bringToFront": "fn(object: IObject) -> IStaticCanvas",
+      "sendBackwards": "fn(object: IObject) -> IStaticCanvas",
+      "bringForward": "fn(object: IObject) -> IStaticCanvas",
+      "moveTo": "fn(object: IObject, index: number) -> IStaticCanvas",
+      "dispose": "fn() -> IStaticCanvas",
+      "toDataURL": "fn(options?: IDataURLOptions) -> string",
+      "supports": "fn(methodName: string) -> bool",
+      "loadFromJSON": "fn(json: string, any: ?, callback: Function, reviver?: Function) -> ICanvas",
+      "clone": "fn(callback: fn(canvas: IStaticCanvas), properties?: [?])",
+      "cloneWithoutData": "fn(callback: fn(canvas: IStaticCanvas))",
+      "onBeforeScaleRotate": "fn(target: IObject)",
+      "straightenObject": "fn(object: IObject) -> IStaticCanvas",
+      "fxStraightenObject": "fn(object: IObject) -> IStaticCanvas"
+    },
+    "IStaticCanvasStatic": {
+      "EMPTY_JSON": "string",
+      "supports": "fn(methodName: string) -> bool",
+      "prototype": "?",
+      "toJSON": "fn(propertiesToInclude?: [?]) -> string"
+    },
+    "ICanvasOptions": {
+      "uniScaleTransform": "bool",
+      "centeredScaling": "bool",
+      "centeredRotation": "bool",
+      "interactive": "bool",
+      "selection": "bool",
+      "selectionColor": "string",
+      "selectionDashArray": "[?]",
+      "selectionBorderColor": "string",
+      "selectionLineWidth": "number",
+      "hoverCursor": "string",
+      "moveCursor": "string",
+      "defaultCursor": "string",
+      "freeDrawingCursor": "string",
+      "rotationCursor": "string",
+      "containerClass": "string",
+      "perPixelTargetFind": "bool",
+      "targetFindTolerance": "number",
+      "skipTargetFind": "bool",
+      "isDrawingMode": "bool"
+    },
+    "ICanvas": {
+      "_objects": "[IObject]",
+      "containsPoint": "fn(e: Event, target: IObject) -> bool",
+      "deactivateAll": "fn() -> ICanvas",
+      "deactivateAllWithDispatch": "fn(e?: Event) -> ICanvas",
+      "discardActiveGroup": "fn(e?: Event) -> ICanvas",
+      "discardActiveObject": "fn(e?: Event) -> ICanvas",
+      "drawControls": "fn(ctx: CanvasRenderingContext2D)",
+      "findTarget": "fn(e: MouseEvent, skipGroup: bool) -> ICanvas",
+      "getActiveGroup": "fn() -> IGroup",
+      "getActiveObject": "fn() -> IObject",
+      "getPointer": "fn(e: Event, ignoreZoom?: bool, upperCanvasEl?: CanvasRenderingContext2D) -> ret3",
+      "getSelectionContext": "fn() -> CanvasRenderingContext2D",
+      "getSelectionElement": "fn() -> HTMLCanvasElement",
+      "isTargetTransparent": "fn(target: IObject, x: number, y: number) -> bool",
+      "setActiveGroup": "fn(group: IGroup, e?: Event) -> ICanvas",
+      "setActiveObject": "fn(object: IObject, e?: Event) -> ICanvas",
+      "setCursor": "fn(value: string)",
+      "removeListeners": "fn()"
+    },
+    "ICanvasStatic": {
+      "EMPTY_JSON": "string",
+      "supports": "fn(methodName: string) -> bool",
+      "prototype": "?",
+      "toJSON": "fn(propertiesToInclude?: [?]) -> string"
+    },
+    "ICircleOptions": {
+      "radius": "number",
+      "startAngle": "number",
+      "endAngle": "number"
+    },
+    "ICircle": {
+      "complexity": "fn() -> number",
+      "getRadiusX": "fn() -> number",
+      "getRadiusY": "fn() -> number",
+      "setRadius": "fn(value: number) -> number",
+      "toObject": "fn(propertiesToInclude?: [?]) -> ?",
+      "toSVG": "fn(reviver?: Function) -> string"
+    },
+    "ICircleStatic": {
+      "ATTRIBUTE_NAMES": "[string]",
+      "fromElement": "fn(element: SVGElement, options: ICircleOptions) -> ICircle",
+      "fromObject": "fn(object: ?) -> ICircle",
+      "prototype": "?"
+    },
+    "IEllipseOptions": {
+      "rx": "number",
+      "ry": "number"
+    },
+    "IEllipse": {
+      "getRx": "fn() -> number",
+      "getRy": "fn() -> number",
+      "toObject": "fn(propertiesToInclude?: [?]) -> ?",
+      "toSVG": "fn(reviver?: Function) -> string",
+      "complexity": "fn() -> number"
+    },
+    "IEllipseStatic": {
+      "ATTRIBUTE_NAMES": "[string]",
+      "fromElement": "fn(element: SVGElement, options?: IEllipseOptions) -> IEllipse",
+      "fromObject": "fn(object: ?) -> IEllipse"
+    },
+    "IGroup": {
+      "activateAllObjects": "fn() -> IGroup",
+      "addWithUpdate": "fn(object: IObject) -> IGroup",
+      "containsPoint": "fn(point: IPoint) -> bool",
+      "destroy": "fn() -> IGroup",
+      "get": "fn(prop: string) -> ?",
+      "hasMoved": "fn() -> bool",
+      "removeWithUpdate": "fn(object: IObject) -> IGroup",
+      "render": "fn(ctx: CanvasRenderingContext2D)",
+      "remove": "fn(object: [IObject]) -> IGroup",
+      "saveCoords": "fn() -> IGroup",
+      "setObjectsCoords": "fn() -> IGroup",
+      "toObject": "fn(propertiesToInclude?: [?]) -> ?",
+      "toSVG": "fn(reviver?: Function) -> string"
+    },
+    "IGroupStatic": {
+      "fromObject": "fn(object: ?, callback: fn(group: IGroup))"
+    },
+    "IImageOptions": {
+      "crossOrigin": "string",
+      "alignX": "string",
+      "alignY": "string",
+      "meetOrSlice": "string",
+      "filters": "[IBaseFilter]"
+    },
+    "IImage": {
+      "initialize": "fn(element?: string, HTMLImageElement: ?, options?: IImageOptions)",
+      "applyFilters": "fn(callback: Function)",
+      "clone": "fn(callback?: Function, propertiesToInclude?: [?]) -> IObject",
+      "complexity": "fn() -> number",
+      "getElement": "fn() -> HTMLImageElement",
+      "getOriginalSize": "fn() -> ret4",
+      "getSrc": "fn() -> string",
+      "render": "fn(ctx: CanvasRenderingContext2D, noTransform: bool)",
+      "setElement": "fn(element: HTMLImageElement, callback: Function, options: IImageOptions) -> IImage",
+      "setCrossOrigin": "fn(value: string) -> IImage",
+      "toObject": "fn(propertiesToInclude?: [?]) -> ?",
+      "toSVG": "fn(reviver?: Function) -> string",
+      "setSrc": "fn(src: string, callback: Function, options: IImageOptions) -> IImage"
+    },
+    "IImageStatic": {
+      "fromURL": "fn(url: string, callback?: fn(image: IImage), objObjects?: IObjectOptions) -> IImage",
+      "fromObject": "fn(object: ?, callback: fn(image: IImage))",
+      "fromElement": "fn(element: SVGElement, callback: Function, options?: IImageOptions)",
+      "prototype": "?",
+      "CSS_CANVAS": "string",
+      "filters": "IAllFilters"
+    },
+    "ILineOptions": {
+      "x1": "number",
+      "x2": "number",
+      "y1": "number",
+      "y2": "number"
+    },
+    "ILine": {
+      "complexity": "fn() -> number",
+      "initialize": "fn(points?: [number], options?: ILineOptions) -> ILine",
+      "toObject": "fn(propertiesToInclude: [?]) -> ?",
+      "toSVG": "fn(reviver?: Function) -> string"
+    },
+    "ILineStatic": {
+      "ATTRIBUTE_NAMES": "[string]",
+      "fromElement": "fn(element: SVGElement, options?: ILineOptions) -> ILine",
+      "fromObject": "fn(object: ?) -> ILine",
+      "prototype": "?"
+    },
+    "IObjectOptions": {
+      "type": "string",
+      "originX": "string",
+      "originY": "string",
+      "top": "number",
+      "left": "number",
+      "width": "number",
+      "height": "number",
+      "scaleX": "number",
+      "scaleY": "number",
+      "flipX": "bool",
+      "flipY": "bool",
+      "opacity": "number",
+      "angle": "number",
+      "cornerSize": "number",
+      "transparentCorners": "bool",
+      "hoverCursor": "string",
+      "padding": "number",
+      "borderColor": "string",
+      "cornerColor": "string",
+      "centeredScaling": "bool",
+      "centeredRotation": "bool",
+      "fill": "string",
+      "fillRule": "string",
+      "globalCompositeOperation": "string",
+      "backgroundColor": "string",
+      "stroke": "string",
+      "strokeWidth": "number",
+      "strokeDashArray": "[?]",
+      "strokeLineCap": "string",
+      "strokeLineJoin": "string",
+      "strokeMiterLimit": "number",
+      "shadow": "IShadow",
+      "string": "?",
+      "borderOpacityWhenMoving": "number",
+      "borderScaleFactor": "number",
+      "transformMatrix": "[?]",
+      "minScaleLimit": "number",
+      "selectable": "bool",
+      "evented": "bool",
+      "visible": "bool",
+      "hasControls": "bool",
+      "hasBorders": "bool",
+      "hasRotatingPoint": "bool",
+      "rotatingPointOffset": "number",
+      "perPixelTargetFind": "bool",
+      "includeDefaultValues": "bool",
+      "clipTo": "Function",
+      "lockMovementX": "bool",
+      "lockMovementY": "bool",
+      "lockRotation": "bool",
+      "lockScalingX": "bool",
+      "lockScalingY": "bool",
+      "lockUniScaling": "bool",
+      "lockScalingFlip": "bool",
+      "name": "string",
+      "data": "?"
+    },
+    "IObject": {
+      "getCurrentWidth": "fn() -> number",
+      "getCurrentHeight": "fn() -> number",
+      "getAngle": "fn() -> number",
+      "setAngle": "fn(value: number) -> IObject",
+      "getBorderColor": "fn() -> string",
+      "setBorderColor": "fn(value: string) -> IObject",
+      "getBorderScaleFactor": "fn() -> number",
+      "getCornersize": "fn() -> number",
+      "setCornersize": "fn(value: number) -> IObject",
+      "getFill": "fn() -> string",
+      "setFill": "fn(value: string) -> IObject",
+      "getFillRule": "fn() -> string",
+      "setFillRule": "fn(value: string) -> IObject",
+      "getFlipX": "fn() -> bool",
+      "setFlipX": "fn(value: bool) -> IObject",
+      "getFlipY": "fn() -> bool",
+      "setFlipY": "fn(value: bool) -> IObject",
+      "getHeight": "fn() -> number",
+      "setHeight": "fn(value: number) -> IObject",
+      "getLeft": "fn() -> number",
+      "setLeft": "fn(value: number) -> IObject",
+      "getOpacity": "fn() -> number",
+      "setOpacity": "fn(value: number) -> IObject",
+      "overlayFill": "string",
+      "getOverlayFill": "fn() -> string",
+      "setOverlayFill": "fn(value: string) -> IObject",
+      "getScaleX": "fn() -> number",
+      "setScaleX": "fn(value: number) -> IObject",
+      "getScaleY": "fn() -> number",
+      "setScaleY": "fn(value: number) -> IObject",
+      "setShadow": "fn(options: ?) -> IObject",
+      "getShadow": "fn() -> IObject",
+      "stateProperties": "[?]",
+      "getTop": "fn() -> number",
+      "setTop": "fn(value: number) -> IObject",
+      "getWidth": "fn() -> number",
+      "setWidth": "fn(value: number) -> IObject",
+      "setOptions": "fn(options: ?)",
+      "transform": "fn(ctx: CanvasRenderingContext2D, fromLeft: bool)",
+      "toObject": "fn(propertiesToInclude?: [?]) -> ?",
+      "toDatalessObject": "fn(propertiesToInclude?: [?]) -> ?",
+      "get": "fn(property: string) -> ?",
+      "set": "fn(key: string, value: ?, Function: ?) -> IObject",
+      "toggle": "fn(property: string) -> IObject",
+      "setSourcePath": "fn(value: string) -> IObject",
+      "getViewportTransform": "fn() -> bool",
+      "render": "fn(ctx: CanvasRenderingContext2D, noTransform?: bool)",
+      "clone": "fn(callback: Function, propertiesToInclude?: [?]) -> IObject",
+      "cloneAsImage": "fn(callback: fn(image: IImage)) -> IObject",
+      "toDataURL": "fn(options: IDataURLOptions) -> string",
+      "isType": "fn(type: string) -> bool",
+      "complexity": "fn() -> number",
+      "toJSON": "fn(propertiesToInclude?: [?]) -> ?",
+      "setGradient": "fn(property: string, options: IGradientOptions) -> IObject",
+      "setPatternFill": "fn(options: IFillOptions) -> IObject",
+      "setColor": "fn(color: string) -> IObject",
+      "rotate": "fn(angle: number) -> IObject",
+      "centerH": "fn()",
+      "centerV": "fn()",
+      "center": "fn()",
+      "remove": "fn() -> IObject",
+      "getLocalPointer": "fn(e: Event, pointer: ?) -> ?",
+      "getSvgStyles": "fn() -> string",
+      "getSvgTransform": "fn() -> string",
+      "getSvgTransformMatrix": "fn() -> string",
+      "hasStateChanged": "fn() -> bool",
+      "saveState": "fn(options?: ?) -> IObject",
+      "setupState": "fn() -> IObject",
+      "straighten": "fn() -> IObject",
+      "fxStraighten": "fn(callbacks: ?) -> IObject",
+      "bringForward": "fn(intersecting?: bool) -> IObject",
+      "bringToFront": "fn() -> IObject",
+      "sendBackwards": "fn(intersecting?: bool) -> IObject",
+      "sendToBack": "fn() -> IObject",
+      "moveTo": "fn(index: number) -> IObject",
+      "translateToCenterPoint": "fn(point: IPoint, originX: string, originY: string) -> IPoint",
+      "translateToOriginPoint": "fn(center: IPoint, originX: string, originY: string) -> IPoint",
+      "getCenterPoint": "fn() -> IPoint",
+      "getPointByOrigin": "fn() -> IPoint",
+      "toLocalPoint": "fn(point: IPoint, originX: string, originY: string) -> IPoint",
+      "setPositionByOrigin": "fn(pos: IPoint, originX: string, originY: string)",
+      "adjustPosition": "fn(to: string)",
+      "drawBorders": "fn(context: CanvasRenderingContext2D) -> IObject",
+      "drawCorners": "fn(context: CanvasRenderingContext2D) -> IObject",
+      "isControlVisible": "fn(controlName: string) -> bool",
+      "setControlVisible": "fn(controlName: string, visible: bool) -> IObject",
+      "setControlsVisibility": "fn(options?: ?) -> IObject",
+      "setCoords": "fn() -> IObject",
+      "getBoundingRect": "fn() -> ret5",
+      "isContainedWithinObject": "fn(other: IObject) -> bool",
+      "isContainedWithinRect": "fn(pointTL: ?, pointBR: ?) -> bool",
+      "containsPoint": "fn(point: IPoint) -> bool",
+      "scale": "fn(value: number) -> IObject",
+      "scaleToHeight": "fn(value: number) -> IObject",
+      "scaleToWidth": "fn(value: number) -> IObject",
+      "intersectsWithObject": "fn(other: IObject) -> bool",
+      "intersectsWithRect": "fn(pointTL: ?, pointBR: ?) -> bool"
+    },
+    "IObjectStatic": {
+      "prototype": "?"
+    },
+    "IPathOptions": {
+      "path": "[?]",
+      "minX": "number",
+      "minY": "number"
+    },
+    "IPath": {
+      "initialize": "fn(path?: [?], options?: IPathOptions) -> IPath",
+      "complexity": "fn() -> number",
+      "render": "fn(ctx: CanvasRenderingContext2D, noTransform: bool)",
+      "toDatalessObject": "fn(propertiesToInclude?: [?]) -> ?",
+      "toObject": "fn(propertiesToInclude?: [?]) -> ?",
+      "toSVG": "fn(reviver?: Function) -> string"
+    },
+    "IPathStatic": {
+      "fromElement": "fn(element: SVGElement, callback: fn(path: IPath), options?: IPathOptions)",
+      "fromObject": "fn(object: ?, callback: fn(path: IPath))"
+    },
+    "IPathGroup": {
+      "initialize": "fn(paths: [IPath], options?: IObjectOptions)",
+      "complexity": "fn() -> number",
+      "isSameColor": "fn() -> bool",
+      "render": "fn(ctx: CanvasRenderingContext2D)",
+      "toDatalessObject": "fn(propertiesToInclude?: [?]) -> ?",
+      "toObject": "fn(propertiesToInclude?: [?]) -> ?",
+      "toSVG": "fn(reviver?: Function) -> string",
+      "getObjects": "fn() -> [IPath]"
+    },
+    "IPathGroupStatic": {
+      "fromObject": "fn(object: ?) -> IPathGroup",
+      "prototype": "?"
+    },
+    "IPolygonOptions": {
+      "points": "[IPoint]",
+      "minX": "number",
+      "minY": "number"
+    },
+    "IPolygon": {
+      "complexity": "fn() -> number",
+      "toObject": "fn(propertiesToInclude?: [?]) -> ?",
+      "toSVG": "fn(reviver?: Function) -> string"
+    },
+    "IPolygonStatic": {
+      "ATTRIBUTE_NAMES": "[string]",
+      "fromElement": "fn(element: SVGElement, options?: IPolygonOptions) -> IPolygon",
+      "fromObject": "fn(object: ?) -> IPolygon",
+      "prototype": "?"
+    },
+    "IPolylineOptions": {
+      "points": "[IPoint]",
+      "minX": "number",
+      "minY": "number"
+    },
+    "IPolyline": {
+      "initialize": "fn(points: [IPoint], options?: IPolylineOptions)",
+      "complexity": "fn() -> number",
+      "toObject": "fn(propertiesToInclude?: [?]) -> ?",
+      "toSVG": "fn(reviver?: Function) -> string"
+    },
+    "IPolylineStatic": {
+      "ATTRIBUTE_NAMES": "[string]",
+      "fromElement": "fn(element: SVGElement, options?: IPolylineOptions) -> IPolyline",
+      "fromObject": "fn(object: ?) -> IPolyline",
+      "prototype": "?"
+    },
+    "IRectOptions": {
+      "x": "number",
+      "y": "number",
+      "rx": "number",
+      "ry": "number"
+    },
+    "IRect": {
+      "initialize": "fn(points?: [number], options?: ?) -> IRect",
+      "complexity": "fn() -> number",
+      "toObject": "fn(propertiesToInclude: [?]) -> ?",
+      "toSVG": "fn(reviver?: Function) -> string"
+    },
+    "IRectStatic": {
+      "ATTRIBUTE_NAMES": "[string]",
+      "fromElement": "fn(element: SVGElement, options?: IRectOptions) -> IRect",
+      "fromObject": "fn(object: ?) -> IRect",
+      "prototype": "?"
+    },
+    "ITextOptions": {
+      "fontSize": "number",
+      "fontWeight": "number",
+      "string": "?",
+      "fontFamily": "string",
+      "textDecoration": "string",
+      "textAlign": "string",
+      "fontStyle": "string",
+      "lineHeight": "number",
+      "stroke": "string",
+      "shadow": "IShadow",
+      "textBackgroundColor": "string",
+      "path": "string",
+      "useNative": "Boolean",
+      "text": "string"
+    },
+    "ITextStatic": {
+      "ATTRIBUTE_NAMES": "[string]",
+      "DEFAULT_SVG_FONT_SIZE": "number",
+      "fromElement": "fn(element: SVGElement, options?: ITextOptions) -> IText",
+      "fromObject": "fn(object: ?) -> IText"
+    },
+    "IITextOptions": {
+      "selectionStart": "number",
+      "selectionEnd": "number",
+      "selectionColor": "string",
+      "isEditing": "bool",
+      "editable": "bool",
+      "editingBorderColor": "string",
+      "cursorWidth": "number",
+      "cursorColor": "string",
+      "cursorDelay": "number",
+      "cursorDuration": "number",
+      "styles": "?",
+      "caching": "bool"
+    },
+    "IIText": {
+      "isEmptyStyles": "fn() -> bool",
+      "render": "fn(ctx: CanvasRenderingContext2D, noTransform: bool)",
+      "toObject": "fn(propertiesToInclude?: [?]) -> IObject",
+      "setText": "fn(value: string) -> IText",
+      "setSelectionStart": "fn(index: number)",
+      "setSelectionEnd": "fn(index: number)",
+      "getSelectionStyles": "fn(startIndex: number, endIndex: number) -> ?",
+      "setSelectionStyles": "fn(styles: ?) -> IText",
+      "renderCursorOrSelection": "fn()",
+      "get2DCursorLocation": "fn(selectionStart?: number)",
+      "getCurrentCharStyle": "fn(lineIndex: number, charIndex: number) -> ?",
+      "getCurrentCharFontSize": "fn(lineIndex: number, charIndex: number) -> number",
+      "getCurrentCharColor": "fn(lineIndex: number, charIndex: number) -> string",
+      "renderCursor": "fn(boundaries: ?)",
+      "renderSelection": "fn(chars: [string], boundaries: ?)",
+      "initBehavior": "fn()",
+      "initSelectedHandler": "fn()",
+      "initAddedHandler": "fn()",
+      "initRemovedHandler": "fn()",
+      "initDelayedCursor": "fn(restart: bool)",
+      "abortCursorAnimation": "fn()",
+      "selectAll": "fn()",
+      "getSelectedText": "fn() -> string",
+      "findWordBoundaryLeft": "fn(startFrom: number) -> number",
+      "findWordBoundaryRight": "fn(startFrom: number) -> number",
+      "findLineBoundaryLeft": "fn(startFrom: number) -> number",
+      "findLineBoundaryRight": "fn(startFrom: number) -> number",
+      "getNumNewLinesInSelectedText": "fn() -> number",
+      "searchWordBoundary": "fn(selectionStart: number, direction: number) -> number",
+      "selectWord": "fn(selectionStart: number)",
+      "selectLine": "fn(selectionStart: number)",
+      "enterEditing": "fn() -> IIText",
+      "initMouseMoveHandler": "fn()",
+      "exitEditing": "fn() -> IIText",
+      "insertChars": "fn(_chars: string, useCopiedStyle?: bool)",
+      "insertNewlineStyleObject": "fn(lineIndex: number, charIndex: number, isEndOfLine: bool)",
+      "insertCharStyleObject": "fn(lineIndex: number, charIndex: number, isEndOfLine: bool)",
+      "insertStyleObjects": "fn(_chars: string, isEndOfLine: bool, useCopiedStyle?: bool)",
+      "shiftLineStyles": "fn(lineIndex: number, offset: number)",
+      "removeStyleObject": "fn(isBeginningOfLine: bool, index?: number)",
+      "insertNewline": "fn()"
+    },
+    "IITextStatic": {
+      "fromObject": "fn(object: ?) -> IIText"
+    },
+    "ITriangleOptions": {},
+    "ITriangle": {
+      "complexity": "fn() -> number",
+      "toSVG": "fn(reviver?: Function) -> string"
+    },
+    "ITriangleStatic": {
+      "fromObject": "fn(object: ?) -> ITriangle"
+    },
+    "IAllFilters": {
+      "BaseFilter": {},
+      "Blend": {
+        "fromObject": "fn(object: ?) -> IBlendFilter"
+      },
+      "Brightness": {
+        "fromObject": "fn(object: ?) -> IBrightnessFilter"
+      },
+      "Convolute": {
+        "fromObject": "fn(object: ?) -> IConvoluteFilter"
+      },
+      "GradientTransparency": {
+        "fromObject": "fn(object: ?) -> IGradientTransparencyFilter"
+      },
+      "Grayscale": {
+        "fromObject": "fn(object: ?) -> IGrayscaleFilter"
+      },
+      "Invert": {
+        "fromObject": "fn(object: ?) -> IInvertFilter"
+      },
+      "Mask": {
+        "fromObject": "fn(object: ?) -> IMaskFilter"
+      },
+      "Multiply": {
+        "fromObject": "fn(object: ?) -> IMultiplyFilter"
+      },
+      "Noise": {
+        "fromObject": "fn(object: ?) -> INoiseFilter"
+      },
+      "Pixelate": {
+        "fromObject": "fn(object: ?) -> IPixelateFilter"
+      },
+      "RemoveWhite": {
+        "fromObject": "fn(object: ?) -> IRemoveWhiteFilter"
+      },
+      "Resize": {
+        "fromObject": "fn(object: ?) -> IResizeFilter"
+      },
+      "Sepia2": {
+        "fromObject": "fn(object: ?) -> ISepia2Filter"
+      },
+      "Sepia": {
+        "fromObject": "fn(object: ?) -> ISepiaFilter"
+      },
+      "Tint": {
+        "fromObject": "fn(object: ?) -> ITintFilter"
+      }
+    },
+    "IBaseFilter": {
+      "setOptions": "fn(options?: ?)",
+      "toObject": "fn() -> ?",
+      "toJSON": "fn() -> string"
+    },
+    "IBlendFilter": {
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "IBrightnessFilter": {
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "IConvoluteFilter": {
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "IGradientTransparencyFilter": {
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "IGrayscaleFilter": {
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "IInvertFilter": {
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "IMaskFilter": {
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "IMultiplyFilter": {
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "INoiseFilter": {
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "IPixelateFilter": {
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "IRemoveWhiteFilter": {
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "IResizeFilter": {
+      "resizeType": "string",
+      "scaleX": "number",
+      "scaleY": "number",
+      "lanczosLobes": "number",
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "ISepiaFilter": {
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "ISepia2Filter": {
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "ITintFilter": {
+      "applyTo": "fn(canvasEl: HTMLCanvasElement)"
+    },
+    "IBaseBrush": {
+      "color": "string",
+      "width": "number",
+      "shadow": "IShadow",
+      "string": "?",
+      "strokeLineCap": "string",
+      "strokeLineJoin": "string",
+      "strokeDashArray": "[?]",
+      "setShadow": "fn(options: string, any: ?) -> IBaseBrush"
+    },
+    "ICircleBrush": {
+      "width": "number",
+      "drawDot": "fn(pointer: ?)",
+      "addPoint": "fn(pointer: ?) -> IPoint"
+    },
+    "ISprayBrush": {
+      "width": "number",
+      "density": "number",
+      "dotWidth": "number",
+      "dotWidthVariance": "number",
+      "randomOpacity": "bool",
+      "optimizeOverlapping": "bool",
+      "addSprayChunk": "fn(pointer: ?)"
+    },
+    "IPatternBrush": {
+      "getPatternSrc": "fn() -> HTMLCanvasElement",
+      "getPatternSrcFunction": "fn() -> string",
+      "getPattern": "fn() -> ?",
+      "createPath": "fn(pathData: string) -> IPath"
+    },
+    "IPencilBrush": {
+      "convertPointsToSVGPath": "fn(points: [points], minX?: number, minY?: number) -> [string]",
+      "createPath": "fn(pathData: string) -> IPath"
+    },
+    "BaseBrush": {},
+    "CircleBrush": {},
+    "SprayBrush": {},
+    "PencilBrush": {},
+    "PatternBrush": {},
+    "IUtilAnimationOptions": {
+      "startValue": "number",
+      "endValue": "number",
+      "byValue": "number",
+      "duration": "number",
+      "onChange": "Function",
+      "onComplete": "Function",
+      "easing": "Function"
+    },
+    "IUtilAnimation": {
+      "animate": "fn(options?: IUtilAnimationOptions)",
+      "requestAnimFrame": "fn(callback: Function)"
+    },
+    "IUtilAminEaseFunction": {},
+    "IUtilAnimEase": {
+      "easeInBack": "IUtilAminEaseFunction",
+      "easeInBounce": "IUtilAminEaseFunction",
+      "easeInCirc": "IUtilAminEaseFunction",
+      "easeInCubic": "IUtilAminEaseFunction",
+      "easeInElastic": "IUtilAminEaseFunction",
+      "easeInExpo": "IUtilAminEaseFunction",
+      "easeInOutBack": "IUtilAminEaseFunction",
+      "easeInOutBounce": "IUtilAminEaseFunction",
+      "easeInOutCirc": "IUtilAminEaseFunction",
+      "easeInOutCubic": "IUtilAminEaseFunction",
+      "easeInOutElastic": "IUtilAminEaseFunction",
+      "easeInOutExpo": "IUtilAminEaseFunction",
+      "easeInOutQuad": "IUtilAminEaseFunction",
+      "easeInOutQuart": "IUtilAminEaseFunction",
+      "easeInOutQuint": "IUtilAminEaseFunction",
+      "easeInOutSine": "IUtilAminEaseFunction",
+      "easeInQuad": "IUtilAminEaseFunction",
+      "easeInQuart": "IUtilAminEaseFunction",
+      "easeInQuint": "IUtilAminEaseFunction",
+      "easeInSine": "IUtilAminEaseFunction",
+      "easeOutBack": "IUtilAminEaseFunction",
+      "easeOutBounce": "IUtilAminEaseFunction",
+      "easeOutCirc": "IUtilAminEaseFunction",
+      "easeOutCubic": "IUtilAminEaseFunction",
+      "easeOutElastic": "IUtilAminEaseFunction",
+      "easeOutExpo": "IUtilAminEaseFunction",
+      "easeOutQuad": "IUtilAminEaseFunction",
+      "easeOutQuart": "IUtilAminEaseFunction",
+      "easeOutQuint": "IUtilAminEaseFunction",
+      "easeOutSine": "IUtilAminEaseFunction"
+    },
+    "IUtilArc": {
+      "drawArc": "fn(ctx: CanvasRenderingContext2D, fx: number, fy: number, coords: [number])",
+      "getBoundsOfArc": "fn(fx: number, fy: number, rx: number, ry: number, rot: number, large: number, sweep: number, tx: number, ty: number) -> [IPoint]",
+      "getBoundsOfCurve": "fn(x0: number, y0: number, x1: number, y1: number, x2: number, y2: number, x3: number, y3: number) -> [IPoint]"
+    },
+    "IUtilDomEvent": {
+      "getPointer": "fn(event: Event, upperCanvasEl: HTMLCanvasElement) -> IPoint",
+      "addListener": "fn(element: HTMLElement, eventName: string, handler: Function)",
+      "removeListener": "fn(element: HTMLElement, eventName: string, handler: Function)"
+    },
+    "IUtilDomMisc": {
+      "getById": "fn(id: string, HTMLElement: ?) -> HTMLElement",
+      "toArray": "fn(arrayLike: ?) -> [?]",
+      "makeElement": "fn(tagName: string, attributes?: ?) -> HTMLElement",
+      "addClass": "fn(element: HTMLElement, classname: string)",
+      "wrapElement": "fn(element: HTMLElement, wrapper: HTMLElement, string: ?, attributes?: ?) -> HTMLElement",
+      "getScrollLeftTop": "fn(element: HTMLElement, upperCanvasEl: HTMLElement) -> ret6",
+      "getElementOffset": "fn(element: HTMLElement) -> ret7",
+      "getElementStyle": "fn(elment: HTMLElement, attr: string) -> string",
+      "getScript": "fn(url: string, callback: Function)",
+      "makeElementUnselectable": "fn(element: HTMLElement) -> HTMLElement",
+      "makeElementSelectable": "fn(element: HTMLElement) -> HTMLElement"
+    },
+    "IUtilDomRequest": {
+      "request": "fn(url: string, options?: ?) -> XMLHttpRequest"
+    },
+    "IUtilDomStyle": {
+      "setStyle": "fn(element: HTMLElement, styles: ?) -> HTMLElement"
+    },
+    "IUtilArray": {
+      "invoke": "fn(array: [?], method: string) -> [?]",
+      "min": "fn(array: [?], byProperty: string) -> ?",
+      "max": "fn(array: [?], byProperty: string) -> ?"
+    },
+    "IUtilClass": {
+      "createClass": "fn(parent: Function, properties?: ?)"
+    },
+    "IUtilObject": {
+      "extend": "fn(destination: ?, source: ?) -> ?",
+      "clone": "fn(object: ?) -> ?"
+    },
+    "IUtilString": {
+      "camelize": "fn(string: string) -> string",
+      "capitalize": "fn(string: string, firstLetterOnly: bool) -> string",
+      "escapeXml": "fn(string: string) -> string"
+    },
+    "IUtilMisc": {
+      "removeFromArray": "fn(array: [?], value: ?) -> [?]",
+      "getRandomInt": "fn(min: number, max: number) -> number",
+      "degreesToRadians": "fn(degrees: number) -> number",
+      "radiansToDegrees": "fn(radians: number) -> number",
+      "rotatePoint": "fn(point: IPoint, origin: IPoint, radians: number) -> IPoint",
+      "transformPoint": "fn(p: IPoint, t: [?], ignoreOffset?: bool) -> IPoint",
+      "invertTransform": "fn(t: [?]) -> [?]",
+      "toFixed": "fn(number: number, fractionDigits: number) -> number",
+      "parseUnit": "fn(value: number, string: ?, fontSize?: number) -> number",
+      "string": "?",
+      "falseFunction": "fn() -> bool",
+      "getKlass": "fn(type: string, namespace: string) -> ?",
+      "resolveNamespace": "fn(namespace: string) -> ?",
+      "loadImage": "fn(url: string, callback: fn(image: HTMLImageElement), context?: ?, crossOrigin?: bool)",
+      "enlivenObjects": "fn(objects: [?], callback: Function, namespace: string, reviver?: Function)",
+      "groupSVGElements": "fn(elements: [?], options?: ?, path?: ?) -> IPathGroup",
+      "populateWithProperties": "fn(source: ?, destination: ?, properties: ?)",
+      "drawDashedLine": "fn(ctx: CanvasRenderingContext2D, x: number, y: number, x2: number, y2: number, da: [?])",
+      "createCanvasElement": "fn(canvasEl?: HTMLCanvasElement) -> HTMLCanvasElement",
+      "createImage": "fn() -> HTMLImageElement",
+      "createAccessors": "fn(klass: ?) -> ?",
+      "clipContext": "fn(receiver: IObject, ctx: CanvasRenderingContext2D)",
+      "multiplyTransformMatrices": "fn(a: [?], b: [?]) -> [?]",
+      "getFunctionBody": "fn(fn: Function) -> string",
+      "isTransparent": "fn(ctx: CanvasRenderingContext2D, x: number, y: number, tolerance: number) -> bool"
+    },
+    "IUtil": {
+      "ease": "IUtilAnimEase",
+      "array": "IUtilArray",
+      "object": "IUtilObject",
+      "string": "IUtilString"
+    }
+  },
+  "!name": "fabricjs",
+  "!define": {
+    "ret": {},
+    "ret1": {},
+    "ret2": {
+      "top": "number",
+      "left": "number"
+    },
+    "ret3": {
+      "x": "number",
+      "y": "number"
+    },
+    "ret4": {
+      "width": "number",
+      "height": "number"
+    },
+    "ret5": {
+      "left": "number",
+      "top": "number",
+      "width": "number",
+      "height": "number"
+    },
+    "points": {
+      "x": "number",
+      "y": "number"
+    },
+    "ret6": {
+      "left": "number",
+      "right": "number"
+    },
+    "ret7": {
+      "left": "number",
+      "right": "number"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "email-validator": {
+    "validate": "fn(email: String) -> bool"
+  },
+  "!name": "email-validator.d.ts"
+}

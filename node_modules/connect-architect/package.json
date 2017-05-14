@@ -1,0 +1,39 @@
+{
+  "name": "connect-architect",
+  "description": "build a connect server using architect plugins",
+  "version": "0.2.0",
+  "author": "ajax.org B.V. <info@ajax.org>",
+  "contributors": [
+    {
+      "name": "Fabian Jakobs",
+      "email": "fabian@c9.io"
+    }
+  ],
+  "pm": "npm",
+  "dependencies": {
+    "connect": "~2.12.0",
+    "connect-flash": "~0.1.0",
+    "architect": "~0.1.4",
+    "netutil": "~0.0.1",
+    "mime": "~1.2.9",
+    "email-validator": "^1.0.7",
+    "ejs": "~1.0.0",
+    "ua-parser-js": "~0.7.0"
+  },
+  "devDependencies": {
+    "request": "2.12.0"
+  },
+  "scripts": {
+    "test": "node test/all.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/c9/connect-architect.git"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/c9/connect-architect/raw/master/LICENSE"
+    }
+  ]
+}

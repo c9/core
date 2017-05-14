@@ -1,0 +1,21 @@
+{
+  "WatermarkOptions": {
+    "className": "string",
+    "useNative": "bool",
+    "hideBeforeUnload": "bool"
+  },
+  "Watermark": {
+    "options": "WatermarkOptions",
+    "show": "fn(element: string)",
+    "hide": "fn(element: string)",
+    "showAll": "fn()",
+    "hideAll": "fn()"
+  },
+  "JQuery": {
+    "watermark": "fn(text: string, options?: WatermarkOptions) -> JQuery"
+  },
+  "JQueryStatic": {
+    "watermark": "Watermark"
+  },
+  "!name": "jquery.watermark"
+}

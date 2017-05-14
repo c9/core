@@ -1,0 +1,37 @@
+{
+  "NumbroLanguage": {
+    "delimiters": {
+      "thousands": "string",
+      "decimal": "string"
+    },
+    "abbreviations": {
+      "thousand": "string",
+      "million": "string",
+      "billion": "string",
+      "trillion": "string"
+    },
+    "ordinal": "fn(num: number) -> string",
+    "currency": {
+      "symbol": "string"
+    }
+  },
+  "Numbro": {
+    "version": "string",
+    "isNumbro": "bool",
+    "language": "fn(key: string, values?: NumbroLanguage) -> Numbro",
+    "zeroFormat": "fn(format: string) -> string",
+    "clone": "fn() -> Numbro",
+    "format": "fn(inputString?: string) -> string",
+    "formatCurrency": "fn(inputString?: string) -> string",
+    "unformat": "fn(inputString: string) -> number",
+    "value": "fn() -> number",
+    "set": "fn(value: ?) -> Numbro",
+    "add": "fn(value: ?) -> Numbro",
+    "subtract": "fn(value: ?) -> Numbro",
+    "multiply": "fn(value: ?) -> Numbro",
+    "divide": "fn(value: ?) -> Numbro",
+    "difference": "fn(value: ?) -> number"
+  },
+  "numbro": "Numbro",
+  "!name": "numbro.d.ts"
+}

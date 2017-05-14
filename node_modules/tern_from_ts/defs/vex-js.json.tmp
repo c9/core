@@ -1,0 +1,41 @@
+{
+  "vex": {
+    "0": "v",
+    "1": "e",
+    "2": "x",
+    "3": ".",
+    "4": "V",
+    "5": "e",
+    "6": "x",
+    "ICSSAttributes": {
+      "number": "?"
+    },
+    "IVexOptions": {
+      "afterClose": "fn()",
+      "afterOpen": "fn()",
+      "content": "string",
+      "showCloseButton": "bool",
+      "escapeButtonCloses": "bool",
+      "overlayClosesOnClick": "bool",
+      "appendLocation": "HTMLElement",
+      "JQuery": "?",
+      "string": "?",
+      "className": "string",
+      "css": "ICSSAttributes",
+      "overlayClassName": "string",
+      "overlayCSS": "ICSSAttributes",
+      "contentClassName": "string",
+      "contentCSS": "ICSSAttributes",
+      "closeClassName": "string",
+      "closeCSS": "ICSSAttributes"
+    },
+    "Vex": {
+      "open": "fn(options: IVexOptions) -> JQuery",
+      "close": "fn(id?: number) -> bool",
+      "closeAll": "fn() -> bool",
+      "closeByID": "fn(id: number) -> bool"
+    },
+    "!type": "vex"
+  },
+  "!name": "vex-js.d.ts"
+}

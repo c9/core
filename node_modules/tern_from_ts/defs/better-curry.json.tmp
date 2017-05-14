@@ -1,0 +1,39 @@
+{
+  "BetterCurry": "BetterCurryModule.BetterCurry",
+  "BetterCurryModule": {
+    "DelegateOptions": {
+      "as": "string",
+      "len": "number",
+      "args": "[?]",
+      "name": "string"
+    },
+    "Delegate": {
+      "!type": "fn(proto: T, target: string)",
+      "prototype": {
+        "proto": "T",
+        "target": "string",
+        "methods": "[?]",
+        "getters": "[?]",
+        "setters": "[?]",
+        "all": "fn(skip?: [string])",
+        "method": "fn(name: string, DelegateOptions: ?)",
+        "getter": "fn(name: string, DelegateOptions: ?)",
+        "setter": "fn(name: string, DelegateOptions: ?)",
+        "access": "fn(name: string, DelegateOptions: ?)",
+        "revoke": "fn(name: string)"
+      }
+    },
+    "OriginalFunctionReminder": {
+      "__length": "number"
+    },
+    "BetterCurry": {
+      "predefine": "fn(fn: T, args: [?], context?: Object, len?: number, checkArguments?: bool)",
+      "wrap": "fn(fn: T, context?: Object, len?: number, checkArguments?: bool)",
+      "flatten": "fn(args: ?, any: ?)",
+      "delegate": "fn(proto: T, target: string)",
+      "MAX_OPTIMIZED": "number"
+    }
+  },
+  "'better-curry'": "bc",
+  "!name": "better-curry.d.ts"
+}

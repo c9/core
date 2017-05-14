@@ -1,0 +1,28 @@
+{
+  "alertify": {
+    "IAlertifyStatic": {
+      "alert": "fn(message: string, fn?: Function, cssClass?: string) -> IAlertifyStatic",
+      "confirm": "fn(message: string, fn?: Function, cssClass?: string) -> IAlertifyStatic",
+      "extend": "fn(type: string) -> fn(message: string, wait?: number)",
+      "init": "fn()",
+      "log": "fn(message: string, type?: string, wait?: number) -> IAlertifyStatic",
+      "prompt": "fn(message: string, fn?: Function, placeholder?: string, cssClass?: string) -> IAlertifyStatic",
+      "success": "fn(message: string) -> IAlertifyStatic",
+      "error": "fn(message: string) -> IAlertifyStatic",
+      "set": "fn(args: IProperties)",
+      "labels": "ILabels",
+      "debug": "fn()"
+    },
+    "IProperties": {
+      "delay": "number",
+      "labels": "ILabels",
+      "buttonFocus": "string",
+      "buttonReverse": "bool"
+    },
+    "ILabels": {
+      "ok": "string",
+      "cancel": "string"
+    }
+  },
+  "!name": "alertify"
+}

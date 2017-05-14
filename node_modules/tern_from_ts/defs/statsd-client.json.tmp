@@ -1,0 +1,4 @@
+{
+  "statsd-client": "StatsdClient",
+  "!name": "statsd-client.d.ts"
+}

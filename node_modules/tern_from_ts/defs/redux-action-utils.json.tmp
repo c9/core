@@ -1,0 +1,16 @@
+{
+  "redux-action-utils": {
+    "Action": {
+      "type": "string"
+    },
+    "ActionCreator": {
+      "T": "?"
+    },
+    "OptionsActionCreator": {
+      "T": "?"
+    },
+    "actionCreator": "fn(type: string, props: [string]) -> ?",
+    "optionsActionCreator": "fn(type: string, props: [string]) -> ?"
+  },
+  "!name": "redux-action-utils.d.ts"
+}

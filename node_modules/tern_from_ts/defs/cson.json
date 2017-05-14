@@ -1,0 +1,23 @@
+{
+  "cson": {
+    "stringify": "fn(data: Object, opts?: Object, indent?: ?) -> string",
+    "createCSONString": "fn(data: Object, opts?: Object, next?: ?) -> string",
+    "createJSONString": "fn(data: Object, opts?: Object, next?: ?) -> string",
+    "createString": "fn(data: Object, opts?: Object, next?: ?) -> string",
+    "parse": "fn(data: string, opts?: Object, next?: ?) -> Object",
+    "parseCSONString": "fn(data: string, opts?: Object, next?: ?) -> Object",
+    "parseJSONString": "fn(data: string, opts?: Object, next?: ?) -> Object",
+    "parseCSString": "fn(data: string, opts?: Object, next?: ?) -> Object",
+    "parseJSString": "fn(data: string, opts?: Object, next?: ?) -> Object",
+    "parseString": "fn(data: string, opts?: Object, next?: ?) -> Object",
+    "load": "fn(filePath: string, opts?: Object, next?: ?) -> Object",
+    "parseCSONFile": "fn(filePath: string, opts?: Object, next?: ?) -> Object",
+    "parseJSONFile": "fn(filePath: string, opts?: Object, next?: ?) -> Object",
+    "parseCSFile": "fn(filePath: string, opts?: Object, next?: ?) -> Object",
+    "parseJSFile": "fn(filePath: string, opts?: Object, next?: ?) -> Object",
+    "requireCSFile": "fn(filePath: string, opts?: Object, next?: ?) -> Object",
+    "requireJSFile": "fn(filePath: string, opts?: Object, next?: ?) -> Object",
+    "requireFile": "fn(filePath: string, opts?: Object, next?: ?) -> Object"
+  },
+  "!name": "cson"
+}

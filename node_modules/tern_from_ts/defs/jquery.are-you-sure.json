@@ -1,0 +1,14 @@
+{
+  "AreYouSureOptions": {
+    "message": "string",
+    "dirtyClass": "string",
+    "change": "Function",
+    "fieldSelector": "string",
+    "silent": "bool"
+  },
+  "AreYouSure": {},
+  "JQuery": {
+    "areYouSure": "AreYouSure"
+  },
+  "!name": "jquery.are-you-sure"
+}

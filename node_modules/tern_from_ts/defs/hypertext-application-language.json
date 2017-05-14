@@ -1,0 +1,15 @@
+{
+  "Hal": {
+    "Link": {
+      "deprecation": "string",
+      "href": "string",
+      "hreflang": "string",
+      "name": "string",
+      "profile": "string",
+      "templated": "bool",
+      "title": "string",
+      "type": "string"
+    }
+  },
+  "!name": "hypertext-application-language"
+}

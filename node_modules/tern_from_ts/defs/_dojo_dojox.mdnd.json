@@ -1,0 +1,213 @@
+{
+  "dojox": {
+    "mdnd": {
+      "AreaManager": {
+        "!type": "fn()",
+        "prototype": {
+          "areaClass": "string",
+          "autoRefresh": "bool",
+          "dragHandleClass": "string",
+          "addDragItem": "fn(area: HTMLElement, node: HTMLElement, index: number, notCheckParent: bool) -> ?",
+          "destroy": "fn()",
+          "findCurrentIndexArea": "fn(coords: Object, size: Object) -> ?",
+          "init": "fn()",
+          "placeDropIndicator": "fn(coords: Object, size: Object) -> ?",
+          "registerByClass": "fn()",
+          "registerByNode": "fn(area: HTMLElement, notInitAreas: bool)",
+          "removeDragItem": "fn(area: HTMLElement, node: HTMLElement) -> ?",
+          "unregister": "fn(area: HTMLElement) -> ?",
+          "onDrag": "fn(node: HTMLElement, coords: Object, size: Object, mousePosition: Object)",
+          "onDragEnter": "fn(coords: Object, size: Object)",
+          "onDragExit": "fn(coords: Object, size: Object)",
+          "onDragStart": "fn(node: HTMLElement, coords: Object, size: Object)",
+          "onDrop": "fn(node: HTMLElement)",
+          "onDropCancel": "fn()"
+        }
+      },
+      "AutoScroll": {
+        "!type": "fn()",
+        "prototype": {
+          "interval": "number",
+          "marginMouse": "number",
+          "recursiveTimer": "number",
+          "checkAutoScroll": "fn(e: Event)",
+          "destroy": "fn()",
+          "getViewport": "fn()",
+          "init": "fn()",
+          "setAutoScrollMaxPage": "fn()",
+          "setAutoScrollNode": "fn(node: HTMLElement)",
+          "stopAutoScroll": "fn()"
+        }
+      },
+      "DropIndicator": {
+        "!type": "fn()",
+        "prototype": {
+          "node": "HTMLElement",
+          "destroy": "fn()",
+          "place": "fn(area: HTMLElement, nodeRef: HTMLElement, size: Object) -> ?",
+          "remove": "fn()"
+        }
+      },
+      "LazyManager": {
+        "!type": "fn()",
+        "prototype": {
+          "cancelDrag": "fn()",
+          "destroy": "fn()",
+          "getItem": "fn(draggedNode: HTMLElement) -> Object",
+          "startDrag": "fn(e: Event, draggedNode: HTMLElement)"
+        }
+      },
+      "Moveable": {
+        "!type": "fn(params: Object, node: HTMLElement)",
+        "prototype": {
+          "dragDistance": "number",
+          "handle": "HTMLElement",
+          "skip": "bool",
+          "destroy": "fn()",
+          "initOffsetDrag": "fn(e: Event)",
+          "isFormElement": "fn(e: Event) -> ?",
+          "onDrag": "fn(node: HTMLElement, coords: Object, size: Object, mousePosition: Object)",
+          "onDragEnd": "fn(node: HTMLElement)",
+          "onDragStart": "fn(node: HTMLElement, coords: Object, size: Object)",
+          "onFirstMove": "fn(e: Event)",
+          "onMouseDown": "fn(e: Event)",
+          "onMouseUp": "fn(e: Event)",
+          "onMove": "fn(e: Event)"
+        }
+      },
+      "PureSource": {
+        "!type": "fn(node: HTMLElement, params?: Object)",
+        "prototype": {
+          "allowNested": "bool",
+          "copyOnly": "bool",
+          "current": "HTMLElement",
+          "generateText": "bool",
+          "horizontal": "bool",
+          "isSource": "bool",
+          "map": "Object",
+          "selection": "Object",
+          "singular": "bool",
+          "skipForm": "bool",
+          "targetState": "string",
+          "withHandles": "bool",
+          "clearItems": "fn()",
+          "copyState": "fn(keyPressed: bool) -> ?",
+          "creator": "fn()",
+          "deleteSelectedNodes": "fn() -> Function",
+          "delItem": "fn(key: String)",
+          "destroy": "fn()",
+          "emit": "fn(type: ?, event: ?) -> ?",
+          "forInItems": "fn(f: Function, o: Object) -> String",
+          "forInSelectedItems": "fn(f: Function, o: Object)",
+          "getAllNodes": "fn() -> ?",
+          "getItem": "fn(key: String) -> ?",
+          "getSelectedNodes": "fn() -> ?",
+          "insertNodes": "fn(data: Object, before: bool, anchor: HTMLElement) -> Function",
+          "markupFactory": "fn(params: Object, node: HTMLElement) -> ?",
+          "on": "fn(type: ?, listener: ?) -> ?",
+          "selectAll": "fn() -> ?",
+          "selectNone": "fn() -> ?",
+          "setItem": "fn(key: String, data: ?)",
+          "startup": "fn()",
+          "sync": "fn() -> Function",
+          "onDndCancel": "fn()",
+          "onMouseDown": "fn(e: Event)",
+          "onMouseMove": "fn(e: Event)",
+          "onMouseOut": "fn(e: Event)",
+          "onMouseOver": "fn(e: Event)",
+          "onMouseUp": "fn(e: Event)",
+          "onOutEvent": "fn()",
+          "onOverEvent": "fn()",
+          "onSelectStart": "fn(e: Event)"
+        }
+      },
+      "adapter": {
+        "DndFromDojo": {
+          "!type": "fn()",
+          "prototype": {
+            "dropIndicatorSize": "Object",
+            "isAccepted": "fn(node: HTMLElement, accept: Object) -> ?",
+            "subscribeDnd": "fn()",
+            "unsubscribeDnd": "fn()",
+            "onDndSource": "fn(source: Object)",
+            "onDragEnter": "fn()",
+            "onDragExit": "fn()",
+            "onDragStart": "fn(source: Object, nodes: [?], copy: bool)",
+            "onDrop": "fn(source: Object, nodes: [?], copy: bool)",
+            "onDropCancel": "fn()",
+            "onMouseMove": "fn(e: Event)"
+          }
+        },
+        "DndToDojo": {
+          "!type": "fn()",
+          "prototype": {
+            "isAccepted": "fn(draggedNode: HTMLElement, target: Object) -> bool",
+            "refresh": "fn()",
+            "refreshByType": "fn(type: String)",
+            "register": "fn(area: HTMLElement, type: String, dojoTarget: bool)",
+            "unregister": "fn()",
+            "unregisterByNode": "fn(area: HTMLElement)",
+            "unregisterByType": "fn(type: String)",
+            "onDragEnter": "fn(e: Event)",
+            "onDragExit": "fn(e: Event)",
+            "onDrop": "fn(e: Event)",
+            "onMouseMove": "fn(e: Event)"
+          }
+        }
+      },
+      "dropMode": {
+        "DefaultDropMode": {
+          "!type": "fn()",
+          "prototype": {
+            "addArea": "fn(areas: [?], object: Object) -> ?",
+            "destroy": "fn()",
+            "getDragPoint": "fn(coords: Object, size: Object, mousePosition: Object) -> ?",
+            "getDropIndex": "fn(targetArea: Object, coords: Object) -> ?",
+            "getTargetArea": "fn(areaList: [?], coords: Object, currentIndexArea: number) -> ?",
+            "initItems": "fn(area: Object)",
+            "refreshItems": "fn(area: Object, indexItem: number, size: Object, added: bool)",
+            "updateAreas": "fn(areaList: [?])"
+          }
+        },
+        "OverDropMode": {
+          "!type": "fn()",
+          "prototype": {
+            "addArea": "fn(areas: [?], object: Object) -> ?",
+            "destroy": "fn()",
+            "getDragPoint": "fn(coords: Object, size: Object, mousePosition: Object) -> ?",
+            "getDropIndex": "fn(targetArea: Object, coords: Object) -> ?",
+            "getTargetArea": "fn(areaList: [?], coords: Object, currentIndexArea: number) -> ?",
+            "initItems": "fn(area: Object)",
+            "refreshItems": "fn(area: Object, indexItem: number, size: Object, added: bool)",
+            "updateAreas": "fn(areaList: [?])"
+          }
+        },
+        "VerticalDropMode": {
+          "!type": "fn()",
+          "prototype": {
+            "addArea": "fn(areas: [?], object: Object) -> ?",
+            "destroy": "fn()",
+            "getDragPoint": "fn(coords: Object, size: Object, mousePosition: Object) -> ?",
+            "getDropIndex": "fn(targetArea: Object, coords: Object) -> ?",
+            "getTargetArea": "fn(areaList: [?], coords: Object, currentIndexArea: number) -> ?",
+            "initItems": "fn(area: Object)",
+            "refreshItems": "fn(area: Object, indexItem: number, size: Object, added: bool)",
+            "updateAreas": "fn(areaList: [?])"
+          }
+        }
+      }
+    }
+  },
+  "dojox/mdnd/AutoScroll": "exp",
+  "dojox/mdnd/DropIndicator": "exp",
+  "dojox/mdnd/AreaManager": "exp",
+  "dojox/mdnd/LazyManager": "exp",
+  "dojox/mdnd/Moveable": "exp",
+  "dojox/mdnd/PureSource": "exp",
+  "dojox/mdnd/adapter/DndFromDojo": "exp",
+  "dojox/mdnd/adapter/DndToDojo": "exp",
+  "dojox/mdnd/dropMode/DefaultDropMode": "exp",
+  "dojox/mdnd/dropMode/OverDropMode": "exp",
+  "dojox/mdnd/dropMode/VerticalDropMode": "exp",
+  "!name": "dojox.mdnd"
+}

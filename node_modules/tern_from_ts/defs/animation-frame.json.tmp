@@ -1,0 +1,7 @@
+{
+  "AnimationFrame": {
+    "request": "fn(callback: fn())",
+    "!type": "AnimationFrame"
+  },
+  "!name": "animation-frame.d.ts"
+}

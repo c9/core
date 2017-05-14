@@ -1,0 +1,234 @@
+{
+  "protractor": {
+    "ActionSequence": {
+      "prototype": {}
+    },
+    "Builder": {
+      "prototype": {}
+    },
+    "Capabilities": {
+      "prototype": {}
+    },
+    "Command": {
+      "prototype": {}
+    },
+    "EventEmitter": {
+      "prototype": {}
+    },
+    "Session": {
+      "prototype": {}
+    },
+    "WebDriver": {
+      "prototype": {}
+    },
+    "WebElement": {
+      "prototype": {}
+    },
+    "WebElementPromise": {
+      "prototype": {}
+    },
+    "Browser": "webdriver.IBrowser",
+    "Button": "webdriver.IButton",
+    "Capability": "webdriver.ICapability",
+    "CommandName": "webdriver.ICommandName",
+    "Key": "webdriver.IKey",
+    "error": {
+      "Error": {
+        "prototype": {}
+      },
+      "ErrorCode": "webdriver.error.IErrorCode"
+    },
+    "logging": {
+      "Preferences": {
+        "prototype": {}
+      },
+      "Entry": {
+        "prototype": {}
+      },
+      "Type": "webdriver.logging.IType",
+      "Level": "webdriver.logging.ILevelValues",
+      "getLevel": "fn(nameOrValue: string) -> webdriver.logging.ILevel"
+    },
+    "promise": {
+      "Thenable": {
+        "prototype": {}
+      },
+      "Promise": {
+        "prototype": {}
+      },
+      "Deferred": {
+        "prototype": {}
+      },
+      "ControlFlow": {
+        "prototype": {}
+      },
+      "CancellationError": {
+        "prototype": {}
+      },
+      "all": "fn(arr: [?]) -> ?",
+      "asap": "fn(value: ?, callback: Function, opt_errback?: Function)",
+      "controlFlow": "fn() -> webdriver.promise.ControlFlow",
+      "createFlow": "fn(callback: fn(flow: webdriver.promise.ControlFlow)) -> ?",
+      "isPromise": "fn(value: ?) -> bool",
+      "isGenerator": "fn(fn: Function) -> bool",
+      "delayed": "fn(ms: number) -> ?",
+      "filter": "fn(arr: [T], fn: fn(element: T, index: number, array: [T]), opt_self?: ?) -> ?",
+      "defer": "fn() -> ?",
+      "fulfilled": "fn(opt_value?: T) -> ?",
+      "map": "fn(arr: [T], fn: fn(element: T, index: number, array: [T]), opt_self?: ?) -> ?",
+      "rejected": "fn(opt_reason?: ?) -> ?",
+      "checkedNodeCall": "fn(fn: Function, var_args: [?]) -> ?",
+      "consume": "fn(generatorFn: Function, opt_self?: ?, var_args: [?]) -> ?",
+      "when": "fn(value: T, opt_callback?: fn(value: T), opt_errback?: fn(error: ?)) -> ?",
+      "fullyResolved": "fn(value: ?) -> ?",
+      "setDefaultFlow": "fn(flow: webdriver.promise.ControlFlow)"
+    },
+    "stacktrace": {
+      "Frame": {
+        "prototype": {}
+      },
+      "Snapshot": {
+        "prototype": {}
+      },
+      "format": "fn(error: ?) -> ?",
+      "get": "fn() -> [webdriver.stacktrace.Frame]",
+      "BROWSER_SUPPORTED": "bool"
+    },
+    "until": {
+      "Condition": {
+        "prototype": {}
+      },
+      "ableToSwitchToFrame": "fn(frame: number) -> ?",
+      "alertIsPresent": "fn() -> ?",
+      "elementIsDisabled": "fn(element: webdriver.IWebElement) -> ?",
+      "elementIsEnabled": "fn(element: webdriver.IWebElement) -> ?",
+      "elementIsNotSelected": "fn(element: webdriver.IWebElement) -> ?",
+      "elementIsNotVisible": "fn(element: webdriver.IWebElement) -> ?",
+      "elementIsSelected": "fn(element: webdriver.IWebElement) -> ?",
+      "elementIsVisible": "fn(element: webdriver.IWebElement) -> ?",
+      "elementLocated": "fn(locator: webdriver.Locator) -> ?",
+      "elementTextContains": "fn(element: webdriver.IWebElement, substr: string) -> ?",
+      "elementTextIs": "fn(element: webdriver.IWebElement, text: string) -> ?",
+      "elementTextMatches": "fn(element: webdriver.IWebElement, regex: RegExp) -> ?",
+      "elementsLocated": "fn(locator: webdriver.Locator) -> ?",
+      "stalenessOf": "fn(element: webdriver.IWebElement) -> ?",
+      "titleContains": "fn(substr: string) -> ?",
+      "titleIs": "fn(title: string) -> ?",
+      "titleMatches": "fn(regex: RegExp) -> ?"
+    },
+    "Element": {
+      "all": "fn(locator: webdriver.Locator) -> ElementArrayFinder"
+    },
+    "ElementFinder": {
+      "element": "fn(subLocator: webdriver.Locator) -> ElementFinder",
+      "all": "fn(subLocator: webdriver.Locator) -> ElementArrayFinder",
+      "$": "fn(selector: string) -> ElementFinder",
+      "$$": "fn(selector: string) -> ElementArrayFinder",
+      "isPresent": "fn() -> ?",
+      "isElementPresent": "fn(subLocator: webdriver.Locator) -> ?",
+      "locator": "fn() -> webdriver.Locator",
+      "getWebElement": "fn() -> webdriver.WebElement",
+      "evaluate": "fn(expression: string) -> ElementFinder",
+      "allowAnimations": "fn(value: string) -> ElementFinder",
+      "clone": "fn() -> ElementFinder"
+    },
+    "ElementArrayFinder": {
+      "getWebElements": "fn() -> [webdriver.WebElement]",
+      "get": "fn(index: number) -> ElementFinder",
+      "first": "fn() -> ElementFinder",
+      "last": "fn() -> ElementFinder",
+      "count": "fn() -> ?",
+      "each": "fn(fn: fn(element: ElementFinder, index: number))",
+      "map": "fn(mapFn: fn(element: ElementFinder, index: number)) -> ?",
+      "filter": "fn(filterFn: fn(element: ElementFinder, index: number)) -> ElementArrayFinder",
+      "reduce": "fn(reduceFn: fn(acc: T, element: ElementFinder, index: number, arr: [ElementFinder]), initialValue: T) -> ?",
+      "asElementFinders_": "fn() -> ?",
+      "clone": "fn() -> ElementArrayFinder",
+      "all": "fn(locator: webdriver.Locator) -> ElementArrayFinder",
+      "$$": "fn(selector: string) -> ElementArrayFinder",
+      "toElementFinder_": "fn() -> ElementFinder",
+      "locator": "fn() -> webdriver.Locator",
+      "evaluate": "fn(expression: string) -> ElementArrayFinder",
+      "allowAnimations": "fn(value: bool) -> ElementArrayFinder",
+      "click": "fn() -> ?",
+      "sendKeys": "fn(var_args: [string]) -> ?",
+      "getTagName": "fn() -> ?",
+      "getCssValue": "fn(cssStyleProperty: string) -> ?",
+      "getAttribute": "fn(attributeName: string) -> ?",
+      "getText": "fn() -> ?",
+      "getSize": "fn() -> ?",
+      "getLocation": "fn() -> ?",
+      "isEnabled": "fn() -> ?",
+      "isSelected": "fn() -> ?",
+      "submit": "fn() -> ?",
+      "clear": "fn() -> ?",
+      "isDisplayed": "fn() -> ?",
+      "getOuterHtml": "fn() -> ?",
+      "getId": "fn() -> ?",
+      "getInnerHtml": "fn() -> ?"
+    },
+    "LocatorWithColumn": {
+      "column": "fn(index: number) -> webdriver.Locator"
+    },
+    "RepeaterLocator": {
+      "row": "fn(index: number) -> LocatorWithColumn"
+    },
+    "IProtractorLocatorStrategy": {
+      "className": "webdriver.By.className",
+      "css": "webdriver.By.css",
+      "id": "webdriver.By.id",
+      "linkText": "webdriver.By.linkText",
+      "js": "webdriver.By.js",
+      "name": "webdriver.By.name",
+      "partialLinkText": "webdriver.By.partialLinkText",
+      "tagName": "webdriver.By.tagName",
+      "xpath": "webdriver.By.xpath",
+      "addLocator": "fn(name: string, script: string)",
+      "binding": "fn(bindingDescriptor: string) -> webdriver.Locator",
+      "exactBinding": "fn(bindingDescriptor: string) -> webdriver.Locator",
+      "model": "fn(model: string) -> webdriver.Locator",
+      "buttonText": "fn(searchText: string) -> webdriver.Locator",
+      "partialButtonText": "fn(searchText: string) -> webdriver.Locator",
+      "repeater": "fn(repeatDescriptor: string) -> RepeaterLocator",
+      "cssContainingText": "fn(cssSelector: string, searchText: string) -> webdriver.Locator",
+      "options": "fn(optionsDescriptor: string) -> webdriver.Locator"
+    },
+    "By": "IProtractorLocatorStrategy",
+    "Protractor": {
+      "driver": "webdriver.WebDriver",
+      "element": "fn(locator: webdriver.Locator) -> ElementFinder",
+      "$": "fn(selector: string) -> ElementFinder",
+      "$$": "fn(selector: string) -> ElementArrayFinder",
+      "baseUrl": "string",
+      "rootEl": "string",
+      "ignoreSynchronization": "bool",
+      "getPageTimeout": "number",
+      "params": "?",
+      "resetUrl": "string",
+      "waitForAngular": "fn() -> ?",
+      "addMockModule": "fn(name: string, script: string, varArgs: [?])",
+      "clearMockModules": "fn()",
+      "removeMockModule": "fn(name: string)",
+      "get": "fn(destination: string, opt_timeout?: number) -> ?",
+      "refresh": "fn(opt_timeout?: number) -> ?",
+      "setLocation": "fn(url: string) -> ?",
+      "getLocationAbsUrl": "fn() -> ?",
+      "debugger": "fn()",
+      "pause": "fn(opt_debugPort?: number)"
+    },
+    "IBrowser": {
+      "forkNewDriverInstance": "fn(opt_useSameUrl?: bool, opt_copyMockModules?: bool) -> Protractor"
+    },
+    "wrapDriver": "fn(webdriver: webdriver.WebDriver, opt_baseUrl?: string, opt_rootElement?: string) -> Protractor"
+  },
+  "cssSelectorHelper": {},
+  "cssArraySelectorHelper": {},
+  "browser": "protractor.IBrowser",
+  "by": "protractor.IProtractorLocatorStrategy",
+  "By": "protractor.IProtractorLocatorStrategy",
+  "element": "protractor.Element",
+  "$": "cssSelectorHelper",
+  "$$": "cssArraySelectorHelper",
+  "'protractor'": "protractor",
+  "!name": "angular-protractor.d.ts"
+}

@@ -1,0 +1,37 @@
+{
+  "'java'": "NodeJavaCore",
+  "NodeJavaCore": {
+    "Callback": {},
+    "Promisify": {},
+    "AsyncOptions": {
+      "syncSuffix": "string",
+      "asyncSuffix": "string",
+      "promiseSuffix": "string",
+      "promisify": "Promisify"
+    },
+    "ProxyFunctions": {},
+    "NodeAPI": {
+      "classpath": "[string]",
+      "asyncOptions": "AsyncOptions",
+      "callMethod": "fn(instance: ?, className: string, methodName: string, args: [?], callback: ?)",
+      "callMethodSync": "fn(instance: ?, className: string, methodName: string, args: [?]) -> ?",
+      "callStaticMethodSync": "fn(className: string, methodName: string, args: [?]) -> ?",
+      "instanceOf": "fn(javaObject: ?, className: string) -> bool",
+      "registerClient": "fn(before: fn(cb: ?), after?: fn(cb: ?))",
+      "registerClientP": "fn(beforeP: fn(), afterP?: fn())",
+      "ensureJvm": "fn(done: ?)",
+      "newShort": "fn(val: number) -> ?",
+      "newLong": "fn(val: number) -> ?",
+      "newFloat": "fn(val: number) -> ?",
+      "newDouble": "fn(val: number) -> ?",
+      "import": "fn(className: string) -> ?",
+      "newInstance": "fn(className: string, args: [?])",
+      "newInstanceSync": "fn(className: string, args: [?]) -> ?",
+      "newInstanceP": "fn(className: string, args: [?]) -> ?",
+      "newArray": "fn(className: string, arg: [?]) -> ?",
+      "getClassLoader": "fn() -> ?",
+      "newProxy": "fn(interfaceName: string, functions: ProxyFunctions) -> ?"
+    }
+  },
+  "!name": "java.d.ts"
+}

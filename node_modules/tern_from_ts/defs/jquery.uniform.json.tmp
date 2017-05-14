@@ -1,0 +1,45 @@
+{
+  "UniformCoreOptions": {
+    "activeClass": "string",
+    "autoHide": "bool",
+    "buttonClass": "string",
+    "checkboxClass": "string",
+    "checkedClass": "string",
+    "disabledClass": "string",
+    "eventNamespace": "string",
+    "fileButtonClass": "string",
+    "fileButtonHtml": "string",
+    "fileClass": "string",
+    "fileDefaultHtml": "string",
+    "filenameClass": "string",
+    "focusClass": "string",
+    "hoverClass": "string",
+    "idPrefix": "string",
+    "inputAddTypeAsClass": "bool",
+    "inputClass": "string",
+    "radioClass": "string",
+    "resetDefaultHtml": "string",
+    "resetSelector": "?",
+    "selectAutoWidth": "bool",
+    "selectClass": "string",
+    "selectMultiClass": "string",
+    "submitDefaultHtml": "string",
+    "textareaClass": "string",
+    "useID": "bool",
+    "wrapperClass": "string"
+  },
+  "UniformOptions": {},
+  "Uniform": {
+    "update": "fn(elemOrSelector?: ?)",
+    "restore": "fn(elemOrSelector?: ?)",
+    "elements": "[JQuery]",
+    "defaults": "UniformOptions"
+  },
+  "JQueryStatic": {
+    "uniform": "Uniform"
+  },
+  "JQuery": {
+    "uniform": "Uniform"
+  },
+  "!name": "jquery.uniform.d.ts"
+}

@@ -1,0 +1,48 @@
+{
+  "ZeroClipboard": {
+    "!type": "fn(elements?: Element)",
+    "config": "fn(options: ZeroClipboardOptions)",
+    "destroy": "fn()",
+    "emit": "fn(eventName: string, args: ?)",
+    "prototype": {
+      "options": "?",
+      "ZeroClipboardOptions": "?",
+      "activate": "fn(element: Element)",
+      "setText": "fn(newText: string)",
+      "title": "fn(newTitle: string)",
+      "setSize": "fn(width: number, height: number)",
+      "version": "string",
+      "moviePath": "string",
+      "trustedDomains": "?",
+      "text": "string",
+      "hoverClass": "string",
+      "activeClass": "string",
+      "deactivate": "fn()",
+      "ready": "bool",
+      "reposition": "fn()",
+      "on": "fn(eventName: string, func: fn(client: ZeroClipboard, args: ?))",
+      "off": "fn(eventName: string, func: fn(client: ZeroClipboard, args: ?))",
+      "clip": "fn(elements: Element)",
+      "void": "?",
+      "unclip": "fn(elements: Element)"
+    }
+  },
+  "ZeroClipboardOptions": {
+    "autoActivate": "bool",
+    "cacheBust": "bool",
+    "debug": "bool",
+    "forceHandCursor": "bool",
+    "moviePath": "string",
+    "swfPath": "string",
+    "trustedDomains": "?",
+    "title": "string",
+    "zIndex": "number",
+    "activeClass": "string",
+    "hoverClass": "string",
+    "allowScriptAccess": "string",
+    "trustedOrigins": "?",
+    "useNoCache": "bool"
+  },
+  "zeroclipboard": "ZeroClipboard",
+  "!name": "zeroclipboard-1.x.x"
+}

@@ -1,0 +1,57 @@
+{
+  "GlDatePickerOffset": {
+    "x": "number",
+    "y": "number"
+  },
+  "GlDatePickerDate": {
+    "date": "Date",
+    "repeatMonth": "bool",
+    "repeatYear": "bool"
+  },
+  "GlDatePickerDateRange": {
+    "from": "Date",
+    "to": "Date",
+    "repeatYear": "bool"
+  },
+  "GlDatePickerSpecialDate": {
+    "data": "?",
+    "cssClass": "string"
+  },
+  "GlDatePickerOptions": {
+    "cssName": "string",
+    "zIndex": "number",
+    "borderSize": "number",
+    "calendarOffset": "GlDatePickerOffset",
+    "showAlways": "bool",
+    "hideOnClick": "bool",
+    "allowMonthSelect": "bool",
+    "allowYearSelect": "bool",
+    "todayDate": "Date",
+    "selectedDate": "Date",
+    "prevArrow": "string",
+    "nextArrow": "string",
+    "selectableDates": "[GlDatePickerDate]",
+    "selectableDateRange": "[GlDatePickerDateRange]",
+    "specialDates": "[GlDatePickerSpecialDate]",
+    "selectableMonths": "[number]",
+    "selectableYears": "[number]",
+    "selectableDOW": "[number]",
+    "monthNames": "[string]",
+    "dowNames": "[string]",
+    "dowOffset": "number",
+    "onClick": "fn(inputElement: JQuery, cell: JQuery, date: Date, data: ?)",
+    "onHover": "fn(inputElement: JQuery, cell: JQuery, date: Date, data: ?)",
+    "onShow": "fn(calendar: JQuery)",
+    "onHide": "fn(calendar: JQuery)"
+  },
+  "GlDatePicker": {
+    "options": "GlDatePickerOptions",
+    "show": "fn()",
+    "hide": "fn()",
+    "render": "fn(renderCallback?: fn())"
+  },
+  "JQuery": {
+    "glDatePicker": "fn(ret: bool) -> GlDatePicker"
+  },
+  "!name": "gldatepicker.d.ts"
+}

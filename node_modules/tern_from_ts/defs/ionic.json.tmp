@@ -1,0 +1,325 @@
+{
+  "IonicStatic": {
+    "version": "string",
+    "Platform": {
+      "ready": "fn(callback: fn())",
+      "setGrade": "fn(grade: string)",
+      "device": "fn() -> ?",
+      "isWebView": "fn() -> bool",
+      "isIPad": "fn() -> bool",
+      "isIOS": "fn() -> bool",
+      "isAndroid": "fn() -> bool",
+      "isWindowsPhone": "fn() -> bool",
+      "platform": "fn() -> string",
+      "version": "fn() -> number",
+      "exitApp": "fn()",
+      "showStatusBar": "fn(shouldShow: bool)",
+      "fullScreen": "fn(showFullScreen?: bool, showStatusBar?: bool)",
+      "isReady": "bool",
+      "isFullScreen": "bool",
+      "platforms": "?",
+      "grade": "string"
+    }
+  },
+  "ionic": {
+    "actionSheet": {
+      "IonicActionSheetService": {
+        "show": "fn(options: IonicActionSheetOptions) -> fn()"
+      },
+      "IonicActionSheetButton": {
+        "text": "string"
+      },
+      "IonicActionSheetOptions": {
+        "buttons": "?",
+        "titleText": "string",
+        "cancelText": "string",
+        "destructiveText": "string",
+        "cancel": "fn()",
+        "buttonClicked": "fn(index: number)",
+        "destructiveButtonClicked": "fn()",
+        "cancelOnStateChange": "bool",
+        "cssClass": "string"
+      }
+    },
+    "backdrop": {
+      "IonicBackdropService": {
+        "retain": "fn()",
+        "release": "fn()"
+      }
+    },
+    "gestures": {
+      "IonicGestureService": {
+        "on": "fn(eventType: string, callback: fn(e: ?), $element: ng.IAugmentedJQuery, options: ?) -> IonicGesture",
+        "off": "fn(gesture: IonicGesture, eventType: string, callback: fn(e: ?))"
+      },
+      "IonicGesture": {
+        "element": "Element",
+        "enabled": "bool",
+        "options": {
+          "stop_browser_behavior": "string"
+        },
+        "on": "fn(gesture: string, handler: Function) -> IonicGesture",
+        "off": "fn(gesture: string, handler: Function) -> IonicGesture",
+        "trigger": "fn(gesture: string, eventData: ?) -> IonicGesture",
+        "enable": "fn(state: bool) -> IonicGesture"
+      }
+    },
+    "list": {
+      "IonicListDelegate": {
+        "showReorder": "fn(showReorder?: bool) -> bool",
+        "showDelete": "fn(showDelete?: bool) -> bool",
+        "canSwipeItems": "fn(canSwipeItems?: bool) -> bool",
+        "closeOptionButtons": "fn()",
+        "$getByHandle": "fn(handle: string) -> IonicListDelegate"
+      }
+    },
+    "loading": {
+      "IonicLoadingService": {
+        "show": "fn(opts?: IonicLoadingOptions)",
+        "hide": "fn()"
+      },
+      "IonicLoadingOptions": {
+        "template": "string",
+        "templateUrl": "string",
+        "scope": "?",
+        "noBackdrop": "bool",
+        "hideOnStateChange": "bool",
+        "delay": "number",
+        "duration": "number"
+      }
+    },
+    "modal": {
+      "IonicModalService": {
+        "fromTemplate": "fn(templateString: string, options?: IonicModalOptions) -> IonicModalController",
+        "fromTemplateUrl": "fn(templateUrl: string, options?: IonicModalOptions) -> ?"
+      },
+      "IonicModalController": {
+        "initialize": "fn(options: IonicModalOptions)",
+        "show": "fn() -> ?",
+        "hide": "fn() -> ?",
+        "isShown": "fn() -> bool"
+      },
+      "IonicModalOptions": {
+        "scope": "?",
+        "animation": "string",
+        "focusFirstInput": "bool",
+        "backdropClickToClose": "bool",
+        "hardwareBackButtonClose": "bool"
+      }
+    },
+    "navigation": {
+      "IonicNavBarDelegate": {
+        "align": "fn(direction?: string)",
+        "showBackButton": "fn(show?: bool) -> bool",
+        "showBar": "fn(show?: bool) -> bool",
+        "title": "fn(title: string)"
+      },
+      "IonicHistoryService": {
+        "viewHistory": "fn() -> ?",
+        "currentView": "fn() -> ?",
+        "currentHistoryId": "fn() -> string",
+        "currentTitle": "fn(val?: string) -> string",
+        "backView": "fn() -> ?",
+        "backTitle": "fn() -> string",
+        "forwardView": "fn() -> ?",
+        "currentStateName": "fn() -> string",
+        "goBack": "fn(backCount?: number)",
+        "clearHistory": "fn()",
+        "clearCache": "fn() -> ?",
+        "nextViewOptions": "fn(options: IonicHistoryNextViewOptions)"
+      },
+      "IonicHistoryNextViewOptions": {
+        "disableAnimate": "bool",
+        "disableBack": "bool",
+        "historyRoot": "bool"
+      }
+    },
+    "platform": {
+      "IonicPlatformService": {
+        "onHardwareBackButton": "fn(callback: Function)",
+        "offHardwareBackButton": "fn(callback: Function)",
+        "registerBackButtonAction": "fn(callback: Function, priority: number, actionId?: ?) -> Function",
+        "on": "fn(type: string, callback: Function) -> Function",
+        "ready": "fn(callback?: Function) -> ?"
+      }
+    },
+    "popover": {
+      "IonicPopoverService": {
+        "fromTemplate": "fn(templateString: string, options: IonicPopoverOptions) -> IonicPopoverController",
+        "fromTemplateUrl": "fn(templateUrl: string, options: IonicPopoverOptions) -> ?"
+      },
+      "IonicPopoverController": {
+        "initialize": "fn(options: IonicPopoverOptions)",
+        "show": "fn($event?: ?) -> ?",
+        "hide": "fn() -> ?",
+        "isShown": "fn() -> bool"
+      },
+      "IonicPopoverOptions": {
+        "scope": "?",
+        "focusFirstInput": "bool",
+        "backdropClickToClose": "bool",
+        "hardwareBackButtonClose": "bool"
+      }
+    },
+    "popup": {
+      "IonicPopupService": {
+        "show": "fn(options: IonicPopupFullOptions) -> IonicPopupPromise",
+        "alert": "fn(options: IonicPopupAlertOptions) -> IonicPopupPromise",
+        "confirm": "fn(options: IonicPopupConfirmOptions) -> IonicPopupConfirmPromise",
+        "prompt": "fn(options: IonicPopupPromptOptions) -> IonicPopupPromise"
+      },
+      "IonicPopupConfirmPromise": {
+        "close": "fn(value?: bool)"
+      },
+      "IonicPopupPromise": {
+        "close": "fn(value?: ?) -> ?"
+      },
+      "IonicPopupBaseOptions": {
+        "title": "string",
+        "cssClass": "string",
+        "subTitle": "string",
+        "template": "string",
+        "templateUrl": "string"
+      },
+      "IonicPopupFullOptions": {
+        "scope": "?",
+        "buttons": "?"
+      },
+      "IonicPopupButton": {
+        "text": "string",
+        "type": "string",
+        "onTap": "fn(event?: ?)"
+      },
+      "IonicPopupAlertOptions": {
+        "okText": "string",
+        "okType": "string"
+      },
+      "IonicPopupConfirmOptions": {
+        "cancelText": "string",
+        "cancelType": "string",
+        "okText": "string",
+        "okType": "string"
+      },
+      "IonicPopupPromptOptions": {
+        "inputType": "string",
+        "inputPlaceholder": "string",
+        "cancelText": "string",
+        "cancelType": "string",
+        "okText": "string",
+        "okType": "string"
+      }
+    },
+    "scroll": {
+      "IonicScrollDelegate": {
+        "resize": "fn()",
+        "scrollTop": "fn(shouldAnimate?: bool)",
+        "scrollBottom": "fn(shouldAnimate?: bool)",
+        "scrollTo": "fn(left: number, top: number, shouldAnimate?: bool)",
+        "scrollBy": "fn(left: number, top: number, shouldAnimate?: bool)",
+        "zoomTo": "fn(level: number, animate?: bool, originLeft?: number, originTop?: number)",
+        "zoomBy": "fn(factor: number, animate?: bool, originLeft?: number, originTop?: number)",
+        "getScrollPosition": "fn() -> ret",
+        "anchorScroll": "fn(shouldAnimate?: bool)",
+        "freezeScroll": "fn(shouldFreeze?: bool) -> bool",
+        "freezeAllScrolls": "fn(shouldFreeze?: bool) -> bool",
+        "getScrollView": "fn() -> ?",
+        "$getByHandle": "fn(handle: string) -> IonicScrollDelegate"
+      }
+    },
+    "sideMenu": {
+      "IonicSideMenuDelegate": {
+        "toggleLeft": "fn(isOpen?: bool)",
+        "toggleRight": "fn(isOpen?: bool)",
+        "getOpenRatio": "fn() -> number",
+        "isOpen": "fn() -> bool",
+        "isOpenLeft": "fn() -> bool",
+        "isOpenRight": "fn() -> bool",
+        "canDragContent": "fn(canDrag?: bool) -> bool",
+        "edgeDragThreshold": "fn(value?: bool, number: ?) -> bool",
+        "$getByHandle": "fn(handle: string) -> IonicSideMenuDelegate"
+      }
+    },
+    "slideBox": {
+      "IonicSlideBoxDelegate": {
+        "update": "fn()",
+        "slide": "fn(to: number, speed?: number)",
+        "enableSlide": "fn(shouldEnable?: bool) -> bool",
+        "previous": "fn(speed?: number)",
+        "next": "fn(speed?: number)",
+        "stop": "fn()",
+        "start": "fn()",
+        "currentIndex": "fn() -> number",
+        "slidesCount": "fn() -> number",
+        "$getByHandle": "fn(handle: string) -> IonicSlideBoxDelegate"
+      }
+    },
+    "tabs": {
+      "IonicTabsDelegate": {
+        "select": "fn(index: number)",
+        "selectedIndex": "fn() -> number",
+        "$getByHandle": "fn(handle: string) -> IonicTabsDelegate"
+      }
+    },
+    "utility": {
+      "IonicConfigProvider": {
+        "views": {
+          "transition": "fn(transition?: string) -> string",
+          "maxCache": "fn(maxNumber?: number) -> number",
+          "forwardCache": "fn(value?: bool) -> bool"
+        },
+        "scrolling": {
+          "jsScrolling": "fn(value?: bool) -> bool"
+        },
+        "backButton": {
+          "icon": "fn(value?: string) -> string",
+          "text": "fn(value?: string) -> string",
+          "previousTitleText": "fn(value?: bool) -> bool"
+        },
+        "form": {
+          "checkbox": "fn(value?: string) -> string",
+          "toggle": "fn(value?: string) -> string"
+        },
+        "spinner": {
+          "icon": "fn(value?: string) -> string"
+        },
+        "tabs": {
+          "style": "fn(value?: string) -> string",
+          "position": "fn(value?: string) -> string"
+        },
+        "templates": {
+          "maxPrefetch": "fn(value?: number) -> number"
+        },
+        "navBar": {
+          "alignTitle": "fn(value?: string) -> string",
+          "positionPrimaryButtons": "fn(value?: string) -> string",
+          "positionSecondaryButtons": "fn(value?: string) -> string"
+        }
+      },
+      "IonicPositionService": {
+        "position": "fn(element: ?) -> ret1",
+        "offset": "fn(element: ?) -> ret2"
+      }
+    },
+    "!type": "IonicStatic"
+  },
+  "'ionic'": "ionic",
+  "!name": "ionic.d.ts",
+  "!define": {
+    "ret": {
+      "left": "number",
+      "top": "number"
+    },
+    "ret1": {
+      "top": "number",
+      "left": "number",
+      "width": "number",
+      "height": "number"
+    },
+    "ret2": {
+      "top": "number",
+      "left": "number",
+      "width": "number",
+      "height": "number"
+    }
+  }
+}

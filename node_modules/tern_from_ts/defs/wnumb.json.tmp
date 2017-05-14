@@ -1,0 +1,23 @@
+{
+  "wNumb": {
+    "!type": "wNumb"
+  },
+  "wNumbOptions": {
+    "decimals": "number",
+    "mark": "string",
+    "thousand": "string",
+    "prefix": "string",
+    "postfix": "string",
+    "negative": "string",
+    "negativeBefore": "string",
+    "encoder": "fn(value: number)",
+    "decoder": "fn(value: number)",
+    "edit": "fn(value: number)",
+    "undo": "fn(value: number)"
+  },
+  "wNumbInstance": {
+    "to": "fn(val: number) -> string",
+    "from": "fn(val: string) -> number"
+  },
+  "!name": "wnumb.d.ts"
+}

@@ -1,0 +1,35 @@
+{
+  "JQueryColor": {
+    "red": "fn() -> number",
+    "green": "fn() -> number",
+    "blue": "fn() -> number",
+    "alpha": "fn() -> number",
+    "hue": "fn() -> number",
+    "saturation": "fn() -> number",
+    "lightness": "fn() -> number",
+    "rgba": "fn() -> [number]",
+    "hsla": "fn() -> [number]",
+    "toRgbaString": "fn() -> string",
+    "toHslaString": "fn() -> string",
+    "toHexString": "fn(includeAlpha?: bool) -> string",
+    "transition": "fn(othercolor: JQueryColor, distance: number) -> JQueryColor",
+    "blend": "fn(othercolor: JQueryColor)",
+    "is": "fn(otherColor: JQueryColor) -> bool"
+  },
+  "HslaColor": {
+    "hue": "number",
+    "saturation": "number",
+    "lightness": "number",
+    "alpha": "number"
+  },
+  "RgbaColor": {
+    "red": "number",
+    "green": "number",
+    "blue": "number",
+    "alpha": "number"
+  },
+  "JQueryStatic": {
+    "Color": "fn(color: HslaColor) -> JQueryColor"
+  },
+  "!name": "jquery.color"
+}

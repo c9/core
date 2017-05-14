@@ -1,0 +1,6 @@
+{
+  "AnimationFrame": {
+    "request": "fn(callback: fn())"
+  },
+  "!name": "animation-frame"
+}

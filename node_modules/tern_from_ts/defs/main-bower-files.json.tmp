@@ -1,0 +1,4 @@
+{
+  "main-bower-files": "mainBowerFiles",
+  "!name": "main-bower-files.d.ts"
+}

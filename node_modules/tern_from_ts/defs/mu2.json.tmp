@@ -1,0 +1,13 @@
+{
+  "mu2": {
+    "root": "string",
+    "compileAndRender": "fn(templateName: string, view: ?) -> NodeJS.ReadableStream",
+    "compile": "fn(filename: string, callback: fn(err: Error, parsed: IParsed))",
+    "compileText": "fn(name: string, template: string, callback: fn(err: Error, parsed: IParsed))",
+    "render": "fn(filenameOrParsed: string, view: ?) -> NodeJS.ReadableStream",
+    "renderText": "fn(template: string, view: ?, partials?: ?) -> NodeJS.ReadableStream",
+    "clearCache": "fn(templateName?: string)",
+    "IParsed": {}
+  },
+  "!name": "mu2.d.ts"
+}

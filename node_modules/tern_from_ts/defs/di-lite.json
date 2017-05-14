@@ -1,0 +1,48 @@
+{
+  "DiLite": {
+    "DiLiteStatic": {
+      "version": "string",
+      "createContext": "fn() -> CreateContext",
+      "dependencyExpression": "fn(depExp: string) -> string",
+      "entry": "fn(name: string, ctx: CreateContext) -> ?",
+      "strategy": "StrategyEnum",
+      "factory": "FactoryEnum",
+      "utils": "Utils"
+    },
+    "Dictionary": {},
+    "CreateContext": {
+      "map": "?",
+      "entry": "fn(name: string) -> T",
+      "register": "fn(name: string, service: T) -> Entry",
+      "has": "fn(name: string) -> bool",
+      "get": "fn(name: string) -> ?",
+      "create": "fn(name: string, args: ?) -> T",
+      "initialize": "fn()",
+      "clear": "fn()",
+      "inject": "fn(name: string, o: T, dependencies: string) -> T",
+      "ready": "fn(o: Function) -> T"
+    },
+    "Entry": {
+      "create": "fn(newArgs: ?) -> Entry",
+      "object": "fn(o: T) -> Entry",
+      "strategy": "fn(s: Function) -> Entry",
+      "type": "fn(t: T) -> Entry",
+      "dependencies": "fn(d: T) -> Entry",
+      "args": "fn(a: T) -> Entry",
+      "factory": "fn(f: Function) -> Entry"
+    },
+    "StrategyEnum": {
+      "proto": "fn(name: string, object: TObject, type: TType, args: ?, ctx: CreateContext, dependencies: ?) -> TObject",
+      "singleton": "fn(name: string, object: TObject, type: TType, args: ?, ctx?: CreateContext, dependencies?: ?) -> TObject"
+    },
+    "FactoryEnum": {
+      "func": "fn(type: T, args: ?) -> T"
+    },
+    "Utils": {
+      "invokeStmt": "fn(args: ?, op: string) -> string"
+    }
+  },
+  "di-lite": "di",
+  "di": "DiLite.DiLiteStatic",
+  "!name": "di-lite"
+}

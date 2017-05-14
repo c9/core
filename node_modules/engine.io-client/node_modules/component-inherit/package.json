@@ -1,0 +1,29 @@
+{
+  "name": "component-inherit",
+  "description": "Prototype inheritance utility",
+  "version": "0.0.3",
+  "keywords": [
+    "inherit",
+    "utility"
+  ],
+  "dependencies": {},
+  "component": {
+    "scripts": {
+      "inherit/index.js": "index.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/component/inherit.git"
+  },
+  "readme": "# inherit\n\n  Prototype inheritance utility.\n\n## Installation\n\n```\n$ component install component/inherit\n```\n\n## Example\n\n```js\nvar inherit = require('inherit');\n\nfunction Human() {}\nfunction Woman() {}\n\ninherit(Woman, Human);\n```\n\n## License\n\n  MIT\n",
+  "readmeFilename": "Readme.md",
+  "bugs": {
+    "url": "https://github.com/component/inherit/issues"
+  },
+  "homepage": "https://github.com/component/inherit#readme",
+  "_id": "component-inherit@0.0.3",
+  "_shasum": "645fc4adf58b72b649d5cae65135619db26ff143",
+  "_resolved": "https://registry.npmjs.org/component-inherit/-/component-inherit-0.0.3.tgz",
+  "_from": "component-inherit@0.0.3"
+}

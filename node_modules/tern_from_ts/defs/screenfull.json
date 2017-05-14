@@ -1,0 +1,21 @@
+{
+  "screenfull": "IScreenfull",
+  "IScreenfullRaw": {
+    "requestFullscreen": "string",
+    "exitFullscreen": "string",
+    "fullscreenElement": "string",
+    "fullscreenEnabled": "string",
+    "fullscreenchange": "string",
+    "fullscreenerror": "string"
+  },
+  "IScreenfull": {
+    "isFullscreen": "bool",
+    "element": "Element",
+    "enabled": "bool",
+    "raw": "IScreenfullRaw",
+    "request": "fn(elem?: Element)",
+    "toggle": "fn(elem?: Element)",
+    "exit": "fn()"
+  },
+  "!name": "screenfull"
+}

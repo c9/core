@@ -1,0 +1,28 @@
+{
+  "QueryString": {
+    "IStringifyOptions": {
+      "delimiter": "string",
+      "strictNullHandling": "bool",
+      "skipNulls": "bool",
+      "encode": "bool",
+      "filter": "?",
+      "arrayFormat": "?",
+      "indices": "string"
+    },
+    "IParseOptions": {
+      "delimiter": "string",
+      "depth": "number",
+      "arrayLimit": "number",
+      "parseArrays": "bool",
+      "allowDots": "bool",
+      "plainObjects": "bool",
+      "allowPrototypes": "bool",
+      "parameterLimit": "number",
+      "strictNullHandling": "bool"
+    },
+    "stringify": "fn(obj: ?, options?: IStringifyOptions) -> string",
+    "parse": "fn(str: string, options?: IParseOptions) -> ?"
+  },
+  "qs": "QueryString",
+  "!name": "qs"
+}

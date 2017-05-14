@@ -1,0 +1,4 @@
+{
+  "gulp-dtsm": "dtsm",
+  "!name": "gulp-dtsm.d.ts"
+}

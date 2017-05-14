@@ -1,0 +1,13 @@
+{
+  "THREE": {
+    "VRControls": {
+      "!type": "fn(camera: Camera, callback?: fn(param: string))",
+      "prototype": {
+        "update": "fn()",
+        "zeroSensor": "fn()",
+        "scale": "number"
+      }
+    }
+  },
+  "!name": "three-vrcontrols.d.ts"
+}

@@ -1,0 +1,31 @@
+{
+  "KnockoutDeferredTasks": {
+    "processImmediate": "fn(evaluator: Function, object?: ?, args?: [?]) -> ?",
+    "processDelayed": "fn(evaluator: Function, distinct?: bool, options?: [?]) -> bool",
+    "makeProcessedCallback": "fn(evaluator: Function)"
+  },
+  "KnockoutStatic": {
+    "tasks": "KnockoutDeferredTasks",
+    "processAllDeferredBindingUpdates": "fn()",
+    "processAllDeferredUpdates": "fn()",
+    "evaluateAsynchronously": "fn(evaluator: Function, timeout?: ?) -> number",
+    "ignoreDependencies": "fn(callback: Function, callbackTarget: ?, callbackArgs?: [?])"
+  },
+  "KnockoutSubscribableFunctions": {
+    "deferUpdates": "bool"
+  },
+  "KnockoutComputedStatic": {
+    "deferUpdates": "bool"
+  },
+  "KnockoutSubscription": {
+    "deferUpdates": "bool"
+  },
+  "KnockoutUtils": {
+    "objectForEach": "fn(obj: ?, action: Function)",
+    "objectMap": "fn(source: ?, mapping: Function) -> ?"
+  },
+  "KnockoutExtenders": {
+    "deferred": "fn(target: ?, value: bool) -> ?"
+  },
+  "!name": "knockout.deferred.updates"
+}

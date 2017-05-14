@@ -1,0 +1,38 @@
+{
+  "GitHubElectron": {
+    "InProcess": {
+      "prototype": {
+        "addListener": "fn(event: string, listener: Function) -> InProcess",
+        "on": "fn(event: string, listener: Function) -> InProcess",
+        "once": "fn(event: string, listener: Function) -> InProcess",
+        "removeListener": "fn(event: string, listener: Function) -> InProcess",
+        "removeAllListeners": "fn(event?: string) -> InProcess",
+        "setMaxListeners": "fn(n: number)",
+        "listeners": "fn(event: string) -> [Function]",
+        "emit": "fn(event: string, args: [?]) -> bool",
+        "send": "fn(channel: string, args: [?])",
+        "sendSync": "fn(channel: string, args: [?]) -> string",
+        "sendToHost": "fn(channel: string, args: [?])"
+      }
+    },
+    "Remote": {
+      "require": "fn(module: string) -> ?",
+      "getCurrentWindow": "fn() -> BrowserWindow",
+      "getGlobal": "fn(name: string) -> ?",
+      "process": "?"
+    },
+    "WebFrame": {
+      "setZoomFactor": "fn(factor: number)",
+      "getZoomFactor": "fn() -> number",
+      "setZoomLevel": "fn(level: number)",
+      "getZoomLevel": "fn() -> number",
+      "setSpellCheckProvider": "fn(language: string, autoCorrectWord: bool, provider: ?)",
+      "registerURLSchemeAsSecure": "fn(scheme: string)"
+    }
+  },
+  "'ipc'": "inProcess",
+  "'remote'": "remote",
+  "'web-frame'": "webframe",
+  "NodeRequireFunction": {},
+  "!name": "github-electron-renderer.d.ts"
+}

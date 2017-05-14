@@ -1,0 +1,17 @@
+{
+  "THREE": {
+    "EditorControls": {
+      "!type": "fn(object: Camera, domElement?: HTMLElement)",
+      "prototype": {
+        "enabled": "bool",
+        "center": "THREE.Vector3",
+        "focus": "fn(target: THREE.Object3D, frame: bool)",
+        "pan": "fn(delta: THREE.Vector3)",
+        "zoom": "fn(delta: THREE.Vector3)",
+        "rotate": "fn(delta: THREE.Vector3)",
+        "dispose": "fn()"
+      }
+    }
+  },
+  "!name": "three-editorcontrols"
+}

@@ -1,0 +1,9 @@
+{
+  "GeolocationStatic": {
+    "init": "fn() -> bool",
+    "getCurrentPosition": "fn(success: fn(position: Position), error?: fn(positionError: PositionError), opts?: PositionOptions)",
+    "showMap": "fn(latitude: number, longitude: number)"
+  },
+  "geo_position_js": "GeolocationStatic",
+  "!name": "google.geolocation.d.ts"
+}

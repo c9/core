@@ -1,0 +1,15 @@
+{
+  "ngCordova": {
+    "IDialogsPromptResult": {
+      "input1": "string",
+      "buttonIndex": "number"
+    },
+    "IDialogsService": {
+      "alert": "fn(message: string, title?: string, buttonName?: string) -> ?",
+      "confirm": "fn(message: string, title?: string, buttonArray?: ?) -> ?",
+      "prompt": "fn(message: string, title?: string, buttonArray?: ?, defaultText?: string) -> ?",
+      "beep": "fn(repetitions: number)"
+    }
+  },
+  "!name": "dialogs"
+}

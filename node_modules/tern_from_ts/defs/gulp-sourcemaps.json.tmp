@@ -1,0 +1,19 @@
+{
+  "gulp-sourcemaps": {
+    "InitOptions": {
+      "loadMaps": "bool",
+      "debug": "bool"
+    },
+    "WriteMapper": {},
+    "WriteOptions": {
+      "addComment": "bool",
+      "includeContent": "bool",
+      "sourceRoot": "string",
+      "WriteMapper": "?",
+      "sourceMappingURLPrefix": "string"
+    },
+    "init": "fn(opts?: InitOptions) -> NodeJS.ReadWriteStream",
+    "write": "fn(path?: string, opts?: WriteOptions) -> NodeJS.ReadWriteStream"
+  },
+  "!name": "gulp-sourcemaps.d.ts"
+}

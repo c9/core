@@ -1,0 +1,8 @@
+{
+  "query-string": {
+    "parse": "fn(str: string) -> ?",
+    "stringify": "fn(obj: ?) -> string",
+    "extract": "fn(str: string) -> string"
+  },
+  "!name": "query-string"
+}

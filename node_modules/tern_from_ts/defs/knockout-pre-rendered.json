@@ -1,0 +1,7 @@
+{
+  "KnockoutBindingHandlers": {
+    "init": "KnockoutBindingHandler",
+    "foreachInit": "KnockoutBindingHandler"
+  },
+  "!name": "knockout-pre-rendered"
+}

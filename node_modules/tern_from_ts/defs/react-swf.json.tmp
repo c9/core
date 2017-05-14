@@ -1,0 +1,37 @@
+{
+  "react-swf": "ReactSWF",
+  "ReactSWF": "rswf.ReactSWF",
+  "rswf": {
+    "State": {},
+    "Props": {
+      "src": "string",
+      "pluginspage": "string",
+      "width": "number",
+      "height": "number",
+      "id": "string",
+      "play": "bool",
+      "loop": "bool",
+      "menu": "bool",
+      "quality": "string",
+      "scale": "string",
+      "align": "string",
+      "salign": "string",
+      "wmode": "string",
+      "bgcolor": "string",
+      "base": "string",
+      "allowFullScreen": "bool",
+      "fullScreenAspectRatio": "string",
+      "flashvars": "Object",
+      "string": "?"
+    },
+    "ReactSWF": {
+      "getFPVersion": "fn() -> string",
+      "isFPVersionSupported": "fn(versionString: string) -> bool",
+      "prototype": {
+        "render": "fn() -> ?",
+        "getFPDOMNode": "fn() -> Node"
+      }
+    }
+  },
+  "!name": "react-swf.d.ts"
+}

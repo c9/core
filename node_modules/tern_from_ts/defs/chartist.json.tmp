@@ -1,0 +1,161 @@
+{
+  "Chartist": {
+    "ChartistStatic": {
+      "Pie": "IChartistPieChart",
+      "Bar": "IChartistBarChart",
+      "Line": "IChartistLineChart",
+      "Svg": "?",
+      "noop": "Function"
+    },
+    "IResponsiveOptionTuple": {
+      "0": "string",
+      "1": "T"
+    },
+    "IChartistBase": {
+      "container": "?",
+      "data": "Object",
+      "defaultOptions": "T",
+      "options": "T",
+      "responsiveOptions": "?",
+      "eventEmitter": "?",
+      "supportsForeignObject": "bool",
+      "supportsAnimations": "bool",
+      "resizeListener": "?",
+      "update": "fn(data: Object, options?: T, override?: bool)",
+      "detatch": "fn()",
+      "on": "fn(event: string, handler: Function) -> ?",
+      "off": "fn(event: string, handler?: Function) -> ?"
+    },
+    "IChartistPieChart": {},
+    "IChartistLineChart": {},
+    "IChartistBarChart": {},
+    "IChartOptions": {
+      "reverseData": "bool"
+    },
+    "IPieChartOptions": {
+      "width": "number",
+      "string": "?",
+      "height": "number",
+      "chartPadding": "IChartPadding",
+      "number": "?",
+      "classNames": "IPieChartClasses",
+      "startAngle": "number",
+      "total": "number",
+      "donut": "bool",
+      "donutWidth": "number",
+      "showLabel": "bool",
+      "labelOffset": "number",
+      "labelPosition": "string",
+      "labelInterpolationFnc": "Function",
+      "labelDirection": "string"
+    },
+    "IChartPadding": {
+      "top": "number",
+      "right": "number",
+      "bottom": "number",
+      "left": "number"
+    },
+    "IPieChartClasses": {
+      "chartPie": "string",
+      "chartDonut": "string",
+      "series": "string",
+      "slicePie": "string",
+      "sliceDonut": "string",
+      "label": "string"
+    },
+    "IBarChartOptions": {
+      "axisX": "IBarChartAxis",
+      "axisY": "IBarChartAxis",
+      "width": "number",
+      "string": "?",
+      "height": "number",
+      "high": "number",
+      "low": "number",
+      "onlyInteger": "bool",
+      "chartPadding": "IChartPadding",
+      "seriesBarDistance": "number",
+      "stackBars": "bool",
+      "horizontalBars": "bool",
+      "distributeSeries": "bool"
+    },
+    "IBarChartAxis": {
+      "offset": "number",
+      "position": "string",
+      "labelOffset": {
+        "x": "number",
+        "y": "number"
+      },
+      "showLabel": "bool",
+      "showGrid": "bool",
+      "labelInterpolationFnc": "Function",
+      "scaleMinSpace": "number",
+      "onlyInteger": "bool"
+    },
+    "IBarChartClasses": {
+      "chart": "string",
+      "horizontalBars": "string",
+      "label": "string",
+      "labelGroup": "string",
+      "series": "string",
+      "bar": "string",
+      "grid": "string",
+      "gridGroup": "string",
+      "vertical": "string",
+      "horizontal": "string",
+      "start": "string",
+      "end": "string"
+    },
+    "ILineChartOptions": {
+      "axisX": "ILineChartXAxis",
+      "axisY": "ILineChartYAxis",
+      "width": "number",
+      "string": "?",
+      "height": "number",
+      "showLine": "bool",
+      "showPoint": "bool",
+      "showArea": "bool",
+      "areaBase": "number",
+      "lineSmooth": "bool",
+      "low": "number",
+      "high": "number",
+      "chartPadding": "IChartPadding",
+      "fullWidth": "bool",
+      "reverseData": "bool",
+      "classNames": "ILineChartClasses"
+    },
+    "ILineChartAxis": {
+      "offset": "number",
+      "position": "string",
+      "labelOffset": {
+        "x": "number",
+        "y": "number"
+      },
+      "showLabel": "bool",
+      "showGrid": "bool",
+      "labelInterpolationFnc": "Function",
+      "type": "?"
+    },
+    "ILineChartXAxis": {},
+    "ILineChartYAxis": {
+      "scaleMinSpace": "number",
+      "onlyInteger": "bool"
+    },
+    "ILineChartClasses": {
+      "chart": "string",
+      "label": "string",
+      "labelGroup": "string",
+      "series": "string",
+      "line": "string",
+      "point": "string",
+      "area": "string",
+      "grid": "string",
+      "gridGroup": "string",
+      "vertical": "string",
+      "horizontal": "string",
+      "start": "string",
+      "end": "string"
+    },
+    "!type": "Chartist.ChartistStatic"
+  },
+  "!name": "chartist.d.ts"
+}

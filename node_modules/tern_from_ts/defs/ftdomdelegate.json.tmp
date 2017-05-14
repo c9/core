@@ -1,0 +1,12 @@
+{
+  "Delegate": {
+    "!type": "fn(element: HTMLElement)",
+    "prototype": {
+      "on": "fn(eventType: string, selector: string, handler: fn(event: Event, targetElement: Element), eventData?: ?)",
+      "off": "fn(eventType?: string, selector?: string, handler?: fn(event: Event, targetElement: Element))",
+      "root": "fn(element?: Element)",
+      "destroy": "fn()"
+    }
+  },
+  "!name": "ftdomdelegate.d.ts"
+}

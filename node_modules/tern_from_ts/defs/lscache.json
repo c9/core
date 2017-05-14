@@ -1,0 +1,14 @@
+{
+  "LSCache": {
+    "set": "fn(key: string, value: ?, time?: number)",
+    "get": "fn(key: string) -> ?",
+    "remove": "fn(key: string)",
+    "flush": "fn()",
+    "flushExpired": "fn()",
+    "setBucket": "fn(bucket: string)",
+    "resetBucket": "fn()"
+  },
+  "lscache": "LSCache",
+  "'lscache'": "lscache",
+  "!name": "lscache"
+}

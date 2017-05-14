@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Cloud9</title>
+    <script>
+        // For node-webkit
+        var nRequire = window.require; 
+        window.nativeRequire = function(path){
+            var oldRequire = window.require;
+            window.require = nRequire;
+            var obj = window.require(path); 
+            window.require = oldRequire;
+            return obj;
+        }
+        window.isLocalVersion = nRequire ? true : false;
+        window.require = window.module = undefined;
+    </script>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> 
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+</head>
+<body>
+    <% include ../../c9.ide.server/views/load-screen.ejs %>
+
+    <% if (packed) { %>
+        <script src="/static/<%=version%>/config/<%=configName%>.js"></script>
+    <% } else { %>
+        <script src="/static/mini_require.js"></script>
+        <script src="/configs/require_config.js"></script>
+    <% } %>
+    <script>
+        var plugins = <%-: architectConfig | JSONToJS %>;
+        var start = Date.now();
+        
+        <% if (packed) { %>
+            require.MODULE_LOAD_URL = "/static/standalone/modules"
+        <% } %>
+        
+        if (isLocalVersion)
+            nativeRequire("nw.gui").Window.get().show();
+        
+        require(["lib/architect/architect"], function (architect) {
+            plugins.push({
+                consumes: [],
+                provides: ["auth.bootstrap"],
+                setup: function(options, imports, register) {
+                    register(null, {
+                        "auth.bootstrap": {
+                            login: function(callback) { callback(); }
+                        }
+                    });
+                }
+            });
+            
+            architect.resolveConfig(plugins, function (err, config) {
+                if (err) throw err;
+
+                var errored;
+                var app = architect.createApp(config, function(err, app){
+                    if (err) {
+                        errored = true;
+                        console.error(err.stack);
+                        alert(err);
+                    }
+                });
+                
+                app.on("error", function(err){
+                    console.error(err.stack);
+                    if (!errored)
+                        alert(err);
+                });
+                
+                app.on("service", function(name, plugin, options){
+                    if (!plugin.name)
+                        plugin.name = name;
+                });
+                
+                app.once("ready", function() {
+                    window.app = app.services;
+                    window.app.__defineGetter__("_ace", function(){
+                        return this.tabManager.focussedTab.editor.ace;
+                    });
+                    Object.keys(window.app).forEach(function(n) {
+                        if (/[^\w]/.test(n))
+                            window.app[n.replace(/[^\w]/, "_") + "_"] = window.app[n];
+                    });
+                    
+                    done();
+                });
+
+                // For Development only
+                function done(){
+                    var vfs = app.services.vfs;
+                    var c9 = app.services.c9;
+                    var settings = app.services.settings;
+                    
+                    c9.ready();
+                    c9.totalLoadTime = Date.now() - start;
+
+                    console.warn("Total Load Time: ", Date.now() - start);
+                    
+                    if (window.hideLoader) {
+                        var waitVfs = function(fn) {
+                            vfs.connected ? fn() : vfs.once("connect", fn);
+                        };
+                        var waitSettings = function(fn) {
+                            settings.inited ? fn() : settings.once("read", fn);
+                        };
+                        waitVfs(waitSettings.bind(null, window.hideLoader));
+                    }
+                }
+            }, function loadError(mod) {
+                if (mod.id === "plugins/c9.ide.clipboard/html5")
+                    return alert("Unable to load html5.js.\n\nThis may be caused by a false positive in your virus scanner. Please try reloading with ?packed=1 added to the URL.");
+            });
+        });
+    </script>
+</body>
+</html>

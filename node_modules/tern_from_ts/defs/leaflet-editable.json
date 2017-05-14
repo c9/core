@@ -1,0 +1,69 @@
+{
+  "L": {
+    "EditableStatic": {},
+    "EditOptions": {
+      "polylineClass": "Object",
+      "polygonClass": "Object",
+      "markerClass": "Object",
+      "drawingCSSClass": "string",
+      "editLayer": "?",
+      "featuresLayer": "?",
+      "L": "?",
+      "Polygon": "?",
+      "Marker": "?",
+      "vertexMarkerClass": "Object",
+      "middleMarkerClass": "Object",
+      "polylineEditorClass": "Object",
+      "polygonEditorClass": "Object",
+      "markerEditorClass": "Object",
+      "lineGuideOptions": "Object",
+      "skipMiddleMarkers": "bool"
+    },
+    "Editable": {
+      "options": "EditOptions",
+      "currentPolygon": "Polyline",
+      "Polygon": "?",
+      "Marker": "?",
+      "startPolyline": "fn(latLng?: LatLng, options?: L.PolylineOptions) -> L.Polyline",
+      "startPolygon": "fn(latLng?: LatLng, options?: L.PolylineOptions) -> L.Polygon",
+      "startMarker": "fn(latLng?: LatLng, options?: L.MarkerOptions) -> L.Marker",
+      "stopDrawing": "fn()"
+    },
+    "EditableMixin": {
+      "enableEdit": "fn() -> ?",
+      "disableEdit": "fn()",
+      "toggleEdit": "fn()",
+      "editEnabled": "fn() -> bool"
+    },
+    "Map": {
+      "editable": "bool",
+      "editOptions": "EditOptions",
+      "editTools": "Editable",
+      "MapOptions": {
+        "editable": "bool",
+        "editOptions": "EditOptions"
+      }
+    },
+    "Polyline": {},
+    "BaseEditor": {
+      "enable": "fn() -> MarkerEditor",
+      "PolylineEditor": "?",
+      "PolygonEditor": "?",
+      "disable": "fn() -> MarkerEditor"
+    },
+    "PathEditor": {
+      "reset": "fn()"
+    },
+    "PolylineEditor": {
+      "continueForward": "fn()",
+      "continueBackward": "fn()"
+    },
+    "PolygonEditor": {
+      "newHole": "fn(latlng: LatLng)"
+    },
+    "MarkerEditor": {},
+    "Marker": {},
+    "Polygon": {}
+  },
+  "!name": "leaflet-editable"
+}

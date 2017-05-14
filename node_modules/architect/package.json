@@ -1,0 +1,34 @@
+{
+    "name": "architect",
+    "description": "A Simple yet powerful plugin system for node applications",
+    "version": "0.1.11",
+    "author": "ajax.org B.V. <info@ajax.org>",
+    "contributors": [
+        {
+            "name": "Tim Caswell",
+            "email": "tim@c9.io"
+        },
+        {
+            "name": "Fabian Jakobs",
+            "email": "fabian@c9.io"
+        },
+        {
+            "name": "Christoph Dorn",
+            "email": "christoph@christophdorn.com"
+        }
+    ],
+    "main": "architect.js",
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/c9/architect.git"
+    },
+    "dependencies": {},
+    "devDependencies": {},
+    "optionalDependencies": {},
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://github.com/c9/architect/raw/master/LICENSE"
+        }
+    ]
+}

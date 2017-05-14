@@ -1,0 +1,11 @@
+{
+  "AngularUITree": {
+    "ITreeNode": {
+      "id": "number",
+      "string": "?",
+      "nodes": "[ITreeNode]",
+      "title": "string"
+    }
+  },
+  "!name": "angular-ui-tree.d.ts"
+}

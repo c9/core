@@ -1,0 +1,178 @@
+{
+  "dojox": {
+    "embed": {
+      "Quicktime": {
+        "initialized": "bool"
+      },
+      "Flash": {
+        "available": "number",
+        "domNode": "Object",
+        "id": "Object",
+        "initialized": "bool",
+        "minimumRequired": "Object",
+        "minimumVersion": "number",
+        "minSupported": "number",
+        "movie": "Object",
+        "supported": "bool",
+        "version": "Object",
+        "byId": {},
+        "destroy": {},
+        "init": {},
+        "place": {},
+        "proxy": {}
+      },
+      "Object_": {
+        "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+        "prototype": {
+          "attributeMap": "Object",
+          "set": "fn(property: string, value: Object)",
+          "get": "fn(property: string) -> Object",
+          "watch": "fn(property: string, callback: ?) -> ret",
+          "baseClass": "string",
+          "class": "string",
+          "containerNode": "HTMLElement",
+          "dir": "string",
+          "domNode": "HTMLElement",
+          "focused": "bool",
+          "height": "Object",
+          "id": "string",
+          "lang": "string",
+          "movie": "Object",
+          "ownerDocument": "Object",
+          "params": "Object",
+          "reFlash": "RegExp",
+          "reQtAudio": "RegExp",
+          "reQtMovie": "RegExp",
+          "src": "string",
+          "srcNodeRef": "HTMLElement",
+          "style": "string",
+          "title": "string",
+          "tooltip": "string",
+          "width": "Object",
+          "attr": "fn(name: String, value: Object) -> ?",
+          "buildRendering": "fn()",
+          "connect": "fn(obj: Object, event: String, method: String) -> ?",
+          "defer": "fn(fcn: Function, delay: number) -> Object",
+          "destroy": "fn(preserveDom?: bool)",
+          "destroyDescendants": "fn(preserveDom: bool)",
+          "destroyRecursive": "fn(preserveDom: bool)",
+          "destroyRendering": "fn(preserveDom?: bool)",
+          "disconnect": "fn(handle: ?)",
+          "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+          "getChildren": "fn() -> [?]",
+          "getDescendants": "fn() -> [?]",
+          "getParent": "fn() -> ?",
+          "isFocusable": "fn() -> ?",
+          "isLeftToRight": "fn() -> ?",
+          "on": "fn(type: String, func: Function) -> ?",
+          "own": "fn() -> ?",
+          "placeAt": "fn(reference: String, position: String) -> ?",
+          "postCreate": "fn()",
+          "postMixInProperties": "fn()",
+          "setAttribute": "fn(attr: String, value: ?)",
+          "startup": "fn()",
+          "subscribe": "fn(t: String, method: Function) -> ?",
+          "uninitialize": "fn() -> bool",
+          "unsubscribe": "fn(handle: Object)",
+          "onBlur": "fn()",
+          "onClick": "fn(event: ?)",
+          "onClose": "fn() -> bool",
+          "onDblClick": "fn(event: ?)",
+          "onFocus": "fn()",
+          "onHide": "fn()",
+          "onKeyDown": "fn(event: ?)",
+          "onKeyPress": "fn(event: ?)",
+          "onKeyUp": "fn(event: ?)",
+          "onMouseDown": "fn(event: ?)",
+          "onMouseEnter": "fn(event: ?)",
+          "onMouseLeave": "fn(event: ?)",
+          "onMouseMove": "fn(event: ?)",
+          "onMouseOut": "fn(event: ?)",
+          "onMouseOver": "fn(event: ?)",
+          "onMouseUp": "fn(event: ?)",
+          "onShow": "fn()"
+        }
+      },
+      "flashVars": {
+        "See": "Object",
+        "serialize": "fn(n: String, o: Object) -> ?"
+      }
+    }
+  },
+  "dojox/embed/Flash": "exp",
+  "dojox/embed/Quicktime": "exp",
+  "dojox/embed/flashVars": "exp",
+  "dojox/embed/Object": "exp",
+  "!name": "dojox.embed.d.ts",
+  "!define": {
+    "ret": {
+      "unwatch": "fn()"
+    },
+    "ret1": {
+      "unwatch": "fn()"
+    },
+    "ret2": {
+      "unwatch": "fn()"
+    },
+    "ret3": {
+      "unwatch": "fn()"
+    },
+    "ret4": {
+      "unwatch": "fn()"
+    },
+    "ret5": {
+      "unwatch": "fn()"
+    },
+    "ret6": {
+      "unwatch": "fn()"
+    },
+    "ret7": {
+      "unwatch": "fn()"
+    },
+    "ret8": {
+      "unwatch": "fn()"
+    },
+    "ret9": {
+      "unwatch": "fn()"
+    },
+    "ret10": {
+      "unwatch": "fn()"
+    },
+    "ret11": {
+      "unwatch": "fn()"
+    },
+    "ret12": {
+      "unwatch": "fn()"
+    },
+    "ret13": {
+      "unwatch": "fn()"
+    },
+    "ret14": {
+      "unwatch": "fn()"
+    },
+    "ret15": {
+      "unwatch": "fn()"
+    },
+    "ret16": {
+      "unwatch": "fn()"
+    },
+    "ret17": {
+      "unwatch": "fn()"
+    },
+    "ret18": {
+      "unwatch": "fn()"
+    },
+    "ret19": {
+      "unwatch": "fn()"
+    },
+    "ret20": {
+      "unwatch": "fn()"
+    },
+    "ret21": {
+      "unwatch": "fn()"
+    },
+    "ret22": {
+      "unwatch": "fn()"
+    }
+  }
+}

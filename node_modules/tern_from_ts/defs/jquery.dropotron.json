@@ -1,0 +1,30 @@
+{
+  "DropotronConfiguration": {
+    "alignment": "string",
+    "baseZIndex": "number",
+    "cloneOnDetach": "bool",
+    "detach": "bool",
+    "easing": "string",
+    "IEOffsetX": "number",
+    "IEOffsetY": "number",
+    "expandMode": "string",
+    "globalOffsetY": "number",
+    "hideDelay": "number",
+    "hoverDelay": "number",
+    "menuClass": "string",
+    "mode": "string",
+    "noOpenerFade": "bool",
+    "offsetX": "number",
+    "offsetY": "number",
+    "openerActiveClass": "string",
+    "openerClass": "string",
+    "selectorParent": "JQuery",
+    "speed": "string",
+    "submenuClassPrefix": "string"
+  },
+  "Dropotron": {},
+  "JQuery": {
+    "dropotron": "Dropotron"
+  },
+  "!name": "jquery.dropotron"
+}

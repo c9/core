@@ -1,0 +1,11 @@
+{
+  "Proxyquire": {
+    "load": "fn(request: string, stubs: ?) -> ?",
+    "noCallThru": "fn() -> Proxyquire",
+    "callThru": "fn() -> Proxyquire",
+    "noPreserveCache": "fn()",
+    "preserveCache": "fn()"
+  },
+  "'proxyquire'": "p",
+  "!name": "proxyquire"
+}

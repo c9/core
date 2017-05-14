@@ -1,0 +1,13 @@
+{
+  "Trunk8Options": {
+    "fill": "string",
+    "lines": "number",
+    "side": "string",
+    "tooltip": "bool",
+    "width": "string"
+  },
+  "JQuery": {
+    "trunk8": "fn(method: string, value?: string) -> ?"
+  },
+  "!name": "trunk8"
+}

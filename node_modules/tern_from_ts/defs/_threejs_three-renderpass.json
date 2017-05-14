@@ -1,0 +1,21 @@
+{
+  "THREE": {
+    "RenderPass": {
+      "!type": "fn(scene: Scene, camera: Camera, overrideMaterial?: Material, clearColor?: Color, clearAlpha?: number)",
+      "prototype": {
+        "scene": "Scene",
+        "camera": "Camera",
+        "overrideMaterial": "Material",
+        "clearColor": "?",
+        "clearAlpha": "number",
+        "oldClearColor": "Color",
+        "oldClearAlpha": "number",
+        "enabled": "bool",
+        "clear": "bool",
+        "needsSwap": "bool",
+        "render": "fn(renderer: WebGLRenderer, writeBuffer: WebGLRenderTarget, readBuffer: WebGLRenderTarget, delta: number)"
+      }
+    }
+  },
+  "!name": "three-renderpass"
+}

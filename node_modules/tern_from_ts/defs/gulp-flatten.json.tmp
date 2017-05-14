@@ -1,0 +1,4 @@
+{
+  "gulp-flatten": "flatten",
+  "!name": "gulp-flatten.d.ts"
+}

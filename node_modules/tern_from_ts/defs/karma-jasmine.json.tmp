@@ -1,0 +1,5 @@
+{
+  "fdescribe": "fn(description: string, specDefinitions: fn())",
+  "fit": "fn(expectation: string, assertion: fn())",
+  "!name": "karma-jasmine.d.ts"
+}

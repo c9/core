@@ -1,0 +1,12 @@
+{
+  "KnockoutViewModelStatic": {
+    "toModel": "fn(viewmodel: ?) -> ?",
+    "fromModel": "fn(model: ?, options?: ?) -> ?",
+    "updateFromModel": "fn(viewmodel: ?, model: ?)",
+    "logging": "bool"
+  },
+  "KnockoutStatic": {
+    "viewmodel": "KnockoutViewModelStatic"
+  },
+  "!name": "knockout.viewmodel"
+}

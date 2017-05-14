@@ -1,0 +1,83 @@
+{
+  "name": "rusha",
+  "version": "0.8.6",
+  "description": "A high-performance pure-javascript SHA1 implementation suitable for large binary data.",
+  "main": "rusha.js",
+  "keywords": [
+    "sha1",
+    "binary",
+    "crypto",
+    "hash"
+  ],
+  "scripts": {
+    "test": "grunt test",
+    "test-saucelabs": "grunt test-saucelabs",
+    "build": "grunt build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/srijs/rusha.git"
+  },
+  "devDependencies": {
+    "asm.js": "0.0.2",
+    "benchmark": "^1.0.0",
+    "blanket": "~1.1.6",
+    "grunt": "~0.4.5",
+    "grunt-browserify": "^3.5.0",
+    "grunt-cli": "~0.1.13",
+    "grunt-contrib-connect": "^0.8.0",
+    "grunt-contrib-uglify": "~0.5.1",
+    "grunt-mocha-test": "~0.11.0",
+    "grunt-saucelabs": "^8.3.2",
+    "grunt-sweet.js": "~0.1.5",
+    "microtime": "^2.1.1",
+    "mocha": "^3.0.2",
+    "sweet.js": "~0.7.1"
+  },
+  "testling": {
+    "files": "test/test.js",
+    "harness": "mocha-tdd",
+    "browsers": [
+      "ie/6..latest",
+      "chrome/22..latest",
+      "firefox/16..latest",
+      "safari/latest",
+      "opera/11.0..latest"
+    ]
+  },
+  "author": {
+    "name": "Sam Rijs"
+  },
+  "license": "MIT",
+  "gitHead": "b16b7dc70558f8a11318b9683725df8dc2825ec4",
+  "bugs": {
+    "url": "https://github.com/srijs/rusha/issues"
+  },
+  "homepage": "https://github.com/srijs/rusha#readme",
+  "_id": "rusha@0.8.6",
+  "_shasum": "b264ddaa4d49a1d67300061858ba9358c4adca14",
+  "_from": "rusha@>=0.8.3 <0.9.0",
+  "_npmVersion": "3.10.9",
+  "_nodeVersion": "7.1.0",
+  "_npmUser": {
+    "name": "srijs",
+    "email": "srijs@airpost.net"
+  },
+  "dist": {
+    "shasum": "b264ddaa4d49a1d67300061858ba9358c4adca14",
+    "tarball": "https://registry.npmjs.org/rusha/-/rusha-0.8.6.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "srijs",
+      "email": "recv@awesam.de"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/rusha-0.8.6.tgz_1493938322575_0.18007903289981186"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/rusha/-/rusha-0.8.6.tgz",
+  "readme": "ERROR: No README data found!"
+}

@@ -1,0 +1,4 @@
+{
+  "merge-stream": "merge",
+  "!name": "merge-stream.d.ts"
+}

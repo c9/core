@@ -1,0 +1,8 @@
+{
+  "SwagStatic": {
+    "registerHelpers": "fn(handlebars: Handlebars)"
+  },
+  "Swag": "SwagStatic",
+  "'swag'": "Swag",
+  "!name": "swag"
+}

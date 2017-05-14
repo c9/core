@@ -1,0 +1,17 @@
+{
+  "dojox": {
+    "secure": {
+      "DOM": {},
+      "sandbox": {},
+      "fromJson": {},
+      "capability": {
+        "keywords": "[?]",
+        "validate": "fn(script: String, safeLibraries: [?], safeGlobals: Object)"
+      }
+    }
+  },
+  "dojox/secure/DOM": "exp",
+  "dojox/secure/sandbox": "exp",
+  "dojox/secure/capability": "exp",
+  "!name": "dojox.secure.d.ts"
+}

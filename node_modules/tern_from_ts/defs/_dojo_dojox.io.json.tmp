@@ -1,0 +1,50 @@
+{
+  "dojox": {
+    "io": {
+      "httpParse": {},
+      "xhrMultiPart": {},
+      "xhrWindowNamePlugin": {},
+      "xhrScriptPlugin": {},
+      "proxy": {
+        "xip": {
+          "urlLimit": "number",
+          "xipClientUrl": "Object",
+          "createFacade": "fn() -> ?",
+          "destroyState": "fn(stateId: String)",
+          "fragmentReceived": "fn(frag: ?)",
+          "fragmentReceivedEvent": "fn(evt: ?)",
+          "frameLoaded": "fn(stateId: String)",
+          "makeServerUrl": "fn(stateId: ?, cmd: ?, message: ?) -> String",
+          "receive": "fn(stateId: String, urlEncodedData: String)",
+          "send": "fn(facade: Object) -> ?",
+          "sendRequest": "fn(stateId: ?, encodedData: ?)",
+          "sendRequestPart": "fn(stateId: ?)",
+          "sendRequestStart": "fn(stateId: ?)",
+          "setServerUrl": "fn(stateId: ?, cmd: ?, message: ?)",
+          "unpackMessage": "fn(encodedMessage: ?) -> Object",
+          "XhrIframeFacade": "fn(ifpServerUrl: ?)",
+          "_state": {}
+        }
+      },
+      "xhrPlugins": {},
+      "scriptFrame": {
+        "_loadedIds": {},
+        "_waiters": {}
+      },
+      "windowName": {
+        "send": "fn(method: String, args: Object) -> ?"
+      }
+    }
+  },
+  "dojox/io/httpParse": "exp",
+  "dojox/io/xhrMultiPart": "exp",
+  "dojox/io/xhrWindowNamePlugin": "exp",
+  "dojox/io/xhrScriptPlugin": "exp",
+  "dojox/io/windowName": "exp",
+  "dojox/io/scriptFrame": "exp",
+  "dojox/io/scriptFrame._loadedIds": "exp",
+  "dojox/io/scriptFrame._waiters": "exp",
+  "dojox/io/proxy/xip": "exp",
+  "dojox/io/proxy/xip._state": "exp",
+  "!name": "dojox.io.d.ts"
+}

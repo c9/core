@@ -1,0 +1,641 @@
+{
+  "ObjectConstructor": {
+    "getType": "fn(instance: ?) -> Type",
+    "getTypeName": "fn(instance: ?) -> string"
+  },
+  "ArrayConstructor": {
+    "add": "fn(array: [T], element: T)",
+    "addRange": "fn(array: [T], items: [T])",
+    "clear": "fn(array: [T])",
+    "clone": "fn(array: [T]) -> [T]",
+    "contains": "fn(array: [T], element: T) -> bool",
+    "dequeue": "fn(array: [T]) -> T",
+    "enqueue": "fn(array: [T], element: T)",
+    "forEach": "fn(array: [T], method: fn(element: T, index: number, array: [T]), instance: ?)",
+    "indexOf": "fn(array: [T], item: T, startIndex?: number) -> number",
+    "insert": "fn(array: [T], index: number, item: T)",
+    "parse": "fn(value: string) -> [T]",
+    "remove": "fn(array: [T], item: T) -> bool",
+    "removeAt": "fn(array: [T], index: number)"
+  },
+  "Number": {
+    "format": "fn(format: string) -> string",
+    "localeFormat": "fn(format: string) -> string"
+  },
+  "NumberConstructor": {
+    "parseInvariant": "fn(format: string) -> number",
+    "parseLocale": "fn(format: string) -> number"
+  },
+  "Date": {
+    "format": "fn(format: string) -> string",
+    "localeFormat": "fn(format: string) -> string"
+  },
+  "DateConstructor": {
+    "parseLocale": "fn(value: string, formats?: [string]) -> Date",
+    "parseInvariant": "fn(value: string, formats?: [string]) -> string"
+  },
+  "FunctionConstructor": {
+    "createCallback": "fn(method: Function, context: [?]) -> Function",
+    "createDelegate": "fn(instance: ?, method: Function) -> Function",
+    "emptyMethod": "fn() -> Function",
+    "validateParameters": "fn(parameters: ?, expectedParameters: [Object], validateParameterCount?: bool) -> ?"
+  },
+  "ErrorConstructor": {
+    "parameterCount": "fn(message?: string) -> Error",
+    "notImplemented": "fn(message?: string) -> Error",
+    "argument": "fn(paramName?: ?, message?: string) -> Error",
+    "argumentNull": "fn(paramName?: ?, message?: string) -> Error",
+    "argumentOutOfRange": "fn(paramName?: string, actualValue?: ?, message?: string) -> Error",
+    "argumentType": "fn(paramName?: string, actualType?: ?, expectedType?: ?, message?: string) -> Error",
+    "argumentUndefined": "fn(paramName?: string, message?: string) -> Error",
+    "create": "fn(message?: string, errorInfo?: Object) -> Error",
+    "format": "fn(message?: string) -> Error",
+    "invalidOperation": "fn(message?: string) -> Error"
+  },
+  "Error": {
+    "popStackFrame": "fn()"
+  },
+  "String": {
+    "endsWith": "fn(suffix: string) -> bool",
+    "trim": "fn() -> string",
+    "trimEnd": "fn() -> string",
+    "trimStart": "fn() -> string"
+  },
+  "StringConstructor": {
+    "format": "fn(format: string, args: [?]) -> string",
+    "localeFormat": "fn(format: string, args: [?]) -> string"
+  },
+  "BooleanConstructor": {
+    "parse": "fn(value: string) -> Boolean"
+  },
+  "Type": {
+    "createCallback": "fn(method: Function, context: Object) -> Function",
+    "createDelegate": "fn(instance: Object, method: Function) -> Function",
+    "getRootNamespaces": "fn() -> ?",
+    "isClass": "fn(type: ?) -> bool",
+    "isEnum": "fn(type: ?) -> bool",
+    "isFlags": "fn(type: ?) -> bool",
+    "isInterface": "fn(type: ?) -> bool",
+    "isNamespace": "fn(object: ?) -> bool",
+    "parse": "fn(typeName: string, ns?: string) -> ?",
+    "registerNamespace": "fn(namespacePath: string)",
+    "prototype": {
+      "callBaseMethod": "fn(instance: ?, name: string, baseArguments?: [?]) -> ?",
+      "getBaseMethod": "fn(instance: Object, name: string) -> ?",
+      "getBaseType": "fn() -> Type",
+      "getInterfaces": "fn() -> [?]",
+      "getName": "fn() -> string",
+      "implementsInterface": "fn(interfaceType: Type) -> bool",
+      "inheritsFrom": "fn(parentType: string) -> bool",
+      "initializeBase": "fn(instance: ?, baseArguments?: [?]) -> ?",
+      "isImplementedBy": "fn(typeInstanceVar: ?) -> bool",
+      "isInstanceOfType": "fn(instance: ?) -> bool",
+      "registerClass": "fn(typeName: string, baseType?: ?, interfaceTypes?: [?]) -> ?",
+      "registerEnum": "fn(name: string, flags?: bool)",
+      "registerInterface": "fn(typeName: string) -> ?",
+      "resolveInheritance": "fn()"
+    }
+  },
+  "$create": "fn(type: Type, properties?: ?, events?: ?, references?: ?, element?: HTMLElement) -> Sys.Component",
+  "$find": "fn(id: string, parent?: Sys.Component) -> Sys.Component",
+  "$addHandler": "fn(element: HTMLElement, eventName: string, handler: fn(e: Sys.UI.DomEvent), autoRemove?: bool)",
+  "$addHandlers": "fn(element: HTMLElement, events: ?, handlerOwner?: ?, autoRemove?: bool)",
+  "$clearHandlers": "fn(element: HTMLElement)",
+  "$get": "fn(id: string, element?: HTMLElement) -> HTMLElement",
+  "$removeHandler": "fn(element: HTMLElement, eventName: string, handler: fn(e: Sys.UI.DomEvent))",
+  "Sys": {
+    "Application": {
+      "add_init": "fn(handler: fn(sender: Application, eventArgs: EventArgs))",
+      "remove_init": "fn(handler: fn(sender: Application, eventArgs: EventArgs))",
+      "add_load": "fn(handler: fn(sender: Application, eventArgs: ApplicationLoadEventArgs))",
+      "remove_load": "fn(handler: fn(sender: Application, eventArgs: ApplicationLoadEventArgs))",
+      "add_navigate": "fn(handler: fn(sender: Application, eventArgs: HistoryEventArgs))",
+      "remove_navigate": "fn(handler: fn(sender: Application, eventArgs: HistoryEventArgs))",
+      "add_unload": "fn(handler: Function)",
+      "remove_unload": "fn(handler: Function)",
+      "addComponent": "fn(component: ?)",
+      "beginCreateComponents": "fn()",
+      "addHistoryPoint": "fn(state: Object, title?: string)",
+      "beginUpdate": "fn()",
+      "dispose": "fn()",
+      "disposeElement": "fn(element: Element, childNodesOnly: bool)",
+      "endCreateComponents": "fn()",
+      "endUpdate": "fn()",
+      "findComponent": "fn(id: string, parent?: Sys.Component) -> Sys.Component",
+      "getComponents": "fn() -> [Sys.Component]",
+      "initialize": "fn()",
+      "notifyScriptLoaded": "fn()",
+      "raiseLoad": "fn()",
+      "raisePropertyChanged": "fn(propertyName: string)",
+      "registerDisposableObject": "fn(object: ?)",
+      "removeComponent": "fn(component: Component)",
+      "unregisterDisposableObject": "fn(object: ?)",
+      "updated": "fn()",
+      "get_enableHistory": "fn() -> bool",
+      "set_enableHistory": "fn(value: bool)",
+      "get_isCreatingComponents": "fn() -> bool",
+      "get_isDisposing": "fn() -> bool",
+      "!type": "Application"
+    },
+    "Browser": {
+      "agent": "?",
+      "documentMode": "number",
+      "hasDebuggerStatement": "bool",
+      "name": "string",
+      "version": "number",
+      "!type": "fn() -> Sys.Browser"
+    },
+    "Component": {
+      "!type": "fn()",
+      "create": "fn(type: Type, properties?: ?, events?: ?, references?: ?, element?: HTMLElement) -> Sys.Component",
+      "prototype": {
+        "add_disposing": "fn(handler: Function)",
+        "remove_disposing": "fn(handler: Function)",
+        "add_propertyChanged": "fn(handler: Function)",
+        "remove_propertyChanged": "fn(handler: Function)",
+        "beginUpdate": "fn()",
+        "endUpdate": "fn()",
+        "initialize": "fn()",
+        "raisePropertyChanged": "fn(propertyName: string)",
+        "updated": "fn()",
+        "dispose": "fn()",
+        "get_events": "fn() -> ?",
+        "get_id": "fn() -> string",
+        "set_id": "fn(value: string)",
+        "get_isInitialized": "fn() -> bool",
+        "get_isUpdating": "fn() -> bool"
+      }
+    },
+    "CultureInfo": {
+      "!type": "fn(name: string, numberFormat: string, dateTimeFormat: string)",
+      "InvariantCulture": "CultureInfo",
+      "CurrentCulture": "CultureInfo",
+      "prototype": {
+        "numberFormat": "[string]",
+        "name": "string",
+        "dateTimeFormat": "[string]"
+      }
+    },
+    "Debug": {
+      "!type": "fn()",
+      "assert": "fn(condition: bool, message?: string, displayCaller?: bool)",
+      "clearTrace": "fn()",
+      "fail": "fn(message: string)",
+      "trace": "fn(text: string)",
+      "traceDump": "fn(object: ?, name?: string)",
+      "prototype": {}
+    },
+    "CollectionChange": {
+      "!type": "fn(action: NotifyCollectionChangedAction, newItems: [?], newStartingIndex: number, oldItems: [?], oldStartingIndex: number)",
+      "prototype": {
+        "action": "NotifyCollectionChangedAction",
+        "newItems": "[?]",
+        "newStartingIndex": "number",
+        "oldItems": "[?]",
+        "oldStartingIndex": "number"
+      }
+    },
+    "Observer": {
+      "add": "fn(target: [?], item: ?)",
+      "addCollectionChanged": "fn(target: ?, handler: Function)",
+      "addEventHandler": "fn(target: ?, eventName: string, handler: Function)",
+      "addPropertyChanged": "fn(target: ?, handler: Function)",
+      "addRange": "fn(target: [?], items: [?])",
+      "beginUpdate": "fn(target: ?)",
+      "clear": "fn(target: ?)",
+      "endUpdate": "fn(target: ?)",
+      "insert": "fn(target: ?, index: number, item: ?)",
+      "makeObservable": "fn(target: ?) -> ?",
+      "raiseCollectionChanged": "fn(target: [?], changes: Sys.CollectionChange)",
+      "raiseEvent": "fn(target: ?, eventName: string, eventArgs: Sys.EventArgs)",
+      "raisePropertyChanged": "fn(target: ?, propertyName: string)",
+      "remove": "fn(target: [?], item: ?) -> bool",
+      "removeAt": "fn(target: [?], index: number)",
+      "removeCollectionChanged": "fn(target: ?, handler: Function)",
+      "removeEventHandler": "fn(target: ?, handler: Function)",
+      "setValue": "fn(target: ?, propertyName: string, value: ?)",
+      "isUpdating": "fn(target: ?) -> bool",
+      "prototype": {}
+    },
+    "Res": {
+      "actualValue": "string",
+      "appLoadTimedout": "string",
+      "argument": "string",
+      "argumentNull": "string",
+      "argumentOutOfRange": "string",
+      "argumentType": "string",
+      "argumentTypeWithTypes": "string",
+      "argumentUndefined": "string",
+      "assertFailed": "string",
+      "assetFailedCaller": "string",
+      "badBaseUrl1": "string",
+      "badBaseUrl2": "string",
+      "badBaseUrl3": "string",
+      "breakIntoDebugger": "string",
+      "cannotAbortBeforeStart": "string",
+      "cannotCallBeforeResponse": "string",
+      "cannotCallOnceStarted": "string",
+      "cannotCallOutsideHandler": "string",
+      "cannotDeserializeEmptyString": "string",
+      "cannotSerializeNonFiniteNumbers": "string",
+      "controlCantSetId": "string",
+      "enumInvalidValue": "string",
+      "eventHandlerInvalid": "string",
+      "format": "string",
+      "formatBadDate": "string",
+      "formatBadFormatSpecifier": "string",
+      "formatInvalidString": "string",
+      "invalidExecutorType": "string",
+      "invalidHttpVerb": "string",
+      "invalidOperation": "string",
+      "invalidTimeout": "string",
+      "invokeCalledTwice": "string",
+      "notImplemented": "string",
+      "nullWebRequest": "string",
+      "prototype": {}
+    },
+    "StringBuilder": {
+      "!type": "fn(initialText?: string)",
+      "prototype": {
+        "append": "fn(text: string)",
+        "appendLine": "fn(text: string)",
+        "clear": "fn()",
+        "isEmpty": "fn() -> bool"
+      }
+    },
+    "NotifyCollectionChangedAction": "number",
+    "IContainer": {
+      "addComponent": "fn(component: Component)",
+      "findComponent": "fn(id: string) -> Component",
+      "getComponents": "fn() -> [Component]",
+      "removeComponent": "fn(component: Component)"
+    },
+    "IDisposable": {
+      "dispose": "fn()"
+    },
+    "INotifyDisposing": {
+      "add_disposing": "fn(handler: Function)",
+      "remove_disposing": "fn(handler: Function)"
+    },
+    "INotifyPropertyChange": {
+      "add_propertyChanged": "fn(handler: Function)",
+      "remove_propertyChanged": "fn(handler: Function)"
+    },
+    "ApplicationLoadEventArgs": {
+      "!type": "fn(components: ?, isPartialLoad: bool)",
+      "prototype": {
+        "get_components": "fn() -> [Component]",
+        "get_isPartialLoad": "fn() -> bool"
+      }
+    },
+    "EventArgs": {
+      "!type": "fn()",
+      "Empty": "EventArgs",
+      "prototype": {
+        "Empty": "EventArgs"
+      }
+    },
+    "CommandEventArgs": {
+      "!type": "fn(commandName: string, commandArgument: ?, commandSource: ?)",
+      "prototype": {
+        "get_commandName": "fn() -> string",
+        "get_commandArgument": "fn() -> ?",
+        "get_commandSource": "fn() -> ?"
+      }
+    },
+    "CancelEventArgs": {
+      "!type": "fn()",
+      "prototype": {
+        "set_cancel": "fn(value: bool)",
+        "get_cancel": "fn() -> bool"
+      }
+    },
+    "HistoryEventArgs": {
+      "!type": "fn(state: ?)",
+      "prototype": {
+        "get_State": "fn() -> ?"
+      }
+    },
+    "NotifyCollectionChangedEventArgs": {
+      "!type": "fn(changes: CollectionChange)",
+      "prototype": {
+        "get_changes": "fn() -> [CollectionChange]"
+      }
+    },
+    "PropertyChangedEventArgs": {
+      "!type": "fn(propertyName: string)",
+      "prototype": {
+        "propertyName": "fn() -> string"
+      }
+    },
+    "Net": {
+      "WebServiceProxy": {
+        "invoke": "fn(servicePath: string, methodName: string, useGet?: bool, params?: ?, onSuccess?: fn(result: string, eventArgs: EventArgs), onFailure?: fn(error: WebServiceError), userContext?: ?, timeout?: number, enableJsonp?: bool, jsonpCallbackParameter?: string) -> WebRequest",
+        "prototype": {}
+      },
+      "WebServiceError": {
+        "prototype": {
+          "get_errorObject": "fn() -> ?",
+          "get_exceptionType": "fn() -> ?",
+          "get_message": "fn() -> string",
+          "get_stackTrace": "fn() -> string",
+          "get_statusCode": "fn() -> number",
+          "get_timedOut": "fn() -> bool"
+        }
+      },
+      "NetworkRequestEventArgs": {
+        "!type": "fn(value: WebRequest)",
+        "prototype": {
+          "get_webRequest": "fn() -> WebRequest"
+        }
+      },
+      "WebRequest": {
+        "!type": "fn()",
+        "prototype": {
+          "get_url": "fn() -> string",
+          "set_url": "fn(value: string)",
+          "get_httpVerb": "fn() -> string",
+          "set_httpVerb": "fn(value: string)",
+          "get_timeout": "fn() -> number",
+          "set_timeout": "fn(value: number)",
+          "get_body": "fn() -> string",
+          "set_body": "fn(value: string)",
+          "get_headers": "fn() -> ret",
+          "get_userContext": "fn() -> ?",
+          "set_userContext": "fn(value: ?)",
+          "get_executor": "fn() -> WebRequestExecutor",
+          "set_executor": "fn(value: WebRequestExecutor)",
+          "add_completed": "fn(handler: fn(reference: ?, eventArgs: Sys.EventArgs))",
+          "remove_completed": "fn(handler: fn(reference: ?, eventArgs: Sys.EventArgs))",
+          "getResolvedUrl": "fn() -> string",
+          "invoke": "fn()",
+          "completed": "fn(eventArgs: Sys.EventArgs)"
+        }
+      },
+      "WebRequestExecutor": {
+        "!type": "fn()",
+        "prototype": {
+          "abort": "fn()",
+          "executeRequest": "fn()",
+          "getAllResponseHeaders": "fn() -> string",
+          "getResponseHeader": "fn(key: string) -> string",
+          "object": "fn() -> ?",
+          "get_aborted": "fn() -> bool",
+          "get_responseAvailable": "fn() -> bool",
+          "get_responseData": "fn() -> string",
+          "get_started": "fn() -> bool",
+          "get_statusCode": "fn() -> number",
+          "get_statusText": "fn() -> string",
+          "get_timedOut": "fn() -> bool",
+          "get_xml": "fn() -> XMLDocument",
+          "get_webRequest": "fn() -> Sys.Net.WebRequest"
+        }
+      },
+      "IWebRequestManager": {
+        "!type": "fn()",
+        "prototype": {
+          "add_completedRequest": "fn(handler: fn(sender: WebRequestExecutor, eventArgs: EventArgs))",
+          "add_invokingRequest": "fn(handler: fn(sender: WebRequestExecutor, networkRequestEventArgs: NetworkRequestEventArgs))",
+          "executeRequest": "fn(WebRequest: Sys.Net.WebRequest)",
+          "remove_completedRequest": "fn(handler: fn(sender: WebRequestExecutor, eventArgs: EventArgs))",
+          "remove_invokingRequest": "fn(handler: fn(sender: WebRequestExecutor, networkRequestEventArgs: NetworkRequestEventArgs))",
+          "get_defaultExecutorType": "fn() -> Sys.Net.WebRequestExecutor",
+          "set_defaultExecutorType": "fn(value: Sys.Net.WebRequestExecutor)",
+          "get_defaultTimeout": "fn() -> number",
+          "set_defaultTimeout": "fn(value: number)"
+        }
+      },
+      "WebRequestManager": "IWebRequestManager"
+    },
+    "Serialization": {
+      "JavaScriptSerializer": {
+        "!type": "fn()",
+        "serialize": "fn(value: ?) -> string",
+        "deserialize": "fn(value: string) -> ?",
+        "prototype": {}
+      }
+    },
+    "Services": {
+      "AuthenticationService": {
+        "!type": "fn()",
+        "prototype": {
+          "DefaultWebServicePath": "string",
+          "login": "fn(userName: string, password: string, isPersistent: bool, customInfo: ?, redirectUrl: string, loginCompletedCallback: Function, failedCallback: Function, userContext: ?)",
+          "logout": "fn(redirectUrl: string, logoutCompletedCallback: Function, failedCallback: Function, userContext: ?)",
+          "get_defaultFailedCallback": "fn() -> Function",
+          "set_defaultFailedCallback": "fn(value: string)",
+          "defaultSucceededCallback": "fn() -> Function",
+          "defaultUserContext": "fn() -> Object",
+          "get_isLoggedIn": "fn() -> bool",
+          "set_path": "fn(value: string)",
+          "get_path": "fn() -> string",
+          "set_timeout": "fn(value: number)",
+          "get_timeout": "fn() -> number"
+        }
+      },
+      "ProfileGroup": {
+        "!type": "fn()",
+        "prototype": {}
+      },
+      "RoleService": {
+        "prototype": {}
+      },
+      "ProfileService": {
+        "DefaultWebServicePath": "string",
+        "properties": "?",
+        "load": "fn(propertyNames: [string], loadCompletedCallback: Function, failedCallback: Function, userContext: ?)",
+        "save": "fn(propertyNames: [string], saveCompletedCallback: Function, failedCallback: Function, userContext: ?)",
+        "set_defaultFailedCallback": "fn(value: string)",
+        "get_defaultFailedCallback": "fn() -> Function",
+        "set_defaultLoadCompletedCallback": "fn(value: string)",
+        "get_defaultLoadCompletedCallback": "fn() -> Function",
+        "set_defaultSaveCompletedCallback": "fn(value: string)",
+        "get_defaultSaveCompletedCallback": "fn() -> Function",
+        "defaultSucceededCallback": "fn() -> Function",
+        "defaultUserContext": "fn() -> Object",
+        "set_path": "fn(value: string)",
+        "get_path": "fn() -> string",
+        "set_timeout": "fn(value: number)",
+        "get_timeout": "fn() -> number",
+        "prototype": {
+          "new": "fn() -> ProfileService"
+        }
+      }
+    },
+    "UI": {
+      "Behavior": {
+        "getBehaviorByName": "fn(element: HTMLElement, name: string) -> Behavior",
+        "getBehaviorsByType": "fn(element: HTMLElement, type: Sys.UI.Behavior) -> [Behavior]",
+        "getBehaviors": "fn(element: DomElement) -> [Behavior]",
+        "prototype": {
+          "dispose": "fn()",
+          "get_element": "fn() -> HTMLElement",
+          "get_id": "fn() -> string",
+          "set_id": "fn(value: string)",
+          "set_name": "fn(value: string)",
+          "get_name": "fn() -> string"
+        }
+      },
+      "Bounds": {
+        "!type": "fn()",
+        "prototype": {
+          "height": "number",
+          "width": "number",
+          "x": "number",
+          "y": "number"
+        }
+      },
+      "Control": {
+        "!type": "fn(element: HTMLElement)",
+        "prototype": {
+          "addCssClass": "fn(className: string)",
+          "dispose": "fn()",
+          "initialize": "fn()",
+          "onBubbleEvent": "fn(source: ?, args: ?) -> bool",
+          "raiseBubbleEvent": "fn(source: ?, args: ?)",
+          "removeCssClass": "fn(className: string)",
+          "toggleCssClass": "fn(className: string)",
+          "get_element": "fn() -> HTMLElement",
+          "get_id": "fn() -> string",
+          "set_id": "fn(value: string)"
+        }
+      },
+      "DomElement": {
+        "addCssClass": "fn(element: HTMLElement, className: string)",
+        "containsCssClass": "fn(element: HTMLElement, className: string) -> bool",
+        "getBounds": "fn(element: HTMLElement) -> ret1",
+        "getElementById": "fn(id: string) -> HTMLElement",
+        "getLocation": "fn(element: HTMLElement) -> Sys.UI.Point",
+        "getVisibilityMode": "fn(element: HTMLElement) -> Sys.UI.VisibilityMode",
+        "getVisible": "fn(element: ?) -> bool",
+        "isDomElement": "fn(obj: ?) -> bool",
+        "raiseBubbleEvent": "fn(source: HTMLElement, args: EventArgs)",
+        "removeCssClass": "fn(element: HTMLElement, className: string)",
+        "resolveElement": "fn(elementOrElementId: string, HTMLElement: ?, containerElement?: HTMLElement) -> HTMLElement",
+        "setLocation": "fn(element: HTMLElement, x: number, y: number)",
+        "setVisibilityMode": "fn(element: HTMLElement, value: Sys.UI.VisibilityMode)",
+        "setVisible": "fn(element: HTMLElement, value: bool)",
+        "toggleCssClass": "fn(element: HTMLElement, className: string)",
+        "!type": "DomElement"
+      },
+      "DomEvent": {
+        "!type": "fn(domElement: HTMLElement)",
+        "addHandler": "fn(element: HTMLElement, eventName: string, handler: fn(e: DomEvent), autoRemove?: bool)",
+        "addHandlers": "fn(element: HTMLElement, events: ?, handlerOwner?: ?, autoRemove?: bool)",
+        "clearHandlers": "fn(element: HTMLElement)",
+        "removeHandler": "fn(element: HTMLElement, eventName: string, handler: fn(e: DomEvent))",
+        "prototype": {
+          "preventDefault": "fn()",
+          "stopPropagation": "fn()",
+          "altKey": "bool",
+          "button": "Sys.UI.MouseButton",
+          "charCode": "number",
+          "clientX": "number",
+          "clientY": "number",
+          "ctrlKey": "bool",
+          "keyCode": "number",
+          "offsetX": "number",
+          "offsetY": "number",
+          "screenX": "number",
+          "screenY": "number",
+          "shiftKey": "bool",
+          "target": "?",
+          "type": "string"
+        }
+      },
+      "Key": "number",
+      "MouseButton": "number",
+      "Point": {
+        "!type": "fn(x: number, y: number)",
+        "prototype": {
+          "x": "number",
+          "y": "number"
+        }
+      },
+      "VisibilityMode": "number"
+    },
+    "WebForms": {
+      "BeginRequestEventArgs": {
+        "!type": "fn(request: Sys.Net.WebRequest, postBackElement: ?, updatePanelsToUpdate: [string])",
+        "prototype": {
+          "get_postBackElement": "fn() -> HTMLElement",
+          "get_request": "fn() -> Sys.Net.WebRequest",
+          "get_updatePanelsToUpdate": "fn() -> [string]"
+        }
+      },
+      "EndRequestEventArgs": {
+        "!type": "fn(error: Error, dataItems: ?, response: Sys.Net.WebRequestExecutor)",
+        "prototype": {
+          "get_dataItems": "fn() -> ?",
+          "get_error": "fn() -> Error",
+          "get_errorHandled": "fn() -> bool",
+          "set_errorHandled": "fn(value: bool)",
+          "get_response": "fn() -> Sys.Net.WebRequestExecutor"
+        }
+      },
+      "InitializeRequestEventArgs": {
+        "!type": "fn(request: Sys.Net.WebRequest, postBackElement: ?, updatePanelsToUpdate: [string])",
+        "prototype": {
+          "get_postBackElement": "fn() -> HTMLElement",
+          "get_request": "fn() -> Sys.Net.WebRequestExecutor",
+          "get_updatePanelsToUpdate": "fn() -> [string]"
+        }
+      },
+      "PageLoadedEventArgs": {
+        "!type": "fn()",
+        "prototype": {
+          "get_dataItems": "fn() -> ?",
+          "get_panelsCreated": "fn() -> [HTMLDivElement]",
+          "get_panelsUpdated": "fn() -> [HTMLDivElement]"
+        }
+      },
+      "PageLoadingEventArgs": {
+        "!type": "fn()",
+        "prototype": {
+          "get_dataItems": "fn() -> ?",
+          "get_panelsDeleting": "fn() -> [HTMLDivElement]",
+          "get_panelsUpdating": "fn() -> [HTMLDivElement]"
+        }
+      },
+      "PageRequestManager": {
+        "!type": "fn()",
+        "getInstance": "fn() -> PageRequestManager",
+        "prototype": {
+          "add_beginRequest": "fn(beginRequestHandler: fn(sender: ?, args: BeginRequestEventArgs))",
+          "remove_beginRequest": "fn(beginRequestHandler: Function)",
+          "add_endRequest": "fn(endRequestHandler: fn(sender: ?, args: Sys.WebForms.EndRequestEventArgs))",
+          "remove_endRequest": "fn(endRequestHandler: fn(sender: ?, args: Sys.WebForms.EndRequestEventArgs))",
+          "add_initializeRequest": "fn(initializeRequestHandler: fn(sender: ?, args: InitializeRequestEventArgs))",
+          "remove_initializeRequest": "fn(initializeRequestHandler: fn(sender: ?, args: InitializeRequestEventArgs))",
+          "add_pageLoaded": "fn(pageLoadedHandler: fn(sender: ?, args: PageLoadedEventArgs))",
+          "remove_pageLoaded": "fn(pageLoadedHandler: fn(sender: ?, args: PageLoadedEventArgs))",
+          "add_pageLoading": "fn(pageLoadingHandler: fn(sender: ?, args: PageLoadingEventArgs))",
+          "remove_pageLoading": "fn(pageLoadingHandler: fn(sender: ?, args: PageLoadingEventArgs))",
+          "abortPostBack": "fn()",
+          "beginAsyncPostBack": "fn(updatePanelsToUpdate?: [string], eventTarget?: string, eventArgument?: string, causesValidation?: bool, validationGroup?: string)",
+          "dispose": "fn()",
+          "get_isInAsyncPostBack": "fn() -> bool"
+        }
+      },
+      "PageRequestManagerParserErrorException": {
+        "prototype": {}
+      },
+      "PageRequestManagerServerErrorException": {
+        "prototype": {}
+      },
+      "PageRequestManagerTimeoutException": {
+        "prototype": {}
+      }
+    }
+  },
+  "!name": "microsoft.ajax.d.ts",
+  "!define": {
+    "ret": {},
+    "ret1": {
+      "x": "number",
+      "y": "number",
+      "width": "number",
+      "height": "number"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "duScroll": {
+    "IDocumentService": {
+      "duScrollTo": "fn(left: number, top: number)",
+      "duScrollToElement": "fn(element: ng.IAugmentedJQuery, offset?: number)",
+      "duScrollToElementAnimated": "fn(element: ng.IAugmentedJQuery, offset?: number) -> ?",
+      "duScrollTop": "fn(top: number)",
+      "duScrollTopAnimated": "fn(top: number) -> ?",
+      "duScrollLeft": "fn(left: number)",
+      "duScrollLeftAnimated": "fn(left: number) -> ?"
+    }
+  },
+  "!name": "angular-scroll"
+}

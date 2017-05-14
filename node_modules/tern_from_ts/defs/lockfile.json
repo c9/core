@@ -1,0 +1,17 @@
+{
+  "'lockfile'": {
+    "Options": {
+      "wait": "number",
+      "stale": "number",
+      "retries": "number",
+      "retryWait": "number"
+    },
+    "lock": "fn(path: string, opts: Options, callback: fn(err: Error))",
+    "lockSync": "fn(path: string, opts: Options)",
+    "unlock": "fn(path: string, callback: fn(err: Error))",
+    "unlockSync": "fn(path: string)",
+    "check": "fn(path: string, opts: Options, callback: fn(err: Error, isLocked: bool))",
+    "checkSync": "fn(path: string, opts: Options) -> bool"
+  },
+  "!name": "lockfile"
+}

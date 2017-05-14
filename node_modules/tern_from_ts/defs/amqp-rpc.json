@@ -1,0 +1,57 @@
+{
+  "amqp-rpc": {
+    "Options": {
+      "connection": "?",
+      "url": "string",
+      "exchangeInstance": "?",
+      "exchange": "string",
+      "exchange_options": {
+        "exclusive": "bool",
+        "autoDelete": "bool"
+      },
+      "ipml_options": {
+        "defaultExchangeName": "string"
+      },
+      "conn_options": "?"
+    },
+    "CallOptions": {
+      "correlationId": "string",
+      "autoDeleteCallback": "?"
+    },
+    "HandlerOptions": {
+      "queueName": "string",
+      "durable": "bool",
+      "exclusive": "bool",
+      "autoDelete": "bool"
+    },
+    "BroadcastOptions": {
+      "ttl": "number",
+      "onResponse": "?",
+      "context": "?",
+      "onComplete": "?"
+    },
+    "CommandInfo": {
+      "cmd": "string",
+      "exchange": "string",
+      "contentType": "string",
+      "size": "number"
+    },
+    "Callback": {},
+    "CallbackWithError": {},
+    "factory": "fn(opt?: Options) -> amqpRPC",
+    "amqpRPC": {
+      "!type": "fn(opt?: Options)",
+      "prototype": {
+        "generateQueueName": "fn(type: string) -> string",
+        "disconnect": "fn()",
+        "call": "fn(cmd: string, params: T, cb?: Callback, context?: ?, options?: CallOptions) -> string",
+        "on": "fn(cmd: string, cb: fn(param?: T, cb?: Callback, info?: CommandInfo), context?: ?, options?: HandlerOptions) -> bool",
+        "off": "fn(cmd: string) -> bool",
+        "callBroadcast": "fn(cmd: string, params: T, options?: BroadcastOptions)",
+        "onBroadcast": "fn(cmd: string, cb?: fn(params?: T, cb?: CallbackWithError), context?: ?, options?: ?) -> bool",
+        "offBroadcast": "fn(cmd: string) -> bool"
+      }
+    }
+  },
+  "!name": "amqp-rpc"
+}

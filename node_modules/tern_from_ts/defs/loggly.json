@@ -1,0 +1,20 @@
+{
+  "loggly": {
+    "LogglyOptions": {
+      "token": "string",
+      "subdomain": "string",
+      "tags": "[string]",
+      "json": "bool",
+      "host": "string",
+      "auth": {
+        "username": "string",
+        "password": "string"
+      }
+    },
+    "Loggly": {
+      "log": "fn(message: ?, tags?: [string], callback?: fn(err: ?, results: ?))"
+    },
+    "createClient": "fn(options: LogglyOptions) -> Loggly"
+  },
+  "!name": "loggly"
+}

@@ -1,0 +1,21 @@
+{
+  "IHashSet": {
+    "add": "fn(value: TValue)",
+    "addAll": "fn(arr: [TValue])",
+    "contains": "fn(value: TValue) -> bool",
+    "clear": "fn()",
+    "isEmpty": "fn() -> bool",
+    "values": "fn() -> [TValue]",
+    "remove": "fn(value: TValue)",
+    "size": "fn() -> number",
+    "clone": "fn() -> ?",
+    "isSubsetOf": "fn(set: ?) -> bool",
+    "intersection": "fn(set: ?) -> ?",
+    "union": "fn(set: ?) -> ?",
+    "complement": "fn(set: ?) -> ?"
+  },
+  "IHashSetStatic": {},
+  "HashSet": "IHashSetStatic",
+  "hashset": "HashSet",
+  "!name": "hashset.d.ts"
+}

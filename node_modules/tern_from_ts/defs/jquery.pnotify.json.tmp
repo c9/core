@@ -1,0 +1,67 @@
+{
+  "PNotifyStack": {
+    "dir1": "string",
+    "dir2": "string",
+    "push": "string",
+    "spacing1": "number",
+    "spacing2": "number",
+    "firstpos1": "number",
+    "firstpos2": "number",
+    "context": "JQuery"
+  },
+  "PNotifyLabel": {
+    "redisplay": "string",
+    "all": "string",
+    "last": "string",
+    "close": "string",
+    "stick": "string"
+  },
+  "PNotifyOptions": {
+    "title": "?",
+    "title_escape": "bool",
+    "text": "?",
+    "text_escape": "bool",
+    "styling": "string",
+    "addclass": "string",
+    "cornerclass": "string",
+    "nonblock": {
+      "nonblock": "bool",
+      "nonblock_opacity": "number"
+    },
+    "history": "bool",
+    "maxonscreen": "number",
+    "auto_display": "bool",
+    "width": "string",
+    "min_height": "string",
+    "type": "string",
+    "icon": "?",
+    "animation": "?",
+    "animate_speed": "string",
+    "position_animate_speed": "number",
+    "opacity": "number",
+    "shadow": "bool",
+    "buttons": {
+      "closer": "bool",
+      "closer_hover": "bool",
+      "sticker": "bool",
+      "sticker_hover": "bool"
+    },
+    "hide": "bool",
+    "delay": "number",
+    "mouse_reset": "bool",
+    "remove": "bool",
+    "insert_brs": "bool",
+    "stack": "PNotifyStack",
+    "labels": "PNotifyLabel"
+  },
+  "PNotify": {
+    "elem": "JQuery",
+    "update": "fn(options?: PNotifyOptions)",
+    "remove": "fn()",
+    "!type": "PNotifyConstructor"
+  },
+  "PNotifyConstructor": {
+    "removeAll": "fn()"
+  },
+  "!name": "jquery.pnotify.d.ts"
+}

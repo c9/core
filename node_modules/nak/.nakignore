@@ -1,0 +1,20 @@
+*~backup-*
+.c9revisions/
+.git/
+.svn/
+.DS_Store
+.bzr/
+.cdv/
+~.dep
+~.dot
+~.nib
+~.plst
+.hg/
+.pc
+*.min.js
+core.packed.js
+loader.crush.js
+diff_match_patch.js
+
+# the only purpose of this is to test this default nakignore file in search_test
+file7_ignorable.rb

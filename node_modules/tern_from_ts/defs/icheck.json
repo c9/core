@@ -1,0 +1,33 @@
+{
+  "ICheckOptions": {
+    "handle": "string",
+    "checkboxClass": "string",
+    "radioClass": "string",
+    "checkedClass": "string",
+    "checkedCheckboxClass": "string",
+    "checkedRadioClass": "string",
+    "uncheckedClass": "string",
+    "uncheckedCheckboxClass": "string",
+    "uncheckedRadioClass": "string",
+    "disabledClass": "string",
+    "disabledCheckboxClass": "string",
+    "disabledRadioClass": "string",
+    "enabledClass": "string",
+    "enabledCheckboxClass": "string",
+    "enabledRadioClass": "string",
+    "hoverClass": "string",
+    "focusClass": "string",
+    "activeClass": "string",
+    "labelHover": "bool",
+    "labelHoverClass": "string",
+    "increaseArea": "string",
+    "cursor": "bool",
+    "inheritClass": "bool",
+    "inheritID": "bool",
+    "insert": "string"
+  },
+  "JQuery": {
+    "iCheck": "fn(options?: ICheckOptions) -> JQuery"
+  },
+  "!name": "icheck"
+}

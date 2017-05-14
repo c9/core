@@ -1,0 +1,7 @@
+{
+  "JwtDecode": {
+    "JwtDecodeStatic": {}
+  },
+  "'jwt-decode'": "jwtDecode",
+  "!name": "jwt-decode.d.ts"
+}

@@ -1,0 +1,40 @@
+{
+  "FPSMeterOptions": {
+    "interval": "number",
+    "smoothing": "number",
+    "show": "string",
+    "toggleOn": "string",
+    "decimals": "number",
+    "maxFps": "number",
+    "threshold": "number",
+    "position": "string",
+    "zIndex": "number",
+    "left": "string",
+    "top": "string",
+    "right": "string",
+    "bottom": "string",
+    "margin": "string",
+    "theme": "string",
+    "heat": "number",
+    "graph": "number",
+    "history": "number"
+  },
+  "FPSMeter": {
+    "!type": "fn(anchor?: HTMLElement, options?: FPSMeterOptions)",
+    "prototype": {
+      "options": "FPSMeterOptions",
+      "tick": "fn()",
+      "tickStart": "fn()",
+      "pause": "fn() -> FPSMeter",
+      "resume": "fn() -> FPSMeter",
+      "set": "fn(name: string, value: ?) -> FPSMeter",
+      "showDuration": "fn() -> FPSMeter",
+      "showFps": "fn() -> FPSMeter",
+      "toggle": "fn() -> FPSMeter",
+      "hide": "fn() -> FPSMeter",
+      "show": "fn() -> FPSMeter",
+      "destroy": "fn()"
+    }
+  },
+  "!name": "FPSMeter.d.ts"
+}

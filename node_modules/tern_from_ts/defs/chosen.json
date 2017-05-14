@@ -1,0 +1,24 @@
+{
+  "ChosenOptions": {
+    "allow_single_deselect": "bool",
+    "disable_search": "bool",
+    "disable_search_threshold": "number",
+    "enable_split_word_search": "bool",
+    "inherit_select_classes": "bool",
+    "max_selected_options": "number",
+    "no_results_text": "string",
+    "placeholder_text_multiple": "string",
+    "placeholder_text_single": "string",
+    "search_contains": "bool",
+    "single_backstroke_delete": "bool",
+    "width": "number",
+    "string": "?",
+    "display_disabled_options": "bool",
+    "display_selected_options": "bool",
+    "include_group_label_in_selected": "bool"
+  },
+  "JQuery": {
+    "chosen": "fn() -> JQuery"
+  },
+  "!name": "chosen.jquery"
+}

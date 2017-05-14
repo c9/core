@@ -1,0 +1,1298 @@
+{
+  "dojox": {
+    "atom": {
+      "io": {
+        "Connection": {
+          "!type": "fn(sync: bool, preventCache: bool)",
+          "prototype": {
+            "alertsEnabled": "bool",
+            "preventCache": "bool",
+            "addEntry": "fn(entry: ?, url: ?, callback: ?, errorCallback: ?, retrieveEntry: ?, scope: ?) -> ?",
+            "deleteEntry": "fn(entry: ?, callback: ?, errorCallback: ?, xmethod: ?, scope: ?) -> ?",
+            "getEntry": "fn(url: ?, callback: ?, errorCallback: ?, scope: ?) -> ?",
+            "getFeed": "fn(url: String, callback: Function, errorCallback: Function, scope: Object) -> ?",
+            "getService": "fn(url: ?, callback: ?, errorCallback: ?, scope: ?) -> ?",
+            "updateEntry": "fn(entry: ?, callback: ?, errorCallback: ?, retrieveUpdated: ?, xmethod: ?, scope: ?) -> ?"
+          }
+        },
+        "model": {
+          "util": {
+            "createDate": "fn(node: HTMLElement) -> ?",
+            "escapeHtml": "fn(str: String) -> ?",
+            "getNodename": "fn(node: HTMLElement) -> String",
+            "unEscapeHtml": "fn(str: String) -> ?"
+          },
+          "AtomItem": {
+            "!type": "fn(args: ?)",
+            "prototype": {
+              "accept": "fn(tag: ?) -> ?",
+              "addAttribute": "fn(name: ?, value: ?)",
+              "addAuthor": "fn(name: String, email: String, uri: String)",
+              "addCategory": "fn(scheme: String, term: String, label: String)",
+              "addContent": "fn(content: ?)",
+              "addContributor": "fn(name: String, email: String, uri: String)",
+              "addExtension": "fn(name_space: String, name: String, attributes: [?], content: String, shortNS: String)",
+              "addLink": "fn(href: String, rel: String, hrefLang: String, title: String, type: String)",
+              "addNamespace": "fn(fullName: ?, shortName: ?)",
+              "buildFromDom": "fn(node: ?)",
+              "destroy": "fn()",
+              "getAttribute": "fn(name: ?) -> ?",
+              "getCategories": "fn(scheme: String) -> ?",
+              "getExtensions": "fn(name_space: String, name: String) -> [?]",
+              "removeBasicLinks": "fn() -> number",
+              "removeCategories": "fn(scheme: String, term: String) -> number",
+              "removeExtensions": "fn(name_space: String, name: String)",
+              "removeLink": "fn(href: String, rel: String) -> number",
+              "setTitle": "fn(str: String, type: String)"
+            }
+          },
+          "Category": {
+            "!type": "fn(scheme: String, term: String, label: String)",
+            "prototype": {
+              "addAttribute": "fn(name: ?, value: ?)",
+              "addContent": "fn(content: ?)",
+              "buildFromDom": "fn(node: HTMLElement)",
+              "getAttribute": "fn(name: ?) -> ?"
+            }
+          },
+          "Collection": {
+            "!type": "fn(href: ?, title: ?)",
+            "prototype": {
+              "accept": "fn(tag: ?) -> ?",
+              "addAttribute": "fn(name: ?, value: ?)",
+              "addAuthor": "fn(name: String, email: String, uri: String)",
+              "addCategory": "fn(scheme: String, term: String, label: String)",
+              "addContent": "fn(content: ?)",
+              "addContributor": "fn(name: String, email: String, uri: String)",
+              "addExtension": "fn(name_space: String, name: String, attributes: [?], content: String, shortNS: String)",
+              "addLink": "fn(href: String, rel: String, hrefLang: String, title: String, type: String)",
+              "addNamespace": "fn(fullName: ?, shortName: ?)",
+              "buildFromDom": "fn(node: HTMLElement)",
+              "destroy": "fn()",
+              "getAttribute": "fn(name: ?) -> ?",
+              "getCategories": "fn(scheme: String) -> ?",
+              "getExtensions": "fn(name_space: String, name: String) -> [?]",
+              "removeBasicLinks": "fn() -> number",
+              "removeCategories": "fn(scheme: String, term: String) -> number",
+              "removeExtensions": "fn(name_space: String, name: String)",
+              "removeLink": "fn(href: String, rel: String) -> number",
+              "setTitle": "fn(str: String, type: String)"
+            }
+          },
+          "Content": {
+            "!type": "fn(tagName: ?, value: ?, src: ?, type: ?, xmlLang: ?)",
+            "prototype": {
+              "addAttribute": "fn(name: ?, value: ?)",
+              "addContent": "fn(content: ?)",
+              "buildFromDom": "fn(node: HTMLElement)",
+              "getAttribute": "fn(name: ?) -> ?"
+            }
+          },
+          "Entry": {
+            "!type": "fn(id: String)",
+            "prototype": {
+              "accept": "fn(tag: ?) -> ?",
+              "addAttribute": "fn(name: ?, value: ?)",
+              "addAuthor": "fn(name: String, email: String, uri: String)",
+              "addCategory": "fn(scheme: String, term: String, label: String)",
+              "addContent": "fn(content: ?)",
+              "addContributor": "fn(name: String, email: String, uri: String)",
+              "addExtension": "fn(name_space: String, name: String, attributes: [?], content: String, shortNS: String)",
+              "addLink": "fn(href: String, rel: String, hrefLang: String, title: String, type: String)",
+              "addNamespace": "fn(fullName: ?, shortName: ?)",
+              "buildFromDom": "fn(node: ?)",
+              "destroy": "fn()",
+              "getAttribute": "fn(name: ?) -> ?",
+              "getCategories": "fn(scheme: String) -> ?",
+              "getEditHref": "fn() -> ?",
+              "getExtensions": "fn(name_space: String, name: String) -> [?]",
+              "removeBasicLinks": "fn() -> number",
+              "removeCategories": "fn(scheme: String, term: String) -> number",
+              "removeExtensions": "fn(name_space: String, name: String)",
+              "removeLink": "fn(href: String, rel: String) -> number",
+              "setEditHref": "fn(url: ?)",
+              "setTitle": "fn(str: String, type: String)"
+            }
+          },
+          "Feed": {
+            "!type": "fn(args: ?)",
+            "prototype": {
+              "accept": "fn(tag: ?) -> ?",
+              "addAttribute": "fn(name: ?, value: ?)",
+              "addAuthor": "fn(name: String, email: String, uri: String)",
+              "addCategory": "fn(scheme: String, term: String, label: String)",
+              "addContent": "fn(content: ?)",
+              "addContributor": "fn(name: String, email: String, uri: String)",
+              "addEntry": "fn(entry: Object)",
+              "addExtension": "fn(name_space: String, name: String, attributes: [?], content: String, shortNS: String)",
+              "addLink": "fn(href: String, rel: String, hrefLang: String, title: String, type: String)",
+              "addNamespace": "fn(fullName: ?, shortName: ?)",
+              "buildFromDom": "fn(node: ?)",
+              "createEntry": "fn() -> ?",
+              "destroy": "fn()",
+              "getAttribute": "fn(name: ?) -> ?",
+              "getCategories": "fn(scheme: String) -> ?",
+              "getEntry": "fn(entryId: String) -> ?",
+              "getExtensions": "fn(name_space: String, name: String) -> [?]",
+              "getFirstEntry": "fn() -> ?",
+              "getSelfHref": "fn() -> ?",
+              "removeBasicLinks": "fn() -> number",
+              "removeCategories": "fn(scheme: String, term: String) -> number",
+              "removeEntry": "fn(entry: Object) -> number",
+              "removeExtensions": "fn(name_space: String, name: String)",
+              "removeLink": "fn(href: String, rel: String) -> number",
+              "setEntries": "fn(arrayOfEntry: [?])",
+              "setTitle": "fn(str: String, type: String)"
+            }
+          },
+          "Generator": {
+            "!type": "fn(uri: String, version: String, value: String)",
+            "prototype": {
+              "addAttribute": "fn(name: ?, value: ?)",
+              "addContent": "fn(content: ?)",
+              "buildFromDom": "fn(node: ?)",
+              "getAttribute": "fn(name: ?) -> ?"
+            }
+          },
+          "Link": {
+            "!type": "fn(href: ?, rel: ?, hrefLang: ?, title: ?, type: ?)",
+            "prototype": {
+              "addAttribute": "fn(name: ?, value: ?)",
+              "addContent": "fn(content: ?)",
+              "buildFromDom": "fn(node: ?)",
+              "getAttribute": "fn(name: ?) -> ?"
+            }
+          },
+          "Node": {
+            "!type": "fn(name_space: ?, name: ?, attributes: ?, content: ?, shortNs: ?)",
+            "prototype": {
+              "addAttribute": "fn(name: ?, value: ?)",
+              "addContent": "fn(content: ?)",
+              "buildFromDom": "fn(node: ?)",
+              "getAttribute": "fn(name: ?) -> ?"
+            }
+          },
+          "Person": {
+            "!type": "fn(personType: ?, name: ?, email: ?, uri: ?)",
+            "prototype": {
+              "accept": "fn(tag: ?) -> ?",
+              "addAttribute": "fn(name: ?, value: ?)",
+              "addContent": "fn(content: ?)",
+              "buildFromDom": "fn(node: ?)",
+              "getAttribute": "fn(name: ?) -> ?"
+            }
+          },
+          "Service": {
+            "!type": "fn(href: ?)",
+            "prototype": {
+              "accept": "fn(tag: ?) -> ?",
+              "addAttribute": "fn(name: ?, value: ?)",
+              "addAuthor": "fn(name: String, email: String, uri: String)",
+              "addCategory": "fn(scheme: String, term: String, label: String)",
+              "addContent": "fn(content: ?)",
+              "addContributor": "fn(name: String, email: String, uri: String)",
+              "addExtension": "fn(name_space: String, name: String, attributes: [?], content: String, shortNS: String)",
+              "addLink": "fn(href: String, rel: String, hrefLang: String, title: String, type: String)",
+              "addNamespace": "fn(fullName: ?, shortName: ?)",
+              "buildFromDom": "fn(node: HTMLElement)",
+              "destroy": "fn()",
+              "getAttribute": "fn(name: ?) -> ?",
+              "getCategories": "fn(scheme: String) -> ?",
+              "getCollection": "fn(url: String) -> ?",
+              "getExtensions": "fn(name_space: String, name: String) -> [?]",
+              "removeBasicLinks": "fn() -> number",
+              "removeCategories": "fn(scheme: String, term: String) -> number",
+              "removeExtensions": "fn(name_space: String, name: String)",
+              "removeLink": "fn(href: String, rel: String) -> number",
+              "setTitle": "fn(str: String, type: String)"
+            }
+          },
+          "Workspace": {
+            "!type": "fn(title: ?)",
+            "prototype": {
+              "accept": "fn(tag: ?) -> ?",
+              "addAttribute": "fn(name: ?, value: ?)",
+              "addAuthor": "fn(name: String, email: String, uri: String)",
+              "addCategory": "fn(scheme: String, term: String, label: String)",
+              "addContent": "fn(content: ?)",
+              "addContributor": "fn(name: String, email: String, uri: String)",
+              "addExtension": "fn(name_space: String, name: String, attributes: [?], content: String, shortNS: String)",
+              "addLink": "fn(href: String, rel: String, hrefLang: String, title: String, type: String)",
+              "addNamespace": "fn(fullName: ?, shortName: ?)",
+              "buildFromDom": "fn(node: HTMLElement)",
+              "destroy": "fn()",
+              "getAttribute": "fn(name: ?) -> ?",
+              "getCategories": "fn(scheme: String) -> ?",
+              "getExtensions": "fn(name_space: String, name: String) -> [?]",
+              "removeBasicLinks": "fn() -> number",
+              "removeCategories": "fn(scheme: String, term: String) -> number",
+              "removeExtensions": "fn(name_space: String, name: String)",
+              "removeLink": "fn(href: String, rel: String) -> number",
+              "setTitle": "fn(str: String, type: String)"
+            }
+          },
+          "_actions": {
+            "node": "Object",
+            "obj": "Object",
+            "author": "fn(obj: ?, node: ?)",
+            "category": "fn(obj: ?, node: ?)",
+            "content": "fn(obj: ?, node: ?)",
+            "contributor": "fn(obj: ?, node: ?)",
+            "email": "fn(obj: ?, node: ?)",
+            "entry": "fn(obj: ?, node: ?)",
+            "generator": "fn(obj: ?, node: ?)",
+            "icon": "fn(obj: ?, node: ?)",
+            "id": "fn(obj: ?, node: ?)",
+            "issued": "fn(obj: ?, node: ?)",
+            "link": "fn(obj: ?, node: ?)",
+            "modified": "fn(obj: ?, node: ?)",
+            "name": "fn(obj: ?, node: ?)",
+            "published": "fn(obj: ?, node: ?)",
+            "rights": "fn(obj: ?, node: ?)",
+            "subtitle": "fn(obj: ?, node: ?)",
+            "summary": "fn(obj: ?, node: ?)",
+            "title": "fn(obj: ?, node: ?)",
+            "updated": "fn(obj: ?, node: ?)",
+            "uri": "fn(obj: ?, node: ?)"
+          },
+          "_Constants": {
+            "APP_NS": "string",
+            "ATOM_NS": "string",
+            "ATOM_URI": "string",
+            "PURL_NS": "string"
+          }
+        }
+      },
+      "widget": {
+        "FeedEntryEditor": {
+          "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+          "prototype": {
+            "attachScope": "Object",
+            "set": "fn(property: string, value: Object)",
+            "get": "fn(property: string) -> Object",
+            "watch": "fn(property: string, callback: ?) -> ret",
+            "attributeMap": "Object",
+            "baseClass": "string",
+            "class": "string",
+            "containerNode": "HTMLElement",
+            "contextRequire": "Function",
+            "dir": "string",
+            "displayEntrySections": "string",
+            "domNode": "HTMLElement",
+            "enableEdit": "bool",
+            "enableMenu": "bool",
+            "enableMenuFade": "bool",
+            "entryNewButton": "Object",
+            "entrySelectionTopic": "string",
+            "focused": "bool",
+            "id": "string",
+            "lang": "string",
+            "ownerDocument": "Object",
+            "searchContainerNode": "bool",
+            "srcNodeRef": "HTMLElement",
+            "style": "string",
+            "templatePath": "string",
+            "templateString": "string",
+            "title": "string",
+            "tooltip": "string",
+            "widgetsInTemplate": "bool",
+            "addChild": "fn(widget: dijit._WidgetBase, insertIndex: number)",
+            "attr": "fn(name: String, value: Object) -> ?",
+            "buildRendering": "fn()",
+            "cancelEdits": "fn() -> ?",
+            "clear": "fn()",
+            "clearEditors": "fn()",
+            "clearNodes": "fn()",
+            "connect": "fn(obj: Object, event: String, method: String) -> ?",
+            "defer": "fn(fcn: Function, delay: number) -> Object",
+            "destroy": "fn()",
+            "destroyDescendants": "fn(preserveDom: bool)",
+            "destroyRecursive": "fn(preserveDom: bool)",
+            "destroyRendering": "fn(preserveDom?: bool)",
+            "disconnect": "fn(handle: ?)",
+            "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+            "getChildren": "fn() -> [?]",
+            "getDescendants": "fn() -> [?]",
+            "getEntry": "fn() -> ?",
+            "getFeed": "fn() -> ?",
+            "getIndexOfChild": "fn(child: dijit._WidgetBase) -> ?",
+            "getParent": "fn() -> ?",
+            "hasChildren": "fn() -> bool",
+            "isFieldValid": "fn(field: String) -> ?",
+            "isFocusable": "fn() -> ?",
+            "isLeftToRight": "fn() -> ?",
+            "on": "fn(type: String, func: Function) -> ?",
+            "own": "fn() -> ?",
+            "placeAt": "fn(reference: String, position: String) -> ?",
+            "postCreate": "fn()",
+            "postMixInProperties": "fn()",
+            "removeChild": "fn(widget: dijit._WidgetBase)",
+            "saveEdits": "fn() -> ?",
+            "setAttribute": "fn(attr: String, value: ?)",
+            "setAuthors": "fn(authorsAnchorNode: HTMLElement, editMode: bool, entry: Object)",
+            "setAuthorsHeader": "fn(authorHeaderNode: HTMLElement, entry: Object)",
+            "setContent": "fn(contentAnchorNode: HTMLElement, editMode: bool, entry: Object)",
+            "setContentHeader": "fn(contentHeaderNode: HTMLElement, entry: Object)",
+            "setContributors": "fn(contributorsAnchorNode: HTMLElement, editMode: bool, entry: Object)",
+            "setContributorsHeader": "fn(contributorsHeaderNode: HTMLElement, entry: Object)",
+            "setDisplaySections": "fn(sectionsArray: [?]) -> ?",
+            "setEntry": "fn(entry: Object, feed: Object, leaveMenuState: bool)",
+            "setFieldValidity": "fn(field: String, isValid: bool) -> ?",
+            "setId": "fn(idAnchorNode: HTMLElement, editMode: bool, entry: Object)",
+            "setIdHeader": "fn(idHeaderNode: HTMLElement, entry: Object)",
+            "setSummary": "fn(summaryAnchorNode: HTMLElement, editMode: bool, entry: Object)",
+            "setSummaryHeader": "fn(summaryHeaderNode: HTMLElement, entry: Object)",
+            "setTitle": "fn(titleAnchorNode: HTMLElement, editMode: bool, entry: Object)",
+            "setTitleHeader": "fn(titleHeaderNode: HTMLElement, entry: Object)",
+            "setUpdated": "fn(updatedAnchorNode: HTMLElement, editMode: bool, entry: Object)",
+            "setUpdatedHeader": "fn(updatedHeaderNode: HTMLElement, entry: Object)",
+            "startup": "fn()",
+            "subscribe": "fn(t: String, method: Function) -> ?",
+            "uninitialize": "fn() -> bool",
+            "unsubscribe": "fn(handle: Object)",
+            "getCachedTemplate": "fn() -> ?",
+            "onBlur": "fn()",
+            "onClick": "fn(event: ?)",
+            "onClose": "fn() -> bool",
+            "onDblClick": "fn(event: ?)",
+            "onFocus": "fn()",
+            "onHide": "fn()",
+            "onKeyDown": "fn(event: ?)",
+            "onKeyPress": "fn(event: ?)",
+            "onKeyUp": "fn(event: ?)",
+            "onMouseDown": "fn(event: ?)",
+            "onMouseEnter": "fn(event: ?)",
+            "onMouseLeave": "fn(event: ?)",
+            "onMouseMove": "fn(event: ?)",
+            "onMouseOut": "fn(event: ?)",
+            "onMouseOver": "fn(event: ?)",
+            "onMouseUp": "fn(event: ?)",
+            "onShow": "fn()"
+          }
+        },
+        "FeedViewer": {
+          "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+          "prototype": {
+            "alertsEnabled": "bool",
+            "set": "fn(property: string, value: bool)",
+            "get": "fn(property: string) -> bool",
+            "watch": "fn(property: string, callback: ?) -> ret27",
+            "attachScope": "Object",
+            "attributeMap": "Object",
+            "baseClass": "string",
+            "class": "string",
+            "containerNode": "HTMLElement",
+            "contextRequire": "Function",
+            "dir": "string",
+            "domNode": "HTMLElement",
+            "entrySelectionTopic": "string",
+            "feedViewerTable": "Object",
+            "feedViewerTableBody": "Object",
+            "focused": "bool",
+            "id": "string",
+            "lang": "string",
+            "localSaveOnly": "bool",
+            "ownerDocument": "Object",
+            "searchContainerNode": "bool",
+            "srcNodeRef": "HTMLElement",
+            "style": "string",
+            "templatePath": "string",
+            "templateString": "string",
+            "title": "string",
+            "tooltip": "string",
+            "url": "string",
+            "widgetsInTemplate": "bool",
+            "xmethod": "bool",
+            "addCategoryIncludeFilter": "fn(filter: Object) -> ?",
+            "addChild": "fn(widget: dijit._WidgetBase, insertIndex: number)",
+            "appendEntry": "fn(entry: Object) -> ?",
+            "appendGrouping": "fn(titleText: String) -> ?",
+            "AtomEntryCategoryFilter": "fn()",
+            "attr": "fn(name: String, value: Object) -> ?",
+            "buildRendering": "fn()",
+            "CategoryIncludeFilter": "fn()",
+            "clear": "fn() -> ?",
+            "connect": "fn(obj: Object, event: String, method: String) -> ?",
+            "defer": "fn(fcn: Function, delay: number) -> Object",
+            "deleteEntry": "fn(entryRow: Object)",
+            "destroy": "fn()",
+            "destroyDescendants": "fn(preserveDom: bool)",
+            "destroyRecursive": "fn(preserveDom: bool)",
+            "destroyRendering": "fn(preserveDom?: bool)",
+            "disconnect": "fn(handle: ?)",
+            "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+            "FeedViewerEntry": "fn()",
+            "FeedViewerGrouping": "fn()",
+            "getChildren": "fn() -> [?]",
+            "getDescendants": "fn() -> [?]",
+            "getIndexOfChild": "fn(child: dijit._WidgetBase) -> ?",
+            "getParent": "fn() -> ?",
+            "hasChildren": "fn() -> bool",
+            "isFocusable": "fn() -> ?",
+            "isLeftToRight": "fn() -> ?",
+            "on": "fn(type: String, func: Function) -> ?",
+            "own": "fn() -> ?",
+            "placeAt": "fn(reference: String, position: String) -> ?",
+            "postCreate": "fn()",
+            "postMixInProperties": "fn()",
+            "removeCategoryIncludeFilter": "fn(filter: Object) -> ?",
+            "removeChild": "fn(widget: dijit._WidgetBase)",
+            "setAttribute": "fn(attr: String, value: ?)",
+            "setFeed": "fn(feed: Object) -> ?",
+            "setFeedFromUrl": "fn(url: String) -> ?",
+            "startup": "fn()",
+            "subscribe": "fn(t: String, method: Function) -> ?",
+            "uninitialize": "fn() -> bool",
+            "unsubscribe": "fn(handle: Object)",
+            "getCachedTemplate": "fn() -> ?",
+            "onBlur": "fn()",
+            "onClick": "fn(event: ?)",
+            "onClose": "fn() -> bool",
+            "onDblClick": "fn(event: ?)",
+            "onEntrySelected": "fn(entry: Object) -> ?",
+            "onFocus": "fn()",
+            "onHide": "fn()",
+            "onKeyDown": "fn(event: ?)",
+            "onKeyPress": "fn(event: ?)",
+            "onKeyUp": "fn(event: ?)",
+            "onMouseDown": "fn(event: ?)",
+            "onMouseEnter": "fn(event: ?)",
+            "onMouseLeave": "fn(event: ?)",
+            "onMouseMove": "fn(event: ?)",
+            "onMouseOut": "fn(event: ?)",
+            "onMouseOver": "fn(event: ?)",
+            "onMouseUp": "fn(event: ?)",
+            "onShow": "fn()"
+          },
+          "AtomEntryCategoryFilter": {
+            "!type": "fn()",
+            "prototype": {
+              "isFilter": "bool",
+              "label": "string",
+              "scheme": "string",
+              "term": "string"
+            }
+          },
+          "CategoryIncludeFilter": {
+            "!type": "fn(scheme: ?, term: ?, label: ?)",
+            "prototype": {
+              "match": "fn(entry: ?) -> ?"
+            }
+          },
+          "FeedViewerEntry": {
+            "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+            "prototype": {
+              "attachScope": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret55",
+              "attributeMap": "Object",
+              "baseClass": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "contextRequire": "Function",
+              "deleteButton": "Object",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "entry": "Object",
+              "entryNode": "Object",
+              "feed": "Object",
+              "focused": "bool",
+              "id": "string",
+              "lang": "string",
+              "ownerDocument": "Object",
+              "searchContainerNode": "bool",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "templatePath": "string",
+              "templateString": "string",
+              "timeNode": "Object",
+              "title": "string",
+              "tooltip": "string",
+              "widgetsInTemplate": "bool",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "deleteEntry": "fn(event: Object) -> ?",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disableDelete": "fn() -> ?",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "enableDelete": "fn() -> ?",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getParent": "fn() -> ?",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "setTime": "fn(timeText: String) -> ?",
+              "setTitle": "fn(text: String) -> ?",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "getCachedTemplate": "fn() -> ?",
+              "onBlur": "fn()",
+              "onClick": "fn(e: Object)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onShow": "fn()"
+            }
+          },
+          "FeedViewerGrouping": {
+            "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+            "prototype": {
+              "attachScope": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret81",
+              "attributeMap": "Object",
+              "baseClass": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "contextRequire": "Function",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "focused": "bool",
+              "groupingNode": "Object",
+              "id": "string",
+              "lang": "string",
+              "ownerDocument": "Object",
+              "searchContainerNode": "bool",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "templatePath": "string",
+              "templateString": "string",
+              "title": "string",
+              "titleNode": "Object",
+              "tooltip": "string",
+              "widgetsInTemplate": "bool",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn(preserveDom?: bool)",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getParent": "fn() -> ?",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "setText": "fn(text: ?)",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "getCachedTemplate": "fn() -> ?",
+              "onBlur": "fn()",
+              "onClick": "fn(event: ?)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onShow": "fn()"
+            }
+          }
+        },
+        "FeedEntryViewer": {
+          "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+          "prototype": {
+            "attachScope": "Object",
+            "set": "fn(property: string, value: Object)",
+            "get": "fn(property: string) -> Object",
+            "watch": "fn(property: string, callback: ?) -> ret104",
+            "attributeMap": "Object",
+            "baseClass": "string",
+            "class": "string",
+            "containerNode": "HTMLElement",
+            "contextRequire": "Function",
+            "dir": "string",
+            "displayEntrySections": "string",
+            "domNode": "HTMLElement",
+            "enableMenu": "bool",
+            "enableMenuFade": "bool",
+            "entrySelectionTopic": "string",
+            "focused": "bool",
+            "id": "string",
+            "lang": "string",
+            "ownerDocument": "Object",
+            "searchContainerNode": "bool",
+            "srcNodeRef": "HTMLElement",
+            "style": "string",
+            "templatePath": "string",
+            "templateString": "string",
+            "title": "string",
+            "tooltip": "string",
+            "widgetsInTemplate": "bool",
+            "addChild": "fn(widget: dijit._WidgetBase, insertIndex: number)",
+            "attr": "fn(name: String, value: Object) -> ?",
+            "buildRendering": "fn()",
+            "clear": "fn()",
+            "clearNodes": "fn()",
+            "connect": "fn(obj: Object, event: String, method: String) -> ?",
+            "defer": "fn(fcn: Function, delay: number) -> Object",
+            "destroy": "fn()",
+            "destroyDescendants": "fn(preserveDom: bool)",
+            "destroyRecursive": "fn(preserveDom: bool)",
+            "destroyRendering": "fn(preserveDom?: bool)",
+            "disconnect": "fn(handle: ?)",
+            "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+            "EntryHeader": "fn()",
+            "getChildren": "fn() -> [?]",
+            "getDescendants": "fn() -> [?]",
+            "getEntry": "fn() -> ?",
+            "getFeed": "fn() -> ?",
+            "getIndexOfChild": "fn(child: dijit._WidgetBase) -> ?",
+            "getParent": "fn() -> ?",
+            "hasChildren": "fn() -> bool",
+            "isFieldValid": "fn(field: String) -> ?",
+            "isFocusable": "fn() -> ?",
+            "isLeftToRight": "fn() -> ?",
+            "on": "fn(type: String, func: Function) -> ?",
+            "own": "fn() -> ?",
+            "placeAt": "fn(reference: String, position: String) -> ?",
+            "postCreate": "fn()",
+            "postMixInProperties": "fn()",
+            "removeChild": "fn(widget: dijit._WidgetBase)",
+            "setAttribute": "fn(attr: String, value: ?)",
+            "setAuthors": "fn(authorsAnchorNode: HTMLElement, editMode: bool, entry: Object)",
+            "setAuthorsHeader": "fn(authorHeaderNode: HTMLElement, entry: Object)",
+            "setContent": "fn(contentAnchorNode: HTMLElement, editMode: bool, entry: Object)",
+            "setContentHeader": "fn(contentHeaderNode: HTMLElement, entry: Object)",
+            "setContributors": "fn(contributorsAnchorNode: HTMLElement, editMode: bool, entry: Object)",
+            "setContributorsHeader": "fn(contributorsHeaderNode: HTMLElement, entry: Object)",
+            "setDisplaySections": "fn(sectionsArray: [?]) -> ?",
+            "setEntry": "fn(entry: Object, feed: Object, leaveMenuState: bool)",
+            "setFieldValidity": "fn(field: String, isValid: bool) -> ?",
+            "setId": "fn(idAnchorNode: HTMLElement, editMode: bool, entry: Object)",
+            "setIdHeader": "fn(idHeaderNode: HTMLElement, entry: Object)",
+            "setSummary": "fn(summaryAnchorNode: HTMLElement, editMode: bool, entry: Object)",
+            "setSummaryHeader": "fn(summaryHeaderNode: HTMLElement, entry: Object)",
+            "setTitle": "fn(titleAnchorNode: ?, editMode: ?, entry: ?)",
+            "setTitleHeader": "fn(titleHeaderNode: HTMLElement, entry: Object)",
+            "setUpdated": "fn(updatedAnchorNode: HTMLElement, editMode: bool, entry: Object)",
+            "setUpdatedHeader": "fn(updatedHeaderNode: HTMLElement, entry: Object)",
+            "startup": "fn()",
+            "subscribe": "fn(t: String, method: Function) -> ?",
+            "uninitialize": "fn() -> bool",
+            "unsubscribe": "fn(handle: Object)",
+            "getCachedTemplate": "fn() -> ?",
+            "onBlur": "fn()",
+            "onClick": "fn(event: ?)",
+            "onClose": "fn() -> bool",
+            "onDblClick": "fn(event: ?)",
+            "onFocus": "fn()",
+            "onHide": "fn()",
+            "onKeyDown": "fn(event: ?)",
+            "onKeyPress": "fn(event: ?)",
+            "onKeyUp": "fn(event: ?)",
+            "onMouseDown": "fn(event: ?)",
+            "onMouseEnter": "fn(event: ?)",
+            "onMouseLeave": "fn(event: ?)",
+            "onMouseMove": "fn(event: ?)",
+            "onMouseOut": "fn(event: ?)",
+            "onMouseOver": "fn(event: ?)",
+            "onMouseUp": "fn(event: ?)",
+            "onShow": "fn()"
+          },
+          "EntryHeader": {
+            "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+            "prototype": {
+              "attachScope": "Object",
+              "set": "fn(property: string, value: Object)",
+              "get": "fn(property: string) -> Object",
+              "watch": "fn(property: string, callback: ?) -> ret129",
+              "attributeMap": "Object",
+              "baseClass": "string",
+              "class": "string",
+              "containerNode": "HTMLElement",
+              "contextRequire": "Function",
+              "dir": "string",
+              "domNode": "HTMLElement",
+              "focused": "bool",
+              "id": "string",
+              "lang": "string",
+              "ownerDocument": "Object",
+              "searchContainerNode": "bool",
+              "srcNodeRef": "HTMLElement",
+              "style": "string",
+              "templatePath": "string",
+              "templateString": "string",
+              "title": "string",
+              "tooltip": "string",
+              "widgetsInTemplate": "bool",
+              "addChild": "fn(widget: dijit._WidgetBase, insertIndex: number)",
+              "attr": "fn(name: String, value: Object) -> ?",
+              "buildRendering": "fn()",
+              "clear": "fn()",
+              "connect": "fn(obj: Object, event: String, method: String) -> ?",
+              "defer": "fn(fcn: Function, delay: number) -> Object",
+              "destroy": "fn()",
+              "destroyDescendants": "fn(preserveDom: bool)",
+              "destroyRecursive": "fn(preserveDom: bool)",
+              "destroyRendering": "fn(preserveDom?: bool)",
+              "disconnect": "fn(handle: ?)",
+              "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+              "getChildren": "fn() -> [?]",
+              "getDescendants": "fn() -> [?]",
+              "getIndexOfChild": "fn(child: dijit._WidgetBase) -> ?",
+              "getParent": "fn() -> ?",
+              "hasChildren": "fn() -> bool",
+              "isFocusable": "fn() -> ?",
+              "isLeftToRight": "fn() -> ?",
+              "on": "fn(type: String, func: Function) -> ?",
+              "own": "fn() -> ?",
+              "placeAt": "fn(reference: String, position: String) -> ?",
+              "postCreate": "fn()",
+              "postMixInProperties": "fn()",
+              "removeChild": "fn(widget: dijit._WidgetBase)",
+              "setAttribute": "fn(attr: String, value: ?)",
+              "setListHeader": "fn(title: String)",
+              "startup": "fn()",
+              "subscribe": "fn(t: String, method: Function) -> ?",
+              "uninitialize": "fn() -> bool",
+              "unsubscribe": "fn(handle: Object)",
+              "getCachedTemplate": "fn() -> ?",
+              "onBlur": "fn()",
+              "onClick": "fn(event: ?)",
+              "onClose": "fn() -> bool",
+              "onDblClick": "fn(event: ?)",
+              "onFocus": "fn()",
+              "onHide": "fn()",
+              "onKeyDown": "fn(event: ?)",
+              "onKeyPress": "fn(event: ?)",
+              "onKeyUp": "fn(event: ?)",
+              "onMouseDown": "fn(event: ?)",
+              "onMouseEnter": "fn(event: ?)",
+              "onMouseLeave": "fn(event: ?)",
+              "onMouseMove": "fn(event: ?)",
+              "onMouseOut": "fn(event: ?)",
+              "onMouseOver": "fn(event: ?)",
+              "onMouseUp": "fn(event: ?)",
+              "onShow": "fn()"
+            }
+          }
+        }
+      }
+    }
+  },
+  "dojox/atom/io/model": "exp",
+  "dojox/atom/io/model.Category": "exp",
+  "dojox/atom/io/model.Content": "exp",
+  "dojox/atom/io/model.AtomItem": "exp",
+  "dojox/atom/io/model.Generator": "exp",
+  "dojox/atom/io/model.Entry": "exp",
+  "dojox/atom/io/model.Collection": "exp",
+  "dojox/atom/io/model.Feed": "exp",
+  "dojox/atom/io/model.Link": "exp",
+  "dojox/atom/io/model.Node": "exp",
+  "dojox/atom/io/model.Person": "exp",
+  "dojox/atom/io/model.Service": "exp",
+  "dojox/atom/io/model.Workspace": "exp",
+  "dojox/atom/io/model._Constants": "exp",
+  "dojox/atom/io/model._actions": "exp",
+  "dojox/atom/io/model.util": "exp",
+  "dojox/atom/io/Connection": "exp",
+  "dojox/atom/widget/FeedViewer": "exp",
+  "dojox/atom/widget/FeedViewer.CategoryIncludeFilter": "exp",
+  "dojox/atom/widget/FeedViewer.AtomEntryCategoryFilter": "exp",
+  "dojox/atom/widget/FeedViewer.FeedViewerEntry": "exp",
+  "dojox/atom/widget/FeedViewer.FeedViewerGrouping": "exp",
+  "dojox/atom/widget/FeedEntryViewer": "exp",
+  "dojox/atom/widget/FeedEntryViewer.EntryHeader": "exp",
+  "dojox/atom/widget/FeedEntryEditor": "exp",
+  "!name": "dojox.atom.d.ts",
+  "!define": {
+    "ret": {
+      "unwatch": "fn()"
+    },
+    "ret1": {
+      "unwatch": "fn()"
+    },
+    "ret2": {
+      "unwatch": "fn()"
+    },
+    "ret3": {
+      "unwatch": "fn()"
+    },
+    "ret4": {
+      "unwatch": "fn()"
+    },
+    "ret5": {
+      "unwatch": "fn()"
+    },
+    "ret6": {
+      "unwatch": "fn()"
+    },
+    "ret7": {
+      "unwatch": "fn()"
+    },
+    "ret8": {
+      "unwatch": "fn()"
+    },
+    "ret9": {
+      "unwatch": "fn()"
+    },
+    "ret10": {
+      "unwatch": "fn()"
+    },
+    "ret11": {
+      "unwatch": "fn()"
+    },
+    "ret12": {
+      "unwatch": "fn()"
+    },
+    "ret13": {
+      "unwatch": "fn()"
+    },
+    "ret14": {
+      "unwatch": "fn()"
+    },
+    "ret15": {
+      "unwatch": "fn()"
+    },
+    "ret16": {
+      "unwatch": "fn()"
+    },
+    "ret17": {
+      "unwatch": "fn()"
+    },
+    "ret18": {
+      "unwatch": "fn()"
+    },
+    "ret19": {
+      "unwatch": "fn()"
+    },
+    "ret20": {
+      "unwatch": "fn()"
+    },
+    "ret21": {
+      "unwatch": "fn()"
+    },
+    "ret22": {
+      "unwatch": "fn()"
+    },
+    "ret23": {
+      "unwatch": "fn()"
+    },
+    "ret24": {
+      "unwatch": "fn()"
+    },
+    "ret25": {
+      "unwatch": "fn()"
+    },
+    "ret26": {
+      "unwatch": "fn()"
+    },
+    "ret27": {
+      "unwatch": "fn()"
+    },
+    "ret28": {
+      "unwatch": "fn()"
+    },
+    "ret29": {
+      "unwatch": "fn()"
+    },
+    "ret30": {
+      "unwatch": "fn()"
+    },
+    "ret31": {
+      "unwatch": "fn()"
+    },
+    "ret32": {
+      "unwatch": "fn()"
+    },
+    "ret33": {
+      "unwatch": "fn()"
+    },
+    "ret34": {
+      "unwatch": "fn()"
+    },
+    "ret35": {
+      "unwatch": "fn()"
+    },
+    "ret36": {
+      "unwatch": "fn()"
+    },
+    "ret37": {
+      "unwatch": "fn()"
+    },
+    "ret38": {
+      "unwatch": "fn()"
+    },
+    "ret39": {
+      "unwatch": "fn()"
+    },
+    "ret40": {
+      "unwatch": "fn()"
+    },
+    "ret41": {
+      "unwatch": "fn()"
+    },
+    "ret42": {
+      "unwatch": "fn()"
+    },
+    "ret43": {
+      "unwatch": "fn()"
+    },
+    "ret44": {
+      "unwatch": "fn()"
+    },
+    "ret45": {
+      "unwatch": "fn()"
+    },
+    "ret46": {
+      "unwatch": "fn()"
+    },
+    "ret47": {
+      "unwatch": "fn()"
+    },
+    "ret48": {
+      "unwatch": "fn()"
+    },
+    "ret49": {
+      "unwatch": "fn()"
+    },
+    "ret50": {
+      "unwatch": "fn()"
+    },
+    "ret51": {
+      "unwatch": "fn()"
+    },
+    "ret52": {
+      "unwatch": "fn()"
+    },
+    "ret53": {
+      "unwatch": "fn()"
+    },
+    "ret54": {
+      "unwatch": "fn()"
+    },
+    "ret55": {
+      "unwatch": "fn()"
+    },
+    "ret56": {
+      "unwatch": "fn()"
+    },
+    "ret57": {
+      "unwatch": "fn()"
+    },
+    "ret58": {
+      "unwatch": "fn()"
+    },
+    "ret59": {
+      "unwatch": "fn()"
+    },
+    "ret60": {
+      "unwatch": "fn()"
+    },
+    "ret61": {
+      "unwatch": "fn()"
+    },
+    "ret62": {
+      "unwatch": "fn()"
+    },
+    "ret63": {
+      "unwatch": "fn()"
+    },
+    "ret64": {
+      "unwatch": "fn()"
+    },
+    "ret65": {
+      "unwatch": "fn()"
+    },
+    "ret66": {
+      "unwatch": "fn()"
+    },
+    "ret67": {
+      "unwatch": "fn()"
+    },
+    "ret68": {
+      "unwatch": "fn()"
+    },
+    "ret69": {
+      "unwatch": "fn()"
+    },
+    "ret70": {
+      "unwatch": "fn()"
+    },
+    "ret71": {
+      "unwatch": "fn()"
+    },
+    "ret72": {
+      "unwatch": "fn()"
+    },
+    "ret73": {
+      "unwatch": "fn()"
+    },
+    "ret74": {
+      "unwatch": "fn()"
+    },
+    "ret75": {
+      "unwatch": "fn()"
+    },
+    "ret76": {
+      "unwatch": "fn()"
+    },
+    "ret77": {
+      "unwatch": "fn()"
+    },
+    "ret78": {
+      "unwatch": "fn()"
+    },
+    "ret79": {
+      "unwatch": "fn()"
+    },
+    "ret80": {
+      "unwatch": "fn()"
+    },
+    "ret81": {
+      "unwatch": "fn()"
+    },
+    "ret82": {
+      "unwatch": "fn()"
+    },
+    "ret83": {
+      "unwatch": "fn()"
+    },
+    "ret84": {
+      "unwatch": "fn()"
+    },
+    "ret85": {
+      "unwatch": "fn()"
+    },
+    "ret86": {
+      "unwatch": "fn()"
+    },
+    "ret87": {
+      "unwatch": "fn()"
+    },
+    "ret88": {
+      "unwatch": "fn()"
+    },
+    "ret89": {
+      "unwatch": "fn()"
+    },
+    "ret90": {
+      "unwatch": "fn()"
+    },
+    "ret91": {
+      "unwatch": "fn()"
+    },
+    "ret92": {
+      "unwatch": "fn()"
+    },
+    "ret93": {
+      "unwatch": "fn()"
+    },
+    "ret94": {
+      "unwatch": "fn()"
+    },
+    "ret95": {
+      "unwatch": "fn()"
+    },
+    "ret96": {
+      "unwatch": "fn()"
+    },
+    "ret97": {
+      "unwatch": "fn()"
+    },
+    "ret98": {
+      "unwatch": "fn()"
+    },
+    "ret99": {
+      "unwatch": "fn()"
+    },
+    "ret100": {
+      "unwatch": "fn()"
+    },
+    "ret101": {
+      "unwatch": "fn()"
+    },
+    "ret102": {
+      "unwatch": "fn()"
+    },
+    "ret103": {
+      "unwatch": "fn()"
+    },
+    "ret104": {
+      "unwatch": "fn()"
+    },
+    "ret105": {
+      "unwatch": "fn()"
+    },
+    "ret106": {
+      "unwatch": "fn()"
+    },
+    "ret107": {
+      "unwatch": "fn()"
+    },
+    "ret108": {
+      "unwatch": "fn()"
+    },
+    "ret109": {
+      "unwatch": "fn()"
+    },
+    "ret110": {
+      "unwatch": "fn()"
+    },
+    "ret111": {
+      "unwatch": "fn()"
+    },
+    "ret112": {
+      "unwatch": "fn()"
+    },
+    "ret113": {
+      "unwatch": "fn()"
+    },
+    "ret114": {
+      "unwatch": "fn()"
+    },
+    "ret115": {
+      "unwatch": "fn()"
+    },
+    "ret116": {
+      "unwatch": "fn()"
+    },
+    "ret117": {
+      "unwatch": "fn()"
+    },
+    "ret118": {
+      "unwatch": "fn()"
+    },
+    "ret119": {
+      "unwatch": "fn()"
+    },
+    "ret120": {
+      "unwatch": "fn()"
+    },
+    "ret121": {
+      "unwatch": "fn()"
+    },
+    "ret122": {
+      "unwatch": "fn()"
+    },
+    "ret123": {
+      "unwatch": "fn()"
+    },
+    "ret124": {
+      "unwatch": "fn()"
+    },
+    "ret125": {
+      "unwatch": "fn()"
+    },
+    "ret126": {
+      "unwatch": "fn()"
+    },
+    "ret127": {
+      "unwatch": "fn()"
+    },
+    "ret128": {
+      "unwatch": "fn()"
+    },
+    "ret129": {
+      "unwatch": "fn()"
+    },
+    "ret130": {
+      "unwatch": "fn()"
+    },
+    "ret131": {
+      "unwatch": "fn()"
+    },
+    "ret132": {
+      "unwatch": "fn()"
+    },
+    "ret133": {
+      "unwatch": "fn()"
+    },
+    "ret134": {
+      "unwatch": "fn()"
+    },
+    "ret135": {
+      "unwatch": "fn()"
+    },
+    "ret136": {
+      "unwatch": "fn()"
+    },
+    "ret137": {
+      "unwatch": "fn()"
+    },
+    "ret138": {
+      "unwatch": "fn()"
+    },
+    "ret139": {
+      "unwatch": "fn()"
+    },
+    "ret140": {
+      "unwatch": "fn()"
+    },
+    "ret141": {
+      "unwatch": "fn()"
+    },
+    "ret142": {
+      "unwatch": "fn()"
+    },
+    "ret143": {
+      "unwatch": "fn()"
+    },
+    "ret144": {
+      "unwatch": "fn()"
+    },
+    "ret145": {
+      "unwatch": "fn()"
+    },
+    "ret146": {
+      "unwatch": "fn()"
+    },
+    "ret147": {
+      "unwatch": "fn()"
+    },
+    "ret148": {
+      "unwatch": "fn()"
+    },
+    "ret149": {
+      "unwatch": "fn()"
+    }
+  }
+}

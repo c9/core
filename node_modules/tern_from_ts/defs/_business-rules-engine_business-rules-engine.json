@@ -1,0 +1,217 @@
+{
+  "Validation": {
+    "IErrorCustomMessage": {},
+    "IPropertyValidator": {
+      "isAcceptable": "fn(s: ?) -> bool",
+      "customMessage": "IErrorCustomMessage",
+      "tagName": "string"
+    },
+    "IStringValidator": {
+      "isAcceptable": "fn(s: string) -> bool"
+    },
+    "IAsyncPropertyValidator": {
+      "isAcceptable": "fn(s: ?) -> ?",
+      "customMessage": "IErrorCustomMessage",
+      "isAsync": "bool",
+      "tagName": "string"
+    },
+    "IAsyncStringPropertyValidator": {
+      "isAcceptable": "fn(s: string) -> ?"
+    },
+    "CompareOperator": "number",
+    "IError": {
+      "HasError": "bool",
+      "ErrorMessage": "string",
+      "TranslateArgs": "IErrorTranslateArgs"
+    },
+    "IErrorTranslateArgs": {
+      "TranslateId": "string",
+      "MessageArgs": "?",
+      "CustomMessage": "IErrorCustomMessage"
+    },
+    "IOptional": {},
+    "IValidationFailure": {
+      "IsAsync": "bool",
+      "Error": "IError"
+    },
+    "IValidationResult": {
+      "Name": "string",
+      "Add": "fn(validationResult: IValidationResult)",
+      "Remove": "fn(index: number)",
+      "Children": "[IValidationResult]",
+      "HasErrors": "bool",
+      "HasErrorsDirty": "bool",
+      "ErrorMessage": "string",
+      "ErrorCount": "number",
+      "Optional": "IOptional",
+      "TranslateArgs": "[IErrorTranslateArgs]"
+    },
+    "IValidate": {},
+    "IAsyncValidate": {},
+    "IValidatorFce": {
+      "Name": "string",
+      "ValidationFce": "IValidate",
+      "AsyncValidationFce": "IAsyncValidate"
+    },
+    "IValidator": {
+      "Validate": "fn(context: ?) -> IValidationFailure",
+      "ValidateAsync": "fn(context: ?) -> ?",
+      "Error": "IError"
+    },
+    "IAbstractValidator": {
+      "RuleFor": "fn(prop: string, validator: IPropertyValidator) -> ?",
+      "ValidationFor": "fn(prop: string, validatorFce: IValidatorFce) -> ?",
+      "Validation": "fn(validatorFce: IValidatorFce) -> ?",
+      "ValidatorFor": "fn(prop: string, validator: ?) -> ?",
+      "CreateRule": "fn(name: string) -> ?",
+      "CreateAbstractRule": "fn(name: string) -> ?",
+      "CreateAbstractListRule": "fn(name: string) -> ?",
+      "ForList": "bool"
+    },
+    "IAbstractValidationRule": {
+      "Validate": "fn(context: T) -> IValidationResult",
+      "ValidateAsync": "fn(context: T) -> ?",
+      "ValidateAll": "fn(context: T) -> ?",
+      "ValidateProperty": "fn(context: T, propName: string)",
+      "ValidationResult": "IValidationResult",
+      "Rules": {},
+      "Validators": {},
+      "Children": {}
+    },
+    "IPropertyValidationRule": {
+      "Validators": {},
+      "Validate": "fn(context: ?) -> [IValidationFailure]",
+      "ValidateAsync": "fn(context: ?) -> ?"
+    },
+    "IValidationContext": {
+      "Value": "string",
+      "Key": "string",
+      "Data": "T"
+    },
+    "Error": {
+      "!type": "fn()",
+      "prototype": {
+        "HasError": "bool",
+        "ErrorMessage": "string"
+      }
+    },
+    "ValidationFailure": {
+      "!type": "fn(Error: IError, IsAsync: bool)",
+      "prototype": {
+        "Error": "IError",
+        "IsAsync": "bool",
+        "HasError": "bool",
+        "ErrorMessage": "string",
+        "TranslateArgs": "IErrorTranslateArgs"
+      }
+    },
+    "ValidationResult": {
+      "!type": "fn(Name: string)",
+      "prototype": {
+        "Name": "string",
+        "IsDirty": "bool",
+        "Children": "[IValidationResult]",
+        "Add": "fn(error: IValidationResult)",
+        "Remove": "fn(index: number)",
+        "Optional": "IOptional",
+        "TranslateArgs": "[IErrorTranslateArgs]",
+        "HasErrorsDirty": "bool",
+        "HasErrors": "bool",
+        "ErrorCount": "number",
+        "ErrorMessage": "string"
+      }
+    },
+    "CompositeValidationResult": {
+      "!type": "fn(Name: string)",
+      "prototype": {
+        "Name": "string",
+        "Children": "[IValidationResult]",
+        "Optional": "IOptional",
+        "AddFirst": "fn(error: IValidationResult)",
+        "Add": "fn(error: IValidationResult)",
+        "Remove": "fn(index: number)",
+        "HasErrorsDirty": "bool",
+        "HasErrors": "bool",
+        "ErrorCount": "number",
+        "ErrorMessage": "string",
+        "TranslateArgs": "[IErrorTranslateArgs]",
+        "LogErrors": "fn(headerMessage?: string)",
+        "Errors": {},
+        "FlattenErros": "?",
+        "SetDirty": "fn()",
+        "SetPristine": "fn()",
+        "SetDirtyEx": "fn(node: ?, dirty: ?)",
+        "flattenErrors": "fn(node: ?, errorCollection: ?)",
+        "traverse": "fn(node: ?, indent: ?)"
+      }
+    },
+    "AbstractValidator": {
+      "prototype": {
+        "Validators": {},
+        "AbstractValidators": {},
+        "ValidationFunctions": {},
+        "RuleFor": "fn(prop: string, validator: IPropertyValidator)",
+        "ValidationFor": "fn(prop: string, fce: IValidatorFce)",
+        "Validation": "fn(fce: IValidatorFce)",
+        "ValidatorFor": "fn(prop: string, validator: ?, forList?: bool)",
+        "CreateAbstractRule": "fn(name: string) -> ?",
+        "CreateAbstractListRule": "fn(name: string) -> ?",
+        "CreateRule": "fn(name: string) -> ?",
+        "ForList": "bool"
+      }
+    },
+    "MessageLocalization": {
+      "customMsg": "string",
+      "defaultMessages": {
+        "required": "string",
+        "remote": "string",
+        "email": "string",
+        "url": "string",
+        "date": "string",
+        "dateISO": "string",
+        "number": "string",
+        "digits": "string",
+        "signedDigits": "string",
+        "creditcard": "string",
+        "equalTo": "string",
+        "maxlength": "string",
+        "minlength": "string",
+        "rangelength": "string",
+        "range": "string",
+        "max": "string",
+        "min": "string",
+        "step": "string",
+        "contains": "string",
+        "mask": "string",
+        "custom": "string"
+      },
+      "ValidationMessages": {
+        "required": "string",
+        "remote": "string",
+        "email": "string",
+        "url": "string",
+        "date": "string",
+        "dateISO": "string",
+        "number": "string",
+        "digits": "string",
+        "signedDigits": "string",
+        "creditcard": "string",
+        "equalTo": "string",
+        "maxlength": "string",
+        "minlength": "string",
+        "rangelength": "string",
+        "range": "string",
+        "max": "string",
+        "min": "string",
+        "step": "string",
+        "contains": "string",
+        "mask": "string",
+        "custom": "string"
+      },
+      "GetValidationMessage": "fn(validator: ?) -> string",
+      "prototype": {}
+    }
+  },
+  "business-rule-engine": "Validation",
+  "!name": "business-rules-engine"
+}

@@ -1,0 +1,161 @@
+{
+  "GeometryDom": {
+    "DOMPointReadOnly": {
+      "x": "number",
+      "y": "number",
+      "z": "number",
+      "w": "number",
+      "matrixTransform": "fn(matrix: DOMMatrixReadOnly) -> DOMPoint"
+    },
+    "DOMPoint": {
+      "x": "number",
+      "y": "number",
+      "z": "number",
+      "w": "number"
+    },
+    "DOMRect": {
+      "x": "number",
+      "y": "number",
+      "width": "number",
+      "height": "number"
+    },
+    "DOMRectReadOnly": {
+      "x": "number",
+      "y": "number",
+      "width": "number",
+      "height": "number",
+      "top": "number",
+      "right": "number",
+      "bottom": "number",
+      "left": "number"
+    },
+    "DOMRectList": {
+      "length": "number",
+      "item": "fn(index: number) -> DOMRect"
+    },
+    "DOMQuad": {
+      "p1": "DOMPoint",
+      "p2": "DOMPoint",
+      "p3": "DOMPoint",
+      "p4": "DOMPoint",
+      "bounds": "DOMRectReadOnly"
+    },
+    "DOMMatrixReadOnly": {
+      "a": "number",
+      "b": "number",
+      "c": "number",
+      "d": "number",
+      "e": "number",
+      "f": "number",
+      "m11": "number",
+      "m12": "number",
+      "m13": "number",
+      "m14": "number",
+      "m21": "number",
+      "m22": "number",
+      "m23": "number",
+      "m24": "number",
+      "m31": "number",
+      "m32": "number",
+      "m33": "number",
+      "m34": "number",
+      "m41": "number",
+      "m42": "number",
+      "m43": "number",
+      "m44": "number",
+      "is2D": "bool",
+      "isIdentity": "bool",
+      "translate": "fn(tx: number, ty: number, tz?: number) -> DOMMatrix",
+      "scale": "fn(scale: number, originX?: number, originY?: number) -> DOMMatrix",
+      "scale3d": "fn(scale: number, originX?: number, originY?: number, originZ?: number) -> DOMMatrix",
+      "scaleNonUniform": "fn(scale: number, scaleX: number, scaleY: number, scaleZ: number, originX: number, originY: number, originZ: number) -> DOMMatrix",
+      "rotate": "fn(angle: number, originX?: number, originY?: number) -> DOMMatrix",
+      "rotateFromVector": "fn(x: number, y: number) -> DOMMatrix",
+      "rotateAxisAngle": "fn(x: number, y: number, z: number, angle: number) -> DOMMatrix",
+      "skewX": "fn(sx: number) -> DOMMatrix",
+      "skewY": "fn(sx: number) -> DOMMatrix",
+      "multiply": "fn(other: DOMMatrix) -> DOMMatrix",
+      "flipX": "fn() -> DOMMatrix",
+      "flipY": "fn() -> DOMMatrix",
+      "inverse": "fn() -> DOMMatrix",
+      "transformPoint": "fn(point?: DOMPointInit) -> DOMPoint",
+      "toFloat32Array": "fn() -> ?",
+      "toFloat64Array": "fn() -> ?"
+    },
+    "DOMMatrix": {
+      "a": "number",
+      "b": "number",
+      "c": "number",
+      "d": "number",
+      "e": "number",
+      "f": "number",
+      "m11": "number",
+      "m12": "number",
+      "m13": "number",
+      "m14": "number",
+      "m21": "number",
+      "m22": "number",
+      "m23": "number",
+      "m24": "number",
+      "m31": "number",
+      "m32": "number",
+      "m33": "number",
+      "m34": "number",
+      "m41": "number",
+      "m42": "number",
+      "m43": "number",
+      "m44": "number",
+      "multiplySelf": "fn(other: DOMMatrix) -> DOMMatrix",
+      "preMultiplySelf": "fn(other: DOMMatrix) -> DOMMatrix",
+      "translateSelf": "fn(tx: number, ty: number, tz?: number) -> DOMMatrix",
+      "scaleSelf": "fn(scale: number, originX?: number, originY?: number) -> DOMMatrix",
+      "scale3dSelf": "fn(scale: number, originX?: number, originY?: number, originZ?: number) -> DOMMatrix",
+      "scaleNonUniformSelf": "fn(scaleX: number, scaleY?: number, scaleZ?: number, originX?: number, originY?: number, originZ?: number) -> DOMMatrix",
+      "rotateSelf": "fn(angle: number, originX?: number, originY?: number) -> DOMMatrix",
+      "rotateFromVectorSelf": "fn(x: number, y: number) -> DOMMatrix",
+      "rotateAxisAngleSelf": "fn(x: number, y: number, z: number, angle: number) -> DOMMatrix",
+      "skewXSelf": "fn(sx: number) -> DOMMatrix",
+      "skewYSelf": "fn(sy: number) -> DOMMatrix",
+      "invertSelf": "fn() -> DOMMatrix",
+      "setMatrixValue": "fn(transformList: DOMMatrix) -> DOMMatrix"
+    }
+  },
+  "DOMPointReadOnly": {
+    "prototype": "GeometryDom.DOMPointReadOnly"
+  },
+  "DOMPoint": {
+    "prototype": "GeometryDom.DOMPoint"
+  },
+  "DOMPointInit": {
+    "x": "number",
+    "y": "number",
+    "z": "number",
+    "w": "number"
+  },
+  "DOMRect": {
+    "prototype": "GeometryDom.DOMRect"
+  },
+  "DOMRectReadOnly": {
+    "prototype": "GeometryDom.DOMRectReadOnly"
+  },
+  "DOMRectInit": {
+    "x": "number",
+    "y": "number",
+    "width": "number",
+    "height": "number"
+  },
+  "DOMRectList": {
+    "length": "number",
+    "item": "fn(index: number) -> GeometryDom.DOMRect"
+  },
+  "DOMQuad": {
+    "prototype": "GeometryDom.DOMQuad"
+  },
+  "DOMMatrixReadOnly": {
+    "prototype": "GeometryDom.DOMMatrixReadOnly"
+  },
+  "DOMMatrix": {
+    "prototype": "GeometryDom.DOMMatrix"
+  },
+  "!name": "geometry-dom.d.ts"
+}

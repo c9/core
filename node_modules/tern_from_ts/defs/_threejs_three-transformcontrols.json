@@ -1,0 +1,18 @@
+{
+  "THREE": {
+    "TransformControls": {
+      "!type": "fn(object: Camera, domElement?: HTMLElement)",
+      "prototype": {
+        "object": "Object3D",
+        "update": "fn()",
+        "detach": "fn()",
+        "attach": "fn(object: Object3D)",
+        "setMode": "fn(mode: string)",
+        "setSnap": "fn(snap: ?)",
+        "setSize": "fn(size: number)",
+        "setSpace": "fn(space: string)"
+      }
+    }
+  },
+  "!name": "three-transformcontrols"
+}

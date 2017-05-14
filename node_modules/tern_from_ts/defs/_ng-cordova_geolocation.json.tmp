@@ -1,0 +1,32 @@
+{
+  "ngCordova": {
+    "IGeoPositionError": {
+      "code": "number",
+      "message": "string"
+    },
+    "IGeoCoordinates": {
+      "latitude": "number",
+      "longitude": "number",
+      "accuracy": "number",
+      "altitude": "number",
+      "heading": "number",
+      "speed": "number",
+      "altitudeAccuracy": "number"
+    },
+    "IGeoPosition": {
+      "coords": "IGeoCoordinates",
+      "timestamp": "Date"
+    },
+    "IGeolocationOptions": {
+      "timeout": "number",
+      "maximumAge": "number",
+      "enableHighAccuracy": "bool"
+    },
+    "IGeolocationService": {
+      "getCurrentPosition": "fn(options?: IGeolocationOptions) -> ?",
+      "watchPosition": "fn(options?: IGeolocationOptions) -> ?",
+      "clearWatch": "fn(watchID: ?)"
+    }
+  },
+  "!name": "geolocation.d.ts"
+}

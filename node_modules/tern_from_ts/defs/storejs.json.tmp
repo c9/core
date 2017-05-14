@@ -1,0 +1,16 @@
+{
+  "StoreJSStatic": {
+    "set": "fn(key: string, value: ?) -> ?",
+    "get": "fn(key: string) -> ?",
+    "remove": "fn(key: string)",
+    "clear": "fn()",
+    "enabled": "bool",
+    "disabled": "bool",
+    "transact": "fn(key: string, defaultValue: ?, transactionFn?: fn(val: ?))",
+    "getAll": "fn() -> ?",
+    "serialize": "fn(value: ?) -> string",
+    "deserialize": "fn(value: string) -> ?"
+  },
+  "store": "StoreJSStatic",
+  "!name": "storejs.d.ts"
+}

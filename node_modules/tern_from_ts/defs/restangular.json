@@ -1,0 +1,104 @@
+{
+  "'restangular'": "restangular",
+  "restangular": {
+    "IPromise": {
+      "call": "fn(methodName: string, params?: ?) -> ?",
+      "get": "fn(fieldName: string) -> ?",
+      "$object": "T"
+    },
+    "ICollectionPromise": {
+      "push": "fn(object: ?) -> ?",
+      "call": "fn(methodName: string, params?: ?) -> ?",
+      "get": "fn(fieldName: string) -> ?",
+      "$object": "[T]"
+    },
+    "IResponse": {
+      "status": "number",
+      "data": "?",
+      "headers": "fn(name: string) -> string",
+      "config": {
+        "method": "string",
+        "url": "string",
+        "params": "?"
+      }
+    },
+    "IProvider": {
+      "setBaseUrl": "fn(baseUrl: string)",
+      "setExtraFields": "fn(fields: [string])",
+      "setParentless": "fn(parentless: bool, routes: [string])",
+      "setDefaultHttpFields": "fn(httpFields: ?)",
+      "addElementTransformer": "fn(route: string, transformer: Function)",
+      "setTransformOnlyServerElements": "fn(active: bool)",
+      "setOnElemRestangularized": "fn(callback: fn(elem: ?, isCollection: bool, what: string, restangular: IService))",
+      "setResponseInterceptor": "fn(responseInterceptor: fn(data: ?, operation: string, what: string, url: string, response: IResponse, deferred: ?))",
+      "setResponseExtractor": "fn(responseInterceptor: fn(data: ?, operation: string, what: string, url: string, response: IResponse, deferred: ?))",
+      "addResponseInterceptor": "fn(responseInterceptor: fn(data: ?, operation: string, what: string, url: string, response: IResponse, deferred: ?))",
+      "setRequestInterceptor": "fn(requestInterceptor: fn(element: ?, operation: string, what: string, url: string))",
+      "addRequestInterceptor": "fn(requestInterceptor: fn(element: ?, operation: string, what: string, url: string))",
+      "setFullRequestInterceptor": "fn(fullRequestInterceptor: fn(element: ?, operation: string, what: string, url: string, headers: ?, params: ?, httpConfig: angular.IRequestShortcutConfig))",
+      "addFullRequestInterceptor": "fn(requestInterceptor: fn(element: ?, operation: string, what: string, url: string, headers: ?, params: ?, httpConfig: angular.IRequestShortcutConfig))",
+      "setErrorInterceptor": "fn(errorInterceptor: fn(response: IResponse, deferred: ?))",
+      "setRestangularFields": "fn(fields: ?)",
+      "setMethodOverriders": "fn(overriders: [string])",
+      "setJsonp": "fn(jsonp: bool)",
+      "setDefaultRequestParams": "fn(params: ?)",
+      "setFullResponse": "fn(fullResponse: bool)",
+      "setDefaultHeaders": "fn(headers: ?)",
+      "setRequestSuffix": "fn(suffix: string)",
+      "setUseCannonicalId": "fn(useCannonicalId: bool)",
+      "setEncodeIds": "fn(encode: bool)"
+    },
+    "ICustom": {
+      "customGET": "fn(path: string, params?: ?, headers?: ?) -> ?",
+      "customGETLIST": "fn(path: string, params?: ?, headers?: ?) -> ?",
+      "customDELETE": "fn(path: string, params?: ?, headers?: ?) -> ?",
+      "customPOST": "fn(elem?: ?, path?: string, params?: ?, headers?: ?) -> ?",
+      "customPUT": "fn(elem?: ?, path?: string, params?: ?, headers?: ?) -> ?",
+      "customOperation": "fn(operation: string, path: string, params?: ?, headers?: ?, elem?: ?) -> ?",
+      "addRestangularMethod": "fn(name: string, operation: string, path?: string, params?: ?, headers?: ?, elem?: ?) -> ?"
+    },
+    "IService": {
+      "one": "fn(route: string, id?: number) -> IElement",
+      "oneUrl": "fn(route: string, url: string) -> IElement",
+      "all": "fn(route: string) -> IElement",
+      "allUrl": "fn(route: string, url: string) -> IElement",
+      "copy": "fn(fromElement: ?) -> IElement",
+      "withConfig": "fn(configurer: fn(RestangularProvider: IProvider)) -> IService",
+      "restangularizeElement": "fn(parent: ?, element: ?, route: string, collection?: ?, reqParams?: ?) -> IElement",
+      "restangularizeCollection": "fn(parent: ?, element: ?, route: string) -> ICollection",
+      "service": "fn(route: string, parent?: ?) -> IService",
+      "stripRestangular": "fn(element: ?) -> ?",
+      "extendModel": "fn(route: string, extender: fn(model: IElement))"
+    },
+    "IElement": {
+      "get": "fn(queryParams?: ?, headers?: ?) -> ?",
+      "getList": "fn(subElement?: ?, queryParams?: ?, headers?: ?) -> ?",
+      "put": "fn(queryParams?: ?, headers?: ?) -> ?",
+      "post": "fn(subElement: ?, elementToPost: ?, queryParams?: ?, headers?: ?) -> ?",
+      "remove": "fn(queryParams?: ?, headers?: ?) -> ?",
+      "head": "fn(queryParams?: ?, headers?: ?) -> ?",
+      "trace": "fn(queryParams?: ?, headers?: ?) -> ?",
+      "options": "fn(queryParams?: ?, headers?: ?) -> ?",
+      "patch": "fn(queryParams?: ?, headers?: ?) -> ?",
+      "clone": "fn() -> IElement",
+      "plain": "fn() -> ?",
+      "withHttpConfig": "fn(httpConfig: angular.IRequestShortcutConfig) -> IElement",
+      "save": "fn(queryParams?: ?, headers?: ?) -> ?",
+      "getRestangularUrl": "fn() -> string"
+    },
+    "ICollection": {
+      "getList": "fn(queryParams?: ?, headers?: ?) -> ?",
+      "post": "fn(elementToPost: ?, queryParams?: ?, headers?: ?) -> ?",
+      "head": "fn(queryParams?: ?, headers?: ?) -> ?",
+      "trace": "fn(queryParams?: ?, headers?: ?) -> ?",
+      "options": "fn(queryParams?: ?, headers?: ?) -> ?",
+      "patch": "fn(queryParams?: ?, headers?: ?) -> ?",
+      "putElement": "fn(idx: ?, params: ?, headers: ?) -> ?",
+      "withHttpConfig": "fn(httpConfig: angular.IRequestShortcutConfig) -> ICollection",
+      "clone": "fn() -> ICollection",
+      "plain": "fn() -> ?",
+      "getRestangularUrl": "fn() -> string"
+    }
+  },
+  "!name": "restangular"
+}

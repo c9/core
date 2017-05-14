@@ -1,0 +1,22 @@
+{
+  "jsSHA": {
+    "EncodingOptions": {
+      "encoding": "string"
+    },
+    "Options": {
+      "numRounds": "number"
+    },
+    "OutputFormatOptions": {
+      "outputUpper": "bool",
+      "b64Pad": "string"
+    },
+    "jsSHA": {
+      "setHMACKey": "fn(key: string, inputFormat: string, encodingOpts?: EncodingOptions)",
+      "update": "fn(srcString: string)",
+      "getHash": "fn(format: string, outputFormatOpts?: OutputFormatOptions) -> string",
+      "getHMAC": "fn(format: string, outputFormatOpts?: OutputFormatOptions) -> string"
+    }
+  },
+  "'jssha'": "jsSHA",
+  "!name": "jssha"
+}

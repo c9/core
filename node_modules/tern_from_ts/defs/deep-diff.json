@@ -1,0 +1,29 @@
+{
+  "deepDiff": {
+    "IDiff": {
+      "kind": "string",
+      "path": "[string]",
+      "lhs": "?",
+      "rhs": "?",
+      "index": "number",
+      "item": "IDiff"
+    },
+    "IAccumulator": {
+      "push": "fn(diff: IDiff)",
+      "length": "number"
+    },
+    "IPrefilter": {},
+    "IDeepDiff": {
+      "diff": "fn() -> IDiff",
+      "observableDiff": "fn(lhs: Object, rhs: Object, changes: Function, prefilter?: IPrefilter, path?: [string], key?: string, stack?: [Object])",
+      "applyDiff": "fn(target: Object, source: Object, filter: Function)",
+      "applyChange": "fn(target: Object, source: Object, change: IDiff)",
+      "revertChange": "fn(target: Object, source: Object, change: IDiff)",
+      "isConflict": "fn() -> bool",
+      "noConflict": "fn() -> IDeepDiff"
+    }
+  },
+  "DeepDiff": "deepDiff.IDeepDiff",
+  "deep-diff": "diff",
+  "!name": "deep-diff"
+}

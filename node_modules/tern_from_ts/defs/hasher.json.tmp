@@ -1,0 +1,26 @@
+{
+  "HasherJs": {
+    "HasherStatic": {
+      "appendHash": "fn() -> string",
+      "changed": "Signal",
+      "initialized": "Signal",
+      "prependHash": "string",
+      "separator": "string",
+      "stopped": "Signal",
+      "VERSION": "string",
+      "dispose": "fn()",
+      "getBaseURL": "fn() -> string",
+      "getHash": "fn() -> string",
+      "getHashAsArray": "fn() -> [string]",
+      "getURL": "fn() -> string",
+      "init": "fn()",
+      "isActive": "fn() -> bool",
+      "replaceHash": "fn(path: [string])",
+      "setHash": "fn(path: [string])",
+      "stop": "fn()"
+    }
+  },
+  "hasher": "HasherJs.HasherStatic",
+  "'hasher'": "hasher",
+  "!name": "hasher.d.ts"
+}

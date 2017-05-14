@@ -1,0 +1,7 @@
+{
+  "aspnet-identity-pw": {
+    "hashPassword": "fn(password: string) -> string",
+    "validatePassword": "fn(password: string, hashedPass: string) -> bool"
+  },
+  "!name": "aspnet-identity-pw"
+}

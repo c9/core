@@ -1,0 +1,78 @@
+{
+  "External": {
+    "getUnityObject": "fn(version: number) -> Unity"
+  },
+  "UnitySettings": {
+    "prototype": {
+      "name": "String",
+      "iconUrl": "String",
+      "onInit": "Function"
+    }
+  },
+  "UnityPlaybackState": "number",
+  "UnityTrackMetadata": {
+    "prototype": {
+      "title": "String",
+      "album": "String",
+      "artist": "String",
+      "artLocation": "String"
+    }
+  },
+  "UnityMediaPlayer": {
+    "setTrack": "fn(trackMetadata: UnityTrackMetadata)",
+    "onPrevious": "fn(onPreviousCallback: Function)",
+    "onNext": "fn(onNextCallback: Function)",
+    "onPlayPause": "fn(onPlayPauseCallback: Function)",
+    "getPlaybackstate": "fn(response: Function)",
+    "setPlaybackstate": "fn(state: UnityPlaybackState)",
+    "setCanGoNext": "fn(cangonext: Boolean)",
+    "setCanGoPrev": "fn(cangoprev: Boolean)",
+    "setCanPlay": "fn(canplay: Boolean)",
+    "setCanPause": "fn(canpause: Boolean)"
+  },
+  "UnityNotification": {
+    "showNotification": "fn(summary: String, body: String, iconUrl?: String)"
+  },
+  "UnityIndicatorProperties": {
+    "prototype": {
+      "count": "Number",
+      "time": "Date",
+      "iconURI": "String",
+      "onIndicatorActivated": "Function"
+    }
+  },
+  "UnityMessagingIndicator": {
+    "showIndicator": "fn(name: String, indicatorProperties: UnityIndicatorProperties)",
+    "clearIndicator": "fn(name: String)",
+    "clearIndicators": "fn()",
+    "addAction": "fn(name: String, onActionInvoked: Function)",
+    "removeAction": "fn(name: String)",
+    "removeActions": "fn()",
+    "onPresenceChanged": "fn(onPresenceChanged: Function)",
+    "presence": "String"
+  },
+  "UnityLauncher": {
+    "setCount": "fn(count: number)",
+    "clearCount": "fn()",
+    "setProgress": "fn(progress: number)",
+    "clearProgress": "fn()",
+    "setUrgent": "fn(urgent: Boolean)",
+    "addAction": "fn(name: String, onActionInvoked: Function)",
+    "removeAction": "fn(name: String)",
+    "removeActions": "fn()"
+  },
+  "Unity": {
+    "init": "fn(settings: UnitySettings)",
+    "addAction": "fn(name: String, callback: Function)",
+    "removeAction": "fn(actionName: String)",
+    "removeActions": "fn()",
+    "Notification": "UnityNotification",
+    "MediaPlayer": "UnityMediaPlayer",
+    "MessagingIndicator": "UnityMessagingIndicator",
+    "Launcher": "UnityLauncher"
+  },
+  "BrowserPublic": {
+    "getUnityObject": "fn(version: number) -> Unity"
+  },
+  "!name": "unity-webapi"
+}

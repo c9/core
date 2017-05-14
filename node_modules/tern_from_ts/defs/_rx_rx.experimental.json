@@ -1,0 +1,25 @@
+{
+  "Rx": {
+    "Observable": {
+      "let": "fn(selector: fn(source: ?)) -> ?",
+      "letBind": "fn(selector: fn(source: ?)) -> ?",
+      "doWhile": "fn(condition: fn()) -> ?",
+      "expand": "fn(selector: fn(item: T), scheduler?: IScheduler) -> ?",
+      "forkJoin": "fn(second: ?, resultSelector: fn(left: T, right: TSecond)) -> ?",
+      "manySelect": "fn(selector: fn(item: ?, index: number, source: ?), scheduler?: IScheduler) -> ?"
+    },
+    "ObservableStatic": {
+      "if": "fn(condition: fn(), thenSource: ?, elseSource: ?) -> ?",
+      "ifThen": "fn(condition: fn(), thenSource: ?, elseSource: ?) -> ?",
+      "for": "fn(sources: [T], resultSelector: fn(item: T)) -> ?",
+      "forIn": "fn(sources: [T], resultSelector: fn(item: T)) -> ?",
+      "while": "fn(condition: fn(), source: ?) -> ?",
+      "whileDo": "fn(condition: fn(), source: ?) -> ?",
+      "case": "fn(selector: fn(), sources: ?, elseSource: ?) -> ?",
+      "switchCase": "fn(selector: fn(), sources: ?, elseSource: ?) -> ?",
+      "forkJoin": "fn(sources: [?]) -> ?"
+    }
+  },
+  "rx.experimental": "Rx",
+  "!name": "rx.experimental"
+}

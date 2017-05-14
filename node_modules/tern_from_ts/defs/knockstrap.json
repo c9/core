@@ -1,0 +1,111 @@
+{
+  "KnockoutUtils": {
+    "uniqueId": "fn(prefix: string) -> string",
+    "unwrapProperties": "fn(wrappedProperies: ?) -> ?"
+  },
+  "KnockoutTemplateSources": {
+    "stringTemplate": {
+      "prototype": "KnockstrapStringTemplate"
+    }
+  },
+  "KnockstrapStringTemplate": {
+    "templateName": "string"
+  },
+  "KnockoutStatic": {
+    "stringTemplateEngine": {
+      "prototype": "KnockstrapStringTemplateEngine",
+      "instance": "KnockstrapStringTemplateEngine"
+    }
+  },
+  "KnockstrapStringTemplateEngine": {
+    "allowTemplateRewriting": "bool",
+    "makeTemplateSource": "fn(template: string) -> KnockstrapStringTemplate",
+    "addTemplate": "fn(name: string, template: ?)",
+    "removeTemplate": "fn(name: string)",
+    "isTemplateExist": "fn(name: string) -> bool",
+    "getTemplate": "fn(name: string) -> ?"
+  },
+  "KnockoutBindingHandlers": {
+    "alert": "AlertKnockoutBindingHandler",
+    "carousel": "CarouselKnockoutBindingHandler",
+    "checkbox": "KnockoutBindingHandler",
+    "modal": "ModalKnockoutBindingHandler",
+    "popover": "PopoverKnockoutBindingHandler",
+    "progress": "ProgressKnockoutBindingHandler",
+    "radio": "KnockoutBindingHandler",
+    "toggle": "KnockoutBindingHandler",
+    "tooltip": "KnockoutBindingHandler"
+  },
+  "KnockoutControlsDescendantBindings": {
+    "controlsDescendantBindings": "bool"
+  },
+  "AlertKnockoutBindingHandler": {
+    "init": "fn(element: ?, valueAccessor: fn(), allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: ?, bindingContext: KnockoutBindingContext) -> KnockoutControlsDescendantBindings"
+  },
+  "CarouselKnockoutBindingHandler": {
+    "init": "fn(element: ?, valueAccessor: fn(), allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: ?, bindingContext: KnockoutBindingContext) -> KnockoutControlsDescendantBindings",
+    "defaults": "KnockstrapCarouselDefaults"
+  },
+  "KnockstrapCarouselDefaults": {
+    "css": "string",
+    "controlsTemplate": "KnockstrapCarouselDefaultsControlsTemplate",
+    "indicatorsTemplate": "KnockstrapCarouselDefaultsIndicatorsTemplate",
+    "itemTemplate": "KnockstrapCarouselDefaultsItemTemplate"
+  },
+  "KnockstrapDefaultsTemplateBase": {
+    "name": "string",
+    "templateEngine": "KnockstrapStringTemplateEngine"
+  },
+  "KnockstrapCarouselDefaultsControlsTemplate": {
+    "dataConverter": "fn(value: ?) -> KnockstrapCarouselDefaultsIdDataConverted"
+  },
+  "KnockstrapCarouselDefaultsIdDataConverted": {
+    "id": "?"
+  },
+  "KnockstrapCarouselDefaultsIndicatorsTemplate": {
+    "dataConverter": "fn(value: ?) -> KnockstrapCarouselDefaultsIdItemsDataConverted"
+  },
+  "KnockstrapCarouselDefaultsIdItemsDataConverted": {
+    "items": "?"
+  },
+  "KnockstrapCarouselDefaultsItemTemplate": {
+    "converter": "fn(value: ?) -> ?"
+  },
+  "ModalKnockoutBindingHandler": {
+    "init": "fn(element: ?, valueAccessor: fn(), allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: ?, bindingContext: KnockoutBindingContext) -> KnockoutControlsDescendantBindings",
+    "defaults": "KnockstrapModalDefaults"
+  },
+  "KnockstrapModalDefaults": {
+    "css": "string",
+    "attributes": "KnockstrapModalDefaultsAttributes",
+    "headerTemplate": "KnockstrapDefaultsTemplateBase",
+    "bodyTemplate": "KnockstrapDefaultsTemplateBase",
+    "footerTemplate": "KnockstrapModalDefaultsFooterTemplate"
+  },
+  "KnockstrapModalDefaultsAttributes": {
+    "role": "string"
+  },
+  "KnockstrapModalDefaultsFooterTemplate": {
+    "data": "KnockstrapModalDefaultsFooterData"
+  },
+  "KnockstrapModalDefaultsFooterData": {
+    "closeLabel": "string",
+    "primaryLabel": "string"
+  },
+  "PopoverKnockoutBindingHandler": {
+    "init": "fn(element: ?, valueAccessor: fn(), allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: ?, bindingContext: KnockoutBindingContext) -> KnockoutControlsDescendantBindings"
+  },
+  "ProgressKnockoutBindingHandler": {
+    "init": "fn(element: ?, valueAccessor: fn(), allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: ?, bindingContext: KnockoutBindingContext) -> KnockoutControlsDescendantBindings",
+    "defaults": "KnockstrapProgressDefaults"
+  },
+  "KnockstrapProgressDefaults": {
+    "css": "string",
+    "text": "string",
+    "textHidden": "bool",
+    "striped": "bool",
+    "type": "string",
+    "animated": "bool"
+  },
+  "!name": "knockstrap"
+}

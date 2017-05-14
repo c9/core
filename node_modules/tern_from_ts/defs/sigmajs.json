@@ -1,0 +1,237 @@
+{
+  "SigmaJs": {
+    "Animation": {
+      "camera": "fn(camera: Camera, target: ?, options: ?) -> number"
+    },
+    "Camera": {
+      "angle": "number",
+      "cameraPosition": "fn(x: number, y: number) -> ret",
+      "goTo": "fn(settings: ?)",
+      "graphPosition": "fn(x: number, y: number) -> ret1",
+      "ratio": "number",
+      "readPrefix": "string",
+      "settings": "fn(setting: string) -> ?",
+      "x": "number",
+      "y": "number"
+    },
+    "Canvas": {
+      "edges": {},
+      "labels": {},
+      "nodes": {}
+    },
+    "Classes": {
+      "configurable": "Configurable",
+      "graph": "Graph"
+    },
+    "Configurable": {},
+    "CustomShapes": {
+      "init": "fn(sigma: Sigma)"
+    },
+    "DragNodes": {},
+    "Edge": {
+      "color": "string",
+      "id": "string",
+      "size": "number",
+      "source": "string",
+      "target": "string"
+    },
+    "JsonParser": {},
+    "GexfParser": {},
+    "Graph": {
+      "addEdge": "fn(edge: Edge) -> Graph",
+      "addNode": "fn(node: Node) -> Graph",
+      "addMethod": "fn(name: string, method: fn(input: ?))",
+      "clear": "fn() -> Graph",
+      "degree": "fn(id: string) -> number",
+      "dropEdge": "fn(id: string) -> Graph",
+      "dropNode": "fn(id: string) -> Graph",
+      "edges": "fn() -> [Edge]",
+      "kill": "fn() -> Graph",
+      "nodes": "fn() -> [Node]"
+    },
+    "GraphData": {
+      "edges": "[Edge]",
+      "nodes": "[Node]"
+    },
+    "Image": {
+      "clip": "number",
+      "scale": "number",
+      "url": "string",
+      "x": "number",
+      "y": "number"
+    },
+    "Miscellaneous": {
+      "animation": "Animation"
+    },
+    "Node": {
+      "color": "string",
+      "id": "string",
+      "image": "?",
+      "label": "string",
+      "size": "number",
+      "type": "string",
+      "x": "number",
+      "y": "number"
+    },
+    "Parsers": {
+      "json": "JsonParser",
+      "gexf": "GexfParser"
+    },
+    "Plugins": {
+      "dragNodes": "DragNodes"
+    },
+    "Renderer": {
+      "container": "HTMLElement",
+      "refresh": "fn() -> Sigma",
+      "render": "fn() -> Sigma",
+      "resize": "fn() -> Sigma",
+      "settings": "fn(settings: Settings)"
+    },
+    "RendererConfigs": {
+      "container": "Element",
+      "id": "string",
+      "type": "string"
+    },
+    "ShapeLibrary": {
+      "enumerate": "fn() -> ?"
+    },
+    "Sigma": {
+      "addRenderer": "fn() -> Renderer",
+      "bind": "fn(event: string, callback: fn(e: ?))",
+      "cameras": "[Camera]",
+      "graph": "Graph",
+      "killRenderer": "fn(renderer: string) -> Sigma",
+      "kill": "fn()",
+      "refresh": "fn()",
+      "renderers": "[Renderer]",
+      "settings": "fn(key: string) -> ?",
+      "configForceAtlas2": "fn(configs: ?)",
+      "isForceAtlas2Running": "fn() -> bool",
+      "killForceAtlas2": "fn()",
+      "startForceAtlas2": "fn()",
+      "stopForceAtlas2": "fn()"
+    },
+    "SigmaConfigs": {
+      "container": "Element",
+      "graph": "GraphData",
+      "id": "string",
+      "renderers": "[Renderer]",
+      "settings": {}
+    },
+    "SigmaFactory": {
+      "canvas": "Canvas",
+      "classes": "Classes",
+      "misc": "Miscellaneous",
+      "parsers": "Parsers",
+      "plugins": "Plugins",
+      "svg": "SVG"
+    },
+    "Settings": {
+      "clone": "bool",
+      "immutable": "bool",
+      "verbose": "bool",
+      "defaultNodeType": "string",
+      "defaultEdgeType": "string",
+      "defaultLabelColor": "string",
+      "defaultEdgeColor": "string",
+      "defaultNodeColor": "string",
+      "defaultLabelSize": "string",
+      "edgeColor": "string",
+      "minArrowSize": "number",
+      "font": "string",
+      "fontStyle": "string",
+      "labelAlignment": "string",
+      "labelColor": "string",
+      "labelSize": "string",
+      "labelSizeRatio": "string",
+      "labelThreshold": "number",
+      "webglOversamplingRatio": "number",
+      "borderSize": "number",
+      "defaultNodeBorderColor": "string",
+      "hoverFont": "number",
+      "hoverFontStyle": "string",
+      "labelHoverShadow": "string",
+      "labelHoverShadowColor": "string",
+      "nodeHoverColor": "string",
+      "defaultNodeHoverColor": "string",
+      "labelHoverBGColor": "string",
+      "defaultHoverLabelBGColor": "string",
+      "labelHoverColor": "string",
+      "defaultLabelHoverColor": "string",
+      "singleHover": "bool",
+      "edgeHoverColor": "string",
+      "edgeHoverSizeRatio": "number",
+      "defaultEdgeHoverColor": "string",
+      "edgeHoverExtremities": "bool",
+      "drawLabels": "bool",
+      "drawEdges": "bool",
+      "drawNodes": "bool",
+      "batchEdgesDrawing": "bool",
+      "hideEdgesOnMove": "bool",
+      "canvasEdgesBatchSize": "number",
+      "webglEdgesBatchSize": "number",
+      "scalingMode": "string",
+      "sideMargin": "number",
+      "minEdgeSize": "number",
+      "maxEdgeSize": "number",
+      "minNodeSize": "number",
+      "maxNodeSize": "number",
+      "touchEnabled": "bool",
+      "mouseEnabled": "bool",
+      "mouseWheelEnabled": "bool",
+      "doubleClickEnabled": "bool",
+      "eventsEnabled": "bool",
+      "zoomingRatio": "number",
+      "doubleClickZoomingRatio": "number",
+      "zoomMin": "number",
+      "zoomMax": "number",
+      "mouseZoomDuration": "number",
+      "doubleClickZoomDuration": "number",
+      "mouseInertiaDuration": "number",
+      "mouseInertiaRatio": "number",
+      "touchInertiaDuration": "number",
+      "touchInertiaRatio": "number",
+      "doubleClickTimeout": "number",
+      "doubleTapTimeout": "number",
+      "dragTimeout": "number",
+      "autoResize": "bool",
+      "autoRescale": "?",
+      "enableCamera": "bool",
+      "enableHovering": "bool",
+      "enableEdgeHovering": "bool",
+      "edgeHoverPrecision": "number",
+      "rescaleIgnoreSize": "bool",
+      "skipErrors": "bool",
+      "nodesPowRatio": "number",
+      "edgesPowRatio": "number",
+      "animationsTime": "number"
+    },
+    "SVG": {
+      "edges": {
+        "labels": "SVGEdgeLabels",
+        "SVGEdgeLabels": "?"
+      },
+      "labels": {},
+      "nodes": {}
+    },
+    "SVGEdgeLabels": {},
+    "SVGObject": {
+      "create": "fn(object: T, a: [?])",
+      "update": "fn(object: T, a: [?])"
+    }
+  },
+  "sigma": "SigmaJs.SigmaFactory",
+  "CustomShapes": "SigmaJs.CustomShapes",
+  "ShapeLibrary": "SigmaJs.CustomShapes",
+  "!name": "sigmajs",
+  "!define": {
+    "ret": {
+      "x": "number",
+      "y": "number"
+    },
+    "ret1": {
+      "x": "number",
+      "y": "number"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "Pako": {
+    "deflate": "fn(data: Uint8Array, Array: ?, options?: ?) -> string",
+    "deflateRaw": "fn(data: Uint8Array, Array: ?, options?: ?) -> string",
+    "gzip": "fn(data: Uint8Array, Array: ?, options?: ?) -> string",
+    "inflate": "fn(data: Uint8Array, Array: ?, options?: ?) -> Uint8Array",
+    "inflateRaw": "fn(data: Uint8Array, Array: ?, options?: ?) -> Uint8Array",
+    "ungzip": "fn(data: Uint8Array, Array: ?, options?: ?) -> Uint8Array",
+    "Deflate": {
+      "!type": "fn(options?: ?)",
+      "prototype": {
+        "err": "number",
+        "msg": "string",
+        "result": "Uint8Array",
+        "Array": "fn()",
+        "onData": "fn(chunk: Uint8Array, Array: ?)",
+        "onEnd": "fn(status: number)",
+        "push": "fn(data: Uint8Array, Array: ?, mode?: number, boolean: ?) -> bool"
+      }
+    },
+    "Inflate": {
+      "!type": "fn(options?: ?)",
+      "prototype": {
+        "err": "number",
+        "msg": "string",
+        "result": "Uint8Array",
+        "Array": "fn()",
+        "string": "?",
+        "onData": "fn(chunk: Uint8Array, Array: ?)",
+        "onEnd": "fn(status: number)",
+        "push": "fn(data: Uint8Array, Array: ?, mode?: number, boolean: ?) -> bool"
+      }
+    }
+  },
+  "'pako'": "Pako",
+  "!name": "pako.d.ts"
+}

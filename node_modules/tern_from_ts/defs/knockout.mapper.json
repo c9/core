@@ -1,0 +1,10 @@
+{
+  "KnockoutMapper": {
+    "fromJS": "fn(value: ?, options?: ?, target?: ?, wrap?: bool) -> ?",
+    "toJS": "fn(value: ?, options?: ?) -> ?"
+  },
+  "KnockoutStatic": {
+    "mapper": "KnockoutMapper"
+  },
+  "!name": "knockout.mapper"
+}

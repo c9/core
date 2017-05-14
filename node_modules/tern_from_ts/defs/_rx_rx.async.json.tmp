@@ -1,0 +1,10 @@
+{
+  "Rx": {
+    "ObservableStatic": {
+      "start": "fn(func: fn(), context?: ?, scheduler?: IScheduler) -> ?",
+      "toAsync": "fn(func: fn(), context?: ?, scheduler?: IScheduler) -> fn()"
+    }
+  },
+  "rx.async": "Rx",
+  "!name": "rx.async.d.ts"
+}

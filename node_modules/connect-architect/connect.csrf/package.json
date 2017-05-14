@@ -1,0 +1,17 @@
+{
+    "name": "c9.connect.csrf",
+    "version": "0.0.1",
+
+    "main": "./csrf.js",
+    "private": true,
+
+    "plugin": {
+        "consumes": [
+            "connect",
+            "session"
+        ],
+        "provides": [
+            "connect.csrf"
+        ]
+    }
+}

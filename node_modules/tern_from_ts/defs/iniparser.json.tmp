@@ -1,0 +1,8 @@
+{
+  "iniparser": {
+    "parse": "fn(file: string, callback: fn(err: ?, data: T))",
+    "parseSync": "fn(file: string) -> T",
+    "parseString": "fn(data: string) -> T"
+  },
+  "!name": "iniparser.d.ts"
+}

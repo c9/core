@@ -1,0 +1,51 @@
+{
+  "promise-pool": {
+    "IResult": {
+      "fulfilled": "number",
+      "rejected": "number",
+      "total": "number"
+    },
+    "IProgress": {
+      "index": "number",
+      "success": "bool",
+      "error": "?",
+      "retries": "number",
+      "fulfilled": "number",
+      "rejected": "number",
+      "pending": "number",
+      "total": "number"
+    },
+    "Pool": {
+      "!type": "fn(processor: fn(data: T, index: number), concurrency: number, endless?: bool, tasksData?: [T])",
+      "prototype": {
+        "concurrency": "number",
+        "_tasksData": "?",
+        "processor": "fn(data: T, index: number)",
+        "_deferred": "?",
+        "_pauseDeferred": "?",
+        "fulfilled": "number",
+        "rejected": "number",
+        "pending": "number",
+        "total": "number",
+        "endless": "bool",
+        "retries": "number",
+        "retryInterval": "number",
+        "maxRetryInterval": "number",
+        "retryIntervalMultiplier": "number",
+        "_index": "?",
+        "_currentConcurrency": "?",
+        "onProgress": "fn(progress: IProgress)",
+        "add": "fn(taskData: T)",
+        "start": "fn(onProgress?: fn(progress: IProgress)) -> ?",
+        "_start": "fn()",
+        "_process": "fn(data: ?, index: ?)",
+        "_notifyProgress": "fn(index: ?, success: ?, err: ?, retries: ?)",
+        "_next": "fn()",
+        "pause": "fn() -> ?",
+        "resume": "fn()",
+        "reset": "fn() -> ?"
+      }
+    }
+  },
+  "!name": "promise-pool.d.ts"
+}

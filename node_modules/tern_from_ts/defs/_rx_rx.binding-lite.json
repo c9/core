@@ -1,0 +1,26 @@
+{
+  "Rx": {
+    "BehaviorSubject": {
+      "getValue": "fn() -> T"
+    },
+    "BehaviorSubjectStatic": {},
+    "ReplaySubject": {},
+    "ReplaySubjectStatic": {},
+    "ConnectableObservable": {
+      "connect": "fn() -> IDisposable",
+      "refCount": "fn() -> ?"
+    },
+    "ConnectableObservableStatic": {},
+    "Observable": {
+      "multicast": "fn(subject: ?) -> ?",
+      "publish": "fn() -> ?",
+      "share": "fn() -> ?",
+      "publishLast": "fn() -> ?",
+      "publishValue": "fn(initialValue: T) -> ?",
+      "shareValue": "fn(initialValue: T) -> ?",
+      "replay": "fn(selector?: bool, bufferSize?: number, window?: number, scheduler?: IScheduler) -> ?",
+      "shareReplay": "fn(bufferSize?: number, window?: number, scheduler?: IScheduler) -> ?"
+    }
+  },
+  "!name": "rx.binding-lite"
+}

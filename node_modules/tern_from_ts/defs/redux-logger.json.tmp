@@ -1,0 +1,16 @@
+{
+  "'redux-logger'": {
+    "ReduxLoggerOptions": {
+      "actionTransformer": "fn(action: ?)",
+      "collapsed": "bool",
+      "duration": "bool",
+      "level": "string",
+      "logger": "?",
+      "predicate": "fn(getState: Function, action: ?)",
+      "timestamp": "bool",
+      "transformer": "fn(state: ?)"
+    },
+    "createLogger": "fn(options?: ReduxLoggerOptions) -> Redux.Middleware"
+  },
+  "!name": "redux-logger.d.ts"
+}

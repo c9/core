@@ -1,0 +1,9 @@
+{
+  "Ease": {
+    "!type": "fn(func?: Function, extraParams?: [?], type?: number, power?: number)",
+    "prototype": {
+      "getRatio": "fn(p: number) -> number"
+    }
+  },
+  "!name": "Ease"
+}

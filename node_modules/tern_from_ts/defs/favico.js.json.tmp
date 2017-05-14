@@ -1,0 +1,26 @@
+{
+  "favicojs": {
+    "FavicoJsStatic": {},
+    "FavicoJsOptions": {
+      "bgColor": "string",
+      "textColor": "string",
+      "fontFamily": "string",
+      "fontStyle": "string",
+      "type": "string",
+      "position": "string",
+      "animation": "string",
+      "elementId": "string",
+      "element": "HTMLElement",
+      "dataUrl": "fn(url: string)"
+    },
+    "Favico": {
+      "badge": "fn(number: number)",
+      "reset": "fn()",
+      "image": "fn(imageElement: HTMLElement)",
+      "video": "fn(imageElement: HTMLElement)",
+      "webcam": "fn()"
+    }
+  },
+  "Favico": "favicojs.FavicoJsStatic",
+  "!name": "favico.js.d.ts"
+}

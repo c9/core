@@ -1,0 +1,15 @@
+{
+  "ini": {
+    "EncodeOptions": {
+      "section": "string",
+      "whitespace": "bool"
+    },
+    "decode": "fn(inistring: string) -> ?",
+    "parse": "fn(initstring: string) -> ?",
+    "encode": "fn(object: ?, options?: EncodeOptions) -> string",
+    "stringify": "fn(object: ?, options?: EncodeOptions) -> string",
+    "safe": "fn(val: string) -> string",
+    "unsafe": "fn(val: string) -> string"
+  },
+  "!name": "ini.d.ts"
+}

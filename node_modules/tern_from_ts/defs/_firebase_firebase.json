@@ -1,0 +1,126 @@
+{
+  "FirebaseAuthResult": {
+    "auth": "?",
+    "expires": "number"
+  },
+  "FirebaseDataSnapshot": {
+    "exists": "fn() -> bool",
+    "val": "fn() -> ?",
+    "child": "fn(childPath: string) -> FirebaseDataSnapshot",
+    "forEach": "fn(childAction: fn(childSnapshot: FirebaseDataSnapshot)) -> bool",
+    "hasChild": "fn(childPath: string) -> bool",
+    "hasChildren": "fn() -> bool",
+    "key": "fn() -> string",
+    "name": "fn() -> string",
+    "numChildren": "fn() -> number",
+    "ref": "fn() -> Firebase",
+    "getPriority": "fn() -> ?",
+    "exportVal": "fn() -> Object"
+  },
+  "FirebaseOnDisconnect": {
+    "set": "fn(value: ?, onComplete?: fn(error: ?))",
+    "setWithPriority": "fn(value: ?, priority: string, onComplete?: fn(error: ?))",
+    "update": "fn(value: Object, onComplete?: fn(error: ?))",
+    "remove": "fn(onComplete?: fn(error: ?))",
+    "cancel": "fn(onComplete?: fn(error: ?))"
+  },
+  "FirebaseQuery": {
+    "on": "fn(eventType: string, callback: fn(dataSnapshot: FirebaseDataSnapshot, prevChildName?: string), cancelCallback?: fn(error: ?), context?: Object) -> fn(dataSnapshot: FirebaseDataSnapshot, prevChildName?: string)",
+    "off": "fn(eventType?: string, callback?: fn(dataSnapshot: FirebaseDataSnapshot, prevChildName?: string), context?: Object)",
+    "once": "fn(eventType: string, successCallback: fn(dataSnapshot: FirebaseDataSnapshot), context?: Object)",
+    "orderByChild": "fn(key: string) -> FirebaseQuery",
+    "orderByKey": "fn() -> FirebaseQuery",
+    "orderByValue": "fn() -> FirebaseQuery",
+    "orderByPriority": "fn() -> FirebaseQuery",
+    "limit": "fn(limit: number) -> FirebaseQuery",
+    "startAt": "fn(value: string, key?: string) -> FirebaseQuery",
+    "endAt": "fn(value: string, key?: string) -> FirebaseQuery",
+    "equalTo": "fn(value: string, key?: string) -> FirebaseQuery",
+    "limitToFirst": "fn(limit: number) -> FirebaseQuery",
+    "limitToLast": "fn(limit: number) -> FirebaseQuery",
+    "ref": "fn() -> Firebase"
+  },
+  "Firebase": {
+    "auth": "fn(authToken: string, onComplete?: fn(error: ?, result: FirebaseAuthResult), onCancel?: fn(error: ?))",
+    "authWithCustomToken": "fn(autoToken: string, onComplete: fn(error: ?, authData: FirebaseAuthData), options?: Object)",
+    "authAnonymously": "fn(onComplete: fn(error: ?, authData: FirebaseAuthData), options?: Object)",
+    "authWithPassword": "fn(credentials: FirebaseCredentials, onComplete: fn(error: ?, authData: FirebaseAuthData), options?: Object)",
+    "authWithOAuthPopup": "fn(provider: string, onComplete: fn(error: ?, authData: FirebaseAuthData), options?: Object)",
+    "authWithOAuthRedirect": "fn(provider: string, onComplete: fn(error: ?), options?: Object)",
+    "authWithOAuthToken": "fn(provider: string, credentials: string, onComplete: fn(error: ?, authData: FirebaseAuthData), options?: Object)",
+    "getAuth": "fn() -> FirebaseAuthData",
+    "onAuth": "fn(onComplete: fn(authData: FirebaseAuthData), context?: Object)",
+    "offAuth": "fn(onComplete: fn(authData: FirebaseAuthData), context?: Object)",
+    "unauth": "fn()",
+    "child": "fn(childPath: string) -> Firebase",
+    "parent": "fn() -> Firebase",
+    "root": "fn() -> Firebase",
+    "key": "fn() -> string",
+    "name": "fn() -> string",
+    "set": "fn(value: ?, onComplete?: fn(error: ?))",
+    "update": "fn(value: Object, onComplete?: fn(error: ?))",
+    "remove": "fn(onComplete?: fn(error: ?))",
+    "push": "fn(value?: ?, onComplete?: fn(error: ?)) -> Firebase",
+    "setWithPriority": "fn(value: ?, priority: string, onComplete?: fn(error: ?))",
+    "setPriority": "fn(priority: string, onComplete?: fn(error: ?))",
+    "transaction": "fn(updateFunction: fn(currentData: ?), onComplete?: fn(error: ?, committed: bool, snapshot: FirebaseDataSnapshot), applyLocally?: bool)",
+    "createUser": "fn(credentials: FirebaseCredentials, onComplete: fn(error: ?, userData: ?))",
+    "changeEmail": "fn(credentials: FirebaseChangeEmailCredentials, onComplete: fn(error: ?))",
+    "changePassword": "fn(credentials: FirebaseChangePasswordCredentials, onComplete: fn(error: ?))",
+    "removeUser": "fn(credentials: FirebaseCredentials, onComplete: fn(error: ?))",
+    "resetPassword": "fn(credentials: FirebaseResetPasswordCredentials, onComplete: fn(error: ?))",
+    "onDisconnect": "fn() -> FirebaseOnDisconnect"
+  },
+  "FirebaseStatic": {
+    "goOffline": "fn()",
+    "goOnline": "fn()",
+    "ServerValue": {
+      "TIMESTAMP": "?"
+    }
+  },
+  "'firebase'": "Firebase",
+  "FirebaseAuthData": {
+    "uid": "string",
+    "provider": "string",
+    "token": "string",
+    "expires": "number",
+    "auth": "Object",
+    "google": "FirebaseAuthDataGoogle"
+  },
+  "FirebaseAuthDataGoogle": {
+    "accessToken": "string",
+    "cachedUserProfile": "FirebaseAuthDataGoogleCachedUserProfile",
+    "displayName": "string",
+    "email": "string",
+    "id": "string",
+    "profileImageURL": "string"
+  },
+  "FirebaseAuthDataGoogleCachedUserProfile": {
+    "family name": "string",
+    "gender": "string",
+    "given name": "string",
+    "id": "string",
+    "link": "string",
+    "locale": "string",
+    "name": "string",
+    "picture": "string"
+  },
+  "FirebaseCredentials": {
+    "email": "string",
+    "password": "string"
+  },
+  "FirebaseChangePasswordCredentials": {
+    "email": "string",
+    "oldPassword": "string",
+    "newPassword": "string"
+  },
+  "FirebaseChangeEmailCredentials": {
+    "oldEmail": "string",
+    "newEmail": "string",
+    "password": "string"
+  },
+  "FirebaseResetPasswordCredentials": {
+    "email": "string"
+  },
+  "!name": "firebase"
+}

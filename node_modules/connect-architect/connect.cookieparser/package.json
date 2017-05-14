@@ -1,0 +1,16 @@
+{
+    "name": "c9.connect.cookieparser",
+    "version": "0.0.1",
+
+    "main": "./cookieparser.js",
+    "private": true,
+
+    "plugin": {
+        "consumes": [
+            "connect"
+        ],
+        "provides": [
+            "connect.cookieparser"
+        ]
+    }
+}

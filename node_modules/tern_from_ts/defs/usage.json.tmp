@@ -1,0 +1,18 @@
+{
+  "usage": {
+    "ResultObject": {
+      "memory": "number",
+      "memoryInfo": {
+        "rss": "number",
+        "vsize": "number"
+      },
+      "cpu": "number"
+    },
+    "Options": {
+      "keepHistory": "bool"
+    },
+    "lookup": "fn(pid: number, callback: fn(err: Error, result: ResultObject))",
+    "clearHistory": "fn(pid?: number)"
+  },
+  "!name": "usage.d.ts"
+}

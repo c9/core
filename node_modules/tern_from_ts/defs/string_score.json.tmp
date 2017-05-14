@@ -1,0 +1,7 @@
+{
+  "string_score": {},
+  "String": {
+    "score": "fn(word: string, fuzzy?: number)"
+  },
+  "!name": "string_score.d.ts"
+}

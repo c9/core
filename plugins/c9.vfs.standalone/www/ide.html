@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Cloud9</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> 
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+</head>
+<body>
+    <link rel="stylesheet" type="text/css" href="./plugins/c9.ide.layout.classic/loading-flat.css" />
+    <div id="loadingcontainer" class="">
+        <div id="loadingide">
+            <div class="cool-message"></div>
+            <div class="status" style="display:none"><div class="spinner"></div></div>
+            
+            <div id="content" class="loading-progress">
+            </div>
+            <div class="footer">
+                <a href="https://docs.c9.io">Documentation</a> | 
+                <a href="http://status.c9.io">Server Status</a> | 
+                <a href="http://support.c9.io">Support</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        var loadingIde = document.querySelector("#loadingide");
+        document.body.className = "loading " + loadingIde.className;
+    
+        var messages = [
+            "Share your code by sharing your workspace URL.",
+            "Test your code in different browsers with the Sauce Labs plugin.",
+            "Each workspace is its own Ubuntu virtual machine.",
+            "Run 'dpkg -l' in the terminal to see all packages installed.",
+            "Remember to run your code on port 8080, 8081, or 8082.",
+            "Use the Collaborate panel when collaborating for optimal teamwork.",
+            "It's better up here.",
+            "Happy coding!",
+            "Everything as you left it.",
+            "Thank you Ada Lovelace!",
+            "POST /desktop/era",
+            "Try using VIM mode!",
+            "Not your grandmother's IDE",
+            "Makes your laptop cooler"
+        ];
+        
+        var mac_keybindings = [
+            "Press Ctrl-Option-Right to select the next instance of a word.",
+            "Press Cmd-. to show all keyboard commands.",
+            "To rename a variable, highlight it then press Option-Cmd-R.",
+            "Press Option-W to close your current IDE tab.",
+            "Press Cmd-D to delete the current line of code",
+            "Press Option-Tab to go to the next IDE tab.",
+            "Press Option-Shift-T to reopen a tab you closed.",
+            "Press Option-T to open a new terminal at any time.",
+            "Press Cmd-E to search for a file by name.",
+            "Press Cmd-Shift-E to search for a function by name.",
+            "Press Option-S to switch between a terminal and an editor.",
+        ];
+        
+        var win_keybindings = [
+            "Press Ctrl-Alt-Right to select the next instance of a word.",
+            "Press Ctrl-. to show all keyboard commands.",
+            "To rename a variable, highlight it then press Ctrl-Alt-R.",
+            "Press Alt-W to close your current IDE tab.",
+            "Press Ctrl-D to delete the current line of code",
+            "Press Alt-Shift-T to reopen a tab you closed.",
+            "Press Alt-T to open a new terminal at any time.",
+            "Press Ctrl-E to search for a file by name.",
+            "Press Ctrl-Shift-E to search for a function by name.",
+            "Press Alt-S to switch between a terminal and an editor.",
+        ];
+        
+        var isMac = (navigator.platform == "MacIntel" || navigator.platform == "Macintosh" || navigator.platform == "MacPPC");
+        var platform_keybindings = isMac ? mac_keybindings : win_keybindings;
+        messages = messages.concat(platform_keybindings);
+        
+        var idx = Math.floor(Math.random() * messages.length);
+        if (idx == messages.length) idx = messages.length - 1;
+        var msg = messages[idx];
+        
+        document.querySelector("#loadingide .cool-message").innerHTML = msg;
+    
+        setTimeout(function(){
+            var s = document.querySelector("#loadingide .status");
+            if (s) s.style.display = "block";
+        }, 2000);
+        
+        window.hideLoader = function(){
+            var loader = document.getElementById("loadingcontainer");
+            loader.parentNode.removeChild(loader);
+            
+            document.body.className = document.body.className.replace("loading " + loadingIde.className, "");
+        };
+    </script>
+    <script src="/static/mini_require.js"></script>
+    <script src="/configs/require_config.js"></script>
+    <script>
+        var start = Date.now();
+        
+        var plugins;
+        require(["lib/architect/architect", "text!/ide.html?config=1"], function (architect, pluginJSON) {
+            plugins = JSON.parse(pluginJSON);
+            plugins.push({
+                consumes: [],
+                provides: ["auth.bootstrap"],
+                setup: function(options, imports, register) {
+                    register(null, {
+                        "auth.bootstrap": {
+                            login: function(callback) { callback(); }
+                        }
+                    });
+                }
+            });
+            
+            architect.resolveConfig(plugins, function (err, config) {
+                if (err) throw err;
+
+                var errored;
+                var app = architect.createApp(config, function(err, app){
+                    if (err) {
+                        errored = true;
+                        console.error(err.stack);
+                        alert(err);
+                    }
+                });
+                
+                app.on("error", function(err){
+                    console.error(err.stack);
+                    if (!errored)
+                        alert(err);
+                });
+                
+                app.on("service", function(name, plugin, options) {
+                    if (!plugin.name)
+                        plugin.name = name;
+                });
+                
+                app.on("ready", function() {
+                    window.app = app.services;
+                    window.app.__defineGetter__("_ace", function(){
+                        return this.tabManager.focussedTab.editor.ace;
+                    });
+                    Object.keys(window.app).forEach(function(n) {
+                        if (/[^\w]/.test(n))
+                            window.app[n.replace(/[^\w]/, "_") + "_"] = window.app[n];
+                    });
+                    
+                    done();
+                });
+
+                // For Development only
+                function done() {
+                    var vfs = app.services.vfs;
+                    var c9 = app.services.c9;
+                    var settings = app.services.settings;
+                    
+                    c9.ready();
+                    c9.totalLoadTime = Date.now() - start;
+
+                    console.warn("Total Load Time: ", Date.now() - start);
+                    
+                    if (window.hideLoader) {
+                        var waitVfs = function(fn) {
+                            vfs.connected ? fn() : vfs.once("connect", fn);
+                        };
+                        var waitSettings = function(fn) {
+                            settings.inited ? fn() : settings.once("read", fn);
+                        };
+                        waitVfs(waitSettings.bind(null, window.hideLoader));
+                    }
+                }
+            }, function loadError(mod) {
+                if (mod.id === "plugins/c9.ide.clipboard/html5")
+                    return alert("Unable to load html5.js.\n\nThis may be caused by a false positive in your virus scanner. Please try reloading with ?packed=1 added to the URL.");
+            });
+        });
+    </script>
+</body>
+</html>

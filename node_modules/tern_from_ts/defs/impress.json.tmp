@@ -1,0 +1,11 @@
+{
+  "Impress": {
+    "init": "fn()",
+    "getStep": "fn(step: ?) -> ?",
+    "goto": "fn(element: ?, duration?: number) -> ?",
+    "prev": "fn() -> ?",
+    "next": "fn() -> ?"
+  },
+  "impress": "fn() -> Impress",
+  "!name": "impress.d.ts"
+}

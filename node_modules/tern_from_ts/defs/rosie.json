@@ -1,0 +1,24 @@
+{
+  "rosie": {
+    "IFactoryStatic": {
+      "define": "fn(name: String, constructor?: Function) -> IFactory",
+      "build": "fn(name: string, attributes?: ?, options?: Object) -> Object",
+      "buildList": "fn(name: string, size: number, attributes?: ?, options?: Object) -> [Object]",
+      "attributes": "fn(name: string, attributes: Object, options?: Object) -> Object"
+    },
+    "IFactory": {
+      "attr": "fn(name: string, dependenciesOrValue: ?, string: ?, value?: ?) -> IFactory",
+      "option": "fn(name: string, dependenciesOrValue: ?, string: ?, value?: ?) -> IFactory",
+      "sequence": "fn(name: string, dependencies?: [string], builder?: Function) -> IFactory",
+      "after": "fn(functionArg: Function) -> IFactory",
+      "inherits": "fn(functionArg: Function) -> IFactory",
+      "attributes": "fn(attributes: Object, options: Object) -> Object",
+      "options": "fn(options: Object) -> Object",
+      "build": "fn(attributes: Object, options: Object) -> Object",
+      "buildList": "fn(size: number, attributes: Object, options: Object) -> [Object]"
+    },
+    "Factory": "rosie.IFactoryStatic"
+  },
+  "'rosie'": "rosie",
+  "!name": "rosie"
+}

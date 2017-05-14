@@ -1,0 +1,525 @@
+{
+  "'mapsjs'": {
+    "clusterPoints": "fn(options: ?) -> [ret]",
+    "envelope": {
+      "!type": "fn(minX: number, minY: number, maxX: number, maxY: number)",
+      "prototype": {
+        "getMinX": "fn() -> number",
+        "getMinY": "fn() -> number",
+        "getMaxX": "fn() -> number",
+        "getMaxY": "fn() -> number",
+        "clone": "fn() -> envelope",
+        "createFromMargins": "fn(marginX: number, marginY: number) -> envelope",
+        "createFromBleed": "fn(bleed: number) -> envelope",
+        "getCenter": "fn() -> point",
+        "getWidth": "fn() -> number",
+        "getHeight": "fn() -> number",
+        "getArea": "fn() -> number",
+        "toObject": "fn() -> envObject",
+        "getUL": "fn() -> point",
+        "getUR": "fn() -> point",
+        "getLL": "fn() -> point",
+        "getLR": "fn() -> point",
+        "getAspect": "fn() -> number",
+        "equals": "fn(env: envelope) -> bool",
+        "toGeometry": "fn() -> geometry",
+        "contains": "fn(pt: point) -> bool"
+      },
+      "createFromMdnXml": "fn(xml: string) -> envelope",
+      "createFromPoints": "fn(pt1: point, pt2: point) -> envelope",
+      "createFromCenterAndMargins": "fn(centerPtX: number, centerPtY: number, marginX: number, marginY: number) -> envelope",
+      "intersects": "fn(env1: envelope, env2: envelope) -> bool",
+      "union": "fn(env1: envelope, env2: envelope) -> envelope"
+    },
+    "geometry": {
+      "!type": "fn(isPath?: bool, isClosed?: bool)",
+      "prototype": {
+        "factoryPoly": "fn() -> ?",
+        "clone": "fn() -> geometry",
+        "foreachVertex": "fn(action: fn(setIdx: number, idx: number, x: number, y: number, s: [number]))",
+        "getBounds": "fn() -> envelope",
+        "getIsPath": "fn() -> bool",
+        "getIsClosed": "fn() -> bool",
+        "getSetCount": "fn() -> number",
+        "getSet": "fn(idx: number) -> [number]",
+        "pushSet": "fn(s: [number])",
+        "popSet": "fn() -> [number]",
+        "toSvgPathData": "fn() -> string",
+        "addPointToLastSet": "fn(pt: point) -> ret1",
+        "isValid": "fn() -> bool",
+        "toWkt": "fn() -> string",
+        "findNearestVertex": "fn(pt: point) -> ret2",
+        "findNearestSegment": "fn(pt: point, close?: bool) -> ret3",
+        "getLabelingPoint": "fn(idx?: number) -> point",
+        "contains": "fn(pt: point) -> bool"
+      },
+      "polyline": {
+        "!type": "fn(geom: geometry)",
+        "prototype": {
+          "getGeometry": "fn() -> geometry",
+          "clone": "fn() -> polyline",
+          "getLineCount": "fn() -> number",
+          "getLine": "fn(idx: number) -> [number]",
+          "pushLine": "fn(s: [number])",
+          "popLine": "fn() -> [number]",
+          "getProjectedDistance": "fn(idx: number) -> number",
+          "getActualDistance": "fn(idx?: number) -> number",
+          "intersects": "fn(geom: geometry) -> bool"
+        }
+      },
+      "polygon": {
+        "!type": "fn(geom: geometry)",
+        "prototype": {
+          "getGeometry": "fn() -> geometry",
+          "clone": "fn() -> polygon",
+          "getRingCount": "fn() -> number",
+          "getRing": "fn(idx: number) -> [number]",
+          "pushRing": "fn(s: [number])",
+          "popRing": "fn() -> [number]",
+          "getProjectedArea": "fn(idx: number) -> number",
+          "getProjectedPerimeter": "fn(idx: number) -> number",
+          "getActualArea": "fn(idx?: number) -> number",
+          "getActualPerimeter": "fn(idx?: number) -> number",
+          "intersects": "fn(geom: geometry) -> bool",
+          "overlaps": "fn(poly: polygon) -> bool",
+          "toMultiPolygon": "fn() -> [polygon]"
+        }
+      }
+    },
+    "geometryStyle": {
+      "!type": "fn(options?: styleObj)",
+      "prototype": {
+        "getOutlineThicknessPix": "fn() -> number",
+        "setOutlineThicknessPix": "fn(t: number)",
+        "getOutlineColor": "fn() -> string",
+        "setOutlineColor": "fn(c: string)",
+        "getOutlineOpacity": "fn() -> number",
+        "setOutlineOpacity": "fn(o: number)",
+        "getFillColor": "fn() -> string",
+        "setFillColor": "fn(c: string)",
+        "getFillOpacity": "fn() -> number",
+        "setFillOpacity": "fn(o: number)",
+        "getDashArray": "fn() -> string",
+        "setDashArray": "fn(da: string)"
+      }
+    },
+    "license": "string",
+    "point": {
+      "!type": "fn(x: number, y: number)",
+      "prototype": {
+        "getX": "fn() -> number",
+        "getY": "fn() -> number",
+        "toProps": "fn() -> pointObject",
+        "equals": "fn(pt: point) -> bool",
+        "createOffsetBy": "fn(dx: number, dy: number) -> point",
+        "convertToPoly": "fn(side: number, radius: number) -> geometry.polygon",
+        "clone": "fn() -> point",
+        "getBounds": "fn() -> envelope",
+        "distanceTo": "fn(pt: point) -> number"
+      },
+      "distance": "fn(x1: number, y1: number, x2: number, y2: number) -> number",
+      "midpoint": "fn(x1: number, y1: number, x2: number, y2: number) -> point"
+    },
+    "sphericalMercator": {
+      "getEpsg": "fn() -> number",
+      "getMinZoomLevel": "fn() -> number",
+      "setMinZoomLevel": "fn(minZ: number)",
+      "getMaxZoomLevel": "fn() -> number",
+      "setMaxZoomLevel": "fn(maxZ: number)",
+      "getTileSizePix": "fn() -> number",
+      "getDpi": "fn() -> number",
+      "setDpi": "fn(dpi: number)",
+      "getRadius": "fn() -> number",
+      "getCircumference": "fn() -> number",
+      "getHalfCircumference": "fn() -> number",
+      "getQuadTreeNodeToMapEnvelope": "fn(x: number, y: number, z: number) -> envelope",
+      "getQuadTreeNodeRangeFromEnvelope": "fn(env: envelope, z: number) -> envelope",
+      "getProjectionUnitsPerPixel": "fn(zoomLevel: number) -> number",
+      "getActualShapeScaleTransform": "fn(mapPtY: number) -> number",
+      "getActualUnitsPerPixel": "fn(mapPt: point, zoomLevel: number) -> number",
+      "getBestFitZoomLevelByExtents": "fn(envelopeMap: envelope, envelopeDevice: envelope) -> number",
+      "getQuadKeyFromXYZ": "fn(x: number, y: number, z: number) -> string",
+      "getXYZFromQuadKey": "fn(key: string) -> ret4",
+      "projectFromLatLon": "fn(lonLat: point) -> point",
+      "deprojectToLatLon": "fn(mapPt: point) -> point"
+    },
+    "styledGeometry": {
+      "!type": "fn(geom: geometry, gStyle?: geometryStyle)",
+      "prototype": {
+        "setGeometry": "fn(g: geometry)",
+        "setGeometryStyle": "fn(gs: geometryStyle)",
+        "getGeometry": "fn() -> geometry",
+        "getGeometryStyle": "fn() -> geometryStyle",
+        "getOutlineThicknessPix": "fn() -> number",
+        "setOutlineThicknessPix": "fn(t: number)",
+        "getOutlineColor": "fn() -> string",
+        "setOutlineColor": "fn(c: string)",
+        "getOutlineOpacity": "fn() -> number",
+        "setOutlineOpacity": "fn(o: number)",
+        "getFillColor": "fn() -> string",
+        "setFillColor": "fn(c: string)",
+        "getFillOpacity": "fn() -> number",
+        "setFillOpacity": "fn(o: number)",
+        "getDashArray": "fn() -> string",
+        "setDashArray": "fn(da: string)",
+        "getAnimation": "fn() -> fn(pathElement: HTMLElement, loopback: fn())",
+        "setAnimation": "fn(action: fn(pathElement: HTMLElement, loopback: fn()))",
+        "createSvgPathElement": "fn(key: string, mapUnitsPerPix: number) -> HTMLElement",
+        "renderPathToCanvasContext": "fn(ctx: CanvasRenderingContext2D)"
+      }
+    },
+    "version": "string",
+    "wkt": {
+      "parsePoint": "fn(wkt: string) -> point",
+      "parseMultiPoint": "fn(wkt: string) -> geometry",
+      "parseLineString": "fn(wkt: string) -> geometry",
+      "parseMultiLineString": "fn(wkt: string) -> geometry",
+      "parsePolygon": "fn(wkt: string) -> geometry",
+      "parseMultiPolygon": "fn(wkt: string) -> geometry",
+      "parse": "fn(wkt: string) -> ?",
+      "toMultiPolygonString": "fn(polys: [geometry.polygon]) -> string"
+    },
+    "tile": {
+      "layer": {
+        "!type": "fn(id: string, useBackdrop?: bool, maxConcurrentRequests?: number)",
+        "prototype": {
+          "getId": "fn() -> string",
+          "getUseBackdrop": "fn() -> bool",
+          "getDescriptor": "fn() -> ?",
+          "setDescriptor": "fn(d: ?)",
+          "notifyDescriptorChange": "fn()",
+          "getRequestor": "fn() -> tile.requestor",
+          "setRequestor": "fn(req: tile.requestor, desc?: ?)",
+          "getRenderer": "fn() -> tile.renderer",
+          "setRenderer": "fn(r: ?)",
+          "notifyRendererChange": "fn()",
+          "getIsVisible": "fn() -> bool",
+          "setIsVisible": "fn(v: bool)",
+          "getOpacity": "fn() -> number",
+          "setOpacity": "fn(o: number)",
+          "getMinZoomLevel": "fn() -> number",
+          "setMinZoomLevel": "fn(minZ: number)",
+          "getMaxZoomLevel": "fn() -> number",
+          "setMaxZoomLevel": "fn(maxZ: number)",
+          "setTileBleedPix": "fn(bleed: number)",
+          "setRetainInterlevelContent": "fn(retain: bool)",
+          "setEnableTileFadeIn": "fn(fadeIn: bool)",
+          "setNotifyErrorAction": "fn(action: fn())",
+          "setNotifyLoadingQueueHasEmptiedAction": "fn(action: fn())",
+          "setNotifyLoadingQueueProgressAction": "fn(action: fn(tilesLoaded: number, tilesTotal: number))",
+          "setRequestProcessor": "fn(processorFunc: fn(requestor: tile.requestor, descriptor: ?, quad: tile.quad, timeoutMs: number, completeAction: fn(img: HTMLElement), errorAction: fn(msg: string)))",
+          "preload": "fn(extents: envelope, startZoomLevel: number, endZoomLevel: number)",
+          "compose": "fn(extentsMapUnits: envelope, extentsDeviceUnits: envelope) -> ret5",
+          "dispose": "fn()"
+        }
+      },
+      "layerOptions": {
+        "!type": "fn(id: string, options: ?)",
+        "prototype": {
+          "getTileLayer": "fn() -> tile.layer",
+          "getId": "fn() -> string",
+          "getOptions": "fn() -> ?"
+        }
+      },
+      "quad": {
+        "prototype": {
+          "getX": "fn() -> number",
+          "getY": "fn() -> number",
+          "getLevel": "fn() -> number",
+          "getEnvelope": "fn() -> envelope",
+          "getKey": "fn() -> string",
+          "equals": "fn(q: quad) -> bool",
+          "factoryParent": "fn(ancestorsBack: number) -> quad"
+        },
+        "factoryQuadFromKey": "fn(key: string) -> quad"
+      },
+      "renderer": {
+        "!type": "fn(options?: ?)",
+        "prototype": {
+          "setRenderPoint": "fn(func: fn(pt: point, context: CanvasRenderingContext2D))",
+          "setRenderGeometry": "fn(func: fn(shape: geometry, context: CanvasRenderingContext2D))",
+          "setRenderBitmap": "fn(func: fn(img: HTMLElement, context: CanvasRenderingContext2D, contextSize: number, bleed: number))"
+        }
+      },
+      "rendererDensityMap": {
+        "!type": "fn()",
+        "prototype": {
+          "setBleed": "fn(bleed: number)",
+          "setGridSize": "fn(gridSize: number)",
+          "setFilterStdDevRadius": "fn(filterStdDevRadius: number)",
+          "setColorMatrix": "fn(matrix: [[number]])",
+          "setMinCellValue": "fn(min: number)",
+          "setRowAction": "fn(action: fn(row: ?))",
+          "notifyRecompute": "fn(extents?: envelope)"
+        }
+      },
+      "requestor": {
+        "!type": "fn()",
+        "prototype": {
+          "getFormattedEndpoint": "fn(quad: quad, descriptor: ?) -> string",
+          "getLocalData": "fn(quad: quad, descriptor: ?) -> string",
+          "hash": "fn(descriptor: ?) -> string",
+          "getIsRestImage": "fn() -> bool",
+          "setIsRestImage": "fn(flag: bool)",
+          "getUsesEndpoint": "fn() -> bool",
+          "setUsesEndpoint": "fn(flag: bool)",
+          "getDataFormat": "fn() -> string",
+          "setDataFormat": "fn(df: string)",
+          "getCacheEnabled": "fn() -> bool",
+          "setCacheEnabled": "fn(flag: bool)",
+          "getTimeoutMs": "fn() -> number",
+          "setTimeoutMs": "fn(ms: number)",
+          "getKeyVals": "fn() -> [ret6]",
+          "setKeyVals": "fn(options: [options1])",
+          "getMaxAvailableZoomLevel": "fn() -> number",
+          "setMaxAvailableZoomLevel": "fn(max: number)"
+        }
+      },
+      "requestorBing": {
+        "!type": "fn(options?: ?)",
+        "prototype": {
+          "getEndpoint": "fn() -> string",
+          "getScheme": "fn() -> string",
+          "setScheme": "fn(s: string)",
+          "getGeneration": "fn() -> string",
+          "setGeneration": "fn(g: string)",
+          "getMarket": "fn() -> string",
+          "setMarket": "fn(m: string)",
+          "getBingKey": "fn() -> string",
+          "setBingKey": "fn(key: string)"
+        }
+      },
+      "requestorMDNRest": {
+        "!type": "fn(endpoint: string, options?: ?)",
+        "prototype": {
+          "getEndpoint": "fn() -> string"
+        }
+      },
+      "descriptorMDNRestMap": {
+        "!type": "fn(mapId: string, options?: ?)",
+        "prototype": {
+          "setSuspendDescriptorChangeNotifications": "fn(flag: bool)",
+          "getMapId": "fn() -> string",
+          "getVersion": "fn() -> string",
+          "setVersion": "fn(v: string)",
+          "getImageType": "fn() -> string",
+          "setImageType": "fn(t: string)",
+          "getBleedRatio": "fn() -> number",
+          "setBleedRatio": "fn(br: number)",
+          "getMapCacheOption": "fn() -> string",
+          "setMapCacheOption": "fn(mco: string)",
+          "getMapCacheName": "fn() -> string",
+          "setMapCacheName": "fn(mcn: string)",
+          "getUseQuadKeyForMapCacheName": "fn() -> bool",
+          "setUseQuadKeyForMapCacheName": "fn(flag: bool)",
+          "getBackgroundColorStr": "fn() -> string",
+          "setBackgroundColor": "fn(a: number, r: number, g: number, b: number)",
+          "getIsBackgroundTransparent": "fn() -> bool",
+          "setLayerVisibility": "fn(layerId: string, isVisible: bool)",
+          "getLayerVisibility": "fn(layerId: string) -> bool",
+          "setLayerOutline": "fn(layerId: string, a: number, r: number, g: number, b: number, thk: number)",
+          "getLayerOutline": "fn(layerId: string) -> ret7",
+          "setLayerFill": "fn(layerId: string, a: number, r: number, g: number, b: number)",
+          "setLayerFillAsExpression": "fn(layerId: string, exp: string)",
+          "getLayerFill": "fn(layerId: string) -> string",
+          "setLayerWhere": "fn(layerId: string, where: string, merge: bool)",
+          "setLayerWhereSep": "fn(sep: string)",
+          "getLayerWhereSep": "fn() -> string",
+          "getLayerWhere": "fn(layerId: string) -> string",
+          "getTag": "fn() -> string",
+          "setTag": "fn(tag: string)"
+        }
+      },
+      "descriptorMDNRestFeature": {
+        "!type": "fn(mapId: string, layerId: string, options?: ?)",
+        "prototype": {
+          "getMapId": "fn() -> string",
+          "getLayerId": "fn() -> string",
+          "getVersion": "fn() -> string",
+          "setVersion": "fn(v: string)",
+          "getBleedRatio": "fn() -> number",
+          "setBleedRatio": "fn(br: number)",
+          "getFieldNames": "fn() -> [string]",
+          "setFieldNames": "fn(names: [string])",
+          "getClipToRenderBounds": "fn() -> bool",
+          "setClipToRenderBounds": "fn(flag: bool)",
+          "getSimplifyEnabled": "fn() -> bool",
+          "setSimplifyEnabled": "fn(flag: bool)",
+          "setNotifyDescriptorChangeAction": "fn(action: fn())"
+        }
+      },
+      "requestorOpen": {
+        "!type": "fn(endpoint: string, subdomains: [string], options?: ?)",
+        "prototype": {}
+      },
+      "requestorLocal": {
+        "!type": "fn(options?: ?)",
+        "prototype": {
+          "getSource": "fn() -> [ret8]",
+          "setSource": "fn(data: [data])",
+          "getParsedData": "fn() -> ret9"
+        }
+      },
+      "descriptorLocal": {
+        "!type": "fn(options: ?)",
+        "prototype": {}
+      }
+    },
+    "pointObject": {
+      "x": "number",
+      "y": "number"
+    },
+    "envObject": {
+      "minX": "number",
+      "minY": "number",
+      "maxX": "number",
+      "maxY": "number"
+    },
+    "extentChangeStatsObj": {
+      "centerX": "number",
+      "centerY": "number",
+      "centerLat": "number",
+      "centerLon": "number",
+      "zoomLevel": "number",
+      "mapScale": "number",
+      "mapScaleProjected": "number",
+      "mapUnitsPerPixel": "number",
+      "extents": "envelope"
+    },
+    "repositionStatsObj": {
+      "centerX": "number",
+      "centerY": "number",
+      "zoomLevel": "number",
+      "mapUnitsPerPixel": "number"
+    },
+    "beginDigitizeOptions": {
+      "key": "string",
+      "shapeType": "string",
+      "geometryStyle": "geometryStyle",
+      "styledGeometry": "styledGeometry",
+      "nodeTapAndHoldAction": "fn(setIdx: number, idx: number)",
+      "nodeMoveAction": "fn(x: number, y: number, actionType: string)",
+      "shapeChangeAction": "fn()",
+      "envelopeEndAction": "fn(env: envelope)",
+      "circleEndAction": "fn(circle: geometry.polygon)",
+      "suppressNodeAdd": "bool",
+      "leavePath": "bool"
+    },
+    "styleObj": {
+      "fillColor": "string",
+      "fillOpacity": "number",
+      "outlineColor": "string",
+      "outlineOpacity": "number",
+      "outlineThicknessPix": "number",
+      "dashArray": "string"
+    },
+    "mapsjsWidget": {
+      "getMapCenter": "fn() -> point",
+      "setMapCenter": "fn(center: point)",
+      "setMapCenterAnimate": "fn(center: point, durationMs?: number, completeAction?: fn())",
+      "setMapCenterToGeolocationAnimate": "fn(durationMs?: number, completeAction?: fn())",
+      "offsetMapCenterByPixelDelta": "fn(dx: number, dy: number)",
+      "offsetMapCenterByPixelDeltaAnimate": "fn(dx: number, dy: number, durationMs?: number)",
+      "getZoomLevel": "fn() -> number",
+      "setZoomLevel": "fn(zl: number)",
+      "setMinZoomLevel": "fn(zl: number)",
+      "setMaxZoomLevel": "fn(zl: number)",
+      "setZoomLevelAnimate": "fn(zl: number, durationMs?: number, completeAction?: fn())",
+      "zoomDelta": "fn(delta: number)",
+      "zoomDeltaAnimate": "fn(delta: number, durationMs?: number)",
+      "flyTo": "fn(center: point, zl: number, durationMs?: number, completeAction?: fn())",
+      "getMapExtents": "fn() -> envelope",
+      "getMapUnitsPerPixel": "fn() -> number",
+      "getViewExtentsInPix": "fn() -> ret10",
+      "getProjectedMapScale": "fn() -> number",
+      "getActualMapScale": "fn() -> number",
+      "getBestFitZoomLevelByExtents": "fn(extentsNew: envelope) -> number",
+      "redraw": "fn()",
+      "resize": "fn()",
+      "pushTileLayer": "fn(tl: tile.layer)",
+      "popTileLayer": "fn() -> tile.layer",
+      "removeTileLayer": "fn(tl: tile.layer)",
+      "removeAllTileLayers": "fn()",
+      "getTileLayerCount": "fn() -> number",
+      "getTileLayer": "fn(key: string) -> tile.layer",
+      "computeMapPointFromPixelLocation": "fn(x: number, y: number) -> point",
+      "setSuspendMapExtentChangesByGestures": "fn(flag: bool)",
+      "setDrawnContentZorderToTop": "fn(flag: bool)",
+      "addFixedContentElement": "fn(element: HTMLElement, mapUnitsX: number, mapUnitsY: number, addAction?: fn(ele: HTMLElement), dragOptions?: ?)",
+      "moveFixedContentElement": "fn(element: HTMLElement, mapUnitsX: number, mapUnitsY: number)",
+      "removeFixedContentElement": "fn(element: HTMLElement)",
+      "addPathGeometry": "fn(styledGeom: styledGeometry, key: string, addAction?: fn(svg: SVGElement), removeAction?: fn(svg: SVGElement)) -> SVGElement",
+      "updatePathGeometryStyle": "fn(styleNew: geometryStyle, key: string)",
+      "removePathGeometry": "fn(key?: string) -> SVGElement",
+      "beginDigitize": "fn(options: beginDigitizeOptions)",
+      "endDigitize": "fn()",
+      "getDigitizeSnapshot": "fn() -> geometry",
+      "pushSetOnDigitizePath": "fn()",
+      "popSetFromDigitizePath": "fn() -> [number]",
+      "deleteNodeOnDigitizePath": "fn(setIdx: number, nodeIdx: number)",
+      "isDigitizingEnabled": "fn() -> bool",
+      "setExtentChangeCompleteAction": "fn(action: fn(vals: extentChangeStatsObj))",
+      "setContentRepositionAction": "fn(action: fn(vals: repositionStatsObj))",
+      "setPointerClickAction": "fn(action: fn(pt: point))",
+      "setPointerHoverAction": "fn(action: fn(pt: point))",
+      "setContentExtentsMarginInPixels": "fn(cem: number)",
+      "setBackground": "fn(b: string)"
+    }
+  },
+  "JQuery": {
+    "rimMap": "fn() -> JQuery",
+    "getMapsjs": "fn() -> ?"
+  },
+  "!name": "mapsjs",
+  "!define": {
+    "options": {},
+    "ret": {},
+    "ret1": {
+      "setIdx": "number",
+      "idx": "number"
+    },
+    "ret2": {
+      "setIdx": "number",
+      "ptIdx": "number",
+      "pt": "point",
+      "distance": "number"
+    },
+    "ret3": {
+      "setIdx": "number",
+      "ptIdx": "number",
+      "pt": "point",
+      "distance": "number"
+    },
+    "ret4": {
+      "x": "number",
+      "y": "number",
+      "z": "number"
+    },
+    "ret5": {
+      "quadCollection": "[tile.quad]",
+      "endpointCollection": "[string]",
+      "idxMinX": "number",
+      "idxMinY": "number",
+      "ulX": "number",
+      "ulY": "number"
+    },
+    "ret6": {},
+    "options1": {},
+    "ret7": {
+      "color": "string",
+      "thickness": "number"
+    },
+    "options2": {},
+    "ret8": {},
+    "data": {},
+    "ret9": {
+      "Shapes": "[?]",
+      "Values": "[?]",
+      "Bounds": "[envelope]"
+    },
+    "ret10": {
+      "w": "number",
+      "h": "number"
+    }
+  }
+}

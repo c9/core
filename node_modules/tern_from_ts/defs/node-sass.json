@@ -1,0 +1,48 @@
+{
+  "node-sass": {
+    "Importer": {},
+    "Options": {
+      "file": "string",
+      "data": "string",
+      "importer": "Importer",
+      "Importer": "?",
+      "functions": {},
+      "includePaths": "[string]",
+      "indentedSyntax": "bool",
+      "indentType": "string",
+      "indentWidth": "number",
+      "linefeed": "string",
+      "omitSourceMapUrl": "bool",
+      "outFile": "string",
+      "outputStyle": "string",
+      "precision": "number",
+      "sourceComments": "bool",
+      "sourceMap": "bool",
+      "string": "?",
+      "sourceMapContents": "bool",
+      "sourceMapEmbed": "bool",
+      "sourceMapRoot": "bool"
+    },
+    "SassError": {
+      "message": "string",
+      "line": "number",
+      "column": "number",
+      "status": "number",
+      "file": "string"
+    },
+    "Result": {
+      "css": "Buffer",
+      "map": "Buffer",
+      "stats": {
+        "entry": "string",
+        "start": "number",
+        "end": "number",
+        "duration": "number",
+        "includedFiles": "[string]"
+      }
+    },
+    "render": "fn(options: Options, callback: fn(err: SassError, result: Result))",
+    "renderSync": "fn(options: Options) -> Result"
+  },
+  "!name": "node-sass"
+}

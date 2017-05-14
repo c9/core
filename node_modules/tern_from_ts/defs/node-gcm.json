@@ -1,0 +1,54 @@
+{
+  "node-gcm": {
+    "IMessageOptions": {
+      "collapseKey": "string",
+      "delayWhileIdle": "bool",
+      "timeToLive": "number",
+      "dryRun": "bool",
+      "data": {}
+    },
+    "Message": {
+      "!type": "fn(options?: IMessageOptions)",
+      "prototype": {
+        "collapseKey": "string",
+        "delayWhileIdle": "bool",
+        "timeToLive": "number",
+        "dryRun": "bool",
+        "addData": "fn(key: string, value: string)"
+      }
+    },
+    "ISenderOptions": {
+      "proxy": "?",
+      "maxSockets": "number",
+      "timeout": "number"
+    },
+    "ISenderSendOptions": {
+      "retries": "number",
+      "backoff": "number"
+    },
+    "Sender": {
+      "!type": "fn(key: string, options?: ISenderOptions)",
+      "prototype": {
+        "key": "string",
+        "options": "ISenderOptions",
+        "send": "fn(message: Message, registrationIds: string, string: ?, callback: fn(err: ?, resJson: IResponseBody))",
+        "sendNoRetry": "fn(message: Message, registrationIds: string, string: ?, callback: fn(err: ?, resJson: IResponseBody))"
+      }
+    },
+    "IResponseBody": {
+      "success": "number",
+      "failure": "number",
+      "canonical_ids": "number",
+      "multicast_id": "number",
+      "results": "[]"
+    }
+  },
+  "!name": "node-gcm",
+  "!define": {
+    "": {
+      "message_id": "string",
+      "registration_id": "string",
+      "error": "string"
+    }
+  }
+}

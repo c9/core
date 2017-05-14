@@ -1,0 +1,41 @@
+{
+  "WizardOptions": {
+    "tabClass": "string",
+    "nextSelector": "string",
+    "previousSelector": "string",
+    "firstSelector": "string",
+    "lastSelector": "string",
+    "onShow": "fn(activeTab: ?, navigation: ?, nextIndex: number)",
+    "onInit": "fn(activeTab: ?, navigation: ?, currentIndex: number)",
+    "onNext": "fn(activeTab: ?, navigation: ?, nextIndex: number)",
+    "onPrevious": "fn(activeTab: ?, navigation: ?, previousIndex: number)",
+    "onLast": "fn(activeTab: ?, navigation: ?, lastIndex: number)",
+    "onFirst": "fn(activeTab: ?, navigation: ?, firstIndex: number)",
+    "onTabClick": "fn(activeTab: ?, navigation: ?, currentIndex: number)",
+    "onTabShow": "fn(activeTab: ?, navigation: ?, currentIndex: number)"
+  },
+  "Wizard": {
+    "next": "fn()",
+    "previous": "fn()",
+    "first": "fn()",
+    "last": "fn()",
+    "currentIndex": "fn() -> number",
+    "firstIndex": "fn() -> number",
+    "lastIndex": "fn() -> number",
+    "getIndex": "fn(element: ?) -> number",
+    "nextIndex": "fn() -> number",
+    "previousIndex": "fn() -> number",
+    "navigationLength": "fn() -> number",
+    "activeTab": "fn() -> ?",
+    "nextTab": "fn() -> ?",
+    "previousTab": "fn() -> ?",
+    "show": "fn(index: number) -> ?"
+  },
+  "JQuery": {
+    "bootstrapWizard": "fn(options?: WizardOptions) -> Wizard"
+  },
+  "JQueryStatic": {
+    "bootstrapWizard": "Wizard"
+  },
+  "!name": "jquery.bootstrap.wizard.d.ts"
+}

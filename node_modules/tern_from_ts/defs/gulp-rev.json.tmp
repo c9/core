@@ -1,0 +1,4 @@
+{
+  "'gulp-rev'": "rev",
+  "!name": "gulp-rev.d.ts"
+}

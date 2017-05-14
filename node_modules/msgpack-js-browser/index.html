@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Msgpack</title>
+    <style>
+      .passed {
+        background-color: #8f8;
+        color: #000;
+      }
+      .failed {
+        background-color: #f22;
+        color: #000;
+        font-weight: bold;
+      }
+    </style>
+</head>
+<body>
+    <h1>Msgpack</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Input</th>
+                <th>Encoded</th>
+                <th>Decoded</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="msgpack.js"></script>
+    <script>
+
+function Buffer(string) {
+    var buffer = new ArrayBuffer(msgpack.utf8ByteCount(string));
+    var view = new DataView(buffer);
+    msgpack.utf8Write(view, 0, string);
+    return buffer;
+}
+
+var tests = [
+  "$", "¢", "€",
+  "임창진",
+  true, false, null, undefined,
+  0, 1, -1, 2, -2, 4, -4, 6, -6,
+  0x10, -0x10, 0x20, -0x20, 0x40, -0x40,
+  0x80, -0x80, 0x100, -0x100, 0x200, -0x200,
+  0x1000, -0x1000, 0x10000, -0x10000,
+  0x20000, -0x20000, 0x40000,-0x40000,
+  10, 100, 1000, 10000, 100000, 1000000,
+  -10, -100, -1000, -10000, -100000, -1000000,
+  'hello', 'world', Buffer("Hello"), Buffer("World"),
+  [1,2,3], [], {name: "Tim", age: 29}, {},
+  {a: 1, b: 2, c: [1, 2, 3]}, [[],[]]
+];
+
+    var body = document.querySelector("tbody");
+    tests.forEach(function (value) {
+        var buffer = msgpack.encode(value);
+        var decoded = msgpack.decode(buffer);
+        var valueString = msgpack.inspect(value);
+        var decodedString = msgpack.inspect(decoded);
+        var passed = valueString === decodedString;
+        console[(passed ? "log" : "error")](value, msgpack.inspect(buffer), decoded);
+
+        var tr = document.createElement("tr");
+        var td = document.createElement("td");
+        td.textContent = valueString;
+        tr.appendChild(td);
+        td = document.createElement("td");
+        td.textContent = msgpack.inspect(buffer);
+        tr.appendChild(td);
+        td = document.createElement("td");
+        td.textContent = decodedString
+        tr.appendChild(td);
+        tr.setAttribute("class", passed ? "passed" : "failed");
+        tr.appendChild(td);
+        body.appendChild(tr);
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "'graphviz'": {
+    "HasAttributes": {
+      "set": "fn(name: string, value: ?)",
+      "get": "fn(name: string) -> ?"
+    },
+    "Node": {},
+    "Edge": {},
+    "OutputCallback": {},
+    "ErrorCallback": {},
+    "RenderOptions": {
+      "type": "string",
+      "use": "string",
+      "path": "string",
+      "G": "?",
+      "N": "?",
+      "E": "?"
+    },
+    "Graph": {
+      "addNode": "fn(id: string, attrs?: ?) -> Node",
+      "nodeCount": "fn() -> number",
+      "addEdge": "fn(nodeOne: string, nodeTwo: string, attrs?: ?) -> Edge",
+      "edgeCount": "fn() -> number",
+      "addCluster": "fn(id: string) -> Graph",
+      "getCluster": "fn(id: string) -> Graph",
+      "clusterCount": "fn() -> number",
+      "setNodeAttribut": "fn(name: string, value: ?)",
+      "getNodeAttribut": "fn(name: string) -> ?",
+      "setEdgeAttribut": "fn(name: string, value: ?)",
+      "getEdgeAttribut": "fn(name: string) -> ?",
+      "to_dot": "fn() -> string",
+      "use": "string",
+      "setGraphVizPath": "fn(directoryPath: string)",
+      "render": "fn(type: string, filename: string, errback?: ErrorCallback)",
+      "output": "fn(type: string, filename: string, errback?: ErrorCallback)"
+    },
+    "graph": "fn(id: string) -> Graph",
+    "digraph": "fn(id: string) -> Graph",
+    "ParseCallback": {},
+    "parse": "fn(path: string, callback: ParseCallback, errback?: ErrorCallback)"
+  },
+  "!name": "graphviz"
+}

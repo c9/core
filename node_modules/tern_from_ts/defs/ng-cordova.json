@@ -1,0 +1,17 @@
+{
+  "ngCordova": {
+    "IActionSheetService": {
+      "show": "fn(options: ShowOptions) -> ?",
+      "hide": "fn() -> ?"
+    },
+    "ShowOptions": {
+      "title": "string",
+      "buttonLabels": "[string]",
+      "addCancelButtonWithLabel": "string",
+      "addDestructiveButtonWithLabel": "string",
+      "androidEnableCancelButton": "bool",
+      "winphoneEnableCancelButton": "bool"
+    }
+  },
+  "!name": "actionSheet"
+}

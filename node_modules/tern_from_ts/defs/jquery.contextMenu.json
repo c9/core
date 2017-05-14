@@ -1,0 +1,33 @@
+{
+  "JQueryContextMenuOptions": {
+    "selector": "string",
+    "appendTo": "string",
+    "trigger": "string",
+    "autoHide": "bool",
+    "delay": "number",
+    "determinePosition": "fn(menu: JQuery)",
+    "position": "fn(opt: JQuery, x: number, y: number)",
+    "positionSubmenu": "fn(menu: JQuery)",
+    "zIndex": "number",
+    "animation": {
+      "duration": "number",
+      "show": "string",
+      "hide": "string"
+    },
+    "events": {
+      "show": "fn()",
+      "hide": "fn()"
+    },
+    "callback": "fn(key: ?, options: ?)",
+    "items": "?",
+    "reposition": "bool",
+    "className": "string"
+  },
+  "JQueryStatic": {
+    "contextMenu": "fn(options?: JQueryContextMenuOptions) -> JQuery"
+  },
+  "JQuery": {
+    "contextMenu": "fn(options?: ?) -> JQuery"
+  },
+  "!name": "jquery.contextMenu"
+}

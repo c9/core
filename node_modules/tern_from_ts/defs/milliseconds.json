@@ -1,0 +1,14 @@
+{
+  "Milliseconds": {
+    "seconds": "fn(seconds: number) -> number",
+    "minutes": "fn(minutes: number) -> number",
+    "hours": "fn(hours: number) -> number",
+    "days": "fn(days: number) -> number",
+    "weeks": "fn(weeks: number) -> number",
+    "month": "fn(month: number) -> number",
+    "years": "fn(years: number) -> number"
+  },
+  "milliseconds": "Milliseconds",
+  "'milliseconds'": "milliseconds",
+  "!name": "milliseconds"
+}

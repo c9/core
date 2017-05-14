@@ -1,0 +1,19 @@
+{
+  "TimeickerOptions": {
+    "defaultTime": "string",
+    "disableFocus": "bool",
+    "isOpen": "bool",
+    "minuteStep": "number",
+    "modalBackdrop": "bool",
+    "secondStep": "number",
+    "showSeconds": "bool",
+    "showInputs": "bool",
+    "showMeridian": "bool",
+    "template": "string",
+    "appendWidgetTo": "string"
+  },
+  "JQuery": {
+    "timepicker": "fn() -> JQuery"
+  },
+  "!name": "bootstrap.timepicker.d.ts"
+}

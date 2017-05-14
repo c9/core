@@ -1,0 +1,17 @@
+{
+  "'lolex'": {
+    "Clock": {
+      "setTimeout": "fn(callback: fn(), timeout: number) -> number",
+      "setInterval": "fn(callback: fn(), timeout: number) -> number",
+      "setImmediate": "fn(callback: fn()) -> number",
+      "clearTimeout": "fn(id: number)",
+      "clearInterval": "fn(id: number)",
+      "clearImmediate": "fn(id: number)",
+      "tick": "fn(ms: number)",
+      "uninstall": "fn()"
+    },
+    "createClock": "fn(now?: number) -> Clock",
+    "install": "fn(now?: number, toFake?: [string]) -> Clock"
+  },
+  "!name": "lolex"
+}

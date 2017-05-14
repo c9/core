@@ -1,0 +1,16 @@
+{
+  "LineReaderOptions": {
+    "separator": "?",
+    "encoding": "string",
+    "bufferSize": "number"
+  },
+  "LineReader": {
+    "eachLine": "fn() -> Function",
+    "open": "fn() -> Function",
+    "hasNextLine": "fn() -> bool",
+    "nextLine": "fn(cb: fn(err: Error, line: string))",
+    "close": "fn(cb: fn(err: Error))"
+  },
+  "line-reader": "lr",
+  "!name": "line-reader.d.ts"
+}

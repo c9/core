@@ -1,0 +1,13 @@
+{
+  "Stats": {
+    "prototype": {
+      "REVISION": "number",
+      "domElement": "HTMLDivElement",
+      "setMode": "fn(value: number)",
+      "begin": "fn()",
+      "end": "fn() -> number",
+      "update": "fn()"
+    }
+  },
+  "!name": "stats"
+}

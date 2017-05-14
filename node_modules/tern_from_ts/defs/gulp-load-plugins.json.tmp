@@ -1,0 +1,5 @@
+{
+  "'gulp-load-plugins'": "gulpLoadPlugins",
+  "IGulpPlugins": {},
+  "!name": "gulp-load-plugins.d.ts"
+}

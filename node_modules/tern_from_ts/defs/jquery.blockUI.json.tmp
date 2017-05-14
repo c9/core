@@ -1,0 +1,43 @@
+{
+  "JQBlockUIOptions": {
+    "message": "?",
+    "title": "string",
+    "draggable": "bool",
+    "theme": "bool",
+    "css": "?",
+    "themedCSS": "?",
+    "overlayCSS": "?",
+    "cursorReset": "string",
+    "growlCSS": "?",
+    "iframeSrc": "string",
+    "forceIframe": "bool",
+    "baseZ": "number",
+    "centerX": "bool",
+    "centerY": "bool",
+    "allowBodyStretch": "bool",
+    "bindEvents": "bool",
+    "constrainTabKey": "bool",
+    "fadeIn": "number",
+    "fadeOut": "number",
+    "timeout": "number",
+    "showOverlay": "bool",
+    "focusInput": "bool",
+    "onBlock": "fn()",
+    "onUnblock": "fn(element: ?, options: ?)",
+    "quirksmodeOffsetHack": "number",
+    "blockMsgClass": "string",
+    "ignoreIfBlocked": "bool"
+  },
+  "JQBlockUIStatic": {
+    "defaults": "JQBlockUIOptions"
+  },
+  "JQueryStatic": {
+    "blockUI": "JQBlockUIStatic",
+    "unblockUI": "JQBlockUIStatic"
+  },
+  "JQuery": {
+    "block": "fn(option?: JQBlockUIOptions) -> JQuery",
+    "unblock": "fn(option?: JQBlockUIOptions) -> JQuery"
+  },
+  "!name": "jquery.blockUI.d.ts"
+}

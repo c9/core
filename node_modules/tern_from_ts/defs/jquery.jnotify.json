@@ -1,0 +1,18 @@
+{
+  "JNotifyInitOptions": {
+    "oneAtTime": "bool",
+    "appendType": "string"
+  },
+  "JNotifyOptions": {
+    "text": "string",
+    "type": "string",
+    "showIcon": "bool",
+    "permanent": "bool",
+    "disappearTime": "number"
+  },
+  "JQuery": {
+    "jnotifyInizialize": "fn(options?: JNotifyInitOptions)",
+    "jnotifyAddMessage": "fn(options?: JNotifyOptions)"
+  },
+  "!name": "jquery.jnotify"
+}

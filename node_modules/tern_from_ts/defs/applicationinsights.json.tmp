@@ -1,0 +1,284 @@
+{
+  "AutoCollectConsole": {
+    "enable": "fn(isEnabled: bool)",
+    "isInitialized": "fn() -> bool"
+  },
+  "AutoCollectExceptions": {
+    "isInitialized": "fn() -> bool",
+    "enable": "fn(isEnabled: bool)"
+  },
+  "AutoCollectPerformance": {
+    "enable": "fn(isEnabled: bool)",
+    "isInitialized": "fn() -> bool"
+  },
+  "AutoCollectRequests": {
+    "enable": "fn(isEnabled: bool)",
+    "isInitialized": "fn() -> bool"
+  },
+  "ContractsModule": {
+    "DataPointType": "number",
+    "DependencyKind": "number",
+    "DependencySourceType": "number",
+    "SessionState": "number",
+    "SeverityLevel": "number",
+    "ContextTagKeys": {
+      "applicationVersion": "string",
+      "applicationBuild": "string",
+      "deviceId": "string",
+      "deviceIp": "string",
+      "deviceLanguage": "string",
+      "deviceLocale": "string",
+      "deviceModel": "string",
+      "deviceNetwork": "string",
+      "deviceOEMName": "string",
+      "deviceOS": "string",
+      "deviceOSVersion": "string",
+      "deviceRoleInstance": "string",
+      "deviceRoleName": "string",
+      "deviceScreenResolution": "string",
+      "deviceType": "string",
+      "deviceMachineName": "string",
+      "locationIp": "string",
+      "operationId": "string",
+      "operationName": "string",
+      "operationParentId": "string",
+      "operationRootId": "string",
+      "operationSyntheticSource": "string",
+      "operationIsSynthetic": "string",
+      "sessionId": "string",
+      "sessionIsFirst": "string",
+      "sessionIsNew": "string",
+      "userAccountAcquisitionDate": "string",
+      "userAccountId": "string",
+      "userAgent": "string",
+      "userId": "string",
+      "userStoreRegion": "string",
+      "sampleRate": "string",
+      "internalSdkVersion": "string",
+      "internalAgentVersion": "string"
+    },
+    "Domain": {
+      "ver": "number",
+      "properties": "?"
+    },
+    "Data": {
+      "baseType": "string",
+      "baseData": "TDomain"
+    },
+    "Envelope": {
+      "ver": "number",
+      "name": "string",
+      "time": "string",
+      "sampleRate": "number",
+      "seq": "string",
+      "iKey": "string",
+      "flags": "number",
+      "deviceId": "string",
+      "os": "string",
+      "osVer": "string",
+      "appId": "string",
+      "appVer": "string",
+      "userId": "string",
+      "tags": {},
+      "data": "?"
+    },
+    "EventData": {
+      "ver": "number",
+      "name": "string",
+      "properties": "?",
+      "measurements": "?"
+    },
+    "MessageData": {
+      "ver": "number",
+      "message": "string",
+      "severityLevel": "ContractsModule.SeverityLevel",
+      "properties": "?"
+    },
+    "ExceptionData": {
+      "ver": "number",
+      "handledAt": "string",
+      "exceptions": "[ExceptionDetails]",
+      "severityLevel": "ContractsModule.SeverityLevel",
+      "problemId": "string",
+      "crashThreadId": "number",
+      "properties": "?",
+      "measurements": "?"
+    },
+    "StackFrame": {
+      "level": "number",
+      "method": "string",
+      "assembly": "string",
+      "fileName": "string",
+      "line": "number"
+    },
+    "ExceptionDetails": {
+      "id": "number",
+      "outerId": "number",
+      "typeName": "string",
+      "message": "string",
+      "hasFullStack": "bool",
+      "stack": "string",
+      "parsedStack": "[StackFrame]"
+    },
+    "DataPoint": {
+      "name": "string",
+      "kind": "ContractsModule.DataPointType",
+      "value": "number",
+      "count": "number",
+      "min": "number",
+      "max": "number",
+      "stdDev": "number"
+    },
+    "MetricData": {
+      "ver": "number",
+      "metrics": "[DataPoint]",
+      "properties": "?"
+    },
+    "PageViewData": {
+      "ver": "number",
+      "url": "string",
+      "name": "string",
+      "duration": "string",
+      "properties": "?",
+      "measurements": "?"
+    },
+    "PageViewPerfData": {
+      "ver": "number",
+      "url": "string",
+      "perfTotal": "string",
+      "name": "string",
+      "duration": "string",
+      "networkConnect": "string",
+      "sentRequest": "string",
+      "receivedResponse": "string",
+      "domProcessing": "string",
+      "properties": "?",
+      "measurements": "?"
+    },
+    "RemoteDependencyData": {
+      "ver": "number",
+      "name": "string",
+      "kind": "ContractsModule.DataPointType",
+      "value": "number",
+      "count": "number",
+      "min": "number",
+      "max": "number",
+      "stdDev": "number",
+      "dependencyKind": "ContractsModule.DependencyKind",
+      "success": "bool",
+      "async": "bool",
+      "dependencySource": "ContractsModule.DependencySourceType",
+      "commandName": "string",
+      "dependencyTypeName": "string",
+      "properties": "?"
+    },
+    "AjaxCallData": {
+      "ver": "number",
+      "url": "string",
+      "ajaxUrl": "string",
+      "name": "string",
+      "duration": "string",
+      "requestSize": "number",
+      "responseSize": "number",
+      "timeToFirstByte": "string",
+      "timeToLastByte": "string",
+      "callbackDuration": "string",
+      "responseCode": "string",
+      "success": "bool",
+      "properties": "?",
+      "measurements": "?"
+    },
+    "RequestData": {
+      "ver": "number",
+      "id": "string",
+      "name": "string",
+      "startTime": "string",
+      "duration": "string",
+      "responseCode": "string",
+      "success": "bool",
+      "httpMethod": "string",
+      "url": "string",
+      "properties": "?",
+      "measurements": "?"
+    },
+    "SessionStateData": {
+      "ver": "number",
+      "state": "ContractsModule.SessionState"
+    },
+    "PerformanceCounterData": {
+      "ver": "number",
+      "categoryName": "string",
+      "counterName": "string",
+      "instanceName": "string",
+      "kind": "DataPointType",
+      "count": "number",
+      "min": "number",
+      "max": "number",
+      "stdDev": "number",
+      "value": "number",
+      "properties": "?"
+    }
+  },
+  "Channel": {
+    "send": "fn(envelope: ContractsModule.Envelope)",
+    "handleCrash": "fn(envelope: ContractsModule.Envelope)",
+    "triggerSend": "fn(isNodeCrashing?: bool)"
+  },
+  "Client": {
+    "config": "Config",
+    "context": "Context",
+    "commonProperties": {},
+    "channel": "Channel",
+    "trackEvent": "fn(name: string, properties?: ?, measurements?: ?)",
+    "trackTrace": "fn(message: string, severityLevel?: ContractsModule.SeverityLevel, properties?: ?)",
+    "trackException": "fn(exception: Error, properties?: ?)",
+    "trackMetric": "fn(name: string, value: number, count?: number, min?: number, max?: number, stdDev?: number)",
+    "trackRequest": "fn(request: ?, response: ?, properties?: ?)",
+    "trackDependency": "fn(name: string, commandName: string, elapsedTimeMs: number, success: bool, dependencyTypeName?: string, properties?: ?, dependencyKind?: ?, async?: bool, dependencySource?: number)",
+    "sendPendingData": "fn()",
+    "getEnvelope": "fn(data: ?, tagOverrides?: ?) -> ContractsModule.Envelope",
+    "track": "fn(data: ?, tagOverrides?: ?)"
+  },
+  "Config": {
+    "instrumentationKey": "string",
+    "sessionRenewalMs": "number",
+    "sessionExpirationMs": "number",
+    "endpointUrl": "string",
+    "maxBatchSize": "number",
+    "maxBatchIntervalMs": "number",
+    "disableAppInsights": "bool"
+  },
+  "Context": {
+    "keys": "ContractsModule.ContextTagKeys",
+    "tags": {}
+  },
+  "Sender": {
+    "send": "fn(payload: ?)",
+    "saveOnCrash": "fn(payload: string)",
+    "enableCacheOnError": "fn()",
+    "disableCacheOnError": "fn()"
+  },
+  "ApplicationInsights": {
+    "client": "Client",
+    "_isConsole": "?",
+    "_isExceptions": "?",
+    "_isPerformance": "?",
+    "_isRequests": "?",
+    "_console": "?",
+    "_exceptions": "?",
+    "_performance": "?",
+    "_requests": "?",
+    "_isStarted": "?",
+    "getClient": "fn(instrumentationKey?: string) -> Client",
+    "setup": "fn(instrumentationKey?: string) -> ApplicationInsights",
+    "start": "fn() -> ApplicationInsights",
+    "setAutoCollectConsole": "fn(value: bool) -> ApplicationInsights",
+    "setAutoCollectExceptions": "fn(value: bool) -> ApplicationInsights",
+    "setAutoCollectPerformance": "fn(value: bool) -> ApplicationInsights",
+    "setAutoCollectRequests": "fn(value: bool) -> ApplicationInsights",
+    "enableVerboseLogging": "fn() -> ApplicationInsights",
+    "prototype": {}
+  },
+  "applicationinsights": "ApplicationInsights",
+  "!name": "applicationinsights.d.ts"
+}

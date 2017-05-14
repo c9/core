@@ -1,0 +1,60 @@
+{
+  "ITagsManagerOptions": {
+    "prefilled": "?",
+    "CapitalizeFirstLetter": "bool",
+    "preventSubmitOnEnter": "bool",
+    "isClearInputOnEsc": "bool",
+    "typeahead": "bool",
+    "typeaheadAjaxSource": "string",
+    "typeaheadAjaxPolling": "bool",
+    "typeaheadDelegate": "Function",
+    "typeaheadOverrides": "ITypeaheadOverrides",
+    "typeaheadSource": "?",
+    "AjaxPush": "string",
+    "delimeters": "[number]",
+    "backspace": "[number]",
+    "maxTags": "number",
+    "blinkBGColor_1": "string",
+    "blinkBGColor_2": "string",
+    "hiddenTagListName": "string",
+    "hiddenTagListId": "string",
+    "deleteTagsOnBackspace": "bool",
+    "tagsContainer": "HTMLElement",
+    "tagCloseIcon": "string",
+    "tagClass": "string",
+    "validator": "Function"
+  },
+  "ITypeaheadOverrides": {
+    "instanceSelectHandler": "Function",
+    "selectedClass": "string",
+    "select": "Function"
+  },
+  "ITagsManager": {
+    "tagManagerOptions": "ITagsManagerOptions",
+    "obj": "JQuery",
+    "objName": "string",
+    "queuedTag": "string",
+    "delimeters": "[number]",
+    "backspace": "[number]",
+    "tagToManipulate": "string",
+    "initialize": "fn(context: JQuery, options?: ITagsManagerOptions, tagToManipulate?: string)",
+    "setupTypeahead": "fn()",
+    "onTypeaheadAjaxSuccess": "fn(data: ?, isSetTypeaheadSource: bool, process?: Function)",
+    "ajaxPolling": "fn(query: string, process: Function)",
+    "setTypeaheadSource": "fn(source: ?)",
+    "trimTag": "fn(tag: string) -> string",
+    "popTag": "fn()",
+    "empty": "fn()",
+    "refreshHiddenTagList": "fn()",
+    "spliceTag": "fn(tagId: number, eventData: ?)",
+    "pushTag": "fn(tag: string, objToPush: ?, isValid: bool)",
+    "setOptions": "fn(options: ITagsManagerOptions)",
+    "setContext": "fn(context: JQuery, tagToManipulate?: string)",
+    "processCommand": "fn(context: JQuery, command: string, tagToManipulate?: string) -> JQuery",
+    "processTags": "fn(command?: string, context?: JQuery, tagToManipulate?: string) -> JQuery"
+  },
+  "JQuery": {
+    "tagsManager": "fn(options?: ITagsManagerOptions) -> JQuery"
+  },
+  "!name": "jquery.tagsmanager.d.ts"
+}

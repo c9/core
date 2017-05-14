@@ -1,0 +1,41 @@
+{
+  "Rx": {
+    "TestScheduler": {
+      "createColdObservable": "fn(records: [Recorded]) -> ?",
+      "createHotObservable": "fn(records: [Recorded]) -> ?",
+      "createObserver": "fn() -> ?",
+      "startWithTiming": "fn(create: fn(), createdAt: number, subscribedAt: number, disposedAt: number) -> ?",
+      "startWithDispose": "fn(create: fn(), disposedAt: number) -> ?",
+      "startWithCreate": "fn(create: fn()) -> ?"
+    },
+    "Recorded": {
+      "!type": "fn(time: number, value: ?, equalityComparer?: fn(x: ?, y: ?))",
+      "prototype": {
+        "equals": "fn(other: Recorded) -> bool",
+        "time": "number",
+        "value": "?"
+      }
+    },
+    "ReactiveTest": {
+      "created": "number",
+      "subscribed": "number",
+      "disposed": "number",
+      "onNext": "fn(ticks: number, value: ?) -> Recorded",
+      "onError": "fn(ticks: number, exception: ?) -> Recorded",
+      "onCompleted": "fn(ticks: number) -> Recorded",
+      "subscribe": "fn(subscribeAt: number, unsubscribeAt?: number) -> Subscription"
+    },
+    "Subscription": {
+      "!type": "fn(subscribeAt: number, unsubscribeAt?: number)",
+      "prototype": {
+        "equals": "fn(other: Subscription) -> bool"
+      }
+    },
+    "MockObserver": {
+      "messages": "[Recorded]"
+    },
+    "MockObserverStatic": {}
+  },
+  "rx.testing": "Rx",
+  "!name": "rx.testing"
+}

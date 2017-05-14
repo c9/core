@@ -1,0 +1,44 @@
+{
+  "NomnomInternal": {
+    "Parser": {
+      "Option": {
+        "abbr": "string",
+        "full": "string",
+        "flag": "bool",
+        "metavar": "string",
+        "string": "string",
+        "help": "string",
+        "default": "?",
+        "callback": "fn(option: ?)",
+        "position": "number",
+        "list": "bool",
+        "required": "bool",
+        "choices": "[string]",
+        "type": "string",
+        "hidden": "bool"
+      },
+      "Command": {
+        "name": "string",
+        "options": "fn(specs: ?) -> Command",
+        "option": "fn(name: string, spec: Option) -> Command",
+        "callback": "fn(func: fn(options: ?)) -> Command",
+        "help": "fn(help: string) -> Command",
+        "usage": "fn(usage: string) -> Command"
+      },
+      "command": "fn(name: string) -> Parser.Command",
+      "nocommand": "fn() -> Parser.Command",
+      "options": "fn(specs: ?) -> Parser",
+      "option": "fn(name: string, spec: Parser.Option) -> Parser",
+      "usage": "fn(usage: string) -> Parser",
+      "printer": "fn(print: fn(message: string, code?: number)) -> Parser",
+      "script": "fn(script: string) -> Parser",
+      "help": "fn(help: string) -> Parser",
+      "nocolors": "fn() -> Parser",
+      "nom": "fn(argv?: [string]) -> ?",
+      "parse": "fn(argv?: [string]) -> ?"
+    }
+  },
+  "_nomnom": "NomnomInternal.Parser",
+  "nomnom": "_nomnom",
+  "!name": "nomnom"
+}

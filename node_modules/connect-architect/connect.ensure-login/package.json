@@ -1,0 +1,16 @@
+{
+    "name": "c9.connect.ensure-login",
+    "version": "0.0.1",
+
+    "main": "./ensure-login.js",
+    "private": true,
+
+    "plugin": {
+        "consumes": [
+            "connect.redirect"
+        ],
+        "provides": [
+            "connect.ensure-login"
+        ]
+    }
+}

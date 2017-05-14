@@ -1,0 +1,59 @@
+{
+  "HowlerGlobal": {
+    "prototype": {
+      "mute": "fn() -> HowlerGlobal",
+      "unmute": "fn() -> HowlerGlobal",
+      "volume": "fn() -> number",
+      "codecs": "fn(extension: string) -> bool",
+      "iOSAutoEnable": "bool"
+    }
+  },
+  "Howler": "HowlerGlobal",
+  "IHowlCallback": {},
+  "IHowlSoundSpriteDefinition": {},
+  "IHowlProperties": {
+    "autoplay": "bool",
+    "buffer": "bool",
+    "format": "string",
+    "loop": "bool",
+    "sprite": "IHowlSoundSpriteDefinition",
+    "volume": "number",
+    "urls": "[string]",
+    "onend": "IHowlCallback",
+    "onload": "IHowlCallback",
+    "onloaderror": "IHowlCallback",
+    "onpause": "IHowlCallback",
+    "onplay": "IHowlCallback"
+  },
+  "Howl": {
+    "!type": "fn(properties: IHowlProperties)",
+    "prototype": {
+      "autoplay": "Boolean",
+      "buffer": "Boolean",
+      "format": "string",
+      "rate": "number",
+      "model": "string",
+      "onend": "IHowlCallback",
+      "onload": "IHowlCallback",
+      "onloaderror": "IHowlCallback",
+      "onpause": "IHowlCallback",
+      "onplay": "IHowlCallback",
+      "play": "fn(sprite?: string, callback?: fn(soundId: number)) -> Howl",
+      "pause": "fn(soundId?: number) -> Howl",
+      "stop": "fn(soundId?: number) -> Howl",
+      "mute": "fn(soundId?: number) -> Howl",
+      "unmute": "fn(soundId?: number) -> Howl",
+      "fade": "fn(from: number, to: number, duration: number, callback?: IHowlCallback, soundId?: number) -> Howl",
+      "loop": "fn() -> bool",
+      "pos": "fn(position?: number, soundId?: number) -> number",
+      "pos3d": "fn(x: number, y: number, z: number, soundId?: number) -> ?",
+      "sprite": "fn(definition?: IHowlSoundSpriteDefinition) -> IHowlSoundSpriteDefinition",
+      "volume": "fn() -> number",
+      "urls": "fn() -> [string]",
+      "on": "fn(event: string, listener?: fn()) -> Howl",
+      "off": "fn(event: string, listener?: fn()) -> Howl",
+      "unload": "fn()"
+    }
+  },
+  "!name": "howler.d.ts"
+}

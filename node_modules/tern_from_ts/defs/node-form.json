@@ -1,0 +1,436 @@
+{
+  "Validation": {
+    "IErrorCustomMessage": {},
+    "IPropertyValidator": {
+      "isAcceptable": "fn(s: ?) -> bool",
+      "customMessage": "IErrorCustomMessage",
+      "tagName": "string"
+    },
+    "IStringValidator": {
+      "isAcceptable": "fn(s: string) -> bool"
+    },
+    "IAsyncPropertyValidator": {
+      "isAcceptable": "fn(s: ?) -> ?",
+      "customMessage": "IErrorCustomMessage",
+      "isAsync": "bool",
+      "tagName": "string"
+    },
+    "IAsyncStringPropertyValidator": {
+      "isAcceptable": "fn(s: string) -> ?"
+    },
+    "CompareOperator": "number",
+    "StringFce": {
+      "format": "fn(s: string, args: ?) -> string",
+      "prototype": {}
+    },
+    "NumberFce": {
+      "GetNegDigits": "fn(value: string) -> number",
+      "prototype": {}
+    },
+    "LettersOnlyValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "ZipCodeValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "EmailValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "UrlValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "RequiredValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "DateValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "DateISOValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "NumberValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "DigitValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "SignedDigitValidator": {
+      "prototype": {
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "MinLengthValidator": {
+      "!type": "fn(MinLength?: number)",
+      "prototype": {
+        "MinLength": "number",
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "MaxLengthValidator": {
+      "!type": "fn(MaxLength?: number)",
+      "prototype": {
+        "MaxLength": "number",
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "RangeLengthValidator": {
+      "!type": "fn(RangeLength?: [number])",
+      "prototype": {
+        "RangeLength": "[number]",
+        "isAcceptable": "fn(s: string) -> bool",
+        "MinLength": "number",
+        "MaxLength": "number",
+        "tagName": "string"
+      }
+    },
+    "MinValidator": {
+      "!type": "fn(Min?: number)",
+      "prototype": {
+        "Min": "number",
+        "isAcceptable": "fn(s: ?) -> bool",
+        "tagName": "string"
+      }
+    },
+    "MaxValidator": {
+      "!type": "fn(Max?: number)",
+      "prototype": {
+        "Max": "number",
+        "isAcceptable": "fn(s: ?) -> bool",
+        "tagName": "string"
+      }
+    },
+    "RangeValidator": {
+      "!type": "fn(Range?: [number])",
+      "prototype": {
+        "Range": "[number]",
+        "isAcceptable": "fn(s: ?) -> bool",
+        "Min": "number",
+        "Max": "number",
+        "tagName": "string"
+      }
+    },
+    "StepValidator": {
+      "!type": "fn(Step?: string)",
+      "prototype": {
+        "Step": "string",
+        "isAcceptable": "fn(s: ?) -> bool",
+        "tagName": "string"
+      }
+    },
+    "PatternValidator": {
+      "!type": "fn(Pattern?: string)",
+      "prototype": {
+        "Pattern": "string",
+        "isAcceptable": "fn(s: string) -> bool",
+        "tagName": "string"
+      }
+    },
+    "ContainsValidator": {
+      "!type": "fn(Options: ?)",
+      "prototype": {
+        "Options": "?",
+        "isAcceptable": "fn(s: string) -> ?",
+        "isAsync": "bool",
+        "tagName": "string"
+      }
+    },
+    "IError": {
+      "HasError": "bool",
+      "ErrorMessage": "string",
+      "TranslateArgs": "IErrorTranslateArgs"
+    },
+    "IErrorTranslateArgs": {
+      "TranslateId": "string",
+      "MessageArgs": "?",
+      "CustomMessage": "IErrorCustomMessage"
+    },
+    "IOptional": {},
+    "IValidationFailure": {
+      "IsAsync": "bool",
+      "Error": "IError"
+    },
+    "IValidationResult": {
+      "Name": "string",
+      "Add": "fn(validationResult: IValidationResult)",
+      "Remove": "fn(index: number)",
+      "Children": "[IValidationResult]",
+      "HasErrors": "bool",
+      "HasErrorsDirty": "bool",
+      "ErrorMessage": "string",
+      "ErrorCount": "number",
+      "Optional": "IOptional",
+      "TranslateArgs": "[IErrorTranslateArgs]"
+    },
+    "Error": {
+      "!type": "fn()",
+      "prototype": {
+        "HasError": "bool",
+        "ErrorMessage": "string"
+      }
+    },
+    "ValidationFailure": {
+      "!type": "fn(Error: IError, IsAsync: bool)",
+      "prototype": {
+        "Error": "IError",
+        "IsAsync": "bool",
+        "HasError": "bool",
+        "ErrorMessage": "string",
+        "TranslateArgs": "IErrorTranslateArgs"
+      }
+    },
+    "ValidationResult": {
+      "!type": "fn(Name: string)",
+      "prototype": {
+        "Name": "string",
+        "IsDirty": "bool",
+        "Children": "[IValidationResult]",
+        "Add": "fn(error: IValidationResult)",
+        "Remove": "fn(index: number)",
+        "Optional": "IOptional",
+        "TranslateArgs": "[IErrorTranslateArgs]",
+        "HasErrorsDirty": "bool",
+        "HasErrors": "bool",
+        "ErrorCount": "number",
+        "ErrorMessage": "string"
+      }
+    },
+    "CompositeValidationResult": {
+      "!type": "fn(Name: string)",
+      "prototype": {
+        "Name": "string",
+        "Children": "[IValidationResult]",
+        "Optional": "IOptional",
+        "AddFirst": "fn(error: IValidationResult)",
+        "Add": "fn(error: IValidationResult)",
+        "Remove": "fn(index: number)",
+        "HasErrorsDirty": "bool",
+        "HasErrors": "bool",
+        "ErrorCount": "number",
+        "ErrorMessage": "string",
+        "TranslateArgs": "[IErrorTranslateArgs]",
+        "LogErrors": "fn(headerMessage?: string)",
+        "Errors": {},
+        "FlattenErros": "?",
+        "SetDirty": "fn()",
+        "SetPristine": "fn()",
+        "SetDirtyEx": "fn(node: ?, dirty: ?)",
+        "flattenErrors": "fn(node: ?, errorCollection: ?)",
+        "traverse": "fn(node: ?, indent: ?)"
+      }
+    },
+    "IValidate": {},
+    "IAsyncValidate": {},
+    "IValidatorFce": {
+      "Name": "string",
+      "ValidationFce": "IValidate",
+      "AsyncValidationFce": "IAsyncValidate"
+    },
+    "IValidator": {
+      "Validate": "fn(context: ?) -> IValidationFailure",
+      "ValidateAsync": "fn(context: ?) -> ?",
+      "Error": "IError"
+    },
+    "IAbstractValidator": {
+      "RuleFor": "fn(prop: string, validator: IPropertyValidator) -> ?",
+      "ValidationFor": "fn(prop: string, validator: IValidatorFce) -> ?",
+      "ValidatorFor": "fn(prop: string, validator: ?) -> ?",
+      "CreateRule": "fn(name: string) -> ?",
+      "CreateAbstractRule": "fn(name: string) -> ?",
+      "CreateAbstractListRule": "fn(name: string) -> ?",
+      "ForList": "bool"
+    },
+    "IAbstractValidationRule": {
+      "Validate": "fn(context: T) -> IValidationResult",
+      "ValidateAsync": "fn(context: T) -> ?",
+      "ValidateAll": "fn(context: T)",
+      "ValidateField": "fn(context: T, propName: string)",
+      "ValidationResult": "IValidationResult",
+      "Rules": {},
+      "Validators": {},
+      "Children": {}
+    },
+    "IPropertyValidationRule": {
+      "Validators": {},
+      "Validate": "fn(context: ?) -> [IValidationFailure]",
+      "ValidateAsync": "fn(context: ?) -> ?"
+    },
+    "IValidationContext": {
+      "Value": "string",
+      "Key": "string",
+      "Data": "T"
+    },
+    "AbstractValidator": {
+      "prototype": {
+        "Validators": {},
+        "AbstractValidators": {},
+        "ValidationFunctions": {},
+        "RuleFor": "fn(prop: string, validator: IPropertyValidator)",
+        "ValidationFor": "fn(prop: string, fce: IValidatorFce)",
+        "ValidatorFor": "fn(prop: string, validator: ?, forList?: bool)",
+        "CreateAbstractRule": "fn(name: string) -> ?",
+        "CreateAbstractListRule": "fn(name: string) -> ?",
+        "CreateRule": "fn(name: string) -> ?",
+        "ForList": "bool"
+      }
+    },
+    "AbstractValidationRule": {
+      "!type": "fn(Name: string, validator: ?, forList?: bool)",
+      "prototype": {
+        "Name": "string",
+        "validator": "?",
+        "ValidationResult": "IValidationResult",
+        "Rules": {},
+        "Validators": {},
+        "Children": {},
+        "ForList": "bool",
+        "addChildren": "fn()",
+        "SetOptional": "fn(fce: IOptional)",
+        "createRuleFor": "fn(prop: ?)",
+        "Validate": "fn(context: T) -> IValidationResult",
+        "ValidateAsync": "fn(context: T) -> ?",
+        "ValidateAll": "fn(context: T)",
+        "ValidateField": "fn(context: T, propName: string)"
+      }
+    },
+    "AbstractListValidationRule": {
+      "!type": "fn(Name: string, validator: ?)",
+      "prototype": {
+        "Name": "string",
+        "validator": "?",
+        "Validate": "fn(context: ?) -> IValidationResult",
+        "ValidateAsync": "fn(context: ?) -> ?",
+        "getValidationRule": "fn(i: ?)",
+        "getIndexedKey": "fn(i: ?)",
+        "NotifyListChanged": "fn(list: [?])"
+      }
+    },
+    "ValidationContext": {
+      "!type": "fn(Key: string, Data: T)",
+      "prototype": {
+        "Key": "string",
+        "Data": "T",
+        "Value": "?"
+      }
+    },
+    "MessageLocalization": {
+      "customMsg": "string",
+      "defaultMessages": {
+        "required": "string",
+        "remote": "string",
+        "email": "string",
+        "url": "string",
+        "date": "string",
+        "dateISO": "string",
+        "number": "string",
+        "digits": "string",
+        "signedDigits": "string",
+        "creditcard": "string",
+        "equalTo": "string",
+        "maxlength": "string",
+        "minlength": "string",
+        "rangelength": "string",
+        "range": "string",
+        "max": "string",
+        "min": "string",
+        "step": "string",
+        "contains": "string",
+        "mask": "string",
+        "custom": "string"
+      },
+      "ValidationMessages": {
+        "required": "string",
+        "remote": "string",
+        "email": "string",
+        "url": "string",
+        "date": "string",
+        "dateISO": "string",
+        "number": "string",
+        "digits": "string",
+        "signedDigits": "string",
+        "creditcard": "string",
+        "equalTo": "string",
+        "maxlength": "string",
+        "minlength": "string",
+        "rangelength": "string",
+        "range": "string",
+        "max": "string",
+        "min": "string",
+        "step": "string",
+        "contains": "string",
+        "mask": "string",
+        "custom": "string"
+      },
+      "GetValidationMessage": "fn(validator: ?) -> string",
+      "prototype": {}
+    },
+    "PropertyValidationRule": {
+      "!type": "fn(Name: string, validatorsToAdd?: [IPropertyValidator])",
+      "prototype": {
+        "Name": "string",
+        "Validators": {},
+        "ValidationFailures": {},
+        "AddValidator": "fn(validator: ?)",
+        "Errors": {},
+        "HasErrors": "bool",
+        "ErrorCount": "number",
+        "ErrorMessage": "string",
+        "TranslateArgs": "[IErrorTranslateArgs]",
+        "Validate": "fn(context: ?) -> [IValidationFailure]",
+        "ValidateEx": "fn(value: ?) -> [IValidationFailure]",
+        "ValidateAsync": "fn(context: ?) -> ?",
+        "ValidateAsyncEx": "fn(value: string) -> ?"
+      }
+    },
+    "Validator": {
+      "!type": "fn(Name: string, ValidateFce?: IValidate, AsyncValidationFce?: IAsyncValidate)",
+      "prototype": {
+        "Name": "string",
+        "ValidateFce": "?",
+        "AsyncValidationFce": "?",
+        "Error": "IError",
+        "ValidationFailures": {},
+        "Optional": "IOptional",
+        "Validate": "fn(context: ?) -> IValidationFailure",
+        "ValidateAsync": "fn(context: ?) -> ?",
+        "HasError": "bool",
+        "Errors": {},
+        "HasErrors": "bool",
+        "ErrorCount": "number",
+        "ErrorMessage": "string",
+        "TranslateArgs": "[IErrorTranslateArgs]"
+      }
+    }
+  },
+  "node-form": "Validation",
+  "!name": "node-form"
+}

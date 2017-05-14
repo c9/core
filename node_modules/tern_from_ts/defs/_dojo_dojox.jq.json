@@ -1,0 +1,7 @@
+{
+  "dojox": {
+    "jq": {}
+  },
+  "dojox/jq": "exp",
+  "!name": "dojox.jq"
+}

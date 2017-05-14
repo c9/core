@@ -1,0 +1,86 @@
+{
+  "HighstockChartObject": {
+    "options": "HighstockOptions"
+  },
+  "HighstockNavigatorOptions": {
+    "adaptToUpdatedData": "bool",
+    "baseSeries": "string",
+    "number": "?",
+    "enabled": "bool",
+    "handles": {
+      "backgroundColor": "string",
+      "borderColor": "string"
+    },
+    "height": "number",
+    "margin": "number",
+    "maskFill": "string",
+    "maskInside": "bool",
+    "outlineColor": "string",
+    "outlineWidth": "number",
+    "series": "HighchartsIndividualSeriesOptions",
+    "xAxis": "HighchartsAxisOptions",
+    "yAxis": "HighchartsAxisOptions"
+  },
+  "RangeSelectorButton": {
+    "type": "string",
+    "count": "number",
+    "text": "string",
+    "dataGrouping": "?"
+  },
+  "HighstockRangeSelectorOptions": {
+    "allButtonsEnabled": "bool",
+    "buttonSpacing": "number",
+    "buttonTheme": "?",
+    "buttons": "[RangeSelectorButton]",
+    "enabled": "bool",
+    "inputBoxBorderColor": "string",
+    "inputBoxHeight": "number",
+    "inputBoxWidth": "number",
+    "inputDateFormat": "string",
+    "inputDateParser": "fn(date: string)",
+    "inputEditDateFormat": "string",
+    "inputEnabled": "bool",
+    "inputPosition": {
+      "align": "string",
+      "verticalAlign": "string",
+      "x": "number",
+      "y": "number"
+    },
+    "inputStyle": "HighchartsCSSObject",
+    "labelStyle": "HighchartsCSSObject",
+    "selected": "number"
+  },
+  "HighstockScrollbarOptions": {
+    "barBackgroundColor": "string",
+    "barBorderColor": "string",
+    "barBorderRadius": "number",
+    "barBorderWidth": "number",
+    "buttonArrowColor": "string",
+    "buttonBackgroundColor": "string",
+    "buttonBorderColor": "string",
+    "buttonBorderRadius": "number",
+    "buttonBorderWidth": "number",
+    "enabled": "bool",
+    "height": "number",
+    "liveRedraw": "bool",
+    "minWidth": "number",
+    "rifleColor": "string",
+    "trackBackgroundColor": "string",
+    "trackBorderColor": "string",
+    "trackBorderRadius": "number",
+    "trackBorderWidth": "number"
+  },
+  "HighstockOptions": {
+    "navigator": "HighstockNavigatorOptions",
+    "rangeSelector": "HighstockRangeSelectorOptions",
+    "scrollbar": "HighstockScrollbarOptions"
+  },
+  "HighstockChart": {},
+  "HighchartsStatic": {
+    "StockChart": "HighstockChart"
+  },
+  "JQuery": {
+    "highcharts": "fn(type: string) -> HighstockChartObject"
+  },
+  "!name": "highstock.d.ts"
+}

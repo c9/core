@@ -1,0 +1,76 @@
+{
+  "Window": {},
+  "WorkerUtils": {},
+  "DOMString": {},
+  "ObjectArray": {},
+  "WindowDatabase": {
+    "openDatabase": "fn(name: DOMString, version: DOMString, displayName: DOMString, estimatedSize: number, creationCallback?: DatabaseCallback) -> Database"
+  },
+  "WorkerUtilsDatabase": {
+    "openDatabase": "fn(name: DOMString, version: DOMString, displayName: DOMString, estimatedSize: number, creationCallback?: DatabaseCallback) -> Database",
+    "openDatabaseSync": "fn(name: DOMString, version: DOMString, displayName: DOMString, estimatedSize: number, creationCallback?: DatabaseCallback) -> DatabaseSync"
+  },
+  "DatabaseCallback": {},
+  "Database": {
+    "version": "DOMString",
+    "transaction": "fn(callback: SQLTransactionCallback, errorCallback?: SQLTransactionErrorCallback, successCallback?: SQLVoidCallback)",
+    "readTransaction": "fn(callback: SQLTransactionCallback, errorCallback?: SQLTransactionErrorCallback, successCallback?: SQLVoidCallback)",
+    "changeVersion": "fn(oldVersion: DOMString, newVersion: DOMString, callback?: SQLTransactionCallback, errorCallback?: SQLTransactionErrorCallback, successCallback?: SQLVoidCallback)"
+  },
+  "SQLVoidCallback": {},
+  "SQLTransactionCallback": {},
+  "SQLTransactionErrorCallback": {},
+  "SQLTransaction": {
+    "executeSql": "fn(sqlStatement: DOMString, arguments?: ObjectArray, callback?: SQLStatementCallback, errorCallback?: SQLStatementErrorCallback)"
+  },
+  "SQLStatementCallback": {},
+  "SQLStatementErrorCallback": {},
+  "DatabaseSync": {
+    "version": "DOMString",
+    "transaction": "fn(callback: SQLTransactionSyncCallback)",
+    "readTransaction": "fn(callback: SQLTransactionSyncCallback)",
+    "changeVersion": "fn(oldVersion: DOMString, newVersion: DOMString, callback: SQLTransactionSyncCallback)"
+  },
+  "SQLTransactionSyncCallback": {},
+  "SQLTransactionSync": {
+    "executeSql": "fn(sqlStatement: DOMString, arguments?: ObjectArray) -> SQLResultSet"
+  },
+  "SQLResultSet": {
+    "insertId": "number",
+    "rowsAffected": "number",
+    "rows": "SQLResultSetRowList"
+  },
+  "SQLResultSetRowList": {
+    "length": "number",
+    "item": "fn(index: number) -> ?"
+  },
+  "SQLError": {
+    "UNKNOWN_ERR": "number",
+    "DATABASE_ERR": "number",
+    "VERSION_ERR": "number",
+    "TOO_LARGE_ERR": "number",
+    "QUOTA_ERR": "number",
+    "SYNTAX_ERR": "number",
+    "CONSTRAINT_ERR": "number",
+    "TIMEOUT_ERR": "number",
+    "prototype": {
+      "code": "number",
+      "message": "DOMString"
+    }
+  },
+  "SQLException": {
+    "UNKNOWN_ERR": "number",
+    "DATABASE_ERR": "number",
+    "VERSION_ERR": "number",
+    "TOO_LARGE_ERR": "number",
+    "QUOTA_ERR": "number",
+    "SYNTAX_ERR": "number",
+    "CONSTRAINT_ERR": "number",
+    "TIMEOUT_ERR": "number",
+    "prototype": {
+      "code": "number",
+      "message": "DOMString"
+    }
+  },
+  "!name": "websql.d.ts"
+}

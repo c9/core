@@ -1,0 +1,32 @@
+{
+  "Redux": {
+    "ActionCreator": {},
+    "Reducer": {},
+    "Dispatch": {},
+    "StoreMethods": {
+      "dispatch": "Dispatch",
+      "getState": "fn() -> ?"
+    },
+    "MiddlewareArg": {
+      "dispatch": "Dispatch",
+      "getState": "Function"
+    },
+    "Middleware": {},
+    "Store": {
+      "prototype": {
+        "getReducer": "fn() -> Reducer",
+        "replaceReducer": "fn(nextReducer: Reducer)",
+        "dispatch": "fn(action: ?) -> ?",
+        "getState": "fn() -> ?",
+        "subscribe": "fn(listener: Function) -> Function"
+      }
+    },
+    "createStore": "fn(reducer: Reducer, initialState?: ?) -> Store",
+    "bindActionCreators": "fn(actionCreators: T, dispatch: Dispatch) -> T",
+    "combineReducers": "fn(reducers: ?) -> Reducer",
+    "applyMiddleware": "fn(middlewares: [Middleware]) -> Function",
+    "compose": "fn(functions: [Function]) -> T"
+  },
+  "redux": "Redux",
+  "!name": "redux.d.ts"
+}

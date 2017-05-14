@@ -1,0 +1,42 @@
+{
+  "GoogleAppsScript": {
+    "Properties": {
+      "Properties": {
+        "deleteAllProperties": "fn() -> Properties",
+        "deleteProperty": "fn(key: string) -> Properties",
+        "getKeys": "fn() -> [String]",
+        "getProperties": "fn() -> Object",
+        "getProperty": "fn(key: string) -> string",
+        "setProperties": "fn(properties: Object) -> Properties",
+        "setProperty": "fn(key: string, value: string) -> Properties"
+      },
+      "PropertiesService": {
+        "getDocumentProperties": "fn() -> Properties",
+        "getScriptProperties": "fn() -> Properties",
+        "getUserProperties": "fn() -> Properties"
+      },
+      "ScriptProperties": {
+        "deleteAllProperties": "fn() -> ScriptProperties",
+        "deleteProperty": "fn(key: string) -> ScriptProperties",
+        "getKeys": "fn() -> [String]",
+        "getProperties": "fn() -> Object",
+        "getProperty": "fn(key: string) -> string",
+        "setProperties": "fn(properties: Object) -> ScriptProperties",
+        "setProperty": "fn(key: string, value: string) -> ScriptProperties"
+      },
+      "UserProperties": {
+        "deleteAllProperties": "fn() -> UserProperties",
+        "deleteProperty": "fn(key: string) -> UserProperties",
+        "getKeys": "fn() -> [String]",
+        "getProperties": "fn() -> Object",
+        "getProperty": "fn(key: string) -> string",
+        "setProperties": "fn(properties: Object) -> UserProperties",
+        "setProperty": "fn(key: string, value: string) -> UserProperties"
+      }
+    }
+  },
+  "PropertiesService": "GoogleAppsScript.Properties.PropertiesService",
+  "ScriptProperties": "GoogleAppsScript.Properties.ScriptProperties",
+  "UserProperties": "GoogleAppsScript.Properties.UserProperties",
+  "!name": "google-apps-script.properties"
+}

@@ -1,0 +1,15 @@
+{
+  "JQueryTransitOptions": {
+    "opacity": "number",
+    "duration": "number",
+    "delay": "number",
+    "easing": "string",
+    "complete": "fn()",
+    "scale": "?"
+  },
+  "JQuery": {
+    "transition": "fn(options: JQueryTransitOptions) -> JQuery",
+    "css": "fn(propertyName: string, value: [number]) -> JQuery"
+  },
+  "!name": "jquery.transit.d.ts"
+}

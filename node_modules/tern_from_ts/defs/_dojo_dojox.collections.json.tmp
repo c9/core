@@ -1,0 +1,41 @@
+{
+  "dojox": {
+    "collections": {
+      "_base": {
+        "Set": "Object",
+        "ArrayList": "fn(arr: [?])",
+        "BinaryTree": "fn(data: ?)",
+        "Dictionary": "fn(dictionary: dojox.collections.Dictionary)",
+        "DictionaryEntry": "fn(k: String, v: Object)",
+        "DictionaryIterator": "fn(obj: Object)",
+        "Iterator": "fn(a: [?])",
+        "Queue": "fn(arr: [?])",
+        "SortedList": "fn(dictionary: Object)",
+        "Stack": "fn(arr: [?])"
+      },
+      "ArrayList": {},
+      "BinaryTree": {
+        "TraversalMethods": {
+          "Inorder": "number",
+          "Postorder": "number",
+          "Preorder": "number",
+          "!type": "Object"
+        }
+      },
+      "Dictionary": {},
+      "Queue": {},
+      "SortedList": {},
+      "Stack": {}
+    }
+  },
+  "dojox/collections": "exp",
+  "dojox/collections/ArrayList": "exp",
+  "dojox/collections/BinaryTree": "exp",
+  "dojox/collections/BinaryTree.TraversalMethods": "exp",
+  "dojox/collections/Dictionary": "exp",
+  "dojox/collections/Queue": "exp",
+  "dojox/collections/Stack": "exp",
+  "dojox/collections/SortedList": "exp",
+  "dojox/collections/_base": "exp",
+  "!name": "dojox.collections.d.ts"
+}

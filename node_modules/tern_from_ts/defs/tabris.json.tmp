@@ -1,0 +1,291 @@
+{
+  "tabris": {
+    "Bounds": {
+      "left": "number",
+      "top": "number",
+      "width": "number",
+      "height": "number"
+    },
+    "Transformation": {
+      "rotation": "number",
+      "scaleX": "number",
+      "scaleY": "number",
+      "translationX": "number",
+      "translationY": "number"
+    },
+    "Image": {
+      "src": "string",
+      "width": "number",
+      "height": "number",
+      "scale": "number"
+    },
+    "CanvasContext": {},
+    "EventSupport": {
+      "on": "fn(event: string, listener: fn(target: T, args: [?])) -> T",
+      "once": "fn(event: string, listener: fn(target: T, args: [?])) -> T",
+      "off": "fn() -> T",
+      "trigger": "fn(event: string, args: [?]) -> T"
+    },
+    "AnimationOptions": {
+      "delay": "number",
+      "duration": "number",
+      "easing": "string",
+      "repeat": "number",
+      "reverse": "bool",
+      "name": "string"
+    },
+    "create": "fn(type: string, properties: WidgetProperties) -> ?",
+    "Widget": {
+      "get": "fn(property: string) -> ?",
+      "set": "fn(property: string, value: ?, options?: Object) -> T",
+      "animate": "fn(properties: WidgetProperties, options: AnimationOptions)",
+      "appendTo": "fn(parent: Composite) -> T",
+      "apply": "fn(properties: Object) -> T",
+      "children": "fn() -> WidgetCollection",
+      "dispose": "fn()",
+      "find": "fn() -> WidgetCollection",
+      "isDisposed": "fn() -> bool",
+      "parent": "fn() -> T",
+      "cid": "string",
+      "id": "string",
+      "type": "string"
+    },
+    "WidgetProperties": {
+      "background": "string",
+      "backgroundImage": "Image",
+      "baseline": "?",
+      "bottom": "?",
+      "bounds": "Bounds",
+      "centerX": "number",
+      "centerY": "number",
+      "enabled": "bool",
+      "font": "string",
+      "height": "number",
+      "highlightOnTouch": "bool",
+      "id": "string",
+      "layoutData": "Object",
+      "left": "?",
+      "opacity": "number",
+      "right": "?",
+      "textColor": "string",
+      "top": "?",
+      "transform": "Transformation",
+      "visible": "bool",
+      "width": "number"
+    },
+    "Action": {
+      "set": "fn(property: string, value: ?, options?: Object) -> Action"
+    },
+    "ActionProperties": {
+      "image": "Image",
+      "placementPriority": "string",
+      "title": "string"
+    },
+    "Button": {
+      "set": "fn(property: string, value: ?, options?: Object) -> Button"
+    },
+    "ButtonProperties": {
+      "alignment": "string",
+      "image": "Image",
+      "text": "string"
+    },
+    "Canvas": {
+      "getContext": "fn(contextType: string, width: number, height: number) -> CanvasContext"
+    },
+    "Cell": {
+      "set": "fn(property: string, value: ?, options?: Object) -> Cell"
+    },
+    "CellProperties": {
+      "item": "?",
+      "itemIndex": "number"
+    },
+    "CheckBox": {
+      "set": "fn(property: string, value: ?, options?: Object) -> CheckBox"
+    },
+    "CheckBoxProperties": {
+      "selection": "bool",
+      "text": "string"
+    },
+    "CollectionView": {
+      "set": "fn(property: string, value: ?, options?: Object) -> CollectionView",
+      "insert": "fn(items: [?])",
+      "refresh": "fn()",
+      "remove": "fn(index: number)",
+      "reveal": "fn(index: number)"
+    },
+    "CollectionViewProperties": {
+      "cellType": "fn(item: ?)",
+      "string": "?",
+      "initializeCell": "fn(cell: Cell, type: string)",
+      "itemHeight": "fn(item: ?, type: string)",
+      "number": "?",
+      "items": "[?]",
+      "refreshEnabled": "bool",
+      "refreshIndicator": "bool",
+      "refreshMessage": "string"
+    },
+    "Parent": {
+      "append": "fn(children: [?]) -> T"
+    },
+    "Composite": {},
+    "Drawer": {
+      "close": "fn() -> Drawer",
+      "open": "fn() -> Drawer"
+    },
+    "ImageView": {
+      "set": "fn(property: string, value: ?, options?: Object) -> ImageView"
+    },
+    "ImageViewProperties": {
+      "image": "Image",
+      "scaleMode": "string"
+    },
+    "Page": {
+      "set": "fn(property: string, value: ?, options?: Object) -> Page",
+      "open": "fn() -> Page",
+      "close": "fn()"
+    },
+    "PageProperties": {
+      "image": "Image",
+      "title": "string",
+      "topLevel": "bool"
+    },
+    "PageSelector": {},
+    "Picker": {
+      "set": "fn(property: string, value: ?, options?: Object) -> Picker"
+    },
+    "PickerProperties": {
+      "items": "[string]",
+      "selection": "string",
+      "selectionIndex": "number"
+    },
+    "ProgressBar": {
+      "set": "fn(property: string, value: ?, options?: Object) -> ProgressBar"
+    },
+    "ProgressBarProperties": {
+      "maximum": "number",
+      "minimum": "number",
+      "selection": "number",
+      "state": "string"
+    },
+    "RadioButton": {
+      "set": "fn(property: string, value: ?, options?: Object) -> RadioButton"
+    },
+    "RadioButtonProperties": {
+      "selection": "bool",
+      "text": "string"
+    },
+    "ScrollView": {
+      "set": "fn(property: string, value: ?, options?: Object) -> ScrollView"
+    },
+    "ScrollViewProperties": {
+      "direction": "string"
+    },
+    "SearchAction": {
+      "set": "fn(property: string, value: ?, options?: Object) -> SearchAction"
+    },
+    "SearchActionProperties": {
+      "message": "string",
+      "proposals": "[string]",
+      "text": "string"
+    },
+    "Slider": {
+      "set": "fn(property: string, value: ?, options?: Object) -> Slider"
+    },
+    "SliderProperties": {
+      "maximum": "number",
+      "minimum": "number",
+      "selection": "number"
+    },
+    "Switch": {
+      "set": "fn(property: string, value: ?, options?: Object) -> Switch"
+    },
+    "SwitchProperties": {
+      "selection": "bool"
+    },
+    "Tab": {
+      "set": "fn(property: string, value: ?, options?: Object) -> Tab"
+    },
+    "TabProperties": {
+      "badge": "string",
+      "image": "Image",
+      "title": "string"
+    },
+    "TabFolder": {
+      "set": "fn(property: string, value: ?, options?: Object) -> TabFolder",
+      "append": "fn(children: [Tab]) -> TabFolder"
+    },
+    "TabFolderProperties": {
+      "paging": "bool",
+      "selection": "Tab",
+      "tabBarLocation": "string"
+    },
+    "TextInput": {
+      "set": "fn(property: string, value: ?, options?: Object) -> TextInput"
+    },
+    "TextInputProperties": {
+      "alignment": "string",
+      "autoCapitalize": "bool",
+      "autoCorrect": "bool",
+      "editable": "bool",
+      "keyboard": "string",
+      "message": "string",
+      "text": "string",
+      "type": "string"
+    },
+    "TextView": {
+      "set": "fn(property: string, value: ?, options?: Object) -> TextView"
+    },
+    "TextViewProperties": {
+      "alignment": "string",
+      "markupEnabled": "bool",
+      "maxLines": "number",
+      "text": "string"
+    },
+    "ToggleButton": {
+      "set": "fn(property: string, value: ?, options?: Object) -> ToggleButton"
+    },
+    "ToggleButtonProperties": {
+      "alignment": "string",
+      "image": "Image",
+      "selection": "bool",
+      "text": "string"
+    },
+    "Video": {
+      "set": "fn(property: string, value: ?, options?: Object) -> Video"
+    },
+    "VideoProperties": {
+      "url": "string"
+    },
+    "WebView": {
+      "set": "fn(property: string, value: ?, options?: Object) -> Video"
+    },
+    "WebViewProperties": {
+      "html": "string",
+      "url": "string"
+    },
+    "WidgetCollection": {
+      "animate": "fn(properties: WidgetProperties, options: AnimationOptions)",
+      "appendTo": "fn(parent: Composite) -> WidgetCollection",
+      "children": "fn() -> WidgetCollection",
+      "dispose": "fn()",
+      "find": "fn() -> WidgetCollection",
+      "parent": "fn() -> WidgetCollection",
+      "length": "number"
+    },
+    "App": {
+      "installPatch": "fn(url: string, callback: fn(error: Error, patch: Object))",
+      "reload": "fn()"
+    },
+    "app": "App",
+    "Device": {
+      "get": "fn(property: string)"
+    },
+    "device": "Device",
+    "UI": {
+      "get": "fn(property: string)"
+    },
+    "ui": "UI",
+    "!type": "tabris"
+  },
+  "!name": "tabris.d.ts"
+}

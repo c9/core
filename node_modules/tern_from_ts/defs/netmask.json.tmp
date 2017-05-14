@@ -1,0 +1,25 @@
+{
+  "'netmask'": {
+    "long2ip": "fn(long: number) -> string",
+    "ip2long": "fn(ip: string) -> number",
+    "Netmask": {
+      "!type": "fn(netmask: string)",
+      "prototype": {
+        "maskLong": "number",
+        "bitmask": "number",
+        "netLong": "number",
+        "size": "number",
+        "base": "string",
+        "mask": "string",
+        "hostmask": "string",
+        "first": "string",
+        "last": "string",
+        "broadcast": "string",
+        "contains": "fn(ip: string, Netmask: ?, number: ?) -> bool",
+        "next": "fn(count?: number) -> Netmask",
+        "forEach": "fn(fn: fn(ip: string, long: number, index: number))"
+      }
+    }
+  },
+  "!name": "netmask.d.ts"
+}

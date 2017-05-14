@@ -1,0 +1,19 @@
+{
+  "GoogleAppsScript": {
+    "Lock": {
+      "Lock": {
+        "hasLock": "fn() -> bool",
+        "releaseLock": "fn()",
+        "tryLock": "fn(timeoutInMillis: Integer) -> bool",
+        "waitLock": "fn(timeoutInMillis: Integer)"
+      },
+      "LockService": {
+        "getDocumentLock": "fn() -> Lock",
+        "getScriptLock": "fn() -> Lock",
+        "getUserLock": "fn() -> Lock"
+      }
+    }
+  },
+  "LockService": "GoogleAppsScript.Lock.LockService",
+  "!name": "google-apps-script.lock"
+}

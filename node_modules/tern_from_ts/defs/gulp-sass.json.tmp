@@ -1,0 +1,4 @@
+{
+  "gulp-sass": "_tmp",
+  "!name": "gulp-sass.d.ts"
+}

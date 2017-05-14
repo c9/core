@@ -1,0 +1,50 @@
+{
+  "JQueryStatic": {
+    "notify": "fn(message: string) -> NotifyReturn",
+    "notifyDefaults": "fn(settings: NotifySettings)",
+    "notifyClose": "fn()"
+  },
+  "NotifyOptions": {
+    "message": "string",
+    "title": "string",
+    "icon": "string",
+    "url": "string",
+    "target": "string"
+  },
+  "NotifySettings": {
+    "element": "string",
+    "position": "string",
+    "type": "string",
+    "allow_dismiss": "bool",
+    "allow_duplicates": "bool",
+    "newest_on_top": "bool",
+    "showProgressbar": "bool",
+    "placement": {
+      "from": "string",
+      "align": "string"
+    },
+    "offset": "number",
+    "spacing": "number",
+    "z_index": "number",
+    "delay": "number",
+    "timer": "number",
+    "url_target": "string",
+    "mouse_over": "string",
+    "animate": {
+      "enter": "string",
+      "exit": "string"
+    },
+    "onShow": "fn()",
+    "onShown": "fn()",
+    "onClose": "fn()",
+    "onClosed": "fn()",
+    "icon_type": "string",
+    "template": "string"
+  },
+  "NotifyReturn": {
+    "$ele": "JQueryStatic",
+    "close": "fn()",
+    "update": "fn(command: string, update: ?)"
+  },
+  "!name": "bootstrap-notify.d.ts"
+}

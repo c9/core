@@ -1,0 +1,7 @@
+{
+  "JQueryStatic": {
+    "postMessage": "fn(message: string, targetUrl: string, target?: Window)",
+    "receiveMessage": "fn(callback: fn(event: MessageEvent), sourceOrigin?: string, delay?: number)"
+  },
+  "!name": "jquery.postMessage.d.ts"
+}

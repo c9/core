@@ -1,0 +1,147 @@
+{
+  "name": "kind-of",
+  "description": "Get the native type of a value.",
+  "version": "3.2.0",
+  "homepage": "https://github.com/jonschlinkert/kind-of",
+  "author": {
+    "name": "Jon Schlinkert",
+    "url": "https://github.com/jonschlinkert"
+  },
+  "contributors": [
+    {
+      "name": "David Fox-Powell",
+      "email": "dtothefp@gmail.com",
+      "url": "https://dtothefp.github.io/me"
+    },
+    {
+      "name": "Jon Schlinkert",
+      "email": "jon.schlinkert@sellside.com",
+      "url": "http://twitter.com/jonschlinkert"
+    },
+    {
+      "name": "Ken Sheedlo",
+      "url": "kensheedlo.com"
+    },
+    {
+      "name": "laggingreflex",
+      "url": "https://github.com/laggingreflex"
+    },
+    {
+      "name": "Miguel Mota",
+      "email": "miguel@mota.email",
+      "url": "https://miguelmota.com"
+    },
+    {
+      "name": "Peter deHaan",
+      "url": "http://about.me/peterdehaan"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonschlinkert/kind-of.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jonschlinkert/kind-of/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha",
+    "prepublish": "browserify -o browser.js -e index.js -s index --bare"
+  },
+  "dependencies": {
+    "is-buffer": "^1.1.5"
+  },
+  "devDependencies": {
+    "ansi-bold": "^0.1.1",
+    "benchmarked": "^1.0.0",
+    "glob": "^7.1.1",
+    "gulp-format-md": "^0.1.12",
+    "mocha": "^3.3.0",
+    "type-of": "^2.0.1",
+    "typeof": "^1.0.0"
+  },
+  "keywords": [
+    "arguments",
+    "array",
+    "boolean",
+    "check",
+    "date",
+    "function",
+    "is",
+    "is-type",
+    "is-type-of",
+    "kind",
+    "kind-of",
+    "number",
+    "object",
+    "of",
+    "regexp",
+    "string",
+    "test",
+    "type",
+    "type-of",
+    "typeof",
+    "types"
+  ],
+  "verb": {
+    "related": {
+      "list": [
+        "is-glob",
+        "is-number",
+        "is-primitive"
+      ]
+    },
+    "toc": false,
+    "layout": "default",
+    "tasks": [
+      "readme"
+    ],
+    "plugins": [
+      "gulp-format-md"
+    ],
+    "lint": {
+      "reflinks": true
+    },
+    "reflinks": [
+      "verb"
+    ]
+  },
+  "gitHead": "9c9423745e2d7fa1a72ed7edf3c2113fe0fa2296",
+  "_id": "kind-of@3.2.0",
+  "_shasum": "b58abe4d5c044ad33726a8c1525b48cf891bff07",
+  "_from": "kind-of@>=3.0.2 <4.0.0",
+  "_npmVersion": "4.2.0",
+  "_nodeVersion": "7.7.3",
+  "_npmUser": {
+    "name": "jonschlinkert",
+    "email": "github@sellside.com"
+  },
+  "maintainers": [
+    {
+      "name": "jonschlinkert",
+      "email": "github@sellside.com"
+    },
+    {
+      "name": "doowb",
+      "email": "brian.woodward@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "b58abe4d5c044ad33726a8c1525b48cf891bff07",
+    "tarball": "https://registry.npmjs.org/kind-of/-/kind-of-3.2.0.tgz"
+  },
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/kind-of-3.2.0.tgz_1493120580182_0.32957054767757654"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/kind-of/-/kind-of-3.2.0.tgz",
+  "readme": "ERROR: No README data found!"
+}

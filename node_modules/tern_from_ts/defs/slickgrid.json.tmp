@@ -1,0 +1,632 @@
+{
+  "DOMEvent": {},
+  "Slick": {
+    "EventData": {
+      "!type": "fn()",
+      "prototype": {
+        "stopPropagation": "fn()",
+        "isPropagationStopped": "fn() -> bool",
+        "stopImmediatePropagation": "fn()",
+        "isImmediatePropagationStopped": "fn() -> bool"
+      }
+    },
+    "Event": {
+      "!type": "fn()",
+      "prototype": {
+        "subscribe": "fn(fn: fn(eventData: EventData, data: T))",
+        "unsubscribe": "fn(fn: fn(eventData: EventData, data: T))",
+        "notify": "fn(args?: T, e?: EventData, scope?: ?) -> ?"
+      }
+    },
+    "EventHandler": {
+      "!type": "fn()",
+      "prototype": {
+        "subscribe": "fn(event: EventData, handler: Function) -> EventHandler",
+        "unsubscribe": "fn(event: EventData, handler: Function) -> EventHandler",
+        "unsubscribeAll": "fn() -> EventHandler"
+      }
+    },
+    "Range": {
+      "!type": "fn(fromRow: number, fromCell: number, toRow?: number, toCell?: number)",
+      "prototype": {
+        "fromRow": "number",
+        "fromCell": "number",
+        "toRow": "number",
+        "toCell": "number",
+        "isSingleRow": "fn() -> bool",
+        "isSingleCell": "fn() -> bool",
+        "contains": "fn(row: number, cell: number) -> bool"
+      }
+    },
+    "NonDataRow": {
+      "prototype": {}
+    },
+    "Group": {
+      "!type": "fn()",
+      "prototype": {
+        "level": "number",
+        "count": "number",
+        "value": "?",
+        "title": "string",
+        "collapsed": "bool",
+        "totals": "?",
+        "rows": "[T]",
+        "groups": "[?]",
+        "groupingKey": "?",
+        "equals": "fn(group: ?) -> bool"
+      }
+    },
+    "GroupTotals": {
+      "!type": "fn()",
+      "prototype": {
+        "group": "?"
+      }
+    },
+    "EditorLock": {
+      "!type": "fn()",
+      "prototype": {
+        "isActive": "fn(editController: ?) -> bool",
+        "activate": "fn(editController: ?)",
+        "deactivate": "fn(editController: ?)",
+        "commitCurrentEdit": "fn() -> bool",
+        "cancelCurrentEdit": "fn() -> bool"
+      }
+    },
+    "GlobalEditorLock": "?",
+    "Column": {
+      "asyncPostRender": "fn(cellNode: ?, row: ?, dataContext: ?, colDef: ?)",
+      "behavior": "?",
+      "cannotTriggerInsert": "bool",
+      "cssClass": "string",
+      "defaultSortAsc": "bool",
+      "editor": "?",
+      "field": "string",
+      "focusable": "bool",
+      "formatter": "?",
+      "headerCssClass": "string",
+      "id": "string",
+      "maxWidth": "number",
+      "minWidth": "number",
+      "name": "string",
+      "rerenderOnResize": "bool",
+      "resizable": "bool",
+      "selectable": "bool",
+      "sortable": "bool",
+      "toolTip": "string",
+      "width": "number"
+    },
+    "EditorFactory": {
+      "getEditor": "fn(column: ?) -> ?"
+    },
+    "FormatterFactory": {
+      "getFormatter": "fn(column: ?) -> ?"
+    },
+    "GridOptions": {
+      "asyncEditorLoading": "bool",
+      "asyncEditorLoadDelay": "number",
+      "asyncPostRenderDelay": "number",
+      "autoEdit": "bool",
+      "autoHeight": "bool",
+      "cellFlashingCssClass": "string",
+      "cellHighlightCssClass": "string",
+      "dataItemColumnValueExtractor": "?",
+      "defaultColumnWidth": "number",
+      "defaultFormatter": "?",
+      "editable": "bool",
+      "editCommandHandler": "?",
+      "editorFactory": "EditorFactory",
+      "editorLock": "?",
+      "enableAddRow": "bool",
+      "enableAsyncPostRender": "bool",
+      "enableCellRangeSelection": "?",
+      "enableCellNavigation": "bool",
+      "enableColumnReorder": "bool",
+      "enableRowReordering": "?",
+      "enableTextSelectionOnCells": "bool",
+      "explicitInitialization": "bool",
+      "forceFitColumns": "bool",
+      "forceSyncScrolling": "bool",
+      "formatterFactory": "?",
+      "fullWidthRows": "bool",
+      "headerRowHeight": "number",
+      "leaveSpaceForNewRows": "bool",
+      "multiColumnSort": "bool",
+      "multiSelect": "bool",
+      "rowHeight": "number",
+      "selectedCellCssClass": "string",
+      "showHeaderRow": "bool",
+      "syncColumnCellResize": "bool",
+      "topPanelHeight": "number"
+    },
+    "DataProvider": {
+      "getLength": "fn() -> number",
+      "getItem": "fn(index: number) -> T",
+      "getItemMetadata": "fn(index: number) -> ?"
+    },
+    "SlickData": {},
+    "RowMetadata": {
+      "cssClasses": "string",
+      "focusable": "bool",
+      "selectable": "bool",
+      "columns": {}
+    },
+    "ColumnMetadata": {
+      "focusable": "bool",
+      "selectable": "bool",
+      "formatter": "?",
+      "editor": "?",
+      "colspan": "number",
+      "string": "?"
+    },
+    "SelectionModel": {
+      "prototype": {
+        "init": "fn(grid: ?)",
+        "destroy": "fn()",
+        "onSelectedRangesChanged": "?"
+      }
+    },
+    "Grid": {
+      "!type": "fn(container: string, HTMLElement: ?, JQuery: ?, data: [T], DataProvider: ?, columns: [?], options: ?)",
+      "prototype": {
+        "init": "fn()",
+        "destroy": "fn()",
+        "getData": "fn() -> ?",
+        "getDataItem": "fn(index: number) -> T",
+        "setData": "fn(newData: [T], scrollToTop: bool)",
+        "getDataLength": "fn() -> number",
+        "getOptions": "fn() -> ?",
+        "getSelectedRows": "fn() -> [number]",
+        "getSelectionModel": "fn() -> ?",
+        "setOptions": "fn(options: ?)",
+        "setSelectedRows": "fn(rowsArray: [number])",
+        "setSelectionModel": "fn(selectionModel: ?)",
+        "autosizeColumns": "fn()",
+        "getColumnIndex": "fn(id: string) -> number",
+        "getColumns": "fn() -> [?]",
+        "setColumns": "fn(columnDefinitions: [?])",
+        "setSortColumn": "fn(columnId: string, ascending: bool)",
+        "setSortColumns": "fn(cols: [cols])",
+        "getSortColumns": "fn() -> [ret]",
+        "updateColumnHeader": "fn(columnId: string, title?: string, toolTip?: string)",
+        "addCellCssStyles": "fn(key: string, hash: CellCssStylesHash)",
+        "canCellBeActive": "fn(row: number, col: number) -> bool",
+        "canCellBeSelected": "fn(row: number, col: number) -> bool",
+        "editActiveCell": "fn(editor: ?)",
+        "flashCell": "fn(row: number, cell: number, speed?: number)",
+        "getActiveCell": "fn() -> Cell",
+        "getActiveCellNode": "fn() -> HTMLElement",
+        "getActiveCellPosition": "fn() -> CellPosition",
+        "getCellCssStyles": "fn(key: string) -> CellCssStylesHash",
+        "getCellEditor": "fn() -> ?",
+        "getCellFromEvent": "fn(e: ?) -> Cell",
+        "getCellFromPoint": "fn(x: number, y: number) -> Cell",
+        "getCellNode": "fn(row: number, cell: number) -> HTMLElement",
+        "getCellNodeBox": "fn(row: number, cell: number) -> CellPosition",
+        "gotoCell": "fn(row: number, cell: number, forceEdit?: bool)",
+        "getTopPanel": "fn() -> HTMLElement",
+        "setTopPanelVisibility": "fn(visible: bool)",
+        "setHeaderRowVisibility": "fn(visible: bool)",
+        "getHeaderRow": "fn() -> HTMLElement",
+        "getHeaderRowColumn": "fn(columnId: string) -> ?",
+        "getGridPosition": "fn() -> CellPosition",
+        "navigateDown": "fn() -> bool",
+        "navigateLeft": "fn() -> bool",
+        "navigateNext": "fn() -> bool",
+        "navigatePrev": "fn() -> bool",
+        "navigateRight": "fn() -> bool",
+        "navigateUp": "fn() -> bool",
+        "removeCellCssStyles": "fn(key: string)",
+        "resetActiveCell": "fn()",
+        "setActiveCell": "fn(row: number, cell: number)",
+        "setCellCssStyles": "fn(key: string, hash: CellCssStylesHash)",
+        "onScroll": "?",
+        "onSort": "?",
+        "onHeaderMouseEnter": "?",
+        "onHeaderMouseLeave": "?",
+        "onHeaderContextMenu": "?",
+        "onHeaderClick": "?",
+        "onHeaderCellRendered": "?",
+        "onBeforeHeaderCellDestroy": "?",
+        "onHeaderRowCellRendered": "?",
+        "onBeforeHeaderRowCellDestroy": "?",
+        "onMouseEnter": "?",
+        "onMouseLeave": "?",
+        "onClick": "?",
+        "onDblClick": "?",
+        "onContextMenu": "?",
+        "onKeyDown": "?",
+        "onAddNewRow": "?",
+        "onValidationError": "?",
+        "onColumnsReordered": "?",
+        "onColumnsResized": "?",
+        "onCellChange": "?",
+        "onBeforeEditCell": "?",
+        "onBeforeCellEditorDestroy": "?",
+        "onBeforeDestroy": "?",
+        "onActiveCellChanged": "?",
+        "onActiveCellPositionChanged": "?",
+        "onDragInit": "?",
+        "onDragStart": "?",
+        "onDrag": "?",
+        "onDragEnd": "?",
+        "onSelectedRowsChanged": "?",
+        "onCellCssStylesChanged": "?",
+        "onViewportChanged": "?",
+        "registerPlugin": "fn(plugin: ?)",
+        "unregisterPlugin": "fn(plugin: ?)",
+        "render": "fn()",
+        "invalidate": "fn()",
+        "invalidateRow": "fn(row: number)",
+        "invalidateRows": "fn(rows: [number])",
+        "invalidateAllRows": "fn()",
+        "updateCell": "fn(row: number, cell: number)",
+        "updateRow": "fn(row: number)",
+        "getViewport": "fn(viewportTop?: number, viewportLeft?: number) -> Viewport",
+        "getRenderedRange": "fn(viewportTop?: number, viewportLeft?: number) -> Viewport",
+        "resizeCanvas": "fn()",
+        "updateRowCount": "fn()",
+        "scrollRowIntoView": "fn(row: number, doPaging: bool)",
+        "scrollRowToTop": "fn(row: number)",
+        "scrollCellIntoView": "fn(row: number, cell: number, doPaging: bool)",
+        "getCanvasNode": "fn() -> HTMLCanvasElement",
+        "focus": "fn()",
+        "getEditorLock": "fn() -> ?",
+        "getEditController": "fn() -> ret1"
+      }
+    },
+    "GridEventArgs": {
+      "grid": "?"
+    },
+    "OnCellCssStylesChangedEventArgs": {
+      "key": "string",
+      "hash": "CellCssStylesHash"
+    },
+    "OnSelectedRowsChangedEventArgs": {
+      "rows": "[number]"
+    },
+    "OnDragEndEventArgs": {},
+    "OnDragEventArgs": {},
+    "OnDragStartEventArgs": {},
+    "OnDragInitEventArgs": {},
+    "OnActiveCellPositionChangedEventArgs": {},
+    "OnActiveCellChangedEventArgs": {
+      "row": "number",
+      "cell": "number"
+    },
+    "OnBeforeDestroyEventArgs": {},
+    "OnBeforeCellEditorDestroyEventArgs": {
+      "editor": "?"
+    },
+    "OnBeforeEditCellEventArgs": {
+      "row": "number",
+      "cell": "number",
+      "item": "T",
+      "column": "?"
+    },
+    "OnCellChangeEventArgs": {
+      "row": "number",
+      "cell": "number",
+      "item": "T"
+    },
+    "OnColumnsResizedEventArgs": {},
+    "OnColumnsReorderedEventArgs": {},
+    "OnValidationErrorEventArgs": {
+      "editor": "?",
+      "cellNode": "HTMLElement",
+      "validationResults": "ValidateResults",
+      "row": "number",
+      "cell": "number",
+      "column": "?"
+    },
+    "OnAddNewRowEventArgs": {
+      "item": "T",
+      "column": "?"
+    },
+    "OnKeyDownEventArgs": {
+      "row": "number",
+      "cell": "number"
+    },
+    "OnContextMenuEventArgs": {},
+    "OnDblClickEventArgs": {
+      "row": "number",
+      "cell": "number"
+    },
+    "OnClickEventArgs": {
+      "row": "number",
+      "cell": "number"
+    },
+    "OnMouseLeaveEventArgs": {},
+    "OnMouseEnterEventArgs": {},
+    "OnBeforeHeaderRowCellDestroyEventArgs": {
+      "node": "HTMLElement",
+      "column": "?"
+    },
+    "OnHeaderRowCellRenderedEventArgs": {
+      "node": "HTMLElement",
+      "column": "?"
+    },
+    "OnBeforeHeaderCellDestroyEventArgs": {
+      "node": "HTMLElement",
+      "column": "?"
+    },
+    "OnHeaderCellRenderedEventArgs": {
+      "node": "HTMLElement",
+      "column": "?"
+    },
+    "OnHeaderClickEventArgs": {
+      "column": "?"
+    },
+    "OnHeaderContextMenuEventArgs": {
+      "column": "?"
+    },
+    "OnHeaderMouseEventArgs": {
+      "column": "?"
+    },
+    "OnSortEventArgs": {
+      "multiColumnSort": "bool",
+      "sortCol": "?",
+      "sortCols": "[?]",
+      "sortAsc": "bool"
+    },
+    "OnScrollEventArgs": {
+      "scrollLeft": "number",
+      "scrollTop": "number"
+    },
+    "OnViewportChangedEventArgs": {},
+    "SortColumn": {
+      "sortCol": "?",
+      "sortAsc": "bool"
+    },
+    "Cell": {
+      "row": "number",
+      "cell": "number"
+    },
+    "CellPosition": {
+      "bottom": "number",
+      "height": "number",
+      "right": "number",
+      "visible": "bool",
+      "width": "number"
+    },
+    "Position": {
+      "top": "number",
+      "left": "number"
+    },
+    "CellCssStylesHash": {},
+    "Viewport": {
+      "top": "number",
+      "bottom": "number",
+      "leftPx": "number",
+      "rightPx": "number"
+    },
+    "ValidateResults": {
+      "valid": "bool",
+      "msg": "string"
+    },
+    "Editors": {
+      "EditorOptions": {
+        "column": "?",
+        "container": "HTMLElement",
+        "grid": "?"
+      },
+      "Editor": {
+        "!type": "fn(args: ?)",
+        "prototype": {
+          "init": "fn()",
+          "destroy": "fn()",
+          "focus": "fn()",
+          "loadValue": "fn(item: ?)",
+          "applyValue": "fn(item: ?, state: string)",
+          "isValueChanged": "fn() -> bool",
+          "serializeValue": "fn() -> ?",
+          "validate": "fn() -> ValidateResults"
+        }
+      },
+      "Text": {
+        "!type": "fn(args: ?)",
+        "prototype": {
+          "getValue": "fn() -> string",
+          "setValue": "fn(val: string)",
+          "serializeValue": "fn() -> string"
+        }
+      },
+      "Integer": {
+        "!type": "fn(args: ?)",
+        "prototype": {
+          "serializeValue": "fn() -> number"
+        }
+      },
+      "Date": {
+        "!type": "fn(args: ?)",
+        "prototype": {
+          "show": "fn()",
+          "hide": "fn()",
+          "position": "fn(position: Position)",
+          "serializeValue": "fn() -> string"
+        }
+      },
+      "YesNoSelect": {
+        "!type": "fn(args: ?)",
+        "prototype": {
+          "serializeValue": "fn() -> bool"
+        }
+      },
+      "Checkbox": {
+        "!type": "fn(args: ?)",
+        "prototype": {
+          "serializeValue": "fn() -> bool"
+        }
+      },
+      "PercentComplete": {
+        "!type": "fn(args: ?)",
+        "prototype": {
+          "serializeValue": "fn() -> number"
+        }
+      },
+      "LongText": {
+        "!type": "fn(args: ?)",
+        "prototype": {
+          "handleKeyDown": "fn(e: DOMEvent)",
+          "save": "fn()",
+          "cancel": "fn()",
+          "hide": "fn()",
+          "show": "fn()",
+          "position": "fn(position: Position)",
+          "serializeValue": "fn() -> string"
+        }
+      }
+    },
+    "Formatter": {},
+    "Formatters": {
+      "PercentComplete": "?",
+      "PercentCompleteBar": "?",
+      "YesNo": "?",
+      "Checkmark": "?"
+    },
+    "Data": {
+      "DataViewOptions": {
+        "groupItemMetadataProvider": "?",
+        "inlineFilters": "bool"
+      },
+      "DataView": {
+        "!type": "fn(options?: ?)",
+        "prototype": {
+          "beginUpdate": "fn()",
+          "endUpdate": "fn()",
+          "setPagingOptions": "fn(args: PagingOptions)",
+          "getPagingInfo": "fn() -> PagingOptions",
+          "getItems": "fn() -> [T]",
+          "setItems": "fn(data: [T], objectIdProperty?: string)",
+          "setFilter": "fn(filterFn: fn(item: T, args: ?))",
+          "sort": "fn(comparer: Function, ascending: bool)",
+          "fastSort": "fn(field: string, ascending: bool)",
+          "reSort": "fn()",
+          "setGrouping": "fn(groupingInfos: ?, GroupingOptions: ?)",
+          "getGrouping": "fn() -> [?]",
+          "groupBy": "fn(valueGetter: ?, valueFormatter: ?, sortComparer: ?)",
+          "setAggregators": "fn(groupAggregators: ?, includeCollapsed: ?)",
+          "collapseAllGroups": "fn(level?: number)",
+          "expandAllGroups": "fn(level?: number)",
+          "collapseGroup": "fn(varArgs: [string])",
+          "expandGroup": "fn(varArgs: [string])",
+          "getGroups": "fn() -> [?]",
+          "getIdxById": "fn(id: string) -> number",
+          "getRowById": "fn(id: string) -> number",
+          "getItemById": "fn(id: ?) -> T",
+          "getItemByIdx": "fn(idx: number) -> T",
+          "mapRowsToIds": "fn(rowArray: [T]) -> [string]",
+          "setRefreshHints": "fn(hints: RefreshHints)",
+          "setFilterArgs": "fn(args: ?)",
+          "refresh": "fn()",
+          "updateItem": "fn(id: string, item: T)",
+          "insertItem": "fn(insertBefore: number, item: T)",
+          "addItem": "fn(item: T)",
+          "deleteItem": "fn(id: string)",
+          "syncGridSelection": "fn(grid: ?, preserveHidden: bool)",
+          "syncGridCellCssStyles": "fn(grid: ?, key: string)",
+          "getLength": "fn() -> number",
+          "getItem": "fn(index: number) -> T",
+          "getItemMetadata": "fn(index: number) -> ?",
+          "onRowCountChanged": "?",
+          "onRowsChanged": "?",
+          "onPagingInfoChanged": "?"
+        }
+      },
+      "GroupingOptions": {
+        "getter": "fn()",
+        "string": "?",
+        "formatter": "fn(item?: T)",
+        "comparer": "fn(a: ?, b: ?)",
+        "predefinedValues": "[?]",
+        "aggregators": "[?]",
+        "aggregateEmpty": "bool",
+        "aggregateCollapsed": "bool",
+        "aggregateChildGroups": "bool",
+        "collapsed": "bool",
+        "displayTotalsRow": "bool"
+      },
+      "PagingOptions": {
+        "pageSize": "number",
+        "pageNum": "number",
+        "totalRows": "number",
+        "totalPages": "number"
+      },
+      "RefreshHints": {
+        "isFilterNarrowing": "bool",
+        "isFilterExpanding": "bool",
+        "isFilterUnchanged": "bool",
+        "ignoreDiffsBefore": "bool",
+        "ignoreDiffsAfter": "bool"
+      },
+      "OnRowCountChangedEventData": {},
+      "OnRowsChangedEventData": {
+        "rows": "[number]"
+      },
+      "OnPagingInfoChangedEventData": {},
+      "Aggregators": {
+        "Aggregator": {
+          "prototype": {
+            "field": "string",
+            "init": "fn()",
+            "accumulate": "fn(item: T)",
+            "storeResult": "fn(groupTotals: ?)"
+          }
+        },
+        "Avg": {
+          "prototype": {}
+        },
+        "Min": {
+          "prototype": {}
+        },
+        "Max": {
+          "prototype": {}
+        },
+        "Sum": {
+          "prototype": {}
+        }
+      },
+      "GroupItemMetadataProvider": {
+        "prototype": {
+          "init": "fn()",
+          "destroy": "fn()",
+          "getGroupRowMetadata": "fn(item?: ?) -> ?",
+          "getTotalsRowMetadata": "fn(item?: ?) -> ?"
+        }
+      },
+      "GroupItemMetadataProviderOptions": {
+        "groupCssClass": "string",
+        "groupTitleCssClass": "string",
+        "totalsCssClass": "string",
+        "groupFocusable": "bool",
+        "totalsFocusable": "bool",
+        "toggleCssClass": "string",
+        "toggleExpandedCssCass": "string",
+        "toggleCollapsedCssClass": "string",
+        "enableExpandCollapse": "bool"
+      }
+    },
+    "Plugin": {
+      "!type": "fn(options?: PluginOptions)",
+      "prototype": {
+        "init": "fn(grid: ?)",
+        "destroy": "fn()"
+      }
+    },
+    "PluginOptions": {}
+  },
+  "!name": "SlickGrid.d.ts",
+  "!define": {
+    "cols": {
+      "columnId": "string",
+      "sortAsc": "bool"
+    },
+    "ret": {
+      "columnId": "string",
+      "sortAsc": "bool"
+    },
+    "ret1": {
+      "commitCurrentEdit": "fn() -> bool",
+      "cancelCurrentEdit": "fn() -> bool"
+    }
+  }
+}

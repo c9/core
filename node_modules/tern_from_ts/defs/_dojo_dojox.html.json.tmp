@@ -1,0 +1,121 @@
+{
+  "dojox": {
+    "html": {
+      "ellipsis": {},
+      "entities": {
+        "html": "[?]",
+        "latin": "[?]",
+        "decode": "fn(str: ?, m: ?)",
+        "encode": "fn(str: ?, m: ?)"
+      },
+      "metrics": {
+        "getCachedFontMeasurements": "fn(recalculate: ?) -> ?",
+        "getFontMeasurements": "fn() -> Object",
+        "getScrollbar": "fn() -> Object",
+        "getTextBox": "fn(text: String, style: Object, className: String)",
+        "initOnFontResize": "fn()"
+      },
+      "styles": {
+        "entities": {
+          "html": "[?]",
+          "latin": "[?]",
+          "decode": "fn(str: ?, m: ?)",
+          "encode": "fn(str: ?, m: ?)"
+        },
+        "ext-dojo": "Object",
+        "metrics": {
+          "getCachedFontMeasurements": "fn(recalculate: ?) -> ?",
+          "getFontMeasurements": "fn() -> Object",
+          "getScrollbar": "fn() -> Object",
+          "getTextBox": "fn(text: String, style: Object, className: String)",
+          "initOnFontResize": "fn()"
+        },
+        "activeStyleSheet": "fn(title: String)",
+        "disableStyleSheet": "fn(styleSheetName: String)",
+        "enableStyleSheet": "fn(styleSheetName: String)",
+        "getDynamicStyleSheet": "fn(styleSheetName: String) -> ?",
+        "getPreferredStyleSheet": "fn()",
+        "getStyleSheet": "fn(styleSheetName: String)",
+        "getStyleSheets": "fn() -> ?",
+        "getToggledStyleSheets": "fn() -> ?",
+        "insertCssRule": "fn(selector: String, declaration: String, styleSheetName: String) -> String",
+        "modifyCssRule": "fn(selector: ?, declaration: ?, styleSheetName: ?)",
+        "removeCssRule": "fn(selector: String, declaration: String, styleSheetName: String)",
+        "_ContentSetter": {
+          "!type": "fn(params: Object, node: String)",
+          "prototype": {
+            "adjustPaths": "bool",
+            "cleanContent": "bool",
+            "content": "string",
+            "executeScripts": "bool",
+            "extractContent": "bool",
+            "id": "Object",
+            "node": "HTMLElement",
+            "parseContent": "bool",
+            "parserScope": "string",
+            "referencePath": "string",
+            "renderStyles": "bool",
+            "scriptHasHooks": "bool",
+            "scriptHookReplacement": "Object",
+            "startup": "bool",
+            "empty": "fn()",
+            "set": "fn(cont: String, params: Object) -> ?",
+            "setContent": "fn()",
+            "tearDown": "fn()",
+            "onBegin": "fn()",
+            "onContentError": "fn(err: ?) -> String",
+            "onEnd": "fn() -> ?",
+            "onExecError": "fn(err: ?) -> String"
+          }
+        },
+        "ext_dojo": {
+          "style": "Object"
+        }
+      },
+      "_base": {
+        "_ContentSetter": {
+          "!type": "fn(params: Object, node: String)",
+          "prototype": {
+            "adjustPaths": "bool",
+            "cleanContent": "bool",
+            "content": "string",
+            "executeScripts": "bool",
+            "extractContent": "bool",
+            "id": "Object",
+            "node": "HTMLElement",
+            "parseContent": "bool",
+            "parserScope": "string",
+            "referencePath": "string",
+            "renderStyles": "bool",
+            "scriptHasHooks": "bool",
+            "scriptHookReplacement": "Object",
+            "startup": "bool",
+            "empty": "fn()",
+            "set": "fn(cont: String, params: Object) -> ?",
+            "setContent": "fn()",
+            "tearDown": "fn()",
+            "onBegin": "fn()",
+            "onContentError": "fn(err: ?) -> String",
+            "onEnd": "fn() -> ?",
+            "onExecError": "fn(err: ?) -> String"
+          }
+        }
+      },
+      "ext_dojo": {
+        "style": {}
+      },
+      "format": {}
+    }
+  },
+  "dojox/html": "exp",
+  "dojox/html/ellipsis": "exp",
+  "dojox/html/entities": "exp",
+  "dojox/html/metrics": "exp",
+  "dojox/html/styles": "exp",
+  "dojox/html/styles._ContentSetter": "exp",
+  "dojox/html/styles.ext-dojo": "exp",
+  "dojox/html/styles.metrics": "exp",
+  "dojox/html/styles.entities": "exp",
+  "dojox/html/_base._ContentSetter": "exp",
+  "!name": "dojox.html.d.ts"
+}

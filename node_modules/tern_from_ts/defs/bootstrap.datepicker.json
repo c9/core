@@ -1,0 +1,34 @@
+{
+  "DatepickerOptions": {
+    "format": "string",
+    "weekStart": "number",
+    "startDate": "?",
+    "endDate": "?",
+    "autoclose": "bool",
+    "startView": "number",
+    "todayBtn": "?",
+    "todayHighlight": "bool",
+    "keyboardNavigation": "bool",
+    "language": "string",
+    "beforeShowDay": "fn(date: ?)",
+    "calendarWeeks": "bool",
+    "clearBtn": "bool",
+    "daysOfWeekDisabled": "[number]",
+    "forceParse": "bool",
+    "inputs": "[?]",
+    "minViewMode": "?",
+    "multidate": "?",
+    "multidateSeparator": "string",
+    "orientation": "string"
+  },
+  "DatepickerEventObject": {
+    "date": "Date",
+    "format": "fn(format?: string) -> string"
+  },
+  "JQuery": {
+    "datepicker": "fn() -> JQuery",
+    "off": "fn(events: string, selector?: string, handler?: fn(eventObject: DatepickerEventObject)) -> JQuery",
+    "on": "fn(events: string, selector: string, data: ?, handler?: fn(eventObject: DatepickerEventObject)) -> JQuery"
+  },
+  "!name": "bootstrap.datepicker"
+}

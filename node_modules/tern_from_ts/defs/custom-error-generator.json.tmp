@@ -1,0 +1,4 @@
+{
+  "custom-error-generator": "createError",
+  "!name": "custom-error-generator.d.ts"
+}

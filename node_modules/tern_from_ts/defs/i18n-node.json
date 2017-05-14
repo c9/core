@@ -1,0 +1,57 @@
+{
+  "i18n": {
+    "ConfigurationOptions": {
+      "locales": "[string]",
+      "defaultLocale": "string",
+      "cookie": "string",
+      "directory": "string",
+      "updateFiles": "bool",
+      "indent": "string",
+      "extension": "string",
+      "objectNotation": "bool",
+      "prefix": "string"
+    },
+    "TranslateOptions": {
+      "phrase": "string",
+      "locale": "string"
+    },
+    "PluralOptions": {
+      "singular": "string",
+      "plural": "string",
+      "count": "number",
+      "locale": "string"
+    },
+    "Replacements": {},
+    "LocaleCatalog": {},
+    "GlobalCatalog": {},
+    "configure": "fn(options: ConfigurationOptions)",
+    "init": "fn(request: Express.Request, response: Express.Response, next?: Function)",
+    "__": "fn(phrase: string, replace: [string]) -> string",
+    "__n": "fn(options: PluralOptions) -> string",
+    "setLocale": "fn(locale: string)",
+    "getLocale": "fn() -> string",
+    "getCatalog": "fn() -> GlobalCatalog",
+    "overrideLocaleFromQuery": "fn(request?: Express.Request)",
+    "version": "string"
+  },
+  "i18nAPI": {
+    "locale": "string",
+    "__": "fn(phrase: string, replace: [string]) -> string",
+    "__n": "fn(options: i18n.PluralOptions) -> string",
+    "getLocale": "fn() -> string",
+    "setLocale": "fn(locale: string)",
+    "getCatalog": "fn() -> i18n.GlobalCatalog"
+  },
+  "Express": {
+    "Request": {
+      "languages": "[string]",
+      "regions": "[string]",
+      "language": "string",
+      "region": "string"
+    },
+    "Response": {
+      "locals": "i18nAPI"
+    }
+  },
+  "!name": "i18n-node"
+}
