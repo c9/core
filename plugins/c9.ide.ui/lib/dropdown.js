@@ -308,7 +308,7 @@ apf.dropdown = function(struct, tagName) {
 
     //@todo apf3.0 why is this function called 6 times on init.
     this.$setLabel = function(value) {
-        this.oLabel.innerHTML = value || this["initial-message"] || "";
+        this.oLabel.textContent = value || this["initial-message"] || "";
         
         this.$setStyleClass(this.$ext, value ? "" : this.$baseCSSname + "Initial",
             !value ? [] : [this.$baseCSSname + "Initial"]);

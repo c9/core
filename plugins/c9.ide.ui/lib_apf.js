@@ -832,9 +832,12 @@ apf.Class.prototype = new (function(){
      */
     this.dispatchEvent = function(eventName, options, e) {
         var arr, result, rValue, i, l;
-
-        if (!apf.AmlEvent)
-            return;
+        
+        if (!options)
+            options = {};
+            
+        if (!options.name)
+            options.name = eventName;
 
         apf.$eventDepth++;
         this.$eventDepth++;
@@ -843,12 +846,11 @@ apf.Class.prototype = new (function(){
             
             //@todo rewrite this and all dependencies to match w3c
             if ((!e || !e.currentTarget) && (!options || !options.currentTarget)) {
-                if (!(options || (options = {})).currentTarget)
-                    options.currentTarget = this;
+                options.currentTarget = this;
 
                 //Capture support
                 if (arr = this.$captureStack[eventName]) {
-                    for (i = 0, l = arr.length; i < l; i++) {
+                    for (i = arr.length; i--;) {
                         rValue = arr[i].call(this, e || (e = new apf.AmlEvent(eventName, options)));
                         if (typeof rValue != UNDEF)
                             result = rValue;
@@ -863,15 +865,13 @@ apf.Class.prototype = new (function(){
             }
             else {
                 if (this["on" + eventName]) {
-                    result = this["on" + eventName].call(this, e
-                        || (e = new apf.AmlEvent(eventName, options))); //Backwards compatibility
+                    result = this["on" + eventName].call(this, e || (e = options)); 
                 }
 
                 if (arr = this.$eventsStack[eventName]) {
-                    for (i = 0, l = arr.length; i < l; i++) {
+                    for (i = arr.length; i--;) {
                         if (!arr[i]) continue;
-                        rValue = arr[i].call(this, e
-                            || (e = new apf.AmlEvent(eventName, options)));
+                        rValue = arr[i].call(this, e || (e = options));
                         if (typeof rValue != UNDEF)
                             result = rValue;
                     }
@@ -885,23 +885,11 @@ apf.Class.prototype = new (function(){
                 result = rValue;
         }
         
-        if (--apf.$eventDepth == 0 && this.ownerDocument
-          && apf.queue
-        ) {
+        if (--apf.$eventDepth == 0 && this.ownerDocument && apf.queue) {
             apf.queue.empty();
         }
 
         this.$eventDepth--;
-
-        
-        if (options) {
-            try {
-                delete options.currentTarget;
-            }
-            catch (ex) {
-                options.currentTarget = null;
-            }
-        }
 
         return e && typeof e.returnValue != UNDEF ? e.returnValue : result;
     };
@@ -921,14 +909,15 @@ apf.Class.prototype = new (function(){
         if (eventName[0] == "o" && eventName[1] == "n")
             eventName = eventName.substr(2);
 
-        var s, stack = useCapture ? this.$captureStack : this.$eventsStack;
-        if (!(s = stack[eventName]))
+        var stack = useCapture ? this.$captureStack : this.$eventsStack;
+        var s = stack[eventName]
+        if (!s)
             s = stack[eventName] = [];
 
         if (s.indexOf(callback) > -1)
             return;
 
-        s.unshift(callback);
+        s.push(callback);
 
         var f;
         if (f = this.$eventsStack["$event." + eventName])
@@ -1082,10 +1071,30 @@ apf.Class.prototype = new (function(){
         apf.nameserver.remove(this.localName, this);
         
     };
+    
+    // Before we have Proxy Objects, we'll extend the apf objects with the needed api
+    this.on = function() {
+        this.addEventListener.apply(this, arguments);
+    }
+    this.once = function(name, listener) {
+        var _self = this;
+        function callback() {
+            listener.apply(this, arguments);
+            _self.removeEventListener(name, callback);
+        }
+        this.addEventListener(name, callback);
+    };
+    this.emit = this.dispatchEvent;
+    this.off = this.removeEventListener;
+    
+    Object.defineProperty(this, '$html', {
+        get: function() { return this.$int || this.$container || this.$ext; },
+        enumerable: false,
+        configurable: true
+    });
 })();
 
 apf.extend(apf, new apf.Class().$init());
-
 
 
 
@@ -1434,12 +1443,6 @@ apf.asyncChain = function(funcs) {
 // start closure:
 //(function(){
 
-if (typeof isFinite == "undefined") {
-    function isFinite(val) {
-        return val + 1 != val;
-    }
-}
-
 apf.NUMBER = 1;
 apf.BOOLEAN = 2;
 apf.STRING = 3;
@@ -1564,122 +1567,20 @@ defineProp(Array.prototype, "equals", function(obj) {
     return true;
 });
 
-/*
- * Make sure that an array instance contains only unique values (NO duplicates).
- * Elaborate implementation to allow for O(n) time complexity compared to O(n^2)
- * time complexity when using Array.prototype.indexOf.
- * @see http://bbenvie.com/articles/2012-06-10/Array-prototype-unique-in-O-n-time-complexity
- * @see http://jsperf.com/array-unique2/9
- *
- * @type {Array}
- */
-var uniqueBenvie = function(){
-    var hasOwn = {}.hasOwnProperty,
-        uids = {};
+defineProp(Array.prototype, "makeUnique", function(){
+    var out = [],
+        seen = new Set,
+        i = this.length;
 
-    // use hash for primitives and tagging for objects
-    function uid(){
-        var chars = [], i = 20, num;
-        while (i--) {
-            num = Math.random() * 52 | 0;
-            chars[i] = String.fromCharCode(num + (num >= 26 ? 71 : 65));
+    while (i--) {
+        if (!seen.has(this[i])) {
+            out[out.length] = this[i];
+            seen.add(this[i]);
         }
-        chars = chars.join("");
-
-        if (chars in uids)
-            return uid();
-
-        uids[chars] = true;
-        return chars;
     }
 
-    function unique(array) {
-        var strings = {}, numbers = {}, others = {},
-            tagged = [], failed = [],
-            count = 0, i = array.length,
-            item, type;
-
-        var id = uid();
-
-        while (i--) {
-            item = array[i];
-            type = typeof item;
-            if (item === null || type !== "object" && type !== "function") {
-                // primitive
-                switch (type) {
-                    case "string":
-                        strings[item] = true;
-                        break;
-                    case "number":
-                        numbers[item] = true;
-                        break;
-                    default:
-                        others[item] = item;
-                        break;
-                }
-            }
-            else {
-                // object
-                if (!hasOwn.call(item, id)) {
-                    try {
-                        item[id] = true;
-                        tagged[count++] = item;
-                    }
-                    catch (e) {
-                        if (failed.indexOf(item) === -1)
-                            failed[failed.length] = item;
-                    }
-                }
-            }
-        }
-
-        // remove the tags
-        while (count--)
-            delete tagged[count][id];
-
-        tagged = tagged.concat(failed);
-        count = tagged.length;
-
-        // append primitives to results
-        for (i in strings)
-            if (hasOwn.call(strings, i))
-                tagged[count++] = i;
-
-        for (i in numbers)
-            if (hasOwn.call(numbers, i))
-                tagged[count++] = +i;
-
-        for (i in others)
-            if (hasOwn.call(others, i))
-                tagged[count++] = others[i];
-
-        return tagged;
-    }
-
-    return unique;
-}();
-
-if (typeof Set !== "undefined") {
-    defineProp(Array.prototype, "makeUnique", function(){
-        var out = [],
-            seen = new Set,
-            i = this.length;
-
-        while (i--) {
-            if (!seen.has(this[i])) {
-                out[out.length] = this[i];
-                seen.add(this[i]);
-            }
-        }
-
-        return out;
-    });
-}
-else {
-    defineProp(Array.prototype, "makeUnique", function(){
-        return uniqueBenvie(this);
-    });
-}
+    return out;
+});
 
 /*
  * Check if this array instance contains a value 'obj'.
@@ -3317,7 +3218,7 @@ apf.isChildOf = function(pNode, childnode, orItself) {
         return false;
 
     if (childnode.nodeType == 2)
-        childnode = childnode.ownerElement || childnode.selectSingleNode("..");
+        childnode = childnode.ownerElement;
 
     if (orItself && pNode == childnode)
         return true;
@@ -4319,7 +4220,28 @@ apf.queue = {
 
 
 
-
+function xmlToHtml(xmlNode, shallow) {
+    if (xmlNode.nodeType == 1 && xmlNode.localName != "style") {
+        var el = document.createElement(xmlNode.localName)
+        var ch = xmlNode.childNodes;
+        if (!shallow) {
+            for (var i = 0; i < ch.length; i++) {
+                var childEl = xmlToHtml(ch[i]);
+                if (childEl)
+                    el.appendChild(childEl);
+            }
+        }
+        var attr = xmlNode.attributes;
+        for (var i = 0; i < attr.length; i++) {
+            el.setAttribute(attr[i].name, attr[i].nodeValue);
+        }
+        return el;
+    } else  if (xmlNode.nodeType == 3) {
+        var el = document.createTextNode(xmlNode.nodeValue);
+        // el.nodeValue = ;
+        return el;
+    }
+}
 /**
  * 
  * Controls the skinning modifications for AML.
@@ -4411,9 +4333,10 @@ apf.skins = {
                 continue;
 
             //this.templates[nodes[i].tagName] = nodes[i];
-            this.skins[name].templates[nodes[i].getAttribute("name")] = nodes[i];
+            var htmlNode = xmlToHtml(nodes[i]);
+            this.skins[name].templates[htmlNode.getAttribute("name")] = htmlNode;
             if (nodes[i].ownerDocument)
-                this.importSkinDef(nodes[i], base, name);
+                this.importSkinDef(nodes[i], base, name, htmlNode);
         }
 
         this.purgeCss(mediaPath, iconPath);
@@ -4422,7 +4345,7 @@ apf.skins = {
     /* ***********
      Import
      ************/
-    importSkinDef: function(xmlNode, basepath, name) {
+    importSkinDef: function(xmlNode, basepath, name, htmlNode) {
         var i, l, nodes = $xmlns(xmlNode, "style", apf.ns.aml), tnode, node;
         for (i = 0, l = nodes.length; i < l; i++) {
             node = nodes[i];
@@ -4444,6 +4367,8 @@ apf.skins = {
                     tnode = tnode.nextSibling;
                 }
             }
+            
+            node.remove();
         }
 
         nodes = $xmlns(xmlNode, "alias", apf.ns.apf);
@@ -4451,7 +4376,7 @@ apf.skins = {
         for (i = 0; i < nodes.length; i++) {
             if (!nodes[i].firstChild)
                 continue;
-            t[nodes[i].firstChild.nodeValue.toLowerCase()] = xmlNode;
+            t[nodes[i].firstChild.nodeValue.toLowerCase()] = htmlNode || xmlNode;
         }
     },
 
@@ -6285,33 +6210,8 @@ apf.AmlElement = function(struct, tagName) {
          * ```
          */
         "id": function(value) {
-            
-            
             if (this.name == value || !value)
                 return;
-    
-            if (self[this.name] == this) {
-                self[this.name] = null;
-                
-                apf.nameserver.remove(this.localName, this);
-                apf.nameserver.remove("all", this);
-                
-            }
-    
-            
-    
-            if (!self[value] || !self[value].hasFeature) {
-                try {
-                    self[value] = this;
-                }
-                catch (ex) {
-                    
-                }
-            }
-            
-            
-            //@todo dispatch event for new name creation.
-            //@todo old name disposal
             
             apf.nameserver.register(this.localName, value, this)
             apf.nameserver.register("all", value, this)
@@ -7098,59 +6998,6 @@ apf.AmlDocumentFragment.prototype.nodeType =
 
 
 
-
-/**
- * Implementation of the W3C event object. An instance of this class is passed as
- * the first argument of any event handler. As per event, it contains different
- * properties giving context based information about the event.
- * @class apf.AmlEvent
- * @default_private
- */
-apf.AmlEvent = function(name, data) {
-    this.name = name;
-    
-    var prop;
-    for (prop in data)
-        this[prop] = data[prop];
-};
-
-apf.AmlEvent.prototype = {
-    
-    bubbles: false,
-    cancelBubble: false,
-    
-
-    /**
-     * Cancels the event (if it is cancelable), without stopping further 
-     * propagation of the event. 
-     */
-    preventDefault: function(){
-        this.returnValue = false;
-    },
-
-    
-    /**
-     * Prevents further propagation of the current event. 
-     */
-    stopPropagation: function(){
-        this.cancelBubble = true;
-    },
-    
-
-    stop: function() {
-        this.returnValue = false;
-        
-        this.cancelBubble = true;
-        
-    }
-};
-
-
-
-
-
-
-
 apf.AmlTextRectangle = function(host) {
     var _self = this;
     function handler(){
@@ -7279,17 +7126,8 @@ apf.XhtmlElement = function(struct, tagName) {
 
         var str, aml = this.$aml;
         if (aml) {
-            if (aml.serialize)
-                str = aml.serialize();
-            else {
-                aml = aml.cloneNode(false);
-                str = aml.xml || aml.nodeValue;
-            }
-
-            str = str.replace(/ on\w+="[^"]*"| on\w+='[^']*'/g, "");
-            
             this.$ext = 
-            this.$int = apf.insertHtmlNode(null, pHtmlNode, null, apf.html_entity_decode(str));
+            this.$int = pHtmlNode.appendChild(xmlToHtml(aml, true));
         }
         else {
             this.$ext = this.$int = 
@@ -9161,9 +8999,7 @@ apf.Presentation = function(){
         if (!textNode)
             return null;
 
-        return (htmlNode
-            ? apf.queryNode(htmlNode, textNode)
-            : apf.getFirstElement(node).selectSingleNode(textNode));
+        return findNode(htmlNode || apf.getFirstElement(node), textNode);
     };
 
     this.$getOption = function(type, section) {
@@ -9182,10 +9018,6 @@ apf.Presentation = function(){
             pNode = this.$pHtmlNode;
         if (!tag)
             tag = "main";
-        //if (!aml)
-            //aml = this.$aml;
-
-        tag = tag.toLowerCase(); //HACK: make components case-insensitive
 
         this.$getNewContext(tag);
         var oExt = this.$getLayoutNode(tag);
@@ -12206,124 +12038,6 @@ apf.window = new apf.window();
 apf.runGecko = function(){
     if (apf.runNonIe)
         apf.runNonIe();
-
-    /* ***************************************************************************
-     XSLT
-     ****************************************************************************/
-    
-    
-    //XMLDocument.selectNodes
-    HTMLDocument.prototype.selectNodes = XMLDocument.prototype.selectNodes = function(sExpr, contextNode) {
-        try {
-            var oResult = this.evaluate(sExpr, (contextNode || this),
-                this.createNSResolver(this.documentElement),
-                7, null); //XpathResult.ORDERED_NODE_ITERATOR_TYPE
-        }
-        catch (ex) {
-            var msg = ex.message;
-            if (ex.code == ex.INVALID_EXPRESSION_ERR)
-                msg = msg.replace(/the expression/i, "'" + sExpr + "'");
-            throw new Error(ex.lineNumber, "XPath error: " + msg);
-        }
-
-        var nodeList = new Array(oResult.snapshotLength);
-        nodeList.expr = sExpr;
-        for (var i = nodeList.length - 1; i >= 0; i--) 
-            nodeList[i] = oResult.snapshotItem(i);
-        return nodeList;
-    };
-    
-    //Element.selectNodes
-    Text.prototype.selectNodes =
-    Attr.prototype.selectNodes =
-    Element.prototype.selectNodes = function(sExpr) {
-       return this.ownerDocument.selectNodes(sExpr, this);
-    };
-    
-    //XMLDocument.selectSingleNode
-    HTMLDocument.prototype.selectSingleNode = 
-    XMLDocument.prototype.selectSingleNode = function(sExpr, contextNode) {
-        try {
-            var oResult = this.evaluate(sExpr, (contextNode || this),
-                this.createNSResolver(this.documentElement),
-                9, null); //XpathResult.FIRST_ORDERED_NODE_TYPE
-        }
-        catch (ex) {
-            var msg = ex.message;
-            if (ex.code == ex.INVALID_EXPRESSION_ERR)
-                msg = msg.replace(/the expression/i, "'" + sExpr + "'");
-            throw new Error(ex.lineNumber, "XPath error: " + msg);
-        }
-        
-        return oResult.singleNodeValue;
-    };
-    
-    //Element.selectSingleNode
-    Text.prototype.selectSingleNode =
-    Attr.prototype.selectSingleNode =
-    Element.prototype.selectSingleNode = function(sExpr) {
-        return this.ownerDocument.selectSingleNode(sExpr, this);
-    };
-    
-    
-    
-    var serializer = new XMLSerializer();
-    var o = document.createElement("div");
-    apf.insertHtmlNodes = function(nodeList, htmlNode, beforeNode, s) {
-        var frag, l, node, i;
-        if (nodeList) {
-            frag = document.createDocumentFragment();
-            for (i = nodeList.length - 1; i >= 0; i--) {
-                node = nodeList[i];
-                frag.insertBefore(node, frag.firstChild);
-            }
-        }
-        
-        o.innerHTML = typeof s == "string" ? s : apf.html_entity_decode(serializer.serializeToString(frag))
-            .replace(/<([^>]+)\/>/g, "<$1></$1>");
-
-        frag = document.createDocumentFragment();
-        for (i = 0, l = o.childNodes.length; i < l; i++) {
-            node = o.childNodes[0];
-            frag.appendChild(node);
-        }
-
-        if (beforeNode)
-            htmlNode.insertBefore(frag, beforeNode);
-        htmlNode.appendChild(frag);
-    };
-
-    apf.insertHtmlNode = function(xmlNode, htmlNode, beforeNode, s) {
-        if (htmlNode.nodeType != 11 && !htmlNode.style)
-            return htmlNode.appendChild(xmlNode);
-        
-        if (!s) {
-            s = apf.html_entity_decode(xmlNode.serialize
-                ? xmlNode.serialize(true)
-                : ((xmlNode.nodeType == 3 || xmlNode.nodeType == 4 || xmlNode.nodeType == 2)
-                    ? xmlNode.nodeValue
-                    : serializer.serializeToString(xmlNode)));
-        }
-
-        o.innerHTML = s.replace(/<([^>]+)\/>/g, "<$1></$1>");
-
-        if (beforeNode)
-            htmlNode.insertBefore(o.firstChild, beforeNode);
-        else
-            htmlNode.appendChild(o.firstChild);
-
-        return beforeNode ? beforeNode.previousSibling : htmlNode.lastChild;
-    };
-    
-    /* ******** Error Compatibility **********************************************
-     Error Object like IE
-     ****************************************************************************/
-    function Error(nr, msg) {
-        
-        
-        this.message = msg;
-        this.nr = nr;
-    }
     
     apf.getHtmlLeft = function(oHtml) {
         return (oHtml.offsetLeft
@@ -12354,17 +12068,37 @@ apf.runGecko = function(){
             - (2 * (parseInt(apf.getStyle(p, "borderTopWidth")) || 0))
             - (parseInt(apf.getStyle(p, "borderBottomWidth")) || 0));
     };
-
-    apf.getBorderOffset = function(oHtml) {
-        return [-1 * (parseInt(apf.getStyle(oHtml, "borderLeftWidth")) || 0),
-            -1 * (parseInt(apf.getStyle(oHtml, "borderTopWidth")) || 0)];
-    };
 };
 
 
 
 
 
+apf.insertHtmlNodes = function(nodeList, htmlNode, beforeNode, s) {
+    var frag, l, node, i;
+    if (nodeList) {
+        frag = document.createDocumentFragment();
+        for (i = nodeList.length - 1; i >= 0; i--) {
+            node = nodeList[i];
+            frag.insertBefore(node, frag.firstChild);
+        }
+    }
+    
+    if (beforeNode)
+        htmlNode.insertBefore(frag, beforeNode);
+    else
+        htmlNode.appendChild(frag);
+};
+
+apf.insertHtmlNode = function(xmlNode, htmlNode, beforeNode, s) {
+    xmlNode = xmlNode.cloneNode(true);
+    if (beforeNode)
+        htmlNode.insertBefore(xmlNode, beforeNode);
+    else
+        htmlNode.appendChild(xmlNode);
+
+    return xmlNode;
+};
 
 
 
@@ -12372,59 +12106,33 @@ apf.runGecko = function(){
  * Compatibility layer for Internet Explorer browsers.
  * @private
  */
-apf.runIE = function(){
-    apf.runWebkit();
-    // return;
-    var silent
-    HTMLDocument.prototype.sn = XMLDocument.prototype.sn = HTMLDocument.prototype.sn || HTMLDocument.prototype.selectNodes;
-    HTMLDocument.prototype.selectNodes = XMLDocument.prototype.selectNodes = function(sExpr, contextNode) {
-        if (/^\w+$/.test(sExpr) && contextNode) {
-            var all = contextNode.querySelectorAll(sExpr);
-            var nodeList = new Array(all.length);
-            for (var i = nodeList.length - 1; i >= 0; i--) 
-                nodeList[i] = all[i];
-            return nodeList;
-        }
-        silent || console.log(sExpr, contextNode)
-        
-        return this.sn(sExpr, contextNode)
-    };
+apf.runIE = function() { apf.runWebkit() };
+
+
     
-    HTMLDocument.prototype.sns = XMLDocument.prototype.sns = HTMLDocument.prototype.sns || HTMLDocument.prototype.selectSingleNode
-    HTMLDocument.prototype.selectSingleNode = XMLDocument.prototype.selectSingleNode = function(sExpr, contextNode) {
-        var n = findNode(contextNode, sExpr);
-        if (sExpr.lastIndexOf("descendant-or-self::node()[@") == 0)
-            n = contextNode.querySelector(sExpr.replace("descendant-or-self::node()[@", "*["));
-        silent = true
-        try {var m = this.sns(sExpr, contextNode); } catch(e) {}
-        silent = !true
-        if (n != m && m) {
-            n = m
-            findNode(contextNode, sExpr);
-        }
-        return n
-    };
-    
-    
-    apf.insertHtmlNodes = function(nodeList, htmlNode, beforeNode, s) {
-        
-        var node, frag, a, i, l;
-        if (nodeList) {
-            frag = document.createElement("div");
-            a = [], i = 0, l = nodeList.length;
-            for (; i < l; i++) {
-                if (!(node = nodeList[i])) continue;
-                frag.appendChild(node);
-            }
-        }
-        
-        (beforeNode || htmlNode).insertAdjacentHTML(beforeNode
-            ? "beforebegin"
-            : "beforeend", s || (frag ? frag.innerHTML : "")
-                .replace(/<([^>]+)\/>/g, "<$1></$1>"));
-        
-    };
-    
+//XMLDocument.selectNodes
+HTMLDocument.prototype.selectNodes = XMLDocument.prototype.selectNodes = function(sExpr, contextNode) {
+    return findNodes(contextNode, sExpr);
+};
+
+//Element.selectNodes
+Text.prototype.selectNodes =
+Attr.prototype.selectNodes =
+Element.prototype.selectNodes = function(sExpr) {
+   return findNodes(this, sExpr);
+};
+
+//XMLDocument.selectSingleNode
+HTMLDocument.prototype.selectSingleNode = 
+XMLDocument.prototype.selectSingleNode = function(sExpr, contextNode) {
+    return findNode(contextNode, sExpr);
+};
+
+//Element.selectSingleNode
+Text.prototype.selectSingleNode =
+Attr.prototype.selectSingleNode =
+Element.prototype.selectSingleNode = function(sExpr) {
+    return findNode(this, sExpr);
 };
 
 
@@ -12717,116 +12425,6 @@ apf.runNonIe = function (){
  * @private
  */
 apf.runWebkit = function(){
-    
-    
-    
-    if (XMLHttpRequest.prototype.sendAsBinary === undefined) {
-        if (window.ArrayBuffer) {
-            /**
-             * Binary support for Chrome 7+ which implements [ECMA-262] typed arrays
-             * 
-             * For more information, see <http://www.khronos.org/registry/typedarray/specs/latest/>.
-             */
-            XMLHttpRequest.prototype.sendAsBinary = function(string) {
-                var bytes = Array.prototype.map.call(string, function(c) {
-                    return c.charCodeAt(0) & 0xff;
-                });
-                this.send(new Uint8Array(bytes).buffer);
-            };
-        }
-    }
-    
-    
-    
-    
-    
-    
-    HTMLDocument.prototype.selectNodes = XMLDocument.prototype.selectNodes = function(sExpr, contextNode) {
-        if (sExpr.substr(0,2) == "//")
-            sExpr = "." + sExpr;
-        
-        try {
-            var oResult = this.evaluate(sExpr, (contextNode || this),
-                this.createNSResolver(this.documentElement),
-                7, null);//XPathResult.ORDERED_NODE_SNAPSHOT_TYPE
-        }
-        catch (ex) {
-            try {
-                var oResult = this.evaluate("child::" + sExpr, (contextNode || this),
-                    this.createNSResolver(this.documentElement),
-                    7, null);//XPathResult.ORDERED_NODE_SNAPSHOT_TYPE
-            }
-            catch (ex) {
-                throw new Error("XPath error: " + ex.message + "\nLine: " + ex.lineNumber  + "\nExpression: '" + sExpr + "'");
-            }
-        }
-        
-        var nodeList = new Array(oResult.snapshotLength);
-        nodeList.expr = sExpr;
-        for (var i = nodeList.length - 1; i >= 0; i--) 
-            nodeList[i] = oResult.snapshotItem(i);
-        return nodeList;
-    };
-    
-    //Element.selectNodes
-    Text.prototype.selectNodes =
-    Attr.prototype.selectNodes =
-    Element.prototype.selectNodes = function(sExpr) {
-       return this.ownerDocument.selectNodes(sExpr, this);
-    };
-    
-    //XMLDocument.selectSingleNode
-    HTMLDocument.prototype.selectSingleNode = XMLDocument.prototype.selectSingleNode = function(sExpr, contextNode) {
-        var nodeList = this.selectNodes("(" + sExpr + ")[1]", contextNode ? contextNode : null);
-        return nodeList.length > 0 ? nodeList[0] : null;
-    };
-    
-    //Element.selectSingleNode
-    Text.prototype.selectSingleNode =
-    Attr.prototype.selectSingleNode =
-    Element.prototype.selectSingleNode = function(sExpr) {
-        return this.ownerDocument.selectSingleNode(sExpr, this);
-    };
-    
-    
-    
-    var serializer = new XMLSerializer();
-    apf.insertHtmlNodes = function(nodeList, htmlNode, beforeNode, s) {
-        var node, frag, a, i, l;
-        if (nodeList) {
-            frag = document.createDocumentFragment();
-            a = [], i = 0, l = nodeList.length;
-            for (; i < l; i++) {
-                if (!(node = nodeList[i])) continue;
-                frag.appendChild(node);
-            }
-        }
-        
-        (beforeNode || htmlNode).insertAdjacentHTML(beforeNode
-            ? "beforebegin"
-            : "beforeend", s || apf.html_entity_decode(serializer.serializeToString(frag))
-                .replace(/<([^>]+)\/>/g, "<$1></$1>"));
-    };
-
-    apf.insertHtmlNode = function(xmlNode, htmlNode, beforeNode, s) {
-        if (htmlNode.nodeType != 11 && !htmlNode.style)
-            return htmlNode.appendChild(xmlNode);
-        
-        if (!s) {
-            s = apf.html_entity_decode(xmlNode.serialize 
-                ? xmlNode.serialize(true)
-                : ((xmlNode.nodeType == 3 || xmlNode.nodeType == 4 || xmlNode.nodeType == 2)
-                    ? xmlNode.nodeValue
-                    : serializer.serializeToString(xmlNode)));
-        }
-        
-        (beforeNode || htmlNode).insertAdjacentHTML(beforeNode
-            ? "beforebegin"
-            : "beforeend", s.match(/<(IMG|LINK|META|BR|HR|BASEFONT)[^\/>]*/i) ? s.replace(/<([^>]+)\/>/g, "<$1 />") : s.replace(/<([^>]+)\/>/g, "<$1></$1>"));
-
-        return beforeNode ? beforeNode.previousSibling : htmlNode.lastChild;
-    };
-
     apf.getHtmlLeft = function(oHtml) {
         return oHtml.offsetLeft;
     };
@@ -12855,10 +12453,6 @@ apf.runWebkit = function(){
             - (parseInt(apf.getStyle(p, "borderBottomWidth")) || 0));
     };
 
-    apf.getBorderOffset = function(oHtml) {
-        return [0,0];
-    };
-    
     if (apf.runNonIe)
         apf.runNonIe();
 };

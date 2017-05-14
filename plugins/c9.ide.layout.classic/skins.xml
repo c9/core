@@ -488,21 +488,6 @@
         </a:main>
     </a:presentation>
 </a:radiobutton>
-<a:scrollbar  name="scrollbar">
-    
-    
-
-    <a:presentation>
-        <a:main btnup="div[1]" indicator="div[2]" btndown="div[3]" slidefast="div[4]">
-            <div class="scrollbar">
-                <div class="btnup"><span> </span><div><img src="images/spacer.gif" width="100%"/></div></div>
-                <div class="indicator"> <div> </div> </div>
-                <div class="btndown"><span> </span><div><img src="images/spacer.gif" width="100%"/></div></div>
-                <div class="slidefast"> </div>
-            </div>
-        </a:main>
-    </a:presentation>
-</a:scrollbar>
 <a:spinner  name="spinner">
     
     
