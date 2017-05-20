@@ -1,3 +1,4 @@
+/*global apf*/
 define(function(require, exports, module) {
     main.consumes = [
         "Panel", "ui", "menus", "panels", "commands", "tabManager", "layout",
@@ -156,16 +157,14 @@ define(function(require, exports, module) {
             // Focus the input field
             setTimeout(function() {
                 txtFilter.focus();
-            }, 10);
+            });
             
-            setTimeout(function() {
-                // Assign the dataprovider
-                tree.setDataProvider(ldSearch);
-                tree.selection.$wrapAround = true;
-                var val = settings.get("state/commandPanel/@value");
-                if (val)
-                    txtFilter.ace.setValue(val);
-            }, 200);
+            // Assign the dataprovider
+            tree.setDataProvider(ldSearch);
+            tree.selection.$wrapAround = true;
+            var val = settings.get("state/commandPanel/@value");
+            if (val)
+                txtFilter.ace.setValue(val);
         }
         
         /***** Methods *****/
