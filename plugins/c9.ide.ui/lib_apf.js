@@ -2377,7 +2377,7 @@ apf.plane = {
                 var toOpacity = parseFloat(options && options.opacity) || 1;
                 if (this.animate) {
                     var _self = this;
-                    apf.setOpacity(this.plane, 0);
+                    this.plane.style.opacity = 0;
                     setTimeout(function(){
                         apf.tween.single(_self.plane, {
                             steps: 5,
@@ -2389,7 +2389,7 @@ apf.plane = {
                     }, 100);
                 }
                 else
-                    apf.setOpacity(this.plane, toOpacity);
+                    this.plane.style.opacity = toOpacity;
                 
                 var diff = apf.getDiff(plane);
                 this.plane.style.width = "100%";//(pWidth - diff[0]) + "px";
@@ -2421,7 +2421,7 @@ apf.plane = {
                             steps: 5,
                             interval: 10,
                             type: "fade",
-                            from: apf.getOpacity(_self.plane),
+                            from: apf.getStyle(_self.plane, "opacity"),
                             to: 0,
                             onfinish: function(){
                                 _self.plane.style.display = "none";
@@ -2433,7 +2433,7 @@ apf.plane = {
                     }, 100);
                 }
                 else {
-                    apf.setOpacity(this.plane, 0);
+                    this.plane.style.opacity = 0;
                     if (this.current)
                         apf.window.zManager.clear(this.plane, this.current);
                     this.plane.style.display = "none";
@@ -8516,7 +8516,6 @@ apf.GuiElement.propHandlers = {
 
 // crazy stuff!
 !function(){
-    if (apf.isO3) return;
     var prot = apf.XhtmlElement.prototype;
 
     prot.implement(
@@ -12036,9 +12035,6 @@ apf.window = new apf.window();
  * @private
  */
 apf.runGecko = function(){
-    if (apf.runNonIe)
-        apf.runNonIe();
-    
     apf.getHtmlLeft = function(oHtml) {
         return (oHtml.offsetLeft
             + (parseInt(apf.getStyle(oHtml.parentNode, "borderLeftWidth")) || 0));
@@ -12209,211 +12205,115 @@ function findNodes(htmlNode, textNode, result, re) {
 
 
 
+// *** XML Serialization *** //
+if (XMLDocument.prototype.__defineGetter__) {
+    //XMLDocument.xml
+    XMLDocument.prototype.__defineGetter__("xml", function(){
+        return (new XMLSerializer()).serializeToString(this);
+    });
+    XMLDocument.prototype.__defineSetter__("xml", function(){
+        throw new Error(apf.formatErrorString(1042, null, "XML serializer", "Invalid assignment on read-only property 'xml'."));
+    });
+    
+    //Node.xml
+    Node.prototype.__defineGetter__("xml", function(){
+        if (this.nodeType == 3 || this.nodeType == 4 || this.nodeType == 2) 
+            return this.nodeValue;
+        return (new XMLSerializer()).serializeToString(this);
+    });
+    
+    //Node.xml
+    Element.prototype.__defineGetter__("xml", function(){
+        return (new XMLSerializer()).serializeToString(this);
+    });
+}
+
+if (typeof HTMLElement!="undefined") {
+    //HTMLElement.removeNode
+    HTMLElement.prototype.removeNode = function(){
+        if (!this.parentNode) return;
+        this.parentNode.removeChild(this);
+    };
+}
+
+//Document.prototype.onreadystatechange = null;
+Document.prototype.parseError = 0;
+
+defineProp(Array.prototype, "item", function(i){return this[i];});
+defineProp(Array.prototype, "expr", "");
+
+Node.prototype.getElementById = function(id) {};
 
 
 /**
- * @private
+ * This method retrieves the current value of a property on a HTML element
+ * @param {HTMLElement} el    the element to read the property from
+ * @param {String}      prop  the property to read
+ * @returns {String}
  */
-apf.runNonIe = function (){
-    
-
-    DocumentFragment.prototype.getElementById = function(id) {
-        return this.childNodes.length ? this.childNodes[0].ownerDocument.getElementById(id) : null;
-    };
-
-    
-    
-    // *** XML Serialization *** //
-    if (XMLDocument.prototype.__defineGetter__) {
-        //XMLDocument.xml
-        XMLDocument.prototype.__defineGetter__("xml", function(){
-            return (new XMLSerializer()).serializeToString(this);
-        });
-        XMLDocument.prototype.__defineSetter__("xml", function(){
-            throw new Error(apf.formatErrorString(1042, null, "XML serializer", "Invalid assignment on read-only property 'xml'."));
-        });
-        
-        //Node.xml
-        Node.prototype.__defineGetter__("xml", function(){
-            if (this.nodeType == 3 || this.nodeType == 4 || this.nodeType == 2) 
-                return this.nodeValue;
-            return (new XMLSerializer()).serializeToString(this);
-        });
-        
-        //Node.xml
-        Element.prototype.__defineGetter__("xml", function(){
-            return (new XMLSerializer()).serializeToString(this);
-        });
-    }
-    
-    /* ******** HTML Interfaces **************************************************
-        insertAdjacentHTML(), insertAdjacentText() and insertAdjacentElement()
-    ****************************************************************************/
-    if (typeof HTMLElement!="undefined") {
-        if (!HTMLElement.prototype.insertAdjacentElement) {
-            Text.prototype.insertAdjacentElement =
-            HTMLElement.prototype.insertAdjacentElement = function(where,parsedNode) {
-                switch (where.toLowerCase()) {
-                    case "beforebegin":
-                        this.parentNode.insertBefore(parsedNode,this);
-                        break;
-                    case "afterbegin":
-                        this.insertBefore(parsedNode,this.firstChild);
-                        break;
-                    case "beforeend":
-                        this.appendChild(parsedNode);
-                        break;
-                    case "afterend":
-                        if (this.nextSibling)
-                            this.parentNode.insertBefore(parsedNode,this.nextSibling);
-                        else
-                            this.parentNode.appendChild(parsedNode);
-                        break;
-                }
-            };
-        }
-
-        if (!HTMLElement.prototype.insertAdjacentHTML) {
-            Text.prototype.insertAdjacentHTML =
-            HTMLElement.prototype.insertAdjacentHTML = function(where,htmlStr) {
-                var r = this.ownerDocument.createRange();
-                r.setStartBefore(apf.isWebkit
-                    ? document.body
-                    : (self.document ? document.body : this));
-                var parsedHTML = r.createContextualFragment(htmlStr);
-                this.insertAdjacentElement(where, parsedHTML);
-            };
-        }
-
-        if (!HTMLBodyElement.prototype.insertAdjacentHTML) //apf.isWebkit)
-            HTMLBodyElement.prototype.insertAdjacentHTML = HTMLElement.prototype.insertAdjacentHTML;
-    
-        if (!HTMLElement.prototype.insertAdjacentText) {
-            Text.prototype.insertAdjacentText =
-            HTMLElement.prototype.insertAdjacentText = function(where,txtStr) {
-                var parsedText = document.createTextNode(txtStr);
-                this.insertAdjacentElement(where,parsedText);
-            };
-        }
-        
-        //HTMLElement.removeNode
-        HTMLElement.prototype.removeNode = function(){
-            if (!this.parentNode) return;
-
-            this.parentNode.removeChild(this);
-        };
-    }
-    
-    /* ******** XML Compatibility ************************************************
-        Giving the Mozilla XML Parser the same interface as IE's Parser
-    ****************************************************************************/
-    var ASYNCNOTSUPPORTED = false;
-    
-    //Test if Async is supported
-    try {
-        XMLDocument.prototype.async = true;
-        ASYNCNOTSUPPORTED = true;
-    } catch (e) {/*trap*/} 
-    
-    //Document.prototype.onreadystatechange = null;
-    Document.prototype.parseError = 0;
-    
-    defineProp(Array.prototype, "item", function(i){return this[i];});
-    defineProp(Array.prototype, "expr", "");
-    
-    Node.prototype.getElementById = function(id) {};
-    
-    HTMLElement.prototype.replaceNode = 
-    Element.prototype.replaceNode = function(xmlNode) {
-        if (!this.parentNode) return;
-
-        this.parentNode.insertBefore(xmlNode, this);
-        this.parentNode.removeChild(this);
-    };
-    
-    
-    
-    /**
-     * This method retrieves the current value of a property on a HTML element
-     * @param {HTMLElement} el    the element to read the property from
-     * @param {String}      prop  the property to read
-     * @returns {String}
-     */
-    var getStyle = apf.getStyle = function(el, prop) {
-        try{
-            return (window.getComputedStyle(el, "") || {})[prop] || "";
-        }catch(e) {}
-    };
-    
-    //XMLDocument.setProperty
-    HTMLDocument.prototype.setProperty = 
-    XMLDocument.prototype.setProperty = function(x,y) {};
-    
-    /* ******** XML Compatibility ************************************************
-    ****************************************************************************/
-    apf.getXmlDom = function(message, noError, preserveWhiteSpaces) {
-        var xmlParser;
-        if (message) {
-            if (preserveWhiteSpaces === false)
-                message = message.replace(/>[\s\n\r]*</g, "><");
-            
-            xmlParser = new DOMParser();
-            xmlParser = xmlParser.parseFromString(message, "text/xml");
-
-            
-            if (!noError)
-                this.xmlParseError(xmlParser);
-        }
-        else {
-            xmlParser = document.implementation.createDocument("", "", null);
-        }
-        
-        return xmlParser;
-    };
-    
-    apf.xmlParseError = function(xml) {
-        //if (xml.documentElement.tagName == "parsererror") {
-        if (xml.getElementsByTagName("parsererror").length) { 
-            var nodeValue = xml.documentElement.firstChild.nodeValue;
-
-            if (nodeValue != null) {
-                var str = nodeValue.split("\n"),
-                    linenr = str[2].match(/\w+ (\d+)/)[1],
-                    message = str[0].replace(/\w+ \w+ \w+: (.*)/, "$1");
-            } else {
-                if (nodeValue = xml.documentElement.firstChild.getElementsByTagName('div')[0].firstChild.nodeValue) {
-                    var linenr = nodeValue.match(/line\s(\d*)/)[1] || "N/A",
-                        message = nodeValue.match(/column\s\d*:(.*)/)[1] || "N/A";
-                }
-                else {
-                    var linenr = "N/A",
-                        message = "N/A";
-                }
-            }
-
-            var srcText = xml.documentElement.lastChild.firstChild,//.split("\n")[0];
-                srcMsg = "";
-            if (srcText && srcText.nodeValue) {
-                srcMsg = "\nSource Text : " + srcText.nodeValue.replace(/\t/gi, " ")
-            }
-            throw new Error(apf.formatErrorString(1050, null, 
-                "XML Parse Error on line " +  linenr, message + srcMsg));
-        }
-        
-        return xml;
-    };
-
-
-    apf.getOpacity = function(oHtml) {
-        return apf.getStyle(oHtml, "opacity");
-    };
-    
-    apf.setOpacity = function(oHtml, value) {
-        oHtml.style.opacity = value;
-    };
+var getStyle = apf.getStyle = function(el, prop) {
+    try{
+        return (window.getComputedStyle(el, "") || {})[prop] || "";
+    }catch(e) {}
 };
 
+//XMLDocument.setProperty
+HTMLDocument.prototype.setProperty = 
+XMLDocument.prototype.setProperty = function(x,y) {};
 
+/* ******** XML Compatibility ************************************************
+****************************************************************************/
+apf.getXmlDom = function(message, noError, preserveWhiteSpaces) {
+    var xmlParser;
+    if (message) {
+        if (preserveWhiteSpaces === false)
+            message = message.replace(/>[\s\n\r]*</g, "><");
+        
+        xmlParser = new DOMParser();
+        xmlParser = xmlParser.parseFromString(message, "text/xml");
+
+        
+        if (!noError)
+            this.xmlParseError(xmlParser);
+    }
+    else {
+        xmlParser = document.implementation.createDocument("", "", null);
+    }
+    
+    return xmlParser;
+};
+
+apf.xmlParseError = function(xml) {
+    //if (xml.documentElement.tagName == "parsererror") {
+    if (xml.getElementsByTagName("parsererror").length) { 
+        var nodeValue = xml.documentElement.firstChild.nodeValue;
+
+        if (nodeValue != null) {
+            var str = nodeValue.split("\n"),
+                linenr = str[2].match(/\w+ (\d+)/)[1],
+                message = str[0].replace(/\w+ \w+ \w+: (.*)/, "$1");
+        } else {
+            if (nodeValue = xml.documentElement.firstChild.getElementsByTagName('div')[0].firstChild.nodeValue) {
+                var linenr = nodeValue.match(/line\s(\d*)/)[1] || "N/A",
+                    message = nodeValue.match(/column\s\d*:(.*)/)[1] || "N/A";
+            }
+            else {
+                var linenr = "N/A",
+                    message = "N/A";
+            }
+        }
+
+        var srcText = xml.documentElement.lastChild.firstChild,//.split("\n")[0];
+            srcMsg = "";
+        if (srcText && srcText.nodeValue) {
+            srcMsg = "\nSource Text : " + srcText.nodeValue.replace(/\t/gi, " ")
+        }
+        throw new Error(apf.formatErrorString(1050, null, 
+            "XML Parse Error on line " +  linenr, message + srcMsg));
+    }
+    
+    return xml;
+};
 
 
 
@@ -12452,9 +12352,6 @@ apf.runWebkit = function(){
             - (parseInt(apf.getStyle(p, "borderTopWidth")) || 0)
             - (parseInt(apf.getStyle(p, "borderBottomWidth")) || 0));
     };
-
-    if (apf.runNonIe)
-        apf.runNonIe();
 };
 
 
@@ -12472,20 +12369,16 @@ apf.runWebkit = function(){
 apf.application = function(){
     this.$init("application", apf.NODE_HIDDEN);
     
-    if (!apf.isO3) {    
-        this.$int = document.body;
-        this.$tabList = []; //Prevents documentElement from being focussed
-        // this.$focussable = apf.KEYBOARD;
-        // this.focussable = true;
-        this.visible = true;
-        this.$isWindowContainer = true;
-        this.focus = function(){ this.dispatchEvent("focus"); };
-        this.blur = function(){ this.dispatchEvent("blur"); };
+    this.$int = document.body;
+    this.$tabList = []; //Prevents documentElement from being focussed
+    // this.$focussable = apf.KEYBOARD;
+    // this.focussable = true;
+    this.visible = true;
+    this.$isWindowContainer = true;
+    this.focus = function(){ this.dispatchEvent("focus"); };
+    this.blur = function(){ this.dispatchEvent("blur"); };
     
-        
-        apf.window.$addFocus(this);
-        
-    }
+    apf.window.$addFocus(this);
 };
 apf.application.prototype = new apf.AmlElement();
 apf.aml.setElement("application", apf.application);

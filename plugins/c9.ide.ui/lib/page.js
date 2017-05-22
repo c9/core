@@ -1527,7 +1527,6 @@ apf.BaseTab = function() {
         
         //Skin changing support
         if (this.$int) {
-            //apf.AmlParser.replaceNode(this.oPages, oPages);
             this.$int = this.oPages;
             page = true;
 
