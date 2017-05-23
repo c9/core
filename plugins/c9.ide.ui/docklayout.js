@@ -1533,7 +1533,7 @@ define(function(require, exports, module) {
                 function findSnapPos(pos, dir, side) {
                     var snapPos = margin[dir === "v" ? 0 : 3];
                     var rows = sizes[dir];
-                    for (var i = 0; i <= rows.length; i++) {
+                    for (var i = 0; i < rows.length; i++) {
                         if (side > 0 && i > 1)
                             snapPos += padding;
                         if (Math.abs(pos - snapPos) < SNAP_DIST)

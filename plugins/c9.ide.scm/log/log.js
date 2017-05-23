@@ -115,7 +115,7 @@ function GitGraph(editor) {
                 var p = d.parent2;
                 var k = 0;
                 for (var j = 0; k < p.length; j++) {
-                    while (k <= p.length) {
+                    while (k < p.length) {
                         var parent = p[k];
                         if (parent) {
                             if (parent.row - d.row < MAX_GAP) {
