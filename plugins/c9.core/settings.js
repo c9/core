@@ -451,7 +451,7 @@ define(function(require, exports, module) {
         
         function getNumber(query) {
             var double = get(query);
-            return parseFloat(double, 10);
+            return parseFloat(double);
         }
         
         function getNode(query) {

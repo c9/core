@@ -826,9 +826,9 @@ function endTime(t, message, indent) {
         var posInPart = syntaxDetector.posToRegion(part.region, pos);
         this.parse(part, function(ast) {
             if (!ast)
-                return callHandlers(ast, null, posInPart);
+                return callHandlers(ast, null);
             _self.findNode(ast, pos, function(currentNode) {
-                callHandlers(ast, currentNode, posInPart);
+                callHandlers(ast, currentNode);
             });
         }, true, true);
         
