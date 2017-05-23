@@ -30,7 +30,7 @@ handler.init = function(options, callback) {
 };
 
 handler.invoke = function(path, doc, ast, options, callback) {
-    options.mode == options.mode || "stdin";
+    options.mode = options.mode || "stdin";
     if (options.overrideLine != null) {
         var lines = doc.toString().split(/\r\n|\n|\r/);
         if (lines[options.overrideLineRow] !== options.overrideLine) {
