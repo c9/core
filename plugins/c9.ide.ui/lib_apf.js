@@ -3726,7 +3726,7 @@ apf.setNodeValue = function(xmlNode, nodeValue) {
     else {
         var oldValue = xmlNode.nodeValue;
         xmlNode.nodeValue = nodeValue === undefined || nodeValue === null ||
-            nodeValue == NaN ? "" : String(nodeValue);
+            isNaN(nodeValue) ? "" : String(nodeValue);
 
         //AML support - getters/setters would be awesome
         if (xmlNode.$triggerUpdate)
