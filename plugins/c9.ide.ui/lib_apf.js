@@ -3953,9 +3953,6 @@ apf.extend(apf.config, {
     
     
     debug: false,
-    disableSpace: true,
-    allowSelect: false,
-    allowBlur: true,
     // initdelay: false,
       
     
