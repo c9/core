@@ -119,7 +119,7 @@ define(function(require, exports, module) {
                 group: "Terminal",
                 hint: "Clears the terminal buffer",
                 isAvailable: function(editor) {
-                    return editor && editor.type == "terminal";
+                    return editor && editor.ace && editor.ace.session && editor.ace.session.term;
                 },
                 exec: function (editor) {
                     tabs.focussedTab.editor.clear();
@@ -128,16 +128,6 @@ define(function(require, exports, module) {
             
             var meta = '\x1b';
             [
-                ["close_term_pane", "x", "x"],
-                ["split_term_pane", '"', '"'],
-                ["layout_term_hor_even", "Meta-1", meta + "1"],
-                ["layout_term_ver_even", "Meta-2", meta + "2"],
-                ["layout_term_hor_main", "Meta-3", meta + "3"],
-                ["layout_term_ver_main", "Meta-4", meta + "4"],
-                ["move_term_paneup", "Up", '\x1b[A'],
-                ["move_term_panedown", "Down", '\x1b[B'],
-                ["move_term_paneright", "Right", '\x1b[C'],
-                ["move_term_paneleft", "Left", '\x1b[D'],
                 ["term_help", "?", '?'],
                 ["term_restart", "", ":kill-server\r"],
                 ["term_detach", "", ":detach -a\r"],
@@ -429,20 +419,6 @@ define(function(require, exports, module) {
                 menus.addItemByPath(SESSIONS_MENU + "Loading...", new ui.item({ disabled: "true" }), 0, handle);
                 menus.addItemByPath("context/terminal/Tmux/~", new ui.divider({}), c1 += 100, handle);
                 
-                menus.addItemByPath("context/terminal/Tmux/Close Active Pane", new ui.item({
-                    command: "close_term_pane" }), c1 += 100, handle);
-                menus.addItemByPath("context/terminal/Tmux/Split Active Pane", new ui.item({
-                    command: "split_term_pane" }), c1 += 100, handle);
-                menus.addItemByPath("context/terminal/Tmux/~", new ui.divider({}), c1 += 100, handle);
-                menus.addItemByPath("context/terminal/Tmux/Horizontal Layout (even)", new ui.item({
-                    command: "layout_term_hor_even" }), c1 += 100, handle);
-                menus.addItemByPath("context/terminal/Tmux/Vertical Layout (even)", new ui.item({
-                    command: "layout_term_ver_even" }), c1 += 100, handle);
-                menus.addItemByPath("context/terminal/Tmux/Horizonal Layout (main)", new ui.item({
-                    command: "layout_term_hor_main" }), c1 += 100, handle);
-                menus.addItemByPath("context/terminal/Tmux/Vertical Layout (main)", new ui.item({
-                    command: "layout_term_ver_main" }), c1 += 100, handle);
-                menus.addItemByPath("context/terminal/Tmux/~", new ui.divider({}), c1 += 100, handle);
                 menus.addItemByPath("context/terminal/Tmux/Toggle Status Bar", new ui.item({
                     command: "toggle_term_status" }), c1 += 100, handle);
                 menus.addItemByPath("context/terminal/Tmux/~", new ui.divider({}), c1 += 100, handle);
@@ -1171,9 +1147,7 @@ define(function(require, exports, module) {
             plugin.on("clear", function() {
                 if (currentSession) {
                     var t = currentSession.terminal;
-                    if (!t) return;
-                    t.ybase = 0;
-                    t.lines = t.lines.slice(-(t.ybase + t.rows));
+                    if (t) t.clear();
                 }
             });
             
