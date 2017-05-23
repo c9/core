@@ -376,47 +376,6 @@ define(function(require, exports, module) {
             menus.addItemByPath("context/terminal/Select All", new ui.item({ command: "selectall" }), c += 100, handle);
             menus.addItemByPath("context/terminal/Clear Buffer", new ui.item({ command: "clearterm" }), c += 100, handle);
             menus.addItemByPath("context/terminal/~", new ui.divider({}), c += 100, handle);
-            var SESSIONS_MENU = "context/terminal/Other sessions/";
-            menus.addItemByPath(SESSIONS_MENU, new ui.menu({
-                "onprop.visible": function(e) {
-                    if (e.value) {
-                        var currentName = tabs.focussedTab.document.getSession().id;
-                        proc.tmux("", { listSessions: true }, function(err, pty, pid, meta) {
-                            menus.remove(SESSIONS_MENU);
-                            if (err) {
-                                menus.addItemByPath(SESSIONS_MENU + "Error loading session list:(",
-                                    new ui.item({ disabled: true }), handle);
-                            }
-                            meta.sessions.forEach(function(x) {
-                                if (/output/.test(x.name)) return;
-                                var label = x.name + "\t(" + x.width + "x" + x.height + ")\t" + x.clientCount + " connected clients";
-                                menus.addItemByPath(SESSIONS_MENU + menus.escape(label),
-                                    new ui.item({ value: x, class: x.name == currentName ? "strong" : "" }), handle);
-                            });
-                        });
-                    }
-                },
-                "onitemclick": function(e) {
-                    var options = e.relatedNode.value;
-                    if (options) {
-                        var id = options.name;
-                        tabs.getTabs().some(function(tab) {
-                            if (tab.editorType == "terminal" || tab.editorType == "output") {
-                                if (tab.document.getSession() && tab.document.getSession().id == id) {
-                                    tabs.focusTab(tab);
-                                    return true;
-                                }
-                            }
-                        }) || tabs.open({
-                            editorType: /output/.test(id) ? "output" : "terminal",
-                            document: { terminal: { id: id } },
-                            focus: true,
-                            pane: tabs.focussedTab.pane
-                        });
-                    }
-                }
-            }), c += 100, handle);
-            menus.addItemByPath("context/terminal/Other sessions/Loading...", new ui.item({ disabled: "true" }), 0, handle);
             
             if (c9.platform != "win32") {
                 menus.addItemByPath("context/terminal/Tmux/", new ui.menu(), c += 100, handle);
@@ -427,6 +386,49 @@ define(function(require, exports, module) {
                     disabled: "true" }), c += 100, handle);
                 
                 var c1 = 0;
+                var SESSIONS_MENU = "context/terminal/Tmux/Other sessions/";
+                menus.addItemByPath(SESSIONS_MENU, new ui.menu({
+                    "onprop.visible": function(e) {
+                        if (e.value) {
+                            var currentName = tabs.focussedTab.document.getSession().id;
+                            proc.tmux("", { listSessions: true }, function(err, pty, pid, meta) {
+                                menus.remove(SESSIONS_MENU);
+                                if (err || !meta.sessions) {
+                                    return menus.addItemByPath(SESSIONS_MENU + "Error loading session list:(",
+                                        new ui.item({ disabled: true }), handle);
+                                }
+                                meta.sessions.forEach(function(x) {
+                                    if (/output/.test(x.name)) return;
+                                    var label = x.name + "\t(" + x.width + "x" + x.height + ")\t" + x.clientCount + " connected clients";
+                                    menus.addItemByPath(SESSIONS_MENU + menus.escape(label),
+                                        new ui.item({ value: x, class: x.name == currentName ? "strong" : "" }), handle);
+                                });
+                            });
+                        }
+                    },
+                    "onitemclick": function(e) {
+                        var options = e.relatedNode.value;
+                        if (options) {
+                            var id = options.name;
+                            tabs.getTabs().some(function(tab) {
+                                if (tab.editorType == "terminal" || tab.editorType == "output") {
+                                    if (tab.document.getSession() && tab.document.getSession().id == id) {
+                                        tabs.focusTab(tab);
+                                        return true;
+                                    }
+                                }
+                            }) || tabs.open({
+                                editorType: /output/.test(id) ? "output" : "terminal",
+                                document: { terminal: { id: id } },
+                                focus: true,
+                                pane: tabs.focussedTab.pane
+                            });
+                        }
+                    }
+                }), c1 += 100, handle);
+                menus.addItemByPath(SESSIONS_MENU + "Loading...", new ui.item({ disabled: "true" }), 0, handle);
+                menus.addItemByPath("context/terminal/Tmux/~", new ui.divider({}), c1 += 100, handle);
+                
                 menus.addItemByPath("context/terminal/Tmux/Close Active Pane", new ui.item({
                     command: "close_term_pane" }), c1 += 100, handle);
                 menus.addItemByPath("context/terminal/Tmux/Split Active Pane", new ui.item({
