@@ -297,8 +297,15 @@ define(function(require, exports, module) {
             
             var url = options.url;
             
-            if (!options.url && options.path)
+            if (!options.url && options.path) {
+                if (!vfs.connected) {
+                    // wait until vfs.url is available
+                    return vfs.once("connect", function() {
+                        loadPackage(options, callback);
+                    });
+                }
                 options.url = vfs.url(options.path);
+            }
             
             var parts = options.url.split("/");
             var root = parts.pop();
