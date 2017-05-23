@@ -20832,7 +20832,7 @@ apf.textbox.masking = function(){
         "107": "+",
         "109": "-",
         "110": ".",
-        "110": "/"
+        "111": "/"
     };
     
     this.addEventListener("keydown", function(e) {

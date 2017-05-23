@@ -51,8 +51,6 @@ completer.complete = function(doc, fullAst, pos, options, callback) {
             return null;
         var iconMap = {
             "variable": "property",
-            "constant": "property",
-            "function": "method",
             "type": "property2",
             "constant": "method2",
             "color": "method2",
