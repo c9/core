@@ -237,7 +237,8 @@ define(function(require, exports, module) {
         function updateServerList() {
             setModel(null, model.columnsLsof);
             proc.execFile("bash", { args: ["-c", 
-                "sudo -n lsof -P -i -F pcnTtu || lsof -P -i -F pcnTtu"
+                // try both with sudo and without, to get all servers
+                "sudo -n lsof -P -i -F pcnTtu; lsof -P -i -F pcnTtu"
             ]}, function(err, stdout, stderr) {
                 if (err) return;
                 var json = [];
