@@ -1819,7 +1819,7 @@ defineProp(Array.prototype, "pushUnique", function(){
  */
 defineProp(Array.prototype, "search", function(){
     for (var i = 0, length = arguments.length; i < length; i++) {
-        if (typeof this[i] != "array")
+        if (!Array.isArray(this[i]))
             continue;
         for (var j = 0; j < length; j++) {
             if (this[i][j] != arguments[j])
