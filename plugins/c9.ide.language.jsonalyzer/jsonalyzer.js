@@ -392,7 +392,7 @@ define(function(require, exports, module) {
                 tries.push(Date.now());
                 var trySeriesStart = tries[tries.length - 1 - maxTrySeriesLength];
                 if (!trySeriesStart || trySeriesStart < Date.now() - maxTrySeriesTime)
-                    return setupCall(value);
+                    return setupCall();
                 
                 var err = new Error("Too many disconnects. Server crashing?");
                 err.code = "EFATAL";

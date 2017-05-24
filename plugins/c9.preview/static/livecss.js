@@ -988,7 +988,7 @@ function findCssRule(name, stylesheet) {
  * @param {Object} [win]        A reference to a window
  */
 function setStyleRule(name, type, value, stylesheet, win) {
-    var rule = findCssRule(name, stylesheet, win);
+    var rule = findCssRule(name, stylesheet);
     if (rule) {
         if (value.indexOf("!important") > -1) {
             rule.style.cssText = type + ":" + value;

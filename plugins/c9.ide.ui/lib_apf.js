@@ -1819,7 +1819,7 @@ defineProp(Array.prototype, "pushUnique", function(){
  */
 defineProp(Array.prototype, "search", function(){
     for (var i = 0, length = arguments.length; i < length; i++) {
-        if (typeof this[i] != "array")
+        if (!Array.isArray(this[i]))
             continue;
         for (var j = 0; j < length; j++) {
             if (this[i][j] != arguments[j])
@@ -3725,8 +3725,7 @@ apf.setNodeValue = function(xmlNode, nodeValue) {
     }
     else {
         var oldValue = xmlNode.nodeValue;
-        xmlNode.nodeValue = nodeValue === undefined || nodeValue === null ||
-            nodeValue == NaN ? "" : String(nodeValue);
+        xmlNode.nodeValue = nodeValue == null ? "" : String(nodeValue);
 
         //AML support - getters/setters would be awesome
         if (xmlNode.$triggerUpdate)
@@ -3953,9 +3952,6 @@ apf.extend(apf.config, {
     
     
     debug: false,
-    disableSpace: true,
-    allowSelect: false,
-    allowBlur: true,
     // initdelay: false,
       
     
@@ -20836,7 +20832,7 @@ apf.textbox.masking = function(){
         "107": "+",
         "109": "-",
         "110": ".",
-        "110": "/"
+        "111": "/"
     };
     
     this.addEventListener("keydown", function(e) {

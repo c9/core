@@ -164,7 +164,7 @@ function extractProperty(item, results, isConstructor) {
 }
 
 function extractSignature(item, signature, result) {
-    var returns = extractType(signature.returns ? signature.returns[0].type : null, true);
+    var returns = extractType(signature.returns ? signature.returns[0].type : null);
     
     if (item.type === "class property") {
         result.properties.___proto__ = returns;
@@ -191,7 +191,7 @@ function extractSignatureArgs(signature, results) {
         var argFargs = arg.args && extractSignatureArgs(arg, []);
         results.push({
             id: arg.name,
-            type: extractType(arg.type, true),
+            type: extractType(arg.type),
             doc: arg.description,
             opt: arg.optional,
             fargs: argFargs
