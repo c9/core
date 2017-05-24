@@ -880,6 +880,7 @@ define(function(require, exports, module) {
         }
         
         function updateReloadLastButton() {
+            if (!btnReloadLast) return;
             var last = getLastReloaded();
             if (last) {
                 btnReloadLast.visible = true;

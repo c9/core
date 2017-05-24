@@ -57,7 +57,7 @@ define(function(require, exports, module) {
                 name: "removefavorite",
                 isAvailable: function() {
                     return tree && tree.selectedNode 
-                        && isFavoriteNode(tree.selectedNode);
+                        && isFavoritePath(tree.selectedNode.path);
                 },
                 exec: function() {
                     tree.selectedNodes.forEach(function(node) {
