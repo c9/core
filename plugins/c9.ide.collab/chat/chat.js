@@ -98,9 +98,7 @@ define(function(require, exports, module) {
                 if (accessInfo.private && (!accessInfo.member || accessInfo.pending))
                     return console.warn("Don't have read access - You can't use chat");
                 var chatHistory = workspace.chatHistory || [];
-                chatHistory.forEach(function(msg) {
-                    addMessage(msg, msg.increment);
-                });
+                chatHistory.forEach(addMessage);
                 scrollDown();
                 chatCounter.innerHTML = chatHistory.length;
             }

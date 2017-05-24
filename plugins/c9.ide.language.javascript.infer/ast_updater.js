@@ -89,7 +89,7 @@ define(function(require, exports, module) {
                 if (newAST[j].cons !== "Var")
                     return false;
                 // Var(x) was just inserted
-                copyAnnos(findScopeNode(oldAST), newAST[j], dryRun);
+                copyAnnos(findScopeNode(oldAST), newAST[j]);
                 if (!newAST[j].annos)
                     return false;
                 continue;
@@ -97,17 +97,17 @@ define(function(require, exports, module) {
             if (oldAST[i].cons !== newAST[j].cons) {
                 // Var(x) became PropAccess(Var(x), y)
                 if (oldAST[i].cons === "Var" && newAST[j].isMatch("PropAccess(Var(_),_)")) {
-                    copyAnnos(oldAST[i], newAST[j][0], dryRun);
+                    copyAnnos(oldAST[i], newAST[j][0]);
                     continue;
                 }
                 // PropAccess(Var(x), y) became Var(x)
                 if (newAST[j].cons === "Var" && oldAST[i].isMatch("PropAccess(Var(_),_)")) {
-                    copyAnnos(oldAST[i][0], newAST[j], dryRun);
+                    copyAnnos(oldAST[i][0], newAST[j]);
                     continue;
                 }
                 // PropAccess became Call(PropAccess, _)
                 if (oldAST[i].isMatch("PropAccess(Var(_),_)") && newAST[j].isMatch("Call(PropAccess(Var(_),_),_)")) {
-                    copyAnnos(oldAST[i][0], newAST[j][0][0], dryRun);
+                    copyAnnos(oldAST[i][0], newAST[j][0][0]);
                     var oldTemplate = new tree.ListNode([oldAST[i][0]]);
                     oldTemplate.parent = oldAST;
                     copyAnnosTop(oldTemplate, newAST[j][1], dryRun);
@@ -115,12 +115,12 @@ define(function(require, exports, module) {
                 }
                 // Call(PropAccess, _) became PropAccess
                 if (newAST[j].isMatch("PropAccess(Var(_),_)") && oldAST[i].isMatch("Call(PropAccess(Var(_),_),_)")) {
-                    copyAnnos(oldAST[i][0][0], newAST[j][0], dryRun);
+                    copyAnnos(oldAST[i][0][0], newAST[j][0]);
                     continue;
                 }
                 // Var(x) was (possibly) inserted
                 if (newAST[j].cons === "Var" && newAST[j + 1] && newAST[j + 1].cons === oldAST[i].cons) {
-                    copyAnnos(findScopeNode(oldAST), newAST[j], dryRun);
+                    copyAnnos(findScopeNode(oldAST), newAST[j]);
                     if (!newAST[j].annos)
                         return false;
                     i--;
@@ -128,7 +128,7 @@ define(function(require, exports, module) {
                 }
                 // Var(x) was (possibly) added
                 if (oldAST[i].cons === "None" && newAST[j].cons === "Var") {
-                    copyAnnos(findScopeNode(oldAST), newAST[j], dryRun);
+                    copyAnnos(findScopeNode(oldAST), newAST[j]);
                     if (!newAST[j].annos)
                         return false;
                     i--;
@@ -143,7 +143,7 @@ define(function(require, exports, module) {
                 if (["If", "Return", "Throw"].indexOf(newAST[j].cons) > -1 && (!newAST[j][1] || newAST[j][1].isMatch("Block([])"))) {
                     var cond = newAST[j][0].toString();
                     if (cond === oldAST[i].toString()) {
-                        copyAnnos(oldAST[i], newAST[j][0], dryRun);
+                        copyAnnos(oldAST[i], newAST[j][0]);
                         continue;
                     }
                     else if (!oldAST[i + 1]) {
@@ -151,7 +151,7 @@ define(function(require, exports, module) {
                     }
                     else if (cond === oldAST[i + 1].toString()) {
                         i++;
-                        copyAnnos(oldAST[i], newAST[j][0], dryRun);
+                        copyAnnos(oldAST[i], newAST[j][0]);
                         continue;
                     }
                 }
@@ -161,10 +161,10 @@ define(function(require, exports, module) {
                     var newCond = newAST[0];
                     var newBody = newAST[1];
                     if (oldCond.toString() === newBody.toString()) {
-                        copyAnnos(findScopeNode(oldAST), newCond, dryRun);
+                        copyAnnos(findScopeNode(oldAST), newCond);
                         if (!newCond.annos)
                             return false;
-                        copyAnnos(oldCond, newBody, dryRun);
+                        copyAnnos(oldCond, newBody);
                         continue;
                     }
                 }

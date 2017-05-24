@@ -82,7 +82,6 @@ define(function(require, exports, module) {
                     scrollbarVisibilityChanged: acetree.renderer,
                     afterRender: acetree.renderer,
                     resize: acetree.renderer,
-                    afterRender: acetree.renderer,
                     expand: model,
                     collapse: model,
                     check: model,

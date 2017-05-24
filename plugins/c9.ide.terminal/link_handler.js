@@ -94,7 +94,7 @@ define(function(require, exports, module) {
             menuPath = new Menu({
                 items: menuItems,
                 onitemclick: function(e) {
-                    var info = buildPath(lastLink, true);
+                    var info = buildPath(lastLink);
                     
                     if (e.value == "open")
                         open(lastLink);

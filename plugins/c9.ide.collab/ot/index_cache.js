@@ -49,7 +49,7 @@ function IndexCache(doc) {
         
         if (check) {
             var slowPos = doc.indexToPositionSlow(index);
-            if (slowPos.row !== pos.row && slowPos.column !== slowPos.column)
+            if (slowPos.row !== pos.row && slowPos.column !== pos.column)
                 reportError("Inconsistency in indexToPosition");
             return slowPos;
         }
