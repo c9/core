@@ -1058,7 +1058,7 @@ var lastSaveStarts = {};
 // Used to block concurrent edit updates while the document is being processed
 //
 //     { <key or document_id> : [{Function}] }
-var locks = {};
+var locks = Object.create(null);
 function lock(key, callback) {
     if (!locks[key]) {
         locks[key] = [];

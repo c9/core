@@ -166,7 +166,7 @@ define(function(require, exports, module) {
                     hotkey: "commands.openterminal",
                     onclick: function(e) {
                         tabs.open({
-                            active: true,
+                            focus: true,
                             pane: this.parentNode.pane,
                             editorType: "terminal"
                         }, function() {});
