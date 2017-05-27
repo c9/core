@@ -5,7 +5,8 @@
   */
 
 var net = require("net");
-var port = parseInt("{PORT}", 10);
+var debuggedProcessHost = "{DEBUGGED_PROCESS_HOST}";
+var debuggedProcessPort = parseInt("{DEBUGGED_PROCESS_PORT}", 10);
 
 var debugBuffer = [];
 var browserBuffer = [];
@@ -52,12 +53,9 @@ var server = net.createServer(function(client) {
     }
 });
 
-var host = "127.0.0.1";
-// console.log("started netproxy on ", host + ":" + (port+1));
-
 // Start listening for browser clients
-server.listen(port + 1, host, function() {
-    // console.log("netproxy listening on port " + (port+1));
+server.listen(debuggedProcessPort + 1, "127.0.0.1", function() {
+    //console.log("netproxy listening on port " + ( debuggedProcessPort + 1) );
     start();
 });
 
@@ -66,12 +64,12 @@ server.on("error", function() { process.exit(0); });
 
 function tryConnect(retries, callback) {
     if (!retries)
-        return callback(new Error("Cannot connect to port " + port));
+        return callback(new Error("Cannot connect to port " + debuggedProcessPort));
         
-    var connection = net.connect(port, host);
+    var connection = net.connect(debuggedProcessPort, debuggedProcessHost);
     
     connection.on("connect", function() {
-        // console.log("netproxy connected to debugger");
+        //console.log("netproxy connected to debugger");
         connection.removeListener("error", onError);
         callback(null, connection);
     });
