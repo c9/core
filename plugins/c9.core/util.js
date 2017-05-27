@@ -246,13 +246,14 @@ define(function(require, exports, module) {
         
         plugin.normalizePath = function(path) {
             if (!path) return "";
+            path = normalize(path);
             if (reHome) {
                 path = path.replace(reHome, homeSub);
                 if (reWorkspace) {
                     path = path.replace(reWorkspace, "/");
                 }
             }
-            return normalize(path);
+            return path;
         };
         
         /**
