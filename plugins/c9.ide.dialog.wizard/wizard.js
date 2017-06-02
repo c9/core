@@ -1,11 +1,12 @@
 define(function(require, module, exports) {
-    main.consumes = ["Plugin", "ui", "Dialog"];
+    main.consumes = ["Plugin", "ui", "Dialog", "apf"];
     main.provides = ["Wizard", "WizardPage"];
     return main;
     
     function main(options, imports, register) {
         var Plugin = imports.Plugin;
         var Dialog = imports.Dialog;
+        var apf = imports.apf;
         var ui = imports.ui;
         
         /***** Initialization *****/
@@ -41,8 +42,10 @@ define(function(require, module, exports) {
                 if (drawn) return;
                 drawn = true;
                 
-                body = { html: document.createElement("div") };
-                options.html.parentNode.replaceChild(body.html, options.html);
+                var aml = new ui.bar();
+                options.aml.parentNode.insertBefore(aml, options.aml);
+                options.aml.removeNode();
+                body = { html: aml.$ext, aml: aml };
             }
             
             /***** Methods *****/
@@ -244,7 +247,7 @@ define(function(require, module, exports) {
             var emit = plugin.getEmitter();
             
             var name = options.name;
-            var container;
+            var aml;
             
             if (forPlugin)
                 forPlugin.addOther(function() { plugin.unload(); });
@@ -254,24 +257,26 @@ define(function(require, module, exports) {
                 if (drawn) return;
                 drawn = true;
                 
-                container = document.createElement("div");
+                aml = new ui.bar();
                 plugin.addOther(function() {
-                    container.parentNode.removeChild(container);
+                    aml.removeNode();
                 });
+                apf.document.documentElement.appendChild(aml);
+                aml.removeNode();
                 
-                emit.sticky("draw", { html: container });
+                emit.sticky("draw", { html: aml.$ext, aml: aml });
             }
             
             /***** Methods *****/
             
             function hide() {
-                container.parentNode.removeChild(container);
+                aml.parentNode.removeChild(aml);
                 emit("hide");
             }
             
             function show(options) {
                 draw();
-                options && options.html.appendChild(container);
+                options && options.aml.appendChild(aml);
                 emit("show");
             }
             
@@ -291,7 +296,12 @@ define(function(require, module, exports) {
                 /**
                  * 
                  */
-                get container() { return container; },
+                get aml() { return aml; },
+                
+                /**
+                 * 
+                 */
+                get container() { return aml && aml.$ext; },
                 
                 _events: [
                     /**
