@@ -1,0 +1,12 @@
+[Unit]
+Description=Cloud9 online IDE
+After=syslog.target network.target
+
+[Service]
+User=%i
+ExecStart=/opt/cloud9/bin/server
+Restart=on-failure
+StandardOutput=syslog
+
+[Install]
+WantedBy=multi-user.target
