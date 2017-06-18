@@ -91,8 +91,8 @@ define(function(require, exports, module) {
             
             // Checkboxes
             menu.on("afterrender", function(e) {
-                var itmSbWrap = window.itmSbWrap;
-                var itmSbWrapPM = window.itmSbWrapPM;
+                var itmSbWrap = handle.getElement("itmSbWrap");
+                var itmSbWrapPM = handle.getElement("itmSbWrapPM");
                 
                 itmSbWrap.on("click", function() {
                     setOption("wrap", itmSbWrap.checked
@@ -153,7 +153,7 @@ define(function(require, exports, module) {
                     node.on("click", handlers[idx]);
                 });
                 
-                var itmTabSize = window.itmTabSize;
+                var itmTabSize = handle.getElement("itmTabSize");
                 itmTabSize.on("afterchange", function() {
                     setOption("tabSize", this.value);
                     update();

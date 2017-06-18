@@ -182,15 +182,13 @@ define(function(require, exports, module) {
                 emit("eachTheme", { changed: true });
                 setGeckoMask();
                 
-                if (!oldTheme) return;
-                
                 var auto = emit("themeChange", { 
                     theme: theme, 
                     oldTheme: oldTheme,
                     type: type
                 }) !== false;
                 
-                if (noquestion) return;
+                if (!oldTheme || noquestion) return;
                 
                 if (auto)
                     return emit("themeDefaults", { theme: theme, type: type });

@@ -835,26 +835,6 @@ apf.vbox = function(struct, tagName) {
         this.$noResize = true;
         this.$lastSize = [this.$int.offsetWidth, this.$int.offsetHeight];
 
-        //this.$ext.style.border = "1px solid " + (["red", "green", "blue", "orange", "pink", "yellow"])[Math.round(Math.random() * 5)];
-        
-        /*if (this.$table.offsetWidth >= this.$ext.offsetWidth)
-            this.$ext.style.minWidth = (this.minwidth = Math.max(0, this.$table.offsetWidth 
-                - apf.getWidthDiff(this.$ext))) + "px";
-        else {
-            this.$ext.style.minWidth = "";
-            this.minwidth = this.$originalMin[0];
-        }
-
-        if (this.$table.offsetHeight >= this.$ext.offsetHeight)
-            this.$ext.style.minHeight = (this.minheight = Math.max(0, this.$table.offsetHeight 
-                - apf.getHeightDiff(this.$ext))) + "px";
-        else {
-            this.$ext.style.minHeight = "";
-            this.minheight = this.$originalMin[1];
-        }*/
-        
-        //if (!this.$vbox) alert("here");
-
         var total = 0;
         var size = this.$vbox ? "width" : "height";
         var minsize = this.$vbox ? "minWidth" : "minHeight";
@@ -873,10 +853,6 @@ apf.vbox = function(struct, tagName) {
 
             hNodes.push(node);
             if (!node[size]) {
-                //if (!node.$skipResizeOnce) node.$skipResizeOnce = 1;
-                //else node.$skipResizeOnce++;
-                //node.$skipResizeOnce = 1
-                //node.$ext.style[size] = ""; //@todo this is a sucky way of measuring
                 var m = node.margin && apf.getBox(node.margin);
                 if (m && this.$vbox) m.unshift();
                 var mdiff = (m ? m[0] + m[2] : 0);
@@ -912,22 +888,10 @@ apf.vbox = function(struct, tagName) {
                     if (m && this.$vbox) m.unshift();
                     var mdiff = (m ? m[0] + m[2] : 0);
                     
-                    /*shouldClear = !this[size] && !this.flex && node.$ext.offsetHeight == (pH - mdiff);
-                    if (shouldClear)
-                        node.$ext.style[size] = "";
-                    else
-                        node.$ext.style[size] = Math.max(0, pH - apf[getDiff](node.$ext) - mdiff) + "px";
-                    node.$setResizeHeight = !shouldClear;*/
-
-                    //!this[size] && !this.flex
                     if (max && Math.min(node.$ext[scroll], node["max" + size] || 10000) != max)
                         node.$ext.style[size] = Math.max(0, max - apf[getDiff](node.$ext) - mdiff) + "px";
                     else
                         node.$ext.style[size] = "";
-                    
-                    /*node.$ext.style[size] = !this[size] && !this.flex && node.$ext.offsetHeight == pH - mdiff
-                        ? ""
-                        : Math.max(0, pH - apf[getDiff](node.$ext) - mdiff) + "px";*/
                 }
             }
         }
@@ -961,11 +925,6 @@ apf.vbox = function(struct, tagName) {
         }
         
         this.$noResize = false;
-        /*this.$noResize = true;
-        var _self = this;
-        setTimeout(function(){
-            _self.$noResize = false;
-        });*/
     };
     
     this.$loadAml = function(x) {

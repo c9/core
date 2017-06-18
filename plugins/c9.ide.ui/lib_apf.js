@@ -1,6 +1,6 @@
 define(["require", "module", "exports", "./lib/menu/menu", "./lib/crypto",
     "./lib/page", "./lib/dropdown", "./lib/splitbox", "./lib/flexbox"],
-function(require, module, exports) {
+(function(require, module, exports) {
     main.consumes = ["ext"];
     main.provides = ["apf"]
     return main;
@@ -96,45 +96,11 @@ function(require, module, exports) {
 /** 
  * @event load          Fires after the application is loaded.
  */
-/** 
- * @event error         Fires when a communication error has occured while making a request for this element.
- * @cancelable Prevents the error from being thrown.
- * @bubbles
- * @param {Object} e An object containing the following properties:
- *   - error ([[Error]]): The error object that is thrown when the event's callback doesn't return `false`.
- *   - state ([[Number]]): The state of the call. Possible values include:
- *     - `apf.SUCCESS` : The request was successful
- *     - `apf.TIMEOUT`:  The request timed out
- *     - `apf.ERROR`:    An error occurred while making the request
- *     - `apf.OFFLINE`:  The request was made while the application was offline.
- *   - userdata (`Mixed`): Data that the caller made available in the callback of the HTTP request.
- *   - http ([[XMLHttpRequest]]): The object that executed the actual http request
- *   - url ([[String]]): The url that was requested
- *   - tpModule ([[apf.http]]): The teleport module that is making the request
- *   - id ([[Number]]): The id of the request
- *   - message ([[String]]): The error message
- * 
- */
  apf = {
-    VERSION: '3.0beta',
-
     getPlugin: function(name) {
         return apf.nameserver.get("all", name);
     },
     
-    /**
-     * The url to the content delivery network.
-     * @type {String}
-     */
-    CDN: "",
-    
-
-    /**
-     * Specifies whether apf is ready for DOM operations.
-     * @type {Boolean}
-     */
-    READY: false,
-
     //AML nodeFunc constants
     /**
      * A constant for the hidden AML element.
@@ -165,40 +131,10 @@ function(require, module, exports) {
      */
     MENU: 3,
 
-    /**
-     * A constant for specifying success.
-     * @type {Number}
-     */
-    SUCCESS: 1,
-    /**
-     * A constant for specifying a timeout.
-     * @type {Number}
-     */
-    TIMEOUT: 2,
-    /**
-     * A constant for specifying an error.
-     * @type {Number}
-     */
-    ERROR: 3,
-    /**
-     * A constant for specifying the application is offline.
-     * @type {Number}
-     */
-    OFFLINE: 4,
-
-    
-    debug: false,
-    
-
     includeStack: [],
     initialized: false,
     AppModules: [],
     
-    /**
-     * Specifies whether APF tries to load a skin from skins.xml when no skin element is specified.
-     * @type {Boolean}
-     */
-    autoLoadSkin: false,
     /**
      * Specifies whether APF has started loading scripts and started the init process.
      * @type {Boolean}
@@ -210,13 +146,6 @@ function(require, module, exports) {
      */
     crypto: {}, //namespace
     config: {},
-    
-    /**
-     * A string specifying the basepath for loading APF from seperate files.
-     * @type {String}
-     */
-    basePath: "",
-
     
     /**
      * Contains several known and often used namespace URI's.
@@ -323,32 +252,15 @@ function(require, module, exports) {
      */
     setCompatFlags: function(){
         apf.isIE11 = (!apf.isGecko && !apf.isWebkit && !apf.isOpera && !apf.isIE);
-        //Set Compatibility
-        this.TAGNAME = apf.isIE ? "baseName" : "localName";
-        this.styleSheetRules = apf.isIE ? "rules" : "cssRules";
        
-        this.canHaveHtmlOverSelects = !apf.isIE6 && !apf.isIE5;
-        this.hasInnerText = apf.isIE;
-        this.hasMsRangeObject = apf.isIE;
-        this.hasExecScript = window.execScript ? true : false;
-        this.canDisableKeyCodes = apf.isIE;
         this.hasSingleResizeEvent = !apf.isIE;
         this.hasSingleRszEvent = !apf.isIE;
-        this.dateSeparator = apf.isIE ? "-" : "/";
-        this.canCreateStyleNode = !apf.isIE;
-        this.supportFixedPosition = !apf.isIE || apf.isIE >= 7;
-        this.hasHtmlIdsInJs = apf.isIE && apf.isIE < 8 || apf.isWebkit;
-        this.needsCssPx = !apf.isIE;
 
         this.hasAutocompleteXulBug = apf.isGecko;
-        this.mouseEventBuffer = apf.isIE ? 20 : 6;
+        this.mouseEventBuffer = 6;
         this.hasComputedStyle = typeof document.defaultView != "undefined"
                                            && typeof document.defaultView.getComputedStyle != "undefined";
         this.w3cRange = Boolean(window["getSelection"]);
-        this.locale = (apf.isIE
-                                            ? navigator.userLanguage
-                                            : navigator.language).toLowerCase();
-        this.characterSet = document.characterSet || document.defaultCharset || "utf-8";
         var t = document.createElement("div");
         this.hasContentEditable = (typeof t.contentEditable == "string"
                                        || typeof t.contentEditable == "boolean");
@@ -383,8 +295,8 @@ function(require, module, exports) {
         }
         t = null;
 
-        this.animSteps = apf.isIE ? 0.3 : 1;
-        this.animInterval = apf.isIE ? 7 : 1;
+        this.animSteps = 1;
+        this.animInterval = 1;
 
         this.CSSPREFIX = apf.isGecko ? "Moz" : (apf.isWebkit ? "webkit" : "");
         this.CSSPREFIX2 = apf.isGecko ? "-moz" : (apf.isWebkit ? "-webkit" : "");
@@ -458,10 +370,9 @@ function(require, module, exports) {
 
         //Load Browser Specific Code
         
-        if (this.isIE) apf.runIE();
-        else if (apf.isWebkit) apf.runWebkit();
+        if (apf.isWebkit) apf.runWebkit();
         else if (this.isGecko) apf.runGecko();
-        else if (!this.isOpera) apf.runIE(); // ie11
+        else if (!this.isIE11) apf.runIE(); // ie11
         
         
         this.started = true;
@@ -591,8 +502,8 @@ function(require, module, exports) {
     /**
      * @private
      */
-    initialize: function(xmlStr) {
-        apf.window.init(xmlStr);
+    initialize: function() {
+        apf.window.init();
     },
 
     fireEvent: function(el, type, e, capture) {
@@ -760,15 +671,9 @@ apf.Class.prototype = new (function(){
 
         if (struct && (struct.htmlNode || this.nodeFunc == apf.NODE_HIDDEN)) {
             this.$pHtmlNode = struct.htmlNode;
-
-            
-                if (this.ownerDocument && this.ownerDocument.$domParser)
-                    this.ownerDocument.$domParser.$continueParsing(this);
-
-                
+                if (this.$onInsertedIntoDocument)
+                    this.$onInsertedIntoDocument();
                 apf.queue.empty();
-                
-            
         }
 
         return this;
@@ -927,9 +832,12 @@ apf.Class.prototype = new (function(){
      */
     this.dispatchEvent = function(eventName, options, e) {
         var arr, result, rValue, i, l;
-
-        if (!apf.AmlEvent)
-            return;
+        
+        if (!options)
+            options = {};
+            
+        if (!options.name)
+            options.name = eventName;
 
         apf.$eventDepth++;
         this.$eventDepth++;
@@ -938,12 +846,11 @@ apf.Class.prototype = new (function(){
             
             //@todo rewrite this and all dependencies to match w3c
             if ((!e || !e.currentTarget) && (!options || !options.currentTarget)) {
-                if (!(options || (options = {})).currentTarget)
-                    options.currentTarget = this;
+                options.currentTarget = this;
 
                 //Capture support
                 if (arr = this.$captureStack[eventName]) {
-                    for (i = 0, l = arr.length; i < l; i++) {
+                    for (i = arr.length; i--;) {
                         rValue = arr[i].call(this, e || (e = new apf.AmlEvent(eventName, options)));
                         if (typeof rValue != UNDEF)
                             result = rValue;
@@ -958,15 +865,13 @@ apf.Class.prototype = new (function(){
             }
             else {
                 if (this["on" + eventName]) {
-                    result = this["on" + eventName].call(this, e
-                        || (e = new apf.AmlEvent(eventName, options))); //Backwards compatibility
+                    result = this["on" + eventName].call(this, e || (e = options)); 
                 }
 
                 if (arr = this.$eventsStack[eventName]) {
-                    for (i = 0, l = arr.length; i < l; i++) {
+                    for (i = arr.length; i--;) {
                         if (!arr[i]) continue;
-                        rValue = arr[i].call(this, e
-                            || (e = new apf.AmlEvent(eventName, options)));
+                        rValue = arr[i].call(this, e || (e = options));
                         if (typeof rValue != UNDEF)
                             result = rValue;
                     }
@@ -980,26 +885,11 @@ apf.Class.prototype = new (function(){
                 result = rValue;
         }
         
-        if (--apf.$eventDepth == 0 && this.ownerDocument
-          && !this.ownerDocument.$domParser.$parseContext
-          && !apf.isDestroying && apf.loaded
-          
-          && apf.queue
-        ) {
+        if (--apf.$eventDepth == 0 && this.ownerDocument && apf.queue) {
             apf.queue.empty();
         }
 
         this.$eventDepth--;
-
-        
-        if (options) {
-            try {
-                delete options.currentTarget;
-            }
-            catch (ex) {
-                options.currentTarget = null;
-            }
-        }
 
         return e && typeof e.returnValue != UNDEF ? e.returnValue : result;
     };
@@ -1019,14 +909,15 @@ apf.Class.prototype = new (function(){
         if (eventName[0] == "o" && eventName[1] == "n")
             eventName = eventName.substr(2);
 
-        var s, stack = useCapture ? this.$captureStack : this.$eventsStack;
-        if (!(s = stack[eventName]))
+        var stack = useCapture ? this.$captureStack : this.$eventsStack;
+        var s = stack[eventName]
+        if (!s)
             s = stack[eventName] = [];
 
         if (s.indexOf(callback) > -1)
             return;
 
-        s.unshift(callback);
+        s.push(callback);
 
         var f;
         if (f = this.$eventsStack["$event." + eventName])
@@ -1084,7 +975,7 @@ apf.Class.prototype = new (function(){
 
         this.dispatchEvent("DOMNodeRemoved", {
             relatedNode: this.parentNode,
-            bubbles: !apf.isDestroying
+            bubbles: true
         });
         this.dispatchEvent("DOMNodeRemovedFromDocument");
 
@@ -1180,10 +1071,30 @@ apf.Class.prototype = new (function(){
         apf.nameserver.remove(this.localName, this);
         
     };
+    
+    // Before we have Proxy Objects, we'll extend the apf objects with the needed api
+    this.on = function() {
+        this.addEventListener.apply(this, arguments);
+    }
+    this.once = function(name, listener) {
+        var _self = this;
+        function callback() {
+            listener.apply(this, arguments);
+            _self.removeEventListener(name, callback);
+        }
+        this.addEventListener(name, callback);
+    };
+    this.emit = this.dispatchEvent;
+    this.off = this.removeEventListener;
+    
+    Object.defineProperty(this, '$html', {
+        get: function() { return this.$int || this.$container || this.$ext; },
+        enumerable: false,
+        configurable: true
+    });
 })();
 
 apf.extend(apf, new apf.Class().$init());
-
 
 
 
@@ -1532,12 +1443,6 @@ apf.asyncChain = function(funcs) {
 // start closure:
 //(function(){
 
-if (typeof isFinite == "undefined") {
-    function isFinite(val) {
-        return val + 1 != val;
-    }
-}
-
 apf.NUMBER = 1;
 apf.BOOLEAN = 2;
 apf.STRING = 3;
@@ -1662,122 +1567,20 @@ defineProp(Array.prototype, "equals", function(obj) {
     return true;
 });
 
-/*
- * Make sure that an array instance contains only unique values (NO duplicates).
- * Elaborate implementation to allow for O(n) time complexity compared to O(n^2)
- * time complexity when using Array.prototype.indexOf.
- * @see http://bbenvie.com/articles/2012-06-10/Array-prototype-unique-in-O-n-time-complexity
- * @see http://jsperf.com/array-unique2/9
- *
- * @type {Array}
- */
-var uniqueBenvie = function(){
-    var hasOwn = {}.hasOwnProperty,
-        uids = {};
+defineProp(Array.prototype, "makeUnique", function(){
+    var out = [],
+        seen = new Set,
+        i = this.length;
 
-    // use hash for primitives and tagging for objects
-    function uid(){
-        var chars = [], i = 20, num;
-        while (i--) {
-            num = Math.random() * 52 | 0;
-            chars[i] = String.fromCharCode(num + (num >= 26 ? 71 : 65));
+    while (i--) {
+        if (!seen.has(this[i])) {
+            out[out.length] = this[i];
+            seen.add(this[i]);
         }
-        chars = chars.join("");
-
-        if (chars in uids)
-            return uid();
-
-        uids[chars] = true;
-        return chars;
     }
 
-    function unique(array) {
-        var strings = {}, numbers = {}, others = {},
-            tagged = [], failed = [],
-            count = 0, i = array.length,
-            item, type;
-
-        var id = uid();
-
-        while (i--) {
-            item = array[i];
-            type = typeof item;
-            if (item === null || type !== "object" && type !== "function") {
-                // primitive
-                switch (type) {
-                    case "string":
-                        strings[item] = true;
-                        break;
-                    case "number":
-                        numbers[item] = true;
-                        break;
-                    default:
-                        others[item] = item;
-                        break;
-                }
-            }
-            else {
-                // object
-                if (!hasOwn.call(item, id)) {
-                    try {
-                        item[id] = true;
-                        tagged[count++] = item;
-                    }
-                    catch (e) {
-                        if (failed.indexOf(item) === -1)
-                            failed[failed.length] = item;
-                    }
-                }
-            }
-        }
-
-        // remove the tags
-        while (count--)
-            delete tagged[count][id];
-
-        tagged = tagged.concat(failed);
-        count = tagged.length;
-
-        // append primitives to results
-        for (i in strings)
-            if (hasOwn.call(strings, i))
-                tagged[count++] = i;
-
-        for (i in numbers)
-            if (hasOwn.call(numbers, i))
-                tagged[count++] = +i;
-
-        for (i in others)
-            if (hasOwn.call(others, i))
-                tagged[count++] = others[i];
-
-        return tagged;
-    }
-
-    return unique;
-}();
-
-if (typeof Set !== "undefined") {
-    defineProp(Array.prototype, "makeUnique", function(){
-        var out = [],
-            seen = new Set,
-            i = this.length;
-
-        while (i--) {
-            if (!seen.has(this[i])) {
-                out[out.length] = this[i];
-                seen.add(this[i]);
-            }
-        }
-
-        return out;
-    });
-}
-else {
-    defineProp(Array.prototype, "makeUnique", function(){
-        return uniqueBenvie(this);
-    });
-}
+    return out;
+});
 
 /*
  * Check if this array instance contains a value 'obj'.
@@ -1882,23 +1685,6 @@ defineProp(Array.prototype, "invert", Array.prototype.reverse);
 Number.prototype.toPrettyDigit = Number.prototype.toPrettyDigit || function() {
     var n = this.toString();
     return (n.length == 1) ? "0" + n : n;
-};
-
-RegExp.prototype.getNativeFlags = function() {
-    return (this.global     ? "g" : "") +
-           (this.ignoreCase ? "i" : "") +
-           (this.multiline  ? "m" : "") +
-           (this.extended   ? "x" : "") +
-           (this.sticky     ? "y" : "");
-};
-
-/*
- * Accepts flags; returns a new XRegExp object generated by recompiling
- * the regex with the additional flags (may include non-native flags).
- * the original regex object is not altered.
- */
-RegExp.prototype.addFlags = function(flags) {
-    return new RegExp(this.source, (flags || "") + this.getNativeFlags());
 };
 
 /*
@@ -2365,12 +2151,6 @@ apf.hotkeys = {};
         if (/*!eInfo.isTextInput && */_self.$exec(eInfo) === false
           || eInfo.returnValue === false) {
             apf.stopEvent(e);
-            if (apf.canDisableKeyCodes) {
-                try {
-                    e.keyCode = 0;
-                }
-                catch (e) {}
-            }
             return false;
         }
 
@@ -2597,7 +2377,7 @@ apf.plane = {
                 var toOpacity = parseFloat(options && options.opacity) || 1;
                 if (this.animate) {
                     var _self = this;
-                    apf.setOpacity(this.plane, 0);
+                    this.plane.style.opacity = 0;
                     setTimeout(function(){
                         apf.tween.single(_self.plane, {
                             steps: 5,
@@ -2609,7 +2389,7 @@ apf.plane = {
                     }, 100);
                 }
                 else
-                    apf.setOpacity(this.plane, toOpacity);
+                    this.plane.style.opacity = toOpacity;
                 
                 var diff = apf.getDiff(plane);
                 this.plane.style.width = "100%";//(pWidth - diff[0]) + "px";
@@ -2641,7 +2421,7 @@ apf.plane = {
                             steps: 5,
                             interval: 10,
                             type: "fade",
-                            from: apf.getOpacity(_self.plane),
+                            from: apf.getStyle(_self.plane, "opacity"),
                             to: 0,
                             onfinish: function(){
                                 _self.plane.style.display = "none";
@@ -2653,7 +2433,7 @@ apf.plane = {
                     }, 100);
                 }
                 else {
-                    apf.setOpacity(this.plane, 0);
+                    this.plane.style.opacity = 0;
                     if (this.current)
                         apf.window.zManager.clear(this.plane, this.current);
                     this.plane.style.display = "none";
@@ -2693,7 +2473,7 @@ function findCssRule(name, stylesheet, win) {
         var sheets = (win || self).document.styleSheets;
         for (var j = sheets.length - 1; j >= 0; j--) {
             try {
-                var rules = sheets[j][apf.styleSheetRules] || [];
+                var rules = sheets[j].cssRules || [];
                 for (var i = 0; i < rules.length; i++) {
                     if (nameRe.test(rules.item(i).selectorText)) {
                         return rules.item(i);
@@ -2706,7 +2486,7 @@ function findCssRule(name, stylesheet, win) {
     else {
         if (typeof stylesheet == "number")
             stylesheet = (win || self).document.styleSheets[stylesheet || 0];
-        var rules = stylesheet[apf.styleSheetRules];
+        var rules = stylesheet.cssRules;
         if (!rules) return false;
         for (var i = 0; i < rules.length; i++) {
             if (nameRe.test(rules.item(i).selectorText)) {
@@ -2802,27 +2582,12 @@ apf.setStyleClass = function(oHtml, className, exclusion, userAction) {
  */
 apf.importCssString = function(cssString, doc, media) {
     doc = doc || document;
-    var htmlNode = doc.getElementsByTagName("head")[0];//doc.documentElement.getElementsByTagName("head")[0];
-
-    
-
-    if (apf.canCreateStyleNode) {
-        //var head = document.getElementsByTagName("head")[0];
-        var style = doc.createElement("style");
-        style.appendChild(doc.createTextNode(cssString));
-        if (media)
-            style.setAttribute('media', media);
-        htmlNode.appendChild(style);
-    }
-    else {
-        htmlNode.insertAdjacentHTML("beforeend", ".<style media='"
-         + (media || "all") + "'>" + cssString + "</style>");
-
-        /*if(document.body) {
-            document.body.style.height = "100%";
-            $setTimeout('document.body.style.height = "auto"');
-        }*/
-    }
+    var htmlNode = doc.getElementsByTagName("head")[0];
+    var style = doc.createElement("style");
+    style.appendChild(doc.createTextNode(cssString));
+    if (media)
+        style.setAttribute('media', media);
+    htmlNode.appendChild(style);
 };
 
 /**
@@ -2981,10 +2746,8 @@ apf.getAbsolutePosition = function(o, refParent, inclSelf) {
         left -= pos[0];
     }
     
-    if (!(apf.isIE && o == document.documentElement)) {
-        left += (refParent || document.body).scrollLeft || document.documentElement.scrollLeft || 0;
-        top  += (refParent || document.body).scrollTop  || document.documentElement.scrollTop  || 0;
-    }
+    left += (refParent || document.body).scrollLeft || document.documentElement.scrollLeft || 0;
+    top  += (refParent || document.body).scrollTop  || document.documentElement.scrollTop  || 0;
     
     if (inclSelf && !refParent) {
         left += parseInt(apf.getStyle(o, "borderLeftWidth")) || 0
@@ -3226,25 +2989,15 @@ apf.isNot = function(c) {
  * @private
  * @todo why is this done like this?
  */
-apf.cancelBubble = function(e, o, noPropagate) {
+apf.cancelBubble = function(e, o) {
     if (e.stopPropagation)
         e.stopPropagation()
     else 
         e.cancelBubble = true;
     
-    //if (o.$focussable && !o.disabled)
-        //apf.window.$focus(o);
-    
-    
-    if (!noPropagate) {
-        if (o && o.$ext && o.$ext["on" + (e.type || e.name)])
-            o.$ext["on" + (e.type || e.name)](e);
-        apf.window.$mousedown(e);
-    }
-    //if (apf.isGecko)
-        //apf.window.$mousedown(e);
-    
-    
+    if (o && o.$ext && o.$ext["on" + (e.type || e.name)])
+        o.$ext["on" + (e.type || e.name)](e);
+    apf.window.$mousedown(e);
 };
 
 
@@ -3254,25 +3007,8 @@ apf.cancelBubble = function(e, o, noPropagate) {
  * @private
  */
 apf.destroyHtmlNode = function (element) {
-    if (!element) return;
-
-    if (!apf.isIE || element.ownerDocument != document) {
-        if (element.parentNode)
-            element.parentNode.removeChild(element);
-        return;
-    }
-
-    var garbageBin = document.getElementById('IELeakGarbageBin');
-    if (!garbageBin) {
-        garbageBin = document.createElement('DIV');
-        garbageBin.id = 'IELeakGarbageBin';
-        garbageBin.style.display = 'none';
-        document.body.appendChild(garbageBin);
-    }
-
-    // move the element to the garbage bin
-    garbageBin.appendChild(element);
-    garbageBin.innerHTML = '';
+    if (element && element.parentNode)
+        element.parentNode.removeChild(element);
 };
 
 
@@ -3286,9 +3022,9 @@ apf.getRules = function(node) {
         if (w.nodeType != 1)
             continue;
         else {
-            if (!rules[w[apf.TAGNAME]])
-                rules[w[apf.TAGNAME]] = [];
-            rules[w[apf.TAGNAME]].push(w);
+            if (!rules[w.localName])
+                rules[w.localName] = [];
+            rules[w.localName].push(w);
         }
     }
 
@@ -3387,23 +3123,6 @@ apf.getLastElement = function(xmlNode) {
         : xmlNode.lastChild.previousSibling;
 };
 
-/**
- * Selects the content of an HTML element. This currently only works in
- * Internet Explorer.
- * @param {HTMLElement} oHtml The container in which the content receives the selection.
- */
-apf.selectTextHtml = function(oHtml) {
-    if (!apf.hasMsRangeObject) return;// oHtml.focus();
-
-    var r = document.selection.createRange();
-    try {r.moveToElementText(oHtml);} catch (e) {}
-    r.select();
-};
-
-
-
-
-
 
 
 
@@ -3499,7 +3218,7 @@ apf.isChildOf = function(pNode, childnode, orItself) {
         return false;
 
     if (childnode.nodeType == 2)
-        childnode = childnode.ownerElement || childnode.selectSingleNode("..");
+        childnode = childnode.ownerElement;
 
     if (orItself && pNode == childnode)
         return true;
@@ -3932,12 +3651,7 @@ apf.extend(apf.config, {
     initdelay: true,
     
     
-    debug: false,
-    // initdelay: false,
-      
-    
     skinset: "default",
-    name: "ide",
 
     tags: {},
     defaults: {},
@@ -3997,1057 +3711,8 @@ apf.extend(apf.config, {
               ? !apf.isFalse(value)
               : false;
         },
-        
-        
-        
-        
-        "debug" : function(value) {
-            
-            apf.debug = value;
-        }
     }
 });
-
-
-
-
-
-
-/*
- * @version: 1.0 Alpha-1
- * @author: Coolite Inc. http://www.coolite.com/
- * @date: 2008-04-13
- * @copyright: Copyright (c) 2006-2008, Coolite Inc. (http://www.coolite.com/). All rights reserved.
- * @license: Licensed under The MIT License. See license.txt and http://www.datejs.com/license/. 
- * @website: http://www.datejs.com/
- */
- 
-(function () {
-    var $C = {
-        /* Culture Name */
-        name: "en-US",
-        englishName: "English (United States)",
-        nativeName: "English (United States)",
-        
-        /* Day Name Strings */
-        dayNames: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        abbreviatedDayNames: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-        shortestDayNames: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-        firstLetterDayNames: ["S", "M", "T", "W", "T", "F", "S"],
-        
-        /* Month Name Strings */
-        monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        abbreviatedMonthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    
-        /* AM/PM Designators */
-        amDesignator: "AM",
-        pmDesignator: "PM",
-    
-        firstDayOfWeek: 0,
-        twoDigitYearMax: 2029,
-        
-        /**
-         * The dateElementOrder is based on the order of the 
-         * format specifiers in the formatPatterns.DatePattern. 
-         *
-         * Example:
-         <pre>
-         shortDatePattern    dateElementOrder
-         ------------------  ---------------- 
-         "M/d/yyyy"          "mdy"
-         "dd/MM/yyyy"        "dmy"
-         "yyyy-MM-dd"        "ymd"
-         </pre>
-         *
-         * The correct dateElementOrder is required by the parser to
-         * determine the expected order of the date elements in the
-         * string being parsed.
-         */
-        dateElementOrder: "mdy",
-        
-        /* Standard date and time format patterns */
-        formatPatterns: {
-            shortDate: "M/d/yyyy",
-            longDate: "dddd, MMMM dd, yyyy",
-            shortTime: "h:mm tt",
-            longTime: "h:mm:ss tt",
-            fullDateTime: "dddd, MMMM dd, yyyy h:mm:ss tt",
-            sortableDateTime: "yyyy-MM-ddTHH:mm:ss",
-            universalSortableDateTime: "yyyy-MM-dd HH:mm:ssZ",
-            rfc1123: "ddd, dd MMM yyyy HH:mm:ss GMT",
-            monthDay: "MMMM dd",
-            yearMonth: "MMMM, yyyy"
-        },
-    
-        /**
-         * NOTE: If a string format is not parsing correctly, but
-         * you would expect it parse, the problem likely lies below. 
-         * 
-         * The following regex patterns control most of the string matching
-         * within the parser.
-         * 
-         * The Month name and Day name patterns were automatically generated
-         * and in general should be (mostly) correct. 
-         *
-         * Beyond the month and day name patterns are natural language strings.
-         * Example: "next", "today", "months"
-         *
-         * These natural language string may NOT be correct for this culture. 
-         * If they are not correct, please translate and edit this file
-         * providing the correct regular expression pattern. 
-         *
-         * If you modify this file, please post your revised CultureInfo file
-         * to the Datejs Forum located at http://www.datejs.com/forums/.
-         *
-         * Please mark the subject of the post with [CultureInfo]. Example:
-         *    Subject: [CultureInfo] Translated "da-DK" Danish(Denmark)
-         * 
-         * We will add the modified patterns to the master source files.
-         *
-         * As well, please review the list of "Future Strings" section below. 
-         */    
-        regexPatterns: {
-            jan: /^jan(uary)?/i,
-            feb: /^feb(ruary)?/i,
-            mar: /^mar(ch)?/i,
-            apr: /^apr(il)?/i,
-            may: /^may/i,
-            jun: /^jun(e)?/i,
-            jul: /^jul(y)?/i,
-            aug: /^aug(ust)?/i,
-            sep: /^sep(t(ember)?)?/i,
-            oct: /^oct(ober)?/i,
-            nov: /^nov(ember)?/i,
-            dec: /^dec(ember)?/i,
-    
-            sun: /^su(n(day)?)?/i,
-            mon: /^mo(n(day)?)?/i,
-            tue: /^tu(e(s(day)?)?)?/i,
-            wed: /^we(d(nesday)?)?/i,
-            thu: /^th(u(r(s(day)?)?)?)?/i,
-            fri: /^fr(i(day)?)?/i,
-            sat: /^sa(t(urday)?)?/i,
-    
-            future: /^next/i,
-            past: /^last|past|prev(ious)?/i,
-            add: /^(\+|aft(er)?|from|hence)/i,
-            subtract: /^(\-|bef(ore)?|ago)/i,
-            
-            yesterday: /^yes(terday)?/i,
-            today: /^t(od(ay)?)?/i,
-            tomorrow: /^tom(orrow)?/i,
-            now: /^n(ow)?/i,
-            
-            millisecond: /^ms|milli(second)?s?/i,
-            second: /^sec(ond)?s?/i,
-            minute: /^mn|min(ute)?s?/i,
-            hour: /^h(our)?s?/i,
-            week: /^w(eek)?s?/i,
-            month: /^m(onth)?s?/i,
-            day: /^d(ay)?s?/i,
-            year: /^y(ear)?s?/i,
-    
-            shortMeridian: /^(a|p)/i,
-            longMeridian: /^(a\.?m?\.?|p\.?m?\.?)/i,
-            timezone: /^((e(s|d)t|c(s|d)t|m(s|d)t|p(s|d)t)|((gmt)?\s*(\+|\-)\s*\d\d\d\d?)|gmt|utc)/i,
-            ordinalSuffix: /^\s*(st|nd|rd|th)/i,
-            timeContext: /^\s*(\:|a(?!u|p)|p)/i
-        },
-    
-        timezones: [
-            {name:"UTC", offset:"-000"},
-            {name:"GMT", offset:"-000"},
-            {name:"EST", offset:"-0500"},
-            {name:"EDT", offset:"-0400"},
-            {name:"CST", offset:"-0600"},
-            {name:"CDT", offset:"-0500"},
-            {name:"MST", offset:"-0700"},
-            {name:"MDT", offset:"-0600"},
-            {name:"PST", offset:"-0800"},
-            {name:"PDT", offset:"-0700"}
-        ]
-    };
-    
-    var $D = Date, 
-        $P = $D.prototype,
-        p = function(s, l) {
-            if (!l)
-                l = 2;
-            return ("000" + s).slice(l * -1);
-        };
-
-    /**
-     * Resets the time of this Date object to 12:00 AM (00:00), which is the 
-     * start of the day.
-     * @return {Date}    this
-     */
-    $P.clearTime = function() {
-        this.setHours(0);
-        this.setMinutes(0);
-        this.setSeconds(0);
-        this.setMilliseconds(0);
-        return this;
-    };
-
-    /**
-     * Resets the time of this Date object to the current time ('now').
-     * @return {Date}    this
-     */
-    $P.setTimeToNow = function() {
-        var n = new Date();
-        this.setHours(n.getHours());
-        this.setMinutes(n.getMinutes());
-        this.setSeconds(n.getSeconds());
-        this.setMilliseconds(n.getMilliseconds());
-        return this;
-    };
-
-    /** 
-     * Gets a date that is set to the current date. The time is set to the start 
-     * of the day (00:00 or 12:00 AM).
-     * @return {Date}    The current date.
-     */
-    $D.today = function() {
-        return new Date().clearTime();
-    };
-
-    /**
-     * Compares the first date to the second date and returns an number indication 
-     * of their relative values.  
-     * @param {Date}     First Date object to compare [Required].
-     * @param {Date}     Second Date object to compare to [Required].
-     * @return {Number}  -1 = date1 is lessthan date2. 0 = values are equal. 
-     *                    1 = date1 is greaterthan date2.
-     */
-    $D.compare = function(date1, date2) {
-        if (isNaN(date1) || isNaN(date2))
-            throw new Error(date1 + " - " + date2); 
-        else if (date1 instanceof Date && date2 instanceof Date)
-            return (date1 < date2) ? -1 : (date1 > date2) ? 1 : 0;
-        else
-            throw new TypeError(date1 + " - " + date2); 
-    };
-    
-    /**
-     * Compares the first Date object to the second Date object and returns true 
-     * if they are equal.  
-     * @param {Date}     First Date object to compare [Required]
-     * @param {Date}     Second Date object to compare to [Required]
-     * @return {Boolean} true if dates are equal. false if they are not equal.
-     */
-    $D.equals = function(date1, date2) { 
-        return (date1.compareTo(date2) === 0); 
-    };
-
-    /**
-     * Gets the day number (0-6) if given a CultureInfo specific string which is 
-     * a valid dayName, abbreviatedDayName or shortestDayName (two char).
-     * @param {String}   The name of the day (eg. "Monday, "Mon", "tuesday", "tue", "We", "we").
-     * @return {Number}  The day number
-     */
-    $D.getDayNumberFromName = function(name) {
-        var n = $C.dayNames,
-            m = $C.abbreviatedDayNames,
-            o = $C.shortestDayNames,
-            s = name.toLowerCase();
-        for (var i = 0; i < n.length; i++) { 
-            if (n[i].toLowerCase() == s || m[i].toLowerCase() == s || o[i].toLowerCase() == s)
-                return i; 
-        }
-        return -1;  
-    };
-    
-    /**
-     * Gets the month number (0-11) if given a Culture Info specific string which 
-     * is a valid monthName or abbreviatedMonthName.
-     * @param {String}   The name of the month (eg. "February, "Feb", "october", "oct").
-     * @return {Number}  The day number
-     */
-    $D.getMonthNumberFromName = function(name) {
-        var n = $C.monthNames,
-            m = $C.abbreviatedMonthNames,
-            s = name.toLowerCase();
-        for (var i = 0; i < n.length; i++) {
-            if (n[i].toLowerCase() == s || m[i].toLowerCase() == s)
-                return i; 
-        }
-        return -1;
-    };
-
-    /**
-     * Determines if the current date instance is within a LeapYear.
-     * @param {Number}   The year.
-     * @return {Boolean} true if date is within a LeapYear, otherwise false.
-     */
-    $D.isLeapYear = function(year) { 
-        return ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0); 
-    };
-
-    /**
-     * Gets the number of days in the month, given a year and month value. 
-     * Automatically corrects for LeapYear.
-     * @param {Number}   The year.
-     * @param {Number}   The month (0-11).
-     * @return {Number}  The number of days in the month.
-     */
-    $D.getDaysInMonth = function(year, month) {
-        return [31, ($D.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
-    };
- 
-    $D.getTimezoneAbbreviation = function(offset) {
-        var z = $C.timezones, p;
-        for (var i = 0; i < z.length; i++) {
-            if (z[i].offset === offset)
-                return z[i].name;
-        }
-        return null;
-    };
-    
-    $D.getTimezoneOffset = function(name) {
-        var z = $C.timezones, p;
-        for (var i = 0; i < z.length; i++) {
-            if (z[i].name === name.toUpperCase())
-                return z[i].offset;
-        }
-        return null;
-    };
-
-    /**
-     * Returns a new Date object that is an exact date and time copy of the 
-     * original instance.
-     * @return {Date}    A new Date instance
-     */
-    $P.clone = function() {
-        return new Date(this.getTime()); 
-    };
-
-    /**
-     * Compares this instance to a Date object and returns an number indication 
-     * of their relative values.  
-     * @param {Date}     Date object to compare [Required]
-     * @return {Number}  -1 = this is lessthan date. 0 = values are equal.
-     *                    1 = this is greaterthan date.
-     */
-    $P.compareTo = function(date) {
-        return Date.compare(this, date);
-    };
-
-    /**
-     * Compares this instance to another Date object and returns true if they are equal.  
-     * @param {Date}     Date object to compare. If no date to compare, new Date() 
-     *                   [now] is used.
-     * @return {Boolean} true if dates are equal. false if they are not equal.
-     */
-    $P.equals = function(date) {
-        return Date.equals(this, date || new Date());
-    };
-
-    /**
-     * Determines if this instance is between a range of two dates or equal to 
-     * either the start or end dates.
-     * @param {Date}     Start of range [Required]
-     * @param {Date}     End of range [Required]
-     * @return {Boolean} true is this is between or equal to the start and end 
-     *                   dates, else false
-     */
-    $P.between = function(start, end) {
-        return this.getTime() >= start.getTime() && this.getTime() <= end.getTime();
-    };
-
-    /**
-     * Determines if this date occurs after the date to compare to.
-     * @param {Date}     Date object to compare. If no date to compare, new Date() 
-     *                   ("now") is used.
-     * @return {Boolean} true if this date instance is greater than the date to 
-     *                   compare to (or "now"), otherwise false.
-     */
-    $P.isAfter = function(date) {
-        return this.compareTo(date || new Date()) === 1;
-    };
-
-    /**
-     * Determines if this date occurs before the date to compare to.
-     * @param {Date}     Date object to compare. If no date to compare, new Date()
-     *                   ("now") is used.
-     * @return {Boolean} true if this date instance is less than the date to 
-     *                   compare to (or "now").
-     */
-    $P.isBefore = function(date) {
-        return (this.compareTo(date || new Date()) === -1);
-    };
-
-    /**
-     * Determines if the current Date instance occurs on the same Date as the supplied 'date'. 
-     * If no 'date' to compare to is provided, the current Date instance is compared to 'today'. 
-     * @param {Date}     Date object to compare. If no date to compare, the current Date ("now") is used.
-     * @return {Boolean} true if this Date instance occurs on the same Day as the supplied 'date'.
-     */
-    $P.isToday = $P.isSameDay = function(date) {
-        return this.clone().clearTime().equals((date || new Date()).clone().clearTime());
-    };
-    
-    /**
-     * Adds the specified number of milliseconds to this instance. 
-     * @param {Number}   The number of milliseconds to add. The number can be 
-     *                   positive or negative [Required]
-     * @return {Date}    this
-     */
-    $P.addMilliseconds = function(value) {
-        this.setMilliseconds(this.getMilliseconds() + value * 1);
-        return this;
-    };
-
-    /**
-     * Adds the specified number of seconds to this instance. 
-     * @param {Number}   The number of seconds to add. The number can be positive 
-     *                   or negative [Required]
-     * @return {Date}    this
-     */
-    $P.addSeconds = function(value) { 
-        return this.addMilliseconds(value * 1000); 
-    };
-
-    /**
-     * Adds the specified number of seconds to this instance. 
-     * @param {Number}   The number of seconds to add. The number can be positive 
-     *                   or negative [Required]
-     * @return {Date}    this
-     */
-    $P.addMinutes = function(value) { 
-        return this.addMilliseconds(value * 60000); /* 60*1000 */
-    };
-
-    /**
-     * Adds the specified number of hours to this instance. 
-     * @param {Number}   The number of hours to add. The number can be positive 
-     *                   or negative [Required]
-     * @return {Date}    this
-     */
-    $P.addHours = function(value) { 
-        return this.addMilliseconds(value * 3600000); /* 60*60*1000 */
-    };
-
-    /**
-     * Adds the specified number of days to this instance. 
-     * @param {Number}   The number of days to add. The number can be positive 
-     *                   or negative [Required]
-     * @return {Date}    this
-     */
-    $P.addDays = function(value) {
-        this.setDate(this.getDate() + value * 1);
-        return this;
-    };
-
-    /**
-     * Adds the specified number of weeks to this instance. 
-     * @param {Number}   The number of weeks to add. The number can be positive 
-     *                   or negative [Required]
-     * @return {Date}    this
-     */
-    $P.addWeeks = function(value) { 
-        return this.addDays(value * 7);
-    };
-
-    /**
-     * Adds the specified number of months to this instance. 
-     * @param {Number}   The number of months to add. The number can be positive 
-     *                   or negative [Required]
-     * @return {Date}    this
-     */
-    $P.addMonths = function(value) {
-        var n = this.getDate();
-        this.setDate(1);
-        this.setMonth(this.getMonth() + value * 1);
-        this.setDate(Math.min(n, $D.getDaysInMonth(this.getFullYear(), this.getMonth())));
-        return this;
-    };
-
-    /**
-     * Adds the specified number of years to this instance. 
-     * @param {Number}   The number of years to add. The number can be positive 
-     *                   or negative [Required]
-     * @return {Date}    this
-     */
-    $P.addYears = function(value) {
-        return this.addMonths(value * 12);
-    };
-
-    /**
-     * Adds (or subtracts) to the value of the years, months, weeks, days, hours, 
-     * minutes, seconds, milliseconds of the date instance using given configuration 
-     * object. Positive and Negative values allowed.
-     * Example
-    <pre><code>
-    Date.today().add( { days: 1, months: 1 } )
-     
-    new Date().add( { years: -1 } )
-    </code></pre> 
-     * @param {Object}   Configuration object containing attributes (months, days, etc.)
-     * @return {Date}    this
-     */
-    $P.add = function(config) {
-        if (typeof config == "number") {
-            this._orient = config;
-            return this;    
-        }
-        
-        var x = config;
-        
-        if (x.milliseconds)
-            this.addMilliseconds(x.milliseconds); 
-        if (x.seconds)
-            this.addSeconds(x.seconds); 
-        if (x.minutes)
-            this.addMinutes(x.minutes); 
-        if (x.hours)
-            this.addHours(x.hours); 
-        if (x.weeks)
-            this.addWeeks(x.weeks); 
-        if (x.months)
-            this.addMonths(x.months); 
-        if (x.years)
-            this.addYears(x.years); 
-        if (x.days)
-            this.addDays(x.days); 
-        return this;
-    };
-    
-    var $y, $m, $d;
-    
-    /**
-     * Get the week number. Week one (1) is the week which contains the first 
-     * Thursday of the year. Monday is considered the first day of the week.
-     * This algorithm is a JavaScript port of the work presented by Claus 
-     * Tøndering at http://www.tondering.dk/claus/cal/node8.html#SECTION00880000000000000000
-     * .getWeek() Algorithm Copyright (c) 2008 Claus Tondering.
-     * The .getWeek() function does NOT convert the date to UTC. The local datetime 
-     * is used. Please use .getISOWeek() to get the week of the UTC converted date.
-     * @return {Number}  1 to 53
-     */
-    $P.getWeek = function() {
-        var a, b, c, d, e, f, g, n, s, w;
-        
-        $y = (!$y) ? this.getFullYear() : $y;
-        $m = (!$m) ? this.getMonth() + 1 : $m;
-        $d = (!$d) ? this.getDate() : $d;
-
-        if ($m <= 2) {
-            a = $y - 1;
-            b = (a / 4 | 0) - (a / 100 | 0) + (a / 400 | 0);
-            c = ((a - 1) / 4 | 0) - ((a - 1) / 100 | 0) + ((a - 1) / 400 | 0);
-            s = b - c;
-            e = 0;
-            f = $d - 1 + (31 * ($m - 1));
-        } else {
-            a = $y;
-            b = (a / 4 | 0) - (a / 100 | 0) + (a / 400 | 0);
-            c = ((a - 1) / 4 | 0) - ((a - 1) / 100 | 0) + ((a - 1) / 400 | 0);
-            s = b - c;
-            e = s + 1;
-            f = $d + ((153 * ($m - 3) + 2) / 5) + 58 + s;
-        }
-        
-        g = (a + b) % 7;
-        d = (f + g - e) % 7;
-        n = (f + 3 - d) | 0;
-
-        if (n < 0) {
-            w = 53 - ((g - s) / 5 | 0);
-        } else if (n > 364 + s) {
-            w = 1;
-        } else {
-            w = (n / 7 | 0) + 1;
-        }
-        
-        $y = $m = $d = null;
-        
-        return w;
-    };
-    
-    /**
-     * Get the ISO 8601 week number. Week one ("01") is the week which contains the 
-     * first Thursday of the year. Monday is considered the first day of the week.
-     * The .getISOWeek() function does convert the date to it's UTC value. 
-     * Please use .getWeek() to get the week of the local date.
-     * @return {String}  "01" to "53"
-     */
-    $P.getISOWeek = function() {
-        $y = this.getUTCFullYear();
-        $m = this.getUTCMonth() + 1;
-        $d = this.getUTCDate();
-        return p(this.getWeek());
-    };
-
-    /**
-     * Moves the date to Monday of the week set. Week one (1) is the week which 
-     * contains the first Thursday of the year.
-     * @param {Number}   A Number (1 to 53) that represents the week of the year.
-     * @return {Date}    this
-     */    
-    $P.setWeek = function(n) {
-        return this.moveToDayOfWeek(1).addWeeks(n - this.getWeek());
-    };
-
-    // private
-    var validate = function(n, min, max, name) {
-        if (typeof n == "undefined")
-            return false;
-        else if (typeof n != "number")
-            throw new TypeError(n + " is not a Number.");
-        else if (n < min || n > max)
-            throw new RangeError(n + " is not a valid value for " + name + "."); 
-        return true;
-    };
-
-    /**
-     * Validates the number is within an acceptable range for milliseconds [0-999].
-     * @param {Number}   The number to check if within range.
-     * @return {Boolean} true if within range, otherwise false.
-     */
-    $D.validateMillisecond = function(value) {
-        return validate(value, 0, 999, "millisecond");
-    };
-
-    /**
-     * Validates the number is within an acceptable range for seconds [0-59].
-     * @param {Number}   The number to check if within range.
-     * @return {Boolean} true if within range, otherwise false.
-     */
-    $D.validateSecond = function(value) {
-        return validate(value, 0, 59, "second");
-    };
-
-    /**
-     * Validates the number is within an acceptable range for minutes [0-59].
-     * @param {Number}   The number to check if within range.
-     * @return {Boolean} true if within range, otherwise false.
-     */
-    $D.validateMinute = function(value) {
-        return validate(value, 0, 59, "minute");
-    };
-
-    /**
-     * Validates the number is within an acceptable range for hours [0-23].
-     * @param {Number}   The number to check if within range.
-     * @return {Boolean} true if within range, otherwise false.
-     */
-    $D.validateHour = function(value) {
-        return validate(value, 0, 23, "hour");
-    };
-
-    /**
-     * Validates the number is within an acceptable range for the days in a month 
-     * [0 - MaxDaysInMonth].
-     * @param {Number}   The number to check if within range.
-     * @return {Boolean} true if within range, otherwise false.
-     */
-    $D.validateDay = function(value, year, month) {
-        return validate(value, 1, $D.getDaysInMonth(year, month), "day");
-    };
-
-    /**
-     * Validates the number is within an acceptable range for months [0-11].
-     * @param {Number}   The number to check if within range.
-     * @return {Boolean} true if within range, otherwise false.
-     */
-    $D.validateMonth = function(value) {
-        return validate(value, 0, 11, "month");
-    };
-
-    /**
-     * Validates the number is within an acceptable range for years.
-     * @param {Number}   The number to check if within range.
-     * @return {Boolean} true if within range, otherwise false.
-     */
-    $D.validateYear = function(value) {
-        return validate(value, 0, 9999, "year");
-    };
-
-    /**
-     * Set the value of year, month, day, hour, minute, second, millisecond of 
-     * date instance using given configuration object.
-     * Example
-    <pre><code>
-    Date.today().set( { day: 20, month: 1 } )
-
-    new Date().set( { millisecond: 0 } )
-    </code></pre>
-     * 
-     * @param {Object}   Configuration object containing attributes (month, day, etc.)
-     * @return {Date}    this
-     */
-    $P.set = function(config) {
-        if ($D.validateMillisecond(config.millisecond))
-            this.addMilliseconds(config.millisecond - this.getMilliseconds()); 
-        
-        if ($D.validateSecond(config.second))
-            this.addSeconds(config.second - this.getSeconds()); 
-        
-        if ($D.validateMinute(config.minute))
-            this.addMinutes(config.minute - this.getMinutes()); 
-        
-        if ($D.validateHour(config.hour))
-            this.addHours(config.hour - this.getHours()); 
-        
-        if ($D.validateMonth(config.month))
-            this.addMonths(config.month - this.getMonth()); 
-
-        if ($D.validateYear(config.year))
-            this.addYears(config.year - this.getFullYear()); 
-        
-        /* day has to go last because you can't validate the day without first knowing the month */
-        if ($D.validateDay(config.day, this.getFullYear(), this.getMonth()))
-            this.addDays(config.day - this.getDate()); 
-        
-        if (config.timezone)
-            this.setTimezone(config.timezone); 
-        
-        if (config.timezoneOffset)
-            this.setTimezoneOffset(config.timezoneOffset); 
-
-        if (config.week && validate(config.week, 0, 53, "week"))
-            this.setWeek(config.week);
-        
-        return this;
-    };
-
-    /**
-     * Moves the date to the first day of the month.
-     * @return {Date}    this
-     */
-    $P.moveToFirstDayOfMonth = function() {
-        return this.set({ day: 1 });
-    };
-
-    /**
-     * Moves the date to the last day of the month.
-     * @return {Date}    this
-     */
-    $P.moveToLastDayOfMonth = function() { 
-        return this.set({ day: $D.getDaysInMonth(this.getFullYear(), this.getMonth())});
-    };
-
-    /**
-     * Moves the date to the next n'th occurrence of the dayOfWeek starting from 
-     * the beginning of the month. The number (-1) is a magic number and will return 
-     * the last occurrence of the dayOfWeek in the month.
-     * @param {Number}   The dayOfWeek to move to
-     * @param {Number}   The n'th occurrence to move to. Use (-1) to return the 
-     *                   last occurrence in the month
-     * @return {Date}    this
-     */
-    $P.moveToNthOccurrence = function(dayOfWeek, occurrence) {
-        var shift = 0;
-        if (occurrence > 0) {
-            shift = occurrence - 1;
-        }
-        else if (occurrence === -1) {
-            this.moveToLastDayOfMonth();
-            if (this.getDay() !== dayOfWeek)
-                this.moveToDayOfWeek(dayOfWeek, -1);
-            return this;
-        }
-        return this.moveToFirstDayOfMonth().addDays(-1)
-                   .moveToDayOfWeek(dayOfWeek, +1).addWeeks(shift);
-    };
-
-    /**
-     * Move to the next or last dayOfWeek based on the orient value.
-     * @param {Number}   The dayOfWeek to move to
-     * @param {Number}   Forward (+1) or Back (-1). Defaults to +1. [Optional]
-     * @return {Date}    this
-     */
-    $P.moveToDayOfWeek = function(dayOfWeek, orient) {
-        var diff = (dayOfWeek - this.getDay() + 7 * (orient || +1)) % 7;
-        return this.addDays((diff === 0) ? diff += 7 * (orient || +1) : diff);
-    };
-
-    /**
-     * Move to the next or last month based on the orient value.
-     * @param {Number}   The month to move to. 0 = January, 11 = December
-     * @param {Number}   Forward (+1) or Back (-1). Defaults to +1. [Optional]
-     * @return {Date}    this
-     */
-    $P.moveToMonth = function(month, orient) {
-        var diff = (month - this.getMonth() + 12 * (orient || +1)) % 12;
-        return this.addMonths((diff === 0) ? diff += 12 * (orient || +1) : diff);
-    };
-
-    /**
-     * Get the Ordinal day (numeric day number) of the year, adjusted for leap year.
-     * @return {Number} 1 through 365 (366 in leap years)
-     */
-    $P.getOrdinalNumber = function() {
-        return Math.ceil((this.clone().clearTime() 
-            - new Date(this.getFullYear(), 0, 1)) / 86400000) + 1;
-    };
-
-    /**
-     * Get the time zone abbreviation of the current date.
-     * @return {String} The abbreviated time zone name (e.g. "EST")
-     */
-    $P.getTimezone = function() {
-        return $D.getTimezoneAbbreviation(this.getUTCOffset());
-    };
-
-    $P.setTimezoneOffset = function(offset) {
-        var here = this.getTimezoneOffset(), there = Number(offset) * -6 / 10;
-        return this.addMinutes(there - here); 
-    };
-
-    $P.setTimezone = function(offset) { 
-        return this.setTimezoneOffset($D.getTimezoneOffset(offset)); 
-    };
-
-    /**
-     * Indicates whether Daylight Saving Time is observed in the current time zone.
-     * @return {Boolean} true|false
-     */
-    $P.hasDaylightSavingTime = function() { 
-        return (Date.today().set({month: 0, day: 1}).getTimezoneOffset() 
-            !== Date.today().set({month: 6, day: 1}).getTimezoneOffset());
-    };
-    
-    /**
-     * Indicates whether this Date instance is within the Daylight Saving Time 
-     * range for the current time zone.
-     * @return {Boolean} true|false
-     */
-    $P.isDaylightSavingTime = function() {
-        return Date.today().set({month: 0, day: 1}).getTimezoneOffset() != this.getTimezoneOffset();
-    };
-
-    /**
-     * Get the offset from UTC of the current date.
-     * @return {String} The 4-character offset string prefixed with + or - (e.g. "-0500")
-     */
-    $P.getUTCOffset = function() {
-        var n = this.getTimezoneOffset() * -10 / 6, r;
-        if (n < 0) { 
-            r = (n - 10000).toString(); 
-            return r.charAt(0) + r.substr(2); 
-        }
-        else { 
-            r = (n + 10000).toString();  
-            return "+" + r.substr(1); 
-        }
-    };
-    
-    $P.getUTCTime = function() {
-        //Date.UTC(year, month[, date[, hrs[, min[, sec[, ms]]]]])
-        return Date.UTC(this.getUTCFullYear(), this.getUTCMonth(), this.getUTCDate(),
-            this.getUTCHours(), this.getUTCMinutes(), this.getUTCSeconds(),
-            this.getUTCMilliseconds());
-    };
-
-    /**
-     * Returns the number of milliseconds between this date and date.
-     * @param {Date} Defaults to now
-     * @return {Number} The diff in milliseconds
-     */
-    $P.getElapsed = function(date) {
-        return (date || new Date()) - this;
-    };
-
-    if (!$P.toISOString) {
-        /**
-         * Converts the current date instance into a string with an ISO 8601 format. 
-         * The date is converted to it's UTC value.
-         * @return {String}  ISO 8601 string of date
-         */
-        $P.toISOString = function() {
-            // From http://www.json.org/json.js. Public Domain. 
-            function f(n) {
-                return n < 10 ? '0' + n : n;
-            }
-
-            return '"' + this.getUTCFullYear()   + '-' +
-                f(this.getUTCMonth() + 1) + '-' +
-                f(this.getUTCDate())      + 'T' +
-                f(this.getUTCHours())     + ':' +
-                f(this.getUTCMinutes())   + ':' +
-                f(this.getUTCSeconds())   + 'Z"';
-        };
-    }
-    
-    // private
-    $P._toString = $P.toString;
-
-    /**
-     * Converts the value of the current Date object to its equivalent string representation.
-     * Format Specifiers
-    <pre>
-    CUSTOM DATE AND TIME FORMAT STRINGS
-    Format  Description                                                                  Example
-    ------  ---------------------------------------------------------------------------  -----------------------
-     s      The seconds of the minute between 0-59.                                      "0" to "59"
-     ss     The seconds of the minute with leading zero if required.                     "00" to "59"
-     
-     m      The minute of the hour between 0-59.                                         "0"  or "59"
-     mm     The minute of the hour with leading zero if required.                        "00" or "59"
-     
-     h      The hour of the day between 1-12.                                            "1"  to "12"
-     hh     The hour of the day with leading zero if required.                           "01" to "12"
-     
-     H      The hour of the day between 0-23.                                            "0"  to "23"
-     HH     The hour of the day with leading zero if required.                           "00" to "23"
-     
-     d      The day of the month between 1 and 31.                                       "1"  to "31"
-     dd     The day of the month with leading zero if required.                          "01" to "31"
-     ddd    Abbreviated day name. $C.abbreviatedDayNames.                                "Mon" to "Sun" 
-     dddd   The full day name. $C.dayNames.                                              "Monday" to "Sunday"
-     
-     M      The month of the year between 1-12.                                          "1" to "12"
-     MM     The month of the year with leading zero if required.                         "01" to "12"
-     MMM    Abbreviated month name. $C.abbreviatedMonthNames.                            "Jan" to "Dec"
-     MMMM   The full month name. $C.monthNames.                                          "January" to "December"
-
-     yy     The year as a two-digit number.                                              "99" or "08"
-     yyyy   The full four digit year.                                                    "1999" or "2008"
-     
-     t      Displays the first character of the A.M./P.M. designator.                    "A" or "P"
-            $C.amDesignator or $C.pmDesignator
-     tt     Displays the A.M./P.M. designator.                                           "AM" or "PM"
-            $C.amDesignator or $C.pmDesignator
-     
-     S      The ordinal suffix ("st, "nd", "rd" or "th") of the current day.            "st, "nd", "rd" or "th"
-
-|| *Format* || *Description* || *Example* ||
-|| d      || The CultureInfo shortDate Format Pattern                                     || "M/d/yyyy" ||
-|| D      || The CultureInfo longDate Format Pattern                                      || "dddd, MMMM dd, yyyy" ||
-|| F      || The CultureInfo fullDateTime Format Pattern                                  || "dddd, MMMM dd, yyyy h:mm:ss tt" ||
-|| m      || The CultureInfo monthDay Format Pattern                                      || "MMMM dd" ||
-|| r      || The CultureInfo rfc1123 Format Pattern                                       || "ddd, dd MMM yyyy HH:mm:ss GMT" ||
-|| s      || The CultureInfo sortableDateTime Format Pattern                              || "yyyy-MM-ddTHH:mm:ss" ||
-|| t      || The CultureInfo shortTime Format Pattern                                     || "h:mm tt" ||
-|| T      || The CultureInfo longTime Format Pattern                                      || "h:mm:ss tt" ||
-|| u      || The CultureInfo universalSortableDateTime Format Pattern                     || "yyyy-MM-dd HH:mm:ssZ" ||
-|| y      || The CultureInfo yearMonth Format Pattern                                     || "MMMM, yyyy" ||
-     
-
-    STANDARD DATE AND TIME FORMAT STRINGS
-    Format  Description                                                                  Example ("en-US")
-    ------  ---------------------------------------------------------------------------  -----------------------
-     d      The CultureInfo shortDate Format Pattern                                     "M/d/yyyy"
-     D      The CultureInfo longDate Format Pattern                                      "dddd, MMMM dd, yyyy"
-     F      The CultureInfo fullDateTime Format Pattern                                  "dddd, MMMM dd, yyyy h:mm:ss tt"
-     m      The CultureInfo monthDay Format Pattern                                      "MMMM dd"
-     r      The CultureInfo rfc1123 Format Pattern                                       "ddd, dd MMM yyyy HH:mm:ss GMT"
-     s      The CultureInfo sortableDateTime Format Pattern                              "yyyy-MM-ddTHH:mm:ss"
-     t      The CultureInfo shortTime Format Pattern                                     "h:mm tt"
-     T      The CultureInfo longTime Format Pattern                                      "h:mm:ss tt"
-     u      The CultureInfo universalSortableDateTime Format Pattern                     "yyyy-MM-dd HH:mm:ssZ"
-     y      The CultureInfo yearMonth Format Pattern                                     "MMMM, yyyy"
-    </pre>
-     * @param {String}   A format string consisting of one or more format spcifiers [Optional].
-     * @return {String}  A string representation of the current Date object.
-     */
-    $P.toString = function(format) {
-        var x = this;
-        
-        // Standard Date and Time Format Strings. Formats pulled from CultureInfo file and
-        // may vary by culture. 
-        if (format && format.length == 1) {
-            var c = $C.formatPatterns;
-            x.t = x.toString;
-            switch (format) {
-            case "d": 
-                return x.t(c.shortDate);
-            case "D":
-                return x.t(c.longDate);
-            case "F":
-                return x.t(c.fullDateTime);
-            case "m":
-                return x.t(c.monthDay);
-            case "r":
-                return x.t(c.rfc1123);
-            case "s":
-                return x.t(c.sortableDateTime);
-            case "t":
-                return x.t(c.shortTime);
-            case "T":
-                return x.t(c.longTime);
-            case "u":
-                return x.t(c.universalSortableDateTime);
-            case "y":
-                return x.t(c.yearMonth);
-            }    
-        }
-        
-        var ord = function (n) {
-                switch (n * 1) {
-                case 1: 
-                case 21: 
-                case 31: 
-                    return "st";
-                case 2: 
-                case 22: 
-                    return "nd";
-                case 3: 
-                case 23: 
-                    return "rd";
-                default: 
-                    return "th";
-                }
-            };
-        
-        return format ? format.replace(/(\\)?(dd?d?d?|MM?M?M?|yy?y?y?|hh?|HH?|mm?|ss?|tt?|S)/g, 
-        function (m) {
-            if (m.charAt(0) === "\\") {
-                return m.replace("\\", "");
-            }
-            x.h = x.getHours;
-            switch (m) {
-            case "hh":
-                return p(x.h() < 13 ? (x.h() === 0 ? 12 : x.h()) : (x.h() - 12));
-            case "h":
-                return x.h() < 13 ? (x.h() === 0 ? 12 : x.h()) : (x.h() - 12);
-            case "HH":
-                return p(x.h());
-            case "H":
-                return x.h();
-            case "mm":
-                return p(x.getMinutes());
-            case "m":
-                return x.getMinutes();
-            case "ss":
-                return p(x.getSeconds());
-            case "s":
-                return x.getSeconds();
-            case "yyyy":
-                return p(x.getFullYear(), 4);
-            case "yy":
-                return p(x.getFullYear());
-            case "dddd":
-                return $C.dayNames[x.getDay()];
-            case "ddd":
-                return $C.abbreviatedDayNames[x.getDay()];
-            case "dd":
-                return p(x.getDate());
-            case "d":
-                return x.getDate();
-            case "MMMM":
-                return $C.monthNames[x.getMonth()];
-            case "MMM":
-                return $C.abbreviatedMonthNames[x.getMonth()];
-            case "MM":
-                return p((x.getMonth() + 1));
-            case "M":
-                return x.getMonth() + 1;
-            case "t":
-                return x.h() < 12 ? $C.amDesignator.substring(0, 1) : $C.pmDesignator.substring(0, 1);
-            case "tt":
-                return x.h() < 12 ? $C.amDesignator : $C.pmDesignator;
-            case "S":
-                return ord(x.getDate());
-            default: 
-                return m;
-            }
-        }
-        ) : this._toString();
-    };
-}());
-
 
 
 
@@ -5265,9 +3930,7 @@ apf.layout = {
                 strRules.push(rules[id]);
             }
 
-            rsz = apf.needsCssPx
-                ? new Function(strRules.join("\n"))
-                : new Function(strRules.join("\n").replace(/ \+ 'px'|try\{\}catch\(e\)\{\}\n/g,""))
+            rsz = new Function(strRules.join("\n"));
 
             oHtml.onresize = rsz;
             if (!no_exec) 
@@ -5557,7 +4220,28 @@ apf.queue = {
 
 
 
-
+function xmlToHtml(xmlNode, shallow) {
+    if (xmlNode.nodeType == 1 && xmlNode.localName != "style") {
+        var el = document.createElement(xmlNode.localName)
+        var ch = xmlNode.childNodes;
+        if (!shallow) {
+            for (var i = 0; i < ch.length; i++) {
+                var childEl = xmlToHtml(ch[i]);
+                if (childEl)
+                    el.appendChild(childEl);
+            }
+        }
+        var attr = xmlNode.attributes;
+        for (var i = 0; i < attr.length; i++) {
+            el.setAttribute(attr[i].name, attr[i].nodeValue);
+        }
+        return el;
+    } else  if (xmlNode.nodeType == 3) {
+        var el = document.createTextNode(xmlNode.nodeValue);
+        // el.nodeValue = ;
+        return el;
+    }
+}
 /**
  * 
  * Controls the skinning modifications for AML.
@@ -5649,71 +4333,42 @@ apf.skins = {
                 continue;
 
             //this.templates[nodes[i].tagName] = nodes[i];
-            this.skins[name].templates[nodes[i].getAttribute("name")] = nodes[i];
+            var htmlNode = xmlToHtml(nodes[i]);
+            this.skins[name].templates[htmlNode.getAttribute("name")] = htmlNode;
             if (nodes[i].ownerDocument)
-                this.importSkinDef(nodes[i], base, name);
+                this.importSkinDef(nodes[i], base, name, htmlNode);
         }
 
         this.purgeCss(mediaPath, iconPath);
-        
-        if (this.queue[name]) {
-            for (var prop in this.queue[name]) {
-                this.queue[name][prop]();
-            }
-        }
-    },
-
-    /**
-     * Loads a stylesheet from a URL.
-     * @param {String}    filename  The url to load the stylesheet from
-     * @param {String}    [title]  Title of the stylesheet to load
-     * @method loadStylesheet
-     */
-    loadStylesheet: function(filename, title) {
-        var o;
-        with (o = document.getElementsByTagName("head")[0].appendChild(document.createElement("LINK"))) {
-            rel = "stylesheet";
-            type = "text/css";
-            href = filename;
-            title = title;
-        }
-
-        return o;
     },
 
     /* ***********
      Import
      ************/
-    importSkinDef: function(xmlNode, basepath, name) {
+    importSkinDef: function(xmlNode, basepath, name, htmlNode) {
         var i, l, nodes = $xmlns(xmlNode, "style", apf.ns.aml), tnode, node;
         for (i = 0, l = nodes.length; i < l; i++) {
             node = nodes[i];
 
-            if (node.getAttribute("src"))
-                this.loadStylesheet(apf.getAbsolutePath(basepath, node.getAttribute("src")));
-            else {
-                var test = true;
-                if (node.getAttribute("condition")) {
-                    try {
-                        test = eval(node.getAttribute("condition"));
-                    }
-                    catch (e) {
-                        test = false;
-                    }
+            var test = true;
+            if (node.getAttribute("condition")) {
+                try {
+                    test = eval(node.getAttribute("condition"));
                 }
-
-                if (test) {
-                    //#-ifndef __PROCESSED
-                    tnode = node.firstChild;
-                    while (tnode) {
-                        this.css.push(tnode.nodeValue);
-                        tnode = tnode.nextSibling;
-                    }
-                    /*#-else
-                    this.css.push(nodes[i].firstChild.nodeValue);
-                    #-endif*/
+                catch (e) {
+                    test = false;
                 }
             }
+
+            if (test) {
+                tnode = node.firstChild;
+                while (tnode) {
+                    this.css.push(tnode.nodeValue);
+                    tnode = tnode.nextSibling;
+                }
+            }
+            
+            node.remove();
         }
 
         nodes = $xmlns(xmlNode, "alias", apf.ns.apf);
@@ -5721,7 +4376,7 @@ apf.skins = {
         for (i = 0; i < nodes.length; i++) {
             if (!nodes[i].firstChild)
                 continue;
-            t[nodes[i].firstChild.nodeValue.toLowerCase()] = xmlNode;
+            t[nodes[i].firstChild.nodeValue.toLowerCase()] = htmlNode || xmlNode;
         }
     },
 
@@ -5738,18 +4393,6 @@ apf.skins = {
         this.css = [];
     },
 
-    loadCssInWindow: function(skinName, win, imagepath, iconpath) {
-        this.css = [];
-        var name = skinName.split(":");
-        var skin = this.skins[name[0]];
-        var template = skin.templates[name[1]];
-        this.importSkinDef(template, skin.base, skin.name);
-        var cssString = this.css.join("\n").replace(/images\//g, imagepath).replace(/icons\//g, iconpath);
-        apf.importCssString(cssString);
-
-        this.css = [];
-    },
-
     /* ***********
      Retrieve
      ************/
@@ -5757,8 +4400,6 @@ apf.skins = {
         skinName = skinName.split(":");
         var name = skinName[0];
         var type = skinName[1];
-
-        
 
         amlNode.iconPath = this.skins[name].iconPath;
         amlNode.mediaPath = this.skins[name].mediaPath;
@@ -5791,7 +4432,7 @@ apf.skins = {
             var nodes = $xmlns(skin, "presentation", apf.ns.aml)[0].childNodes;
             for (var i = 0; i < nodes.length; i++) {
                 if (nodes[i].nodeType != 1) continue;
-                originals[nodes[i].baseName || nodes[i][apf.TAGNAME]] = nodes[i];
+                originals[nodes[i].localName] = nodes[i];
             }
         }
 
@@ -5826,18 +4467,6 @@ apf.skins = {
         }
     },
     
-    
-    queue: {},
-    waitForSkin: function(skinset, id, callback) {
-        if (this.skins[skinset])
-            return;
-        
-        (this.queue[skinset] || (this.queue[skinset] = {}))[id] = callback;
-        return true;
-    },
-
-    
-
     setIcon: function(oHtml, strQuery, iconPath) {
         if (!strQuery) {
             oHtml.style.backgroundImage = "";
@@ -6571,7 +5200,7 @@ var ID = "id",
         var result, newvalue, curvalue, j, isColor, style, rules, i,
             tweens = {};
         for (i = 0; i < document.styleSheets.length; i++) {
-            try { rules = document.styleSheets[i][apf.styleSheetRules]; } 
+            try { rules = document.styleSheets[i].cssRules; } 
             catch(e) { rules = false; }
             
             if (!rules || !rules.length)
@@ -6862,409 +5491,6 @@ return {
 
 
 
-
-
-/**
- * The parser of the Ajax.org Markup Language. Besides aml this parser takes care
- * of distributing parsing tasks to other parsers like the native html parser and
- * the xsd parser.
- * @parser
- * @private
- *
- * @define include element that loads another aml files.
- * Example:
- * <code>
- *   <a:include src="bindings.aml" />
- * </code>
- * @attribute {String} src the location of the aml file to include in this application.
- *
- */
-apf.DOMParser = function(){};
-
-apf.DOMParser.prototype = new (function(){
-    this.caseInsensitive = true;
-    this.preserveWhiteSpace = false; //@todo apf3.0 whitespace issue
-
-    this.$waitQueue = {}
-    this.$callCount = 0;
-
-    // privates
-    var RE = [
-            /\<\!(DOCTYPE|doctype)[^>]*>/,
-            /&nbsp;/g,
-            /<\s*\/?\s*(?:\w+:\s*)[\w-]*[\s>\/]/g
-        ];
-
-    this.parseFromString = function(xmlStr, mimeType, options) {
-        var xmlNode;
-        if (this.caseInsensitive) {
-            var str = xmlStr.replace(RE[0], "")
-              .replace(RE[2], //.replace(/^[\r\n\s]*/, "")
-                function(m){ return m.toLowerCase(); });
-
-            if (!this.supportNamespaces)
-                str = str.replace(/xmlns\=\"[^"]*\"/g, "");
-
-            
-
-            var xmlNode = apf.getXmlDom(str);
-            if (apf.xmlParseError) apf.xmlParseError(xmlNode);
-            xmlNode = xmlNode.documentElement;
-            
-        }
-        else {
-            xmlNode = apf.getXmlDom(xmlStr, null, this.preserveWhiteSpace || apf.debug).documentElement;
-        }
-
-        return this.parseFromXml(xmlNode, options);
-    };
-
-    //@todo prevent leakage by not recording .$aml
-    this.parseFromXml = function(xmlNode, options) {
-        var doc, docFrag, amlNode, beforeNode;
-        if (!options)
-            options = {};
-
-        if (!options.delayedRender && !options.include) {
-            //Create a new document
-            if (options.doc) {
-                doc = options.doc;
-                docFrag = options.docFrag || doc.createDocumentFragment();
-            }
-            else {
-                doc = new apf.AmlDocument();
-                doc.$aml = xmlNode;
-                doc.$domParser = this;
-            }
-            if (options.host)
-                doc.$parentNode = options.host; //This is for sub docs that need to access the outside tree
-
-            
-
-            //Let's start building our tree
-            amlNode = this.$createNode(doc, xmlNode.nodeType, xmlNode); //Root node
-            (docFrag || doc).appendChild(amlNode);
-            if (options.htmlNode)
-                amlNode.$int = options.htmlNode;
-        }
-        else {
-            amlNode = options.amlNode;
-            doc = options.doc;
-
-            if (options.include) {
-                var n = amlNode.childNodes;
-                var p = n.indexOf(options.beforeNode);
-                var rest = p ? n.splice(p, n.length - p) : [];
-            }
-        }
-
-        //Set parse context
-        this.$parseContext = [amlNode, options];
-
-        this.$addParseState(amlNode, options || {});
-
-        //First pass - Node creation
-        var nodes, nodelist = {}, prios = [], _self = this;
-        var recur;
-        (recur = function(amlNode, nodes) {
-            var cL, newNode, node, nNodes,
-                cNodes = amlNode.childNodes,
-                i = 0,
-                l = nodes.length;
-            for (; i < l; i++) {
-                //Create child
-                newNode = _self.$createNode(doc, (node = nodes[i]).nodeType, node);
-                if (!newNode) continue; //for preserveWhiteSpace support
-
-                cNodes[cL = cNodes.length] = newNode; //Add to children
-
-                //Set tree refs
-                newNode.parentNode = amlNode;
-                if (cL > 0)
-                    (newNode.previousSibling = cNodes[cL - 1]).nextSibling = newNode;
-
-                //Create children
-                if (!newNode.render && newNode.canHaveChildren && (nNodes = node.childNodes).length)
-                    recur(newNode, nNodes);
-
-                //newNode.$aml = node; //@todo should be deprecated...
-
-                //Store high prio nodes for prio insertion
-                if (newNode.$parsePrio) {
-                    if (newNode.$parsePrio == "001") {
-                        newNode.dispatchEvent("DOMNodeInsertedIntoDocument"); //{relatedParent : nodes[j].parentNode}
-                        continue;
-                    }
-
-                    (nodelist[newNode.$parsePrio] || (prios.push(newNode.$parsePrio)
-                      && (nodelist[newNode.$parsePrio] = []))).push(newNode); //for second pass
-                }
-            }
-
-            amlNode.firstChild = cNodes[0];
-            amlNode.lastChild = cNodes[cL];
-        })(amlNode, xmlNode.childNodes);
-
-        if (options.include && rest.length) {
-            var index = n.length - 1;
-            n.push.apply(n, rest);
-            var last = n[index];
-            var next = n[index + 1];
-            (next.previousSibling = last).nextSibling = next;
-            amlNode.lastChild = n[n.length - 1];
-        }
-
-        if (options.delay) {
-            amlNode.$parseOptions = {
-                prios: prios,
-                nodelist: nodelist
-            };
-            return (docFrag || doc);
-        }
-
-        //Second pass - Document Insert signalling
-        prios.sort();
-        var i, j, l, l2;
-        for (i = 0, l = prios.length; i < l; i++) {
-            nodes = nodelist[prios[i]];
-            for (j = 0, l2 = nodes.length; j < l2; j++) {
-                nodes[j].dispatchEvent("DOMNodeInsertedIntoDocument"); //{relatedParent : nodes[j].parentNode}
-            }
-        }
-
-        if (this.$waitQueue[amlNode.$uniqueId]
-          && this.$waitQueue[amlNode.$uniqueId].$shouldWait)
-            return (docFrag || doc);
-            this.$continueParsing(amlNode, options);
-
-        return (docFrag || doc);
-    };
-
-    this.$isPaused = function(amlNode) {
-        return this.$waitQueue[amlNode.$uniqueId] &&
-          this.$waitQueue[amlNode.$uniqueId].$shouldWait > 0;
-    }
-
-    this.$addParseState = function(amlNode, options) {
-        var waitQueue = this.$waitQueue[amlNode.$uniqueId]
-            || (this.$waitQueue[amlNode.$uniqueId] = [])
-        waitQueue.pushUnique(options);
-
-        return waitQueue;
-    }
-
-    this.$pauseParsing = function(amlNode, options) {
-        var waitQueue = this.$waitQueue[amlNode.$uniqueId];
-        if (!waitQueue.$shouldWait) waitQueue.$shouldWait = 0;
-        waitQueue.$shouldWait++;
-    }
-
-    this.$continueParsing = function(amlNode, options) {
-        if (!amlNode)
-            amlNode = apf.document.documentElement;
-
-        var uId = amlNode.$uniqueId;
-        if (uId in this.$waitQueue) {
-            var item = this.$waitQueue[uId];
-
-            if (item.$shouldWait && --item.$shouldWait)
-                return false;
-
-            var node = amlNode.parentNode;
-            while (node && node.nodeType == 1) {
-                if (this.$waitQueue[node.$uniqueId]
-                  && this.$waitQueue[node.$uniqueId].$shouldWait)
-                    return false;
-                node = node.parentNode;
-            }
-
-            var parseAmlNode = apf.all[uId];
-            delete this.$waitQueue[uId];
-            if (parseAmlNode) {
-                for (var i = 0; i < item.length; i++)
-                    this.$parseState(parseAmlNode, item[i]);
-            }
-
-            //@todo Check for shouldWait here?
-        }
-        else
-            this.$parseState(amlNode, options || {});
-
-        delete this.$parseContext;
-    }
-
-    this.$parseState = function(amlNode, options) {
-        if (amlNode.$amlDestroyed)
-            return;
-        
-        this.$callCount++;
-
-        if (amlNode.$parseOptions) {
-            var prios = amlNode.$parseOptions.prios,
-                nodelist = amlNode.$parseOptions.nodelist,
-                i, j, l, l2, node;
-            delete amlNode.$parseOptions;
-
-            //Second pass - Document Insert signalling
-            prios.sort();
-            for (i = 0, l = prios.length; i < l; i++) {
-                var nodes = nodelist[prios[i]];
-                for (j = 0, l2 = nodes.length; j < l2; j++) {
-                    if (!(node = nodes[j]).parentNode || node.$amlLoaded) //@todo generalize this using compareDocumentPosition
-                        continue;
-                    nodes[j].dispatchEvent("DOMNodeInsertedIntoDocument"); //{relatedParent : nodes[j].parentNode}
-                }
-            }
-        }
-
-        //instead of $amlLoaded use something more generic see compareDocumentPosition
-        if (!options.ignoreSelf && !amlNode.$amlLoaded)
-            amlNode.dispatchEvent("DOMNodeInsertedIntoDocument"); //{relatedParent : nodes[j].parentNode}
-
-        //Recursively signal non prio nodes
-        (function _recur(nodes) {
-            var node, nNodes;
-            for (var i = 0, l = nodes.length; i < l; i++) {
-                if (!(node = nodes[i]).$amlLoaded) {
-                    node.dispatchEvent("DOMNodeInsertedIntoDocument"); //{relatedParent : nodes[j].parentNode}
-                }
-
-                //Create children
-                if (!node.render && (nNodes = node.childNodes).length)
-                    _recur(nNodes);
-            }
-        })(amlNode.childNodes);
-
-        if (!--this.$callCount && !options.delay)
-            apf.queue.empty();
-
-        if (options.callback)
-            options.callback.call(amlNode.ownerDocument);
-    };
-
-    this.$createNode = function(doc, nodeType, xmlNode, namespaceURI, nodeName, nodeValue) {
-        var o;
-
-        switch (nodeType) {
-            case 1:
-                var id, prefix;
-                if (xmlNode) {
-                    if ((namespaceURI = xmlNode.namespaceURI || apf.ns.xhtml)
-                      && !(prefix = doc.$prefixes[namespaceURI])) {
-                        doc.$prefixes[prefix = xmlNode.prefix || xmlNode.scopeName || ""] = namespaceURI;
-                        doc.$namespaceURIs[namespaceURI] = prefix;
-
-                        if (!doc.namespaceURI && !prefix) {
-                            doc.namespaceURI = namespaceURI;
-                            doc.prefix = prefix;
-                        }
-                    }
-                    nodeName = xmlNode.baseName || xmlNode.localName || xmlNode.tagName.split(":").pop();
-                }
-                else {
-                    prefix = doc.$prefixes[namespaceURI] || "";
-                }
-
-                
-
-                var els = apf.namespaces[namespaceURI].elements;
-
-                
-
-                o = new (els[nodeName] || els["@default"])(null, nodeName);
-
-                o.prefix = prefix || "";
-                o.namespaceURI = namespaceURI;
-                o.tagName = prefix ? prefix + ":" + nodeName : nodeName;
-
-                if (xmlNode) {
-                    if ((id = xmlNode.getAttribute("id")) && !self[id])
-                        o.$propHandlers["id"].call(o, o.id = id);
-
-                    //attributes
-                    var attr = xmlNode.attributes, n;
-                    for (var a, na, i = 0, l = attr.length; i < l; i++) {
-                        na = new apf.AmlAttr(o,
-                            (n = (a = attr[i]).nodeName), a.value)
-                        o.attributes[na.nodeName] = na;
-                        
-                        if (n == "render")
-                            o.render = true;
-                        else
-                        
-                        if (n.substr(0, 2) == "on")
-                            na.$triggerUpdate();
-                    }
-                }
-
-                break;
-            case 2:
-                o = new apf.AmlAttr();
-                o.name = o.nodeName = nodeName;
-                if (nodeValue || (nodeValue = xmlNode && xmlNode.nodeValue))
-                    o.value = o.nodeValue = nodeValue;
-
-                if (xmlNode) {
-                    if (xmlNode.namespaceURI && !(o.prefix = doc.$namespaceURIs[o.namespaceURI = xmlNode.namespaceURI]))
-                        doc.$prefixes[o.prefix = xmlNode.prefix || xmlNode.scopeName] = o.namespaceURI;
-                }
-                else {
-                    o.prefix = doc.$prefixes[namespaceURI];
-                }
-
-                break;
-            case 3:
-                if (xmlNode)
-                    nodeValue = xmlNode && xmlNode.nodeValue;
-                if (!this.preserveWhiteSpace && !(nodeValue || "").trim())
-                    return;
-
-                o = new apf.AmlText();
-                o.nodeValue = nodeValue || xmlNode && xmlNode.nodeValue;
-                break;
-            case 7:
-                var target = nodeName || xmlNode && xmlNode.nodeName;
-                
-                o = new apf.aml.processingInstructions[target]();
-
-                o.target = o.nodeName = target;
-                o.data = o.nodeValue = nodeValue || xmlNode && xmlNode.nodeValue;
-                break;
-            case 4:
-                o = new apf.AmlCDATASection();
-                o.nodeValue = nodeValue || xmlNode && xmlNode.nodeValue;
-                break;
-            case 5: //unsupported
-                o = new apf.AmlNode();
-                o.nodeType = nodeType;
-                break;
-            case 6: //unsupported
-                o = new apf.AmlNode();
-                o.nodeType = nodeType;
-                break;
-            case 8:
-                o = new apf.AmlComment();
-                o.nodeValue = nodeValue || xmlNode && xmlNode.nodeValue;
-                break;
-            case 9:
-                o = new apf.AmlDocument();
-                o.$domParser = this;
-                break;
-            case 10: //unsupported
-                o = new apf.AmlNode();
-                o.nodeType = nodeType;
-                break;
-            case 11:
-                o = new apf.AmlDocumentFragment();
-                break;
-        }
-
-        o.ownerDocument = doc;
-        o.$aml = xmlNode;
-
-        return o;
-    };
-})();
 
 /**
  *
@@ -7645,7 +5871,7 @@ apf.AmlNode = function(){
         }
 
         var doc = this.nodeType == this.NODE_DOCUMENT ? this : this.ownerDocument;
-        if (!doc || doc.$domParser.$isPaused(this))
+        if (!doc)
             return amlNode;
 
         // Don't update the tree if this is a doc fragment or if this element is not inited yet
@@ -7653,31 +5879,45 @@ apf.AmlNode = function(){
             return amlNode; 
 
         //@todo review this...
-        if (initialAppend && !amlNode.render) { // && (nNodes = node.childNodes).length ??
-            (this.ownerDocument || this).$domParser.$continueParsing(amlNode, {delay: true});
+        if (initialAppend && !amlNode.render) {
+            this.$onInsertedIntoDocument();
         }
 
         triggerUpdate();
         return amlNode;
     };
 
+    this.$onInsertedIntoDocument = function() {
+        var amlNode = this
+        if (!options.ignoreSelf && !amlNode.$amlLoaded)
+            amlNode.dispatchEvent("DOMNodeInsertedIntoDocument");
+
+        //Recursively signal non prio nodes
+        (function _recur(nodes) {
+            for (var i = 0, l = nodes.length; i < l; i++) {
+                var node = nodes[i];
+                if (!node.$amlLoaded)
+                    node.dispatchEvent("DOMNodeInsertedIntoDocument");
+                //Create children
+                var nNodes = node.childNodes;
+                if (!node.render && nNodes && nNodes.length)
+                    _recur(nNodes);
+            }
+        })(amlNode.childNodes);
+    }
+
     /**
      * Removes this element from the document hierarchy. Call-chaining is
      * supported.
-     *
      */
     this.removeNode = function(doOnlyAdmin, noHtmlDomEdit) {
-        
-
         if (!this.parentNode || !this.parentNode.childNodes)
             return this;
-
         
-
         this.parentNode.childNodes.remove(this);
 
         //If we're not loaded yet, just remove us from the aml to be parsed
-        if (this.$amlLoaded && !apf.isDestroying) {
+        if (this.$amlLoaded) {
             //this.parentNode.$aml.removeChild(this.$aml);
 
             this.dispatchEvent("DOMNodeRemoved", {
@@ -7710,20 +5950,27 @@ apf.AmlNode = function(){
         return this;
     };
 
+
+    this.remove = function() { this.removeNode(); }
+    
     /**
      * Removes a child from the node list of this element. Call-chaining is
      * supported.
      * @param {apf.AmlNode} childNode The child node to remove
      */
     this.removeChild = function(childNode) {
-        
-
         childNode.removeNode();
         return this;
     };
     
     //@todo
-    this.replaceChild = function(){};
+    this.replaceChild = function(node, oldNode) {
+        if (node !== oldNode) {
+            this.insertBefore(node, oldNode);
+            this.removeChild(oldNode);
+        }
+        return node;
+    };
 
     /**
      * Clones this element, creating an exact copy of it--but does not insert
@@ -7969,33 +6216,8 @@ apf.AmlElement = function(struct, tagName) {
          * ```
          */
         "id": function(value) {
-            
-            
             if (this.name == value || !value)
                 return;
-    
-            if (self[this.name] == this) {
-                self[this.name] = null;
-                
-                apf.nameserver.remove(this.localName, this);
-                apf.nameserver.remove("all", this);
-                
-            }
-    
-            
-    
-            if (!self[value] || !self[value].hasFeature) {
-                try {
-                    self[value] = this;
-                }
-                catch (ex) {
-                    
-                }
-            }
-            
-            
-            //@todo dispatch event for new name creation.
-            //@todo old name disposal
             
             apf.nameserver.register(this.localName, value, this)
             apf.nameserver.register("all", value, this)
@@ -8171,6 +6393,40 @@ apf.AmlElement = function(struct, tagName) {
         
     };
     
+    
+    function createAmlNode(node, parent) {
+        if (node.nodeType == node.ELEMENT_NODE) {
+            var el
+            if (node.localName == "application") {
+                el = parent;
+            } else {
+                var ElementType = apf.aml.elements[node.localName] || apf.aml.elements["@default"];
+                var el = new ElementType({}, node.localName);
+                var a = node.attributes;
+                for (var i =0; i < a.length; i++) {
+                    el.setAttribute(a[i].name, a[i].value);
+                }
+                el.$aml = node;
+            }
+            
+            var list = node.childNodes;
+            for (var i = 0; i < list.length; i++) {
+                createAmlNode(list[i], el);
+            }
+            if (el != parent)
+                parent.appendChild(el);
+        } else if (node.nodeType == node.TEXT_NODE) {
+            var text = node.data.trim();
+            if (text) {
+                var o = new apf.AmlText();
+                o.nodeValue = text;
+                parent.appendChild(o);
+            }
+        } else if (node.nodeType == node.DOCUMENT_NODE) {
+            createAmlNode(node.documentElement, parent)
+        }
+    }
+    
     /**
      * Inserts new AML into this element.
      * @param {Mixed}       amlDefNode  The AML to be loaded. This can be a string or a parsed piece of XML.
@@ -8179,24 +6435,8 @@ apf.AmlElement = function(struct, tagName) {
      *                                  - clear ([[Boolean]]): If set, the AML has the attribute "clear" attached to it
      */
     this.insertMarkup = function(amlDefNode, options) {
-        var _self = this;
-        var include = new apf.XiInclude();
-        
-        if (amlDefNode.trim().charAt(0) == "<")
-            amlDefNode = apf.getXml(amlDefNode);
-        
-        include.setAttribute("href", amlDefNode);
-        if (options && options.clear)
-            include.setAttribute("clear", true);
-        include.options = options;
-        include.callback = function(){
-            _self.dispatchEvent("afteramlinserted", {src: amlDefNode});
-            options && options.callback && options.callback();
-            setTimeout(function(){
-                include.destroy(true, true);
-            });
-        };
-        this.appendChild(include);
+        var xmlNode = apf.getXml(amlDefNode);
+        createAmlNode(xmlNode, this);
     };
     
     this.$setInheritedAttribute = function(prop) {
@@ -8390,7 +6630,9 @@ apf.AmlText = function(isPrototype) {
 
     this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
         var pHtmlNode;
-        if (!(pHtmlNode = this.parentNode.$int) || this.parentNode.hasFeature(apf.__CHILDVALUE__)) 
+        if (this.parentNode.$childProperty)
+            return this.parentNode.setAttribute(this.parentNode.$childProperty, this.nodeValue)
+        if (!(pHtmlNode = this.parentNode.$int)) 
             return;
 
         this.$amlLoaded = true;
@@ -8623,7 +6865,6 @@ apf.AmlDocument = function(){
     this.doctype = null;
     this.domConfig = null;
     this.implementation = null;
-    this.characterSet = apf.characterSet;
     
     /**
      * The root element node of the AML application. This is an element with
@@ -8689,8 +6930,8 @@ apf.AmlDocument = function(){
      * @return {apf.AmlElement} The created AML element
      */
     this.createElement = function(qualifiedName) {
-        return this.$domParser.$createNode(this, this.NODE_ELEMENT, null,
-            this.namespaceURI, qualifiedName);
+        var ElementType = apf.aml.elements[qualifiedName] || apf.aml.elements["@default"];
+        return new ElementType({}, qualifiedName);
     };
 
     /**
@@ -8704,8 +6945,8 @@ apf.AmlDocument = function(){
      * @return {apf.AmlElement} The created AML element
      */        
     this.createElementNS = function(namespaceURI, qualifiedName) {
-        return this.$domParser.$createNode(this, this.NODE_ELEMENT, null,
-            namespaceURI, qualifiedName);
+        var ElementType = apf.aml.elements[qualifiedName] || apf.aml.elements["@default"];
+        return new ElementType({});
     };
     
     /**
@@ -8721,16 +6962,9 @@ apf.AmlDocument = function(){
      * @return {apf.AmlNode} The Text node
      */      
     this.createTextNode = function(nodeValue) {
-        return this.$domParser.$createNode(this, this.NODE_TEXT, null, null,
-            null, nodeValue);
-    };
-
-    /**
-     * Creates and returns a new document fragment.
-     */ 
-
-    this.createDocumentFragment = function(){
-        return this.$domParser.$createNode(this, this.NODE_DOCUMENT_FRAGMENT);
+        var o = new apf.AmlText();
+        o.nodeValue = nodeValue || "";
+        return o;
     };
 
     // @todo
@@ -8764,59 +6998,6 @@ apf.AmlDocumentFragment.prototype = new apf.AmlNode();
 apf.AmlDocumentFragment.prototype.nodeName = "#document-fragment";
 apf.AmlDocumentFragment.prototype.nodeType = 
     apf.AmlDocumentFragment.prototype.NODE_DOCUMENT_FRAGMENT;
-
-
-
-
-
-
-
-/**
- * Implementation of the W3C event object. An instance of this class is passed as
- * the first argument of any event handler. As per event, it contains different
- * properties giving context based information about the event.
- * @class apf.AmlEvent
- * @default_private
- */
-apf.AmlEvent = function(name, data) {
-    this.name = name;
-    
-    var prop;
-    for (prop in data)
-        this[prop] = data[prop];
-};
-
-apf.AmlEvent.prototype = {
-    
-    bubbles: false,
-    cancelBubble: false,
-    
-
-    /**
-     * Cancels the event (if it is cancelable), without stopping further 
-     * propagation of the event. 
-     */
-    preventDefault: function(){
-        this.returnValue = false;
-    },
-
-    
-    /**
-     * Prevents further propagation of the current event. 
-     */
-    stopPropagation: function(){
-        this.cancelBubble = true;
-    },
-    
-
-    stop: function() {
-        this.returnValue = false;
-        
-        this.cancelBubble = true;
-        
-    }
-};
-
 
 
 
@@ -8859,7 +7040,7 @@ apf.AmlTextRectangle.prototype = new apf.Class();
  * @version     %I%, %G%
  * @since       0.8
  */
-apf.xhtml = new apf.AmlNamespace();
+apf.xhtml = apf.aml;
 apf.setNamespace("http://www.w3.org/1999/xhtml", apf.xhtml);
 
 
@@ -8951,17 +7132,8 @@ apf.XhtmlElement = function(struct, tagName) {
 
         var str, aml = this.$aml;
         if (aml) {
-            if (aml.serialize)
-                str = aml.serialize();
-            else {
-                aml = aml.cloneNode(false);
-                str = aml.xml || aml.nodeValue;
-            }
-
-            str = str.replace(/ on\w+="[^"]*"| on\w+='[^']*'/g, "");
-            
             this.$ext = 
-            this.$int = apf.insertHtmlNode(null, pHtmlNode, null, apf.html_entity_decode(str));
+            this.$int = pHtmlNode.appendChild(xmlToHtml(aml, true));
         }
         else {
             this.$ext = this.$int = 
@@ -9125,141 +7297,6 @@ apf.xhtml.setElement("pre", apf.XhtmlSkipChildrenElement);
 
 
 
-
-
-//XForms
-
-/**
- * Object creating the XML Include namespace for the aml parser.
- *
- * @constructor
- * @parser
- *
- * @allownode simpleType, complexType
- *
- * @author      Ruben Daniels (ruben AT ajax DOT org)
- * @version     %I%, %G%
- * @since       0.8
- */
-apf.xinclude = new apf.AmlNamespace();
-apf.setNamespace("http://www.w3.org/2001/XInclude", apf.xinclude);
-
-
-
-
-
-
-
-
-/**
- * Defines a list of acceptable values
- */
-apf.XiInclude = function(struct, tagName) {
-    this.$init(tagName || "include", apf.NODE_HIDDEN, struct);
-};
-
-apf.xinclude.setElement("include", apf.XiInclude);
-apf.aml.setElement("include", apf.XiInclude);
-
-//@todo test defer="true" situation
-(function(){
-    this.$parsePrio = "002";
-
-    this.$propHandlers["href"] = 
-    this.$propHandlers["src"] = function(value) {
-        if (typeof value != "string")
-            return finish.call(this, value);
-        
-        throw new Error("not implemented")
-    };
-    
-    function done(xmlNode) {
-        var addedNode = this.previousSibling || this.nextSibling;
-        
-        if (this.callback) {
-            this.callback({
-                xmlNode: xmlNode,
-                amlNode: this.parentNode,
-                addedNode: addedNode
-            })
-        }
-        
-        addedNode.dispatchEvent("DOMNodeInserted", {
-            $beforeNode: addedNode.nextSibling,
-            relatedNode: this.parentNode,
-            $isMoveWithinParent: false,
-            bubbles: true
-        });
-        
-        //@todo hack!! this should never happen. Find out why it happens
-        if (this.parentNode)
-            this.parentNode.removeChild(this);
-    }
-    
-    function finish(xmlNode) {
-        var domParser = this.ownerDocument.$domParser;
-
-        if (this.clear)
-            this.parentNode.$int.innerHTML = "";
-
-        if (xmlNode) {
-            domParser.parseFromXml(xmlNode, {
-                doc: this.ownerDocument,
-                amlNode: this.parentNode,
-                beforeNode: this,
-                include: true
-            });
-
-            if (!this.defer && this.$parseContext) {
-                var o = (this.$parseContext[1] || (this.$parseContext[1] = {})),
-                    cb = o.callback,
-                    _self = this;
-
-                o.callback = function(){
-                    done.call(_self, xmlNode);
-                    if (cb)
-                        cb.call(_self.ownerDocument);
-                };
-
-                //@todo this is wrong... probably based on load order of last include element. Please rearchitect parse continuation.
-                if (domParser.$continueParsing(this.$parseContext[0]) === false) {
-                    var o2 = (domParser.$parseContext[1] || (domParser.$parseContext[1] = {})),
-                        cb2 = o.callback;
-                    o2.callback = function(){
-                        if (cb)
-                            cb.call(_self.ownerDocument);
-                        domParser.$continueParsing(_self.$parseContext[0]);
-                    };
-                }
-            }
-            else
-                done.call(this, xmlNode);
-        }
-        else {
-            if (!this.defer)
-                domParser.$continueParsing(this.$parseContext[0]);
-            
-            done.call(this, xmlNode);
-        }
-    }
-}).call(apf.XiInclude.prototype = new apf.AmlElement());
-
-
-
-
-
-
-
-
-apf.__LIVEEDIT__ = 1 << 23;
-
-
-
-
-
-
-
-
 apf.__ANCHORING__ = 1 << 13;
 
 
@@ -9355,7 +7392,7 @@ apf.Anchoring = function(){
         if (!this.$anchoringEnabled && !this.$setLayout("anchoring"))
             return;
 
-        if (!this.$updateQueue && apf.loaded)
+        if (!this.$updateQueue)
             l.queue(this.$pHtmlNode, this);
         this.$updateQueue = this.$updateQueue | HORIZONTAL | VERTICAL;
     };
@@ -9496,7 +7533,6 @@ apf.Anchoring = function(){
             if (this.$rule_v || this.$rule_h) {
                 var rules = this.$rule_header + "\n" + this.$rule_v + "\n" + this.$rule_h;
                 l.setRules(this.$pHtmlNode, this.$uniqueId + "_anchors", rules);
-                //this.$ext.style.display = "none";
                 l.queue(this.$pHtmlNode, this);
             }
             l.processQueue();
@@ -9523,8 +7559,6 @@ apf.Anchoring = function(){
 
         if (!e.$isMoveWithinParent && this.$parsed) //@todo hmm weird state check
             this.$moveAnchoringRules(e.$oldParentHtmlNode);
-        //else if (e.relatedNode == this) //@todo test this
-            //e.currentTarget.$setLayout("anchoring");
     }
 
     this.$moveAnchoringRules = function(oldParent, updateNow) {
@@ -9548,21 +7582,18 @@ apf.Anchoring = function(){
 
     function getRuleHeader(){
         if (!this.$pHtmlDoc) return "";
-        return "try{\
-            var oHtml = " + (apf.hasHtmlIdsInJs
-                ? this.$ext.getAttribute("id")
-                : "document.getElementById('"
-                    + this.$ext.getAttribute("id") + "')") + ";\
-            \
+        return "try{\n\
+            var oHtml = document.getElementById('" + this.$ext.getAttribute("id") + "');\n\
+            \n\
             var pWidth = " + (this.$pHtmlNode == this.$pHtmlDoc.body
                 ? "apf.getWindowWidth()" //@todo only needed for debug?
-                : "apf.getHtmlInnerWidth(oHtml.parentNode)") + ";\
-            \
+                : "apf.getHtmlInnerWidth(oHtml.parentNode)") + ";\n\
+            \n\
             var pHeight = " + (this.$pHtmlNode == this.$pHtmlDoc.body
                 ? "apf.getWindowHeight()" //@todo only needed for debug?
-                : "apf.getHtmlInnerHeight(oHtml.parentNode)") + ";\
-            }catch(e){\
-            }";
+                : "apf.getHtmlInnerHeight(oHtml.parentNode)") + ";\n\
+            }catch(e){\n\
+            }".replace(/^\s*/gm, "");
     }
 
     /**
@@ -9760,11 +7791,6 @@ apf.Anchoring = function(){
             apf.layout.forceResize(this.$ext);
     };
 
-    this.addEventListener("DOMNodeInsertedIntoDocument", function(e) {
-        //if (this.$updateQueue)
-            //this.$updateLayout();
-    });
-
     this.addEventListener("DOMNodeRemovedFromDocument", function(e) {
         this.$disableAnchoring();
     });
@@ -9924,18 +7950,6 @@ apf.GuiElement = function(){
             return false;
 
         if (this.parentNode) {
-            
-            if (this.parentNode.localName == "table") {
-                if (this.$disableCurrentLayout)
-                    this.$disableCurrentLayout();
-                this.parentNode.register(this, insert);
-                this.$disableCurrentLayout = null;
-                this.$layoutType = null;
-                return type == "table";
-            }else
-            
-
-            
             if (this.parentNode.$box) {
                 if (this.$layoutType != this.parentNode) {
                     if (this.$disableCurrentLayout)
@@ -9945,8 +7959,7 @@ apf.GuiElement = function(){
                     this.$layoutType = this.parentNode;
                 }
                 return type == this.parentNode.localName;
-            } //else
-            
+            }
         }
         
         
@@ -10224,7 +8237,6 @@ apf.GuiElement = function(){
             if (o) o.dispatchEvent('resize');", true);
 
         apf.layout.queue(this.$ext);
-        //apf.layout.activateRules(this.$ext);
         this.removeEventListener("$event.resize", f2);
     });
     
@@ -10510,7 +8522,6 @@ apf.GuiElement.propHandlers = {
 
 // crazy stuff!
 !function(){
-    if (apf.isO3) return;
     var prot = apf.XhtmlElement.prototype;
 
     prot.implement(
@@ -10993,9 +9004,7 @@ apf.Presentation = function(){
         if (!textNode)
             return null;
 
-        return (htmlNode
-            ? apf.queryNode(htmlNode, textNode)
-            : apf.getFirstElement(node).selectSingleNode(textNode));
+        return findNode(htmlNode || apf.getFirstElement(node), textNode);
     };
 
     this.$getOption = function(type, section) {
@@ -11014,10 +9023,6 @@ apf.Presentation = function(){
             pNode = this.$pHtmlNode;
         if (!tag)
             tag = "main";
-        //if (!aml)
-            //aml = this.$aml;
-
-        tag = tag.toLowerCase(); //HACK: make components case-insensitive
 
         this.$getNewContext(tag);
         var oExt = this.$getLayoutNode(tag);
@@ -11104,9 +9109,6 @@ apf.BaseButton = function(){
 };
 
 (function() {
-    
-    this.implement(apf.ChildValue);
-    
     
     this.$refKeyDown = // Number of keys pressed.
     this.$refMouseDown = 0;     // Mouse button down?
@@ -11246,12 +9248,10 @@ apf.BaseButton = function(){
             if (_self.disabled)
                 return;
 
-            if (!apf.isIE) { // && (apf.isGecko || !_self.submenu) Causes a focus problem for menus
-                if (_self.value)
-                    apf.stopEvent(e);
-                else
-                    apf.cancelBubble(e);
-            }
+            if (_self.value)
+                apf.stopEvent(e);
+            else
+                apf.cancelBubble(e);
             
             _self.$updateState(e, "mousedown");
         };
@@ -11784,10 +9784,10 @@ apf.BaseStateButtons = function(){
                             : _self.$maxconf[3]];
                     }
                     else {
-                        w = !apf.isIE && pNode == document.documentElement
+                        w = pNode == document.documentElement
                             ? window.innerWidth
                             : pNode.offsetWidth,
-                        h = !apf.isIE && pNode == document.documentElement
+                        h = pNode == document.documentElement
                             ? window.innerHeight
                             : pNode.offsetHeight;
                     }
@@ -12150,14 +10150,7 @@ apf.DelayedRender = function(){
         // redrawing browsers like firefox
         this.$ext.style.visibility = "hidden";
 
-        var domParser = this.ownerDocument.$domParser;
-        domParser.parseFromXml(this.$aml, {
-            amlNode: this,
-            doc: this.ownerDocument,
-            //nodelay       : true,
-            delayedRender: true
-        });
-        domParser.$continueParsing(this);
+        this.childNodes.forEach(function(i) { i.$onInsertedIntoDocument(); })
 
         this.$rendered = true;
 
@@ -12168,11 +10161,6 @@ apf.DelayedRender = function(){
 
         this.$ext.style.visibility = "";
     };
-    
-    /*var _self = this;
-    if (apf.window.vManager.check(this, "delayedrender", function(){
-        _self.$render();
-    })) this.$render();*/
     
     var f;
     this.addEventListener("prop.visible", f = function(){
@@ -13141,7 +11129,6 @@ apf.window = function(){
             jdwin.Hide();
         }
         else {
-            this.loaded = false;
             if (this.win)
                 this.win.close();
         }
@@ -13183,7 +11170,7 @@ apf.window = function(){
      * @private
      */
     this.loadAml = function(x) {
-        if (x[apf.TAGNAME] == "deskrun")
+        if (x.localName == "deskrun")
             this.loadDeskRun(x);
         /*else {
 
@@ -13787,7 +11774,7 @@ apf.window = function(){
             //(!amlNode.canHaveChildren || !apf.isChildOf(amlNode.$int, e.srcElement))
             if (!apf.config.allowSelect 
               && (amlNode && amlNode.nodeType != amlNode.NODE_PROCESSING_INSTRUCTION 
-              && !amlNode.textselect)) //&& !amlNode.$int // getElementsByTagNameNS(apf.ns.xhtml, "*").length
+              && !amlNode.textselect))
                 canSelect = false;
         }
 
@@ -13946,12 +11933,6 @@ apf.window = function(){
           ? aEl.dispatchEvent("keydown", eInfo) 
           : apf.dispatchEvent("keydown", eInfo)) === false) {
             apf.stopEvent(e);
-            if (apf.canDisableKeyCodes) {
-                try {
-                    e.keyCode = 0;
-                }
-                catch (e) {}
-            }
             return false;
         }
         
@@ -13989,12 +11970,6 @@ apf.window = function(){
         if (apf.config.disableBackspace
           && e.keyCode == 8// || (altKey && (e.keyCode == 37 || e.keyCode == 39)))
           && !isTextInput) {
-            if (apf.canDisableKeyCodes) {
-                try {
-                    e.keyCode = 0;
-                }
-                catch (e) {}
-            }
             e.returnValue = false;
         }
 
@@ -14006,16 +11981,8 @@ apf.window = function(){
 
         //Disable F5 refresh behaviour
         if (apf.config.disableF5 && (e.keyCode == 116 || e.keyCode == 117)) {
-            if (apf.canDisableKeyCodes) {
-                try {
-                    e.keyCode = 0;
-                }
-                catch (e) {}
-            }
-            else {
-                e.preventDefault();
-                e.stopPropagation();
-            }
+            e.preventDefault();
+            e.stopPropagation();
             //return false;
         }
         
@@ -14044,56 +12011,10 @@ apf.window = function(){
     
     apf.document = {};
     this.init = function(strAml) {
-        //Put this in callback in between the two phases
-        
-
-        this.$domParser = new apf.DOMParser();
-        this.document = apf.document = this.$domParser.parseFromString(strAml, 
-          "text/xml", {
-            
-            timeout: apf.config.initdelay,
-            
-            callback: function(doc) {
-                //@todo apf3.0
-
-                //Call the onload event (prevent recursion)
-                if (apf.parsed != 2) {
-                    //@todo apf3.0 onload is being called too often
-                    var inital = apf.parsed;
-                    apf.parsed = 2;
-                    apf.dispatchEvent("parse", { //@todo apf3.0 document
-                        initial: inital
-                    });
-                    apf.parsed = true;
-                }
-        
-                if (!apf.loaded) {
-                    
-        
-                    
-                    //Set the default selected element
-                    if (!apf.window.activeElement && (!apf.config.allowBlur 
-                      || apf.document.documentElement 
-                      && apf.document.documentElement.editable))
-                        apf.window.focusDefault();
-                    
-
-                    apf.loaded = true;
-                    $setTimeout(function() {
-                        apf.dispatchEvent("load");
-                        apf.addEventListener("$event.load", function(cb) {
-                            cb();
-                        });
-                    });
-                }
-        
-                //END OF ENTIRE APPLICATION STARTUP
-        
-                
-                
-                
-          }
-        }); //async
+        apf.document = this.document = new apf.AmlDocument();
+        this.document.documentElement = new apf.application();
+        this.document.documentElement.ownerDocument = this.document;
+        this.document.appendChild(this.document.documentElement);
     };
     
     
@@ -14120,127 +12041,6 @@ apf.window = new apf.window();
  * @private
  */
 apf.runGecko = function(){
-    if (apf.runNonIe)
-        apf.runNonIe();
-
-    /* ***************************************************************************
-     XSLT
-     ****************************************************************************/
-    
-    
-    //XMLDocument.selectNodes
-    HTMLDocument.prototype.selectNodes = XMLDocument.prototype.selectNodes = function(sExpr, contextNode) {
-        try {
-            var oResult = this.evaluate(sExpr, (contextNode || this),
-                this.createNSResolver(this.documentElement),
-                7, null); //XpathResult.ORDERED_NODE_ITERATOR_TYPE
-        }
-        catch (ex) {
-            var msg = ex.message;
-            if (ex.code == ex.INVALID_EXPRESSION_ERR)
-                msg = msg.replace(/the expression/i, "'" + sExpr + "'");
-            throw new Error(ex.lineNumber, "XPath error: " + msg);
-        }
-
-        var nodeList = new Array(oResult.snapshotLength);
-        nodeList.expr = sExpr;
-        for (var i = nodeList.length - 1; i >= 0; i--) 
-            nodeList[i] = oResult.snapshotItem(i);
-        return nodeList;
-    };
-    
-    //Element.selectNodes
-    Text.prototype.selectNodes =
-    Attr.prototype.selectNodes =
-    Element.prototype.selectNodes = function(sExpr) {
-       return this.ownerDocument.selectNodes(sExpr, this);
-    };
-    
-    //XMLDocument.selectSingleNode
-    HTMLDocument.prototype.selectSingleNode = 
-    XMLDocument.prototype.selectSingleNode = function(sExpr, contextNode) {
-        try {
-            var oResult = this.evaluate(sExpr, (contextNode || this),
-                this.createNSResolver(this.documentElement),
-                9, null); //XpathResult.FIRST_ORDERED_NODE_TYPE
-        }
-        catch (ex) {
-            var msg = ex.message;
-            if (ex.code == ex.INVALID_EXPRESSION_ERR)
-                msg = msg.replace(/the expression/i, "'" + sExpr + "'");
-            throw new Error(ex.lineNumber, "XPath error: " + msg);
-        }
-        
-        return oResult.singleNodeValue;
-    };
-    
-    //Element.selectSingleNode
-    Text.prototype.selectSingleNode =
-    Attr.prototype.selectSingleNode =
-    Element.prototype.selectSingleNode = function(sExpr) {
-        return this.ownerDocument.selectSingleNode(sExpr, this);
-    };
-    
-    
-    
-    var serializer = new XMLSerializer();
-    var o = document.createElement("div");
-    apf.insertHtmlNodes = function(nodeList, htmlNode, beforeNode, s) {
-        var frag, l, node, i;
-        if (nodeList) {
-            frag = document.createDocumentFragment();
-            for (i = nodeList.length - 1; i >= 0; i--) {
-                node = nodeList[i];
-                frag.insertBefore(node, frag.firstChild);
-            }
-        }
-        
-        o.innerHTML = typeof s == "string" ? s : apf.html_entity_decode(serializer.serializeToString(frag))
-            .replace(/<([^>]+)\/>/g, "<$1></$1>");
-
-        frag = document.createDocumentFragment();
-        for (i = 0, l = o.childNodes.length; i < l; i++) {
-            node = o.childNodes[0];
-            frag.appendChild(node);
-        }
-
-        if (beforeNode)
-            htmlNode.insertBefore(frag, beforeNode);
-        htmlNode.appendChild(frag);
-    };
-
-    apf.insertHtmlNode = function(xmlNode, htmlNode, beforeNode, s) {
-        if (htmlNode.nodeType != 11 && !htmlNode.style)
-            return htmlNode.appendChild(xmlNode);
-        
-        if (!s) {
-            s = apf.html_entity_decode(xmlNode.serialize
-                ? xmlNode.serialize(true)
-                : ((xmlNode.nodeType == 3 || xmlNode.nodeType == 4 || xmlNode.nodeType == 2)
-                    ? xmlNode.nodeValue
-                    : serializer.serializeToString(xmlNode)));
-        }
-
-        o.innerHTML = s.replace(/<([^>]+)\/>/g, "<$1></$1>");
-
-        if (beforeNode)
-            htmlNode.insertBefore(o.firstChild, beforeNode);
-        else
-            htmlNode.appendChild(o.firstChild);
-
-        return beforeNode ? beforeNode.previousSibling : htmlNode.lastChild;
-    };
-    
-    /* ******** Error Compatibility **********************************************
-     Error Object like IE
-     ****************************************************************************/
-    function Error(nr, msg) {
-        
-        
-        this.message = msg;
-        this.nr = nr;
-    }
-    
     apf.getHtmlLeft = function(oHtml) {
         return (oHtml.offsetLeft
             + (parseInt(apf.getStyle(oHtml.parentNode, "borderLeftWidth")) || 0));
@@ -14270,17 +12070,37 @@ apf.runGecko = function(){
             - (2 * (parseInt(apf.getStyle(p, "borderTopWidth")) || 0))
             - (parseInt(apf.getStyle(p, "borderBottomWidth")) || 0));
     };
-
-    apf.getBorderOffset = function(oHtml) {
-        return [-1 * (parseInt(apf.getStyle(oHtml, "borderLeftWidth")) || 0),
-            -1 * (parseInt(apf.getStyle(oHtml, "borderTopWidth")) || 0)];
-    };
 };
 
 
 
 
 
+apf.insertHtmlNodes = function(nodeList, htmlNode, beforeNode, s) {
+    var frag, l, node, i;
+    if (nodeList) {
+        frag = document.createDocumentFragment();
+        for (i = nodeList.length - 1; i >= 0; i--) {
+            node = nodeList[i];
+            frag.insertBefore(node, frag.firstChild);
+        }
+    }
+    
+    if (beforeNode)
+        htmlNode.insertBefore(frag, beforeNode);
+    else
+        htmlNode.appendChild(frag);
+};
+
+apf.insertHtmlNode = function(xmlNode, htmlNode, beforeNode, s) {
+    xmlNode = xmlNode.cloneNode(true);
+    if (beforeNode)
+        htmlNode.insertBefore(xmlNode, beforeNode);
+    else
+        htmlNode.appendChild(xmlNode);
+
+    return xmlNode;
+};
 
 
 
@@ -14288,59 +12108,33 @@ apf.runGecko = function(){
  * Compatibility layer for Internet Explorer browsers.
  * @private
  */
-apf.runIE = function(){
-    apf.runWebkit();
-    // return;
-    var silent
-    HTMLDocument.prototype.sn = XMLDocument.prototype.sn = HTMLDocument.prototype.sn || HTMLDocument.prototype.selectNodes;
-    HTMLDocument.prototype.selectNodes = XMLDocument.prototype.selectNodes = function(sExpr, contextNode) {
-        if (/^\w+$/.test(sExpr) && contextNode) {
-            var all = contextNode.querySelectorAll(sExpr);
-            var nodeList = new Array(all.length);
-            for (var i = nodeList.length - 1; i >= 0; i--) 
-                nodeList[i] = all[i];
-            return nodeList;
-        }
-        silent || console.log(sExpr, contextNode)
-        
-        return this.sn(sExpr, contextNode)
-    };
+apf.runIE = function() { apf.runWebkit() };
+
+
     
-    HTMLDocument.prototype.sns = XMLDocument.prototype.sns = HTMLDocument.prototype.sns || HTMLDocument.prototype.selectSingleNode
-    HTMLDocument.prototype.selectSingleNode = XMLDocument.prototype.selectSingleNode = function(sExpr, contextNode) {
-        var n = findNode(contextNode, sExpr);
-        if (sExpr.lastIndexOf("descendant-or-self::node()[@") == 0)
-            n = contextNode.querySelector(sExpr.replace("descendant-or-self::node()[@", "*["));
-        silent = true
-        try {var m = this.sns(sExpr, contextNode); } catch(e) {}
-        silent = !true
-        if (n != m && m) {
-            n = m
-            findNode(contextNode, sExpr);
-        }
-        return n
-    };
-    
-    
-    apf.insertHtmlNodes = function(nodeList, htmlNode, beforeNode, s) {
-        
-        var node, frag, a, i, l;
-        if (nodeList) {
-            frag = document.createElement("div");
-            a = [], i = 0, l = nodeList.length;
-            for (; i < l; i++) {
-                if (!(node = nodeList[i])) continue;
-                frag.appendChild(node);
-            }
-        }
-        
-        (beforeNode || htmlNode).insertAdjacentHTML(beforeNode
-            ? "beforebegin"
-            : "beforeend", s || (frag ? frag.innerHTML : "")
-                .replace(/<([^>]+)\/>/g, "<$1></$1>"));
-        
-    };
-    
+//XMLDocument.selectNodes
+HTMLDocument.prototype.selectNodes = XMLDocument.prototype.selectNodes = function(sExpr, contextNode) {
+    return findNodes(contextNode, sExpr);
+};
+
+//Element.selectNodes
+Text.prototype.selectNodes =
+Attr.prototype.selectNodes =
+Element.prototype.selectNodes = function(sExpr) {
+   return findNodes(this, sExpr);
+};
+
+//XMLDocument.selectSingleNode
+HTMLDocument.prototype.selectSingleNode = 
+XMLDocument.prototype.selectSingleNode = function(sExpr, contextNode) {
+    return findNode(contextNode, sExpr);
+};
+
+//Element.selectSingleNode
+Text.prototype.selectSingleNode =
+Attr.prototype.selectSingleNode =
+Element.prototype.selectSingleNode = function(sExpr) {
+    return findNode(this, sExpr);
 };
 
 
@@ -14417,230 +12211,115 @@ function findNodes(htmlNode, textNode, result, re) {
 
 
 
+// *** XML Serialization *** //
+if (XMLDocument.prototype.__defineGetter__) {
+    //XMLDocument.xml
+    XMLDocument.prototype.__defineGetter__("xml", function(){
+        return (new XMLSerializer()).serializeToString(this);
+    });
+    XMLDocument.prototype.__defineSetter__("xml", function(){
+        throw new Error(apf.formatErrorString(1042, null, "XML serializer", "Invalid assignment on read-only property 'xml'."));
+    });
+    
+    //Node.xml
+    Node.prototype.__defineGetter__("xml", function(){
+        if (this.nodeType == 3 || this.nodeType == 4 || this.nodeType == 2) 
+            return this.nodeValue;
+        return (new XMLSerializer()).serializeToString(this);
+    });
+    
+    //Node.xml
+    Element.prototype.__defineGetter__("xml", function(){
+        return (new XMLSerializer()).serializeToString(this);
+    });
+}
+
+if (typeof HTMLElement!="undefined") {
+    //HTMLElement.removeNode
+    HTMLElement.prototype.removeNode = function(){
+        if (!this.parentNode) return;
+        this.parentNode.removeChild(this);
+    };
+}
+
+//Document.prototype.onreadystatechange = null;
+Document.prototype.parseError = 0;
+
+defineProp(Array.prototype, "item", function(i){return this[i];});
+defineProp(Array.prototype, "expr", "");
+
+Node.prototype.getElementById = function(id) {};
 
 
 /**
- * @private
+ * This method retrieves the current value of a property on a HTML element
+ * @param {HTMLElement} el    the element to read the property from
+ * @param {String}      prop  the property to read
+ * @returns {String}
  */
-apf.runNonIe = function (){
-    
-
-    DocumentFragment.prototype.getElementById = function(id) {
-        return this.childNodes.length ? this.childNodes[0].ownerDocument.getElementById(id) : null;
-    };
-
-    
-    
-    // *** XML Serialization *** //
-    if (XMLDocument.prototype.__defineGetter__) {
-        //XMLDocument.xml
-        XMLDocument.prototype.__defineGetter__("xml", function(){
-            return (new XMLSerializer()).serializeToString(this);
-        });
-        XMLDocument.prototype.__defineSetter__("xml", function(){
-            throw new Error(apf.formatErrorString(1042, null, "XML serializer", "Invalid assignment on read-only property 'xml'."));
-        });
-        
-        //Node.xml
-        Node.prototype.__defineGetter__("xml", function(){
-            if (this.nodeType == 3 || this.nodeType == 4 || this.nodeType == 2) 
-                return this.nodeValue;
-            return (new XMLSerializer()).serializeToString(this);
-        });
-        
-        //Node.xml
-        Element.prototype.__defineGetter__("xml", function(){
-            return (new XMLSerializer()).serializeToString(this);
-        });
-    }
-    
-    /* ******** HTML Interfaces **************************************************
-        insertAdjacentHTML(), insertAdjacentText() and insertAdjacentElement()
-    ****************************************************************************/
-    if (typeof HTMLElement!="undefined") {
-        if (!HTMLElement.prototype.insertAdjacentElement) {
-            Text.prototype.insertAdjacentElement =
-            HTMLElement.prototype.insertAdjacentElement = function(where,parsedNode) {
-                switch (where.toLowerCase()) {
-                    case "beforebegin":
-                        this.parentNode.insertBefore(parsedNode,this);
-                        break;
-                    case "afterbegin":
-                        this.insertBefore(parsedNode,this.firstChild);
-                        break;
-                    case "beforeend":
-                        this.appendChild(parsedNode);
-                        break;
-                    case "afterend":
-                        if (this.nextSibling)
-                            this.parentNode.insertBefore(parsedNode,this.nextSibling);
-                        else
-                            this.parentNode.appendChild(parsedNode);
-                        break;
-                }
-            };
-        }
-
-        if (!HTMLElement.prototype.insertAdjacentHTML) {
-            Text.prototype.insertAdjacentHTML =
-            HTMLElement.prototype.insertAdjacentHTML = function(where,htmlStr) {
-                var r = this.ownerDocument.createRange();
-                r.setStartBefore(apf.isWebkit
-                    ? document.body
-                    : (self.document ? document.body : this));
-                var parsedHTML = r.createContextualFragment(htmlStr);
-                this.insertAdjacentElement(where, parsedHTML);
-            };
-        }
-
-        if (!HTMLBodyElement.prototype.insertAdjacentHTML) //apf.isWebkit)
-            HTMLBodyElement.prototype.insertAdjacentHTML = HTMLElement.prototype.insertAdjacentHTML;
-    
-        if (!HTMLElement.prototype.insertAdjacentText) {
-            Text.prototype.insertAdjacentText =
-            HTMLElement.prototype.insertAdjacentText = function(where,txtStr) {
-                var parsedText = document.createTextNode(txtStr);
-                this.insertAdjacentElement(where,parsedText);
-            };
-        }
-        
-        //HTMLElement.removeNode
-        HTMLElement.prototype.removeNode = function(){
-            if (!this.parentNode) return;
-
-            this.parentNode.removeChild(this);
-        };
-        
-        //Currently only supported by Gecko
-        if (HTMLElement.prototype.__defineSetter__) {
-            //HTMLElement.innerText
-            HTMLElement.prototype.__defineSetter__("innerText", function(sText) {
-                var s = "" + sText;
-                this.innerHTML = s.replace(/\&/g, "&amp;")
-                    .replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            });
-        
-            HTMLElement.prototype.__defineGetter__("innerText", function(){
-                return this.innerHTML.replace(/<[^>]+>/g,"")
-                    .replace(/\s\s+/g, " ").replace(/^\s+|\s+$/g, " ");
-            });
-            
-            HTMLElement.prototype.__defineGetter__("outerHTML", function(){
-                return (new XMLSerializer()).serializeToString(this);
-            });
-        }
-    }
-    
-    /* ******** XML Compatibility ************************************************
-        Giving the Mozilla XML Parser the same interface as IE's Parser
-    ****************************************************************************/
-    var ASYNCNOTSUPPORTED = false;
-    
-    //Test if Async is supported
-    try {
-        XMLDocument.prototype.async = true;
-        ASYNCNOTSUPPORTED = true;
-    } catch (e) {/*trap*/} 
-    
-    //Document.prototype.onreadystatechange = null;
-    Document.prototype.parseError = 0;
-    
-    defineProp(Array.prototype, "item", function(i){return this[i];});
-    defineProp(Array.prototype, "expr", "");
-    
-    Node.prototype.getElementById = function(id) {};
-    
-    HTMLElement.prototype.replaceNode = 
-    Element.prototype.replaceNode = function(xmlNode) {
-        if (!this.parentNode) return;
-
-        this.parentNode.insertBefore(xmlNode, this);
-        this.parentNode.removeChild(this);
-    };
-    
-    
-    
-    /**
-     * This method retrieves the current value of a property on a HTML element
-     * @param {HTMLElement} el    the element to read the property from
-     * @param {String}      prop  the property to read
-     * @returns {String}
-     */
-    var getStyle = apf.getStyle = function(el, prop) {
-        try{
-            return (window.getComputedStyle(el, "") || {})[prop] || "";
-        }catch(e) {}
-    };
-    
-    //XMLDocument.setProperty
-    HTMLDocument.prototype.setProperty = 
-    XMLDocument.prototype.setProperty = function(x,y) {};
-    
-    /* ******** XML Compatibility ************************************************
-    ****************************************************************************/
-    apf.getXmlDom = function(message, noError, preserveWhiteSpaces) {
-        var xmlParser;
-        if (message) {
-            if (preserveWhiteSpaces === false)
-                message = message.replace(/>[\s\n\r]*</g, "><");
-            
-            xmlParser = new DOMParser();
-            xmlParser = xmlParser.parseFromString(message, "text/xml");
-
-            
-            if (!noError)
-                this.xmlParseError(xmlParser);
-        }
-        else {
-            xmlParser = document.implementation.createDocument("", "", null);
-        }
-        
-        return xmlParser;
-    };
-    
-    apf.xmlParseError = function(xml) {
-        //if (xml.documentElement.tagName == "parsererror") {
-        if (xml.getElementsByTagName("parsererror").length) { 
-            var nodeValue = xml.documentElement.firstChild.nodeValue;
-
-            if (nodeValue != null) {
-                var str = nodeValue.split("\n"),
-                    linenr = str[2].match(/\w+ (\d+)/)[1],
-                    message = str[0].replace(/\w+ \w+ \w+: (.*)/, "$1");
-            } else {
-                if (nodeValue = xml.documentElement.firstChild.getElementsByTagName('div')[0].firstChild.nodeValue) {
-                    var linenr = nodeValue.match(/line\s(\d*)/)[1] || "N/A",
-                        message = nodeValue.match(/column\s\d*:(.*)/)[1] || "N/A";
-                }
-                else {
-                    var linenr = "N/A",
-                        message = "N/A";
-                }
-            }
-
-            var srcText = xml.documentElement.lastChild.firstChild,//.split("\n")[0];
-                srcMsg = "";
-            if (srcText && srcText.nodeValue) {
-                srcMsg = "\nSource Text : " + srcText.nodeValue.replace(/\t/gi, " ")
-            }
-            throw new Error(apf.formatErrorString(1050, null, 
-                "XML Parse Error on line " +  linenr, message + srcMsg));
-        }
-        
-        return xml;
-    };
-
-
-    apf.getOpacity = function(oHtml) {
-        return apf.getStyle(oHtml, "opacity");
-    };
-    
-    apf.setOpacity = function(oHtml, value) {
-        oHtml.style.opacity = value;
-    };
+var getStyle = apf.getStyle = function(el, prop) {
+    try{
+        return (window.getComputedStyle(el, "") || {})[prop] || "";
+    }catch(e) {}
 };
 
+//XMLDocument.setProperty
+HTMLDocument.prototype.setProperty = 
+XMLDocument.prototype.setProperty = function(x,y) {};
 
+/* ******** XML Compatibility ************************************************
+****************************************************************************/
+apf.getXmlDom = function(message, noError, preserveWhiteSpaces) {
+    var xmlParser;
+    if (message) {
+        if (preserveWhiteSpaces === false)
+            message = message.replace(/>[\s\n\r]*</g, "><");
+        
+        xmlParser = new DOMParser();
+        xmlParser = xmlParser.parseFromString(message, "text/xml");
+
+        
+        if (!noError)
+            this.xmlParseError(xmlParser);
+    }
+    else {
+        xmlParser = document.implementation.createDocument("", "", null);
+    }
+    
+    return xmlParser;
+};
+
+apf.xmlParseError = function(xml) {
+    //if (xml.documentElement.tagName == "parsererror") {
+    if (xml.getElementsByTagName("parsererror").length) { 
+        var nodeValue = xml.documentElement.firstChild.nodeValue;
+
+        if (nodeValue != null) {
+            var str = nodeValue.split("\n"),
+                linenr = str[2].match(/\w+ (\d+)/)[1],
+                message = str[0].replace(/\w+ \w+ \w+: (.*)/, "$1");
+        } else {
+            if (nodeValue = xml.documentElement.firstChild.getElementsByTagName('div')[0].firstChild.nodeValue) {
+                var linenr = nodeValue.match(/line\s(\d*)/)[1] || "N/A",
+                    message = nodeValue.match(/column\s\d*:(.*)/)[1] || "N/A";
+            }
+            else {
+                var linenr = "N/A",
+                    message = "N/A";
+            }
+        }
+
+        var srcText = xml.documentElement.lastChild.firstChild,//.split("\n")[0];
+            srcMsg = "";
+        if (srcText && srcText.nodeValue) {
+            srcMsg = "\nSource Text : " + srcText.nodeValue.replace(/\t/gi, " ")
+        }
+        throw new Error(apf.formatErrorString(1050, null, 
+            "XML Parse Error on line " +  linenr, message + srcMsg));
+    }
+    
+    return xml;
+};
 
 
 
@@ -14652,116 +12331,6 @@ apf.runNonIe = function (){
  * @private
  */
 apf.runWebkit = function(){
-    
-    
-    
-    if (XMLHttpRequest.prototype.sendAsBinary === undefined) {
-        if (window.ArrayBuffer) {
-            /**
-             * Binary support for Chrome 7+ which implements [ECMA-262] typed arrays
-             * 
-             * For more information, see <http://www.khronos.org/registry/typedarray/specs/latest/>.
-             */
-            XMLHttpRequest.prototype.sendAsBinary = function(string) {
-                var bytes = Array.prototype.map.call(string, function(c) {
-                    return c.charCodeAt(0) & 0xff;
-                });
-                this.send(new Uint8Array(bytes).buffer);
-            };
-        }
-    }
-    
-    
-    
-    
-    
-    
-    HTMLDocument.prototype.selectNodes = XMLDocument.prototype.selectNodes = function(sExpr, contextNode) {
-        if (sExpr.substr(0,2) == "//")
-            sExpr = "." + sExpr;
-        
-        try {
-            var oResult = this.evaluate(sExpr, (contextNode || this),
-                this.createNSResolver(this.documentElement),
-                7, null);//XPathResult.ORDERED_NODE_SNAPSHOT_TYPE
-        }
-        catch (ex) {
-            try {
-                var oResult = this.evaluate("child::" + sExpr, (contextNode || this),
-                    this.createNSResolver(this.documentElement),
-                    7, null);//XPathResult.ORDERED_NODE_SNAPSHOT_TYPE
-            }
-            catch (ex) {
-                throw new Error("XPath error: " + ex.message + "\nLine: " + ex.lineNumber  + "\nExpression: '" + sExpr + "'");
-            }
-        }
-        
-        var nodeList = new Array(oResult.snapshotLength);
-        nodeList.expr = sExpr;
-        for (var i = nodeList.length - 1; i >= 0; i--) 
-            nodeList[i] = oResult.snapshotItem(i);
-        return nodeList;
-    };
-    
-    //Element.selectNodes
-    Text.prototype.selectNodes =
-    Attr.prototype.selectNodes =
-    Element.prototype.selectNodes = function(sExpr) {
-       return this.ownerDocument.selectNodes(sExpr, this);
-    };
-    
-    //XMLDocument.selectSingleNode
-    HTMLDocument.prototype.selectSingleNode = XMLDocument.prototype.selectSingleNode = function(sExpr, contextNode) {
-        var nodeList = this.selectNodes("(" + sExpr + ")[1]", contextNode ? contextNode : null);
-        return nodeList.length > 0 ? nodeList[0] : null;
-    };
-    
-    //Element.selectSingleNode
-    Text.prototype.selectSingleNode =
-    Attr.prototype.selectSingleNode =
-    Element.prototype.selectSingleNode = function(sExpr) {
-        return this.ownerDocument.selectSingleNode(sExpr, this);
-    };
-    
-    
-    
-    var serializer = new XMLSerializer();
-    apf.insertHtmlNodes = function(nodeList, htmlNode, beforeNode, s) {
-        var node, frag, a, i, l;
-        if (nodeList) {
-            frag = document.createDocumentFragment();
-            a = [], i = 0, l = nodeList.length;
-            for (; i < l; i++) {
-                if (!(node = nodeList[i])) continue;
-                frag.appendChild(node);
-            }
-        }
-        
-        (beforeNode || htmlNode).insertAdjacentHTML(beforeNode
-            ? "beforebegin"
-            : "beforeend", s || apf.html_entity_decode(serializer.serializeToString(frag))
-                .replace(/<([^>]+)\/>/g, "<$1></$1>"));
-    };
-
-    apf.insertHtmlNode = function(xmlNode, htmlNode, beforeNode, s) {
-        if (htmlNode.nodeType != 11 && !htmlNode.style)
-            return htmlNode.appendChild(xmlNode);
-        
-        if (!s) {
-            s = apf.html_entity_decode(xmlNode.serialize 
-                ? xmlNode.serialize(true)
-                : ((xmlNode.nodeType == 3 || xmlNode.nodeType == 4 || xmlNode.nodeType == 2)
-                    ? xmlNode.nodeValue
-                    : serializer.serializeToString(xmlNode)));
-        }
-        
-        (beforeNode || htmlNode).insertAdjacentHTML(beforeNode
-            ? "beforebegin"
-            : "beforeend", s.match(/<(IMG|LINK|META|BR|HR|BASEFONT)[^\/>]*/i) ? s.replace(/<([^>]+)\/>/g, "<$1 />") : s.replace(/<([^>]+)\/>/g, "<$1></$1>"));
-
-        return beforeNode ? beforeNode.previousSibling : htmlNode.lastChild;
-    };
-
     apf.getHtmlLeft = function(oHtml) {
         return oHtml.offsetLeft;
     };
@@ -14789,13 +12358,6 @@ apf.runWebkit = function(){
             - (parseInt(apf.getStyle(p, "borderTopWidth")) || 0)
             - (parseInt(apf.getStyle(p, "borderBottomWidth")) || 0));
     };
-
-    apf.getBorderOffset = function(oHtml) {
-        return [0,0];
-    };
-    
-    if (apf.runNonIe)
-        apf.runNonIe();
 };
 
 
@@ -14813,20 +12375,16 @@ apf.runWebkit = function(){
 apf.application = function(){
     this.$init("application", apf.NODE_HIDDEN);
     
-    if (!apf.isO3) {    
-        this.$int = document.body;
-        this.$tabList = []; //Prevents documentElement from being focussed
-        // this.$focussable = apf.KEYBOARD;
-        // this.focussable = true;
-        this.visible = true;
-        this.$isWindowContainer = true;
-        this.focus = function(){ this.dispatchEvent("focus"); };
-        this.blur = function(){ this.dispatchEvent("blur"); };
+    this.$int = document.body;
+    this.$tabList = []; //Prevents documentElement from being focussed
+    // this.$focussable = apf.KEYBOARD;
+    // this.focussable = true;
+    this.visible = true;
+    this.$isWindowContainer = true;
+    this.focus = function(){ this.dispatchEvent("focus"); };
+    this.blur = function(){ this.dispatchEvent("blur"); };
     
-        
-        apf.window.$addFocus(this);
-        
-    }
+    apf.window.$addFocus(this);
 };
 apf.application.prototype = new apf.AmlElement();
 apf.aml.setElement("application", apf.application);
@@ -15280,8 +12838,8 @@ apf.button = function(struct, tagName) {
     };
 
     this.$propHandlers["caption"] = function(value) {
-        if (!this.oCaption)
-            return;
+        // if (!this.oCaption)
+        //     return;
 
         if (value)
             this.$setStyleClass(this.$ext, "", [this.$baseCSSname + "Empty"]);
@@ -15569,6 +13127,9 @@ apf.button = function(struct, tagName) {
         this.$ext = this.$getExternal();
         this.oIcon = this.$getLayoutNode("main", "icon", this.$ext);
         this.oCaption = this.$getLayoutNode("main", "caption", this.$ext);
+        
+        if (this.oCaption.nodeValue && !this.caption)
+            this.$propHandlers["caption"].call(this, "");
 
         this.$useExtraDiv = apf.isTrue(this.$getOption("main", "extradiv"));
         if (!apf.button.$extradiv && this.$useExtraDiv) {
@@ -15836,8 +13397,6 @@ apf.checkbox = function(struct, tagName) {
     };
 
     this.$setState = function(state, e, strEvent) {
-        //if (this.disabled) return;
-
         this.$doBgSwitch(this.states[state]);
         this.$setStyleClass(this.$ext, (state != "Out" ? this.$baseCSSname + state : ""),
             [this.$baseCSSname + "Down", this.$baseCSSname + "Over"]);
@@ -15845,15 +13404,9 @@ apf.checkbox = function(struct, tagName) {
 
         if (strEvent)
             this.dispatchEvent(strEvent, {htmlEvent: e});
-
-        /*if (state == "Down")
-            apf.cancelBubble(e, this);
-        else
-            e.cancelBubble = true;*/
     };
 
     this.$clickHandler = function(){
-        //this.checked = !this.checked;
         this.change(this.$values
             ? this.$values[(!this.checked) ? 0 : 1]
             : !this.checked);
@@ -16514,10 +14067,6 @@ apf.label = function(struct, tagName) {
 };
 
 (function(){
-    this.implement(
-        apf.ChildValue
-    );
-
     var _self = this;
     
     this.$focussable = false;
@@ -16610,10 +14159,6 @@ apf.colorbox = function(struct, tagName) {
 };
 
 (function(){
-    this.implement(
-        apf.ChildValue
-    );
-
     var _self = this;
     
     this.$focussable = false;
@@ -17008,22 +14553,6 @@ apf.AmlWindow = function(struct, tagName) {
             this.state = this.state.split("|").remove("closed").join("|");
 
             this.$ext.style.display = ""; //Some form of inheritance detection
-
-            //if (this.modal) 
-                //this.$ext.style.position = "fixed";
-            
-            if (!apf.canHaveHtmlOverSelects && this.hideselects) {
-                hEls = [];
-                var nodes = document.getElementsByTagName("select");
-                for (var i = 0; i < nodes.length; i++) {
-                    var oStyle = apf.getStyle(nodes[i], "display");
-                    hEls.push([nodes[i], oStyle]);
-                    nodes[i].style.display = "none";
-                }
-            }
-
-            //if (this.modal)
-                //this.$ext.style.zIndex = apf.plane.$zindex - 1;
             
             if (this.$rendered === false)
                 this.addEventListener("afterrender", this.$afterRender);
@@ -17035,12 +14564,6 @@ apf.AmlWindow = function(struct, tagName) {
                 apf.plane.hide(this.$uniqueId);
 
             this.$ext.style.display = "none";
-
-            if (!apf.canHaveHtmlOverSelects && this.hideselects) {
-                for (var i = 0; i < hEls.length; i++) {
-                    hEls[i][0].style.display = hEls[i][1];
-                }
-            }
 
             if (this.hasFocus())
                 apf.window.moveNext(true, this, true);//go backward to detect modals
@@ -17446,12 +14969,8 @@ apf.notifier = function(struct, tagName) {
 
         var _self = this,
             oNoti = this.$pHtmlNode.appendChild(this.$ext.cloneNode(true)),
-            ww = apf.isIE
-                ? document.documentElement.offsetWidth
-                : window.innerWidth,
-            wh = apf.isIE
-                ? document.documentElement.offsetHeight
-                : window.innerHeight,
+            ww = window.innerWidth,
+            wh = window.innerHeight,
         
             removed = false,
 
@@ -18096,7 +15615,6 @@ apf.radiobutton = function(struct, tagName) {
 };
 
 (function(){
-    this.implement(apf.ChildValue);
     this.$childProperty = "label";
     
     this.$focussable = apf.KEYBOARD; // This object can get the focus
@@ -19441,10 +16959,6 @@ apf.text = function(struct, tagName) {
 };
 
 (function(){
-    this.implement(
-        
-        apf.ChildValue
-    );
 
     this.$focussable = true; // This object can't get the focus
     this.focussable = false;
@@ -19563,7 +17077,7 @@ apf.text = function(struct, tagName) {
             this.value += value;
         }
         else
-            this.$container.innerHTML = value;//.replace(/<img[.\r\n]*?>/ig, "")
+            this.$container.innerHTML = value;
 
         if (this.scrolldown && this.$scrolldown)
             this.$scrollArea.scrollTop = this.$scrollArea.scrollHeight;
@@ -19934,14 +17448,10 @@ apf.textbox = function(struct, tagName) {
     });
     
     this.addEventListener("prop.editable", function(e) {
-        if (apf.isIE)
-            this.$input.unselectable = e.value ? "On" : "Off";
-        else {
-            if (e.value) 
-                apf.addListener(this.$input, "mousedown", apf.preventDefault);
-            else
-                apf.removeListener(this.$input, "mousedown", apf.preventDefault);
-        }
+        if (e.value) 
+            apf.addListener(this.$input, "mousedown", apf.preventDefault);
+        else
+            apf.removeListener(this.$input, "mousedown", apf.preventDefault);
     });
 
     /**
@@ -20017,7 +17527,7 @@ apf.textbox = function(struct, tagName) {
      * ```
      */
     this.$propHandlers["mask"] = function(value) {
-        if (this.mask.toLowerCase() == "password")// || !apf.hasMsRangeObject)
+        if (this.mask.toLowerCase() == "password")
             return;
 
         if (!value) {
@@ -20163,16 +17673,10 @@ apf.textbox = function(struct, tagName) {
         var v;
         
         if (this.isHTMLBox) { 
-            if (this.$input.textContent)
-                v = this.$input.textContent;
-            else {
-                //Chrome has a bug, innerText is cleared when display property is changed
-                v = apf.html_entity_decode(this.$input.innerHTML
-                    .replace(/<br\/?\>/g, "\n")
-                    .replace(/<[^>]*>/g, ""));
-            }
-            if (v.charAt(v.length - 1) == "\n")
-                v = v.substr(0, v.length - 1); //Remove the trailing new line
+            //Chrome has a bug, innerText is cleared when display property is changed
+            v = apf.html_entity_decode(this.$input.innerHTML
+                .replace(/<br\/?\>/g, "\n")
+                .replace(/<[^>]*>/g, ""));
         }
         else 
             v = this.$input.value;
@@ -20207,21 +17711,7 @@ apf.textbox = function(struct, tagName) {
      * @private
      */
     this.insert = function(text) {
-        if (apf.hasMsRangeObject) {
-            try {
-                this.$input.focus();
-            }
-            catch (e) {}
-            var range = document.selection.createRange();
-            if (this.oninsert)
-                text = this.oninsert(text);
-            range.pasteHTML(text);
-            range.collapse(true);
-            range.select();
-        }
-        else {
-            this.$input.value += text;
-        }
+        this.$input.value += text;
     };
 
     this.addEventListener("$clear", function(){
@@ -20233,18 +17723,6 @@ apf.textbox = function(struct, tagName) {
         }
         else {
             this.$propHandlers["value"].call(this, "");
-        }
-        
-        if (!this.$input.tagName.toLowerCase().match(/input|textarea/i)) {
-            if (apf.hasMsRangeObject) {
-                try {
-                    var range = document.selection.createRange();
-                    range.moveStart("sentence", -1);
-                    //range.text = "";
-                    range.select();
-                }
-                catch (e) {}
-            }
         }
         
         this.dispatchEvent("clear"); //@todo apf3.0
@@ -20318,12 +17796,7 @@ apf.textbox = function(struct, tagName) {
                 _self.select();
         };
 
-        if ((!e || e.mouse) && apf.isIE) {
-            clearInterval(fTimer);
-            fTimer = setInterval(delay, 1);
-        }
-        else
-            delay();
+        delay();
     };
 
     this.$blur = function(e) {
@@ -20344,14 +17817,8 @@ apf.textbox = function(struct, tagName) {
             apf.setStyleClass(this.$ext, this.$baseCSSname + "Initial");
         }
 
-        /*if (apf.hasMsRangeObject) {
-            var r = this.$input.createTextRange();
-            r.collapse();
-            r.select();
-        }*/
-
         try {
-            if (apf.isIE || !e || e.srcElement != apf.window)
+            if (!e || e.srcElement != apf.window)
                 this.$input.blur();
         }
         catch (e) {}
@@ -20524,29 +17991,19 @@ apf.textbox = function(struct, tagName) {
             //this.$input.style.width = "1px";
 
             this.$input.select = function(){
-                if (apf.hasMsRangeObject) {
-                    var r = document.selection.createRange();
-                    r.moveToElementText(this);
-                    r.select();
-                }
-                else if (_self.isHTMLBox) {
-                    var r = document.createRange();
-                    r.setStart(_self.$input.firstChild || _self.$input, 0);
-                    var lastChild = _self.$input.lastChild || _self.$input;
-                    r.setEnd(lastChild, lastChild.nodeType == 1
-                        ? lastChild.childNodes.length
-                        : lastChild.nodeValue.length);
-                    
-                    var s = window.getSelection();
-                    s.removeAllRanges();
-                    s.addRange(r);
-                }
+                var r = document.createRange();
+                r.setStart(_self.$input.firstChild || _self.$input, 0);
+                var lastChild = _self.$input.lastChild || _self.$input;
+                r.setEnd(lastChild, lastChild.nodeType == 1
+                    ? lastChild.childNodes.length
+                    : lastChild.nodeValue.length);
+                
+                var s = window.getSelection();
+                s.removeAllRanges();
+                s.addRange(r);
             }
             
             this.$input.onpaste = function(e) {
-                if (apf.hasMsRangeObject)
-                    return;
-                
                 if (e.clipboardData.types.indexOf("text/html") == -1)
                     return;
                     
@@ -20991,32 +18448,13 @@ apf.textbox.masking = function(){
         if (p < 0)
             p = 0;
 
-        if (apf.hasMsRangeObject) {
-            var range = oInput.createTextRange();
-            range.expand("textedit");
-            range.select();
-
-            if (pos[p] == null) {
-                range.collapse(false);
-                range.select();
-                lastPos = pos.length;
-                return false;
-            }
-
-            range.collapse();
-            range.moveStart("character", pos[p]);
-            range.moveEnd("character", 1);
-            range.select();
+        if (typeof pos[p] == "undefined") {
+            oInput.selectionStart = oInput.selectionEnd = pos[pos.length - 1] + 1;
+            lastPos = pos.length;
+            return false;
         }
-        else {
-            if (typeof pos[p] == "undefined") {
-                oInput.selectionStart = oInput.selectionEnd = pos[pos.length - 1] + 1;
-                lastPos = pos.length;
-                return false;
-            }
-            oInput.selectionStart = pos[p];
-            oInput.selectionEnd = pos[p] + 1;
-        }
+        oInput.selectionStart = pos[p];
+        oInput.selectionEnd = pos[p] + 1;
 
         lastPos = p;
     }
@@ -21029,24 +18467,12 @@ apf.textbox.masking = function(){
         if (chr == _FALSE_)
             return false;
 
-        if (apf.hasMsRangeObject) {
-            var range = oInput.createTextRange();
-            range.expand("textedit");
-            range.collapse();
-            range.moveStart("character", pos[lastPos]);
-            range.moveEnd("character", 1);
-            range.text = chr;
-            if (apf.document.activeElement == this)
-                range.select();
-        }
-        else {
-            var val = oInput.value;
-            var start = oInput.selectionStart;
-            var end = oInput.selectionEnd;
-            oInput.value = val.substr(0, start) + chr + val.substr(end);
-            oInput.selectionStart = start;
-            oInput.selectionEnd = end;
-        }
+        var val = oInput.value;
+        var start = oInput.selectionStart;
+        var end = oInput.selectionEnd;
+        oInput.value = val.substr(0, start) + chr + val.substr(end);
+        oInput.selectionStart = start;
+        oInput.selectionEnd = end;
         
         myvalue[lastPos] = chr;
         
@@ -21057,24 +18483,12 @@ apf.textbox.masking = function(){
         if (pos[p] == null)
             return false;
         
-        if (apf.hasMsRangeObject) {
-            var range = oInput.createTextRange();
-            range.expand("textedit");
-            range.collapse();
-
-            range.moveStart("character", pos[p]);
-            range.moveEnd("character", 1);
-            range.text = replaceChar;
-            range.select();
-        }
-        else {
-            var val = oInput.value;
-            var start = pos[p];
-            var end = pos[p] + 1;
-            oInput.value = val.substr(0, start) + replaceChar + val.substr(end);
-            oInput.selectionStart = start;
-            oInput.selectionEnd = end;
-        }
+        var val = oInput.value;
+        var start = pos[p];
+        var end = pos[p] + 1;
+        oInput.value = val.substr(0, start) + replaceChar + val.substr(end);
+        oInput.selectionStart = start;
+        oInput.selectionEnd = end;
         
         //ipv lastPos
         myvalue[p] = " ";
@@ -21087,7 +18501,7 @@ apf.textbox.masking = function(){
         var i, j;
         
         try {
-            if (!apf.hasMsRangeObject && oInput.selectionStart == oInput.selectionEnd)
+            if (oInput.selectionStart == oInput.selectionEnd)
                 setPosition(0); // is this always correct? practice will show...
         }
         catch (ex) {
@@ -21125,8 +18539,7 @@ apf.textbox.masking = function(){
         for (i = 0, j = str.length; i < j; i++) {
             lastPos = i;
             setCharacter(str.substr(i, 1));
-            if (!apf.hasMsRangeObject)
-                setPosition(i + 1);
+            setPosition(i + 1);
         }
         if (str.length)
             lastPos++;
@@ -21135,16 +18548,11 @@ apf.textbox.masking = function(){
     function calcPosFromCursor(){
         var range, lt = 0;
 
-        if (!apf.hasMsRangeObject) {
-            lt = oInput.selectionStart;
-        }
-        else {
-            range = document.selection.createRange();
-            var r2 = range.duplicate();
-            r2.expand("textedit");
-            r2.setEndPoint("EndToStart", range);
-            lt = r2.text.length;
-        }
+        range = document.selection.createRange();
+        var r2 = range.duplicate();
+        r2.expand("textedit");
+        r2.setEndPoint("EndToStart", range);
+        lt = r2.text.length;
     
         for (var i = 0; i < pos.length; i++) {
             if (pos[i] > lt)
@@ -21173,4 +18581,4 @@ apf.start();
 
         register(null, {apf: apf});
     }
-});
+}));

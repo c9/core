@@ -1,3 +1,4 @@
+/*global apf*/
 define(function(require, exports, module) {
     main.consumes = ["Plugin", "ui"];
     main.provides = ["tooltip"];
@@ -85,7 +86,7 @@ define(function(require, exports, module) {
             if (options.control)
                 options.control.stop();
     
-            apf.setOpacity(this, 1);
+            this.style.display = "none";
         }
     
         function ttmouseout(e) {
@@ -134,7 +135,7 @@ define(function(require, exports, module) {
                          control: options.control = {}});
                 }
                 else {
-                    apf.setOpacity(options.tooltip, 1);
+                    options.tooltip.style.opacity = 1;
                 }
             }, options.timeout);
         }

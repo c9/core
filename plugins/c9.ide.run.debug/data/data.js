@@ -45,7 +45,7 @@ define(function(require, exports, module) {
             this.data = v;
         },
         toString: function() {
-            return this.xml;
+            return this.json;
         }
     };
 

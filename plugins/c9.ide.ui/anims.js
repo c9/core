@@ -1,4 +1,4 @@
-/*global Firmin */
+/*global Firmin, apf */
  
 define(function(require, exports, module) {
     main.consumes = ["Plugin", "settings", "util"];
@@ -23,13 +23,12 @@ define(function(require, exports, module) {
         
         /***** Methods *****/
         
-        var pfx = apf.isWebkit ? "webkit" : (apf.isIE ? "MS" : "");
         function cssAnimate(el, options, finish) {
             if (options.splitbox)
                 return util.nextFrame($cssAnimate.bind(null, el, options, finish));
             // todo using $cssAnimate instead of firmin displays spurious animations when dragging tabs
             Firmin.animate(el, options, options && options.duration || 0.2, function() {
-                el.style[apf.CSSPREFIX + "Transition"] = "";
+                el.style.transition = "";
                 finish && finish();
             });
         }
@@ -41,17 +40,17 @@ define(function(require, exports, module) {
                 duration = parseFloat(duration) 
                     * (duration[duration.length - 2] == "m" ? 1 : 0.001);
             }
-            el.style[apf.CSSPREFIX + "TransitionDuration"] = duration + "s";
+            el.style.transitionDuration = duration + "s";
             
             // Delay
             var delay = options.delay || "0s";
-            el.style[apf.CSSPREFIX + "TransitionDelay"] = 
+            el.style.transitionDelay = 
                 typeof delay == "string" ? delay : delay + "s";
             
             // Timing Function
             var timingFunction = options.timingFunction || 'linear';
             if (timingFunction)
-                el.style[apf.CSSPREFIX + "TransitionTimingFunction"] = 
+                el.style.transitionTimingFunction = 
                     timingFunction;
             
             // Properties
@@ -60,19 +59,18 @@ define(function(require, exports, module) {
                 if (/duration|delay|timingFunction|immediate/.test(prop)) continue;
                 props.push(prop);
             }
-            el.style[apf.CSSPREFIX + "TransitionProperty"] = props.join(",");
+            el.style.transitionProperty = props.join(",");
             
-            var eventName = pfx ? pfx + "TransitionEnd" : "transitionend";
             var wait = el.wait = function(e) {
                 if (!wait) return;
-                el.removeEventListener(eventName, wait, false);
-                el.style[apf.CSSPREFIX + "Transition"] = "";
+                el.removeEventListener("transitionend", wait, false);
+                el.style.transition = "";
                 if (el.wait !== wait)
                     return;
                 wait = el.wait = null;
                 finish && finish();
             };
-            el.addEventListener(eventName, wait, false);
+            el.addEventListener("transitionend", wait, false);
             // fallback in case there is no event
             setTimeout(function() {
                 wait && wait();

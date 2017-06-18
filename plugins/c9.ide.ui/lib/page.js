@@ -1,7 +1,5 @@
 define(function(require, module, exports) {
 return function(apf) {
-var $setTimeout = setTimeout;
-var $setInterval = setInterval;
 
 
 /**
@@ -164,7 +162,7 @@ apf.page = function(struct, tagName) {
             .$getLayoutNode("button", "caption", this.$button);
 
         if (node.nodeType == 1)
-            node.innerHTML = value;
+            node.textContent = value;
         else
             node.nodeValue = value;
     };
@@ -370,9 +368,6 @@ apf.page = function(struct, tagName) {
     };
 
     this.$activate = function() {
-        //if (this.disabled)
-            //return false;
-
         this.$active = true;
 
         if (!this.$drawn) {
@@ -568,24 +563,11 @@ apf.page = function(struct, tagName) {
             elBtn.setAttribute("onmouseout", 'var o = apf.lookup('
                 + this.$uniqueId + ');o&&o.$btnOut(this, event);');
 
-            //var cssClass = this.getAttribute("class");
-            //if (cssClass) {
-            //    apf.setStyleClass(elBtn, cssClass);
-            //    this.$lastClassValueBtn = cssClass;
-            //}
-
             this.$button = apf.insertHtmlNode(elBtn, this.parentNode.$buttons);
             
             var closebtn = this.closebtn = this.getAttribute("closebtn");
             if ((apf.isTrue(closebtn) || ((this.parentNode.buttons || "").indexOf("close") > -1 && !apf.isFalse(closebtn))))
                 this.$propHandlers["closebtn"].call(this, true);
-            
-            
-//            if (this.parentNode.$scale) {
-//                var w = apf.getHtmlInnerWidth(this.parentNode.$buttons);
-//                var l = this.parentNode.getPages().length;
-//                this.$button.style.width = Math.round(Math.min(w/l, this.parentNode.$maxBtnWidth)) + "px";
-//            }
             
 
             if (!isSkinSwitch && this.nextSibling && this.nextSibling.$button)
@@ -1042,14 +1024,6 @@ apf.BaseTab = function() {
         p.style[apf.CSSPREFIX + "TransitionDuration"] = ".2s";
         p.style[apf.CSSPREFIX + "TimingFunction"] = "ease-out";
         
-        // if (!isLast && isContracted) {
-        //     t.style.minWidth = "20px"
-        //     t.style.maxWidth = "0px";
-        //     t.style.padding = 0;
-            
-        //     end();
-        // }
-        // else {
             setTimeout(function() {
                 if (isLast)
                     p.style.paddingRight = "";
@@ -1062,7 +1036,6 @@ apf.BaseTab = function() {
                 
                 end();
             }, isOnly ? 150 : 100);
-        // }
         
         function end() {
             setTimeout(function() {
@@ -1121,9 +1094,6 @@ apf.BaseTab = function() {
                 apf.removeListener(_self.$buttons, "mouseout", btnMoHandler);
                     delete _self.$waitForMouseOut;
                     _self.$scaleinit(null, "sync");
-//                }
-//                else if (_self.$waitForMouseOut)
-//                    _self.$waitForMouseOut = 2;
             }
         }
         
@@ -1350,374 +1320,6 @@ apf.BaseTab = function() {
         
         return page;
     };
-
-    
-    /*
-    var SCROLLANIM = {
-            scrollOn: false,
-            steps: 15,
-            interval: 10,
-            size: 0,
-            left: 0,
-            control: {
-                stop: false
-            },
-            stopHandle: function() {
-                bAnimating = false;
-            }
-        },
-        SCROLL_OFF = 0x0001,
-        SCROLL_HOVER = 0x0002,
-        SCROLL_DOWN = 0x0004,
-        SCROLL_DIS = 0x0008,
-        SCROLL_L_STATE = SCROLL_OFF,
-        SCROLL_R_STATE = SCROLL_OFF,
-        SCROLL_LEFT = 0x0001,
-        SCROLL_RIGHT = 0x0002,
-        SCROLL_BOTH = 0x0004,
-        bAnimating = false,
-        scrollTimer = null,
-        keepScrolling = false,
-        globalDir = SCROLL_LEFT;
-*/
-    function getButtonsWidth() {
-        var cId = "cache_" + this.$buttons.childNodes.length;
-        if (SCROLLANIM[cId])
-            return SCROLLANIM[cId];
-
-        var iWidth = 0;
-        for (var i = 0, l = this.$buttons.childNodes.length; i < l; i++) {
-            if (typeof this.$buttons.childNodes[i].offsetWidth != "undefined")
-                iWidth += this.$buttons.childNodes[i].offsetWidth;
-        }
-
-        return SCROLLANIM[cId] = iWidth;
-    }
-
-    function setButtonState(dir, state) {
-        var bBoth = dir & SCROLL_BOTH;
-        if (bBoth)
-            dir = SCROLL_LEFT;
-        var oBtn = this[dir & SCROLL_LEFT ? "oLeftScroll" : "oRightScroll"];
-        if (!(state & SCROLL_DIS)) {
-            if (dir & SCROLL_LEFT)
-                SCROLL_L_STATE = state;
-            else
-                SCROLL_R_STATE = state;
-        }
-        
-        if (state & SCROLL_OFF)
-            apf.setStyleClass(oBtn, "", ["disabled", "hover", "down"]);
-        else if (state & SCROLL_HOVER)
-            apf.setStyleClass(oBtn, "hover", ["disabled", "down"]);
-        else if (state & SCROLL_DOWN)
-            apf.setStyleClass(oBtn, "down", ["disabled", "hover"]);
-        else if (state & SCROLL_DIS)
-            apf.setStyleClass(oBtn, "disabled", ["hover", "down"]);
-
-        if (bBoth)
-            setButtonState(SCROLL_RIGHT, state);
-    }
-
-    /**
-     * Sets the state scroller buttons: `enabled`, `disabled` or completely `hidden`,
-     * depending on the state of the tab buttons
-     *
-     * @param {Boolean} [bOn]   Indicates whether to turn the scroll buttons on or off
-     * @param {Number}  [iBtns] Specifies the buttons to set the state of. Can be [[apf.BaseTab.SCROLL_LEFT]], [[apf.BaseTab.SCROLL_RIGHT]] or [[apf.BaseTab.SCROLL_BOTH]]
-     * 
-     */
-    this.setScrollerState = function(bOn, iBtns) {
-        if (!this.ready || !this.$hasButtons || !this.oScroller) return;
-
-        if (typeof bOn == "undefined") {
-            var scrollerWidth = this.oScroller.offsetWidth
-                || parseInt(apf.getStyle(this.oScroller, "width").replace(/(px|em|%)/, ""));
-            bOn = ((getButtonsWidth.call(this) + scrollerWidth) > this.$ext.offsetWidth);
-            iBtns = SCROLL_BOTH;
-        }
-
-        if (iBtns & SCROLL_BOTH && bOn !== SCROLLANIM.scrollOn) {
-            // in case of HIDING the scroller: check if the anim stuff has reverted
-            SCROLLANIM.scrollOn = bOn;
-            if (!bOn) {
-                this.$buttons.style.left = SCROLLANIM.left + "px";
-                this.oScroller.style.display = "none";
-            }
-            //else
-            //    TODO: scroll active tab into view if it becomes hidden beneath scroller node(s)
-        }
-        else {
-            this.oScroller.style.display = "";
-        }
-
-        this.oScroller.style.display = (iBtns & SCROLL_BOTH && !bOn)
-            ? "none"
-            : "";
-        if (typeof iBtns == "undefined")
-            iBtns = SCROLL_BOTH;
-        if (!bOn) {
-            if ((iBtns & SCROLL_LEFT) || (iBtns & SCROLL_BOTH))
-                setButtonState.call(this, SCROLL_LEFT, SCROLL_DIS);
-            if ((iBtns & SCROLL_RIGHT) || (iBtns & SCROLL_BOTH))
-                setButtonState.call(this, SCROLL_RIGHT, SCROLL_DIS);
-        }
-    };
-
-    /**
-     * Corrects the state of the scroller buttons when the state of external
-     * components change, like on a resize event of a window.
-     *
-     */
-    this.correctScrollState = function() {
-        if (!this.ready || !this.$hasButtons || !this.oScroller) return;
-        this.setScrollerState();
-    };
-
-    /**
-     * Retrieves the utmost left or right boundaries of the tab buttons strip that
-     * can be scrolled to. The tabs cannot scroll any further than these boundaries
-     *
-     * @param {Number} dir        Determines which boundary side to look at, either [[apf.BaseTab.SCROLL_LEFT]] or [[apf.BaseTab.SCROLL_RIGHT]]
-     * @param {Boolean} [useCache] Used only when tabs are draggable. Not implemented.
-     * @returns  {Number}
-     */
-    function getAnimationBoundary(dir, useCache) {
-        if (SCROLLANIM.size <= 0) {
-            SCROLLANIM.left = this.$buttons.offsetLeft;
-            SCROLLANIM.size = Math.round(this.firstChild.$button.offsetWidth);
-        }
-        if (dir & SCROLL_LEFT) {
-            return SCROLLANIM.left;
-        }
-        else if (dir & SCROLL_RIGHT) {
-            // TODO: support Drag n Drop of tabs...
-            //if (typeof useCache == "undefined") useCache = false;
-            //if (!tabcontrol.drag) tabcontrol.drag = {};
-            //if (useCache && tabcontrol.drag.boundCache)
-            //    return tabcontrol.drag.boundCache;
-            var oNode = this.$buttons.childNodes[this.$buttons.childNodes.length - 1];
-
-            return this.$ext.offsetWidth - (oNode.offsetLeft + oNode.offsetWidth
-                + (this.oScroller.offsetWidth + 4));// used to be tabcontrol.drag.boundCache;
-        }
-    }
-
-    /**
-     * @event scroll Executed when the user presses one of the two scroll buttons
-     * (left or right). 
-     * 
-     * If the tab-buttons strip can be scrolled, the
-     * respective behavior is called.
-     *
-     * @param {Event}  e   An event object, usually a mousedown event from a scroller-button
-     * @param {Number} dir The direction of the scroll, either [[apf.BaseTab.SCROLL_LEFT]] or [[apf.BaseTab.SCROLL_RIGHT]]
-     *
-     */
-    this.scroll = function(e, dir) {
-        if (!this.ready || !this.$hasButtons || !this.oScroller) return;
-        if (!e)
-            e = window.event;
-        if (typeof e["type"] == "unknown") //scope expired (prolly GC'ed)
-            e = { type: "click" };
-        if (bAnimating && e.type != "dblclick") return;
-        var bAnimating = true;
-
-        if (typeof dir == "undefined")
-            dir = SCROLL_LEFT;
-
-        //apf.tween.clearQueue(this.$buttons, true);
-        var iCurrentLeft = this.$buttons.offsetLeft,
-            size = e["delta"] ? Math.round(e.delta * 36) : SCROLLANIM.size,
-            //get maximum left offset for either direction
-            iBoundary = getAnimationBoundary.call(this, dir),
-            _self = this;
-        if (dir & SCROLL_LEFT) {
-            setButtonState(SCROLL_LEFT, SCROLL_DOWN);
-            setButtonState(SCROLL_RIGHT, SCROLL_OFF);
-            if (iCurrentLeft === iBoundary) {
-                this.setScrollerState(false, SCROLL_LEFT);
-                return apf.tween.single(this.$buttons, {
-                    steps: SCROLLANIM.steps,
-                    interval: 20,
-                    from: iCurrentLeft,
-                    to: iCurrentLeft + 12,
-                    type: "left",
-                    anim: apf.tween.EASEOUT,
-                    onstop: SCROLLANIM.stopHandle,
-                    onfinish: function(oNode) {
-                        apf.tween.single(oNode, {
-                            steps: SCROLLANIM.steps,
-                            interval: SCROLLANIM.interval,
-                            from: iCurrentLeft + 12,
-                            to: iCurrentLeft,
-                            type: "left",
-                            anim: apf.tween.EASEIN,
-                            onstop: SCROLLANIM.stopHandle,
-                            onfinish: function() {
-                                bAnimating = false;
-                                if (e.name == "mousescroll")
-                                    setButtonState(SCROLL_LEFT, SCROLL_OFF);
-                            }
-                        });
-                    }
-                });
-            }
-            //one scroll animation scrolls by a SCROLLANIM.size px.
-            var iTargetLeft = iCurrentLeft + (e.type == "dblclick" ? size * 3 : size);
-            if (iTargetLeft > iBoundary)
-                iTargetLeft = iBoundary;
-
-            if (iTargetLeft === iBoundary)
-                this.setScrollerState(false, SCROLL_LEFT);
-            this.setScrollerState(true, SCROLL_RIGHT);
-
-            //start animated scroll to the left
-            apf.tween.single(this.$buttons, {
-                steps: SCROLLANIM.steps,
-                interval: SCROLLANIM.interval,
-                control: SCROLLANIM.control,
-                from: iCurrentLeft,
-                to: iTargetLeft,
-                type: "left",
-                anim: apf.tween.NORMAL,
-                onstop: SCROLLANIM.stopHandle,
-                onfinish: function() {
-                    bAnimating = false;
-                    if (e.name == "mousescroll")
-                        setButtonState(SCROLL_LEFT, SCROLL_OFF);
-                    if (keepScrolling)
-                        _self.scroll(e, globalDir);
-                }
-            });
-        }
-        else if (dir & SCROLL_RIGHT) {
-            this.setScrollerState(true);
-            setButtonState(SCROLL_RIGHT, SCROLL_DOWN);
-            setButtonState(SCROLL_LEFT, SCROLL_OFF);
-            if (iCurrentLeft === iBoundary) {
-                this.setScrollerState(false, SCROLL_RIGHT);
-                return apf.tween.single(this.$buttons, {
-                    steps: SCROLLANIM.steps,
-                    interval: 20,
-                    from: iCurrentLeft,
-                    to: iCurrentLeft - 24,
-                    type: "left",
-                    anim: apf.tween.EASEOUT,
-                    onstop: SCROLLANIM.stopHandle,
-                    onfinish: function(oNode, options) {
-                        apf.tween.single(oNode, {
-                            steps: SCROLLANIM.steps,
-                            interval: SCROLLANIM.interval,
-                            from: iCurrentLeft - 24,
-                            to: iCurrentLeft,
-                            type: "left",
-                            anim: apf.tween.EASEIN,
-                            onstop: SCROLLANIM.stopHandle,
-                            onfinish: function() {
-                                bAnimating = false;
-                                if (e.name == "mousescroll")
-                                    setButtonState(SCROLL_RIGHT, SCROLL_OFF);
-                            }
-                        });
-                    }
-                });
-            }
-            //one scroll animation scrolls by a SCROLLANIM.size px.
-            var iTargetLeft = iCurrentLeft - (e.type == "dblclick" ? size * 3 : size);
-            //make sure we don't scroll more to the right than the
-            //maximum left:
-            if (iTargetLeft < iBoundary)
-                iTargetLeft = iBoundary;
-            //start animated scroll to the right
-            apf.tween.single(this.$buttons, {
-                steps: SCROLLANIM.steps,
-                interval: SCROLLANIM.interval,
-                control: SCROLLANIM.control,
-                from: iCurrentLeft,
-                to: iTargetLeft,
-                type: "left",
-                anim: apf.tween.NORMAL,
-                onstop: SCROLLANIM.stopHandle,
-                onfinish: function() {
-                    bAnimating = false;
-                    if (e.name == "mousescroll")
-                        setButtonState(SCROLL_RIGHT, SCROLL_OFF);
-                    if (keepScrolling)
-                        _self.scroll(e, globalDir);
-                }
-            });
-        }
-    };
-
-    /**
-     * If a tab page is outside of the user's view, this function scrolls that
-     * tabpage into view smoothly.
-     *
-     * @param {apf.page} oPage The page to scroll into view
-     * 
-     */
-    this.scrollIntoView = function(oPage) {
-        bAnimating = false;
-        if (!this.ready || !this.$hasButtons || !this.oScroller || !oPage.$drawn)
-            return;
-        bAnimating = true;
-        if (this.$buttons.offsetWidth < this.$ext.offsetWidth)
-            return this.setScrollerState(false);
-
-        var iTabLeft = oPage.$button.offsetLeft,
-            iTabWidth = oPage.$button.offsetWidth,
-            iCurrentLeft = this.$buttons.offsetLeft;
-
-        if (SCROLLANIM.size <= 0) {
-            SCROLLANIM.left = this.$buttons.offsetLeft;
-            var p = this.firstChild;
-            while (!p.$button)
-                p = p.nextSibling;
-            SCROLLANIM.size = Math.round(p.$button.offsetWidth);
-        }
-        this.$buttons.style.left = iCurrentLeft;
-
-        var iRealWidth = this.$ext.offsetWidth,
-            iScrollCorr = this.oScroller.offsetWidth + 4,
-            iTargetLeft = null,
-            dir;
-
-        if ((iTabLeft + iTabWidth) > ((iRealWidth - iScrollCorr) - iCurrentLeft)) { //scroll to the right
-            iTargetLeft = (-(iTabLeft - SCROLLANIM.left)
-                + (iRealWidth - iTabWidth - iScrollCorr));
-            dir = SCROLL_RIGHT;
-        }
-        else if ((iCurrentLeft + iTabLeft) < SCROLLANIM.left) { //sroll to the left
-            iTargetLeft = SCROLLANIM.left - iTabLeft;
-            dir = SCROLL_LEFT;
-        }
-
-        if (iTargetLeft !== null) {
-            this.setScrollerState(true);
-            setButtonState(SCROLL_RIGHT, dir & SCROLL_RIGHT ? SCROLL_DOWN : SCROLL_OFF);
-            setButtonState(SCROLL_LEFT, dir & SCROLL_LEFT ? SCROLL_DOWN : SCROLL_OFF);
-            apf.tween.clearQueue(this.$buttons, true);
-
-            apf.tween.single(this.$buttons, {
-                steps: SCROLLANIM.steps,
-                interval: SCROLLANIM.interval,
-                from: iCurrentLeft,
-                to: iTargetLeft,
-                type: "left",
-                anim: apf.tween.NORMAL,
-                onstop: SCROLLANIM.stopHandle,
-                onfinish: function() {
-                    bAnimating = false;
-                    setButtonState(SCROLL_RIGHT, SCROLL_OFF);
-                    setButtonState(SCROLL_LEFT, SCROLL_OFF);
-                }
-            });
-        }
-        else
-            bAnimating = false;
-    };
-
     
 
     // *** DOM Hooks *** //
@@ -1923,96 +1525,8 @@ apf.BaseTab = function() {
 
         this.oPages = this.$getLayoutNode("main", "pages", this.$ext);
         
-        
-        // add scroller node(s)
-        /*this.oScroller = this.$getLayoutNode("main", "scroller", this.oPages);
-        if (this.oScroller) {
-            function startTimer(e, dir) {
-                clearTimeout(scrollTimer);
-                globalDir = dir;
-                scrollTimer = $setTimeout(function() {
-                    keepScrolling = true;
-                    _self.scroll(e, dir);
-                }, 500);
-            }
-            function stopTimer() {
-                clearTimeout(scrollTimer);
-                keepScrolling = false;
-            }
-
-            this.oScroller.onmouseout = function(e) {
-                SCROLLANIM.control.stop = true;
-                setButtonState(SCROLL_BOTH, SCROLL_OFF);
-            };
-
-            
-            /*apf.addEventListener("mousescroll", function(e) {
-                var found = (e.target == _self.$buttons);
-                while (!found && e.target != document.body) {
-                    e.target = e.target.offsetParent;
-                    found = (e.target == _self.$buttons);
-                }
-                if (!found) return;
-                var dir = e.delta > 0 ? SCROLL_LEFT : SCROLL_RIGHT;
-                e.delta = Math.abs(e.delta);
-                _self.scroll(e, dir);
-            });* /
-            
-
-            this.oLeftScroll = apf.getNode(this.oScroller, [0]);
-            this.oRightScroll = apf.getNode(this.oScroller, [1]);
-            
-            ["oLeftScroll", "oRightScroll"].forEach(function(sBtn) {
-                var dir = sBtn == "oLeftScroll" ? SCROLL_LEFT  : SCROLL_RIGHT,
-                    revDir = sBtn == "oLeftScroll" ? SCROLL_RIGHT : SCROLL_LEFT;
-
-                _self[sBtn].ondbclick = 
-                _self[sBtn].onmousedown = function(e) {
-                    SCROLLANIM.control.stop = false;
-                    var state = dir & SCROLL_LEFT ? SCROLL_L_STATE : SCROLL_R_STATE;
-                    if (this.className.indexOf("disabled") != -1
-                      || state & SCROLL_DOWN) return;
-                    e = e || event;
-                    _self.scroll(e, dir);
-                    startTimer(e, dir);
-                    if (!apf.isSafariOld)
-                        this.onmouseout();
-                };
-                _self[sBtn].onmouseover = function() {
-                    SCROLLANIM.control.stop = false;
-                    var state = dir & SCROLL_LEFT ? SCROLL_L_STATE : SCROLL_R_STATE;
-                    if (this.className.indexOf("disabled") != -1
-                      || state & SCROLL_DOWN) return;
-                    setButtonState(dir, SCROLL_HOVER);
-                    setButtonState(revDir, SCROLL_OFF);
-                    globalDir = dir;
-                };
-                _self[sBtn].onmouseout = function() {
-                    var state = dir & SCROLL_LEFT ? SCROLL_L_STATE : SCROLL_R_STATE;
-                    if (this.className.indexOf("disabled") != -1
-                      || state & SCROLL_DOWN) return;
-                    setButtonState(dir, SCROLL_OFF);
-                };
-                _self[sBtn].onmouseup = function() {
-                    if (this.className.indexOf("disabled") == -1) {
-                        setButtonState(dir, SCROLL_OFF);
-                    }
-                    stopTimer();
-                    SCROLLANIM.control.stop = true;
-                };
-            });
-        }
-
-        
-        apf.layout.setRules(this.$ext, this.$uniqueId + "_tabscroller",
-            "var o = apf.all[" + this.$uniqueId + "]; o && o.correctScrollState()");
-        apf.layout.queue(this.$ext);*/
-        
-        
-
         //Skin changing support
         if (this.$int) {
-            //apf.AmlParser.replaceNode(this.oPages, oPages);
             this.$int = this.oPages;
             page = true;
 
@@ -2058,10 +1572,6 @@ apf.BaseTab = function() {
 
         this.ready = true;
         
-        /*window.setTimeout(function() {
-            _self.setScrollerState();
-        }, 0);*/
-        
 
         if (!this.activepage && this.getAttribute("src")) {
             this.src = this.getAttribute("src");
@@ -2072,15 +1582,6 @@ apf.BaseTab = function() {
     this.$destroy = function(bSkinChange) {
         if (bSkinChange || !this.oScroller)
             return;
-        
-        
-        /*apf.layout.removeRule(this.$ext, this.$uniqueId + "_tabscroller");
-        
-        [this.oLeftScroll, this.oRightScroll].forEach(function(oBtn) {
-            oBtn.onmousedown = oBtn.ondblclick = oBtn.onmouseover = 
-            oBtn.onmouseout = oBtn.onmouseup = null;
-        });*/
-        
     };
 }).call(apf.BaseTab.prototype = new apf.Presentation());
 

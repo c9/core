@@ -139,18 +139,20 @@ define(function(require, exports, module) {
             settings.on("user/output", setSettings);
 
             layout.on("themeChange", function(e) {
-                var skin = e.oldTheme;
-                if (!(settings.get("user/output/@backgroundColor") == defaults[skin][0] &&
-                  settings.get("user/output/@foregroundColor") == defaults[skin][1] &&
-                  settings.get("user/output/@selectionColor") == defaults[skin][2]))
+                var colors = defaults[e.oldTheme];
+                if (!colors) return;
+                if (!(settings.get("user/output/@backgroundColor") == colors[0] &&
+                  settings.get("user/output/@foregroundColor") == colors[1] &&
+                  settings.get("user/output/@selectionColor") == colors[2]))
                     return false;
             });
 
             layout.on("themeDefaults", function(e) {
-                var skin = e.theme;
-                settings.set("user/output/@backgroundColor", defaults[skin][0]);
-                settings.set("user/output/@foregroundColor", defaults[skin][1]);
-                settings.set("user/output/@selectionColor", defaults[skin][2]);
+                var colors = defaults[e.theme];
+                if (!colors) return;
+                settings.set("user/output/@backgroundColor", colors[0]);
+                settings.set("user/output/@foregroundColor", colors[1]);
+                settings.set("user/output/@selectionColor", colors[2]);
             }, handle);
 
             // Settings UI

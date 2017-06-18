@@ -104,9 +104,7 @@ apf.popup = {
             var parentMenu = this.cache[options.allowTogether];
             var pOverflow = apf.getOverflowParent(o.content);
             var edgeY = (pOverflow == document.documentElement
-                ? (apf.isIE 
-                    ? pOverflow.offsetHeight 
-                    : (window.innerHeight + window.pageYOffset)) + pOverflow.scrollTop
+                ? window.innerHeight + window.pageYOffset + pOverflow.scrollTop
                 : pOverflow.offsetHeight + pOverflow.scrollTop);
             moveUp = options.up || options.autoCorrect && (y
                 + (options.height || o.height || o.content.offsetHeight))
@@ -143,9 +141,7 @@ apf.popup = {
             
             if (!options.noleft) {
                 var edgeX = (pOverflow == document.documentElement
-                    ? (apf.isIE 
-                        ? pOverflow.offsetWidth
-                        : (window.innerWidth + window.pageXOffset)) + pOverflow.scrollLeft
+                    ? window.innerWidth + window.pageXOffset + pOverflow.scrollLeft
                     : pOverflow.offsetWidth + pOverflow.scrollLeft);
                 moveLeft = options.autoCorrect && (x
                     + (options.width || o.width || o.content.offsetWidth))
@@ -199,7 +195,7 @@ apf.popup = {
                 });
             }
             else {
-                var iVal, steps = apf.isIE8 ? 5 : 7, i = 0;
+                var iVal, steps = 7, i = 0;
                 iVal = setInterval(function() {
                     var value = ++i * ((options.height || o.height) / steps);
 
@@ -646,7 +642,7 @@ apf.menu = function(struct, tagName) {
                 //var bodyPos = apf.getAbsolutePosition(document.body);
                 apf.popup.show(this.$uniqueId, {
                     x: x, 
-                    y: y - (apf.isIE && apf.isIE < 8 ? 1 : 0), 
+                    y: y, 
                     animate: noanim || !this.animate ? false : "fade",
                     steps: 10,
                     //ref          : this.$ext.offsetParent,
@@ -1030,7 +1026,6 @@ apf.divider = function(struct, tagName) {
     this.minwidth = 0;
     this.minheight = 0;
 
-    this.implement(apf.ChildValue);
     this.$childProperty = "caption";
     
     //@todo apf3.0 fix this
@@ -1052,7 +1047,7 @@ apf.divider = function(struct, tagName) {
     this.$propHandlers["caption"] = function(value) {
         if (this.$caption) {
             this.$setStyleClass(this.$ext, this.$baseCSSname + "Caption");
-            this.$caption.innerHTML = value;
+            this.$caption.textContent = value;
         }
         else {
             this.$setStyleClass(this.$ext, "", [this.$baseCSSname + "Caption"]);
@@ -1126,7 +1121,6 @@ apf.item = function(struct, tagName) {
 (function() {
     this.$focussable = false;
     
-    this.implement(apf.ChildValue);
     this.$childProperty = "caption";
     this.$canLeechSkin = "item";
 

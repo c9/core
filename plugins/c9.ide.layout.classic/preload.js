@@ -73,9 +73,10 @@ define(function(require, exports, module) {
         });
         
         preload(function(err) {
-            register(null, {
-                "layout.preload": plugin
-            });
+        });
+        
+        register(null, {
+            "layout.preload": plugin
         });
     }
 });

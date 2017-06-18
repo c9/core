@@ -1082,19 +1082,18 @@ apf.splitter = function(struct, tagName) {
 apf.splitter.templates = {
     box: {
         update: function(newPos, finalPass) {
-            with (this.$info) {
                 //var pos = Math.ceil(apf.getAbsolutePosition(this.$ext, this.parentNode.$int)[d1] - posPrev[d1]);
                 var max = this.$previous 
-                    ? this.$previous.$ext[offsetSize] + this.$next.$ext[offsetSize]
+                    ? this.$previous.$ext[this.$info.offsetSize] + this.$next.$ext[this.$info.offsetSize]
                     : (this.parentNode).getWidth();
                 var method = finalPass ? "setAttribute" : "setProperty";
                 if (apf.hasFlexibleBox)
-                    newPos -= this.$previous ? apf.getAbsolutePosition(this.$previous.$ext, this.parentNode.$int)[d1] : 0;
+                    newPos -= this.$previous ? apf.getAbsolutePosition(this.$previous.$ext, this.parentNode.$int)[this.$info.d1] : 0;
     
                 //Both flex
                 if (this.$previous && this.$next && (this.$previous.flex || this.$previous.flex === 0) && (this.$next.flex || this.$next.flex === 0)) {
                     if (!finalPass && !this.realtime) 
-                        newPos -= this.$ext[offsetSize];
+                        newPos -= this.$ext[this.$info.offsetSize];
     
                     //var totalFlex = this.$previous.flex + this.$next.flex - (finalPass && !this.realtime ? this.parentNode.padding : 0);
                     if (!this.$scale || this.$scale == 1)
@@ -1105,11 +1104,10 @@ apf.splitter.templates = {
                 //Fixed
                 else {
                     if (this.$next && !this.$next.flex && (!this.$scale || this.$scale == 2))
-                        this.$next[method](osize, max - newPos);
+                        this.$next[method](this.$info.osize, max - newPos);
                     if (this.$previous && !this.$previous.flex && (!this.$scale || this.$scale == 1))
-                        this.$previous[method](osize, newPos);
+                        this.$previous[method](this.$info.osize, newPos);
                 }
-            }
     
             if (apf.hasSingleResizeEvent)
                 apf.layout.forceResize(this.$ext.parentNode);
@@ -1145,20 +1143,18 @@ apf.splitter.templates = {
             if (!this.$previous || !this.$next)
                 return this;
             
-            with (this.$info) {
                 var diff = apf.getDiff(this.$ext);
                 if (!this.parentNode.$box) {
                     var iSize = Math.max(
-                        this.$previous.$ext[offsetSize], this.$next.$ext[offsetSize]);
-                    this.$ext.style[size] = (iSize - diff[d1]) + "px";
+                        this.$previous.$ext[this.$info.offsetSize], this.$next.$ext[this.$info.offsetSize]);
+                    this.$ext.style[size] = (iSize - diff[this.$info.d1]) + "px";
                 }
     
-                var iThick = this[osize] = this.$thickness 
-                    || (this.$next[oOffsetPos] - this.$previous[oOffsetPos] 
-                        - this.$previous[oOffsetSize]);
+                var iThick = this[this.$info.osize] = this.$thickness 
+                    || (this.$next[this.$info.oOffsetPos] - this.$previous[this.$info.oOffsetPos] 
+                        - this.$previous[this.$info.oOffsetSize]);
     
-                this.$ext.style[osize] = (iThick - diff[d2]) + "px";
-            }
+                this.$ext.style[this.$info.osize] = (iThick - diff[this.$info.d2]) + "px";
             
             return this;
         },
@@ -1183,15 +1179,14 @@ apf.splitter.templates = {
                 }
     
                 _self.$totalFlex = 0;
-                with (_self.$info) {
                     if (_self.$parent) {
                         if (!_self.$previous) {
                             var posNext = apf.getAbsolutePosition(_self.$next.$ext, _self.parentNode.$int);
                             var wd = _self.$parent.getWidth();
                             
                             if (_self.$scale == 2) {
-                                var max = posNext[d1] + _self.$next.$ext[offsetSize] - this[offsetSize];
-                                diff = (_self.parentNode.$int[offsetSize] - max);
+                                var max = posNext[_self.$info.d1] + _self.$next.$ext[_self.$info.offsetSize] - this[_self.$info.offsetSize];
+                                diff = (_self.parentNode.$int[_self.$info.offsetSize] - max);
                                 var min = max - wd - diff;
                             }
                         }
@@ -1204,12 +1199,12 @@ apf.splitter.templates = {
                             var posPrev = apf.getAbsolutePosition(_self.$previous.$ext, _self.parentNode.$int);
                             var min = _self.$scale 
                                 ? 0 
-                                : (posPrev[d1] || 0) + (parseInt(_self.$previous.minwidth) || 0);
+                                : (posPrev[_self.$info.d1] || 0) + (parseInt(_self.$previous.minwidth) || 0);
                         }
                         if (_self.$next) {
                             var posNext = apf.getAbsolutePosition(_self.$next.$ext, _self.parentNode.$int);
-                            var max = posNext[d1] + _self.$next.$ext[offsetSize] 
-                                - this[offsetSize] - (parseInt(_self.$next.minwidth) || 0);
+                            var max = posNext[_self.$info.d1] + _self.$next.$ext[_self.$info.offsetSize] 
+                                - this[_self.$info.offsetSize] - (parseInt(_self.$next.minwidth) || 0);
                         }
                     }
                     
@@ -1224,7 +1219,7 @@ apf.splitter.templates = {
                                     continue;
                                 
                                 if (node.flex)
-                                    set.push(node, node.$ext[offsetSize] 
+                                    set.push(node, node.$ext[_self.$info.offsetSize] 
                                         + (apf.hasFlexibleBox && !_self.realtime && node == _self.$previous 
                                             ? 2 * _self.parentNode.padding : 0));
                             }
@@ -1239,17 +1234,17 @@ apf.splitter.templates = {
                     var startPos, startOffset;
                     if (apf.hasFlexibleBox) {
                         var coords = apf.getAbsolutePosition(this);
-                        startPos = e[clientPos] - coords[d1];
+                        startPos = e[_self.$info.clientPos] - coords[_self.$info.d1];
     
                         if (!_self.realtime) {
                             if (_self.$previous.flex && !_self.$next.flex) {
                                 var mBox = apf.getBox(_self.$next.margin);
-                                mBox[x1] = _self.parentNode.padding;
+                                mBox[_self.$info.x1] = _self.parentNode.padding;
                                 _self.$next.$ext.style.margin = mBox.join("px ") + "px";
                             }
                             else {
                                 var mBox = apf.getBox(_self.$previous.margin);
-                                mBox[x2] = _self.parentNode.padding;
+                                mBox[_self.$info.x2] = _self.parentNode.padding;
                                 _self.$previous.$ext.style.margin = mBox.join("px ") + "px";
                             }
                             
@@ -1263,8 +1258,8 @@ apf.splitter.templates = {
                     }
                     else {
                         var coords = apf.getAbsolutePosition(this.offsetParent);
-                        startOffset = apf.getAbsolutePosition(_self.$previous.$ext)[d1];
-                        startPos = e[clientPos] - coords[d1];
+                        startOffset = apf.getAbsolutePosition(_self.$previous.$ext)[_self.$info.d1];
+                        startPos = e[_self.$info.clientPos] - coords[_self.$info.d1];
                         
                         if (!_self.realtime) {
                             this.style.left = "0px";
@@ -1273,7 +1268,7 @@ apf.splitter.templates = {
                         }
                         min = -1000; //@todo
                     }
-                }
+                
                 
                 apf.plane.show(this);
                 
@@ -1288,14 +1283,12 @@ apf.splitter.templates = {
                 document.onmouseup = function(e) {
                     if (!e) e = event;
                     
-                    with (_self.$info) {
                         var newPos;
-                        if (e[clientPos] >= 0) {
+                        if (e[_self.$info.clientPos] >= 0) {
                             var coords = apf.getAbsolutePosition(_self.$ext.offsetParent);
-                            newPos = (Math.min(max, Math.max(min, (e[clientPos] - coords[d1]) - 
+                            newPos = (Math.min(max, Math.max(min, (e[_self.$info.clientPos] - coords[_self.$info.d1]) - 
                                 (apf.hasFlexibleBox ? startPos : startOffset)))) + diff;
                         }
-                    }
     
                     _self.$setStyleClass(_self.$ext, "", [_self.$baseCSSname + "Moving"]);
                     _self.$setStyleClass(document.body, "", ["n-resize", "w-resize"]);
@@ -1333,21 +1326,18 @@ apf.splitter.templates = {
                 //@todo convert to proper way
                 document.onmousemove = function(e) {
                     if (!e) e = event;
-            
-                    with (_self.$info) {
                         var newPos;
-                        if (e[clientPos] >= 0) {
+                        if (e[_self.$info.clientPos] >= 0) {
                             var coords = apf.getAbsolutePosition(_self.$ext.offsetParent);
-                            newPos = (Math.min(max, Math.max(min, (e[clientPos] - coords[d1]) - 
+                            newPos = (Math.min(max, Math.max(min, (e[_self.$info.clientPos] - coords[_self.$info.d1]) - 
                                 (apf.hasFlexibleBox || !_self.realtime ? startPos : startOffset)))) + diff;
     
                             if (_self.realtime)
                                 _self.update(newPos);
                             else {
-                                _self.$ext.style[pos] = newPos + "px";
+                                _self.$ext.style[_self.$info.pos] = newPos + "px";
                             }
                         }
-                    }
                     
                     apf.stopEvent(e);
                     //e.returnValue = false;
