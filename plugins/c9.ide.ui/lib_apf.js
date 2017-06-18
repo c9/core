@@ -5964,7 +5964,13 @@ apf.AmlNode = function(){
     };
     
     //@todo
-    this.replaceChild = function(){};
+    this.replaceChild = function(node, oldNode) {
+        if (node !== oldNode) {
+            this.insertBefore(node, oldNode);
+            this.removeChild(oldNode);
+        }
+        return node;
+    };
 
     /**
      * Clones this element, creating an exact copy of it--but does not insert
@@ -6388,7 +6394,7 @@ apf.AmlElement = function(struct, tagName) {
     };
     
     
-    function create(node, parent) {
+    function createAmlNode(node, parent) {
         if (node.nodeType == node.ELEMENT_NODE) {
             var el
             if (node.localName == "application") {
@@ -6405,7 +6411,7 @@ apf.AmlElement = function(struct, tagName) {
             
             var list = node.childNodes;
             for (var i = 0; i < list.length; i++) {
-                create(list[i], el);
+                createAmlNode(list[i], el);
             }
             if (el != parent)
                 parent.appendChild(el);
@@ -6417,7 +6423,7 @@ apf.AmlElement = function(struct, tagName) {
                 parent.appendChild(o);
             }
         } else if (node.nodeType == node.DOCUMENT_NODE) {
-            create(node.documentElement, parent)
+            createAmlNode(node.documentElement, parent)
         }
     }
     
@@ -6430,7 +6436,7 @@ apf.AmlElement = function(struct, tagName) {
      */
     this.insertMarkup = function(amlDefNode, options) {
         var xmlNode = apf.getXml(amlDefNode);
-        create(xmlNode, this);
+        createAmlNode(xmlNode, this);
     };
     
     this.$setInheritedAttribute = function(prop) {
