@@ -372,7 +372,7 @@ define(function(require, exports, module) {
             var typeB = typeof b;
             if (typeA != typeB) return false;
             if (!a || typeA !== "object")
-                return a == b;
+                return a === b;
             if (Array.isArray(a)) {
                 if (!Array.isArray(b)) return false;
                 if (a.length != b.length) return false;
