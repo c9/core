@@ -6400,7 +6400,8 @@ apf.AmlElement = function(struct, tagName) {
             if (node.localName == "application") {
                 el = parent;
             } else {
-                var ElementType = apf.aml.elements[node.localName] || apf.aml.elements["@default"];
+                var namespace = node.prefix === "a" ? apf.aml : apf.xhtml;
+                var ElementType = namespace.elements[node.localName] || namespace.elements["@default"];
                 var el = new ElementType({}, node.localName);
                 var a = node.attributes;
                 for (var i =0; i < a.length; i++) {
@@ -6930,7 +6931,11 @@ apf.AmlDocument = function(){
      * @return {apf.AmlElement} The created AML element
      */
     this.createElement = function(qualifiedName) {
-        var ElementType = apf.aml.elements[qualifiedName] || apf.aml.elements["@default"];
+        var parts = qualifiedName.split(":");
+        var prefix = parts.length === 1 ? "" : parts[0];
+        var name = parts.length === 1 ? parts[0]: parts[1];
+        var namespace = prefix === "a" ? apf.aml : apf.xhtml;
+        var ElementType = namespace.elements[name] || namespace.elements["@default"];
         return new ElementType({}, qualifiedName);
     };
 
@@ -7040,7 +7045,7 @@ apf.AmlTextRectangle.prototype = new apf.Class();
  * @version     %I%, %G%
  * @since       0.8
  */
-apf.xhtml = apf.aml;
+apf.xhtml = new apf.AmlNamespace();
 apf.setNamespace("http://www.w3.org/1999/xhtml", apf.xhtml);
 
 
@@ -7210,9 +7215,7 @@ apf.XhtmlInputElement = function(struct, tagName) {
 
         if (this.$aml) {
             this.$ext =
-            this.$int = apf.insertHtmlNode(this.$aml.serialize
-                ? this.$aml
-                : this.$aml.cloneNode(false), pHtmlNode);
+            this.$int = pHtmlNode.appendChild(xmlToHtml(this.$aml, true));
         }
         else {
             this.$ext = this.$int = document.createElement(this.localName);
