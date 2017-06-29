@@ -50,10 +50,10 @@ define(function(require, exports, module) {
         var emit = plugin.getEmitter();
 
         // open collab documents
-        var documents = {};
-        var openFallbackTimeouts = {};
-        var saveFallbackTimeouts = {};
-        var usersLeaving = {};
+        var documents = Object.create(null);
+        var openFallbackTimeouts = Object.create(null);
+        var saveFallbackTimeouts = Object.create(null);
+        var usersLeaving = Object.create(null);
         var failedSaveAttempts = 0;
         var OPEN_FILESYSTEM_FALLBACK_TIMEOUT = 6000;
         var SAVE_FILESYSTEM_FALLBACK_TIMEOUT = 30000;

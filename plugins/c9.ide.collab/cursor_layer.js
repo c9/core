@@ -1,14 +1,15 @@
 /*global define console document apf */
 define(function(require, module, exports) {
     main.consumes = ["Plugin", "ace", "settings", "tabManager",
-        "collab.util", "collab.workspace", "timeslider"];
+        "collab.util", "collab.workspace", "timeslider", "ui"];
     main.provides = ["CursorLayer"];
     return main;
 
     function main(options, imports, register) {
-        var Plugin = imports.Plugin;
         var settings = imports.settings;
+        var Plugin = imports.Plugin;
         var ace = imports.ace;
+        var ui = imports.ui;
         var tabs = imports.tabManager;
         var util = imports["collab.util"];
         var workspace = imports["collab.workspace"];
@@ -254,22 +255,15 @@ define(function(require, module, exports) {
             }
 
             function drawTooltip(selection, fullname) {
-                var node = document.createElement("div");
-                document.body.appendChild(node);
+                var html = ui.buildDom([
+                    ["div", { class: "cool_tooltip_cursor", style: "display:none" }, 
+                        ["span", { class: "cool_tooltip_cursor_caption" }, fullname]
+                    ],
+                    ["div", { class: "cool_tooltip_cursor_arrow", style: "display:none" }]
+                ], document.body);
 
-                node.className = "cool_tooltip_cursor";
-                node.innerHTML = "<span class='cool_tooltip_cursor_caption'>" + util.escapeHTML(fullname) + "</span>";
-
-                // create the arrow
-                var arrow = document.createElement("div");
-                document.body.appendChild(arrow);
-                arrow.className = "cool_tooltip_cursor_arrow";
-
-                arrow.style.display = "none";
-                node.style.display = "none";
-
-                selection.tooltip = node;
-                selection.arrow = arrow;
+                selection.tooltip = html[0];
+                selection.arrow = html[1];
             }
 
             function showTooltip(selection, user, coords) {

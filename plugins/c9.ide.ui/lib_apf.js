@@ -583,7 +583,47 @@ document.documentElement.className += " has_apf";
 apf.browserDetect();
 
 
-
+apf.buildDom = function buildDom(arr, parent) {
+    if (typeof arr == "string") {
+        var txt = document.createTextNode(arr);
+        if (parent)
+            parent.appendChild(txt);
+        return txt;
+    }
+    
+    if (!Array.isArray(arr))
+        return arr;
+    if (typeof arr[0] == "object") {
+        var els = [];
+        for (var i = 0; i < arr.length; i++) {
+            var ch = buildDom(arr[i]);
+            els.push(ch);
+            if (parent)
+                parent.appendChild(ch);
+        }
+        return els;
+    }
+    
+    var el = document.createElement(arr[0]);
+    var options = arr[1];
+    if (options) {
+        Object.keys(options).forEach(function(n) {
+            var val = options[n];
+            if (n == "class") {
+                el.className = Array.isArray(val) ? val.join(" ") : val;
+            } 
+            else if (typeof val == "function")
+                el[n] = val;
+            else    
+                el.setAttribute(n, val);
+        });
+    }
+    for (var i = 2; i < arr.length; i++)
+        buildDom(arr[i], el);
+    if (parent)
+        parent.appendChild(el);
+    return el;
+};
 
 
 
