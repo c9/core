@@ -174,7 +174,7 @@ define(function(require, exports, module) {
             
             if (bubble) {
                 if (count) {
-                    bubble.innerHTML = count;
+                    bubble.textContent = count;
                     bubble.style.display = "block";
                     bubble.className = "newnotifs size" + String(count).length;
                 } else {

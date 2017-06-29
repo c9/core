@@ -78,7 +78,7 @@
         if (idx == messages.length) idx = messages.length - 1;
         var msg = messages[idx];
         
-        document.querySelector("#loadingide .cool-message").innerHTML = msg;
+        document.querySelector("#loadingide .cool-message").textContent = msg;
     
         setTimeout(function(){
             var s = document.querySelector("#loadingide .status");

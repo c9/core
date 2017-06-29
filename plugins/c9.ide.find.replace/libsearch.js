@@ -134,7 +134,7 @@ module.exports = function(settings, execFind, toggleDialog, restore, toggleOptio
                 new RegExp(searchTxt);
             }
             catch (e) {
-                tooltip.$ext.innerHTML = apf.escapeXML(e.message.replace(": /" + searchTxt + "/", ""));
+                tooltip.$ext.textContent = e.message.replace(": /" + searchTxt + "/", "");
                 tooltip.$ext.style.opacity = 1;
     
                 var pos = apf.getAbsolutePosition(win.$ext);

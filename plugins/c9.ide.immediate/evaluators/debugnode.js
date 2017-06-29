@@ -464,7 +464,7 @@ define(function(require, exports, module) {
             lastCell = cell;
             
             if (cell.html)
-                cell.html.innerHTML = "";
+                cell.html.textContent = "";
             
             evaluateHeadless(expression, function(result) {
                 if (cell.setError && result["$$error"])

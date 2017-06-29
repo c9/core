@@ -155,7 +155,7 @@ define(function(require, exports, module) {
                     draw();
                     
                     var amount = button.$ext.querySelector(".amount");
-                    amount.innerHTML = totalCoverage + "%";
+                    amount.textContent = totalCoverage + "%";
                     button.show();
                 }
                 

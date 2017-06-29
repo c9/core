@@ -305,7 +305,6 @@ define(function(require, exports, module) {
                     ? path
                     : vfs.url(path);
                     
-                // editor.setProperty("value", apf.escapeXML(fullpath));
                 loadCanvas(doc.tab, fullpath, callback);
             }
             

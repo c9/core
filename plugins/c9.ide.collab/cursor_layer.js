@@ -258,7 +258,7 @@ define(function(require, module, exports) {
                 document.body.appendChild(node);
 
                 node.className = "cool_tooltip_cursor";
-                node.innerHTML = "<span class='cool_tooltip_cursor_caption'>" + apf.htmlentities(fullname) + "</span>";
+                node.innerHTML = "<span class='cool_tooltip_cursor_caption'>" + util.escapeHTML(fullname) + "</span>";
 
                 // create the arrow
                 var arrow = document.createElement("div");

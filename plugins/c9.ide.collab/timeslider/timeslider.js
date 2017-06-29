@@ -367,7 +367,7 @@ define(function(require, exports, module) {
                 sliderProgress.style.transition = "none";
                 
                 var newSliderPos = calcSliderPos(evt2.clientX);
-                revisionLabel.innerHTML = "Version " + newSliderPos;
+                revisionLabel.textContent = "Version " + newSliderPos;
                 setHandleLeft(clamp(evt2.clientX));
                 if (sliderPos != newSliderPos) {
                     sliderPos = newSliderPos;
@@ -476,7 +476,7 @@ define(function(require, exports, module) {
         }
 
         function updateTimer(time) {
-            revisionDate.innerHTML = dateFormat(time);
+            revisionDate.textContent = dateFormat(time);
         }
 
         function calcHandlerLeft(pos) {
@@ -492,11 +492,11 @@ define(function(require, exports, module) {
             setHandleLeft(calcHandlerLeft(newpos));
 
             if (savedRevisionNums.indexOf(newpos) === -1) {
-                revisionLabel.innerHTML = "Version " + newpos;
+                revisionLabel.textContent = "Version " + newpos;
                 revisionLabel.className = "revision_label";
             }
             else {
-                revisionLabel.innerHTML = "Saved Version " + newpos;
+                revisionLabel.textContent = "Saved Version " + newpos;
                 revisionLabel.className = "revision_label saved";
             }
 

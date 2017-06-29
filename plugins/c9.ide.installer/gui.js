@@ -329,7 +329,7 @@ define(function(require, exports, module) {
                 });
                 
                 plugin.addOther(function() {
-                    div.innerHTML = "";
+                    div.textContent = "";
                     div.parentNode.removeChild(div);
                     
                     terminal.destroy();

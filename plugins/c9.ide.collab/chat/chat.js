@@ -100,7 +100,7 @@ define(function(require, exports, module) {
                 var chatHistory = workspace.chatHistory || [];
                 chatHistory.forEach(addMessage);
                 scrollDown();
-                chatCounter.innerHTML = chatHistory.length;
+                chatCounter.textContent = chatHistory.length;
             }
 
             chatInput.ace.commands.addCommands([
