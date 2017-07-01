@@ -9647,7 +9647,7 @@ apf.BaseStateButtons = function(){
                     this.$baseCSSname + "Min");
 
                 if (this.btnedit)
-                    oButtons.edit.innerHTML = "close"; //hack
+                    oButtons.edit.textContent = "close"; //hack
 
                 this.dispatchEvent('editstart');
             }
@@ -9660,7 +9660,7 @@ apf.BaseStateButtons = function(){
                     styleClass.unshift("");
 
                 if (this.btnedit)
-                    oButtons.edit.innerHTML = "edit"; //hack
+                    oButtons.edit.textContent = "edit"; //hack
             }
         }
 
@@ -12236,7 +12236,7 @@ apf.bar = function(struct, tagName) {
     this.$isLeechingSkin = false;
     
     this.$propHandlers["caption"] = function(value) {
-        this.$int.innerHTML = value;
+        this.$int.textContent = value;
     }
     
     //@todo apf3.0 refactor
@@ -12610,7 +12610,7 @@ apf.button = function(struct, tagName) {
             this.$setStyleClass(this.$ext, this.$baseCSSname + "Empty");
 
         if (this.oCaption.nodeType == 1)
-            this.oCaption.innerHTML = String(value || "").trim();
+            this.oCaption.textContent = String(value || "").trim();
         else
             this.oCaption.nodeValue = String(value || "").trim();
     };
@@ -13081,7 +13081,7 @@ apf.checkbox = function(struct, tagName) {
             return;
         
         if (lbl.nodeType == 1)
-            lbl.innerHTML = value;
+            lbl.textContent = value;
         else
             lbl.nodeValue = value;
     };
@@ -13444,7 +13444,7 @@ apf.frame = function(struct, tagName) {
         if (!this.oCaption) return;
         
         if (this.oCaption.nodeType == 1)
-            this.oCaption.innerHTML = value;
+            this.oCaption.textContent = value;
         else
             this.oCaption.nodeValue = value;
     };
@@ -13461,20 +13461,6 @@ apf.frame = function(struct, tagName) {
         apf.skins.setIcon(oIcon, value, this.iconPath);
     };
 
-    /**
-     * @attribute {String} icon Sets or gets the URL location (if this is an iframe).
-     */
-    this.$propHandlers["url"] = function(value) {
-        var node = this.oCaption;
-        if (node.tagName == "A" || node.nodeType != 1) 
-            node = node.parentNode;
-
-        node.innerHTML = "<a href='" + value + "' " 
-            + (value.match(/^http:\/\//) ? "target='_blank'" : "") + ">" 
-            + this.caption + "</a>";
-        this.oCaption = this.oCaption.firstChild;
-    };
-    
     this.$propHandlers["activetitle"] = function(value) {
         var node = this.oCaption.parentNode;
         // if (node.nodeType != 1) node = node.parentNode;
@@ -13527,238 +13513,6 @@ apf.aml.setElement("frame", apf.frame);
 
 
 
-
-
-
-
-
-  
-
-/**
- * The element displays a picture. This element can read databound resources.
- * 
- * #### Example
- * 
- * This example shows a list with pictures. When one is selected its displayed
- * in the `<a:img>` element:
- * 
- * ```xml, demo
- * <a:application xmlns:a="http://ajax.org/2005/aml">
- *  <!-- startcontent -->
- *  <a:model id="mdlPictures"> 
- *       <data> 
- *           <picture title="Ceiling Cat" src="http://htstatic.ibsrv.net/forums/honda-tech/ceiling-cat/ceiling-cat-6.jpg" />
- *           <picture title="Maru" src="http://1.bp.blogspot.com/_4Cb_t7BLaIA/TCY3jyIx4SI/AAAAAAAAAbw/K-Ey_u36y8o/s400/maru+the+japanese+cat.jpg" />
- *           <picture title="Lime Cat" src="http://www.cs.brown.edu/orgs/artemis/2012/catsoftheworld/lime-cat.jpg" />
- *       </data> 
- *   </a:model>
- *   <a:list 
- *     id = "lstPics" 
- *     model = "mdlPictures">
- *       <a:each match="[picture]" >
- *           <a:caption match="[@title]" />
- *       </a:each>
- *   </a:list>
- *   <a:img 
- *     model = "{lstPics.selected}" 
- *     value = "[@src]" />
- *   <!-- endcontent -->
- * </a:application>
- * ```
- *
- * @class apf.img
- * @define img
- * @media
- * @allowchild {smartbinding}
- *
- *
- * @inherits apf.BaseSimple
- *
- * @author      Ruben Daniels (ruben AT ajax DOT org)
- * @version     %I%, %G%
- * @since       0.4
- *
- */
-/**
- * @event click Fires when a user presses a mouse button while over this element.
- *
- */
-/**
- *  @binding value  Determines the way the value for the element is retrieved 
- * from the bound data.
- * 
- * #### Example
- * 
- * Sets the image source based on data loaded into this component.
- * 
- * ```xml
- *  <a:model id="mdlPictures"> 
- *      <data src="path/to/image.jpg" /> 
- *  </a:model>
- *  <a:img 
- *    model = "mdlPictures" 
- *    value = "[@src]" 
- *    width = "300" 
- *    height = "300" />
- * ```
- */
-apf.img = function(struct, tagName) {
-    this.$init(tagName || "img", apf.NODE_VISIBLE, struct);
-};
-
-apf.preview = function(struct, tagName) {
-    this.$init(tagName || "preview", apf.NODE_VISIBLE, struct);
-};
-
-(function(){
-    
-    
-    /**
-     * Sets the value of this element. This should be one of the values
-     * specified in the `values` attribute.
-     * @param {String} value The new value of this element
-     */
-    this.change = 
-    this.setValue = function(value) {
-        this.setProperty("value", value, false, true);
-    };
-    
-    /**
-     * Returns the current value of this element.
-     * @return {String} The current image
-     */
-    this.getValue = function(value) {
-        return this.value;
-    };
-    
-    
-    
-    this.$supportedProperties.push("value", "src");
-    /**
-     * @attribute {String} value Sets or gets the url location of the image displayed.
-     */
-    this.$propHandlers["src"] = 
-    this.$propHandlers["value"] = function(value) {
-        if (this.oImage.nodeType == 1)
-            this.oImage.style.backgroundImage = "url(" + value + ")";
-        else
-            this.oImage.nodeValue = value;
-        
-        //@todo resize should become a generic thing
-        if (this.oImage.nodeType == 2 && !this.$resize.done) {
-            if (this.oImg) {
-                
-                //@todo add this to $destroy
-                var pNode = apf.hasSingleRszEvent ? this.$pHtmlNode : this.$ext;
-                apf.layout.setRules(pNode, this.$uniqueId + "_image",
-                    "var o = apf.all[" + this.$uniqueId + "];\
-                     if (o) o.$resize()");
-                apf.layout.queue(pNode);
-                
-                this.oImg.onload = function(){
-                    apf.layout.forceResize(pNode);
-                }
-                
-            }
-            
-            this.$resize.done = true;
-        }
-
-        if (this.oImg) {
-            this.oImg.style.display = value ? "block" : "none";
-            
-            //RLD: disabled lines below for the preview element. the image is probably not loaded yet.
-            //if (value)
-                //this.$resize();
-        }
-    };
-
-    this.refetch = function(){
-    this.$propHandlers["value"].call(this, "")
-    this.$propHandlers["value"].call(this, this.value || this.src)
-    }
-    
-    this.addEventListener("$clear", function(){
-        this.value = "";
-        
-        if (this.oImg)
-            this.oImg.style.display = "none";
-    });
-    
-    // *** Init *** //
-    
-    this.$draw = function(){
-        //Build Main Skin
-        this.$ext = this.$getExternal();
-        this.$ext.onclick = function(e) {
-            this.host.dispatchEvent("click", {htmlEvent: e || event});
-        };
-        this.oImage = this.$getLayoutNode("main", "image", this.$ext);
-        if (this.oImage.nodeType == 1)
-            this.oImg = this.oImage.getElementsByTagName("img")[0];
-        if (this.localName == "preview") {
-            var _self = this;
-            this.$ext.onclick = function() {
-                if (!_self.sPreview) return;
-                _self.$ext.innerHTML = _self.sPreview;
-                this.onclick = null;
-            };
-        }
-        
-        var _self = this;
-        apf.addListener(this.$ext, "mouseover", function(e) {
-            if (!_self.disabled)
-                _self.dispatchEvent("mouseover", {htmlEvent: e});
-        });
-        
-        apf.addListener(this.$ext, "mouseout", function(e) {
-            if (!_self.disabled)
-                _self.dispatchEvent("mouseout", {htmlEvent: e});
-        });
-    };
-
-    this.addEventListener("DOMNodeInsertedIntoDocument", function() {
-        var node,
-            val = "",
-            i = this.childNodes.length;
-
-        for (; i >= 0; --i) {
-            if ((node = this.childNodes[i]) && node.nodeName
-              && node.nodeName == "#cdata-section") {
-                val = node.nodeValue;
-                node.removeNode();
-            }
-        }
-
-        this.sPreview = val;
-    });
-    
-    this.$resize = function(){
-        var diff = apf.getDiff(this.$ext);
-        var wratio = 1, hratio = 1;
-
-        this.oImg.style.width = "";
-        this.oImg.style.height = "";
-        
-        if (this.oImg.offsetWidth > this.$ext.offsetWidth)
-            wratio = this.oImg.offsetWidth / (this.$ext.offsetWidth - diff[0]);
-        if (this.oImg.offsetHeight > this.$ext.offsetHeight)
-            hratio = this.oImg.offsetHeight / (this.$ext.offsetHeight - diff[1]);
-
-        if (wratio > hratio && wratio > 1)
-            this.oImg.style.width = "100%";
-        else if (hratio > wratio && hratio > 1)
-            this.oImg.style.height = "100%";
-        
-        this.oImg.style.top = ((this.$ext.offsetHeight - apf.getHeightDiff(this.$ext) 
-            - this.oImg.offsetHeight) / 2) + "px";
-    }
-}).call(apf.img.prototype = new apf.BaseSimple());
-
-apf.preview.prototype = apf.img.prototype;
-
-apf.aml.setElement("img", apf.img);
-apf.aml.setElement("preview", apf.preview);
 
 
 
@@ -13872,7 +13626,7 @@ apf.label = function(struct, tagName) {
      */
     this.$supportedProperties.push("caption", "for", "textalign");
     this.$propHandlers["caption"] = function(value) {
-        this.$caption.innerHTML = value;
+        this.$caption.textContent = value;
     };
     this.$propHandlers["for"] = function(value) {
         forElement = typeof value == "string" ? self[value] : value;
@@ -14755,7 +14509,7 @@ apf.notifier = function(struct, tagName) {
             this.$setStyleClass(oNoti, this.$baseCSSname + "ShowIcon");
         }
 
-        oBody.insertAdjacentHTML("beforeend", message || "[No message]");
+        apf.buildDom(message || "[No message]", oBody);
         oNoti.style.display = "block";
 
         oClose.addEventListener("click", function(){
@@ -15463,7 +15217,7 @@ apf.radiobutton = function(struct, tagName) {
             this.$setStyleClass(this.$ext, this.$baseCSSname + "Empty");
         
         if (this.oLabel)
-            this.oLabel.innerHTML = value;
+            this.oLabel.textContent = value;
     };
 
     /**
@@ -16663,313 +16417,6 @@ apf.aml.setElement("splitbutton",  apf.splitbutton);
 
 
 
-
-
-/**
- * This element displays a rectangle containing arbitrary (X)HTML.
- *
- * This element can be databound and use databounding rules to
- * convert data into (X)HTML using--for instance--XSLT or JSLT.
- *
- * #### Example: Some simple text
- * 
- * ```xml, demo
- * <a:application xmlns:a="http://ajax.org/2005/aml">
- *   <!-- startcontent -->
- *   <a:text width="300">
- *   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue, nunc sed convallis gravida, justo nunc egestas nisi, eu iaculis nunc ipsum vel orci. Morbi mauris urna, rutrum at imperdiet at, molestie eu risus. Curabitur eu tincidunt eros. Donec in massa ut dolor vulputate commodo. Cras pulvinar urna ut ipsum pulvinar mollis sit amet in dui. Nam lobortis ligula sed tortor dapibus eget tincidunt dui pretium. 
- *   </a:text>
- *   <!-- endcontent -->
- * </a:application>
- * ```
- * 
- * #### Example: Using Scrolldown
- * 
- * ```xml, demo
- * <a:application xmlns:a="http://ajax.org/2005/aml">
- *   <!-- startcontent -->
- *   <a:text id="txtExample"
- *     width = "300"
- *     height = "100" 
- *     scrolldown = "true">
- *       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue, nunc sed convallis gravida, justo nunc egestas nisi, eu iaculis nunc ipsum vel orci. Morbi mauris urna, rutrum at imperdiet at, molestie eu risus. Curabitur eu tincidunt eros. Donec in massa ut dolor vulputate commodo. Cras pulvinar urna ut ipsum pulvinar mollis sit amet in dui. Nam lobortis ligula sed tortor dapibus eget tincidunt dui pretium. Quisque semper sem dignissim quam ullamcorper et lobortis arcu eleifend. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce ac commodo mi. Pellentesque sit amet magna sed velit volutpat volutpat. Nam lobortis sem sed tortor accumsan dictum. Donec scelerisque rhoncus cursus. Mauris dui dolor, vehicula quis lacinia quis, facilisis et eros. Nulla facilisi. Donec urna velit, adipiscing non sollicitudin at, sodales id lorem. Fusce fringilla, magna id pellentesque egestas, neque risus luctus mauris, vel porttitor libero tortor et augue. Integer euismod porttitor mi, at viverra nulla pharetra vel. Etiam odio elit, volutpat a porttitor eu, posuere nec augue. Phasellus placerat lacus ut augue tempor consectetur. 
- *   </a:text>
- *   <a:button 
- *     onclick="txtExample.setValue(txtExample.getValue() + '&lt;br />A new line!')">
- *       Add a line
- *   </a:button>
- *   <!-- endcontent -->
- * </a:application>
- * ```
- * 
- * @class apf.text
- * @define text
- *
- * @form
- * @inherits apf.Cache
- * @inherits apf.StandardBinding
- *
- * @author      Ruben Daniels (ruben AT ajax DOT org)
- * @version     %I%, %G%
- * @since       0.1
- * 
- */
-// @todo Please refactor this object
-apf.text = function(struct, tagName) {
-    this.$init(tagName || "text", apf.NODE_VISIBLE, struct);
-    
-    this.$nodes = [];
-};
-
-(function(){
-
-    this.$focussable = true; // This object can't get the focus
-    this.focussable = false;
-    this.textselect = true;
-    this.$hasStateMessages = true;
-
-    this.$textTimer = this.$lastMsg = this.$lastClass = this.$changedHeight = null;
-
-    // *** Properties and Attributes *** //
-
-    /**
-     * @attribute {Boolean} scrolldown  Sets or gets whether this element's viewport is always
-     *                                  scrolled down. This is especially useful
-     *                                  when this element is used to displayed
-     *                                  streaming content such as a chat conversation.
-     *
-     */
-    /**
-     * @attribute {Boolean} secure      Sets or gets whether the content loaded in this element
-     *                                  should be filtered in order for it to not
-     *                                  be able to execute JavaScript. This is
-     *                                  especially useful when the content does
-     *                                  not come from a trusted source, like a
-     *                                  web service or xmpp feed.
-     */
-    this.$booleanProperties["scrolldown"] = true;
-    this.$booleanProperties["secure"] = true;
-    this.$booleanProperties["textselect"] = true;
-    this.$supportedProperties.push("behavior", "scrolldown", "secure", "value");
-
-    this.$isTextInput = function(){
-        return this.textselect;
-    }
-
-    this.$propHandlers["scrolldown"] = function(value) {
-        var _self = this;
-        
-        if (value) {
-            //this.addEventListener("resize", this.$resize);
-            this.$scrolldown = true;
-            apf.addListener(this.$scrollArea, "scroll", this.$scrollFunc = function(){
-                _self.$scrolldown = this.scrollTop >= this.scrollHeight
-                    - this.offsetHeight + apf.getVerBorders(this);
-            });
-            this.addEventListener("scroll", this.$scroll);
-            this.addEventListener("afterload", this.$scroll);
-            this.addEventListener("resize", function(){
-                if (_self.$scrollArea && _self.$scrolldown && _self.scrolldown)
-                    _self.$scrollArea.scrollTop = _self.$scrollArea.scrollHeight;
-            });
-            clearInterval(this.$textTimer);
-            this.$textTimer = setInterval(function(){
-                if (_self.$scrollArea && _self.$scrolldown && _self.scrolldown)
-                    _self.$scrollArea.scrollTop = _self.$scrollArea.scrollHeight;
-            }, 200);
-        }
-        else {
-            //this.removeEventListener("resize", this.$resize);
-            
-            this.removeEventListener("scroll", this.$scroll);
-            this.removeEventListener("afterload", this.$scroll);
-            clearInterval(this.$textTimer);
-            if (this.$scrollArea)
-                apf.removeListener(this.$scrollArea, "scoll", this.$scrollFunc);
-        }
-    }
-    
-    this.$scroll = function(e) {
-        var html = this.$scrollArea;
-        
-        if (e.name == "afterload") {
-            this.$scrolldown = true;
-            html.scrollTop = html.scrollHeight;
-            return;
-        }
-        
-        this.$scrolldown = html.scrollTop >= html.scrollHeight
-            - html.offsetHeight + apf.getVerBorders(html);
-    };
-    
-    /*this.$resize = function(){
-        if (this.scrolldown && this.$scrolldown)
-            this.$scrollArea.scrollTop = this.$scrollArea.scrollHeight;
-    }*/
-
-    /**
-     * @attribute {String} value Sets or gets the contents of this element. This can be text, html, xhtml.
-     */
-    this.$propHandlers["value"] = function(value, prop, force, forceAdd) {
-        if (this.each)
-            return;
-        
-        if (typeof value != "string") {
-            if (value.nodeType)
-                value = value.nodeType > 1 && value.nodeType < 5
-                    ? value.nodeValue
-                    : value.firstChild && value.firstChild.nodeValue || "";
-            else
-                value = value ? value.toString() : "";
-        }
-
-        if (this.secure) {
-            value = value.replace(/<a /gi, "<a target='_blank' ")
-                .replace(/<object.*?\/object>/g, "")
-                .replace(/<script.*?\/script>/g, "")
-                .replace(new RegExp("ondblclick|onclick|onmouseover|onmouseout"
-                    + "|onmousedown|onmousemove|onkeypress|onkeydown|onkeyup|onchange"
-                    + "|onpropertychange", "g"), "ona");
-        }
-
-        value = value.replace(/\<\?xml version="1\.0" encoding="UTF-16"\?\>/, "");
-        
-        if (forceAdd) {
-            apf.insertHtmlNodes(null, this.$container, null, value);
-            if (!this.value) this.value = "";
-            this.value += value;
-        }
-        else
-            this.$container.innerHTML = value;
-
-        if (this.scrolldown && this.$scrolldown)
-            this.$scrollArea.scrollTop = this.$scrollArea.scrollHeight;
-    };
-    
-    
-    this.addEventListener("$clear", function(){
-        this.$container.innerHTML = "";
-        this.value = "";
-        this.dispatchEvent("prop.value", {value: ""});
-    });
-
-    // @todo replace this stub with something that does something
-    this.$moveNode = function() {};
-
-    // *** Public methods *** //
-
-    
-
-    this.addValue = function(value) {
-        this.$propHandlers["value"].call(this, value, null, null, true);
-        this.dispatchEvent("prop.value", {value: this.value});
-    };
-
-    /**
-     * Sets the value of this element. This should be one of the values
-     * specified in the `values` attribute.
-     * @param {String} value The new value of this element
-     */
-    this.change = 
-    this.setValue = function(value) {
-        this.setProperty("value", value, false, true);
-    };
-
-    /**
-     * Returns the current value of this element.
-     * @return {String} The current value.
-     */
-    this.getValue = function(){
-        return this.$container.innerHTML;
-    };
-    
-    
-
-    // *** Keyboard Support *** //
-
-    
-    this.addEventListener("keydown", function(e) {
-        var key = e.keyCode;
-
-        switch (key) {
-            case 33:
-                //PGUP
-                this.$container.scrollTop -= this.$container.offsetHeight;
-                break;
-            case 34:
-                //PGDN
-                this.$container.scrollTop += this.$container.offsetHeight;
-                break;
-            case 35:
-                //END
-                this.$container.scrollTop = this.$container.scrollHeight;
-                break;
-            case 36:
-                //HOME
-                this.$container.scrollTop = 0;
-                break;
-            case 38:
-                this.$container.scrollTop -= 10;
-                break;
-            case 40:
-                this.$container.scrollTop += 10;
-                break;
-            default:
-                return;
-        }
-
-        return false;
-    }, true);
-    
-
-    // *** Private methods *** //
-
-    this.$fill = function(){
-        //apf.insertHtmlNode(null, this.$container, null, this.$nodes.join(""));
-        this.$container.insertAdjacentHTML("beforeend", this.$nodes.join(""));
-        this.$nodes = [];
-    }
-    
-    this.$deInitNode = 
-    this.$updateNode =
-    this.$moveNode = apf.K;
-
-    // *** Init *** //
-
-    this.$draw = function(){
-        this.$ext = this.$getExternal();
-        this.$container = this.$getLayoutNode("main", "container", this.$ext);
-
-        this.$scrollArea = this.oFocus ? this.oFocus.parentNode : this.$container;
-
-        if (this.$container.tagName.toLowerCase() == "iframe") {
-            var node = document.createElement("div");
-            this.$ext.parentNode.replaceChild(node, this.$ext);
-            node.className = this.$ext.className;
-            this.$ext = this.$container = node;
-        }
-    };
-
-    this.addEventListener("DOMNodeRemovedFromDocument", function() {
-        clearInterval(this.$textTimer);
-        apf.destroyHtmlNode(this.oDrag);
-        
-        if (this.$scrollArea)
-            this.$scrollArea.onscoll = this.$scrollArea = null;
-
-        this.oDrag = this.oIframe = this.oFocus = this.$container = this.$ext = null;
-    });
-}).call(apf.text.prototype = new apf.StandardBinding());
-
-apf.aml.setElement("text", apf.text);
-
-
-
-
-
-
-
-
 //@todo DOCUMENT the modules too
 
 
@@ -17189,8 +16636,8 @@ apf.textbox = function(struct, tagName) {
         if (!initial && !value && !this.hasFocus()) //@todo apf3.x research the use of clear
             return this.$clear();
         else if (this.isHTMLBox) {
-            if (this.$input.innerHTML != value)
-                this.$input.innerHTML = value;
+            if (this.$input.textContent != value)
+                this.$input.textContent = value;
         }
         else if (this.$input.value != value)
             this.$input.value = value;
@@ -17328,7 +16775,7 @@ apf.textbox = function(struct, tagName) {
             this.$clear(true);
             
         if (this.type == "password" && this.$inputInitFix) {
-            this.$inputInitFix.innerHTML = value;
+            this.$inputInitFix.textContent = value;
             apf.setStyleClass(this.$inputInitFix, "initFxEnabled");
         } 
     };

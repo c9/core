@@ -182,7 +182,7 @@ define(function(require, exports, module) {
             
             ui.buildDom([
                 ["h1", null, "Themes"],
-                ["p", null, "You can also style Cloud9 by editing",
+                ["p", null, "You can also style Cloud9 by editing ",
                     ["a", { href: "javascript:void(0)", onclick: function() { configure.editStylesCss(); } },
                         "your stylesheet"]
                 ],

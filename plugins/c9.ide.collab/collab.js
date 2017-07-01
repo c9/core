@@ -635,13 +635,13 @@ define(function(require, exports, module) {
             if (!user)
                 return bubble.popup(msg);
 
-            var chatName = apf.escapeXML(user.fullname);
             var md5Email = user.md5Email;
-            var defaultImgUrl = encodeURIComponent("https://www.aiga.org/uploadedImages/AIGA/Content/About_AIGA/Become_a_member/generic_avatar_300.gif");
             console.log("Collab:", user.fullname, msg);
-            bubble.popup('<img width=26 height=26 class="gravatar-image" src="https://secure.gravatar.com/avatar/' +
-                md5Email + '?s=26&d=' + defaultImgUrl + '" /><span>' +
-                chatName + '<span class="notification_sub">' + msg + '</span></span>');
+            bubble.popup([
+                ["img", { width: 26, height: 26, class: "gravatar-image",
+                    src: "https://secure.gravatar.com/avatar/" + md5Email + "?s=26&d=retro" }],
+                ["span", null, user.fullname, ["span", { class: "notification_sub" }, msg]]
+            ]);
         }
         
         /***** sync tabs *****/

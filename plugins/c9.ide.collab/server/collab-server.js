@@ -1039,7 +1039,7 @@ var Store = (function () {
 // This object should have the following structure:
 //
 //     { <document id> : { <client id> : true } }
-var documents = {};
+var documents = Object.create(null);
 
 // This object should have the following structure:
 //
@@ -1051,7 +1051,7 @@ var watchers;
 //     { <client id> : <client> }
 var clients;
 
-var lastSaveStarts = {};
+var lastSaveStarts = Object.create(null);
 
 // SQLite doesn't provide atomic instructions or locks
 // So this variable expresses in-process locks
@@ -2824,7 +2824,7 @@ function createServer() {
                     "Note that visitors of private workspaces can't use collab features");
 
             client.userIds = userIds;
-            client.openDocIds = {};
+            client.openDocIds = Object.create(null);
             clients[userIds.clientId] = client;
             // logVerbose("[vfs-collab] Server handshaked", Object.keys(clients).length);
 
@@ -2938,9 +2938,9 @@ function initSocket(userIds, callback) {
                 server.collabInited = false;
 
                 // init server state
-                documents = {};
-                watchers = {};
-                clients = {};
+                documents = Object.create(null);
+                watchers = Object.create(null);
+                clients = Object.create(null);
 
                 // Check server installation, init the server and then connect the client to the inited collab server
                 installServer(function (err) {
