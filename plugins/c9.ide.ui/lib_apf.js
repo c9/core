@@ -13519,6 +13519,176 @@ apf.aml.setElement("frame", apf.frame);
 
 
 
+/**
+ * @event click Fires when a user presses a mouse button while over this element.
+ *
+ */
+/**
+ *  @binding value  Determines the way the value for the element is retrieved 
+ * from the bound data.
+ * 
+ * #### Example
+ * 
+ * Sets the image source based on data loaded into this component.
+ * 
+ * ```xml
+ *  <a:model id="mdlPictures"> 
+ *      <data src="path/to/image.jpg" /> 
+ *  </a:model>
+ *  <a:img 
+ *    model = "mdlPictures" 
+ *    value = "[@src]" 
+ *    width = "300" 
+ *    height = "300" />
+ * ```
+ */
+apf.img = function(struct, tagName) {
+    this.$init(tagName || "img", apf.NODE_VISIBLE, struct);
+};
+
+(function(){
+    
+    
+    /**
+     * Sets the value of this element. This should be one of the values
+     * specified in the `values` attribute.
+     * @param {String} value The new value of this element
+     */
+    this.change = 
+    this.setValue = function(value) {
+        this.setProperty("value", value, false, true);
+    };
+    
+    /**
+     * Returns the current value of this element.
+     * @return {String} The current image
+     */
+    this.getValue = function(value) {
+        return this.value;
+    };
+    
+    
+    
+    this.$supportedProperties.push("value", "src");
+    /**
+     * @attribute {String} value Sets or gets the url location of the image displayed.
+     */
+    this.$propHandlers["src"] = 
+    this.$propHandlers["value"] = function(value) {
+        if (this.oImage.nodeType == 1)
+            this.oImage.style.backgroundImage = "url(" + value + ")";
+        else
+            this.oImage.nodeValue = value;
+        
+        //@todo resize should become a generic thing
+        if (this.oImage.nodeType == 2 && !this.$resize.done) {
+            if (this.oImg) {
+                
+                //@todo add this to $destroy
+                var pNode = apf.hasSingleRszEvent ? this.$pHtmlNode : this.$ext;
+                apf.layout.setRules(pNode, this.$uniqueId + "_image",
+                    "var o = apf.all[" + this.$uniqueId + "];\
+                     if (o) o.$resize()");
+                apf.layout.queue(pNode);
+                
+                this.oImg.onload = function(){
+                    apf.layout.forceResize(pNode);
+                }
+                
+            }
+            
+            this.$resize.done = true;
+        }
+
+        if (this.oImg) {
+            this.oImg.style.display = value ? "block" : "none";
+            
+            //RLD: disabled lines below for the preview element. the image is probably not loaded yet.
+            //if (value)
+                //this.$resize();
+        }
+    };
+
+    this.refetch = function(){
+        this.$propHandlers["value"].call(this, "")
+        this.$propHandlers["value"].call(this, this.value || this.src)
+    }
+    
+    this.addEventListener("$clear", function(){
+        this.value = "";
+        
+        if (this.oImg)
+            this.oImg.style.display = "none";
+    });
+    
+    // *** Init *** //
+    
+    this.$draw = function(){
+        //Build Main Skin
+        this.$ext = this.$getExternal();
+        this.$ext.onclick = function(e) {
+            this.host.dispatchEvent("click", {htmlEvent: e || event});
+        };
+        this.oImage = this.$getLayoutNode("main", "image", this.$ext);
+        if (this.oImage.nodeType == 1)
+            this.oImg = this.oImage.getElementsByTagName("img")[0];
+
+        var _self = this;
+        apf.addListener(this.$ext, "mouseover", function(e) {
+            if (!_self.disabled)
+                _self.dispatchEvent("mouseover", {htmlEvent: e});
+        });
+        
+        apf.addListener(this.$ext, "mouseout", function(e) {
+            if (!_self.disabled)
+                _self.dispatchEvent("mouseout", {htmlEvent: e});
+        });
+    };
+
+    this.addEventListener("DOMNodeInsertedIntoDocument", function() {
+        var node,
+            val = "",
+            i = this.childNodes.length;
+
+        for (; i >= 0; --i) {
+            if ((node = this.childNodes[i]) && node.nodeName
+              && node.nodeName == "#cdata-section") {
+                val = node.nodeValue;
+                node.removeNode();
+            }
+        }
+
+        this.sPreview = val;
+    });
+    
+    this.$resize = function(){
+        var diff = apf.getDiff(this.$ext);
+        var wratio = 1, hratio = 1;
+
+        this.oImg.style.width = "";
+        this.oImg.style.height = "";
+        
+        if (this.oImg.offsetWidth > this.$ext.offsetWidth)
+            wratio = this.oImg.offsetWidth / (this.$ext.offsetWidth - diff[0]);
+        if (this.oImg.offsetHeight > this.$ext.offsetHeight)
+            hratio = this.oImg.offsetHeight / (this.$ext.offsetHeight - diff[1]);
+
+        if (wratio > hratio && wratio > 1)
+            this.oImg.style.width = "100%";
+        else if (hratio > wratio && hratio > 1)
+            this.oImg.style.height = "100%";
+        
+        this.oImg.style.top = ((this.$ext.offsetHeight - apf.getHeightDiff(this.$ext) 
+            - this.oImg.offsetHeight) / 2) + "px";
+    }
+}).call(apf.img.prototype = new apf.BaseSimple());
+
+
+apf.aml.setElement("img", apf.img);
+
+
+
+
 
 
 
