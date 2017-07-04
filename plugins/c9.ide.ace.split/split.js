@@ -160,9 +160,9 @@ define(function(require, exports, module) {
         function createGrabber(editor) {
             var htmlNode = editor.ace.container.parentNode;
             var grabber = document.createElement("div");
-            htmlNode.appendChild(grabber);
             grabber.className = "splitgrabber";
-            grabber.innerHTML = "=";
+            grabber.textContent = "=";
+            htmlNode.appendChild(grabber);
             
             grabber.addEventListener("mousedown", function(e) {
                 startSplit(e, grabber, editor);

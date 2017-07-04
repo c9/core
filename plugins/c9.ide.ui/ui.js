@@ -573,6 +573,10 @@ define(function(require, module, exports) {
              */
             insertByIndex: insertByIndex,
             
+            /**
+             * 
+             */
+            buildDom: apf.buildDom,
             
             /**
              * Escapes "&amp;", greater than, less than signs, quotation marks, 

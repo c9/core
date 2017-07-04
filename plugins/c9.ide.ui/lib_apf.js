@@ -460,9 +460,6 @@ define(["require", "module", "exports", "./lib/menu/menu", "./lib/crypto",
         return null;
     },
 
-    html_entity_decode: function(s){return s},
-    htmlentities: function(s){return s},
-
     /**
      * Formats an Ajax.org Platform error message.
      * @param {Number}      number      The number of the error. This can be used to look up more information about the error.
@@ -586,7 +583,47 @@ document.documentElement.className += " has_apf";
 apf.browserDetect();
 
 
-
+apf.buildDom = function buildDom(arr, parent) {
+    if (typeof arr == "string") {
+        var txt = document.createTextNode(arr);
+        if (parent)
+            parent.appendChild(txt);
+        return txt;
+    }
+    
+    if (!Array.isArray(arr))
+        return arr;
+    if (typeof arr[0] == "object") {
+        var els = [];
+        for (var i = 0; i < arr.length; i++) {
+            var ch = buildDom(arr[i]);
+            els.push(ch);
+            if (parent)
+                parent.appendChild(ch);
+        }
+        return els;
+    }
+    
+    var el = document.createElement(arr[0]);
+    var options = arr[1];
+    if (options) {
+        Object.keys(options).forEach(function(n) {
+            var val = options[n];
+            if (n == "class") {
+                el.className = Array.isArray(val) ? val.join(" ") : val;
+            } 
+            else if (typeof val == "function")
+                el[n] = val;
+            else    
+                el.setAttribute(n, val);
+        });
+    }
+    for (var i = 2; i < arr.length; i++)
+        buildDom(arr[i], el);
+    if (parent)
+        parent.appendChild(el);
+    return el;
+};
 
 
 
@@ -1733,111 +1770,6 @@ if (!String.prototype.repeat) {
         return Array(times + 1).join(this);
     };
 }
-/*
- * Count the number of occurences of substring 'str' inside a string
- *
- * @param {String} str
- * @type  {Number}
- */
-String.prototype.count = function(str) {
-    return this.split(str).length - 1;
-};
-
-/*
- * Remove HTML or any XML-like tags from a string
- *
- * @type {String}
- */
-String.prototype.stripTags = function() {
-    return this.replace(/<\/?[^>]+>/gi, "");
-};
-
-/*
- * Wrapper for the global 'escape' function for strings
- *
- * @type {String}
- */
-String.prototype.escape = function() {
-    return escape(this);
-};
-
-/*
- * Returns an xml document
- * @type {XMLElement}
- */
-String.prototype.toXml = function(){
-    var node = apf.getXml("<root>" + this + "</root>");
-    if (node.childNodes.length == 1) {
-        return node.childNodes[0];
-    }
-    else {
-        var docFrag = node.ownerDocument.createDocumentFragment(),
-            nodes = node.childNodes;
-        while (nodes.length)
-            docFrag.appendChild(nodes[0]);
-        return docFrag;
-    }
-};
-
-
-if (typeof window != "undefined" && typeof window.document != "undefined"
-  && typeof window.document.createElement == "function") {
-    /*
-     * Encode HTML entities to its HTML equivalents, like '&amp;' to '&amp;amp;'
-     * and '&lt;' to '&amp;lt;'.
-     *
-     * @type {String}
-     * @todo is this fast?
-     */
-    String.prototype.escapeHTML = function() {
-        this.escapeHTML.text.data = this;
-        return this.escapeHTML.div.innerHTML;
-    };
-
-    /*
-     * Decode HTML equivalent entities to characters, like '&amp;amp;' to '&amp;'
-     * and '&amp;lt;' to '&lt;'.
-     *
-     * @type {String}
-     */
-    String.prototype.unescapeHTML = function() {
-        var div = document.createElement("div");
-        div.innerHTML = this.stripTags();
-        if (div.childNodes[0]) {
-            if (div.childNodes.length > 1) {
-                var out = [];
-                for (var i = 0; i < div.childNodes.length; i++)
-                    out.push(div.childNodes[i].nodeValue);
-                return out.join("");
-            }
-            else
-                return div.childNodes[0].nodeValue;
-        }
-        return "";
-    };
-
-    String.prototype.escapeHTML.div = document.createElement("div");
-    String.prototype.escapeHTML.text = document.createTextNode("");
-    String.prototype.escapeHTML.div.appendChild(String.prototype.escapeHTML.text);
-
-    if ("<\n>".escapeHTML() !== "&lt;\n&gt;")
-        String.prototype.escapeHTML = null;
-
-    if ("&lt;\n&gt;".unescapeHTML() !== "<\n>")
-        String.prototype.unescapeHTML = null;
-}
-
-if (!String.prototype.escapeHTML) {
-    String.prototype.escapeHTML = function() {
-        return this.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-    };
-}
-
-if (!String.prototype.unescapeHTML) {
-    String.prototype.unescapeHTML = function() {
-        return this.stripTags().replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g,"&");
-    };
-}
 
 /*
  * Trim a string down to a specific number of characters. Optionally, append an
@@ -1883,34 +1815,6 @@ String.prototype.splitSafe = function(separator, limit, bLowerCase) {
     return (bLowerCase && this.toLowerCase() || this)
         .replace(/(?:^\s+|\n|\s+$)/g, "")
         .split(new RegExp("[\\s ]*" + separator + "[\\s ]*", "g"), limit || 999);
-};
-
-/*
- * Appends a random number with a specified length to this String instance.
- *
- * @see randomGenerator
- * @param {Number} length
- * @type  {String}
- */
-String.prototype.appendRandomNumber = function(length) {
-    for (var arr = [], i = 1; i <= length; i++)
-        arr.push(apf.randomGenerator.generate(1, 9));
-    // Create a new string from the old one, don't just create a copy
-    return this.toString() + arr.join("");
-};
-
-/*
- * Prepends a random number with a specified length to this String instance.
- *
- * @see randomGenerator
- * @param {Number} length
- * @type  {String}
- */
-String.prototype.prependRandomNumber = function(length) {
-    for (var arr = [], i = 1; i <= length; i++)
-        arr.push(apf.randomGenerator.generate(1, 9));
-    // Create a new string from the old one, don't just create a copy
-    return arr.join("") + this.toString();
 };
 
 /*
@@ -2870,43 +2774,6 @@ apf.getHtmlInnerHeight = function(oHtml) {
         - (parseInt(apf.getStyle(oHtml, "borderBottomWidth")) || 0));
 };
 
-
-
-
-
-/**
- * Escapes HTML from a string.
- * @param {String} str The html to be escaped.
- * @return {String} The escaped string.
- */
-apf.htmlentities = function(str) {
-    return str.escapeHTML();
-};
-
-/**
- * Escape an XML string, making it ascii compatible.
- * @param {String} str The xml string to escape.
- * @return {String} The escaped string.
- * @method xmlentities
- *
- */
- /* @todo This function does something completely different from htmlentities, 
- *       the name is confusing and misleading.
- */
-apf.xmlentities = apf.escapeXML;
-
-/**
- * Unescape an HTML string.
- * @param {String} str The string to unescape.
- * @return {String} The unescaped string.
- */
-apf.html_entity_decode = function(str) {
-    return (str || "").replace(/\&\#38;/g, "&").replace(/&lt;/g, "<")
-        .replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&nbsp;/g, " ");
-};
-
-
-
 /**
  * Determines whether the keyboard input was a character that can influence
  * the value of an element (like a textbox).
@@ -3233,125 +3100,18 @@ apf.isChildOf = function(pNode, childnode, orItself) {
     return false;
 };
 
-apf.xmlEntityMap = {
-    "quot": "34", "amp": "38", "apos": "39", "lt": "60", "gt": "62",
-    "nbsp": "160", "iexcl": "161", "cent": "162", "pound": "163", "curren": "164",
-    "yen": "165", "brvbar": "166", "sect": "167", "uml": "168", "copy": "169",
-    "ordf": "170", "laquo": "171", "not": "172", "shy": "173", "reg": "174",
-    "macr": "175", "deg": "176", "plusmn": "177", "sup2": "178", "sup3": "179",
-    "acute": "180", "micro": "181", "para": "182", "middot": "183", "cedil": "184",
-    "sup1": "185", "ordm": "186", "raquo": "187", "frac14": "188", "frac12": "189",
-    "frac34": "190", "iquest": "191", "agrave": ["192", "224"], "aacute": ["193", "225"],
-    "acirc": ["194", "226"], "atilde": ["195", "227"], "auml": ["196", "228"],
-    "aring": ["197", "229"], "aelig": ["198", "230"], "ccedil": ["199", "231"],
-    "egrave": ["200", "232"], "eacute": ["201", "233"], "ecirc": ["202", "234"],
-    "euml": ["203", "235"], "igrave": ["204", "236"], "iacute": ["205", "237"],
-    "icirc": ["206", "238"], "iuml": ["207", "239"], "eth": ["208", "240"],
-    "ntilde": ["209", "241"], "ograve": ["210", "242"], "oacute": ["211", "243"],
-    "ocirc": ["212", "244"], "otilde": ["213", "245"], "ouml": ["214", "246"],
-    "times": "215", "oslash": ["216", "248"], "ugrave": ["217", "249"],
-    "uacute": ["218", "250"], "ucirc": ["219", "251"], "uuml": ["220", "252"],
-    "yacute": ["221", "253"], "thorn": ["222", "254"], "szlig": "223", "divide": "247",
-    "yuml": ["255", "376"], "oelig": ["338", "339"], "scaron": ["352", "353"],
-    "fnof": "402", "circ": "710", "tilde": "732", "alpha": ["913", "945"],
-    "beta": ["914", "946"], "gamma": ["915", "947"], "delta": ["916", "948"],
-    "epsilon": ["917", "949"], "zeta": ["918", "950"], "eta": ["919", "951"],
-    "theta": ["920", "952"], "iota": ["921", "953"], "kappa": ["922", "954"],
-    "lambda": ["923", "955"], "mu": ["924", "956"], "nu": ["925", "957"],
-    "xi": ["926", "958"], "omicron": ["927", "959"], "pi": ["928", "960"],
-    "rho": ["929", "961"], "sigma": ["931", "963"], "tau": ["932", "964"],
-    "upsilon": ["933", "965"], "phi": ["934", "966"], "chi": ["935", "967"],
-    "psi": ["936", "968"], "omega": ["937", "969"], "sigmaf": "962", "thetasym": "977",
-    "upsih": "978", "piv": "982", "ensp": "8194", "emsp": "8195", "thinsp": "8201",
-    "zwnj": "8204", "zwj": "8205", "lrm": "8206", "rlm": "8207", "ndash": "8211",
-    "mdash": "8212", "lsquo": "8216", "rsquo": "8217", "sbquo": "8218", "ldquo": "8220",
-    "rdquo": "8221", "bdquo": "8222", "dagger": ["8224", "8225"], "bull": "8226",
-    "hellip": "8230", "permil": "8240", "prime": ["8242", "8243"], "lsaquo": "8249",
-    "rsaquo": "8250", "oline": "8254", "frasl": "8260", "euro": "8364",
-    "image": "8465", "weierp": "8472", "real": "8476", "trade": "8482",
-    "alefsym": "8501", "larr": ["8592", "8656"], "uarr": ["8593", "8657"],
-    "rarr": ["8594", "8658"], "darr": ["8595", "8659"], "harr": ["8596", "8660"],
-    "crarr": "8629", "forall": "8704", "part": "8706", "exist": "8707", "empty": "8709",
-    "nabla": "8711", "isin": "8712", "notin": "8713", "ni": "8715", "prod": "8719",
-    "sum": "8721", "minus": "8722", "lowast": "8727", "radic": "8730", "prop": "8733",
-    "infin": "8734", "ang": "8736", "and": "8743", "or": "8744", "cap": "8745",
-    "cup": "8746", "int": "8747", "there4": "8756", "sim": "8764", "cong": "8773",
-    "asymp": "8776", "ne": "8800", "equiv": "8801", "le": "8804", "ge": "8805",
-    "sub": "8834", "sup": "8835", "nsub": "8836", "sube": "8838", "supe": "8839",
-    "oplus": "8853", "otimes": "8855", "perp": "8869", "sdot": "8901", "lceil": "8968",
-    "rceil": "8969", "lfloor": "8970", "rfloor": "8971", "lang": "9001", "rang": "9002",
-    "loz": "9674", "spades": "9824", "clubs": "9827", "hearts": "9829", "diams": "9830"
+var HTML_ENTITY_MAP = {
+    "&": "&#38;",
+    "<": "&#60;",
+    ">": "&#62;",
+    '"': "&#34;",
+    "'": "&#39;"
 };
-
-/**
- * Escapes "&amp;", greater than, less than signs, quotation marks, and others into
- * the proper XML entities.
- * 
- * @param {String} str The XML string to escape.
- * @param {Boolean} strictMode By default, this function attempts to NOT double-escape XML entities. This flag turns that behavior off when set to `true`.
- * @return {String} The escaped string
- */
-apf.escapeXML = function(str, strictMode) {
-    if (typeof str != "string")
-        return str;
-    if (strictMode)
-        str = (str || "").replace(/&/g, "&#38;");
-    else
-        str = (str || "").replace(/&(?!#[0-9]{2,5};|[a-zA-Z]{2,};)/g, "&#38;");
-    var map = apf.xmlEntityMap;
-    var isArray = apf.isArray;
-    return str
-        .replace(/"/g, "&#34;")
-        .replace(/</g, "&#60;")
-        .replace(/>/g, "&#62;")
-        .replace(/'/g, "&#39;")
-        .replace(/&([a-zA-Z]+);/gi, function(a, m) {
-            var x = map[m.toLowerCase()];
-            if (x)
-                return "&#" + (isArray(x) ? x[0] : x) + ";";
-            return a;
-        });
-};
-
-/**
- * Unescapes `"&#38;"` and other similar XML entities into HTML entities, and then replaces
- * 'special' ones (`&apos;`, `&gt;`, `&lt;`, `&quot;`, `&amp;`) into characters
- * (`'`, `>`, `<`, `"`, `&`).
- *
- * @param {String} str The XML string to unescape
- * @return {String} The unescaped string
- */
-apf.unescapeXML = function(str) {
-    if (typeof str != "string")
-        return str;
-    var map = apf.xmlEntityMapReverse;
-    var isArray = apf.isArray;
-    if (!map) {
-        map = apf.xmlEntityMapReverse = {};
-        var origMap = apf.xmlEntityMap;
-        var keys = Object.keys(origMap);
-        for (var val, j, l2, i = 0, l = keys.length; i < l; ++i) {
-            val = origMap[keys[i]];
-            if (isArray(val)) {
-                for (j = 0, l2 = val.length; j < l2; ++j)
-                    map[val[j]] = keys[i];
-            }
-            else
-                map[val] = keys[i];
-        }
-    }
-    return str
-        .replace(/&#([0-9]{2,5});/g, function(a, m) {
-            var x = map[m];
-            if (x)
-                return "&" + x + ";";
-            return a;
-        })
-        .replace(/&apos;/gi, "'")
-        .replace(/&gt;/gi, ">")
-        .replace(/&lt;/gi, "<")
-        .replace(/&quot;/gi, "\"")
-        .replace(/&amp;/gi, "&");
+var HTML_CHARACTERS_EXPRESSION = /[&"'<>]/gm;
+apf.escapeHTML = apf.escapeXML = function(text) {
+    return text && text.replace(HTML_CHARACTERS_EXPRESSION, function(c) {
+        return HTML_ENTITY_MAP[c] || c;
+    });
 };
 
 /**
@@ -6400,7 +6160,7 @@ apf.AmlElement = function(struct, tagName) {
             if (node.localName == "application") {
                 el = parent;
             } else {
-                var namespace = node.prefix === "a" ? apf.aml : apf.xhtml;
+                var namespace = node.prefix == "a" ? apf.aml : apf.xhtml;
                 var ElementType = namespace.elements[node.localName] || namespace.elements["@default"];
                 var el = new ElementType({}, node.localName);
                 var a = node.attributes;
@@ -6932,9 +6692,9 @@ apf.AmlDocument = function(){
      */
     this.createElement = function(qualifiedName) {
         var parts = qualifiedName.split(":");
-        var prefix = parts.length === 1 ? "" : parts[0];
-        var name = parts.length === 1 ? parts[0]: parts[1];
-        var namespace = prefix === "a" ? apf.aml : apf.xhtml;
+        var prefix = parts.length == 1 ? "" : parts[0];
+        var name = parts.length == 1 ? parts[0]: parts[1];
+        var namespace = prefix == "a" ? apf.aml : apf.xhtml;
         var ElementType = namespace.elements[name] || namespace.elements["@default"];
         return new ElementType({}, qualifiedName);
     };
@@ -9887,7 +9647,7 @@ apf.BaseStateButtons = function(){
                     this.$baseCSSname + "Min");
 
                 if (this.btnedit)
-                    oButtons.edit.innerHTML = "close"; //hack
+                    oButtons.edit.textContent = "close"; //hack
 
                 this.dispatchEvent('editstart');
             }
@@ -9900,7 +9660,7 @@ apf.BaseStateButtons = function(){
                     styleClass.unshift("");
 
                 if (this.btnedit)
-                    oButtons.edit.innerHTML = "edit"; //hack
+                    oButtons.edit.textContent = "edit"; //hack
             }
         }
 
@@ -12476,7 +12236,7 @@ apf.bar = function(struct, tagName) {
     this.$isLeechingSkin = false;
     
     this.$propHandlers["caption"] = function(value) {
-        this.$int.innerHTML = value;
+        this.$int.textContent = value;
     }
     
     //@todo apf3.0 refactor
@@ -12850,7 +12610,7 @@ apf.button = function(struct, tagName) {
             this.$setStyleClass(this.$ext, this.$baseCSSname + "Empty");
 
         if (this.oCaption.nodeType == 1)
-            this.oCaption.innerHTML = String(value || "").trim();
+            this.oCaption.textContent = String(value || "").trim();
         else
             this.oCaption.nodeValue = String(value || "").trim();
     };
@@ -13321,7 +13081,7 @@ apf.checkbox = function(struct, tagName) {
             return;
         
         if (lbl.nodeType == 1)
-            lbl.innerHTML = value;
+            lbl.textContent = value;
         else
             lbl.nodeValue = value;
     };
@@ -13684,7 +13444,7 @@ apf.frame = function(struct, tagName) {
         if (!this.oCaption) return;
         
         if (this.oCaption.nodeType == 1)
-            this.oCaption.innerHTML = value;
+            this.oCaption.textContent = value;
         else
             this.oCaption.nodeValue = value;
     };
@@ -13701,20 +13461,6 @@ apf.frame = function(struct, tagName) {
         apf.skins.setIcon(oIcon, value, this.iconPath);
     };
 
-    /**
-     * @attribute {String} icon Sets or gets the URL location (if this is an iframe).
-     */
-    this.$propHandlers["url"] = function(value) {
-        var node = this.oCaption;
-        if (node.tagName == "A" || node.nodeType != 1) 
-            node = node.parentNode;
-
-        node.innerHTML = "<a href='" + value + "' " 
-            + (value.match(/^http:\/\//) ? "target='_blank'" : "") + ">" 
-            + this.caption + "</a>";
-        this.oCaption = this.oCaption.firstChild;
-    };
-    
     this.$propHandlers["activetitle"] = function(value) {
         var node = this.oCaption.parentNode;
         // if (node.nodeType != 1) node = node.parentNode;
@@ -13772,53 +13518,7 @@ apf.aml.setElement("frame", apf.frame);
 
 
 
-  
 
-/**
- * The element displays a picture. This element can read databound resources.
- * 
- * #### Example
- * 
- * This example shows a list with pictures. When one is selected its displayed
- * in the `<a:img>` element:
- * 
- * ```xml, demo
- * <a:application xmlns:a="http://ajax.org/2005/aml">
- *  <!-- startcontent -->
- *  <a:model id="mdlPictures"> 
- *       <data> 
- *           <picture title="Ceiling Cat" src="http://htstatic.ibsrv.net/forums/honda-tech/ceiling-cat/ceiling-cat-6.jpg" />
- *           <picture title="Maru" src="http://1.bp.blogspot.com/_4Cb_t7BLaIA/TCY3jyIx4SI/AAAAAAAAAbw/K-Ey_u36y8o/s400/maru+the+japanese+cat.jpg" />
- *           <picture title="Lime Cat" src="http://www.cs.brown.edu/orgs/artemis/2012/catsoftheworld/lime-cat.jpg" />
- *       </data> 
- *   </a:model>
- *   <a:list 
- *     id = "lstPics" 
- *     model = "mdlPictures">
- *       <a:each match="[picture]" >
- *           <a:caption match="[@title]" />
- *       </a:each>
- *   </a:list>
- *   <a:img 
- *     model = "{lstPics.selected}" 
- *     value = "[@src]" />
- *   <!-- endcontent -->
- * </a:application>
- * ```
- *
- * @class apf.img
- * @define img
- * @media
- * @allowchild {smartbinding}
- *
- *
- * @inherits apf.BaseSimple
- *
- * @author      Ruben Daniels (ruben AT ajax DOT org)
- * @version     %I%, %G%
- * @since       0.4
- *
- */
 /**
  * @event click Fires when a user presses a mouse button while over this element.
  *
@@ -13844,10 +13544,6 @@ apf.aml.setElement("frame", apf.frame);
  */
 apf.img = function(struct, tagName) {
     this.$init(tagName || "img", apf.NODE_VISIBLE, struct);
-};
-
-apf.preview = function(struct, tagName) {
-    this.$init(tagName || "preview", apf.NODE_VISIBLE, struct);
 };
 
 (function(){
@@ -13914,8 +13610,8 @@ apf.preview = function(struct, tagName) {
     };
 
     this.refetch = function(){
-    this.$propHandlers["value"].call(this, "")
-    this.$propHandlers["value"].call(this, this.value || this.src)
+        this.$propHandlers["value"].call(this, "")
+        this.$propHandlers["value"].call(this, this.value || this.src)
     }
     
     this.addEventListener("$clear", function(){
@@ -13936,15 +13632,7 @@ apf.preview = function(struct, tagName) {
         this.oImage = this.$getLayoutNode("main", "image", this.$ext);
         if (this.oImage.nodeType == 1)
             this.oImg = this.oImage.getElementsByTagName("img")[0];
-        if (this.localName == "preview") {
-            var _self = this;
-            this.$ext.onclick = function() {
-                if (!_self.sPreview) return;
-                _self.$ext.innerHTML = _self.sPreview;
-                this.onclick = null;
-            };
-        }
-        
+
         var _self = this;
         apf.addListener(this.$ext, "mouseover", function(e) {
             if (!_self.disabled)
@@ -13995,12 +13683,8 @@ apf.preview = function(struct, tagName) {
     }
 }).call(apf.img.prototype = new apf.BaseSimple());
 
-apf.preview.prototype = apf.img.prototype;
 
 apf.aml.setElement("img", apf.img);
-apf.aml.setElement("preview", apf.preview);
-
-
 
 
 
@@ -14112,7 +13796,7 @@ apf.label = function(struct, tagName) {
      */
     this.$supportedProperties.push("caption", "for", "textalign");
     this.$propHandlers["caption"] = function(value) {
-        this.$caption.innerHTML = value;
+        this.$caption.textContent = value;
     };
     this.$propHandlers["for"] = function(value) {
         forElement = typeof value == "string" ? self[value] : value;
@@ -14995,7 +14679,7 @@ apf.notifier = function(struct, tagName) {
             this.$setStyleClass(oNoti, this.$baseCSSname + "ShowIcon");
         }
 
-        oBody.insertAdjacentHTML("beforeend", message || "[No message]");
+        apf.buildDom(message || "[No message]", oBody);
         oNoti.style.display = "block";
 
         oClose.addEventListener("click", function(){
@@ -15703,7 +15387,7 @@ apf.radiobutton = function(struct, tagName) {
             this.$setStyleClass(this.$ext, this.$baseCSSname + "Empty");
         
         if (this.oLabel)
-            this.oLabel.innerHTML = value;
+            this.oLabel.textContent = value;
     };
 
     /**
@@ -16903,313 +16587,6 @@ apf.aml.setElement("splitbutton",  apf.splitbutton);
 
 
 
-
-
-/**
- * This element displays a rectangle containing arbitrary (X)HTML.
- *
- * This element can be databound and use databounding rules to
- * convert data into (X)HTML using--for instance--XSLT or JSLT.
- *
- * #### Example: Some simple text
- * 
- * ```xml, demo
- * <a:application xmlns:a="http://ajax.org/2005/aml">
- *   <!-- startcontent -->
- *   <a:text width="300">
- *   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue, nunc sed convallis gravida, justo nunc egestas nisi, eu iaculis nunc ipsum vel orci. Morbi mauris urna, rutrum at imperdiet at, molestie eu risus. Curabitur eu tincidunt eros. Donec in massa ut dolor vulputate commodo. Cras pulvinar urna ut ipsum pulvinar mollis sit amet in dui. Nam lobortis ligula sed tortor dapibus eget tincidunt dui pretium. 
- *   </a:text>
- *   <!-- endcontent -->
- * </a:application>
- * ```
- * 
- * #### Example: Using Scrolldown
- * 
- * ```xml, demo
- * <a:application xmlns:a="http://ajax.org/2005/aml">
- *   <!-- startcontent -->
- *   <a:text id="txtExample"
- *     width = "300"
- *     height = "100" 
- *     scrolldown = "true">
- *       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur congue, nunc sed convallis gravida, justo nunc egestas nisi, eu iaculis nunc ipsum vel orci. Morbi mauris urna, rutrum at imperdiet at, molestie eu risus. Curabitur eu tincidunt eros. Donec in massa ut dolor vulputate commodo. Cras pulvinar urna ut ipsum pulvinar mollis sit amet in dui. Nam lobortis ligula sed tortor dapibus eget tincidunt dui pretium. Quisque semper sem dignissim quam ullamcorper et lobortis arcu eleifend. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce ac commodo mi. Pellentesque sit amet magna sed velit volutpat volutpat. Nam lobortis sem sed tortor accumsan dictum. Donec scelerisque rhoncus cursus. Mauris dui dolor, vehicula quis lacinia quis, facilisis et eros. Nulla facilisi. Donec urna velit, adipiscing non sollicitudin at, sodales id lorem. Fusce fringilla, magna id pellentesque egestas, neque risus luctus mauris, vel porttitor libero tortor et augue. Integer euismod porttitor mi, at viverra nulla pharetra vel. Etiam odio elit, volutpat a porttitor eu, posuere nec augue. Phasellus placerat lacus ut augue tempor consectetur. 
- *   </a:text>
- *   <a:button 
- *     onclick="txtExample.setValue(txtExample.getValue() + '&lt;br />A new line!')">
- *       Add a line
- *   </a:button>
- *   <!-- endcontent -->
- * </a:application>
- * ```
- * 
- * @class apf.text
- * @define text
- *
- * @form
- * @inherits apf.Cache
- * @inherits apf.StandardBinding
- *
- * @author      Ruben Daniels (ruben AT ajax DOT org)
- * @version     %I%, %G%
- * @since       0.1
- * 
- */
-// @todo Please refactor this object
-apf.text = function(struct, tagName) {
-    this.$init(tagName || "text", apf.NODE_VISIBLE, struct);
-    
-    this.$nodes = [];
-};
-
-(function(){
-
-    this.$focussable = true; // This object can't get the focus
-    this.focussable = false;
-    this.textselect = true;
-    this.$hasStateMessages = true;
-
-    this.$textTimer = this.$lastMsg = this.$lastClass = this.$changedHeight = null;
-
-    // *** Properties and Attributes *** //
-
-    /**
-     * @attribute {Boolean} scrolldown  Sets or gets whether this element's viewport is always
-     *                                  scrolled down. This is especially useful
-     *                                  when this element is used to displayed
-     *                                  streaming content such as a chat conversation.
-     *
-     */
-    /**
-     * @attribute {Boolean} secure      Sets or gets whether the content loaded in this element
-     *                                  should be filtered in order for it to not
-     *                                  be able to execute JavaScript. This is
-     *                                  especially useful when the content does
-     *                                  not come from a trusted source, like a
-     *                                  web service or xmpp feed.
-     */
-    this.$booleanProperties["scrolldown"] = true;
-    this.$booleanProperties["secure"] = true;
-    this.$booleanProperties["textselect"] = true;
-    this.$supportedProperties.push("behavior", "scrolldown", "secure", "value");
-
-    this.$isTextInput = function(){
-        return this.textselect;
-    }
-
-    this.$propHandlers["scrolldown"] = function(value) {
-        var _self = this;
-        
-        if (value) {
-            //this.addEventListener("resize", this.$resize);
-            this.$scrolldown = true;
-            apf.addListener(this.$scrollArea, "scroll", this.$scrollFunc = function(){
-                _self.$scrolldown = this.scrollTop >= this.scrollHeight
-                    - this.offsetHeight + apf.getVerBorders(this);
-            });
-            this.addEventListener("scroll", this.$scroll);
-            this.addEventListener("afterload", this.$scroll);
-            this.addEventListener("resize", function(){
-                if (_self.$scrollArea && _self.$scrolldown && _self.scrolldown)
-                    _self.$scrollArea.scrollTop = _self.$scrollArea.scrollHeight;
-            });
-            clearInterval(this.$textTimer);
-            this.$textTimer = setInterval(function(){
-                if (_self.$scrollArea && _self.$scrolldown && _self.scrolldown)
-                    _self.$scrollArea.scrollTop = _self.$scrollArea.scrollHeight;
-            }, 200);
-        }
-        else {
-            //this.removeEventListener("resize", this.$resize);
-            
-            this.removeEventListener("scroll", this.$scroll);
-            this.removeEventListener("afterload", this.$scroll);
-            clearInterval(this.$textTimer);
-            if (this.$scrollArea)
-                apf.removeListener(this.$scrollArea, "scoll", this.$scrollFunc);
-        }
-    }
-    
-    this.$scroll = function(e) {
-        var html = this.$scrollArea;
-        
-        if (e.name == "afterload") {
-            this.$scrolldown = true;
-            html.scrollTop = html.scrollHeight;
-            return;
-        }
-        
-        this.$scrolldown = html.scrollTop >= html.scrollHeight
-            - html.offsetHeight + apf.getVerBorders(html);
-    };
-    
-    /*this.$resize = function(){
-        if (this.scrolldown && this.$scrolldown)
-            this.$scrollArea.scrollTop = this.$scrollArea.scrollHeight;
-    }*/
-
-    /**
-     * @attribute {String} value Sets or gets the contents of this element. This can be text, html, xhtml.
-     */
-    this.$propHandlers["value"] = function(value, prop, force, forceAdd) {
-        if (this.each)
-            return;
-        
-        if (typeof value != "string") {
-            if (value.nodeType)
-                value = value.nodeType > 1 && value.nodeType < 5
-                    ? value.nodeValue
-                    : value.firstChild && value.firstChild.nodeValue || "";
-            else
-                value = value ? value.toString() : "";
-        }
-
-        if (this.secure) {
-            value = value.replace(/<a /gi, "<a target='_blank' ")
-                .replace(/<object.*?\/object>/g, "")
-                .replace(/<script.*?\/script>/g, "")
-                .replace(new RegExp("ondblclick|onclick|onmouseover|onmouseout"
-                    + "|onmousedown|onmousemove|onkeypress|onkeydown|onkeyup|onchange"
-                    + "|onpropertychange", "g"), "ona");
-        }
-
-        value = value.replace(/\<\?xml version="1\.0" encoding="UTF-16"\?\>/, "");
-        
-        if (forceAdd) {
-            apf.insertHtmlNodes(null, this.$container, null, value);
-            if (!this.value) this.value = "";
-            this.value += value;
-        }
-        else
-            this.$container.innerHTML = value;
-
-        if (this.scrolldown && this.$scrolldown)
-            this.$scrollArea.scrollTop = this.$scrollArea.scrollHeight;
-    };
-    
-    
-    this.addEventListener("$clear", function(){
-        this.$container.innerHTML = "";
-        this.value = "";
-        this.dispatchEvent("prop.value", {value: ""});
-    });
-
-    // @todo replace this stub with something that does something
-    this.$moveNode = function() {};
-
-    // *** Public methods *** //
-
-    
-
-    this.addValue = function(value) {
-        this.$propHandlers["value"].call(this, value, null, null, true);
-        this.dispatchEvent("prop.value", {value: this.value});
-    };
-
-    /**
-     * Sets the value of this element. This should be one of the values
-     * specified in the `values` attribute.
-     * @param {String} value The new value of this element
-     */
-    this.change = 
-    this.setValue = function(value) {
-        this.setProperty("value", value, false, true);
-    };
-
-    /**
-     * Returns the current value of this element.
-     * @return {String} The current value.
-     */
-    this.getValue = function(){
-        return this.$container.innerHTML;
-    };
-    
-    
-
-    // *** Keyboard Support *** //
-
-    
-    this.addEventListener("keydown", function(e) {
-        var key = e.keyCode;
-
-        switch (key) {
-            case 33:
-                //PGUP
-                this.$container.scrollTop -= this.$container.offsetHeight;
-                break;
-            case 34:
-                //PGDN
-                this.$container.scrollTop += this.$container.offsetHeight;
-                break;
-            case 35:
-                //END
-                this.$container.scrollTop = this.$container.scrollHeight;
-                break;
-            case 36:
-                //HOME
-                this.$container.scrollTop = 0;
-                break;
-            case 38:
-                this.$container.scrollTop -= 10;
-                break;
-            case 40:
-                this.$container.scrollTop += 10;
-                break;
-            default:
-                return;
-        }
-
-        return false;
-    }, true);
-    
-
-    // *** Private methods *** //
-
-    this.$fill = function(){
-        //apf.insertHtmlNode(null, this.$container, null, this.$nodes.join(""));
-        this.$container.insertAdjacentHTML("beforeend", this.$nodes.join(""));
-        this.$nodes = [];
-    }
-    
-    this.$deInitNode = 
-    this.$updateNode =
-    this.$moveNode = apf.K;
-
-    // *** Init *** //
-
-    this.$draw = function(){
-        this.$ext = this.$getExternal();
-        this.$container = this.$getLayoutNode("main", "container", this.$ext);
-
-        this.$scrollArea = this.oFocus ? this.oFocus.parentNode : this.$container;
-
-        if (this.$container.tagName.toLowerCase() == "iframe") {
-            var node = document.createElement("div");
-            this.$ext.parentNode.replaceChild(node, this.$ext);
-            node.className = this.$ext.className;
-            this.$ext = this.$container = node;
-        }
-    };
-
-    this.addEventListener("DOMNodeRemovedFromDocument", function() {
-        clearInterval(this.$textTimer);
-        apf.destroyHtmlNode(this.oDrag);
-        
-        if (this.$scrollArea)
-            this.$scrollArea.onscoll = this.$scrollArea = null;
-
-        this.oDrag = this.oIframe = this.oFocus = this.$container = this.$ext = null;
-    });
-}).call(apf.text.prototype = new apf.StandardBinding());
-
-apf.aml.setElement("text", apf.text);
-
-
-
-
-
-
-
-
 //@todo DOCUMENT the modules too
 
 
@@ -17429,8 +16806,8 @@ apf.textbox = function(struct, tagName) {
         if (!initial && !value && !this.hasFocus()) //@todo apf3.x research the use of clear
             return this.$clear();
         else if (this.isHTMLBox) {
-            if (this.$input.innerHTML != value)
-                this.$input.innerHTML = value;
+            if (this.$input.textContent != value)
+                this.$input.textContent = value;
         }
         else if (this.$input.value != value)
             this.$input.value = value;
@@ -17568,7 +16945,7 @@ apf.textbox = function(struct, tagName) {
             this.$clear(true);
             
         if (this.type == "password" && this.$inputInitFix) {
-            this.$inputInitFix.innerHTML = value;
+            this.$inputInitFix.textContent = value;
             apf.setStyleClass(this.$inputInitFix, "initFxEnabled");
         } 
     };
@@ -17675,12 +17052,8 @@ apf.textbox = function(struct, tagName) {
     this.getValue = function(){
         var v;
         
-        if (this.isHTMLBox) { 
-            //Chrome has a bug, innerText is cleared when display property is changed
-            v = apf.html_entity_decode(this.$input.innerHTML
-                .replace(/<br\/?\>/g, "\n")
-                .replace(/<[^>]*>/g, ""));
-        }
+        if (this.isHTMLBox) 
+            v = this.$input.innerText;
         else 
             v = this.$input.value;
             

@@ -185,10 +185,9 @@ define(function(require, exports, module) {
                     
                     var cssClass = theme.cssClass;
                     
-                    var div = document.createElement("div");
-                    document.body.appendChild(div);
-                    div.innerHTML = "<div class='ace_gutter'></div>";
-                    div.className = cssClass;
+                    var div = ui.buildDom(["div", { class: cssClass }, [
+                        "span", { class: "ace_gutter" }
+                    ]], document.body);
                     
                     theme.bg = ui.getStyle(div.firstChild, "backgroundColor");
                     theme.fg = ui.getStyle(div.firstChild, "color");

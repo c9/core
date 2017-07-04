@@ -454,7 +454,7 @@ define(function(require, module, exports) {
                      * Example:
                      * 
                      *     doc.on("setValue", function(e) { 
-                     *         myDiv.innerHTML = e.value
+                     *         myDiv.textContent = e.value
                      *     }, doc.getSession());
                      * 
                      * @event setValue

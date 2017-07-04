@@ -60,7 +60,7 @@ define(function(require, exports, module) {
                     ? path
                     : vfs.url(path);
                     
-                editor.setProperty("value", apf.escapeXML(fullpath));
+                editor.setProperty("value", fullpath);
             }
             
             /***** Lifecycle *****/

@@ -130,20 +130,20 @@ define(function(require, module, exports) {
             var port = (options.local ? ":" + (c9.port || "8080") : "");
             if (!options.local) {
                 var l = location;
-                shareLinkEditor.innerHTML = l.protocol + "//" + l.host + l.pathname;
+                shareLinkEditor.textContent = l.protocol + "//" + l.host + l.pathname;
             }
             else {
-                shareLinkEditor.innerHTML = "https://ide.c9.io/" + c9.workspaceId;
+                shareLinkEditor.textContent = "https://ide.c9.io/" + c9.workspaceId;
             }
             
-            shareLinkApp.innerHTML = (c9.hostname 
+            shareLinkApp.textContent = (c9.hostname 
                 ? "https://" + c9.hostname
                 : "http://localhost") + port;
-            shareLinkPreview.innerHTML = options.previewUrl;
+            shareLinkPreview.textContent = options.previewUrl;
             
             [shareLinkEditor, shareLinkApp, shareLinkPreview].forEach(function(div) {
                 div.addEventListener("click", function(e) {
-                    mnuLink.meta.linkText = this.innerHTML;
+                    mnuLink.meta.linkText = this.textContent;
                     mnuLink.show(e.clientX + 1, e.clientY);
                 });
                 div.addEventListener("contextmenu", function(e) {

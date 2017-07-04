@@ -100,7 +100,7 @@ define(function(require, exports, module) {
                 var chatHistory = workspace.chatHistory || [];
                 chatHistory.forEach(addMessage);
                 scrollDown();
-                chatCounter.innerHTML = chatHistory.length;
+                chatCounter.textContent = chatHistory.length;
             }
 
             chatInput.ace.commands.addCommands([
@@ -273,8 +273,8 @@ define(function(require, exports, module) {
             }
 
             if (msg.increment) {
-                var count = Number(chatCounter.innerHTML);
-                chatCounter.innerHTML = count + 1;
+                var count = Number(chatCounter.textContent);
+                chatCounter.textContent = count + 1;
             }
 
             var inputFocussed = chatInput && chatInput.ace.isFocused();

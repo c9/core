@@ -180,14 +180,14 @@ define(function(require, exports, module) {
             
             rb1.$group.on("afterchange", change);
             
-            intro.$int.innerHTML = 
-                '<h1>Themes</h1><p>You can also style Cloud9 by editing '
-                + ' <a href="javascript:void(0)">your stylesheet</a>.</p>'
-                + '<p class="hint">Set all the colors free!</p>';
-            
-            intro.$int.querySelector("a").onclick = function() { 
-                configure.editStylesCss(); 
-            };
+            ui.buildDom([
+                ["h1", null, "Themes"],
+                ["p", null, "You can also style Cloud9 by editing ",
+                    ["a", { href: "javascript:void(0)", onclick: function() { configure.editStylesCss(); } },
+                        "your stylesheet"]
+                ],
+                ["p", { class: "hint" }, "Set all the colors free!"]
+            ], intro.$int);
         }
         
         /***** Methods *****/
