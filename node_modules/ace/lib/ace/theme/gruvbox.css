@@ -1,122 +1,95 @@
-.ace-gruvbox .ace_gutter {
-    background: #282828;
-    color: #a89984;
-}
-
-.ace-gruvbox .ace_print-margin {
-    width: 1px;
-    background: #555651
+.ace-gruvbox .ace_gutter-active-line {
+  background-color: #3C3836;
 }
 
 .ace-gruvbox {
-    background-color: #282828;
-    color: #ebdbb2
-}
-
-.ace-gruvbox .ace_cursor {
-    color: #F8F8F0
-}
-
-.ace-gruvbox .ace_marker-layer .ace_selection {
-    background: #3c3836;
-}
-
-.ace-gruvbox.ace_multiselect .ace_selection.ace_start {
-    box-shadow: 0 0 3px 0px #3c3836;
-}
-
-.ace-gruvbox .ace_marker-layer .ace_step {
-    background: #32302f;
-}
-
-.ace-gruvbox .ace_marker-layer .ace_bracket {
-    margin: -1px 0 0 -1px;
-    border: 1px solid #f38019;
-}
-
-.ace-gruvbox .ace_marker-layer .ace_active-line {
-    background: #3c3836;
-}
-
-.ace-gruvbox .ace_gutter-active-line {
-    background-color: #3c3836;
-}
-
-.ace-gruvbox .ace_marker-layer .ace_selected-word {
-    border: 1px solid #3c3836;
+  color: #EBDAB4;
+  background-color: #1D2021;
 }
 
 .ace-gruvbox .ace_invisible {
-    color: #3c3836
+  color: #504945;
 }
 
-.ace-gruvbox .ace_entity.ace_name.ace_tag,
-.ace-gruvbox .ace_keyword,
-.ace-gruvbox .ace_meta.ace_tag,
-.ace-gruvbox .ace_storage {
-    color: #fb4934
+.ace-gruvbox .ace_marker-layer .ace_selection {
+  background: rgba(179, 101, 57, 0.75)
 }
 
-.ace-gruvbox .ace_punctuation,
-.ace-gruvbox .ace_punctuation.ace_tag {
-    color: #fff
+.ace-gruvbox.ace_multiselect .ace_selection.ace_start {
+  box-shadow: 0 0 3px 0px #002240;
 }
 
-.ace-gruvbox .ace_constant.ace_character,
-.ace-gruvbox .ace_constant.ace_language,
-.ace-gruvbox .ace_constant.ace_numeric,
-.ace-gruvbox .ace_constant.ace_other {
-    color: #83a598
-}
-
-.ace-gruvbox .ace_invalid {
-    color: #F8F8F0;
-    background-color: #d3869b;
-}
-
-.ace-gruvbox .ace_invalid.ace_deprecated {
-    color: #F8F8F0;
-    background-color: #83a598;
-}
-
-.ace-gruvbox .ace_support.ace_constant,
-.ace-gruvbox .ace_support.ace_function {
-    color: #83a598
-}
-
-.ace-gruvbox .ace_fold {
-    background-color: #a3aa20;
-    border-color: #F8F8F2
-}
-
-.ace-gruvbox .ace_storage.ace_type,
-.ace-gruvbox .ace_support.ace_class,
-.ace-gruvbox .ace_support.ace_type {
-    font-style: italic;
-    color: #ebaa27
-}
-
-.ace-gruvbox .ace_entity.ace_name.ace_function,
-.ace-gruvbox .ace_entity.ace_other,
-.ace-gruvbox .ace_entity.ace_other.ace_attribute-name,
-.ace-gruvbox .ace_variable {
-    color: #a3aa20
-}
-
-.ace-gruvbox .ace_variable.ace_parameter {
-    font-style: italic;
-    color: #fabd2f
-}
-
-.ace-gruvbox .ace_string {
-    color: #ebdbb2;
+.ace-gruvbox .ace_keyword {
+  color: #8ec07c;
 }
 
 .ace-gruvbox .ace_comment {
-    color: #665c54;
-    font-style: italic;
+  font-style: italic;
+  color: #928375;
+}
+
+.ace-gruvbox .ace-statement {
+  color: red;
+}
+
+.ace-gruvbox .ace_variable {
+  color: #84A598;
+}
+
+.ace-gruvbox .ace_variable.ace_language {
+  color: #D2879B;
+}
+
+.ace-gruvbox .ace_constant {
+  color: #C2859A;
+}
+
+.ace-gruvbox .ace_constant.ace_language {
+  color: #C2859A;
+}
+
+.ace-gruvbox .ace_constant.ace_numeric {
+  color: #C2859A;
+}
+
+.ace-gruvbox .ace_string {
+  color: #B8BA37;
+}
+
+.ace-gruvbox .ace_support {
+  color: #F9BC41;
+}
+
+.ace-gruvbox .ace_support.ace_function {
+  color: #F84B3C;
+}
+
+.ace-gruvbox .ace_storage {
+  color: #8FBF7F;
+}
+
+.ace-gruvbox .ace_keyword.ace_operator {
+  color: #EBDAB4;
+}
+
+.ace-gruvbox .ace_punctuation.ace_operator {
+  color: yellow;
+}
+
+.ace-gruvbox .ace_marker-layer .ace_active-line {
+  background: #3C3836;
+}
+
+.ace-gruvbox .ace_marker-layer .ace_selected-word {
+  border-radius: 4px;
+  border: 8px solid #3f475d;
+}
+
+.ace-gruvbox .ace_print-margin {
+  width: 5px;
+  background: #3C3836;
 }
 
 .ace-gruvbox .ace_indent-guide {
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWPQ0FD0ZXBzd/wPAAjVAoxeSgNeAAAAAElFTkSuQmCC) right repeat-y
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWNQUFD4z6Crq/sfAAuYAuYl+7lfAAAAAElFTkSuQmCC") right repeat-y;
 }
