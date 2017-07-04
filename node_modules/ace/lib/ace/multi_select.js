@@ -582,7 +582,6 @@ var Editor = require("./editor").Editor;
         if (!ranges.length)
             return 0;
 
-        this.$blockScrolling += 1;
         var selection = this.multiSelect;
 
         if (!additive)
@@ -595,8 +594,6 @@ var Editor = require("./editor").Editor;
         if (range && selection.rangeList.rangeAtPoint(range.start))
             selection.addRange(range, true);
         
-        this.$blockScrolling -= 1;
-
         return ranges.length;
     };
 
@@ -711,10 +708,8 @@ var Editor = require("./editor").Editor;
         var newRange = find(session, needle, dir);
         if (newRange) {
             newRange.cursor = dir == -1 ? newRange.start : newRange.end;
-            this.$blockScrolling += 1;
             this.session.unfold(newRange);
             this.multiSelect.addRange(newRange);
-            this.$blockScrolling -= 1;
             this.renderer.scrollCursorIntoView(null, 0.5);
         }
         if (skip)
