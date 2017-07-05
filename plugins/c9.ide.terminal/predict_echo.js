@@ -71,6 +71,9 @@ define(function(require, exports, module) {
                 terminal.on("beforeWrite", function(e) {
                     return e.session.$predictor.onBeforeWrite(e);
                 }, plugin);
+                terminal.on("afterWrite", function(e) {
+                    return e.session.$predictor.onAfterWrite(e);
+                }, plugin);
                 terminal.on("input", function(e) {
                     DEBUG && console.log(">", e.data.replace("\r", "\\r").replace("\u007F", "\\bs"));
                     return e.session.$predictor.onInput(e);
@@ -492,28 +495,33 @@ define(function(require, exports, module) {
                 if (lastInput
                     && (state === STATE_WAIT_FOR_PROMPT_OR_ECHO)
                     && lastInput === data.substr(data.length - lastInput.length)
-                    && (!BASH_ONLY || isBashActive())) {
+                    && (!BASH_ONLY || isBashActive())
+                    && checkTextBeforePrediction()) {
                     if (DEBUG) console.log("  ^ re-enabled predictions:", lastInput);
                     return startPredict();
                 }
             }
             
             function startPredict() {
-                state = STATE_INITING;
                 predictIndex = 0;
                 predictLine = "";
                 predictStartX = nonPredictTerminal.x;
                 nonPredictStartY = nonPredictTerminal.y + nonPredictTerminal.ybase;
                 predictStartY = session.terminal.y + session.terminal.ybase;
-                terminal.once("afterWrite", function() {
-                    predictStartY = session.terminal.y + session.terminal.ybase;
-                    state = STATE_PREDICT;
-                    if (!checkTextBeforePrediction()) {
-                        // Appears to happen when tmux or shell unexpectedly sends a new line
-                        console.warn("Unable to init predictions");
-                        state = STATE_WAIT_FOR_ECHO;
-                    }
-                });
+                state = STATE_INITING;
+            }
+            
+            function onAfterWrite(e) {
+                if (state !== STATE_INITING)
+                    return;
+                    
+                predictStartY = session.terminal.y + session.terminal.ybase;
+                state = STATE_PREDICT;
+                if (!checkTextBeforePrediction()) {
+                    // Appears to happen when tmux or shell unexpectedly sends a new line
+                    console.log("[predict_echo] Unable to init predictions; will try again later");
+                    state = STATE_WAIT_FOR_PROMPT;
+                }
             }
             
             function isBashActive() {
@@ -736,7 +744,8 @@ define(function(require, exports, module) {
                 get predictions() { return predictions; },
                 undoPredictions: undoPredictions,
                 onInput: onInput,
-                onBeforeWrite: onBeforeWrite
+                onBeforeWrite: onBeforeWrite,
+                onAfterWrite: onAfterWrite,
             };
         }
             
