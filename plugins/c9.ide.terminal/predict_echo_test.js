@@ -143,7 +143,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                         // Make sure we have a prompt with a dollar for tests
                         // And terminal won't send rename commands in the middle of the test
                         // TODO: do we need to handle rename sequence in predict_echo instead?
-                        editor.ace.onTextInput("PS1='. $ ';"
+                        editor.ace.onTextInput("PS1='P$ ';"
                             + "tmux setw automatic-rename off;"
                             + "printf '\\x1b]0;predict echo\\x07'\n");
                         // editor.ace.onTextInput("ssh lennart\n");

@@ -154,13 +154,14 @@ define(function(require, exports, module) {
                     command.after = { predict: predictLine, predictIndex: predictIndex };
                     command.sent = Date.now();
                     
-                    DEBUG && console.log("! "
-                        + nonPredictTerminal.$debugCharsAt(nonPredictTerminal.y)
-                            .slice(0, predictStartX)
-                            .map(function(c) { return c || " "; })
-                            .join("")
-                        + "%c" + predictLine,
-                        "color: lightblue");
+                    if (DEBUG) {
+                        var alreadyEchoed = predictions[0].before.predict;
+                        console.log("! " + debugPromptSuffix()
+                            + predictLine.substr(0, alreadyEchoed.length)
+                            + "%c" + predictLine.substr(alreadyEchoed.length),
+                            "color: lightblue"
+                        );
+                    }
                     
                     // DEBUG && console.log("!="
                     //     + session.terminal.$debugCharsAt(predictStartY - session.terminal.ybase).join(""));
@@ -189,6 +190,12 @@ define(function(require, exports, module) {
                 }
             }
             
+            function debugPromptSuffix() {
+                return nonPredictTerminal.$debugCharsAt(nonPredictTerminal.y)
+                    .slice(0, predictStartX).slice(-3)
+                    .map(function(c) { return c || " "; }).join("");
+            }
+            
             function isPossibleConnectionGone() {
                 if (!pendingPings.length)
                     return;
@@ -208,8 +215,12 @@ define(function(require, exports, module) {
                 
                 DEBUG && console.log(
                     "< "
-                    + (state == STATE_PREDICT ? nonPredictTerminal.$debugCharsAt(e.$startY).join("") + " < " : "")
-                    + e.data
+                    + (state == STATE_PREDICT
+                        ? debugPromptSuffix() +
+                          nonPredictTerminal.$debugCharsAt(e.$startY).slice(predictStartX).join("")
+                        : "")
+                    + "%c < " + e.data,
+                    "color: lightblue"
                 );
                 
                 if (!predictions.length) {
