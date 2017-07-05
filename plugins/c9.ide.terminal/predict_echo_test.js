@@ -91,9 +91,9 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
         var INPUT_DELETE = ESC + "[3~";
         var OUTPUT_BACKSPACE = "\b" + ESC + "[K";
         var OUTPUT_DELETE_CHAR = ESC + "[P";
-        var STATE_WAIT_FOR_ECHO_OR_PROMPT = 1;
-        var STATE_WAIT_FOR_ECHO = 2;
-        var STATE_WAIT_FOR_PROMPT = 3;
+        var STATE_WAIT_FOR_PROMPT_OR_ECHO = 1;
+        var STATE_WAIT_FOR_PROMPT = 2;
+        var STATE_INITING = 3;
         
         expect.html.setConstructor(function(tab) {
             if (typeof tab == "object")
@@ -499,11 +499,11 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                         });
                         
                         // sometimes backspace will re-enable state 0; we reset it here
-                        session.$predictor.state = STATE_WAIT_FOR_ECHO_OR_PROMPT;
+                        session.$predictor.state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
                         send(":");
                     });
                   
-                    session.$predictor.state = STATE_WAIT_FOR_ECHO_OR_PROMPT;
+                    session.$predictor.state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
                     send(INPUT_BACKSPACE);
                 });
                 
