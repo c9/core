@@ -547,6 +547,18 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                         
                     });
                 });
+                
+                it("recovers after spurious backspaces on a prompt", function(done) {
+                    predictor.once("nopredict", function() {
+                        predictor.once("nopredict", function() {
+                            assert.equal(session.$predictor.state, STATE_INITING);
+                            afterPrompt(done);
+                            send("\r");
+                        });
+                        send("Q");
+                    });
+                    send(INPUT_BACKSPACE);
+                });
             });
             
             if (!onload.remain) {

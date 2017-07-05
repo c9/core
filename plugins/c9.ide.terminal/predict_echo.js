@@ -495,8 +495,18 @@ define(function(require, exports, module) {
                 if (lastInput
                     && (state === STATE_WAIT_FOR_PROMPT_OR_ECHO)
                     && lastInput === data.substr(data.length - lastInput.length)
-                    && (!BASH_ONLY || isBashActive())
-                    && checkTextBeforePrediction()) {
+                    && checkTextBeforePrediction()
+                    && (!BASH_ONLY || isBashActive())) {
+                    if (DEBUG) console.log("  ^ re-enabled predictions:", lastInput);
+                    return startPredict();
+                }
+                
+                // Enable predictions when we see echoing *and* a prompt
+                if (lastInput
+                    && state == STATE_WAIT_FOR_PROMPT
+                    && lastInput === data.substr(data.length - lastInput.length)
+                    && checkTextBeforePrediction()
+                    && isBashActive()) {
                     if (DEBUG) console.log("  ^ re-enabled predictions:", lastInput);
                     return startPredict();
                 }
