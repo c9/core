@@ -410,7 +410,7 @@ define(function(require, exports, module) {
                     return done(null, []);
                     
                 // No matches. But it seems we got a noop input. Our predictions likely happen later.
-                if (matchPrediction(new NoopCommand()))
+                if (matchPrediction(NoopCommand.tryCreate()))
                     return done(null, []);
                 
                 // No matches for our predictions :( We likely made a mistake.
