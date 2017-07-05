@@ -408,6 +408,10 @@ define(function(require, exports, module) {
                 // No matches. Return if our predictions were optional.
                 if (isOptionalOnly(predictions))
                     return done(null, []);
+                    
+                // No matches. But it seems we got a noop input. Our predictions likely happen later.
+                if (matchPrediction(new NoopCommand()))
+                    return done(null, []);
                 
                 // No matches for our predictions :( We likely made a mistake.
                 // Reporting false here ensures we catch mistakes early.
@@ -690,6 +694,26 @@ define(function(require, exports, module) {
                     return new HomeCommand(inputText);
             };
             function HomeCommand() {
+                var outputText = predictIndex ? getCursorLeft(predictIndex) : "";
+                return {
+                    $outputText: outputText,
+                    do: function() {
+                        echo(outputText);
+                        predictIndex = 0;
+                    }
+                };
+            }
+            
+            /**
+             * Noop command. Factory method: tryCreate().
+             */
+            NoopCommand.tryCreate = function() {
+                var result = new NoopCommand();
+                result.before = { predict: predictLine, predictIndex: predictIndex };
+                result.after = { predict: predictLine, predictIndex: predictIndex };
+                return result;
+            };
+            function NoopCommand() {
                 var outputText = predictIndex ? getCursorLeft(predictIndex) : "";
                 return {
                     $outputText: outputText,
