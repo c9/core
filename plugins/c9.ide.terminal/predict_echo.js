@@ -390,26 +390,32 @@ define(function(require, exports, module) {
                             predict = predictions.splice(0, i + 1);
                         }
                         
-                        emit("predict", {
-                            data: e.data,
-                            session: session,
-                            predictions: predict
-                        });
-                        return callback(null, predict);
+                        return done(null, predict);
                     }
                 }
                 
                 // No matches. But one got really close.
                 if (matchedOneOff)
-                    return callback(null, []);
+                    return done(null, []);
                 
                 // No matches. Return if our predictions were optional.
                 if (isOptionalOnly(predictions))
-                    return callback(null, []);
+                    return done(null, []);
                 
                 // No matches for our predictions :( We likely made a mistake.
                 // Reporting false here ensures we catch mistakes early.
-                return callback(null, false);
+                return done(null, false);
+                
+                function done(err, result) {
+                    if (result) {
+                        emit("predict", {
+                            data: e.data,
+                            session: session,
+                            predictions: predict
+                        });
+                    }
+                    callback(err, result, line);
+                }
                 
                 function matchPrediction(prediction) {
                     var predict = prediction.after.predict;
