@@ -30,7 +30,7 @@ https://groups.google.com/forum/#!forum/cloud9-sdk
 
 Follow these steps to install the SDK:
 
-    git clone git://github.com/c9/core.git c9sdk
+    git clone https://github.com/c9/core.git c9sdk
     cd c9sdk
     scripts/install-sdk.sh
     
