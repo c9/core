@@ -152,7 +152,7 @@ define(function(require, exports, module) {
                     command.after = { predict: predictLine, predictIndex: predictIndex };
                     command.sent = Date.now();
                     
-                    DEBUG && console.log("!"
+                    DEBUG && console.log("! "
                         + nonPredictTerminal.$debugCharsAt(nonPredictTerminal.y)
                             .slice(0, predictStartX)
                             .map(function(c) { return c || " "; })
@@ -347,14 +347,14 @@ define(function(require, exports, module) {
              * @param {Object[]} predictions    
              * @param {Function} callback
              * @param {Error} callback.err
-             * @param {Boolean} callback.result  Whether prediction was succesful.
+             * @param {Object[]|Boolean} callback.results  A list of matching predictions, or `false`
              */
             function chopPredictions(e, predictions, callback) {
                 var line = nonPredictTerminal.lines[nonPredictStartY];
                 var rowChanged = nonPredictStartY !== nonPredictTerminal.y + nonPredictTerminal.ybase;
                 
                 if (!checkTextBeforePrediction())
-                    return callback(null, false);
+                    return done(null, false);
                 
                 // Check if predictions became true
                 var matchedOneOff = false;
@@ -600,12 +600,10 @@ define(function(require, exports, module) {
             };
             function BackspaceCommand() {
                 var after = predictLine.substr(predictIndex);
-                var deletedChar;
                 var outputText = OUTPUTS_BACKSPACE_CHAR[0];
                 return {
                     $outputText: outputText,
                     do: function() {
-                        deletedChar = peek(-1);
                         predictLine = predictLine.substr(0, predictIndex - 1) + after;
                         predictIndex--;
                         echo(outputText);
@@ -622,11 +620,9 @@ define(function(require, exports, module) {
             };
             function DeleteCommand() {
                 var after = predictLine.substr(predictIndex + 1);
-                var deletedChar;
                 return {
                     $outputText: OUTPUTS_DELETE_CHAR[0],
                     do: function() {
-                        deletedChar = peek();
                         predictLine = predictLine.substr(0, predictIndex) + after;
                         echo(OUTPUTS_DELETE_CHAR[0]);
                     }
@@ -641,12 +637,10 @@ define(function(require, exports, module) {
                     return new CursorLeftCommand(inputText);
             };
             function CursorLeftCommand() {
-                var noChange = false;
                 return {
                     $outputText: OUTPUTS_LEFT[0],
                     do: function() {
                         if (predictIndex === 0) {
-                            noChange = true;
                             clearTimeout(this.timeout);
                             return;
                         }
@@ -683,12 +677,10 @@ define(function(require, exports, module) {
                     return new HomeCommand(inputText);
             };
             function HomeCommand() {
-                var oldIndex;
                 var outputText = predictIndex ? getCursorLeft(predictIndex) : "";
                 return {
                     $outputText: outputText,
                     do: function() {
-                        oldIndex = predictIndex;
                         echo(outputText);
                         predictIndex = 0;
                     }
@@ -712,14 +704,8 @@ define(function(require, exports, module) {
             };
         }
             
-        function charsOf(s) {
-            var r1 = [];
-            var r2 = [];
-            for (var i = 0; i < s.length; i++) {
-                r1.push(s.charAt(i));
-                r2.push(s.charCodeAt(i));
-            }
-            return [r1, r2];
+        function charsOf(line) {
+            return line.map(function(c) { return c[1] }).join("");
         }
         
         function getCursorLeft(n) {

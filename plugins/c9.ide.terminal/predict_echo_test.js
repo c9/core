@@ -128,8 +128,10 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 });
             });
             
-            function openTerminal(done) {
+            function openTerminal(callback) {
                 tabs.openEditor("terminal", function(err, tab) {
+                    if (err) return callback(err);
+                    
                     editor = tab.editor;
                     session = editor.ace.getSession().c9session;
                     send = session.send;
@@ -219,6 +221,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                         send("\r");
                     });
                     session.$predictor.state = 0;
+                    console.log("! next test");
                     sendAll(" # next*".split(""));
                 });
             
