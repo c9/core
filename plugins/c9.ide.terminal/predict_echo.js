@@ -160,6 +160,9 @@ define(function(require, exports, module) {
                         + "%c" + predictLine,
                         "color: lightblue");
                     
+                    // DEBUG && console.log("!="
+                    //     + session.terminal.$debugCharsAt(predictStartY - session.terminal.ybase).join(""));
+                    
                     command.timeout = setTimeout(function panic() {
                         if (!c9.has(c9.NETWORK) || !c9.connected) {
                             state = STATE_WAIT_FOR_ECHO;
@@ -219,13 +222,17 @@ define(function(require, exports, module) {
                 
                 pong();
                 
-                var result;
-                chopPredictions(e, predictions, function(err, _result) {
-                    result = _result;
-                    if (err || !result) {
-                        DEBUG && console.log("[predict_echo] mispredict?", e.data.replace(/\r/g, "\\r"),
-                            "\n@", nonPredictTerminal.$debugCharsAt(e.$startY).join(""));
-                        emit("mispredict", { data: e.data, predictions: predictions, session: session });
+                chopPredictions(e, predictions, function(err, results, line) {
+                    if (err || !results) {
+                        DEBUG && console.log("[predict_echo] mispredict?", e.data.replace(/\r/g, "\\r")
+                            + "\n!=" + session.terminal.$debugCharsAt(predictStartY - session.terminal.ybase).join("")
+                            + "\n<=" + nonPredictTerminal.$debugCharsAt(e.$startY).join(""));
+                        emit("mispredict", {
+                            data: e.data,
+                            line: charsOf(line),
+                            predictions: predictions,
+                            session: session
+                        });
                         undoPredictions();
                     }
                     // I would try to enable predictions here,
@@ -244,7 +251,7 @@ define(function(require, exports, module) {
             /**
              * Temporarily restore the unpredict terminal state to allow
              * writing incoming data, including small anomalies that may
-             * not have been predict but still passed our sanity checks.
+             * not have been predicted but still passed our sanity checks.
              */
             function writePredictData(data, startX) {
                 var predictTerminal = session.terminal;

@@ -376,8 +376,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                         afterPredict("[", function() {
                             afterPredict("[", function() {
                                 assert.equal(peek(-1), " ");
-                                assert.equal(peek(), "e");
-                                assert.equal(peek(1), "c");
+                                assert.equal(peek(), "#");
+                                assert.equal(peek(1), "p");
 
                                 afterPrompt(done);
                                 send("\r");
@@ -387,16 +387,16 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                         sendAll([INPUT_RIGHT]);
                     });
                     
-                    sendAll(["eecho bleep", INPUT_HOME]);
+                    sendAll(["##print some chars; home; right; backspace", INPUT_HOME]);
                 });
                 
-                it("supports insert with repeated characters; stress test", function loop(done, attempt) {
+                it("supports insert with repeated characters (prxaat); stress test", function loop(done, attempt) {
                     this.timeout && this.timeout(60000);
                     session.$predictor.state = 0;
                     if (attempt === 5)
                         return done();
                     
-                    sendAll("echo blaat".split(""), function() {
+                    sendAll("echo praat".split(""), function() {
                         var sawX;
                         
                         afterPredict("t", function() {
@@ -405,8 +405,9 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                         });
                         predictor.on("predict", function wait(e) {
                             sawX = sawX || e.data.match(/x/);
-                            if (!sawX || e.data.match(/xaat/) || !e.data.match(/a/))
-                                return; // console.log("  -", e.data, sawX)*
+                            // Wait until we've seen an 'x' and then an 'a'
+                            if (!sawX || e.data.match(/xaat$/))
+                                return console.log("  -", e.data, !!sawX);
                             predictor.off("predict", wait);
 
                             assert.equal(peek(), "a");
