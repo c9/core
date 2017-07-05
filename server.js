@@ -4,7 +4,7 @@
 require("amd-loader");
 try {
     require("heapdump");
-} catch(e) {}
+} catch (e) {}
 
 var path = require("path");
 var architect = require("architect");
