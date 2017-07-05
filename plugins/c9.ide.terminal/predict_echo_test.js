@@ -206,7 +206,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 setTimeout(function() {
                     send(key);
                     sendAll(keys, callback);
-                });
+                }, 5);
             }
             
             describe("predict_echo", function() {
