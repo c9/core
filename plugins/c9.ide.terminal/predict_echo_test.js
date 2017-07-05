@@ -139,7 +139,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                     setTimeout(init);
                     
                     function init() {
-                        afterPrompt(function() { setTimeout(start); });
+                        afterPrompt(function() { setTimeout(callback); });
                         // Make sure we have a prompt with a dollar for tests
                         // And terminal won't send rename commands in the middle of the test
                         // TODO: do we need to handle rename sequence in predict_echo instead?
@@ -150,14 +150,12 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                         // editor.ace.onTextInput("ssh ubuntu@ci.c9.io\n");
                     }
                 });
-                function start() {
-                    predictor.on("mispredict", function(e) {
-                        console.error("MISPREDICTED", e);
-                        delete e.session;
-                        throw new Error("MISPREDICTED: " + JSON.stringify(e));
-                    });
-                    setTimeout(done);
-                }
+            }
+            
+            function reportMispredict(e) {
+                console.error("MISPREDICTED", e);
+                delete e.session;
+                throw new Error("MISPREDICTED: " + JSON.stringify(e));
             }
             
             function peek(offset) {
@@ -213,9 +211,12 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
             
             describe("predict_echo", function() {
                 beforeEach(function(done) {
+                    predictor.off("mispredict", reportMispredict);
+                    
                     afterPredict("*", function() {
                         afterPrompt(function() {
                             session.$predictor.state = 0;
+                            predictor.on("mispredict", reportMispredict);
                             done();
                         });
                         send("\r");
