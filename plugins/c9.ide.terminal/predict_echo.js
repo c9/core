@@ -45,10 +45,9 @@ define(function(require, exports, module) {
         var INPUT_RIGHT = ESC + "[C";
         var OUTPUTS_RIGHT = [ESC + "[C", ESC + "[1C"];
         var STATE_PREDICT = 0;
-        var STATE_WAIT_FOR_ECHO_OR_PROMPT = 1;
-        var STATE_WAIT_FOR_ECHO = 2;
-        var STATE_WAIT_FOR_PROMPT = 3;
-        var STATE_INITING = 4;
+        var STATE_WAIT_FOR_PROMPT_OR_ECHO = 1;
+        var STATE_WAIT_FOR_PROMPT = 2;
+        var STATE_INITING = 3;
         
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
@@ -86,7 +85,7 @@ define(function(require, exports, module) {
             var predictStartX = 0;
             var predictStartY = 0;
             var nonPredictStartY = 0;
-            var state = STATE_WAIT_FOR_ECHO_OR_PROMPT;
+            var state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
             var lastInput = null;
             
             // We maintain a copy of the terminal state without predictions
@@ -117,7 +116,7 @@ define(function(require, exports, module) {
                 
                 if (isPossibleConnectionGone()) {
                     DEBUG && console.log("!", "nopredict: connection gone?");
-                    state = STATE_WAIT_FOR_ECHO;
+                    state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
                     return;
                 }
                 
@@ -165,7 +164,7 @@ define(function(require, exports, module) {
                     
                     command.timeout = setTimeout(function panic() {
                         if (!c9.has(c9.NETWORK) || !c9.connected) {
-                            state = STATE_WAIT_FOR_ECHO;
+                            state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
                             c9.once("connect", function() {
                                 command.timeout = setTimeout(panic, MIN_PREDICTION_WAIT);
                             });
@@ -213,7 +212,7 @@ define(function(require, exports, module) {
                 if (!predictions.length) {
                     if (state == STATE_PREDICT && nonPredictStartY !== nonPredictTerminal.ybase + nonPredictTerminal.y) {
                         DEBUG && console.log("  ^ disabled predictions: (row changed)");
-                        state = STATE_WAIT_FOR_ECHO;
+                        state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
                     }
                     tryEnablePrediction(e.data);
                     emit("nopredict", { data: e.data, session: session });
@@ -295,7 +294,7 @@ define(function(require, exports, module) {
                 
                 pendingPings = [];
                 predictions = [];
-                state = STATE_WAIT_FOR_ECHO;
+                state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
                 copyTerminalLineTo(terminal);
                 session.terminal.x = nonPredictTerminal.x;
                 lastInput = null; // avoid immediately enabling again
@@ -483,7 +482,7 @@ define(function(require, exports, module) {
                     return;
                 
                 // Enable prediction when we see a prompt
-                if ((state == STATE_WAIT_FOR_PROMPT || state === STATE_WAIT_FOR_ECHO_OR_PROMPT)
+                if ((state == STATE_WAIT_FOR_PROMPT || state === STATE_WAIT_FOR_PROMPT_OR_ECHO)
                     && data.match(/[$#] $/)) {
                     if (DEBUG) console.log("  ^ re-enabled predictions: (prompt)");
                     return startPredict();
@@ -491,7 +490,7 @@ define(function(require, exports, module) {
                 
                 // Enable prediction when we see echoing
                 if (lastInput
-                    && (state === STATE_WAIT_FOR_ECHO || state === STATE_WAIT_FOR_ECHO_OR_PROMPT)
+                    && (state === STATE_WAIT_FOR_PROMPT_OR_ECHO)
                     && lastInput === data.substr(data.length - lastInput.length)
                     && (!BASH_ONLY || isBashActive())) {
                     if (DEBUG) console.log("  ^ re-enabled predictions:", lastInput);
