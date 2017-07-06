@@ -29,7 +29,7 @@ define(function(require, exports, module) {
         
         var MIN_PREDICTION_WAIT = 500;
         var PING_DEVIATION = 500;
-        var INSERTABLE_CHARS = /^[A-Za-z0-9!"#$%&'()*+,-\.\/:;<=>?!@[\] ^_`{|}~]+$/;
+        var INSERTABLE_CHARS = /^[A-Za-z0-9!"#$%&'()*+,-\.\/\\:;<=>?!@[\] ^_`{|}~]+$/;
         var INPUT_BACKSPACE = "\u007F";
         var ESC = "\u001B";
         var OUTPUTS_BACKSPACE_ALL = ["\b" + ESC + "[K", "\b" + ESC + "[1K"];
@@ -156,7 +156,7 @@ define(function(require, exports, module) {
                     
                     if (DEBUG) {
                         var alreadyEchoed = predictions[0].before.predict;
-                        console.log("! " + debugPromptSuffix()
+                        console.log("!" + debugPromptSuffix()
                             + predictLine.substr(0, alreadyEchoed.length)
                             + "%c" + predictLine.substr(alreadyEchoed.length),
                             "color: lightblue"
@@ -214,7 +214,7 @@ define(function(require, exports, module) {
                 }
                 
                 DEBUG && console.log(
-                    "< "
+                    "<"
                     + (state == STATE_PREDICT
                         ? debugPromptSuffix() +
                           nonPredictTerminal.$debugCharsAt(e.$startY).slice(predictStartX).join("")
