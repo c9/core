@@ -51,7 +51,7 @@ define(function(require, module, exports) {
         function show(title, description, onChoose, onCancel, options) {
             draw();
             
-            lblExplanation.$ext.innerHTML = util.escapeXml(description);
+            lblExplanation.$ext.textContent = description;
             plugin.title = title || "Please Sign In";
             
             var chosen;

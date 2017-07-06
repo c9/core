@@ -185,10 +185,9 @@ define(function(require, exports, module) {
                     
                     var cssClass = theme.cssClass;
                     
-                    var div = document.createElement("div");
-                    document.body.appendChild(div);
-                    div.innerHTML = "<div class='ace_gutter'></div>";
-                    div.className = cssClass;
+                    var div = ui.buildDom(["div", { class: cssClass }, [
+                        "span", { class: "ace_gutter" }
+                    ]], document.body);
                     
                     theme.bg = ui.getStyle(div.firstChild, "backgroundColor");
                     theme.fg = ui.getStyle(div.firstChild, "color");
@@ -240,7 +239,7 @@ define(function(require, exports, module) {
             // detected from document value
             ["newLineMode", "unix", STRING, "newlinemode", 1],
             // Per document
-            ["tabSize", "4", NUMBER, "tabsize", 1],
+            ["tabSize", 4, NUMBER, "tabsize", 1],
             ["useSoftTabs", true, BOOL, "softtabs", 1],
             ["guessTabSize", true, BOOL, "guesstabsize", 1],
             ["useWrapMode", false, BOOL, "wrapmode"],
@@ -1477,8 +1476,11 @@ define(function(require, exports, module) {
             else if (/<\?xml/.test(firstLine)) {
                 syntax = "xml";
             }
-            else if (/^{/.test(firstLine)) {
+            else if (/^{\s*("|$)/.test(firstLine)) {
                 syntax = "json";
+            }
+            else if (/^---$/.test(firstLine)) {
+                syntax = "yaml";
             }
             else if (/\.(bash|inputrc|profile|zsh)/.test(path)) {
                 syntax = "sh";

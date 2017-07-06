@@ -1,0 +1,279 @@
+.welcome {
+    background: @welcome-background top left no-repeat;
+    left: 0;
+    right: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
+    .display-flex();
+    .font-smoothing(@welcome-font-smoothing);
+    background-attachment: local;
+    color: @welcome-color;
+}
+
+.welcome-logo {
+    position: absolute;
+    .image-2x(@welcome-logo-image, @welcome-logo-image-width, @welcome-logo-image-height);
+    background-position: top left;
+    width: 155px;
+    height: 103px;
+    left: 32px;
+    top: 34px;
+}
+
+.welcome a {
+    text-decoration: none;
+    color: @welcome-highlight-color;
+}
+
+.main {
+    .flex(1);
+    min-width: 460px;
+    overflow: auto;
+    position: relative;
+}
+
+.sidepanel {
+    max-width: 250px;
+    min-width: 150px;
+    .flex(1);
+    padding: 30px 30px 0 20px;
+    border-left: 1px solid @welcome-panel-border-color;
+    background: @welcome-panel-background;
+    overflow: auto;
+}
+
+.welcome:after when(@welcome-alter-widgets = true) {
+    height: 7px;
+    background: @welcome-top-border;
+    content: "";
+    position: absolute;
+    left: 775px;
+    right: 0;
+    top: 0;
+}
+
+.welcome .welcome-heading {
+    position: absolute;
+    font-size: 60px;
+    font-family: Myriad Pro, Arial;
+    top: 67px;
+    left: 205px;
+    font-weight: normal;
+}
+
+.welcome .intro {
+    font-family: Arial;
+    font-size: 12px;
+    min-width: 400px;
+    max-width: 600px;
+    line-height: 1.5em;
+    margin: 160px 20px 0 35px;
+}
+
+.welcome h3{
+    font-weight : normal;
+    font-size : 12px;
+    color: @welcome-heading-color;
+    border-bottom: @welcome-heading-border-bottom;
+    padding-bottom: 4px;
+    margin-bottom: 9px;
+}
+
+.sidepanel .video .placeholder{
+    width: 100%;
+    height: 150px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 25px;
+    text-align: center;
+    vertical-align: middle;
+    color: rgba(255, 255, 255, 0.29);
+}
+
+.sidepanel .video .placeholder:after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 1px;
+    vertical-align: middle;
+}
+
+.sidepanel .video label{
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin: 3px;
+}
+
+.welcome .more{
+    display: block;
+    text-align: right;
+    cursor: pointer;
+}
+.welcome .more:hover{
+    text-decoration : underline;
+}
+
+.sidepanel h4{
+    color: #b7d513;
+    margin-bottom : -10px;
+    margin-top: 0px;
+}
+.sidepanel h4:hover{
+    cursor : pointer;
+    text-decoration: underline;
+}
+
+.welcome .configure{
+    margin: 20px 0px 0 35px;
+    width: 400px;
+}
+
+.welcome .next {
+    margin: 0px 0px 0 35px;
+    width: 400px;
+}
+
+.welcome .form .cbblack.cbcontainer,
+.welcome .form .cbblack.cbcontainer span,
+.welcome .label{
+    font-size : 12px;
+    color : inherit;
+}
+
+.welcome ul {
+    padding: 0 0 0 20px;
+}
+
+.welcome ul li {
+    line-height: 18px;
+    color: @welcome-highlight-color;
+    cursor : pointer;
+}
+.welcome ul li:hover{
+    text-decoration : underline;
+}
+.welcome .switched button {
+    margin: 20px 0 0 122px;
+    width: 100px;
+    height: 21px;
+}
+.welcome .switched {
+    display : none;
+    position: absolute;
+    left: 50%;
+    top: 100px;
+    background: rgb(228, 252, 232);
+    color: black;
+    padding: 20px;
+    box-shadow: 0px 0px 40px 5px rgba(0,0,0,0.4);
+    width: 400px;
+    margin-left: -200px;
+    z-index: 100000;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+.welcome .switched td{
+    padding-right : 10px;
+}
+.welcome .switched th{
+    text-align :left;
+}
+.welcome .switched h2{
+    margin-top: 0;
+    color: #5F7525;
+}
+.welcome p{
+    line-height: 1.4em;
+}
+
+.welcome .black_dropdown when(@welcome-alter-widgets = true){
+    background: transparent;
+    border-color: rgba(0, 0, 0, 0.35);
+    .gradient(~"linear-gradient(bottom, rgba(0, 0, 0, 0.13) 0%, rgba(0, 0, 0, 0) 100%)");
+}
+.welcome .black_dropdownOver when(@welcome-alter-widgets = true){
+    .gradient(~"linear-gradient(bottom, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.02) 100%)");
+}
+.welcome .black_dropdownDown when(@welcome-alter-widgets = true){
+    .gradient(~"linear-gradient(bottom, rgba(45, 45, 45, 0.08) 0%, rgba(0, 0, 0, 0.07) 100%)");
+}
+.welcome .black_dropdown .button when(@welcome-alter-widgets = true){
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+/*.c9-optionList{*/
+/*    background: rgba(29, 63, 77, 1);*/
+/*    border: 1px solid #021F2A;*/
+/*}*/
+/*.c9-optionList .c9-dd-item.hover {*/
+/*    background-color: rgba(0, 0, 0, 0.23);*/
+/*}*/
+
+.welcome .presets{
+    margin: 20px 0px 40px 35px;
+    width: 410px;
+}
+
+.welcome .preset_container{
+    padding: 10px 10px 0 10px;
+}
+
+.welcome .preset_container .preset{
+    width: 116px;
+    height: 116px;
+    display: inline-block;
+    margin-right: 13px;
+    position: relative;
+    cursor: pointer;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    background: no-repeat 50% 50%;
+
+    border: 1px solid rgba(255, 255, 255, 0.17);
+    background-color: rgba(148, 148, 148, 0.1);
+}
+.welcome .preset_container .preset:last-child{
+    margin-right: 0;
+}
+
+.welcome .preset_container .preset:hover{
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background-color: rgba(148, 148, 148, 0.15);
+}
+
+.welcome .preset_container .preset.active{
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background-color: rgba(148, 148, 148, 0.19);
+}
+
+.welcome .preset_container .preset label{
+    text-align: center;
+    position : absolute;
+    bottom : -25px;
+    left: 0;
+    right: 0;
+    cursor: inherit;
+    opacity: 0.5;
+    border-radius: 3px;
+    padding: 1px;
+}
+.welcome .preset_container .preset:hover label{
+    opacity: 0.65;
+    background: rgba(158, 158, 158, 0.1);
+}
+.welcome .preset_container .preset.active label{
+    opacity: 0.8;
+    background: rgba(158, 158, 158, 0.3) url("/static/plugins/c9.ide.layout.classic/images/check.gif") no-repeat 0 -16px;
+}
+
+.welcome .preset_container .preset#default{
+    background-image : url("@{image-path}/fullide.png");
+}
+.welcome .preset_container .preset#minimal{
+    background-image : url("@{image-path}/minimal.png");
+}
+.welcome .preset_container .preset#sublime{
+    background-image : url("@{image-path}/sublime.png");
+}

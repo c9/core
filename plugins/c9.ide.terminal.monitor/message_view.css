@@ -1,0 +1,94 @@
+/** terminal_monitor_message_view **/
+.terminal_monitor_messageContainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 30;
+    overflow: auto;
+    max-height: 100%;
+}
+.terminal_monitor_message {
+    border-radius: @terminal-message-border-radius;
+    
+    .gradient(~"@{terminal-message-gradient}");
+    
+    max-width: 350px;
+    padding : @terminal-message-padding;
+    margin: 4px;
+    font-family : @terminal-message-font-family;
+    font-size : @terminal-message-font-size;
+    
+    display : none;
+    opacity: 0;
+    transition: opacity .2s;
+    box-sizing: border-box;
+    border: @terminal-message-border;
+    box-shadow: @terminal-message-box-shadow;
+    .font-smoothing(true);
+    line-height: 15px;
+}
+
+.terminal_monitor_message:focus {
+    outline: none;
+}
+
+.terminal_monitor_message > .message{
+    color : @terminal-message-color;
+    margin : 0 0 0 1px;
+}
+
+.terminal_monitor_message > .message strong {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.terminal_monitor_message > .message a {
+    color: @terminal-message-link-color;
+    text-decoration: none;
+}
+.terminal_monitor_message > .message a:hover {
+    text-decoration: underline;
+}
+
+.terminal_monitor_message .cmd {
+    display: none;
+    margin: 5px 0 0 5px;
+    float: right;
+    
+    .gradient(~"@{terminal-message-button-gradient}");
+    text-shadow: @terminal-message-button-text-shadow;
+}
+
+.terminal_monitor_message .cmd:hover {
+    .gradient(~"@{terminal-message-button-hover-gradient}");
+}
+.terminal_monitor_message .cmd:active {
+    .gradient(~"@{terminal-message-button-active-gradient}");
+}
+
+.terminal_monitor_message .caption {
+    border-top: @terminal-message-button-border-top;
+    cursor: pointer;
+}
+
+.terminal_monitor_message .close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    
+    width: 14px;
+    height: 14px;
+    display: block;
+    
+    .image-2x(@terminal-message-close-image, @terminal-message-close-image-width, @terminal-message-close-image-height);
+    background-position: @terminal-message-close-idle;
+    cursor: pointer;
+}
+
+.terminal_monitor_message .close:hover {
+    background-position: @terminal-message-close-hover;
+}
+
+.terminal_monitor_message .close:active {
+    background-position: @terminal-message-close-active;
+}

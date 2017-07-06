@@ -61,7 +61,7 @@ define(function(require, exports, module) {
             }, plugin);
             
             plugin.on("newListener", function(type, listener) {
-                if (type == "eachTheme")
+                if (type == "eachTheme" && plugin.hasTheme)
                     listener({});
             }, plugin);
             
@@ -127,8 +127,6 @@ define(function(require, exports, module) {
             window.addEventListener("resize", resize, false);
             window.addEventListener("focus", resize, false);
             
-            setGeckoMask();
-            
             plugin.addOther(function() {
                 window.removeEventListener("resize", resize, false);
                 window.removeEventListener("focus", resize, false);
@@ -181,9 +179,8 @@ define(function(require, exports, module) {
                     changeTheme();
             }
             function changeTheme() {
-                if (!oldTheme) return;
-                
                 emit("eachTheme", { changed: true });
+                setGeckoMask();
                 
                 var auto = emit("themeChange", { 
                     theme: theme, 
@@ -191,9 +188,7 @@ define(function(require, exports, module) {
                     type: type
                 }) !== false;
                 
-                setGeckoMask();
-                
-                if (noquestion) return;
+                if (!oldTheme || noquestion) return;
                 
                 if (auto)
                     return emit("themeDefaults", { theme: theme, type: type });
@@ -592,6 +587,10 @@ define(function(require, exports, module) {
             
             get theme() {
                 return theme;
+            },
+            
+            get hasTheme() {
+                return !ui.packedThemes || !!removeTheme
             },
 
             /**

@@ -90,6 +90,7 @@ require([
                 x.connected = true;
                 return x;
             })(),
+            apf: {},
             vfs: (function() {
                 var x = new EventEmitter();
                 return x;
@@ -395,6 +396,7 @@ require([
             util: {
                 alert: function() {},
                 escapeXml: function(s) { return s; },
+                normalizePath: function(s) { return s; },
                 stableStringify: function(s) { return JSON.stringify(s); },
             },
             gotoline: {

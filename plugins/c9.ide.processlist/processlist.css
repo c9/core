@@ -1,0 +1,11 @@
+.process-list{
+    height: 300px;
+    margin: 0;
+}
+.process-list .blackdg{
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    right: 20px;
+    bottom: 20px;
+}

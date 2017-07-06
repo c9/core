@@ -24,7 +24,11 @@ define(function(require, exports, module) {
             if (options.skin && options.config) {
                 build.buildSkin(options.config, options.skin, pathConfig, save(["skin", options.config, options.skin + ".css"]));
             } else if (options.config) {
-                var configs = options.config.split(/,\s*/);
+                var seen = Object.create(null);
+                var configs = options.config.split(/,\s*/).filter(function(x) {
+                    if (seen[x]) return false;
+                    return seen[x] = true;
+                });
                 var configCache = options.skipDuplicates && { duplicates: []};
                 var usedPlugins = options.copyStaticResources && Object.create(null);
                 
@@ -149,6 +153,7 @@ define(function(require, exports, module) {
             function done(err) {
                 if (err) {
                     console.error(err, err.stack);
+                    console.trace();
                     process.exit(1);
                 }
                 pending--;
@@ -250,7 +255,7 @@ define(function(require, exports, module) {
                     process.exit(1);
                 }
                 copy(absPath, root + "/static/" + p, {
-                    include: /^(remarkable.min.js|runners_list.js|builders_list.js|bootstrap.js)$/,
+                    include: /^(remarkable.min.js|runners_list.js|builders_list.js|rusha.min.js|bootstrap.js)$/,
                     exclude: function(name, dir) {
                         if (/\.css$/.test(name)) {
                             if (!cache.files[dir + "/" + name]) {

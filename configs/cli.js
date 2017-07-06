@@ -42,18 +42,6 @@ return [
     },
     {
         packagePath: "./c9.cli.publish/publish",
-        projectId: PID,
-        apiHost: APIHOST
-    },
-    {
-        packagePath: "./c9.cli.publish/install",
-        projectId: PID,
-        apiHost: APIHOST
-    },
-    {
-        packagePath: "./c9.cli.publish/list",
-        projectId: PID,
-        apiHost: APIHOST
     },
     {
         packagePath: "./c9.ide.auth/auth",
@@ -70,13 +58,11 @@ return [
     },
     {
         packagePath: "./c9.core/http-node"
-        // debug: !options.packed
     },
     {
         packagePath: "./c9.cli.bridge/bridge-client",
         port: 17123
     },
-    // "./c9.cli.mount/mount",
     {
         packagePath: "./c9.cli.open/open",
         platform: process.platform
@@ -89,35 +75,9 @@ return [
         packagePath: "./c9.cli.open/restart",
         platform: process.platform
     },
-    "./c9.automate/automate",
-    "./c9.ide.installer/commands/centos",
-    "./c9.ide.installer/commands/darwin",
-    "./c9.ide.installer/commands/bash",
-    "./c9.ide.installer/commands/npm",
-    "./c9.ide.installer/commands/npm-g",
-    "./c9.ide.installer/commands/pip",
-    "./c9.ide.installer/commands/gem",
-    "./c9.ide.installer/commands/zip",
-    "./c9.ide.installer/commands/symlink",
-    "./c9.ide.installer/commands/message",
-    {
-        packagePath: "./c9.ide.installer/commands/tar.gz",
-        bashBin: "bash"
-    },
-    "./c9.ide.installer/commands/ubuntu",
-    "./c9.ide.installer/cli",
-    {
-        packagePath: "./c9.ide.installer/installer",
-        homeDir: process.env.HOME,
-        installSelfCheck: false,
-        installPath: process.env.HOME + "/.c9",
-        cli: true
-    },
-    // "./c9.cli.sync/sync",
-    //"./c9.ide.keys/commands",
     {
         consumes: [],
-        provides: ["settings", "workspace", "cli_commands", "c9", "error_handler"],
+        provides: ["settings", "cli_commands", "c9", "error_handler"],
         setup: function(options, imports, register) {
             register(null, {
                 // @todo share with ace min
@@ -134,20 +94,6 @@ return [
                 error_handler: {
                     log: function(){}
                 },
-                workspace: (function(){
-                    var ws = new EventEmitter();
-                    ws.connect = function(name, callback) {
-                        callback(null, {
-                            hostname: "54.242.22.91",
-                            username: "ubuntu",
-                            rootPath: "/home/ubuntu/newclient/",
-                            setupSshConnection: function(callback) {
-                                callback();
-                            }
-                        });
-                    };
-                    return ws;
-                })(),
                 cli_commands: (function(){
                     var cmds = new EventEmitter();
                     var commands = {};

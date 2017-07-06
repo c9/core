@@ -1,0 +1,91 @@
+<html>
+    <body>
+        <h1>Generated bright colors:</h1>
+        <table id="color_table">
+        </table>
+        <h1>SELECTED:</h1>
+        <table id="selected_colors_table">
+        </table>
+    <script>
+        function randomColor() {
+            var a,b,c;
+            do {
+              a = Math.random();
+              b = Math.random();
+              c = Math.max(a,b);
+            } while (c < 0.001);
+
+            // scale them such that the larger number scales to 1.0f
+            var scale = 1.0 / c;
+            a *= scale;
+            b *= scale;
+
+            // Pick third value, ensure it's dark.
+            c = Math.random() * 0.5;
+            var rgb = new Array(3);
+
+            var idx = Math.floor(Math.random() * 3) % 3;
+            rgb[idx] = a;
+
+            var rnd2 = Math.floor(Math.random() * 2) + 1;
+            var idx2 = (rnd2 + idx) % 3;
+            rgb[idx2] = b;
+
+            var idx3 = 3 - (idx + idx2);
+            rgb[idx3] = c;
+
+            rgb = rgb.map(function(x) {
+                return Math.floor(255 * x);
+            });
+            return {r: rgb[0], g: rgb[1], b: rgb[2]};
+        }
+
+        function formatColor(rgb) {
+            return ["rgb(", rgb.r, ",", rgb.g, ",", rgb.b, ")"].join("");
+        }
+        var table = document.getElementById("color_table");
+        for (var i = 0; i < 10; i++) {
+            var tr = document.createElement("tr");
+            table.appendChild(tr);
+            for (var j = 0; j < 10; j++) {
+                var td = document.createElement("td");
+                td.style.backgroundColor = formatColor(randomColor());
+                td.style.width = "50px";
+                td.textContent = td.style.backgroundColor;
+                td.style.height = "50px";
+                tr.appendChild(td);
+            }
+        }
+        var selectedColorsTable = document.getElementById("selected_colors_table");
+        var featuresColors = [
+            "rgb(255, 146, 45)",
+            "rgb(157, 47, 254)",
+            "rgb(105, 215, 83)",
+            "rgb(255, 105, 130)",
+            "rgb(200, 109, 218)",
+            "rgb(210, 230, 51)",
+            "rgb(6, 134, 255)",
+            "rgb(254, 13, 244)",
+            "rgb(188, 255, 86)",
+            "rgb(255, 212, 125)",
+            "rgb(107, 4, 255)",
+            "rgb(66, 248, 255)"];
+        for (var i = 0; i < featuresColors.length; i++) {
+            var tr = document.createElement("tr");
+            selectedColorsTable.appendChild(tr);
+            var td = document.createElement("td");
+            td.style.backgroundColor = featuresColors[i];
+            td.style.width = "100px";
+            td.textContent = td.style.backgroundColor;
+            td.style.height = "50px";
+            tr.appendChild(td);
+            td = document.createElement("td");
+            td.style.color = featuresColors[i];
+            td.style.width = "100px";
+            td.textContent = "sample author text - chat ?";
+            td.style.height = "50px";
+            tr.appendChild(td);
+        }
+    </script>
+    </body>
+</html>

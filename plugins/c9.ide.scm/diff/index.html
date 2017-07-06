@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ace-diff - Simple Demo #1</title>
+    
+    <script src="/static/mini_require.js"></script>
+    <script src="/configs/require_config.js"></script>
+    
+    <style type="text/css">
+        .ace_diff-container {
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="ace_diff-container"></div>
+
+<script>
+    require(["plugins/c9.ide.scm/diff/twoway"], function() {
+        var DiffView = require("plugins/c9.ide.scm/diff/twoway").DiffView;
+        var diffView = new DiffView(document.querySelector(".ace_diff-container"), {});
+        window.diffView = diffView;
+        
+        require("ace/lib/net").get("./diff/0.html", function(v) {
+            diffView.left.setValue(v, -1);
+            diffView.left.session.setMode("ace/mode/javascript");
+        });
+        require("ace/lib/net").get("./diff/1.html", function(v) {
+            diffView.right.setValue(v, -1);
+            diffView.right.session.setMode("ace/mode/javascript");
+        });
+    });
+
+</script>
+
+
+
+</body>
+</html>

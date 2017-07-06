@@ -76,7 +76,7 @@
         location.hash = location.hash.replace(/&?create/, "");
     }
     
-    document.querySelector("#loadingide .cool-message").innerHTML = msg;
+    document.querySelector("#loadingide .cool-message").textContent = msg;
 
     setTimeout(function(){
         var s = document.querySelector("#loadingide .status");

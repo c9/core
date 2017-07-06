@@ -1,0 +1,37 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:menu id="menu"
+      class  = "mnuSbPrefs"
+      sticky = "false"
+      render = "runtime">
+        <a:item type="check" caption="Show Invisibles" checked="user/ace/@showInvisibles" />
+        <a:item type="check" caption="Show Gutter" checked="user/ace/@showGutter" />
+        <a:item type="check" caption="Auto-pair Brackets, Quotes, etc." checked="user/ace/@behavioursEnabled" />
+        <a:item type="check" caption="Wrap Lines" id="itmSbWrap" />
+        <a:item type="check" style="margin-left:18px;position:relative" caption="&#8627; to Print Margin" id="itmSbWrapPM" />
+        <a:divider />
+        <a:hbox edge="0 5 2 23" align="center">
+            <a:label flex="1" style="padding: 2px 2px 2px 0">Font Size</a:label>
+            <a:spinner value="user/ace/@fontSize" realtime="true" min="1" max="72" width="50" />
+        </a:hbox>
+    </a:menu>
+    
+    <a:menu id="menuTabs" render="runtime" class="mnuSbPrefs">
+        <a:item type="check" caption="Soft Tabs (spaces)" />
+        <a:divider />
+        <a:item disabled="true">Tab Size</a:item>
+        <a:item type="radio" caption="2" style="padding-left:35px" />
+        <a:item type="radio" caption="3" style="padding-left:35px" />
+        <a:item type="radio" caption="4" style="padding-left:35px" />
+        <a:item type="radio" caption="8" style="padding-left:35px" />
+        <a:divider />
+        <a:hbox edge="0 10 2 23" align="center">
+            <a:label style="padding: 2px 10px 2px 3px;flex:1 1 50px;">Other</a:label>
+            <a:spinner id="itmTabSize" realtime="true" min="1" max="64" width="50" />
+        </a:hbox>
+        <a:divider />
+        <a:item caption="Guess Tab Size" />
+        <a:divider />
+        <a:item caption="Convert to Spaces" />
+        <a:item caption="Convert to Tabs" />
+    </a:menu>
+</a:application>

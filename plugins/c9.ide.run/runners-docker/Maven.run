@@ -1,0 +1,8 @@
+{
+    "cmd": ["mvn", "$command $args"],
+    "default": true,
+    "selector": "pom.xml",
+    "env": {
+        "MAVEN_OPTS": "-XX:MaxNewSize=64m -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -XX:+CMSParallelRemarkEnabled -XX:+UseTLAB -XX:ParallelGCThreads=6"
+    }
+}

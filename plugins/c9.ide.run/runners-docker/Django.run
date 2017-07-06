@@ -1,0 +1,30 @@
+{
+  "script": [
+    "if [ \"$debug\" == true ]; then ",
+    "    $python manage.py migrate &&\\",
+    "        python2 -m ikpdb --ikpdb-port=15471 --ikpdb-working-directory=\"$project_path\" manage.py runserver $ip:$port --noreload",
+    "else",
+    "    $python manage.py migrate && $python manage.py runserver $ip:$port",
+    "fi",
+    "checkExitCode() {",
+    "    if [ $1 ] && [ \"$debug\" == true ]; then ",
+    "        python -m ikpdb 2>&1 | grep -q 'No module' && echo '",
+    "    To use python debugger install ikpdb by running: ",
+    "        sudo apt-get update;",
+    "        sudo apt-get install python-dev;",
+    "        sudo pip install ikpdb;",
+    "        '",
+    "    fi",
+    "   return $1",
+    "}",
+    "checkExitCode $?"
+  ],
+  "debugport": 15471,
+  "$debugDefaultState": false,
+  "debugger": "pythondebug",
+  "working_dir": "$project_path",
+  "info": "Your code is running at \\033[01;34m$url\\033[00m.\n\\033[01;31m",
+  "env": {
+    "PYTHONPATH": "$python_path"
+  }
+}

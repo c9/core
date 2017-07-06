@@ -1,0 +1,55 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:window
+      id        = "window"
+      center    = "true"
+      icon      = ""
+      skin      = "bk-window2"
+      kbclose   = "true"
+      title     = "Share this workspace"
+      buttons   = "close"
+      class     = "share dark"
+      draggable = "true">
+        <label style="margin-bottom:6px">Links to share</label>
+        <blockquote class="links">
+          <a:hbox>
+            <label class="subhead">Editor:</label>
+            <div flex="1" id="shareLinkEditor" type="text" readonly="true" class="link" textselect="true"></div>
+            <a:checkbox id="publicEditor" skin="checkbox_black" class="sharecb">Public</a:checkbox>
+          </a:hbox>
+          <a:hbox style="margin-top: 4px;">
+            <label class="subhead">Application:</label>
+            <div flex="1" id="shareLinkApp" type="text" readonly="true" class="link" textselect="true"></div>
+            <a:checkbox id="publicApp" skin="checkbox_black" class="sharecb">Public</a:checkbox>
+          </a:hbox>
+          <a:hbox style="margin-top: 4px;">
+            <label class="subhead">Files:</label>
+            <div flex="1" id="shareLinkPreview" type="text" readonly="true" class="link" textselect="true"></div>
+            <a:checkbox id="publicPreview" skin="checkbox_black" class="sharecb">Public</a:checkbox>
+          </a:hbox>
+        </blockquote>
+        
+        <label style="margin-top:10px">Who has access</label>
+        <a:bar id="members" class="members"></a:bar>
+        <a:checkbox skin="checkbox_black" style='width: 200px;margin:-7px 0 9px 0;' 
+          tooltip="When enabled members will always see the owner's last saved state when they load Cloud9"
+          value="project/share/@useOwnerSettings">Don't allow members to save their tab state</a:checkbox>
+
+        <blockquote class="invite">
+            <label>Invite People</label>
+            <a:textbox
+              id              = "txtUsername"
+              skin            = "searchbox"
+              initial-message = "username or email"
+              focusselect     = "true" />
+
+            <a:bar id="access" class="standalone access_control rw">
+                <div class="readbutton">R</div><div class="writebutton">RW</div>
+            </a:bar>
+
+            <a:button id="btnInvite" skin="btn-default-css3" class="btn-green">Invite</a:button>
+            <a:checkbox id="cbNotify" skin="checkbox_black" style='margin-top:6px; width: 200px;' checked="true">Notify people via email</a:checkbox>
+        </blockquote>
+
+        <a:button id="btnDone" skin="btn-default-css3" class="btn-done">Done</a:button>
+    </a:window>
+</a:application>

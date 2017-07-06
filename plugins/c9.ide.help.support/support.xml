@@ -1,0 +1,53 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:window
+      id        = "win"
+      title     = "Report a bug"
+      center    = "true"
+      modal     = "false"
+      buttons   = "close"
+      skin      = "bk-window"
+      kbclose   = "true"
+      class     = "relative reportabug"
+      width     = "358"
+      zindex    = "9000"
+      >
+        <div id="form" style="height: 280px">
+            <a:hbox edge="15 14 9" padding="5" align="center">
+                <span width="46">Subject</span>
+                <a:textbox id="subject" skin="textbox-modal" class="required-tb" flex="1" initial-message="Please make it descriptive"/>
+            </a:hbox>
+            
+            <a:textarea margin="0 15 0 15" id="description" skin = "dashboard-textarea" width="330" height="165" initial-message="Write your bug report here.">
+            </a:textarea>
+                
+            <a:vbox id="attachment" edge="5 10 7">
+                <a:hbox margin="0 0 5 4"><span>Upload an attachment</span></a:hbox>
+                <a:hbox>
+                    <div id="fileChooser">
+                        <input type="file"/>
+                    </div>
+                </a:hbox>
+            </a:vbox>
+        </div>
+        
+        <div id="confirmation" style="height: 280px" visible="false">
+            <a:hbox height="280" pack="center" align="center"><a:label id="confirmationMessage" width="280" style="color: #000; font-size: 11pt"></a:label></a:hbox>
+        </div>
+      
+        <a:vbox>
+            <a:hbox pack="end" padding="5" edge="6 10 10">
+                <a:button
+                  id      = "btnClose"
+                  caption = "Cancel" 
+                  skin    = "btn-default-css3" />
+                  
+                <a:button
+                  id      = "btnSend"
+                  caption = "Send Report" 
+                  class   = "btn-green"
+                  skin    = "btn-default-css3" />
+            </a:hbox>
+        </a:vbox>
+
+    </a:window>
+</a:application>

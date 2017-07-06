@@ -1,92 +1,31 @@
 /*global requirejs*/
 define(function(require, exports, module) {
     main.consumes = [
-        "PreferencePanel", "settings", "ui", "util", "Form", "ext", "c9",
-        "dialog.alert", "dialog.confirm", "layout", "proc", "menus", "commands",
-        "dialog.error", "dialog.info", "tree.favorites", "fs", "tree", "plugin.debug",
-        "preferences.experimental"
+        "app", "ext", "c9", "Plugin", "proc", "fs", "vfs", "dialog.error",
+        "util"
     ];
-    main.provides = ["plugin.manager"];
+    main.provides = ["pluginManager", "plugin.manager", "plugin.debug"];
     return main;
 
-    /*
-        - Show Packages to be updated
-        - Open Plugin Store
-        - Open Cloud9 in Debug Mode
-        - List all installed packages
-            - Filter
-            - Core packages
-                - Name
-                - Version
-                - Description
-                - Load Time
-                - Plugin profile
-            - Pre-installed
-                - *
-            - Custom packages
-                - *
-
-            - Actions:
-                - Uninstall
-                - Report Issue
-                - Open README
-                - Open in Cloud9
-
-        DataProvider.variableHeightRowMixin.call(this)  in datagrid constructor
-        and set node.height
-
-        harutyun [1:11 PM]
-        or add a custom getItemHeight function like https://github.com/c9/newclient/blob/master/node_modules/ace_tree/demo/demo.js#L63 (edited)
-    */
 
     function main(options, imports, register) {
-        var PreferencePanel = imports.PreferencePanel;
-        var settings = imports.settings;
-        var layout = imports.layout;
-        var ui = imports.ui;
         var c9 = imports.c9;
-        var menus = imports.menus;
         var fs = imports.fs;
-        var commands = imports.commands;
         var ext = imports.ext;
-        var tree = imports.tree;
         var proc = imports.proc;
+        var Plugin = imports.Plugin;
         var util = imports.util;
-        var qs = require("querystring");
-        var alert = imports["dialog.alert"].show;
-        var confirm = imports["dialog.confirm"].show;
+        var vfs = imports.vfs;
         var showError = imports["dialog.error"].show;
-        var showInfo = imports["dialog.info"].show;
-        var favs = imports["tree.favorites"];
-        var pluginDebug = imports["plugin.debug"];
-        var experimental = imports["preferences.experimental"];
+        var architectApp = imports.app;
 
-        var search = require("../c9.ide.navigate/search");
-        var Tree = require("ace_tree/tree");
-        var TreeData = require("./managerdp");
         var join = require("path").join;
         var basename = require("path").basename;
         var dirname = require("path").dirname;
-
+        var async = require("async");
+        
         var staticPrefix = options.staticPrefix;
-        var architect;
 
-        var CORE = {
-            "c9.core": 1, "c9.fs": 1, "c9.ide.preferences": 1, "c9.ide.panels": 1,
-            "c9.ide.plugins": 1, "c9.ide.login": 1, "c9.vfs.client": 1,
-            "c9.ide.console": 1, "c9.ide.editors": 1, "c9.ide.dialog.common": 1,
-            "c9.ide.dialog.file": 1, "c9.ide.dialog.login": 1, "c9.ide.errorhandler": 1,
-            "c9.ide.help": 1, "c9.ide.keys": 1, "c9.ide.restore": 1, "c9.ide.watcher": 1,
-            "c9.ide.tree": 1, "c9.ide.info": 1,
-            "c9.ide.layout.classic": 1, "c9.ide.terminal": 1, "c9.ide.ace": 1,
-            "c9.ide.clipboard": 1, "c9.nodeapi": 1
-        };
-        var GROUPS = {
-            "custom": "Installed Plugins",
-            "pre": "Pre-installed plugins",
-            "core": "Core Plugins",
-            "runtime": "Plugins created runtime"
-        };
         var TEMPLATES = {
             "plugin.simple": "Empty Plugin",
             "plugin.default": "Full Plugin",
@@ -94,511 +33,51 @@ define(function(require, exports, module) {
             "plugin.bundle": "Cloud9 Bundle"
         };
 
-        // @TODO add sorting
-
         /***** Initialization *****/
 
-        var ENABLED = c9.location.indexOf("debug=2") > -1
-            || experimental.addExperiment(
-                  "plugin-manager",
-                  options.devel,
-                  "SDK/Plugin Manager"
-               );
+        var plugin = new Plugin();
+        var emit = plugin.getEmitter();
 
-        var plugin = new PreferencePanel("Ajax.org", main.consumes, {
-            caption: "Plugin Manager",
-            className: "plugins",
-            form: false,
-            noscroll: true,
-            index: 200,
-            visible: ENABLED,
-        });
-        // var emit = plugin.getEmitter();
-
-        var model, datagrid, filterbox;
-        var btnUninstall, btnReport, btnReadme, btnCloud9, btnReload;
-
-        var loaded = false;
+        var disabledPlugins = Object.create(null);
+        var packages = Object.create(null);
+        
         function load() {
-            if (loaded) return false;
-            loaded = true;
-
-            if (!ENABLED) return;
-
-            // @TODO enable/disable plugins -> move to ext
-
-            // settings.on("read", function(e) {
-            //     updateCommandsFromSettings();
-            // }, plugin);
-
-            // commands.on("update", function(){
-            //     changed = true;
-            //     updateCommandsFromSettings();
-            // }, plugin);
-            
-            
-            if (options.devel) {
-                commands.addCommand({
-                    name: "reloadLastPlugin",
-                    bindKey: { mac: "F4", win: "F4" },
-                    hint: "reload plugin last reloaded in plugin manager",
-                    exec: function() {
-                        var name = getLastReloaded();
-                        if (!name)
-                            return commands.exec("reloadPlugin", null, { panel: plugin });
-                        reload(name);
-                    }
-                }, plugin);
-                commands.addCommand({
-                    name: "reloadPlugin",
-                    group: "Plugins",
-                    exec: function() { 
-                        commands.exec("openpreferences", null, { panel: plugin });
-                    }
-                }, plugin);
-                
-                menus.addItemByPath("Tools/~", new ui.divider(), 100000, plugin);
-                menus.addItemByPath("Tools/Developer", null, 100100, plugin);
-    
-                menus.addItemByPath("Tools/Developer/Reload Built-in Plugin...", new ui.item({
-                    command: "reloadPlugin"
-                }), 1100, plugin);
-                
-                menus.addItemByPath("Tools/Developer/Reload Last Plugin", new ui.item({
-                    command: "reloadLastPlugin",
-                    isAvailable: getLastReloaded
-                }), 1200, plugin);
+            function loadDefaultPlugins() {
+                // do not allow errors here to interfer with connect event
+                setTimeout(function() {
+                    loadPackage(options.loadFromDisk, function(err) {
+                        if (err) return showError(err);
+                    });
+                });
             }
-
-            menus.addItemByPath("File/New Plugin", null, 210, plugin);
-            Object.keys(TEMPLATES).forEach(function(name) {
-                menus.addItemByPath("File/New Plugin/" + TEMPLATES[name], new ui.item({
-                    onclick: function() {
-                        createNewPlugin(name);
-                    }
-                }), 210, plugin);
-            });
-            
-            ext.on("register", function() {
-                setTimeout(reloadModel);
-            });
-        }
-
-        var drawn;
-        function draw(e) {
-            if (drawn) return;
-            drawn = true;
-
-            model = new TreeData();
-            model.emptyMessage = "No plugins found";
-
-            model.columns = [{
-                caption: "Name",
-                value: "name",
-                // getText: function(p){
-                //     return p.name + " (" + p.items.length + ")";
-                // },
-                width: "250",
-                type: "tree"
-            }, {
-                caption: "Version",
-                // value: "version",
-                getText: function(p) {
-                    return p.version ||
-                        (p.isPackage
-                            ? p.items.length && p.items[0].version || ""
-                            : "");
-                },
-                width: "100"
-            }, {
-                caption: "Startup Time",
-                // value: "time",
-                width: "100",
-                getText: function(p) {
-                    if (p.time !== undefined)
-                        return (p.time || 0) + "ms";
-
-                    var total = 0;
-                    if (p.isPackage || p.name == "runtime") {
-                        p.items.forEach(function(item) { total += item.time || 0; });
-                    }
-                    else {
-                        p.items.forEach(function(p) {
-                            p.items && p.items.forEach(function(item) { total += item.time || 0; });
-                        });
-                    }
-                    return (p.time = total) + "ms";
-                }
-            }, {
-                caption: "Enabled",
-                value: "enabled",
-                width: "100"
-            // }, {
-            //     caption: "Package",
-            //     value: "package", // @todo make a link
-            //     width: "100%"
-            }, {
-                caption: "Developer",
-                // value: "developer",
-                getText: function(p) {
-                    return p.developer ||
-                        (p.isPackage
-                            ? p.items.length && p.items[0].developer || ""
-                            : "");
-                },
-                width: "150"
-            }];
-
-            layout.on("eachTheme", function(e) {
-                var height = parseInt(ui.getStyleRule(".bar-preferences .blackdg .tree-row", "height"), 10) || 24;
-                model.rowHeightInner = height;
-                model.rowHeight = height;
-
-                if (e.changed) datagrid.resize(true);
-            });
-
-            reloadModel();
-
-            // type: "custom",
-            // title: "Introduction",
-            // position: 1,
-            // node: intro = new ui.bar({
-            //     height: 149,
-            //     "class" : "intro",
-            //     style: "padding:12px;position:relative;"
-            // })
-
-            // intro.$int.innerHTML =
-            //     '<h1>Keybindings</h1><p>Change these settings to configure '
-            //     + 'how Cloud9 responds to your keyboard commands.</p>'
-            //     + '<p>You can also manually edit <a href="javascript:void(0)" '
-            //     + '>your keymap file</a>.</p>'
-            //     + '<p class="hint">Hint: Double click on the keystroke cell in the table below to change the keybinding.</p>';
-
-            // intro.$int.querySelector("a").onclick = function(){ editUserKeys(); };
-
-            var hbox = new ui.hbox({
-                htmlNode: e.html,
-                padding: 5,
-                edge: "10 10 0 10",
-                childNodes: [
-                    filterbox = new apf.codebox({
-                        realtime: true,
-                        skin: "codebox",
-                        "class": "dark",
-                        clearbutton: true,
-                        focusselect: true,
-                        height: 27,
-                        width: 250,
-                        singleline: true,
-                        "initial-message": "Search installed plugins"
-                    }),
-                    new ui.filler({}),
-                    btnUninstall = new ui.button({
-                        skin: "btn-default-css3",
-                        caption: "Uninstall",
-                        class: "btn-red",
-                        onclick: function() {
-                            var item = datagrid.selection.getCursor();
-                            if (item.isPackage)
-                                uninstall(item.name, function() {});
-                            else if (item.enabled == "true")
-                                disable(item.name, function() {});
-                            else
-                                enable(item.name, function() {});
-                        }
-                    }),
-                    btnReport = new ui.button({
-                        skin: "btn-default-css3",
-                        caption: "Report Issue"
-                    }),
-                    btnReadme = new ui.button({
-                        skin: "btn-default-css3",
-                        caption: "Open README"
-                    }),
-                    btnCloud9 = new ui.button({
-                        skin: "btn-default-css3",
-                        caption: "Open in Cloud9"
-                    }),
-                    btnReload = new ui.button({
-                        skin: "btn-default-css3",
-                        caption: "Reload",
-                        onclick: function() {
-                            var item = datagrid.selection.getCursor();
-                            if (item.enabled && item.name)
-                                reload(item.name);
-                        }
-                    })
-                ]
-            });
-
-            var div = e.html.appendChild(document.createElement("div"));
-            div.style.position = "absolute";
-            div.style.left = "10px";
-            div.style.right = "10px";
-            div.style.bottom = "10px";
-            div.style.top = "50px";
-
-            datagrid = new Tree(div);
-            datagrid.setTheme({ cssClass: "blackdg" });
-            datagrid.setDataProvider(model);
-
-            layout.on("resize", function() { datagrid.resize(); }, plugin);
-
-            function setTheme(e) {
-                filterbox.setAttribute("class",
-                    e.theme.indexOf("dark") > -1 ? "dark" : "");
+            if (options.loadFromDisk) {
+                if (vfs.connected) loadDefaultPlugins();
+                else vfs.once("connect", loadDefaultPlugins);
             }
-            layout.on("themeChange", setTheme);
-            setTheme({ theme: settings.get("user/general/@skin") });
-
-            filterbox.ace.commands.addCommands([
-                {
-                    bindKey: "Enter",
-                    exec: function() { }
-                }, {
-                    bindKey: "Esc",
-                    exec: function(ace) { ace.setValue(""); }
-                }
-            ]);
-
-            filterbox.ace.on("input", function(e) {
-                applyFilter();
-            });
-
-            // when tab is restored datagrids size might be wrong
-            // todo: remove this when apf bug is fixed
-            datagrid.once("mousemove", function() {
-                datagrid.resize(true);
-            });
-
-            datagrid.on("changeSelection", function(e) {
-                var item = datagrid.selection.getCursor();
-
-                if (item.isGroup) {
-                    btnUninstall.disable();
-                    btnReport.disable();
-                    btnReadme.disable();
-                    btnCloud9.disable();
-                    btnReload.disable();
-                }
-                else {
-                    if (item.isPackage) {
-                        btnUninstall.setCaption("Uninstall");
-                        btnUninstall.setAttribute("class", "btn-red");
-                    }
-                    else {
-                        btnUninstall.setCaption(item.enabled == "true" ? "Disable" : "Enable");
-                        btnUninstall.setAttribute("class", item.enabled == "true" ? "btn-red" : "btn-green");
-                    }
-
-                    if (CORE[item.name] || item.parent.parent && item.parent.parent.isType == "core") {
-                        btnUninstall.disable();
-                    } else {
-                        btnUninstall.enable();
-                    }
-
-                    if (item.isPackage || CORE[item.name] || item.parent.parent && item.parent.parent.isType == "core") {
-                        btnReload.disable();
-                    } else {
-                        btnReload.enable();
-                    }
-
-                    btnReport.enable();
-                    btnReadme.enable();
-                    btnCloud9.enable();
-                }
-            });
         }
 
         /***** Methods *****/
-
-        function reloadModel() {
-            if (!model) return;
-
-            var groups = {};
-            var packages = {};
-            var root = [];
-
-            ["custom", "pre", "core", "runtime"].forEach(function(name) {
-                root.push(groups[name] = {
-                    items: [],
-                    isOpen: name != "runtime",
-                    className: "group",
-                    isGroup: true,
-                    isType: name,
-                    noSelect: true,
-                    name: GROUPS[name]
+        
+        function readAvailablePlugins(callback) {
+            fs.readdir("~/.c9/plugins", function(err, list) {
+                if (err) return callback && callback(err);
+                
+                var available = [];
+                list.forEach(function(stat) {
+                    var name = stat.name;
+                    if (!/(directory|folder)$/.test(stat.mime)) return;
+                    if (!/[._]/.test(name[0])) available.push(name);
                 });
+                callback && callback(null, available);
             });
-
-            var lut = ext.named;
-
-            ext.plugins.forEach(function(plugin) {
-                var info = architect.pluginToPackage[plugin.name];
-                var packageName = info && info.package || "runtime";
-
-                var groupName;
-                if (CORE[packageName]) groupName = "core";
-                else if (info && info.isAdditionalMode) groupName = "custom";
-                else groupName = "pre";
-
-                var package;
-                if (packageName == "runtime") {
-                    package = groups.runtime;
-                }
-                else {
-                    package = packages[packageName];
-                    if (!package)
-                        groups[groupName].items.push(package = packages[packageName] = {
-                            items: [],
-                            isPackage: true,
-                            className: "package",
-                            parent: groups[groupName],
-                            name: packageName
-                        });
-                }
-
-                package.items.push({
-                    name: plugin.name,
-                    enabled: lut[plugin.name].loaded ? "true" : "false",
-                    time: plugin.time,
-                    version: info && info.version || "N/A",
-                    parent: package,
-                    package: packageName,
-                    developer: plugin.developer == "Ajax.org"
-                        ? "Cloud9"
-                        : plugin.developer
-                });
-            });
-
-            model.cachedRoot = { items: root };
-            applyFilter();
-        }
-
-        function applyFilter() {
-            model.keyword = filterbox && filterbox.getValue();
-
-            if (!model.keyword) {
-                model.reKeyword = null;
-                model.setRoot(model.cachedRoot);
-
-                // model.isOpen = function(node){ return node.isOpen; }
-            }
-            else {
-                model.reKeyword = new RegExp("("
-                    + util.escapeRegExp(model.keyword) + ")", 'i');
-                var root = search.treeSearch(model.cachedRoot.items, model.keyword, true);
-                model.setRoot(root);
-
-                // model.isOpen = function(node){ return true; };
-            }
-        }
-
-        function uninstall(name) {
-            btnUninstall.setAttribute("caption", "...");
-            btnUninstall.disable();
-
-            // @TODO first disable the plugin
-
-            proc.spawn("c9", { args: ["uninstall", name]}, function(err, p) {
-                p.stdout.on("data", function(c) {
-
-                });
-                p.stderr.on("data", function(c) {
-
-                });
-                p.on("exit", function(code) {
-                    if (code) {
-                        return alert("Could not uninstall plugin",
-                            "Could not uninstall plugin",
-                            "Could not uninstall plugin");
-                    }
-
-                    btnUninstall.setAttribute("caption", "Uninstall");
-                    btnUninstall.enable();
-                });
-            });
-        }
-
-        function enable(name) {
-            try { ext.enablePlugin(name); }
-            catch (e) {
-                alert("Could not disable plugin",
-                    "Got an error when disabling plugin: " + name,
-                    e.message);
-                return false;
-            }
-
-            reloadModel();
-        }
-
-        function disable(name, callback) {
-            var deps = ext.getDependencies(name);
-            var plugins = ext.named;
-
-            for (var i = 0; i < deps.length; i++) {
-                ext.getDependencies(deps[i]).forEach(function(name) {
-                    if (deps.indexOf(name) == -1)
-                        deps.push(name);
-                });
-            }
-
-            if (deps.length) {
-                confirm("Found " + deps.length + " plugins that depend on this plugin.",
-                    "Would you like to disable all the plugins that depend on '" + name + "'?",
-                    "These plugins would also be disabled: " + deps.join(", "),
-                    // Yes
-                    function() {
-                        if (deps.reverse().every(function(name) {
-                            console.log("Disabling", name);
-                            return !recurDisable(name);
-                        })) {
-                            disable(name);
-                            reloadModel();
-                        }
-                    },
-                    // No
-                    function() {
-                        callback(new Error("User Cancelled"));
-                    });
-            }
-            else {
-                var e = disable(name);
-                if (!e) reloadModel();
-                callback(e);
-            }
-
-            function recurDisable(name) {
-                var deps = ext.getDependencies(name);
-
-                if (deps.length) {
-                    if (!deps.every(function(name) {
-                        return !recurDisable(name);
-                    })) return false;
-                }
-
-                return disable(name);
-            }
-
-            function disable(name) {
-                if (!plugins[name].loaded) return;
-
-                try { ext.disablePlugin(name); }
-                catch (e) {
-                    alert("Could not disable plugin",
-                        "Got an error when disabling plugin: " + name,
-                        e.message);
-                    return e;
-                }
-            }
         }
 
         function createNewPlugin(template) {
             if (!template)
                 template = "c9.ide.default";
-
-            var url = staticPrefix + "/" + join("templates", template + ".tar.gz");
+            
+            var tarSourcePath = join("templates", template + ".tar.gz");
+            var url = staticPrefix + "/" + tarSourcePath;
             if (!url.match(/^http/))
                 url = location.origin + url;
 
@@ -630,8 +109,16 @@ define(function(require, exports, module) {
                     args: ["-c", [
                         // using mkdirp since "--create-dirs" is broken on windows
                         "mkdir", "-p", util.escapeShell(dirname(tarPathAbsolute)), ";",
-                        "curl", "-L", util.escapeShell(url), "-o", util.escapeShell(tarPathAbsolute)].join(" ")
-                    ]
+                    ].concat(
+                        c9.sourceDir
+                        ? [ "cp", util.escapeShell(c9.sourceDir + "/plugins/c9.ide.plugins/" + tarSourcePath),
+                            util.escapeShell(tarPathAbsolute) ]
+                        : [ "curl", "-L", 
+                            (architectApp.services.onlinedev_helper ? "-k" : ""), // ignore certificate errors in dev mode
+                            util.escapeShell(url),
+                            "-o", util.escapeShell(tarPathAbsolute)
+                        ].filter(Boolean)
+                    ).join(" ")]
                 }, function(err, stderr, stdout) {
                     if (err)
                         return handleError(err);
@@ -651,12 +138,19 @@ define(function(require, exports, module) {
 
                             // Remove .tar.gz
                             fs.unlink(tarPath, function() {
+                                // using this to allow reloading the tree
+                                var tree = architectApp.services["tree"];
+                                var favs = architectApp.services["tree.favorites"];
 
                                 // Add plugin to favorites
                                 favs.addFavorite(dirname(pluginsDir), "plugins");
 
                                 // Select and expand the folder of the plugin
                                 tree.expandAndSelect(path);
+                                
+                                readAvailablePlugins(function(e) {
+                                    emit("change");
+                                });
                             });
                         });
                     });
@@ -664,72 +158,558 @@ define(function(require, exports, module) {
             });
         }
 
-        function reload(name) {
-            showReloadTip(name);
-            
-            var href = document.location.href.replace(/[?&]reload=[^&]+/, "");
-            href += (href.match(/\?/) ? "&" : "?") + "reload=" + name;
-            window.history.replaceState(window.history.state, null, href);
-            
-            for (var plugin in architect.lut) {
-                if (architect.lut[plugin].provides.indexOf(name) < 0)
-                    continue;
+        function reload(nodes, mode) {
+            var reloadLast = [];
+            nodes.forEach(function(node) {
+                var id;
+                if (node.packageConfig) {
+                    var config = node.packageConfig;
+                    if (!mode)
+                        unloadPackage(config.name);
+                    if (mode != false)
+                        loadPackage(config.filePath || config.url);
+                    id = config.name;
+                }
+                else {
+                    if (!mode)
+                        unloadPlugins({ path: node.path });
+                    if (mode != false)
+                        loadPlugins({ path: node.path });
+                    id = node.path;
+                }
+                
+                reloadLast.push(id);
+                if (mode == false)
+                    disabledPlugins[id] = true;
+                else
+                    delete disabledPlugins[id];
+            });
+            return reloadLast;
+        }
 
-                pluginDebug.reloadPackage(plugin);
-                return;
+        function checkPluginsWithMissingDependencies() {
+            var services = architectApp.services;
+            var plugins = [];
+            getAllPlugins().forEach(function(p) {
+                if (!p.provides.length) return;
+                var packagePath = p.packagePath;
+                var isDisabled = p.provides.every(function(name) {
+                    if (!services[name]) return true;
+                    if (!services[name].loaded && typeof services[name].load == "function")
+                        return true;
+                });
+                if (isDisabled && packagePath) {
+                    var packageName = packagePath.split("/")[1];
+                    if (disabledPlugins[packageName]) return;
+                    while (packagePath && !disabledPlugins[packagePath]) {
+                        var i = packagePath.lastIndexOf("/");
+                        packagePath = packagePath.slice(0, i > 0 ? i : 0);
+                    }
+                    if (!packagePath) plugins.push(p);
+                }
+            });
+            if (!plugins.length) return;
+            architectApp.loadAdditionalPlugins(plugins, function(err) { 
+                if (err) return showError(err);
+            });
+        }
+        
+        function getAllPlugins(includeDisabled) {
+            var config = architectApp.config;
+            Object.keys(packages).forEach(function(n) {
+                if (packages[n] && packages[n].c9 && packages[n].c9.plugins)
+                    config = config.concat(packages[n].c9.plugins);
+            });
+            return includeDisabled ? config : config.filter(function(x) {
+                return x.consumes && x.provides;
+            });
+        }
+        
+        function addAllDependents(plugins) {
+            var config = getAllPlugins();
+            var level = 0;
+            do {
+                level++;
+                var changed = false;
+                var packageNames = Object.keys(plugins);
+                config.forEach(function(x) {
+                    packageNames.forEach(function(p) {
+                        if (x.consumes.indexOf(p) != -1) {
+                            x.provides.forEach(function(name) {
+                                if (plugins[name] == null) {
+                                    changed = true;
+                                    plugins[name] = level;
+                                }
+                            });
+                        }
+                    });
+                });
+            } while (changed);
+            return plugins;
+        }
+        
+        function addAllProviders(plugins) {
+            var serviceToPlugin = architectApp.serviceToPlugin;
+            var level = 0;
+            do {
+                level--;
+                var changed = false;
+                var packageNames = Object.keys(plugins);
+                packageNames.forEach(function(p) {
+                    var service = serviceToPlugin[p];
+                    if (service && service.consumes) {
+                        service.consumes.forEach(function(name) {
+                            if (plugins[name] == null) {
+                                changed = true;
+                                plugins[name] = level;
+                            }
+                        });
+                    }
+                });
+            } while (changed);
+            return plugins;
+        }
+        
+        function unloadPackage(options, callback) {
+            if (Array.isArray(options))
+                return async.map(options, unloadPackage, callback || function() {});
+            var name = typeof options == "object" ? options.name : options;
+            if (packages[name]) {
+                packages[name].enabled = false;
+                unloadPlugins(packages[name].path);
+                emit("disablePackage");
             }
         }
         
-        function showReloadTip(name) {
-            if (options.devel) {
-                var key = commands.getHotkey("reloadLastPlugin");
-                if (commands.platform == "mac")
-                    key = apf.hotkeys.toMacNotation(key);
-                if (!getLastReloaded()) {
-                    showInfo("Reloaded " + name + ". Press " + key + " to reload again.", 3000);
-                    return;
+        function loadPackage(options, callback) {
+            if (Array.isArray(options))
+                return async.map(options, loadPackage, callback || function() {});
+            
+            if (typeof options == "string") {
+                if (/^https?:/.test(options)) {
+                   options = { url: options };
+                } else if (/^[~\/]/.test(options)) {
+                    options = { path: options };
+                } else if (/^[~\/]/.test(options)) {
+                    options =  { url: require.toUrl(options) };
                 }
             }
-            showInfo("Reloaded " + name + ".", 1000);
+            
+            var url = options.url;
+            
+            if (!options.url && options.path) {
+                if (!vfs.connected) {
+                    // wait until vfs.url is available
+                    return vfs.once("connect", function() {
+                        loadPackage(options, callback);
+                    });
+                }
+                options.url = vfs.url(options.path);
+            }
+            
+            var parts = options.url.split("/");
+            var root = parts.pop();
+            options.url = parts.join("/");
+            
+            if (!options.name) {
+                // try to find the name from file name
+                options.name = /^package\.(.*)\.js$|$/.exec(root)[1];
+                // try folder name
+                if (!options.name || options.name == "json")
+                    options.name = parts[parts.length - 1];
+                // try parent folder name
+                if (/^(.?build|master|c9build)/.test(options.name))
+                    options.name = parts[parts.length - 2];
+                // remove version from the name
+                options.name = options.name.replace(/@.*$/, "");
+            }
+            if (!options.packageName)
+                options.packageName = root.replace(/\.js$/, "");
+            
+            if (!options.rootDir)
+                options.rootDir = "plugins";
+            
+            var name = options.name;
+            var id = options.rootDir + "/" + name;
+            var pathMappings = {};
+            
+            if (packages[name]) packages[name].loading = true;
+            
+            unloadPlugins("plugins/" + options.name);
+            
+            pathMappings[id] = options.url;
+            requirejs.config({ paths: pathMappings });
+            requirejs.undef(id + "/", true);
+            
+            if (/\.js$/.test(root)) {
+                require([options.url + "/" + root], function(json) {
+                    json = json || require(id + "/" + options.packageName);
+                    if (!json) {
+                        var err = new Error("Didn't provide " + id + "/" + options.packageName);
+                        return addError("Error loading plugin", err);
+                    }
+                    if (Array.isArray(json))
+                        json = { plugins: json };
+                    if (json.name && json.name != name)
+                        name = json.name;
+                    getPluginsFromPackage(json, callback);
+                }, function(err) {
+                    addError("Error loading plugin", err);
+                });
+            }
+            else if (options.path && /\.json$/.test(root)) {
+                fs.readFile(options.path, function(err, value) {
+                    if (err) return addError("Error reading " + options.path, err);
+                    try {
+                        var json = JSON.parse(value);
+                    } catch (e) {
+                        return addError("Error parsing package.json", e);
+                    }
+                    json.fromVfs = true;
+                    // handle the old format
+                    if (!json.c9) loadBundleFiles(json, options);
+                    getPluginsFromPackage(json, callback);
+                });
+            }
+            else if (options.url && /\.json$/.test(root)) {
+                require(["text!" + options.id + "/" + root], function(value) {
+                    try {
+                        var json = JSON.parse(value);
+                    } catch (e) {
+                        return addError("Error parsing package.json", e);
+                    }
+                    getPluginsFromPackage(json, callback);
+                }, function(err) {
+                    addError("Error loading plugin", err);
+                });
+            }
+            else {
+                callback && callback(new Error("Missing path and url"));
+            }
+            
+            function addError(message, err) {
+                if (!packages[name])
+                    packages[name] = {};
+                packages[name].filePath = options.path;
+                packages[name].url = url;
+                packages[name].__error = new Error(message + "\n" + err.message);
+                packages[name].loading = false;
+                
+                emit("change");
+                
+                callback && callback(err);
+            }
+            
+            function getPluginsFromPackage(json, callback) {
+                var plugins = [];
+                if (json.name != name)
+                    json.name = name;
+                var unhandledPlugins = json.c9 && json.c9.plugins || json.plugins;
+                if (unhandledPlugins) {
+                    Object.keys(unhandledPlugins).forEach(function(name) {
+                        var plugin = unhandledPlugins[name];
+                        if (typeof plugin == "string")
+                            plugin = { packagePath: plugin };
+                        if (!plugin.packagePath)
+                            plugin.packagePath = id + "/" + name;
+                        plugin.staticPrefix = options.url;
+                        plugins.push(plugin);
+                    });
+                }
+                
+                packages[json.name] = json;
+                json.filePath = options.path;
+                json.url = url;
+                
+                if (!json.c9)
+                    json.c9 = {};
+                
+                json.c9.plugins = plugins;
+                json.enabled = true;
+                json.path = id;
+                
+                emit("enablePackage", json);
+                loadPlugins(plugins, function(err, result) {
+                    if (err) return addError("Error loading plugins", err);
+                    if (packages[name])
+                        packages[name].loading = false;
+                    emit("change");
+                    callback && callback(err, result);
+                });
+            }
+            
+            function loadBundleFiles(json, options, callback) {
+                var cwd = dirname(options.path);
+                var resourceHolder = new Plugin();
+                fs.readdir(cwd, function(err, files) {
+                    if (err) return callback && callback(err);
+                    function forEachFile(dir, fn) {
+                        fs.readdir(dir, function(err, files) {
+                            if (err) return callback && callback(err);
+                            files.forEach(function(stat) {
+                                fs.readFile(dir + "/" + stat.name, function(err, value) {
+                                    if (err) return callback && callback(err);
+                                    fn(stat.name, value);
+                                });
+                            });
+                        });
+                    }
+                    function parseHeader(data, filename) {
+                        var firstLine = data.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
+                        var info = {};
+                        firstLine.split(";").forEach(function(n) {
+                            var key = n.split(":");
+                            if (key.length != 2)
+                                return console.error("Ignoring invalid key " + n + " in " + filename);
+                            info[key[0].trim()] = key[1].trim();
+                        });
+                        info.data = firstLine;
+                        return info;
+                    }
+                    function addResource(type) {
+                        forEachFile(cwd + "/" + type, function(filename, data) {
+                            addStaticPlugin(type, options.name, filename, data, plugin);
+                            
+                        });
+                    }
+                    function addMode(type) {
+                         forEachFile(cwd + "/modes", function(filename, data) {
+                            if (/(?:_highlight_rules|_test|_worker|_fold|_behaviou?r)\.js$/.test(filename))
+                                return;
+                            if (!/\.js$/.test(filename))
+                                return;
+                            var info = parseHeader(data, cwd + "/modes/" + filename);
+                            
+                            if (!info.caption) info.caption = filename;
+
+                            info.type = "modes";
+                            info.filename = filename;
+                            addStaticPlugin(type, options.name, filename, data, plugin);
+                        });
+                    }
+                    var handlers = {
+                        templates: addResource,
+                        snippets: addResource,
+                        builders: addResource,
+                        keymaps: addResource,
+                        outline: addResource,
+                        runners: addResource,
+                        themes: addResource,
+                        modes: addMode,
+                    };
+                    files.forEach(function(stat) {
+                        var type = stat.name;
+                        if (handlers.hasOwnProperty(type))
+                            handlers[type](type);
+                    });
+                    
+                    var name = options.name + ".bundle";
+                    var bundle = {
+                        packagePath: id + "/" + name,
+                        consumes: [],
+                        provides: [name],
+                        setup: function(imports, options, register) {
+                            var ret = {};
+                            ret[name] = resourceHolder;
+                            register(null, ret);
+                        }
+                    };
+                    json.c9.plugins.push(bundle);
+                    architectApp.loadAdditionalPlugins([bundle], function() {});
+                });
+            }
         }
         
-        function getLastReloaded() {
-            return qs.parse(document.location.search.substr(1)).reload;
+        function loadPlugins(plugins, callback) {
+            if (!Array.isArray(plugins)) {
+                options = plugins;
+                plugins = [];
+                Object.keys(getServiceNamesByPath(options)).forEach(function(n) {
+                    var plugin = architectApp.serviceToPlugin[n];
+                    if (plugin && plugin.packagePath) {
+                        unloadPluginConfig(plugin);
+                        plugins.push(plugin);
+                    }
+                });
+            }
+            
+            architectApp.loadAdditionalPlugins(plugins, function(err) {
+                setTimeout(checkPluginsWithMissingDependencies);
+                callback && callback && callback(err);
+            });
         }
+        
+        function getServiceNamesByPath(options) {
+            var toUnload = Object.create(null);
+            var config = getAllPlugins();
+            function addPath(path) {
+                config.forEach(function(p) {
+                    if (!p.packagePath) return;
+                    if (p.packagePath.startsWith(path)) {
+                        p.provides.forEach(function(name) {
+                            toUnload[name] = 0;
+                        });
+                    }
+                });
+            }
+            if (!options) {
+                return toUnload;
+            }
+            if (typeof options == "string") {
+                addPath(options);
+            }
+            if (options.path) {
+                addPath(options.path);
+            }
+            if (options.paths) {
+                options.path.forEach(addPath);
+            }
+            if (options.services) {
+                options.services.forEach(function(name) {
+                    toUnload[name] = 0;
+                });
+            }
+            return toUnload;
+        }
+        
+        function unloadPlugins(options, callback) {
+            var toUnload = getServiceNamesByPath(options);
+            addAllDependents(toUnload);
+            
+            var services = architectApp.services;
+            var serviceToPlugin = architectApp.serviceToPlugin;
+            Object.keys(toUnload).forEach(function(name) {
+                recurUnload(name);
+            });
+            
+            function recurUnload(name) {
+                var service = services[name];
+                
+                if (!service || !service.loaded)
+                    return;
+                
+                // Find all the dependencies
+                var deps = ext.getDependents(service.name);
+                
+                // Unload all the dependencies (and their deps)
+                deps.forEach(function(name) {
+                    recurUnload(name);
+                });
+                
+                console.log(name);
+                
+                // Unload plugin
+                service.unload();
+                
+                var pluginConfig = serviceToPlugin[name];
+                if (pluginConfig && toUnload[name] == 0)
+                    pluginConfig.__userDisabled = true;
+            }
+            
+            emit("change");
+        }
+        
+        function unloadPluginConfig(plugin) {
+            var url = requirejs.toUrl(plugin.packagePath, ".js");
+            if (!define.fetchedUrls[url]) return false;
+            
+            delete plugin.provides;
+            delete plugin.consumes;
+            delete plugin.setup;
+            
+            requirejs.undef(plugin.packagePath);
+            return true;
+        }
+        
+        // TODO optimize this
+        function addStaticPlugin(type, pluginName, filename, data, plugin) {
+            var services = architectApp.services;
+            var path = "plugins/" + pluginName + "/" 
+                + (type == "installer" ? "" : type + "/") 
+                + filename.replace(/\.js$/, "");
+            
+            switch (type) {
+                case "builders":
+                    data = util.safeParseJson(data, function() {});
+                    if (!data) return;
+                    if (!services.build.addBuilder) return;
+                    
+                    services.build.addBuilder(filename, data, plugin);
+                    break;
+                case "keymaps":
+                    data = util.safeParseJson(data, function() {});
+                    if (!data) return;
+                    if (!services["preferences.keybindings"].addCustomKeymap) return;
+                    
+                    services["preferences.keybindings"].addCustomKeymap(filename, data, plugin);
+                    break;
+                case "modes":
+                    if (!services.ace) return;
+                    var mode = {};
+                    var firstLine = data.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
+                    firstLine.split(";").forEach(function(n) {
+                        var info = n.split(":");
+                        if (info.length != 2) return;
+                        mode[info[0].trim()] = info[1].trim();
+                    });
+                    
+                    services.ace.defineSyntax({
+                        name: path,
+                        caption: mode.caption || filename,
+                        extensions: (mode.extensions || "").trim()
+                            .replace(/\s*,\s*/g, "|").replace(/(^|\|)\./g, "$1")
+                    });
+                    break;
+                case "outline":
+                    if (!data) return;
+                    if (!services.outline.addOutlinePlugin) return;
+                    
+                    services.outline.addOutlinePlugin(path, data, plugin);
+                    break;
+                case "runners":
+                    data = util.safeParseJson(data, function() {});
+                    if (!data) return;
+                    
+                    services.run.addRunner(data.caption || filename, data, plugin);
+                    break;
+                case "snippets":
+                    services["language.complete"].addSnippet(data, plugin);
+                    break;
+                case "themes":
+                    services.ace.addTheme(data, plugin);
+                    break;
+                case "templates":
+                    services.newresource.addFileTemplate(data, plugin);
+                    break;
+                case "installer":
+                    if (data) {
+                        services.installer.createSession(pluginName, data, function(v, o) {
+                            require([path], function(fn) {
+                                fn(v, o);
+                            });
+                        });
+                    }
+                    else {
+                        require([path], function(fn) {
+                            services.installer.createSession(pluginName, fn.version, function(v, o) {
+                                fn(v, o);
+                            });
+                        });
+                    }
+                default:
+                    console.error("Unsupported type", type);
+            }
+        }
+
 
         /***** Lifecycle *****/
 
         plugin.on("load", function() {
             load();
         });
-        plugin.on("draw", function(e) {
-            draw(e);
-        });
-        plugin.on("activate", function(e) {
-            datagrid && datagrid.resize();
-        });
-        plugin.on("resize", function(e) {
-            datagrid && datagrid.resize();
-        });
-        plugin.on("enable", function() {
-
-        });
-        plugin.on("disable", function() {
-
-        });
         plugin.on("unload", function() {
-            loaded = false;
-            drawn = false;
-
-            architect = null;
-            model = null;
-            datagrid = null;
-            filterbox = null;
-            btnUninstall = null;
-            btnReport = null;
-            btnReadme = null;
-            btnCloud9 = null;
-            btnReload = null;
+            disabledPlugins = null;
+            plugin = null;
         });
 
         /***** Register and define API *****/
@@ -741,42 +721,80 @@ define(function(require, exports, module) {
             /**
              *
              */
-            get architect() { throw new Error(); },
-            set architect(v) {
-                architect = v;
-                architect.on("ready-additional", function() {
-                    reloadModel();
-                });
-            },
-
+            readAvailablePlugins: readAvailablePlugins,
+            
             /**
              *
              */
             createNewPlugin: createNewPlugin,
-
+            
             /**
              *
              */
-            uninstall: uninstall,
-
+            getAllPlugins: getAllPlugins,
+            
             /**
              *
              */
-            enable: enable,
-
+            addAllDependents: addAllDependents,
+            
             /**
              *
              */
-            disable: disable,
-
+            addAllProviders: addAllProviders,
+            
             /**
              *
              */
-            reload: reload
+            unloadPackage: unloadPackage,
+            
+            /**
+             *
+             */
+            loadPackage: loadPackage,
+            
+            /**
+             *
+             */
+            loadPlugins: loadPlugins,
+            
+            /**
+             *
+             */
+            reload: reload,
+            
+            /**
+             *
+             */
+            getServiceNamesByPath: getServiceNamesByPath,
+            
+            /**
+             *
+             */
+            unloadPlugins: unloadPlugins,
+            
+            /**
+             *
+             */
+            unloadPluginConfig: unloadPluginConfig,
+            
+            /**
+             *
+             */
+            addStaticPlugin: addStaticPlugin,
+            
+            
+            get packages() { return packages; },
+            get disabledPlugins() { return disabledPlugins; },
         });
 
+        var shim = new Plugin();
+        shim.addStaticPlugin = addStaticPlugin;
+
         register(null, {
-            "plugin.manager": plugin
+            "pluginManager": plugin,
+            "plugin.manager": shim,
+            "plugin.debug": shim,
         });
     }
 });

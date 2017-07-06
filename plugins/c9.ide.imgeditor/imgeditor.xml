@@ -1,0 +1,60 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:vsplitbox id="parent" anchors="0 0 0 0">
+        <a:bar class="imgtoolbar fakehbox aligncenter padding3" id="barTools" height="30">
+            <a:button skin="c9-toolbarbutton-glossy" id="btn1">Resize</a:button>
+            <a:button skin="c9-toolbarbutton-glossy" id="btn2" disabled="true">Crop</a:button>
+            <a:divider skin="c9-divider" />
+            
+            <a:button skin="c9-toolbarbutton-glossy" id="btn4">Rotate 90&#176; Left</a:button>
+            <a:button skin="c9-toolbarbutton-glossy" id="btn3">Rotate 90&#176; Right</a:button>
+            <a:divider skin="c9-divider" />
+            
+            <a:button skin="c9-toolbarbutton-glossy" id="btn5">FlipH</a:button>
+            <a:button skin="c9-toolbarbutton-glossy" id="btn6">FlipV</a:button>
+            <a:divider skin="c9-divider" />
+
+            <a:dropdown skin="black_dropdown" id="zoom" value="100%" width="70" maxitems="8">
+                <a:item value="10">10%</a:item>
+                <a:item value="25">25%</a:item>
+                <a:item value="50">50%</a:item>
+                <a:item value="75">75%</a:item>
+                <a:item value="100">100%</a:item>
+                <a:item value="200">200%</a:item>
+                <a:item value="400">400%</a:item>
+                <a:item value="800">800%</a:item>
+            </a:dropdown>
+            <a:checkbox skin="checkbox_black" id="smooth" value="false">Smooth</a:checkbox>
+            <a:divider skin="c9-divider" />
+            
+            <a:label id="info" />
+            <a:divider skin="c9-divider" />
+            
+            <a:label>Selection:</a:label>
+            <a:label id="rectinfo" />
+        </a:bar>
+        
+        <a:bar id="imgEditor" flex="1" visible="false" class='imgeditor'>
+            <img style="margin:0 auto;" />
+            <canvas></canvas>
+        </a:bar>
+    </a:vsplitbox>
+    
+    <a:menu id="resize-menu" class="menu-resize">
+        <div class="menu-resize-row-height">
+            <a:label class="resize-label">Width:</a:label>
+            <a:spinner width="50" min="0" max="10000" id="width" />
+        </div>
+        <div class="menu-resize-row-height">
+            <a:label class="resize-label">Height:</a:label>
+            <a:spinner width="50" min="0" max="10000" id="height" />
+        </div>
+        <a:divider />
+        <div class="menu-resize-row-height">
+            <a:checkbox value="true" label="Maintain Aspect Ratio" skin="checkbox_black" id="aspectratio" />
+        </div>
+        <a:divider />
+        <div class="menu-resize-row-height center">
+            <a:button skin="btn-default-css3" margin="2 10 0 10" style="width:50%" caption="Resize" default="1" id="resize-button" />
+        </div>
+    </a:menu>
+</a:application>

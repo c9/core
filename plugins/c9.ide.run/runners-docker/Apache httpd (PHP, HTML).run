@@ -1,0 +1,16 @@
+{
+  "cmd": [
+    "run-apache2", "${debug?debug}"
+  ],
+  "cmdStop": [
+    "run-apache2", "stop"
+  ],
+  "debugger": "xdebug",
+  "debugport": 9000,
+  "$debugDefaultState": false,
+  "selector": "^.*\\.(php|phtml|html|shtml)$",
+  "env": {
+    "XDEBUG_CONFIG": "xdebug.remote_enable=1 idekey=cloud9ide remote_host=localhost remote_port=9000 remote_mode=req"
+  },
+  "info": "Starting Apache httpd, serving \\033[01;34m$hostname_path\\033[00m."
+}

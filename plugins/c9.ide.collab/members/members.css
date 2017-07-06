@@ -1,0 +1,227 @@
+.panelsbuttonDown.collab, .panelsbuttonDown.collab:hover{
+    box-shadow: 1px -1px @border-highlight inset, 1px 0 @border-highlight;
+    padding-bottom: 7px;
+}
+
+.memberstree .tree-row {
+    padding: 2px 0 0 18px;
+    position: relative;
+
+    /*border-top: 1px solid rgba(255, 255, 255, 0.07);*/
+    /*border-bottom: 1px solid rgba(0, 0, 0, 0.33);*/
+
+    /*pointer-events: auto;*/
+    color : @color;
+    /*padding-left : 42px;*/
+    cursor: default;
+    font-family: @collab-tree-font-family;
+}
+
+.memberstree .tree-row:first-child{
+    border-top: 0;
+}
+
+.memberstree .tree-row .toggler {
+    .image-2x("@{tree-arrow}", 20px, 10px);
+    position: absolute;
+    left: 3px;
+    top: 7px
+}
+
+.memberstree .tree-row .caption {
+    position: absolute;
+    left: 30px;
+    font-size: @collab-tree-font-size;
+    top: @collab-tree-item-caption-top;
+    right: 93px;
+    overflow: hidden;
+    height: 16px;
+    text-overflow: ellipsis;
+}
+
+.memberstree .tree-row .root.caption {
+    left: 17px;
+    top: 4px;
+    font-weight: bold;
+}
+.memberstree .tree-row.active {
+    font-weight: bold;
+}
+.memberstree .tree-row .name {
+    margin-left: -23px;
+    color: #f1f1f1;
+    display: inline-block;
+}
+
+.memberstree .avatar {
+    position: absolute;
+    display : none;
+    left: 3px;
+    width: 38px;
+    top : -1px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    box-shadow: 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.memberstree .avatar img {
+    width: 38px;
+    height: 38px;
+    border: 0;
+}
+
+.memberstree .kickout {
+    width: 12px;
+    height : 16px;
+    .image-2x(@collab-tree-kickout-image, @collab-tree-kickout-image-width, @collab-tree-kickout-image-height);
+    cursor: pointer;
+    pointer-events: auto;
+    position: absolute;
+    right: 14px;
+    top: 2px;
+    z-index:100000;
+}
+
+.access_control{
+    width: 50px;
+    height : 18px;
+    padding : 1px;
+    border-radius: 4px;
+    font-family : Arial;
+    font-size : 10px;
+    box-sizing: border-box;
+    background: @collab-access-control-background;
+    box-shadow: @collab-access-control-box-shadow;
+    cursor : pointer;
+    pointer-events: auto;
+    position: absolute;
+    right: 32px;
+    top: 2px;
+}
+
+.access_control.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+.access_control.disabled when(@collab-access-control-flat){
+    background: @collab-tree-access-control-disabled-background;
+}
+
+.memberstree .selected .access_control {
+    background: @collab-tree-access-control-background;
+    box-shadow: @collab-tree-access-control-box-shadow;
+}
+
+.memberstree .access_control.disabled{
+    width: 26px;
+}
+
+.access_control .readbutton, .access_control .writebutton {
+    pointer-events: none;
+}
+
+.access_control.rw .readbutton, .access_control.r .writebutton {
+    width: 24px;
+    height : 16px;
+    border-radius: 3px;
+    box-shadow: @collab-access-control-inactive-box-shadow;
+    .gradient(~"@{collab-access-control-inactive-gradient}");
+
+    /*text-shadow: 0 1px rgba(0,0,0,0.5);*/
+    color : @collab-access-control-inactive-color;
+    display : inline-block;
+    text-align: center;
+    box-sizing: border-box;
+    padding-top : 2px;
+    vertical-align : top;
+}
+.access_control.rw .readbutton when(@collab-access-control-flat){
+    margin: -1px 1px 0 -1px;
+    height: 18px;
+    border-radius: 3px 0 0 4px;
+    width: 24px;
+    line-height: 16px;
+    padding-left: 1px;
+}
+.access_control.r .writebutton when(@collab-access-control-flat){
+    margin: -1px -1px 0 -1px;
+    height: 18px;
+    border-radius: 0 3px 3px 0;
+    width: 26px;
+    line-height: 15px;
+    box-shadow: @collab-access-control-inactive-box-shadow-right;
+}
+    
+.memberstree.ace_tree_focus .selected .access_control.rw .readbutton,
+.memberstree.ace_tree_focus .selected .access_control.r .writebutton{
+    .gradient(~"@{collab-tree-focus-access-control-active-gradient}");
+}
+
+.access_control.rw .writebutton,
+.access_control.r .readbutton,
+.access_control.disabled .readbutton,
+.access_control.disabled .writebutton {
+    width: 24px;
+    height : 14px;
+    display : inline-block;
+    text-align: center;
+    box-sizing: border-box;
+    padding-top : 2px;
+    vertical-align : top;
+    color : @collab-access-control-active-color;
+    line-height: 14px;
+}
+.memberstree.ace_tree_focus .selected .access_control.rw .writebutton,
+.memberstree.ace_tree_focus .selected .access_control.r .readbutton,
+.memberstree.ace_tree_focus .selected .access_control.disabled .readbutton,
+.memberstree.ace_tree_focus .selected .access_control.disabled .writebutton {
+    color : @collab-tree-focus-access-control-color;
+}
+.access_control.disabled .readbutton,
+.access_control.disabled .writebutton {
+    color : @collab-access-control-disabled-color;
+}
+
+.memberstree .tree-row.hover:not(.heading){
+    background: @selected-hover-background;
+}
+
+.memberstree .tree-row.selected {
+    background: @selected-background;
+}
+
+.memberstree.ace_tree_focus .tree-row.selected {
+    background: @selected-focus-background;
+    /*border-bottom: 1px solid rgba(0, 0, 0, 0.69);*/
+}
+
+.memberstree .status {
+    display: block;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    left: 14px;
+    top: 5px;
+    .image-2x("/static/plugins/c9.ide.collab/members/images/@{collab-tree-state-image}", @collab-tree-state-image-width, @collab-tree-state-image-height);
+    background-position: 1px 0;
+}
+
+.memberstree .collaborator_color {
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 3px;
+    bottom: 2px;
+    border-radius: @collab-tree-color-border-radius;
+    box-shadow: inset 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.memberstree .status.online { background-position: 0 -24px; }
+.memberstree .status.idle { background-position : 0 0; }
+.memberstree .status.offline { background-position : 0 -12px; }
+
+.memberstree.ace_tree .message{
+    font-family: Arial;
+    font-size: 11px;
+    margin: 20px 0 0 0;
+}

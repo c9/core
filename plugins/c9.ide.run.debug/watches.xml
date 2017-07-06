@@ -1,0 +1,7 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:bar id="datagrid"
+      border     = "0"
+      class      = "watches"
+      skinset    = "debugger">
+    </a:bar>
+</a:application>

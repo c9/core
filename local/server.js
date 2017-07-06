@@ -1,20 +1,18 @@
-var fs        = require("fs");
-var join      = require("path").join;
-var proc      = require("child_process");
-var path      = require("path");
+require("amd-loader");
+
+var fs = require("fs");
+var join = require("path").join;
+var proc = require("child_process");
+var path = require("path");
 
 // set up env variables for windows
 if (process.platform == "win32") {
-    // HOME usually isn't defined on windows
-    if (!process.env.HOME)
-        process.env.HOME = process.env.HOMEDRIVE + process.env.HOMEPATH;
-    // add cloud9 cygwin to path
-    var msysBin = join(process.env.HOME, ".c9", "msys/bin");
-    process.env.Path = msysBin + ";" + process.env.path;
-    process.env.C9_BASH_BIN = msysBin + "/bash.exe";
     process.env.CYGWIN = "nodosfilewarning " + (process.env.CYGWIN || "");
     process.env.CHERE_INVOKING = 1; // prevent cygwin from changing bash path
 }
+
+// HOME usually isn't defined on windows, so weload settings/standalone which adds it
+var localSettings = require(join(__dirname, "../settings/local.js"))({ revision: " " }, null);
 
 // Ports on which we'd like to run preview (see http://saucelabs.com/docs/connect#localhost)
 var SAFE_PORTS = [2222, 2310, 3000, 3001, 3030, 3210, 3333, 4000, 4001,
@@ -251,8 +249,7 @@ var server = {
     
     getPlugins : function(options, cb, restoreWindow) {
         var windowConfig = options.windowConfig || {};
-        var configPath = join(__dirname, "../configs/client-default-local.js");
-        var settingsPath = join(__dirname, "../settings/local.js");
+        var configPath = join(__dirname, "../configs/ide/default-local.js");
         var themeDir = join(__dirname, "../build/standalone/skin/" + 
             (windowConfig.isRemote ? "full" : "default-local"));
             
@@ -370,7 +367,7 @@ var server = {
             loadTheme(themeName, cb);
         }
     
-        var settings = require(settingsPath)(null, null, settingDir);
+        var settings = localSettings;
         settings.packed = options.packed;
         
         settings.vfsServers = options.vfsServers;

@@ -6,7 +6,7 @@
  * @main c9.core
  */
 define(function(require, module, exports) {
-    main.consumes = ["Plugin", "ext", "vfs"];
+    main.consumes = ["Plugin", "vfs"];
     main.provides = ["c9"];
     return main;
 
@@ -20,8 +20,6 @@ define(function(require, module, exports) {
         var emit = plugin.getEmitter();
         emit.setMaxListeners(500);
         
-        imports.ext.vfs = imports.vfs;
-
         var loaded = false;
         var loggedIn = false;
         var isReady = false;

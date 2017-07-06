@@ -66,7 +66,7 @@ define(function(require, exports, module) {
                         + dt.getSeconds();
                     
                     if (doc.tab.isActive())
-                        editor.innerHTML = time;
+                        editor.textContent = time;
                     doc.title = time;
                 }, 1);
             });

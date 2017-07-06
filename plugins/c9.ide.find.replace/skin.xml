@@ -1,0 +1,76 @@
+<?xml version='1.0'?>
+<a:skin xmlns:a="http://ajax.org/2005/aml" xmlns="http://www.w3.org/1999/xhtml">
+    <a:button name="btnquicksearchnav">
+        <a:style><![CDATA[
+            .btnquicksearchnav {
+                height             : 22px;
+                cursor             : pointer;
+                position           : absolute;
+                -moz-user-select   : none;
+                -khtml-user-select : none;
+                user-select        : none;
+                width              : 20px;
+            }
+            .btnquicksearchnav .lbl{
+                margin: 0;
+                outline: none;
+                height : 25px;
+            }
+            .btnquicksearchnav.btnquicksearchnavLeft .lbl {
+                border-right: none;
+                border-left: none;
+            }
+            .btnquicksearchnav span {
+                background-position: 0 0;
+                background-repeat:no-repeat;
+                display: block;
+                height: 25px;
+            }
+            .btnquicksearchnavOver span {
+                background-position: 0 -25px;
+            }
+            .btnquicksearchnavDown span {
+                background-position: 0 -50px;
+            }
+            .btnquicksearchnavDisabled span {
+                background-position: 0 -75px;
+            }
+
+            .btnquicksearchnav .btnDivider {
+                z-index: 1;
+                border-color: transparent white transparent #C3C3C3;
+                border-left:1px solid #C3C3C3;
+                border-right:1px solid white;
+                border-style:none solid;
+                border-width:medium 1px;
+                cursor:default;
+                height:17px;
+                line-height:0;
+                position:absolute;
+                right: -2px;
+                top:4px;
+                width:0;
+                display: none;
+            }
+
+            .btnquicksearchnav.withDivider .btnDivider when(@find-divider = true){
+                display: block;
+            }
+        ]]></a:style>
+        <a:presentation>
+            <a:main
+              caption    = "div[1]/text()"
+              label      = "div[1]/text()"
+              background = "."
+              icon       = "div[1]/span"
+              minwidth   = "20">
+                <div class="btnquicksearchnav">
+                    <div class="lbl">-
+                        <span></span>
+                        <div class="btnDivider"></div>
+                    </div>
+                 </div>
+            </a:main>
+        </a:presentation>
+    </a:button>
+</a:skin>

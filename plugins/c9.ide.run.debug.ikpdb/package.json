@@ -1,0 +1,19 @@
+{
+  "name": "inouk.ikpdb",
+  "description": "IKPdb Python debugger plugin for Cloud9 IDE",
+  "version": "1.0.1",
+  "author": "Cyril MORISSE, Audaxis",
+  "contributors": [
+    {"name": "Cyril MORISSE", "email": "cmorisse@boxes3.net"}
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/audaxis/c9.ide.run.debug.ikpdb.git"
+  },
+  "plugins": {
+    "ikpdb": {}
+  },
+  "categories": ["miscellaneous"],
+  "licenses": ["MIT"],
+  "engines": {"c9": ">=3.0.0"}
+}

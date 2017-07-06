@@ -1,26 +1,9 @@
-module.exports = function(manifest, installPath, settingDir) {
+module.exports = function(manifest, installPath) {
     var path = require("path");
     var fs = require("fs");
     
-    if (typeof installPath != "string") {
-        installPath = process.platform == "darwin" && false // disabled for sdk
-            ? "/Library/Application Support/Cloud9"
-            : path.join(process.env.HOME, ".c9");
-    }
-     
     var config = require("./standalone")(manifest, installPath);
-    
-    // Support legacy installations
-    if (!config.settingDir) {
-        if (settingDir)
-            config.settingDir = settingDir;
-        else {
-            config.settingDir = installPath;
-            if (installPath === "/Library/Application Support/Cloud9")
-                config.settingDir = path.join(process.env.HOME, installPath);
-        }
-    }
-   
+     
     config.local = true;
     config.standalone = false;
     config.host = "localhost";
@@ -47,13 +30,6 @@ module.exports = function(manifest, installPath, settingDir) {
     // config.update.port = "8888"
     // config.update.host = "http"
     
-    // config.nodeBin = [process.platform == "win32"
-    //     ? path.join(process.execPath, "..\\node.exe")
-    //     : path.join(installPath, "node/bin/node")];
-    config.bashBin = process.platform == "win32"
-        ? process.env.C9_BASH_BIN || "C:\\cygwin\\bin\\bash.exe"
-        : "/bin/bash";
-        
     config.raygun.client.apiKey = "sraXwWUvvI6TQT6d45u4bw==";
     config.raygun.server.apiKey = "sraXwWUvvI6TQT6d45u4bw==";
     

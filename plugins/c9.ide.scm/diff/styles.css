@@ -1,0 +1,158 @@
+.ace_diff-container {
+    display: -webkit-flex !important;
+    display: flex !important;
+    flex-direction: row;
+    position: absolute;
+    overflow: hidden;
+}
+.ace_diff-container > .ace_editor {
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+}
+
+/*
+ * Gutter / Connector
+ */
+.ace_diff-gutter {
+    width: 4em;
+    border-left: 1px solid #999999;
+    border-right: 1px solid #999999;
+    background-color: #efefef;
+    position: relative;
+}
+.ace_diff-connector {
+    stroke: rgba(0, 0, 0, 0.5);
+    fill: rgba(0, 0, 0, 0.15);
+}
+
+/*
+ * Line Markers
+ */
+.ace_diff {
+    position: absolute;
+    z-index: 20;
+    
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-color: rgba(0, 0, 0, 0.5);
+    
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+/*
+ * Text Markers
+ */
+.ace_diff.insertStart {
+    height: 0px !important;
+    border-bottom: 0px;
+}
+.ace_diff.insertEnd {
+    border-top: 0px;
+    background-color: transparent !important;
+}
+
+.ace_diff.inline {
+    border-color: transparent;
+    background: none;
+}
+.ace_diff.inline:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;    
+    display: block;
+    content: "";
+    background: transparent;
+}
+
+/*
+ * Light Colors 
+ */
+.ace_diff,
+.ace_diff.insert,
+.ace_diff.delete
+{
+    border-color: #87BAF7;
+    background-color: rgba(211, 231, 255, 0.6);
+}
+.ace_diff-connector {
+    stroke: #87BAF7;
+    fill: rgba(211, 231, 255, 0.6);
+}
+
+.ace_diff-gutter {
+    border-left: 1px solid rgba(0, 0, 0, 0.05);
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+    /*background-color: rgba(0, 0, 0, 0.03) !important;*/
+    background-color: #F1F1F1;
+}
+
+.ace_diff.inline {
+    border-color: transparent;
+    background: none;
+}
+.ace_diff.insert.inline:after {
+    background-color: rgba(49, 230, 96, 0.28);
+}
+.ace_diff.delete.inline:after {
+    background-color: rgba(255, 128, 79, 0.26);
+}
+
+/*
+ * Dark Colors 
+ */
+.ace_dark .ace_diff,
+.ace_dark .ace_diff.insert,
+.ace_dark .ace_diff.delete
+{
+    border-color: #458BDF;
+    background-color: rgba(7, 81, 169, 0.4);
+}
+.ace_dark .ace_diff-connector {
+    stroke: #458BDF;
+    fill: rgba(7, 81, 169, 0.4);
+}
+
+.ace_dark.ace_diff-gutter {
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
+    /*background-color: rgba(255, 255, 255, 0.10) !important;*/
+}
+
+.ace_dark .ace_diff.inline {
+    border-color: transparent;
+    background: none;
+}
+.ace_dark .ace_diff.insert.inline:after {
+    background-color: rgba(0, 130, 58, 0.45);
+}
+.ace_dark .ace_diff.delete.inline:after {
+    background-color: rgba(169, 46, 33, 0.55);
+}
+
+/*
+ * Diff merge arrows
+ */
+.diff-arrow {
+    position: absolute;
+    border: double 6px;
+    color: gray;
+    width: 0.5em;
+    height: 0.5em;
+    z-index: 100000;
+    border-left: none;
+    border-bottom: none;
+    cursor: pointer;
+    transition: 0.1s opacity;
+    opacity: 0.4;
+}
+.diff-arrow:hover {
+    opacity: 1
+}
+.diff-arrow-left {
+    transform: rotate(45deg);
+}
+.diff-arrow-right {
+    transform: rotate(225deg);
+}

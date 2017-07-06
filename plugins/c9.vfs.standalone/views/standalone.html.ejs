@@ -14,7 +14,7 @@
             return obj;
         }
         window.isLocalVersion = nRequire ? true : false;
-        window.require        = undefined;
+        window.require = window.module = undefined;
     </script>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> 
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -64,8 +64,6 @@
                     }
                 });
                 
-                app.lut = {};
-                
                 app.on("error", function(err){
                     console.error(err.stack);
                     if (!errored)
@@ -73,20 +71,11 @@
                 });
                 
                 app.on("service", function(name, plugin, options){
-                    if (name == "plugin.loader" || name == "plugin.installer" 
-                      || name == "plugin.debug" || name == "plugin.manager"
-                      || name == "plugin.test")
-                        plugin.architect = app;
                     if (!plugin.name)
                         plugin.name = name;
-                    if (options)
-                        app.lut[(options.packagePath || "").replace(/^.*\/home\/.c9\//, "")] = options;
                 });
                 
-                app.on("ready", function(){
-                    if (app.services.configure)
-                        app.services.configure.services = app.services;
-                    
+                app.once("ready", function() {
                     window.app = app.services;
                     window.app.__defineGetter__("_ace", function(){
                         return this.tabManager.focussedTab.editor.ace;
@@ -103,6 +92,7 @@
                 function done(){
                     var vfs = app.services.vfs;
                     var c9 = app.services.c9;
+                    var settings = app.services.settings;
                     
                     c9.ready();
                     c9.totalLoadTime = Date.now() - start;
@@ -110,13 +100,13 @@
                     console.warn("Total Load Time: ", Date.now() - start);
                     
                     if (window.hideLoader) {
-                        if (vfs.connected)
-                            window.hideLoader();
-                        else {
-                            vfs.once("connect", function(){
-                                window.hideLoader();
-                            });
-                        }
+                        var waitVfs = function(fn) {
+                            vfs.connected ? fn() : vfs.once("connect", fn);
+                        };
+                        var waitSettings = function(fn) {
+                            settings.inited ? fn() : settings.once("read", fn);
+                        };
+                        waitVfs(waitSettings.bind(null, window.hideLoader));
                     }
                 }
             }, function loadError(mod) {

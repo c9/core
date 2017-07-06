@@ -1,0 +1,16 @@
+{
+    "cmd": [
+        "php",
+        "${debug?-d}", "${debug?xdebug.remote_enable=1}",
+        "$file",
+        "$args"
+    ],
+    "selector": "^.*\\.(php|phar)$",
+    "info": "Running PHP script $file",
+    "working_dir": "$project_path",
+    "debugger": "xdebug",
+    "debugport": 9000,
+    "env": {
+        "XDEBUG_CONFIG": "idekey=cloud9ide remote_host=localhost remote_port=9000 remote_mode=req"
+    }
+}

@@ -213,14 +213,6 @@
     border : 1px solid @spinner-focus-border-color;
     box-shadow: @spinner-focus-box-shadow;
 }
-.bar-preferences .lineselect div{
-    padding : 4px;
-    cursor : pointer;
-    color : #DDD;
-}
-.bar-preferences .lineselect .selected{
-    color : #5dadf4;
-}
 .bar-preferences .black_dropdown{
     margin-top : @preferences-dropdown-margin-top;
 }

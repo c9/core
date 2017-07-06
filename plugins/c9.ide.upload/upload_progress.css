@@ -1,0 +1,9 @@
+.uploadframe {
+    box-shadow: @upload-frame-box-shadow;
+    border-top: @upload-frame-border-top;
+    overflow: hidden;
+}
+
+.uploadframe .title > span {
+    padding: 0px 0 0 3px;
+}

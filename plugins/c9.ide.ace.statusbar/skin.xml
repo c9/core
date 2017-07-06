@@ -1,0 +1,113 @@
+<?xml version='1.0'?>
+<a:skin xmlns:a="http://ajax.org/2005/aml" xmlns="http://www.w3.org/1999/xhtml">
+    <a:bar name="bar-status">
+        <a:style><![CDATA[
+            .bar-status {
+                position : absolute;
+                color: rgba(0, 0, 0, 0.4);
+                border-radius: 4px;
+                white-space: nowrap;
+            }
+            
+            .bar-status > *{
+                display : inline-block;
+                vertical-align : middle;
+            }
+
+            .bar-status .lbl_row_col {
+                text-align: center;
+                color: rgba(0, 0, 0, 0.4);
+            }
+
+            .bar-status .label {
+                color: @ace-status-color;
+                padding: @ace-status-padding;
+                overflow: visible;
+                text-shadow: 0px 1px 0px rgba(255,255,255,0.5);
+                .font-smoothing(true);
+                font-weight: @ace-status-font-weight;
+                font-size: @ace-status-font-size;
+            }
+
+            .bar-status.ace_dark .label {
+                color: rgba(255,255,255,0.5);
+                text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.57);
+            }
+
+            .mnuSbPrefs{
+                margin-top : -8px;
+                margin-left : 1px;
+            }
+            
+            .mnuSbPrefs .label {
+                color : @menu-color;
+            }
+            
+            .bar-status .label:hover{
+                text-decoration : @ace-status-label-hover-decoration;
+                color : @ace-status-label-hover-color;
+            }
+            .bar-status .label.labelDown{
+                color : @ace-status-label-active-color;
+            }
+            
+            .bar-status .nounderline:hover{
+                text-decoration : none;
+            }
+        ]]></a:style>
+
+        <a:presentation>
+            <a:main container=".">
+                <div class="bar-status">
+                </div>
+            </a:main>
+        </a:presentation>
+    </a:bar>
+    <a:button name="btn-statusbar-icon">
+        <a:style><![CDATA[
+            .btn-statusbar-icon {
+                height              : 23px;
+                width               : 22px;
+                overflow            : hidden;
+                cursor              : pointer;
+                position            : relative;
+                cursor              : default;
+                -moz-user-select    : none;
+                -khtml-user-select  : none;
+                user-select         : none;
+                background-position : 0 0;
+                background-repeat   : no-repeat;
+                margin: @ace-status-icon-margin !important;
+                .image-2x(@ace-status-icon-image, @ace-status-icon-image-width, @ace-status-icon-image-height, no-repeat, true);
+            }
+            .btn-statusbar-iconOver {
+                background-position : 0 -23px;
+            }
+
+            .btn-statusbar-iconDown {
+                background-position : 0 -46px;
+            }
+
+            .ace_dark .btn-statusbar-icon {
+                background-position : -22px 0;
+            }
+
+            .ace_dark .btn-statusbar-iconOver {
+                background-position : -22px -23px;
+            }
+
+            .ace_dark .btn-statusbar-iconDown {
+                background-position : -22px -46px;
+            }
+        ]]></a:style>
+
+        <a:presentation>
+            <a:main
+              caption      = "text()"
+              background = "."
+              icon       = ".">
+                <div class="btn-statusbar-icon"> </div>
+            </a:main>
+        </a:presentation>
+    </a:button>
+</a:skin>

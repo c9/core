@@ -1,0 +1,22 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:frame id="boxUploadActivity" caption="Upload Activity" class="uploadframe">
+        <a:button id="btnCancelUploads"
+          caption = "Cancel"
+          skin    = "btn-cancel-upload"
+          skinset = "uploadfiles"
+          margin  = "7 3 0 0" 
+          top     = "-25"
+          right   = "20" 
+          zindex  = "100" />
+        <a:button id="btnToggleUploadQueue" skin="btn_console_open" 
+             state="true" value="0" margin="6 5 0 0" 
+            top="-31" right="-15" zindex="100" />
+    
+        <a:bar id="lstUploadActivity"
+            skin = "list-uploadactivity"
+            skinset = "uploadfiles"
+            height="160"
+        >
+        </a:bar>
+    </a:frame>
+</a:application>

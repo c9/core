@@ -57,22 +57,24 @@ function main(options, imports, register) {
             });
             return { config: plugins };
         }
-        
-        if (config[0] != "/")
-            config = path.join(__dirname, "/../../configs/client-" + config);
-            
-        if (config.slice(-3) !== ".js")
-            config += ".js";
-            
-        var settings;
-        try {
-            settings = require("../../settings/standalone");
-            config = require(config);
-        } catch (e) {
-            if (e.code == "MODULE_NOT_FOUND")
-                e = new error.NotFound();
-            return { error: e };
+        var err;
+        function tryPath(filePath, prefix) {
+            if (filePath.slice(-3) !== ".js")
+                filePath += ".js";
+            if (filePath[0] !== "/")
+                filePath = path.join(__dirname, "/../../", prefix + filePath);
+            try {
+                return require(filePath);
+            } catch (e) {
+                if (e.code == "MODULE_NOT_FOUND")
+                    e = new error.NotFound("Settings");
+                err = e;
+            }
         }
+        var settings = tryPath("settings/standalone", "");
+        config = tryPath(config, "configs/ide/") || tryPath(config, "configs/client-");
+        if (!config || !settings && err)
+            return { error: err };
         settings = settings();
         settings.packaging = true;
         return { config: config(settings) };

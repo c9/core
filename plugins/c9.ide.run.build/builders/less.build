@@ -1,0 +1,4 @@
+{
+    "cmd": ["bash", "-c", "lessc $file ${file/\\.less/.css/}; echo; echo 'Built $file > ${file/\\.less/.css/}.'"],
+    "selector": "source.less"
+}

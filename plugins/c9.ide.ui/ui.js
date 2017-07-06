@@ -1,3 +1,4 @@
+/*global apf*/
 define(function(require, module, exports) {
     main.consumes = ["Plugin", "apf"];
     main.provides = ["ui"];
@@ -23,37 +24,18 @@ define(function(require, module, exports) {
             loaded = true;
             apf.uiLoaded = true;
             
-            // Before we have Proxy Objects, we'll extend the apf objects with the needed api
-            apf.Class.prototype.on = function() {
-                this.addEventListener.apply(this, arguments);
-            };
-            apf.Class.prototype.once = function(name, listener) {
-                var _self = this;
-                function callback() {
-                    listener.apply(this, arguments);
-                    _self.removeEventListener(name, callback);
-                }
-                this.addEventListener(name, callback);
-            };
-            apf.Class.prototype.emit = apf.Class.prototype.dispatchEvent;
-            apf.Class.prototype.off = apf.Class.prototype.removeEventListener;
-            
-            Object.defineProperty(apf.Class.prototype, '$html', {
-                get: function() { return this.$int || this.$container || this.$ext; },
-                enumerable: false,
-                configurable: false
-            });
-            
             apf.preProcessCSS = insertLess;
             
             // Load a basic document into APF
-            apf.initialize('<a:application xmlns:a="http://ajax.org/2005/aml" />');
+            apf.initialize();
             
             window.addEventListener("mousedown", function() {
+                apf.isMousePressed = true;
                 document.body.classList.add("disableIframe");
             }, true);
             
             window.addEventListener("mouseup", function() {
+                apf.isMousePressed = false;
                 document.body.classList.remove("disableIframe");
             }, true);
         }
@@ -279,11 +261,7 @@ define(function(require, module, exports) {
             //var allMarker = apf.all.length;
             var childMarker = parent.childNodes.length;
             
-            parent.insertMarkup(markup, {
-                callback: function() {
-                    
-                }
-            });
+            parent.insertMarkup(markup);
             
             //var allNodes = apf.all.slice(allMarker);
             var childNodes = parent.childNodes.slice(childMarker);
@@ -303,7 +281,7 @@ define(function(require, module, exports) {
             
             if (typeof item == "string") {
                 var bar = new apf.bar({ htmlNode: document.createElement("div") });
-                bar.insertMarkup(item, { callback: function() {} });
+                bar.insertMarkup(item);
                 item = bar.childNodes.slice();
                 bar.childNodes.length = 0;
                 bar.destroy();
@@ -596,14 +574,9 @@ define(function(require, module, exports) {
             insertByIndex: insertByIndex,
             
             /**
-             * @ignore
+             * 
              */
-            n: apf.n,
-            
-            /**
-             * @ignore
-             */
-            b: apf.b,
+            buildDom: apf.buildDom,
             
             /**
              * Escapes "&amp;", greater than, less than signs, quotation marks, 
@@ -740,11 +713,6 @@ define(function(require, module, exports) {
             removeClass: removeClass,
             
             /**
-             * @ignore
-             */
-            createNodeFromXpath: apf.createNodeFromXpath,
-            
-            /**
              * Determines whether a string is true (in the HTML attribute sense).
              * @param {Mixed} value The variable to check. Possible truth values include:
              * 
@@ -772,15 +740,6 @@ define(function(require, module, exports) {
              */
             isFalse: apf.isFalse,
             
-            /**
-             * @ignore
-             */
-            xmldb: apf.xmldb,
-            
-            /**
-             * @ignore
-             */
-            getCleanCopy: apf.getCleanCopy,
             
             /**
              * This method retrieves the current value of a CSS property on an 

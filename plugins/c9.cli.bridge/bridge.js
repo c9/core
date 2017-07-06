@@ -81,7 +81,8 @@ define(function(require, exports, module) {
         /***** Methods *****/
 
         plugin.on("load", function() {
-            c9.on("connect", load, plugin);
+            if (c9.connected) load();
+            else c9.on("connect", load, plugin);
         });
 
         plugin.on("unload", function() {

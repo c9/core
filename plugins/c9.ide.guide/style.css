@@ -1,0 +1,228 @@
+@keyframes corePulse {
+    from {
+        background: #CCC;
+    }
+    10% {
+        box-shadow: 0 0 0px #333;
+    }
+    30% {
+        background: #AAA;
+        box-shadow: 0 0 10px #CCC;
+    }
+    35% {
+        box-shadow: 0 0 10px rgb(204, 204, 204, 0.0);
+    }
+    to {
+        background: #CCC;
+        box-shadow: none;
+    }
+}
+
+@keyframes ringPulse {
+    from {
+        border-color: #CCC;
+        box-shadow: 0;
+    }
+    10% {
+        border-color: #CCC;
+        box-shadow: 0;
+    }
+    20% {
+        border-color: #AAA;
+        box-shadow: 0 0 0px #666;
+    }
+    60% {
+        border-color: #CCC;
+    }
+    80% {
+        box-shadow: 0 0 10px rgba(204, 204, 204, 0.1);
+    }
+    to {
+        box-shadow: none;
+    }
+}
+
+.thingy {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background: #CCC;
+    position: absolute;
+    z-index: 100000;
+    cursor: pointer;
+    transition:.5s;
+    animation-name: corePulse;
+    animation-duration: 2.5s;
+    animation-iteration-count: infinite;
+}
+
+.thingy:after{
+    content: "";
+    display: block;
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    border-radius: 10px;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #CCC;
+    transition:.5s;
+    animation-name: ringPulse;
+    animation-duration: 2.5s;
+    animation-iteration-count: infinite;
+}
+
+.thingy:hover, .thingy.active {
+    animation: none;
+    background: #555;
+    box-shadow: 0;
+}
+
+.thingy:hover:after, .thingy.active:after {
+    animation: none;
+    border-color: #555;
+}
+
+.thingy-popup{
+    position: absolute;
+    background: white;
+    border-radius: 3px;
+    padding: 20px;
+    box-shadow: 0 0 17px 0 rgba(0, 0, 0, 0.2);
+    width: 350px;
+    z-index: 100001;
+    /*transition: 0.5s;*/
+}
+
+.thingy-popup > .close{
+    background-image: url("@{image-path}/close_tab_btn_flat_light@2x.png");
+    background-size: 42px 28px;
+    position: absolute;
+    right: 20px;
+    top : 20px;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    background-position: 0 -14px;
+}
+.thingy-popup > .close:hover{
+    background-position: -14px -14px;
+}
+
+.thingy-popup > p{
+    line-height: 1.4em;
+    color: #5F5F5F;
+    font-size: 1.1em;
+}
+.thingy-popup p a {
+    font-size: 13px;
+}
+.thingy-popup.blue p a {
+    color: #2C91DE;
+}
+.thingy-popup.green p a {
+    color: #7FB959;
+}
+.thingy-popup.orange p a {
+    color: #E2B013;
+}
+
+.thingy-popup > .tourButtons {
+    text-align: right;
+    padding-top: 10px;
+}
+
+.thingy-popup .skip {
+    display: inline-block;
+    margin-right: 15px;
+    color: #8E8E8E;
+    -webkit-font-smoothing: antialiased;
+}
+.thingy-popup .skip:hover {
+    color: #666;
+}
+
+.thingy-popup > .title{
+    font-size: 21px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+    padding: 20px 40px 20px 20px;
+    display: block;
+    background: white;
+    margin: -20px -20px 0 -20px;
+    color: white;
+    -webkit-font-smoothing: antialiased;
+}
+.thingy-popup.blue .title {
+    background: #2C91DE;
+}
+.thingy-popup.green .title {
+    background: #7FB959;
+}
+.thingy-popup.orange .title {
+    background: #E2B013;
+}
+
+.thingy-popup .balloon {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    border: 0px outset white;
+    border-width: 30px 30px 0 0;
+    z-index: 0;
+    border-color: white transparent;
+    left: 30px;
+    top: -14px;
+    transform: rotate(45deg);
+    -webkit-clip-path: polygon(0px 0px, 100% 0%, 0% 100%);
+    clip-path: polygon(0px 0px, 100% 0%, 0% 100%);
+}
+.thingy-popup.blue .balloon {
+    border-color: #2C91DE transparent;
+}
+.thingy-popup.green .balloon {
+    border-color: #7FB959 transparent;
+}
+.thingy-popup.orange .balloon {
+    border-color: #E2B013 transparent;
+}
+.thingy-popup .balloon.white {
+    border-color: white transparent;
+}
+
+.thingy-popup.balloon-bottom .balloon {
+    left: 30px;
+    top: auto;
+    bottom: -14px;
+    transform: rotate(225deg);
+}
+
+.thingy-popup.balloon-left .balloon {
+    left: -14px;
+    top: 30px;
+    transform: rotate(-45deg);
+}
+
+.thingy-popup.balloon-right .balloon {
+    right: -14px;
+    left: auto;
+    top: 30px;
+    transform: rotate(-225deg);
+}
+
+.thingy-popup.balloon-left.balloon-top .balloon {
+    top: -13px;
+    left: -3px;
+    transform: skew(43deg) rotate(25deg);
+    border-width: 50px 50px 0 0;
+}
+
+.thingy-popup .arrow{
+    font-size: 1.3em;
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+    width: 14px;
+}

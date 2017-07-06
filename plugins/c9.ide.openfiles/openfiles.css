@@ -1,0 +1,103 @@
+.image-2x(@image; @width; @height; @repeat: no-repeat) {
+    @filename  : ~`/(.*)\.(jpg|jpeg|png|gif)/.exec(@{image})[1]`;
+    @extension : ~`/(.*)\.(jpg|jpeg|png|gif)/.exec(@{image})[2]`;
+    background-image: ~`"url(@{filename}.@{extension})"`;
+    background-repeat: @repeat;
+
+    @media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
+        background-image: ~`"url(@{filename}@2x.@{extension})"`;
+        background-size: @width @height;
+    }
+}
+
+.openfiles .ace_tree .tree-row{
+    height: @openfiles-row-height;
+}
+
+.openfiles .ace_tree .tree-row strong.close {
+    margin-top: @openfiles-close-margin-top;
+    width: 14px;
+    height: 14px;
+    position: relative;
+    right: 2px;
+    .image-2x("@{image-path}/@{openfiles-close-button}", 42px, 28px);
+    background-position: @openfiles-close-idle-position;
+    pointer-events: auto;
+    cursor: pointer;
+    z-index: 10;
+    -webkit-animation: none;
+    -moz-animation: none;
+    animation: none;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.openfiles .ace_tree .tree-row span{
+    line-height: 17px;
+}
+
+.openfiles .ace_tree .tree-row strong.changed,
+.openfiles .ace_tree .tree-row strong.saving,
+.openfiles .ace_tree .tree-row strong.saved,
+.openfiles .ace_tree .tree-row strong.error {
+    .image-2x("@{image-path}/@{pane-button-states-image}", (4 * @pane-button-states-image-size), @pane-button-states-image-size);
+    background-position : 0 2px;
+    display: inline-block;
+    width: @pane-button-states-image-size;
+    height: @pane-button-states-image-size;
+    margin: @openfiles-icon-margin;
+    
+    -webkit-animation: none;
+       -moz-animation: none;
+            animation: none;
+}
+
+.openfiles .ace_tree .tree-row strong.changed { background-position : 0 0; }
+.openfiles .ace_tree .tree-row strong.error { background-position : (-1 * @pane-button-states-image-size) 0; }
+.openfiles .ace_tree .tree-row strong.saving { background-position : (-2 * @pane-button-states-image-size) 0; }
+.openfiles .ace_tree .tree-row strong.saved { background-position : (-3 * @pane-button-states-image-size) 0; }
+
+.openfiles .ace_tree .tree-row strong.close:hover,
+.openfiles .ace_tree .tree-row strong.close:active {
+    .image-2x("@{image-path}/@{openfiles-close-button}", 42px, 28px);
+    background-position: @openfiles-close-hover-position;
+    width: 14px;
+    height: 14px;
+    margin: @openfiles-close-margin-top 0 0 0;
+}
+
+.openfiles .ace_tree .toggler{
+    display : none;
+}
+
+.openfiles .ace_tree .group .toggler{
+    display : inline-block;
+}
+
+.openfiles .ace_tree .tree-row > span{
+    padding: @openfiles-caption-padding;
+}
+    
+.openfiles {
+    background : @panel-background;
+    border-top : 1px solid @border-highlight;
+    border-bottom : 1px solid @border-highlight-dark-medium;
+    box-sizing : border-box;
+    padding : 10px 0 0 0;
+}
+
+.openfiles>.filetree{
+    height : 100%;
+}
+
+.workspace_files.hasopenfiles .filetree.real{
+    border-top: 1px solid @border-highlight;
+}
+
+.hidetree .openfiles{
+    border-bottom : 0;
+}
+    
+.hidetree .filetree.real{
+    display : none;
+}

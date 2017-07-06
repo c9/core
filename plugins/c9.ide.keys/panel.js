@@ -1,3 +1,4 @@
+/*global apf*/
 define(function(require, exports, module) {
     main.consumes = [
         "Panel", "ui", "menus", "panels", "commands", "tabManager", "layout",
@@ -94,6 +95,9 @@ define(function(require, exports, module) {
                 }, {
                     bindKey: "Shift-Enter",
                     exec: function() { execCommand(false, true); }
+                }, {
+                    bindKey: "F2",
+                    exec: function() { showKeyEditor(); }
                 }
             ]);
             function forwardToTree() {
@@ -142,7 +146,8 @@ define(function(require, exports, module) {
                 var to = e.toElement;
                 if (!to || apf.isChildOf(winCommands, to, true))
                     return;
-                
+                if (to.localName == "menu")
+                    return;
                 // TODO add better support for overlay panels
                 setTimeout(function() { plugin.hide(); }, 10);
             }
@@ -152,19 +157,21 @@ define(function(require, exports, module) {
             // Focus the input field
             setTimeout(function() {
                 txtFilter.focus();
-            }, 10);
+            });
             
-            setTimeout(function() {
-                // Assign the dataprovider
-                tree.setDataProvider(ldSearch);
-                tree.selection.$wrapAround = true;
-                var val = settings.get("state/commandPanel/@value");
-                if (val)
-                    txtFilter.ace.setValue(val);
-            }, 200);
+            // Assign the dataprovider
+            tree.setDataProvider(ldSearch);
+            tree.selection.$wrapAround = true;
+            var val = settings.get("state/commandPanel/@value");
+            if (val)
+                txtFilter.ace.setValue(val);
         }
         
         /***** Methods *****/
+        
+        function showKeyEditor() {
+            commands.exec("openpreferences", null, { panel: "preferences.keybindings" });
+        }
     
         /**
          * Searches through the dataset

@@ -1,0 +1,124 @@
+filename .txt
+caption Text file
+section General
+	
+filename .js
+caption JavaScript file
+section General
+	// JavaScript File
+
+filename .coffee
+section General
+caption CoffeeScript file
+	
+filename .html
+section General
+caption HTML file
+	<!DOCTYPE html>
+	<html>
+	    <head>
+	        <title> </title>
+	    </head>
+	    <body>
+	
+	    </body>
+	</html>
+filename .xml
+section General
+caption XML file
+	<?xml version="1.0" encoding="UTF-8"?>
+	<root />
+filename .xq
+section Others
+caption XQuery file
+	xquery version "1.0";
+	let $message := "Hello World!"
+	return <results>
+	  <message>{$message}</message>
+	</results>
+filename .css
+section General
+caption CSS file
+	
+filename .scss
+section General
+caption SCSS file
+	
+filename .less
+section General
+caption LESS file
+	
+filename .svg
+section Others
+caption SVG file
+	<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+	  
+	</svg>
+filename .py
+section General
+caption Python file
+	
+filename .php
+section General
+caption PHP file
+	<?php
+	
+	?>
+filename .rb
+section General
+caption Ruby file
+	
+filename .mli
+section Others
+caption OCaml file
+	
+filename .clj
+section Others
+caption Clojure file
+	
+filename .md
+section General
+caption Markdown
+	# 
+filename .js
+section Node.js
+caption Express file
+	// *******************************************************
+	// expressjs template
+	//
+	// assumes: npm install express
+	// defaults to jade engine, install others as needed
+	//
+	// assumes these subfolders:
+	//   public/
+	//   public/javascripts/
+	//   public/stylesheets/
+	//   views/
+	//
+	var express = require('express');
+	var app = module.exports = express.createServer();
+	var viewEngine = 'jade'; // modify for your view engine
+	// Configuration
+	app.configure(function(){
+	  app.set('views', __dirname + '/views');
+	  app.set('view engine', viewEngine);
+	  app.use(express.bodyParser());
+	  app.use(express.methodOverride());
+	  app.use(app.router);
+	  app.use(express.static(__dirname + '/public'));
+	});
+	app.configure('development', function(){
+	  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+	});
+	app.configure('production', function(){
+	  app.use(express.errorHandler());
+	});
+	// *******************************************************
+filename .js
+section Node.js
+caption Node.js web server
+	var http = require('http');
+	http.createServer(function (req, res) {
+	  res.writeHead(200, {'Content-Type': 'text/plain'});
+	  res.end('Hello World from Cloud9\n');
+	}).listen(process.env.PORT);

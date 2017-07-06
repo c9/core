@@ -1,0 +1,21 @@
+{
+    "script" : [
+        "set -e",
+        "if [ \"$debug\" == true ]; then ",
+        "    gcc -ggdb3 -O0 -std=c99 $file -o \"$file\".o",
+        "    chmod 755 $file.o",
+        "    node $HOME/.c9/bin/c9gdbshim.js \"$file.o\" $args",
+        "else",
+        "    gcc -std=c99 $file -o $file.o",
+        "    chmod 755 \"$file.o\"",
+        "    \"$file.o\" $args",
+        "fi"
+    ],
+    "info": "Running \"$file\"",
+    
+    "debugger": "gdb",
+    "$debugDefaultState": false,
+    
+    "env" : {},
+    "selector": "^.*\\.c$"
+}

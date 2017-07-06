@@ -682,7 +682,7 @@ define(function(require, exports, module) {
              */
             CursorLeftCommand.tryCreate = function(inputText) {
                 if (inputText === INPUT_LEFT)
-                    return new CursorLeftCommand(inputText);
+                    return new CursorLeftCommand();
             };
             function CursorLeftCommand() {
                 return {
@@ -722,7 +722,7 @@ define(function(require, exports, module) {
                 if (INPUTS_HOME.indexOf(inputText) > -1
                     // Only attempt home if we'd jump to the start of a prompt
                     && (peek(predictIndex - 1) === "$" || peek(predictIndex - 2) === "$"))
-                    return new HomeCommand(inputText);
+                    return new HomeCommand();
             };
             function HomeCommand() {
                 var outputText = predictIndex ? getCursorLeft(predictIndex) : "";

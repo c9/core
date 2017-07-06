@@ -153,7 +153,7 @@ define(function(require, exports, module) {
             var data = strJson.replace(/(^|\n)\s*\/\/.*/g, "");
                 
             try { return JSON.parse(data); }
-            catch (e) { cb(e); return false; }
+            catch (e) { cb && cb(e); return false; }
         };
         
         /**
@@ -246,13 +246,14 @@ define(function(require, exports, module) {
         
         plugin.normalizePath = function(path) {
             if (!path) return "";
+            path = normalize(path);
             if (reHome) {
                 path = path.replace(reHome, homeSub);
                 if (reWorkspace) {
                     path = path.replace(reWorkspace, "/");
                 }
             }
-            return normalize(path);
+            return path;
         };
         
         /**

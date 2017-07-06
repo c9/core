@@ -6,12 +6,14 @@
 
 
 require("amd-loader");
+require("c9/setup_paths");
 require("c9/inline-mocha")(module);
 
 var assert = require("assert");
 var fs = require("fs");
+var Module = require("module");
 
-describe("client config consistency", function(){
+describe("client config consistency", function() {
     // this.timeout(60000);
     
     var fileCache = Object.create(null);
@@ -25,9 +27,11 @@ describe("client config consistency", function(){
         }); 
     });
     
-    fs.readdirSync(root + "/configs").forEach(function(name) {
-        if (!/client-(workspace|ssh|default)/.test(name)) return;
-        
+    fs.readdirSync(root + "/configs").filter(function(name) {
+        return /client-(workspace|ssh|default)/.test(name);
+    }).concat(
+        fs.readdirSync(root + "/configs/ide").map(function(n) { return "ide/" + n })
+    ).forEach(function(name) {
         it("should not have missing plugins in config " + name, function(next) {
             fetchClientOptions(function(err, clientOptions) {
                 if (err) return next();
@@ -45,6 +49,15 @@ describe("client config consistency", function(){
                 return /standalone[\\\/]standalone/.test(p.packagePath);
             })[0].options;
             fetchClientOptions(callback);
+        });
+    }
+    
+    
+    function resolveModulePath(base, packagePath) {
+        return Module._resolveFilename(packagePath, {
+            paths: Module._nodeModulePaths(base),
+            filename: base,
+            id: base,
         });
     }
         
@@ -72,8 +85,7 @@ describe("client config consistency", function(){
                             filePath = require.resolve(p.packagePath.replace(/^plugins\//, ""));
                         } catch (e) {
                             // TODO instead of quessing we need a simple way of getting pathmap
-                            if (configPath != configPathReal)
-                                filePath = require.resolve(configPathReal + "/../../node_modules/" + p.packagePath.replace(/^plugins\//, ""));
+                            filePath = resolveModulePath(configPathReal, p.packagePath.replace(/^plugins\//, ""));
                         }
                     }
                     if (!filePath.match(/\.js$/))
@@ -87,7 +99,7 @@ describe("client config consistency", function(){
             }
         });
         
-        var provides = {"auth.bootstrap": 1, "hub": 1};
+        var provides = { "auth.bootstrap": 1, "hub": 1, "app": 1 };
         var paths = {};
         clientPlugins.forEach(function(p) {
             if (paths[p.packagePath]) {

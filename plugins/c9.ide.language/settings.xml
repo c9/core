@@ -1,0 +1,20 @@
+<a:application xmlns:a="http://ajax.org/2005/aml">
+    <a:checkbox class="underlined" label="Enable Hints and Warnings"
+        value="[language/@jshint]" skin="checkbox_grey" position="1000"/>
+    <a:checkbox class="underlined" label="Highlight Variable Instances"
+        value="[language/@instanceHighlight]" skin="checkbox_grey" position="2000"/>
+    <a:checkbox class="underlined" label="Mark Undeclared Variables"
+        value="[language/@undeclaredVars]" skin="checkbox_grey" position="3000"/>
+    <a:checkbox class="underlined" label="Mark Unused Function Arguments"
+        value="[language/@unusedFunctionArgs]" skin="checkbox_grey" position="4000"/>
+    <a:checkbox class="underlined" label="Complete As You Type"
+        value="[language/@continuousCompletion]" skin="checkbox_grey" position="4000"/>
+    <a:hbox edge="5 5 2 5" align="center">
+        <a:label flex="1">Warning Level</a:label>
+        <a:dropdown default="info" value="[{require('ext/settings/settings').model}::language/@warnLevel]" width="80" height="21">
+            <a:item value="error">Error</a:item>
+            <a:item value="warning">Warning</a:item>
+            <a:item value="info">Info</a:item>
+        </a:dropdown>
+    </a:hbox>
+</a:application>

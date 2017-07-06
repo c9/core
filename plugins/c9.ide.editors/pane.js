@@ -204,40 +204,98 @@ define(function(require, module, exports) {
             /***** Methods *****/
             
             function addCustomTooltipHandler(el) {
-                el.addEventListener("mousemove", function(e) {
-                    var target = e.target;
-                    var amlTab = apf.findHost(target); 
+                var tooltipTimer;
+                var tooltipHideTimer;
+                var currentTarget;
+                function hide() {
+                    if (tooltipTimer) tooltipTimer = clearTimeout(tooltipTimer);
+                    if (tooltipHideTimer) tooltipHideTimer = clearTimeout(tooltipHideTimer);
+                    if (tooltip) tooltip.hide();
+                    currentTarget = null;
+                }
+                function findTab(e) {
+                    var amlTab = apf.findHost(e.target); 
                     var tab = amlTab && amlTab.cloud9tab;
-                    if (!tab) return tooltip && tooltip.hide();
+                    return tab;
+                }
+                el.addEventListener("mousemove", function(e) {
+                    if (apf.isMousePressed)
+                        return tooltip && tooltip.hide();
+                    var tab = findTab(e);
+                    if (tooltip && tooltip.isOpen) {
+                        tooltipHideTimer = clearTimeout(tooltipHideTimer);
+                        if (currentTarget != tab) {
+                            currentTarget = tab;
+                            updateTooltip();
+                        }
+                    } else {
+                        if (currentTarget != tab || !tooltipTimer) {
+                            tooltipTimer = clearTimeout(tooltipTimer);
+                            tooltipTimer = setTimeout(updateTooltip, 150);
+                            currentTarget = tab;
+                        }
+                    }
+                });
+
+                function updateTooltip() {
+                    if (apf.isMousePressed)
+                        return tooltip && tooltip.hide();
+                    tooltipTimer = clearTimeout(tooltipTimer);
+                    tooltipHideTimer = clearTimeout(tooltipHideTimer);
+                    var tab = currentTarget;
+                    if (!tab) return hide();
                     
                     var tooltipTitle = tab.tooltip || tab.title;
                     
-                    if (!tooltipTitle) return tooltip && tooltip.hide();
+                    if (!tooltipTitle) return hide();
                     
                     if (!tooltip)
                         tooltip = new Tooltip(document.body);
                     
+                    var activeTab = tab.pane.activeTab || tab;
+                    
+                    if (activeTab.classList.contains("dark"))
+                        tooltip.getElement().classList.add("ace_dark");
+                    else
+                        tooltip.getElement().classList.remove("ace_dark");
+
                     var rect = tab.aml.$button.getBoundingClientRect();
                     var style = tooltip.getElement().style;
                     style.top = rect.bottom + 10 + "px";
                     style.textAlign = "center";
-                    
-                    tooltip.setText(tooltipTitle);
+                    style.minWidth = rect.width + "px";
+                    style.maxWidth = "40em";
+                    style.whiteSpace = "pre-wrap";
+                    style.wordWrap = "normal";
+
+                    tooltip.setText(tooltipTitle.replace(/[/.-]/g, "\u200b$&"));
                     tooltip.show();
                     var tooltipRect = tooltip.getElement().getBoundingClientRect();
-                    style.minWidth = rect.width + "px";
                     var left = rect.left + rect.width / 2 - tooltipRect.width / 2;
-                    if (left + tooltipRect.width > window.innerWidth)
-                        left = Math.max(0, window.innerWidth - tooltipRect.width);
+                    if (left + tooltipRect.width > window.innerWidth - 2)
+                        left = Math.max(0, window.innerWidth - 2 - tooltipRect.width);
+                    if (left < 2)
+                        left = 2;
+                    if (tooltipRect.width > window.innerWidth - 4)
+                        style.maxWidth = window.innerWidth - 4 + "px";
                     style.left = left + "px";
-                });
+                }
                 
                 el.addEventListener("mouseout", function(e) {
-                    tooltip && tooltip.hide();
+                    if (tooltip && tooltip.isOpen) {
+                        clearTimeout(tooltipHideTimer);
+                        tooltipHideTimer = setTimeout(hide, 100);
+                    }
+                    if (tooltipTimer)
+                        tooltipTimer = clearTimeout(tooltipTimer);
                 });
+                el.addEventListener("mousedown", hide);
                 plugin.on("beforeUnload", function() {
-                    tooltip && tooltip.destroy();
-                    tooltip = null;
+                    if (tooltip) {
+                        hide();
+                        tooltip.destroy();
+                        tooltip = null;
+                    }
                 });
             }
             

@@ -1,0 +1,113 @@
+#chatThrob {
+    display: none;
+    position: absolute;
+    bottom: 40px;
+    font-size: 12px;
+    width: 150px;
+    height: 40px;
+    right: 20px;
+    z-index: 1000;
+    color: rgb(39, 39, 39);
+    background-color: rgb(236, 236, 236);
+    background-color: rgba(236, 236, 236, 0.7);
+    padding: 10px;
+    border-radius: 6px;
+    opacity: .8;
+}
+
+.chatContainer{
+    .display-flex();
+    .flex-direction(column);
+}
+
+.chatText a {
+    color: #909090;
+}
+
+.chatText {
+    overflow: auto;
+    font-size: @collab-chat-font-size;
+    padding: 0 0 0 0;
+    .flex(1);
+    background: @collab-chat-background;
+}
+.chatText p {
+    padding: @collab-chat-item-padding;
+    word-wrap: break-word;
+    border-bottom : @collab-chat-item-border-bottom;
+    border-top : @collab-chat-item-border-top;
+    position : relative;
+    margin : 0;
+}
+.chatText p:first-child{
+    border-top: 0;
+}
+.chatText .chatBorder{
+    position : absolute;
+    left : 0;
+    top : 0;
+    bottom : 0;
+    width : 0;
+    border-left : @collab-chat-color-size solid white;
+}
+.chatText .emoji {
+    vertical-align: middle;
+}
+.chatText .authorName {
+    text-decoration: none;
+    color: @collab-chat-author-color;
+    display : block;
+}
+.chatText .chatmessage {
+    color : @collab-chat-message-color;
+    display : block;
+    padding: 3px 0 0 0;
+}
+.chatText .chattime {
+    position : absolute;
+    right: @collab-chat-time-right;
+    top: @collab-chat-time-top;
+    color: @collab-chat-time-color;
+    font-size: 10px;
+    font-weight: @collab-chat-time-font-weight;
+    text-shadow: @collab-chat-time-text-shadow;
+}
+.chatContainer .searchTxt.tb_console {
+    background: @collab-chat-input-background;
+    height:30px;
+    padding: 0;
+    cursor: text;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+}
+.chatContainer .searchTxt.tb_console .sbtb_middle{
+    min-height : 37px;
+    
+    border-color: @collab-chat-input-border-color;
+    border-radius: 0;
+    border-width: 1px 0 0 0;
+    box-shadow: @collab-chat-input-box-shadow;
+    background: @collab-chat-input-background;
+    padding: 4px 4px 3px 4px;
+}
+.chatContainer .tb_textboxInitialMsg {
+    color: #B9B9B9 !important;
+    text-indent: 3px;
+    text-shadow: none;
+}
+.chatContainer .searchbox .sbtb_middle .input{
+    color: @collab-chat-input-color;
+    .font-smoothing(@collab-chat-input-font-smoothing);
+}
+.chatContainer .ace-tm .ace_marker-layer .ace_selection {
+    background: @collab-chat-input-selection-color;
+}
+.chatContainer .ace-tm .ace_cursor {
+    color : @collab-chat-input-cursor-color;
+}
+
+#chatCounter {
+    color: #777;
+    font-size: 10px;
+    vertical-align: middle;
+}

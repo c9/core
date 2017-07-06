@@ -1,0 +1,113 @@
+.share{
+    width: @share-width;
+    height: @share-height;
+}
+
+.share .bk-container{
+    padding: @share-padding;
+}
+
+.share label{
+    font-family : @share-label-font-family;
+    font-size : @share-label-font-size;
+    font-weight: @share-label-font-weight;
+    color: @share-label-color;
+    margin : 0 5px 2px 0;
+    display: block;
+    vertical-align: middle;
+}
+
+.share .sharecb{
+    margin: @share-checkbox-margin!important; 
+    display:inline-block;
+    vertical-align: middle;
+}
+
+.share .link{
+    background : @share-link-background;
+    padding : @share-link-padding;
+    border-radius: @share-link-border-radius;
+    width: @share-link-width;
+    margin: @share-link-margin;
+    border: @share-link-border;
+    box-shadow: @share-link-box-shadow;
+    color: @share-link-color;
+    cursor: text;
+    display: inline-block;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: top;
+}
+.share .link:hover{
+    text-decoration: underline;
+}
+
+.share .members{
+    background-color: rgba(255, 255, 255, 0.07);
+    border: @share-members-border;
+    box-shadow: @share-members-box-shadow;
+    overflow: hidden;
+    position: relative;
+    height: 140px !important;
+    margin: @share-members-margin;
+    border-radius: @share-members-border-radius;
+}
+.share .members .hover{
+    background: @share-members-hover-background;
+}
+
+.share blockquote{
+    position : relative;
+    border-radius: @share-container-border-radius;
+    border: @share-container-border;
+    box-shadow: @share-container-box-shadow;
+}
+.share blockquote.invite{
+    margin: @share-invite-margin;
+    padding: @share-invite-padding;
+}
+.share blockquote.links{
+    margin: @share-links-margin;
+    padding: @share-links-padding;
+}
+
+.share .access_control.standalone{
+    position: absolute;
+    right: @share-access-right;
+    top: @share-access-top;
+}
+
+.share .subhead {
+    display: inline-block;
+    width: @share-label-subhead-width;
+    color: @share-label-subhead-color;
+    margin-top: @share-label-subhead-margin-top!important;
+    font-weight: @share-label-subhead-font-weight;
+}
+
+.share .searchbox {
+    width: @share-textbox-width;
+    margin: @share-textbox-margin !important;
+}
+.share .searchbox .sbtb_middle {
+    background-color: @share-textbox-background-color;
+    box-shadow: @share-textbox-box-shadow;
+    padding: @share-textbox-padding !important;
+    border-color: @share-textbox-border-color !important;
+}
+
+.share .btn-green{
+    position: absolute;
+    width: @share-invite-button-width;
+    height: @share-invite-button-height;
+    right: @share-invite-button-right;
+    bottom: @share-invite-button-bottom;
+}
+
+.share .btn-done{
+    position: absolute;
+    right: @share-done-button-right;
+    width: @share-done-button-width;
+    bottom: @share-done-button-bottom;
+}

@@ -1,0 +1,22 @@
+{
+    "cmd" : ["meteor", "--port", "$PORT", "$args"],
+    "info" : "Meteor",
+    "working_dir": "$project_path",
+    "env" : {
+        "NODE_OPTIONS": "${debug?--debug-brk=5757}",
+        "ROOT_URL": "https://$hostname", 
+        "BIND_IP": "$ip"
+    },
+    "pathMap": [
+        {
+            "toInternal": {"regex": "^app/", "replacement": "/"},
+            "toExternal": {"regex": "^/(?=[^.])", "replacement": "app/"}
+        }
+    ],
+    "disabled": {
+        "liveUpdate": true
+    },
+    "$debugDefaultState": false,
+    "debugger": "v8",
+    "debugport": 5757
+}

@@ -1,0 +1,13 @@
+{
+    "cmd": [
+        "iojs",
+        "${debug?--nocrankshaft}",
+        "${debug?--nolazy}",
+        "${debug?--nodead_code_elimination}",
+        "${debug?--debug-brk=15455}",
+        "$file",
+        "$args"
+    ],
+    "debugger": "v8",
+    "debugport": 15455
+}

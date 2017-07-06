@@ -90,7 +90,7 @@ define(function(require, exports, module) {
             menus.addItemToMenu(menu, 
                 new ui.item({
                     caption: "Open Preferences",
-                    hotkey: "{commands.commandManager.openpreferences}",
+                    hotkey: "commands.openpreferences",
                     onclick: function(e) {
                         if (focusOpenPrefs())
                             return;
@@ -192,7 +192,7 @@ define(function(require, exports, module) {
                 var panels = navigation && navigation.$ext && navigation.$ext.children;
                 if (panels) {
                     for (var i = 0; i < panels.length; i++) {
-                        if (panels[i].name == panel) {
+                        if (panels[i].name == panel || panels[i].name == "preferences." + panel) {
                             panel = panels[i].hostPlugin;
                             break;
                         }

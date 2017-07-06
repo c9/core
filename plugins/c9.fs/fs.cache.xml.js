@@ -138,8 +138,12 @@ define(function(require, exports, module) {
                         toRemove.push(name);
                 });
                 
-                if (!toCreate.length && !toRemove.length && !orphanAppand.length)
-                    return;
+                if (!toCreate.length && !toRemove.length && !orphanAppand.length) {
+                    // emit readdir event for empty folders, since other plugins may use that
+                    // to display create new file buttons
+                    if (node.children && node.children.length)
+                        return;
+                }
                 
                 var wasOpen = startUpdate(node);
                 node.children = null;
@@ -258,7 +262,7 @@ define(function(require, exports, module) {
                     };
                     e.confirm = function () {
                         if (node.status === "predicted")
-                            node.status = "pending";
+                            node.status = isFolder ? "pending" : "loaded";
                     };
                     node.status = "predicted";
                 }

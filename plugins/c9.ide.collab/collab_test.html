@@ -1,0 +1,293 @@
+<html>
+    <style type="text/css">
+        
+        html, body, iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        
+        #right, #left, #main, #controlls {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+        }
+        #right {
+            left: 50%;
+        }
+        #left {
+            right: 50%;
+        }
+        #main {
+            bottom: 50px;
+        }
+        #controlls {
+            top: auto;
+            bottom: 0;
+            height: 50px;
+        }
+    </style>
+    <body>
+        
+    <script src="/static/require.js"></script>
+    <script src="/configs/require_config.js"></script>
+    
+    <div id="main">
+        <div id="left">
+            <iframe id="1" src="/ide.html?debug=1" frameborder="0"></iframe>
+        </div>
+        <div id="right">
+            <iframe id="2" src="/ide.html?debug=1" frameborder="0"></iframe>
+        </div>
+    </div>
+    <div id="controlls">
+        
+    </div>
+    </body>
+    <script>
+        var frame1 = document.querySelector("#left iframe");
+        var frame2 = document.querySelector("#right iframe");
+        var ss = function() {
+            this._items = Object.create(null);
+            this.getItem = function(n) {
+                return this._items[n];
+            };
+            this.setItem = function(n, data) {
+                return (this._items[n] = data);
+            };
+            this.removeItem = function(n) {
+                delete this._items[n];
+            };
+            this.clear = function() {
+                this._items = Object.create(null);
+            };
+        };
+        function overrideSessionStorage(frame) {
+            frame.ss = new ss();
+            frame.contentWindow.__defineGetter__("sessionStorage", function() {
+                return frame.ss;
+            });
+        }
+        
+        overrideSessionStorage(frame1);
+        overrideSessionStorage(frame2);
+        
+        var cmdHistory = [];
+        function addToHistory(frame, command, arg) {
+            cmdHistory.push({frame: frame.id, command: command, arg: arg});
+        }
+        
+        function getApp(frame, name, arg) {
+            return frame.contentWindow.app;
+        }
+        
+        function execCommand(frame, name, arg) {
+            addToHistory(frame, name, arg);
+            return getApp(frame).commands.exec(name, null, arg);
+        }
+        
+        var dirname = "__collab_test__";
+        var fileCount = 10;
+        var actions = {
+            disconnect: function(frame) {
+                addToHistory(frame, "disconnect");
+                getApp(frame).c9.connection.disconnect();
+            },
+            save: function(frame) {
+                execCommand(frame, "save");
+            },
+            closeAllTabs: function(frame, clean, cb) {
+                var app = getApp(frame);
+                app.tabManager.getTabs().forEach(function(tab) {
+                    tab.unload();
+                });
+            },
+            createTestFiles: function(frame, clean, cb) {
+                var app = getApp(frame);
+                
+                clean
+                    ? app.fs.rmdir("/" + dirname, init)
+                    : init();
+                
+                function init() {
+                    var root = frame.contentWindow.plugins.filter(function(x) {
+                        return x.packagePath == "plugins/c9.ide.terminal/terminal";
+                    })[0].root;
+                    
+                    var args = ["-c", "mkdir -p " + dirname +";"];
+                    var dirs = [];
+                    for (var i = 0; i < fileCount; i++) {
+                        args[1] += " echo " + i + " > " + dirname + "/" + i + ";";
+                        dirs.push("/" + dirname + "/" + i);
+                    }
+                    
+                    app.proc.execFile("bash", {
+                        args: args,
+                        cwd: root
+                    }, function(e, r) {
+                        if (e) console.log(e);
+                        
+                        cb && cb(dirs);
+                    });
+                    return false;
+                }
+            },
+            openTestFiles: function(frame) {
+                var app = getApp(frame);
+                for (var i = 0; i < fileCount; i++) {
+                    app.tabManager.open({path: "/" + dirname + "/" + i});
+                }
+            },
+            openTestFile: function(frame, name) {
+                var app = getApp(frame);
+                app.tabManager.open({path: "/" + dirname + "/" + name, focus: true});
+            },
+            type: function(frame, str) {
+                if (str == "\n")
+                    getApp(frame)._ace.onCommandKey({preventDefault:function(){}}, 0, 13);
+                execCommand(frame, "insertstring", str);
+            }, 
+            init: function(cb) {
+                actions.createTestFiles(frame1, false, function() {
+                    actions.closeAllTabs(frame1);
+                    actions.closeAllTabs(frame2);
+                    
+                    actions.openTestFiles(frame1);
+                    actions.openTestFiles(frame2);
+                    
+                    cb();
+                });
+            }
+        };
+        
+        // actions;
+        function randomInt(min, max) {
+            if (!max) { max = min; min = 0; }
+            var i = Math.floor(Math.random() * (max - min + 1)) + min;
+            if (i >= max) i = max - 1;
+            if (i <= min) i = min;
+            return i;
+        }
+        
+        var User = function(frame, options) {
+            this.frame = frame;
+            this.options = options = options || {};
+            var newLineFreq = options.newLineFreq || 20;
+            var chars = options.chars || "abcdefghijklmnopqrstuvwxyz0123456789";
+            
+            function nextString(len) {
+                var i = randomInt(chars.length + newLineFreq);
+                var text = chars[i] || "\n";
+                return Array((len || 1) + 1).join(text);
+            }
+            
+            
+            this.actions = {
+                insert: function() {
+                    actions.type(frame, nextString(randomInt(0), 5));
+                },
+                openFile: function(name) {
+                    
+                },
+            };
+            
+            this.tasks = {
+                insert: 100,
+                delete: 10,
+                undo: 30,
+                redo: 30,
+                gotoleft: 50,
+                gotoright: 50,
+                selectleft: 10,
+                selectright: 10,
+                movelineup: 20,
+                movelinedown: 5,
+                
+                save: 20
+            };
+            
+            this.tick = setInterval(function() {
+                if (this.wait-- > 0) return;
+                
+                this.wait = randomInt(1 / this.speed);
+                
+                var max = 0;
+                Object.keys(this.tasks).forEach(function(t) {
+                    max += this.tasks[t];
+                }, this);
+                
+                var whatToDo = randomInt(max);
+                Object.keys(this.tasks).some(function(t) {
+                    whatToDo -= this.tasks[t];
+                    if (whatToDo <= 0) {
+                        whatToDo = t;
+                        return true;
+                    }
+                }, this);
+                
+                if (this.actions[whatToDo]) {
+                    this.actions[whatToDo]();
+                } else {
+                    execCommand(frame, whatToDo);
+                }
+            }.bind(this), 10);
+            
+            this.openFile = function(name) {
+                actions.openTestFile(frame, name);
+            };
+            
+            
+            this.start = function(speed) {
+                this.wait = 0;
+                this.speed = speed;
+            };
+            this.stop = function(speed) {
+                this.wait = Infinity;
+            };
+            this.stop();
+        };
+        
+        var app1, app2;
+        var u1, u2;
+        var checkLoaded = setInterval(function() {
+            console.log("Check Clients Loaded ?");
+            app1 = getApp(frame1);
+            app2 = getApp(frame2);
+            if (app1 && app2) {
+                u1 = new User(frame1, {});
+                u2 = new User(frame2, {});
+
+                Object.keys(app1.commands.commands).forEach(function(t) {
+                    if (u1.tasks[t])
+                        u1.tasks[t] = u2.tasks[t] = 0;
+                });
+
+                clearInterval(checkLoaded);
+            }
+        }, 1000);
+
+        function openFiles() {
+            actions.init(function() {
+                u1.openFile("0");
+                u2.openFile("0");
+            });
+        }
+        
+        function stop(argument) {
+            u1.stop();
+            u2.stop();
+            console.log(app1._ace.getValue() == app2._ace.getValue());
+        }
+        document.querySelector("#controlls").innerHTML = '<button onclick="openFiles()">open Files</button>\
+        <span style=";">\
+            <input name=u1 type="range" onchange="u1.start(parseInt(this.value) / 1000)" value=0></input>\
+            <label for="u1">user 1 speed<label>\
+        </span>\
+        <span style=";">\
+            <input name=u2 type="range" onchange="u2.start(parseInt(this.value) / 1000)" value=0></input>\
+            <label for="u2">user 2 speed<label>\
+        </span>\
+        </span>\
+        <button onclick="stop()">stop</button>';
+    </script>
+</html>

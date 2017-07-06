@@ -1,0 +1,19 @@
+{
+    "cmd" : ["meteor", "$args"],
+    "info" : "Meteor",
+    "working_dir": "$project_path",
+    "env" : {
+        "NODE_OPTIONS": "${debug?--debug-brk=5757}"
+    },
+    "pathMap": [
+        {
+            "toInternal": {"regex": "^app/", "replacement": "/"},
+            "toExternal": {"regex": "^/(?=[^.])", "replacement": "app/"}
+        }
+    ],
+    "disabled": {
+        "liveUpdate": true
+    },
+    "debugger": "v8",
+    "debugport": 5757
+}

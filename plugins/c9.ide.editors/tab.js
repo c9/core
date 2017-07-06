@@ -1,5 +1,5 @@
 define(function(require, module, exports) {
-    main.consumes = ["Plugin", "ui", "Document", "dialog.alert", "settings"];
+    main.consumes = ["Plugin", "ui", "Document", "dialog.alert"];
     main.provides = ["Tab"];
     return main;
 

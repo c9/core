@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title></title>
+        <style>
+        #ed1, #ed2, #ed3, #top, #main{
+            position: absolute;
+            left:0; right: 0; top: 0; bottom: 0;
+        }
+        .ace_editor {
+            margin: 9px;
+            border: 1px solid lightgrey;
+        }
+        #ed1 {right:50%}
+        #ed2 {left:50%}
+        #top {bottom: 50%}
+        #ed3 {top: 50%}
+        #buttons {right:0; top:0; position:absolute}
+        #main {margin-top: 20px}
+        </style>
+        <script type="text/javascript" src="/static/require.js"></script>
+        <script type="text/javascript">
+            
+            var config = {
+                "waitSeconds": 60,
+                "baseUrl": "/static",
+                "paths": {
+                    "ace": "/static/ace/lib/ace",
+                    "apf": "/static/apf-packaged",
+                    "core": "/static/core",
+                    "ext": "/static/ext"
+                },
+                "packages": [{
+                    "name": "jQuery",
+                    "location": "jQuery",
+                    "main": "jQuery.js"
+                }]
+            };
+            // configure text plugin to use XHR for crossorigin requests instead of falling back to .js files
+            config.config = {text: {useXhr: function(){return true;}}};
+
+            var noop = function(){};
+            define("ext/ot/chat", ["require", "exports", "module"], {
+                init: noop
+            });
+            define("smith.io", ["require", "exports", "module"], {});
+            define("core/settings", ["require", "exports", "module"], {});
+
+            require(config, [/*"apf/apf_release",*/ "ext/ot/ot_fuzzer"], noop);
+        </script>
+    </head>
+    <body>
+        <div id="main">
+            <div id="top">
+                <div id="ed1"></div>
+                <div id="ed2"></div>
+            </div>
+            <div id="ed3"></div>
+        </div>
+        <div id="buttons">
+            <button onclick="editRandomlyWithoutServer(0)">editRandomly without server</button>
+            <span style="background:lightgray;">
+                <input type="checkbox" id="editCb" onclick="editRandomly()"></input>
+                <label for="editCb">editRandomly<label>
+            </span>
+            <span style="background:lightgray;">
+                <input type="checkbox" id="syncCb" onclick="enableAutoSync(this.checked)"></input>
+                <label for="syncCb">enableAutoSync<label>
+            </span>
+            <span style="background:lightgray;">
+                <input type="checkbox" id="del" onclick="window.setDeleteMore(this.checked)"></input>
+                <label for="syncCb">delete more than insert<label>
+            </span>
+        </div>
+    </body>
+</html>

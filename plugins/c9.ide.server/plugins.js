@@ -98,11 +98,11 @@ define(function(require, exports, module) {
                 
                 try {
                     statics.addStatics(
-                        fs.readdirSync(__dirname + "/../../integrations/").map(function(plugin) {
+                        fs.readdirSync(__dirname + "/../../user-plugins/").map(function(plugin) {
                             if (/^scripts$|\.(json|sh)$/.test(plugin)) 
                                 return;
                             return {
-                                path: __dirname + "/../../integrations/" + plugin,
+                                path: __dirname + "/../../user-plugins/" + plugin,
                                 mount: "/plugins/" + plugin
                             };
                         }).filter(Boolean)
@@ -131,6 +131,11 @@ define(function(require, exports, module) {
                     })
                 );
             }
+            
+            statics.addStatics([{
+                path: __dirname + "/../../configs/ide",
+                mount: "/configs/ide"
+            }]);
             
             statics.addStatics([{
                 path: __dirname + "/www",

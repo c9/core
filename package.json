@@ -1,7 +1,7 @@
 {
     "name": "c9",
     "description": "New Cloud9 Client",
-    "version": "3.1.3421",
+    "version": "3.1.3671",
     "author": "Ajax.org B.V. <info@ajax.org>",
     "private": true,
     "main": "bin/c9",
@@ -33,7 +33,7 @@
         "send": "~0.1.4",
         "simple-mime": "~0.0.8",
         "tern": "git+https://github.com/cloud9ide/tern.git#39015d544d4c00c7899fea4c95c2e5bc2720e68e",
-        "tern_from_ts": "git+https://github.com/cloud9ide/tern_from_ts.git#84d51dcb9b16b126a206789d4d4237cde2801fe4",
+        "tern_from_ts": "git+https://github.com/cloud9ide/tern_from_ts.git#66df507986bbdd63f3bc4f0c53edb39169ce4f1c",
         "through": "2.2.0",
         "tmp": "~0.0.20",
         "uglify-js": "~2.6.2",

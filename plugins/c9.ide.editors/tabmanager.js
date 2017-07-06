@@ -363,7 +363,7 @@ define(function(require, module, exports) {
             menus.addItemToMenu(mnuEditors,
                 new ui.item({
                     caption: "New File",
-                    hotkey: "{commands.commandManager.newfile}",
+                    hotkey: "commands.newfile",
                     onclick: function(e) {
                         e.pane = this.parentNode.pane;
                         plusNewFile(e, true);
@@ -498,8 +498,13 @@ define(function(require, module, exports) {
                     state.pane = panes[i];
                 }
                 if (!state.pane) {
-                    throw new Error("Called open too early. Please wait until "
-                        + "a pane is available. Use the ready event.");
+                    if (isReady) {
+                        state.pane = createPane({});
+                        container.appendChild(state.pane.aml);
+                    } else {
+                        throw new Error("Called open too early. Please wait until "
+                            + "a pane is available. Use the ready event.");
+                    }
                 }
             }
             

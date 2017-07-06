@@ -43,7 +43,7 @@ rm -Rf $SOURCE/build/webkitbuilds/releases
 mkdir -p $APPDIR
 mkdir -p $APPDIR/bin
 mkdir -p $APPDIR/build
-mkdir -p $APPDIR/configs
+mkdir -p $APPDIR/configs/ide
 mkdir -p $APPDIR/plugins
 mkdir -p $APPDIR/settings
 mkdir -p $APPDIR/scripts
@@ -58,7 +58,7 @@ cp -a bin/c9 $APPDIR/bin
 # configs
 cp configs/standalone.js $APPDIR/configs
 cp configs/cli.js $APPDIR/configs
-cp configs/client-default.js $APPDIR/configs
+cp configs/ide/default.js $APPDIR/configs/ide
 
 # settings
 cp settings/standalone.js $APPDIR/settings
@@ -68,6 +68,8 @@ cp -a scripts/makest* $APPDIR/scripts
 
 
 node -e " 
+    require('c9/setup_paths');
+    require('amd-loader');
     var fs = require('fs');
     var path = require('path');
     var copy = require('architect-build/copy');
@@ -83,9 +85,9 @@ node -e "
     }
 
 console.log('Client Plugins:');
-    var plugins = require('./configs/client-default')(require('./settings/standalone')());
+    var plugins = require('./configs/ide/default')(require('./settings/standalone')());
     copy.dirs('$SOURCE', '$APPDIR', pluginDirs(plugins), {
-        include: /^(libmarkdown.js|loading.css|runners_list.js|builders_list.js)$/,
+        include: /^(libmarkdown.js|loading(-flat)?.css|runners_list.js|builders_list.js)$/,
         exclude: /\\.(js|css|less|xml)$|^mock$/,
         onDir: function(e) { console.log('\x1b[1A\x1b[0K' + e) }
     });
@@ -105,7 +107,7 @@ console.log('Node Modules:');
     }, function(err, result) {
         var deps = result.roots;
         // add client plugins
-        deps.push('node_modules/rusha', 'node_modules/nak');
+        deps.push('node_modules/rusha', 'node_modules/nak', 'node_modules/tern', 'node_modules/tern_from_ts');
         deps = deps.filter(function(x){
             if (!require('fs').statSync(x).isDirectory())
                 return false;

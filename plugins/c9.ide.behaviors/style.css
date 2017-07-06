@@ -1,0 +1,50 @@
+.splits{
+    padding : 6px 20px 3px 22px !important;
+    background: transparent;
+}
+.splits span{
+    .image-2x(@pane-menu-splits-image, @pane-menu-splits-image-width, @pane-menu-splits-image-height);
+    background-position: 0 0;
+    width : 23px;
+    height : 18px;
+    display : inline-block;
+    margin : 0 10px 0 0;
+    cursor : pointer;
+}
+.splits span.nosplit            { background-position:     0          0; }
+.splits span.nosplit:hover      { background-position:     0      -18px; }
+.splits span.nosplit:active     { background-position:     0      -36px; }
+.splits span.twovsplit          { background-position:   -23px        0; }
+.splits span.twovsplit:hover    { background-position:   -23px    -18px; }
+.splits span.twovsplit:active   { background-position:   -23px    -36px; }
+.splits span.twohsplit          { background-position:   -46px        0; }
+.splits span.twohsplit:hover    { background-position:   -46px    -18px; }
+.splits span.twohsplit:active   { background-position:   -46px    -36px; }
+.splits span.foursplit          { background-position:   -69px        0; }
+.splits span.foursplit:hover    { background-position:   -69px    -18px; }
+.splits span.foursplit:active   { background-position:   -69px    -36px; }
+.splits span.threeleft          { background-position:   -92px        0; }
+.splits span.threeleft:hover    { background-position:   -92px    -18px; }
+.splits span.threeleft:active   { background-position:   -92px    -36px; }
+.splits span.threeright         { background-position:  -115px        0; }
+.splits span.threeright:hover   { background-position:  -115px    -18px; }
+.splits span.threeright:active  { background-position:  -115px    -36px; }
+
+.split-area {
+    position: absolute;
+    background: rgba(0,0,0,0.05);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    /*box-shadow: 0 0 200px rgba(0, 0, 0,0.2) inset;*/
+    display: none;
+    z-index: 100000;
+    pointer-events: none;
+    .box-sizing(border-box);
+    cursor : default;
+}
+
+.dark.split-area {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255, 0.3);
+    box-shadow: 0 0 200px rgba(255,255,255,0.15) inset;
+    outline: 1px solid black;
+}

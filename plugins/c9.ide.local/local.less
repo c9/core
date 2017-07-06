@@ -1,0 +1,193 @@
+.window-border{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 10000000;
+    pointer-events: none;
+    border: 1px solid rgb(19,19,19);
+    border-radius: 3px;
+    border-bottom: 0px;
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.06) inset, 0 1px 0 rgba(255, 255, 255, 0.1) inset;
+}
+.fullscreen .window-border{
+    display: none;
+}
+
+.window-titlebar{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 23px;
+    z-index: 1000000;
+    .gradient(~"linear-gradient(top, rgb(70, 70, 70) 0%, rgb(37,37,37) 100%);");
+    color: #ccc;
+    cursor: default;
+    box-sizing: border-box;
+    font-family: Lucida Grande;
+    font-size: 13px;
+    text-align: center;
+    border-radius: 3px 3px 0 0;
+    -webkit-user-select: none;
+    overflow: hidden;
+    -webkit-app-region: drag;
+}
+.window-titlebar.win32{
+    height : 27px;
+    font-family: "Segoe ui", Arial, Tahoma;
+}
+.window-titlebar.win32:after{
+    background: url("@{image-path}/winc9.png") no-repeat 0 0;
+    display : block;
+    position : absolute;
+    left : 4px;
+    top : 2px;
+    width : 30px;
+    height : 20px;
+    content: "";
+}
+.window-titlebar.update.win32:after{
+    background-image: url("@{image-path}/winc9update.png");
+    cursor: pointer;
+}
+
+.window-titlebar.focus{
+    .gradient(~"linear-gradient(top, rgb(61, 61, 61) 0%, rgb(37,37,37) 100%);");
+}
+
+.window-titlebar .caption{
+    padding: 4px 0 0 34px;
+    height: 100%;
+    display: inline-block;
+    background: url("@{image-path}/winc9.png") no-repeat 0 1px;
+    cursor: default;
+}
+.window-titlebar.update .caption{
+    background-image: url("@{image-path}/winc9update.png");
+    cursor: pointer;
+}
+.window-titlebar.win32 .caption{
+    background: transparent;
+    padding: 5px 0 0 0;
+}
+
+.window-titlebar.darwin .fullscreen{
+    position: absolute;
+    right: 1px;
+    top: 0px;
+    width: 22px;
+    height: 22px;
+    background: url("@{image-path}/winmax.png") no-repeat 0 0;
+    -webkit-app-region: no-drag;
+}
+.window-titlebar.darwin .fullscreen:hover{
+    background-position: 0 -23px;
+}
+.window-titlebar.darwin .fullscreen:active{
+    background-position: 0 -46px;
+}
+
+/*** OSX BUTTONS ***/
+
+.window-titlebar.darwin .closebtn,
+.window-titlebar.darwin .minbtn,
+.window-titlebar.darwin .maxbtn{
+    position : absolute;
+    top : 5px;
+    background: url("@{image-path}/winosxbtns.png") no-repeat 0 -32px;
+    width : 19px;
+    height : 15px;
+    -webkit-app-region: no-drag;
+}
+.window-titlebar.darwin .closebtn{
+    left : 6px;
+}
+.window-titlebar.focus.darwin .closebtn{
+    background-position : 0 0;
+}
+.window-titlebar.focus.darwin .closebtn:hover{
+    background-position : 0 -16px;
+}
+.window-titlebar.darwin .minbtn{
+    left : 26px;
+}
+.window-titlebar.focus.darwin .minbtn{
+    background-position : -19px 0;
+}
+.window-titlebar.focus.darwin .minbtn:hover{
+    background-position : -19px -16px;
+}
+.window-titlebar.darwin .maxbtn{
+    left : 47px;
+}
+.window-titlebar.focus.darwin .maxbtn{
+    background-position : -39px 0;
+}
+.window-titlebar.focus.darwin .maxbtn:hover{
+    background-position : -39px -16px;
+}
+
+/*** WINDOWS BUTTONS ***/
+
+.window-titlebar.win32 .closebtn,
+.window-titlebar.win32 .minbtn,
+.window-titlebar.win32 .maxbtn{
+    position : absolute;
+    top : 0;
+    width : 25px;
+    height : 20px;
+    -webkit-app-region: no-drag;
+    box-sizing : border-box;
+    box-shadow: 0 2px 0 rgba(255,255,255,0.06) inset, 0 1px 0 rgba(255,255,255,0.06);
+    .gradient(~"linear-gradient(top, #434343 0%, #303030 100%);");
+    border: 1px solid black;
+}
+.window-titlebar.win32 .closebtn:after,
+.window-titlebar.win32 .minbtn:after,
+.window-titlebar.win32 .maxbtn:after{
+    background: url("@{image-path}/winwin32btns.png") no-repeat 0 1px;
+    display : block;
+    content: "";
+    position : absolute;
+    top : 3px;
+    width : 100%;
+    height : 20px;
+}
+.window-titlebar.win32 .closebtn{
+    right : 9px;
+    width : 34px;
+    border-radius: 0 0 3px 0;
+    border-width: 0 1px 1px 0;
+}
+.window-titlebar.win32 .closebtn:after{
+    background-position : -68px 0;
+}
+.window-titlebar.win32 .closebtn:hover{
+    .gradient(~"linear-gradient(top, rgb(213, 42, 42) 0%, rgb(139, 14, 14) 100%);");
+}
+.window-titlebar.win32 .minbtn{
+    right : 68px;
+    border-radius: 0 0 0 3px;
+    border-width: 0 1px 1px 1px;
+}
+.window-titlebar.win32 .minbtn:after{
+    background-position : -20px 1px;
+}
+.window-titlebar.win32 .minbtn:hover{
+    .gradient(~"linear-gradient(top, #505050 0%, #353535 100%);");
+}
+.window-titlebar.win32 .maxbtn{
+    right : 43px;
+    border-width: 0 1px 1px 0;
+}
+.window-titlebar.win32 .maxbtn:after{
+    background-position : -43px 1px;
+}
+.window-titlebar.win32.maximized .maxbtn:after{
+    background-position : 7px 1px;
+}
+.window-titlebar.focus.win32 .maxbtn:hover{
+    .gradient(~"linear-gradient(top, #505050 0%, #353535 100%);");
+}

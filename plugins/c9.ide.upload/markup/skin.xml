@@ -1,0 +1,182 @@
+<?xml version='1.0'?>
+<a:skin xmlns:a="http://ajax.org/2005/aml" xmlns="http://www.w3.org/1999/xhtml">
+    <a:list name="list-uploadactivity">
+        <a:style><![CDATA[
+            .list-uploadactivity {
+                position      : relative;
+                overflow      : hidden;
+                left: 0;
+                right: 0;
+            }
+            .list-uploadactivity .toggler{
+                display : none;
+            }
+            
+            .list-uploadactivity>DIV.uploadactivity-tree-rows {
+                height: 100px;
+                max-height: 100px;
+                overflow: hidden;
+            }
+            
+            .list-uploadactivity .tree-row {
+                height      : 20px;
+                padding     : 0 5px 2px 5px;
+                margin      : 0 3px;
+                position    : relative;
+                cursor      : default;
+                border-bottom:1px solid transparent;
+            }
+
+            .list-uploadactivity .tree-row .icon {
+                position    : absolute;
+                width       : 16px;
+                height      : 16px;
+                top         : 2px;
+                left        : 12px;
+                background-position:0 0;
+            }
+
+            .list-uploadactivity .tree-row .uploadactivity-caption,
+            .list-uploadactivity .tree-row .uploadactivity-progress {
+                height      : 18px;
+                padding     : 3px 0 0 0;
+                margin      : 0 0 0 5px;
+                font-family : Arial;
+                font-size   : 11px;
+                font-weight : normal;
+                color       : @upload-frame-item-color;
+                cursor      : default;
+            }
+            
+            .list-uploadactivity .tree-row .uploadactivity-caption {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                padding-right: 30px;
+                display : block;
+            }
+            .list-uploadactivity .tree-row .uploadactivity-caption.bold {
+                font-weight: bold;
+            }
+            
+            .list-uploadactivity .tree-row .uploadactivity-progress {
+                display     : block;
+                color       : #179439;
+                position    : absolute;
+                right       : 5px;
+                top         : 0px;
+            }
+            
+            .list-uploadactivity .tree-row:hover .uploadactivity-progress {
+                right: 23px;
+            }
+            
+            .list-uploadactivity .tree-row:hover {
+                cursor          : pointer;
+                background-color: #748512;
+                color           : #f1f1f1;
+                border-radius   : 3px;
+            }
+            
+            .list-uploadactivity .tree-row:hover .uploadactivity-caption {
+                text-shadow : none;
+            }
+            
+            .list-uploadactivity .tree-row:hover .uploadactivity-progress {
+                color: #082E13;
+            }
+            
+            .list-uploadactivity .tree-row.selected {
+                cursor:default;
+            }
+            
+            .list-uploadactivity .tree-row .uploadactivity-delete {
+                width               : 21px;
+                height              : 19px;
+                position            : absolute;
+                top                 : 3px;
+                right               : 1px;
+                background-image    : url(icons/remove_breakpoints.png);
+                background-repeat   : no-repeat;
+                background-position : 0 0;
+                cursor              : default;
+                display             : none;
+            }
+
+            .list-uploadactivity .tree-row:hover .uploadactivity-delete {
+                display: block;
+            }
+            
+            .list-uploadactivity .tree-row:hover .uploadactivity-delete:hover {
+                background-position : 0 -19px;
+            }
+            
+            .list-uploadactivity .tree-row:hover .uploadactivity-delete:active {
+                background-position : 0 -38px;
+            }
+            
+            .list-uploadactivity .message.empty {
+                padding:0 10px;
+                font-family : Arial;
+                font-size   : 11px;
+                color       : #404040;
+                text-shadow : rgba(255, 255, 255, 1) 0px 1px 0px;
+            }
+        ]]></a:style>
+
+        <a:presentation>
+            <a:main container=".">
+                <div class="list-uploadactivity">
+                    <div class="uploadactivity-tree-rows"></div>
+                </div>
+            </a:main>
+            <a:tree-row
+                class   = "."
+                caption = "."
+                icon    = "div"
+                select  = ".">
+                <div class="tree-row"> </div>
+            </a:tree-row>
+            <a:dragindicator>
+                <div class='draglist'><span><u>-</u></span></div>
+            </a:dragindicator>
+            <a:loading>
+                <div class="loading">Loading...</div>
+            </a:loading>
+            <a:empty caption=".">
+                <div class="message">-</div>
+            </a:empty>
+        </a:presentation>
+    </a:list>
+    
+    <a:button name="btn-cancel-upload">
+        <a:style><![CDATA[
+            .btn-cancel-upload {
+                position            : relative;
+                -moz-user-select    : none;
+                -khtml-user-select  : none;
+                user-select         : none;
+                color               : #a4a4a4;
+                font-size           : 11px;
+                height              : 14px;
+                cursor              : default;
+            }
+            
+            .btn-cancel-uploadOver {
+                color: #c91212;
+            }
+            
+            .btn-cancel-uploadDown {
+                color: #810707;
+            }
+        ]]></a:style>
+    
+        <a:presentation>
+            <a:main
+              caption    = ".">
+                <div class="btn-cancel-upload">
+                </div>
+            </a:main>
+        </a:presentation>
+    </a:button>
+</a:skin>

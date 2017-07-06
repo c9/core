@@ -15,7 +15,6 @@ define(function(require, exports, module) {
         var api = imports.api;
         var info = imports.info;
         var util = imports.util;
-        var _ = require("lodash");
         
         var join = require("path").join;
         
@@ -33,7 +32,7 @@ define(function(require, exports, module) {
         
         var resetSettings = options.reset || c9.location.match(/reset=([\w\|]*)/) && RegExp.$1;
         var develMode = c9.location.indexOf("devel=1") > -1;
-        var debugMode = c9.location.indexOf("debug=2") > -1;
+        var debugMode = c9.location.indexOf("debug=2") > -1; 
         var testing = options.testing;
         var debug = options.debug;
         
@@ -44,9 +43,9 @@ define(function(require, exports, module) {
         var TEMPLATE = options.template || { user: {}, project: {}, state: {}};
         var INTERVAL = 1000;
         var PATH = {
-            "project": c9.toInternalPath(options.projectConfigPath || "/.c9") + "/project.settings",
-            "user": c9.toInternalPath(options.userConfigPath || "~/.c9") + "/user.settings",
-            "state": c9.toInternalPath(options.stateConfigFilePath || (options.stateConfigPath || "/.c9") + "/state.settings")
+            "project": util.normalizePath(c9.toInternalPath(options.projectConfigPath || "/.c9")) + "/project.settings",
+            "user": util.normalizePath(c9.toInternalPath(options.userConfigPath || "~/.c9")) + "/user.settings",
+            "state": util.normalizePath(c9.toInternalPath(options.stateConfigFilePath || (options.stateConfigPath || "/.c9") + "/state.settings"))
         };
         var KEYS = Object.keys(PATH);
         
@@ -55,6 +54,13 @@ define(function(require, exports, module) {
         var cache = {};
         var diff = 0; // TODO should we allow this to be undefined and get NaN in timestamps?
         var userData;
+        
+        var skipCloud = {};
+        c9.location.replace(/[&?](state|project|user)=([\w]+)/g, function(_, type, val) {
+            if (!val) return;
+            PATH[type] = PATH[type].replace(/.settings$/, function() { return "." + val + ".settings"; });
+            skipCloud[type] = true;
+        });
         
         var inited = false;
         function loadSettings(json) {
@@ -71,40 +77,36 @@ define(function(require, exports, module) {
                     
                     for (var type in json) {
                         if (typeof json[type] == "string") {
-                            if (json[type].charAt(0) == "<") {
+                            try {
+                                json[type] = JSON.parse(json[type]);
+                            } catch (e) {
                                 json[type] = TEMPLATE[type];
-                            }
-                            else {
-                                try {
-                                    json[type] = JSON.parse(json[type]);
-                                } catch (e) {
-                                    json[type] = TEMPLATE[type];
-                                }
                             }
                         }
                     }
                 }
-        
-                if (!json) {
-                    var info = {};
-                    var count = KEYS.length;
-                    
-                    KEYS.forEach(function(type) {
-                        fs.readFile(PATH[type], function(err, data) {
-                            try {
-                                info[type] = err ? {} : JSON.parse(data);
-                            } catch (e) {
-                                console.error("Invalid Settings Read for ", 
-                                    type, ": ", data);
-                                info[type] = {};
-                            }
-                            
-                            if (--count === 0)
-                                loadSettings(info);
-                        });
+                
+                var count = KEYS.length;
+                
+                KEYS.forEach(function(type) {
+                    if (!skipCloud[type] && json)
+                        return --count;
+                    fs.readFile(PATH[type], function(err, data) {
+                        if (!json) json = {};
+                        try {
+                            json[type] = err ? {} : JSON.parse(data);
+                        } catch (e) {
+                            console.error("Invalid Settings Read for ", 
+                                type, ": ", data);
+                            json[type] = {};
+                        }
+                        
+                        if (--count === 0)
+                            loadSettings(json);
                     });
+                });
+                if (count > 0)
                     return;
-                }
             }
             
             read(json);
@@ -174,7 +176,7 @@ define(function(require, exports, module) {
                     if (!node) return;
                     
                     // Get XML string
-                    var json = util.stableStringify(node, 0, "    ");
+                    var json = util.stableStringify(node, null, type == "state" ? "" : 4);
                     if (cache[type] == json) return; // Ignore if same as cache
                     
                     // Set Cache
@@ -189,10 +191,10 @@ define(function(require, exports, module) {
                     // Detect whether we're in standalone mode
                     var standalone = !options.hosted;
                     
-                    if (standalone || type == "project") {
+                    if (standalone || type == "project" || skipCloud[type]) {
                         fs.writeFile(PATH[type], json, forceSync, function(err) {});
                         
-                        if (standalone && !saveToCloud[type])
+                        if (standalone && !saveToCloud[type] || skipCloud[type])
                             return; // We're done
                     }
                     
@@ -234,7 +236,7 @@ define(function(require, exports, module) {
                 });
             }
     
-            if (!c9.debug) {
+            if (!c9.debug && !testing) {
                 try {
                     emit("read", {
                         model: model,
@@ -242,6 +244,8 @@ define(function(require, exports, module) {
                         reset: isReset
                     });
                 } catch (e) {
+                    console.error("Error loading settings, reseting to defaults");
+                    console.error(e);
                     fs.writeFile(PATH.project 
                         + ".broken", JSON.stringify(json), function() {});
     
@@ -341,17 +345,14 @@ define(function(require, exports, module) {
         }
         
         function update(type, json, ud) {
-            // Do nothing if they are the same
-            if (_.isEqual(model[type], json))
-                return;
-            
             userData = ud;
             
             // Compare key/values (assume source has same keys as target)
             (function recur(source, target, base) {
                 for (var prop in source) {
                     if (prop == "json()") {
-                        setJson(base, source[prop]);
+                        if (!target || !isEqual(source[prop], target[prop]))
+                            setJson(base, source[prop]);
                     }
                     else if (typeof source[prop] == "object") {
                         if (!target[prop]) target[prop] = {};
@@ -364,6 +365,30 @@ define(function(require, exports, module) {
             })(json, model[type], type);
             
             userData = null;
+        }
+        
+        function isEqual(a, b) {
+            var typeA = typeof a;
+            var typeB = typeof b;
+            if (typeA != typeB) return false;
+            if (!a || typeA !== "object")
+                return a === b;
+            if (Array.isArray(a)) {
+                if (!Array.isArray(b)) return false;
+                if (a.length != b.length) return false;
+                for (var i = 0; i < a.length; i++) {
+                    if (!isEqual(a[i], b[i])) return false;
+                }
+            }
+            else {
+                var aKeys = Object.keys(a);
+                var bKeys = Object.keys(b);
+                if (aKeys.length != bKeys.length) return false;
+                for (var i = 0; i < aKeys.length; i++) {
+                    if (!isEqual(a[aKeys[i]], b[aKeys[i]])) return false;
+                }
+            }
+            return true;
         }
         
         function setNode(query, value) {
@@ -446,7 +471,7 @@ define(function(require, exports, module) {
         
         function getNumber(query) {
             var double = get(query);
-            return parseFloat(double, 10);
+            return parseFloat(double);
         }
         
         function getNode(query) {

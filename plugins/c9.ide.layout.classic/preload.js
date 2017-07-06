@@ -1,12 +1,11 @@
 define(function(require, exports, module) {
-    main.consumes = ["Plugin", "http", "ui", "settings"];
+    main.consumes = ["Plugin", "ui", "settings"];
     main.provides = ["layout.preload"];
     return main;
 
     function main(options, imports, register) {
         var settings = imports.settings;
         var Plugin = imports.Plugin;
-        var http = imports.http;
         var ui = imports.ui;
         
         var async = require("async");
@@ -74,9 +73,10 @@ define(function(require, exports, module) {
         });
         
         preload(function(err) {
-            register(null, {
-                "layout.preload": plugin
-            });
+        });
+        
+        register(null, {
+            "layout.preload": plugin
         });
     }
 });

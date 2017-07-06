@@ -42,17 +42,12 @@ define(function(require, module, exports) {
                 group: "Panels",
                 bindKey: { mac: "Ctrl-Esc", win: "F6" },
                 exec: function(editor, args) {
-                    var el;
                     if (hidden || args.show) {
                         show();
-                        el = container;
+                        focusConsole();
                     } else {
                         hide();
-                        el = tabs.container;
                     }
-                    var pane = tabs.findPane(container.$activePaneName);
-                    var tab = pane && pane.activeTab || tabs.getTabs(el)[0];
-                    tabs.focusTab(tab);
                 }
             }, plugin);
             
@@ -294,12 +289,21 @@ define(function(require, module, exports) {
             var oldFocus = tabs.focussedTab;
             if (oldFocus && getPanes().indexOf(oldFocus.pane) != -1)
                 return tabs.focusTab(oldFocus);
-            getPanes().some(function(pane) {
-                if (pane.getTab()) {
-                    tabs.focusTab(pane.getTab());
-                    return true;
-                }
-            }) || tabs.focusTab(null);
+            
+            focusActiveTabInContainer(container);
+        }
+        
+        function focusActiveTabInContainer(containerEl) {
+            var pane = tabs.findPane(containerEl.$activePaneName);
+            var tab = pane && pane.activeTab;
+            if (!tab) {
+                tabs.getPanes(containerEl).every(function(pane) {
+                    tab = pane.activeTab;
+                    return !tab;
+                });
+            }
+            tabs.focusTab(tab);
+            return tab;
         }
         
         function hide(immediate) { show(immediate, true); }
@@ -319,8 +323,15 @@ define(function(require, module, exports) {
                 pane._visible = !shouldHide;
             });
             
-            if (!shouldHide && !tabs.focussedTab)
-                focusConsole();
+            if (!shouldHide) {
+                if (!tabs.focussedTab)
+                    focusConsole();
+            } 
+            else if (tabs.focussedTab && getPanes().indexOf(tabs.focussedTab.pane) > -1) {
+                // If the focussed tab is in the console, make the first
+                // tab we can find inside the tabs the focussed tab.
+                focusActiveTabInContainer(tabs.container);
+            }
             
             var finish = function() {
                 if (onFinishTimer)
@@ -329,23 +340,6 @@ define(function(require, module, exports) {
                 onFinishTimer = setTimeout(function() {
                     if (shouldHide) {
                         container.hide();
-                        
-                        // If the focussed tab is in the console, make the first
-                        // tab we can find inside the tabs the focussed tab.
-                        if (tabs.focussedTab 
-                          && getPanes().indexOf(tabs.focussedTab.pane) > -1) {
-                            tabs.getPanes(tabs.container).every(function(pane) {
-                                var tab = pane.getTab();
-                                if (!tab) {
-                                    tabs.focusTab(); // blur
-                                    return true;
-                                }
-                                else {
-                                    tabs.focusTab(tab);
-                                    return false;
-                                }
-                            });
-                        }
                     }
                     else {
                         container.$ext.style.minHeight = minHeight + "px";

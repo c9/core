@@ -1,0 +1,113 @@
+.output .toolbar{
+    height: @output-toolbar-height;
+    padding : @output-toolbar-padding;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: @output-toolbar-background;
+    box-shadow: @output-toolbar-box-shadow;
+    box-sizing: border-box;
+    border-bottom: 1px solid @output-toolbar-border-color;
+    .display-flex();
+}
+.output .toolbar>*{
+    margin-right: 10px;
+}
+
+.editor_tab .output:not(.hidetoolbar) .c9terminal .c9terminalcontainer.dark {
+    .gradient(~"linear-gradient(top, rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0.1) 28px, rgba(0, 0, 0, 0.29) 28px, rgba(0, 0, 0, 0.11) 36px, rgba(0, 0, 0, 0.01) 41px, transparent 43px);");
+}
+
+.output:not(.hidetoolbar) .ace_editor{
+    top : (@output-toolbar-height + 5px) !important;
+}
+
+.output.hidetoolbar .toolbar{
+    display: none;
+}
+
+.output .toolbar .tbsimple{
+    background: @output-textbox-background-color;
+    border-radius: @output-textbox-border-radius;
+    color: @output-textbox-color;
+    margin-top: @output-textbox-margin-top;
+    padding: @output-textbox-padding;
+    .font-smoothing(@output-font-smoothing);
+    height: 17px;
+    font-family: @general-font-family;
+    font-size: @general-font-size;
+    .transition(background-color 0.1s linear);
+}
+
+.output .toolbar .tbsimpleInitial{
+    color: @output-textbox-initial-color;
+}
+
+.output .toolbar .tbsimple:hover {
+    background-color: @output-textbox-hover-background;
+}
+.output .toolbar .tbsimple.tbsimpleFocus {
+    background-color: @output-textbox-active-background;
+    color: @output-textbox-active-color;
+}
+
+.output .toolbar .c9-divider{
+    height: 26px;
+    margin-top: -2px;
+    width: @output-divider-width;
+    border-left: 1px solid @output-divider-color;
+}
+
+.output .toolbar .label{
+    padding : @output-label-padding;
+    font-family: @general-font-family;
+    font-size: @general-font-size;
+    color: @output-label-color;
+}
+
+.output .toolbar .c9-toolbarbutton-glossyOver {
+    border: 1px solid @output-button-hover-border-color;
+    .gradient(~"linear-gradient(top, @{output-button-hover-background-1} 0%, @{output-button-hover-background-2} 55%, @{output-button-hover-background-3} 55%, @{output-button-hover-background-4} 100%)");
+    .box-shadow(~"inset 1px 1px @{output-button-hover-shadow-color}, inset -1px -1px @{output-button-hover-shadow-color};");
+}
+
+.output .toolbar .c9-toolbarbutton-glossyDown {
+    border: 1px solid @output-button-active-border-color;
+    .gradient(~"linear-gradient(top, @{output-button-active-background-1} 0%, @{output-button-active-background-2} 55%, @{output-button-active-background-3} 55%, @{output-button-active-background-4} 100%)");
+    .box-shadow(~"inset 1px 1px @{output-button-hover-shadow-color}, inset -1px -1px @{output-button-hover-shadow-color};");
+}
+
+/* Place Holder */
+.output .c9terminal .c9terminalcontainer{
+    text-indent: 0;
+}
+.output .c9terminal .c9terminalcontainer .terminal{
+    text-indent: 0;
+}
+.output .c9terminal .c9terminalcontainer .terminal  .ace_selection{
+    text-indent: 0;
+}
+
+.envcontainer{
+    padding : 0 !important;
+}
+.envcontainer .blackdg{
+    border-top: 1px solid #363636;
+}
+.tree-row.newenv:not(.selected) {
+    color: rgb(151, 151, 151);
+}
+
+.runbtn.stopped .c9-icon{
+    .image-2x(@runbtn-stopped-image, @runbtn-stopped-image-width, @runbtn-stopped-image-height, no-repeat, true);
+}
+.runbtn.running .c9-icon{
+    .image-2x(@runbtn-running-image, @runbtn-running-image-width, @runbtn-running-image-height, no-repeat, true);
+}
+.restart .c9-icon{
+    .image-2x(@output-restart-image, @output-restart-image-width, @output-restart-image-height, no-repeat, true);
+}
+.bug .c9-icon{
+    .image-2x(@output-bug-image, @output-bug-image-width, @output-bug-image-height, no-repeat, true);
+}

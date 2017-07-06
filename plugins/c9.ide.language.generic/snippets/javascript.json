@@ -1,0 +1,12 @@
+{
+    "fun": "function ^^() {\n\t\n}",
+    "fn": "function() {\n\t^^\n}",
+    "sc": "(function() {\n\t^^\n})();",
+    "if ": "if (^^) {\n\t\n}",
+    "while ": "while (^^) {\n\t\n}",
+    "switch ": "switch (^^) {\n\tdefault:\n}",
+    "for ": "for (var i = 0; i < ^^.length; i++) {\n\t\n}",
+    "log": "console.log(^^);",
+    "setTimeout ": "setTimeout(function() {\n\t^^\n}, 0);",
+    "define ": "define(function(require, exports, module) {\n\n^^\n\n});"
+}

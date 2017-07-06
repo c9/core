@@ -1,0 +1,236 @@
+{
+    "es5:window": {
+        "guid": "es5:window",
+        "doc": "Browser root object",
+        "properties": {
+        }
+    },
+    "es5:JSON": {
+        "guid": "es5:JSON",
+        "doc": "JSON API",
+        "properties": {
+            "_parse": [{
+                "guid": "es5:JSON/parse",
+                "doc": "Parses a JSON string and turns it into a Javascript object",
+                "properties": { "_return": [] }
+            }],
+            "_stringify": [{
+                "guid": "es5:JSON/stringify",
+                "doc": "Serializes a Javascript object to a JSON-encoded string",
+                "properties": { "_return": ["es5:String"] }
+            }]
+        }
+    },
+    "es5:document": {
+        "guid": "es5:document",
+        "doc": "Window's document object",
+        "properties": {
+            "_createElement": [{
+                "guid": "es5:document/createElement",
+                "doc": "Parses a JSON string and turns it into a Javascript object",
+                "properties": { "_return": ["es5:Object"] }
+            }]
+        }
+    },
+    "rjs:require": {
+        "guid": "es5:require",
+        "doc": "Import a package",
+        "properties": {
+            "_arg0": ["rjs:package"],
+            "_return": []
+        },
+        "fargs": [
+            {
+                "id": "name",
+                "type": ["es5:String/prototype"],
+                "doc": "The package name to import"
+            }
+        ]
+    },
+    "nodejs_latest:console": {
+      "guid": "nodejs_latest:console",
+      "properties": {
+        "_prototype": [
+          {
+            "guid": "nodejs_latest:console/prototype",
+            "properties": {}
+          }
+        ],
+        "_assert": [
+          {
+            "guid": "nodejs_latest:console/assert[0]",
+            "properties": {
+              "_return": [
+                "es5:Object/prototype"
+              ],
+              "___proto__": [
+                "es5:Function/prototype"
+              ]
+            },
+            "docUrl": "http://nodemanual.org/latest/nodejs_ref_guide/stdio.html#console.assert",
+            "doc": "<p>(alias of: assert.ok)\n</p>\n",
+            "fargs": []
+          }
+        ],
+        "_dir": [
+          {
+            "guid": "nodejs_latest:console/dir[0]",
+            "properties": {
+              "_return": [
+                "es5:Object/prototype"
+              ],
+              "___proto__": [
+                "es5:Function/prototype"
+              ]
+            },
+            "docUrl": "http://nodemanual.org/latest/nodejs_ref_guide/stdio.html#console.dir",
+            "doc": "<p>Uses <code>util.inspect()</code> on <code>obj</code> and prints the resulting string\nto stderr.</p>\n",
+            "fargs": [
+              {
+                "id": "obj",
+                "type": [
+                  "es5:Object/prototype"
+                ]
+              }
+            ]
+          }
+        ],
+        "_error": [
+          {
+            "guid": "nodejs_latest:console/error[0]",
+            "properties": {
+              "_return": [
+                "es5:Object/prototype"
+              ],
+              "___proto__": [
+                "es5:Function/prototype"
+              ]
+            },
+            "docUrl": "http://nodemanual.org/latest/nodejs_ref_guide/stdio.html#console.error",
+            "doc": "<p>This performs the same role as <code>console.log()</code>, but prints to stderr instead.</p>\n",
+            "fargs": [
+              {
+                "id": "arg",
+                "type": [
+                  "es5:Object/prototype"
+                ],
+                "opt": true
+              }
+            ]
+          }
+        ],
+        "_info": [
+          {
+            "guid": "nodejs_latest:console/info[0]",
+            "properties": {
+              "_return": [
+                "es5:Object/prototype"
+              ],
+              "___proto__": [
+                "es5:Function/prototype"
+              ]
+            },
+            "docUrl": "http://nodemanual.org/latest/nodejs_ref_guide/stdio.html#console.info",
+            "doc": "<p>(alias of: console.log)\n</p>\n",
+            "fargs": []
+          }
+        ],
+        "_log": [
+          {
+            "guid": "nodejs_latest:console/log[0]",
+            "properties": {
+              "_return": [
+                "es5:Object/prototype"
+              ],
+              "___proto__": [
+                "es5:Function/prototype"
+              ]
+            },
+            "docUrl": "http://nodemanual.org/latest/nodejs_ref_guide/stdio.html#console.log",
+            "doc": "<p>Prints to stdout with a newline. This function can take multiple arguments in a\n<code>printf()</code>-like way.\n</p>\n",
+            "fargs": [
+              {
+                "id": "arg",
+                "type": [
+                  "es5:Object/prototype"
+                ],
+                "opt": true
+              }
+            ]
+          }
+        ],
+        "_time": [
+          {
+            "guid": "nodejs_latest:console/time[0]",
+            "properties": {
+              "_return": [
+                "es5:Object/prototype"
+              ],
+              "___proto__": [
+                "es5:Function/prototype"
+              ]
+            },
+            "docUrl": "http://nodemanual.org/latest/nodejs_ref_guide/stdio.html#console.time",
+            "doc": "<p>Marks a time by printing it out to the console. This is used in conjunction with\n<code>console.timeEnd()</code>.\n</p>\n",
+            "fargs": [
+              {
+                "id": "label",
+                "type": [
+                  "es5:Object/prototype"
+                ]
+              }
+            ]
+          }
+        ],
+        "_timeEnd": [
+          {
+            "guid": "nodejs_latest:console/timeEnd[0]",
+            "properties": {
+              "_return": [
+                "es5:Object/prototype"
+              ],
+              "___proto__": [
+                "es5:Function/prototype"
+              ]
+            },
+            "docUrl": "http://nodemanual.org/latest/nodejs_ref_guide/stdio.html#console.timeEnd",
+            "doc": "<p>Finish the previous timer and prints output.\n</p>\n",
+            "fargs": [
+              {
+                "id": "label",
+                "type": [
+                  "es5:Object/prototype"
+                ]
+              }
+            ]
+          }
+        ],
+        "_warn": [
+          {
+            "guid": "nodejs_latest:console/warn[0]",
+            "properties": {
+              "_return": [
+                "es5:Object/prototype"
+              ],
+              "___proto__": [
+                "es5:Function/prototype"
+              ]
+            },
+            "docUrl": "http://nodemanual.org/latest/nodejs_ref_guide/stdio.html#console.warn",
+            "doc": "<p>This performs the same role as <code>console.log()</code>, but prints to stderr instead.</p>\n",
+            "fargs": [
+              {
+                "id": "arg",
+                "type": [
+                  "es5:Object/prototype"
+                ],
+                "opt": true
+              }
+            ]
+          }
+        ]
+      },
+      "docUrl": "http://nodemanual.org/latest/nodejs_ref_guide/stdio.html#console",
+      "doc": "<p>These methods are useful for printing to stdout and stderr. They are similar to\nthe <code>console</code> object functions provided by most web browsers. The <code>console</code>\nobject is global, so you don&#39;t need to <code>require</code> anything.\n</p>\n"
+    }
+}

@@ -144,17 +144,12 @@ define(function(require, module, exports) {
                                 options.extra.apply(this, arguments);
                         }
                 }, plugin);
-                
-                mnuItem.setAttribute("hotkey",
-                  "{commands.commandManager." + options.name + "}");
-                
-                
-                if (button && button.setAttribute) {
-                    var key = commands.getPrettyHotkey(options.name);
-                    button.setAttribute("tooltip", options.name
-                        + (key ? " (" + key + ")" : ""));
+                if (mnuItem)
+                    mnuItem.setAttribute("hotkey", "commands." + options.name);
+                if (button) {
+                    button.setAttribute("hotkey", "commands." + options.name);
+                    button.setAttribute("tooltip", options.name);
                 }
-                
                 return command;
             }
             
@@ -210,13 +205,16 @@ define(function(require, module, exports) {
                 var container = area.draw();
                 
                 if (!button) {
+                    var hotkey = mnuItem && mnuItem.getAttribute("hotkey") || "";
                     // Insert button
                     button = new ui.button({
                         skinset: "panels",
                         state: true,
                         caption: caption,
                         auto: false,
-                        "class": buttonCSSClass || "",
+                        class: buttonCSSClass || "",
+                        hotkey: hotkey,
+                        tooltip: hotkey.slice(9),
                         onmousedown: function(e) {
                             if (e.htmlEvent && e.htmlEvent.button) return;
                             panels.areas[where].toggle(plugin.name, autohide, true);
