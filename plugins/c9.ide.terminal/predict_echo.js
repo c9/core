@@ -324,7 +324,12 @@ define(function(require, exports, module) {
                 var fromChars = target === nonPredictTerminal ? predictChars : nonPredictChars;
                 var toChars = target === nonPredictTerminal ? nonPredictChars : predictChars;
                 
+                if (!predictChars) { // terminal likely just refreshed, never mind copying to it
+                    state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
+                    return;
+                }
                 if (!fromChars || !toChars) {
+                    state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
                     errorHandler.reportError(new Error("Warning: can't copy terminal line: "), {
                         fromChars: fromChars, toChars: toChars
                     });
