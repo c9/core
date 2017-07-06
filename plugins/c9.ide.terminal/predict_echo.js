@@ -716,7 +716,7 @@ define(function(require, exports, module) {
             HomeCommand.tryCreate = function(inputText) {
                 if (INPUTS_HOME.indexOf(inputText) > -1
                     // Only attempt home if we'd jump to the start of a prompt
-                    && (peek(-predictIndex - 1) === "$" || peek(-predictIndex - 2) === "$"))
+                    && (peek(predictIndex - 1) === "$" || peek(predictIndex - 2) === "$"))
                     return new HomeCommand(inputText);
             };
             function HomeCommand() {
