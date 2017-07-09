@@ -11,12 +11,12 @@ var PluginBase = require("plugins/c9.ide.language.jsonalyzer/worker/jsonalyzer_b
 var ctagsUtil = require("plugins/c9.ide.language.jsonalyzer/worker/ctags/ctags_util");
 
 var TAGS = [
-    { regex: /(?:^|\n)# (.*?)[#\s]*(?:\n|$)/g, kind: "property" },
-    { regex: /(?:^|\n)([A-Za-z0-9].*?)\s*\n={2,}(?:\n|$)/g, kind: "property" },
-    { regex: /(?:^|\n)#{3,} (.*?)[#\s]*(?:\n|$)/g, kind: "property2", indent: 2 },
-    { regex: /(?:^|\n)([A-Za-z0-9].*?)\s*\n-{3,}(?:\n|$)/g, kind: "property2", indent: 2 },
-    { regex: /(?:^|\n)#{2} (.*?)[#\s]*(?:\n|$)/g, kind: "property2", indent: 1 },
-    { regex: /(?:^|\n)([A-Za-z0-9].*?)\s*\n-{2}(?:\n|$)/g, kind: "property2", indent: 1 },
+    { regex: /^# (.*?)[#\s]*$/gm, kind: "property" },
+    { regex: /^([A-Za-z0-9].*?)[ \t]*\n={2,}$/gm, kind: "property" },
+    { regex: /^#{3,} (.*?)[# \t]*$/gm, kind: "property2", indent: 2 },
+    { regex: /^([A-Za-z0-9].*?)[ \t]*\n-{3,}$/gm, kind: "property2", indent: 2 },
+    { regex: /^#{2} (.*?)[# \t]*$/gm, kind: "property2", indent: 1 },
+    { regex: /^([A-Za-z0-9].*?)[ \t]*\n-{2}$/gm, kind: "property2", indent: 1 },
 ];
 var GUESS_FARGS = false;
 var EXTRACT_DOCS = false;
