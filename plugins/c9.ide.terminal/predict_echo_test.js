@@ -5,6 +5,7 @@
 
 require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/assertions"], function (architect, chai, baseProc) {
     var expect = chai.expect;
+    var TMUXNAME = "cloud9test2";
     
     expect.setupArchitectTest([
         {
@@ -14,7 +15,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
             debug: true,
             hosted: true,
             local: false,
-            davPrefix: "/"
         },
         
         "plugins/c9.core/ext",
@@ -45,7 +45,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
         "plugins/c9.ide.ui/forms",
         {
             packagePath: "plugins/c9.fs/proc",
-            tmuxName: "cloud9test2"
+            tmuxName: TMUXNAME
         },
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
@@ -55,16 +55,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
             baseProc: baseProc
         },
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "commands", "layout", "watcher", 
-                "save", "anims", "clipboard", "dialog.alert", "auth.bootstrap",
-                "info", "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["tabManager", "proc", "terminal", "terminal.predict_echo", "c9"],
             provides: [],
@@ -105,8 +95,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 
             before(function(done) {
                 this.timeout(45000);
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
                 
                 bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";
                 bar.$ext.style.position = "fixed";
@@ -120,7 +108,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 predictor.$setTestTimeouts();
                 predictor.DEBUG = true;
                 
-                proc.execFile("~/.c9/bin/tmux", { args: ["-L", "cloud9test", "kill-server"]}, function(err) {
+                proc.execFile("~/.c9/bin/tmux", { args: ["-L", TMUXNAME, "kill-server"]}, function(err) {
                     tabs.once("ready", function() {
                         tabs.getPanes()[0].focus();
                         openTerminal(done);
@@ -549,15 +537,16 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 });
                 
                 it("recovers after spurious backspaces on a prompt", function(done) {
+                    var afterBackspace = false;
                     predictor.once("nopredict", function() {
-                        predictor.once("nopredict", function() {
-                            assert.equal(session.$predictor.state, STATE_INITING);
-                            afterPrompt(done);
-                            send("\r");
-                        });
-                        send("Q");
+                        assert.equal(afterBackspace, true);
+                        // assert.equal(session.$predictor.state, STATE_INITING);
+                        afterPrompt(done);
+                        send("\r");
                     });
                     send(INPUT_BACKSPACE);
+                    afterBackspace = true;
+                    send("Q");
                 });
             });
             
