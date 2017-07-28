@@ -209,7 +209,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 });
             }
             
-            describe("predict_echo", function() {
+            describe.skip("predict_echo", function() {
                 beforeEach(function(done) {
                     afterPredict("*", function() {
                         afterPrompt(function() {
