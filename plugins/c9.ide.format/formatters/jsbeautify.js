@@ -44,6 +44,7 @@ define(function(require, exports, module) {
                     ["keeparrayindentation", "false"],
                     ["jslinthappy", "false"],
                     ["braces", "end-expand"],
+                    ["preserve-inline", true],
                     ["space_before_conditional", "true"],
                     ["unescape_strings", "true"],
                     ["indent_inner_html", false],
@@ -108,6 +109,11 @@ define(function(require, exports, module) {
                                 { value: "expand", caption: "Braces on own line" },
                                 { value: "end-expand", caption: "End braces on own line" }
                             ]
+                        },
+                        "Preserve Inline Blocks": {
+                            type: "checkbox",
+                            path: "project/format/jsbeautify/@preserve-inline",
+                            position: 353.5,
                         },
                         "Space Before Conditionals": {
                             type: "checkbox",
@@ -240,9 +246,11 @@ define(function(require, exports, module) {
             if (!options.hasOwnProperty("jslint_happy"))
                 options.jslint_happy = 
                     settings.getBool("project/format/jsbeautify/@jslinthappy");
-            if (!options.hasOwnProperty("brace_style"))
+            if (!options.hasOwnProperty("brace_style")) {
                 options.brace_style = 
-                    settings.get("project/format/jsbeautify/@braces");
+                    settings.get("project/format/jsbeautify/@braces") + 
+                    (settings.get("project/format/jsbeautify/@preserve-inline") ? ",preserve-inline" : "");
+            }
             if (!options.hasOwnProperty("indent_inner_html"))
                 options.indent_inner_html = 
                     settings.get("project/format/jsbeautify/@indent_inner_html");

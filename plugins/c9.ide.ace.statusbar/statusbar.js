@@ -417,7 +417,7 @@ define(function(require, exports, module) {
                 var cursor = ace.selection.lead;
                 var columnText = (cursor.row + 1) + ":" + (cursor.column + 1);
                 if (ace.selection.rangeCount)
-                    columnText += " &#91;" + ace.selection.rangeCount + "\u202f]";
+                    columnText += " [\u202f" + ace.selection.rangeCount + "\u202f]";
                 setCaption(lblRowCol, columnText);
             }
             
