@@ -256,12 +256,14 @@ define(function(require, exports, module) {
             
             menus.addItemByPath("Window/Tabs/~", new apf.label({
                 class: "splits",
-                caption: "<span class='nosplit'></span>"
-                    + "<span class='twovsplit'></span>"
-                    + "<span class='twohsplit'></span>"
-                    + "<span class='foursplit'></span>"
-                    + "<span class='threeleft'></span>"
-                    + "<span class='threeright'></span>",
+                caption: [
+                    ["span", { class: "nosplit" }],
+                    ["span", { class: "twovsplit" }],
+                    ["span", { class: "twohsplit" }],
+                    ["span", { class: "foursplit" }],
+                    ["span", { class: "threeleft" }],
+                    ["span", { class: "threeright" }],
+                ],
                 onclick: function(e) {
                     var span = e.htmlEvent.target;
                     if (!span || span.tagName != "SPAN") return;
