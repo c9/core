@@ -13796,7 +13796,12 @@ apf.label = function(struct, tagName) {
      */
     this.$supportedProperties.push("caption", "for", "textalign");
     this.$propHandlers["caption"] = function(value) {
-        this.$caption.textContent = value;
+        if (typeof value == "string")
+            this.$caption.textContent = value;
+        else if (Array.isArray(value)) {
+            this.$caption.textContent = "";
+            apf.buildDom(value, this.$caption);
+        }
     };
     this.$propHandlers["for"] = function(value) {
         forElement = typeof value == "string" ? self[value] : value;

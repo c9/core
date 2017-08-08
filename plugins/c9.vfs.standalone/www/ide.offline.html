@@ -251,8 +251,10 @@
                         var parts = ("/.c9/metadata" + path).split("/")
                         var name = "!" + parts.pop();
                         var parent = findNode(parts.join("/"), true);
-                        if (sync)
+                        if (sync) {
                             parent[name] = JSON.stringify(value);
+                            return cb();
+                        }
                         setTimeout(function() {
                             parent[name] = JSON.stringify(value);
                             cb();
@@ -405,6 +407,9 @@
     </script>
     <script>
         var start = Date.now();
+        /*dev{*/
+        var href = "/static";
+        /*dev}*/
         /*packed{
         var href = location.href.split(/[#&]/)[0].replace(/[^\/]*$/, "");
         require.MODULE_LOAD_URL = href + "build/standalone/modules";

@@ -227,6 +227,11 @@ define(function(require, exports, module) {
             
             // Modify
             
+            function confirmStatus(node) {
+                if (node.status === "predicted")
+                    node.status = node.isFolder ? "pending" : "loaded";
+            }
+            
             function afterHandler(e) {
                 if (e.error) e.undo && e.undo();
                 else e.confirm && e.confirm();
@@ -261,8 +266,7 @@ define(function(require, exports, module) {
                         });
                     };
                     e.confirm = function () {
-                        if (node.status === "predicted")
-                            node.status = isFolder ? "pending" : "loaded";
+                        confirmStatus(node);
                     };
                     node.status = "predicted";
                 }
@@ -355,9 +359,7 @@ define(function(require, exports, module) {
                         createNode(newPath, null, node); // Move node
                         recurPathUpdate(node, oldPath, newPath);
                     }
-                    
-                    if (node.status === "predicted")
-                        node.status = "pending";
+                    confirmStatus(node);
                 };
                 node.status = "predicted";
             }, plugin);
@@ -390,8 +392,7 @@ define(function(require, exports, module) {
                     });
                 };
                 e.confirm = function() {
-                    if (node.status === "predicted")
-                        node.status = "pending";
+                    confirmStatus(node);
                 };
                 node.status = "predicted";
             }, plugin);
@@ -430,10 +431,8 @@ define(function(require, exports, module) {
                         removeSingleNode({ path: to });
                     };
                     e.confirm = function() {
-                        if (toNode.status === "predicted")
-                            toNode.status = e.status;
+                        confirmStatus(node);
                     };
-                    e._status = node.status == "predicted" ? "pending" : e.status;
                     toNode.status = "predicted";
                 }
                 
