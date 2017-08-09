@@ -242,14 +242,11 @@ define(function(require, module, exports) {
                                 dropdown.setAttribute("value", item.value);
                         break;
                         default:
-                            // supported attributes
-                            var validAttributes = /^(value|visible|zindex|disabled|caption|tooltip|command|class|icon|src|submenu)$/;
                             Object.keys(item).forEach(function(key) {
                                 // Check for onclick explictly
                                 if (key === "onclick")
                                     return el.onclick = item.onclick;
-                                // Check for attributes we know exist and will directly set
-                                if (validAttributes.test(key))
+                                if (key != "id")
                                     return el.setAttribute(key, item[key]);
                             });
                         break;

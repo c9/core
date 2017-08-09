@@ -168,26 +168,34 @@ require([
                     
                     tabs.openEditor("preferences", function(err, tab) {
                         expect(tabs.getTabs()).length(1);
+                        var checkbox = Array.apply(
+                            null, tab.editor.aml.$ext.querySelectorAll(".hsplitbox>.label")
+                        ).filter(function(e) {
+                            return /ui animation/i.test(e.textContent);
+                        })[0].nextSibling.host;
+                        
+                        expect(checkbox.getValue()).to.equal(true);
+                        expect(checkbox.$ext.className).to.match(/checked/i)
+                        expect(settings.get("user/general/@animateui")).to.equal(true);
+                        settings.set("user/general/@animateui", false);
+                        expect(settings.get("user/general/@animateui")).to.equal(false);
+                        expect(checkbox.getValue()).to.equal(false);
+                        expect(checkbox.$ext.className).to.not.match(/checked/i)
                         
                         done();
                     });
                 });
             });
-            describe("unload()", function() {
-               it('should unload the preferences', function(done) {
-                   general.unload();
-                   prefs.unload();
-                   tabs.getTabs()[0].editor.unload();
-                   tabs.getTabs()[0].unload();
-                   tabs.unload();
-                   done();
-               });
-           });
-           
            if (!onload.remain) {
-               after(function(done) {
-                   document.body.style.marginBottom = "";
-                   done();
+                describe("unload()", function() {
+                   it('should unload the preferences', function(done) {
+                       general.unload();
+                       prefs.unload();
+                       tabs.getTabs()[0].editor.unload();
+                       tabs.getTabs()[0].unload();
+                       tabs.unload();
+                       done();
+                   });
                });
            }
         });

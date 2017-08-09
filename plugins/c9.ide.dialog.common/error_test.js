@@ -18,14 +18,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             staticPrefix: "plugins/c9.ide.layout.classic"
         },
 
-        // Mock plugins
-        {
-            consumes: [],
-            provides: [
-                "util", "settings", "c9", "dialog.alert", "commands", "dialog.question"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["dialog.error"],
             provides: [],
