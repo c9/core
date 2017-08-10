@@ -29,7 +29,7 @@ define(function(require, exports, module) {
         
         var MIN_PREDICTION_WAIT = 500;
         var PING_DEVIATION = 500;
-        var INSERTABLE_CHARS = /^[A-Za-z0-9!"#$%&'()*+,-\.\/:;<=>?!@[\] ^_`{|}~]+$/;
+        var INSERTABLE_CHARS = /^[A-Za-z0-9!"#$%&'()*+,-\.\/\\:;<=>?!@[\] ^_`{|}~]+$/;
         var INPUT_BACKSPACE = "\u007F";
         var ESC = "\u001B";
         var OUTPUTS_BACKSPACE_ALL = ["\b" + ESC + "[K", "\b" + ESC + "[1K"];
@@ -45,10 +45,9 @@ define(function(require, exports, module) {
         var INPUT_RIGHT = ESC + "[C";
         var OUTPUTS_RIGHT = [ESC + "[C", ESC + "[1C"];
         var STATE_PREDICT = 0;
-        var STATE_WAIT_FOR_ECHO_OR_PROMPT = 1;
-        var STATE_WAIT_FOR_ECHO = 2;
-        var STATE_WAIT_FOR_PROMPT = 3;
-        var STATE_INITING = 4;
+        var STATE_WAIT_FOR_PROMPT_OR_ECHO = 1;
+        var STATE_WAIT_FOR_PROMPT = 2;
+        var STATE_INITING = 3;
         
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
@@ -72,6 +71,9 @@ define(function(require, exports, module) {
                 terminal.on("beforeWrite", function(e) {
                     return e.session.$predictor.onBeforeWrite(e);
                 }, plugin);
+                terminal.on("afterWrite", function(e) {
+                    return e.session.$predictor.onAfterWrite(e);
+                }, plugin);
                 terminal.on("input", function(e) {
                     DEBUG && console.log(">", e.data.replace("\r", "\\r").replace("\u007F", "\\bs"));
                     return e.session.$predictor.onInput(e);
@@ -86,7 +88,7 @@ define(function(require, exports, module) {
             var predictStartX = 0;
             var predictStartY = 0;
             var nonPredictStartY = 0;
-            var state = STATE_WAIT_FOR_ECHO_OR_PROMPT;
+            var state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
             var lastInput = null;
             
             // We maintain a copy of the terminal state without predictions
@@ -117,7 +119,7 @@ define(function(require, exports, module) {
                 
                 if (isPossibleConnectionGone()) {
                     DEBUG && console.log("!", "nopredict: connection gone?");
-                    state = STATE_WAIT_FOR_ECHO;
+                    state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
                     return;
                 }
                 
@@ -152,17 +154,21 @@ define(function(require, exports, module) {
                     command.after = { predict: predictLine, predictIndex: predictIndex };
                     command.sent = Date.now();
                     
-                    DEBUG && console.log("!"
-                        + nonPredictTerminal.$debugCharsAt(nonPredictTerminal.y)
-                            .slice(0, predictStartX)
-                            .map(function(c) { return c || " "; })
-                            .join("")
-                        + "%c" + predictLine,
-                        "color: lightblue");
+                    if (DEBUG) {
+                        var alreadyEchoed = predictions[0].before.predict;
+                        console.log("!" + debugPromptSuffix()
+                            + predictLine.substr(0, alreadyEchoed.length)
+                            + "%c" + predictLine.substr(alreadyEchoed.length),
+                            "color: lightblue"
+                        );
+                    }
+                    
+                    // DEBUG && console.log("!="
+                    //     + session.terminal.$debugCharsAt(predictStartY - session.terminal.ybase).join(""));
                     
                     command.timeout = setTimeout(function panic() {
                         if (!c9.has(c9.NETWORK) || !c9.connected) {
-                            state = STATE_WAIT_FOR_ECHO;
+                            state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
                             c9.once("connect", function() {
                                 command.timeout = setTimeout(panic, MIN_PREDICTION_WAIT);
                             });
@@ -184,6 +190,12 @@ define(function(require, exports, module) {
                 }
             }
             
+            function debugPromptSuffix() {
+                return nonPredictTerminal.$debugCharsAt(nonPredictTerminal.y)
+                    .slice(0, predictStartX).slice(-3)
+                    .map(function(c) { return c || " "; }).join("");
+            }
+            
             function isPossibleConnectionGone() {
                 if (!pendingPings.length)
                     return;
@@ -202,15 +214,19 @@ define(function(require, exports, module) {
                 }
                 
                 DEBUG && console.log(
-                    "< "
-                    + (state == STATE_PREDICT ? nonPredictTerminal.$debugCharsAt(e.$startY).join("") + " < " : "")
-                    + e.data
+                    "<"
+                    + (state == STATE_PREDICT
+                        ? debugPromptSuffix() +
+                          nonPredictTerminal.$debugCharsAt(e.$startY).slice(predictStartX).join("")
+                        : "")
+                    + "%c < " + e.data,
+                    "color: lightblue"
                 );
                 
                 if (!predictions.length) {
                     if (state == STATE_PREDICT && nonPredictStartY !== nonPredictTerminal.ybase + nonPredictTerminal.y) {
                         DEBUG && console.log("  ^ disabled predictions: (row changed)");
-                        state = STATE_WAIT_FOR_ECHO;
+                        state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
                     }
                     tryEnablePrediction(e.data);
                     emit("nopredict", { data: e.data, session: session });
@@ -219,13 +235,17 @@ define(function(require, exports, module) {
                 
                 pong();
                 
-                var result;
-                chopPredictions(e, predictions, function(err, _result) {
-                    result = _result;
-                    if (err || !result) {
-                        DEBUG && console.log("[predict_echo] mispredict?", e.data.replace(/\r/g, "\\r"),
-                            "\n@", nonPredictTerminal.$debugCharsAt(e.$startY).join(""));
-                        emit("mispredict", { data: e.data, predictions: predictions, session: session });
+                chopPredictions(e, predictions, function(err, results, line) {
+                    if (err || !results) {
+                        DEBUG && console.log("[predict_echo] mispredict?", e.data.replace(/\r/g, "\\r")
+                            + "\n!=" + session.terminal.$debugCharsAt(predictStartY - session.terminal.ybase).join("")
+                            + "\n<=" + nonPredictTerminal.$debugCharsAt(e.$startY).join(""));
+                        emit("mispredict", {
+                            data: e.data,
+                            line: charsOf(line),
+                            predictions: predictions,
+                            session: session
+                        });
                         undoPredictions();
                     }
                     // I would try to enable predictions here,
@@ -244,7 +264,7 @@ define(function(require, exports, module) {
             /**
              * Temporarily restore the unpredict terminal state to allow
              * writing incoming data, including small anomalies that may
-             * not have been predict but still passed our sanity checks.
+             * not have been predicted but still passed our sanity checks.
              */
             function writePredictData(data, startX) {
                 var predictTerminal = session.terminal;
@@ -288,7 +308,7 @@ define(function(require, exports, module) {
                 
                 pendingPings = [];
                 predictions = [];
-                state = STATE_WAIT_FOR_ECHO;
+                state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
                 copyTerminalLineTo(terminal);
                 session.terminal.x = nonPredictTerminal.x;
                 lastInput = null; // avoid immediately enabling again
@@ -304,7 +324,12 @@ define(function(require, exports, module) {
                 var fromChars = target === nonPredictTerminal ? predictChars : nonPredictChars;
                 var toChars = target === nonPredictTerminal ? nonPredictChars : predictChars;
                 
+                if (!predictChars) { // terminal likely just refreshed, never mind copying to it
+                    state = STATE_WAIT_FOR_PROMPT;
+                    return;
+                }
                 if (!fromChars || !toChars) {
+                    state = STATE_WAIT_FOR_PROMPT;
                     errorHandler.reportError(new Error("Warning: can't copy terminal line: "), {
                         fromChars: fromChars, toChars: toChars
                     });
@@ -347,14 +372,14 @@ define(function(require, exports, module) {
              * @param {Object[]} predictions    
              * @param {Function} callback
              * @param {Error} callback.err
-             * @param {Boolean} callback.result  Whether prediction was succesful.
+             * @param {Object[]|Boolean} callback.results  A list of matching predictions, or `false`
              */
             function chopPredictions(e, predictions, callback) {
                 var line = nonPredictTerminal.lines[nonPredictStartY];
                 var rowChanged = nonPredictStartY !== nonPredictTerminal.y + nonPredictTerminal.ybase;
                 
                 if (!checkTextBeforePrediction())
-                    return callback(null, false);
+                    return done(null, false);
                 
                 // Check if predictions became true
                 var matchedOneOff = false;
@@ -390,26 +415,36 @@ define(function(require, exports, module) {
                             predict = predictions.splice(0, i + 1);
                         }
                         
-                        emit("predict", {
-                            data: e.data,
-                            session: session,
-                            predictions: predict
-                        });
-                        return callback(null, predict);
+                        return done(null, predict);
                     }
                 }
                 
                 // No matches. But one got really close.
                 if (matchedOneOff)
-                    return callback(null, []);
+                    return done(null, []);
                 
                 // No matches. Return if our predictions were optional.
                 if (isOptionalOnly(predictions))
-                    return callback(null, []);
+                    return done(null, []);
+                    
+                // No matches. But it seems we got a noop input. Our predictions likely happen later.
+                if (matchPrediction(NoopCommand.tryCreate()))
+                    return done(null, []);
                 
                 // No matches for our predictions :( We likely made a mistake.
                 // Reporting false here ensures we catch mistakes early.
-                return callback(null, false);
+                return done(null, false);
+                
+                function done(err, result) {
+                    if (result) {
+                        emit("predict", {
+                            data: e.data,
+                            session: session,
+                            predictions: predict
+                        });
+                    }
+                    callback(err, result, line);
+                }
                 
                 function matchPrediction(prediction) {
                     var predict = prediction.after.predict;
@@ -466,7 +501,7 @@ define(function(require, exports, module) {
                     return;
                 
                 // Enable prediction when we see a prompt
-                if ((state == STATE_WAIT_FOR_PROMPT || state === STATE_WAIT_FOR_ECHO_OR_PROMPT)
+                if ((state == STATE_WAIT_FOR_PROMPT || state === STATE_WAIT_FOR_PROMPT_OR_ECHO)
                     && data.match(/[$#] $/)) {
                     if (DEBUG) console.log("  ^ re-enabled predictions: (prompt)");
                     return startPredict();
@@ -474,30 +509,43 @@ define(function(require, exports, module) {
                 
                 // Enable prediction when we see echoing
                 if (lastInput
-                    && (state === STATE_WAIT_FOR_ECHO || state === STATE_WAIT_FOR_ECHO_OR_PROMPT)
+                    && (state === STATE_WAIT_FOR_PROMPT_OR_ECHO)
                     && lastInput === data.substr(data.length - lastInput.length)
                     && (!BASH_ONLY || isBashActive())) {
+                    if (DEBUG) console.log("  ^ re-enabled predictions:", lastInput);
+                    return startPredict();
+                }
+                
+                // Enable predictions when we see echoing *and* a prompt
+                if (lastInput
+                    && state == STATE_WAIT_FOR_PROMPT
+                    && lastInput === data.substr(data.length - lastInput.length)
+                    && isBashActive()) {
                     if (DEBUG) console.log("  ^ re-enabled predictions:", lastInput);
                     return startPredict();
                 }
             }
             
             function startPredict() {
-                state = STATE_INITING;
                 predictIndex = 0;
                 predictLine = "";
                 predictStartX = nonPredictTerminal.x;
                 nonPredictStartY = nonPredictTerminal.y + nonPredictTerminal.ybase;
                 predictStartY = session.terminal.y + session.terminal.ybase;
-                terminal.once("afterWrite", function() {
-                    predictStartY = session.terminal.y + session.terminal.ybase;
-                    state = STATE_PREDICT;
-                    if (!checkTextBeforePrediction()) {
-                        // Appears to happen when tmux or shell unexpectedly sends a new line
-                        console.warn("Unable to init predictions");
-                        state = STATE_WAIT_FOR_ECHO;
-                    }
-                });
+                state = STATE_INITING;
+            }
+            
+            function onAfterWrite(e) {
+                if (state !== STATE_INITING)
+                    return;
+                    
+                predictStartY = session.terminal.y + session.terminal.ybase;
+                state = STATE_PREDICT;
+                if (!checkTextBeforePrediction()) {
+                    // Appears to happen when tmux or shell unexpectedly sends a new line
+                    console.log("[predict_echo] Unable to init predictions; will try again later");
+                    state = STATE_WAIT_FOR_PROMPT;
+                }
             }
             
             function isBashActive() {
@@ -600,12 +648,10 @@ define(function(require, exports, module) {
             };
             function BackspaceCommand() {
                 var after = predictLine.substr(predictIndex);
-                var deletedChar;
                 var outputText = OUTPUTS_BACKSPACE_CHAR[0];
                 return {
                     $outputText: outputText,
                     do: function() {
-                        deletedChar = peek(-1);
                         predictLine = predictLine.substr(0, predictIndex - 1) + after;
                         predictIndex--;
                         echo(outputText);
@@ -622,11 +668,9 @@ define(function(require, exports, module) {
             };
             function DeleteCommand() {
                 var after = predictLine.substr(predictIndex + 1);
-                var deletedChar;
                 return {
                     $outputText: OUTPUTS_DELETE_CHAR[0],
                     do: function() {
-                        deletedChar = peek();
                         predictLine = predictLine.substr(0, predictIndex) + after;
                         echo(OUTPUTS_DELETE_CHAR[0]);
                     }
@@ -641,12 +685,10 @@ define(function(require, exports, module) {
                     return new CursorLeftCommand();
             };
             function CursorLeftCommand() {
-                var noChange = false;
                 return {
                     $outputText: OUTPUTS_LEFT[0],
                     do: function() {
                         if (predictIndex === 0) {
-                            noChange = true;
                             clearTimeout(this.timeout);
                             return;
                         }
@@ -683,12 +725,30 @@ define(function(require, exports, module) {
                     return new HomeCommand();
             };
             function HomeCommand() {
-                var oldIndex;
                 var outputText = predictIndex ? getCursorLeft(predictIndex) : "";
                 return {
                     $outputText: outputText,
                     do: function() {
-                        oldIndex = predictIndex;
+                        echo(outputText);
+                        predictIndex = 0;
+                    }
+                };
+            }
+            
+            /**
+             * Noop command. Factory method: tryCreate().
+             */
+            NoopCommand.tryCreate = function() {
+                var result = new NoopCommand();
+                result.before = { predict: predictLine, predictIndex: predictIndex };
+                result.after = { predict: predictLine, predictIndex: predictIndex };
+                return result;
+            };
+            function NoopCommand() {
+                var outputText = predictIndex ? getCursorLeft(predictIndex) : "";
+                return {
+                    $outputText: outputText,
+                    do: function() {
                         echo(outputText);
                         predictIndex = 0;
                     }
@@ -708,18 +768,13 @@ define(function(require, exports, module) {
                 get predictions() { return predictions; },
                 undoPredictions: undoPredictions,
                 onInput: onInput,
-                onBeforeWrite: onBeforeWrite
+                onBeforeWrite: onBeforeWrite,
+                onAfterWrite: onAfterWrite,
             };
         }
             
-        function charsOf(s) {
-            var r1 = [];
-            var r2 = [];
-            for (var i = 0; i < s.length; i++) {
-                r1.push(s.charAt(i));
-                r2.push(s.charCodeAt(i));
-            }
-            return [r1, r2];
+        function charsOf(line) {
+            return line.map(function(c) { return c[1] }).join("");
         }
         
         function getCursorLeft(n) {

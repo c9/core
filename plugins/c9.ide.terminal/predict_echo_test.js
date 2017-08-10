@@ -5,6 +5,7 @@
 
 require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/assertions"], function (architect, chai, baseProc) {
     var expect = chai.expect;
+    var TMUXNAME = "cloud9test2";
     
     expect.setupArchitectTest([
         {
@@ -14,7 +15,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
             debug: true,
             hosted: true,
             local: false,
-            davPrefix: "/"
         },
         
         "plugins/c9.core/ext",
@@ -45,7 +45,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
         "plugins/c9.ide.ui/forms",
         {
             packagePath: "plugins/c9.fs/proc",
-            tmuxName: "cloud9test2"
+            tmuxName: TMUXNAME
         },
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
@@ -55,16 +55,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
             baseProc: baseProc
         },
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "commands", "layout", "watcher", 
-                "save", "anims", "clipboard", "dialog.alert", "auth.bootstrap",
-                "info", "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["tabManager", "proc", "terminal", "terminal.predict_echo", "c9"],
             provides: [],
@@ -91,9 +81,9 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
         var INPUT_DELETE = ESC + "[3~";
         var OUTPUT_BACKSPACE = "\b" + ESC + "[K";
         var OUTPUT_DELETE_CHAR = ESC + "[P";
-        var STATE_WAIT_FOR_ECHO_OR_PROMPT = 1;
-        var STATE_WAIT_FOR_ECHO = 2;
-        var STATE_WAIT_FOR_PROMPT = 3;
+        var STATE_WAIT_FOR_PROMPT_OR_ECHO = 1;
+        var STATE_WAIT_FOR_PROMPT = 2;
+        var STATE_INITING = 3;
         
         expect.html.setConstructor(function(tab) {
             if (typeof tab == "object")
@@ -105,8 +95,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 
             before(function(done) {
                 this.timeout(45000);
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
                 
                 bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";
                 bar.$ext.style.position = "fixed";
@@ -120,7 +108,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 predictor.$setTestTimeouts();
                 predictor.DEBUG = true;
                 
-                proc.execFile("~/.c9/bin/tmux", { args: ["-L", "cloud9test", "kill-server"]}, function(err) {
+                proc.execFile("~/.c9/bin/tmux", { args: ["-L", TMUXNAME, "kill-server"]}, function(err) {
                     tabs.once("ready", function() {
                         tabs.getPanes()[0].focus();
                         openTerminal(done);
@@ -128,8 +116,10 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 });
             });
             
-            function openTerminal(done) {
+            function openTerminal(callback) {
                 tabs.openEditor("terminal", function(err, tab) {
+                    if (err) return callback(err);
+                    
                     editor = tab.editor;
                     session = editor.ace.getSession().c9session;
                     send = session.send;
@@ -137,25 +127,23 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                     setTimeout(init);
                     
                     function init() {
-                        afterPrompt(function() { setTimeout(start); });
+                        afterPrompt(function() { setTimeout(callback); });
                         // Make sure we have a prompt with a dollar for tests
                         // And terminal won't send rename commands in the middle of the test
                         // TODO: do we need to handle rename sequence in predict_echo instead?
-                        editor.ace.onTextInput("PS1='. $ ';"
+                        editor.ace.onTextInput("PS1='P$ ';"
                             + "tmux setw automatic-rename off;"
                             + "printf '\\x1b]0;predict echo\\x07'\n");
                         // editor.ace.onTextInput("ssh lennart\n");
                         // editor.ace.onTextInput("ssh ubuntu@ci.c9.io\n");
                     }
                 });
-                function start() {
-                    predictor.on("mispredict", function(e) {
-                        console.error("MISPREDICTED", e);
-                        delete e.session;
-                        throw new Error("MISPREDICTED: " + JSON.stringify(e));
-                    });
-                    setTimeout(done);
-                }
+            }
+            
+            function reportMispredict(e) {
+                console.error("MISPREDICTED", e);
+                delete e.session;
+                throw new Error("MISPREDICTED: " + JSON.stringify(e));
             }
             
             function peek(offset) {
@@ -206,19 +194,23 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                 setTimeout(function() {
                     send(key);
                     sendAll(keys, callback);
-                });
+                }, 5);
             }
             
             describe.skip("predict_echo", function() {
                 beforeEach(function(done) {
+                    predictor.off("mispredict", reportMispredict);
+                    
                     afterPredict("*", function() {
                         afterPrompt(function() {
                             session.$predictor.state = 0;
+                            predictor.on("mispredict", reportMispredict);
                             done();
                         });
                         send("\r");
                     });
                     session.$predictor.state = 0;
+                    console.log("! next test");
                     sendAll(" # next*".split(""));
                 });
             
@@ -373,8 +365,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                         afterPredict("[", function() {
                             afterPredict("[", function() {
                                 assert.equal(peek(-1), " ");
-                                assert.equal(peek(), "e");
-                                assert.equal(peek(1), "c");
+                                assert.equal(peek(), "#");
+                                assert.equal(peek(1), "p");
 
                                 afterPrompt(done);
                                 send("\r");
@@ -384,16 +376,16 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                         sendAll([INPUT_RIGHT]);
                     });
                     
-                    sendAll(["eecho bleep", INPUT_HOME]);
+                    sendAll(["##print some chars; home; right; backspace", INPUT_HOME]);
                 });
                 
-                it("supports insert with repeated characters; stress test", function loop(done, attempt) {
+                it("supports insert with repeated characters (prxaat); stress test", function loop(done, attempt) {
                     this.timeout && this.timeout(60000);
                     session.$predictor.state = 0;
                     if (attempt === 5)
                         return done();
                     
-                    sendAll("echo blaat".split(""), function() {
+                    sendAll("echo praat".split(""), function() {
                         var sawX;
                         
                         afterPredict("t", function() {
@@ -402,8 +394,9 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                         });
                         predictor.on("predict", function wait(e) {
                             sawX = sawX || e.data.match(/x/);
-                            if (!sawX || e.data.match(/xaat/) || !e.data.match(/a/))
-                                return; // console.log("  -", e.data, sawX)*
+                            // Wait until we've seen an 'x' and then an 'a'
+                            if (!sawX || e.data.match(/xaat$/))
+                                return console.log("  -", e.data, !!sawX);
                             predictor.off("predict", wait);
 
                             assert.equal(peek(), "a");
@@ -494,11 +487,11 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                         });
                         
                         // sometimes backspace will re-enable state 0; we reset it here
-                        session.$predictor.state = STATE_WAIT_FOR_ECHO_OR_PROMPT;
+                        session.$predictor.state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
                         send(":");
                     });
                   
-                    session.$predictor.state = STATE_WAIT_FOR_ECHO_OR_PROMPT;
+                    session.$predictor.state = STATE_WAIT_FOR_PROMPT_OR_ECHO;
                     send(INPUT_BACKSPACE);
                 });
                 
@@ -541,6 +534,19 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "ace/test/asse
                         send(":");
                         
                     });
+                });
+                
+                it("recovers after spurious backspaces on a prompt", function(done) {
+                    var afterBackspace = false;
+                    predictor.once("nopredict", function() {
+                        assert.equal(afterBackspace, true);
+                        // assert.equal(session.$predictor.state, STATE_INITING);
+                        afterPrompt(done);
+                        send("\r");
+                    });
+                    send(INPUT_BACKSPACE);
+                    afterBackspace = true;
+                    send("Q");
                 });
             });
             
