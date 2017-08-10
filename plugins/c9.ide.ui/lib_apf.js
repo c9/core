@@ -13049,10 +13049,7 @@ apf.checkbox = function(struct, tagName) {
             this.checked = apf.isTrue(value);
         }
         
-        if (this.checked)
-            apf.setStyleClass(this.$ext, this.$baseCSSname + "Checked");
-        else
-            apf.setStyleClass(this.$ext, "", [this.$baseCSSname + "Checked"]);
+        this.updateClass();
     };
 
     /**
@@ -13191,7 +13188,15 @@ apf.checkbox = function(struct, tagName) {
         this.$notfromext = this.$input && this.$input != this.$ext;
 
         this.$setupEvents();
+        this.updateClass();
     };
+    
+    this.updateClass = function() {
+        if (this.checked)
+            apf.setStyleClass(this.$ext, this.$baseCSSname + "Checked");
+        else
+            apf.setStyleClass(this.$ext, "", [this.$baseCSSname + "Checked"]);
+    }
 
     this.$childProperty = "label";
 
