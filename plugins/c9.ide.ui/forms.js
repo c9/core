@@ -114,12 +114,10 @@ define(function(require, exports, module) {
                 var heading = headings[name];
                 if (!heading) {
                     if (!hack) {
-                        var aml = container.appendChild(new apf.bar());
-                        aml.$int.innerHTML = '<div class="header"><span></span><div>'
-                            + apf.escapeXML((debug 
-                                ? "\[" + (position || "") + "\] " 
-                                : "") + name) 
-                            + '</div></div>';
+                        var aml = container.appendChild(new ui.bar());
+                        ui.buildDom(["div", { class: "header" }, 
+                            ["span"], ["div", (debug ? "[" + (position || "") + "] " : "") + name]
+                        ]);
                     }
                     
                     heading = headings[name] = {
@@ -160,8 +158,12 @@ define(function(require, exports, module) {
                 if (options.setting && !options.path)
                     options.path = options.setting;
                 
-                if (debug)
-                    name = "[" + (position || "") + "] " + name;
+                name = options.title || name;
+                var positionMark = debug ? "[" + (position || "") + "] " : "";
+                if (typeof name == "string")
+                    name = positionMark + name + ":";
+                else
+                    name = [null, positionMark, name, ":"];
                 
                 var ignoreChange = false;
                 function onAfterChange(e) {
