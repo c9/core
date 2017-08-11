@@ -169,8 +169,9 @@ define(function(require, exports, module) {
                 function onAfterChange(e) {
                     if (ignoreChange)
                         return;
-                    if (options.path)
-                        settings.set(options.path, e.value);
+                    var path = e.currentTarget && e.currentTarget.getAttribute("settingPath") || options.path;
+                    if (path)
+                        settings.set(path, e.value);
                         
                     if (options.onchange)
                         options.onchange({ value: e.value, type: e.currentTarget.tagName });
@@ -191,7 +192,7 @@ define(function(require, exports, module) {
                 switch (options.type) {
                     case "checkbox":
                         childNodes = [
-                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name }),
                             main = new ui.checkbox({
                                 value: options.path 
                                     ? settings.get(options.path) 
@@ -205,7 +206,7 @@ define(function(require, exports, module) {
                     break;
                     case "dropdown":
                         childNodes = [
-                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name }),
                             main = new ui.dropdown({
                                 items: options.items,
                                 width: options.width || widths.dropdown,
@@ -223,7 +224,7 @@ define(function(require, exports, module) {
                     break;
                     case "spinner":
                         childNodes = [
-                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name }),
                             main = new ui.spinner({
                                 width: options.width || widths.spinner,
                                 value: options.path 
@@ -244,7 +245,7 @@ define(function(require, exports, module) {
                                     ? settings.get(options.checkboxPath) 
                                     : (options.defaultCheckboxValue || ""),
                                 width: width, maxwidth: maxwidth, 
-                                label: name + ":",
+                                label: name,
                                 skin: "checkbox_black",
                                 onafterchange: onAfterChange,
                                 settingPath: options.checkboxPath,
@@ -278,7 +279,7 @@ define(function(require, exports, module) {
                     break;
                     case "textbox":
                         childNodes = [
-                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name }),
                             main = new ui.textbox({
                                 skin: skins.textbox || "searchbox",
                                 margin: "-3 0 0 0",
@@ -295,7 +296,7 @@ define(function(require, exports, module) {
                     break;
                     case "password":
                         childNodes = [
-                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name }),
                             main = new ui.password({
                                 skin: skins.password || "forminput",
                                 width: options.width || widths.password,
@@ -308,7 +309,7 @@ define(function(require, exports, module) {
                     break;
                     case "colorbox":
                         childNodes = [
-                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name }),
                             main = new ui.colorbox({
                                 width: options.width || widths.colorbox,
                                 value: options.path 
@@ -322,7 +323,7 @@ define(function(require, exports, module) {
                     break;
                     case "button":
                         childNodes = [
-                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name }),
                             new ui.button({
                                 skin: "blackbutton",
                                 height: 24,
@@ -370,7 +371,7 @@ define(function(require, exports, module) {
                     break;
                     case "textarea":
                         childNodes = [
-                            new ui.label({ width: width, maxwidth: maxwidth, caption: name + ":" }),
+                            new ui.label({ width: width, maxwidth: maxwidth, caption: name }),
                             main = new ui.textarea({
                                 width: options.width || widths.textarea,
                                 height: options.height || 200,
@@ -389,7 +390,7 @@ define(function(require, exports, module) {
                             edge: options.edge || edge,
                             type: options.type,
                             childNodes: [
-                                new ui.label({ height: 40, caption: name + ":" }),
+                                new ui.label({ height: 40, caption: name }),
                                 main = new ui.textarea({
                                     width: options.width || widths.textarea,
                                     height: options.height || 200,
