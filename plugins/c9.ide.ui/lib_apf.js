@@ -584,7 +584,7 @@ apf.browserDetect();
 
 
 apf.buildDom = function buildDom(arr, parent) {
-    if (typeof arr == "string") {
+    if (typeof arr == "string" && arr) {
         var txt = document.createTextNode(arr);
         if (parent)
             parent.appendChild(txt);
@@ -593,20 +593,20 @@ apf.buildDom = function buildDom(arr, parent) {
     
     if (!Array.isArray(arr))
         return arr;
-    if (typeof arr[0] == "object") {
+    if (typeof arr[0] != "string" || !arr[0]) {
         var els = [];
         for (var i = 0; i < arr.length; i++) {
-            var ch = buildDom(arr[i]);
-            els.push(ch);
-            if (parent)
-                parent.appendChild(ch);
+            var ch = buildDom(arr[i], parent);
+            ch && els.push(ch);
         }
         return els;
     }
     
     var el = document.createElement(arr[0]);
     var options = arr[1];
-    if (options) {
+    var childIndex = 1;
+    if (options && typeof options == "object" && !Array.isArray(options)) {
+        childIndex = 2;
         Object.keys(options).forEach(function(n) {
             var val = options[n];
             if (n == "class") {
@@ -618,7 +618,7 @@ apf.buildDom = function buildDom(arr, parent) {
                 el.setAttribute(n, val);
         });
     }
-    for (var i = 2; i < arr.length; i++)
+    for (var i = childIndex; i < arr.length; i++)
         buildDom(arr[i], el);
     if (parent)
         parent.appendChild(el);
@@ -13049,7 +13049,10 @@ apf.checkbox = function(struct, tagName) {
             this.checked = apf.isTrue(value);
         }
         
-        this.updateClass();
+        if (this.checked)
+            apf.setStyleClass(this.$ext, this.$baseCSSname + "Checked");
+        else
+            apf.setStyleClass(this.$ext, "", [this.$baseCSSname + "Checked"]);
     };
 
     /**
@@ -13188,15 +13191,7 @@ apf.checkbox = function(struct, tagName) {
         this.$notfromext = this.$input && this.$input != this.$ext;
 
         this.$setupEvents();
-        this.updateClass();
     };
-    
-    this.updateClass = function() {
-        if (this.checked)
-            apf.setStyleClass(this.$ext, this.$baseCSSname + "Checked");
-        else
-            apf.setStyleClass(this.$ext, "", [this.$baseCSSname + "Checked"]);
-    }
 
     this.$childProperty = "label";
 

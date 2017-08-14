@@ -81,18 +81,19 @@ define(function(require, module, exports) {
                         }
                     }
                     
-                    oldHandler.call(_self, func(value));
-                    
+                    if (isDynProp) {
+                        oldHandler.call(_self, func(value));
+                        settings.on(value, listen);
+                        
+                        this.once("DOMNodeRemovedFromDocument", function() {
+                            settings.off(value, listen);
+                        });
+                    }
                     function listen() { 
                         var v = func(value);
                         if (_self[prop] != v) 
                             oldHandler.call(_self, v); 
                     }
-                    settings.on(value, listen);
-                    
-                    this.once("DOMNodeRemovedFromDocument", function() {
-                        settings.off(value, listen);
-                    });
                 };
             }
             wrap(apf.item.prototype, "checked", false);

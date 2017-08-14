@@ -296,7 +296,9 @@ define(function(require, exports, module) {
                             path: "project/language/@unusedFunctionArgs",
                             position: 9000
                         },
-                        "Ignore Messages Matching <a href=\"http://en.wikipedia.org/wiki/Regular_expression\" target=\"blank\">Regex</a>": {
+                        "Ignore Messages Matching Regex": {
+                            title: [null, "Ignore Messages Matching ", ["a", { 
+                                href: "http://en.wikipedia.org/wiki/Regular_expression", target: "blank"}, "Regex"]],
                             type: "textbox",
                             path: "project/language/@ignoredMarkers",
                             width: 300,
@@ -305,7 +307,9 @@ define(function(require, exports, module) {
                     },
                     "JavaScript Support": {
                         position: 1100,
-                        "Customize JavaScript Warnings With <a href=\"http://eslint.org/docs/user-guide/configuring\" target=\"blank\">.eslintrc</a>": {
+                        "Customize JavaScript Warnings With .eslintrc": {
+                            title: [null, "Customize JavaScript Warnings With ", ["a", { 
+                                href: "http://eslint.org/docs/user-guide/configuring", target: "blank"}, ".eslintrc"]],
                             position: 210,
                             type: "checkbox",
                             path: "project/language/@eslintrc",
