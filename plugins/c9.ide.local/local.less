@@ -22,7 +22,7 @@
     top: 0;
     height: 23px;
     z-index: 1000000;
-    .gradient(~"linear-gradient(top, rgb(70, 70, 70) 0%, rgb(37,37,37) 100%);");
+    background-image: linear-gradient(to bottom, rgb(70, 70, 70) 0%, rgb(37,37,37) 100%);;
     color: #ccc;
     cursor: default;
     box-sizing: border-box;
@@ -54,7 +54,7 @@
 }
 
 .window-titlebar.focus{
-    .gradient(~"linear-gradient(top, rgb(61, 61, 61) 0%, rgb(37,37,37) 100%);");
+    background-image: linear-gradient(to bottom, rgb(61, 61, 61) 0%, rgb(37,37,37) 100%);;
 }
 
 .window-titlebar .caption{
@@ -141,7 +141,7 @@
     -webkit-app-region: no-drag;
     box-sizing : border-box;
     box-shadow: 0 2px 0 rgba(255,255,255,0.06) inset, 0 1px 0 rgba(255,255,255,0.06);
-    .gradient(~"linear-gradient(top, #434343 0%, #303030 100%);");
+    background-image: linear-gradient(to bottom, #434343 0%, #303030 100%);;
     border: 1px solid black;
 }
 .window-titlebar.win32 .closebtn:after,
@@ -165,7 +165,7 @@
     background-position : -68px 0;
 }
 .window-titlebar.win32 .closebtn:hover{
-    .gradient(~"linear-gradient(top, rgb(213, 42, 42) 0%, rgb(139, 14, 14) 100%);");
+    background-image: linear-gradient(to bottom, rgb(213, 42, 42) 0%, rgb(139, 14, 14) 100%);;
 }
 .window-titlebar.win32 .minbtn{
     right : 68px;
@@ -176,7 +176,7 @@
     background-position : -20px 1px;
 }
 .window-titlebar.win32 .minbtn:hover{
-    .gradient(~"linear-gradient(top, #505050 0%, #353535 100%);");
+    background-image: linear-gradient(to bottom, #505050 0%, #353535 100%);;
 }
 .window-titlebar.win32 .maxbtn{
     right : 43px;
@@ -189,5 +189,5 @@
     background-position : 7px 1px;
 }
 .window-titlebar.focus.win32 .maxbtn:hover{
-    .gradient(~"linear-gradient(top, #505050 0%, #353535 100%);");
+    background-image: linear-gradient(to bottom, #505050 0%, #353535 100%);;
 }

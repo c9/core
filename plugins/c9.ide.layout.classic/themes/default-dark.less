@@ -150,11 +150,11 @@
 @collab-tree-access-control-background: rgba(0,0,0,0.41);
 @collab-tree-access-control-box-shadow: 0 1px 7px 0px rgba(0, 0, 0, 0.93) inset;
 @collab-access-control-active-color: lighten(#B3B3B3, @lighten-chrome);
-@collab-tree-focus-access-control-active-gradient: linear-gradient(top, #80883e 0%, #677018 100%);
+@collab-tree-focus-access-control-active-gradient: linear-gradient(to bottom, #80883e 0%, #677018 100%);
 @collab-access-control-inactive-color: transparent;
 @collab-access-control-inactive-box-shadow: 0 1px rgba(255,255,255,0.2) inset, 0 0 2px rgba(0, 0, 0, 1);
 @collab-access-control-inactive-box-shadow-right: @collab-access-control-inactive-box-shadow;
-@collab-access-control-inactive-gradient: linear-gradient(top, #5F5F5F 0%, #333333 100%);
+@collab-access-control-inactive-gradient: linear-gradient(to bottom, #5F5F5F 0%, #333333 100%);
 @collab-tree-focus-access-control-color: lighten(#BDCE63, @lighten-chrome);
 @collab-access-control-flat: false;
 @collab-tree-access-control-disabled-background: transparent;
@@ -195,7 +195,7 @@
 // Bubble
 @bubble-border: 1px solid #000;
 @bubble-border-radius: 8px;
-@bubble-gradient: linear-gradient(center bottom,#202020 0%, #2f2f2f 100%);
+@bubble-gradient: linear-gradient(to top, #202020 0%, #2f2f2f 100%);
 @bubble-padding: 15px 13px;
 @bubble-color: #ffffff;
 @bubble-margin-top: 10px;
@@ -228,7 +228,7 @@
 @time-slider-play-border-div: true;
 @time-slider-play-border-radius: 40px;
 @time-slider-play-border: 3px solid black;
-@time-slider-play-gradient: linear-gradient(top, rgb(63, 63, 63), rgb(39, 39, 39));
+@time-slider-play-gradient: linear-gradient(to bottom, rgb(63, 63, 63), rgb(39, 39, 39));
 @time-slider-play-box-shadow: 4px 6px 13px 0px rgba(0, 0, 0, 0.65), 0 1px rgba(255, 255, 255, 0.08);
 @time-slider-play-icon-image: "@{image-path}/play.png";
 @time-slider-play-icon-pause-image: "@{image-path}/pause.png";
@@ -247,7 +247,7 @@
 @time-slider-bar-background: rgba(0,0,0,0.3);
 @time-slider-bar-border-radius: 4px;
 @time-slider-bar-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) inset, 0 1px rgba(255, 255, 255, 0.06);
-@time-slider-bar-progress-gradient: linear-gradient(bottom, #64722a 0%, #abc326 100%);
+@time-slider-bar-progress-gradient: linear-gradient(to top, #64722a 0%, #abc326 100%);
 @time-slider-bar-progress-border-top: 1px solid rgba(0, 0, 0, 0.72);
 @time-slider-bar-progress-box-shadow: 0 -1px rgba(0, 0, 0, 0.58) inset;
 @time-slider-bar-progress-height: 5px;
@@ -279,32 +279,32 @@
 @time-slider-stepper-left-box-shadow: 0 1px rgba(255, 255, 255, 0.06), 1px 1px rgba(255, 255, 255, 0.06) inset, -1px 0 rgba(255, 255, 255, 0.06) inset, 0 -1px rgb(27, 27, 27) inset;
 @time-slider-stepper-left-border-radius: 7px 0px 0 7px;
 @time-slider-stepper-left-border-right: 1px solid black;
-@time-slider-stepper-left-gradient: linear-gradient(top, rgb(43, 43, 43) 0%, rgb(36, 36, 36) 100%);
+@time-slider-stepper-left-gradient: linear-gradient(to bottom, rgb(43, 43, 43) 0%, rgb(36, 36, 36) 100%);
 @time-slider-stepper-left-background-position: 0px 0px;
 @time-slider-stepper-left-right: 135px;
 @time-slider-stepper-left-icon-margin: 3px 0 0 7px;
 @time-slider-stepper-left-hover-icon-margin: 4px 0 0 8px;
 
 @time-slider-stepper-left-disabled-box-shadow: 0 1px rgba(255, 255, 255, 0.06), 0 0px rgba(255, 255, 255, 0.03) inset, 0 0px #131313 inset;
-@time-slider-stepper-left-disabled-gradient: linear-gradient(left, #1F1F1F 0%, #1F1F1F 60%, #1B1B1B 100%);
-@time-slider-stepper-left-hover-gradient: linear-gradient(top, rgb(53, 53, 53) 0%, rgb(46, 46, 46) 100%);
+@time-slider-stepper-left-disabled-gradient: linear-gradient(to right, #1F1F1F 0%, #1F1F1F 60%, #1B1B1B 100%);
+@time-slider-stepper-left-hover-gradient: linear-gradient(to bottom, rgb(53, 53, 53) 0%, rgb(46, 46, 46) 100%);
 @time-slider-stepper-left-active-box-shadow: 0 1px rgba(0, 0, 0, 0.06), 1px 1px 3px rgba(0, 0, 0, 0.66) inset, -1px 0 rgba(0, 0, 0, 0.06) inset, 0 -1px 2px rgba(255, 255, 255, 0.06) inset;
-@time-slider-stepper-left-active-gradient: linear-gradient(top, rgb(43, 43, 43) 0%, rgb(36, 36, 36) 100%);
+@time-slider-stepper-left-active-gradient: linear-gradient(to bottom, rgb(43, 43, 43) 0%, rgb(36, 36, 36) 100%);
 
 @time-slider-stepper-right-box-shadow: 0 1px rgba(255, 255, 255, 0.06), 1px 1px rgba(255, 255, 255, 0.06) inset, -1px 0 rgba(255, 255, 255, 0.06) inset, 0 -1px rgb(27, 27, 27) inset;
 @time-slider-stepper-right-border-radius: 0 7px 7px 0;
 @time-slider-stepper-right-border-left: 0;
-@time-slider-stepper-right-gradient: linear-gradient(top, rgb(43, 43, 43) 0%, rgb(36, 36, 36) 100%);
+@time-slider-stepper-right-gradient: linear-gradient(to bottom, rgb(43, 43, 43) 0%, rgb(36, 36, 36) 100%);
 @time-slider-stepper-right-background-position: -12px 0px;
 @time-slider-stepper-right-right: 107px;
 @time-slider-stepper-right-icon-margin: 3px 0 0 7px;
 @time-slider-stepper-right-hover-icon-margin: 4px 0 0 8px;
 
 @time-slider-stepper-right-disabled-box-shadow: 0 1px rgba(255, 255, 255, 0.06), 0 0px rgba(255, 255, 255, 0.03) inset, 0 0px #131313 inset;
-@time-slider-stepper-right-disabled-gradient: linear-gradient(right, #1F1F1F 0%, #1F1F1F 60%, #1B1B1B 100%);
-@time-slider-stepper-right-hover-gradient: linear-gradient(top, rgb(53, 53, 53) 0%, rgb(46, 46, 46) 100%);
+@time-slider-stepper-right-disabled-gradient: linear-gradient(to left, #1F1F1F 0%, #1F1F1F 60%, #1B1B1B 100%);
+@time-slider-stepper-right-hover-gradient: linear-gradient(to bottom, rgb(53, 53, 53) 0%, rgb(46, 46, 46) 100%);
 @time-slider-stepper-right-active-box-shadow: 0 1px rgba(0, 0, 0, 0.06), 1px 1px 2px rgba(0, 0, 0, 0.66) inset, -1px 0 rgba(0, 0, 0, 0.06) inset, 0 -1px 2px rgba(255, 255, 255, 0.06) inset;
-@time-slider-stepper-right-active-gradient: linear-gradient(top, rgb(43, 43, 43) 0%, rgb(36, 36, 36) 100%);
+@time-slider-stepper-right-active-gradient: linear-gradient(to bottom, rgb(43, 43, 43) 0%, rgb(36, 36, 36) 100%);
 
 @time-slider-revert-font-family: Tahoma;
 @time-slider-revert-font-size: 12px;
@@ -313,7 +313,7 @@
 @time-slider-revert-border: 4px solid black;
 @time-slider-revert-box-shadow: 0 1px rgba(255, 255, 255, 0.06), 1px 1px rgba(255, 255, 255, 0.06) inset, -1px 0 rgba(255, 255, 255, 0.06) inset;
 @time-slider-revert-border-radius: 7px;
-@time-slider-revert-gradient: linear-gradient(top, rgb(43, 43, 43) 0%, rgb(36, 36, 36) 100%);
+@time-slider-revert-gradient: linear-gradient(to bottom, rgb(43, 43, 43) 0%, rgb(36, 36, 36) 100%);
 @time-slider-revert-color: lighten(#B9B9B9, @lighten-chrome);
 @time-slider-revert-text-shadow: 0 1px rgba(0, 0, 0, 0.36);
 @time-slider-revert-top: 20px;
@@ -321,11 +321,11 @@
 @time-slider-revert-padding: 1px 1px 1px 0;
 
 @time-slider-revert-disabled-box-shadow: 0 1px rgba(255, 255, 255, 0.06), 0 0px rgba(255, 255, 255, 0.03) inset, 0 0px #131313 inset;
-@time-slider-revert-disabled-gradient: linear-gradient(right, #1F1F1F 0%, #1F1F1F 60%, #1B1B1B 100%);
+@time-slider-revert-disabled-gradient: linear-gradient(to left, #1F1F1F 0%, #1F1F1F 60%, #1B1B1B 100%);
 @time-slider-revert-disabled-color: rgb(54, 54, 54);
-@time-slider-revert-hover-gradient: linear-gradient(top, rgb(53, 53, 53) 0%, rgb(46, 46, 46) 100%);
+@time-slider-revert-hover-gradient: linear-gradient(to bottom, rgb(53, 53, 53) 0%, rgb(46, 46, 46) 100%);
 @time-slider-revert-active-box-shadow: 0 1px rgba(0, 0, 0, 0.06), 1px 1px 2px rgba(0, 0, 0, 0.66) inset, -1px 0 rgba(0, 0, 0, 0.06) inset, 0 -1px 2px rgba(255, 255, 255, 0.06) inset;
-@time-slider-revert-active-gradient: linear-gradient(top, rgb(43, 43, 43) 0%, rgb(36, 36, 36) 100%);
+@time-slider-revert-active-gradient: linear-gradient(to bottom, rgb(43, 43, 43) 0%, rgb(36, 36, 36) 100%);
 @time-slider-revert-active-padding: 2px 0px 0px 1px;
 
 @time-slider-close-image: "@{image-path}/close_tab_btn.png";
@@ -436,11 +436,11 @@
 @pane-plus-box-shadow: inset -1px 1px 0 0 lighten(rgba(0,0,0,0.7), @lighten-chrome), inset 0 2px 16px 0 lighten(rgba(0,0,0,0.6), @lighten-chrome), inset 0 -1px 0 0 lighten(rgba(0,0,0,0.1), @lighten-chrome), -1px 1px 0 lighten(rgba(255,255,255,0.1), @lighten-chrome);
 @pane-plus-hover-border-color: lighten(#030303, @lighten-chrome);
 @pane-plus-hover-box-shadow: inset 0 1px lighten(#525252, @lighten-chrome), -1px 1px 0 lighten(rgba(255,255,255,0.1), @lighten-chrome);
-@pane-plus-hover-gradient: linear-gradient(top, lighten(#3d3d3d, @lighten-chrome) 0%, lighten(#393939, @lighten-chrome) 100%);
+@pane-plus-hover-gradient: linear-gradient(to bottom, lighten(#3d3d3d, @lighten-chrome) 0%, lighten(#393939, @lighten-chrome) 100%);
 @pane-plus-hover-margin: 2px 0 0 6px;
 @pane-plus-active-border-color: lighten(#0A0A0A, @lighten-chrome);
 @pane-plus-active-box-shadow: inset 0 -1px 0 lighten(rgba(255,255,255,0.06), @lighten-chrome), inset 0 1px 1px lighten(rgba(255,255,255,0.06), @lighten-chrome), -1px 1px 0 lighten(rgba(255,255,255,0.1), @lighten-chrome);
-@pane-plus-active-gradient: linear-gradient(top, lighten(#2a2a2a, @lighten-chrome) 0%, lighten(#3c3c3c, @lighten-chrome) 100%);
+@pane-plus-active-gradient: linear-gradient(to bottom, lighten(#2a2a2a, @lighten-chrome) 0%, lighten(#3c3c3c, @lighten-chrome) 100%);
 
 @pane-menu-margin: -1px 0 0 0;
 @pane-menu-left: 4px;
@@ -455,15 +455,15 @@
 @pane-menu-icon-active-position: 0 0;
 @pane-menu-border-color: lighten(#1c1c1c, @lighten-chrome);
 @pane-menu-box-shadow: 0 1px lighten(#3d3d3d, @lighten-chrome), inset 0 1px lighten(#4d4d4d, @lighten-chrome);
-@pane-menu-gradient: linear-gradient(top, lighten(#3b3b3b, @lighten-chrome) 0%, lighten(#333, @lighten-chrome) 100%);
+@pane-menu-gradient: linear-gradient(to bottom, lighten(#3b3b3b, @lighten-chrome) 0%, lighten(#333, @lighten-chrome) 100%);
 @pane-menu-hover-border-color: lighten(#1c1c1c, @lighten-chrome);
 @pane-menu-hover-box-shadow: 0 1px lighten(#3d3d3d, @lighten-chrome), inset 0 1px lighten(#555555, @lighten-chrome);
-@pane-menu-hover-gradient: linear-gradient(top, lighten(#424242, @lighten-chrome) 0%, lighten(#3d3d3d, @lighten-chrome) 100%);
+@pane-menu-hover-gradient: linear-gradient(to bottom, lighten(#424242, @lighten-chrome) 0%, lighten(#3d3d3d, @lighten-chrome) 100%);
 @pane-menu-active-border-color: lighten(#00040a, @lighten-chrome);
 @pane-menu-active-box-shadow: inset 0 1px lighten(#6a6d75, @lighten-chrome);
-@pane-menu-active-gradient: linear-gradient(top, lighten(#525356, @lighten-chrome) 0%, lighten(#494949, @lighten-chrome) 100%);
+@pane-menu-active-gradient: linear-gradient(to bottom, lighten(#525356, @lighten-chrome) 0%, lighten(#494949, @lighten-chrome) 100%);
 @pane-menu-upward-active-box-shadow: 0 1px lighten(#3d3d3d, @lighten-chrome), inset 0 -1px lighten(#525356, @lighten-chrome);
-@pane-menu-upward-active-gradient: linear-gradient(top, lighten(#494949, @lighten-chrome) 0%, lighten(#4b4b4c, @lighten-chrome) 100%);
+@pane-menu-upward-active-gradient: linear-gradient(to bottom, lighten(#494949, @lighten-chrome) 0%, lighten(#4b4b4c, @lighten-chrome) 100%);
 
 @pane-menu-splits-image: "@{image-path}/splits.png";
 @pane-menu-splits-image-width: 138px;
@@ -586,7 +586,7 @@
 
 @dialog-header-color: lighten(#ffffff, @lighten-chrome);
 @dialog-header-height: 31px;
-@dialog-header-gradient: linear-gradient(top, #404143 0%, #333537 52%, #252729 52%, #252729 100%);
+@dialog-header-gradient: linear-gradient(to bottom, #404143 0%, #333537 52%, #252729 52%, #252729 100%);
 @dialog-header-bottom-border: 1px solid black;
 @dialog-header-box-shadow: 0 1px #5b5c5e inset;
 @dialog-header-padding: 7px 14px 0;
@@ -597,7 +597,7 @@
 @dialog-content-color: #222;
 @dialog-content-background: lighten(#dfdfe0, @lighten-chrome) url("@{image-path}/modalbg.png") repeat 0 0;
 @dialog-content-dark-background-color: lighten(#303130, @lighten-chrome);
-@dialog-content-dark-gradient: linear-gradient(top,rgba(0, 0, 0, 0.29) 0%, rgba(0, 0, 0, 0.11) 8px, rgba(0, 0, 0, 0.01) 13px, transparent 15px);
+@dialog-content-dark-gradient: linear-gradient(to bottom,rgba(0, 0, 0, 0.29) 0%, rgba(0, 0, 0, 0.11) 8px, rgba(0, 0, 0, 0.01) 13px, transparent 15px);
 @dialog-content-dark-border-top: 1px solid rgba(255,255,255,0.06);
 
 @dialog-footer-height: 46px;
@@ -642,7 +642,7 @@
 @disconnect-box-shadow: @error-box-shadow;
 
 // Offline Dialog
-@offline-gradient: linear-gradient(top, rgb(60, 112, 153) 0%, rgb(61, 97, 126) 100%);
+@offline-gradient: linear-gradient(to bottom, rgb(60, 112, 153) 0%, rgb(61, 97, 126) 100%);
 @offline-border-bottom: 1px solid rgba(0, 0, 0, 0.61);
 @offline-height: 32px;
 @offline-text-shadow: 0px 1px rgba(0, 0, 0, 0.25);
@@ -653,9 +653,9 @@
 @offline-font-color: lighten(#f1f1f1, @lighten-chrome);
 @offline-icon: block;
 
-@update-gradient: linear-gradient(top, rgb(154, 180, 50) 0%, rgb(116, 143, 45) 100%);
-@readonly-gradient: linear-gradient(top, rgb(123, 150, 37) 0%, rgb(76, 114, 20));
-@theme-switch-gradient: linear-gradient(top, rgb(123, 150, 37) 0%, rgb(76, 114, 20));
+@update-gradient: linear-gradient(to bottom, rgb(154, 180, 50) 0%, rgb(116, 143, 45) 100%);
+@readonly-gradient: linear-gradient(to bottom, rgb(123, 150, 37) 0%, rgb(76, 114, 20));
+@theme-switch-gradient: linear-gradient(to bottom, rgb(123, 150, 37) 0%, rgb(76, 114, 20));
 
 // Frame
 @frame-border-bottom: lighten(rgb(26, 26, 26), @lighten-chrome);
@@ -823,7 +823,7 @@
 @textarea-line-height: auto;
 @textarea-padding: 5px;
 @textarea-border-radius: 0;
-@textarea-gradient: linear-gradient(center bottom,white 50%,#EBEBEB 100%);
+@textarea-gradient: linear-gradient(to top, white 50%,#EBEBEB 100%);
 @textarea-box-shadow: 0px 1px 0px #ffffff;
 @textarea-font-family: Arial;
 @textarea-font-size: 12px;
@@ -848,11 +848,11 @@
 @button-grey-color: lighten(#ffffff, @lighten-chrome);
 @button-grey-text-shadow: lighten(#383838, @lighten-chrome) 0px 1px 0px;
 
-@button-grey-idle-gradient: linear-gradient(bottom, rgb(73,73,80) 0%, rgb(100,100,104) 100%);
-@button-grey-over-gradient: linear-gradient(bottom, rgb(92,92,98) 0%, rgb(116,116,119) 100%);
-@button-grey-focus-gradient: linear-gradient(bottom, rgb(73,73,80) 0%, rgb(100,100,104) 100%);
-@button-grey-down-gradient: linear-gradient(bottom, rgb(100,100,104) 0%, rgb(73,73,80) 100%); 
-@button-grey-disabled-gradient: linear-gradient(bottom, rgb(73,73,80) 0%, rgb(100,100,104) 100%);
+@button-grey-idle-gradient: linear-gradient(to top, rgb(73,73,80) 0%, rgb(100,100,104) 100%);
+@button-grey-over-gradient: linear-gradient(to top, rgb(92,92,98) 0%, rgb(116,116,119) 100%);
+@button-grey-focus-gradient: linear-gradient(to top, rgb(73,73,80) 0%, rgb(100,100,104) 100%);
+@button-grey-down-gradient: linear-gradient(to top, rgb(100,100,104) 0%, rgb(73,73,80) 100%); 
+@button-grey-disabled-gradient: linear-gradient(to top, rgb(73,73,80) 0%, rgb(100,100,104) 100%);
 
 @button-grey-idle-border-top: 1px solid lighten(#93939B, @lighten-chrome);
 @button-grey-over-border-top: 1px solid lighten(#ababb1, @lighten-chrome);
@@ -867,11 +867,11 @@
 @button-green-color: @button-grey-color;
 @button-green-text-shadow: lighten(#068e02, @lighten-chrome) 0px 1px 0px;
 
-@button-green-idle-gradient: linear-gradient(bottom, rgb(2,141,0) 0%, rgb(73,165,20) 100%);
-@button-green-over-gradient: linear-gradient(bottom, rgb(53,164,51) 0%, rgb(109,183,67) 100%);
-@button-green-focus-gradient: linear-gradient(bottom, rgb(2,141,0) 0%, rgb(70,165,19) 100%);
-@button-green-down-gradient: linear-gradient(bottom, rgb(73,165,20) 0%, rgb(2,141,0) 100%);
-@button-green-disabled-gradient: linear-gradient(bottom, rgb(2,141,0) 0%, rgb(73,165,20) 100%);
+@button-green-idle-gradient: linear-gradient(to top, rgb(2,141,0) 0%, rgb(73,165,20) 100%);
+@button-green-over-gradient: linear-gradient(to top, rgb(53,164,51) 0%, rgb(109,183,67) 100%);
+@button-green-focus-gradient: linear-gradient(to top, rgb(2,141,0) 0%, rgb(70,165,19) 100%);
+@button-green-down-gradient: linear-gradient(to top, rgb(73,165,20) 0%, rgb(2,141,0) 100%);
+@button-green-disabled-gradient: linear-gradient(to top, rgb(2,141,0) 0%, rgb(73,165,20) 100%);
 
 @button-green-idle-border-top: 1px solid lighten(#88c464, @lighten-chrome);
 @button-green-over-border-top: 1px solid lighten(#57b357, @lighten-chrome);
@@ -882,10 +882,10 @@
 @button-green-disabled-text-shadow: lighten(#3da110, @lighten-chrome) 0px 1px 0px;
 @button-green-disabled-color: lighten(#037a01, @lighten-chrome);
 
-@button-green2-idle-gradient: linear-gradient(bottom, #088e04 0%, #30a12d 100%);
+@button-green2-idle-gradient: linear-gradient(to top, #088e04 0%, #30a12d 100%);
 @button-green2-text-shadow: rgba(0,0,0,0.25) 0px 1px 0px;
-@button-green2-down-gradient: linear-gradient(bottom, #30a12d 0%, #088e04 100%);
-@button-green2-disabled-gradient: linear-gradient(bottom, #088e04 0%, #30a12d 100%);
+@button-green2-down-gradient: linear-gradient(to top, #30a12d 0%, #088e04 100%);
+@button-green2-disabled-gradient: linear-gradient(to top, #088e04 0%, #30a12d 100%);
 
 @button-green2-disabled-text-shadow: lighten(#3da110, @lighten-chrome) 0px 1px 0px;
 @button-green2-disabled-color: lighten(#037a01, @lighten-chrome);
@@ -894,11 +894,11 @@
 @button-red-color: @button-grey-color;
 @button-red-text-shadow: lighten(#b60000, @lighten-chrome) 0px 1px 0px;
 
-@button-red-idle-gradient: linear-gradient(bottom, rgb(182,0,0) 0%, rgb(203,0,0) 100%);
-@button-red-over-gradient: linear-gradient(bottom, rgb(197,51,51) 0%, rgb(213,51,51) 100%);
-@button-red-focus-gradient: linear-gradient(bottom, rgb(182,0,0) 0%, rgb(203,0,0) 100%);
-@button-red-down-gradient: linear-gradient(bottom, rgb(203,0,0) 0%, rgb(182,0,0) 100%);
-@button-red-disabled-gradient: linear-gradient(bottom, rgb(182,0,0) 0%, rgb(203,0,0) 100%);
+@button-red-idle-gradient: linear-gradient(to top, rgb(182,0,0) 0%, rgb(203,0,0) 100%);
+@button-red-over-gradient: linear-gradient(to top, rgb(197,51,51) 0%, rgb(213,51,51) 100%);
+@button-red-focus-gradient: linear-gradient(to top, rgb(182,0,0) 0%, rgb(203,0,0) 100%);
+@button-red-down-gradient: linear-gradient(to top, rgb(203,0,0) 0%, rgb(182,0,0) 100%);
+@button-red-disabled-gradient: linear-gradient(to top, rgb(182,0,0) 0%, rgb(203,0,0) 100%);
 
 @button-red-idle-border-top: 1px solid lighten(#e47979, @lighten-chrome);
 @button-red-over-border-top: 1px solid lighten(#dd5757, @lighten-chrome);
@@ -1072,12 +1072,12 @@
 // Textbox - Simple
 @tbsimple-border: 1px solid #afafaf;
 @tbsimple-border-radius: 0;
-@tbsimple-gradient: linear-gradient(center bottom,rgb(255,255,255) 50%,rgb(235,235,235) 100%);
+@tbsimple-gradient: linear-gradient(to top, rgb(255,255,255) 50%,rgb(235,235,235) 100%);
 @tbsimple-color: #333333;
 @tbsimple-font-family: Tahoma, Arial;
 @tbsimple-font-size: 12px;
 @tbsimple-box-shadow: 0px 1px 0px #ffffff;
-@tbsimple-disabled-gradient: linear-gradient(center bottom,rgb(235,235,235) 0%,rgb(255,255,255) 40%);
+@tbsimple-disabled-gradient: linear-gradient(to top, rgb(235,235,235) 0%,rgb(255,255,255) 40%);
 
 // Preview
 @preview-bar-box-shadow: 0px 1px lighten(rgba(255,255,255,0.1), @lighten-chrome), 0 4px 12px lighten(rgba(0, 0, 0, 0.4), @lighten-chrome);
@@ -1271,7 +1271,7 @@
 @find-dropdown-icon-image: "@{image-path}/dropdown-dark-glossy/button.png";
 @find-dropdown-button-border-left: 1px solid lighten(#000, @lighten-chrome);
 
-@tooltip-label-gradient: linear-gradient(bottom, rgba(255,255,255,.04) 0%, rgba(255,255,255,0) 100%);
+@tooltip-label-gradient: linear-gradient(to top, rgba(255,255,255,.04) 0%, rgba(255,255,255,0) 100%);
 @tooltip-label-background-color: lighten(#4E4F51, @lighten-chrome);
 @tooltip-label-border: 1px solid lighten(#000, @lighten-chrome);
 @tooltip-label-box-shadow: 0 1px 0 0 rgba(255,255,255,.2) inset;
@@ -1281,7 +1281,7 @@
 @tooltip-label-font-family: Arial;
 @tooltip-label-text-shadow: 0 1px 0 rgba(0,0,0,.14);
 
-@checkbox-holder-gradient: linear-gradient(top, @button-black-background-1 0%, @button-black-background-2 52%, @button-black-background-3 52%, @button-black-background-4 100%);
+@checkbox-holder-gradient: linear-gradient(to bottom, @button-black-background-1 0%, @button-black-background-2 52%, @button-black-background-3 52%, @button-black-background-4 100%);
 @checkbox-holder-box-shadow: 0px 1px @border-highlight-strong, inset 0px 1px @border-highlight;
 @checkbox-holder-border-color: @button-black-border-color;
 @checkbox-holder-border-radius: 3px;
@@ -1300,7 +1300,7 @@
 @gotoline-box-shadow-dark: 1px 1px 6px lighten(rgba(0, 0, 0, 0.5), @lighten-chrome), 0 1px lighten(rgba(255, 255, 255, 0.08), @lighten-chrome) inset;
 @gotoline-border-dark: 0;
 
-@gotoline-list-background-dark: linear-gradient(center bottom, lighten(rgb(69,69,69), @lighten-chrome) 0%, lighten(rgb(84,84,84), @lighten-chrome) 100%);
+@gotoline-list-background-dark: linear-gradient(to top,  lighten(rgb(69,69,69), @lighten-chrome) 0%, lighten(rgb(84,84,84), @lighten-chrome) 100%);
 @gotoline-list-color-dark: lighten(#e7e7e7, @lighten-chrome);
 @gotoline-list-border-color-dark: lighten(#282727, @lighten-chrome) white lighten(#575757, @lighten-chrome) white;
 @gotoline-list-border-width-dark: 1px 0 1px 0;
@@ -1318,7 +1318,7 @@
 @gotoline-border: 0;
 @gotoline-border-radius: 0px 5px 5px 0;
 
-@gotoline-list-background: linear-gradient(center bottom, lighten(#E7E7E7, @lighten-chrome) 0%, lighten(#EBEBEB, @lighten-chrome) 100%);
+@gotoline-list-background: linear-gradient(to top,  lighten(#E7E7E7, @lighten-chrome) 0%, lighten(#EBEBEB, @lighten-chrome) 100%);
 @gotoline-list-color: lighten(#727272, @lighten-chrome);
 @gotoline-list-border-color: lighten(#BBBBBB, @lighten-chrome);
 @gotoline-list-border-width: 1px;
@@ -1612,7 +1612,7 @@
 @installer-font-family: Arial;
 
 @installer-log-color: #333;
-@installer-log-gradient: linear-gradient(top, #DFEFF9 0%, #DFEFF9 100%);
+@installer-log-gradient: linear-gradient(to bottom, #DFEFF9 0%, #DFEFF9 100%);
 @installer-log-border: 1px solid white;
 @installer-log-border-color: rgba(255,255,255,0.06) rgba(0,0,0,0.3) rgba(0,0,0,0.3) rgba(255,255,255,0.06);
 @installer-log-border-radius: 0;

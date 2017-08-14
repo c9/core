@@ -118,7 +118,7 @@
     border-left: 1px dashed rgba(0, 0, 0, 0.1);
     border-right: 1px dashed rgba(0, 0, 0, 0.1);
 
-    .box-shadow(~"0px 0px 1px 0px rgba(204, 204, 204, 0.28)");
+    box-shadow: 0px 0px 1px 0px rgba(204, 204, 204, 0.28);
     .transform(~"rotate(-2deg) skew(0,0) translate(0%,-5px)");
 }
 .stickynote .left-shadow {
@@ -129,7 +129,7 @@
     position: absolute;
     z-index: -6;
     display: inline-block;
-    .box-shadow(~"-10px -10px 10px rgba(0, 0, 0, 0.12)");
+    box-shadow: -10px -10px 10px rgba(0, 0, 0, 0.12);
     .transform(~"scale(1) rotate(274deg) translate(20px, 25px) skew(9deg, 0deg)");
 }
 .stickynote .right-shadow {
@@ -140,7 +140,7 @@
     position: absolute;
     z-index: -6;
     display: inline-block;
-    .box-shadow(~"-10px -10px 10px rgba(0, 0, 0, 0.12)");
+    box-shadow: -10px -10px 10px rgba(0, 0, 0, 0.12);
     .transform(~"scale(1) rotate(184deg) translate(20px, 25px) skew(9deg, 0deg)");
 }
 
@@ -168,23 +168,13 @@ THE SOFTWARE.
 
 */
 /* Webkit animation keyframes */
-@-webkit-keyframes animate-stripes {
+@keyframes animate-stripes {
     to {
         background-position: 0 0;
     }
 
     from {
         background-position: 44px 0;
-    }
-}
-
-@-moz-keyframes animate-stripes {
-    to {
-        background-position: 0 0;
-    }
-
-    from {
-        background-position: 36px 0;
     }
 }
 
@@ -198,7 +188,7 @@ THE SOFTWARE.
     /* Pad right so we don't cover the borders when fully progressed */
     /* For browser that don't support gradients, we'll set a blanket background colour */
     background-color: rgba(157, 167, 171, 0.42);
-    .border-radius(~"10px");
+    border-radius: 10px;
 }
 .ui-progress-bar.blue .ui-progress {
     background-color: #339BB9!important;
@@ -228,21 +218,16 @@ THE SOFTWARE.
     height: 8px;
     /* Rounds the ends, we specify an excessive amount to make sure they are completely rounded */
     /* Adjust to your liking, and don't forget to adjust to the same amount in .ui-progress-bar */
-    .border-radius(~"10px");
+    border-radius: 10px;
     /* Webkit background stripes and gradient */
-    background: -webkit-gradient(linear, 0 0, 44 44, color-stop(0, rgba(0, 0, 0, 0.17)), color-stop(0.25, rgba(0, 0, 0, 0.17)), color-stop(0.26, rgba(0, 0, 0, 0)), color-stop(0.5, rgba(0, 0, 0, 0)), color-stop(0.51, rgba(0, 0, 0, 0.17)), color-stop(0.75, rgba(0, 0, 0, 0.17)), color-stop(0.76, rgba(0, 0, 0, 0)), color-stop(1, rgba(0, 0, 0, 0))), -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(0, 0, 0, 0)), color-stop(1, rgba(0, 0, 0, 0.35))), #EAF9FF;
-    background: -moz-repeating-linear-gradient(top left -30deg, rgba(0, 0, 0, 0.17), rgba(0, 0, 0, 0.17) 15px, rgba(0, 0, 0, 0) 15px, rgba(0, 0, 0, 0) 30px), -moz-linear-gradient(rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 100%), #EAF9FF;
+    
+    background: repeating-linear-gradient(120deg, rgba(0, 0, 0, 0.17), rgba(0, 0, 0, 0.17) 15px, rgba(0, 0, 0, 0) 15px, rgba(0, 0, 0, 0) 30px), linear-gradient(rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 100%), #EAF9FF;
     
     /* Set the background size so the stripes work correctly */
     -webkit-background-size: 44px 44px;
     -moz-background-size: 36px 36px;
     
     /* Animate */
-    -moz-animation: animate-stripes 2s linear infinite;
-    -webkit-animation: animate-stripes 2s linear infinite;
-    -o-animation: animate-stripes 2s linear infinite;
-    -ms-animation: animate-stripes 2s linear infinite;
-    -khtml-animation: animate-stripes 2s linear infinite;
     animation: animate-stripes 2s linear infinite;
     
     /* Style status label */
@@ -250,8 +235,7 @@ THE SOFTWARE.
     left:0px;
 }
 .dark .ui-progress-bar .ui-progress {
-    background: -webkit-gradient(linear, 0 0, 44 44, color-stop(0, rgba(0, 0, 0, 0.17)), color-stop(0.25, rgba(0, 0, 0, 0.17)), color-stop(0.26, rgba(0, 0, 0, 0)), color-stop(0.5, rgba(0, 0, 0, 0)), color-stop(0.51, rgba(0, 0, 0, 0.17)), color-stop(0.75, rgba(0, 0, 0, 0.17)), color-stop(0.76, rgba(0, 0, 0, 0)), color-stop(1, rgba(0, 0, 0, 0))), -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(0, 0, 0, 0)), color-stop(1, rgba(0, 0, 0, 0.35))), #4ACBFD;
-    background: -moz-repeating-linear-gradient(top left -30deg, rgba(0, 0, 0, 0.17), rgba(0, 0, 0, 0.17) 15px, rgba(0, 0, 0, 0) 15px, rgba(0, 0, 0, 0) 30px), -moz-linear-gradient(rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 100%), #4ACBFD;
+    background: repeating-linear-gradient(120deg, rgba(0, 0, 0, 0.17), rgba(0, 0, 0, 0.17) 15px, rgba(0, 0, 0, 0) 15px, rgba(0, 0, 0, 0) 30px), linear-gradient(rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0) 100%), #4ACBFD;
     
     /* Set the background size so the stripes work correctly */
     -webkit-background-size: 44px 44px;

@@ -7,8 +7,8 @@
     border: 1px solid @dropdown-black-border-color;
 
     background: @dropdown-black-background;
-    .gradient(~"linear-gradient(bottom, @{dropdown-black-gradient-start} 0%, @{dropdown-black-gradient-stop} 100%)");
-    .box-shadow(~"@{dropdown-black-box-shadow}");
+    background-image: linear-gradient(0deg, @dropdown-black-gradient-start 0%, @dropdown-black-gradient-stop 100%);
+    box-shadow: @dropdown-black-box-shadow;
     text-shadow: none;
     
     min-height: @dropdown-black-height !important;
@@ -42,11 +42,11 @@
 }
 
 .black_dropdownOver {
-    .gradient(~"linear-gradient(bottom, @{dropdown-black-hover-gradient-start} 0%, @{dropdown-black-hover-gradient-stop} 100%)");
+    background-image: linear-gradient(0deg, @dropdown-black-hover-gradient-start 0%, @dropdown-black-hover-gradient-stop 100%);
 }
 .black_dropdownDown {
     background         : #2d2d2d;
-    .gradient(~"linear-gradient(bottom, @{dropdown-black-active-gradient-start} 0%, @{dropdown-black-active-gradient-stop} 100%)");
+    background-image: linear-gradient(0deg, @dropdown-black-active-gradient-start 0%, @dropdown-black-active-gradient-stop 100%);
 }
 
 .c9-optionList {
@@ -60,7 +60,7 @@
     border : 1px solid @menu-border-color;
     border-radius : 3px;
 
-    .box-shadow(~"@{dropdown-black-container-shadow}");
+    box-shadow: @dropdown-black-container-shadow;
 
     margin-top: 1px;
 }

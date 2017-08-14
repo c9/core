@@ -44,7 +44,7 @@
     top: @time-slider-play-top;
     border-radius: @time-slider-play-border-radius;
     border: @time-slider-play-border;
-    .gradient(~"@{time-slider-play-gradient}");
+    background-image: @time-slider-play-gradient;
     box-shadow: @time-slider-play-box-shadow;
     transition: box-shadow .1s;
 }
@@ -120,7 +120,7 @@
     text-align: center;
     border-radius: @time-slider-revert-border-radius;
     box-shadow: @time-slider-revert-box-shadow;
-    .gradient(~"@{time-slider-revert-gradient}");
+    background-image: @time-slider-revert-gradient;
     border: @time-slider-revert-border;
     height: 15px;
     padding: @time-slider-revert-padding;
@@ -144,15 +144,15 @@
 
 #timeslider .revert.disabled {
     box-shadow: @time-slider-revert-disabled-box-shadow;
-    .gradient(~"@{time-slider-revert-disabled-gradient}");
+    background-image: @time-slider-revert-disabled-gradient;
     color: @time-slider-revert-disabled-color;
 }
 #timeslider .revert:hover:not(.disabled){
-    .gradient(~"@{time-slider-revert-hover-gradient}");
+    background-image: @time-slider-revert-hover-gradient;
 }
 #timeslider .revert:active:not(.disabled){
     box-shadow: @time-slider-revert-active-box-shadow;
-    .gradient(~"@{time-slider-revert-active-gradient}");
+    background-image: @time-slider-revert-active-gradient;
     padding: @time-slider-revert-active-padding;
 }
 
@@ -171,22 +171,22 @@
     border-radius: @time-slider-stepper-left-border-radius;
     border-right: @time-slider-stepper-left-border-right;
     box-shadow: @time-slider-stepper-left-box-shadow;
-    .gradient(~"@{time-slider-stepper-left-gradient}");
+    background-image: @time-slider-stepper-left-gradient;
     z-index: 100;
 }
 #leftstep.disabled {
     box-shadow: @time-slider-stepper-left-disabled-box-shadow;
-    .gradient(~"@{time-slider-stepper-left-disabled-gradient}");
+    background-image: @time-slider-stepper-left-disabled-gradient;
 }
 #leftstep.disabled:after{
     opacity: 0.3;
 }
 #leftstep:hover:not(.disabled){
-    .gradient(~"@{time-slider-stepper-left-hover-gradient}");
+    background-image: @time-slider-stepper-left-hover-gradient;
 }
 #leftstep:active:not(.disabled){
     box-shadow: @time-slider-stepper-left-active-box-shadow;
-    .gradient(~"@{time-slider-stepper-left-active-gradient}");
+    background-image: @time-slider-stepper-left-active-gradient;
 }
 #leftstep:active:not(.disabled):after {
     margin: @time-slider-stepper-left-hover-icon-margin;
@@ -207,21 +207,21 @@
     border-left: @time-slider-stepper-right-border-left;
     border-radius: @time-slider-stepper-right-border-radius;
     box-shadow: @time-slider-stepper-right-box-shadow;
-    .gradient(~"@{time-slider-stepper-right-gradient}");
+    background-image: @time-slider-stepper-right-gradient;
 }
 #rightstep.disabled {
     box-shadow: @time-slider-stepper-right-disabled-box-shadow;
-    .gradient(~"@{time-slider-stepper-right-disabled-gradient}");
+    background-image: @time-slider-stepper-right-disabled-gradient;
 }
 #rightstep.disabled:after{
     opacity: 0.3;
 }
 #rightstep:hover:not(.disabled){
-    .gradient(~"@{time-slider-stepper-right-hover-gradient}");
+    background-image: @time-slider-stepper-right-hover-gradient;
 }
 #rightstep:active:not(.disabled){
     box-shadow: @time-slider-stepper-right-active-box-shadow;
-    .gradient(~"@{time-slider-stepper-right-active-gradient}");
+    background-image: @time-slider-stepper-right-active-gradient;
 }
 #rightstep:active:not(.disabled):after {
     margin: @time-slider-stepper-right-hover-icon-margin;
@@ -298,7 +298,7 @@
     top: 28px;
     left: 71px;
     border-radius: 4px;
-    .gradient(~"@{time-slider-bar-progress-gradient}");
+    background-image: @time-slider-bar-progress-gradient;
     border-top: @time-slider-bar-progress-border-top;
     z-index: 1;
     box-shadow: @time-slider-bar-progress-box-shadow;
@@ -331,7 +331,7 @@
     width: 21px;
     left: -2px;
     z-index: 2;
-    .gradient(~"linear-gradient(bottom, #2d2d2d 0%, #454546 100%)");
+    background-image: linear-gradient(to top, #2d2d2d 0%, #454546 100%);
     height: 13px;
     border-radius: 4px;
     box-shadow: 0 1px 1px rgba(0,0,0,0.54);
@@ -340,7 +340,7 @@
 }
 
 #ui-slider-handle:hover span when(@time-slider-handle-basic = false){
-    .gradient(~"linear-gradient(bottom, #383838 0%, #4F4F4F 100%)");
+    background-image: linear-gradient(to top, #383838 0%, #4F4F4F 100%);
 }
 
 #ui-slider-handle span:before when(@time-slider-handle-basic = false) {

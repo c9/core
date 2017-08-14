@@ -5,7 +5,7 @@
 
 .uploadDropArea:before when(@upload-win-flat = false){
     content: "";
-    .box-sizing(content-box);
+    box-sizing: content-box;
     position: absolute;
     height: 95px;
     width: 335px;

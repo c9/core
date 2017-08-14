@@ -51,7 +51,7 @@
     border: @breakpoint-condition-border;
     border-radius: @breakpoint-condition-border-radius;
     
-    .gradient(~"@{breakpoint-condition-gradient}");
+    background-image: @breakpoint-condition-gradient;
     
     padding : 5px;
     font-family : @breakpoint-condition-font-family;

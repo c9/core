@@ -192,13 +192,13 @@
 .welcome .black_dropdown when(@welcome-alter-widgets = true){
     background: transparent;
     border-color: rgba(0, 0, 0, 0.35);
-    .gradient(~"linear-gradient(bottom, rgba(0, 0, 0, 0.13) 0%, rgba(0, 0, 0, 0) 100%)");
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.13) 0%, rgba(0, 0, 0, 0) 100%);
 }
 .welcome .black_dropdownOver when(@welcome-alter-widgets = true){
-    .gradient(~"linear-gradient(bottom, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.02) 100%)");
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.02) 100%);
 }
 .welcome .black_dropdownDown when(@welcome-alter-widgets = true){
-    .gradient(~"linear-gradient(bottom, rgba(45, 45, 45, 0.08) 0%, rgba(0, 0, 0, 0.07) 100%)");
+    background-image: linear-gradient(to top, rgba(45, 45, 45, 0.08) 0%, rgba(0, 0, 0, 0.07) 100%);
 }
 .welcome .black_dropdown .button when(@welcome-alter-widgets = true){
     border-left: 1px solid rgba(255, 255, 255, 0.1);

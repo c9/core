@@ -10,7 +10,7 @@
     border-right : @preferences-nav-border;
     
     background: @preferences-nav-background;
-    .box-shadow(~"0 1px 0 0 @{preferences-nav-shadow-color} inset");
+    box-shadow: 0 1px 0 0 @preferences-nav-shadow-color inset;
     z-index: 1;
     box-sizing: border-box;
 }
@@ -205,7 +205,7 @@
     border: 1px solid @spinner-border-color;
     padding: @textarea-padding;
     color: @spinner-color;
-    .box-shadow(~"none");
+    box-shadow: none;
     line-height: @textarea-line-height;
     border-radius: @textarea-border-radius;
 }

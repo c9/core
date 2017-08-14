@@ -208,14 +208,14 @@
     background-position: 50% -13px;
     cursor: pointer;
     height: 7px;
-    .box-shadow(~"0 1px @{border-highlight} inset");
+    box-shadow: 0 1px @border-highlight inset;
 
  }
  .c9-menu-bar.minimized .c9-mbar-cont:hover,
  .c9-menu-bar.minimized .c9-mbar-bcont .c9-mbar-minimize:hover {
     background-color: @menu-bar-minimized-hover-background;
     background-position: 50% -21px;
-    .box-shadow(~"0 1px 0 0 @{menu-bar-minimized-hover-start} inset, 0 6px 0 0 @{menu-bar-minimized-hover-stop} inset");
+    box-shadow: 0 1px 0 0 @menu-bar-minimized-hover-start inset, 0 6px 0 0 @menu-bar-minimized-hover-stop inset;
  }
  .c9-menu-bar.minimized .c9-mbar-cont * {
     display: none;

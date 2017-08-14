@@ -10,7 +10,7 @@
 .terminal_monitor_message {
     border-radius: @terminal-message-border-radius;
     
-    .gradient(~"@{terminal-message-gradient}");
+    background-image: @terminal-message-gradient;
     
     max-width: 350px;
     padding : @terminal-message-padding;
@@ -55,15 +55,15 @@
     margin: 5px 0 0 5px;
     float: right;
     
-    .gradient(~"@{terminal-message-button-gradient}");
+    background-image: @terminal-message-button-gradient;
     text-shadow: @terminal-message-button-text-shadow;
 }
 
 .terminal_monitor_message .cmd:hover {
-    .gradient(~"@{terminal-message-button-hover-gradient}");
+    background-image: @terminal-message-button-hover-gradient;
 }
 .terminal_monitor_message .cmd:active {
-    .gradient(~"@{terminal-message-button-active-gradient}");
+    background-image: @terminal-message-button-active-gradient;
 }
 
 .terminal_monitor_message .caption {

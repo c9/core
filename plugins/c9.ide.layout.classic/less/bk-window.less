@@ -18,7 +18,7 @@
     position : relative;
     overflow : hidden;
     height   : @dialog-header-height;
-    .gradient(~"@{dialog-header-gradient}");
+    background-image: @dialog-header-gradient;
     border-radius : @dialog-border-radius @dialog-border-radius 0 0;
     border-bottom : @dialog-header-bottom-border; 
     box-shadow : @dialog-header-box-shadow;
@@ -87,7 +87,7 @@
 
 .bk-window.dark .bk-content{
     background-color : @dialog-content-dark-background-color;
-    .gradient(~"@{dialog-content-dark-gradient}");
+    background-image: @dialog-content-dark-gradient;
     
     border-top : @dialog-content-dark-border-top;
 }

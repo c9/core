@@ -8,14 +8,14 @@
 }
 .c9-toolbarbutton-glossyOver {
     border: 1px solid @button-glossy-hover-border-color;
-    .gradient(~"linear-gradient(top, @{button-glossy-hover-background-1} 0%, @{button-glossy-hover-background-2} 55%, @{button-glossy-hover-background-3} 55%, @{button-glossy-hover-background-4} 100%)");
-    .box-shadow(~"inset 1px 1px @{button-glossy-hover-shadow-color}, inset -1px -1px @{button-glossy-hover-shadow-color}");
+    background-image: linear-gradient(to bottom, @button-glossy-hover-background-1 0%, @button-glossy-hover-background-2 55%, @button-glossy-hover-background-3 55%, @button-glossy-hover-background-4 100%);
+    box-shadow: inset 1px 1px @button-glossy-hover-shadow-color, inset -1px -1px @button-glossy-hover-shadow-color;
     text-shadow: @button-glossy-hover-text-shadow;
 }
 .c9-toolbarbutton-glossyDown, .c9-toolbarbutton-glossyActive {
     border: 1px solid @button-glossy-active-border-color;
-    .gradient(~"linear-gradient(top, @{button-glossy-active-background-1} 0%, @{button-glossy-active-background-2} 55%, @{button-glossy-active-background-3} 55%, @{button-glossy-active-background-4} 100%)");
-    .box-shadow(~"inset 1px 1px @{button-glossy-active-shadow-color}, inset -1px -1px @{button-glossy-active-shadow-color}");
+    background-image: linear-gradient(to bottom, @button-glossy-active-background-1 0%, @button-glossy-active-background-2 55%, @button-glossy-active-background-3 55%, @button-glossy-active-background-4 100%);
+    box-shadow: inset 1px 1px @button-glossy-active-shadow-color, inset -1px -1px @button-glossy-active-shadow-color;
     text-shadow: @button-glossy-active-text-shadow;
 }
 .c9-toolbarbutton-glossyDisabled{
