@@ -14,6 +14,8 @@ define(function(require, module, exports) {
             allowClose: false,
             modal: true,
             elements: [
+                { type: "checkbox", id: "dontshow", caption: "Don't show again", visible: false },
+                { type: "filler" },
                 { type: "button", id: "ok", caption: "OK", color: "green", "default": true, onclick: function() { plugin.hide(); } },
                 { type: "button", id: "cancel", caption: "Cancel", hotkey: "ESC", onclick: function() { plugin.hide(); } }
             ]
@@ -34,6 +36,7 @@ define(function(require, module, exports) {
                 plugin.getElement("cancel").setCaption(options.no || "Cancel");
                 
                 plugin.update([
+                    { id: "dontshow", visible: options.showDontShow },
                     { id: "ok", onclick: function() { plugin.hide(); onconfirm(); } },
                     { id: "cancel", onclick: function() { plugin.hide(); oncancel && oncancel(); } },
                 ]);
