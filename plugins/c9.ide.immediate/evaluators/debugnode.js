@@ -1,17 +1,18 @@
 define(function(require, exports, module) {
     main.consumes = [
-        "immediate", "settings", "debugger", "Evaluator", "callstack", "ui"
+        "immediate", "debugger", "Evaluator", "callstack", "ui"
     ];
     main.provides = ["immediate.debugnode"];
     return main;
 
     function main(options, imports, register) {
         var Evaluator = imports.Evaluator;
-        var settings = imports.settings;
         var debug = imports.debugger;
         var immediate = imports.immediate;
         var callstack = imports.callstack;
         var ui = imports.ui;
+        
+        var escapeHTML = require("ace/lib/lang").escapeHTML;
         
         /***** Initialization *****/
         
@@ -450,7 +451,7 @@ define(function(require, exports, module) {
                     else {
                         // A value of unknown type which does not have any properties - assume it is a language-specific
                         // primitive type.
-                        insert(html, value, name);
+                        insert(html, escapeHTML(value), name);
                     }
                 }
             }
