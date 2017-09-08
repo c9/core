@@ -16,6 +16,7 @@ define(function(require, exports, module) {
         var css = require("text!./upload_progress.css");
         var TreeData = require("ace_tree/data_provider");
         var Tree = require("ace_tree/tree");
+        var escapeHTML = require("ace/lib/lang").escapeHTML;
         
         var boxUploadActivityMarkup = require("text!./markup/box_upload_activity.xml");
         
@@ -79,10 +80,10 @@ define(function(require, exports, module) {
             mdlUploadActivity.rowHeightInner = 20;
             mdlUploadActivity.getContentHTML = function(node) {
                 return "<span class='uploadactivity-caption'>"
-                    + node.label
+                    + escapeHTML(node.label)
                     + "</span>"
                     + "<span class='uploadactivity-progress'>"
-                    + (node.progress == undefined ? "&nbsp;" : node.progress + "%") + "</span>"
+                    + (node.progress == undefined ? "&nbsp;" : escapeHTML(node.progress + "%")) + "</span>"
                     + "<span class='uploadactivity-delete'>&nbsp;</span>";
             };
             mdlUploadActivity.updateProgress = function(node, val) {
