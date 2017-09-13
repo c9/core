@@ -862,8 +862,8 @@ define(function(require, module, exports) {
          * Example:
          * 
          *     var tb = new ui.toolbar();
-         *     tb.appendChild(new ui.button({ caption: "Preview" });
-         *     tb.appendChild(new ui.button({ caption: "Save" });
+         *     tb.appendChild(new ui.button({ caption: "Preview" }));
+         *     tb.appendChild(new ui.button({ caption: "Save" }));
          *     plugin.addElement(tb);
          * 
          * #### About AML elements
