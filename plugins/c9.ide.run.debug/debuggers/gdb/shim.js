@@ -33,7 +33,7 @@ if (argc < 3) printUsage();
 var PROXY = { sock: process.env.HOME + "/.c9/gdbdebugger.socket" };
 var GDB_PORT = 15470;
 var MAX_STACK_DEPTH = 50;
-var DEBUG = false;
+var DEBUG = 0;
 var BIN = "";
 var BP_WARN = true;
 
@@ -76,7 +76,7 @@ for (i = 2; i < argc && BIN === ""; i++) {
                 PROXY = { host: "127.0.0.1", port: portNum };
             break;
         case "--debug":
-            DEBUG = (val === "true");
+            DEBUG = parseInt(val) || 0;
             break;
         default:
             BIN = arg;
@@ -99,11 +99,13 @@ var exit = null;
 var log = function() {};
 
 if (DEBUG) {
-    var log_file = fs.createWriteStream("./.gdb_proxy.log");
+    var log_file = fs.createWriteStream(process.env.HOME + "/.c9/gdb_proxy.log", { flags: "a" });
+    log_file.write("\n\n" + new Date());
     log = function(str) {
         var args = Array.prototype.slice.call(arguments);
         log_file.write(args.join(" ") + "\n");
-        console.log(str);
+        if (DEBUG > 1)
+            console.log(str);
     };
 }
 
