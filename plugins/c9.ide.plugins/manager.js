@@ -372,7 +372,7 @@ define(function(require, exports, module) {
                 });
             }
             else if (options.url && /\.json$/.test(root)) {
-                require(["text!" + options.id + "/" + root], function(value) {
+                require(["text!" + options.url + "/" + root], function(value) {
                     try {
                         var json = JSON.parse(value);
                     } catch (e) {
