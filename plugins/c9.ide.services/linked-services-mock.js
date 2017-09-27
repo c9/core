@@ -20,6 +20,20 @@ define(function(require, exports, module) {
                         "accounts": [],
                         "maxAccounts": 1,
                         "maxProjects": 100
+                    },
+                    "mbed": {
+                        "visible": false,
+                        "hasRepositories": false,
+                        "service": "mbed",
+                        "title": "Mbed",
+                        "accounts": [{
+                            "id": "mbed:154229",
+                            "login": "fjakobs",
+                            "metadata": {},
+                            "projects": []
+                        }],
+                        "maxAccounts": 1,
+                        "maxProjects": 100
                     }
                 });
             }, 0);
