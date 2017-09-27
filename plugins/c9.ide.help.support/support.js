@@ -64,12 +64,7 @@ define(function(require, exports, module) {
                         }
                         
                         analytics.track("Initiated Support Request");
-                        if (window.Intercom) {
-                            window.Intercom('show');
-                        }
-                        else {
-                            window.open('mailto:support@c9.io');
-                        }
+                        window.open('mailto:support@c9.io');
                     }
                 }), c += 100, plugin);
 
