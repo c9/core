@@ -29,7 +29,7 @@ define(function(require, exports, module) {
             index: 10,
             divider: true,
             selector: function(path) {
-                return /\.(?:html|htm|xhtml|pdf|svg)$|^https?\:\/\//.test(path);
+                return /\.(?:html|htm|xhtml|pdf|svg|mov|mp[34g]|ogg|webm|wma)$|^https?\:\/\//.test(path);
             }
         });
         

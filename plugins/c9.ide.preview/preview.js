@@ -36,7 +36,7 @@ define(function(require, exports, module) {
         
         var basename = require("path").basename;
         
-        var extensions = ["pdf", "swf"];
+        var extensions = ["pdf", "swf", "mov", "mp3", "mp4", "mpg", "ogg", "webm", "wma"];
         
         var previewUrl = options.previewUrl.replace(/^[/]/, function() {
             return c9.location.replace(/^(\w+:[/]+[^/#?]+).*/, "$1/");
