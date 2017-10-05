@@ -27,12 +27,15 @@ define(function(require, exports, module) {
 
         var Path = require("path");
         var GDBProxyService = require("./lib/GDBProxyService");
-        
+
         /***** Initialization *****/
 
         var plugin = new Plugin("CS50", main.consumes);
         var emit = plugin.getEmitter();
         emit.setMaxListeners(1000);
+
+        // increment when shim is updated to force rewrite
+        var SHIM_VERSION = 1;
 
         var TYPE = "gdb";
 
@@ -58,21 +61,29 @@ define(function(require, exports, module) {
                     ["autoshow", "true"]
                 ]);
             });
-            
+
             // must register ASAP, or debugger won't be ready for reconnects
             debug.registerDebugger(TYPE, plugin);
-            
+
             // writeFile root is workspace directory, unless given ~
-            var shimPath = "~/.c9/bin/c9gdbshim.js";
+            var shimVersion = "~/.c9/bin/.c9gdbshim" + SHIM_VERSION;
             var shim = require("text!./shim.js");
-            fs.exists(shimPath, function(exists) {
-                if (exists) return; // TODO use localfs extend when it is ready
-                fs.writeFile(shimPath, shim, "utf8", function(err) {
+            fs.exists(shimVersion, function(exists) {
+                if (exists)
+                    return;
+
+                fs.writeFile("~/.c9/bin/c9gdbshim.js", shim, "utf8", function(err) {
                     if (err) {
                         // unregister the debugger on error
                         debug.unregisterDebugger(TYPE, plugin);
                         return console.log("Error writing gdb shim: " + err);
                     }
+
+                    // remember we wrote current version
+                    fs.writeFile(shimVersion, "", function(err) {
+                        if (err)
+                            return console.log("Error writing shim version: " + err);
+                    });
                 });
             });
         }
