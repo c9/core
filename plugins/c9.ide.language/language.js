@@ -346,7 +346,9 @@ define(function(require, exports, module) {
                             path: "user/language/@hints",
                             position: 1000
                         },
-                        "Ignore Messages Matching <a href=\"http://en.wikipedia.org/wiki/Regular_expression\" target=\"blank\">Regex</a>": {
+                        "Ignore Messages Matching Regex": {
+                            title: [null, "Ignore Messages Matching ", ["a", { 
+                                href: "http://en.wikipedia.org/wiki/Regular_expression", target: "blank"}, "Regex"]],
                             type: "textbox",
                             path: "user/language/@ignoredMarkers",
                             position: 3000
