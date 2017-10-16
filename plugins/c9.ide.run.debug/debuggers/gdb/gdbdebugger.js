@@ -35,7 +35,7 @@ define(function(require, exports, module) {
         emit.setMaxListeners(1000);
 
         // increment when shim is updated to force rewrite
-        var SHIM_VERSION = 1;
+        var SHIM_VERSION = 2;
 
         var TYPE = "gdb";
 

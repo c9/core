@@ -7,6 +7,7 @@
 
 var net = require('net');
 var fs = require('fs');
+var parseGdbMiOutput = require('gdb-mi-parser');
 var spawn = require('child_process').spawn;
 
 // process arguments
@@ -49,7 +50,7 @@ function parseArg(str, allowNonInt) {
 var i = 0;
 for (i = 2; i < argc && BIN === ""; i++) {
     var arg = process.argv[i];
-    var a = arg.split("=");    
+    var a = arg.split("=");
     var key = a[0];
     var val = (a.length == 2) ? a[1] : null;
 
@@ -238,7 +239,7 @@ function Executable() {
     /**
      * Spawn GDB server which will in turn run executable, sharing
      * stdio with the shim.
-     * 
+     *
      * @param {Function} callback  Called when gdbserver is listening
      */
     this.spawn = function(callback) {
@@ -259,7 +260,7 @@ function Executable() {
             if (errqueue === null)
                 process.exit(code);
         }.bind(this));
-        
+
         this.proc.on("error", function(e) {
             console.error("ERROR while launching the debugger:");
             if (e.code == "ENOENT") {
@@ -269,7 +270,7 @@ function Executable() {
             }
             process.exit(1);
         });
- 
+
         this.proc.stderr.on("end", function() {
             // dump queued stderr data, if it exists
             if (errqueue !== null) {
@@ -307,7 +308,7 @@ function Executable() {
         // necessary to redirect stdin this way or child receives SIGTTIN
         process.stdin.pipe(this.proc.stdin);
     };
-    
+
     /**
      * Dismantle the GDB server process.
      */
@@ -370,7 +371,7 @@ function GDB() {
             detached: false,
             cwd: process.cwd()
         });
-        
+
         this.proc.on("error", function(e) {
             console.error("ERROR while launching the debugger:");
             if (e.code == "ENOENT") {
@@ -447,125 +448,6 @@ function GDB() {
             output._id = client_seq;
             client.send(output);
         });
-    };
-
-
-    //////
-    // Parsing via:
-    // https://github.com/besnardjb/ngdbmi/blob/master/ngdbmi.js#L1025
-
-    String.prototype.setCharAt = function(idx, chr) {
-        if (idx > this.length - 1) {
-            return this.toString();
-        }
-        else {
-            return this.substr(0, idx) + chr + this.substr(idx + 1);
-        }
-    };
-
-    this._removeArrayLabels = function(args) {
-        /* We now have to handle labels inside arrays */
-
-        var t_in_array = [];
-        var in_array = 0;
-        for (var i = 0; i < args.length; i++) {
-            /* This is a small state handling
-             * in order to see if we are in an array
-             * and therefore if we have to remove labels */
-            if (args[i] == "[")
-                t_in_array.push(1);
-
-            if (args[i] == "{")
-                t_in_array.push(0);
-
-            if (args[i] == "]" || args[i] == "}")
-                t_in_array.pop();
-
-            /* in_array == 1 if we are in an array =) */
-            in_array = t_in_array[t_in_array.length - 1];
-
-            /* If we encounter ',"' inside an array delete until '":' or '"=' */
-            if (in_array
-                && (args[i] == "," || args[i] == "[")
-                && args[i + 1] == "\"") {
-                var k = i;
-
-                /* Walk the label */
-                while ((k < args.length)
-                       && (args[k] != ":")
-                       && (args[k] != "=")
-                       && (args[k] != "]")) {
-                    k++;
-                }
-
-                /* if we end on a label end (= or :) then clear it up */
-                if (args[k] == ":" || args[k] == "=") {
-                    for (var l = (i + 1); l <= k; l++) {
-                        args = args.setCharAt(l, ' ');
-                    }
-                }
-            }
-        }
-        return args;
-    };
-
-    this._parseStateArgs = function(args) {
-        /* This is crazy but GDB almost provides a JSON output */
-        args = args.replace(/\\n\s*$/, "");
-        args = args.replace(/=(?=["|{|\[])/g, '!:');
-        args = args.replace(/([a-zA-Z0-9-_]*)!:/g, "\"$1\":");
-
-        /* Remove array labels */
-        args = this._removeArrayLabels(args);
-
-        /* And wrap in an object */
-        args = "{" + args + "}";
-
-        var ret = {};
-
-        try {
-            ret = JSON.parse(args);
-        }
-        catch (e) {
-            /* We lamentably failed =( */
-            log("JSON ERROR: " + e + "\nJSON: " + args);
-        }
-
-        return ret;
-    };
-
-    this._getState = function(line) {
-        var m = line.match("^([a-z-]*),");
-
-        if (m && m.length == 2)
-            return m[1].trim();
-
-        /* Couldn't we merge this with the previous one ? */
-        m = line.match("^([a-z-]*)$");
-
-        if (m && m.length == 2)
-            return m[1].trim();
-
-        return undefined;
-    };
-
-    this._parseState = function(line) {
-        line = line.trim();
-
-        var gdb_state = {};
-
-        /* Handle state */
-        var state = this._getState(line);
-
-        if (state)
-            gdb_state.state = state;
-
-        /* Handle args if present */
-        var m = line.match("^[a-z-]*,(.*)");
-        if (m && m.length == 2)
-            gdb_state.status = this._parseStateArgs(m[1]);
-
-        return gdb_state;
     };
 
     ////
@@ -890,42 +772,29 @@ function GDB() {
 
     // handle a line of stdout from gdb
     this._handleLine = function(line) {
-        if (line.trim() === "(gdb)")
+        var output = parseGdbMiOutput(line);
+        if (output.hasTerminator)
             return;
 
-        // status line: ^status or id^status
-        var line_split = line.match(/^([0-9]*)\^(.*)$/);
-
-        var state = null;
-        var token = "^";
-
-        // line split will be true if it's a status line
-        if (line_split) {
-            state = this._parseState(line_split[2]);
-
-            // line_id is present if the initiating command had a _seq
-            if (line_split[1])
-                state._seq = line_split[1];
-        }
-        else {
-            token = line[0];
-            state = this._parseState(line.slice(1));
-        }
-
         log("GDB: " + line);
+        output = output.resultRecord || output.outOfBandRecords[0];
+        var state = {
+            _seq: output.token,
+            state: output.class,
+            status: output.result
+        };
 
         // first character of output determines line meaning
-        switch (token) {
-            case '^': this._handleRecordsResult(state);
+        switch (output.outputType) {
+            case "result": this._handleRecordsResult(state);
                       break;
-            case '*': this._handleRecordsAsync(state);
+            case "exec": this._handleRecordsAsync(state);
                       break;
-            case '+': break; // Ongoing status information about slow operation
-            case '=': break; // Notify async output
-            case '&': break; // Log stream; gdb internal debug messages
-            case '~': break; // Console output stream
-            case '@': break; // Remote target output stream
-            default:
+            case "status": break; // Ongoing status information about slow operation
+            case "notify": break; // Notify async output
+            case "log": break; // Log stream; gdb internal debug messages
+            case "console": break; // Console output stream
+            case "target": break; // Remote target output stream
         }
     };
 
@@ -1087,7 +956,7 @@ function GDB() {
 // Proxy initialization
 
 gdb = new GDB();
-executable = new Executable(); 
+executable = new Executable();
 
 // handle process events
 // catch SIGINT, allowing GDB to pause if running, quit otherwise
