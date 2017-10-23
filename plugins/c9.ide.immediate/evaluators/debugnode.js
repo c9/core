@@ -113,7 +113,7 @@ define(function(require, exports, module) {
         
         function insert(div, markup, name) {
             if (name !== undefined) 
-                insert(div, "<span class='property'>" + name + ": </span>");
+                insert(div, "<span class='property'>" + escapeHTML(name) + ": </span>");
             
             markup = markup.replace(/([a-z]\w{1,4}:\/\/[\w:_\-\?&\/\.\#]*)/gi, "<a>$1</a>");
             div.insertAdjacentHTML("beforeend", markup);
@@ -319,7 +319,7 @@ define(function(require, exports, module) {
                         var count = Math.min(Math.min(props.length, 5), 
                             Math.max(0, 100 - object.length));
                         for (var i = 0; i < count; i++) {
-                            insert(preview, (i !== 0 ? ", " : "") + props[i] + ": ");
+                            insert(preview, (i !== 0 ? ", " : "") + escapeHTML(props[i]) + ": ");
                             renderType(props[i], preview, false, 2);
                         }
                         if (props.length > count)

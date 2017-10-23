@@ -93,7 +93,6 @@ define(function(require, exports, module) {
         plugin.freezePublicAPI({
             on: function() {},
             once: function() {},
-            connected: true,
             
             get connection() { return connection; },
             get connecting() { return false; },

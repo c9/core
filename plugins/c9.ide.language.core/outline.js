@@ -653,7 +653,11 @@ define(function(require, exports, module) {
             /**
              * 
              */
-            addOutlinePlugin: addOutlinePlugin
+            addOutlinePlugin: addOutlinePlugin,
+            /**
+             * @ignore
+             */
+            get tree() { return tree },
         });
         
         register(null, {

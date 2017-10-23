@@ -7,7 +7,7 @@ return function(vfs, base, baseProc, cli) {
 
     var resolvePath = function(path, basePath) { 
         if (path.charAt(0) == "~") {
-            if (cli && typeof process != "undefined")
+            if (cli && typeof process != "undefined" && process.env)
                 return process.env.HOME + "/" + path.substr(1);
             return path;
         }
