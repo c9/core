@@ -57,24 +57,14 @@ exports.ideKeymap = [
     bindKey: { mac: "cmd-t|cmd-p", win: "ctrl-p" },
     name: "navigate"
 }, {
-    bindKey: { mac: "cmd-r", win: "ctrl-r" },
+    bindKey: { mac: "cmd-r|cmd-shift-r", win: "ctrl-r|ctrl-shift-r" },
     name: "outline",
     args: { overlay: "goto", text: "@" }
-}, {
-    bindKey: { mac: "cmd-shift-r", win: "ctrl-shift-r" },
-    // todo: this should be project outline
-    name: "outline"
 }, {
     bindKey: { mac: "ctrl-g", win: "ctrl-g" },
     name: "gotoline",
     args: { overlay: "goto", text: ":" }
-}, 
-// todo what is this?
-// {
-//     bindKey: {win: "ctrl-;"},
-//     name: "show_overlay",
-//     args: {overlay: "goto", text: "#"}
-// },
+},
 {
     bindKey: { mac: "cmd-shift-p", win: "ctrl-shift-p" },
     name: "commands"
@@ -358,6 +348,9 @@ exports.ideKeymap = [
 }, {
     bindKey: { mac: "cmd-shift-f", win: "ctrl-shift-f" },
     name: "searchinfiles",
+},  {
+    bindKey: { mac: "", win: "" },
+    name: "restartc9",
 }, 
 // {
 //     bindKey: {mac: "f4", win: "f4"},
