@@ -173,7 +173,7 @@ define(function(require, exports, module) {
                 }
                 
                 function normalize(str) {
-                    return str && str.replace(/(^|-| )(\w)/g, function(_, a, b) {
+                    return str && str.replace(/(^|-| |\|)(\w)/g, function(_, a, b) {
                         return a + b.toUpperCase();
                     });
                 }

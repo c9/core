@@ -1,4 +1,4 @@
-/*global describe it before after bar =*/
+/*global describe it before after bar*/
 
 "use client";
 
@@ -69,9 +69,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
         
         describe('terminal', function() {
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";
                 bar.$ext.style.position = "fixed";
                 bar.$ext.style.left = "20px";
@@ -153,16 +150,24 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], function (arc
                 
                 it('should handle multiple terminals in the same pane', function(done) {
                     tabs.openEditor("terminal", function(err, tab) {
+                        expect(err).to.not.ok;
                         expect(tabs.getTabs()).length(2);
                         
                         tab.activate();
                         
                         var doc = tab.document;
-                        doc.on("setTitle", function c1() {
-                            // expect(doc.title).match(new RegExp("^bash - "));
-                            
-                            doc.off("setTitle", c1);
-                            done();
+                        doc.once("setTitle", function() {
+                            var terminal = tab.editor.ace.session.term;
+                            terminal.once("afterWrite", function() {
+                                expect(window.xss).to.not.ok;
+                                terminal.write("echo \"<img onerror='window.xss=1' src=':error'>\"");
+                                tab.editor.ace.resize(true);
+                                expect(tab.editor.ace.container.textContent.indexOf("<img")).to.not.equal(-1);
+                                setTimeout(function() {
+                                    expect(window.xss).to.not.ok;
+                                    done();
+                                 });
+                            });
                         });
                     });
                 });
