@@ -39,7 +39,7 @@ define(function(require, exports, module) {
     }
 
     Scope.prototype = new Data(
-        ["index", "frameIndex", "type"],
+        ["index", "frameIndex", "type", "id"],
         ["variables"]
     );
     

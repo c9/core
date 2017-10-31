@@ -1,19 +1,3 @@
-/**
- * node debugger Module for the Cloud9
- *
- * @copyright 2013, Ajax.org B.V.
- */
-
-//https://coderwall.com/p/hkmedw?utm_campaign=weekly_digest&utm_content=2013-04-02+00%3A00%3A00+UTC&utm_medium=email
-//https://github.com/johnjbarton/chrome.debugger.remote
-//https://github.com/cyrus-and/chrome-remote-interface
-//https://github.com/danielconnor/node-devtools/tree/master/lib
-
-//https://github.com/cyrus-and/chrome-remote-interface
-//https://developers.google.com/chrome-developer-tools/docs/protocol/1.0/debugger#event-paused
-//https://github.com/google/crx2app/issues/1
-//https://github.com/google/devtoolsExtended
-
 define(function(require, exports, module) {
     main.consumes = ["Plugin", "debugger", "util", "c9"];
     main.provides = ["chromedebugger"];
@@ -24,26 +8,31 @@ define(function(require, exports, module) {
         var util = imports.util;
         var debug = imports["debugger"];
         var c9 = imports.c9;
+        var async = require("async");
         
-        var Frame = require("../../data/frame");
-        var Source = require("../../data/source");
-        var Breakpoint = require("../../data/breakpoint");
-        var Variable = require("../../data/variable");
-        var Scope = require("../../data/scope");
+        var Frame = debug.Frame;
+        var Source = debug.Source;
+        var Breakpoint = debug.Breakpoint;
+        var Variable = debug.Variable;
+        var Scope = debug.Scope;
         
-        var V8Debugger = require("../v8/lib/V8Debugger");
-        var V8DebuggerService = require("../v8/lib/StandaloneV8DebuggerService");
-
+        var DevtoolsProtocol = require("./DevtoolsProtocol");
+        /*
+        - activate/deactivate all breakpoints
+        - reconnect
+        - break at start
+        - conflicting state at onchangerunning
+        - 
+        */
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
         emit.setMaxListeners(1000);
 
-        var stripPrefix = options.basePath || "";
+        var stripPrefix = c9.toInternalPath((options.basePath || "").replace(/[\/\\]$/, ""));
         var breakOnExceptions = false;
         var breakOnUncaughtExceptions = false;
-        var breakpointQueue = [];
         
         var NODE_PREFIX = "(function (exports, require, module, __filename, __dirname) { ";
         var NODE_POSTFIX = "\n});";
@@ -51,18 +40,10 @@ define(function(require, exports, module) {
         var RE_NODE_PREFIX = new RegExp("^" + util.escapeRegExp(NODE_PREFIX));
         var RE_NODE_POSTFIX = new RegExp(util.escapeRegExp(NODE_POSTFIX) + "$");
         
-        var TYPE = "v8";
+        var TYPE = "chrome";
         
         var attached = false;
-        var v8dbg, v8ds, state, activeFrame, sources, socket;
-        
-        var scopeTypes = {
-            "0": "global",
-            "1": "local",
-            "2": "with",
-            "3": "function",
-            "4": "catch"
-        };
+        var v8dbg, state, activeFrame, sources, socket, pathMap;
         
         var hasChildren = {
             "regexp": 32,
@@ -70,19 +51,6 @@ define(function(require, exports, module) {
             "object": 8,
             "function": 4
         };
-        
-        var loaded = false;
-        function load() {
-            if (loaded) return false;
-            loaded = true;
-            
-            debug.registerDebugger(TYPE, plugin);
-        }
-        
-        function unload() {
-            debug.unregisterDebugger(TYPE, plugin);
-            loaded = false;
-        }
         
         /***** Helper Functions *****/
         
@@ -92,36 +60,20 @@ define(function(require, exports, module) {
         function sync(breakpoints, reconnect, callback) {
             if (!v8dbg)
                 return console.error("Sync called without v8dbg");
-                
             getSources(function(err, sources) {
                 if (err) return callback(err);
                 
-                getFrames(function(err, frames) {
+                updateBreakpoints(breakpoints, reconnect, function(err, breakpoints) {
                     if (err) return callback(err);
                     
-                    updateBreakpoints(breakpoints, reconnect, function(err, breakpoints) {
-                        if (err) return callback(err);
-                        
-                        handleDebugBreak(breakpoints, reconnect, frames[0], function(canAttach) {
-                            attached = canAttach;
-                            emit("attach", { breakpoints: breakpoints });
-                        }, 
-                        function(isResumed) {
-                            // This check is for when the process is not 
-                            // started with debug-brk
-                            if (activeFrame) {
-                                onChangeFrame(activeFrame);
-                                emit("break", {
-                                    frame: activeFrame,
-                                    frames: frames
-                                });
-                            }
-                            
-                            onChangeRunning(null, isResumed);
-                            callback();
-                        });
+                    handleDebugBreak(breakpoints, reconnect, null, function(canAttach) {
+                        attached = canAttach;
+                        emit("attach", { breakpoints: breakpoints });
+                    }, 
+                    function(isResumed) {
+                        callback();
                     });
-                }, true); // The sync backtrace should be silent
+                });
             });
         }
         
@@ -139,14 +91,6 @@ define(function(require, exports, module) {
             listBreakpoints(function handleBps(err, remoteBreakpoints) {
                 if (err) return callback(err);
                 
-                // We should always have at least 1 breakpoint
-                if (!reconnect && !remoteBreakpoints.length && ++retries < 10) {
-                    setTimeout(function() {
-                        if (v8dbg) listBreakpoints(handleBps);
-                    }, 100);
-                    return;
-                }
-                
                 var found = [];
                 var notfound = [];
                 
@@ -160,18 +104,12 @@ define(function(require, exports, module) {
                         notfound.push(rbp);
                 });
                 
-                var i = 0;
-                function next() {
-                    var bp = list[i++];
-                    if (!bp)
-                        done();
-                    else if (found.indexOf(bp) == -1)
+                async.each(list, function(bp, next) {
+                    if (found.indexOf(bp) == -1)
                         setBreakpoint(bp, next);
                     else
                         next();
-                }
-                
-                next();
+                }, done);
                 
                 function done() {
                     notfound.forEach(function(bp) { 
@@ -201,67 +139,30 @@ define(function(require, exports, module) {
                 return callback();
             }
             
-            var bp = breakpoints[0];
-            
-            // If there's no breakpoint set
-            if (!bp) {
-                attach(reconnect || 0);
-                
-                // If we reconnect to a break then don't resume.
-                if (reconnect) {
-                    onChangeFrame(frame);
-                    callback();
-                }
-                else
-                    resume(callback.bind(this, true));
-                    
-                return;
-            }
-            
-            // Check for a serverOnly breakpoint on line 0
-            // this bp, is automatically created by v8 to stop on break
-            if (bp.id === 1 && bp.serverOnly && bp.line === 0) {
-                // The breakpoint did it's job, now lets remove it
-                v8dbg.clearbreakpoint(1, wait);
-                breakpoints.remove(bp);
-            }
-            else wait();
+            wait();
+            reconnect = true;
             
             function wait() {
                 // Check if there is a real breakpoint here, so we don't resume
-                function checkEval(err, variable) {
-                    if (err || isTruthy(variable)) {
-                        onChangeFrame(null);
-                        attach(true);
-                        resume(callback.bind(this, true));
+                function resumeIfNeeded(callback) {
+                    if (!activeFrame) {
+                        return v8dbg.$waitForBreak = function(frame) {
+                            activeFrame = frame;
+                            v8dbg.$waitForBreak = null;
+                            resumeIfNeeded(function() {
+                                callback();
+                            });
+                            return true;
+                        };
                     }
-                    else {
-                        onChangeFrame(frame);
-                        attach(true);
-                        callback(false);
-                    }
-                }
-                
-                // @todo this is probably a timing issue - probably solved now
-                if (frame) {
-                    var test = { path: frame.path, line: frame.line };
-                    for (var bpi, i = 0, l = breakpoints.length; i < l; i++) {
-                        if ((bpi = breakpoints[i]).equals(test)) {
-                            // If it's not enabled let's continue
-                            if (!bpi.enabled)
-                                break;
-                              
-                            // Check a condition if it has it
-                            if (bpi.condition) {
-                                evaluate(bpi.condition, frame, false, true, checkEval);
-                            }
-                            else {
-                                onChangeFrame(frame);
-                                attach(true);
-                                callback(false);
-                            }
-                            return;
-                        }
+                    var onBreakpoint = breakpoints.some(function(bp) { 
+                        return bp.enabled && activeFrame.path === bp.path && bp.line == activeFrame.line;
+                    });
+                    if (!onBreakpoint) {
+                        resume(callback);
+                    } else {
+                        onChangeRunning();
+                        onBreak({frame: activeFrame});
                     }
                 }
                 
@@ -272,9 +173,9 @@ define(function(require, exports, module) {
                     callback(false);
                 }
                 else {
-                    onChangeFrame(null);
+                    // onChangeFrame(null);
                     attach(true);
-                    resume(callback.bind(this, true));
+                    resumeIfNeeded(callback.bind(this, true));
                 }
             }
         }
@@ -283,9 +184,12 @@ define(function(require, exports, module) {
          * Removes the path prefix from a string
          */
         function strip(str) {
+            if (!str) return "";
+            str = c9.toInternalPath(str);
+            str = applyPathMap(str, "toInternal");
             return str && str.lastIndexOf(stripPrefix, 0) === 0
-                ? str.slice(stripPrefix.length)
-                : str || "";
+                ? util.normalizePath(str.slice(stripPrefix.length))
+                : util.normalizePath(str || "");
         }
     
         /**
@@ -301,6 +205,8 @@ define(function(require, exports, module) {
         }
     
         function formatType(value) {
+            if (value.description)
+                return value.description;
             switch (value.type) {
                 case "undefined":
                 case "null":
@@ -342,21 +248,6 @@ define(function(require, exports, module) {
             return true;
         }
         
-        function frameToString(frame) {
-            var str = [];
-            var args = frame.arguments;
-            var argsStr = [];
-    
-            str.push(frame.func.name || frame.func.inferredName || "anonymous", "(");
-            for (var i = 0, l = args.length; i < l; i++) {
-                var arg = args[i];
-                if (!arg.name)
-                    continue;
-                argsStr.push(arg.name);
-            }
-            str.push(argsStr.join(", "), ")");
-            return str.join("");
-        }
         
         function getPathFromScriptId(scriptId) {
             for (var i = 0; i < sources.length; i++) {
@@ -373,50 +264,30 @@ define(function(require, exports, module) {
         }
 
         function getLocalScriptPath(script) {
-            var scriptName = script.name || ("-anonymous-" + script.id);
-            if (stripPrefix == "/") {
-                if (c9.platform == "win32" && scriptName[1] == ":")
-                    scriptName = "/" + scriptName;
-            } else if (scriptName.substring(0, stripPrefix.length) == stripPrefix)
-                scriptName = scriptName.substr(stripPrefix.length);
-                
-            // windows paths come here independantly from vfs
-            return scriptName.replace(/\\/g, "/");
+            var scriptName = script.url || ("-anonymous-" + script.scriptId);
+            scriptName = c9.toExternalPath(scriptName);
+            scriptName = strip(scriptName);
+            return scriptName;
         }
         
-        function createFrame(options, script) {
-            var frame = new Frame({
-                index: options.index,
-                name: apf.escapeXML(frameToString(options)), //dual escape???
-                column: options.column,
-                id: getFrameId(options),
-                line: options.line,
-                script: strip(script.name),
-                path: getLocalScriptPath(script),
-                sourceId: options.func.scriptId
+        function createFrame(frameData, index) {
+            var options = frameData[index];
+            var frame = options._frame || new Frame({
+                istop: index == 0,
+                index: index,
+                name: options.functionName || "(anonymous)",
+                line: options.location.lineNumber,
+                column: options.location.columnNumber,
+                id: options.callFrameId,
+                script: options.location.scriptId,
+                path: getLocalScriptPath(v8dbg.$scripts[options.location.scriptId]),
+                sourceId: options.location.scriptId
             });
+            options._frame = frame;
             
             var vars = [];
-            
-            // Arguments
-            options.arguments.forEach(function(arg) {
-                vars.push(createVariable(arg, null, "arguments"));
-            });
-            
-            // Local variables
-            options.locals.forEach(function(local) {
-                if (local.name !== ".arguments")
-                    vars.push(createVariable(local, null, "locals"));
-            });
-            
-            // Adding the local object as this
-            vars.push(createVariable({
-                name: "this",
-                value: options.receiver,
-                kind: "this"
-            }));
-            
-            frame.variables = vars;
+
+            frame.variables = frame.variables || vars;
             
              /*
              0: Global
@@ -426,15 +297,16 @@ define(function(require, exports, module) {
              4: Catch >,
                 if (scope.type > 1) {*/
             
-            frame.scopes = options.scopes.filter(function(scope) {
-                return scope.type != 1;
-            }).reverse().map(function(scope) {
+            frame.scopes = options.scopeChain.map(function(scope, i) {
                 return new Scope({
-                    index: scope.index,
-                    type: scopeTypes[scope.type],
-                    frameIndex: frame.index
+                    id: scope.object.objectId,
+                    type: scope.type,
+                    frame: frame,
+                    index: i
                 });
             });
+            if (frame.scopes[0])
+                frame.scopes[0].isOpen = true;
             
             return frame;
         }
@@ -443,8 +315,8 @@ define(function(require, exports, module) {
             var value = options.value || options;
             
             if (variable) {
-                variable.value = formatType(options);
-                variable.type = options.type;
+                // variable.value = formatType(options);
+                // variable.type = options.type;
             }
             else {
                 variable = new Variable({
@@ -452,52 +324,52 @@ define(function(require, exports, module) {
                     scope: scope,
                     value: formatType(value),
                     type: value.type,
-                    ref: typeof value.ref == "number" 
-                        ? value.ref 
-                        : value.handle,
+                    ref: value.objectId,
                     children: options.children === false 
-                        ? false : (hasChildren[value.type] ? true : false)
+                        ? false : (hasChildren[value.type] ? true : false),
+                    options: options,
                 });
             }
             
-            if (value.prototypeObject)
-                variable.prototype = new Variable({
-                    tagName: "prototype",
-                    name: "prototype", 
-                    type: "object",
-                    ref: value.prototypeObject.ref
-                });
-            if (value.protoObject)
-                variable.proto = new Variable({ 
-                    tagName: "proto",
-                    name: "proto", 
-                    type: "object",
-                    ref: value.protoObject.ref
-                });
-            if (value.constructorFunction)
-                variable.constructorFunction = new Variable({ 
-                    tagName: "constructor", 
-                    name: "constructor", 
-                    type: "function",
-                    ref: value.constructorFunction.ref
-                });
+            // if (value.prototypeObject)
+            //     variable.prototype = new Variable({
+            //         tagName: "prototype",
+            //         name: "prototype", 
+            //         type: "object",
+            //         ref: value.prototypeObject.ref
+            //     });
+            // if (value.protoObject)
+            //     variable.proto = new Variable({ 
+            //         tagName: "proto",
+            //         name: "proto", 
+            //         type: "object",
+            //         ref: value.protoObject.ref
+            //     });
+            // if (value.constructorFunction)
+            //     variable.constructorFunction = new Variable({ 
+            //         tagName: "constructor", 
+            //         name: "constructor", 
+            //         type: "function",
+            //         ref: value.constructorFunction.ref
+            //     });
             return variable;
-        }
-        
-        function updateVariable(variable, body) {
-            return createVariable(body, null, null, variable);
         }
         
         function createSource(options) {
             var path = getLocalScriptPath(options);
+            // isLiveEdit: false,
+            // sourceMapURL: "",
+            // hasSourceURL: false,
+            // isModule: false,
             return new Source({
-                id: options.id,
-                name: options.name || "anonymous",
+                id: options.scriptId,
+                name: options.url || "anonymous",
                 path: path,
                 text: strip(options.text || "anonymous"),
                 debug: path.charAt(0) != "/" || path.match(/ \(old\)$/) ? true : false,
                 lineOffset: options.lineOffset,
-                customSyntax: "javascript"
+                customSyntax: "javascript",
+                threadId: options.executionContextId,
             });
         }
         
@@ -520,83 +392,54 @@ define(function(require, exports, module) {
             if (!v8dbg) {
                 state = null;
             } else {
-                state = v8dbg.isRunning() || isResumed ? "running" : "stopped";
+                state = v8dbg.isRunning() /*|| isResumed*/ ? "running" : "stopped";
             }
-    
-            emit("stateChange", { state: state });
-    
-            if (state != "stopped")
-                onChangeFrame(null);
-        }
+            
+            if (attached) {
+                emit("stateChange", { state: state });
         
-        function createFrameFromBreak(data) {
-            // Create a frame from the even information
-            return new Frame({
-                index: 0,
-                name: data.invocationText,
-                column: data.sourceColumn,
-                id: String(data.line) + ":" + String(data.sourceColumn),
-                line: data.sourceLine,
-                script: strip(data.script.name),
-                path: getLocalScriptPath(data.script),
-                sourceId: data.script.id,
-                istop: true
-            });
+                if (state != "stopped")
+                    onChangeFrame(null);
+            }
         }
     
         function onBreak(e) {
-            if (!attached) {
-                if (attached === 0) 
-                    attached = true;
+            var frame = e.frame || createFrame(e.callFrames, 0);
+            if (v8dbg.$waitForBreak && v8dbg.$waitForBreak(frame)) {
                 return;
             }
-            
-            // @todo update breakpoint text?
-            
-            var frame = createFrameFromBreak(e.data);
-            onChangeFrame(frame);
-            emit("break", {
-                frame: frame
-            });
+            onChangeFrame(frame, !attached);
+            if (attached)
+                emit("break", { frame: frame });
         }
     
         function onException(e) {
-            var frame = createFrameFromBreak(e.data);
+            var frame = createFrame(e.callFrames, 0);
             
-            var options = e.data.exception;
-            options.text.match(/^(\w+):(.*)$/);
-            var name = RegExp.$1 || options.className;
-            var value = RegExp.$2 || options.text;
+            var options = e.data;
+            var m = /^(\w+):(.*)$/m.exec(options.description);
+            var name = m && m[1] || options.className;
+            var value = m && m[2] || options.description;
             
             options.name = name;
             options.value = { 
                 value: value, 
-                type: "error", 
-                handle: options.handle
+                type: "error",
+                objectId: options.objectId,
             };
             options.children = true;
             
             var variable = createVariable(options);
             variable.error = true;
             
-            lookup(options.properties, false, function(err, properties) {
-                variable.properties = properties;
-                
-                emit("exception", {
-                    frame: frame, 
-                    exception: variable
-                });
+            emit("exception", {
+                frame: frame, 
+                exception: variable
             });
         }
     
         function onAfterCompile(e) {
-            var queue = breakpointQueue;
-            breakpointQueue = [];
-            queue.forEach(function(i) {
-                setBreakpoint(i[0]);
-            });
-            
-            emit("sourcesCompile", { source: createSource(e.data.script) });
+            emit("sourcesCompile", { source: createSource(e) });
         }
     
         function onChangeFrame(frame, silent) {
@@ -606,12 +449,20 @@ define(function(require, exports, module) {
         }
     
         /***** Methods *****/
+        var process
+        
+        function getProxySource(_process) {
+            process = _process;
+            return false;
+        }
         
         function attach(s, reconnect, callback) {
-            if (v8ds)
-                v8ds.detach();
+            if (v8dbg)
+                v8dbg.detach();
             
             socket = s;
+            
+            // socket.connect();
             
             socket.on("back", function(err) {
                 sync(emit("getBreakpoints"), true, callback);
@@ -620,20 +471,21 @@ define(function(require, exports, module) {
                 emit("error", err);
             }, plugin);
             
-            v8ds = new V8DebuggerService(socket);
-            v8ds.attach(0, function(err) {
+            v8dbg = new DevtoolsProtocol(socket);
+            attached = false;
+            v8dbg.attach(process.runner.debugport, function(err, msg) {
                 if (err) return callback(err);
 
-                v8dbg = new V8Debugger(0, v8ds);
-                
                 // register event listeners
-                v8dbg.addEventListener("changeRunning", onChangeRunning);
-                v8dbg.addEventListener("break", onBreak);
-                v8dbg.addEventListener("exception", onException);
-                v8dbg.addEventListener("afterCompile", onAfterCompile);
+                v8dbg.on("changeRunning", onChangeRunning);
+                v8dbg.on("break", onBreak);
+                v8dbg.on("exception", onException);
+                v8dbg.on("afterCompile", onAfterCompile);
                 
                 onChangeFrame(null);
                 
+                if (msg && msg.type == "connect")
+                    reconnect = false;
                 // This fixes reconnecting. I dont understand why, but without
                 // this timeout during reconnect the getSources() call never
                 // returns
@@ -644,15 +496,11 @@ define(function(require, exports, module) {
         }
     
         function detach() {
-            if (!v8ds)
-                return;
-            
-            v8ds.detach();
-            
             onChangeFrame(null);
             onChangeRunning();
             
             if (v8dbg) {
+                v8dbg.detach();
                 // on detach remove all event listeners
                 v8dbg.removeEventListener("changeRunning", onChangeRunning);
                 v8dbg.removeEventListener("break", onBreak);
@@ -660,10 +508,7 @@ define(function(require, exports, module) {
                 v8dbg.removeEventListener("afterCompile", onAfterCompile);
             }
             
-            socket.unload();
-            
             socket = null;
-            v8ds = null;
             v8dbg = null;
             attached = false;
             
@@ -671,10 +516,10 @@ define(function(require, exports, module) {
         }
         
         function getSources(callback) {
-            v8dbg.scripts(4, null, false, function(scripts) {
+            v8dbg.scripts(function(scriptMap) {
                 sources = [];
-                for (var i = 0, l = scripts.length; i < l; i++) {
-                    var script = scripts[i];
+                for (var i in scriptMap) {
+                    var script = scriptMap[i];
                     if ((script.name || "").indexOf("chrome-extension://") === 0)
                         continue;
                     sources.push(createSource(script));
@@ -686,11 +531,11 @@ define(function(require, exports, module) {
         }
         
         function getSource(source, callback) {
-            v8dbg.scripts(4, [source.id], true, function(scripts) {
-                if (!scripts.length)
+            v8dbg.getScriptSource(source.id, function(script) {
+                if (!script || !script.scriptSource)
                     return callback(new Error("File not found : " + source.path));
                     
-                var source = scripts[0].source
+                var source = script.scriptSource
                     .replace(RE_NODE_PREFIX, "")
                     .replace(RE_NODE_POSTFIX, "");
 
@@ -699,28 +544,10 @@ define(function(require, exports, module) {
         }
         
         function getFrames(callback, silent) {
-            v8dbg.backtrace(0, 1000, null, true, function(body, refs) {
-                function ref(id) {
-                    for (var i = 0; i < refs.length; i++) {
-                        if (refs[i].handle == id) {
-                            return refs[i];
-                        }
-                    }
-                    return {};
-                }
-    
-                var frames = [];
-                if (body && body.totalFrames > 0) {
-                    body && body.frames.map(function(frame) {
-                        var script = ref(frame.script.ref);
-                        if (script.name && !/^native /.test(script.name))
-                            frames.push(createFrame(frame, script));
-                    });
-        
-                    var topFrame = frames[0];
-                    if (topFrame)
-                        topFrame.istop = true;
-                }
+            v8dbg.backtrace(function(data) {
+                var frames = data.callFrames.map(function(frameData, index) {
+                    return createFrame(data.callFrames, index);
+                });
                 
                 emit("getFrames", { frames: frames });
                 callback(null, frames);
@@ -728,11 +555,16 @@ define(function(require, exports, module) {
         }
         
         function getScope(frame, scope, callback) {
-            v8dbg.scope(scope.index, frame.index, true, function(body, refs, error) {
+            v8dbg.getProperties({
+                objectId: scope.id,
+                ownProperties: false,
+                accessorPropertiesOnly: false,
+                generatePreview: true
+            }, function(body, error) {
                 if (error)
                     return callback(error);
                 
-                var variables = body.object.properties.map(function(prop) {
+                var variables = (body.result || []).map(function(prop) {
                     return createVariable(prop);
                 });
                 
@@ -743,47 +575,41 @@ define(function(require, exports, module) {
         }
         
         function getProperties(variable, callback) {
-            v8dbg.lookup([variable.ref], false, function(body, refs, err) {
-                if (err) return callback(err);
+            if (!variable.ref)
+                return callback(null, []);
+            v8dbg.getProperties({
+                objectId: variable.ref,
+                ownProperties: true,
+                accessorPropertiesOnly: false,
+                generatePreview: true
+            }, function(body, error) {
+                if (error)
+                    return callback(error);
                 
-                var data = body[variable.ref];
-                data && updateVariable(variable, data);
-                
-                var props = data.properties || [];
-                
-                if (props.length > 5000) {
-                    props = [createVariable({
-                        name: "Too many properties",
-                        value: { type: "error", value: "Found more than 5000 properties" },
-                        children: false
-                    })];
-                    
-                    variable.properties = props;
-                    callback(null, props, variable);
-                    return;
-                }
-                
-                lookup(props, false, function(err, properties) {
-                    variable.properties = properties;
-                    callback(err, properties, variable);
+                var properties = (body.result || []).map(function(prop) {
+                    return createVariable(prop);
                 });
+                
+                variable.properties = properties;
+                
+                callback(null, properties);
             });
         }
         
         function stepInto(callback) {
-            v8dbg.continueScript("in", null, callback);
+            v8dbg.stepInto(callback);
         }
         
         function stepOver(callback) {
-            v8dbg.continueScript("next", null, callback);
+            v8dbg.stepOver(callback);
         }
         
         function stepOut(callback) {
-            v8dbg.continueScript("out", null, callback);
+            v8dbg.stepOut(callback);
         }
     
         function resume(callback) {
-            v8dbg.continueScript(null, null, callback);
+            v8dbg.resume(callback);
         }
     
         function suspend(callback) {
@@ -793,73 +619,31 @@ define(function(require, exports, module) {
             });
         }
     
-        function lookup(props, includeSource, callback) {
-            // can happen for numbers. E.g when debugger stops on throw 1
-            if (!props || !props.length)
-                return callback(null, []);
-            v8dbg.lookup(props.map(function(p) { return p.ref; }), 
-              includeSource, function(body) {
-                if (!body)
-                    return callback(new Error("No body received"));
-                  
-                var properties = props.map(function(prop) { 
-                    prop.value = body[prop.ref];
-                    return createVariable(prop);
-                });
-                
-                callback(null, properties);
-            });
-        }
-        
         function setScriptSource(script, newSource, previewOnly, callback) {
-            newSource = NODE_PREFIX + newSource + NODE_POSTFIX;
+            newSource = NODE_PREFIX + newSource.replace(/^#!.*/, "") + NODE_POSTFIX;
             
-            v8dbg.changelive(script.id, newSource, previewOnly, function(e) {
-                var data = e;
-                
-                function cb() {
-                    emit("setScriptSource", data);
-                    callback(null, data);
-                }
-                
-                if (!e)
-                    cb(new Error("Debugger could not update source of saved file."));
-                else if (e.stepin_recommended)
-                    stepInto(cb);
-                else if (e.result.stack_modified === false) {
-                    getFrames(function(err, frames) {
-                        if (!activeFrame || !frames.length)
-                            return; // debugger isn't active
-                        onChangeFrame(frames[0]);
-                        emit("break", {
-                            frame: activeFrame,
-                            frames: frames
-                        });
-                    });
-                    cb();
-                }
-                else
-                    cb();
+            v8dbg.changelive(script.id, newSource, previewOnly, function(data, error) {
+                var errorMessage = "Debugger could not update source of saved file."
+                if (error)
+                    return callback(new Error(errorMessage));
+                if (data && data.exceptionDetails)
+                    return callback(new Error(errorMessage + " " + data.exceptionDetails.text));
+                    
+                emit("setScriptSource", data);
+                callback(null, data);
             });
         }
         
         function restartFrame(frame, callback) {
-            var frameIndex = frame && typeof frame == "object" ? frame.index : frame;
-            v8dbg.restartframe(frameIndex, function(body) {
-                if (body.result && body.result.stack_update_needs_step_in) {
-                    stepInto(callback.bind(this, body));
-                }
-                else {
-                    callback.apply(this, arguments);
-                }
+            v8dbg.restartframe(frame.id, function(result, error) {
+                stepInto(callback);
             });
         }
         
         function evaluate(expression, frame, global, disableBreak, callback) {
-            var frameIndex = frame && typeof frame == "object" ? frame.index : frame;
-            
-            v8dbg.evaluate(expression, frameIndex, global, 
-              disableBreak, function(body, refs, error) {
+            v8dbg.evaluate(expression, frame, global, disableBreak, function(data) {
+                var value = data.result;
+                var error = data.error;
                 var name = expression.trim();
                 if (error) {
                     var err = new Error(error.message);
@@ -870,18 +654,10 @@ define(function(require, exports, module) {
                 
                 var variable = createVariable({
                     name: name,
-                    value: body
+                    value: value,
                 });
                 
-                if (variable.children) {
-                    lookup(body.properties, false, function(err, properties) {
-                        variable.properties = properties;
-                        callback(null, variable);
-                    });
-                }
-                else {
-                    callback(null, variable);
-                }
+                callback(null, variable);
             });
         }
         
@@ -890,50 +666,47 @@ define(function(require, exports, module) {
             var path = sm.source || bp.path;
             var line = sm.line || bp.line;
             var column = sm.column || bp.column;
-            var scriptId = getScriptIdFromPath(path);
             
-            if (!scriptId) {
-                // Wait until source is parsed
-                breakpointQueue.push([bp, callback]);
-                callback && callback(new Error("Source not available yet. Queuing request."));
+            if (!path) {
+                // TODO find out why this happens
+                callback && callback(new Error("Ignoring breakpoint with invalid path."));
                 return false;
             }
+            
+            path = applyPathMap(path, "toExternal");
+            
+            if (path[0] == "/")
+                path = stripPrefix + path;
+            else if (path[0] == "~")
+                path = c9.home + path.substr(1);
+            
+            path = c9.toExternalPath(path);
 
-            v8dbg.setbreakpoint("scriptId", scriptId, line, column, bp.enabled, 
-                bp.condition, bp.ignoreCount, function(info) {
-                    if (!info)
-                        return callback && callback(new Error());
-                    
-                    bp.id = info.breakpoint;
-                    if (info.actual_locations) {
-                        bp.actual = info.actual_locations[0];
-                        emit("breakpointUpdate", { breakpoint: bp });
-                    }
-                    callback && callback(null, bp, info);
-                });
+            v8dbg.setbreakpoint(path, line, column, bp.enabled, bp.condition, function(info) {
+                if (!info)
+                    return callback && callback(new Error());
+                
+                bp.id = info.breakpointId;
+                if (info.locations) {
+                    var loc = info.locations[0];
+                    bp.actual = loc && {
+                        line: loc.lineNumber,
+                        column: loc.columnNumber,
+                        scriptId: loc.scriptId,
+                    };
+                    emit("breakpointUpdate", { breakpoint: bp });
+                }
+                callback && callback(null, bp, info);
+            });
             
             return true;
         }
         
         function changeBreakpoint(bp, callback) {
-            if (breakpointQueue.some(function(i) {
-                return i[0] === bp;
-            })) return;
-            
-            v8dbg.changebreakpoint(bp.id, bp.enabled, 
-                bp.condition, bp.ignoreCount, function(info) {
-                    callback && callback(null, bp, info);
-                });
+            setBreakpoint(bp, callback);
         }
         
         function clearBreakpoint(bp, callback) {
-            if (breakpointQueue.some(function(i, index) {
-                if (i[0] === bp) {
-                    breakpointQueue.splice(index, 1);
-                    return true;
-                }
-            })) return;
-            
             v8dbg.clearbreakpoint(bp.id, callback);
         }
         
@@ -950,133 +723,66 @@ define(function(require, exports, module) {
             });
         }
         
-        function setVariable(variable, parents, value, frame, callback) {
-            // Get variable name
-            var names = [], scopeNumber, frameIndex = frame.index;
-            parents.reverse().forEach(function(p) {
-                // Assuming scopes are accessible
-                if (p.tagName == "variable")
-                    names.push(p.name.replace(/"/g, '\\"'));
-                else if (p.tagName == "scope")
-                    scopeNumber = p.index;
-            });
-            names.push(variable.name);
-            
-            function handler(err, body) {
-                if (err)
-                    return callback(err);
-                
-                variable.value = formatType(body);
-                variable.type = body.type;
-                variable.ref = body.handle;
-                variable.properties = body.properties || [];
-                variable.children = (body.properties || "").length ? true : false;
-                    
-//              @todo - and make this consistent with getProperties
-//                if (body.constructorFunction)
-//                    value.contructor = body.constructorFunction.ref;
-//                if (body.prototypeObject)
-//                    value.prototype = body.prototypeObject.ref;
-                
-                if (variable.children) {
-                    lookup(body.properties, false, function(err, properties) {
-                        variable.properties = properties;
-                        callback(null, variable);
-                    });
-                }
-                else {
-                    callback(null, variable);
-                }
-            }
-            
-            // If it's a local variable set it directly
-            if (parents.length == (typeof scopeNumber == "number" ? 1 : 0))
-                setLocalVariable(variable, value, scopeNumber || 0, frameIndex, handler);
-            // Otherwise set a variable or property
-            else
-                setAnyVariable(variable, parents[0], value, handler);
-        }
-        
-        function setLocalVariable(variable, value, scopeNumber, frameIndex, callback) {
-            v8dbg.simpleevaluate(value, null, true, [], function(body, refs, error) {
-                if (error) {
-                    var err = new Error(error.message);
-                    err.name = error.name;
-                    err.stack = error.stack;
-                    return callback(err);
-                }
-                
-                v8dbg.setvariablevalue(variable.name, body, scopeNumber, frameIndex, 
-                  function(body, refs, error) {
-                    // lookup([variable.ref], false, function(err, properties) {
-                    //     variable.properties = properties;
-                    //     callback(null, variable);
-                    // });
-                    
-                    if (error) {
-                        var err = new Error(error.message);
-                        err.name = error.name;
-                        err.stack = error.stack;
-                        return callback(err);
-                    }
-                    
-                    callback(null, body.newValue);
-                });
-            });
-        }
-        
-        function setAnyVariable(variable, parent, value, callback) {
-            var expression = "(function(a, b) { this[a] = b; })"
-                + ".call(__cloud9_debugger_self__, \""
-                + variable.name + "\", " + value + ")";
-            
-            v8dbg.simpleevaluate(expression, null, true, [{
-                name: "__cloud9_debugger_self__",
-                handle: parent.ref
-            }], function(body, refs, error) {
-                if (error) {
-                    var err = new Error(error.message);
-                    err.name = error.name;
-                    err.stack = error.stack;
-                    return callback(err);
-                }
-                
-                callback(null, body);
-            });
+        function setVariable(variable, value, frame, callback) {
+            v8dbg.setvariablevalue(variable, value, frame, callback);
         }
         
         function serializeVariable(variable, callback) {
-            var expr = "(function(fn){ return fn.toString() })"
-                + "(__cloud9_debugger_self__)";
-                
-            v8dbg.simpleevaluate(expr, null, true, [{
-                name: "__cloud9_debugger_self__",
-                handle: variable.ref
-            }], function(body, refs, error) {
-                callback(body.value);
-            });
+            return callback(variable.value);
         }
         
         function setBreakBehavior(type, enabled, callback) {
             breakOnExceptions = enabled ? type == "all" : false;
             breakOnUncaughtExceptions = enabled ? type == "uncaught" : false;
             
-            v8dbg.setexceptionbreak(enabled ? type : "all", enabled, callback);
+            v8dbg.setexceptionbreak(enabled ? type : "none", callback);
+        }
+        
+        function setPathMap(v) {
+            if (!Array.isArray(v)) v = null;
+            pathMap = v && v.map(function(x) {
+                if (!x.toInternal || !x.toExternal) return;
+                var map = {
+                    toInternal: {},
+                    toExternal: {}
+                };
+                if (typeof x.toInternal.regex == "string")
+                    map.toInternal.regex = new RegExp(x.toInternal.regex, "g");
+                map.toInternal.replacement = x.toInternal.replacement;
+                if (typeof x.toExternal.regex == "string")
+                    map.toExternal.regex = new RegExp(x.toExternal.regex, "g");
+                map.toExternal.replacement = x.toExternal.replacement;
+                return map;
+            }).filter(Boolean);
+        }
+        
+        function applyPathMap(path, dir) {
+            if (!pathMap)
+                return path;
+            pathMap.forEach(function(record) {
+                var mapping = record[dir];
+                path = path.replace(mapping.regex, mapping.replacement);
+            });
+            return path;
         }
     
         /***** Lifecycle *****/
         
         plugin.on("load", function() {
-            load();
-        });
-        plugin.on("enable", function() {
-            
-        });
-        plugin.on("disable", function() {
-            
+            debug.registerDebugger(TYPE, plugin);
         });
         plugin.on("unload", function() {
-            unload();
+            debug.unregisterDebugger(TYPE, plugin);
+            
+            breakOnExceptions = null;
+            breakOnUncaughtExceptions = null;
+            attached = false;
+            v8dbg = null;
+            state = null;
+            activeFrame = null;
+            sources = null;
+            socket = null;
+            pathMap = null;
         });
         
         /***** Register and define API *****/
@@ -1095,6 +801,26 @@ define(function(require, exports, module) {
          * @class debugger.implementation
          */
         plugin.freezePublicAPI({
+            /**
+             * Specifies the features that this debugger implementation supports
+             * @property {Object} features
+             * @property {Boolean} features.scripts                 Able to download code (disable the scripts button)
+             * @property {Boolean} features.conditionalBreakpoints  Able to have conditional breakpoints (disable menu item)
+             * @property {Boolean} features.liveUpdate              Able to update code live (don't do anything when saving)
+             * @property {Boolean} features.updateWatchedVariables  Able to edit variables in watches (don't show editor)
+             * @property {Boolean} features.updateScopeVariables    Able to edit variables in variables panel (don't show editor)
+             * @property {Boolean} features.setBreakBehavior        Able to configure break behavior (disable break behavior button)
+             * @property {Boolean} features.executeCode             Able to execute code (disable REPL)
+             */
+            features: {
+                scripts: true,
+                conditionalBreakpoints: true,
+                liveUpdate: true,
+                updateWatchedVariables: true,
+                updateScopeVariables: true,
+                setBreakBehavior: true,
+                executeCode: true
+            },
             /**
              * The type of the debugger implementation. This is the identifier 
              * with which the runner selects the debugger implementation.
@@ -1133,6 +859,49 @@ define(function(require, exports, module) {
             get breakOnUncaughtExceptions() { return breakOnUncaughtExceptions; },
             
             _events: [
+                /**
+                 * Fires when the debugger is attached.
+                 * @event attach
+                 * @param {Object}  e
+                 * @param {debugger.Breakpoint[]}   e.breakpoints        A list of breakpoints that is set in the running process
+                 */
+                "attach",
+                /**
+                 * Fires when the debugger is detached.
+                 * @event detach
+                 */
+                "detach",
+                /**
+                 * Fires when execution is suspended (paused)
+                 * @event suspend
+                 */
+                "suspend",
+                /**
+                 * Fires when the source of a file is updated
+                 * @event setScriptSource
+                 * @param {Object} e
+                 */
+                "setScriptSource",
+                /**
+                 * Fires when the socket experiences an error
+                 * @event error
+                 */
+                "error",
+                /**
+                 * Fires when the current list of breakpoints is needed
+                 * @event getBreakpoints
+                 */
+                "getBreakpoints",
+                /**
+                 * Fires when a breakpoint is updated. This can happen when it
+                 * is set at a location which is not an expression. Certain
+                 * debuggers (such as v8) will move the breakpoint location to
+                 * the first expression that's next in source order.
+                 * @event breakpointUpdate
+                 * @param {Object}               e
+                 * @param {debugger.Breakpoint}  e.breakpoint  
+                 */
+                "breakpointUpdate",
                 /**
                  * Fires when the debugger hits a breakpoint.
                  * @event break
@@ -1350,12 +1119,19 @@ define(function(require, exports, module) {
             setVariable: setVariable,
             
             /**
-             * 
+             * Starts a frame (usually a function) from the first expression in that frame.
+             * @param {debugger.Frame}   frame          The frame to restart.
+             * @param {Function}         callback
+             * @param {Function}         callback       Called when the frame is restarted.
              */
             restartFrame: restartFrame,
             
             /**
-             * 
+             * Retrieve the value of a variable
+             * @param {debugger.Variable} variable       The variable for which to retrieve the value
+             * @param {Function}          callback
+             * @param {Function}          callback       Called when the value is retrieved
+             * @param {String}            callback.value The value of the variable
              */
             serializeVariable: serializeVariable,
             
@@ -1366,7 +1142,18 @@ define(function(require, exports, module) {
              * @param {Function}         callback      Called after the setting is changed.
              * @param {Error}            callback.err  The error if any error occured.
              */
-            setBreakBehavior: setBreakBehavior
+            setBreakBehavior: setBreakBehavior,
+            
+            /**
+             * Returns the source of the proxy
+             */
+            getProxySource: getProxySource,
+            
+            /**
+             * @ignore
+             * Experimental method for meteor runner
+             */
+            setPathMap: setPathMap
         });
         
         register(null, {

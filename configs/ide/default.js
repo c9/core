@@ -441,6 +441,10 @@ module.exports = function(options) {
             packagePath: "plugins/c9.ide.run.debug/debuggers/v8/v8debugger",
             basePath: workspaceDir
         },
+        {
+            packagePath: "plugins/c9.ide.run.debug/debuggers/chrome/chromedebugger",
+            basePath: workspaceDir
+        },
         {  
             packagePath: "plugins/c9.ide.run.debug/debuggers/socket",
             nodeBin: nodeBin
