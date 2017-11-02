@@ -81,7 +81,7 @@
         margin : 0;
         border-radius: @installer-log-border-radius;
         
-        .gradient(~"@{installer-log-gradient}");
+        background-image: @installer-log-gradient;
         
         border : @installer-log-border;
         border-color : @installer-log-border-color;

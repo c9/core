@@ -6,7 +6,7 @@
                 position: relative;
                 border: @bubble-border;
                 border-radius: @bubble-border-radius;
-                .gradient(~"@{bubble-gradient}");
+                background-image: @bubble-gradient;
                 padding: @bubble-padding;
                 color: @bubble-color;
                 margin-top: @bubble-margin-top;

@@ -19,7 +19,7 @@
     font-size: 11px;
     font-family: Tahoma, Arial;
     line-height: 10px;
-    .box-sizing(border-box);
+    box-sizing: border-box;
 }
 .outline.ace_tree .ace_tree_cell-layer>div>span:first-child{
     padding : 0 0 0 0;

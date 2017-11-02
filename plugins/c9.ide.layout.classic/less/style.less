@@ -151,11 +151,11 @@
 }
 
 .c9-offline, .c9-update, .c9-readonly, .c9-theme-switch {
-    .gradient(~"@{offline-gradient}"); // Blue
-    // .gradient(~"linear-gradient(top, rgb(153, 153, 60) 0%, rgb(126, 121, 61) 100%);"); // Green-grayish
-    // .gradient(~"linear-gradient(top, rgb(154, 180, 50) 0%, rgb(116, 143, 45) 100%)"); // Green
-    // .gradient(~"linear-gradient(top, rgb(167, 69, 69) 0%, rgb(138, 52, 49) 100%)"); // Red
-    // .gradient(~"linear-gradient(top, rgb(206, 73, 73) 0%, rgb(185, 72, 68) 100%)"); // Light Red
+    background-image: @offline-gradient; // Blue
+    // background-image: linear-gradient(to bottom, rgb(153, 153, 60) 0%, rgb(126, 121, 61) 100%);; // Green-grayish
+    // background-image: linear-gradient(to bottom, rgb(154, 180, 50) 0%, rgb(116, 143, 45) 100%); // Green
+    // background-image: linear-gradient(to bottom, rgb(167, 69, 69) 0%, rgb(138, 52, 49) 100%); // Red
+    // background-image: linear-gradient(to bottom, rgb(206, 73, 73) 0%, rgb(185, 72, 68) 100%); // Light Red
     height: @offline-height;
     border-bottom: @offline-border-bottom;
     text-shadow: @offline-text-shadow;
@@ -181,21 +181,21 @@
 }
 
 .c9-update {
-    .gradient(~"@{update-gradient}"); // Green
+    background-image: @update-gradient; // Green
 }
 .c9-update:before {
     background: url("@{image-path}/updatec9.png") no-repeat 0 0;
 }
 
 .c9-readonly{
-    .gradient(~"@{readonly-gradient}"); // Bright Green
+    background-image: @readonly-gradient; // Bright Green
 }
 .c9-readonly:before {
     background: url("@{image-path}/c9readonly.png") no-repeat 0 0;
 }
 
 .c9-theme-switch{
-    .gradient(~"@{theme-switch-gradient}"); // Bright Green
+    background-image: @theme-switch-gradient; // Bright Green
 }
 .c9-theme-switch a{
     color: rgb(210, 242, 145);

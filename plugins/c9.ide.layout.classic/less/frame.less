@@ -22,20 +22,17 @@
     font-size: @frame-title-font-size;
     color: @frame-title-color;
     background-color: @frame-title-background;
-    background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0, @frame-title-gradient-start),color-stop(1, @frame-title-gradient-stop));
-    background-image: -moz-linear-gradient(90deg, @frame-title-gradient-start 0%, @frame-title-gradient-stop 100%);
+    background-image: linear-gradient(90deg, @frame-title-gradient-start 0%, @frame-title-gradient-stop 100%);
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
 .frame>.title:hover{
-    background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0, @frame-title-gradient-hover-start),color-stop(1, @frame-title-gradient-hover-stop));
-    background-image: -moz-linear-gradient(90deg, @frame-title-gradient-hover-start 0%, @frame-title-gradient-hover-stop 100%);
+    background-image: linear-gradient(90deg, @frame-title-gradient-hover-start 0%, @frame-title-gradient-hover-stop 100%);
 }
 .frame>.title:active{
-    background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0, @frame-title-gradient-active-start),color-stop(1, @frame-title-gradient-active-stop));
-    background-image: -moz-linear-gradient(90deg, @frame-title-gradient-active-start 0%, @frame-title-gradient-active-stop 100%);
+    background-image: linear-gradient(90deg, @frame-title-gradient-active-start 0%, @frame-title-gradient-active-stop 100%);
 }
 .frame .title span{
     vertical-align: top;

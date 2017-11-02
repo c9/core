@@ -125,7 +125,7 @@
     height : 16px;
     border-radius: 3px;
     box-shadow: @collab-access-control-inactive-box-shadow;
-    .gradient(~"@{collab-access-control-inactive-gradient}");
+    background-image: @collab-access-control-inactive-gradient;
 
     /*text-shadow: 0 1px rgba(0,0,0,0.5);*/
     color : @collab-access-control-inactive-color;
@@ -154,7 +154,7 @@
     
 .memberstree.ace_tree_focus .selected .access_control.rw .readbutton,
 .memberstree.ace_tree_focus .selected .access_control.r .writebutton{
-    .gradient(~"@{collab-tree-focus-access-control-active-gradient}");
+    background-image: @collab-tree-focus-access-control-active-gradient;
 }
 
 .access_control.rw .writebutton,

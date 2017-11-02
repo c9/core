@@ -220,14 +220,10 @@
     left: 10%;
     right: 10%;
     height: 1px;
-
-    /*.gradien("~linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%)");*/
     margin-top: -4px;
     z-index: -1;
 }
-/*.dark .ace_progress{*/
-/*    .gradient(~"linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%)");*/
-/*}*/
+
 .ace_progress.upload{
     top: 1px;
     left: 0px;
@@ -241,10 +237,10 @@
 .ace_progress div {
     width: 10%;
     height: 100%;
-    .gradient(~"linear-gradient(to right, rgba(40, 130, 190, 0) 0%,rgba(40, 130, 190, 1) 100%)");
+    background-image: linear-gradient(to right, rgba(40, 130, 190, 0) 0%,rgba(40, 130, 190, 1) 100%);
 }
 .dark .ace_progress div{
-    .gradient(~"linear-gradient(to right, rgba(113,170,12,0) 0%,rgba(113,170,12,1) 100%)");
+    background-image: linear-gradient(to right, rgba(113,170,12,0) 0%,rgba(113,170,12,1) 100%);
 }
 
 

@@ -287,7 +287,7 @@ body>.session_btn.curbtn{
     display: block;
     position: absolute;
     bottom: 2px;
-    .gradient(~"linear-gradient(left, transparent 0%, rgba(0,0,0,0.2) 15%, rgba(0,0,0,0.2) 30%, transparent 60%)");
+    background-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.2) 15%, rgba(0,0,0,0.2) 30%, transparent 60%);
     left: -10px;
     right: -10px;
     height: 1px;
@@ -295,7 +295,7 @@ body>.session_btn.curbtn{
 }
 
 .focus.session_btn.curbtn.dark .sessiontab_title:after when(@pane-button-use-bold-focus = false) {
-    .gradient(~"linear-gradient(left, transparent 0%, rgba(255, 255, 255, 0.19) 15%, rgba(255, 255, 255, 0.19) 30%, transparent 60%)");
+    background-image: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.19) 15%, rgba(255, 255, 255, 0.19) 30%, transparent 60%);
 }
 
 
@@ -388,7 +388,7 @@ body>.session_btn.curbtn{
     margin: @pane-plus-margin;
     top: 3px;
     vertical-align : top;
-    .box-sizing(border-box);
+    box-sizing: border-box;
 
     position: relative;
     cursor: default;
@@ -396,7 +396,7 @@ body>.session_btn.curbtn{
     .skew(23deg);
     border-radius: 4px 3px 4px 2px;
     border: @pane-plus-box-border;
-    .box-shadow(~"@{pane-plus-box-shadow}");
+    box-shadow: @pane-plus-box-shadow;
     width: @pane-plus-width;
     height: @pane-plus-height;
     z-index: 100000;
@@ -413,16 +413,16 @@ body>.session_btn.curbtn{
 }
 .plus_tab_button.c9-simple-btnOver {
     border: 1px solid @pane-plus-hover-border-color;
-    .box-shadow(~"@{pane-plus-hover-box-shadow}");
-    .gradient(~"@{pane-plus-hover-gradient}");
+    box-shadow: @pane-plus-hover-box-shadow;
+    background-image: @pane-plus-hover-gradient;
 }
 .plus_tab_button.c9-simple-btnOver:after{
     background-position: @pane-plus-icon-hover-position;
 }
 .plus_tab_button.c9-simple-btnDown {
     border: 1px solid @pane-plus-active-border-color;
-    .box-shadow(~"@{pane-plus-active-box-shadow}");
-    .gradient(~"@{pane-plus-active-gradient}");
+    box-shadow: @pane-plus-active-box-shadow;
+    background-image: @pane-plus-active-gradient;
 }
 .plus_tab_button.c9-simple-btnDown:after {
     background-position: @pane-plus-icon-active-position;
@@ -438,12 +438,12 @@ body>.session_btn.curbtn{
     top: @pane-menu-top;
     width: 19px;
 
-    .box-sizing(border-box);
+    box-sizing: border-box;
     border-radius: 3px;
     height: 16px;
     border: 1px solid @pane-menu-border-color;
-    .box-shadow(~"@{pane-menu-box-shadow}");
-    .gradient(~"@{pane-menu-gradient}");
+    box-shadow: @pane-menu-box-shadow;
+    background-image: @pane-menu-gradient;
 }
 .has_apf .tabmenubtn:after {
     content: "";
@@ -456,8 +456,8 @@ body>.session_btn.curbtn{
 }
 .has_apf .tabmenubtn.c9-simple-btnOver {
     border: 1px solid @pane-menu-hover-border-color;
-    .box-shadow(~"@{pane-menu-hover-box-shadow}");
-    .gradient(~"@{pane-menu-hover-gradient}");
+    box-shadow: @pane-menu-hover-box-shadow;
+    background-image: @pane-menu-hover-gradient;
 }
 .has_apf .tabmenubtn.c9-simple-btnOver:after{
     background-position: @pane-menu-icon-hover-position;
@@ -475,10 +475,10 @@ body>.session_btn.curbtn{
 .tabsContextMenu:before {
     border: 1px solid @pane-menu-active-border-color;
     border-width : 1px 1px 0 1px;
-    .box-shadow(~"@{pane-menu-active-box-shadow}");
-    .gradient(~"@{pane-menu-active-gradient}");
+    box-shadow: @pane-menu-active-box-shadow;
+    background-image: @pane-menu-active-gradient;
 
-    .box-sizing(border-box);
+    box-sizing: border-box;
     border-radius: 3px 3px 0 0;
     content: "";
     display: block;
@@ -502,8 +502,8 @@ body>.session_btn.curbtn{
 }
 .upward.tabsContextMenu:before{
     border-width : 0px 1px 1px 1px;
-    .box-shadow(~"@{pane-menu-upward-active-box-shadow}");
-    .gradient(~"@{pane-menu-upward-active-gradient}");
+    box-shadow: @pane-menu-upward-active-box-shadow;
+    background-image: @pane-menu-upward-active-gradient;
     border-radius: 0 0 3px 3px;
 
     top: auto;

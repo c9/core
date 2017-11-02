@@ -1,6 +1,6 @@
 .dropdown-dark-glossy {
-    .gradient(~"linear-gradient(top, @{button-black-background-1} 0%, @{button-black-background-2} 52%, @{button-black-background-3} 52%, @{button-black-background-4} 100%)");
-    .box-shadow(~"0 1px 0 @{border-highlight-strong} inset, 0px 1px @{border-highlight-strong}");
+    background-image: linear-gradient(to bottom, @button-black-background-1 0%, @button-black-background-2 52%, @button-black-background-3 52%, @button-black-background-4 100%);
+    box-shadow: 0 1px 0 @border-highlight-strong inset, 0px 1px @border-highlight-strong;
     
     border: 1px solid @button-black-border-color;
     border-radius: 3px;
@@ -52,11 +52,11 @@
 }
 
 .dropdown-dark-glossyOver {
-    .box-shadow(~"0 1px 0 @{border-highlight-strong} inset, 0px 1px @{border-highlight-strong}, 0 0 0 1000px @{button-black-hover-shadow} inset");
+    box-shadow: 0 1px 0 @border-highlight-strong inset, 0px 1px @border-highlight-strong, 0 0 0 1000px @button-black-hover-shadow inset;
 }
 
 .dropdown-dark-glossyDown {
-    .box-shadow(~"0 0 3px 2px @{button-black-active-inner-border} inset");
+    box-shadow: 0 0 3px 2px @button-black-active-inner-border inset;
 }
 
 /*.dropdown-dark-glossyDisabled {
@@ -74,7 +74,7 @@
     border: 1px solid @menu-border-color;
     padding: @dropdown-glossy-list-padding;
     color: @menu-color;
-    .box-shadow(~"@{dropdown-glossy-list-shadow}");
+    box-shadow: @dropdown-glossy-list-shadow;
     border-radius: @dropdown-glossy-list-border-radius;
 }
 .dropdown-dark-glossy-options.upward {

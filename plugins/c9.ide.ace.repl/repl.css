@@ -94,7 +94,7 @@
 .repl_lineWidgetContainer:before {
     content: "";
     top:0;
-    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.1), transparent);
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent);
     height: 4px;
     width: 100%;
     position: absolute;
@@ -102,7 +102,7 @@
 .repl_lineWidgetContainer:after {
     content: "";
     bottom:0;
-    background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.1), transparent);
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
     height: 4px;
     width: 100%;
     position: absolute;

@@ -6,7 +6,7 @@
                 overflow: hidden;
                 position: relative;
                 border-style: solid;
-                .gradient(~"@{gotoline-list-background}");
+                background-image: @gotoline-list-background;
                 color: @gotoline-list-color;
                 border-color: @gotoline-list-border-color;
                 border-width: @gotoline-list-border-width;
@@ -20,7 +20,7 @@
                 text-align: right;
             }
             .dark .gotolinelist{
-                .gradient(~"@{gotoline-list-background-dark}");
+                background-image: @gotoline-list-background-dark;
                 color: @gotoline-list-color-dark;
                 border-color: @gotoline-list-border-color-dark;
                 border-width: @gotoline-list-border-width-dark;
@@ -125,8 +125,7 @@
                 height           : 15px;
                 padding          : 2px 5px 2px 5px;
 
-                background-color: #ffffff;
-                .gradient(~"linear-gradient(center bottom,rgb(255,255,255) 50%,rgb(235,235,235) 100%)");
+                background: linear-gradient(0deg,rgb(255,255,255) 50%,rgb(235,235,235) 100%);
                 color: #0471cf;
                 margin: 0;
                 outline: none;
@@ -168,7 +167,7 @@
             }
 
             .tbGotolineDisabled .sbtb_middle{
-                background: linear-gradient(center bottom,rgb(235,235,235) 0%,rgb(255,255,255) 40%);
+                background: linear-gradient(0deg,rgb(235,235,235) 0%,rgb(255,255,255) 40%);
                 cursor : default;
             }
         ]]></a:style>

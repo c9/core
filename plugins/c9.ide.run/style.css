@@ -16,7 +16,7 @@
 }
 
 .editor_tab .output:not(.hidetoolbar) .c9terminal .c9terminalcontainer.dark {
-    .gradient(~"linear-gradient(top, rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0.1) 28px, rgba(0, 0, 0, 0.29) 28px, rgba(0, 0, 0, 0.11) 36px, rgba(0, 0, 0, 0.01) 41px, transparent 43px);");
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0.1) 28px, rgba(0, 0, 0, 0.29) 28px, rgba(0, 0, 0, 0.11) 36px, rgba(0, 0, 0, 0.01) 41px, transparent 43px);
 }
 
 .output:not(.hidetoolbar) .ace_editor{
@@ -68,14 +68,14 @@
 
 .output .toolbar .c9-toolbarbutton-glossyOver {
     border: 1px solid @output-button-hover-border-color;
-    .gradient(~"linear-gradient(top, @{output-button-hover-background-1} 0%, @{output-button-hover-background-2} 55%, @{output-button-hover-background-3} 55%, @{output-button-hover-background-4} 100%)");
-    .box-shadow(~"inset 1px 1px @{output-button-hover-shadow-color}, inset -1px -1px @{output-button-hover-shadow-color};");
+    background-image: linear-gradient(to bottom, output-button-hover-background-1 0%, output-button-hover-background-2 55%, output-button-hover-background-3 55%, output-button-hover-background-4 100%);
+    box-shadow: inset 1px 1px output-button-hover-shadow-color, inset -1px -1px output-button-hover-shadow-color;
 }
 
 .output .toolbar .c9-toolbarbutton-glossyDown {
     border: 1px solid @output-button-active-border-color;
-    .gradient(~"linear-gradient(top, @{output-button-active-background-1} 0%, @{output-button-active-background-2} 55%, @{output-button-active-background-3} 55%, @{output-button-active-background-4} 100%)");
-    .box-shadow(~"inset 1px 1px @{output-button-hover-shadow-color}, inset -1px -1px @{output-button-hover-shadow-color};");
+    background-image: linear-gradient(to bottom, @output-button-active-background-1 0%, @output-button-active-background-2 55%, @output-button-active-background-3 55%, @output-button-active-background-4 100%);
+    box-shadow:  inset 1px 1px output-button-hover-shadow-color, inset -1px -1px ;
 }
 
 /* Place Holder */

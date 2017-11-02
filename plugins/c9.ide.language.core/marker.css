@@ -24,7 +24,7 @@
 
 .language_highlight_occurrence_main {
     position: absolute;
-    .box-sizing(border-box);
+    box-sizing: border-box;
     border: solid 1px #888;
     z-index: 2000;
 }
@@ -35,7 +35,7 @@
 
 .language_highlight_occurrence_other {
     position: absolute;
-    .box-sizing(border-box);
+    box-sizing: border-box;
     border: solid 1px #888;
     z-index: 2000;
 }
@@ -46,7 +46,7 @@
 
 .language_rename_main {
     position: absolute;
-    .box-sizing(border-box);
+    box-sizing: border-box;
     z-index: 3;
     box-shadow: 0 0 2px 2px rgba(194, 181, 29, 0.78);
 }
@@ -57,7 +57,7 @@
 
 .language_rename_other {
     position: absolute;
-    .box-sizing(border-box);
+    box-sizing: border-box;
     z-index: 3;
     box-shadow: 0 0 2px 1px rgba(214, 221, 38, 0.94) inset;
 }
