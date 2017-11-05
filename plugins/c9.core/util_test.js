@@ -10,12 +10,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         "plugins/c9.core/ext",
         "plugins/c9.core/util",
         "plugins/c9.ide.ui/lib_apf",
-        // Mock plugins
-        {
-            consumes: [],
-            provides: ["c9"],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["util"],
             provides: [],

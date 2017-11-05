@@ -39,12 +39,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events", "ace
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
         "plugins/c9.ide.threewaymerge/threewaymerge",
-        //Mock Plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: ["auth.bootstrap", "info", "proc", "dialog.error"],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["threewaymerge", "fs"],
             provides: [],

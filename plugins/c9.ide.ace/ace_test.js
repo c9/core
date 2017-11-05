@@ -57,16 +57,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         "plugins/c9.ide.dialog.common/alert",
         "plugins/c9.ide.dialog.common/alert_internal",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "layout", "watcher", 
-                "save", "preferences", "anims", "clipboard", "auth.bootstrap",
-                "info", "dialog.error", "threewaymerge", "error_handler"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["tabManager", "ace", "commands"],
             provides: [],

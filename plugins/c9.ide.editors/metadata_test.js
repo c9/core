@@ -70,16 +70,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.dialog.common/question",
         "plugins/c9.ide.dialog.file/file",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "commands", "layout", "watcher", "save", 
-                "preferences", "anims", "clipboard", "auth.bootstrap", "info",
-                "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["tabManager", "fs", "settings", "metadata", "dialog.question"],
             provides: [],

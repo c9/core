@@ -78,8 +78,9 @@ require([
         html.constr = fn;
     };
     
-    expect.html.mocked = function(options, imports, register) {
-        register(null, {
+    expect.mockPlugins = function(options, imports, register) {
+        var mock;
+        register(null, mock = {
             c9: (function() {
                 var x = new EventEmitter();
                 x.location = "";
@@ -184,7 +185,7 @@ require([
                     apf.item.prototype.$propHandlers["command"] = function(value) {
                         this.onclick = function() {
                             commands[value].exec(
-                                apf.getPlugin("tabManager").focussedPage.editor
+                                (apf.getPlugin("tabManager") || mock.tabManager).focussedPage.editor
                             );
                         };
                     };
@@ -314,7 +315,7 @@ require([
                 var where;
                 plugin.on("load", function() {
                     where = options.where || "left";
-                    var panels = apf.getPlugin("panels");
+                    var panels = apf.getPlugin("panels") || mock.panels;
                     panels.register(plugin);
                 });
                 plugin.freezePublicAPI.baseclass();
@@ -551,7 +552,7 @@ require([
             config.push({
                 consumes: options.existingPlugins || [],
                 provides: options.mockPlugins,
-                setup: expect.html.mocked
+                setup: expect.mockPlugins
             });
         }
         architect.resolveConfig(config, function(err, config) {
@@ -559,7 +560,7 @@ require([
             if (err) throw err;
             var app = architect.createApp(config, function(err, app) {
                 if (err && err.unresolved && !config.unresolved) {
-                    expect.html.mocked({}, {}, function(a, mockServices) { 
+                    expect.mockPlugins({}, {}, function(a, mockServices) { 
                         err.missingMock = err.unresolved.filter(function(x) {
                             return !mockServices[x];
                         });

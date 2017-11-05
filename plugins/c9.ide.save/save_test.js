@@ -66,21 +66,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "async"],
         "plugins/c9.ide.dialog.common/question",
         "plugins/c9.ide.dialog.file/file",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "commands", "layout", "watcher", 
-                "save", "anims", "tree", "preferences", "clipboard",
-                "auth.bootstrap", "info", "dialog.error", "vfs.log"
-            ],
-            setup: expect.html.mocked
-        },
-        {
-            consumes: [],
-            provides: ["proc"],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["tabManager", "save", "fs", "dialog.file", "dialog.question"],
             provides: [],
@@ -117,6 +102,26 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "async"],
             expect(tab.document.undoManager.length).to.equal(length + 1);
             expect(tab.document.changed).to.ok;
         }
+        
+        function createAndOpenFiles(done) {
+            var count = 0;
+            files.slice(0, 3).forEach(function(path, i) {
+                count++;
+                fs.writeFile(path, path, function() {
+                    tabs.openFile(path, function() {
+                        if (--count === 0)
+                            done();
+                    });
+                });
+            });
+        }
+        
+        function destroyTabs(done) {
+            tabs.getTabs().forEach(function(tab) {
+                tab.unload();
+            });
+            done();
+        }
 
         var TIMEOUT = 15;
         var files = [];
@@ -152,18 +157,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "async"],
             });
             
             describe("save", function() {
-                before(function(done) {
-                    var count = 0;
-                    files.slice(0, 3).forEach(function(path, i) {
-                        count++;
-                        fs.writeFile(path, path, function() {
-                            tabs.openFile(path, function() {
-                                if (--count === 0)
-                                    done();
-                            });
-                        });
-                    });
-                });
+                before(createAndOpenFiles);
                 
                 it('should save a tab that is changed', function(done) {
                     var path = "/save1.txt";
@@ -351,24 +345,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "async"],
                 });
             });
             describe("saveAs", function() {
-                before(function(done) {
-                    var count = 0;
-                    files.slice(0, 3).forEach(function(path, i) {
-                        count++;
-                        fs.writeFile(path, path, function() {
-                            tabs.openFile(path, function() {
-                                if (--count === 0)
-                                    done();
-                            });
-                        });
-                    });
-                });
-                after(function(done) {
-                    tabs.getTabs().forEach(function(tab) {
-                        tab.unload();
-                    });
-                    done();
-                });
+                before(createAndOpenFiles);
+                after(destroyTabs);
                 
                 it('should save a file under a new filename', function(done) {
                     var tab = tabs.focussedTab;
@@ -414,24 +392,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "async"],
                 });
             });
             describe("revertToSaved", function() {
-                before(function(done) {
-                    var count = 0;
-                    files.slice(0, 3).forEach(function(path, i) {
-                        count++;
-                        fs.writeFile(path, path, function() {
-                            tabs.openFile(path, function() {
-                                if (--count === 0)
-                                    done();
-                            });
-                        });
-                    });
-                });
-                after(function(done) {
-                    tabs.getTabs().forEach(function(tab) {
-                        tab.unload();
-                    });
-                    done();
-                });
+                before(createAndOpenFiles);
+                after(destroyTabs);
                 
                 it('should revert changed tab', function(done) {
                     changeTab("/save1.txt", function(e, tab) {
@@ -449,24 +411,8 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "async"],
                 });
             });
             describe("saveAll", function() {
-                before(function(done) {
-                    var count = 0;
-                    files.slice(0, 3).forEach(function(path, i) {
-                        count++;
-                        fs.writeFile(path, path, function() {
-                            tabs.openFile(path, function() {
-                                if (--count === 0)
-                                    done();
-                            });
-                        });
-                    });
-                });
-                after(function(done) {
-                    tabs.getTabs().forEach(function(tab) {
-                        tab.unload();
-                    });
-                    done();
-                });
+                before(createAndOpenFiles);
+                after(destroyTabs);
                 
                 it('should save all changed files', function(done) {
                     var page3 = tabs.findTab("/save3.txt");
@@ -489,26 +435,10 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "async"],
                 });
             });
             describe("saveAllInteractive", function() {
-                before(function(done) {
-                    var count = 0;
-                    files.slice(0, 3).forEach(function(path, i) {
-                        count++;
-                        fs.writeFile(path, path, function() {
-                            tabs.openFile(path, function() {
-                                if (--count === 0)
-                                    done();
-                            });
-                        });
-                    });
-                });
-                after(function(done) {
-                    tabs.getTabs().forEach(function(tab) {
-                        tab.unload();
-                    });
-                    done();
-                });
+                before(createAndOpenFiles);
+                after(destroyTabs);
                 
-                it('should be triggered when closing multiple pages that are changed', function(done) {
+                it.skip('should be triggered when closing multiple pages that are changed', function(done) {
                     changeTab("/save1.txt", function(e, page1) {
                         changeTab("/save2.txt", function(e, page2) {
                             changeTab("/save3.txt", function(e, page3) {

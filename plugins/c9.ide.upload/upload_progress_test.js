@@ -57,16 +57,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.dialog.common/fileoverwrite",
         "plugins/c9.ide.dialog.common/fileremove",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "commands", "layout", "watcher", 
-                "save", "panels", "tabManager", "preferences", "clipboard",
-                "auth.bootstrap", "info", "Panel", "proc", "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["upload.progress", "upload.manager", "settings"],
             provides: [],

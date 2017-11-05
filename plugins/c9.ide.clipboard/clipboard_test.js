@@ -12,15 +12,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         "plugins/c9.ide.clipboard/clipboard",
         "plugins/c9.ide.clipboard/html5",
         
-        // Mock plugins
-        {
-            consumes: [],
-            provides: [
-                "commands", "menus", "http", "layout", "c9", "dialog.error", 
-                "dialog.alert", "settings"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["clipboard"],
             provides: [],

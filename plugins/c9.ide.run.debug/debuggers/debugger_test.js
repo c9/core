@@ -125,15 +125,6 @@ require([
         "plugins/c9.ide.run.debug/watches",
         //"plugins/c9.ide.run.debug/quickwatch",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "watcher", "anims", "save", "preferences", 
-                "panels", "layout", "menus", "clipboard", "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["run", "debugger", "fs", "tabManager", "sourcemap", "v8debugger"],
             provides: [],

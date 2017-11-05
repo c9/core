@@ -135,16 +135,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             packagePath: "plugins/c9.ide.run.build/gui"
         },
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "layout", "watcher", "save", 
-                "preferences", "clipboard", "dialog.alert", "auth.bootstrap",
-                "info", "run.gui", "debugger", "dialog.question", "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["build", "run", "fs", "tabManager", "console", "output", "save"],
             provides: [],

@@ -30,12 +30,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
         
-        //Mock Plugins
-        {
-            consumes: ["Plugin"],
-            provides: ["auth.bootstrap", "info", "dialog.error", "api"],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["c9", "watcher", "fs"],
             provides: [],

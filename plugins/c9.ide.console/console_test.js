@@ -59,17 +59,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         },
         "plugins/c9.fs/fs.cache.xml",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "commands", "layout", "watcher", 
-                "preferences", "anims", "clipboard", "dialog.alert", "auth.bootstrap",
-                "dialog.question", "debugger", "run.gui", "info", "dialog.error",
-                "dialog.file"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["console", "tabManager", "terminal", "output"],
             provides: [],

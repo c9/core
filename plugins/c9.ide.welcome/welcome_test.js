@@ -67,16 +67,6 @@ require([
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "menus", "layout", "watcher", "save", "clipboard",
-                "dialog.confirm", "dialog.alert", "auth.bootstrap", "info",
-                "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["tabManager", "welcome"],
             provides: [],

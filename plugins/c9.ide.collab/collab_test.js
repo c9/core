@@ -91,17 +91,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             staticPrefix: "plugins/c9.ide.collab/members"
         },
 
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "commands", "layout", "watcher", "Panel", "info", "save", "dialog.file",
-                // "menus", "Menu", "MenuItem", "Divider", - "plugins/c9.ide.ui/menus",
-                "dialog.alert", "dialog.confirm", "dialog.error", "dialog.question", "dialog.fileoverwrite",
-                "panels", "preferences", "clipboard", "auth.bootstrap", "anims", "debugger", "run.gui"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["fs", "tabManager", "save",
                 "collab.connect", "collab.workspace", "collab", "OTDocument",

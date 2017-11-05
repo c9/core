@@ -19,11 +19,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         "plugins/c9.core/api",
         "plugins/c9.core/ext",
         "plugins/c9.core/http-xhr",
-         {
-            consumes: [],
-            provides: ["auth.bootstrap", "info", "dialog.error"],
-            setup: expect.html.mocked
-        },
 
         {
             consumes: ["c9", "vfs"],

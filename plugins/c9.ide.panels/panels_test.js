@@ -30,15 +30,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.panels/area",
         "plugins/c9.ide.panels/panel",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "c9", "proc", "info", "auth",
-                "commands", "menus", "commands", "layout", "fs", "tabManager"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["panels", "commands", "layout", "Panel"],
             provides: [],

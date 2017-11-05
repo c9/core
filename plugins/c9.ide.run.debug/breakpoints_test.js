@@ -61,14 +61,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.ui/focus",
         "plugins/c9.ide.editors/pane",
         "plugins/c9.ide.editors/tab",
-        //Mock Plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: ["commands", "layout", "watcher", "auth.bootstrap", "info",
-                "preferences", "anims", "menus", "clipboard", "immediate", "run",
-                "dialog.alert", "dialog.error"],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["breakpoints", "ui"],
             provides: [],

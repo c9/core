@@ -111,17 +111,6 @@ require(["lib/architect/architect", "lib/chai/chai", "plugins/c9.ide.language/co
         "plugins/c9.ide.ace.statusbar/statusbar",
         "plugins/c9.ide.ace.gotoline/gotoline",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "layout", "watcher", 
-                "save", "preferences", "anims", "clipboard", "auth.bootstrap",
-                "info", "dialog.error", "panels", "tree", "dialog.question",
-                "dialog.alert"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: [
                 "tabManager",

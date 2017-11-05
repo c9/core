@@ -34,15 +34,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.auth/auth",
         "plugins/c9.ide.run.debug/callstack",
         
-        //Mock Plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "panels", "tabManager", "layout", "watcher",
-                "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["callstack"],
             provides: [],
