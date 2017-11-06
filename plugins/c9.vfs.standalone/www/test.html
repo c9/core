@@ -98,7 +98,7 @@
                 var req = new XMLHttpRequest_orig();
                 if (currentTest != test) {
                     req.open = function() {
-                        console.error(test + " tried to open xhr after end");
+                        console.error(test + " tried to open xhr after test completion");
                     };
                     req.setRequestHeader = req.send = function() {};
                 }
@@ -180,7 +180,7 @@
         }
     </script>
     <script>//<!--
-    /*global mocha afterEach after*/
+    /*global mocha*/
     function defineEmpty(path) {
         define(path, [], {}); 
         require([path]);
@@ -207,7 +207,7 @@
         "text!/test/all.json",
         "lib/architect/architect",
         "lib/chai/chai",
-        "test",
+        "./static/test.js",
         "plugins/c9.ide.ui/lib_less1.5"
     ];
     if (options.ui === "none")
@@ -437,15 +437,11 @@
             return c9Test.allFiles.filter(function(x) { return x.match(r); });
         };
         c9Test.reRun = c9Test.run;
-        // wait for test.js to initialise chai
-        require(["lib/chai/chai", "text!plugins/c9.ide.layout.classic/skins.xml"], function wait(chai){
-            if (!chai.expect.html)
-                setTimeout(wait.bind(null, chai), 50);
-            else if (c9Test.onReady)
-                c9Test.onReady(null, null);
-            else
-                runAll({all: files});
-        });
+        
+        if (c9Test.onReady)
+            c9Test.onReady(null, null);
+        else
+            runAll({all: files});
     }, function() {
         c9Test.onReady("Couldn't load test runner");
     });
