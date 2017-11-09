@@ -1497,6 +1497,12 @@ function defineProp(obj, name, val) {
     });
 }
 
+if (!Element.prototype.remove) {
+    defineProp(Element.prototype, "remove", function() {
+        this.parentNode && this.parentNode.removeChild(this) 
+    });
+}
+
 defineProp(Array.prototype, "dataType", apf.ARRAY);
 defineProp(Number.prototype, "dataType", apf.NUMBER);
 defineProp(Date.prototype, "dataType", apf.DATE);

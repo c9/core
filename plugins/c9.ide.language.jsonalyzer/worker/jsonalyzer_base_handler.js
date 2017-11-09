@@ -209,7 +209,7 @@ module.exports = {
         options.env = options.env || {};
         var PATH = options.env.PATH || this.defaultEnv && this.defaultEnv.PATH || process.env.PATH;
         options.env.PATH = process.platform === "linux"
-            ? "/mnt/shared/bin:" + PATH
+            ? PATH + ":/mnt/shared/bin"
             : PATH;
         for (var key in process.env) {
             options.env[key] = options.env[key] != null ? options.env[key] : process.env[key];
