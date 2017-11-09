@@ -634,6 +634,8 @@ apf.vbox = function(struct, tagName) {
     this.unregister = function(amlNode) {
         if (!amlNode.$propHandlers)
             return;
+            
+        if (!amlNode.$ext) return;
         
         amlNode.$propHandlers["left"] = 
         amlNode.$propHandlers["top"] = 
