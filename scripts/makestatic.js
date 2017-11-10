@@ -76,9 +76,10 @@ function main(config, settings, options, callback) {
         })
         .concat({
             consumes: [],
-            provides: ["cdn.build", "db", "redis", "health"],
+            provides: ["cdn.build", "db", "redis", "health", "emergency"],
             setup: function(options, imports, register) {
                 register(null, {
+                    "emergency": {},
                     "cdn.build": {},
                     "db": {
                         "Vfs": {
@@ -99,6 +100,7 @@ function main(config, settings, options, callback) {
             var path = p.packagePath;
             return !path || path.indexOf("c9.db.redis/redis") == -1
                 && path.indexOf("c9.static/build") == -1
+                && path.indexOf("c9.emergency/emergency") == -1
                 && path.indexOf("c9.api/health") == -1;
         });
 
