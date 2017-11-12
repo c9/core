@@ -302,16 +302,36 @@ define(function(require, exports, module) {
             openTab("~/.c9/styles.css", css, "css");
         }
         
+        function stringifySettings(query) {
+            var model = settings.get(query, true);
+            var defaults = settings.get(query, true, true);
+            var merged = merge({}, defaults, model);
+            function merge(result) {
+                var args = arguments;
+                for (var i = 1; i < args.length; i++) {
+                    var o = args[i];
+                    for (var key in o) {
+                        if (!o[key] || typeof o[key] !== "object") {
+                            result[key] = o[key];
+                        } else {
+                            if (!result[key] || typeof result[key] != "object")
+                                result[key] = {};
+                            merge(result[key], o[key]);
+                        }
+                    }
+                }
+                return result;
+            }
+            return util.stableStringify(merged, null, 4)
+                .replace(/ "(true|false)"/g, " $1");
+        }
+        
         function editProjectSettings() {
-            var value = JSON.stringify(settings.model.project, 0, "    ")
-                .replace(/"true"/g, "true")
-                .replace(/"false"/g, "false");
+            var value = stringifySettings("project");
             openTab(settings.paths.project, value, "javascript");
         }
         function editUserSettings() {
-            var value = JSON.stringify(settings.model.user, 0, "    ")
-                .replace(/"true"/g, "true")
-                .replace(/"false"/g, "false");
+            var value = stringifySettings("user");
             openTab(settings.paths.user, value, "javascript");
         }
         

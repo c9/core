@@ -61,7 +61,7 @@ define(function(require, module, exports) {
             // Settings
             settings.on("read", function() {
                 settings.setDefaults("project/build", [
-                    ["saveall", "true"],
+                    ["saveall", true],
                     ["builder", "auto"]
                 ]);
                 settings.setDefaults("user/build", [

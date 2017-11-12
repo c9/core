@@ -61,13 +61,13 @@ define(function(require, exports, module) {
                             caption: "Reset to Defaults",
                             width: 140,
                             onclick: function() {
-                                confirm("Reset Settings", 
+                                confirm("Reset User Settings", 
                                     "Are you sure you want to reset your settings?", 
                                     "By resetting your settings to their "
                                     + "defaults you will lose all custom settings. "
                                     + "Cloud9 will return to it's original configuration", 
                                     function() {
-                                        settings.reset();
+                                        settings.reset("user");
                                     }, function() {},
                                     { yes: "Reset settings", no: "Cancel" });
                             }

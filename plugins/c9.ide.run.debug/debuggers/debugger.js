@@ -58,8 +58,8 @@ define(function(require, exports, module) {
             
             settings.on("read", function() {
                 settings.setDefaults("user/debug", [
-                    ["pause", "0"],
-                    ["autoshow", "true"]
+                    ["pause", 0],
+                    ["autoshow", true]
                 ]);
                 
                 pauseOnBreaks = settings.getNumber("user/debug/@pause");

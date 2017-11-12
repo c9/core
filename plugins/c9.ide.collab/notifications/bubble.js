@@ -29,7 +29,7 @@ define(function(require, exports, module) {
             loaded = true;
             
             settings.on("read", function() {
-                settings.setDefaults("user/collab", [["showbubbles", "true"]]);
+                settings.setDefaults("user/collab", [["showbubbles", true]]);
             });
             
             prefs.add({

@@ -129,8 +129,8 @@ define(function(require, exports, module) {
                     ["backgroundColor", colors[0]],
                     ["foregroundColor", colors[1]],
                     ["selectionColor", colors[2]],
-                    ["nosavequestion", "false"],
-                    ["keepOutput", "false"]
+                    ["nosavequestion", false],
+                    ["keepOutput", false]
                 ]);
 
                 setSettings();
@@ -1037,13 +1037,13 @@ define(function(require, exports, module) {
                                 tab.close();
 
                                 if (question.dontAsk)
-                                    settings.set("user/output/nosavequestion", "true");
+                                    settings.set("user/output/nosavequestion", true);
                             },
                             function() { // No
                                 // do nothing; allow user to set a name
 
                                 if (question.dontAsk)
-                                    settings.set("user/output/nosavequestion", "true");
+                                    settings.set("user/output/nosavequestion", true);
                             },
                             { showDontAsk: true, yes: "Close", no: "Cancel" });
                         return false;

@@ -50,6 +50,7 @@ define(function(require, exports, module) {
         var KEYS = Object.keys(PATH);
         
         var saveToCloud = {};
+        var defaults = {};
         var model = {};
         var cache = {};
         var diff = 0; // TODO should we allow this to be undefined and get NaN in timestamps?
@@ -67,7 +68,7 @@ define(function(require, exports, module) {
             if (!json) {
                 // Load from TEMPLATE
                 if (options.settings == "defaults" || testing)
-                    json = TEMPLATE;
+                    json = util.cloneObject(TEMPLATE);
                 // Load from parsed settings in the index file
                 else if (options.settings) {
                     json = options.settings;
@@ -80,7 +81,7 @@ define(function(require, exports, module) {
                             try {
                                 json[type] = JSON.parse(json[type]);
                             } catch (e) {
-                                json[type] = TEMPLATE[type];
+                                json[type] = util.cloneObject(TEMPLATE[type]);
                             }
                         }
                     }
@@ -91,8 +92,13 @@ define(function(require, exports, module) {
                 KEYS.forEach(function(type) {
                     if (!skipCloud[type] && json)
                         return --count;
-                    fs.readFile(PATH[type], function(err, data) {
-                        if (!json) json = {};
+                    if (!json) 
+                        json = {};
+                    if (type == "state" && debugMode)
+                        return done(null, localStorage["debugState" + c9.projectName]);
+                    fs.readFile(PATH[type], done);
+                    
+                    function done(err, data) {
                         try {
                             json[type] = err ? {} : JSON.parse(data);
                         } catch (e) {
@@ -103,7 +109,7 @@ define(function(require, exports, module) {
                         
                         if (--count === 0)
                             loadSettings(json);
-                    });
+                    }
                 });
                 if (count > 0)
                     return;
@@ -214,59 +220,31 @@ define(function(require, exports, module) {
         }
     
         function read(json, isReset) {
-            try {
-                if (testing) throw "testing";
-                
+            KEYS.forEach(function(type) {
+                if (json[type])
+                    model[type] = json[type];
+            });
+            
+            if (resetSettings) {
+                var query = (resetSettings == 1 
+                    ? "user|state" : resetSettings).split("|");
+                resetSettings = false;
+                query.forEach(function(type) {
+                    model[type] = util.cloneObject(TEMPLATE[type]);
+                });
+            }
+            
+            if (testing) {
                 KEYS.forEach(function(type) {
-                    if (json[type])
-                        model[type] = json[type];
-                });
-                
-                if (resetSettings) {
-                    var query = (resetSettings == 1 
-                        ? "user|state" : resetSettings).split("|");
-                    query.forEach(function(type) {
-                        model[type] = TEMPLATE[type];
-                    });
-                }
-                
-            } catch (e) {
-                KEYS.forEach(function(type) {
-                    model[type] = TEMPLATE[type];
+                    model[type] = util.cloneObject(TEMPLATE[type]);
                 });
             }
     
-            if (!c9.debug && !testing) {
-                try {
-                    emit("read", {
-                        model: model,
-                        ext: plugin,
-                        reset: isReset
-                    });
-                } catch (e) {
-                    console.error("Error loading settings, reseting to defaults");
-                    console.error(e);
-                    fs.writeFile(PATH.project 
-                        + ".broken", JSON.stringify(json), function() {});
-    
-                    KEYS.forEach(function(type) {
-                        model[type] = TEMPLATE[type];
-                    });
-    
-                    emit("read", {
-                        model: model,
-                        ext: plugin,
-                        reset: isReset
-                    });
-                }
-            }
-            else {
-                emit("read", {
-                    model: model,
-                    ext: plugin,
-                    reset: isReset
-                });
-            }
+            emit("read", {
+                model: model,
+                ext: plugin,
+                reset: isReset
+            });
             
             if (inited)
                 return;
@@ -328,7 +306,7 @@ define(function(require, exports, module) {
         }
 
         function setDefaults(path, attr) {
-            var node = getNode(path) || set(path, {}, true, true) && getNode(path);
+            var node = getNode(path, true) || set(path, {}, true, true) && getNode(path, true);
             var changed;
             
             attr.forEach(function(a) {
@@ -405,7 +383,7 @@ define(function(require, exports, module) {
                 key = "json()";
             }
             
-            var hash = model;
+            var hash = isDefault ? defaults : model;
             if (!parts.every(function(part) {
                 if (!hash[part] && checkDefined) return false;
                 hash = hash[part] || (hash[part] = {});
@@ -474,31 +452,37 @@ define(function(require, exports, module) {
             return parseFloat(double);
         }
         
-        function getNode(query) {
-            return get(query, true);
+        function getNode(query, isDefault) {
+            return get(query, true, isDefault);
         }
         
-        function get(query, isNode) {
+        function getUnsafe(query, isNode, isDefault) {
             var parts = query.split("/");
             if (!isNode && parts[parts.length - 1].charAt(0) !== "@")
                 parts.push("json()");
             
-            var hash = model;
+            var hash = isDefault == true ? {} : model;
             parts.every(function(part) { 
                 hash = hash[part];
                 return hash;
             });
-            
+            if (hash === undefined) {
+                hash = isDefault == false ? {} : defaults;
+                parts.every(function(part) { 
+                    hash = hash[part];
+                    return hash;
+                });
+            }
+            return hash;
+        }
+        
+        function get(query, isNode, isDefault) {
+            var hash = getUnsafe(query, isNode, isDefault);
             return hash === undefined ? "" : hash;
         }
         
         function exist(query) {
-            var parts = query.split("/");
-            var hash = model;
-            return parts.every(function(part) { 
-                hash = hash[part];
-                return hash;
-            });
+            return getUnsafe(query, true) != undefined;
         }
         
         function reset(query) {
@@ -506,10 +490,10 @@ define(function(require, exports, module) {
             
             var info = {};
             query.split("|").forEach(function(type) {
-                info[type] = TEMPLATE[type];
+                info[type] = util.cloneObject(TEMPLATE[type]);
             });
             
-            read(model, true);
+            read(info, true);
             saveToFile();
         }
     
