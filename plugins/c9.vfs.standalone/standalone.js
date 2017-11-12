@@ -142,7 +142,7 @@ function plugin(options, imports, register) {
         },
         previewHandler.getProxyUrl(function() {
             return {
-                url: "http://localhost:" + options.options.port + "/vfs"
+                url: "http://" + options.options.host + ":" + options.options.port + "/vfs"
             };
         }),
         previewHandler.proxyCall()
