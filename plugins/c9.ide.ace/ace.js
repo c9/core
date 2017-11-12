@@ -1823,7 +1823,7 @@ define(function(require, exports, module) {
                 container.style.position = "absolute";
                 container.style.left = "0px";
                 container.style.right = "0px";
-                container.style.top = ui.getStyle(e.htmlNode, "paddingTop");
+                container.style.top = "7px";
                 container.style.bottom = "0px";
         
                 // Create Ace editor instance
