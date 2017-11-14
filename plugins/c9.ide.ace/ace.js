@@ -547,6 +547,10 @@ define(function(require, exports, module) {
             
             layout.on("themeChange", function(e) {
                 setFontSmoothing();
+                // reset this, since main theme can override ace theme colors
+                themeLoaded = {};
+                lastTheme = null;
+                setTheme(settings.get("user/ace/@theme"));
                 
                 if (e.type !== "ace" 
                   && settings.get("user/ace/@theme") != defaultThemes[e.oldTheme])
