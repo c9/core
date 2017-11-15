@@ -481,10 +481,10 @@ define(function(require, exports, module) {
             var init = false;
             settings.on("read", function() {
                 settings.setDefaults("state/projecttree", [
-                    ["showfs", startEmpty ? "false" : "true"]
+                    ["showfs", startEmpty ? false : true]
                 ]);
                 settings.setDefaults("user/projecttree", [
-                    ["scope", "false"]
+                    ["scope", false]
                 ]);
                 
                 if (settings.getBool("state/projecttree/@showfs"))

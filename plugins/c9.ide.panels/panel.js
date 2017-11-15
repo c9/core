@@ -73,7 +73,7 @@ define(function(require, module, exports) {
                 settings.on("read", function() {
                     settings.setDefaults(xpath, [
                         ["name", plugin.name],
-                        ["enabled", "true"]
+                        ["enabled", true]
                     ]);
                     
                     // Start disabled

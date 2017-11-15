@@ -201,7 +201,7 @@ define(function(require, exports, module) {
             // restore the breakpoints from the IDE settings
             settings.on("read", function (e) {
                 settings.setDefaults("user/breakpoints", [
-                    ["active", "true"]
+                    ["active", true]
                 ]);
 
                 var bps = settings.getJson("state/breakpoints");
@@ -483,7 +483,7 @@ define(function(require, exports, module) {
             codebox = new apf.codebox({
                 skin: "simplebox",
                 "class": "dark",
-                focusselect: "true",
+                focusselect: true,
                 htmlNode: hInput,
                 "initial-message": "Your Expression"
             });

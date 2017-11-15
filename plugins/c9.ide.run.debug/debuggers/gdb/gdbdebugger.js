@@ -58,7 +58,7 @@ define(function(require, exports, module) {
 
             settings.on("read", function() {
                 settings.setDefaults("user/debug", [
-                    ["autoshow", "true"]
+                    ["autoshow", true]
                 ]);
             });
 

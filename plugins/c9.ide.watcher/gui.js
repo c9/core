@@ -47,8 +47,8 @@ define(function(require, exports, module) {
     
             settings.on("read", function(e) {
                 settings.setDefaults("user/general", [
-                    ["automerge", "false"],
-                    ["confirmmerge", "true"]
+                    ["automerge", false],
+                    ["confirmmerge", true]
                 ]);
             });
             

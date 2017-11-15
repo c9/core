@@ -536,9 +536,9 @@ define(function(require, module, exports) {
             // settings
             settings.on("read", function(e) {
                 settings.setDefaults("user/runconfig", [
-                    ["saveallbeforerun", "true"],
-                    ["debug", "true"],
-                    ["showruncfglist", "false"]
+                    ["saveallbeforerun", true],
+                    ["debug", true],
+                    ["showruncfglist", false]
                 ]);
 
                 if (!settings.getBool("project/run/configs/@inited")) {

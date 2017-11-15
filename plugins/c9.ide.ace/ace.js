@@ -246,7 +246,7 @@ define(function(require, exports, module) {
             ["wrapToView", true, BOOL, "wrapmodeViewport"],
             
             // Ace
-            ["fontSize", "12", NUMBER, "fontsize"],
+            ["fontSize", 12, NUMBER, "fontsize"],
             ["fontFamily", font, STRING, "fontfamily"],
             ["antialiasedfonts", false, BOOL],
             ["overwrite", false, BOOL, "overwrite"],
@@ -257,17 +257,17 @@ define(function(require, exports, module) {
             ["showInvisibles", false, BOOL, "showinvisibles"],
             ["showPrintMargin", true, BOOL, "showprintmargin"],
             ["displayIndentGuides", true, BOOL, "showindentguides"],
-            ["printMarginColumn", "80", NUMBER, "printmargincolumn"],
+            ["printMarginColumn", 80, NUMBER, "printmargincolumn"],
             ["behavioursEnabled", true, BOOL, "behaviors"],
             ["wrapBehavioursEnabled", false, BOOL, "wrapbehaviors"],
-            ["scrollSpeed", "2", NUMBER, "scrollspeed"],
+            ["scrollSpeed", 2, NUMBER, "scrollspeed"],
             ["showGutter", true, BOOL, "gutter"],
             ["showLineNumbers", true, STRING],
             ["showFoldWidgets", true, BOOL, "folding"],
             ["fadeFoldWidgets", true, BOOL, "fadefoldwidgets"],
             ["highlightSelectedWord", true, BOOL, "highlightselectedword"],
             ["animatedScroll", true, BOOL, "animatedscroll"],
-            ["scrollPastEnd", "0.5", NUMBER],
+            ["scrollPastEnd", 0.5, NUMBER],
             ["mergeUndoDeltas", "off", STRING],
             ["theme", defaultThemes[skin], STRING, "theme"]
         ];

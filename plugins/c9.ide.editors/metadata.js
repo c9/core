@@ -112,8 +112,8 @@ define(function(require, exports, module) {
             
             settings.on("read", function(e) {
                 settings.setDefaults("user/metadata", [
-                    // ["enabled", "true"],
-                    ["undolimit", "100"],
+                    // ["enabled", true],
+                    ["undolimit", 100],
                 ]);
             }, plugin);
             

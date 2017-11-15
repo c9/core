@@ -75,9 +75,9 @@ define(function(require, module, exports) {
             settings.on("read", function(e) {
                 // Defaults
                 settings.setDefaults("state/console", [
-                    ["expanded", "true"],
-                    ["maximized", "false"],
-                    ["height", "153"]
+                    ["expanded", true],
+                    ["maximized", false],
+                    ["height", 153]
                 ]);
                 
                 // Height
