@@ -1,3 +1,4 @@
+/*global apf*/
 define(function(require, exports, module) {
     "use strict";
     main.consumes = [
@@ -95,7 +96,7 @@ define(function(require, exports, module) {
         var themeCounter = 100;
         var lastTheme, grpSyntax, grpThemes;
         
-        var theme;
+        var currentTheme;
         var skin = settings.get("user/general/@skin");
         var defaultThemes = {
             "light": "ace/theme/cloud9_day",
@@ -117,7 +118,7 @@ define(function(require, exports, module) {
         } else {
             require([defaultThemes[skin]], function() {}); // Preload Themes
         }
-        handle.__defineGetter__("theme", function() { return theme; });
+        handle.__defineGetter__("theme", function() { return currentTheme; });
         
         function addCorner(ace) {
             if (isMinimal)
@@ -144,7 +145,7 @@ define(function(require, exports, module) {
         
         function setTheme(path, isPreview, fromServer, $err) {
             // Get Theme or wait for theme to load
-            theme = fromServer;
+            var theme = fromServer;
             if (/custom_themes/.test(path)) {
                 theme = themes[path];
                 if (!theme) return;
@@ -157,6 +158,7 @@ define(function(require, exports, module) {
             }
             
             if (!isPreview) {
+                currentTheme = theme;
                 if (settings.get("user/ace/@theme") != path) {
                     settings.set("user/ace/@theme", path);
                     
@@ -551,13 +553,23 @@ define(function(require, exports, module) {
                 themeLoaded = {};
                 lastTheme = null;
                 setTheme(settings.get("user/ace/@theme"));
-                
-                if (e.type !== "ace" 
-                  && settings.get("user/ace/@theme") != defaultThemes[e.oldTheme])
-                    return false;
+            });
+            
+            layout.on("validateThemeChange", function(e) {
+                if (e.type !== "ace") {
+                    var themeName = settings.get("user/ace/@theme");
+                    if (themeName == defaultThemes[e.oldTheme])
+                        return;
+                    var style = currentTheme && (currentTheme.isDark ? "dark" : "light");
+                    if (e.theme.indexOf(style) == -1)
+                        return false;
+                }
             });
             
             layout.on("themeDefaults", function(e) {
+                var style = currentTheme && (currentTheme.isDark ? "dark" : "light");
+                if (e.force == false && e.theme.indexOf(style) != -1)
+                    return;
                 if (e.type != "ace")
                     handle.setTheme(defaultThemes[e.theme]);
             }, handle);
@@ -1900,7 +1912,7 @@ define(function(require, exports, module) {
                 
                 handle.on("themeChange", function(e) {
                     ace.setTheme(e.path);
-                    changeTheme();
+                    changeTheme(e);
                     
                     emit("themeChange", e);
                 }, plugin);
@@ -2119,11 +2131,11 @@ define(function(require, exports, module) {
                 ace.renderer.animateScrolling(initialScroll);
             }
             
-            function changeTheme() {
+            function changeTheme(e) {
                 if (immutableSkin || !currentSession) 
                     return;
                 
-                var theme = handle.theme;
+                var theme = e && e.theme || handle.theme;
                 if (handle.theme && currentSession.cssClass != theme.cssClass) {
                     var tab = currentDocument.tab;
                     var html = plugin.aml.$int;
