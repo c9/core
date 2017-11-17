@@ -297,6 +297,7 @@ define(function(require, module, exports) {
                         tooltip = null;
                     }
                 });
+                plugin.on("afterSwitch", hide);
             }
             
             function createEditor(type, callback) {
