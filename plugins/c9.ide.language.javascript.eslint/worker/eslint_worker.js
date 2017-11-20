@@ -8,7 +8,8 @@ define(function(require, exports, module) {
 var baseLanguageHandler = require('plugins/c9.ide.language/base_handler');
 var workerUtil = require('plugins/c9.ide.language/worker_util');
 // var acorn = require("acorn/dist/acorn");
-var linter = require("./eslint_browserified");
+var Linter = require("./eslint_browserified");
+var linter = new Linter();
 var handler = module.exports = Object.create(baseLanguageHandler);
 var util = require("plugins/c9.ide.language/worker_util");
 var yaml = require("./js-yaml");
@@ -32,7 +33,7 @@ var defaultParserOptions = {
         jsx: true, // enable JSX
         experimentalObjectRestSpread: true
     },
-    ecmaVersion: 6,
+    ecmaVersion: 8,
     // sourceType: "module"
 };
 var defaultGlobals = require("plugins/c9.ide.language.javascript/scope_analyzer").GLOBALS;
@@ -77,10 +78,10 @@ handler.init = function(callback) {
     rules["handle-callback-err"] = 1;
     rules["no-new-require"] = 2;
 
-    for (var r in rules) {
-        if (!(r in linter.defaults().rules))
-            throw new Error("Unknown rule: ", r);
-    }
+    // for (var r in rules) {
+    //     if (!(r in linter.defaults().rules))
+    //         throw new Error("Unknown rule: ", r);
+    // }
     
     loadConfigFile(true, function(err) {
         if (err) console.error(err);
@@ -159,7 +160,7 @@ handler.analyzeSync = function(value, ast, path) {
     config.globals = config.globals || defaultGlobals;
     config.parserOptions = config.parserOptions || defaultParserOptions;
     if (config.parserOptions.ecmaVersion == null)
-        config.parserOptions.ecmaVersion = 7;
+        config.parserOptions.ecmaVersion = 8;
     if (config.parserOptions.ecmaFeatures == null)
         config.parserOptions.ecmaFeatures = defaultParserOptions.ecmaFeatures;
     if (config.parserOptions.ecmaFeatures.experimentalObjectRestSpread == null)
@@ -172,7 +173,7 @@ handler.analyzeSync = function(value, ast, path) {
             args: handler.isFeatureEnabled("unusedFunctionArgs") ? "all" : "none"
         }
     ];
-    config.rules["jsx-uses-vars"] = 2;
+    config.rules["react/jsx-uses-vars"] = 2;
     config.rules["no-undef"] =
         handler.isFeatureEnabled("undeclaredVars") ? 1 : 0;
     
@@ -221,6 +222,7 @@ handler.analyzeSync = function(value, ast, path) {
         
         // work around column offset bug
         m.column--;
+        m.line--;
 
         var ec;
         if (m.message.match(/is not defined|was used before it was defined|is already declared|is already defined|unexpected identifier|defined but never used/i)) {
