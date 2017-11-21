@@ -384,9 +384,12 @@ define(function(require, exports, module) {
             }
             
             var hash = isDefault ? defaults : model;
+            var defaultHash = defaults;
             if (!parts.every(function(part) {
-                if (!hash[part] && checkDefined) return false;
+                if (!hash[part] && checkDefined && !defaultHash[part])
+                    return false;
                 hash = hash[part] || (hash[part] = {});
+                defaultHash = defaultHash[part] || {};
                 return hash;
             })) {
                 console.warn("Setting non defined query: ", query);

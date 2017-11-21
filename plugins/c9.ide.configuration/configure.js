@@ -311,12 +311,13 @@ define(function(require, exports, module) {
                 for (var i = 1; i < args.length; i++) {
                     var o = args[i];
                     for (var key in o) {
-                        if (!o[key] || typeof o[key] !== "object") {
-                            result[key] = o[key];
-                        } else {
+                        if (o[key] && typeof o[key] === "object") {
                             if (!result[key] || typeof result[key] != "object")
-                                result[key] = {};
+                                result[key] = Array.isArray(o[key]) ? [] : {};
                             merge(result[key], o[key]);
+                        }
+                        else {
+                            result[key] = o[key];
                         }
                     }
                 }
