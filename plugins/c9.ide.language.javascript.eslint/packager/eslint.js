@@ -71,8 +71,11 @@ webpack({
     }
     var commentRe = /^(;)?(?:\s*(?:\/\/.+\n|\/\*(?:[^*]|\*(?!\/))*\*\/))+(?: *\n)?/gm;
     changeFile(outputPath, function(src) { 
-        return "// generated using packager/eslint.js"
+        return "// generated using packager/eslint.js\n"
             + src.replace(commentRe, "$1")
-            .replace('define("eslint", ', "define("); 
+            .replace('define("eslint", ', "define(")
+            .replace(/^ {4,}/gm, function(indentation) {
+                return indentation.replace(indentation.length % 4 ? / {2}/g :/ {4}/g, "\t")
+            }); 
     })
 });
