@@ -1,3 +1,4 @@
+/*global apf*/
 define(function(require, module, exports) {
     main.consumes = ["Plugin", "ui", "Document", "dialog.alert"];
     main.provides = ["Tab"];
@@ -8,8 +9,6 @@ define(function(require, module, exports) {
         var Document = imports.Document;
         var ui = imports.ui;
         var alert = imports["dialog.alert"].show;
-        
-        var stylesheet = ui.createStylesheet();
         
         function Tab(options) {
             var editorType, doc, path, amlPane, init, active, fg, bg,
@@ -53,12 +52,8 @@ define(function(require, module, exports) {
                 if (!bg) bg = "inherit";
                 if (!fg) fg = "inherit";
                 
-                (
-                    ui.setStyleRule(rule, "background-color", bg, stylesheet) &&
-                    ui.setStyleRule(rule, "foreground-color", fg, stylesheet)
-                ) || ui.importStylesheet([
-                    [rule, "background-color:" + bg + ";" + "color:" + fg + ";"]
-                ], window, stylesheet);
+                ui.setStyleRule(rule, "background-color", bg);
+                ui.setStyleRule(rule, "color", fg);
             }
             
             /***** Initialization *****/
@@ -301,7 +296,7 @@ define(function(require, module, exports) {
                 closed = true;
                 
                 if (rule)
-                    ui.removeStyleRule(rule, stylesheet);
+                    ui.removeStyleRule(rule);
                 // If there are no more pages left, reset location
                 var last = e && e.last || amlPane.getPages().length === 0;
                 if (last)
@@ -432,7 +427,7 @@ define(function(require, module, exports) {
                     bg = v || "";
                     if (!rule) 
                         return initStyleSheet(fg, bg);
-                    ui.setStyleRule(rule, "background-color", bg, stylesheet);
+                    ui.setStyleRule(rule, "background-color", bg);
                 },
                 /**
                  * The foreground color of the tab button and it's body. It is
@@ -447,7 +442,7 @@ define(function(require, module, exports) {
                     fg = v;
                     if (!rule) 
                         return initStyleSheet(fg, bg);
-                    ui.setStyleRule(rule, "color", fg, stylesheet);
+                    ui.setStyleRule(rule, "color", fg);
                 },
                 /** 
                  * @property {Object}   classList               Object that 

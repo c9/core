@@ -2406,6 +2406,14 @@ function findCssRule(name, stylesheet, win) {
     }
 }
 
+
+function toCssPropertyName(name) {
+    return name.replace(/[A-Z]/g, function(a) {return "-" + a.toLowerCase()});
+}
+function toCamelCase(name) {
+    return name.replace(/-(\w)/g, function(_, a) {return a.toUpperCase()});
+}
+
 /**
  * This method sets a single CSS rule.
  * @param {String} name         The CSS name of the rule (i.e. `.cls` or `#id`).
@@ -2415,14 +2423,22 @@ function findCssRule(name, stylesheet, win) {
  * @param {Object} [win]        A reference to a window
  */
 apf.setStyleRule = function(name, type, value, stylesheet, win) {
+    if (!stylesheet)
+        stylesheet = apf.$dynamicStyles || (apf.$dynamicStyles = apf.createStylesheet("", "dynamicStyles.css"));
     var rule = findCssRule(name, stylesheet, win);
     if (rule) {
         if (value.indexOf("!important") > -1) {
+            type = toCssPropertyName(type);
             rule.style.cssText = type + ":" + value;
         } else {
-            type = type.replace(/-(\w)/g, function(_, a) {return a.toUpperCase()});
+            type = toCamelCase(type);
             rule.style[type] = value;
         }
+    } else {
+        type = toCssPropertyName(type);
+        apf.importStylesheet([
+            [name, type + ":" + value]
+        ], win, stylesheet);
     }
     return !!rule;
 };
@@ -2492,12 +2508,15 @@ apf.setStyleClass = function(oHtml, className, exclusion, userAction) {
  */
 apf.importCssString = function(cssString, doc, media) {
     doc = doc || document;
-    var htmlNode = doc.getElementsByTagName("head")[0];
+    var htmlNode = doc.head;
     var style = doc.createElement("style");
-    style.appendChild(doc.createTextNode(cssString));
+    if (cssString)
+        style.appendChild(doc.createTextNode(cssString));
     if (media)
         style.setAttribute('media', media);
-    htmlNode.appendChild(style);
+    var before = apf.$dynamicStyles && apf.$dynamicStyles.ownerNode;
+    htmlNode.insertBefore(style, before);
+    return style;
 };
 
 /**
@@ -2553,11 +2572,10 @@ apf.importStylesheet = function (def, win, stylesheet) {
 
         var rule = def[i][0] + " {" + def[i][1] + "}";
         try {
-            stylesheet.insertRule(rule, 0);
+            stylesheet.insertRule(rule, stylesheet.cssRules.length);
         }
         catch (e) {
-            stylesheet = new StyleSheet();
-            stylesheet.insertRule(rule, 0);
+            console.error(e);
         }
     }
 };
@@ -2567,17 +2585,10 @@ apf.importStylesheet = function (def, win, stylesheet) {
  * @param {Object}  [win] A reference to a window
  * @returns {String} The created CSS stylesheet
  */ 
-apf.createStylesheet = function(win) {
-    var doc = (win || window).document;
-    
-    if (doc.createStyleSheet)
-        return doc.createStyleSheet();
-    else {
-        var elem = doc.createElement("style");
-        elem.type = "text/css";
-        doc.getElementsByTagName("head")[0].appendChild(elem);
-        return elem.sheet;
-    }
+apf.createStylesheet = function(win, id) {
+    var elem = apf.importCssString(null, (win || window).document)
+    if (id) elem.id = id;
+    return elem.sheet;
 };
 
 /**
