@@ -219,59 +219,6 @@
         </a:main>
     </a:presentation>
 </a:checkbox>
-<a:datagrid  name="datagrid">
-    
-    
-    
-    
-    
-
-
-    <a:presentation>
-        <a:main head="div[1]" container="div[3]" pointer="div[2]" widthdiff="1" iframe2="true">
-            <div class="datagrid">
-                <div class="headings">
-
-                </div>
-                <div class="pointer"> </div>
-                <div class="records"> </div>
-            </div>
-        </a:main>
-
-        <a:headitem class="." caption="u/text()">
-            <div><u>-<span/></u></div>
-        </a:headitem>
-
-        <a:rowheaditem class="." caption="text()">
-            <span>-</span>
-        </a:rowheaditem>
-
-        <a:item class="." container="following-sibling::blockquote">
-            <div class="row"/>
-            <blockquote> </blockquote>
-        </a:item>
-
-        <a:dragindicator>
-            <div class="dragdg"> </div>
-        </a:dragindicator>
-
-        <a:cell caption="u"><span><u>-</u></span></a:cell>
-
-        <a:treecell caption="u" openclose="strong" editoroffset="0"><span class="treecell"><strong> </strong><u>-</u></span></a:treecell>
-
-        <a:container container=".">
-            <div class="dginfo">-</div>
-        </a:container>
-
-        <a:loading>
-            <div class="message"/>
-        </a:loading>
-
-        <a:empty caption=".">
-            <div class="empty"> </div>
-        </a:empty>
-    </a:presentation>
-</a:datagrid>
 <a:divider  name="divider">
     
 
@@ -420,8 +367,8 @@
 
             </blockquote>
         </a:main>
-        <a:item caption="text()" icon="u" hotkey="span" inherit="true">
-            <div class="menu_item"><span> </span><u> </u>-</div>
+        <a:item caption="a/text()" icon="u" hotkey="span" inherit="true">
+            <div class="menu_item"><u> </u><a>-</a><span class="shortcut"> </span></div>
         </a:item>
         <a:divider inherit="true">
             <div class="menu_divider"> </div>
