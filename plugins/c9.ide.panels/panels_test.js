@@ -78,9 +78,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         
         describe('panels', function() {
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 layout.findParent();
                 
                 bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";

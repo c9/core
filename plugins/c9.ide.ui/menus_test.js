@@ -40,9 +40,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         
         describe('menus', function() {
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 bar.$ext.style.position = "fixed";
                 bar.$ext.style.left = "20px";
                 bar.$ext.style.right = "300px";

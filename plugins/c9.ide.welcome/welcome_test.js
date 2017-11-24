@@ -86,9 +86,6 @@ require([
             this.timeout(20000);
             
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 bar.$ext.style.height = "66%";
                 
                 document.body.style.marginBottom = "66%";

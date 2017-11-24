@@ -84,9 +84,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         
         describe('breakpoints', function() {
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 var bar = new ui.bar({
                     htmlNode: document.body
                 });

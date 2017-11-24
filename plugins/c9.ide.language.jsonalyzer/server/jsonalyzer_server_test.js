@@ -155,9 +155,6 @@ require(["lib/architect/architect", "lib/chai/chai", "plugins/c9.ide.language/co
         describe('ace', function() {
             this.timeout(30000);
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 window.bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";
                 window.bar.$ext.style.position = "fixed";
                 window.bar.$ext.style.left = "20px";

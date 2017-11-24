@@ -102,9 +102,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             this.timeout(5000);
             
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 tabs.once("ready", function() {
                     tabs.getPanes()[0].focus();
                     var path = "/autosave1.txt";

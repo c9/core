@@ -81,9 +81,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         
         describe('upload', function() {
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 done();
             });
             

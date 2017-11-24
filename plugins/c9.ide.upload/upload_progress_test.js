@@ -71,9 +71,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         describe('upload', function() {
             before(function(done) {
                 imports.settings.set("general/@animateui", true);
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 var createJob = uploadManager._createJob;
                 uploadManager._createJob = function() {
                     var job = createJob.apply(this, arguments);
