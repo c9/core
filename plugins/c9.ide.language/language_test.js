@@ -38,8 +38,7 @@ require(["plugins/c9.ide.language/test_base"], function(base) {
                 }, 0);
             });
             
-            // TODO: make sure this works in the ci server
-            it.skip("has three markers initially", function(done) {
+            it("has three markers initially", function(done) {
                 jsSession.on("changeAnnotation", function onAnnos() {
                     if (!jsSession.getAnnotations().length)
                         return;

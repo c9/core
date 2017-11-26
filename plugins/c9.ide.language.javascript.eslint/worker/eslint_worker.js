@@ -78,11 +78,6 @@ handler.init = function(callback) {
     rules["handle-callback-err"] = 1;
     rules["no-new-require"] = 2;
 
-    // for (var r in rules) {
-    //     if (!(r in linter.defaults().rules))
-    //         throw new Error("Unknown rule: ", r);
-    // }
-    
     loadConfigFile(true, function(err) {
         if (err) console.error(err);
         util.$watchDir("/", handler);
