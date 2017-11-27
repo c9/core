@@ -59,15 +59,6 @@ define(function(require, exports, module) {
                 }
             }, plugin);
             
-            settings.on("user/ace/@keyboardmode", function() {
-                var mode = settings.getJson("user/ace/@keyboardmode");
-                if (customKeymaps[mode]) {
-                    settings.set("user/ace/@keyboardmode", "default");
-                    settings.setJson("user/key-bindings", customKeymaps[mode]);
-                    updateCommandsFromSettings();
-                }
-            });
-            
             settings.on("read", function(e) {
                 updateCommandsFromSettings();
             }, plugin);
@@ -392,6 +383,10 @@ define(function(require, exports, module) {
                 
                 var cmds = settings.getJson("user/key-bindings");
                 if (cmds) {
+                    if (!Array.isArray(cmds)) {
+                        cmds = [];
+                        settings.setJson("user/key-bindings", []);
+                    }
                     cmds.forEach(function(cmd) {
                         if (!cmd || !cmd.command)
                             return;

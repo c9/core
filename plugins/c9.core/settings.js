@@ -219,7 +219,10 @@ define(function(require, exports, module) {
             dirty = false;
         }
     
-        function read(json, isReset) {
+        function read(json, isReset, resetAll) {
+            if (testing || resetAll)
+                json = util.cloneObject(TEMPLATE);
+            
             KEYS.forEach(function(type) {
                 if (json[type])
                     model[type] = json[type];
@@ -234,17 +237,24 @@ define(function(require, exports, module) {
                 });
             }
             
-            if (testing) {
-                KEYS.forEach(function(type) {
-                    model[type] = util.cloneObject(TEMPLATE[type]);
+            var hadError = true;
+            try {
+                emit("read", {
+                    model: model,
+                    ext: plugin,
+                    reset: isReset
                 });
+                hadError = false;
+            } finally {
+                // we do not want to catch the error to not hide it during development
+                if (hadError && !resetAll && !c9.debug && !testing) {
+                    fs.writeFile(PATH.project + ".broken",
+                        JSON.stringify(json, null, 4), function() {});
+                    console.error("Error loading settings, reseting to defaults");
+                    console.error("Old settings, are saved to " + PATH.project + ".broken");
+                    return read(json, isReset, true);
+                }
             }
-    
-            emit("read", {
-                model: model,
-                ext: plugin,
-                reset: isReset
-            });
             
             if (inited)
                 return;
