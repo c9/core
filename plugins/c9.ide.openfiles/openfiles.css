@@ -1,15 +1,3 @@
-.image-2x(@image; @width; @height; @repeat: no-repeat) {
-    @filename  : ~`/(.*)\.(jpg|jpeg|png|gif)/.exec(@{image})[1]`;
-    @extension : ~`/(.*)\.(jpg|jpeg|png|gif)/.exec(@{image})[2]`;
-    background-image: ~`"url(@{filename}.@{extension})"`;
-    background-repeat: @repeat;
-
-    @media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-        background-image: ~`"url(@{filename}@2x.@{extension})"`;
-        background-size: @width @height;
-    }
-}
-
 .openfiles .ace_tree .tree-row{
     height: @openfiles-row-height;
 }
@@ -25,8 +13,6 @@
     pointer-events: auto;
     cursor: pointer;
     z-index: 10;
-    -webkit-animation: none;
-    -moz-animation: none;
     animation: none;
     display: inline-block;
     vertical-align: middle;
@@ -47,9 +33,7 @@
     height: @pane-button-states-image-size;
     margin: @openfiles-icon-margin;
     
-    -webkit-animation: none;
-       -moz-animation: none;
-            animation: none;
+    animation: none;
 }
 
 .openfiles .ace_tree .tree-row strong.changed { background-position : 0 0; }

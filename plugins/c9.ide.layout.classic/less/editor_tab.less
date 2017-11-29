@@ -318,7 +318,7 @@ body>.session_btn.curbtn{
     top        : @pane-button-states-top;
     margin-top : 0px;
 
-    .animation(none);
+    animation: none;
 }
 .has_apf .session_btn.changed strong { background-position : 0 0; }
 .has_apf .session_btn.error strong { background-position : (-1 * @pane-button-states-image-size) 0; }
@@ -330,7 +330,7 @@ body>.session_btn.curbtn{
 
 .has_apf .session_btn.running strong{
     .image-2x(@pane-button-running-image, @pane-button-running-image-width, @pane-button-running-image-height, no-repeat);
-    .animation(@pane-button-running-animation);
+    animation: @pane-button-running-animation;
 
     height     : @pane-button-running-width;
     width      : @pane-button-running-height;
@@ -342,7 +342,7 @@ body>.session_btn.curbtn{
 .has_apf .session_btn.loading strong,
 .has_apf .session_btn.connecting strong{
     .image-2x(@pane-button-save-image, @pane-button-save-image-width, @pane-button-save-image-height, no-repeat);
-    .animation(@pane-button-save-animation);
+    animation: @pane-button-save-animation;
 
     height     : @pane-button-save-width;
     width      : @pane-button-save-height;
@@ -369,7 +369,7 @@ body>.session_btn.curbtn{
     z-index     : 10;
     margin-top  : @pane-button-close-hack;
 
-    .animation(none)
+    animation: none;
 }
 
 .has_apf .session_btn strong:hover  { background-position : -14px @pane-button-close-background; }
