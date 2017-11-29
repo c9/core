@@ -216,7 +216,5 @@
 /* allow selecting in doc popup but do not elsewhere */
 .panelsbar, .btnsesssioncontainer, .bar-status, .splitgrabber, 
 .code_complete_text, .ace_scrollbar, .ace_tree {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
+    .user-select(none);
 }

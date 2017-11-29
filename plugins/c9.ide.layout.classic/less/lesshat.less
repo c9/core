@@ -5,29 +5,6 @@
 //  Petr Brzek & Jan Kuca
 
 
-//  @GlobalConfig
-
-//  @GlobalConfig
-
-  // Config supported browsers for your project
-
-    @w3c: true; // Unprefixed W3C syntax
-    @webkit: true; // Chrome 7+, Safari 5+, iOS5, Android
-    @moz: true; //  Firefox 4+
-    @opera: true; // Opera 10.5+
-    @ms: true;  // IE 10+
-
-  // Signals
-
-    @webkitSignal: 1;
-    @mozSignal: 2;
-    @operaSignal: 3;
-    @msSignal: 4;
-    @w3cSignal: 5;
-
-
-
-
 //  .size
 
   .size(@square){
@@ -48,27 +25,10 @@
 //  .user-select
 
   .user-select(@arguments:auto){
-
-      //  Local config for disabling properties
-
-      @webkitLocal: true; // Chrome 7+, Safari 5+, iOS5, Android
-      @mozLocal: true; //  Firefox 4+
-      @msLocal: true;  // IE 10+
-
-      .result (@arguments, @signal, @boolean, @localBoolean) when (@boolean = true) and (@localBoolean = true) {
-        .inception (@signal, @arguments) when (@signal = 1) { -webkit-user-select: @arguments; }
-        .inception (@signal, @arguments) when (@signal = 2) { -moz-user-select: @arguments; }
-        .inception (@signal, @arguments) when (@signal = 4) { -ms-user-select: @arguments; }
-        .inception (@signal, @arguments) when (@signal > 5),(@signal < 1) { error: "Signal is out of range"; }
-        .inception(@signal, @arguments);
-      }
-      .result (@arguments, @signal, @boolean, @localBoolean) when not (@boolean = true), not (@localBoolean = true) { }
-
-      .result(@arguments, @webkitSignal, @webkit, @webkitLocal);
-      // --  this comment must be here because of LESS bug
-      .result(@arguments, @mozSignal, @moz, @mozLocal);
-      // --
-      .result(@arguments, @msSignal, @ms, @msLocal);
+    -webkit-user-select: @arguments;
+    -moz-user-select: @arguments;
+    -ms-user-select: @arguments;
+    user-select: @arguments;
   }
 
    //   element{ .user-select(text); }
@@ -93,7 +53,7 @@
     background-image: ~`(function(){ return "url(@{filename}.@{extension})" + ("@{important}" == "true" ? ' !important' : '');})()`;
     background-repeat: @repeat;
 
-    @media print, (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
+    @media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
         background-image: ~`(function(){ return "url(@{filename}@2x.@{extension})" + ("@{important}" == "true" ? ' !important' : '');})()`;
         background-size: ~`(function(){ return "@{width} @{height}" + ("@{important}" == "true" ? ' !important' : '');})()`;
     }
