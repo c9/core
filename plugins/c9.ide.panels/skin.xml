@@ -7,10 +7,10 @@
                 border-top : 1px solid @border-highlight;
                 box-shadow : 0 -1px 0 @panel-bar-border;
                 
-                .transform-origin(17px 18px);
-                .transform(rotate(90deg));
+                transform-origin: 17px 18px;
+                transform: rotate(90deg);
                 
-                background: @panel-bar-background; /* url(images/c9-noise.png);*/
+                background: @panel-bar-background;
                 
                 height : 34px;
                 white-space : nowrap;
@@ -66,7 +66,7 @@
                 color : @panel-button-color;
                 text-shadow: @panel-button-text-shadow;
 
-                .transform(rotate(180deg));
+                transform: rotate(180deg);
                 
                 height : 18px;
             }
@@ -75,7 +75,7 @@
                 margin-top: -1px;
             }
             .right .panelsbutton{
-                .transform(rotate(0deg));
+                transform: rotate(0deg);
             }
             .right .panelsbutton when (@panel-button-flat){
                 margin-top: 0;

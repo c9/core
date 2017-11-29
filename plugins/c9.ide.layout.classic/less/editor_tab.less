@@ -59,8 +59,8 @@
     height : @pane-button-container-inner-height;
     overflow-y: hidden;
     overflow-x: hidden;
-    .display-flex();
-    .flex-direction(row);
+    display: flex;
+    flex-direction: row;
 }
 
 /* Tab Button (not active) */
@@ -70,7 +70,7 @@
 
     min-width : 6px;
     max-width : @pane-button-max-width;
-    .flex(1 1 auto);
+    flex: 1 1 auto;
     position : relative;
     width : 0;
     line-height : 1.2em;
@@ -391,7 +391,7 @@ body>.session_btn.curbtn{
     position: relative;
     cursor: default;
 
-    .skew(23deg);
+    transform: skew(23deg);
     border-radius: 4px 3px 4px 2px;
     border: @pane-plus-box-border;
     box-shadow: @pane-plus-box-shadow;
@@ -405,7 +405,7 @@ body>.session_btn.curbtn{
     width : @pane-plus-icon-width;
     height : @pane-plus-icon-height;
     .image-2x("@{image-path}/@{pane-plus-icon}", @pane-plus-icon-image-width, @pane-plus-icon-image-height);
-    .skew(-23deg);
+    transform: skew(-23deg);
     margin : @pane-plus-icon-margin;
     background-position: @pane-plus-icon-idle-position;
 }

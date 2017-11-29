@@ -9,7 +9,7 @@
     box-shadow: @output-toolbar-box-shadow;
     box-sizing: border-box;
     border-bottom: 1px solid @output-toolbar-border-color;
-    .display-flex();
+    display: flex;
 }
 .output .toolbar>*{
     margin-right: 10px;
@@ -37,7 +37,7 @@
     height: 17px;
     font-family: @general-font-family;
     font-size: @general-font-size;
-    .transition(background-color 0.1s linear);
+    transition: background-color 0.1s linear;
 }
 
 .output .toolbar .tbsimpleInitial{

@@ -16,8 +16,8 @@
 }
 
 .chatContainer{
-    .display-flex();
-    .flex-direction(column);
+    display: flex;
+    flex-direction: column;
 }
 
 .chatText a {
@@ -28,7 +28,6 @@
     overflow: auto;
     font-size: @collab-chat-font-size;
     padding: 0 0 0 0;
-    .flex(1);
     background: @collab-chat-background;
 }
 .chatText p {

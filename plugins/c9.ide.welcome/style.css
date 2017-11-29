@@ -6,7 +6,7 @@
     top: 0;
     bottom: 0;
     overflow: auto;
-    .display-flex();
+    display: flex;
     .font-smoothing(@welcome-font-smoothing);
     background-attachment: local;
     color: @welcome-color;
@@ -28,7 +28,7 @@
 }
 
 .main {
-    .flex(1);
+    flex: 1;
     min-width: 460px;
     overflow: auto;
     position: relative;
@@ -37,7 +37,7 @@
 .sidepanel {
     max-width: 250px;
     min-width: 150px;
-    .flex(1);
+    flex: 1;
     padding: 30px 30px 0 20px;
     border-left: 1px solid @welcome-panel-border-color;
     background: @welcome-panel-background;
