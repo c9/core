@@ -61,7 +61,7 @@ define(function(require, exports, module) {
                 var p = treeContainer.parentNode;
                 var box = new ui.vsplitbox({
                     id: "vboxTreeContainer",
-                    style: "position:relative;flex:1;-webkit-flex:1",
+                    style: "position:relative;flex:1",
                     splitter: false
                 });
                 p.insertBefore(box, treeContainer);

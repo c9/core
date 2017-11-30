@@ -9,10 +9,6 @@
     background-color: rgba(255, 255, 255, 0);
     color: #000;
     text-align: center;
-    -webkit-transition: background-color 0.25s ease-out;
-    -moz-transition: background-color 0.25s ease-out;
-    -ms-transition: background-color 0.25s ease-out;
-    -o-transition: background-color 0.25s ease-out;
     transition: background-color 0.25s ease-out;
 }
 
@@ -29,19 +25,11 @@
     font-weight: bold;
     position: relative;
     top: 150px;
-    -webkit-transition: background-color 0.25s ease-out;
-    -moz-transition: background-color 0.25s ease-out;
-    -ms-transition: background-color 0.25s ease-out;
-    -o-transition: background-color 0.25s ease-out;
     transition: background-color 0.25s ease-out;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
     border-radius: 8px;
     position: absolute;
     top: 50%;
     left: 50%;
-    -webkit-transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
 }
 

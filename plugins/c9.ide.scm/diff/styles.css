@@ -1,12 +1,10 @@
 .ace_diff-container {
-    display: -webkit-flex !important;
     display: flex !important;
     flex-direction: row;
     position: absolute;
     overflow: hidden;
 }
 .ace_diff-container > .ace_editor {
-    -webkit-flex-grow: 1;
     flex-grow: 1;
 }
 
