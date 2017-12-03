@@ -224,7 +224,7 @@ define(function(require, exports, module) {
              * @see {@link http://vim.wikia.com/wiki/Search_and_replace|Vim wiki - sed}
              */
             'sed': {
-                regex: /^(%|'<,'>|(?:\d+|\.),(?:\+?\d+|\$|\.))?s(\/|#)(.+?)\2(.*?)\2([giIc])*$/,
+                regex: /^(%|'<,'>|(?:\d+|\.),(?:\+?\d+|\$|\.))?s(\/|#)(.+?)\2(.*?)\2([giIc]*)$/,
                 action: function (editor, cmd, data) {
                     // todo: if not data.match[3] get previous search result
                     var pattern = data.match[3]
@@ -271,7 +271,8 @@ define(function(require, exports, module) {
                             };
                             
                             return replacement.replace(/\\(\d+)/, function (m, m1) {
-                                return args[parseInt(m1, 10)] || '';
+                                var i = parseInt(m1, 10);
+                                return i < args.length - 2 ? args[i] : '';
                             });
                         });
                     }
