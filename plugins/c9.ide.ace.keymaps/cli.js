@@ -187,6 +187,112 @@ define(function(require, exports, module) {
             }
         };
         
+        function getCmdLineRange(editor, range, parts) {
+            if (!range) {
+                var cursor = editor.selection.getCursor();
+                return [cursor.row, cursor.row];
+            }
+            
+            range = range.split(',');
+            if (range.length === 1) {
+                return [0, parts.length - 1];
+            }
+
+            if (range[0] === "'<") {
+                var selRange = editor.getSelectionRange();
+                return [selRange.start.row, selRange.end.row];
+            } else {
+                var result = [];
+                for (let i = 0; i < range.length; i++) {
+                    var v = range[i];
+                    var rangeVal = v === '.' ?
+                        editor.selection.getCursor().row
+                        : v === '$' ?
+                            parts.length - 1
+                            : v[0] === '+' ?
+                                result[0] + parseInt(v.slice(1), 10)
+                                : parseInt(v, 10);
+                    result.push(rangeVal);
+                }
+                
+                return result;
+            }
+        }
+        
+        cliCmds[':'].reCommands = {
+            /**
+             * @see {@link http://vim.wikia.com/wiki/Search_and_replace|Vim wiki - sed}
+             */
+            'sed': {
+                regex: /^(%|'<,'>|(?:\d+|\.),(?:\+?\d+|\$|\.))?s(\/|#)(.+?)\2(.*?)\2([giIc])*$/,
+                action: function (editor, cmd, data) {
+                    // todo: if not data.match[3] get previous search result
+                    var pattern = data.match[3]
+                        .replace(/(\\)?(\(|\)|\+|\?|\||\&|\{)/g, function (m, m1, m2) {
+                            // Revert regular syntax
+                            return m1 ? m2 : '\\' + m2;
+                        });
+                    
+                    /**
+                     * g - global by row
+                     * i - ignorecase
+                     * I - noignorecase
+                     * todo: c - confirm
+                     */
+                    var flags = (data.match[5] || '').replace(/[cI]/g, '');
+                    var re = new RegExp(pattern, flags);
+                    
+                    var replacement = data.match[4] || '';
+                    var text = editor.getValue();
+                    var parts = text.split('\n');
+                    var range = getCmdLineRange(editor, data.match[1], parts);
+                    range[1] = range[1] >= parts.length ?
+                        parts.length - 1
+                        : range[1];
+                        
+                    var lastReplaceRange;
+                    var lineCount = 0;
+                    var subCount = 0;
+                    
+                    for (var i = range[0]; i <= range[1]; i++) {
+                        var isChanged = false;
+                        parts[i] = parts[i].replace(re, function () {
+                            var args = [].slice.call(arguments, 0);
+                            var offset = args[args.length - 2];
+                            if (!isChanged) {
+                                lineCount += 1;
+                                isChanged = true;
+                            }
+                            
+                            subCount += 1;
+                            lastReplaceRange = {
+                                'row': i,
+                                'column': offset
+                            };
+                            
+                            return replacement.replace(/\\(\d+)/, function (m, m1) {
+                                return args[parseInt(m1, 10)] || '';
+                            });
+                        });
+                    }
+                    
+                    if (lastReplaceRange) {
+                        editor.setValue(parts.join('\n'), -1);
+                        editor.selection.moveCursorToPosition(lastReplaceRange);
+                        editor.scrollToLine(lastReplaceRange.row, true, false);
+                        
+                        editor.cmdLine.setTimedMessage(
+                            subCount + ' substitutions on ' + lineCount + ' lines',
+                            15000);
+                    } else {
+                        editor.cmdLine.setTimedMessage(
+                            'E486: Pattern not found: ' + pattern,
+                            15000);
+                    }
+                }
+            }
+        };
+        
         cliCmds[":"].commands = {
             w: function(editor, data, callback) {
                 var tab = tabManager.focussedTab;
@@ -375,8 +481,19 @@ define(function(require, exports, module) {
                 ed.gotoLine(cmd, 0, true);
             }
             else {
-                ed.cmdLine.setTimedMessage("Vim command '" 
-                    + cmd + "' not implemented.", 1500);
+                for (var key in this.reCommands) {
+                    var reCmd = this.reCommands[key];
+                    var match = reCmd.regex.exec(cmd);
+                    if (match) {
+                        return reCmd.action(ed, cmd, {
+                            'match': match,
+                            'argv': cmd.split(match[0], 1).slice(-1)[0].split(/\s+/)
+                        });
+                    }
+                }
+                
+                ed.cmdLine.setTimedMessage(
+                    'Vim command "' + cmd + '" not implemented.', 3500);
             }
         };
         
