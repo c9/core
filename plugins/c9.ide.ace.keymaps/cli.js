@@ -224,14 +224,23 @@ define(function(require, exports, module) {
              * @see {@link http://vim.wikia.com/wiki/Search_and_replace|Vim wiki - sed}
              */
             'sed': {
-                regex: /^(%|'<,'>|(?:\d+|\.),(?:\+?\d+|\$|\.))?s(\/|#)(.+?)\2(.*?)\2([giIc]*)$/,
+                regex: /^(%|'<,'>|(?:\d+|\.),(?:\+?\d+|\$|\.))?s(\/|#)(.*?)\2(.*?)\2([giIc]*)$/,
                 action: function (editor, cmd, data) {
-                    // todo: if not data.match[3] get previous search result
-                    var pattern = data.match[3]
+                    var pattern = (
+                        data.match[3]
+                        || (editor.state.cm
+                            && editor.state.cm.$searchHighlight
+                            && editor.state.cm.$searchHighlight.regExp.source)
+                        || '')
                         .replace(/(\\)?(\(|\)|\+|\?|\||\&|\{)/g, function (m, m1, m2) {
                             // Revert regular syntax
                             return m1 ? m2 : '\\' + m2;
                         });
+                    if (!pattern) {
+                        return editor.cmdLine.setTimedMessage(
+                            'E35: No previous regular expression',
+                            15000);
+                    }
                     
                     /**
                      * g - global by row
