@@ -212,6 +212,10 @@ define(function(require, exports, module) {
                             : v[0] === '+' ?
                                 result[0] + parseInt(v.slice(1), 10)
                                 : parseInt(v, 10);
+                    if (rangeVal >= parts.length) {
+                        rangeVal = parts.length - 1;
+                    }
+                    
                     result.push(rangeVal);
                 }
                 
@@ -255,10 +259,6 @@ define(function(require, exports, module) {
                     var text = editor.getValue();
                     var parts = text.split('\n');
                     var range = getCmdLineRange(editor, data.match[1], parts);
-                    range[1] = range[1] >= parts.length ?
-                        parts.length - 1
-                        : range[1];
-                        
                     var lastReplaceRange;
                     var lineCount = 0;
                     var subCount = 0;
