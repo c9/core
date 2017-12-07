@@ -1,3 +1,5 @@
+// build script to bundle eslint and eslint-plugin-react in a format usable by language worker
+
 var path = require("path");
 var fs = require("fs");
 
@@ -7,6 +9,7 @@ function changeFile(filepath, handler, ignoreBackup) {
         value = fs.readFileSync(filepath + ".bak", "utf8");
     } catch (e) {
         value = fs.readFileSync(filepath, "utf8");
+        // backup the file in case the script is invoked again without clean npm install
         if (!ignoreBackup)
             fs.writeFileSync(filepath + ".bak", value, "utf8");
     }
@@ -22,15 +25,21 @@ function changeFile(filepath, handler, ignoreBackup) {
 }
 
 function safeReplace(src, pattern, value, count) {
-    var n = 0;
+    var matchCount = 0;
+    var replacer = value
+    if (typeof replacer == "string") {
+        replacer = function(...args) {
+            // expand placeholders of form $i in the replacement string
+            return value.replace(/[$](\d)/g, (_, i) => args[i]);
+        }
+    }
+
     src = src.replace(pattern, function(...args) {
-        n++;
-        if (typeof value == "function")
-            return value.apply(this, args);
-        return value.replace(/\$(\d)/g, (_, i) => args[i]);
+        matchCount++;
+        return replacer(...args);
     });
-    // if (count != undefined && n != count)
-    //     throw new Error(`expected "${pattern}" to match ${count} times instead of ${n}`);
+    if (count != undefined && count != matchCount)
+        throw new Error(`expected "${pattern}" to match ${count} times instead of ${n}`);
     return src;
 }
 
@@ -38,8 +47,9 @@ var loadRulesPath = require.resolve("eslint/lib/load-rules");
 var contents = `module.exports = function() {
 var rules = {`;
 
-fs.readdirSync(path.join(loadRulesPath, "../rules")).forEach((file) => {
-    if (path.extname(file) == ".js") {
+var ruleNames = fs.readdirSync(path.join(loadRulesPath, "../rules"));
+ruleNames.forEach(function(file) {
+    if (file.endsWith(".js")) {
         file = file.slice(0, -3);
         contents += '    "' + file + '": ' + 'require("eslint/lib/rules/' + file + '"),\n';
     }
@@ -108,7 +118,7 @@ webpack({
     }
 }, (err, stats) => {
     if (err || stats.hasErrors()) {
-        console.log(err, stats);
+        return console.log(err, stats);
     }
     var commentRe = /^(;)?(?:\s*(?:\/\/.+\n|\/\*(?:[^*]|\*(?!\/))*\*\/))+(?: *\n)?/gm;
     changeFile(outputPath, function(src) { 

@@ -13,7 +13,7 @@ var address = system.args[1];
 var filter  = system.args[2];
 var branch  = system.args[3];
 
-var logAll = !false;
+var logAll = true;
 if (!address) console.log("# No address, running against: ", TEST_SUITE_URL);
 if (filter) console.log("# Filter tests by ", filter);
 if (!address) address = TEST_SUITE_URL;
