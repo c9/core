@@ -126,13 +126,6 @@ define(function(require, module, exports) {
             });
         }
         
-        function createStyleSheet(css) {
-            var style = document.createElement("style");
-            style.appendChild(document.createTextNode(css));
-            document.getElementsByTagName("head")[0].appendChild(style);
-            return style;
-        }
-        
         function insertLess(css, filename, staticPrefix, _callback, force) {
             var callback = _callback || function(err) {
                 if (err) console.error(err);    
@@ -166,7 +159,7 @@ define(function(require, module, exports) {
                         return callback(e);
                         
                     // Add css to the DOM
-                    var style = createStyleSheet(tree.toCSS({
+                    var style = apf.importCssString(tree.toCSS({
                         relativeUrls: true,
                         rootpath: staticPrefix || ""
                     }));
@@ -202,7 +195,7 @@ define(function(require, module, exports) {
                 if (!packed && packedThemes && staticPrefix !== false) {
                     return;
                 }
-                var style = createStyleSheet(css);
+                var style = apf.importCssString(css);
                 
                 // Cleanup
                 plugin.addOther(function() {
