@@ -71,9 +71,7 @@
 
 .collab-bar{
     display:flex;
-    display:-webkit-flex;
     flex-direction: column;
-    -webkit-flex-direction: column;
 }
 
 .ace_gutter-tooltip {

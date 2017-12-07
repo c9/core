@@ -25,7 +25,7 @@ define(function(require, exports, module) {
             index: 200,
             showTitle: true,
             // splitter: true,
-            style: "flex:1;-webkit-flex:1"
+            style: "flex:1;"
         });
         var emit = plugin.getEmitter();
         

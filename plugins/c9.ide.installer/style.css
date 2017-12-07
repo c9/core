@@ -62,7 +62,7 @@
     
     .execute .install-spinner{
         .image-2x(@pane-button-save-image, @pane-button-save-image-width, @pane-button-save-image-height, no-repeat);
-        .animation(@pane-button-save-animation);
+        animation: @pane-button-save-animation;
     }
     
     .execute .log{

@@ -135,7 +135,6 @@
     line-height: 13px;
     font-weight: bold;
     font-family: monospace;
-    background: -webkit-radial-gradient(5px 5px, circle, rgb(126, 143, 28), rgb(76, 93, 0));
     background: radial-gradient(5px 5px, circle,  rgb(126, 143, 28), rgb(76, 93, 0));
     box-shadow: 0px 0px 7px 0px #000;
 }
@@ -189,15 +188,12 @@
 }
 
 .workspace_files{
-    display: -webkit-flex;
     display: flex;
     flex-direction: column;
-    -webkit-flex-direction: column;
 }
 
 .workspace_files .filetree.real{
     flex : 1;
-    -webkit-flex: 1;
 }
 
 .ace_tree .heading{

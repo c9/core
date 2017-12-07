@@ -72,7 +72,7 @@
     left: 50%;
     margin: 0px -261px;
     z-index : 10000000;
-    .transform(~"rotate(2deg)");
+    transform: rotate(2deg);
 }
 .stickynote.casual{
     bottom: 50px;
@@ -119,7 +119,7 @@
     border-right: 1px dashed rgba(0, 0, 0, 0.1);
 
     box-shadow: 0px 0px 1px 0px rgba(204, 204, 204, 0.28);
-    .transform(~"rotate(-2deg) skew(0,0) translate(0%,-5px)");
+    transform: rotate(-2deg) skew(0,0) translate(0%,-5px);
 }
 .stickynote .left-shadow {
     width: 140px;
@@ -130,7 +130,7 @@
     z-index: -6;
     display: inline-block;
     box-shadow: -10px -10px 10px rgba(0, 0, 0, 0.12);
-    .transform(~"scale(1) rotate(274deg) translate(20px, 25px) skew(9deg, 0deg)");
+    transform: scale(1) rotate(274deg) translate(20px, 25px) skew(9deg, 0deg);
 }
 .stickynote .right-shadow {
     width: 140px;
@@ -141,7 +141,7 @@
     z-index: -6;
     display: inline-block;
     box-shadow: -10px -10px 10px rgba(0, 0, 0, 0.12);
-    .transform(~"scale(1) rotate(184deg) translate(20px, 25px) skew(9deg, 0deg)");
+    transform: scale(1) rotate(184deg) translate(20px, 25px) skew(9deg, 0deg);
 }
 
 /*
@@ -207,7 +207,7 @@ THE SOFTWARE.
     border: 1px solid #458845;
 }
 .ui-progress-bar.transition .ui-progress {
-    .transition(~"background-color 0.5s ease-in, border-color 1.5s ease-out, box-shadow 1.5s ease-out")
+    transition: background-color 0.5s ease-in, border-color 1.5s ease-out, box-shadow 1.5s ease-out
 }
 .ui-progress-bar .ui-progress {
     /* Usual setup stuff */

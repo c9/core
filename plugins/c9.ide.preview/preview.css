@@ -13,10 +13,10 @@
 }
 
 .previewbar .locationbar{
-    .display-flex();
+    display: flex;
 }
 .previewbar .locationbar .ace_searchbox{
-    .flex(1);
+    flex: 1;
 }
 .previewbar .locationbar .ace_searchbox .sbtb_middle{
     border-radius: 3px 0 0 3px;

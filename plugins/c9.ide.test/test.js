@@ -447,7 +447,7 @@ define(function(require, exports, module) {
             
             // Container
             container = vbox.appendChild(new ui.bar({
-                style: "flex:1;-webkit-flex:1;display:flex;flex-direction: column;"
+                style: "flex:1;display:flex;flex-direction: column;"
             }));
             
             emit.sticky("drawPanels", { html: container.$int, aml: container });

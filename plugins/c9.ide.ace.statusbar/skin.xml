@@ -72,9 +72,7 @@
                 cursor              : pointer;
                 position            : relative;
                 cursor              : default;
-                -moz-user-select    : none;
-                -khtml-user-select  : none;
-                user-select         : none;
+                .user-select(none);
                 background-position : 0 0;
                 background-repeat   : no-repeat;
                 margin: @ace-status-icon-margin !important;

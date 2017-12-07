@@ -57,11 +57,7 @@
 .ace_button {
     margin-left: 2px;
     cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    .user-select(none);
     overflow: hidden;
     border: 1px solid rgba(100,100,100,0.23);
     padding: 2px 4px;

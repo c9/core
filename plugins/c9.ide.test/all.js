@@ -44,7 +44,7 @@ define(function(require, exports, module) {
             caption: "All Tests",
             index: 200,
             // showTitle: true,
-            style: "flex:1;-webkit-flex:1"
+            style: "flex:1;"
         });
         var emit = plugin.getEmitter();
         

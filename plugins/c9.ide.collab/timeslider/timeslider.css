@@ -320,9 +320,7 @@
 }
 
 #ui-slider-handle when(@time-slider-handle-basic = false) {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
+    .user-select(none);
 }
 
 #ui-slider-handle span when(@time-slider-handle-basic = false){
@@ -382,9 +380,7 @@
 }
 
 #ui-slider-bar {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
+    .user-select(none);
     cursor: pointer;
     height: 35px;
     margin-left: @time-slider-bar-margin-left;

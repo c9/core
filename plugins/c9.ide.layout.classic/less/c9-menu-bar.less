@@ -1,13 +1,7 @@
 .c9-menu-bar {
     position      : relative;
     overflow      : visible;
-    -moz-user-select: -moz-none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -o-user-select: none;
-    user-select: none;
-    // margin: 0;
-    // overflow: hidden;
+    .user-select(none);
 }
 .c9-menu-bar:before{
     position: absolute;
@@ -185,9 +179,7 @@
     width: 10px;
 }
 .c9-menu-bar .c9-mbar-bcont .c9-activity.saving .light{
-    -webkit-animation: saving .4s linear 0 infinite;
-       -moz-animation: saving .4s linear 0 infinite;
-            animation: saving .4s linear 0 infinite;
+    animation: saving .4s linear 0 infinite;
 
     background-position: -102px 0px !important;
 }

@@ -19,14 +19,6 @@ define(function(require, exports, module) {
         
         var markup = require("text!./layout.xml");
         
-        // pre load themes
-        require("text!./themes/default-dark.less");
-        require("text!./themes/default-dark-gray.less");
-        require("text!./themes/default-light-gray.less");
-        require("text!./themes/default-light.less");
-        require("text!./themes/default-flat-light.less");
-        require("text!./themes/default-flat-dark.less");
-        
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
@@ -75,8 +67,7 @@ define(function(require, exports, module) {
                   .replace(/@\{image-path\}/g, options.staticPrefix + "/images"), 
                   false, plugin);
                 
-                ui.insertCss(require("text!./less/main.less"), 
-                    options.staticPrefix, plugin);
+                ui.insertCss(require("./less/index"), options.staticPrefix, plugin);
             }
             
             draw();

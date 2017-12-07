@@ -59,8 +59,8 @@
     height : @pane-button-container-inner-height;
     overflow-y: hidden;
     overflow-x: hidden;
-    .display-flex();
-    .flex-direction(row);
+    display: flex;
+    flex-direction: row;
 }
 
 /* Tab Button (not active) */
@@ -70,7 +70,7 @@
 
     min-width : 6px;
     max-width : @pane-button-max-width;
-    .flex(1 1 auto);
+    flex: 1 1 auto;
     position : relative;
     width : 0;
     line-height : 1.2em;
@@ -171,12 +171,12 @@
 .session_btn:not(.curbtn) .tab_middle:after,
 .session_btn:not(.curbtn) .tab_middle:before{
     background-color    : @pane-button-background;
-    -webkit-transition: background-color .15s linear;
+    transition: background-color .15s linear;
 }
 .session_btn.notrans .tab_middle,
 .session_btn.notrans .tab_middle:after,
 .session_btn.notrans .tab_middle:before{
-    -webkit-transition: none;
+    transition: none;
 }
 
 .session_btn.over:not(.curbtn) .tab_middle,
@@ -249,11 +249,7 @@ body>.session_btn.curbtn{
     white-space : nowrap;
     overflow : hidden;
     padding  : @pane-button-title-padding;
-       -moz-user-select: -moz-none;
-     -khtml-user-select: none;
-    -webkit-user-select: none;
-         -o-user-select: none;
-            user-select: none;
+    .user-select(none);
     color : @pane-button-color;
     text-shadow : @pane-button-textshadow;
     // position: relative;
@@ -318,7 +314,7 @@ body>.session_btn.curbtn{
     top        : @pane-button-states-top;
     margin-top : 0px;
 
-    .animation(none);
+    animation: none;
 }
 .has_apf .session_btn.changed strong { background-position : 0 0; }
 .has_apf .session_btn.error strong { background-position : (-1 * @pane-button-states-image-size) 0; }
@@ -330,7 +326,7 @@ body>.session_btn.curbtn{
 
 .has_apf .session_btn.running strong{
     .image-2x(@pane-button-running-image, @pane-button-running-image-width, @pane-button-running-image-height, no-repeat);
-    .animation(@pane-button-running-animation);
+    animation: @pane-button-running-animation;
 
     height     : @pane-button-running-width;
     width      : @pane-button-running-height;
@@ -342,7 +338,7 @@ body>.session_btn.curbtn{
 .has_apf .session_btn.loading strong,
 .has_apf .session_btn.connecting strong{
     .image-2x(@pane-button-save-image, @pane-button-save-image-width, @pane-button-save-image-height, no-repeat);
-    .animation(@pane-button-save-animation);
+    animation: @pane-button-save-animation;
 
     height     : @pane-button-save-width;
     width      : @pane-button-save-height;
@@ -369,7 +365,7 @@ body>.session_btn.curbtn{
     z-index     : 10;
     margin-top  : @pane-button-close-hack;
 
-    .animation(none)
+    animation: none;
 }
 
 .has_apf .session_btn strong:hover  { background-position : -14px @pane-button-close-background; }
@@ -391,7 +387,7 @@ body>.session_btn.curbtn{
     position: relative;
     cursor: default;
 
-    .skew(23deg);
+    transform: skew(23deg);
     border-radius: 4px 3px 4px 2px;
     border: @pane-plus-box-border;
     box-shadow: @pane-plus-box-shadow;
@@ -405,7 +401,7 @@ body>.session_btn.curbtn{
     width : @pane-plus-icon-width;
     height : @pane-plus-icon-height;
     .image-2x("@{image-path}/@{pane-plus-icon}", @pane-plus-icon-image-width, @pane-plus-icon-image-height);
-    .skew(-23deg);
+    transform: skew(-23deg);
     margin : @pane-plus-icon-margin;
     background-position: @pane-plus-icon-idle-position;
 }
