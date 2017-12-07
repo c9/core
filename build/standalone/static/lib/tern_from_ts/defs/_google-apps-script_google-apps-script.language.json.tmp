@@ -1,0 +1,11 @@
+{
+  "GoogleAppsScript": {
+    "Language": {
+      "LanguageApp": {
+        "translate": "fn(text: string, sourceLanguage: string, targetLanguage: string) -> string"
+      }
+    }
+  },
+  "LanguageApp": "GoogleAppsScript.Language.LanguageApp",
+  "!name": "google-apps-script.language.d.ts"
+}

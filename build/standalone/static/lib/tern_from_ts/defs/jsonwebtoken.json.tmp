@@ -1,0 +1,25 @@
+{
+  "jsonwebtoken": {
+    "SignOptions": {
+      "algorithm": "string",
+      "expiresInMinutes": "number",
+      "expiresIn": "string",
+      "audience": "string",
+      "subject": "string",
+      "issuer": "string",
+      "noTimestamp": "bool"
+    },
+    "VerifyOptions": {
+      "algorithms": "[string]",
+      "audience": "string",
+      "issuer": "string",
+      "ignoreExpiration": "bool",
+      "maxAge": "string"
+    },
+    "VerifyCallbak": {},
+    "sign": "fn(payload: string, Buffer: ?, Object: ?, secretOrPrivateKey: string, Buffer: ?, options?: SignOptions) -> string",
+    "verify": "fn(token: string, secretOrPublicKey: string, Buffer: ?, callback?: VerifyCallbak)",
+    "decode": "fn(token: string) -> ?"
+  },
+  "!name": "jsonwebtoken.d.ts"
+}

@@ -1,0 +1,24 @@
+{
+  "mockery": {
+    "MockeryEnableArgs": {
+      "useCleanCache": "bool",
+      "warnOnReplace": "bool",
+      "warnOnUnregistered": "bool"
+    },
+    "enable": "fn(args?: MockeryEnableArgs)",
+    "disable": "fn()",
+    "registerMock": "fn(name: string, mock: ?)",
+    "deregisterMock": "fn(name: string)",
+    "registerSubstitute": "fn(name: string, substitute: string)",
+    "deregisterSubstitute": "fn(name: string)",
+    "registerAllowable": "fn(name: string, unhook?: bool)",
+    "deregisterAllowable": "fn(name: string)",
+    "registerAllowables": "fn(names: [string])",
+    "deregisterAllowables": "fn(names: [string])",
+    "deregisterAll": "fn()",
+    "resetCache": "fn()",
+    "warnOnUnregistered": "fn(value: bool)",
+    "warnOnReplace": "fn(value: bool)"
+  },
+  "!name": "mockery"
+}

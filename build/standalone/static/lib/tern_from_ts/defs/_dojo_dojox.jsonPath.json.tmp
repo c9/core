@@ -1,0 +1,10 @@
+{
+  "dojox": {
+    "jsonPath": {
+      "query": {}
+    }
+  },
+  "dojox/jsonPath": "exp",
+  "dojox/jsonPath/query": "exp",
+  "!name": "dojox.jsonPath.d.ts"
+}

@@ -1,0 +1,4 @@
+{
+  "sanitize-html": "sanitizeHtml",
+  "!name": "sanitize-html.d.ts"
+}

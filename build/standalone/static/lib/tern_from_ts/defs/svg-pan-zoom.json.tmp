@@ -1,0 +1,60 @@
+{
+  "SvgPanZoom": {
+    "OptionConfig": {
+      "panEnabled": "bool",
+      "controlIconsEnabled": "bool",
+      "zoomEnabled": "bool",
+      "dblClickZoomEnabled": "bool",
+      "zoomScaleSensitivity": "number",
+      "minZoom": "number",
+      "maxZoom": "number",
+      "fit": "bool",
+      "center": "bool",
+      "beforeZoom": "fn(scale: number)",
+      "onZoom": "fn(scale: number)",
+      "beforePan": "fn(point: IPoint)",
+      "onPan": "fn(x: number, y: number)",
+      "refreshRate": "?"
+    },
+    "IPoint": {
+      "x": "number",
+      "y": "number"
+    },
+    "ISvgPanZoom": {
+      "enablePan": "fn()",
+      "disablePan": "fn()",
+      "isPanEnabled": "fn() -> bool",
+      "setBeforePan": "fn(fn: fn(point: IPoint))",
+      "setOnPan": "fn(fn: fn(x: number, y: number))",
+      "enableZoom": "fn()",
+      "disableZoom": "fn()",
+      "isZoomEnabled": "fn() -> bool",
+      "enableControlIcons": "fn()",
+      "disableControlIcons": "fn()",
+      "isControlIconsEnabled": "fn() -> bool",
+      "enableDblClickZoom": "fn()",
+      "disableDblClickZoom": "fn()",
+      "setZoomScaleSensitivity": "fn(scale: number)",
+      "setMinZoom": "fn(zoom: number)",
+      "setMaxZoom": "fn(zoom: number)",
+      "setBeforeZoom": "fn(fn: fn(scale: number))",
+      "setOnZoom": "fn(fn: fn(scale: number))",
+      "zoom": "fn(scale: number)",
+      "zoomIn": "fn()",
+      "zoomOut": "fn()",
+      "zoomBy": "fn(scale: number)",
+      "resetZoom": "fn()",
+      "getZoom": "fn() -> number",
+      "fit": "fn(dropCache?: bool)",
+      "center": "fn(dropCache?: bool)",
+      "resize": "fn()",
+      "pan": "fn(point: IPoint)",
+      "panBy": "fn(point: IPoint)",
+      "getPan": "fn() -> IPoint",
+      "zoomAtPoint": "fn(scale: number, point: IPoint) -> bool",
+      "zoomAtPointBy": "fn(scale: number, point: IPoint) -> bool"
+    }
+  },
+  "svgPanZoom": "SvgPanZoom.ISvgPanZoom",
+  "!name": "svg-pan-zoom.d.ts"
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ace-diff - Simple Demo #1</title>
+    
+    <script src="/static/mini_require.js"></script>
+    <script src="/configs/require_config.js"></script>
+    
+    <style type="text/css">
+        .ace_diff-container, body {
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            position: absolute!important;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="ace_diff-container"></div>
+
+<script>
+    require(["plugins/c9.ide.scm/diff/unified", "ace/ace"], function() {
+        var DiffView = require("plugins/c9.ide.scm/diff/unified").DiffView;
+        var ace = require("ace/ace");
+        var el = document.querySelector(".ace_diff-container");
+        
+        require("ace/lib/net").get("./diff/example.diff", function(v) {
+            var diffView = new DiffView();
+            diffView.setValueFromPatch(v);
+            window.diffView = diffView;
+            window.editor = diffView.editor;
+            window.val = v;
+            el.appendChild(diffView.container);
+            diffView.editor.renderer.scrollBarV.$minWidth = 30;
+            diffView.container.style.top = "0";
+            diffView.container.style.bottom = "0";
+            diffView.container.style.left = "20px";
+            diffView.container.style.right = "0px";
+            diffView.container.style.position = "absolute";
+            window.addEventListener("resize", function() {
+                diffView.editor.resize();
+            });
+        });
+    });
+
+</script>
+
+
+
+</body>
+</html>

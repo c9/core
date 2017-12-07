@@ -1,0 +1,5 @@
+{
+  "ddescribe": "fn(description: string, specDefinitions: fn())",
+  "iit": "fn(expectation: string, assertion: fn())",
+  "!name": "karma-jasmine.d.ts"
+}

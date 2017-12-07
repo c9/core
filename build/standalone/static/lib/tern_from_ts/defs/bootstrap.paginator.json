@@ -1,0 +1,23 @@
+{
+  "PaginatorOptions": {
+    "alignment": "string",
+    "size": "string",
+    "itemContainerClass": "fn(type: ?, page: ?, current: ?)",
+    "currentPage": "number",
+    "numberOfPages": "number",
+    "totalPages": "number",
+    "pageUrl": "fn(type: ?, page: ?, current: ?)",
+    "shouldShowPage": "bool",
+    "itemTexts": "fn(type: string, page: number, current: number)",
+    "tooltipTitles": "fn(type: ?, page: ?, current: ?)",
+    "useBootstrapTooltip": "bool",
+    "bootstrapTooltipOptions": {},
+    "bootstrapMajorVersion": "number",
+    "onPageClicked": "fn(event: ?, originalEvent: ?, type: ?, page: ?)",
+    "onPageChanged": "fn(event: ?, originalEvent: ?, type: ?, page: ?)"
+  },
+  "JQuery": {
+    "bootstrapPaginator": "fn() -> JQuery"
+  },
+  "!name": "bootstrap.paginator"
+}

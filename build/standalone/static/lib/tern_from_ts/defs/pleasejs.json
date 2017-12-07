@@ -1,0 +1,45 @@
+{
+  "Please": "PleaseJS.Please",
+  "PleaseJS": {
+    "Please": {
+      "make_color": "fn(options?: MakeColorOption) -> ?",
+      "make_scheme": "fn(base_color: HSV, options?: MakeSchemeOption) -> ?",
+      "NAME_to_HEX": "fn(name: string) -> string",
+      "NAME_to_RGB": "fn(name: string) -> RGB",
+      "NAME_to_HSV": "fn(name: string) -> HSV",
+      "HEX_to_RGB": "fn(hex: string) -> RGB",
+      "RGB_to_HEX": "fn(rgb: RGB) -> string",
+      "HSV_to_RGB": "fn(hsv: HSV) -> RGB",
+      "RGB_to_HSV": "fn(rgb: RGB) -> HSV",
+      "HSV_to_HEX": "fn(hsv: HSV) -> string",
+      "HEX_to_HSV": "fn(hex: string) -> HSV"
+    },
+    "MakeColorOption": {
+      "hue": "number",
+      "saturation": "number",
+      "value": "number",
+      "base_color": "string",
+      "greyscale": "bool",
+      "grayscale": "bool",
+      "golden": "bool",
+      "full_random": "bool",
+      "colors_returned": "number",
+      "format": "string"
+    },
+    "MakeSchemeOption": {
+      "scheme_type": "string",
+      "format": "string"
+    },
+    "RGB": {
+      "r": "number",
+      "g": "number",
+      "b": "number"
+    },
+    "HSV": {
+      "h": "number",
+      "s": "number",
+      "v": "number"
+    }
+  },
+  "!name": "please"
+}

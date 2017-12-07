@@ -1,0 +1,6 @@
+{
+  "JQuery": {
+    "jSignature": "fn() -> JQuery"
+  },
+  "!name": "jquery.jsignature.d.ts"
+}

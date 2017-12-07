@@ -1,0 +1,7 @@
+{
+  "email-addresses": {
+    "parseOneAddress": "fn(opts: ?) -> ?",
+    "parseAddressList": "fn(opts: ?) -> ?"
+  },
+  "!name": "email-addresses"
+}

@@ -1,0 +1,4 @@
+{
+  "gulp-typescript": "GulpTypescript",
+  "!name": "gulp-typescript.d.ts"
+}

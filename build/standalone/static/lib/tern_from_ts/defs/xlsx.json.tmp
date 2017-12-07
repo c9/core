@@ -1,0 +1,64 @@
+{
+  "'xlsx'": {
+    "readFile": "fn(filename: string, opts?: IParsingOptions) -> IWorkBook",
+    "read": "fn(data: ?, opts?: IParsingOptions) -> IWorkBook",
+    "utils": "IUtils",
+    "IProperties": {
+      "LastAuthor": "string",
+      "Author": "string",
+      "CreatedDate": "Date",
+      "ModifiedDate": "Date",
+      "Application": "string",
+      "AppVersion": "string",
+      "Company": "string",
+      "DocSecurity": "string",
+      "Manager": "string",
+      "HyperlinksChanged": "bool",
+      "SharedDoc": "bool",
+      "LinksUpToDate": "bool",
+      "ScaleCrop": "bool",
+      "Worksheets": "number",
+      "SheetNames": "[string]"
+    },
+    "IParsingOptions": {
+      "cellFormula": "bool",
+      "cellHTML": "bool",
+      "cellNF": "bool",
+      "cellStyles": "bool",
+      "cellDates": "bool",
+      "sheetStubs": "bool",
+      "sheetRows": "number",
+      "bookDeps": "bool",
+      "bookFiles": "bool",
+      "bookProps": "bool",
+      "bookSheets": "bool",
+      "bookVBA": "bool",
+      "password": "string",
+      "type": "string"
+    },
+    "IWorkBook": {
+      "Sheets": {},
+      "SheetNames": "[string]",
+      "Props": "IProperties"
+    },
+    "IWorkSheet": {},
+    "IWorkSheetCell": {
+      "t": "string",
+      "v": "string",
+      "r": "string",
+      "h": "string",
+      "w": "string",
+      "f": "string",
+      "c": "string",
+      "z": "string",
+      "l": "string",
+      "s": "string"
+    },
+    "IUtils": {
+      "sheet_to_json": "fn(worksheet: IWorkSheet) -> [T]",
+      "sheet_to_csv": "fn(worksheet: IWorkSheet) -> ?",
+      "sheet_to_formulae": "fn(worksheet: IWorkSheet) -> ?"
+    }
+  },
+  "!name": "xlsx.d.ts"
+}

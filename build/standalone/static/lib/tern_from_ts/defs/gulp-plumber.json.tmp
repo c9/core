@@ -1,0 +1,4 @@
+{
+  "'gulp-plumber'": "gulpPlumber",
+  "!name": "gulp-plumber.d.ts"
+}

@@ -1,0 +1,39 @@
+{
+  "Notify": {
+    "Options": {
+      "clickToHide": "bool",
+      "autoHide": "bool",
+      "autoHideDelay": "number",
+      "arrowShow": "bool",
+      "arrowSize": "number",
+      "elementPosition": "string",
+      "globalPosition": "string",
+      "style": "string",
+      "className": "string",
+      "showAnimation": "string",
+      "showDuration": "number",
+      "hideAnimation": "string",
+      "hideDuration": "number",
+      "gap": "number"
+    },
+    "ClassCSS": {},
+    "StyleDefinition": {
+      "html": "string",
+      "classes": {
+        "base": "ClassCSS"
+      },
+      "css": "string"
+    },
+    "JQueryStatic": {
+      "addStyle": "fn(styleName: string, styleDefinition: StyleDefinition)",
+      "defaults": "fn(options: Options)"
+    }
+  },
+  "JQueryStatic": {
+    "notify": "Notify.JQueryStatic"
+  },
+  "JQuery": {
+    "notify": "fn(text: string, className?: string)"
+  },
+  "!name": "notify"
+}

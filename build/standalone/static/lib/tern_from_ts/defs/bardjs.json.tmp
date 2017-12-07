@@ -1,0 +1,24 @@
+{
+  "bard": {
+    "$httpBackend": "fn($provide: angular.auto.IProvideService) -> ?",
+    "$q": "fn($provide: angular.auto.IProvideService) -> ?",
+    "addGlobals": "fn(globals: [?])",
+    "appModule": "fn(fns: fn(string: ?, Function: ?, Object: ?)) -> fn()",
+    "assertFail": "fn(message: string) -> Chai.AssertionError",
+    "asyncModule": "fn(fns: fn(string: ?, Function: ?, Object: ?)) -> fn()",
+    "debugging": "fn(newFlag?: ?) -> bool",
+    "fakeLogger": "fn($provide: angular.auto.IProvideService)",
+    "fakeRouteHelperProvider": "fn($provide: angular.auto.IProvideService)",
+    "fakeRouteProvider": "fn($provide: angular.auto.IProvideService)",
+    "fakeStateProvider": "fn($provide: angular.auto.IProvideService)",
+    "fakeToastr": "fn($provide: angular.auto.IProvideService)",
+    "inject": "fn(context?: Function, args: [string])",
+    "log": "fn(message: ?)",
+    "mochaRunnerListener": "fn(runner: Mocha.IRunner)",
+    "mockService": "fn(service: ?, config: ?) -> ?",
+    "replaceAccentChars": "fn(text: string) -> string",
+    "verifyNoOutstandingHttpRequests": "fn()",
+    "wrapWithDone": "fn(callback: Function, done: Function) -> Function"
+  },
+  "!name": "bardjs.d.ts"
+}

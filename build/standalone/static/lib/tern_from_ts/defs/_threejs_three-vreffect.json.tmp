@@ -1,0 +1,27 @@
+{
+  "THREE": {
+    "VREffect": {
+      "!type": "fn(renderer: Renderer, callback?: fn(params: string))",
+      "prototype": {
+        "render": "fn(scene: Scene, camera: Camera)",
+        "setSize": "fn(width: number, height: number)",
+        "setFullScreen": "fn(flag: bool)",
+        "startFullscreen": "fn()",
+        "FovToNDCScaleOffset": "fn(fov: VRFov) -> VREffectOffset",
+        "FovPortToProjection": "fn(fov: VRFov, rightHanded: bool, zNear: number, zFar: number) -> Matrix4",
+        "FovToProjection": "fn(fov: VRFov, rightHanded: bool, zNear: number, zFar: number) -> Matrix4"
+      }
+    },
+    "VRFov": {
+      "leftTan": "number",
+      "rightTan": "number",
+      "upTan": "number",
+      "downTan": "number"
+    },
+    "VREffectOffset": {
+      "scale": "number",
+      "offset": "number"
+    }
+  },
+  "!name": "three-vreffect.d.ts"
+}

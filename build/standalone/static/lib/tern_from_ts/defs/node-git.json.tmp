@@ -1,0 +1,404 @@
+{
+  "git": {
+    "Git": {
+      "!type": "fn(gitDirectory: ?)",
+      "prototype": {
+        "refs": "fn(options: ?, prefix: string, callback: fn(err: ?, data: string))",
+        "fs_read": "fn(gitDirectory: string, file: string, callback: fn(err: ?, data: ?))",
+        "transform_options": "fn(options: ?) -> [string]",
+        "git": "fn(functionName: ?, options: ?, args: [?])",
+        "call_git": "fn(prefix: string, command: ?, postfix: string, options: ?, args: ?, callback: fn(error: ?, result: string))",
+        "rev_list": "fn(callback: Function)",
+        "rev_parse": "fn(options: ?, str: string, callback: Function)",
+        "ls_tree": "fn(treeish: ?, callback: Function)",
+        "cat_file": "fn(type: ?, ref: ?, callback: Function)",
+        "file_size": "fn(ref: ?, callback: Function)",
+        "fs_mkdir": "fn(dir: ?, callback: Function)",
+        "init": "fn(options: ?, callback: Function)",
+        "clone": "fn(options: ?, originalPath: ?, targetPath: ?, callback: Function)",
+        "diff": "fn(commit1: ?, commit2: ?, callback: fn(error: ?, patch: string))",
+        "fs_exist": "fn(path: ?, callback: Function)",
+        "fs_write": "fn(file: ?, content: ?, callback: Function)",
+        "log": "fn(commit: ?, path: ?, options: ?, callback: Function)",
+        "select_existing_objects": "fn(objectIds: [?], callback: Function)",
+        "format_patch": "fn(options: ?, reference: ?, callback: Function)",
+        "blame": "fn(callback: Function)",
+        "blame_tree": "fn(commit: ?, callback: Function)",
+        "looking_for": "fn(commit: ?, callback: Function)",
+        "commit": "fn(args: [?])",
+        "config": "fn(args: [?])",
+        "add": "fn(args: [?])",
+        "remove": "fn(args: [?])",
+        "ls_files": "fn(args: [?])",
+        "diff_files": "fn(args: [?])",
+        "diff_index": "fn(args: [?])",
+        "file_type": "fn(args: [?])",
+        "put_raw_object": "fn(args: [?])",
+        "commit_from_sha": "fn(id: string) -> ?"
+      }
+    },
+    "Actor": {
+      "!type": "fn(name: string, email: string)",
+      "from_string": "fn(str: string) -> Actor",
+      "prototype": {
+        "name": "string",
+        "email": "string"
+      }
+    },
+    "Blame": {
+      "!type": "fn(repo: Repo, file: string, callback: fn(err: ?, blame: Blame))",
+      "prototype": {
+        "repo": "Repo",
+        "file": "string",
+        "commit": "string",
+        "lines": "[BlameLine]"
+      }
+    },
+    "BlameLine": {
+      "!type": "fn(lineno: number, oldlineno: number, commit: ?, line: string)",
+      "prototype": {
+        "lineno": "number",
+        "oldlineno": "number",
+        "commit": "?",
+        "line": "string"
+      }
+    },
+    "Blob": {
+      "!type": "fn(repo: ?, id: ?, mode: ?, name: ?)",
+      "blame": "fn(repo: ?, commit: ?, file: ?, callback: Function)",
+      "prototype": {
+        "repo": "Repo",
+        "id": "?",
+        "mode": "?",
+        "name": "?",
+        "data": "?",
+        "size": "?",
+        "mine_type": "?",
+        "basename": "?"
+      }
+    },
+    "Commit": {
+      "!type": "fn(repo: Repo, id: string, parents: [?], tree: ?, author: Actor, authoredDate: string, committer: Actor, committedDate: string, message: string, filechanges: ?)",
+      "list_from_string": "fn(repo: ?, text: ?) -> [Commit]",
+      "find_all": "fn(repo: ?, callback: Function)",
+      "count": "fn(repo: ?, ref: ?, callback: Function)",
+      "diff": "fn(repo: ?, a: ?, callback: Function)",
+      "prototype": {
+        "repo": "Repo",
+        "id": "string",
+        "parents": "[?]",
+        "tree": "?",
+        "author": "Actor",
+        "sha": "string",
+        "authored_date": "string",
+        "committer": "Actor",
+        "committed_date": "string",
+        "message": "string",
+        "filechanges": "?",
+        "short_message": "string",
+        "_id_abbrev": "?",
+        "load": "fn(callback: Function)",
+        "id_abbrev": "fn(callback: Function)",
+        "show": "fn(callback: Function)",
+        "diffs": "fn(callback: Function)",
+        "toPatch": "fn(callback: Function)"
+      }
+    },
+    "CommitStats": {
+      "!type": "fn(repo: ?, id: ?, files: [?])",
+      "find_all": "fn(repo: ?, reference: ?, callback: Function)",
+      "list_from_string": "fn(repo: ?, text: string) -> [CommitStats]",
+      "prototype": {
+        "repo": "?",
+        "id": "?",
+        "files": "[?]",
+        "additions": "?",
+        "deletions": "?",
+        "total": "?"
+      }
+    },
+    "Config": {
+      "!type": "fn(repo: ?)",
+      "prototype": {
+        "repo": "?",
+        "data": "?",
+        "fetch": "fn(key: ?, defaultValue: ?) -> ?",
+        "set": "fn(key: ?, value: ?, callback: Function)"
+      }
+    },
+    "Diff": {
+      "!type": "fn(repo: ?, aPath: ?, bPath: ?, aBlob: ?, bBlob: ?, aMode: ?, bMode: ?, newFile: ?, deletedFile: ?, diff: ?)",
+      "list_from_string": "fn(repo: ?, text: ?, callback: Function)",
+      "prototype": {
+        "repo": "?",
+        "a_path": "?",
+        "b_path": "?",
+        "a_blob": "?",
+        "b_blob": "?",
+        "a_mode": "?",
+        "b_mode": "?",
+        "new_file": "?",
+        "deleted_file": "?",
+        "diff": "?"
+      }
+    },
+    "FileIndex": {
+      "!type": "fn(repoPath: ?, callback: Function)",
+      "prototype": {
+        "repo_path": "?",
+        "index_file": "?",
+        "sha_count": "?",
+        "commit_index": "?",
+        "commit_order": "?",
+        "all_files": "?",
+        "commits_from": "fn(commitSha: ?, callback: Function)",
+        "sort_commits": "fn(shaArray: [?]) -> [?]",
+        "files": "fn(commitSha: ?, callback: Function)",
+        "count_all": "fn(callback: Function)",
+        "count": "fn(commitSha: ?, callback: Function)",
+        "commits_for": "fn(file: ?, callback: Function)",
+        "last_commits": "fn(commitSha: ?, filesMatcher: ?, callback: Function)"
+      }
+    },
+    "FileWindow": {
+      "!type": "fn(idxfile: ?, version: ?)",
+      "prototype": {
+        "idxfile": "?",
+        "version": "?",
+        "global_offset": "?",
+        "offset": "?",
+        "seek_offset": "?",
+        "unmap": "fn()",
+        "index": "fn(idx: number)",
+        "close": "fn()"
+      }
+    },
+    "GitFileOperations": {
+      "glob_streaming": "fn(path: ?) -> ?",
+      "glob": "fn(path: ?, callback: Function)",
+      "fs_read": "fn(path: ?, file: ?, callback: Function)",
+      "fs_mkdir": "fn(dir: ?, callback: Function)",
+      "fs_exist": "fn(dir: ?, path: ?, callback: Function)",
+      "fs_rmdir_r": "fn(dir: ?, callback: Function)",
+      "fs_write": "fn(dir: ?, file: ?, content: ?, callback: Function)",
+      "prototype": {}
+    },
+    "GitIndex": {
+      "!type": "fn(repo: ?)",
+      "prototype": {
+        "repo": "?",
+        "tree": "?",
+        "current_tree": "?",
+        "read_tree": "fn(tree: ?, callback: Function)",
+        "add": "fn(filePath: ?, data: ?)",
+        "commit": "fn(message: ?, callback: Function)",
+        "write_tree": "fn(tree: ?, callback: Function) -> ?",
+        "write_blob": "fn(data: ?) -> ?"
+      }
+    },
+    "GitObject": {
+      "from_raw": "fn(rawObject: ?, repository: ?) -> ?",
+      "prototype": {}
+    },
+    "Head": {
+      "!type": "fn(name: string, commit: ?)",
+      "current": "fn(repo: ?, callback: Function)",
+      "find_all": "fn(repo: ?, callback: Function)",
+      "prototype": {
+        "name": "string",
+        "commit": "?"
+      }
+    },
+    "LooseStorage": {
+      "!type": "fn(directory: ?)",
+      "verify_header": "fn(type: ?, size: ?)",
+      "prototype": {
+        "directory": "?",
+        "find": "fn(sha1: ?) -> RawObject",
+        "get_raw_object": "fn(buf: ?) -> RawObject",
+        "unpack_object_header_gently": "fn(buf: ?) -> [?]",
+        "is_legacy_loose_object": "fn(buf: ?) -> bool",
+        "put_raw_object": "fn(content: ?, type: ?, callback: Function)"
+      }
+    },
+    "Merge": {
+      "STATUS_BOTH": "string",
+      "STATUS_OURS": "string",
+      "STATUS_THEIRS": "string",
+      "!type": "fn(str: string)",
+      "prototype": {
+        "conflicts": "?",
+        "text": "?",
+        "sections": "?"
+      }
+    },
+    "PackStorage": {
+      "!type": "fn(file: ?)",
+      "prototype": {
+        "name": "?",
+        "cache": "?",
+        "version": "?",
+        "offsets": "?",
+        "size": "?",
+        "find": "fn(sha1: ?) -> RawObject",
+        "close": "fn()",
+        "parse_object": "fn(pack: ?, offset: ?) -> RawObject",
+        "unpack_object": "fn(pack: ?, packfile: ?, offset: ?, options: ?) -> [?]",
+        "unpack_deltified": "fn(packfile: ?, type: ?, offset: ?, objOffset: ?, size: ?, options: ?) -> ?"
+      }
+    },
+    "RawObject": {
+      "!type": "fn(type: ?, content: ?)",
+      "prototype": {
+        "type": "?",
+        "content": "?",
+        "sha1": "fn(encoding?: string) -> ?",
+        "sha1_hex": "fn() -> ?"
+      }
+    },
+    "Ref": {
+      "prototype": {}
+    },
+    "Remote": {
+      "!type": "fn(name: ?, commit: ?)",
+      "prototype": {
+        "find_all": "fn(repo: ?, callback: Function)"
+      }
+    },
+    "Repo": {
+      "!type": "fn(path: string, callback: fn(err: ?, repo: Repo))",
+      "prototype": {
+        "path": "string",
+        "options": "?",
+        "git": "?",
+        "config_object": "?",
+        "bare": "?",
+        "working_directory": "?",
+        "head": "fn(callback: fn(err: ?, head: Head))",
+        "heads": "fn(callback: fn(err: ?, heads: [Head]))",
+        "tags": "fn(callback: Function)",
+        "commits": "fn(callback: Function)",
+        "commit": "fn(id: string, callback: Function)",
+        "commit_count": "fn(start: ?, callback: Function)",
+        "tree": "fn(callback: Function)",
+        "blob": "fn(id: string, callback: Function)",
+        "init_bare": "fn(path: ?, gitOptions: ?, repoOptions: ?, callback: Function)",
+        "fork_bare": "fn(path: ?, callback: Function)",
+        "diff": "fn(a: string, callback: fn(error: ?, patch: string))",
+        "commit_diff": "fn(commit: string, callback: Function)",
+        "alternates": "fn(callback: Function)",
+        "set_alternates": "fn(alts: ?, callback: Function)",
+        "log": "fn(callback: fn(err: ?, commits: [Commit]))",
+        "commit_deltas_from": "fn(otherRepo: ?, callback: Function)",
+        "refs": "fn(callback: Function)",
+        "description": "fn(callback: Function)",
+        "update_ref": "fn(head: ?, commitSha: ?, callback: Function)",
+        "get_head": "fn(headName: ?, callback: Function)",
+        "blame": "fn(file: string, commit: string, callback: fn(err: ?, blame: Blame))",
+        "commit_stats": "fn(callback: Function)",
+        "commit_index": "fn(message: ?, callback: Function)",
+        "commit_all": "fn(message: ?, callback: Function)",
+        "config": "fn(callback: Function)",
+        "add": "fn(files: ?, callback: Function)",
+        "remove": "fn(files: ?, callback: Function)",
+        "status": "fn(callback: Function)",
+        "is_head": "fn(headName: ?, callback: Function)",
+        "index": "fn(callback: Function)"
+      }
+    },
+    "Repository": {
+      "!type": "fn(gitDirectory: ?, options?: ?)",
+      "init": "fn(dir: ?, bare: ?, callback: Function)",
+      "prototype": {
+        "git_directory": "?",
+        "options": "?",
+        "already_searched": "?",
+        "packs": "?",
+        "loose": "?",
+        "get_object_by_sha1": "fn(sha1: string) -> ?",
+        "files_changed": "fn(treeSha1: ?, treeSha2: ?, pathLimiter: ?) -> bool",
+        "cat_file": "fn(sha: ?) -> ?",
+        "cat_file_size": "fn(sha: ?) -> number",
+        "cat_file_type": "fn(sha: ?) -> ?",
+        "ls_tree": "fn(sha: ?, paths: ?, recursive: ?) -> ?",
+        "get_raw_tree": "fn(sha: ?, recursive: ?) -> ?",
+        "get_raw_trees": "fn(sha: ?, path: ?) -> string",
+        "ls_tree_path": "fn(sha: ?, path: ?, append: ?) -> ?",
+        "quick_diff": "fn(tree1: ?, tree2: ?, path: ?, recurse: ?) -> [?]",
+        "list_tree": "fn(sha: ?) -> ?",
+        "rev_list": "fn(sha: ?, options: ?, callback: Function)",
+        "object_exists": "fn(sha1: ?, callback: Function)",
+        "in_packs": "fn(shaHex: ?, callback: Function)",
+        "in_loose": "fn(shaHex: ?, callback: Function)",
+        "get_subtree": "fn(commitSha: ?, path: ?, callback: Function)",
+        "put_raw_object": "fn(content: ?, type: ?, callback: Function) -> ?"
+      }
+    },
+    "Status": {
+      "!type": "fn(repo: ?, callback: Function)",
+      "prototype": {
+        "repo": "?",
+        "files": "[?]",
+        "index": "fn(file: ?) -> ?"
+      }
+    },
+    "StatusFile": {
+      "!type": "fn(repo: ?, hash: ?)",
+      "prototype": {
+        "repo": "?",
+        "path": "?",
+        "type": "?",
+        "stage": "?",
+        "mode_index": "?",
+        "mode_repo": "?",
+        "sha_index": "?",
+        "sha_repo": "?",
+        "untracked": "?"
+      }
+    },
+    "Submodule": {
+      "!type": "fn(repo: ?, id: ?, mode: ?, name: ?)",
+      "create": "fn(repo: ?, attributes: ?, callback: Function)",
+      "config": "fn(repo: ?, ref: ?, callback: Function)",
+      "prototype": {
+        "repo": "?",
+        "id": "?",
+        "mode": "?",
+        "name": "?",
+        "basename": "?"
+      }
+    },
+    "Tag": {
+      "!type": "fn(name: ?, commit: ?)",
+      "find_all": "fn(repo: ?, callback: Function)",
+      "prototype": {
+        "name": "?",
+        "commit": "?"
+      }
+    },
+    "Tree": {
+      "!type": "fn(repo: ?, id: ?, mode: ?, name: ?, contents: ?)",
+      "content_from_string": "fn(repo: ?, text: ?, callback: Function)",
+      "create": "fn(repo: ?, callback: Function)",
+      "prototype": {
+        "repo": "?",
+        "id": "?",
+        "mode": "?",
+        "name": "?",
+        "contents": "?",
+        "basename": "?",
+        "find": "fn(file: string) -> ?"
+      }
+    },
+    "UserInfo": {
+      "!type": "fn(str: string)",
+      "prototype": {
+        "name": "?",
+        "email": "?",
+        "date": "?",
+        "offset": "?"
+      }
+    }
+  },
+  "!name": "node-git.d.ts"
+}

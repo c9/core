@@ -1,0 +1,1297 @@
+{
+  "olx": {
+    "AttributionOptions": {
+      "html": "string"
+    },
+    "DeviceOrientationOptions": {
+      "tracking": "bool"
+    },
+    "FrameState": {
+      "pixelRatio": "number",
+      "time": "number",
+      "viewState": "olx.ViewState"
+    },
+    "FeatureOverlayOptions": {
+      "features": "?",
+      "ol": "?",
+      "Collection": "fn()",
+      "style": "?",
+      "StyleFunction": "?",
+      "map": "ol.Map",
+      "Array": "fn()"
+    },
+    "GeolocationOptions": {
+      "tracking": "bool",
+      "trackingOptions": "PositionOptions",
+      "projection": "ol.proj.ProjectionLike",
+      "ol": "?",
+      "proj": "?",
+      "Projection": "?"
+    },
+    "GraticuleOptions": {
+      "map": "ol.Map",
+      "maxLines": "number",
+      "strokeStyle": "ol.style.Stroke",
+      "targetSize": "number"
+    },
+    "BaseWMSOptions": {
+      "attributions": "?",
+      "params": "?",
+      "crossOrigin": "string",
+      "hidpi": "bool",
+      "serverType": "ol.source.wms.ServerType",
+      "url": "string",
+      "logo": "olx.LogoOptions",
+      "projection": "ol.proj.ProjectionLike"
+    },
+    "ImageWMSOptions": {
+      "imageLoadFunction": "ol.ImageLoadFunctionType",
+      "ratio": "number",
+      "resolutions": "?"
+    },
+    "TileWMSOptions": {
+      "gutter": "number",
+      "tileGrid": "ol.tilegrid.TileGrid",
+      "maxZoom": "number",
+      "tileLoadFunction": "ol.TileLoadFunctionType",
+      "url": "string",
+      "urls": "?",
+      "serverType": "ol.source.wms.ServerType",
+      "wrapX": "bool"
+    },
+    "LogoOptions": {
+      "href": "string",
+      "src": "string"
+    },
+    "MapOptions": {
+      "controls": "?",
+      "pixelRatio": "number",
+      "interactions": "?",
+      "keyboardEventTarget": "?",
+      "layers": "?",
+      "loadTilesWhileAnimating": "bool",
+      "loadTilesWhileInteracting": "bool",
+      "logo": "?",
+      "overlays": "?",
+      "renderer": "?",
+      "target": "?",
+      "view": "ViewOptions"
+    },
+    "OverlayOptions": {
+      "element": "Element",
+      "offset": "?",
+      "position": "ol.Coordinate",
+      "positioning": "ol.OverlayPositioning",
+      "stopEvent": "bool",
+      "insertFirst": "bool",
+      "autoPan": "bool",
+      "autoPanAnimation": "olx.animation.PanOptions",
+      "autoPanMargin": "number"
+    },
+    "ViewOptions": {
+      "center": "ol.Coordinate",
+      "constrainRotation": "bool",
+      "enableRotation": "bool",
+      "extent": "ol.Extent",
+      "maxResolution": "number",
+      "minResolution": "number",
+      "maxZoom": "number",
+      "minZoom": "number",
+      "projection": "ol.proj.ProjectionLike",
+      "ol": "?",
+      "proj": "?",
+      "Projection": "?",
+      "resolution": "number",
+      "resolutions": "?",
+      "rotation": "number",
+      "zoom": "number",
+      "zoomFactor": "number"
+    },
+    "ViewState": {
+      "center": "ol.Coordinate",
+      "projection": "ol.proj.Projection",
+      "resolution": "number",
+      "rotation": "number"
+    },
+    "Projection": {
+      "code": "string",
+      "units": "ol.proj.Units",
+      "extent": "?",
+      "axisOrientation": "string",
+      "global": "bool",
+      "worldExtent": "ol.Extent",
+      "getPointResolution": "fn(resolution: number, coordinate: ol.Coordinate)"
+    },
+    "animation": {
+      "BounceOptions": {
+        "resolution": "number",
+        "start": "number",
+        "duration": "number",
+        "easing": "fn(t: number)"
+      },
+      "PanOptions": {
+        "source": "ol.Coordinate",
+        "start": "number",
+        "duration": "number",
+        "easing": "fn(t: number)"
+      },
+      "RotateOptions": {
+        "rotation": "number",
+        "anchor": "ol.Coordinate",
+        "start": "number",
+        "duration": "number",
+        "easing": "fn(t: number)"
+      },
+      "ZoomOptions": {
+        "resolution": "number",
+        "start": "number",
+        "duration": "number",
+        "easing": "fn(t: number)"
+      }
+    },
+    "control": {
+      "DefaultsOptions": {
+        "attribution": "bool",
+        "attributionOptions": "?",
+        "rotate": "bool",
+        "rotateOptions": "?",
+        "zoom": "bool",
+        "zoomOptions": "?"
+      }
+    },
+    "interaction": {
+      "DefaultsOptions": {
+        "altShiftDragRotate": "bool",
+        "doubleClickZoom": "bool",
+        "keyboard": "bool",
+        "mouseWheelZoom": "bool",
+        "shiftDragZoom": "bool",
+        "dragPan": "bool",
+        "pinchRotate": "bool",
+        "pinchZoom": "bool",
+        "zoomDelta": "number",
+        "zoomDuration": "number"
+      }
+    },
+    "layer": {
+      "BaseOptions": {
+        "brightness": "number",
+        "contrast": "number",
+        "hue": "number",
+        "opacity": "number",
+        "saturation": "number",
+        "visible": "bool",
+        "extent": "ol.Extent",
+        "minResolution": "number",
+        "maxResolution": "number"
+      },
+      "GroupOptions": {
+        "layers": "?",
+        "ol": "?",
+        "Collection": "fn()"
+      },
+      "HeatmapOptions": {
+        "gradient": "?",
+        "radius": "number",
+        "blur": "number",
+        "shadow": "number"
+      },
+      "ImageOptions": {},
+      "LayerOptions": {
+        "source": "ol.source.Source"
+      },
+      "TileOptions": {
+        "preload": "number",
+        "source": "ol.source.Tile",
+        "useInterimTilesOnError": "bool"
+      },
+      "VectorOptions": {
+        "updateWhileAnimating": "bool",
+        "updateWhileInteracting": "bool",
+        "renderOrder": "?",
+        "renderBuffer": "number",
+        "source": "ol.source.Vector",
+        "style": "ol.style.Style",
+        "Array": "fn()",
+        "any": "?"
+      }
+    },
+    "source": {
+      "VectorOptions": {
+        "attributions": "?",
+        "features": "?",
+        "ol": "?",
+        "Collection": "fn()",
+        "format": "ol.format.Feature",
+        "loader": "ol.FeatureLoader",
+        "logo": "string",
+        "olx": "?",
+        "LogoOptions": "?",
+        "strategy": "ol.LoadingStrategy",
+        "url": "string",
+        "useSpatialIndex": "bool",
+        "wrapX": "bool"
+      }
+    },
+    "style": {
+      "FillOptions": {
+        "color": "ol.Color",
+        "string": "?"
+      },
+      "StyleOptions": {
+        "geometry": "string",
+        "ol": "?",
+        "geom": "?",
+        "Geometry": "?",
+        "style": "?",
+        "GeometryFunction": "?",
+        "fill": "ol.style.Fill",
+        "image": "ol.style.Image",
+        "stroke": "ol.style.Stroke",
+        "text": "ol.style.Text",
+        "zIndex": "number"
+      },
+      "TextOptions": {
+        "font": "string",
+        "offsetX": "number",
+        "offsetY": "number",
+        "scale": "number",
+        "rotation": "number",
+        "text": "string",
+        "textAlign": "string",
+        "textBaseline": "string",
+        "fill": "ol.style.Fill",
+        "stroke": "ol.style.Stroke"
+      }
+    },
+    "tilegrid": {
+      "TileGridOptions": {
+        "extent": "ol.Extent",
+        "minZoom": "number",
+        "origin": "ol.Coordinate",
+        "origins": "?",
+        "resolutions": "?",
+        "tileSize": "number",
+        "ol": "?",
+        "Size": "?",
+        "tileSizes": "?"
+      },
+      "WMTSOptions": {
+        "extent": "ol.Extent",
+        "origin": "ol.Coordinate",
+        "origins": "?",
+        "resolutions": "?",
+        "matrixIds": "?",
+        "sizes": "?",
+        "tileSize": "number",
+        "ol": "?",
+        "Size": "?",
+        "tileSizes": "?",
+        "widths": "?"
+      },
+      "XYZOptions": {
+        "extent": "ol.Extent",
+        "maxZoom": "number",
+        "minZoom": "number",
+        "tileSize": "number",
+        "ol": "?",
+        "Size": "?"
+      },
+      "ZoomifyOptions": {
+        "resolutions": "?"
+      }
+    },
+    "view": {
+      "FitGeometryOptions": {
+        "padding": "?",
+        "constrainResolution": "bool",
+        "nearest": "bool",
+        "minResolution": "number",
+        "maxZoom": "number"
+      }
+    },
+    "format": {
+      "GeoJSONOptions": {
+        "defaultDataProjection": "ol.proj.ProjectionLike",
+        "ol": "?",
+        "proj": "?",
+        "Projection": "?",
+        "geometryName": "string"
+      },
+      "ReadOptions": {
+        "dataProjection": "ol.proj.ProjectionLike",
+        "ol": "?",
+        "proj": "?",
+        "Projection": "?",
+        "featureProjection": "ol.proj.ProjectionLike"
+      },
+      "WriteOptions": {
+        "dataProjection": "ol.proj.ProjectionLike",
+        "ol": "?",
+        "proj": "?",
+        "Projection": "?",
+        "featureProjection": "ol.proj.ProjectionLike",
+        "rightHanded": "bool"
+      }
+    }
+  },
+  "ol": {
+    "TileLoadFunctionType": {},
+    "ImageLoadFunctionType": {},
+    "Attribution": {
+      "!type": "fn(options: olx.AttributionOptions)",
+      "prototype": {
+        "getHTML": "fn() -> string"
+      }
+    },
+    "Collection": {
+      "!type": "fn(values: ?)",
+      "prototype": {
+        "clear": "fn()",
+        "extend": "fn(arr: ?) -> ?",
+        "forEach": "fn(f: fn(element: T, index: number, array: ?), ref?: ?)",
+        "getArray": "fn() -> ?",
+        "getLength": "fn() -> number",
+        "insertAt": "fn(index: number, elem: T)",
+        "item": "fn(index: number) -> T",
+        "pop": "fn() -> T",
+        "push": "fn(elem: T) -> number",
+        "remove": "fn(elem: T) -> T",
+        "removeAt": "fn(index: number) -> T",
+        "setAt": "fn(index: number, elem: T)"
+      }
+    },
+    "CollectionEvent": {
+      "prototype": {
+        "element": "T"
+      }
+    },
+    "DeviceOrientation": {
+      "!type": "fn(options?: olx.DeviceOrientationOptions)",
+      "prototype": {
+        "getAlpha": "fn() -> number",
+        "getBeta": "fn() -> number",
+        "getGamma": "fn() -> number",
+        "getHeading": "fn() -> number",
+        "getTracking": "fn() -> bool",
+        "setTracking": "fn(tracking: bool)"
+      }
+    },
+    "DragBoxEvent": {
+      "prototype": {
+        "coordinate": "ol.Coordinate"
+      }
+    },
+    "Feature": {
+      "!type": "fn(geometryOrProperties?: ol.geom.Geometry, any: ?)",
+      "prototype": {
+        "clone": "fn() -> Feature",
+        "getGeometry": "fn() -> ol.geom.Geometry",
+        "getGeometryName": "fn() -> string",
+        "getId": "fn() -> string",
+        "number": "?",
+        "getStyle": "fn() -> ol.style.Style",
+        "Array": "fn()",
+        "ol": "?",
+        "FeatureStyleFunction": "?",
+        "getStyleFunction": "fn() -> ol.FeatureStyleFunction",
+        "setGeometry": "fn(geometry: ol.geom.Geometry)",
+        "setGeometryName": "fn(name: string)",
+        "setId": "fn(id: number)",
+        "setStyle": "fn(style: ol.style.Style)"
+      }
+    },
+    "FeatureOverlay": {
+      "!type": "fn(options?: olx.FeatureOverlayOptions)",
+      "prototype": {
+        "addFeature": "fn(feature: ol.Feature)",
+        "getFeatures": "?",
+        "getMap": "fn() -> ol.Map",
+        "getStyle": "fn() -> ol.style.Style",
+        "Array": "fn()",
+        "ol": "?",
+        "style": "?",
+        "StyleFunction": "?",
+        "getStyleFunction": "fn() -> ol.style.StyleFunction",
+        "removeFeature": "fn(feature: ol.Feature)",
+        "setFeatures": "fn(features: ?)",
+        "setMap": "fn(map: ol.Map)",
+        "setStyle": "fn(style: ol.style.Style)"
+      }
+    },
+    "Geolocation": {
+      "!type": "fn(options?: olx.GeolocationOptions)",
+      "prototype": {
+        "getAccuracy": "fn() -> number",
+        "getAccuracyGeometry": "fn() -> ol.geom.Geometry",
+        "getAltitude": "fn() -> number",
+        "getAltitudeAccuracy": "fn() -> number",
+        "getHeading": "fn() -> number",
+        "getPosition": "fn() -> ol.Coordinate",
+        "getProjection": "fn() -> ol.proj.Projection",
+        "getSpeed": "fn() -> number",
+        "getTracking": "fn() -> bool",
+        "getTrackingOptions": "fn() -> PositionOptions",
+        "setProjection": "fn(projection: ol.proj.Projection)",
+        "setTracking": "fn(tracking: bool)",
+        "setTrackingOptions": "fn(options: PositionOptions)"
+      }
+    },
+    "Graticule": {
+      "!type": "fn(options?: olx.GraticuleOptions)",
+      "prototype": {
+        "getMap": "fn() -> Map",
+        "getMeridians": "fn() -> ?",
+        "getParallels": "fn() -> ?",
+        "setMap": "fn(map: Map)"
+      }
+    },
+    "Image": {
+      "prototype": {
+        "getImage": "fn(context: HTMLCanvasElement) -> Image"
+      }
+    },
+    "ImageBase": {
+      "prototype": {}
+    },
+    "ImageTile": {
+      "prototype": {
+        "getImage": "fn(context: HTMLCanvasElement) -> Image"
+      }
+    },
+    "Kinetic": {
+      "!type": "fn(decay: number, minVelocity: number, delay: number)",
+      "prototype": {}
+    },
+    "Map": {
+      "!type": "fn(options: olx.MapOptions)",
+      "prototype": {
+        "addControl": "fn(control: ol.control.Control)",
+        "addInteraction": "fn(interaction: ol.interaction.Interaction)",
+        "addLayer": "fn(layer: ol.layer.Base)",
+        "addOverlay": "fn(overlay: ol.Overlay)",
+        "beforeRender": "fn(var_args: ol.PreRenderFunction)",
+        "forEachFeatureAtPixel": "fn(pixel: ol.Pixel, callback: fn(feature: ol.Feature, layer: ol.layer.Layer), ref?: ?, layerFilter?: fn(layerCandidate: ol.layer.Layer), ref2?: ?)",
+        "forEachLayerAtPixel": "fn(pixel: ol.Pixel, callback: fn(layer: ol.layer.Layer), ref?: ?, layerFilter?: fn(layerCandidate: ol.layer.Layer), ref2?: ?)",
+        "getControls": "fn() -> ?",
+        "getCoordinateFromPixel": "fn(pixel: ol.Pixel) -> ol.Coordinate",
+        "getEventCoordinate": "fn(event: Event) -> ol.Coordinate",
+        "getEventPixel": "fn(event: Event) -> ol.Pixel",
+        "getInteractions": "fn() -> ?",
+        "getLayerGroup": "fn() -> ol.layer.Group",
+        "getLayers": "fn() -> ?",
+        "getOverlays": "fn() -> ?",
+        "getPixelFromCoordinate": "fn(coordinate: ol.Coordinate) -> ol.Pixel",
+        "getSize": "fn() -> ol.Size",
+        "getTarget": "fn() -> Element",
+        "string": "?",
+        "getTargetElement": "fn() -> Element",
+        "getView": "fn() -> View",
+        "getViewport": "fn() -> Element",
+        "hasFeatureAtPixel": "fn(pixel: ol.Pixel, layerFilter?: fn(layer: ol.layer.Layer), ref?: ?) -> bool",
+        "removeControl": "fn(control: ol.control.Control) -> ol.control.Control",
+        "removeInteraction": "fn(interaction: ol.interaction.Interaction) -> ol.interaction.Interaction",
+        "removeLayer": "fn(layer: ol.layer.Base) -> ol.layer.Base",
+        "removeOverlay": "fn(overlay: ol.Overlay) -> ol.Overlay",
+        "render": "fn()",
+        "renderSync": "fn()",
+        "setLayerGroup": "fn(layerGroup: ol.layer.Group)",
+        "setSize": "fn(size: ol.Size)",
+        "setTarget": "fn(target: Element)",
+        "setView": "fn(view: View)",
+        "updateSize": "fn()"
+      }
+    },
+    "MapBrowserEvent": {
+      "prototype": {
+        "coordinate": "Coordinate",
+        "dragging": "bool",
+        "frameState": "olx.FrameState",
+        "map": "Map",
+        "originalEvent": "Event",
+        "pixel": "Pixel",
+        "preventDefault": "fn()",
+        "stopPropagation": "fn()"
+      }
+    },
+    "MapEvent": {
+      "prototype": {
+        "frameState": "olx.FrameState",
+        "map": "Map"
+      }
+    },
+    "Object": {
+      "!type": "fn(values?: Object)",
+      "prototype": {
+        "get": "fn(key: string) -> ?",
+        "getKeys": "fn() -> ?",
+        "getProperties": "fn() -> Object",
+        "getRevision": "fn() -> number",
+        "set": "fn(key: string, value: ?)",
+        "setProperties": "fn(values: Object)",
+        "unset": "fn(key: string)"
+      }
+    },
+    "ObjectEvent": {
+      "prototype": {
+        "key": "string",
+        "oldValue": "?"
+      }
+    },
+    "Observable": {
+      "prototype": {
+        "unByKey": "fn(key: ?)",
+        "changed": "fn()",
+        "getRevision": "fn() -> number",
+        "on": "fn(type: string, listener: fn(event: MapBrowserEvent), ref?: ?) -> ?",
+        "once": "fn(type: string, listener: fn(event: MapBrowserEvent), ref?: ?) -> ?",
+        "un": "fn(type: ?, listener: fn(event: MapBrowserEvent), ref?: ?) -> ?"
+      }
+    },
+    "Overlay": {
+      "!type": "fn(options: olx.OverlayOptions)",
+      "prototype": {
+        "getElement": "fn() -> Element",
+        "getMap": "fn() -> ol.Map",
+        "getOffset": "fn() -> ?",
+        "getPosition": "fn() -> ol.Coordinate",
+        "getPositioning": "fn() -> ol.OverlayPositioning",
+        "setElement": "fn(element: Element)",
+        "setMap": "fn(map: Map)",
+        "setOffset": "fn(offset: ?)",
+        "setPosition": "fn(position: ol.Coordinate)",
+        "setPositioning": "fn(positioning: ol.OverlayPositioning)"
+      }
+    },
+    "SelectEvent": {
+      "prototype": {
+        "deselected": "?",
+        "mapBrowserEvent": "ol.MapBrowserEvent",
+        "selected": "?"
+      }
+    },
+    "Sphere": {
+      "!type": "fn(radius: number)",
+      "prototype": {
+        "geodesicArea": "fn(coordinates: ?) -> number",
+        "haversineDistance": "fn(c1: ol.Coordinate, c2: ol.Coordinate) -> number"
+      }
+    },
+    "Tile": {
+      "prototype": {
+        "getTileCoord": "fn() -> ol.TileCoord"
+      }
+    },
+    "View": {
+      "!type": "fn(options?: olx.ViewOptions)",
+      "prototype": {
+        "calculateExtent": "fn(size: ol.Size) -> ol.Extent",
+        "centerOn": "fn(coordinate: ol.Coordinate, size: ol.Size, position: ol.Pixel)",
+        "constrainCenter": "fn(center: ol.Coordinate) -> ol.Coordinate",
+        "constrainResolution": "fn(resolution: number, delta?: number, direction?: number) -> number",
+        "fitExtent": "fn(extent: ol.Extent, size: ol.Size)",
+        "fitGeometry": "fn(geometry: ol.geom.SimpleGeometry, size: ol.Size, options?: olx.view.FitGeometryOptions)",
+        "getCenter": "fn() -> ol.Coordinate",
+        "getProjection": "fn() -> ol.proj.Projection",
+        "getResolution": "fn() -> number",
+        "getRotation": "fn() -> number",
+        "getZoom": "fn() -> number",
+        "rotate": "fn(rotation: number, anchor: ol.Coordinate)",
+        "setCenter": "fn(center: ol.Coordinate)",
+        "setResolution": "fn(resolution: number)",
+        "setRotation": "fn(rotation: number)",
+        "setZoom": "fn(zoom: number)"
+      }
+    },
+    "animation": {
+      "bounce": "fn(options: olx.animation.BounceOptions) -> ol.PreRenderFunction",
+      "pan": "fn(options: olx.animation.PanOptions) -> ol.PreRenderFunction",
+      "rotate": "fn(options: olx.animation.RotateOptions) -> ol.PreRenderFunction",
+      "zoom": "fn(options: olx.animation.ZoomOptions) -> ol.PreRenderFunction"
+    },
+    "color": {
+      "asArray": "fn(color: ol.Color) -> ol.Color",
+      "asString": "fn(color: ol.Color) -> string"
+    },
+    "control": {
+      "defaults": "fn(options?: olx.control.DefaultsOptions) -> ?",
+      "ScaleLineUnits": {},
+      "Attribution": {
+        "prototype": {}
+      },
+      "Control": {
+        "prototype": {}
+      },
+      "FullScreen": {
+        "prototype": {}
+      },
+      "MousePosition": {
+        "prototype": {}
+      },
+      "OverviewMap": {
+        "prototype": {}
+      },
+      "Rotate": {
+        "prototype": {}
+      },
+      "ScaleLine": {
+        "prototype": {}
+      },
+      "Zoom": {
+        "prototype": {}
+      },
+      "ZoomSlider": {
+        "prototype": {}
+      },
+      "ZoomToExtent": {
+        "prototype": {}
+      }
+    },
+    "coordinate": {
+      "add": "fn(coordinate: ol.Coordinate, delta: ol.Coordinate) -> ol.Coordinate",
+      "createStringXY": "fn(fractionDigits?: number) -> ol.CoordinateFormatType",
+      "format": "fn(coordinate: ol.Coordinate, template: string, fractionDigits?: number) -> string",
+      "rotate": "fn(coordinate: ol.Coordinate, angle: number) -> ol.Coordinate",
+      "toStringHDMS": "fn(coordinate?: ol.Coordinate) -> string",
+      "toStringXY": "fn(coordinate?: ol.Coordinate, fractionDigits?: number) -> string"
+    },
+    "easing": {
+      "easeIn": "fn(t: number) -> number",
+      "easeOut": "fn(t: number) -> number",
+      "inAndOut": "fn(t: number) -> number",
+      "linear": "fn(t: number) -> number",
+      "upAndDown": "fn(t: number) -> number"
+    },
+    "events": {
+      "condition": {}
+    },
+    "extent": {
+      "applyTransform": "fn(extent: ol.Extent, transformFn: ol.TransformFunction, destinationExtent?: ol.Extent) -> ol.Extent",
+      "boundingExtent": "fn(coordinates: ?) -> ol.Extent",
+      "buffer": "fn(extent: ol.Extent, value: number, destinationExtent?: ol.Extent) -> ol.Extent",
+      "containsCoordinate": "fn(extent: ol.Extent, coordinate: ol.Coordinate) -> bool",
+      "containsExtent": "fn(extent1: ol.Extent, extent2: ol.Extent) -> bool",
+      "containsXY": "fn(extent: ol.Extent, x: number, y: number) -> bool",
+      "createEmpty": "fn() -> ol.Extent",
+      "equals": "fn(extent1: ol.Extent, extent2: ol.Extent) -> bool",
+      "extend": "fn(extent1: ol.Extent, extent2: ol.Extent) -> ol.Extent",
+      "getBottomLeft": "fn(extent: ol.Extent) -> ol.Coordinate",
+      "getBottomRight": "fn(extent: ol.Extent) -> ol.Coordinate",
+      "getCenter": "fn(extent: ol.Extent) -> ol.Coordinate",
+      "getHeight": "fn(extent: ol.Extent) -> number",
+      "getIntersection": "fn(extent1: ol.Extent, extent2: ol.Extent, extent?: ol.Extent) -> ol.Extent",
+      "getSize": "fn(extent: ol.Extent) -> ol.Size",
+      "getTopLeft": "fn(extent: ol.Extent) -> ol.Coordinate",
+      "getTopRight": "fn(extent: ol.Extent) -> ol.Coordinate",
+      "getWidth": "fn(extent: ol.Extent) -> number",
+      "intersects": "fn(extent1: ol.Extent, extent2: ol.Extent) -> bool",
+      "isEmpty": "fn(extent: ol.Extent) -> bool"
+    },
+    "featureloader": {
+      "xhr": "fn(url: string, format: ol.format.Feature) -> ol.FeatureLoader"
+    },
+    "format": {
+      "IGCZ": {},
+      "EsriJSON": {
+        "prototype": {}
+      },
+      "Feature": {
+        "prototype": {}
+      },
+      "GeoJSON": {
+        "!type": "fn(options?: olx.format.GeoJSONOptions)",
+        "prototype": {
+          "readFeature": "fn(source: Document, Node: ?, JSON: ?, string: ?, options?: olx.format.ReadOptions) -> ol.Feature",
+          "readFeatures": "fn(source: Document, Node: ?, JSON: ?, string: ?, options?: olx.format.ReadOptions) -> ?",
+          "readGeometry": "fn(source: Document, Node: ?, JSON: ?, string: ?, options?: olx.format.ReadOptions) -> ol.geom.Geometry",
+          "readProjection": "fn(source: Document, Node: ?, JSON: ?, string: ?) -> ol.proj.Projection",
+          "writeFeature": "fn(feature: ol.Feature, options?: olx.format.WriteOptions) -> string",
+          "writeFeatureObject": "fn(feature: ol.Feature, options?: olx.format.WriteOptions) -> JSON",
+          "writeFeatures": "fn(features: ?, options?: olx.format.WriteOptions) -> string",
+          "writeFeaturesObject": "fn(features: ?, options?: olx.format.WriteOptions) -> JSON",
+          "writeGeometry": "fn(geometry: ol.geom.Geometry, options?: olx.format.WriteOptions) -> string",
+          "writeGeometryObject": "fn(geometry: ol.geom.Geometry, options?: olx.format.WriteOptions) -> JSON"
+        }
+      },
+      "GML": {
+        "prototype": {}
+      },
+      "GML2": {
+        "prototype": {}
+      },
+      "GML3": {
+        "prototype": {}
+      },
+      "GMLBase": {
+        "prototype": {}
+      },
+      "GPX": {
+        "prototype": {}
+      },
+      "IGC": {
+        "prototype": {}
+      },
+      "JSONFeature": {
+        "prototype": {}
+      },
+      "KML": {
+        "prototype": {}
+      },
+      "OSMXML": {
+        "prototype": {}
+      },
+      "Polyline": {
+        "prototype": {}
+      },
+      "TextFeature": {
+        "prototype": {}
+      },
+      "TopoJSON": {
+        "prototype": {}
+      },
+      "WFS": {
+        "prototype": {}
+      },
+      "WKT": {
+        "prototype": {}
+      },
+      "WMSCapabilities": {
+        "prototype": {}
+      },
+      "WMSGetFeatureInfo": {
+        "prototype": {}
+      },
+      "WMTSCapabilities": {
+        "prototype": {}
+      },
+      "XML": {
+        "prototype": {}
+      },
+      "XMLFeature": {
+        "prototype": {}
+      }
+    },
+    "geom": {
+      "GeometryLayout": {},
+      "GeometryType": {},
+      "Circle": {
+        "prototype": {
+          "intersectsExtent": "fn(extent: ol.Extent) -> bool",
+          "transform": "fn(source: ol.proj.ProjectionLike, destination: ol.proj.ProjectionLike) -> ol.geom.Circle"
+        }
+      },
+      "Geometry": {
+        "prototype": {
+          "getClosestPoint": "fn(point: ol.Coordinate, closestPoint?: ol.Coordinate) -> ol.Coordinate",
+          "getExtent": "fn(extent?: ol.Extent) -> ol.Extent"
+        }
+      },
+      "GeometryCollection": {
+        "!type": "fn(geometries?: ?)",
+        "prototype": {
+          "applyTransform": "fn(transformFn: ol.TransformFunction)",
+          "clone": "fn() -> ol.geom.GeometryCollection",
+          "getGeometries": "fn() -> ?",
+          "getType": "fn() -> ol.geom.GeometryType",
+          "intersectsExtent": "fn(extent: ol.Extent) -> bool",
+          "setGeometries": "fn(geometries: ?)"
+        }
+      },
+      "LinearRing": {
+        "!type": "fn(coordinates: ?, layout?: ol.geom.GeometryLayout)",
+        "prototype": {
+          "clone": "fn() -> ol.geom.LinearRing",
+          "getArea": "fn() -> number",
+          "getCoordinates": "fn() -> ?",
+          "getType": "fn() -> ol.geom.GeometryType",
+          "setCoordinates": "fn(coordinates: ?, layout?: ?)"
+        }
+      },
+      "LineString": {
+        "!type": "fn(coordinates: ?, layout?: ol.geom.GeometryLayout)",
+        "prototype": {
+          "appendCoordinate": "fn(coordinate: ol.Coordinate)",
+          "clone": "fn() -> ol.geom.LineString",
+          "getCoordinateAtM": "fn(m: number, extrapolate?: bool) -> ol.Coordinate",
+          "getCoordinates": "fn() -> ?",
+          "getLength": "fn() -> number",
+          "getType": "fn() -> ol.geom.GeometryType",
+          "intersectsExtent": "fn(extent: ol.Extent) -> bool",
+          "setCoordinates": "fn(coordinates: ?, layout?: ol.geom.GeometryLayout)"
+        }
+      },
+      "MultiLineString": {
+        "!type": "fn(coordinates: ?, layout?: ol.geom.GeometryLayout)",
+        "prototype": {
+          "appendLineString": "fn(lineString: ol.geom.LineString)",
+          "clone": "fn() -> ol.geom.MultiLineString",
+          "getCoordinateAtM": "fn(m: number, extrapolate?: bool, interpolate?: bool) -> ol.Coordinate",
+          "getCoordinates": "fn() -> ?",
+          "getLineString": "fn(index: number) -> ol.geom.LineString",
+          "getLineStrings": "fn() -> ?",
+          "getType": "fn() -> ol.geom.GeometryType",
+          "intersectsExtent": "fn(extent: ol.Extent) -> bool",
+          "setCoordinates": "fn(coordinates: ?, layout?: ol.geom.GeometryLayout)"
+        }
+      },
+      "MultiPoint": {
+        "!type": "fn(coordinates: ?, layout?: ol.geom.GeometryLayout)",
+        "prototype": {
+          "appendPoint": "fn(point: ol.geom.Point)",
+          "clone": "fn() -> ol.geom.MultiPoint",
+          "getCoordinates": "fn() -> ?",
+          "getPoint": "fn(index: number) -> ol.geom.Point",
+          "getPoints": "fn() -> ?",
+          "getType": "fn() -> ol.geom.GeometryType",
+          "intersectsExtent": "fn(extent: ol.Extent) -> bool",
+          "setCoordinates": "fn(coordinates: ?, layout?: ol.geom.GeometryLayout)"
+        }
+      },
+      "MultiPolygon": {
+        "!type": "fn(coordinates: ?, layout?: ol.geom.GeometryLayout)",
+        "prototype": {
+          "appendPolygon": "fn(polygon: ol.geom.Polygon)",
+          "clone": "fn() -> ol.geom.MultiPolygon",
+          "getArea": "fn() -> number",
+          "getCoordinates": "fn(right?: bool) -> ?",
+          "getInteriorPoints": "fn() -> ol.geom.MultiPoint",
+          "getPolygon": "fn(index: number) -> ol.geom.Polygon",
+          "getPolygons": "fn() -> ?",
+          "getType": "fn() -> ol.geom.GeometryType",
+          "intersectsExtent": "fn(extent: ol.Extent) -> bool",
+          "setCoordinates": "fn(coordinates: ?, layout?: ol.geom.GeometryLayout)"
+        }
+      },
+      "Point": {
+        "!type": "fn(coordinates: ol.Coordinate, layout?: ol.geom.GeometryLayout)",
+        "prototype": {
+          "clone": "fn() -> ol.geom.Point",
+          "getCoordinates": "fn() -> ol.Coordinate",
+          "getType": "fn() -> ol.geom.GeometryType",
+          "intersectsExtent": "fn(extent: ol.Extent) -> bool",
+          "setCoordinates": "fn(coordinates: ol.Coordinate, layout?: ol.geom.GeometryLayout)"
+        }
+      },
+      "Polygon": {
+        "!type": "fn(coordinates: ?, layout?: ol.geom.GeometryLayout)",
+        "circular": "fn(sphere: ol.Sphere, center: ol.Coordinate, radius: number, n?: number) -> ol.geom.Polygon",
+        "prototype": {
+          "appendLinearRing": "fn(linearRing: ol.geom.LinearRing)",
+          "clone": "fn() -> ol.geom.Polygon",
+          "getArea": "fn() -> number",
+          "getCoordinates": "fn(right?: bool) -> ?",
+          "getInteriorPoint": "fn() -> ol.geom.Point",
+          "getLinearRing": "fn(index: number) -> ol.geom.LinearRing",
+          "getLinearRings": "fn() -> ?",
+          "getType": "fn() -> ol.geom.GeometryType",
+          "intersectsExtent": "fn(extent: ol.Extent) -> bool",
+          "setCoordinates": "fn(coordinates: ?, layout?: ol.geom.GeometryLayout)"
+        }
+      },
+      "SimpleGeometry": {
+        "prototype": {
+          "applyTransform": "fn(transformFn: ol.TransformFunction)",
+          "getFirstCoordinate": "fn() -> ol.Coordinate",
+          "getLastCoordinate": "fn() -> ol.Coordinate",
+          "getLayout": "fn() -> ol.geom.GeometryLayout",
+          "translate": "fn(deltaX: number, deltaY: number)"
+        }
+      }
+    },
+    "has": {},
+    "interaction": {
+      "DoubleClickZoom": {
+        "prototype": {}
+      },
+      "DragAndDrop": {
+        "prototype": {}
+      },
+      "DragAndDropEvent": {
+        "prototype": {}
+      },
+      "DragBox": {
+        "prototype": {}
+      },
+      "DragPan": {
+        "prototype": {}
+      },
+      "DragRotate": {
+        "prototype": {}
+      },
+      "DragRotateAndZoom": {
+        "prototype": {}
+      },
+      "DragZoom": {
+        "prototype": {}
+      },
+      "Draw": {
+        "prototype": {}
+      },
+      "DrawEvent": {
+        "prototype": {}
+      },
+      "Interaction": {
+        "prototype": {}
+      },
+      "KeyboardPan": {
+        "prototype": {}
+      },
+      "KeyboardZoom": {
+        "prototype": {}
+      },
+      "Modify": {
+        "prototype": {}
+      },
+      "MouseWheelZoom": {
+        "prototype": {}
+      },
+      "PinchRotate": {
+        "prototype": {}
+      },
+      "PinchZoom": {
+        "prototype": {}
+      },
+      "Pointer": {
+        "prototype": {}
+      },
+      "Select": {
+        "prototype": {}
+      },
+      "Snap": {
+        "prototype": {}
+      },
+      "defaults": "fn(opts: olx.interaction.DefaultsOptions) -> ?"
+    },
+    "layer": {
+      "Base": {
+        "!type": "fn(options?: olx.layer.BaseOptions)",
+        "prototype": {
+          "getBrightness": "fn() -> number",
+          "getContrast": "fn() -> number",
+          "getExtent": "fn() -> ol.Extent",
+          "getHue": "fn() -> number",
+          "getMaxResolution": "fn() -> number",
+          "getMinResolution": "fn() -> number",
+          "getOpacity": "fn() -> number",
+          "getSaturation": "fn() -> number",
+          "getVisible": "fn() -> bool",
+          "setBrightness": "fn(brigthness: number)",
+          "setContrast": "fn(contrast: number)",
+          "setExtent": "fn(extent?: ol.Extent)",
+          "setHue": "fn(hue: number)",
+          "setMaxResolution": "fn(maxResolution: number)",
+          "setMinResolution": "fn(minResolution: number)",
+          "setOpacity": "fn(opacity: number)",
+          "setSaturation": "fn(saturation: number)",
+          "setVisible": "fn(visible: bool)"
+        }
+      },
+      "Group": {
+        "!type": "fn(options?: olx.layer.GroupOptions)",
+        "prototype": {
+          "getLayers": "fn() -> ?",
+          "setLayers": "fn(layers: ?)"
+        }
+      },
+      "Heatmap": {
+        "!type": "fn(options?: olx.layer.HeatmapOptions)",
+        "prototype": {
+          "getBlur": "fn() -> number",
+          "getGradient": "fn() -> ?",
+          "getRadius": "fn() -> number",
+          "setBlur": "fn(blur: number)",
+          "setGradient": "fn(colors: ?)",
+          "setRadius": "fn(radius: number)"
+        }
+      },
+      "Image": {
+        "!type": "fn(options?: olx.layer.ImageOptions)",
+        "prototype": {
+          "getSource": "fn() -> ol.source.Image"
+        }
+      },
+      "Layer": {
+        "!type": "fn(options?: olx.layer.LayerOptions)",
+        "prototype": {
+          "getSource": "fn() -> ol.source.Source",
+          "setSource": "fn(source: ol.source.Source)"
+        }
+      },
+      "Tile": {
+        "!type": "fn(options?: olx.layer.TileOptions)",
+        "prototype": {
+          "getPreload": "fn() -> number",
+          "getSource": "fn() -> ol.source.Tile",
+          "getUseInterimTilesOnError": "fn() -> bool",
+          "setPreload": "fn(preload: number)",
+          "setUseInterimTilesOnError": "fn(useInterimTilesOnError: bool)"
+        }
+      },
+      "Vector": {
+        "!type": "fn(options?: olx.layer.VectorOptions)",
+        "prototype": {
+          "getSource": "fn() -> ol.source.Vector",
+          "getStyle": "fn() -> ol.style.Style",
+          "Array": "fn()",
+          "ol": "?",
+          "style": "?",
+          "StyleFunction": "?",
+          "getStyleFunction": "fn() -> ol.style.StyleFunction",
+          "setStyle": "fn()"
+        }
+      }
+    },
+    "loadingstrategy": {
+      "all": "fn(extent: ol.Extent, resolution: number) -> ?",
+      "bbox": "fn(extent: ol.Extent, resolution: number) -> ?",
+      "tile": "fn(tileGrid: ol.tilegrid.TileGrid) -> ol.LoadingStrategy"
+    },
+    "proj": {
+      "ProjectionLike": {},
+      "Units": {},
+      "METERS_PER_UNIT": "Object",
+      "addCoordinateTransforms": "fn(source: ProjectionLike, destination: ProjectionLike, forward: fn(coordinate: Coordinate), inverse: fn(coordinate: Coordinate))",
+      "addEquivalentProjections": "fn(projections: ?)",
+      "addProjection": "fn(projection: Projection)",
+      "fromLonLat": "fn(coordinate: Coordinate, opt_projection: ProjectionLike) -> Coordinate",
+      "get": "fn(projectionLike: ProjectionLike) -> Projection",
+      "getTransform": "fn(source: ProjectionLike, destination: ProjectionLike) -> ol.TransformFunction",
+      "toLonLat": "fn(coordinate: Coordinate, projection: ProjectionLike) -> Coordinate",
+      "transform": "fn(coordinate: Coordinate, source: ProjectionLike, destination: ProjectionLike) -> Coordinate",
+      "transformExtent": "fn(extent: Extent, source: ProjectionLike, destination: ProjectionLike) -> Extent",
+      "Projection": {
+        "!type": "fn(options: olx.Projection)",
+        "prototype": {}
+      }
+    },
+    "render": {
+      "Event": {
+        "prototype": {}
+      },
+      "VectorContext": {
+        "prototype": {}
+      },
+      "canvas": {
+        "Immediate": {
+          "prototype": {}
+        }
+      }
+    },
+    "source": {
+      "BingMaps": {
+        "prototype": {}
+      },
+      "Cluster": {
+        "prototype": {}
+      },
+      "Image": {
+        "prototype": {}
+      },
+      "ImageCanvas": {
+        "prototype": {}
+      },
+      "ImageEvent": {
+        "prototype": {}
+      },
+      "ImageMapGuide": {
+        "prototype": {}
+      },
+      "ImageStatic": {
+        "prototype": {}
+      },
+      "ImageVector": {
+        "prototype": {}
+      },
+      "ImageWMS": {
+        "!type": "fn(options: olx.ImageWMSOptions)",
+        "prototype": {}
+      },
+      "MapQuest": {
+        "!type": "fn(options: ?)",
+        "prototype": {}
+      },
+      "OSM": {
+        "prototype": {}
+      },
+      "Source": {
+        "prototype": {}
+      },
+      "Stamen": {
+        "prototype": {}
+      },
+      "Tile": {
+        "prototype": {}
+      },
+      "TileArcGISRest": {
+        "prototype": {}
+      },
+      "TileDebug": {
+        "prototype": {}
+      },
+      "TileEvent": {
+        "prototype": {}
+      },
+      "TileImage": {
+        "prototype": {}
+      },
+      "TileJSON": {
+        "prototype": {}
+      },
+      "TileUTFGrid": {
+        "prototype": {}
+      },
+      "TileVector": {
+        "prototype": {}
+      },
+      "TileWMS": {
+        "!type": "fn(options: olx.TileWMSOptions)",
+        "prototype": {}
+      },
+      "Vector": {
+        "!type": "fn(opts: olx.source.VectorOptions)",
+        "prototype": {
+          "getExtent": "fn() -> ol.Extent",
+          "getFeaturesInExtent": "fn(extent: ol.Extent) -> [ol.Feature]"
+        }
+      },
+      "VectorEvent": {
+        "prototype": {}
+      },
+      "WMTS": {
+        "prototype": {}
+      },
+      "XYZ": {
+        "prototype": {}
+      },
+      "Zoomify": {
+        "prototype": {}
+      },
+      "wms": {
+        "ServerType": {}
+      },
+      "State": {},
+      "WMTSRequestEncoding": {}
+    },
+    "style": {
+      "AtlasManager": {
+        "prototype": {}
+      },
+      "Circle": {
+        "prototype": {}
+      },
+      "Fill": {
+        "!type": "fn(opt_options?: olx.style.FillOptions)",
+        "prototype": {
+          "getColor": "fn() -> ol.Color",
+          "string": "?",
+          "setColor": "fn(color: ol.Color, string: ?)",
+          "getChecksum": "fn() -> string"
+        }
+      },
+      "Icon": {
+        "prototype": {}
+      },
+      "Image": {
+        "prototype": {}
+      },
+      "GeometryFunction": {},
+      "RegularShape": {
+        "prototype": {}
+      },
+      "Stroke": {
+        "!type": "fn()",
+        "prototype": {}
+      },
+      "Style": {
+        "!type": "fn(opts: olx.style.StyleOptions)",
+        "prototype": {}
+      },
+      "Text": {
+        "!type": "fn(opt?: olx.style.TextOptions)",
+        "prototype": {
+          "getFont": "fn() -> string",
+          "getOffsetX": "fn() -> number",
+          "getOffsetY": "fn() -> number",
+          "getFill": "fn() -> Fill",
+          "getRotation": "fn() -> number",
+          "getScale": "fn() -> number",
+          "getStroke": "fn() -> Stroke",
+          "getText": "fn() -> string",
+          "getTextAlign": "fn() -> string",
+          "getTextBaseline": "fn() -> string",
+          "setFont": "fn(font: string)",
+          "setOffsetX": "fn(offsetX: number)",
+          "setOffsetY": "fn(offsetY: number)",
+          "setFill": "fn(fill: Fill)",
+          "setRotation": "fn(rotation: number)",
+          "setScale": "fn(scale: number)",
+          "setStroke": "fn(stroke: Stroke)",
+          "setText": "fn(text: string)",
+          "setTextAlign": "fn(textAlign: string)",
+          "setTextBaseline": "fn(textBaseline: string)"
+        }
+      },
+      "StyleFunction": {}
+    },
+    "tilegrid": {
+      "TileGrid": {
+        "!type": "fn(options: olx.tilegrid.TileGridOptions)",
+        "prototype": {
+          "createTileCoordTransform": "fn() -> ret",
+          "getMaxZoom": "fn() -> number",
+          "getMinZoom": "fn() -> number",
+          "getOrigin": "fn(z: number) -> ol.Coordinate",
+          "getResolution": "fn(z: number) -> number",
+          "getResolutions": "fn() -> ?",
+          "getTileCoordForCoordAndResolution": "fn(coordinate: ol.Coordinate, resolution: number, tileCoord?: ol.TileCoord) -> ol.TileCoord",
+          "getTileCoordForCoordAndZ": "fn(coordinate: ol.Coordinate, z: number, tileCoord?: ol.TileCoord) -> ol.TileCoord",
+          "getTileSize": "fn(z: number) -> number",
+          "ol": "?",
+          "Size": "?"
+        }
+      },
+      "WMTS": {
+        "!type": "fn(options: olx.tilegrid.WMTSOptions)",
+        "prototype": {
+          "createFromCapabilitiesMatrixSet": "fn(matrixSet: ?, extent: ol.Extent) -> ol.tilegrid.WMTS",
+          "getMatrixIds": "fn() -> ?"
+        }
+      },
+      "Zoomify": {
+        "!type": "fn(options?: olx.tilegrid.ZoomifyOptions)",
+        "prototype": {}
+      },
+      "createXYZ": "fn(options?: olx.tilegrid.XYZOptions) -> ol.tilegrid.TileGrid"
+    },
+    "webgl": {
+      "Context": {
+        "!type": "fn(canvas: HTMLCanvasElement, gl: WebGLRenderingContext)",
+        "prototype": {
+          "getGL": "fn() -> WebGLRenderingContext",
+          "getHitDetectionFramebuffer": "fn() -> WebGLFramebuffer",
+          "useProgram": "fn(program: WebGLProgram) -> bool"
+        }
+      }
+    },
+    "CanvasFunctionType": "fn(extent: Extent, resolution: number, pixelRatio: number, size: Size, projection: proj.Projection) -> HTMLCanvasElement",
+    "Color": {},
+    "Coordinate": {},
+    "Extent": {},
+    "OverlayPositioning": {},
+    "Pixel": {},
+    "RendererType": {},
+    "Size": {},
+    "TileCoord": {},
+    "CoordinateFormatType": {},
+    "FeatureLoader": {},
+    "FeatureStyleFunction": {},
+    "LoadingStrategy": {},
+    "PreRenderFunction": {},
+    "TransformFunction": {}
+  },
+  "openlayers": "ol",
+  "!name": "openlayers",
+  "!define": {
+    "ret": {}
+  }
+}

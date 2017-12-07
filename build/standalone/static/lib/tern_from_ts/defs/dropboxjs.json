@@ -1,0 +1,426 @@
+{
+  "Dropbox": {
+    "QueryParams": {},
+    "Credentials": {
+      "key": "string",
+      "secret": "string",
+      "token": "string",
+      "uid": "string"
+    },
+    "AuthenticateCallback": {},
+    "QueryParamsCallback": {},
+    "ClientFileReadCallback": {},
+    "ClientFileWriteCallback": {},
+    "ResumableUploadStepCallback": {},
+    "ReadThumbnailCallback": {},
+    "FileStatCallback": {},
+    "AuthenticateOptions": {
+      "interactive": "bool"
+    },
+    "SingOutOptions": {
+      "mustInvalidate": "bool"
+    },
+    "AccountInfoOptions": {
+      "httpCache": "bool"
+    },
+    "ClientFileReadOptions": {
+      "versionTag": "string",
+      "rev": "string",
+      "arrayBuffer": "bool",
+      "blob": "bool",
+      "buffer": "bool",
+      "binary": "bool",
+      "length": "number",
+      "start": "number",
+      "httpCache": "bool"
+    },
+    "ClientFileWriteOptions": {
+      "lastVersionTag": "string",
+      "parentRev": "string",
+      "noOverwrite": "bool"
+    },
+    "ReadDirOptions": {
+      "removed": "bool",
+      "deleted": "bool",
+      "limit": "?",
+      "versionTag": "string",
+      "contentHash": "string",
+      "httpCache": "bool"
+    },
+    "MakeURLOptions": {
+      "download": "bool",
+      "downloadHack": "bool",
+      "long": "bool",
+      "longUrl": "bool"
+    },
+    "HistoryOptions": {
+      "limit": "number",
+      "httpCache": "bool"
+    },
+    "ThumbnailUrlOptions": {
+      "png": "bool",
+      "format": "string",
+      "size": "string"
+    },
+    "ReadThumbnailOptions": {
+      "arrayBuffer": "bool",
+      "blob": "bool",
+      "buffer": "bool"
+    },
+    "FindByNameOptions": {
+      "limit": "number",
+      "removed": "bool",
+      "deleted": "bool",
+      "httpCache": "bool"
+    },
+    "RedirectOptions": {
+      "redirectUrl": "string",
+      "redirectFile": "string",
+      "scope": "string",
+      "rememberUser": "bool"
+    },
+    "Util": {
+      "EventSource": {
+        "!type": "fn(options: ?)",
+        "prototype": {
+          "addListener": "fn(listener: fn(event: ?)) -> EventSource",
+          "removeListener": "fn(listener: fn(event: ?)) -> EventSource",
+          "dispatch": "fn(event: ?) -> bool"
+        }
+      },
+      "Oauth": {
+        "queryParamsFromUrl": "fn(url: string) -> QueryParams",
+        "randomAuthStateParam": "fn() -> string",
+        "prototype": {
+          "checkAuthStateParam": "fn(stateParam: string) -> bool"
+        }
+      },
+      "Xhr": {
+        "!type": "fn(method: string, baseUrl: string)",
+        "urlEncode": "fn(obj: ?) -> string",
+        "urlEncodeValue": "fn(obj: ?) -> string",
+        "urlDecode": "fn(string: ?) -> QueryParams",
+        "prototype": {
+          "xhr": "XMLHttpRequest",
+          "onError": "fn(error: ApiError, callBack: fn(error: ApiError))",
+          "setParams": "fn(params: QueryParams) -> Xhr",
+          "setCallback": "fn(callback: fn(err: ApiError, responseType: string, metadataHeader: ?, headers: ?)) -> Xhr",
+          "signWithOauth": "fn(oauth: Oauth, cacheFriendly: bool) -> Xhr",
+          "addOauthParams": "fn(oauth: Oauth) -> Xhr",
+          "addOauthHeader": "fn(oauth: Oauth) -> Xhr",
+          "setBody": "fn(body: string) -> Xhr",
+          "setResponseType": "fn(responseType: string) -> Xhr",
+          "setHeader": "fn(headerName: string, value: string) -> Xhr",
+          "reportResponseHeaders": "fn() -> Xhr",
+          "setFileField": "fn(fieldName: string, fileName: string, fileData: string, contentType?: string)",
+          "prepare": "fn() -> Xhr",
+          "send": "fn(callback: fn(err: ApiError, responseType: string, metadataHeader: ?)) -> Xhr",
+          "onReadyStateChange": "fn()",
+          "onXdrLoad": "fn()",
+          "onXdrError": "fn()"
+        }
+      }
+    },
+    "Http": {
+      "AppInfo": {
+        "ICON_SMALL": "number",
+        "ICON_LARGE": "number",
+        "parse": "fn(appInfo: ?, appKey?: string) -> AppInfo",
+        "prototype": {
+          "name": "string",
+          "key": "string",
+          "canUseDatastores": "bool",
+          "canUseFiles": "bool",
+          "hasAppFolder": "bool",
+          "canUseFullDropbox": "bool",
+          "icon": "fn(width: number, height?: number)"
+        }
+      },
+      "PollResult": {
+        "parse": "fn(response: ?) -> PollResult",
+        "prototype": {
+          "hasChanges": "bool",
+          "retryAfter": "number"
+        }
+      },
+      "PulledChanges": {
+        "parse": "fn(deltaInfo: ?) -> PulledChanges",
+        "prototype": {
+          "blankSlate": "bool",
+          "cursorTag": "string",
+          "shouldPullAgain": "bool",
+          "shouldBackOff": "bool",
+          "cursor": "fn() -> string"
+        }
+      },
+      "PulledChange": {
+        "parse": "fn(entry: ?) -> PulledChange",
+        "prototype": {
+          "path": "string",
+          "wasRemoved": "bool",
+          "stat": "File.Stat"
+        }
+      },
+      "RangeInfo": {
+        "parse": "fn(headerValue: string) -> RangeInfo",
+        "prototype": {
+          "start": "number",
+          "size": "number",
+          "end": "number"
+        }
+      },
+      "UploadCursor": {
+        "parse": "fn(cursorData: string) -> UploadCursor",
+        "!type": "fn(cursorData: string)",
+        "prototype": {
+          "tag": "string",
+          "offset": "number",
+          "expiresAt": "Date",
+          "toJSON": "fn() -> ret"
+        }
+      }
+    },
+    "File": {
+      "StatOptions": {
+        "version": "number",
+        "removed": "bool",
+        "deleted": "bool",
+        "readDir": "bool",
+        "versionTag": "string",
+        "rev": "string",
+        "contentHash": "string",
+        "hash": "string",
+        "httpCache": "bool"
+      },
+      "ShareUrl": {
+        "parse": "fn(urlData: string, isDirect: bool) -> ShareUrl",
+        "prototype": {
+          "url": "string",
+          "expiresAt": "Date",
+          "isDirect": "bool",
+          "isPreview": "bool",
+          "toJSON": "fn() -> ret1"
+        }
+      },
+      "CopyReference": {
+        "parse": "fn(refData: string) -> CopyReference",
+        "prototype": {
+          "tag": "string",
+          "expiresAt": "Date",
+          "toJSON": "fn() -> ret2"
+        }
+      },
+      "Stat": {
+        "parse": "fn(metadata: ?) -> Stat",
+        "prototype": {
+          "path": "string",
+          "name": "string",
+          "inAppFolder": "bool",
+          "isFolder": "bool",
+          "isFile": "bool",
+          "isRemoved": "bool",
+          "typeIcon": "string",
+          "versionTag": "string",
+          "contentHash": "string",
+          "mimeType": "string",
+          "size": "number",
+          "humanSize": "string",
+          "hasThumbnail": "bool",
+          "modifiedAt": "Date",
+          "clientModifiedAt": "Date",
+          "toJSON": "fn() -> ret3"
+        }
+      }
+    },
+    "AuthDriver": {
+      "IAuthDriver": {
+        "prototype": {
+          "doAuthorize": "fn(authUrl: string, stateParam: string, client: Client, callback?: QueryParamsCallback)"
+        }
+      },
+      "BrowserBase": {
+        "localStorage": "fn() -> Storage",
+        "currentLocation": "fn() -> string",
+        "cleanupLocation": "fn()",
+        "!type": "fn(options: ?)",
+        "prototype": {
+          "authType": "fn() -> string",
+          "onAuthStepChange": "fn(client: Client, callback: fn())",
+          "locationStateParam": "fn(url: string) -> string"
+        }
+      },
+      "Redirect": {
+        "!type": "fn(options?: ?)",
+        "prototype": {
+          "url": "fn() -> string",
+          "doAuthorize": "fn(authUrl: string, stateParam: string, client: Client)",
+          "resumeAuthorize": "fn(stateParam: string, client: Client, callback: QueryParamsCallback)"
+        }
+      },
+      "Popup": {
+        "locationOrigin": "fn(location: string) -> string",
+        "oauthReceiver": "fn()",
+        "!type": "fn(options?: RedirectOptions)",
+        "prototype": {
+          "url": "fn() -> string"
+        }
+      },
+      "ChromeApp": {
+        "!type": "fn(options?: ?)",
+        "prototype": {}
+      },
+      "ChromeExtension": {
+        "oauthReceiver": "fn()",
+        "!type": "fn(options?: ?)",
+        "prototype": {}
+      },
+      "Cordova": {
+        "oauthReceiver": "fn()",
+        "!type": "fn(options?: ?)",
+        "prototype": {
+          "url": "fn() -> string"
+        }
+      },
+      "NodeServer": {
+        "!type": "fn(options?: ?)",
+        "prototype": {
+          "authType": "fn() -> string",
+          "url": "fn() -> string",
+          "openBrowser": "fn(url: string)",
+          "createApp": "fn()",
+          "closeServer": "fn()",
+          "doRequest": "fn(request: ?, response: ?)",
+          "closeBrowser": "fn(response: ?)"
+        }
+      },
+      "prototype": {
+        "authType": "fn() -> string",
+        "url": "fn() -> string",
+        "doAuthorize": "fn(authUrl: string, stateParam: string, client: Client, callback: QueryParamsCallback)",
+        "getStateParam": "fn(client: Client, callback: fn(state: string))",
+        "resumeAuthorize": "fn(stateParam: string, client: Client, callback: QueryParamsCallback)",
+        "onAuthStepChange": "fn(client: Client, callback: fn())"
+      }
+    },
+    "AccountInfo": {
+      "parse": "fn(acountInfo: ?) -> AccountInfo",
+      "prototype": {
+        "name": "string",
+        "email": "string",
+        "countryCode": "string",
+        "uid": "string",
+        "referralUrl": "string",
+        "publicAppUrl": "string",
+        "quota": "number",
+        "usedQuota": "number",
+        "privateBytes": "number",
+        "sharedBytes": "number",
+        "json": "fn() -> ret4"
+      }
+    },
+    "ApiError": {
+      "!type": "fn(xhr: XMLHttpRequest, method: string, url: string)",
+      "NETWORK_ERROR": "number",
+      "NO_CONTENT": "number",
+      "INVALID_PARAM": "number",
+      "INVALID_TOKEN": "number",
+      "OAUTH_ERROR": "number",
+      "NOT_FOUND": "number",
+      "INVALID_METHOD": "number",
+      "NOT_ACCEPTABLE": "number",
+      "CONFLICT": "number",
+      "RATE_LIMITED": "number",
+      "SERVER_ERROR": "number",
+      "OVER_QUOTA": "number",
+      "prototype": {
+        "status": "number",
+        "method": "string",
+        "url": "string",
+        "responseText": "string",
+        "response": {}
+      }
+    },
+    "AuthError": {
+      "!type": "fn(queryString: QueryParams)",
+      "ACCESS_DENIED": "string",
+      "INVALID_REQUEST": "string",
+      "UNAUTHORIZED_CLIENT": "string",
+      "INVALID_GRANT": "string",
+      "INVALID_SCOPE": "string",
+      "UNSUPPORTED_GRANT_TYPE": "string",
+      "UNSUPPORTED_RESPONSE_TYPE": "string",
+      "SERVER_ERROR": "string",
+      "TEMPORARILY_UNAVAILABLE": "string",
+      "prototype": {
+        "code": "string",
+        "description": "string",
+        "uri": "string"
+      }
+    },
+    "Client": {
+      "ERROR": "number",
+      "RESET": "number",
+      "PARAM_SET": "number",
+      "PARAM_LOADED": "number",
+      "AUTHORIZED": "number",
+      "DONE": "number",
+      "SIGNED_OUT": "number",
+      "!type": "fn(options: Credentials)",
+      "prototype": {
+        "onXhr": "Util.EventSource",
+        "onError": "Util.EventSource",
+        "onAuthStepChange": "Util.EventSource",
+        "authStep": "number",
+        "authDriver": "fn(driver: AuthDriver.IAuthDriver) -> Client",
+        "dropboxUid": "fn() -> string",
+        "credentials": "fn() -> Credentials",
+        "authenticate": "fn() -> Client",
+        "isAuthenticated": "fn() -> bool",
+        "signOut": "fn(callback: fn(err: ApiError)) -> XMLHttpRequest",
+        "signOff": "fn(callback: fn(err: ApiError))",
+        "getAccountInfo": "fn(callback: fn(err: ApiError, accountInfo: AccountInfo, AccountInfo: AccountInfo)) -> XMLHttpRequest",
+        "readFile": "fn(path: string, callback: ClientFileReadCallback) -> XMLHttpRequest",
+        "writeFile": "fn(path: string, data: ?, callback: ClientFileWriteCallback) -> XMLHttpRequest",
+        "resumableUploadStep": "fn(data: ?, callback: ResumableUploadStepCallback) -> XMLHttpRequest",
+        "resumableUploadFinish": "fn(path: string, cursor: Http.UploadCursor, callback: ClientFileWriteCallback) -> XMLHttpRequest",
+        "stat": "fn(path: string, callback: fn(err: ApiError, stat: File.Stat, folderEntries: [File.Stat])) -> XMLHttpRequest",
+        "readdir": "fn(path: string, callback: fn(err: ApiError, filenames: [string], stat: File.Stat, folderEntries: [File.Stat])) -> XMLHttpRequest",
+        "metadata": "fn(path: string, callback: fn(err: ApiError, stat: File.Stat, folderEntries: [File.Stat]))",
+        "makeUrl": "fn(path: string, callback: fn(err: ApiError, shareUrl: File.ShareUrl)) -> XMLHttpRequest",
+        "history": "fn(path: string, callback: fn(err: ApiError, fileVersions: [File.Stat])) -> XMLHttpRequest",
+        "revisions": "fn(path: string, options: HistoryOptions, callback: fn(err: ApiError, fileVersions: [File.Stat]))",
+        "thumbnailUrl": "fn(path: string, options?: ThumbnailUrlOptions) -> string",
+        "readThumbnail": "fn(path: string, callback: ReadThumbnailCallback) -> XMLHttpRequest",
+        "revertFile": "fn(path: string, versionTag: string, callback: FileStatCallback) -> XMLHttpRequest",
+        "restore": "fn(path: string, versionTag: string, callback: FileStatCallback)",
+        "findByName": "fn(path: string, namePattern: string, callback: fn(err: ApiError, resultStats: [File.Stat])) -> XMLHttpRequest",
+        "search": "fn(path: string, namePattern: string, options: FindByNameOptions, callback: fn(err: ApiError, resultStats: [File.Stat]))",
+        "makeCopyReference": "fn(path: string, callback: fn(err: ApiError, copyReference: File.CopyReference)) -> XMLHttpRequest",
+        "copyRef": "fn(path: string, callback: fn(err: ApiError, copyReference: File.CopyReference)) -> XMLHttpRequest",
+        "pullChanges": "fn(callback: fn(err: ApiError, changes: Http.PulledChanges)) -> XMLHttpRequest",
+        "delta": "fn(cursor: string, callback: fn(err: ApiError, changes: Http.PulledChanges))",
+        "pollForChanges": "fn(cursor: string, options: ?, callback: fn(err: ApiError, changes: Http.PollResult))",
+        "mkdir": "fn(path: string, callback: FileStatCallback) -> XMLHttpRequest",
+        "remove": "fn(path: string, callback: FileStatCallback) -> XMLHttpRequest",
+        "unlink": "fn(path: string, callback: FileStatCallback)",
+        "delete": "fn(path: string, callback: FileStatCallback)",
+        "copy": "fn(from: string, toPath: string, callback: FileStatCallback) -> XMLHttpRequest",
+        "move": "fn(fromPath: string, toPath: string, callback: FileStatCallback) -> XMLHttpRequest",
+        "appInfo": "fn(callback: fn(err: ApiError, changes: Http.AppInfo)) -> XMLHttpRequest",
+        "isAppDeveloper": "fn(userId: ?, callbackcallback: fn(err: ApiError, isAppDeveloper: bool)) -> XMLHttpRequest",
+        "hasOauthRedirectUri": "fn(redirectUri: string, callback: fn(err: ApiError, hasOauthRedirectUri: bool)) -> XMLHttpRequest",
+        "reset": "fn() -> Client",
+        "setCredentials": "fn(credentials: Credentials) -> Client",
+        "appHash": "fn() -> string"
+      }
+    }
+  },
+  "!name": "dropboxjs",
+  "!define": {
+    "ret": {},
+    "ret1": {},
+    "ret2": {},
+    "ret3": {},
+    "ret4": {}
+  }
+}

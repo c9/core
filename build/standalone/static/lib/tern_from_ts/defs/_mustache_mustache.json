@@ -1,0 +1,38 @@
+{
+  "MustacheScanner": {
+    "string": "string",
+    "tail": "string",
+    "pos": "number",
+    "eos": "fn() -> bool",
+    "scan": "fn(re: RegExp) -> string",
+    "scanUntil": "fn(re: RegExp) -> string"
+  },
+  "MustacheContext": {
+    "view": "?",
+    "parentContext": "MustacheContext",
+    "push": "fn(view: ?) -> MustacheContext",
+    "lookup": "fn(name: string) -> ?"
+  },
+  "MustacheWriter": {
+    "clearCache": "fn()",
+    "parse": "fn(template: string, tags?: ?) -> ?",
+    "render": "fn(template: string, view: ?, partials: ?) -> string",
+    "renderTokens": "fn(tokens: [string], context: MustacheContext, partials: ?, originalTemplate: ?) -> string"
+  },
+  "MustacheStatic": {
+    "name": "string",
+    "version": "string",
+    "tags": "string",
+    "Scanner": "MustacheScanner",
+    "Context": "MustacheContext",
+    "Writer": "MustacheWriter",
+    "escape": "?",
+    "clearCache": "fn() -> MustacheWriter",
+    "parse": "fn(template: string, tags?: ?) -> ?",
+    "render": "fn(template: string, view: ?, partials?: ?) -> string",
+    "to_html": "fn(template: string, view: ?, partials?: ?, send?: ?) -> ?"
+  },
+  "Mustache": "MustacheStatic",
+  "'mustache'": "Mustache",
+  "!name": "mustache"
+}

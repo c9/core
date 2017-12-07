@@ -1,0 +1,22 @@
+{
+  "dojox": {
+    "timing": {
+      "Sequence": {
+        "!type": "fn()",
+        "prototype": {
+          "go": "fn(defs: [?], doneFunction: Function)",
+          "goOn": "fn()",
+          "stop": "fn()"
+        }
+      },
+      "doLater": {},
+      "Streamer": {},
+      "_base": {}
+    }
+  },
+  "dojox/timing": "exp",
+  "dojox/timing/Sequence": "exp",
+  "dojox/timing/doLater": "exp",
+  "dojox/timing/Streamer": "exp",
+  "!name": "dojox.timing.d.ts"
+}

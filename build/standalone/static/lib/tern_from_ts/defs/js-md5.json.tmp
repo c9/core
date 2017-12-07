@@ -1,0 +1,15 @@
+{
+  "JQuery": {
+    "md5": "fn(value: string) -> string"
+  },
+  "JQueryStatic": {
+    "md5": "fn(value: string) -> string"
+  },
+  "md5": {
+    "!type": "md5"
+  },
+  "String": {
+    "md5": "fn(value: string) -> string"
+  },
+  "!name": "md5.d.ts"
+}

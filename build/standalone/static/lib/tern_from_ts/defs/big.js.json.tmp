@@ -1,0 +1,34 @@
+{
+  "BigJsLibrary": {
+    "RoundingMode": "number",
+    "BigJS": {
+      "DP": "number",
+      "RM": "RoundingMode",
+      "abs": "fn() -> BigJS",
+      "cmp": "fn(n: number) -> number",
+      "div": "fn(n: number) -> BigJS",
+      "eq": "fn(n: number) -> bool",
+      "gt": "fn(n: number) -> bool",
+      "gte": "fn(n: number) -> bool",
+      "lt": "fn(n: number) -> bool",
+      "lte": "fn(n: number) -> bool",
+      "minus": "fn(n: number) -> BigJS",
+      "mod": "fn(n: number) -> BigJS",
+      "plus": "fn(n: number) -> BigJS",
+      "pow": "fn(exp: number) -> BigJS",
+      "round": "fn() -> BigJS",
+      "sqrt": "fn() -> BigJS",
+      "times": "fn(n: number) -> BigJS",
+      "toExponential": "fn() -> string",
+      "toFixed": "fn() -> string",
+      "toPrecision": "fn() -> string",
+      "toJSON": "fn() -> string",
+      "c": "[number]",
+      "e": "number",
+      "s": "number"
+    },
+    "BigJS_Constructors": {}
+  },
+  "Big": "BigJsLibrary.BigJS",
+  "!name": "big.js.d.ts"
+}

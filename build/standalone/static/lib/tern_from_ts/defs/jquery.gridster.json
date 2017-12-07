@@ -1,0 +1,85 @@
+{
+  "GridsterDraggable": {
+    "items": "?",
+    "distance": "number",
+    "limit": "bool",
+    "offset_left": "number",
+    "handle": "string",
+    "drag": "fn(event: Event, ui: GridsterUi)",
+    "start": "fn(event: Event, ui: ?)",
+    "stop": "fn(event: Event, ui: ?)"
+  },
+  "GridsterResizable": {
+    "enabled": "bool",
+    "axes": "[string]",
+    "handle_append_to": "string",
+    "handle_class": "string",
+    "max_size": "[number]",
+    "min_size": "[number]",
+    "resize": "fn(event: Event, ui: GridsterUi, $el: JQuery)",
+    "start": "fn(event: Event, ui: ?, $el: JQuery)",
+    "stop": "fn(event: Event, ui: ?, $el: JQuery)"
+  },
+  "GridsterUi": {
+    "position": {
+      "left": "number",
+      "top": "number"
+    }
+  },
+  "GridsterCollision": {
+    "on_overlap_start": "fn(data: GridsterCollisionData)",
+    "on_overlap_stop": "fn(data: GridsterCollisionData)",
+    "on_overlap": "fn(data: GridsterCollisionData)"
+  },
+  "GridsterCollisionData": {
+    "area": "number",
+    "area_coords": "GridsterCoords",
+    "region": "string",
+    "coords": "GridsterCoords",
+    "player_coords": "GridsterCoords",
+    "el": "HTMLElement"
+  },
+  "GridsterCoords": {
+    "col": "number",
+    "row": "number",
+    "size_x": "number",
+    "size_y": "number"
+  },
+  "GridsterOptions": {
+    "widget_selector": "string",
+    "HTMLElement": "?",
+    "widget_margins": "[number]",
+    "widget_base_dimensions": "[number]",
+    "extra_cols": "number",
+    "extra_rows": "number",
+    "min_cols": "number",
+    "max_cols": "number",
+    "min_rows": "number",
+    "max_size_x": "number",
+    "autogenerate_sytesheet": "bool",
+    "avoid_overlapped_widgets": "bool",
+    "serialize_params": "fn($w: JQuery, wgd: GridsterCoords)",
+    "collision": "GridsterCollision",
+    "draggable": "GridsterDraggable",
+    "namespace": "string",
+    "autogenerate_stylesheet": "bool",
+    "resize": "GridsterResizable"
+  },
+  "JQuery": {
+    "gridster": "fn(options?: GridsterOptions) -> JQuery"
+  },
+  "Gridster": {
+    "add_widget": "fn(html: string, size_x?: number, size_y?: number, col?: number, row?: number) -> JQuery",
+    "get_highest_occupied_cell": "fn() -> GridsterCoords",
+    "resize_widget": "fn($widget: JQuery, size_x?: number, size_y?: number, callback?: fn(size_x: number, size_y: number)) -> JQuery",
+    "resize_widget_dimensions": "fn(options: GridsterOptions) -> Gridster",
+    "remove_widget": "fn(el: HTMLElement, silent?: bool, callback?: fn(el: HTMLElement)) -> Gridster",
+    "set_widget_min_size": "fn(widget: number, size: [number]) -> Gridster",
+    "serialize": "fn($widgets?: [HTMLElement]) -> [T]",
+    "serialize_changed": "fn() -> [T]",
+    "enable": "fn() -> Gridster",
+    "disable": "fn() -> Gridster",
+    "options": "GridsterOptions"
+  },
+  "!name": "gridster"
+}

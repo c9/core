@@ -1,0 +1,46 @@
+{
+  "Batch": {
+    "type": "string",
+    "key": "?",
+    "value": "?",
+    "keyEncoding": "string",
+    "valueEncoding": "string"
+  },
+  "LevelUp": {
+    "open": "fn(callback?: fn(error: ?))",
+    "close": "fn(callback?: fn(error: ?))",
+    "put": "fn(key: ?, value: ?, callback?: fn(error: ?))",
+    "get": "fn(key: ?, callback?: fn(error: ?, value: ?))",
+    "del": "fn(key: ?, callback?: fn(error: ?))",
+    "batch": "fn(array: [Batch], options?: ?, callback?: fn(error?: ?))",
+    "isOpen": "fn() -> bool",
+    "isClosed": "fn() -> bool",
+    "createReadStream": "fn(options?: ?) -> ?",
+    "createKeyStream": "fn(options?: ?) -> ?",
+    "createValueStream": "fn(options?: ?) -> ?",
+    "createWriteStream": "fn(options?: ?) -> ?",
+    "destroy": "fn(location: string, callback?: Function)",
+    "repair": "fn(location: string, callback?: Function)"
+  },
+  "LevelUpChain": {
+    "put": "fn(key: ?, value: ?) -> LevelUpChain",
+    "del": "fn(key: ?) -> LevelUpChain",
+    "clear": "fn() -> LevelUpChain",
+    "write": "fn(callback?: fn(error?: ?)) -> LevelUpChain"
+  },
+  "levelupOptions": {
+    "createIfMissing": "bool",
+    "errorIfExists": "bool",
+    "compression": "bool",
+    "cacheSize": "number",
+    "keyEncoding": "string",
+    "valueEncoding": "string",
+    "db": "string"
+  },
+  "levelup": "levelup",
+  "leveldown": {
+    "destroy": "fn(location: string, callback?: Function)",
+    "repair": "fn(location: string, callback?: Function)"
+  },
+  "!name": "levelup.d.ts"
+}

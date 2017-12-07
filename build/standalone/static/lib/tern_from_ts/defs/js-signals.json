@@ -1,0 +1,33 @@
+{
+  "signals": "SignalWrapper",
+  "SignalWrapper": {
+    "Signal": "Signal"
+  },
+  "SignalBinding": {
+    "active": "bool",
+    "context": "?",
+    "params": "?",
+    "detach": "fn() -> Function",
+    "execute": "fn(paramsArr?: [?]) -> ?",
+    "getListener": "fn() -> Function",
+    "getSignal": "fn() -> Signal",
+    "isBound": "fn() -> bool",
+    "isOnce": "fn() -> bool"
+  },
+  "Signal": {
+    "active": "bool",
+    "memorize": "bool",
+    "VERSION": "string",
+    "add": "fn(listener: Function, listenerContext?: ?, priority?: Number) -> SignalBinding",
+    "addOnce": "fn(listener: Function, listenerContext?: ?, priority?: Number) -> SignalBinding",
+    "dispatch": "fn(params: [?])",
+    "dispose": "fn()",
+    "forget": "fn()",
+    "getNumListeners": "fn() -> number",
+    "halt": "fn()",
+    "has": "fn(listener: Function, context?: ?) -> bool",
+    "remove": "fn(listener: Function, context?: ?) -> Function",
+    "removeAll": "fn()"
+  },
+  "!name": "js-signals"
+}

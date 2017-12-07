@@ -1,0 +1,18 @@
+{
+  "RiotControl": {
+    "Store": {
+      "on": "fn(events: string, fn: Function) -> Store",
+      "one": "fn(name: string, fn: Function) -> Store",
+      "off": "fn(events: string, fn?: Function) -> Store",
+      "trigger": "fn(name: string, args: [?]) -> Store"
+    },
+    "_stores": "[Store]",
+    "addStore": "fn(store: Store)",
+    "on": "fn(events: string, fn: Function)",
+    "one": "fn(name: string, fn: Function)",
+    "off": "fn(events: string, fn?: Function)",
+    "trigger": "fn(name: string, args: [?])"
+  },
+  "riotcontrol": "RiotControl",
+  "!name": "riotcontrol.d.ts"
+}

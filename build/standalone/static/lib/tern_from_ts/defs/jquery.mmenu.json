@@ -1,0 +1,50 @@
+{
+  "JQueryMmenu": {
+    "NavbarOptions": {
+      "add": "bool",
+      "title": "string",
+      "titleLink": "string"
+    },
+    "OnclickOptions": {
+      "close": "bool",
+      "any": "?",
+      "preventDefault": "bool",
+      "setSelected": "bool"
+    },
+    "Options": {
+      "extensions": "?",
+      "navbar": "NavbarOptions",
+      "onClick": "OnclickOptions",
+      "slidingSubmenus": "bool"
+    },
+    "ClassnamesConfigurations": {
+      "divider": "string",
+      "inset": "string",
+      "panel": "string",
+      "selected": "string",
+      "vertical": "string"
+    },
+    "Configurations": {
+      "classNames": "ClassnamesConfigurations",
+      "clone": "bool",
+      "openingInterval": "number",
+      "panelNodetype": "string",
+      "transitionDuration": "number"
+    },
+    "API": {
+      "bind": "fn(methodName: string, callback: fn(args: [?])) -> ?",
+      "closeAllPanels": "fn() -> JQuery",
+      "closePanel": "fn(panel: JQuery)",
+      "getInstance": "fn()",
+      "init": "fn(panel: JQuery)",
+      "openPanel": "fn(panel: JQuery)",
+      "setSelected": "fn(li: JQuery, selected?: bool)",
+      "update": "fn()"
+    }
+  },
+  "JQuery": {
+    "mmenu": "fn() -> JQuery",
+    "data": "fn(element: string) -> JQueryMmenu.API"
+  },
+  "!name": "jquery.mmenu"
+}

@@ -1,0 +1,4 @@
+{
+  "path-exists": "pathExists",
+  "!name": "path-exists.d.ts"
+}

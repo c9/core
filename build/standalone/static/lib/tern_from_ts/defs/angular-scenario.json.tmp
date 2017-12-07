@@ -1,0 +1,109 @@
+{
+  "ng": {
+    "IAngularStatic": {
+      "scenario": "?"
+    }
+  },
+  "angularScenario": {
+    "RunFunction": {},
+    "RunFunctionWithDescription": {},
+    "PauseFunction": {},
+    "SleepFunction": {},
+    "Future": {},
+    "testWindow": {
+      "href": "fn() -> Future",
+      "path": "fn() -> Future",
+      "search": "fn() -> Future",
+      "hash": "fn() -> Future"
+    },
+    "testLocation": {
+      "url": "fn() -> Future",
+      "path": "fn() -> Future",
+      "search": "fn() -> Future",
+      "hash": "fn() -> Future"
+    },
+    "Browser": {
+      "navigateTo": "fn(url: string)",
+      "reload": "fn()",
+      "window": "fn() -> testWindow",
+      "location": "fn() -> testLocation"
+    },
+    "Matchers": {
+      "toEqual": "fn(value: ?)",
+      "toBe": "fn(value: ?)",
+      "toBeDefined": "fn()",
+      "toBeTruthy": "fn()",
+      "toBeFalsy": "fn()",
+      "toMatch": "fn(regularExpression: ?)",
+      "toBeNull": "fn()",
+      "toContain": "fn(value: ?)",
+      "toBeLessThan": "fn(value: ?)",
+      "toBeGreaterThan": "fn(value: ?)"
+    },
+    "CustomMatchers": {},
+    "Expect": {
+      "not": "fn() -> angularScenario.CustomMatchers"
+    },
+    "UsingFunction": {},
+    "BindingFunction": {},
+    "Input": {
+      "enter": "fn(value: ?) -> ?",
+      "check": "fn() -> ?",
+      "select": "fn(radioButtonValue: ?) -> ?",
+      "val": "fn() -> Future"
+    },
+    "Repeater": {
+      "count": "fn() -> Future",
+      "row": "fn(index: number) -> Future",
+      "column": "fn(ngBindingExpression: string) -> Future"
+    },
+    "Select": {
+      "option": "fn(value: ?) -> ?"
+    },
+    "Element": {
+      "count": "fn() -> Future",
+      "click": "fn() -> ?",
+      "dblclick": "fn() -> ?",
+      "mouseover": "fn() -> ?",
+      "mousedown": "fn() -> ?",
+      "mouseup": "fn() -> ?",
+      "query": "fn(callback: fn(selectedDOMElements: JQuery, callbackWhenDone: fn(objNull: ?, futureValue: ?))) -> ?",
+      "val": "fn() -> Future",
+      "text": "fn() -> Future",
+      "html": "fn() -> Future",
+      "height": "fn() -> Future",
+      "innerHeight": "fn() -> Future",
+      "outerHeight": "fn() -> Future",
+      "width": "fn() -> Future",
+      "innerWidth": "fn() -> Future",
+      "outerWidth": "fn() -> Future",
+      "position": "fn() -> Future",
+      "scrollLeft": "fn() -> Future",
+      "scrollTop": "fn() -> Future",
+      "offset": "fn() -> Future",
+      "attr": "fn(key: ?) -> Future",
+      "prop": "fn(key: ?) -> Future",
+      "css": "fn(key: ?) -> Future"
+    }
+  },
+  "describe": "angularScenario.RunFunctionWithDescription",
+  "ddescribe": "angularScenario.RunFunctionWithDescription",
+  "xdescribe": "angularScenario.RunFunctionWithDescription",
+  "beforeEach": "angularScenario.RunFunction",
+  "afterEach": "angularScenario.RunFunction",
+  "it": "angularScenario.RunFunctionWithDescription",
+  "iit": "angularScenario.RunFunctionWithDescription",
+  "xit": "angularScenario.RunFunctionWithDescription",
+  "pause": "angularScenario.PauseFunction",
+  "sleep": "angularScenario.SleepFunction",
+  "browser": "fn() -> angularScenario.Browser",
+  "expect": "fn(expectation: angularScenario.Future) -> angularScenario.Expect",
+  "using": "angularScenario.UsingFunction",
+  "binding": "angularScenario.BindingFunction",
+  "input": "fn(ngModelBinding: string) -> angularScenario.Input",
+  "repeater": "fn(selector: string, repeaterDescription?: string) -> angularScenario.Repeater",
+  "select": "fn(ngModelBinding: string) -> angularScenario.Select",
+  "element": "fn(selector: string, elementDescription?: string) -> angularScenario.Element",
+  "angular": "ng.IAngularStatic",
+  "!name": "angular-scenario.d.ts"
+}

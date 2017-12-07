@@ -1,0 +1,45 @@
+{
+  "'complex'": {
+    "Complex": {
+      "!type": "fn(real: number, im: number)",
+      "from": "fn(real: string) -> Complex",
+      "fromPolar": "fn(r: number, phi: number) -> Complex",
+      "i": "Complex",
+      "one": "Complex",
+      "prototype": {
+        "fromRect": "fn(real: number, im: number) -> Complex",
+        "fromPolar": "fn(r: number, phi: number) -> Complex",
+        "toPrecision": "fn(k: number) -> Complex",
+        "toFixed": "fn(k: number) -> Complex",
+        "finalize": "fn() -> Complex",
+        "magnitude": "fn() -> number",
+        "abs": "fn() -> number",
+        "angle": "fn() -> number",
+        "arg": "fn() -> number",
+        "phase": "fn() -> number",
+        "conjugate": "fn() -> Complex",
+        "negate": "fn() -> Complex",
+        "multiply": "fn(z: number, Complex: ?) -> Complex",
+        "mult": "fn(z: number, Complex: ?) -> Complex",
+        "divide": "fn(z: number, Complex: ?) -> Complex",
+        "div": "fn(z: number, Complex: ?) -> Complex",
+        "add": "fn(z: number, Complex: ?) -> Complex",
+        "subtract": "fn(z: number, Complex: ?) -> Complex",
+        "sub": "fn(z: number, Complex: ?) -> Complex",
+        "pow": "fn(z: number, Complex: ?) -> Complex",
+        "sqrt": "fn() -> Complex",
+        "log": "fn(k?: number) -> Complex",
+        "exp": "fn() -> Complex",
+        "sin": "fn() -> Complex",
+        "cos": "fn() -> Complex",
+        "tan": "fn() -> Complex",
+        "sinh": "fn() -> Complex",
+        "cosh": "fn() -> Complex",
+        "tanh": "fn() -> Complex",
+        "clone": "fn() -> Complex",
+        "equals": "fn(z: number, Complex: ?) -> bool"
+      }
+    }
+  },
+  "!name": "complex.d.ts"
+}

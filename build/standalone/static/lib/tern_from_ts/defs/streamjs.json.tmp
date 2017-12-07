@@ -1,0 +1,92 @@
+{
+  "Stream": {
+    "from": "fn(elems: [T]) -> ?",
+    "of": "fn(elems: [T]) -> ?",
+    "range": "fn(startInclusive: number, endExclusive: number) -> ?",
+    "rangeClosed": "fn(startInclusive: number, endInclusive: number) -> ?",
+    "generate": "fn(supplier: ?) -> ?",
+    "iterate": "fn(seed: T, fn: ?) -> ?",
+    "prototype": {
+      "anyMatch": "fn(predicate: ?) -> bool",
+      "allMatch": "fn(predicate: ?) -> bool",
+      "average": "fn() -> number",
+      "avg": "fn() -> number",
+      "collect": "fn(collector: ?) -> T",
+      "count": "fn() -> number",
+      "distinct": "fn() -> ?",
+      "dropWhile": "fn(predicate: ?) -> ?",
+      "each": "fn(consumer: ?)",
+      "filter": "fn(predicate: ?) -> ?",
+      "findAny": "fn() -> ?",
+      "findFirst": "fn() -> ?",
+      "forEach": "fn(consumer: ?)",
+      "groupBy": "fn(mapper: ?) -> ?",
+      "groupingBy": "fn(mapper: ?) -> ?",
+      "indexBy": "fn(keyMapper: ?, mergeFunction?: ?) -> ?",
+      "map": "fn(mapper: ?) -> ?",
+      "max": "fn() -> ?",
+      "min": "fn() -> ?",
+      "noneMatch": "fn(predicate: fn(elem: T)) -> bool",
+      "flatMap": "fn(mapper: ?) -> ?",
+      "iterator": "fn() -> ?",
+      "joining": "fn() -> string",
+      "join": "fn() -> string",
+      "limit": "fn(limit: number) -> ?",
+      "partitioningBy": "fn(predicate: ?) -> [[T]]",
+      "partitionBy": "fn(predicate: ?) -> [[T]]",
+      "peek": "fn(consumer: ?) -> ?",
+      "reduce": "fn(identity: T, accumulator: ?) -> T",
+      "reverse": "fn() -> ?",
+      "size": "fn() -> number",
+      "sorted": "fn() -> ?",
+      "sort": "fn() -> ?",
+      "shuffle": "fn() -> ?",
+      "skip": "fn(n: number) -> ?",
+      "slice": "fn(begin: number, end: number) -> ?",
+      "sum": "fn() -> number",
+      "takeWhile": "fn(predicate: ?) -> ?",
+      "toArray": "fn() -> [T]",
+      "toList": "fn() -> [T]",
+      "toMap": "fn(keyMapper: ?, mergeFunction?: ?) -> ?"
+    },
+    "Map": {},
+    "Sample": {},
+    "Accumulator": {},
+    "Collector": {
+      "supplier": "?",
+      "accumulator": "?",
+      "finisher": "?"
+    },
+    "Comparator": {},
+    "Consumer": {},
+    "Function": {},
+    "GroupingResult": {},
+    "Iterator": {
+      "next": "fn() -> T",
+      "done": "bool"
+    },
+    "JoinOptions": {
+      "prefix": "string",
+      "delimiter": "string",
+      "suffix": "string"
+    },
+    "Predicate": {},
+    "Supplier": {},
+    "Optional": {
+      "of": "fn(elem: T) -> ?",
+      "ofNullable": "fn(elem: T) -> ?",
+      "prototype": {
+        "filter": "fn(predicate: fn(elem: T)) -> ?",
+        "map": "fn(mapper: fn(elem: T)) -> ?",
+        "flatMap": "fn(mapper: fn(elem: T)) -> ?",
+        "isPresent": "fn() -> bool",
+        "get": "fn() -> T",
+        "ifPresent": "fn(consumer: fn(elem: T))",
+        "orElse": "fn(other: T) -> T",
+        "orElseGet": "fn(supplier: ?) -> T",
+        "orElseThrow": "fn(error: ?) -> T"
+      }
+    }
+  },
+  "!name": "streamjs.d.ts"
+}

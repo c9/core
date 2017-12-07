@@ -1,0 +1,24 @@
+{
+  "simplestoragejs": {
+    "SimpleStorage": {
+      "version": "string",
+      "canUse": "fn() -> bool",
+      "set": "fn(key: string, value: ?, options?: SetOptions) -> bool",
+      "Error": "?",
+      "get": "fn(key: string) -> ?",
+      "deleteKey": "fn(key: string) -> bool",
+      "setTTL": "fn(key: string, ttl: number) -> bool",
+      "getTTL": "fn(key: string) -> number",
+      "boolean": "?",
+      "flush": "fn() -> bool",
+      "index": "fn() -> []",
+      "string": "?",
+      "storageSize": "fn() -> number"
+    },
+    "SetOptions": {
+      "TTL": "number"
+    }
+  },
+  "simpleStorage": "simpleStorage",
+  "!name": "simplestorage.js"
+}

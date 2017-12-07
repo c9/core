@@ -1,0 +1,17 @@
+{
+  "UniversalAnalytics": {
+    "Client": {
+      "debug": "fn() -> UniversalAnalytics.Client",
+      "send": "fn()",
+      "pageview": "fn(path: string) -> Client",
+      "event": "fn(category: string, action: string) -> Client",
+      "transaction": "fn(id: string) -> Client",
+      "item": "fn(price: number) -> Client",
+      "exception": "fn(description: string) -> Client",
+      "timing": "fn(category: string) -> Client",
+      "middleware": "fn(accountID: string, options?: ?) -> ?"
+    }
+  },
+  "'universal-analytics'": "UniversalAnalytics",
+  "!name": "universal-analytics.d.ts"
+}

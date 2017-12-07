@@ -1,0 +1,84 @@
+{
+  "YUITest": {
+    "YUITestStatic": {
+      "Assert": "IAssert",
+      "Case": "TestCase",
+      "Runner": "TestRunner"
+    },
+    "EventTarget": {
+      "attach": "fn(type: string, listener: Function)",
+      "subscribe": "fn(type: string, listener: Function)",
+      "fire": "fn(event: Object)",
+      "detach": "fn(type: string, listener: Function)",
+      "unsubscribe": "fn(type: string, listener: Function)"
+    },
+    "TestRunner": {
+      "TEST_CASE_BEGIN_EVENT": "string",
+      "TEST_CASE_COMPLETE_EVENT": "string",
+      "TEST_SUITE_BEGIN_EVENT": "string",
+      "TEST_SUITE_COMPLETE_EVENT": "string",
+      "TEST_PASS_EVENT": "string",
+      "TEST_FAIL_EVENT": "string",
+      "ERROR_EVENT": "string",
+      "TEST_IGNORE_EVENT": "string",
+      "COMPLETE_EVENT": "string",
+      "BEGIN_EVENT": "string",
+      "getName": "fn() -> string",
+      "setName": "fn(name: string)",
+      "add": "fn(testObject: TestSuite)",
+      "clear": "fn()",
+      "isWaiting": "fn() -> bool",
+      "isRunning": "fn() -> bool",
+      "getResults": "fn(format?: Function) -> ?",
+      "getCoverage": "fn(format?: Function) -> ?",
+      "callback": "fn(args: [?]) -> Function",
+      "resume": "fn(segment?: Function)",
+      "run": "fn(options?: Object)"
+    },
+    "TestSuite": {
+      "name": "string",
+      "add": "fn(testObject: TestSuite)",
+      "setUp": "fn()",
+      "tearDown": "fn()"
+    },
+    "TestCase": {
+      "DEFAULT_WAIT": "number",
+      "callback": "fn(args: [?]) -> Function",
+      "resume": "fn(segment?: Function)",
+      "wait": "fn(segment?: Function, delay?: number)",
+      "waitFor": "fn(condition: Function, segment: Function, timeout?: number, increment?: number)",
+      "assert": "fn(condition: bool, message: string)",
+      "fail": "fn(message?: string)",
+      "init": "fn()",
+      "destroy": "fn()",
+      "setUp": "fn()",
+      "tearDown": "fn()"
+    },
+    "IAssert": {
+      "fail": "fn(message?: string)",
+      "pass": "fn(message?: string)",
+      "areEqual": "fn(expected: Object, actual: Object, message?: string)",
+      "areNotEqual": "fn(unexpected: Object, actual: Object, message?: string)",
+      "areNotSame": "fn(unexpected: Object, actual: Object, message?: string)",
+      "areSame": "fn(expected: Object, actual: Object, message?: string)",
+      "isFalse": "fn(actual: Object, message?: string)",
+      "isTrue": "fn(actual: Object, message?: string)",
+      "isNaN": "fn(actual: Object, message?: string)",
+      "isNotNaN": "fn(actual: Object, message?: string)",
+      "isNotNull": "fn(actual: Object, message?: string)",
+      "isNotUndefined": "fn(actual: Object, message?: string)",
+      "isNull": "fn(actual: Object, message?: string)",
+      "isUndefined": "fn(actual: Object, message?: string)",
+      "isArray": "fn(actual: Object, message?: string)",
+      "isBoolean": "fn(actual: Object, message?: string)",
+      "isFunction": "fn(actual: Object, message?: string)",
+      "isInstanceOf": "fn(expected: Function, actual: Object, message?: string)",
+      "isNumber": "fn(actual: Object, message?: string)",
+      "isObject": "fn(actual: Object, message?: string)",
+      "isString": "fn(actual: Object, message?: string)",
+      "isTypeOf": "fn(expectedType: string, actualValue: Object, message?: string)",
+      "throwsError": "fn(expectedError: string, method: Object, message?: string)"
+    }
+  },
+  "!name": "yui-test"
+}

@@ -1,0 +1,761 @@
+{
+  "p2": {
+    "AABB": {
+      "!type": "fn(options?: ?)",
+      "prototype": {
+        "setFromPoints": "fn(points: [[number]], position: [number], angle: number, skinSize: number)",
+        "copy": "fn(aabb: AABB)",
+        "extend": "fn(aabb: AABB)",
+        "overlaps": "fn(aabb: AABB) -> bool"
+      }
+    },
+    "Broadphase": {
+      "AABB": "number",
+      "BOUNDING_CIRCLE": "number",
+      "NAIVE": "number",
+      "SAP": "number",
+      "boundingRadiusCheck": "fn(bodyA: Body, bodyB: Body) -> bool",
+      "aabbCheck": "fn(bodyA: Body, bodyB: Body) -> bool",
+      "canCollide": "fn(bodyA: Body, bodyB: Body) -> bool",
+      "!type": "fn(type: number)",
+      "prototype": {
+        "type": "number",
+        "result": "[Body]",
+        "world": "World",
+        "boundingVolumeType": "number",
+        "setWorld": "fn(world: World)",
+        "getCollisionPairs": "fn(world: World) -> [Body]",
+        "boundingVolumeCheck": "fn(bodyA: Body, bodyB: Body) -> bool"
+      }
+    },
+    "GridBroadphase": {
+      "!type": "fn(options?: ?)",
+      "prototype": {
+        "xmin": "number",
+        "xmax": "number",
+        "ymin": "number",
+        "ymax": "number",
+        "nx": "number",
+        "ny": "number",
+        "binsizeX": "number",
+        "binsizeY": "number"
+      }
+    },
+    "NativeBroadphase": {
+      "prototype": {}
+    },
+    "Narrowphase": {
+      "prototype": {
+        "contactEquations": "[ContactEquation]",
+        "frictionEquations": "[FrictionEquation]",
+        "enableFriction": "bool",
+        "enableEquations": "bool",
+        "slipForce": "number",
+        "frictionCoefficient": "number",
+        "surfaceVelocity": "number",
+        "reuseObjects": "bool",
+        "resuableContactEquations": "[?]",
+        "reusableFrictionEquations": "[?]",
+        "restitution": "number",
+        "stiffness": "number",
+        "relaxation": "number",
+        "frictionStiffness": "number",
+        "frictionRelaxation": "number",
+        "enableFrictionReduction": "bool",
+        "contactSkinSize": "number",
+        "collidedLastStep": "fn(bodyA: Body, bodyB: Body) -> bool",
+        "reset": "fn()",
+        "createContactEquation": "fn(bodyA: Body, bodyB: Body, shapeA: Shape, shapeB: Shape) -> ContactEquation",
+        "createFrictionFromContact": "fn(c: ContactEquation) -> FrictionEquation"
+      }
+    },
+    "SAPBroadphase": {
+      "prototype": {
+        "axisList": "[Body]",
+        "axisIndex": "number"
+      }
+    },
+    "Constraint": {
+      "DISTANCE": "number",
+      "GEAR": "number",
+      "LOCK": "number",
+      "PRISMATIC": "number",
+      "REVOLUTE": "number",
+      "!type": "fn(bodyA: Body, bodyB: Body, type: number, options?: ?)",
+      "prototype": {
+        "type": "number",
+        "equeations": "[Equation]",
+        "bodyA": "Body",
+        "bodyB": "Body",
+        "collideConnected": "bool",
+        "update": "fn()",
+        "setStiffness": "fn(stiffness: number)",
+        "setRelaxation": "fn(relaxation: number)"
+      }
+    },
+    "DistanceConstraint": {
+      "!type": "fn(bodyA: Body, bodyB: Body, type: number, options?: ?)",
+      "prototype": {
+        "localAnchorA": "[number]",
+        "localAnchorB": "[number]",
+        "distance": "number",
+        "maxForce": "number",
+        "upperLimitEnabled": "bool",
+        "upperLimit": "number",
+        "lowerLimitEnabled": "bool",
+        "lowerLimit": "number",
+        "position": "number",
+        "setMaxForce": "fn(f: number)",
+        "getMaxForce": "fn() -> number"
+      }
+    },
+    "GearConstraint": {
+      "!type": "fn(bodyA: Body, bodyB: Body, type: number, options?: ?)",
+      "prototype": {
+        "ratio": "number",
+        "angle": "number",
+        "setMaxTorque": "fn(torque: number)",
+        "getMaxTorque": "fn() -> number"
+      }
+    },
+    "LockConstraint": {
+      "!type": "fn(bodyA: Body, bodyB: Body, type: number, options?: ?)",
+      "prototype": {
+        "setMaxForce": "fn(force: number)",
+        "getMaxForce": "fn() -> number"
+      }
+    },
+    "PrismaticConstraint": {
+      "!type": "fn(bodyA: Body, bodyB: Body, type: number, options?: ?)",
+      "prototype": {
+        "localAnchorA": "[number]",
+        "localAnchorB": "[number]",
+        "localAxisA": "[number]",
+        "position": "number",
+        "velocity": "number",
+        "lowerLimitEnabled": "bool",
+        "upperLimitEnabled": "bool",
+        "lowerLimit": "number",
+        "upperLimit": "number",
+        "upperLimitEquation": "ContactEquation",
+        "lowerLimitEquation": "ContactEquation",
+        "motorEquation": "Equation",
+        "motorEnabled": "bool",
+        "motorSpeed": "number",
+        "enableMotor": "fn()",
+        "disableMotor": "fn()",
+        "setLimits": "fn(lower: number, upper: number)"
+      }
+    },
+    "RevoluteConstraint": {
+      "!type": "fn(bodyA: Body, bodyB: Body, type: number, options?: ?)",
+      "prototype": {
+        "pivotA": "[number]",
+        "pivotB": "[number]",
+        "motorEquation": "RotationalVelocityEquation",
+        "motorEnabled": "bool",
+        "angle": "number",
+        "lowerLimitEnabled": "bool",
+        "upperLimitEnabled": "bool",
+        "lowerLimit": "number",
+        "upperLimit": "number",
+        "upperLimitEquation": "ContactEquation",
+        "lowerLimitEquation": "ContactEquation",
+        "enableMotor": "fn()",
+        "disableMotor": "fn()",
+        "motorIsEnabled": "fn() -> bool",
+        "setLimits": "fn(lower: number, upper: number)",
+        "setMotorSpeed": "fn(speed: number)",
+        "getMotorSpeed": "fn() -> number"
+      }
+    },
+    "AngleLockEquation": {
+      "!type": "fn(bodyA: Body, bodyB: Body, options?: ?)",
+      "prototype": {
+        "computeGq": "fn() -> number",
+        "setRatio": "fn(ratio: number) -> number",
+        "setMaxTorque": "fn(torque: number) -> number"
+      }
+    },
+    "ContactEquation": {
+      "!type": "fn(bodyA: Body, bodyB: Body)",
+      "prototype": {
+        "contactPointA": "[number]",
+        "penetrationVec": "[number]",
+        "contactPointB": "[number]",
+        "normalA": "[number]",
+        "restitution": "number",
+        "firstImpact": "bool",
+        "shapeA": "Shape",
+        "shapeB": "Shape",
+        "computeB": "fn(a: number, b: number, h: number) -> number"
+      }
+    },
+    "Equation": {
+      "DEFAULT_STIFFNESS": "number",
+      "DEFAULT_RELAXATION": "number",
+      "!type": "fn(bodyA: Body, bodyB: Body, minForce?: number, maxForce?: number)",
+      "prototype": {
+        "minForce": "number",
+        "maxForce": "number",
+        "bodyA": "Body",
+        "bodyB": "Body",
+        "stiffness": "number",
+        "relaxation": "number",
+        "G": "[number]",
+        "offset": "number",
+        "a": "number",
+        "b": "number",
+        "epsilon": "number",
+        "timeStep": "number",
+        "needsUpdate": "bool",
+        "multiplier": "number",
+        "relativeVelocity": "number",
+        "enabled": "bool",
+        "gmult": "fn(G: [number], vi: [number], wi: [number], vj: [number], wj: [number]) -> number",
+        "computeB": "fn(a: number, b: number, h: number) -> number",
+        "computeGq": "fn() -> number",
+        "computeGW": "fn() -> number",
+        "computeGWlambda": "fn() -> number",
+        "computeGiMf": "fn() -> number",
+        "computeGiMGt": "fn() -> number",
+        "addToWlambda": "fn(deltalambda: number) -> number",
+        "computeInvC": "fn(eps: number) -> number"
+      }
+    },
+    "FrictionEquation": {
+      "!type": "fn(bodyA: Body, bodyB: Body, slipForce: number)",
+      "prototype": {
+        "contactPointA": "[number]",
+        "contactPointB": "[number]",
+        "t": "[number]",
+        "shapeA": "Shape",
+        "shapeB": "Shape",
+        "frictionCoefficient": "number",
+        "setSlipForce": "fn(slipForce: number) -> number",
+        "getSlipForce": "fn() -> number",
+        "computeB": "fn(a: number, b: number, h: number) -> number"
+      }
+    },
+    "RotationalLockEquation": {
+      "!type": "fn(bodyA: Body, bodyB: Body, options?: ?)",
+      "prototype": {
+        "angle": "number",
+        "computeGq": "fn() -> number"
+      }
+    },
+    "RotationalVelocityEquation": {
+      "!type": "fn(bodyA: Body, bodyB: Body)",
+      "prototype": {
+        "computeB": "fn(a: number, b: number, h: number) -> number"
+      }
+    },
+    "EventEmitter": {
+      "prototype": {
+        "on": "fn(type: string, listener: Function, context: ?) -> EventEmitter",
+        "has": "fn(type: string, listener: Function) -> bool",
+        "off": "fn(type: string, listener: Function) -> EventEmitter",
+        "emit": "fn(event: ?) -> EventEmitter"
+      }
+    },
+    "ContactMaterialOptions": {
+      "prototype": {
+        "friction": "number",
+        "restitution": "number",
+        "stiffness": "number",
+        "relaxation": "number",
+        "frictionStiffness": "number",
+        "frictionRelaxation": "number",
+        "surfaceVelocity": "number"
+      }
+    },
+    "ContactMaterial": {
+      "idCounter": "number",
+      "!type": "fn(materialA: Material, materialB: Material, options?: ContactMaterialOptions)",
+      "prototype": {
+        "id": "number",
+        "materialA": "Material",
+        "materialB": "Material",
+        "friction": "number",
+        "restitution": "number",
+        "stiffness": "number",
+        "relaxation": "number",
+        "frictionStuffness": "number",
+        "frictionRelaxation": "number",
+        "surfaceVelocity": "number",
+        "contactSkinSize": "number"
+      }
+    },
+    "Material": {
+      "idCounter": "number",
+      "!type": "fn(id: number)",
+      "prototype": {
+        "id": "number"
+      }
+    },
+    "vec2": {
+      "crossLength": "fn(a: [number], b: [number]) -> number",
+      "crossVZ": "fn(out: [number], vec: [number], zcomp: number) -> number",
+      "crossZV": "fn(out: [number], zcomp: number, vec: [number]) -> number",
+      "rotate": "fn(out: [number], a: [number], angle: number)",
+      "rotate90cw": "fn(out: [number], a: [number]) -> number",
+      "centroid": "fn(out: [number], a: [number], b: [number], c: [number]) -> [number]",
+      "create": "fn() -> [number]",
+      "clone": "fn(a: [number]) -> [number]",
+      "fromValues": "fn(x: number, y: number) -> [number]",
+      "copy": "fn(out: [number], a: [number]) -> [number]",
+      "set": "fn(out: [number], x: number, y: number) -> [number]",
+      "toLocalFrame": "fn(out: [number], worldPoint: [number], framePosition: [number], frameAngle: number)",
+      "toGlobalFrame": "fn(out: [number], localPoint: [number], framePosition: [number], frameAngle: number)",
+      "add": "fn(out: [number], a: [number], b: [number]) -> [number]",
+      "subtract": "fn(out: [number], a: [number], b: [number]) -> [number]",
+      "sub": "fn(out: [number], a: [number], b: [number]) -> [number]",
+      "multiply": "fn(out: [number], a: [number], b: [number]) -> [number]",
+      "mul": "fn(out: [number], a: [number], b: [number]) -> [number]",
+      "divide": "fn(out: [number], a: [number], b: [number]) -> [number]",
+      "div": "fn(out: [number], a: [number], b: [number]) -> [number]",
+      "scale": "fn(out: [number], a: [number], b: number) -> [number]",
+      "distance": "fn(a: [number], b: [number]) -> number",
+      "dist": "fn(a: [number], b: [number]) -> number",
+      "squaredDistance": "fn(a: [number], b: [number]) -> number",
+      "sqrDist": "fn(a: [number], b: [number]) -> number",
+      "length": "fn(a: [number]) -> number",
+      "len": "fn(a: [number]) -> number",
+      "squaredLength": "fn(a: [number]) -> number",
+      "sqrLen": "fn(a: [number]) -> number",
+      "negate": "fn(out: [number], a: [number]) -> [number]",
+      "normalize": "fn(out: [number], a: [number]) -> [number]",
+      "dot": "fn(a: [number], b: [number]) -> number",
+      "str": "fn(a: [number]) -> string",
+      "prototype": {}
+    },
+    "BodyOptions": {
+      "mass": "number",
+      "position": "[number]",
+      "velocity": "[number]",
+      "angle": "number",
+      "angularVelocity": "number",
+      "force": "[number]",
+      "angularForce": "number",
+      "fixedRotation": "bool"
+    },
+    "Body": {
+      "DYNAMIC": "number",
+      "STATIC": "number",
+      "KINEMATIC": "number",
+      "AWAKE": "number",
+      "SLEEPY": "number",
+      "SLEEPING": "number",
+      "!type": "fn(options?: BodyOptions)",
+      "prototype": {
+        "sleepyEvent": {
+          "type": "string"
+        },
+        "sleepEvent": {
+          "type": "string"
+        },
+        "wakeUpEvent": {
+          "type": "string"
+        },
+        "id": "number",
+        "world": "World",
+        "shapes": "[Shape]",
+        "mass": "number",
+        "invMass": "number",
+        "inertia": "number",
+        "invInertia": "number",
+        "invMassSolve": "number",
+        "invInertiaSolve": "number",
+        "fixedRotation": "number",
+        "position": "[number]",
+        "interpolatedPosition": "[number]",
+        "interpolatedAngle": "number",
+        "previousPosition": "[number]",
+        "previousAngle": "number",
+        "velocity": "[number]",
+        "vlambda": "[number]",
+        "wlambda": "[number]",
+        "angle": "number",
+        "angularVelocity": "number",
+        "force": "[number]",
+        "angularForce": "number",
+        "damping": "number",
+        "angularDamping": "number",
+        "type": "number",
+        "boundingRadius": "number",
+        "aabb": "AABB",
+        "aabbNeedsUpdate": "bool",
+        "allowSleep": "bool",
+        "wantsToSleep": "bool",
+        "sleepState": "number",
+        "sleepSpeedLimit": "number",
+        "sleepTimeLimit": "number",
+        "gravityScale": "number",
+        "collisionResponse": "bool",
+        "updateSolveMassProperties": "fn()",
+        "setDensity": "fn(density: number)",
+        "getArea": "fn() -> number",
+        "getAABB": "fn() -> AABB",
+        "updateAABB": "fn()",
+        "updateBoundingRadius": "fn()",
+        "addShape": "fn(shape: Shape, offset?: [number], angle?: number)",
+        "removeShape": "fn(shape: Shape) -> bool",
+        "updateMassProperties": "fn()",
+        "applyForce": "fn(force: [number], worldPoint: [number])",
+        "toLocalFrame": "fn(out: [number], worldPoint: [number])",
+        "toWorldFrame": "fn(out: [number], localPoint: [number])",
+        "fromPolygon": "fn(path: [[number]], options?: ?) -> bool",
+        "adjustCenterOfMass": "fn()",
+        "setZeroForce": "fn()",
+        "resetConstraintVelocity": "fn()",
+        "applyDamping": "fn(dy: number)",
+        "wakeUp": "fn()",
+        "sleep": "fn()",
+        "sleepTick": "fn(time: number, dontSleep: bool, dt: number)",
+        "getVelocityFromPosition": "fn(story: [number], dt: number) -> [number]",
+        "getAngularVelocityFromPosition": "fn(timeStep: number) -> number",
+        "overlaps": "fn(body: Body) -> bool"
+      }
+    },
+    "Spring": {
+      "!type": "fn(bodyA: Body, bodyB: Body, options?: ?)",
+      "prototype": {
+        "stiffness": "number",
+        "damping": "number",
+        "bodyA": "Body",
+        "bodyB": "Body",
+        "applyForce": "fn()"
+      }
+    },
+    "LinearSpring": {
+      "prototype": {
+        "localAnchorA": "[number]",
+        "localAnchorB": "[number]",
+        "restLength": "number",
+        "setWorldAnchorA": "fn(worldAnchorA: [number])",
+        "setWorldAnchorB": "fn(worldAnchorB: [number])",
+        "getWorldAnchorA": "fn(result: [number]) -> [number]",
+        "getWorldAnchorB": "fn(result: [number]) -> [number]",
+        "applyForce": "fn()"
+      }
+    },
+    "RotationalSpring": {
+      "!type": "fn(bodyA: Body, bodyB: Body, options?: ?)",
+      "prototype": {
+        "restAngle": "number"
+      }
+    },
+    "CapsuleOptions": {
+      "length": "number",
+      "radius": "number"
+    },
+    "Capsule": {
+      "!type": "fn(options?: CapsuleOptions)",
+      "prototype": {
+        "length": "number",
+        "radius": "number"
+      }
+    },
+    "CircleOptions": {
+      "radius": "number"
+    },
+    "Circle": {
+      "!type": "fn(options?: CircleOptions)",
+      "prototype": {
+        "radius": "number"
+      }
+    },
+    "ConvexOptions": {
+      "length": "number",
+      "radius": "number"
+    },
+    "Convex": {
+      "triangleArea": "fn(a: [number], b: [number], c: [number]) -> number",
+      "!type": "fn(options?: ConvexOptions)",
+      "prototype": {
+        "vertices": "[[number]]",
+        "axes": "[number]",
+        "centerOfMass": "[number]",
+        "triangles": "[number]",
+        "boundingRadius": "number",
+        "projectOntoLocalAxis": "fn(localAxis: [number], result: [number])",
+        "projectOntoWorldAxis": "fn(localAxis: [number], shapeOffset: [number], shapeAngle: number, result: [number])",
+        "updateCenterOfMass": "fn()"
+      }
+    },
+    "HeightfieldOptions": {
+      "heights": "[number]",
+      "minValue": "number",
+      "maxValue": "number",
+      "elementWidth": "number"
+    },
+    "Heightfield": {
+      "!type": "fn(options?: HeightfieldOptions)",
+      "prototype": {
+        "data": "[number]",
+        "maxValue": "number",
+        "minValue": "number",
+        "elementWidth": "number"
+      }
+    },
+    "SharedShapeOptions": {
+      "position": "[number]",
+      "angle": "number",
+      "collisionGroup": "number",
+      "collisionResponse": "bool",
+      "collisionMask": "number",
+      "sensor": "bool"
+    },
+    "ShapeOptions": {
+      "type": "number"
+    },
+    "Shape": {
+      "idCounter": "number",
+      "CIRCLE": "number",
+      "PARTICLE": "number",
+      "PLANE": "number",
+      "CONVEX": "number",
+      "LINE": "number",
+      "BOX": "number",
+      "CAPSULE": "number",
+      "HEIGHTFIELD": "number",
+      "!type": "fn(options?: ShapeOptions)",
+      "prototype": {
+        "type": "number",
+        "id": "number",
+        "position": "[number]",
+        "angle": "number",
+        "boundingRadius": "number",
+        "collisionGroup": "number",
+        "collisionResponse": "bool",
+        "collisionMask": "number",
+        "material": "Material",
+        "area": "number",
+        "sensor": "bool",
+        "computeMomentOfInertia": "fn(mass: number) -> number",
+        "updateBoundingRadius": "fn() -> number",
+        "updateArea": "fn()",
+        "computeAABB": "fn(out: AABB, position: [number], angle: number)"
+      }
+    },
+    "LineOptions": {
+      "length": "number"
+    },
+    "Line": {
+      "!type": "fn(options?: LineOptions)",
+      "prototype": {
+        "length": "number"
+      }
+    },
+    "Particle": {
+      "!type": "fn(options?: SharedShapeOptions)",
+      "prototype": {}
+    },
+    "Plane": {
+      "!type": "fn(options?: SharedShapeOptions)",
+      "prototype": {}
+    },
+    "BoxOptions": {
+      "width": "number",
+      "height": "number"
+    },
+    "Box": {
+      "!type": "fn(options?: BoxOptions)",
+      "prototype": {
+        "width": "number",
+        "height": "number"
+      }
+    },
+    "Solver": {
+      "GS": "number",
+      "ISLAND": "number",
+      "!type": "fn(options?: ?, type?: number)",
+      "prototype": {
+        "type": "number",
+        "equations": "[Equation]",
+        "equationSortFunction": "Equation",
+        "solve": "fn(dy: number, world: World)",
+        "solveIsland": "fn(dy: number, island: Island)",
+        "sortEquations": "fn()",
+        "addEquation": "fn(eq: Equation)",
+        "addEquations": "fn(eqs: [Equation])",
+        "removeEquation": "fn(eq: Equation)",
+        "removeAllEquations": "fn()"
+      }
+    },
+    "GSSolver": {
+      "!type": "fn(options?: ?)",
+      "prototype": {
+        "iterations": "number",
+        "tolerance": "number",
+        "useZeroRHS": "bool",
+        "frictionIterations": "number",
+        "usedIterations": "number",
+        "solve": "fn(h: number, world: World)"
+      }
+    },
+    "OverlapKeeper": {
+      "!type": "fn(bodyA: Body, shapeA: Shape, bodyB: Body, shapeB: Shape)",
+      "prototype": {
+        "shapeA": "Shape",
+        "shapeB": "Shape",
+        "bodyA": "Body",
+        "bodyB": "Body",
+        "tick": "fn()",
+        "setOverlapping": "fn(bodyA: Body, shapeA: Shape, bodyB: Body, shapeB: Body)",
+        "bodiesAreOverlapping": "fn(bodyA: Body, bodyB: Body) -> bool",
+        "set": "fn(bodyA: Body, shapeA: Shape, bodyB: Body, shapeB: Shape)"
+      }
+    },
+    "TupleDictionary": {
+      "prototype": {
+        "data": "[number]",
+        "keys": "[number]",
+        "getKey": "fn(id1: number, id2: number) -> string",
+        "getByKey": "fn(key: number) -> number",
+        "get": "fn(i: number, j: number) -> number",
+        "set": "fn(i: number, j: number, value: number) -> number",
+        "reset": "fn()",
+        "copy": "fn(dict: TupleDictionary)"
+      }
+    },
+    "Utils": {
+      "appendArray": "fn(a: ?, b: ?) -> ?",
+      "splice": "fn(array: ?, index: number, howMany: number)",
+      "extend": "fn(a: ?, b: ?)",
+      "defaults": "fn(options: ?, defaults: ?) -> ?",
+      "prototype": {}
+    },
+    "Island": {
+      "prototype": {
+        "equations": "[Equation]",
+        "bodies": "[Body]",
+        "reset": "fn()",
+        "getBodies": "fn(result: ?) -> [Body]",
+        "wantsToSleep": "fn() -> bool",
+        "sleep": "fn() -> bool"
+      }
+    },
+    "IslandManager": {
+      "getUnvisitedNode": "fn(nodes: [IslandNode]) -> IslandNode",
+      "prototype": {
+        "equations": "[Equation]",
+        "islands": "[Island]",
+        "nodes": "[IslandNode]",
+        "visit": "fn(node: IslandNode, bds: [Body], eqs: [Equation])",
+        "bfs": "fn(root: IslandNode, bds: [Body], eqs: [Equation])",
+        "split": "fn(world: World) -> [Island]"
+      }
+    },
+    "IslandNode": {
+      "!type": "fn(body: Body)",
+      "prototype": {
+        "body": "Body",
+        "neighbors": "[IslandNode]",
+        "equations": "[Equation]",
+        "visited": "bool",
+        "reset": "fn()"
+      }
+    },
+    "World": {
+      "NO_SLEEPING": "number",
+      "BODY_SLEEPING": "number",
+      "ISLAND_SLEEPING": "number",
+      "integrateBody": "fn(body: Body, dy: number)",
+      "!type": "fn(options?: ?)",
+      "prototype": {
+        "postStepEvent": {
+          "type": "string"
+        },
+        "addBodyEvent": {
+          "type": "string"
+        },
+        "removeBodyEvent": {
+          "type": "string"
+        },
+        "addSpringEvent": {
+          "type": "string"
+        },
+        "impactEvent": {
+          "type": "string",
+          "bodyA": "Body",
+          "bodyB": "Body",
+          "shapeA": "Shape",
+          "shapeB": "Shape",
+          "contactEquation": "ContactEquation"
+        },
+        "postBroadphaseEvent": {
+          "type": "string",
+          "pairs": "[Body]"
+        },
+        "beginContactEvent": {
+          "type": "string",
+          "shapeA": "Shape",
+          "shapeB": "Shape",
+          "bodyA": "Body",
+          "bodyB": "Body",
+          "contactEquations": "[ContactEquation]"
+        },
+        "endContactEvent": {
+          "type": "string",
+          "shapeA": "Shape",
+          "shapeB": "Shape",
+          "bodyA": "Body",
+          "bodyB": "Body"
+        },
+        "preSolveEvent": {
+          "type": "string",
+          "contactEquations": "[ContactEquation]",
+          "frictionEquations": "[FrictionEquation]"
+        },
+        "springs": "[Spring]",
+        "bodies": "[Body]",
+        "solver": "Solver",
+        "narrowphase": "Narrowphase",
+        "islandManager": "IslandManager",
+        "gravity": "[number]",
+        "frictionGravity": "number",
+        "useWorldGravityAsFrictionGravity": "bool",
+        "useFrictionGravityOnZeroGravity": "bool",
+        "doProfiling": "bool",
+        "lastStepTime": "number",
+        "broadphase": "Broadphase",
+        "constraints": "[Constraint]",
+        "defaultMaterial": "Material",
+        "defaultContactMaterial": "ContactMaterial",
+        "lastTimeStep": "number",
+        "applySpringForces": "bool",
+        "applyDamping": "bool",
+        "applyGravity": "bool",
+        "solveConstraints": "bool",
+        "contactMaterials": "[ContactMaterial]",
+        "time": "number",
+        "stepping": "bool",
+        "islandSplit": "bool",
+        "emitImpactEvent": "bool",
+        "sleepMode": "number",
+        "addConstraint": "fn(c: Constraint)",
+        "addContactMaterial": "fn(contactMaterial: ContactMaterial)",
+        "removeContactMaterial": "fn(cm: ContactMaterial)",
+        "getContactMaterial": "fn(materialA: Material, materialB: Material) -> ContactMaterial",
+        "removeConstraint": "fn(c: Constraint)",
+        "step": "fn(dy: number, timeSinceLastCalled?: number, maxSubSteps?: number)",
+        "runNarrowphase": "fn(np: Narrowphase, bi: Body, si: Shape, xi: [?], ai: number, bj: Body, sj: Shape, xj: [?], aj: number, cm: number, glen: number)",
+        "addSpring": "fn(s: Spring)",
+        "removeSpring": "fn(s: Spring)",
+        "addBody": "fn(body: Body)",
+        "removeBody": "fn(body: Body)",
+        "getBodyByID": "fn(id: number) -> Body",
+        "disableBodyCollision": "fn(bodyA: Body, bodyB: Body)",
+        "enableBodyCollision": "fn(bodyA: Body, bodyB: Body)",
+        "clear": "fn()",
+        "clone": "fn() -> World",
+        "hitTest": "fn(worldPoint: [number], bodies: [Body], precision: number) -> [Body]",
+        "setGlobalEquationParameters": "fn(parameters: ?)",
+        "setGlobalStiffness": "fn(stiffness: number)",
+        "setGlobalRelaxation": "fn(relaxation: number)"
+      }
+    }
+  },
+  "!name": "p2.d.ts"
+}

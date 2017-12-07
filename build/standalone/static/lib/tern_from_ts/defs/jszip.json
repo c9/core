@@ -1,0 +1,66 @@
+{
+  "JSZip": {
+    "file": "fn(path: string) -> JSZipObject",
+    "folder": "fn(name: string) -> JSZip",
+    "filter": "fn(predicate: fn(relativePath: string, file: JSZipObject)) -> [JSZipObject]",
+    "remove": "fn(path: string) -> JSZip",
+    "generate": "fn(options?: JSZipGeneratorOptions) -> ?",
+    "load": "fn(data: ?, options: JSZipLoadOptions) -> JSZip",
+    "prototype": "JSZip",
+    "support": "JSZipSupport",
+    "compressions": {
+      "DEFLATE": "DEFLATE"
+    }
+  },
+  "JSZipObject": {
+    "name": "string",
+    "dir": "bool",
+    "date": "Date",
+    "comment": "string",
+    "options": "JSZipObjectOptions",
+    "asText": "fn() -> string",
+    "asBinary": "fn() -> string",
+    "asArrayBuffer": "fn() -> ArrayBuffer",
+    "asUint8Array": "fn() -> Uint8Array"
+  },
+  "JSZipFileOptions": {
+    "base64": "bool",
+    "binary": "bool",
+    "date": "Date",
+    "compression": "string",
+    "comment": "string",
+    "optimizedBinaryString": "bool",
+    "createFolders": "bool"
+  },
+  "JSZipObjectOptions": {
+    "base64": "bool",
+    "binary": "bool",
+    "dir": "bool",
+    "date": "Date",
+    "compression": "string"
+  },
+  "JSZipGeneratorOptions": {
+    "base64": "bool",
+    "compression": "string",
+    "type": "string",
+    "comment": "string"
+  },
+  "JSZipLoadOptions": {
+    "base64": "bool",
+    "checkCRC32": "bool",
+    "optimizedBinaryString": "bool",
+    "createFolders": "bool"
+  },
+  "JSZipSupport": {
+    "arraybuffer": "bool",
+    "uint8array": "bool",
+    "blob": "bool",
+    "nodebuffer": "bool"
+  },
+  "DEFLATE": {
+    "compress": "fn(input: string, compressionOptions: ?) -> Uint8Array",
+    "uncompress": "fn(input: string) -> Uint8Array"
+  },
+  "jszip": "JSZip",
+  "!name": "jszip"
+}

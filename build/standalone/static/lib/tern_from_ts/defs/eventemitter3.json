@@ -1,0 +1,32 @@
+{
+  "EventEmitter3": {
+    "__Base": {
+      "!type": "fn()",
+      "prototype": {
+        "listeners": "fn(event: string) -> [Function]",
+        "emit": "fn(event: string, args: [?]) -> bool",
+        "on": "fn(event: string, fn: Function, context?: ?) -> EventEmitter",
+        "once": "fn(event: string, fn: Function, context?: ?) -> EventEmitter",
+        "removeListener": "fn(event: string, fn: Function, once?: bool) -> EventEmitter",
+        "removeAllListeners": "fn(event: string) -> EventEmitter",
+        "off": "fn(event: string, fn: Function, once?: bool) -> EventEmitter",
+        "addListener": "fn(event: string, fn: Function, context?: ?) -> EventEmitter",
+        "setMaxListeners": "fn() -> EventEmitter"
+      }
+    },
+    "EventEmitter": {
+      "prototype": {},
+      "EventEmitter": {
+        "prototype": {}
+      },
+      "EventEmitter2": {
+        "prototype": {}
+      },
+      "EventEmitter3": {
+        "prototype": {}
+      }
+    }
+  },
+  "'eventemitter3'": "EventEmitter",
+  "!name": "eventemitter3.d.ts"
+}

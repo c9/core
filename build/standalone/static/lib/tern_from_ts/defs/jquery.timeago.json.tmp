@@ -1,0 +1,40 @@
+{
+  "TimeagoSetings": {
+    "refreshMillis": "number",
+    "allowFuture": "bool",
+    "strings": {
+      "prefixAgo": "string",
+      "prefixFromNow": "string",
+      "suffixAgo": "string",
+      "suffixFromNow": "string",
+      "seconds": "?",
+      "minute": "?",
+      "minutes": "?",
+      "hour": "?",
+      "hours": "?",
+      "day": "?",
+      "days": "?",
+      "month": "?",
+      "months": "?",
+      "year": "?",
+      "years": "?",
+      "wordSeparator": "string",
+      "numbers": "[?]"
+    }
+  },
+  "TimeagoStatic": {
+    "settings": "TimeagoSetings",
+    "inWords": "fn(distanceMillis: Date) -> string",
+    "parse": "fn(iso8601: string) -> Date",
+    "datetime": "fn(element: Element) -> Date",
+    "isTime": "fn(element: Element) -> bool"
+  },
+  "Timeago": {},
+  "JQueryStatic": {
+    "timeago": "TimeagoStatic"
+  },
+  "JQuery": {
+    "timeago": "Timeago"
+  },
+  "!name": "jquery.timeago.d.ts"
+}

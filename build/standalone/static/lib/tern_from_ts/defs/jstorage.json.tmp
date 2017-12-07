@@ -1,0 +1,28 @@
+{
+  "JStorageOptions": {
+    "TTL": "number"
+  },
+  "JStorageReadonlyStore": {},
+  "JStorageStatic": {
+    "set": "fn(key: string, value: TValue, options?: JStorageOptions) -> TValue",
+    "get": "fn(key: string, defaultIfNotFound?: TValue) -> TValue",
+    "deleteKey": "fn(key: string) -> bool",
+    "setTTL": "fn(key: string, ttl: number) -> bool",
+    "getTTL": "fn(key: string) -> number",
+    "flush": "fn() -> bool",
+    "storageObj": "fn() -> JStorageReadonlyStore",
+    "index": "fn() -> [string]",
+    "storageSize": "fn() -> number",
+    "currentBackend": "fn() -> Storage",
+    "storageAvailable": "fn() -> bool",
+    "listenKeyChange": "fn(key: string, callback: fn(key: string, value: ?))",
+    "stopListening": "fn(key: string, callback?: Function)",
+    "subscribe": "fn(channel: string, callback: fn(channel: string, value: ?))",
+    "publish": "fn(channel: string, payload: ?)",
+    "reInit": "fn()"
+  },
+  "JQueryStatic": {
+    "jStorage": "JStorageStatic"
+  },
+  "!name": "jstorage.d.ts"
+}

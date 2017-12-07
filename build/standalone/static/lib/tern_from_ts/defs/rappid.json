@@ -1,0 +1,27 @@
+{
+  "joint": {
+    "ui": {
+      "Handle": {
+        "name": "string",
+        "position": "string",
+        "icon": "string"
+      },
+      "SelectionView": {
+        "!type": "fn(opt: ?)",
+        "prototype": {
+          "paper": "joint.dia.Paper",
+          "graph": "joint.dia.Graph",
+          "model": "?",
+          "createSelectionBox": "fn(cellView: joint.dia.CellView)",
+          "destroySelectionBox": "fn(cellView: joint.dia.CellView)",
+          "startSelecting": "fn(evt: ?)",
+          "cancelSelection": "fn()",
+          "addHandle": "fn(handle: Handle)",
+          "removeHandle": "fn(name: string)",
+          "changeHandle": "fn(name: string, handle: Handle)"
+        }
+      }
+    }
+  },
+  "!name": "rappid"
+}

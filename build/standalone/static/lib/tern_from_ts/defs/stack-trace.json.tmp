@@ -1,0 +1,16 @@
+{
+  "'stack-trace'": {
+    "StackFrame": {
+      "getTypeName": "fn() -> string",
+      "getFunctionName": "fn() -> string",
+      "getMethodName": "fn() -> string",
+      "getFileName": "fn() -> string",
+      "getLineNumber": "fn() -> number",
+      "getColumnNumber": "fn() -> number",
+      "isNative": "fn() -> bool"
+    },
+    "get": "fn(belowFn?: fn()) -> [StackFrame]",
+    "parse": "fn(err: Error) -> [StackFrame]"
+  },
+  "!name": "stack-trace.d.ts"
+}

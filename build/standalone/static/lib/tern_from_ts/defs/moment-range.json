@@ -1,0 +1,26 @@
+{
+  "moment": {
+    "Moment": {
+      "within": "fn(x: Range) -> bool"
+    },
+    "MomentStatic": {
+      "range": "fn(range: string) -> Range"
+    },
+    "Range": {
+      "start": "Moment",
+      "end": "Moment",
+      "contains": "fn(other: Date, exclusive?: bool) -> bool",
+      "overlaps": "fn(range: Range) -> bool",
+      "intersect": "fn(other: Range) -> Range",
+      "add": "fn(other: Range) -> Range",
+      "subtract": "fn(other: Range) -> [Range]",
+      "by": "fn(range: string, hollaback: fn(current: Moment), exclusive?: bool)",
+      "isSame": "fn(other: Range) -> bool",
+      "diff": "fn(unit?: string) -> number",
+      "toDate": "fn() -> Date",
+      "center": "fn() -> number",
+      "clone": "fn() -> Range"
+    }
+  },
+  "!name": "moment-range"
+}

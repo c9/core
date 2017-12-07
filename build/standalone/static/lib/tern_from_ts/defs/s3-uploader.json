@@ -1,0 +1,62 @@
+{
+  "s3-uploader": "Upload",
+  "S3UploaderVersion": {
+    "original": "bool",
+    "suffix": "string",
+    "quality": "number",
+    "maxWidth": "number",
+    "maxHeight": "number"
+  },
+  "S3UploaderOptions": {
+    "awsAccessKeyId": "string",
+    "awsSecretAccessKey": "string",
+    "awsBucketRegion": "string",
+    "awsBucketPath": "string",
+    "awsBucketAcl": "string",
+    "awsMaxRetries": "number",
+    "awsHttpTimeout": "number",
+    "resizeQuality": "number",
+    "returnExif": "bool",
+    "tmpDir": "string",
+    "workers": "number",
+    "url": "string",
+    "versions": "S3UploaderVersion"
+  },
+  "Meta": {
+    "prototype": {
+      "format": "string",
+      "fileSize": "string",
+      "imageSize": "imageSize",
+      "orientation": "string",
+      "colorSpace": "string",
+      "compression": "string",
+      "quallity": "string"
+    }
+  },
+  "imageSize": {
+    "prototype": {
+      "height": "number",
+      "width": "number"
+    }
+  },
+  "image": {
+    "prototype": {
+      "etag": "string",
+      "format": "string",
+      "height": "number",
+      "original": "bool",
+      "path": "string",
+      "size": "string",
+      "src": "string",
+      "url": "string",
+      "width": "number"
+    }
+  },
+  "Upload": {
+    "!type": "fn(awsBucketName: string, opts: S3UploaderOptions)",
+    "prototype": {
+      "upload": "fn(src: string, opts?: S3UploaderOptions, cb?: fn(err: string, images: [image], meta: Meta))"
+    }
+  },
+  "!name": "s3-uploader"
+}

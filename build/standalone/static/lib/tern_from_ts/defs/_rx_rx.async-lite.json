@@ -1,0 +1,15 @@
+{
+  "Rx": {
+    "config": {
+      "useNativeEvents": "bool"
+    },
+    "ObservableStatic": {
+      "startAsync": "fn(functionAsync: fn()) -> ?",
+      "fromCallback": {},
+      "fromNodeCallback": {},
+      "fromEvent": "fn(element: NodeList, eventName: string, selector?: fn(arguments: [?])) -> ?",
+      "fromEventPattern": "fn(addHandler: fn(handler: Function), removeHandler: fn(handler: Function), selector?: fn(arguments: [?])) -> ?"
+    }
+  },
+  "!name": "rx.async-lite"
+}

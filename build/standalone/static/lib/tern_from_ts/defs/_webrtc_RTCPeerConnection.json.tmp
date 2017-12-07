@@ -1,0 +1,176 @@
+{
+  "RTCConfiguration": {
+    "iceServers": "[RTCIceServer]",
+    "prototype": "RTCConfiguration"
+  },
+  "RTCIceServer": {
+    "url": "string",
+    "credential": "string",
+    "prototype": "RTCIceServer"
+  },
+  "mozRTCPeerConnection": {
+    "prototype": "mozRTCPeerConnection"
+  },
+  "webkitRTCPeerConnection": {
+    "prototype": "webkitRTCPeerConnection"
+  },
+  "RTCOptionalMediaConstraint": {
+    "DtlsSrtpKeyAgreement": "bool",
+    "RtpDataChannels": "bool"
+  },
+  "RTCMediaConstraints": {
+    "mandatory": "RTCMediaOfferConstraints",
+    "optional": "[RTCOptionalMediaConstraint]"
+  },
+  "RTCMediaOfferConstraints": {
+    "offerToReceiveAudio": "bool",
+    "offerToReceiveVideo": "bool"
+  },
+  "RTCSessionDescriptionInit": {
+    "type": "string",
+    "sdp": "string"
+  },
+  "RTCSessionDescription": {
+    "type": "string",
+    "sdp": "string",
+    "prototype": "RTCSessionDescription"
+  },
+  "webkitRTCSessionDescription": {
+    "type": "string",
+    "sdp": "string",
+    "prototype": "webkitRTCSessionDescription"
+  },
+  "mozRTCSessionDescription": {
+    "type": "string",
+    "sdp": "string",
+    "prototype": "mozRTCSessionDescription"
+  },
+  "RTCDataChannelInit": {
+    "ordered": "bool",
+    "maxPacketLifeTime": "number",
+    "maxRetransmits": "number",
+    "protocol": "string",
+    "negotiated": "bool",
+    "id": "number"
+  },
+  "RTCSdpType": "number",
+  "RTCMessageEvent": {
+    "data": "?"
+  },
+  "RTCDataChannelState": "number",
+  "RTCDataChannel": {
+    "label": "string",
+    "reliable": "bool",
+    "readyState": "string",
+    "bufferedAmount": "number",
+    "binaryType": "string",
+    "onopen": "fn(event: Event)",
+    "onerror": "fn(event: Event)",
+    "onclose": "fn(event: Event)",
+    "onmessage": "fn(event: RTCMessageEvent)",
+    "close": "fn()",
+    "send": "fn(data: string)",
+    "prototype": "RTCDataChannel"
+  },
+  "RTCDataChannelEvent": {
+    "channel": "RTCDataChannel",
+    "prototype": "RTCDataChannelEvent"
+  },
+  "RTCIceCandidateEvent": {
+    "candidate": "RTCIceCandidate"
+  },
+  "RTCMediaStreamEvent": {
+    "stream": "MediaStream"
+  },
+  "EventInit": {},
+  "RTCDataChannelEventInit": {
+    "channel": "RTCDataChannel"
+  },
+  "RTCVoidCallback": {},
+  "RTCSessionDescriptionCallback": {},
+  "RTCPeerConnectionErrorCallback": {},
+  "RTCIceGatheringState": "number",
+  "RTCIceConnectionState": "number",
+  "RTCSignalingState": "number",
+  "RTCStatsReport": {
+    "stat": "fn(id: string) -> string"
+  },
+  "RTCStatsCallback": {},
+  "RTCPeerConnection": {
+    "createOffer": "fn(successCallback: RTCSessionDescriptionCallback, failureCallback?: RTCPeerConnectionErrorCallback, constraints?: RTCMediaConstraints)",
+    "createAnswer": "fn(successCallback: RTCSessionDescriptionCallback, failureCallback?: RTCPeerConnectionErrorCallback, constraints?: RTCMediaConstraints)",
+    "setLocalDescription": "fn(description: RTCSessionDescription, successCallback?: RTCVoidCallback, failureCallback?: RTCPeerConnectionErrorCallback)",
+    "localDescription": "RTCSessionDescription",
+    "setRemoteDescription": "fn(description: RTCSessionDescription, successCallback?: RTCVoidCallback, failureCallback?: RTCPeerConnectionErrorCallback)",
+    "remoteDescription": "RTCSessionDescription",
+    "signalingState": "string",
+    "updateIce": "fn(configuration?: RTCConfiguration, constraints?: RTCMediaConstraints)",
+    "addIceCandidate": "fn(candidate: RTCIceCandidate, successCallback: fn(), failureCallback: RTCPeerConnectionErrorCallback)",
+    "iceGatheringState": "string",
+    "iceConnectionState": "string",
+    "getLocalStreams": "fn() -> [MediaStream]",
+    "getRemoteStreams": "fn() -> [MediaStream]",
+    "createDataChannel": "fn(label?: string, dataChannelDict?: RTCDataChannelInit) -> RTCDataChannel",
+    "ondatachannel": "fn(event: Event)",
+    "addStream": "fn(stream: MediaStream, constraints?: RTCMediaConstraints)",
+    "removeStream": "fn(stream: MediaStream)",
+    "close": "fn()",
+    "onnegotiationneeded": "fn(event: Event)",
+    "onconnecting": "fn(event: Event)",
+    "onopen": "fn(event: Event)",
+    "onaddstream": "fn(event: RTCMediaStreamEvent)",
+    "onremovestream": "fn(event: RTCMediaStreamEvent)",
+    "onstatechange": "fn(event: Event)",
+    "oniceconnectionstatechange": "fn(event: Event)",
+    "onicecandidate": "fn(event: RTCIceCandidateEvent)",
+    "onidentityresult": "fn(event: Event)",
+    "onsignalingstatechange": "fn(event: Event)",
+    "getStats": "fn(successCallback: RTCStatsCallback, failureCallback: RTCPeerConnectionErrorCallback)",
+    "prototype": "RTCPeerConnection"
+  },
+  "RTCIceCandidate": {
+    "candidate": "string",
+    "sdpMid": "string",
+    "sdpMLineIndex": "number",
+    "prototype": "RTCIceCandidate"
+  },
+  "webkitRTCIceCandidate": {
+    "candidate": "string",
+    "sdpMid": "string",
+    "sdpMLineIndex": "number",
+    "prototype": "webkitRTCIceCandidate"
+  },
+  "mozRTCIceCandidate": {
+    "candidate": "string",
+    "sdpMid": "string",
+    "sdpMLineIndex": "number",
+    "prototype": "mozRTCIceCandidate"
+  },
+  "RTCIceCandidateInit": {
+    "candidate": "string",
+    "sdpMid": "string",
+    "sdpMLineIndex": "number",
+    "prototype": "RTCIceCandidateInit"
+  },
+  "PeerConnectionIceEvent": {
+    "peer": "RTCPeerConnection",
+    "candidate": "RTCIceCandidate",
+    "prototype": "PeerConnectionIceEvent"
+  },
+  "RTCPeerConnectionConfig": {
+    "iceServers": "[RTCIceServer]",
+    "prototype": "RTCPeerConnectionConfig"
+  },
+  "Window": {
+    "RTCPeerConnection": "RTCPeerConnection",
+    "webkitRTCPeerConnection": "webkitRTCPeerConnection",
+    "mozRTCPeerConnection": "mozRTCPeerConnection",
+    "RTCSessionDescription": "RTCSessionDescription",
+    "webkitRTCSessionDescription": "webkitRTCSessionDescription",
+    "mozRTCSessionDescription": "mozRTCSessionDescription",
+    "RTCIceCandidate": "RTCIceCandidate",
+    "webkitRTCIceCandidate": "webkitRTCIceCandidate",
+    "mozRTCIceCandidate": "mozRTCIceCandidate"
+  },
+  "!name": "RTCPeerConnection.d.ts"
+}

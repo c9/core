@@ -1,0 +1,24 @@
+{
+  "JQueryTinyCarousel": {
+    "JQueryTinyCarouselOptions": {
+      "start": "number",
+      "axis": "string",
+      "display": "number",
+      "rewind": "bool",
+      "controls": "bool",
+      "pager": "bool",
+      "interval": "bool",
+      "intervaltime": "number",
+      "animation": "bool",
+      "duration": "number",
+      "callback": "fn(element: HTMLElement, index: number)"
+    }
+  },
+  "JQuery": {
+    "tinycarousel": "fn(options?: JQueryTinyCarousel.JQueryTinyCarouselOptions) -> JQuery",
+    "tinycarousel_move": "fn(index: number)",
+    "tinycarousel_start": "fn()",
+    "tinycarousel_stop": "fn()"
+  },
+  "!name": "jquery.tinycarousel.d.ts"
+}

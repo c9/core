@@ -1,0 +1,125 @@
+{
+  "'timezonecomplete-1.3.0'": {
+    "isLeapYear": "fn(year: number) -> bool",
+    "daysInMonth": "fn(year: number, month: number) -> number",
+    "isoString": "fn(year: number, month: number, day: number, hour: number, minute: number, second: number, millisecond: number) -> string",
+    "TimeUnit": "number",
+    "Duration": {
+      "hours": "fn(n: number) -> Duration",
+      "minutes": "fn(n: number) -> Duration",
+      "seconds": "fn(n: number) -> Duration",
+      "milliseconds": "fn(n: number) -> Duration",
+      "!type": "fn()",
+      "prototype": {
+        "clone": "fn() -> Duration",
+        "milliseconds": "fn() -> number",
+        "millisecond": "fn() -> number",
+        "seconds": "fn() -> number",
+        "second": "fn() -> number",
+        "minutes": "fn() -> number",
+        "minute": "fn() -> number",
+        "hours": "fn() -> number",
+        "wholeHours": "fn() -> number",
+        "sign": "fn() -> string",
+        "lessThan": "fn(other: Duration) -> bool",
+        "equals": "fn(other: Duration) -> bool",
+        "greaterThan": "fn(other: Duration) -> bool",
+        "min": "fn(other: Duration) -> Duration",
+        "max": "fn(other: Duration) -> Duration",
+        "multiply": "fn(value: number) -> Duration",
+        "divide": "fn(value: number) -> Duration",
+        "add": "fn(value: Duration) -> Duration",
+        "sub": "fn(value: Duration) -> Duration",
+        "toFullString": "fn() -> string"
+      }
+    },
+    "TimeZoneKind": "number",
+    "TimeZone": {
+      "local": "fn() -> TimeZone",
+      "utc": "fn() -> TimeZone",
+      "zone": "fn(offset: number) -> TimeZone",
+      "offsetToString": "fn(offset: number) -> string",
+      "stringToOffset": "fn(s: string) -> number",
+      "prototype": {
+        "name": "fn() -> string",
+        "kind": "fn() -> TimeZoneKind",
+        "equals": "fn(other: TimeZone) -> bool",
+        "isUtc": "fn() -> bool",
+        "offsetForUtc": "fn(year: number, month: number, day: number, hour?: number, minute?: number, second?: number, millisecond?: number) -> number",
+        "offsetForZone": "fn(year: number, month: number, day: number, hour?: number, minute?: number, second?: number, millisecond?: number) -> number",
+        "offsetForUtcDate": "fn(date: Date, funcs: DateFunctions) -> number",
+        "offsetForZoneDate": "fn(date: Date, funcs: DateFunctions) -> number"
+      }
+    },
+    "TimeSource": {
+      "now": "fn() -> Date"
+    },
+    "RealTimeSource": {
+      "prototype": {
+        "now": "fn() -> Date"
+      }
+    },
+    "DateFunctions": "number",
+    "WeekDay": "number",
+    "DateTime": {
+      "timeSource": "TimeSource",
+      "nowLocal": "fn() -> DateTime",
+      "nowUtc": "fn() -> DateTime",
+      "now": "fn(timeZone: TimeZone) -> DateTime",
+      "!type": "fn()",
+      "prototype": {
+        "clone": "fn() -> DateTime",
+        "zone": "fn() -> TimeZone",
+        "offset": "fn() -> number",
+        "year": "fn() -> number",
+        "month": "fn() -> number",
+        "day": "fn() -> number",
+        "hour": "fn() -> number",
+        "minute": "fn() -> number",
+        "second": "fn() -> number",
+        "millisecond": "fn() -> number",
+        "weekDay": "fn() -> WeekDay",
+        "unixUtcMillis": "fn() -> number",
+        "utcYear": "fn() -> number",
+        "utcMonth": "fn() -> number",
+        "utcDay": "fn() -> number",
+        "utcHour": "fn() -> number",
+        "utcMinute": "fn() -> number",
+        "utcSecond": "fn() -> number",
+        "utcMillisecond": "fn() -> number",
+        "utcWeekDay": "fn() -> WeekDay",
+        "convert": "fn(zone?: TimeZone) -> DateTime",
+        "toZone": "fn(zone?: TimeZone) -> DateTime",
+        "toDate": "fn() -> Date",
+        "add": "fn(duration: Duration) -> DateTime",
+        "addLocal": "fn(amount: number, unit: TimeUnit) -> DateTime",
+        "sub": "fn(duration: Duration) -> DateTime",
+        "subLocal": "fn(amount: number, unit: TimeUnit) -> DateTime",
+        "diff": "fn(other: DateTime) -> Duration",
+        "lessThan": "fn(other: DateTime) -> bool",
+        "lessEqual": "fn(other: DateTime) -> bool",
+        "equals": "fn(other: DateTime) -> bool",
+        "identical": "fn(other: DateTime) -> bool",
+        "greaterThan": "fn(other: DateTime) -> bool",
+        "greaterEqual": "fn(other: DateTime) -> bool",
+        "toIsoString": "fn() -> string",
+        "toUtcString": "fn() -> string"
+      }
+    },
+    "PeriodDst": "number",
+    "periodDstToString": "fn(p: PeriodDst) -> string",
+    "Period": {
+      "!type": "fn(start: DateTime, amount: number, unit: TimeUnit, dst: PeriodDst)",
+      "prototype": {
+        "start": "fn() -> DateTime",
+        "amount": "fn() -> number",
+        "unit": "fn() -> TimeUnit",
+        "dst": "fn() -> PeriodDst",
+        "findFirst": "fn(fromDate: DateTime) -> DateTime",
+        "findNext": "fn(prev: DateTime, count?: number) -> DateTime",
+        "toIsoString": "fn() -> string"
+      }
+    }
+  },
+  "!name": "timezonecomplete-1.3.0.d.ts"
+}

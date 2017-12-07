@@ -1,0 +1,120 @@
+{
+  "complete": "fn(value?: ?)",
+  "desc": "fn(description: string)",
+  "directory": "fn(name: string) -> jake.DirectoryTask",
+  "fail": "fn(err: [string])",
+  "file": "fn(name: string, prereqs?: [string], action?: fn(), opts?: jake.FileTaskOptions) -> jake.FileTask",
+  "rule": "fn(pattern: RegExp, source: string)",
+  "jake": {
+    "UtilOptions": {
+      "silent": "bool"
+    },
+    "mkdirP": "fn(name: string, mode?: string, f?: fn(er: Error, made: ?))",
+    "cpR": "fn(path: string, destination: string, opts?: UtilOptions, callback?: fn())",
+    "readdirR": "fn(name: string, opts?: UtilOptions) -> [string]",
+    "rmRf": "fn(name: string, opts?: UtilOptions)",
+    "ExecOptions": {
+      "printStdout": "bool",
+      "printStderr": "bool",
+      "breakOnError": "bool",
+      "windowsVerbatimArguments": "bool"
+    },
+    "exec": "fn(cmds: [string], callback?: fn(), opts?: ExecOptions)",
+    "Exec": {
+      "append": "fn(cmd: string)",
+      "run": "fn()"
+    },
+    "createExec": "fn(cmds: [string], callback?: fn(), opts?: ExecOptions) -> Exec",
+    "Logger": {
+      "log": "fn(value: ?)",
+      "error": "fn(value: ?)"
+    },
+    "logger": "Logger",
+    "program": {
+      "opts": {
+        "quiet": "bool"
+      },
+      "taskNames": "[string]",
+      "taskArgs": "[string]",
+      "envVars": {}
+    },
+    "TaskOptions": {
+      "async": "bool",
+      "parallelLimit": "number"
+    },
+    "Task": {
+      "!type": "fn(name: string, prereqs?: [string], action?: fn(), opts?: TaskOptions)",
+      "prototype": {
+        "invoke": "fn()",
+        "reenable": "fn()",
+        "addListener": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "on": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "once": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "removeListener": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "removeAllListeners": "fn(event?: string) -> NodeJS.EventEmitter",
+        "setMaxListeners": "fn(n: number)",
+        "listeners": "fn(event: string) -> [Function]",
+        "emit": "fn(event: string, args: [?]) -> bool",
+        "value": "?"
+      }
+    },
+    "DirectoryTask": {
+      "!type": "fn(name: string)",
+      "prototype": {}
+    },
+    "FileTaskOptions": {
+      "async": "bool"
+    },
+    "FileTask": {
+      "!type": "fn(name: string, prereqs?: [string], action?: fn(), opts?: FileTaskOptions)",
+      "prototype": {}
+    },
+    "FileFilter": {},
+    "FileList": {
+      "!type": "fn()",
+      "prototype": {
+        "include": "fn(files: [string])",
+        "shouldExclude": "fn(name: string) -> bool",
+        "exclude": "fn(file: [string])",
+        "resolve": "fn()",
+        "toArray": "fn() -> [string]",
+        "clearExclude": "fn()"
+      }
+    },
+    "PackageTask": {
+      "!type": "fn(name: string, version: string, definition: fn())",
+      "prototype": {
+        "archiveChangeDir": "string",
+        "archiveContentDir": "string",
+        "jarCommand": "string",
+        "manifestFile": "string",
+        "name": "string",
+        "needJar": "bool",
+        "needTar": "bool",
+        "needTarBz2": "bool",
+        "needZip": "bool",
+        "packageFiles": "FileList",
+        "tarCommand": "string",
+        "version": "string",
+        "zipCommand": "string"
+      }
+    },
+    "TestTask": {
+      "!type": "fn(name: string, definition?: fn())",
+      "prototype": {}
+    },
+    "NpmPublishTask": {
+      "!type": "fn(name: string, packageFiles: [string])",
+      "prototype": {}
+    },
+    "addListener": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+    "on": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+    "once": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+    "removeListener": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+    "removeAllListener": "fn(event: string) -> NodeJS.EventEmitter",
+    "setMaxListeners": "fn(n: number)",
+    "listeners": "fn(event: string) -> [Function]",
+    "emit": "fn(event: string, args: [?]) -> bool"
+  },
+  "!name": "jake.d.ts"
+}

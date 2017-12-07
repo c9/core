@@ -1,0 +1,14 @@
+{
+  "System": {
+    "import": "fn(name: string) -> ?",
+    "defined": "?",
+    "amdDefine": "fn()",
+    "amdRequire": "fn()",
+    "baseURL": "string",
+    "paths": {},
+    "meta": {},
+    "config": "?"
+  },
+  "systemjs": "System",
+  "!name": "systemjs"
+}

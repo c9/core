@@ -1,0 +1,38 @@
+{
+  "XSockets": {
+    "WebSocket": {
+      "!type": "fn(url: string, subprotocol?: string, settings?: ?)",
+      "prototype": {
+        "id": "string",
+        "on": "fn(event: string, handler: fn(data: ?), confirmation?: fn(arg: ConfirmationArgument))",
+        "one": "fn(event: string, handler: fn(data: ?), confirmation?: fn(arg: ConfirmationArgument))",
+        "many": "fn(event: string, times: number, handler: fn(data: ?), confirmation?: fn(arg: ConfirmationArgument))",
+        "unbind": "fn(event: string)",
+        "publish": "fn(topic: string, data: ?)"
+      }
+    },
+    "ConfirmationArgument": {
+      "event": "string"
+    },
+    "Events": {
+      "close": "string",
+      "onBlob": "string",
+      "onError": "string",
+      "bindings": {
+        "completed": "string"
+      },
+      "open": "string",
+      "pubSub": {
+        "subscribe": "string",
+        "unsubscribe": "string"
+      },
+      "storage": {
+        "get": "string",
+        "getAll": "string",
+        "remove": "string",
+        "set": "string"
+      }
+    }
+  },
+  "!name": "XSockets"
+}

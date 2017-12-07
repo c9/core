@@ -1,0 +1,13 @@
+{
+  "JQueryTotalStorage": {
+    "setItem": "fn(key: string, value: ?) -> ?",
+    "getItem": "fn(key: string) -> ?",
+    "getAll": "fn() -> [?]",
+    "deleteItem": "fn(key: string) -> bool"
+  },
+  "JQueryTotalStorageOptions": {},
+  "JQueryStatic": {
+    "totalStorage": "JQueryTotalStorage"
+  },
+  "!name": "jquery.total-storage.d.ts"
+}

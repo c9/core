@@ -1,0 +1,700 @@
+{
+  "'stripe'": "out",
+  "StripeNode": {
+    "Stripe": {
+      "DEFAULT_HOST": "string",
+      "DEFAULT_PORT": "string",
+      "DEFAULT_BASE_PATH": "string",
+      "DEFAULT_API_VERSION": "string",
+      "DEFAULT_TIMEOUT": "number",
+      "PACKAGE_VERSION": "string",
+      "USER_AGENT": {
+        "bindings_version": "string",
+        "lang": "string",
+        "lang_version": "string",
+        "platform": "string",
+        "publisher": "string",
+        "uname": "string"
+      },
+      "USER_AGENT_SERIALIZED": "string",
+      "resources": "resources",
+      "StripeResource": "StripeResource",
+      "!type": "fn(apiKey: string, version?: string)",
+      "prototype": {
+        "account": "resources.Account",
+        "balance": "resources.Balance",
+        "charges": "resources.Charges",
+        "coupons": "resources.Coupons",
+        "customers": "resources.Customers",
+        "events": "resources.Events",
+        "invoices": "resources.Invoices",
+        "invoiceItems": "resources.InvoiceItems",
+        "plans": "resources.Plans",
+        "recipientCards": "resources.RecipientCards",
+        "recipients": "resources.Recipients",
+        "tokens": "resources.Tokens",
+        "yransfers": "resources.Transfers",
+        "applicationFees": "resources.ApplicationFees",
+        "fileUploads": "resources.FileUploads",
+        "bitcoinReceivers": "resources.BitcoinReceivers",
+        "customerCards": "resources.CustomerCards",
+        "customerSubscriptions": "resources.CustomerSubscriptions",
+        "chargeRefunds": "resources.ChargeRefunds",
+        "applicationFeeRefunds": "resources.ApplicationFeeRefunds",
+        "transferReversals": "resources.TransferReversals",
+        "setHost": "fn(host: string)",
+        "setProtocol": "fn(protocol: string)",
+        "setPort": "fn(port: string, number: ?)",
+        "setApiVersion": "fn(version?: string)",
+        "setApiKey": "fn(key?: string)",
+        "setTimeout": "fn(timeout?: number)",
+        "setHttpAgent": "fn(agent: string)",
+        "getConstant": "fn(c: string) -> ?",
+        "getClientUserAgent": "fn(response: fn(userAgent: string))"
+      }
+    },
+    "account": {},
+    "balance": {
+      "IBalanceTransaction": {
+        "id": "string",
+        "object": "string",
+        "amount": "number",
+        "available_on": "number",
+        "created": "number",
+        "currency": "string",
+        "fee": "number",
+        "fee_details": "?",
+        "net": "number",
+        "status": "string",
+        "type": "string",
+        "description": "string",
+        "source": "IPaymentToken",
+        "ICard": "?",
+        "source_transfers": "?"
+      }
+    },
+    "charges": {
+      "ICharge": {
+        "id": "string",
+        "object": "string",
+        "livemode": "bool",
+        "amount": "number",
+        "captured": "bool",
+        "created": "number",
+        "currency": "string",
+        "paid": "bool",
+        "refunded": "bool",
+        "refunds": "?",
+        "source": "ICard",
+        "status": "string",
+        "amount_refunded": "number",
+        "balance_transaction": "string",
+        "customer": "string",
+        "description": "string",
+        "dispute": "IDispute",
+        "failure_code": "string",
+        "failure_message": "string",
+        "invoice": "string",
+        "metadata": "IMetadata",
+        "receipt_email": "string",
+        "receipt_number": "string",
+        "application_fee": "string",
+        "fraud_details": {
+          "user_report": "string",
+          "stripe_report": "string"
+        },
+        "shipping": "IShippingInformation"
+      }
+    },
+    "coupons": {
+      "IDiscount": {
+        "object": "string",
+        "coupon": "ICoupon",
+        "customer": "string",
+        "start": "number",
+        "end": "number",
+        "subscription": "string"
+      },
+      "ICoupon": {
+        "id": "string",
+        "object": "string",
+        "livemode": "bool",
+        "created": "number",
+        "duration": "string",
+        "amount_off": "number",
+        "currency": "string",
+        "duration_in_months": "number",
+        "max_redemptions": "number",
+        "metadata": "IMetadata",
+        "percent_off": "number",
+        "redeem_by": "number",
+        "times_redeemed": "number",
+        "valid": "bool"
+      }
+    },
+    "customers": {
+      "ICustomer": {
+        "id": "string",
+        "object": "string",
+        "livemode": "bool",
+        "created": "number",
+        "account_balance": "number",
+        "currency": "string",
+        "default_source": "string",
+        "delinquent": "bool",
+        "discount": "coupons.IDiscount",
+        "description": "string",
+        "email": "string",
+        "metadata": "IMetadata",
+        "sources": "?",
+        "bitcoinReceivers": "?",
+        "IBitcoinReceiver": "?",
+        "subscriptions": "?"
+      }
+    },
+    "events": {},
+    "invoices": {
+      "IInvoice": {
+        "id": "string",
+        "object": "string",
+        "livemode": "bool",
+        "amount_due": "number",
+        "attempt_count": "number",
+        "attempted": "bool",
+        "closed": "bool",
+        "currency": "string",
+        "customer": "string",
+        "date": "number",
+        "forgiven": "bool",
+        "lines": "?",
+        "paid": "bool",
+        "period_end": "number",
+        "period_start": "number",
+        "starting_balance": "number",
+        "subtotal": "number",
+        "total": "number",
+        "application_fee": "number",
+        "charge": "string",
+        "description": "string",
+        "discount": "coupons.IDiscount",
+        "ending_balance": "number",
+        "next_payment_attempt": "number",
+        "receipt_number": "string",
+        "statement_descriptor": "string",
+        "subscription": "string",
+        "webhooks_delivered_at": "number",
+        "metadata": "IMetadata",
+        "tax": "number",
+        "tax_percent": "number"
+      }
+    },
+    "invoiceItems": {
+      "InvoiceLineItem": {
+        "id": "string",
+        "object": "string",
+        "livemode": "bool",
+        "amount": "number",
+        "currency": "string",
+        "discountable": "bool",
+        "period": {
+          "start": "number",
+          "end": "number"
+        },
+        "proration": "bool",
+        "type": "string",
+        "description": "string",
+        "metadata": "IMetadata",
+        "plan": "plans.IPlan",
+        "quantity": "number",
+        "subscription": "string"
+      }
+    },
+    "plans": {
+      "IPlan": {
+        "id": "string",
+        "object": "string",
+        "livemode": "bool",
+        "amount": "number",
+        "created": "number",
+        "currency": "string",
+        "interval": "string",
+        "interval_count": "number",
+        "name": "string",
+        "metadata": "IMetadata",
+        "trial_period_days": "number",
+        "statement_descriptor": "string"
+      }
+    },
+    "recipientCards": {},
+    "recipients": {},
+    "tokens": {},
+    "transfers": {
+      "ITransfer": {
+        "id": "string",
+        "object": "string",
+        "livemode": "bool",
+        "amount": "number",
+        "created": "number",
+        "currency": "string",
+        "date": "number",
+        "reversals": "?",
+        "reversed": "bool",
+        "status": "string",
+        "type": "string",
+        "amount_reversed": "number",
+        "balance_transaction": "string",
+        "description": "string",
+        "failure_code": "string",
+        "failure_message": "string",
+        "metadata": "IMetadata",
+        "application_fee": "string",
+        "bank_account": "IBankAccount",
+        "card": "ICard",
+        "recipient": "string",
+        "source_transaction": "string",
+        "statement_descriptor": "string"
+      }
+    },
+    "applicationFees": {},
+    "fileUploads": {},
+    "bitcoinReceivers": {
+      "IBitcoinReceiver": {
+        "id": "string",
+        "object": "string",
+        "livemode": "bool",
+        "active": "bool",
+        "amount": "number",
+        "amount_received": "number",
+        "bitcoin_amount": "number",
+        "bitcoin_amount_received": "number",
+        "bitcoin_uri": "number",
+        "created": "number",
+        "currency": "string",
+        "filled": "bool",
+        "inbound_address": "string",
+        "transactions": "?",
+        "uncaptured_funds": "bool",
+        "description": "string",
+        "email": "string",
+        "metadata": "IMetadata",
+        "payment": "string",
+        "refund_address": "string",
+        "customer": "string"
+      },
+      "IBitcoinTransaction": {
+        "id": "string",
+        "object": "string",
+        "amount": "number",
+        "bitcoin_amount": "number",
+        "created": "number",
+        "currency": "string",
+        "receiver": "string"
+      }
+    },
+    "customerCards": {},
+    "customerSubscriptions": {
+      "ISubscription": {
+        "id": "string",
+        "object": "string",
+        "cancel_at_period_end": "bool",
+        "customer": "string",
+        "plan": "plans.IPlan",
+        "quantity": "number",
+        "start": "number",
+        "status": "string",
+        "application_fee_percent": "number",
+        "canceled_at": "number",
+        "current_period_end": "number",
+        "current_period_start": "number",
+        "discount": "coupons.IDiscount",
+        "ended_at": "number",
+        "metadata": "IMetadata",
+        "trial_end": "number",
+        "trial_start": "number",
+        "tax_percent": "number"
+      }
+    },
+    "chargeRefunds": {
+      "IRefund": {
+        "id": "string",
+        "object": "string",
+        "amount": "number",
+        "created": "number",
+        "currency": "string",
+        "balance_transaction": "string",
+        "charge": "string",
+        "metadata": "IMetadata",
+        "reason": "string",
+        "receipt_number": "string",
+        "description": "string"
+      }
+    },
+    "applicationFeeRefunds": {},
+    "transferReversals": {},
+    "StripeResource": {
+      "!type": "fn(stripe: Stripe, urlData: ?)",
+      "prototype": {}
+    },
+    "resources": {
+      "Account": {
+        "prototype": {
+          "create": "fn()",
+          "list": "fn()",
+          "update": "fn(id: string)",
+          "retrieve": "fn(id: string)"
+        }
+      },
+      "ApplicationFeeRefunds": {
+        "prototype": {
+          "create": "fn()",
+          "list": "fn()",
+          "update": "fn(id: string)",
+          "retrieve": "fn(id: string)"
+        }
+      },
+      "ApplicationFees": {
+        "prototype": {
+          "list": "fn()",
+          "retrieve": "fn(id: string)"
+        }
+      },
+      "Balance": {
+        "prototype": {
+          "retrieve": "fn(id: string)"
+        }
+      },
+      "BitcoinReceivers": {
+        "prototype": {
+          "create": "fn()",
+          "list": "fn()",
+          "update": "fn(id: string)",
+          "retrieve": "fn(id: string)"
+        }
+      },
+      "ChargeRefunds": {
+        "prototype": {
+          "create": "fn()",
+          "list": "fn()",
+          "update": "fn(id: string)",
+          "retrieve": "fn(id: string)"
+        }
+      },
+      "Charges": {
+        "prototype": {
+          "create": "fn(options: ?, response: ?)",
+          "retrieve": "fn(id: string, response: ?)",
+          "update": "fn(id: string, update: ?, response: ?)",
+          "capture": "fn(id: string, response: ?)",
+          "list": "fn(options: IListOptions, response: ?)",
+          "updateDispute": "fn(chargeId: string, options: ?, response: ?)",
+          "closeDispute": "fn(chargeId: string)",
+          "createRefund": "fn(id: string, options: ?, response: ?)",
+          "retrieveRefund": "fn(chargeId: string, refundId: string, response: ?)",
+          "updateRefund": "fn(chargeId: string, refundId: string, options: ?, response: ?)",
+          "listRefunds": "fn(chargeId: string, options: IListOptions, response: ?)"
+        }
+      },
+      "Coupons": {
+        "prototype": {
+          "create": "fn(options: ?, response: ?)",
+          "retrieve": "fn(id: string, response: ?)",
+          "update": "fn(id: string, options: ?, response: ?)",
+          "del": "fn(id: string, response: ?)",
+          "list": "fn(options: IListOptions, response: ?)"
+        }
+      },
+      "CustomerCards": {
+        "prototype": {
+          "create": "fn()",
+          "list": "fn()",
+          "update": "fn(id: string)",
+          "retrieve": "fn(id: string)",
+          "del": "fn(id: string)"
+        }
+      },
+      "Customers": {
+        "prototype": {
+          "create": "fn(options: ?, response: ?)",
+          "list": "fn(options: IListOptions, response: ?)",
+          "update": "fn(id: string, options: ?, response: ?)",
+          "retrieve": "fn(id: string, response: ?)",
+          "del": "fn(id: string, response: ?)",
+          "createCard": "fn(customerId: string, options: ?, response: ?)",
+          "retrieveCard": "fn(customerId: string, cardId: string, response: ?)",
+          "updateCard": "fn(customerId: string, cardId: string, options: ?, response: ?)",
+          "deleteCard": "fn(customerId: string, cardId: string, response: ?)",
+          "listCards": "fn(customerId: string, options: IListOptions, response: ?)",
+          "createSubscription": "fn(customerId: string, options: ?, response: ?)",
+          "retrieveSubscription": "fn(customerId: string, subscriptionId: string, response: ?)",
+          "updateSubscription": "fn(customerId: string, subscriptionId: string, options: ?, response: ?)",
+          "cancelSubscription": "fn(customerId: string, subscriptionId: string, options: ?, response: ?)",
+          "listSubscriptions": "fn(customerId: string, options: IListOptions, response: ?)",
+          "deleteDiscount": "fn(customerId: string, response: ?)",
+          "deleteSubscriptionDiscount": "fn(customerId: string, subscriptionId: string, response: ?)"
+        }
+      },
+      "CustomerSubscriptions": {
+        "prototype": {
+          "create": "fn()",
+          "list": "fn()",
+          "update": "fn(id: string)",
+          "retrieve": "fn(id: string)",
+          "del": "fn(id: string)"
+        }
+      },
+      "Events": {
+        "prototype": {
+          "list": "fn()",
+          "retrieve": "fn(id: string)"
+        }
+      },
+      "FileUploads": {
+        "prototype": {
+          "list": "fn()",
+          "retrieve": "fn(id: string)"
+        }
+      },
+      "InvoiceItems": {
+        "prototype": {
+          "create": "fn()",
+          "list": "fn()",
+          "update": "fn(id: string)",
+          "retrieve": "fn(id: string)",
+          "del": "fn(id: string)"
+        }
+      },
+      "Invoices": {
+        "prototype": {
+          "create": "fn(options: ?, response: ?)",
+          "retrieve": "fn(id: string, response: ?)",
+          "retrieveLines": "fn(id: string, options: ?, response: ?)",
+          "retrieveUpcoming": "fn(id: string, options: ?, response: ?)",
+          "update": "fn(id: string, options: ?, response: ?)",
+          "pay": "fn(id: string, response: ?)",
+          "list": "fn(options: IListOptions, response: ?)"
+        }
+      },
+      "Plans": {
+        "prototype": {
+          "create": "fn(options: ?, response: ?)",
+          "retrieve": "fn(id: string, response: ?)",
+          "update": "fn(id: string, options: ?, response: ?)",
+          "del": "fn(id: string, response: ?)",
+          "list": "fn(options: IListOptions, response: ?)"
+        }
+      },
+      "RecipientCards": {
+        "prototype": {
+          "create": "fn()",
+          "list": "fn()",
+          "update": "fn(id: string)",
+          "retrieve": "fn(id: string)",
+          "del": "fn(id: string)"
+        }
+      },
+      "Recipients": {
+        "prototype": {
+          "create": "fn()",
+          "list": "fn()",
+          "update": "fn(id: string)",
+          "retrieve": "fn(id: string)",
+          "del": "fn(id: string)"
+        }
+      },
+      "Tokens": {
+        "prototype": {
+          "create": "fn()",
+          "retrieve": "fn(id: string)"
+        }
+      },
+      "TransferReversals": {
+        "prototype": {
+          "create": "fn()",
+          "list": "fn()",
+          "update": "fn(id: string)",
+          "retrieve": "fn(id: string)"
+        }
+      },
+      "Transfers": {
+        "prototype": {
+          "create": "fn()",
+          "list": "fn()",
+          "update": "fn(id: string)",
+          "retrieve": "fn(id: string)"
+        }
+      }
+    },
+    "IResponseFn": {},
+    "IDeleteConfirmation": {
+      "id": "string",
+      "deleted": "bool"
+    },
+    "IDateFilter": {
+      "gt": "string",
+      "gte": "string",
+      "lt": "string",
+      "lte": "string"
+    },
+    "IDispute": {
+      "object": "string",
+      "livemode": "bool",
+      "amount": "number",
+      "charge": "string",
+      "created": "number",
+      "currency": "string",
+      "reason": "string",
+      "status": "string",
+      "balance_transactions": "?",
+      "evidence": "IDisputeEvidence",
+      "evidence_details": {
+        "has_evidence": "bool",
+        "submission_count": "number",
+        "due_by": "number",
+        "past_due": "bool"
+      },
+      "is_charge_refundable": "bool",
+      "metadata": "IMetadata"
+    },
+    "IBankAccount": {
+      "id": "string",
+      "object": "string",
+      "country": "string",
+      "currency": "string",
+      "default_for_currency": "bool",
+      "last4": "string",
+      "status": "string",
+      "bank_name": "string",
+      "fingerprint": "string",
+      "routing_number": "string"
+    },
+    "IReversal": {
+      "id": "string",
+      "object": "string",
+      "amount": "number",
+      "created": "number",
+      "currency": "string",
+      "balance_transaction": "string",
+      "metadata": "IMetadata",
+      "transfer": "string"
+    },
+    "IDisputeEvidence": {
+      "access_activity_log": "string",
+      "billing_address": "string",
+      "cancellation_policy": "string",
+      "cancellation_policy_disclosure": "string",
+      "cancellation_rebuttal": "string",
+      "customer_communication": "string",
+      "customer_email_address": "string",
+      "customer_name": "string",
+      "customer_purchase_ip": "string",
+      "customer_signature": "string",
+      "duplicate_charge_documentation": "string",
+      "duplicate_charge_explanation": "string",
+      "duplicate_charge_id": "string",
+      "product_description": "string",
+      "receipt": "string",
+      "refund_policy": "string",
+      "refund_policy_disclosure": "string",
+      "refund_refusal_explanation": "string",
+      "service_date": "string",
+      "service_documentation": "string",
+      "shipping_address": "string",
+      "shipping_carrier": "string",
+      "shipping_date": "string",
+      "shipping_documentation": "string",
+      "shipping_tracking_number": "string",
+      "uncategorized_file": "string",
+      "uncategorized_text": "string"
+    },
+    "IIdempotentOptions": {
+      "idempotency_key": "string"
+    },
+    "IMetadata": {},
+    "IShippingInformation": {
+      "address": {
+        "line1": "string",
+        "line2": "string",
+        "city": "string",
+        "state": "string",
+        "postal_code": "string",
+        "country": "string"
+      },
+      "name": "string",
+      "carrier": "string",
+      "phone": "string",
+      "tracking_number": "string"
+    },
+    "IList": {
+      "object": "string",
+      "data": "?",
+      "has_more": "bool",
+      "url": "string",
+      "total_count": "number"
+    },
+    "IPaymentToken": {
+      "id": "string",
+      "card": {
+        "name": "string",
+        "address_line1": "string",
+        "address_line2": "string",
+        "address_city": "string",
+        "address_state": "string",
+        "address_zip": "string",
+        "address_country": "string",
+        "country": "string",
+        "exp_month": "number",
+        "exp_year": "number",
+        "last4": "string",
+        "object": "string",
+        "brand": "string",
+        "funding": "string"
+      },
+      "created": "number",
+      "livemode": "bool",
+      "type": "string",
+      "object": "string",
+      "used": "bool"
+    },
+    "ICard": {
+      "id": "string",
+      "object": "string",
+      "'number'": "number",
+      "brand": "string",
+      "exp_month": "number",
+      "exp_year": "number",
+      "funding": "string",
+      "last4": "string",
+      "address_city": "string",
+      "address_country": "string",
+      "address_line1": "string",
+      "address_line1_check": "string",
+      "address_line2": "string",
+      "address_state": "string",
+      "address_zip": "string",
+      "address_zip_check": "string",
+      "country": "string",
+      "customer": "string",
+      "cvc_check": "string",
+      "dynamic_last4": "string",
+      "name": "string",
+      "recipient": "string",
+      "fingerprint": "string"
+    },
+    "IListOptions": {
+      "created": "string",
+      "IDateFilter": "?",
+      "date": "string",
+      "customer": "string",
+      "ending_before": "string",
+      "limit": "number",
+      "starting_after": "string"
+    },
+    "IStripeError": {
+      "type": "string",
+      "message": "string",
+      "code": "string",
+      "param": "string"
+    }
+  },
+  "!name": "stripe-node"
+}

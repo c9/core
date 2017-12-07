@@ -1,0 +1,19 @@
+{
+  "KnockoutStatic": {
+    "track": "fn(obj: ?, propertyNames?: ?) -> ?",
+    "defineProperty": "fn(obj: ?, propertyName: string, evaluator: Function) -> ?",
+    "getObservable": "fn(obj: ?, propertyName: string) -> ?",
+    "valueHasMutated": "fn(obj: ?, propertyName: string)"
+  },
+  "KnockoutDefinePropertyOptions": {
+    "get": "fn() -> ?",
+    "set": "fn(value: ?)"
+  },
+  "Array": {
+    "remove": "fn(item: T) -> [T]",
+    "removeAll": "fn(items: [T]) -> [T]",
+    "destroy": "fn(item: T)",
+    "destroyAll": "fn(items: [T])"
+  },
+  "!name": "knockout.es5.d.ts"
+}

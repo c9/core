@@ -1,0 +1,4 @@
+{
+  "'lru-cache'": "LRU",
+  "!name": "lru-cache.d.ts"
+}

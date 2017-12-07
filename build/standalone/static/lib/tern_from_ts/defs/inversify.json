@@ -1,0 +1,41 @@
+{
+  "inversify": {
+    "TypeBindingInterface": {
+      "runtimeIdentifier": "string",
+      "implementationType": {},
+      "cache": "TServiceType",
+      "scope": "number"
+    },
+    "KernelInterface": {
+      "bind": "fn(typeBinding: ?)",
+      "unbind": "fn(runtimeIdentifier: string)",
+      "unbindAll": "fn()",
+      "resolve": "fn(runtimeIdentifier: string) -> TImplementationType"
+    },
+    "TypeBindingScopeEnum": "number",
+    "TypeBinding": {
+      "!type": "fn(runtimeIdentifier: string, implementationType: ?, scopeType?: TypeBindingScopeEnum)",
+      "prototype": {
+        "runtimeIdentifier": "string",
+        "implementationType": {},
+        "cache": "TServiceType",
+        "scope": "TypeBindingScopeEnum"
+      }
+    },
+    "Kernel": {
+      "!type": "fn()",
+      "prototype": {
+        "_bindings": "?",
+        "bind": "fn(typeBinding: ?)",
+        "unbind": "fn(runtimeIdentifier: string)",
+        "unbindAll": "fn()",
+        "resolve": "fn(runtimeIdentifier: string) -> TImplementationType",
+        "_validateBinding": "fn(typeBinding: ?)",
+        "_getConstructorArguments": "fn(func: ?)",
+        "_injectDependencies": "fn(func: ?)",
+        "_construct": "fn(constr: ?, args: ?)"
+      }
+    }
+  },
+  "!name": "inversify"
+}

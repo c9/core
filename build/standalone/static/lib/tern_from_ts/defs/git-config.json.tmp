@@ -1,0 +1,6 @@
+{
+  "git-config": {
+    "sync": "fn(gitFile?: string) -> Object"
+  },
+  "!name": "git-config.d.ts"
+}

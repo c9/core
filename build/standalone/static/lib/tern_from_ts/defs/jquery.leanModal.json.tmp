@@ -1,0 +1,14 @@
+{
+  "JQueryLeanModalOption": {
+    "top": "number",
+    "overlay": "number",
+    "closeButton": "String"
+  },
+  "JQueryStatic": {
+    "leanModal": "fn() -> JQuery"
+  },
+  "JQuery": {
+    "leanModal": "fn() -> JQuery"
+  },
+  "!name": "jquery.leanModal.d.ts"
+}

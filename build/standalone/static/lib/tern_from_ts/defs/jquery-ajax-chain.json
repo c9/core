@@ -1,0 +1,25 @@
+{
+  "ajaxChain": {
+    "JQueryAjaxChainStatic": {},
+    "JQueryAjaxChain": {
+      "enqueue": "fn(confObj: AjaxChainConfiguration, AjaxChainConfiguration: ?) -> JQueryAjaxChain",
+      "dequeue": "fn() -> JQueryAjaxChain",
+      "clearQueue": "fn() -> JQueryAjaxChain"
+    },
+    "AjaxChainConfiguration": {
+      "ajaxSettings": "JQueryAjaxSettings",
+      "label": "String",
+      "transform": "fn(response: ?)",
+      "Object": "?",
+      "appendToUrl": "fn(response: ?)",
+      "hasErrors": "fn(response: ?)",
+      "hasCache": "fn(response: ?)",
+      "hasHaltingCapabilities": "fn(response: ?)",
+      "isSkippable": "fn(response: ?)"
+    }
+  },
+  "JQueryStatic": {
+    "AjaxChain": "ajaxChain.JQueryAjaxChainStatic"
+  },
+  "!name": "jquery-ajax-chain"
+}

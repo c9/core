@@ -1,0 +1,500 @@
+{
+  "dojox": {
+    "app": {
+      "main": {},
+      "Controller": {
+        "!type": "fn(app: ?, events: ?)",
+        "prototype": {
+          "bind": "fn(evented: Object, event: String, handler: Function) -> Function",
+          "unbind": "fn(evented: Object, event: String) -> Function"
+        }
+      },
+      "View": {
+        "!type": "fn(params: ?)",
+        "prototype": {
+          "attachScope": "Object",
+          "contextRequire": "Function",
+          "searchContainerNode": "bool",
+          "templatePath": "string",
+          "templateString": "string",
+          "widgetsInTemplate": "bool",
+          "afterActivate": "fn()",
+          "afterDeactivate": "fn()",
+          "beforeActivate": "fn()",
+          "beforeDeactivate": "fn()",
+          "buildRendering": "fn()",
+          "connect": "fn(obj: ?, event: ?, method: ?) -> ?",
+          "destroy": "fn(preserveDom?: bool)",
+          "destroyRendering": "fn()",
+          "init": "fn()",
+          "load": "fn() -> ?",
+          "own": "fn() -> ?",
+          "start": "fn() -> ?",
+          "startup": "fn()",
+          "getCachedTemplate": "fn() -> ?"
+        }
+      },
+      "ViewBase": {
+        "!type": "fn(params: ?)",
+        "prototype": {
+          "afterActivate": "fn()",
+          "afterDeactivate": "fn()",
+          "beforeActivate": "fn()",
+          "beforeDeactivate": "fn()",
+          "destroy": "fn()",
+          "init": "fn()",
+          "load": "fn() -> ?",
+          "start": "fn() -> ?"
+        }
+      },
+      "controllers": {
+        "History": {
+          "!type": "fn()",
+          "prototype": {
+            "currentState": "Object",
+            "bind": "fn(evented: Object, event: String, handler: Function) -> Function",
+            "unbind": "fn(evented: Object, event: String) -> Function",
+            "onDomNodeChange": "fn(evt: ?)",
+            "onPopState": "fn(evt: Object)",
+            "onStartTransition": "fn(evt: Object)"
+          }
+        },
+        "HistoryHash": {
+          "!type": "fn(app: ?)",
+          "prototype": {
+            "bind": "fn(evented: Object, event: String, handler: Function) -> Function",
+            "unbind": "fn(evented: Object, event: String) -> Function",
+            "onDomNodeChange": "fn(evt: ?)",
+            "onStartTransition": "fn(evt: Object)"
+          }
+        },
+        "BorderLayout": {
+          "!type": "fn(app: ?, events: ?)",
+          "prototype": {
+            "bind": "fn(evented: Object, event: String, handler: Function) -> Function",
+            "hideView": "fn(view: ?)",
+            "initLayout": "fn(event: Object)",
+            "layoutView": "fn(event: Object)",
+            "showView": "fn(view: ?)",
+            "unbind": "fn(evented: Object, event: String) -> Function",
+            "onResize": "fn()"
+          }
+        },
+        "LayoutBase": {
+          "!type": "fn(app: ?, events: ?)",
+          "prototype": {
+            "bind": "fn(evented: Object, event: String, handler: Function) -> Function",
+            "hideView": "fn(view: ?)",
+            "initLayout": "fn(event: Object)",
+            "layoutView": "fn(event: Object)",
+            "showView": "fn(view: ?)",
+            "unbind": "fn(evented: Object, event: String) -> Function",
+            "onResize": "fn()"
+          }
+        },
+        "Load": {
+          "!type": "fn(app: ?, events: ?)",
+          "prototype": {
+            "bind": "fn(evented: Object, event: String, handler: Function) -> Function",
+            "createChild": "fn(parent: Object, childId: String, subIds: String, params: ?) -> ?",
+            "createView": "fn(parent: Object, id: String, name: String, mixin: String, params: Object, type: String) -> ?",
+            "init": "fn(event: ?)",
+            "load": "fn(event: Object) -> ?",
+            "loadChild": "fn(parent: Object, childId: String, subIds: String, params: Object, loadEvent: Object) -> ?",
+            "loadView": "fn(loadEvent: Object) -> ?",
+            "proceedLoadView": "fn(loadEvt: Object)",
+            "unbind": "fn(evented: Object, event: String) -> Function"
+          }
+        },
+        "Layout": {
+          "!type": "fn(app: ?, events: ?)",
+          "prototype": {
+            "bind": "fn(evented: Object, event: String, handler: Function) -> Function",
+            "hideView": "fn(view: ?)",
+            "initLayout": "fn(event: Object)",
+            "layoutView": "fn(event: Object)",
+            "resizeSelectedChildren": "fn(w: ?)",
+            "showView": "fn(view: ?)",
+            "unbind": "fn(evented: Object, event: String) -> Function",
+            "onResize": "fn()"
+          }
+        },
+        "Transition": {
+          "!type": "fn(app: ?, events: ?)",
+          "prototype": {
+            "proceeding": "bool",
+            "waitingQueue": "[?]",
+            "bind": "fn(evented: Object, event: String, handler: Function) -> Function",
+            "proceedTransition": "fn(transitionEvt: Object)",
+            "transition": "fn(event: Object)",
+            "unbind": "fn(evented: Object, event: String) -> Function",
+            "onDomNodeChange": "fn(evt: ?)",
+            "onStartTransition": "fn(evt: Object)"
+          }
+        }
+      },
+      "module": {
+        "env": {
+          "!type": "fn()",
+          "prototype": {
+            "mode": "string",
+            "init": "fn()"
+          }
+        },
+        "lifecycle": {
+          "!type": "fn()",
+          "prototype": {
+            "lifecycle": "Object",
+            "getStatus": "fn() -> ?",
+            "setStatus": "fn(newStatus: ?)"
+          }
+        }
+      },
+      "utils": {
+        "mvcModel": {},
+        "nls": {},
+        "model": {},
+        "simpleModel": {},
+        "constraints": {
+          "getAllSelectedChildren": "fn(view: dojox.app.View, selChildren: [?]) -> ?",
+          "getSelectedChild": "fn(view: dojox.app.View, constraint: Object) -> ?",
+          "register": "fn(constraint: ?)",
+          "setSelectedChild": "fn(view: dojox.app.View, constraint: Object, child: dojox.app.View)"
+        },
+        "config": {
+          "configMerge": "fn(target: Object, source: Object) -> ?",
+          "configProcessHas": "fn(source: Object) -> ?"
+        },
+        "layout": {
+          "layoutChildren": "fn(container: HTMLElement, dim: Object, children: [?], changedRegionId: String, changedRegionSize: number)",
+          "marginBox2contentBox": "fn(node: HTMLElement, mb: Object) -> Object"
+        },
+        "hash": {
+          "addViewParams": "fn(hash: String, view: String, params: Object) -> ?",
+          "buildWithParams": "fn(hash: String, params: Object) -> ?",
+          "getParamObj": "fn(params: Object, viewPart: String) -> ?",
+          "getParams": "fn(hash: String) -> ?",
+          "getParamString": "fn(params: Object) -> ?",
+          "getTarget": "fn(hash: String, defaultView: String) -> ?"
+        }
+      },
+      "widgets": {
+        "_ScrollableMixin": {
+          "!type": "fn()",
+          "prototype": {
+            "allowNestedScrolls": "bool",
+            "appBars": "bool",
+            "constraint": "bool",
+            "dirLock": "bool",
+            "disableFlashScrollBar": "bool",
+            "fadeScrollBar": "bool",
+            "fixedFooterHeight": "number",
+            "fixedHeaderHeight": "number",
+            "height": "string",
+            "isLocalFooter": "bool",
+            "propagatable": "bool",
+            "scrollableParams": "Object",
+            "scrollBar": "bool",
+            "scrollDir": "string",
+            "scrollType": "number",
+            "threshold": "number",
+            "touchNode": "HTMLElement",
+            "weight": "number",
+            "abort": "fn()",
+            "addCover": "fn()",
+            "adjustDestination": "fn(to: Object, pos: Object, dim: Object) -> bool",
+            "buildRendering": "fn()",
+            "calcScrollBarPos": "fn(to: Object) -> Object",
+            "calcSpeed": "fn(distance: number, time: number) -> number",
+            "checkFixedBar": "fn(node: HTMLElement, local: bool) -> ?",
+            "cleanup": "fn()",
+            "createMask": "fn()",
+            "destroy": "fn()",
+            "findAppBars": "fn()",
+            "findDisp": "fn(node: HTMLElement) -> ?",
+            "flashScrollBar": "fn()",
+            "getDim": "fn() -> Object",
+            "getPos": "fn() -> Object",
+            "getScreenSize": "fn() -> Object",
+            "getSpeed": "fn() -> Object",
+            "hideScrollBar": "fn()",
+            "init": "fn(params: Object)",
+            "isFormElement": "fn(node: HTMLElement) -> bool",
+            "isTopLevel": "fn() -> bool",
+            "makeTranslateStr": "fn(to: Object) -> String",
+            "removeCover": "fn()",
+            "reparent": "fn()",
+            "resetScrollBar": "fn()",
+            "resize": "fn()",
+            "scrollIntoView": "fn(node: HTMLElement, alignWithTop: bool, duration: number)",
+            "scrollScrollBarTo": "fn(to: Object)",
+            "scrollTo": "fn(to: Object, doNotMoveScrollBar: bool, node: HTMLElement)",
+            "setKeyframes": "fn(from: Object, to: Object, idx: number)",
+            "setSelectable": "fn(node: HTMLElement, selectable: bool)",
+            "showScrollBar": "fn()",
+            "slideScrollBarTo": "fn(to: Object, duration: number, easing: String)",
+            "slideTo": "fn(to: Object, duration: number, easing: String)",
+            "startup": "fn()",
+            "stopAnimation": "fn()",
+            "onAfterScroll": "fn(e: Event)",
+            "onBeforeScroll": "fn(e: Event) -> bool",
+            "onFlickAnimationEnd": "fn(e: ?)",
+            "onFlickAnimationStart": "fn(e: ?)",
+            "onTouchEnd": "fn(e: Event)",
+            "onTouchMove": "fn(e: ?)",
+            "onTouchStart": "fn(e: ?)"
+          }
+        },
+        "Container": {
+          "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+          "prototype": {
+            "allowNestedScrolls": "bool",
+            "set": "fn(property: string, value: bool)",
+            "get": "fn(property: string) -> bool",
+            "watch": "fn(property: string, callback: ?) -> ret",
+            "appBars": "bool",
+            "attributeMap": "Object",
+            "baseClass": "string",
+            "class": "string",
+            "constraint": "bool",
+            "containerNode": "HTMLElement",
+            "dir": "string",
+            "dirLock": "bool",
+            "disableFlashScrollBar": "bool",
+            "domNode": "HTMLElement",
+            "fadeScrollBar": "bool",
+            "fixedFooter": "string",
+            "fixedFooterHeight": "number",
+            "fixedHeader": "string",
+            "fixedHeaderHeight": "number",
+            "focused": "bool",
+            "height": "string",
+            "id": "string",
+            "isLocalFooter": "bool",
+            "lang": "string",
+            "ownerDocument": "Object",
+            "propagatable": "bool",
+            "scrollable": "bool",
+            "scrollableParams": "Object",
+            "scrollBar": "bool",
+            "scrollDir": "string",
+            "scrollType": "number",
+            "srcNodeRef": "HTMLElement",
+            "style": "string",
+            "threshold": "number",
+            "title": "string",
+            "tooltip": "string",
+            "touchNode": "HTMLElement",
+            "weight": "number",
+            "abort": "fn()",
+            "addChild": "fn(widget: dijit._WidgetBase, insertIndex: number)",
+            "addCover": "fn()",
+            "adjustDestination": "fn(to: Object, pos: Object, dim: Object) -> bool",
+            "buildRendering": "fn()",
+            "calcScrollBarPos": "fn(to: Object) -> Object",
+            "calcSpeed": "fn(distance: number, time: number) -> number",
+            "checkFixedBar": "fn(node: HTMLElement, local: bool) -> ?",
+            "cleanup": "fn()",
+            "connect": "fn(obj: Object, event: String, method: String) -> ?",
+            "createMask": "fn()",
+            "defer": "fn(fcn: Function, delay: number) -> Object",
+            "destroy": "fn(preserveDom?: bool)",
+            "destroyDescendants": "fn(preserveDom: bool)",
+            "destroyRecursive": "fn(preserveDom: bool)",
+            "destroyRendering": "fn(preserveDom?: bool)",
+            "disconnect": "fn(handle: ?)",
+            "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+            "findAppBars": "fn()",
+            "findDisp": "fn(node: HTMLElement) -> ?",
+            "flashScrollBar": "fn()",
+            "getChildren": "fn() -> [?]",
+            "getDim": "fn() -> Object",
+            "getIndexInParent": "fn() -> ?",
+            "getIndexOfChild": "fn(child: dijit._WidgetBase) -> ?",
+            "getNextSibling": "fn() -> ?",
+            "getParent": "fn() -> ?",
+            "getPos": "fn() -> Object",
+            "getPreviousSibling": "fn() -> ?",
+            "getScreenSize": "fn() -> Object",
+            "getSpeed": "fn() -> Object",
+            "hasChildren": "fn() -> bool",
+            "hideScrollBar": "fn()",
+            "init": "fn(params: Object)",
+            "isFocusable": "fn() -> ?",
+            "isFormElement": "fn(node: HTMLElement) -> bool",
+            "isLeftToRight": "fn() -> ?",
+            "isTopLevel": "fn() -> bool",
+            "layout": "fn()",
+            "makeTranslateStr": "fn(to: Object) -> String",
+            "on": "fn(type: String, func: Function) -> ?",
+            "own": "fn() -> ?",
+            "placeAt": "fn(reference: String, position: String) -> ?",
+            "postCreate": "fn()",
+            "postMixInProperties": "fn()",
+            "removeChild": "fn(widget: dijit._WidgetBase)",
+            "removeCover": "fn()",
+            "reparent": "fn()",
+            "resetScrollBar": "fn()",
+            "resize": "fn(changeSize?: Object, resultSize?: Object)",
+            "scrollIntoView": "fn(node: HTMLElement, alignWithTop: bool, duration: number)",
+            "scrollScrollBarTo": "fn(to: Object)",
+            "scrollTo": "fn(to: Object, doNotMoveScrollBar: bool, node: HTMLElement)",
+            "setKeyframes": "fn(from: Object, to: Object, idx: number)",
+            "setSelectable": "fn(node: HTMLElement, selectable: bool)",
+            "showScrollBar": "fn()",
+            "slideScrollBarTo": "fn(to: Object, duration: number, easing: String)",
+            "slideTo": "fn(to: Object, duration: number, easing: String)",
+            "startup": "fn()",
+            "stopAnimation": "fn()",
+            "subscribe": "fn(t: String, method: Function) -> ?",
+            "uninitialize": "fn() -> bool",
+            "unsubscribe": "fn(handle: Object)",
+            "onAfterScroll": "fn(e: Event)",
+            "onBeforeScroll": "fn(e: Event) -> bool",
+            "onBlur": "fn()",
+            "onFlickAnimationEnd": "fn(e: ?)",
+            "onFlickAnimationStart": "fn(e: ?)",
+            "onFocus": "fn()",
+            "onTouchEnd": "fn(e: Event)",
+            "onTouchMove": "fn(e: ?)",
+            "onTouchStart": "fn(e: ?)"
+          }
+        }
+      }
+    }
+  },
+  "dojox/app/main": "exp",
+  "dojox/app/Controller": "exp",
+  "dojox/app/ViewBase": "exp",
+  "dojox/app/View": "exp",
+  "dojox/app/controllers/BorderLayout": "exp",
+  "dojox/app/controllers/History": "exp",
+  "dojox/app/controllers/HistoryHash": "exp",
+  "dojox/app/controllers/Layout": "exp",
+  "dojox/app/controllers/LayoutBase": "exp",
+  "dojox/app/controllers/Load": "exp",
+  "dojox/app/controllers/Transition": "exp",
+  "dojox/app/module/env": "exp",
+  "dojox/app/module/lifecycle": "exp",
+  "dojox/app/utils/mvcModel": "exp",
+  "dojox/app/utils/nls": "exp",
+  "dojox/app/utils/model": "exp",
+  "dojox/app/utils/simpleModel": "exp",
+  "dojox/app/utils/config": "exp",
+  "dojox/app/utils/constraints": "exp",
+  "dojox/app/utils/layout": "exp",
+  "dojox/app/utils/hash": "exp",
+  "dojox/app/widgets/_ScrollableMixin": "exp",
+  "dojox/app/widgets/Container": "exp",
+  "!name": "dojox.app",
+  "!define": {
+    "ret": {
+      "unwatch": "fn()"
+    },
+    "ret1": {
+      "unwatch": "fn()"
+    },
+    "ret2": {
+      "unwatch": "fn()"
+    },
+    "ret3": {
+      "unwatch": "fn()"
+    },
+    "ret4": {
+      "unwatch": "fn()"
+    },
+    "ret5": {
+      "unwatch": "fn()"
+    },
+    "ret6": {
+      "unwatch": "fn()"
+    },
+    "ret7": {
+      "unwatch": "fn()"
+    },
+    "ret8": {
+      "unwatch": "fn()"
+    },
+    "ret9": {
+      "unwatch": "fn()"
+    },
+    "ret10": {
+      "unwatch": "fn()"
+    },
+    "ret11": {
+      "unwatch": "fn()"
+    },
+    "ret12": {
+      "unwatch": "fn()"
+    },
+    "ret13": {
+      "unwatch": "fn()"
+    },
+    "ret14": {
+      "unwatch": "fn()"
+    },
+    "ret15": {
+      "unwatch": "fn()"
+    },
+    "ret16": {
+      "unwatch": "fn()"
+    },
+    "ret17": {
+      "unwatch": "fn()"
+    },
+    "ret18": {
+      "unwatch": "fn()"
+    },
+    "ret19": {
+      "unwatch": "fn()"
+    },
+    "ret20": {
+      "unwatch": "fn()"
+    },
+    "ret21": {
+      "unwatch": "fn()"
+    },
+    "ret22": {
+      "unwatch": "fn()"
+    },
+    "ret23": {
+      "unwatch": "fn()"
+    },
+    "ret24": {
+      "unwatch": "fn()"
+    },
+    "ret25": {
+      "unwatch": "fn()"
+    },
+    "ret26": {
+      "unwatch": "fn()"
+    },
+    "ret27": {
+      "unwatch": "fn()"
+    },
+    "ret28": {
+      "unwatch": "fn()"
+    },
+    "ret29": {
+      "unwatch": "fn()"
+    },
+    "ret30": {
+      "unwatch": "fn()"
+    },
+    "ret31": {
+      "unwatch": "fn()"
+    },
+    "ret32": {
+      "unwatch": "fn()"
+    },
+    "ret33": {
+      "unwatch": "fn()"
+    },
+    "ret34": {
+      "unwatch": "fn()"
+    },
+    "ret35": {
+      "unwatch": "fn()"
+    }
+  }
+}

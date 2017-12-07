@@ -1,0 +1,9 @@
+{
+  "Polyline": {
+    "decode": "fn(string: string, precision?: number) -> [[number]]",
+    "encode": "fn(coordinate: [[number]], precision?: number) -> string",
+    "fromGeoJSON": "fn(geojson: GeoJSON.LineString, GeoJSON: ?, Feature: ?, precision?: number) -> string"
+  },
+  "polyline": "Polyline",
+  "!name": "polyline"
+}

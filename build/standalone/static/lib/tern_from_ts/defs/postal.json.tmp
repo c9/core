@@ -1,0 +1,44 @@
+{
+  "IConfiguration": {
+    "SYSTEM_CHANNEL": "string",
+    "DEFAULT_CHANNEL": "string",
+    "resolver": "?"
+  },
+  "ISubscriptionDefinition": {
+    "unsubscribe": "fn()",
+    "subscribe": "fn(callback: fn(data: ?, envelope: IEnvelope))",
+    "defer": "fn() -> ISubscriptionDefinition",
+    "disposeAfter": "fn(maxCalls: number) -> ISubscriptionDefinition",
+    "distinctUntilChanged": "fn() -> ISubscriptionDefinition",
+    "once": "fn() -> ISubscriptionDefinition",
+    "withConstraint": "fn(predicate: Function) -> ISubscriptionDefinition",
+    "withConstraints": "fn(predicates: ?) -> ISubscriptionDefinition",
+    "withContext": "fn(context: ?) -> ISubscriptionDefinition",
+    "withDebounce": "fn(milliseconds: number, immediate: bool) -> ISubscriptionDefinition",
+    "withDelay": "fn(milliseconds: number) -> ISubscriptionDefinition",
+    "withThrottle": "fn(milliseconds: number) -> ISubscriptionDefinition"
+  },
+  "IEnvelope": {
+    "topic": "string",
+    "data": "?",
+    "channel": "string",
+    "timeStamp": "string"
+  },
+  "IChannelDefinition": {
+    "subscribe": "fn(topic: string) -> ISubscriptionDefinition",
+    "publish": "fn(topic: string, data?: ?)",
+    "channel": "string"
+  },
+  "IPostalUtils": {
+    "getSubscribersFor": "fn(channel: string, tpc: ?) -> ?",
+    "reset": "fn()"
+  },
+  "IPostal": {
+    "channel": "fn(name?: string) -> IChannelDefinition",
+    "linkChannels": "fn(sources: IEnvelope, IEnvelope: ?, destinations: IEnvelope, IEnvelope: ?) -> [ISubscriptionDefinition]",
+    "utils": "IPostalUtils",
+    "configuration": "IConfiguration"
+  },
+  "postal": "IPostal",
+  "!name": "postal-0.8.9.d.ts"
+}

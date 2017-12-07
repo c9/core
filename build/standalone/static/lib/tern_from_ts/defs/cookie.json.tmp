@@ -1,0 +1,23 @@
+{
+  "CookieSerializeOptions": {
+    "encode": "fn(val: string)",
+    "path": "string",
+    "expires": "Date",
+    "maxAge": "number",
+    "domain": "string",
+    "secure": "bool",
+    "httpOnly": "bool"
+  },
+  "CookieParseOptions": {
+    "decode": "fn(val: string)"
+  },
+  "CookieStatic": {
+    "serialize": "fn(name: string, val: string, options?: CookieSerializeOptions) -> string",
+    "parse": "fn(str: string, options?: CookieParseOptions) -> ret"
+  },
+  "cookie": "cookie",
+  "!name": "cookie.d.ts",
+  "!define": {
+    "ret": {}
+  }
+}

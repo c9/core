@@ -1,0 +1,7 @@
+{
+  "dojox": {
+    "storage": {}
+  },
+  "dojox/storage": "exp",
+  "!name": "dojox.storage.d.ts"
+}

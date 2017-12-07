@@ -1,0 +1,59 @@
+{
+  "ngtoaster": {
+    "IToasterService": {
+      "pop": "fn(params: IPopParams)",
+      "error": "fn(params: IPopParams)",
+      "info": "fn(params: IPopParams)",
+      "wait": "fn(params: IPopParams)",
+      "success": "fn(params: IPopParams)",
+      "warning": "fn(params: IPopParams)",
+      "clear": "fn()",
+      "toast": "IToast"
+    },
+    "IToasterEventRegistry": {
+      "setup": "fn()",
+      "subscribeToNewToastEvent": "fn(onNewToast: IToastEventListener)",
+      "subscribeToClearToastsEvent": "fn(onClearToasts: IToastEventListener)",
+      "unsubscribeToNewToastEvent": "fn(onNewToast: IToastEventListener)",
+      "unsubscribeToClearToastsEvent": "fn(onClearToasts: IToastEventListener)"
+    },
+    "IPopParams": {
+      "toasterId": "number"
+    },
+    "IToastEventListener": {},
+    "IToast": {
+      "type": "string",
+      "title": "string",
+      "body": "string",
+      "timeout": "number",
+      "bodyOutputType": "string",
+      "clickHandler": "EventListener",
+      "showCloseButton": "bool"
+    },
+    "IToasterConfig": {
+      "limit": "number",
+      "'tap-to-dismiss'": "bool",
+      "'close-button'": "bool",
+      "'newest-on-top'": "bool",
+      "'time-out'": "number",
+      "'icon-classes'": "IIconClasses",
+      "'body-output-type'": "string",
+      "'body-template'": "string",
+      "'icon-class'": "string",
+      "'position-class'": "string",
+      "'title-class'": "string",
+      "'message-class'": "string",
+      "'prevent-duplicates'": "bool",
+      "'mouseover-timer-stop'": "bool"
+    },
+    "IIconClasses": {
+      "error": "string",
+      "info": "string",
+      "wait": "string",
+      "success": "string",
+      "warning": "string"
+    },
+    "!type": "ngtoaster"
+  },
+  "!name": "angularjs-toaster.d.ts"
+}

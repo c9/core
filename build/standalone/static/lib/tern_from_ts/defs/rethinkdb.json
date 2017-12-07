@@ -1,0 +1,163 @@
+{
+  "rethinkdb": {
+    "connect": "fn(host: ConnectionOptions, cb?: fn(err: Error, conn: Connection)) -> ?",
+    "dbCreate": "fn(name: string) -> ?",
+    "dbDrop": "fn(name: string) -> ?",
+    "dbList": "fn() -> ?",
+    "db": "fn(name: string) -> Db",
+    "table": "fn(name: string, options?: ?) -> Table",
+    "asc": "fn(property: string) -> Sort",
+    "desc": "fn(property: string) -> Sort",
+    "count": "Aggregator",
+    "sum": "fn(prop: string) -> Aggregator",
+    "avg": "fn(prop: string) -> Aggregator",
+    "row": "fn(name: string) -> ?",
+    "expr": "fn(stuff: ?) -> ?",
+    "now": "fn() -> Time",
+    "branch": "fn(test: ?, trueBranch: ?, falseBranch: ?) -> ?",
+    "Cursor": {
+      "prototype": {
+        "hasNext": "fn() -> bool",
+        "each": "fn(cb: fn(err: Error, row: ?), done?: fn())",
+        "next": "fn(cb: fn(err: Error, row: ?))",
+        "toArray": "fn(cb: fn(err: Error, rows: [?]))",
+        "close": "fn()"
+      }
+    },
+    "ConnectionOptions": {
+      "host": "string",
+      "port": "number",
+      "db": "string",
+      "authKey": "string"
+    },
+    "Connection": {
+      "close": "fn()",
+      "reconnect": "fn(cb?: fn(err: Error, conn: Connection)) -> ?",
+      "use": "fn(dbName: string)",
+      "addListener": "fn(event: string, cb: Function)",
+      "on": "fn(event: string, cb: Function)"
+    },
+    "Db": {
+      "tableCreate": "fn(name: string, options?: TableOptions) -> ?",
+      "tableDrop": "fn(name: string) -> ?",
+      "tableList": "fn() -> ?",
+      "table": "fn(name: string, options?: GetTableOptions) -> Table"
+    },
+    "TableOptions": {
+      "primary_key": "string",
+      "durability": "string",
+      "cache_size": "number",
+      "datacenter": "string"
+    },
+    "GetTableOptions": {
+      "useOutdated": "bool"
+    },
+    "Writeable": {
+      "update": "fn(obj: Object, options?: UpdateOptions) -> ?",
+      "replace": "fn(obj: Object, options?: UpdateOptions) -> ?",
+      "delete": "fn(options?: UpdateOptions) -> ?"
+    },
+    "Table": {
+      "indexCreate": "fn(name: string, index?: ?) -> ?",
+      "indexDrop": "fn(name: string) -> ?",
+      "indexList": "fn() -> ?",
+      "insert": "fn(obj: [?], options?: InsertOptions) -> ?",
+      "get": "fn(key: string) -> Sequence",
+      "getAll": "fn(key: string, index?: Index) -> Sequence"
+    },
+    "Sequence": {
+      "between": "fn(lower: ?, upper: ?, index?: Index) -> Sequence",
+      "filter": "fn(rql: ?) -> Sequence",
+      "innerJoin": "fn(sequence: Sequence, join: ?) -> Sequence",
+      "outerJoin": "fn(sequence: Sequence, join: ?) -> Sequence",
+      "eqJoin": "fn(leftAttribute: string, rightSequence: Sequence, index?: Index) -> Sequence",
+      "zip": "fn() -> Sequence",
+      "map": "fn(transform: ?) -> Sequence",
+      "withFields": "fn(selectors: [?]) -> Sequence",
+      "concatMap": "fn(transform: ?) -> Sequence",
+      "orderBy": "fn(keys: [string]) -> Sequence",
+      "skip": "fn(n: number) -> Sequence",
+      "limit": "fn(n: number) -> Sequence",
+      "slice": "fn(start: number, end?: number) -> Sequence",
+      "nth": "fn(n: number) -> ?",
+      "indexesOf": "fn(obj: ?) -> Sequence",
+      "isEmpty": "fn() -> ?",
+      "union": "fn(sequence: Sequence) -> Sequence",
+      "sample": "fn(n: number) -> Sequence",
+      "reduce": "fn(r: ?, base?: ?) -> ?",
+      "count": "fn() -> ?",
+      "distinct": "fn() -> Sequence",
+      "groupedMapReduce": "fn(group: ?, map: ?, reduce: ?, base?: ?) -> Sequence",
+      "groupBy": "fn(aggregators: [Aggregator]) -> ?",
+      "contains": "fn(prop: string) -> ?",
+      "pluck": "fn(props: [string]) -> Sequence",
+      "without": "fn(props: [string]) -> Sequence"
+    },
+    "ExpressionFunction": {},
+    "JoinFunction": {},
+    "ReduceFunction": {},
+    "InsertOptions": {
+      "upsert": "bool",
+      "durability": "string",
+      "return_vals": "bool"
+    },
+    "UpdateOptions": {
+      "non_atomic": "bool",
+      "durability": "string",
+      "return_vals": "bool"
+    },
+    "WriteResult": {
+      "inserted": "number",
+      "replaced": "number",
+      "unchanged": "number",
+      "errors": "number",
+      "deleted": "number",
+      "skipped": "number",
+      "first_error": "Error",
+      "generated_keys": "[string]"
+    },
+    "JoinResult": {
+      "left": "?",
+      "right": "?"
+    },
+    "CreateResult": {
+      "created": "number"
+    },
+    "DropResult": {
+      "dropped": "number"
+    },
+    "Index": {
+      "index": "string",
+      "left_bound": "string",
+      "right_bound": "string"
+    },
+    "Expression": {
+      "merge": "fn(query: ?) -> ?",
+      "append": "fn(prop: string) -> ?",
+      "contains": "fn(prop: string) -> ?",
+      "and": "fn(b: bool) -> ?",
+      "or": "fn(b: bool) -> ?",
+      "eq": "fn(v: ?) -> ?",
+      "ne": "fn(v: ?) -> ?",
+      "not": "fn() -> ?",
+      "gt": "fn(value: T) -> ?",
+      "ge": "fn(value: T) -> ?",
+      "lt": "fn(value: T) -> ?",
+      "le": "fn(value: T) -> ?",
+      "add": "fn(n: number) -> ?",
+      "sub": "fn(n: number) -> ?",
+      "mul": "fn(n: number) -> ?",
+      "div": "fn(n: number) -> ?",
+      "mod": "fn(n: number) -> ?",
+      "hasFields": "fn(fields: [string]) -> ?",
+      "default": "fn(value: T) -> ?"
+    },
+    "Operation": {
+      "run": "fn(conn: Connection, cb?: fn(err: Error, result: T)) -> ?"
+    },
+    "Aggregator": {},
+    "Sort": {},
+    "Time": {}
+  },
+  "!name": "rethinkdb"
+}

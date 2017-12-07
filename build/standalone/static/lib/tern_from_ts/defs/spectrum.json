@@ -1,0 +1,42 @@
+{
+  "JQuery": {
+    "spectrum": "fn(methodName: string) -> JQuery",
+    "on": "fn(events: string, handler: fn(eventObject: JQueryEventObject, color: tinycolorInstance)) -> JQuery"
+  },
+  "Spectrum": {
+    "Options": {
+      "color": "string",
+      "flat": "bool",
+      "showInput": "bool",
+      "showInitial": "bool",
+      "allowEmpty": "bool",
+      "showAlpha": "bool",
+      "disabled": "bool",
+      "palette": "[[string]]",
+      "showPalette": "bool",
+      "showPaletteOnly": "bool",
+      "togglePaletteOnly": "bool",
+      "togglePaletteMoreText": "string",
+      "togglePaletteLessText": "string",
+      "hideAfterPaletteSelect": "bool",
+      "showSelectionPalette": "bool",
+      "localStorageKey": "string",
+      "clickoutFiresChange": "bool",
+      "cancelText": "string",
+      "chooseText": "string",
+      "containerClassName": "string",
+      "replacerClassName": "string",
+      "preferredFormat": "string",
+      "showButtons": "bool",
+      "appendTo": "?",
+      "maxSelectionSize": "number",
+      "selectionPalette": "[string]",
+      "change": "fn(color: tinycolorInstance)",
+      "move": "fn(color: tinycolorInstance)",
+      "show": "fn(color: tinycolorInstance)",
+      "hide": "fn(color: tinycolorInstance)",
+      "beforeShow": "fn(color: tinycolorInstance)"
+    }
+  },
+  "!name": "spectrum"
+}

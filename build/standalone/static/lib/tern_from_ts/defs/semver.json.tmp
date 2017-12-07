@@ -1,0 +1,64 @@
+{
+  "SemVerModule": {
+    "valid": "fn(v: string, loose?: bool) -> string",
+    "inc": "fn(v: string, release: string, loose?: bool) -> string",
+    "gt": "fn(v1: string, v2: string, loose?: bool) -> bool",
+    "gte": "fn(v1: string, v2: string, loose?: bool) -> bool",
+    "lt": "fn(v1: string, v2: string, loose?: bool) -> bool",
+    "lte": "fn(v1: string, v2: string, loose?: bool) -> bool",
+    "eq": "fn(v1: string, v2: string, loose?: bool) -> bool",
+    "neq": "fn(v1: string, v2: string, loose?: bool) -> bool",
+    "cmp": "fn(v1: string, comparator: ?, v2: string, loose?: bool) -> bool",
+    "compare": "fn(v1: string, v2: string, loose?: bool) -> number",
+    "rcompare": "fn(v1: string, v2: string, loose?: bool) -> number",
+    "validRange": "fn(range: string, loose?: bool) -> string",
+    "satisfies": "fn(version: string, range: string, loose?: bool) -> bool",
+    "maxSatisfying": "fn(versions: [string], range: string, loose?: bool) -> string",
+    "gtr": "fn(version: string, range: string, loose?: bool) -> bool",
+    "ltr": "fn(version: string, range: string, loose?: bool) -> bool",
+    "outside": "fn(version: string, range: string, hilo: string, loose?: bool) -> bool",
+    "SemVerBase": {
+      "prototype": {
+        "raw": "string",
+        "loose": "bool",
+        "format": "fn() -> string",
+        "inspect": "fn() -> string"
+      }
+    },
+    "SemVer": {
+      "!type": "fn(version: string, loose?: bool)",
+      "prototype": {
+        "major": "number",
+        "minor": "number",
+        "patch": "number",
+        "version": "string",
+        "build": "[string]",
+        "prerelease": "[string]",
+        "compare": "fn(other: SemVer) -> number",
+        "compareMain": "fn(other: SemVer) -> number",
+        "comparePre": "fn(other: SemVer) -> number",
+        "inc": "fn(release: string) -> SemVer"
+      }
+    },
+    "Comparator": {
+      "!type": "fn(comp: string, loose?: bool)",
+      "prototype": {
+        "semver": "SemVer",
+        "operator": "string",
+        "value": "bool",
+        "parse": "fn(comp: string)",
+        "test": "fn(version: SemVer) -> bool"
+      }
+    },
+    "Range": {
+      "!type": "fn(range: string, loose?: bool)",
+      "prototype": {
+        "set": "[[Comparator]]",
+        "parseRange": "fn(range: string) -> [Comparator]",
+        "test": "fn(version: SemVer) -> bool"
+      }
+    }
+  },
+  "semver": "SemVerModule",
+  "!name": "semver.d.ts"
+}

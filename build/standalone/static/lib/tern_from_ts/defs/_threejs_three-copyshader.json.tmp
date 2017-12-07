@@ -1,0 +1,6 @@
+{
+  "THREE": {
+    "CopyShader": "Shader"
+  },
+  "!name": "three-copyshader.d.ts"
+}

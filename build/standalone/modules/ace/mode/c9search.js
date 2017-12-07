@@ -107,6 +107,7 @@ var C9SearchHighlightRules = function() {
                             type: "text"
                         });
                     }
+                    
                     if (search) {
                         if (!/regex/.test(options))
                             search = lang.escapeRegExp(search);

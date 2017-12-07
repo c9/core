@@ -1,0 +1,24 @@
+{
+  "reactInputCalendar": {
+    "ReactInputCalendarProps": {
+      "format": "string",
+      "date": "string",
+      "Date": "?",
+      "minView": "number",
+      "computableFormat": "string",
+      "onChange": "fn(selectedDate: string)",
+      "closeOnSelect": "bool",
+      "openOnInputFocus": "bool",
+      "placeholder": "string"
+    },
+    "ReactInputCalendarState": {},
+    "ReactInputCalendar": {
+      "prototype": {
+        "render": "fn() -> ?"
+      }
+    }
+  },
+  "ReactInputCalendar": "reactInputCalendar.ReactInputCalendar",
+  "react-input-calendar": "ReactInputCalendar",
+  "!name": "react-input-calendar.d.ts"
+}

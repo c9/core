@@ -1,0 +1,175 @@
+{
+  "jo": {
+    "!type": "fn(baseUri: string)",
+    "literal": "fn(stringLiteral: string)",
+    "datetime": "fn(stringLiteral: string)",
+    "guid": "fn(stringLiteral: string)",
+    "decimal": "fn(stringLiteral: number)",
+    "double": "fn(stringLiteral: number)",
+    "single": "fn(stringLiteral: number)",
+    "loadLocal": "fn(key?: string)",
+    "prototype": {
+      "baseUri": "string",
+      "ExpandSettings": "jo.ExpandSettings",
+      "FilterSettings": "jo.InlineCountSettings",
+      "FormatSettings": "jo.FormatSettings",
+      "InlineCountSettings": "jo.InlineCountSettings",
+      "OrderBySettings": "jo.OrderBySettings",
+      "SelectSettings": "jo.SelectSettings",
+      "SkipSettings": "jo.SkipSettings",
+      "TopSettings": "jo.TopSettings",
+      "currentHashRoute": "string",
+      "updateHashRoute": "fn(hashRoute: string)",
+      "setOrderByDefault": "fn(property: string, order?: string) -> jo",
+      "toggleOrderBy": "fn(property: string, callback?: Function) -> jo",
+      "orderBy": "fn(property: string) -> jo",
+      "desc": "fn() -> jo",
+      "asc": "fn() -> jo",
+      "resetOrderBy": "fn() -> jo",
+      "setTopDefault": "fn(top: number) -> jo",
+      "top": "fn(top: number) -> jo",
+      "resetTop": "fn() -> jo",
+      "setSkipDefault": "fn(skip: number) -> jo",
+      "skip": "fn(skip: number) -> jo",
+      "resetSkip": "fn() -> jo",
+      "setSelectDefault": "fn(select: [string]) -> jo",
+      "select": "fn(select: [string]) -> jo",
+      "resetSelect": "fn() -> jo",
+      "setExpandDefault": "fn(expand: string) -> jo",
+      "expand": "fn(expand: string) -> jo",
+      "resetExpand": "fn() -> jo",
+      "format": "fn() -> jo.FormatOptions",
+      "formatDefault": "fn() -> jo.FormatOptions",
+      "resetFormat": "fn()",
+      "inlineCount": "fn() -> jo.InlineCountOptions",
+      "inlineCountDefault": "fn() -> jo.InlineCountOptions",
+      "resetInlineCount": "fn()",
+      "filter": "fn(filterClause: jo.FilterClause, jo: ?, PrecedenceGroup: ?) -> jo",
+      "andFilter": "fn(filterClause: jo.FilterClause, jo: ?, PrecedenceGroup: ?) -> jo",
+      "orFilter": "fn(filterClause: jo.FilterClause, jo: ?, PrecedenceGroup: ?) -> jo",
+      "removeFilter": "fn(property: string) -> jo",
+      "captureFilter": "fn()",
+      "resetFilter": "fn() -> jo",
+      "resetToCapturedFilter": "fn() -> jo",
+      "defaultFilter": "fn(filterClause: jo.FilterClause) -> jo",
+      "defaultAndFilter": "fn(filterClause: jo.FilterClause) -> jo",
+      "defaultOrFilter": "fn(filterClause: jo.FilterClause) -> jo",
+      "toJson": "fn()",
+      "saveLocal": "fn(key?: string)"
+    },
+    "FormatOptions": {
+      "atom": "fn() -> jo",
+      "custom": "fn(value: string) -> jo",
+      "json": "fn() -> jo",
+      "xml": "fn() -> jo"
+    },
+    "InlineCountOptions": {
+      "allPages": "fn() -> jo",
+      "none": "fn() -> jo"
+    },
+    "FilterClause": {
+      "!type": "fn()",
+      "prototype": {
+        "isEmpty": "fn() -> Boolean",
+        "Property": "string",
+        "Components": "[string]",
+        "IsClauseEmpty": "Boolean",
+        "PropertyIncluded": "Boolean",
+        "UsingNot": "Boolean",
+        "Value": "?",
+        "FuncReturnType": "?",
+        "transformFunc": "Function",
+        "eq": "fn(value: string, number: ?, boolean: ?) -> jo.FilterClause",
+        "ne": "fn(value: string, number: ?, boolean: ?) -> jo.FilterClause",
+        "gt": "fn(value: string, number: ?, boolean: ?) -> jo.FilterClause",
+        "ge": "fn(value: string, number: ?, boolean: ?) -> jo.FilterClause",
+        "lt": "fn(value: string, number: ?, boolean: ?) -> jo.FilterClause",
+        "le": "fn(value: string, number: ?, boolean: ?) -> jo.FilterClause",
+        "not": "fn() -> jo.FilterClause",
+        "add": "fn(amount: number) -> jo.FilterClause",
+        "sub": "fn(amount: number) -> jo.FilterClause",
+        "mul": "fn(amount: number) -> jo.FilterClause",
+        "div": "fn(amount: number) -> jo.FilterClause",
+        "mod": "fn(amount: number) -> jo.FilterClause",
+        "substringof": "fn(value: string) -> jo.FilterClause",
+        "substring": "fn(position: number, length?: number) -> jo.FilterClause",
+        "toLower": "fn() -> jo.FilterClause",
+        "toUpper": "fn() -> jo.FilterClause",
+        "trim": "fn() -> jo.FilterClause",
+        "endswith": "fn(value: string) -> jo.FilterClause",
+        "startswith": "fn(value: string) -> jo.FilterClause",
+        "length": "fn() -> jo.FilterClause",
+        "indexof": "fn(value: string) -> jo.FilterClause",
+        "replace": "fn(find: string, replace: string) -> jo.FilterClause",
+        "Concat": "fn(concat: jo.Concat) -> jo.FilterClause",
+        "day": "fn() -> jo.FilterClause",
+        "hour": "fn() -> jo.FilterClause",
+        "minute": "fn() -> jo.FilterClause",
+        "month": "fn() -> jo.FilterClause",
+        "second": "fn() -> jo.FilterClause",
+        "year": "fn() -> jo.FilterClause",
+        "round": "fn() -> jo.FilterClause",
+        "floor": "fn() -> jo.FilterClause",
+        "ceiling": "fn() -> jo.FilterClause"
+      }
+    },
+    "PrecedenceGroup": {
+      "!type": "fn(filterClause: jo.FilterClause)",
+      "prototype": {
+        "andFilter": "fn(filterClause: jo.FilterClause) -> jo.FilterClause",
+        "orFilter": "fn(filterClause: jo.FilterClause) -> jo.FilterClause"
+      }
+    },
+    "Concat": {
+      "!type": "fn(value1: string, jo: ?, Concat: ?, value2: string, jo: ?, Concat: ?)",
+      "prototype": {
+        "LeftSide": "string",
+        "jo": "?",
+        "Concat": "?",
+        "RightSide": "string"
+      }
+    },
+    "ISettings": {
+      "reset": "fn()",
+      "isSet": "fn()"
+    },
+    "OrderBySettings": {
+      "Property": "string",
+      "Order": "string",
+      "DefaultProperty": "string",
+      "DefaultOrder": "string"
+    },
+    "TopSettings": {
+      "Top": "number",
+      "DefaultTop": "number"
+    },
+    "SkipSettings": {
+      "Skip": "number",
+      "DefaultSkip": "number"
+    },
+    "SelectSettings": {
+      "Select": "[string]",
+      "DefaultSelect": "[string]"
+    },
+    "ExpandSettings": {
+      "Expand": "string",
+      "DefaultExpand": "string"
+    },
+    "FormatSettings": {
+      "Format": "string",
+      "DefaultFormat": "string"
+    },
+    "InlineCountSettings": {
+      "InlineCount": "string",
+      "DefaultInlineCount": "string"
+    },
+    "FilterSettings": {
+      "Filters": "[FilterClause]",
+      "DefaultFilters": "[FilterClause]",
+      "CapturedFilter": "[FilterClause]",
+      "fullReset": "fn()",
+      "loadFromJson": "fn(filterSettings: ?)"
+    }
+  },
+  "!name": "joData"
+}

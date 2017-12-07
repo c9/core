@@ -1,0 +1,53 @@
+{
+  "MCustomScrollbar": {
+    "CustomScrollbarOptions": {
+      "setWidth": "?",
+      "setHeight": "?",
+      "axis": "string",
+      "alwaysShowScrollbar": "number",
+      "autoExpandScrollbar": "bool",
+      "scrollInertia": "number",
+      "mouseWheel": "bool",
+      "mouseWheelPixels": "?",
+      "autoDraggerLength": "bool",
+      "autoHideScrollbar": "bool",
+      "scrollButtons": {
+        "enable": "bool",
+        "scrollType": "string",
+        "scrollSpeed": "number",
+        "string": "?",
+        "scrollAmount": "number"
+      },
+      "advanced": {
+        "updateOnBrowserResize": "bool",
+        "updateOnContentResize": "bool",
+        "autoExpandHorizontalScroll": "bool",
+        "autoScrollOnFocus": "bool",
+        "normalizeMouseWheelDelta": "bool"
+      },
+      "contentTouchScroll": "bool",
+      "callbacks": {
+        "onScrollStart": "fn()",
+        "onScroll": "fn()",
+        "onTotalScroll": "fn()",
+        "onTotalScrollBack": "fn()",
+        "onTotalScrollOffset": "number",
+        "onTotalScrollBackOffset": "number",
+        "whileScrolling": "fn()",
+        "alwaysTriggerOffsets": "bool"
+      },
+      "theme": "string"
+    },
+    "ScrollToParameterOptions": {
+      "scrollInertia": "number",
+      "scrollEasing": "string",
+      "moveDragger": "bool",
+      "timeout": "number",
+      "callbacks": "bool"
+    }
+  },
+  "JQuery": {
+    "mCustomScrollbar": "fn(method: string) -> JQuery"
+  },
+  "!name": "mCustomScrollbar"
+}

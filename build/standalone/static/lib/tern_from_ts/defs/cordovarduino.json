@@ -1,0 +1,20 @@
+{
+  "Cordovardunio": {
+    "Serial": {
+      "requestPermission": "fn(successCallback: Function, errorCallback: Function)",
+      "open": "fn(opts: SerialOptions, successCallback: Function, errorCallback: Function)",
+      "write": "fn(data: string, successCallback: Function, errorCallback: Function)",
+      "read": "fn(successCallback: Function, errorCallback: Function)",
+      "close": "fn(successCallback: Function, errorCallback: Function)",
+      "registerReadCallback": "fn(successCallback: Function, errorCallback: Function)"
+    },
+    "SerialOptions": {
+      "baudRate": "number",
+      "dataBits": "number",
+      "stopBits": "number",
+      "parity": "number"
+    }
+  },
+  "serial": "Cordovardunio.Serial",
+  "!name": "cordovarduino"
+}

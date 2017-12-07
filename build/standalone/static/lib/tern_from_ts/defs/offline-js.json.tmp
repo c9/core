@@ -1,0 +1,29 @@
+{
+  "Offline": {
+    "options": "OfflineOptions",
+    "check": "fn()",
+    "state": "string",
+    "on": "fn(event: string, handler: fn(e: Event), context?: ?)",
+    "off": "fn(event: string, handler?: fn(e: Event))"
+  },
+  "OfflineOptions": {
+    "checkOnLoad": "bool",
+    "interceptRequests": "bool",
+    "requests": "bool",
+    "game": "bool",
+    "checks": "OfflineChecks",
+    "reconnect": {
+      "initialDelay": "number",
+      "delay": "number"
+    }
+  },
+  "OfflineChecks": {
+    "xhr": "OfflineCheck",
+    "image": "OfflineCheck",
+    "active": "string"
+  },
+  "OfflineCheck": {
+    "url": "string"
+  },
+  "!name": "offline-js.d.ts"
+}

@@ -1,0 +1,35 @@
+{
+  "Traverson": {
+    "TraversonMethods": {
+      "from": "fn(uri: string) -> Builder",
+      "registerMediaType": "fn(name: string, handler: ?) -> TraversonMethods"
+    },
+    "Builder": {
+      "withRequestOptions": "fn(options: ?) -> Builder",
+      "withTemplateParameters": "fn(parameters: ?) -> Builder",
+      "json": "fn() -> Builder",
+      "jsonHal": "fn() -> Builder",
+      "setMediaType": "fn(type_name: string) -> Builder",
+      "follow": "fn(first_pattern: string, rest_patterns: [string]) -> Builder",
+      "get": "fn(callback: fn(err: ?, document: ?, traversal?: Traversal)) -> InAction",
+      "getResource": "fn(callback: fn(err: ?, document: ?, traversal?: Traversal)) -> InAction",
+      "getUrl": "fn(callback: fn(err: ?, document: ?, traversal?: Traversal)) -> InAction",
+      "post": "fn(data: ?, callback: fn(err: ?, document: ?, traversal?: Traversal)) -> InAction",
+      "put": "fn(data: ?, callback: fn(err: ?, document: ?, traversal?: Traversal)) -> InAction",
+      "patch": "fn(data: ?, callback: fn(err: ?, document: ?, traversal?: Traversal)) -> InAction",
+      "delete": "fn(callback: fn(err: ?, document: ?, traversal?: Traversal)) -> InAction",
+      "newRequest": "fn() -> Builder"
+    },
+    "Json": {
+      "parseJson": "fn() -> ?"
+    },
+    "Traversal": {
+      "continue": "fn() -> Builder"
+    },
+    "InAction": {
+      "abort": "fn()"
+    }
+  },
+  "traverson": "traverson",
+  "!name": "traverson.d.ts"
+}

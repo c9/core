@@ -1,0 +1,43 @@
+{
+  "JsDiff": {
+    "IDiffResult": {
+      "value": "string",
+      "added": "bool",
+      "removed": "bool"
+    },
+    "IBestPath": {
+      "newPos": "number",
+      "componenets": "[IDiffResult]"
+    },
+    "Diff": {
+      "!type": "fn(ignoreWhitespace?: bool)",
+      "prototype": {
+        "ignoreWhitespace": "bool",
+        "diff": "fn(oldString: string, newString: string) -> [IDiffResult]",
+        "pushComponent": "fn(components: [IDiffResult], value: string, added: bool, removed: bool)",
+        "extractCommon": "fn(basePath: IBestPath, newString: string, oldString: string, diagonalPath: number) -> number",
+        "equals": "fn(left: string, right: string) -> bool",
+        "join": "fn(left: string, right: string) -> string",
+        "tokenize": "fn(value: string) -> ?"
+      }
+    },
+    "diffChars": "fn(oldStr: string, newStr: string) -> [IDiffResult]",
+    "diffWords": "fn(oldStr: string, newStr: string) -> [IDiffResult]",
+    "diffWordsWithSpace": "fn(oldStr: string, newStr: string) -> [IDiffResult]",
+    "diffJson": "fn(oldObj: Object, newObj: Object) -> [IDiffResult]",
+    "diffLines": "fn(oldStr: string, newStr: string) -> [IDiffResult]",
+    "diffCss": "fn(oldStr: string, newStr: string) -> [IDiffResult]",
+    "createPatch": "fn(fileName: string, oldStr: string, newStr: string, oldHeader: string, newHeader: string) -> string",
+    "applyPatch": "fn(oldStr: string, uniDiff: string) -> string",
+    "convertChangesToXML": "fn(changes: [IDiffResult]) -> string",
+    "convertChangesToDMP": "fn(changes: [IDiffResult]) -> [ret]"
+  },
+  "diff": "JsDiff",
+  "!name": "diff.d.ts",
+  "!define": {
+    "ret": {
+      "0": "number",
+      "1": "string"
+    }
+  }
+}

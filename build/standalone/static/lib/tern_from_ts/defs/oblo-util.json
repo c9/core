@@ -1,0 +1,21 @@
+{
+  "ObloUtilStatic": {
+    "debug": "bool",
+    "log": "fn(args: [?])",
+    "error": "fn(args: [?])",
+    "clip": "fn(min: number, max: number, x: number) -> number",
+    "square": "fn(x: number) -> number",
+    "replicate": "fn(n: number, x: X) -> [X]",
+    "pad": "fn(c: string, l: number, str: ?) -> string",
+    "padZero": "fn(l: number, n: number) -> string",
+    "addslashes": "fn(str: string) -> string",
+    "showJSON": "fn(json: ?, indentStr?: string, maxDepth?: number) -> string",
+    "showTime": "fn(date: Date) -> string",
+    "showDate": "fn(date: Date) -> string",
+    "readDate": "fn(dateStr: string) -> Date",
+    "setAttr": "fn($elt: JQuery, attrName: string, isSet: bool)"
+  },
+  "util": "ObloUtilStatic",
+  "oblo-util": "util",
+  "!name": "oblo-util"
+}

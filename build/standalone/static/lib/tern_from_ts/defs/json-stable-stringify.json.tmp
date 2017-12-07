@@ -1,0 +1,4 @@
+{
+  "'json-stable-stringify'": "stringify",
+  "!name": "json-stable-stringify.d.ts"
+}

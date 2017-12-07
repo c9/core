@@ -1,0 +1,147 @@
+{
+  "MochaSetupOptions": {
+    "slow": "number",
+    "timeout": "number",
+    "ui": "string",
+    "globals": "[?]",
+    "reporter": "?",
+    "bail": "bool",
+    "ignoreLeaks": "bool",
+    "grep": "?"
+  },
+  "MochaDone": {},
+  "mocha": "Mocha",
+  "describe": "Mocha.IContextDefinition",
+  "xdescribe": "Mocha.IContextDefinition",
+  "context": "Mocha.IContextDefinition",
+  "suite": "Mocha.IContextDefinition",
+  "it": "Mocha.ITestDefinition",
+  "xit": "Mocha.ITestDefinition",
+  "test": "Mocha.ITestDefinition",
+  "before": "fn(action: fn())",
+  "setup": "fn(action: fn())",
+  "after": "fn(action: fn())",
+  "teardown": "fn(action: fn())",
+  "beforeEach": "fn(action: fn())",
+  "suiteSetup": "fn(action: fn())",
+  "afterEach": "fn(action: fn())",
+  "suiteTeardown": "fn(action: fn())",
+  "Mocha": {
+    "!type": "fn(options?: ?)",
+    "prototype": {
+      "setup": "fn(options: MochaSetupOptions) -> Mocha",
+      "bail": "fn(value?: bool) -> Mocha",
+      "addFile": "fn(file: string) -> Mocha",
+      "reporter": "fn(name: string) -> Mocha",
+      "ui": "fn(value: string) -> Mocha",
+      "grep": "fn(value: string) -> Mocha",
+      "invert": "fn() -> Mocha",
+      "ignoreLeaks": "fn(value: bool) -> Mocha",
+      "checkLeaks": "fn() -> Mocha",
+      "throwError": "fn(error: Error)",
+      "growl": "fn() -> Mocha",
+      "globals": "fn(value: string) -> Mocha",
+      "useColors": "fn(value: bool) -> Mocha",
+      "useInlineDiffs": "fn(value: bool) -> Mocha",
+      "timeout": "fn(value: number) -> Mocha",
+      "slow": "fn(value: number) -> Mocha",
+      "enableTimeouts": "fn(value: bool) -> Mocha",
+      "asyncOnly": "fn(value: bool) -> Mocha",
+      "noHighlighting": "fn(value: bool) -> Mocha",
+      "run": "fn(onComplete?: fn(failures: number)) -> Mocha.IRunner"
+    },
+    "IRunnable": {
+      "title": "string",
+      "fn": "Function",
+      "async": "bool",
+      "sync": "bool",
+      "timedOut": "bool"
+    },
+    "ISuite": {
+      "parent": "ISuite",
+      "title": "string",
+      "fullTitle": "fn() -> string"
+    },
+    "ITest": {
+      "parent": "ISuite",
+      "pending": "bool",
+      "fullTitle": "fn() -> string"
+    },
+    "IRunner": {},
+    "IContextDefinition": {
+      "only": "fn(description: string, spec: fn()) -> ISuite",
+      "skip": "fn(description: string, spec: fn())",
+      "timeout": "fn(ms: number)"
+    },
+    "ITestDefinition": {
+      "only": "fn(expectation: string, assertion?: fn()) -> ITest",
+      "skip": "fn(expectation: string, assertion?: fn())",
+      "timeout": "fn(ms: number)"
+    },
+    "reporters": {
+      "Base": {
+        "!type": "fn(runner: IRunner)",
+        "prototype": {
+          "stats": {
+            "suites": "number",
+            "tests": "number",
+            "passes": "number",
+            "pending": "number",
+            "failures": "number"
+          }
+        }
+      },
+      "Doc": {
+        "prototype": {}
+      },
+      "Dot": {
+        "prototype": {}
+      },
+      "HTML": {
+        "prototype": {}
+      },
+      "HTMLCov": {
+        "prototype": {}
+      },
+      "JSON": {
+        "prototype": {}
+      },
+      "JSONCov": {
+        "prototype": {}
+      },
+      "JSONStream": {
+        "prototype": {}
+      },
+      "Landing": {
+        "prototype": {}
+      },
+      "List": {
+        "prototype": {}
+      },
+      "Markdown": {
+        "prototype": {}
+      },
+      "Min": {
+        "prototype": {}
+      },
+      "Nyan": {
+        "prototype": {}
+      },
+      "Progress": {
+        "!type": "fn(runner: IRunner, options?: ?)",
+        "prototype": {}
+      },
+      "Spec": {
+        "prototype": {}
+      },
+      "TAP": {
+        "prototype": {}
+      },
+      "XUnit": {
+        "!type": "fn(runner: IRunner, options?: ?)",
+        "prototype": {}
+      }
+    }
+  },
+  "!name": "mocha"
+}

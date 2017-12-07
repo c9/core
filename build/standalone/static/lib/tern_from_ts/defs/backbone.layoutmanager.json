@@ -1,0 +1,41 @@
+{
+  "Backbone": {
+    "LayoutOptions": {
+      "template": "string",
+      "views": {}
+    },
+    "LayoutManagerOptions": {
+      "manage": "bool",
+      "el": "bool"
+    },
+    "Layout": {
+      "!type": "fn(options?: ?)",
+      "cache": "fn(path: string, contents?: ?) -> ?",
+      "cleanViews": "fn(views: ?)",
+      "configure": "fn(options: LayoutManagerOptions)",
+      "setupView": "fn(views: ?, options?: ?)",
+      "prototype": {
+        "template": "string",
+        "beforeRender": "fn()",
+        "afterRender": "fn()",
+        "cleanup": "fn()",
+        "fetchTemplate": "fn(path: string) -> fn(context: ?)",
+        "async": "fn() -> fn(compiled: fn(context: ?))",
+        "promise": "fn() -> ?",
+        "getAllOptions": "fn() -> ?",
+        "getView": "fn(fn?: ?) -> ?",
+        "getViews": "fn(fn?: ?) -> [?]",
+        "insertView": "fn(selector: ?, view?: ?) -> ?",
+        "insertViews": "fn(views: ?) -> ?",
+        "remove": "fn() -> ?",
+        "removeView": "fn(fn: ?) -> ?",
+        "render": "fn() -> ?",
+        "renderViews": "fn() -> ?",
+        "setView": "fn(name: ?, view: U, insert?: bool) -> U",
+        "setViews": "fn(views: ?) -> ?",
+        "then": "fn(fn: fn())"
+      }
+    }
+  },
+  "!name": "backbone.layoutmanager"
+}

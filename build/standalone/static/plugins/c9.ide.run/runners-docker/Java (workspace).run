@@ -1,0 +1,14 @@
+{
+    "script": [
+        "ROOT=`pwd`",
+        "printf \"\\033[01;34mCompiling all files in\\033[00m \\033[01;31m$ROOT\\033[00m\n\"",
+        "OUT_DIR=\"$([ -f .bin ] && rm -r .bin; mkdir -p .bin ; echo .bin)\"",
+        "FILES=\"$(find . -path './.c9*' -prune -o -print | grep '.*\\.java' | sed 's:^./::g' | tr '\n' ' ')\"",
+        "MAIN_CLASS=\"$(echo $file | sed \"s:$ROOT/::g\" | sed 's:.java$::g' | sed 's:/:.:g')\"",
+        "COMPILED_FILES=\"$(javac -d $OUT_DIR $FILES)\"",
+        "java -classpath \"$OUT_DIR\" \"$MAIN_CLASS\" \"$args\""
+    ],
+    "env": {},
+    "info": "\\033[01;34mRunning\\033[00m \\033[01;31m$file_name\\033[00m\n",
+    "selector": "^.*\\.(java)$"
+}

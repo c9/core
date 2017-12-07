@@ -1,0 +1,6 @@
+{
+  "mobservable-react": {
+    "reactiveComponent": "fn(clazz: ?) -> ?"
+  },
+  "!name": "mobservable-react.d.ts"
+}

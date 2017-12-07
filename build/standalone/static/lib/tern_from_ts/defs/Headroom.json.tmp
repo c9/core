@@ -1,0 +1,25 @@
+{
+  "HeadroomOptions": {
+    "offset": "number",
+    "tolerance": "?",
+    "classes": {
+      "initial": "string",
+      "pinned": "string",
+      "unpinned": "string",
+      "top": "string",
+      "notTop": "string"
+    },
+    "scroller": "Element",
+    "onPin": "fn()",
+    "onUnPin": "fn()",
+    "onTop": "fn()",
+    "onNotTop": "fn()"
+  },
+  "Headroom": {
+    "!type": "fn(element: Node, options?: HeadroomOptions)",
+    "prototype": {
+      "init": "fn()"
+    }
+  },
+  "!name": "headroom.d.ts"
+}

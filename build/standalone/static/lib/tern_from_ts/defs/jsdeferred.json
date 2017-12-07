@@ -1,0 +1,59 @@
+{
+  "Loop": {
+    "begin": "number",
+    "end": "number",
+    "step": "number"
+  },
+  "ConnectOption": {
+    "target": "?",
+    "args": "[?]",
+    "ok": "number",
+    "ng": "number"
+  },
+  "RetryOption": {
+    "wait": "number"
+  },
+  "DeferredizedFunction": {},
+  "DeferredizedFunctionWithNumber": {},
+  "FunctionWithNumber": {},
+  "ErrorCallback": {},
+  "Deferred": {
+    "methods": "[string]",
+    "isDeferred": "fn(obj: ?) -> bool",
+    "next": "fn(fun: Function) -> Deferred",
+    "chain": "fn(args: [?]) -> Deferred",
+    "wait": "fn(n: number) -> Deferred",
+    "call": "fn(fun?: Function, args: [?]) -> Deferred",
+    "parallel": "fn(dl: ?) -> Deferred",
+    "earlier": "fn(dl: ?) -> Deferred",
+    "loop": "fn(n: number, fun: FunctionWithNumber) -> Deferred",
+    "repeat": "fn(n: number, fun: FunctionWithNumber) -> Deferred",
+    "register": "fn(name: string, fun: DeferredizedFunction)",
+    "connect": "fn(funo: ?, options: string) -> DeferredizedFunction",
+    "retry": "fn(retryCount: number, funcDeferred: DeferredizedFunctionWithNumber, options?: RetryOption) -> Deferred",
+    "define": "fn(obj?: ?, list?: [string]) -> ?",
+    "!type": "fn()",
+    "prototype": {
+      "next": "fn(fun: Function) -> Deferred",
+      "wait": "fn(n: number) -> Deferred",
+      "error": "fn(fun: ErrorCallback) -> Deferred",
+      "call": "fn(val?: ?) -> Deferred",
+      "fail": "fn(err: ?) -> Deferred",
+      "cancel": "fn() -> Deferred",
+      "parallel": "fn(dl: ?) -> Deferred",
+      "loop": "fn(n: number, fun: FunctionWithNumber) -> Deferred"
+    }
+  },
+  "JQueryXHR": {
+    "next": "fn(fun: Function) -> Deferred"
+  },
+  "chain": "fn(args: [?]) -> Deferred",
+  "wait": "fn(n: number) -> Deferred",
+  "call": "fn(fun?: Function, args: [?]) -> Deferred",
+  "parallel": "fn(dl: ?) -> Deferred",
+  "earlier": "fn(dl: ?) -> Deferred",
+  "loop": "fn(n: number, fun: FunctionWithNumber) -> Deferred",
+  "repeat": "fn(n: number, fun: FunctionWithNumber) -> Deferred",
+  "next": "fn(fun: Function) -> Deferred",
+  "!name": "jsdeferred"
+}

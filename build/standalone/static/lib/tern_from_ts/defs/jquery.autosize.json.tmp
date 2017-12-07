@@ -1,0 +1,8 @@
+{
+  "autosize": {
+    "AutosizeStatic": {},
+    "!type": "autosize.AutosizeStatic"
+  },
+  "'autosize'": "autosize",
+  "!name": "jquery.autosize.d.ts"
+}

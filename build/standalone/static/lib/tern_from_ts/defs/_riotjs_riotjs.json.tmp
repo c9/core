@@ -1,0 +1,8 @@
+{
+  "JQueryStatic": {
+    "riot": "string",
+    "observable": "fn(el: ?) -> ?",
+    "route": "fn(to: ?)"
+  },
+  "!name": "riotjs.d.ts"
+}

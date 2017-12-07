@@ -1,0 +1,49 @@
+{
+  "Rx": {
+    "Pattern1": {
+      "and": "fn(other: ?) -> ?",
+      "thenDo": "fn(selector: fn(item1: T1)) -> ?"
+    },
+    "Pattern2": {
+      "and": "fn(other: ?) -> ?",
+      "thenDo": "fn(selector: fn(item1: T1, item2: T2)) -> ?"
+    },
+    "Pattern3": {
+      "and": "fn(other: ?) -> ?",
+      "thenDo": "fn(selector: fn(item1: T1, item2: T2, item3: T3)) -> ?"
+    },
+    "Pattern4": {
+      "and": "fn(other: ?) -> ?",
+      "thenDo": "fn(selector: fn(item1: T1, item2: T2, item3: T3, item4: T4)) -> ?"
+    },
+    "Pattern5": {
+      "and": "fn(other: ?) -> ?",
+      "thenDo": "fn(selector: fn(item1: T1, item2: T2, item3: T3, item4: T4, item5: T5)) -> ?"
+    },
+    "Pattern6": {
+      "and": "fn(other: ?) -> ?",
+      "thenDo": "fn(selector: fn(item1: T1, item2: T2, item3: T3, item4: T4, item5: T5, item6: T6)) -> ?"
+    },
+    "Pattern7": {
+      "and": "fn(other: ?) -> ?",
+      "thenDo": "fn(selector: fn(item1: T1, item2: T2, item3: T3, item4: T4, item5: T5, item6: T6, item7: T7)) -> ?"
+    },
+    "Pattern8": {
+      "and": "fn(other: ?) -> ?",
+      "thenDo": "fn(selector: fn(item1: T1, item2: T2, item3: T3, item4: T4, item5: T5, item6: T6, item7: T7, item8: T8)) -> ?"
+    },
+    "Pattern9": {
+      "thenDo": "fn(selector: fn(item1: T1, item2: T2, item3: T3, item4: T4, item5: T5, item6: T6, item7: T7, item8: T8, item9: T9)) -> ?"
+    },
+    "Plan": {},
+    "Observable": {
+      "and": "fn(other: ?) -> ?",
+      "thenDo": "fn(selector: fn(item1: T)) -> ?"
+    },
+    "ObservableStatic": {
+      "when": "fn(plan: ?) -> ?"
+    }
+  },
+  "rx.joinpatterns": "Rx",
+  "!name": "rx.joinpatterns"
+}

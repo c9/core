@@ -1,0 +1,80 @@
+{
+  "jDataView": {
+    "!type": "fn(byteCount: number, offset?: number, length?: number, littleEndian?: bool)",
+    "prototype": {
+      "buffer": "?",
+      "byteOffset": "number",
+      "byteLength": "number",
+      "getInt64": "fn(byteOffset?: number, littleEndian?: bool) -> jDataView.Int64",
+      "setInt64": "fn(byteOffset: number, value: jDataView.Int64, littleEndian?: bool)",
+      "writeInt64": "fn(value: jDataView.Int64, littleEndian?: bool)",
+      "getUint64": "fn(byteOffset?: number, littleEndian?: bool) -> jDataView.Uint64",
+      "setUint64": "fn(byteOffset: number, value: jDataView.Uint64, littleEndian?: bool)",
+      "writeUint64": "fn(value: jDataView.Uint64, littleEndian?: bool)",
+      "getSigned": "fn(bitLength: number, byteOffset?: number) -> number",
+      "setSigned": "fn(byteOffset: number, value: number, bitLength: number)",
+      "writeSigned": "fn(value: number, bitLength: number)",
+      "getUnsigned": "fn(bitLength: number, byteOffset?: number) -> number",
+      "setUnsigned": "fn(byteOffset: number, value: number, bitLength: number)",
+      "writeUnsigned": "fn(value: number, bitLength: number)",
+      "wrapBuffer": "fn(string: string) -> jDataView.Buffer",
+      "createBuffer": "fn(bytes: [number]) -> jDataView.Buffer",
+      "seek": "fn(byteOffset: number) -> number",
+      "tell": "fn() -> number",
+      "skip": "fn(byteLength: number) -> number",
+      "slice": "fn(start: number, end?: number, forceCopy?: bool) -> jDataView",
+      "getInt8": "fn(byteOffset?: number) -> number",
+      "getUint8": "fn(byteOffset?: number) -> number",
+      "getInt16": "fn(byteOffset?: number, littleEndian?: bool) -> number",
+      "getUint16": "fn(byteOffset?: number, littleEndian?: bool) -> number",
+      "getInt32": "fn(byteOffset?: number, littleEndian?: bool) -> number",
+      "getUint32": "fn(byteOffset?: number, littleEndian?: bool) -> number",
+      "getFloat32": "fn(byteOffset?: number, littleEndian?: bool) -> number",
+      "getFloat64": "fn(byteOffset?: number, littleEndian?: bool) -> number",
+      "setInt8": "fn(byteOffset: number, value: number)",
+      "setUint8": "fn(byteOffset: number, value: number)",
+      "setInt16": "fn(byteOffset: number, value: number, littleEndian?: bool)",
+      "setUint16": "fn(byteOffset: number, value: number, littleEndian?: bool)",
+      "setInt32": "fn(byteOffset: number, value: number, littleEndian?: bool)",
+      "setUint32": "fn(byteOffset: number, value: number, littleEndian?: bool)",
+      "setFloat32": "fn(byteOffset: number, value: number, littleEndian?: bool)",
+      "setFloat64": "fn(byteOffset: number, value: number, littleEndian?: bool)",
+      "getChar": "fn(byteOffset?: number) -> string",
+      "setChar": "fn(byteOffset: number, char: string)",
+      "writeChar": "fn(char: string)",
+      "getString": "fn(byteLength: number, byteOffset?: number, encoding?: string) -> string",
+      "setString": "fn(byteOffset: number, chars: string, encoding?: string)",
+      "writeString": "fn(chars: string, encoding?: string)",
+      "getBytes": "fn(length: number, byteOffset?: number, littleEndian?: bool, toArray?: bool) -> [number]",
+      "setBytes": "fn(byteOffset: number, bytes: [number], littleEndian?: bool)",
+      "writeBytes": "fn(bytes: [number], littleEndian?: bool)",
+      "writeInt8": "fn(value: number)",
+      "writeUint8": "fn(value: number)",
+      "writeInt16": "fn(value: number, littleEndian?: bool)",
+      "writeUint16": "fn(value: number, littleEndian?: bool)",
+      "writeInt32": "fn(value: number, littleEndian?: bool)",
+      "writeUint32": "fn(value: number, littleEndian?: bool)",
+      "writeFloat32": "fn(value: number, littleEndian?: bool)",
+      "writeFloat64": "fn(value: number, littleEndian?: bool)"
+    },
+    "Bytes": {
+      "length": "number"
+    },
+    "Buffer": {
+      "byteLength": "number"
+    },
+    "Uint64": {
+      "!type": "fn(lo: number, hi: number)",
+      "fromNumber": "fn(number: number) -> Uint64",
+      "prototype": {
+        "lo": "number",
+        "hi": "number"
+      }
+    },
+    "Int64": {
+      "fromNumber": "fn(number: number) -> Int64",
+      "prototype": {}
+    }
+  },
+  "!name": "jdataview.d.ts"
+}

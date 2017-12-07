@@ -1,0 +1,20 @@
+{
+  "dts-bundle": {
+    "Options": {
+      "name": "string",
+      "main": "string",
+      "baseDir": "string",
+      "exclude": "RegExp",
+      "externals": "bool",
+      "indent": "string",
+      "newLine": "string",
+      "out": "string",
+      "prefix": "string",
+      "removeSource": "bool",
+      "separator": "string",
+      "verbose": "bool"
+    },
+    "bundle": "fn(opts: Options)"
+  },
+  "!name": "dts-bundle.d.ts"
+}

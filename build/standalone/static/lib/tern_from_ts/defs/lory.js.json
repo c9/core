@@ -1,0 +1,27 @@
+{
+  "lory": "LoryStatic",
+  "LoryStatic": {
+    "prev": "fn()",
+    "next": "fn()",
+    "slideTo": "fn(index: number)",
+    "setup": "fn()",
+    "reset": "fn()"
+  },
+  "LoryOptions": {
+    "slidesToScroll": "number",
+    "slideSpeed": "number",
+    "rewindSpeed": "number",
+    "snapBackSpeed": "number",
+    "ease": "string",
+    "rewind": "bool",
+    "infinite": "bool",
+    "number": "?",
+    "beforeInit": "fn()",
+    "afterInit": "fn()",
+    "beforePrev": "fn()",
+    "beforeNext": "fn()",
+    "beforeTouch": "fn()",
+    "beforeResize": "fn()"
+  },
+  "!name": "lory.js"
+}

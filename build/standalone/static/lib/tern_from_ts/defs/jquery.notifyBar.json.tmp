@@ -1,0 +1,31 @@
+{
+  "JQueryNotifyBar": {
+    "NotifyBarOptions": {
+      "html": "string",
+      "delay": "number",
+      "animationSpeed": "string",
+      "number": "?",
+      "jqObject": "JQuery",
+      "cssClass": "string",
+      "close": "bool",
+      "closeText": "string",
+      "closeOnClick": "bool",
+      "closeOnOver": "bool",
+      "onBeforeShow": "fn()",
+      "onShow": "fn()",
+      "onBeforeHide": "fn()",
+      "onHide": "fn()",
+      "position": "string"
+    },
+    "NotifyBarOptionsForAnimationSpeedString": {
+      "animationSpeed": "string"
+    },
+    "NotifyBarOptionsForAnimationSpeedNumber": {
+      "animationSpeed": "number"
+    }
+  },
+  "JQueryStatic": {
+    "notifyBar": "fn(options?: JQueryNotifyBar.NotifyBarOptions)"
+  },
+  "!name": "jquery.notifyBar.d.ts"
+}

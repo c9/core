@@ -1,0 +1,13 @@
+{
+  "SimplebarOptions": {
+    "autoHide": "bool",
+    "wrapContent": "bool"
+  },
+  "JQuery": {
+    "simplebar": {}
+  },
+  "JQueryStatic": {
+    "simplebar": {}
+  },
+  "!name": "simplebar.d.ts"
+}

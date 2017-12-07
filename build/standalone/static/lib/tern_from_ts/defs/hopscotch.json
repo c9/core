@@ -1,0 +1,31 @@
+{
+  "TourDefinition": {
+    "id": "string",
+    "steps": "[StepDefinition]",
+    "skipIfNoElement": "bool",
+    "onEnd": "fn()",
+    "onClose": "fn()"
+  },
+  "StepDefinition": {
+    "placement": "string",
+    "target": "string",
+    "HTMLElement": "?",
+    "Array": "fn()",
+    "title": "string",
+    "content": "string",
+    "xOffset": "number",
+    "yOffset": "number",
+    "arrowOffset": "number",
+    "height": "number",
+    "width": "number",
+    "multipage": "bool",
+    "showNextButton": "bool",
+    "nextOnTargetClick": "bool",
+    "onShow": "fn()"
+  },
+  "HopscotchStatic": {
+    "startTour": "fn(tour: TourDefinition, stepNum?: number)"
+  },
+  "hopscotch": "HopscotchStatic",
+  "!name": "hopscotch.d.ts"
+}

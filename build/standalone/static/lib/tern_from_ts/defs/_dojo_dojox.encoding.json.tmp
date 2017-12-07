@@ -1,0 +1,144 @@
+{
+  "dojox": {
+    "encoding": {
+      "compression": {
+        "splay": {
+          "decode": {},
+          "encode": {},
+          "reset": {},
+          "splay": {}
+        },
+        "lzw": {
+          "Decoder": "fn(n: ?)",
+          "Encoder": "fn(n: ?)"
+        }
+      },
+      "crypto": {
+        "RSAKey": {
+          "!type": "fn(rngf: ?)",
+          "prototype": {
+            "decrypt": "fn(ctext: String) -> ?",
+            "encrypt": "fn(text: ?) -> ?",
+            "generate": "fn(B: ?, E: ?)",
+            "setPrivate": "fn(N: ?, E: ?, D: ?)",
+            "setPrivateEx": "fn(N: ?, E: ?, D: ?, P: ?, Q: ?, DP: ?, DQ: ?, C: ?)",
+            "setPublic": "fn(N: ?, E: ?)"
+          }
+        },
+        "RSAKey_ext": {
+          "!type": "fn(rngf: ?)",
+          "prototype": {
+            "decrypt": "fn(ctext: String) -> ?",
+            "encrypt": "fn(text: ?) -> ?",
+            "generate": "fn(B: ?, E: ?)",
+            "setPrivate": "fn(N: ?, E: ?, D: ?)",
+            "setPrivateEx": "fn(N: ?, E: ?, D: ?, P: ?, Q: ?, DP: ?, DQ: ?, C: ?)",
+            "setPublic": "fn(N: ?, E: ?)"
+          }
+        },
+        "_base": {
+          "Blowfish": "Object",
+          "cipherModes": {
+            "CBC": "number",
+            "CFB": "number",
+            "CTR": "number",
+            "ECB": "number",
+            "OFB": "number",
+            "PCBC": "number"
+          },
+          "outputTypes": {
+            "Base64": "number",
+            "Hex": "number",
+            "Raw": "number",
+            "String": "number"
+          },
+          "SimpleAES": "Object",
+          "RSAKey": {
+            "!type": "fn(rngf: ?)",
+            "prototype": {
+              "decrypt": "fn(ctext: String) -> ?",
+              "encrypt": "fn(text: ?) -> ?",
+              "generate": "fn(B: ?, E: ?)",
+              "setPrivate": "fn(N: ?, E: ?, D: ?)",
+              "setPrivateEx": "fn(N: ?, E: ?, D: ?, P: ?, Q: ?, DP: ?, DQ: ?, C: ?)",
+              "setPublic": "fn(N: ?, E: ?)"
+            }
+          }
+        }
+      },
+      "digests": {
+        "SHA1": {},
+        "MD5": {},
+        "SHA224": {},
+        "SHA256": {},
+        "SHA384": {},
+        "SHA512": {},
+        "_sha_32": {},
+        "_base": {
+          "outputTypes": {
+            "Base64": "number",
+            "Hex": "number",
+            "Raw": "number",
+            "String": "number"
+          },
+          "addWords": "fn(a: String, b: String) -> number",
+          "MD5": "fn(data: String, outputType: Object)",
+          "SHA1": "fn(data: String, outputType: Object)",
+          "stringToUtf8": "fn(input: ?)",
+          "stringToWord": "fn(s: String) -> [?]",
+          "wordToBase64": "fn(wa: [String])",
+          "wordToHex": "fn(wa: [String])",
+          "wordToString": "fn(wa: [String])"
+        },
+        "_sha_64": {
+          "outputTypes": "Object",
+          "digest": "fn(msg: ?, length: ?, hash: ?, depth: ?) -> [?]",
+          "stringToUtf8": "fn(s: ?) -> ?",
+          "toBase64": "fn(wa: ?) -> ?",
+          "toHex": "fn(wa: ?) -> ?",
+          "toWord": "fn(s: ?) -> ?"
+        }
+      },
+      "_base": {},
+      "bits": {
+        "InputStream": "fn(buffer: ?, width: ?)",
+        "OutputStream": "fn()"
+      },
+      "ascii85": {
+        "decode": "fn(input: String)",
+        "encode": "fn(input: [?])"
+      },
+      "base64": {
+        "decode": "fn(str: String)",
+        "encode": "fn(ba: [number])"
+      },
+      "easy64": {
+        "decode": "fn(input: String)",
+        "encode": "fn(input: [?])"
+      }
+    }
+  },
+  "dojox/encoding/_base": "exp",
+  "dojox/encoding/ascii85": "exp",
+  "dojox/encoding/base64": "exp",
+  "dojox/encoding/bits": "exp",
+  "dojox/encoding/easy64": "exp",
+  "dojox/encoding/compression/splay": "exp",
+  "dojox/encoding/compression/lzw": "exp",
+  "dojox/encoding/crypto/_base": "exp",
+  "dojox/encoding/crypto/_base.RSAKey": "exp",
+  "dojox/encoding/crypto/_base.cipherModes": "exp",
+  "dojox/encoding/crypto/_base.outputTypes": "exp",
+  "dojox/encoding/crypto/RSAKey": "exp",
+  "dojox/encoding/crypto/RSAKey-ext": "exp",
+  "dojox/encoding/digests/MD5": "exp",
+  "dojox/encoding/digests/SHA1": "exp",
+  "dojox/encoding/digests/SHA224": "exp",
+  "dojox/encoding/digests/SHA512": "exp",
+  "dojox/encoding/digests/SHA256": "exp",
+  "dojox/encoding/digests/SHA384": "exp",
+  "dojox/encoding/digests/_base": "exp",
+  "dojox/encoding/digests/_base.outputTypes": "exp",
+  "dojox/encoding/digests/_sha-64": "exp",
+  "!name": "dojox.encoding.d.ts"
+}

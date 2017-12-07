@@ -1,0 +1,90 @@
+{
+  "thrift": {
+    "Thrift": {
+      "Type": {
+        "'STOP'": "number",
+        "'VOID'": "number",
+        "'BOOL'": "number",
+        "'BYTE'": "number",
+        "'I08'": "number",
+        "'DOUBLE'": "number",
+        "'I16'": "number",
+        "'I32'": "number",
+        "'I64'": "number",
+        "'STRING'": "number",
+        "'UTF7'": "number",
+        "'STRUCT'": "number",
+        "'MAP'": "number",
+        "'SET'": "number",
+        "'LIST'": "number",
+        "'UTF8'": "number",
+        "'UTF16'": "number",
+        "!type": "Type"
+      },
+      "MessageType": {
+        "'CALL'": "number",
+        "'REPLY'": "number",
+        "'EXCEPTION'": "number",
+        "'ONEWAY'": "number",
+        "!type": "MessageType"
+      },
+      "objectLength": "fn(obj: Object) -> number",
+      "inherits": "fn(constructor: Function, superConstructor: Function, name?: string)",
+      "TException": {
+        "!type": "fn(message: string)",
+        "prototype": {
+          "name": "string",
+          "message": "string",
+          "getMessage": "fn() -> string"
+        }
+      },
+      "TApplicationExceptionType": {
+        "'UNKNOWN'": "number",
+        "'UNKNOWN_METHOD'": "number",
+        "'INVALID_MESSAGE_TYPE'": "number",
+        "'WRONG_METHOD_NAME'": "number",
+        "'BAD_SEQUENCE_ID'": "number",
+        "'MISSING_RESULT'": "number",
+        "'INTERNAL_ERROR'": "number",
+        "'PROTOCOL_ERROR'": "number",
+        "'INVALID_TRANSFORM'": "number",
+        "'INVALID_PROTOCOL'": "number",
+        "'UNSUPPORTED_CLIENT_TYPE'": "number",
+        "!type": "TApplicationExceptionType"
+      },
+      "TApplicationException": {
+        "!type": "fn(message: string, code?: number)",
+        "prototype": {
+          "message": "string",
+          "code": "number",
+          "read": "fn(input: Object)",
+          "write": "fn(output: Object)",
+          "getCode": "fn() -> number"
+        }
+      },
+      "TXHRTransport": {
+        "!type": "fn(url?: string, options?: Object)",
+        "prototype": {
+          "url": "string",
+          "wpos": "number",
+          "rpos": "number",
+          "useCORS": "?",
+          "send_buf": "string",
+          "recv_buf": "string",
+          "getXmlHttpRequestObject": "fn() -> Object",
+          "flush": "fn(async: ?, callback?: Function) -> string",
+          "jqRequest": "fn(client: Object, postData: ?, args: Function, recv_method: Function) -> Object",
+          "setRecvBuffer": "fn(buf: string)",
+          "isOpen": "fn() -> bool",
+          "open": "fn()",
+          "close": "fn()",
+          "read": "fn(len: number) -> string",
+          "readAll": "fn() -> string",
+          "write": "fn(buf: string)",
+          "getSendBuffer": "fn() -> string"
+        }
+      }
+    }
+  },
+  "!name": "thrift.d.ts"
+}

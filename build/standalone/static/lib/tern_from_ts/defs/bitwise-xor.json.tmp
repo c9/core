@@ -1,0 +1,4 @@
+{
+  "bitwise-xor": "xor",
+  "!name": "bitwise-xor.d.ts"
+}

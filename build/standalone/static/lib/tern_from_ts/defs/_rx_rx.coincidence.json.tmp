@@ -1,0 +1,12 @@
+{
+  "Rx": {
+    "Observable": {
+      "join": "fn(right: ?, leftDurationSelector: fn(leftItem: T), rightDurationSelector: fn(rightItem: TRight), resultSelector: fn(leftItem: T, rightItem: TRight)) -> ?",
+      "groupJoin": "fn(right: ?, leftDurationSelector: fn(leftItem: T), rightDurationSelector: fn(rightItem: TRight), resultSelector: fn(leftItem: T, rightItem: ?)) -> ?",
+      "window": "fn(windowOpenings: ?) -> ?",
+      "buffer": "fn(bufferOpenings: ?) -> ?"
+    }
+  },
+  "rx.coincidence": "Rx",
+  "!name": "rx.coincidence.d.ts"
+}

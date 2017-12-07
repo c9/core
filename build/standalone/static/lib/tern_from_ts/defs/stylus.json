@@ -1,0 +1,917 @@
+{
+  "Stylus": {
+    "Static": {
+      "version": "string",
+      "nodes": "NodeStatic",
+      "functions": "Functions",
+      "utils": "Utils",
+      "Visitor": "Visitor",
+      "Parser": "Parser",
+      "Evaluator": "Evaluator",
+      "Compiler": "Compiler",
+      "middleware": "fn(dir: string) -> Middleware",
+      "convertCSS": "fn(css: string) -> string",
+      "render": "fn(str: string, callback: RenderCallback)",
+      "url": "UrlFunction",
+      "resolver": "fn(options: ?) -> LiteralFunction"
+    },
+    "NodeStatic": {
+      "Node": "Nodes.Node",
+      "Root": "Nodes.Root",
+      "Null": "Nodes.Null",
+      "Each": "Nodes.Each",
+      "If": "Nodes.If",
+      "Call": "Nodes.Call",
+      "UnaryOp": "Nodes.UnaryOp",
+      "BinOp": "Nodes.BinOp",
+      "Ternary": "Nodes.Ternary",
+      "Block": "Nodes.Block",
+      "Unit": "Nodes.Unit",
+      "String": "Nodes.String",
+      "HSLA": "Nodes.HSLA",
+      "RGBA": "Nodes.RGBA",
+      "Ident": "Nodes.Ident",
+      "Group": "Nodes.Group",
+      "Literal": "Nodes.Literal",
+      "Boolean": "Nodes.Boolean",
+      "Return": "Nodes.Return",
+      "Media": "Nodes.Media",
+      "QueryList": "Nodes.QueryList",
+      "Query": "Nodes.Query",
+      "QueryExpr": "Nodes.QueryExpr",
+      "Params": "Nodes.Params",
+      "Comment": "Nodes.Comment",
+      "Keyframes": "Nodes.Keyframes",
+      "Member": "Nodes.Member",
+      "Charset": "Nodes.Charset",
+      "Namespace": "Nodes.Namespace",
+      "Import": "Nodes.Import",
+      "Extend": "Nodes.Extend",
+      "Object": "Nodes.Object",
+      "Function": "Nodes.Function",
+      "Property": "Nodes.Property",
+      "Selector": "Nodes.Selector",
+      "Expression": "Nodes.Expression",
+      "Arguments": "Nodes.Arguments",
+      "Atblock": "Nodes.Atblock",
+      "Atrule": "Nodes.Atrule",
+      "true": "Nodes.Boolean",
+      "false": "Nodes.Boolean",
+      "null": "Nodes.Null"
+    },
+    "Functions": {
+      "hsla": "fn(rgba: Nodes.RGBA) -> Nodes.HSLA",
+      "hsl": "fn(rgba: Nodes.RGBA) -> Nodes.HSLA",
+      "type": "fn(node: Nodes.Node) -> string",
+      "typeof": "fn(node: Nodes.Node) -> string",
+      "type-of": "fn(node: Nodes.Node) -> string",
+      "component": "fn(color: Nodes.RGBA, name: Nodes.String) -> Nodes.Unit",
+      "basename": "fn(path: Nodes.String) -> string",
+      "dirname": "fn(path: Nodes.String) -> string",
+      "extname": "fn(path: Nodes.String) -> string",
+      "pathjoin": "fn(paths: [Nodes.String]) -> string",
+      "red": "fn(color: Nodes.RGBA) -> Nodes.Unit",
+      "green": "fn(color: Nodes.RGBA) -> Nodes.Unit",
+      "blue": "fn(color: Nodes.RGBA) -> Nodes.Unit",
+      "alpha": "fn(color: Nodes.RGBA) -> Nodes.Unit",
+      "hue": "fn(color: Nodes.RGBA) -> Nodes.Unit",
+      "saturation": "fn(color: Nodes.RGBA) -> Nodes.Unit",
+      "lightness": "fn(color: Nodes.RGBA) -> Nodes.Unit",
+      "rgba": "fn(rgba: Nodes.RGBA) -> Nodes.RGBA",
+      "rgb": "fn(rgba: Nodes.RGBA) -> Nodes.RGBA",
+      "blend": "fn(top: Nodes.RGBA) -> Nodes.RGBA",
+      "luminosity": "fn(rgba: Nodes.RGBA) -> Nodes.Unit",
+      "contrast": "fn(top: Nodes.RGBA) -> Nodes.Object",
+      "transparentify": "fn(top: Nodes.RGBA) -> Nodes.Object",
+      "json": "fn(path: Nodes.String, local: Nodes.Boolean, namePrefix: Nodes.String) -> ?",
+      "use": "fn(plugin: Nodes.String)",
+      "unquote": "fn(str: Nodes.String) -> Nodes.Literal",
+      "convert": "fn(str: Nodes.String) -> Nodes.Node",
+      "unit": "fn(unit: Nodes.Unit, type: Nodes.String) -> Nodes.Unit",
+      "lookup": "fn(name: Nodes.String) -> Nodes.Node",
+      "define": "fn(name: Nodes.String, expr: Nodes.Expression) -> Nodes.Node",
+      "operate": "fn(op: Nodes.String, left: Nodes.Node, right: Nodes.Node) -> Nodes.Node",
+      "match": "fn(pattern: Nodes.String, val: Nodes.String) -> Nodes.Boolean",
+      "substr": "fn(val: Nodes.String, start: Nodes.Number, length: Nodes.Number) -> Nodes.String",
+      "replace": "fn(pattern: Nodes.String, replacement: Nodes.String, val: Nodes.String) -> Nodes.String",
+      "split": "fn(pattern: Nodes.String, val: Nodes.String) -> Nodes.Expression",
+      "length": "fn(expr: Nodes.Expression) -> Nodes.Unit",
+      "error": "fn(msg: Nodes.String)",
+      "warn": "fn(msg: Nodes.String) -> Nodes.Null",
+      "trace": "fn() -> Nodes.Null",
+      "push": "fn(expr: Nodes.Expression, nodes: [Nodes.Node]) -> Nodes.Unit",
+      "pop": "fn(expr: Nodes.Expression) -> Nodes.Node",
+      "unshift": "fn(expr: Nodes.Expression, nodes: [Nodes.Node]) -> Nodes.Unit",
+      "prepend": "fn(expr: Nodes.Expression, nodes: [Nodes.Node]) -> Nodes.Unit",
+      "shift": "fn(expr: Nodes.Expression) -> Nodes.Node",
+      "s": "fn(fmt: Nodes.String, nodes: [Nodes.Node]) -> Nodes.Literal",
+      "base-convert": "fn(num: Nodes.Number, base: Nodes.Number, width: Nodes.Number) -> Nodes.Literal",
+      "opposite-position": "fn(positions: Nodes.Expression) -> Nodes.Expression",
+      "image-size": "fn(img: Nodes.String, ignoreErr: Nodes.Boolean) -> Nodes.Expression",
+      "tan": "fn(angle: Nodes.Unit) -> Nodes.Unit",
+      "math": "fn(n: Nodes.Unit, fn: Nodes.String) -> Nodes.Unit",
+      "-math-prop": "fn(prop: Nodes.String) -> Nodes.Unit",
+      "adjust": "fn(rgba: Nodes.RGBA, prop: Nodes.String, amount: Nodes.Unit) -> Nodes.RGBA",
+      "clone": "fn(expr: Nodes.Expression) -> Nodes.Expression",
+      "add-property": "fn(name: Nodes.String, expr: Nodes.Expression) -> Nodes.Property",
+      "merge": "fn(dest: Nodes.Object, objs: [Nodes.Object]) -> Nodes.Object",
+      "extend": "fn(dest: Nodes.Object, objs: [Nodes.Object]) -> Nodes.Object",
+      "selector": "fn() -> string",
+      "-prefix-classes": "fn(prefix: Nodes.String, block: Nodes.Block) -> Nodes.Block",
+      "current-media": "fn() -> Nodes.String",
+      "list-separator": "fn(list: Nodes.Expression) -> Nodes.String"
+    },
+    "Utils": {
+      "absolute": "fn(path: string) -> bool",
+      "lookup": "fn(path: string, paths: string, ignore: string, resolveURL: bool) -> string",
+      "lookupIndex": "fn(path: string, paths: string, filename: string) -> [string]",
+      "find": "fn(path: string, paths: string, ignore: string) -> [string]",
+      "formatException": "fn(err: Error, options: ExceptionOptions) -> Error",
+      "assertType": "fn(node: Nodes.Node, type: string, param: string)",
+      "assertString": "fn(node: Nodes.Node, param: string)",
+      "assertColor": "fn(node: Nodes.Node, param: string)",
+      "assertPresent": "fn(node: Nodes.Node, name: string)",
+      "unwrap": "fn(expr: Nodes.Expression) -> Nodes.Node",
+      "coerce": "fn(val: ?) -> Nodes.Node",
+      "coerceArray": "fn(val: ?) -> Nodes.Expression",
+      "coerceObject": "fn(obj: ?) -> Nodes.Expression",
+      "params": "fn(fn: Function) -> [string]",
+      "merge": "fn(a: ?, b: ?) -> ?",
+      "uniq": "fn(arr: [?]) -> [?]",
+      "compileSelectors": "fn(arr: [string], leaveHidden: bool) -> [string]"
+    },
+    "UrlFunction": {
+      "mimes": {
+        ".gif": "string",
+        ".png": "string",
+        ".jpg": "string",
+        ".jpeg": "string",
+        ".svg": "string",
+        ".ttf": "string",
+        ".eot": "string",
+        ".woff": "string"
+      }
+    },
+    "Middleware": {},
+    "Visitor": {
+      "prototype": {}
+    },
+    "Parser": {
+      "prototype": {}
+    },
+    "Evaluator": {
+      "prototype": {}
+    },
+    "Compiler": {
+      "prototype": {}
+    },
+    "Renderer": {
+      "!type": "fn(str: string)",
+      "prototype": {
+        "options": "RenderOptions",
+        "str": "string",
+        "events": "?",
+        "render": "fn(callback: RenderCallback)",
+        "deps": "fn(filename: string) -> [string]",
+        "set": "fn(key: string, val: ?) -> Renderer",
+        "get": "fn(key: string) -> ?",
+        "include": "fn(path: string) -> Renderer",
+        "use": "fn(fn: fn(renderer: Renderer)) -> Renderer",
+        "define": "fn(name: string, fn: Function) -> Renderer",
+        "import": "fn(file: string) -> Renderer",
+        "addListener": "fn(event: string, listener: Function) -> Renderer",
+        "on": "fn(event: string, listener: Function) -> Renderer",
+        "once": "fn(event: string, listener: Function) -> Renderer",
+        "removeListener": "fn(event: string, listener: Function) -> Renderer",
+        "removeAllListeners": "fn(event?: string) -> Renderer",
+        "setMaxListeners": "fn(n: number) -> Renderer",
+        "getMaxListeners": "fn() -> number",
+        "listeners": "fn(event: string) -> [Function]",
+        "emit": "fn(event: string, args: [?]) -> bool",
+        "listenerCount": "fn(type: string) -> number"
+      }
+    },
+    "Nodes": {
+      "Node": {
+        "!type": "fn()",
+        "prototype": {
+          "lineno": "number",
+          "column": "number",
+          "filename": "string",
+          "first": "Node",
+          "hash": "string",
+          "nodeName": "string",
+          "clone": "fn() -> Node",
+          "toJSON": "fn() -> ret",
+          "eval": "fn() -> Node",
+          "toBoolean": "fn() -> Boolean",
+          "toExpression": "fn() -> Expression",
+          "shouldCoerce": "fn(op: string) -> bool",
+          "operate": "fn(op: string, right: Node) -> Node",
+          "coerce": "fn(other: Node) -> Node"
+        }
+      },
+      "Root": {
+        "prototype": {
+          "nodes": "[Node]",
+          "push": "fn(node: Node)",
+          "unshift": "fn(node: Node)",
+          "toJSON": "fn() -> ret1"
+        }
+      },
+      "String": {
+        "!type": "fn(val: string)",
+        "prototype": {
+          "val": "string",
+          "string": "string",
+          "prefixed": "bool",
+          "quote": "string",
+          "toJSON": "fn() -> ret2"
+        }
+      },
+      "Number": {
+        "prototype": {}
+      },
+      "Boolean": {
+        "!type": "fn()",
+        "prototype": {
+          "val": "bool",
+          "isTrue": "bool",
+          "isFalse": "bool",
+          "negate": "fn() -> Boolean",
+          "inspect": "fn() -> Boolean",
+          "toJSON": "fn() -> ret3"
+        }
+      },
+      "Object": {
+        "!type": "fn()",
+        "prototype": {
+          "vals": "?",
+          "length": "number",
+          "set": "fn(key: string, value: Node) -> Object",
+          "get": "fn(key: string) -> Node",
+          "has": "fn(key: string) -> bool",
+          "toBlock": "fn() -> string",
+          "toJSON": "fn() -> ret4"
+        }
+      },
+      "Null": {
+        "!type": "fn()",
+        "prototype": {
+          "isNull": "bool",
+          "toJSON": "fn() -> ret5"
+        }
+      },
+      "Ident": {
+        "!type": "fn(name: string, val: Node)",
+        "prototype": {
+          "name": "string",
+          "string": "string",
+          "val": "Node",
+          "mixin": "bool",
+          "isEmpty": "bool",
+          "toJSON": "fn() -> ret6"
+        }
+      },
+      "Literal": {
+        "!type": "fn(str: string)",
+        "prototype": {
+          "val": "string",
+          "string": "string",
+          "prefixed": "bool",
+          "toJSON": "fn() -> ret7"
+        }
+      },
+      "Unit": {
+        "!type": "fn(val: number, type: string)",
+        "prototype": {
+          "val": "number",
+          "type": "string",
+          "toJSON": "fn() -> ret8"
+        }
+      },
+      "RGBA": {
+        "!type": "fn(r: number, g: number, b: number, a: number)",
+        "withoutClamping": "fn(r: number, g: number, b: number, a: number) -> RGBA",
+        "fromHSLA": "fn(hsla: HSLA) -> RGBA",
+        "prototype": {
+          "r": "number",
+          "g": "number",
+          "b": "number",
+          "a": "number",
+          "rgba": "RGBA",
+          "hsla": "HSLA",
+          "add": "fn(r: number, g: number, b: number, a: number) -> RGBA",
+          "substract": "fn(r: number, g: number, b: number, a: number) -> RGBA",
+          "multiply": "fn(n: number) -> RGBA",
+          "divide": "fn(n: number) -> RGBA",
+          "toJSON": "fn() -> ret9"
+        }
+      },
+      "HSLA": {
+        "!type": "fn(h: number, s: number, l: number, a: number)",
+        "fromRGBA": "fn(rgba: RGBA) -> HSLA",
+        "prototype": {
+          "h": "number",
+          "s": "number",
+          "l": "number",
+          "a": "number",
+          "hsla": "HSLA",
+          "rgba": "RGBA",
+          "add": "fn(h: number, s: number, l: number) -> HSLA",
+          "substract": "fn(h: number, s: number, l: number) -> HSLA",
+          "adjustLightness": "fn(percent: number) -> HSLA",
+          "adjustHue": "fn(deg: number) -> HSLA",
+          "toJSON": "fn() -> ret10"
+        }
+      },
+      "Block": {
+        "!type": "fn(parent: Block)",
+        "prototype": {
+          "nodes": "[Node]",
+          "parent": "Block",
+          "node": "Node",
+          "scope": "bool",
+          "hasProperties": "bool",
+          "hasMedia": "bool",
+          "isEmpty": "bool",
+          "push": "fn(node: Node)",
+          "toJSON": "fn() -> ret11"
+        }
+      },
+      "Group": {
+        "!type": "fn()",
+        "prototype": {
+          "nodes": "[Node]",
+          "block": "Block",
+          "hasOnlyPlaceholders": "bool",
+          "push": "fn(node: Node)",
+          "toJSON": "fn() -> ret12"
+        }
+      },
+      "Expression": {
+        "!type": "fn(isList: bool)",
+        "prototype": {
+          "nodes": "[Node]",
+          "isList": "bool",
+          "isEmpty": "bool",
+          "first": "Node",
+          "push": "fn(node: Node)",
+          "toJSON": "fn() -> ret13"
+        }
+      },
+      "Property": {
+        "!type": "fn(segs: [Node], expr: Expression)",
+        "prototype": {
+          "segments": "[Node]",
+          "expr": "Expression",
+          "toJSON": "fn() -> ret14"
+        }
+      },
+      "Each": {
+        "prototype": {
+          "val": "string",
+          "key": "string",
+          "expr": "Expression",
+          "block": "Block",
+          "toJSON": "fn() -> ret15"
+        }
+      },
+      "If": {
+        "!type": "fn(cond: Expression, negate: bool)",
+        "prototype": {
+          "cond": "Expression",
+          "elses": "[Expression]",
+          "block": "Block",
+          "negate": "bool",
+          "toJSON": "fn() -> ret16"
+        }
+      },
+      "Call": {
+        "!type": "fn(name: string, args: Expression)",
+        "prototype": {
+          "name": "string",
+          "args": "Expression",
+          "toJSON": "fn() -> ret17"
+        }
+      },
+      "UnaryOp": {
+        "!type": "fn(op: string, expr: Expression)",
+        "prototype": {
+          "op": "string",
+          "expr": "Expression",
+          "toJSON": "fn() -> ret18"
+        }
+      },
+      "BinOp": {
+        "!type": "fn(op: string, left: Expression, right: Expression)",
+        "prototype": {
+          "op": "string",
+          "left": "Expression",
+          "right": "Expression",
+          "toJSON": "fn() -> ret19"
+        }
+      },
+      "Ternary": {
+        "!type": "fn(op: string, trueExpr: Expression, falseExpr: Expression)",
+        "prototype": {
+          "op": "string",
+          "trueExpr": "Expression",
+          "falseExpr": "Expression",
+          "toJSON": "fn() -> ret20"
+        }
+      },
+      "Return": {
+        "!type": "fn(expr: Expression)",
+        "prototype": {
+          "expr": "Expression",
+          "toJSON": "fn() -> ret21"
+        }
+      },
+      "Media": {
+        "!type": "fn(val: string)",
+        "prototype": {
+          "val": "string",
+          "toJSON": "fn() -> ret22"
+        }
+      },
+      "QueryList": {
+        "!type": "fn()",
+        "prototype": {
+          "nodes": "[Node]",
+          "push": "fn(node: Node)",
+          "merge": "fn(other: MediaQueryList) -> MediaQueryList",
+          "toJSON": "fn() -> ret23"
+        }
+      },
+      "Query": {
+        "!type": "fn()",
+        "prototype": {
+          "nodes": "[QueryExpr]",
+          "type": "string",
+          "predicate": "string",
+          "resolvedType": "string",
+          "resolvedPredicate": "string",
+          "push": "fn(expr: QueryExpr)",
+          "merge": "fn(other: Query) -> Query",
+          "toJSON": "fn() -> ret24"
+        }
+      },
+      "QueryExpr": {
+        "!type": "fn(segs: [Node])",
+        "prototype": {
+          "segments": "[Node]",
+          "expr": "Expression",
+          "toJSON": "fn() -> ret25"
+        }
+      },
+      "Params": {
+        "prototype": {
+          "nodes": "[Node]",
+          "length": "number",
+          "push": "fn(node: Node)",
+          "toJSON": "fn() -> ret26"
+        }
+      },
+      "Comment": {
+        "!type": "fn(str: string, suppress: bool, inline: bool)",
+        "prototype": {
+          "str": "string",
+          "suppress": "bool",
+          "inline": "bool",
+          "toJSON": "fn() -> ret27"
+        }
+      },
+      "Keyframes": {
+        "!type": "fn(segs: [Node])",
+        "prototype": {
+          "segments": "[Node]",
+          "prefix": "string",
+          "toJSON": "fn() -> ret28"
+        }
+      },
+      "Member": {
+        "!type": "fn(left: Node, right: Node)",
+        "prototype": {
+          "left": "Node",
+          "right": "Node",
+          "toJSON": "fn() -> ret29"
+        }
+      },
+      "Charset": {
+        "!type": "fn(val: string)",
+        "prototype": {
+          "val": "string",
+          "toJSON": "fn() -> ret30"
+        }
+      },
+      "Namespace": {
+        "!type": "fn(val: string, prefix: string)",
+        "prototype": {
+          "val": "string",
+          "prefix": "string",
+          "toJSON": "fn() -> ret31"
+        }
+      },
+      "Import": {
+        "!type": "fn(path: Expression)",
+        "prototype": {
+          "path": "Expression",
+          "once": "bool",
+          "toJSON": "fn() -> ret32"
+        }
+      },
+      "Extend": {
+        "!type": "fn(selectors: [Selector])",
+        "prototype": {
+          "selectors": "[Selector]",
+          "toJSON": "fn() -> ret33"
+        }
+      },
+      "Function": {
+        "!type": "fn(name: string, params: Params, body: Block)",
+        "prototype": {
+          "name": "string",
+          "params": "Params",
+          "body": "Block",
+          "toJSON": "fn() -> ret34"
+        }
+      },
+      "Selector": {
+        "!type": "fn(segs: [Node])",
+        "prototype": {
+          "inherits": "bool",
+          "segments": "[Node]",
+          "toJSON": "fn() -> ret35"
+        }
+      },
+      "Arguments": {
+        "!type": "fn()",
+        "prototype": {
+          "map": "?",
+          "toJSON": "fn() -> ret36"
+        }
+      },
+      "Atblock": {
+        "!type": "fn()",
+        "prototype": {
+          "block": "Block",
+          "nodes": "[Node]",
+          "toJSON": "fn() -> ret37"
+        }
+      },
+      "Atrule": {
+        "!type": "fn(type: string)",
+        "prototype": {
+          "type": "string",
+          "hasOnlyProperties": "bool",
+          "toJSON": "fn() -> ret38"
+        }
+      }
+    },
+    "Dictionary": {},
+    "RenderOptions": {
+      "globals": "?",
+      "functions": "?",
+      "imports": "[string]",
+      "paths": "[string]",
+      "filename": "string",
+      "Evaluator": "Evaluator"
+    },
+    "RenderCallback": {},
+    "UrlOptions": {
+      "limit": "string",
+      "path": "string"
+    },
+    "LiteralFunction": {
+      "raw": "bool"
+    },
+    "ExceptionOptions": {
+      "filename": "string",
+      "context": "number",
+      "lineno": "number",
+      "column": "number",
+      "input": "string"
+    }
+  },
+  "stylus": "stylus",
+  "!name": "stylus",
+  "!define": {
+    "ret": {
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret1": {
+      "nodes": "[Node]",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret2": {
+      "val": "string",
+      "quote": "string",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret3": {
+      "__type": "string",
+      "val": "bool",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret4": {
+      "__type": "string",
+      "vals": "?",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret5": {
+      "__type": "string",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret6": {
+      "__type": "string",
+      "name": "string",
+      "val": "Node",
+      "mixin": "bool",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret7": {
+      "__type": "string",
+      "string": "string",
+      "val": "string",
+      "prefixed": "bool",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret8": {
+      "__type": "string",
+      "val": "number",
+      "type": "string",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret9": {
+      "__type": "string",
+      "r": "number",
+      "g": "number",
+      "b": "number",
+      "a": "number",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret10": {
+      "__type": "string",
+      "h": "number",
+      "s": "number",
+      "l": "number",
+      "a": "number",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret11": {
+      "__type": "string",
+      "nodes": "[Node]",
+      "scope": "bool",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret12": {
+      "__type": "string",
+      "nodes": "[Node]",
+      "block": "Block",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret13": {
+      "__type": "string",
+      "nodes": "[Node]",
+      "isList": "bool",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret14": {
+      "__type": "string",
+      "segments": "[Node]",
+      "name": "string",
+      "expr": "Expression",
+      "literal": "Literal",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret15": {
+      "__type": "string",
+      "val": "string",
+      "key": "string",
+      "expr": "Expression",
+      "block": "Block",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret16": {
+      "__type": "string",
+      "cond": "Expression",
+      "elses": "[Expression]",
+      "block": "Block",
+      "negate": "bool",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret17": {
+      "__type": "string",
+      "name": "string",
+      "args": "Expression",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret18": {
+      "__type": "string",
+      "op": "string",
+      "expr": "Expression",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret19": {
+      "__type": "string",
+      "op": "string",
+      "left": "Expression",
+      "right": "Expression",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret20": {
+      "__type": "string",
+      "op": "string",
+      "trueExpr": "Expression",
+      "falseExpr": "Expression",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret21": {
+      "__type": "string",
+      "expr": "Expression",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret22": {
+      "__type": "string",
+      "val": "string",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret23": {
+      "__type": "string",
+      "nodes": "[Node]",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret24": {
+      "__type": "string",
+      "nodes": "[QueryExpr]",
+      "predicate": "string",
+      "type": "string",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret25": {
+      "__type": "string",
+      "segments": "[Node]",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret26": {
+      "__type": "string",
+      "nodes": "[Node]",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret27": {
+      "__type": "string",
+      "str": "string",
+      "suppress": "bool",
+      "inline": "bool",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret28": {
+      "__type": "string",
+      "segments": "[Node]",
+      "prefix": "string",
+      "block": "Block",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret29": {
+      "__type": "string",
+      "left": "Node",
+      "right": "Node",
+      "val": "string",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret30": {
+      "__type": "string",
+      "val": "string",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret31": {
+      "__type": "string",
+      "val": "string",
+      "prefix": "string",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret32": {
+      "__type": "string",
+      "path": "Expression",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret33": {
+      "__type": "string",
+      "selectors": "[Selector]",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret34": {
+      "__type": "string",
+      "name": "string",
+      "params": "Params",
+      "body": "Block",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret35": {
+      "__type": "string",
+      "segments": "[Node]",
+      "inherits": "bool",
+      "val": "string",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret36": {
+      "__type": "string",
+      "map": "?",
+      "isList": "bool",
+      "preserve": "bool",
+      "nodes": "[Node]",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret37": {
+      "__type": "string",
+      "block": "Block",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    },
+    "ret38": {
+      "__type": "string",
+      "type": "string",
+      "segments": "[Node]",
+      "block": "Block",
+      "lineno": "number",
+      "column": "number",
+      "filename": "string"
+    }
+  }
+}

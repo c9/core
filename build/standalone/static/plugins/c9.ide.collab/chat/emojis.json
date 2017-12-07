@@ -1,0 +1,1926 @@
+{
+    "map": {
+        "e00a": [
+            ":iphone:"
+        ],
+        "e00b": [
+            ":fax:"
+        ],
+        "e00c": [
+            ":computer:"
+        ],
+        "e00d": [
+            ":punch:"
+        ],
+        "e00e": [
+            ":+1:"
+        ],
+        "e00f": [
+            ":point_up:"
+        ],
+        "e001": [
+            ":boy:"
+        ],
+        "e01a": [
+            ":horse:"
+        ],
+        "e01b": [
+            ":car:"
+        ],
+        "e01c": [
+            ":sailboat:"
+        ],
+        "e01d": [
+            ":plane:"
+        ],
+        "e01e": [
+            ":train:"
+        ],
+        "e01f": [
+            ":bullettrain_front:"
+        ],
+        "e002": [
+            ":girl:"
+        ],
+        "e02a": [
+            ":clock7:"
+        ],
+        "e02b": [
+            ":clock8:"
+        ],
+        "e02c": [
+            ":clock9:"
+        ],
+        "e02d": [
+            ":clock10:"
+        ],
+        "e02e": [
+            ":clock11:"
+        ],
+        "e02f": [
+            ":clock12:"
+        ],
+        "e003": [
+            ":lips:"
+        ],
+        "e03a": [
+            ":fuelpump:"
+        ],
+        "e03b": [
+            ":mount_fuji:"
+        ],
+        "e03c": [
+            ":microphone:"
+        ],
+        "e03d": [
+            ":movie_camera:"
+        ],
+        "e03e": [
+            ":musical_note:"
+        ],
+        "e03f": [
+            ":key:"
+        ],
+        "e004": [
+            ":man:"
+        ],
+        "e04a": [
+            ":sun:"
+        ],
+        "e04b": [
+            ":umbrella:"
+        ],
+        "e04c": [
+            ":moon:"
+        ],
+        "e04d": [
+            ":sunrise_over_mountains:"
+        ],
+        "e04e": [
+            ":angel:"
+        ],
+        "e04f": [
+            ":cat:"
+        ],
+        "e005": [
+            ":woman:"
+        ],
+        "e05a": [
+            ":hankey:",
+            ":poop:",
+            ":shit:"
+        ],
+        "e006": [
+            ":shirt:"
+        ],
+        "e007": [
+            ":shoe:"
+        ],
+        "e008": [
+            ":camera:"
+        ],
+        "e009": [
+            ":phone:"
+        ],
+        "e010": [
+            ":fist:"
+        ],
+        "e10a": [
+            ":octopus:"
+        ],
+        "e10b": [
+            ":pig:"
+        ],
+        "e10c": [
+            ":alien:"
+        ],
+        "e10d": [
+            ":rocket:"
+        ],
+        "e10e": [
+            ":crown:"
+        ],
+        "e10f": [
+            ":bulb:"
+        ],
+        "e011": [
+            ":v:"
+        ],
+        "e11a": [
+            ":imp:"
+        ],
+        "e11b": [
+            ":ghost:"
+        ],
+        "e11c": [
+            ":skull:"
+        ],
+        "e11d": [
+            ":fire:"
+        ],
+        "e11e": [
+            ":briefcase:"
+        ],
+        "e11f": [
+            ":seat:"
+        ],
+        "e012": [
+            ":hand:"
+        ],
+        "e12a": [
+            ":baby_symbol:"
+        ],
+        "e12b": [
+            ":space_invader:"
+        ],
+        "e12c": [
+            ":part_alternation_mark:"
+        ],
+        "e12d": [
+            ":mahjong:"
+        ],
+        "e12e": [
+            ":vs:"
+        ],
+        "e12f": [
+            ":moneybag:"
+        ],
+        "e013": [
+            ":ski:"
+        ],
+        "e13b": [
+            ":syringe:"
+        ],
+        "e13c": [
+            ":zzz:"
+        ],
+        "e13d": [
+            ":zap:"
+        ],
+        "e13e": [
+            ":high_heel:"
+        ],
+        "e13f": [
+            ":bath:"
+        ],
+        "e014": [
+            ":golf:"
+        ],
+        "e14a": [
+            ":chart:"
+        ],
+        "e14b": [
+            ":satellite:"
+        ],
+        "e14c": [
+            ":muscle:"
+        ],
+        "e14d": [
+            ":bank:"
+        ],
+        "e14e": [
+            ":traffic_light:"
+        ],
+        "e14f": [
+            ":parking:"
+        ],
+        "e015": [
+            ":tennis:"
+        ],
+        "e15a": [
+            ":taxi:"
+        ],
+        "e016": [
+            ":baseball:"
+        ],
+        "e017": [
+            ":surfer:"
+        ],
+        "e018": [
+            ":soccer:",
+            ":football:"
+        ],
+        "e019": [
+            ":fish:"
+        ],
+        "e020": [
+            ":question:"
+        ],
+        "e20a": [
+            ":wheelchair:"
+        ],
+        "e20b": [
+            ":signal_strength:"
+        ],
+        "e20c": [
+            ":hearts:"
+        ],
+        "e20d": [
+            ":diamonds:"
+        ],
+        "e20e": [
+            ":spades:"
+        ],
+        "e20f": [
+            ":clubs:"
+        ],
+        "e021": [
+            ":exclamation:"
+        ],
+        "e21a": [
+            ":green_circle:"
+        ],
+        "e21b": [
+            ":purple_circle:"
+        ],
+        "e21c": [
+            ":1:"
+        ],
+        "e21d": [
+            ":2:"
+        ],
+        "e21e": [
+            ":3:"
+        ],
+        "e21f": [
+            ":4:"
+        ],
+        "e022": [
+            ":heart:"
+        ],
+        "e22a": [
+            ":u6e80:"
+        ],
+        "e22b": [
+            ":u7a7a:"
+        ],
+        "e22c": [
+            ":u6307:"
+        ],
+        "e22d": [
+            ":u55b6:"
+        ],
+        "e22e": [
+            ":point_up:"
+        ],
+        "e22f": [
+            ":point_down:"
+        ],
+        "e023": [
+            ":broken_heart:"
+        ],
+        "e23a": [
+            ":arrow_forward:"
+        ],
+        "e23b": [
+            ":arrow_backward:"
+        ],
+        "e23c": [
+            ":fast_forward:"
+        ],
+        "e23d": [
+            ":rewind:"
+        ],
+        "e23e": [
+            ":six_pointed_star:"
+        ],
+        "e23f": [
+            ":aries:"
+        ],
+        "e024": [
+            ":clock1:"
+        ],
+        "e24a": [
+            ":pisces:"
+        ],
+        "e24b": [
+            ":ophiuchus:"
+        ],
+        "e24c": [
+            ":top:"
+        ],
+        "e24d": [
+            ":ok:"
+        ],
+        "e24e": [
+            ":copyright:"
+        ],
+        "e24f": [
+            ":registered:"
+        ],
+        "e025": [
+            ":clock2:"
+        ],
+        "e026": [
+            ":clock3:"
+        ],
+        "e027": [
+            ":clock4:"
+        ],
+        "e028": [
+            ":clock5:"
+        ],
+        "e029": [
+            ":clock6:"
+        ],
+        "e030": [
+            ":cherry_blossom:"
+        ],
+        "e30a": [
+            ":headphones:"
+        ],
+        "e30b": [
+            ":sake:"
+        ],
+        "e30c": [
+            ":beers:"
+        ],
+        "e30d": [
+            ":congratulations:"
+        ],
+        "e30e": [
+            ":smoking:"
+        ],
+        "e30f": [
+            ":pill:"
+        ],
+        "e031": [
+            ":trident:"
+        ],
+        "e31a": [
+            ":sandal:"
+        ],
+        "e31b": [
+            ":boot:"
+        ],
+        "e31c": [
+            ":lipstick:"
+        ],
+        "e31d": [
+            ":nail_care:"
+        ],
+        "e31e": [
+            ":massage:"
+        ],
+        "e31f": [
+            ":haircut:"
+        ],
+        "e032": [
+            ":rose:"
+        ],
+        "e32a": [
+            ":blue_heart:"
+        ],
+        "e32b": [
+            ":green_heart:"
+        ],
+        "e32c": [
+            ":yellow_heart:"
+        ],
+        "e32d": [
+            ":purple_heart:"
+        ],
+        "e32e": [
+            ":sparkles:"
+        ],
+        "e32f": [
+            ":star:"
+        ],
+        "e033": [
+            ":christmas_tree:"
+        ],
+        "e33a": [
+            ":icecream:"
+        ],
+        "e33b": [
+            ":fries:"
+        ],
+        "e33c": [
+            ":dango:"
+        ],
+        "e33d": [
+            ":rice_cracker:"
+        ],
+        "e33e": [
+            ":rice:"
+        ],
+        "e33f": [
+            ":spaghetti:"
+        ],
+        "e034": [
+            ":ring:"
+        ],
+        "e34a": [
+            ":eggplant:"
+        ],
+        "e34b": [
+            ":birthday:"
+        ],
+        "e34c": [
+            ":bento:"
+        ],
+        "e34d": [
+            ":stew:"
+        ],
+        "e035": [
+            ":gem:"
+        ],
+        "e036": [
+            ":house:"
+        ],
+        "e037": [
+            ":church:"
+        ],
+        "e038": [
+            ":office:"
+        ],
+        "e039": [
+            ":station:"
+        ],
+        "e040": [
+            ":saxophone:"
+        ],
+        "e40a": [
+            ":pensive:"
+        ],
+        "e40b": [
+            ":fearful:"
+        ],
+        "e40c": [
+            ":mask:"
+        ],
+        "e40d": [
+            ":flushed:"
+        ],
+        "e40e": [
+            ":unamused:"
+        ],
+        "e40f": [
+            ":cold_sweat:"
+        ],
+        "e041": [
+            ":guitar:"
+        ],
+        "e41a": [
+            ":nose:"
+        ],
+        "e41b": [
+            ":ear:"
+        ],
+        "e41c": [
+            ":lips:"
+        ],
+        "e41d": [
+            ":pray:"
+        ],
+        "e41e": [
+            ":wave:"
+        ],
+        "e41f": [
+            ":clap:"
+        ],
+        "e042": [
+            ":trumpet:"
+        ],
+        "e42a": [
+            ":basketball:"
+        ],
+        "e42b": [
+            ":rugby:"
+        ],
+        "e42c": [
+            ":8ball:"
+        ],
+        "e42d": [
+            ":swimmer:"
+        ],
+        "e42e": [
+            ":blue_car:"
+        ],
+        "e42f": [
+            ":truck:"
+        ],
+        "e043": [
+            ":fork_and_knife:"
+        ],
+        "e43a": [
+            ":school_satchel:"
+        ],
+        "e43b": [
+            ":flags:"
+        ],
+        "e43c": [
+            ":closed_umbrella:"
+        ],
+        "e43d": [
+            ":wedding:"
+        ],
+        "e43e": [
+            ":ocean:"
+        ],
+        "e43f": [
+            ":shaved_ice:"
+        ],
+        "e044": [
+            ":cocktail:"
+        ],
+        "e44a": [
+            ":city_sunset:"
+        ],
+        "e44b": [
+            ":stars:"
+        ],
+        "e44c": [
+            ":rainbow:"
+        ],
+        "e045": [
+            ":coffee:"
+        ],
+        "e046": [
+            ":cake:"
+        ],
+        "e047": [
+            ":beer:"
+        ],
+        "e048": [
+            ":snowman:"
+        ],
+        "e049": [
+            ":cloud:"
+        ],
+        "e050": [
+            ":tiger:"
+        ],
+        "e50a": [
+            ":109:"
+        ],
+        "e50b": [
+            ":jp:"
+        ],
+        "e50c": [
+            ":us:"
+        ],
+        "e50d": [
+            ":fr:"
+        ],
+        "e50e": [
+            ":de:"
+        ],
+        "e50f": [
+            ":it:"
+        ],
+        "e051": [
+            ":bear:"
+        ],
+        "e51a": [
+            ":baby:"
+        ],
+        "e51b": [
+            ":construction_worker:"
+        ],
+        "e51c": [
+            ":princess:"
+        ],
+        "e51d": [
+            ":statue_of_liberty:"
+        ],
+        "e51e": [
+            ":guardsman:"
+        ],
+        "e51f": [
+            ":dancer:"
+        ],
+        "e052": [
+            ":dog:"
+        ],
+        "e52a": [
+            ":wolf:"
+        ],
+        "e52b": [
+            ":cow:"
+        ],
+        "e52c": [
+            ":rabbit:"
+        ],
+        "e52d": [
+            ":snake:"
+        ],
+        "e52e": [
+            ":chicken:"
+        ],
+        "e52f": [
+            ":boar:"
+        ],
+        "e053": [
+            ":mouse:"
+        ],
+        "e054": [
+            ":whale:"
+        ],
+        "e055": [
+            ":penguin:"
+        ],
+        "e056": [
+            ":blush:"
+        ],
+        "e057": [
+            ":smile:"
+        ],
+        "e058": [
+            ":disappointed:"
+        ],
+        "e059": [
+            ":angry:"
+        ],
+        "e101": [
+            ":mailbox:"
+        ],
+        "e102": [
+            ":postbox:"
+        ],
+        "e103": [
+            ":email:"
+        ],
+        "e104": [
+            ":calling:"
+        ],
+        "e105": [
+            ":wink2:"
+        ],
+        "e106": [
+            ":heart_eyes:"
+        ],
+        "e107": [
+            ":scream:"
+        ],
+        "e108": [
+            ":sweat:"
+        ],
+        "e109": [
+            ":monkey_face:"
+        ],
+        "e110": [
+            ":four_leaf_clover:"
+        ],
+        "e111": [
+            ":couplekiss:"
+        ],
+        "e112": [
+            ":gift:"
+        ],
+        "e113": [
+            ":gun:"
+        ],
+        "e114": [
+            ":mag:"
+        ],
+        "e115": [
+            ":runner:"
+        ],
+        "e116": [
+            ":hammer:"
+        ],
+        "e117": [
+            ":fireworks:"
+        ],
+        "e118": [
+            ":maple_leaf:"
+        ],
+        "e119": [
+            ":fallen_leaf:"
+        ],
+        "e120": [
+            ":hamburger:"
+        ],
+        "e121": [
+            ":fountain:"
+        ],
+        "e122": [
+            ":tent:"
+        ],
+        "e123": [
+            ":hotsprings:"
+        ],
+        "e124": [
+            ":ferris_wheel:"
+        ],
+        "e125": [
+            ":ticket:"
+        ],
+        "e126": [
+            ":cd:"
+        ],
+        "e127": [
+            ":dvd:"
+        ],
+        "e128": [
+            ":radio:"
+        ],
+        "e129": [
+            ":vhs:"
+        ],
+        "e130": [
+            ":dart:"
+        ],
+        "e131": [
+            ":trophy:"
+        ],
+        "e132": [
+            ":checkered_flag:"
+        ],
+        "e133": [
+            ":777:"
+        ],
+        "e134": [
+            ":racehorse:"
+        ],
+        "e135": [
+            ":speedboat:"
+        ],
+        "e136": [
+            ":bike:"
+        ],
+        "e137": [
+            ":construction:"
+        ],
+        "e138": [
+            ":mens:"
+        ],
+        "e139": [
+            ":womens:"
+        ],
+        "e140": [
+            ":toilet:"
+        ],
+        "e141": [
+            ":speaker:"
+        ],
+        "e412": [
+            ":joy:"
+        ],
+        "e143": [
+            ":crossed_flags:"
+        ],
+        "e144": [
+            ":lock:"
+        ],
+        "e145": [
+            ":unlock:"
+        ],
+        "e146": [
+            ":city_sunset:"
+        ],
+        "e147": [
+            ":egg:"
+        ],
+        "e148": [
+            ":book:"
+        ],
+        "e149": [
+            ":currency_exchange:"
+        ],
+        "e150": [
+            ":busstop:"
+        ],
+        "e151": [
+            ":restroom:"
+        ],
+        "e152": [
+            ":cop:"
+        ],
+        "e153": [
+            ":post_office:"
+        ],
+        "e154": [
+            ":atm:"
+        ],
+        "e155": [
+            ":hospital:"
+        ],
+        "e156": [
+            ":convenience_store:"
+        ],
+        "e157": [
+            ":school:"
+        ],
+        "e158": [
+            ":hotel:"
+        ],
+        "e159": [
+            ":bus:"
+        ],
+        "e201": [
+            ":walking:"
+        ],
+        "e202": [
+            ":ship:"
+        ],
+        "e203": [
+            ":koko:"
+        ],
+        "e204": [
+            ":heart_decoration:"
+        ],
+        "e205": [
+            ":eight_pointed_black_star:"
+        ],
+        "e206": [
+            ":eight_spoked_asterisk:"
+        ],
+        "e207": [
+            ":underage:"
+        ],
+        "e208": [
+            ":no_smoking:"
+        ],
+        "e209": [
+            ":beginner:"
+        ],
+        "e210": [
+            ":hash:"
+        ],
+        "e211": [
+            ":loop:"
+        ],
+        "e212": [
+            ":new:"
+        ],
+        "e213": [
+            ":up:"
+        ],
+        "e214": [
+            ":cool:"
+        ],
+        "e215": [
+            ":u6709:"
+        ],
+        "e216": [
+            ":u7121:"
+        ],
+        "e217": [
+            ":u6708:"
+        ],
+        "e218": [
+            ":u7533:"
+        ],
+        "e219": [
+            ":red_circle:"
+        ],
+        "e220": [
+            ":5:"
+        ],
+        "e221": [
+            ":6:"
+        ],
+        "e222": [
+            ":7:"
+        ],
+        "e223": [
+            ":8:"
+        ],
+        "e224": [
+            ":9:"
+        ],
+        "e225": [
+            ":0:"
+        ],
+        "e226": [
+            ":-:"
+        ],
+        "e227": [
+            ":u5272:"
+        ],
+        "e228": [
+            ":sa:"
+        ],
+        "e229": [
+            ":id:"
+        ],
+        "e230": [
+            ":point_left:"
+        ],
+        "e231": [
+            ":point_right:"
+        ],
+        "e232": [
+            ":arrow_up:"
+        ],
+        "e233": [
+            ":arrow_down:"
+        ],
+        "e234": [
+            ":arrow_right:"
+        ],
+        "e235": [
+            ":arrow_left:"
+        ],
+        "e236": [
+            ":arrow_upper_right:"
+        ],
+        "e237": [
+            ":arrow_upper_left:"
+        ],
+        "e238": [
+            ":arrow_lower_right:"
+        ],
+        "e239": [
+            ":arrow_lower_left:"
+        ],
+        "e240": [
+            ":taurus:"
+        ],
+        "e241": [
+            ":gemini:"
+        ],
+        "e242": [
+            ":cancer:"
+        ],
+        "e243": [
+            ":leo:"
+        ],
+        "e244": [
+            ":virgo:"
+        ],
+        "e245": [
+            ":libra:"
+        ],
+        "e246": [
+            ":scorpius:"
+        ],
+        "e247": [
+            ":sagittarius:"
+        ],
+        "e248": [
+            ":capricorn:"
+        ],
+        "e249": [
+            ":aquarius:"
+        ],
+        "e250": [
+            ":vibration_mode:"
+        ],
+        "e251": [
+            ":mobile_phone_off:"
+        ],
+        "e252": [
+            ":warning:"
+        ],
+        "e253": [
+            ":information_desk_person:"
+        ],
+        "e301": [
+            ":pencil:"
+        ],
+        "e302": [
+            ":necktie:"
+        ],
+        "e303": [
+            ":hibiscus:"
+        ],
+        "e304": [
+            ":tulip:"
+        ],
+        "e305": [
+            ":sunflower:"
+        ],
+        "e306": [
+            ":bouquet:"
+        ],
+        "e307": [
+            ":palm_tree:"
+        ],
+        "e308": [
+            ":cactus:"
+        ],
+        "e309": [
+            ":wc:"
+        ],
+        "e310": [
+            ":balloon:"
+        ],
+        "e311": [
+            ":bomb:"
+        ],
+        "e312": [
+            ":tada:"
+        ],
+        "e313": [
+            ":scissors:"
+        ],
+        "e314": [
+            ":ribbon:"
+        ],
+        "e315": [
+            ":secret:"
+        ],
+        "e316": [
+            ":minidisc:"
+        ],
+        "e317": [
+            ":mega:"
+        ],
+        "e318": [
+            ":womans_hat:"
+        ],
+        "e319": [
+            ":dress:"
+        ],
+        "e320": [
+            ":barber:"
+        ],
+        "e321": [
+            ":kimono:"
+        ],
+        "e322": [
+            ":bikini:"
+        ],
+        "e323": [
+            ":handbag:"
+        ],
+        "e324": [
+            ":clapper:"
+        ],
+        "e325": [
+            ":bell:"
+        ],
+        "e326": [
+            ":notes:"
+        ],
+        "e327": [
+            ":heart_sparkle:"
+        ],
+        "e328": [
+            ":heart_pink:"
+        ],
+        "e329": [
+            ":cupid:"
+        ],
+        "e330": [
+            ":dash:"
+        ],
+        "e331": [
+            ":sweat_drops:"
+        ],
+        "e332": [
+            ":o:"
+        ],
+        "e333": [
+            ":x:"
+        ],
+        "e334": [
+            ":anger:"
+        ],
+        "e335": [
+            ":star:"
+        ],
+        "e336": [
+            ":question:"
+        ],
+        "e337": [
+            ":exclamation:"
+        ],
+        "e338": [
+            ":tea:"
+        ],
+        "e339": [
+            ":bread:"
+        ],
+        "e340": [
+            ":ramen:"
+        ],
+        "e341": [
+            ":curry:"
+        ],
+        "e342": [
+            ":rice_ball:"
+        ],
+        "e343": [
+            ":oden:"
+        ],
+        "e344": [
+            ":sushi:"
+        ],
+        "e345": [
+            ":apple:"
+        ],
+        "e346": [
+            ":tangerine:"
+        ],
+        "e347": [
+            ":strawberry:"
+        ],
+        "e348": [
+            ":watermelon:"
+        ],
+        "e349": [
+            ":tomato:"
+        ],
+        "e401": [
+            ":relieved:"
+        ],
+        "e402": [
+            ":smirk:"
+        ],
+        "e403": [
+            ":pensive:"
+        ],
+        "e404": [
+            ":grin:"
+        ],
+        "e405": [
+            ":wink:"
+        ],
+        "e406": [
+            ":persevere:"
+        ],
+        "e407": [
+            ":confounded:"
+        ],
+        "e408": [
+            ":sleepy:"
+        ],
+        "e409": [
+            ":tongue:"
+        ],
+        "e410": [
+            ":astonished:"
+        ],
+        "e411": [
+            ":sob:"
+        ],
+        "e413": [
+            ":cry:"
+        ],
+        "e414": [
+            ":relaxed:"
+        ],
+        "e415": [
+            ":smile:"
+        ],
+        "e416": [
+            ":rage:"
+        ],
+        "e417": [
+            ":kissing_face:"
+        ],
+        "e418": [
+            ":kissing_heart:"
+        ],
+        "e419": [
+            ":eyes:"
+        ],
+        "e420": [
+            ":ok_hand:"
+        ],
+        "e421": [
+            ":-1:"
+        ],
+        "e422": [
+            ":open_hands:"
+        ],
+        "e423": [
+            ":no_good:"
+        ],
+        "e424": [
+            ":ok_woman:"
+        ],
+        "e425": [
+            ":couple_with_heart:"
+        ],
+        "e426": [
+            ":bow:"
+        ],
+        "e427": [
+            ":raised_hands:"
+        ],
+        "e428": [
+            ":couple:"
+        ],
+        "e429": [
+            ":dancers:"
+        ],
+        "e430": [
+            ":fire_engine:"
+        ],
+        "e431": [
+            ":ambulance:"
+        ],
+        "e432": [
+            ":police_car:"
+        ],
+        "e433": [
+            ":roller_coaster:"
+        ],
+        "e434": [
+            ":metro:"
+        ],
+        "e435": [
+            ":bullettrain_side:"
+        ],
+        "e436": [
+            ":bamboo:"
+        ],
+        "e437": [
+            ":gift_heart:"
+        ],
+        "e438": [
+            ":dolls:"
+        ],
+        "e439": [
+            ":suit:"
+        ],
+        "e440": [
+            ":sparkler:"
+        ],
+        "e441": [
+            ":clamshell:"
+        ],
+        "e442": [
+            ":wind_chime:"
+        ],
+        "e443": [
+            ":cyclone:"
+        ],
+        "e444": [
+            ":ear_of_rice:"
+        ],
+        "e445": [
+            ":jack_o_lantern:"
+        ],
+        "e446": [
+            ":rice_scene:"
+        ],
+        "e447": [
+            ":leaves:"
+        ],
+        "e448": [
+            ":santa:"
+        ],
+        "e449": [
+            ":sunrise:"
+        ],
+        "e501": [
+            ":love_hotel:"
+        ],
+        "e502": [
+            ":art:"
+        ],
+        "e503": [
+            ":tophat:"
+        ],
+        "e504": [
+            ":department_store:"
+        ],
+        "e505": [
+            ":japanese_castle:"
+        ],
+        "e506": [
+            ":european_castle:"
+        ],
+        "e507": [
+            ":cinema:"
+        ],
+        "e508": [
+            ":factory:"
+        ],
+        "e509": [
+            ":tokyo_tower:"
+        ],
+        "e510": [
+            ":gb:"
+        ],
+        "e511": [
+            ":es:"
+        ],
+        "e512": [
+            ":ru:"
+        ],
+        "e513": [
+            ":cn:"
+        ],
+        "e514": [
+            ":kr:"
+        ],
+        "e515": [
+            ":person_with_blond_hair:"
+        ],
+        "e516": [
+            ":man_with_gua_pi_mao:"
+        ],
+        "e517": [
+            ":man_with_turban:"
+        ],
+        "e518": [
+            ":older_man:"
+        ],
+        "e519": [
+            ":older_woman:"
+        ],
+        "e520": [
+            ":dolphin:"
+        ],
+        "e521": [
+            ":bird:"
+        ],
+        "e522": [
+            ":tropical_fish:"
+        ],
+        "e523": [
+            ":baby_chick:"
+        ],
+        "e524": [
+            ":hamster:"
+        ],
+        "e525": [
+            ":bug:"
+        ],
+        "e526": [
+            ":elephant:"
+        ],
+        "e527": [
+            ":koala:"
+        ],
+        "e528": [
+            ":monkey:"
+        ],
+        "e529": [
+            ":sheep:"
+        ],
+        "e530": [
+            ":camel:"
+        ],
+        "e531": [
+            ":frog:"
+        ],
+        "e532": [
+            ":a:"
+        ],
+        "e533": [
+            ":b:"
+        ],
+        "e534": [
+            ":ab:"
+        ],
+        "e535": [
+            ":o2:"
+        ],
+        "e536": [
+            ":feet:"
+        ],
+        "e537": [
+            ":tm:"
+        ],
+        "e770": [
+            ":stuck_out_tongue_closed_eyes:"
+        ],
+        "e771": [
+            ":stuck_out_tongue:"
+        ],
+        "e991": [
+            ":ruben:"
+        ],
+        "e992": [
+            ":fabian:"
+        ],
+        "e993": [
+            ":jos:"
+        ],
+        "e994": [
+            ":mostafa:"
+        ],
+        "e995": [
+            ":lennart:"
+        ],
+        "e996": [
+            ":ivar:"
+        ],
+        "e997": [
+            ":bas:"
+        ],
+        "e998": [
+            ":luca:"
+        ],
+        "e999": [
+            ":harutyun:"
+        ]
+    },
+    "reverse": {
+        ":iphone:": "e00a",
+        ":fax:": "e00b",
+        ":computer:": "e00c",
+        ":punch:": "e00d",
+        ":+1:": "e00e",
+        ":point_up:": "e22e",
+        ":boy:": "e001",
+        ":horse:": "e01a",
+        ":car:": "e01b",
+        ":sailboat:": "e01c",
+        ":plane:": "e01d",
+        ":train:": "e01e",
+        ":bullettrain_front:": "e01f",
+        ":girl:": "e002",
+        ":clock7:": "e02a",
+        ":clock8:": "e02b",
+        ":clock9:": "e02c",
+        ":clock10:": "e02d",
+        ":clock11:": "e02e",
+        ":clock12:": "e02f",
+        ":lips:": "e41c",
+        ":fuelpump:": "e03a",
+        ":mount_fuji:": "e03b",
+        ":microphone:": "e03c",
+        ":movie_camera:": "e03d",
+        ":musical_note:": "e03e",
+        ":key:": "e03f",
+        ":man:": "e004",
+        ":sun:": "e04a",
+        ":umbrella:": "e04b",
+        ":moon:": "e04c",
+        ":sunrise_over_mountains:": "e04d",
+        ":angel:": "e04e",
+        ":cat:": "e04f",
+        ":woman:": "e005",
+        ":hankey:": "e05a",
+        ":poop:": "e05a",
+        ":shit:": "e05a",
+        ":shirt:": "e006",
+        ":shoe:": "e007",
+        ":camera:": "e008",
+        ":phone:": "e009",
+        ":fist:": "e010",
+        ":octopus:": "e10a",
+        ":pig:": "e10b",
+        ":alien:": "e10c",
+        ":rocket:": "e10d",
+        ":crown:": "e10e",
+        ":bulb:": "e10f",
+        ":v:": "e011",
+        ":imp:": "e11a",
+        ":ghost:": "e11b",
+        ":skull:": "e11c",
+        ":fire:": "e11d",
+        ":briefcase:": "e11e",
+        ":seat:": "e11f",
+        ":hand:": "e012",
+        ":tv:": "e12a",
+        ":space_invader:": "e12b",
+        ":part_alternation_mark:": "e12c",
+        ":mahjong:": "e12d",
+        ":vs:": "e12e",
+        ":moneybag:": "e12f",
+        ":ski:": "e013",
+        ":baby_symbol:": "e12a",
+        ":syringe:": "e13b",
+        ":zzz:": "e13c",
+        ":zap:": "e13d",
+        ":high_heel:": "e13e",
+        ":bath:": "e13f",
+        ":golf:": "e014",
+        ":chart:": "e14a",
+        ":satellite:": "e14b",
+        ":muscle:": "e14c",
+        ":bank:": "e14d",
+        ":traffic_light:": "e14e",
+        ":parking:": "e14f",
+        ":tennis:": "e015",
+        ":taxi:": "e15a",
+        ":baseball:": "e016",
+        ":surfer:": "e017",
+        ":soccer:": "e018",
+        ":football:": "e018",
+        ":fish:": "e019",
+        ":question:": "e336",
+        ":wheelchair:": "e20a",
+        ":signal_strength:": "e20b",
+        ":hearts:": "e20c",
+        ":diamonds:": "e20d",
+        ":spades:": "e20e",
+        ":clubs:": "e20f",
+        ":exclamation:": "e337",
+        ":green_circle:": "e21a",
+        ":purple_circle:": "e21b",
+        ":1:": "e21c",
+        ":2:": "e21d",
+        ":3:": "e21e",
+        ":4:": "e21f",
+        ":heart:": "e022",
+        ":u6e80:": "e22a",
+        ":u7a7a:": "e22b",
+        ":u6307:": "e22c",
+        ":u55b6:": "e22d",
+        ":point_down:": "e22f",
+        ":broken_heart:": "e023",
+        ":arrow_forward:": "e23a",
+        ":arrow_backward:": "e23b",
+        ":fast_forward:": "e23c",
+        ":rewind:": "e23d",
+        ":six_pointed_star:": "e23e",
+        ":aries:": "e23f",
+        ":clock1:": "e024",
+        ":pisces:": "e24a",
+        ":ophiuchus:": "e24b",
+        ":top:": "e24c",
+        ":ok:": "e24d",
+        ":copyright:": "e24e",
+        ":registered:": "e24f",
+        ":clock2:": "e025",
+        ":clock3:": "e026",
+        ":clock4:": "e027",
+        ":clock5:": "e028",
+        ":clock6:": "e029",
+        ":cherry_blossom:": "e030",
+        ":headphones:": "e30a",
+        ":sake:": "e30b",
+        ":beers:": "e30c",
+        ":congratulations:": "e30d",
+        ":smoking:": "e30e",
+        ":pill:": "e30f",
+        ":trident:": "e031",
+        ":sandal:": "e31a",
+        ":boot:": "e31b",
+        ":lipstick:": "e31c",
+        ":nail_care:": "e31d",
+        ":massage:": "e31e",
+        ":haircut:": "e31f",
+        ":rose:": "e032",
+        ":blue_heart:": "e32a",
+        ":green_heart:": "e32b",
+        ":yellow_heart:": "e32c",
+        ":purple_heart:": "e32d",
+        ":sparkles:": "e32e",
+        ":star:": "e335",
+        ":christmas_tree:": "e033",
+        ":icecream:": "e33a",
+        ":fries:": "e33b",
+        ":dango:": "e33c",
+        ":rice_cracker:": "e33d",
+        ":rice:": "e33e",
+        ":spaghetti:": "e33f",
+        ":ring:": "e034",
+        ":eggplant:": "e34a",
+        ":birthday:": "e34b",
+        ":bento:": "e34c",
+        ":stew:": "e34d",
+        ":gem:": "e035",
+        ":house:": "e036",
+        ":church:": "e037",
+        ":office:": "e038",
+        ":station:": "e039",
+        ":saxophone:": "e040",
+        ":pensive:": "e403",
+        ":fearful:": "e40b",
+        ":mask:": "e40c",
+        ":flushed:": "e40d",
+        ":unamused:": "e40e",
+        ":cold_sweat:": "e40f",
+        ":guitar:": "e041",
+        ":nose:": "e41a",
+        ":ear:": "e41b",
+        ":pray:": "e41d",
+        ":wave:": "e41e",
+        ":clap:": "e41f",
+        ":trumpet:": "e042",
+        ":basketball:": "e42a",
+        ":rugby:": "e42b",
+        ":8ball:": "e42c",
+        ":swimmer:": "e42d",
+        ":blue_car:": "e42e",
+        ":truck:": "e42f",
+        ":fork_and_knife:": "e043",
+        ":school_satchel:": "e43a",
+        ":flags:": "e43b",
+        ":closed_umbrella:": "e43c",
+        ":wedding:": "e43d",
+        ":ocean:": "e43e",
+        ":shaved_ice:": "e43f",
+        ":cocktail:": "e044",
+        ":city_sunset:": "e146",
+        ":stars:": "e44b",
+        ":rainbow:": "e44c",
+        ":coffee:": "e045",
+        ":cake:": "e046",
+        ":beer:": "e047",
+        ":snowman:": "e048",
+        ":cloud:": "e049",
+        ":tiger:": "e050",
+        ":109:": "e50a",
+        ":jp:": "e50b",
+        ":us:": "e50c",
+        ":fr:": "e50d",
+        ":de:": "e50e",
+        ":it:": "e50f",
+        ":bear:": "e051",
+        ":baby:": "e51a",
+        ":construction_worker:": "e51b",
+        ":princess:": "e51c",
+        ":statue_of_liberty:": "e51d",
+        ":guardsman:": "e51e",
+        ":dancer:": "e51f",
+        ":dog:": "e052",
+        ":wolf:": "e52a",
+        ":cow:": "e52b",
+        ":rabbit:": "e52c",
+        ":snake:": "e52d",
+        ":chicken:": "e52e",
+        ":boar:": "e52f",
+        ":mouse:": "e053",
+        ":whale:": "e054",
+        ":penguin:": "e055",
+        ":blush:": "e056",
+        ":smile:": "e415",
+        ":disappointed:": "e058",
+        ":angry:": "e059",
+        ":mailbox:": "e101",
+        ":postbox:": "e102",
+        ":email:": "e103",
+        ":calling:": "e104",
+        ":wink2:": "e105",
+        ":heart_eyes:": "e106",
+        ":scream:": "e107",
+        ":sweat:": "e108",
+        ":monkey_face:": "e109",
+        ":four_leaf_clover:": "e110",
+        ":couplekiss:": "e111",
+        ":gift:": "e112",
+        ":gun:": "e113",
+        ":mag:": "e114",
+        ":runner:": "e115",
+        ":hammer:": "e116",
+        ":fireworks:": "e117",
+        ":maple_leaf:": "e118",
+        ":fallen_leaf:": "e119",
+        ":hamburger:": "e120",
+        ":fountain:": "e121",
+        ":tent:": "e122",
+        ":hotsprings:": "e123",
+        ":ferris_wheel:": "e124",
+        ":ticket:": "e125",
+        ":cd:": "e126",
+        ":dvd:": "e127",
+        ":radio:": "e128",
+        ":vhs:": "e129",
+        ":dart:": "e130",
+        ":trophy:": "e131",
+        ":checkered_flag:": "e132",
+        ":777:": "e133",
+        ":racehorse:": "e134",
+        ":speedboat:": "e135",
+        ":bike:": "e136",
+        ":construction:": "e137",
+        ":mens:": "e138",
+        ":womens:": "e139",
+        ":toilet:": "e140",
+        ":speaker:": "e141",
+        ":loudspeaker:": "e412",
+        ":crossed_flags:": "e143",
+        ":lock:": "e144",
+        ":unlock:": "e145",
+        ":egg:": "e147",
+        ":book:": "e148",
+        ":currency_exchange:": "e149",
+        ":busstop:": "e150",
+        ":restroom:": "e151",
+        ":cop:": "e152",
+        ":post_office:": "e153",
+        ":atm:": "e154",
+        ":hospital:": "e155",
+        ":convenience_store:": "e156",
+        ":school:": "e157",
+        ":hotel:": "e158",
+        ":bus:": "e159",
+        ":walking:": "e201",
+        ":ship:": "e202",
+        ":koko:": "e203",
+        ":heart_decoration:": "e204",
+        ":eight_pointed_black_star:": "e205",
+        ":eight_spoked_asterisk:": "e206",
+        ":underage:": "e207",
+        ":no_smoking:": "e208",
+        ":beginner:": "e209",
+        ":hash:": "e210",
+        ":loop:": "e211",
+        ":new:": "e212",
+        ":up:": "e213",
+        ":cool:": "e214",
+        ":u6709:": "e215",
+        ":u7121:": "e216",
+        ":u6708:": "e217",
+        ":u7533:": "e218",
+        ":red_circle:": "e219",
+        ":5:": "e220",
+        ":6:": "e221",
+        ":7:": "e222",
+        ":8:": "e223",
+        ":9:": "e224",
+        ":0:": "e225",
+        ":-:": "e226",
+        ":u5272:": "e227",
+        ":sa:": "e228",
+        ":id:": "e229",
+        ":point_left:": "e230",
+        ":point_right:": "e231",
+        ":arrow_up:": "e232",
+        ":arrow_down:": "e233",
+        ":arrow_right:": "e234",
+        ":arrow_left:": "e235",
+        ":arrow_upper_right:": "e236",
+        ":arrow_upper_left:": "e237",
+        ":arrow_lower_right:": "e238",
+        ":arrow_lower_left:": "e239",
+        ":taurus:": "e240",
+        ":gemini:": "e241",
+        ":cancer:": "e242",
+        ":leo:": "e243",
+        ":virgo:": "e244",
+        ":libra:": "e245",
+        ":scorpius:": "e246",
+        ":sagittarius:": "e247",
+        ":capricorn:": "e248",
+        ":aquarius:": "e249",
+        ":vibration_mode:": "e250",
+        ":mobile_phone_off:": "e251",
+        ":warning:": "e252",
+        ":information_desk_person:": "e253",
+        ":pencil:": "e301",
+        ":necktie:": "e302",
+        ":hibiscus:": "e303",
+        ":tulip:": "e304",
+        ":sunflower:": "e305",
+        ":bouquet:": "e306",
+        ":palm_tree:": "e307",
+        ":cactus:": "e308",
+        ":wc:": "e309",
+        ":balloon:": "e310",
+        ":bomb:": "e311",
+        ":tada:": "e312",
+        ":scissors:": "e313",
+        ":ribbon:": "e314",
+        ":secret:": "e315",
+        ":minidisc:": "e316",
+        ":mega:": "e317",
+        ":womans_hat:": "e318",
+        ":dress:": "e319",
+        ":barber:": "e320",
+        ":kimono:": "e321",
+        ":bikini:": "e322",
+        ":handbag:": "e323",
+        ":clapper:": "e324",
+        ":bell:": "e325",
+        ":notes:": "e326",
+        ":heart_sparkle:": "e327",
+        ":heart_pink:": "e328",
+        ":cupid:": "e329",
+        ":dash:": "e330",
+        ":sweat_drops:": "e331",
+        ":o:": "e332",
+        ":x:": "e333",
+        ":anger:": "e334",
+        ":tea:": "e338",
+        ":bread:": "e339",
+        ":ramen:": "e340",
+        ":curry:": "e341",
+        ":rice_ball:": "e342",
+        ":oden:": "e343",
+        ":sushi:": "e344",
+        ":apple:": "e345",
+        ":tangerine:": "e346",
+        ":strawberry:": "e347",
+        ":watermelon:": "e348",
+        ":tomato:": "e349",
+        ":relieved:": "e401",
+        ":smirk:": "e402",
+        ":grin:": "e404",
+        ":wink:": "e405",
+        ":persevere:": "e406",
+        ":confounded:": "e407",
+        ":sleepy:": "e408",
+        ":tongue:": "e409",
+        ":astonished:": "e410",
+        ":sob:": "e411",
+        ":joy:": "e412",
+        ":cry:": "e413",
+        ":relaxed:": "e414",
+        ":rage:": "e416",
+        ":kissing_face:": "e417",
+        ":kissing_heart:": "e418",
+        ":eyes:": "e419",
+        ":ok_hand:": "e420",
+        ":-1:": "e421",
+        ":open_hands:": "e422",
+        ":no_good:": "e423",
+        ":ok_woman:": "e424",
+        ":couple_with_heart:": "e425",
+        ":bow:": "e426",
+        ":raised_hands:": "e427",
+        ":couple:": "e428",
+        ":dancers:": "e429",
+        ":fire_engine:": "e430",
+        ":ambulance:": "e431",
+        ":police_car:": "e432",
+        ":roller_coaster:": "e433",
+        ":metro:": "e434",
+        ":bullettrain_side:": "e435",
+        ":bamboo:": "e436",
+        ":gift_heart:": "e437",
+        ":dolls:": "e438",
+        ":suit:": "e439",
+        ":sparkler:": "e440",
+        ":clamshell:": "e441",
+        ":wind_chime:": "e442",
+        ":cyclone:": "e443",
+        ":ear_of_rice:": "e444",
+        ":jack_o_lantern:": "e445",
+        ":rice_scene:": "e446",
+        ":leaves:": "e447",
+        ":santa:": "e448",
+        ":sunrise:": "e449",
+        ":love_hotel:": "e501",
+        ":art:": "e502",
+        ":tophat:": "e503",
+        ":department_store:": "e504",
+        ":japanese_castle:": "e505",
+        ":european_castle:": "e506",
+        ":cinema:": "e507",
+        ":factory:": "e508",
+        ":tokyo_tower:": "e509",
+        ":gb:": "e510",
+        ":es:": "e511",
+        ":ru:": "e512",
+        ":cn:": "e513",
+        ":kr:": "e514",
+        ":person_with_blond_hair:": "e515",
+        ":man_with_gua_pi_mao:": "e516",
+        ":man_with_turban:": "e517",
+        ":older_man:": "e518",
+        ":older_woman:": "e519",
+        ":dolphin:": "e520",
+        ":bird:": "e521",
+        ":tropical_fish:": "e522",
+        ":baby_chick:": "e523",
+        ":hamster:": "e524",
+        ":bug:": "e525",
+        ":elephant:": "e526",
+        ":koala:": "e527",
+        ":monkey:": "e528",
+        ":sheep:": "e529",
+        ":camel:": "e530",
+        ":frog:": "e531",
+        ":a:": "e532",
+        ":b:": "e533",
+        ":ab:": "e534",
+        ":o2:": "e535",
+        ":feet:": "e536",
+        ":tm:": "e537",
+        ":stuck_out_tongue_closed_eyes:": "e770",
+        ":stuck_out_tongue:": "e771",
+        ":ruben:": "e991",
+        ":fabian:": "e992",
+        ":jos:": "e993",
+        ":mostafa:": "e994",
+        ":lennart:": "e995",
+        ":ivar:": "e996",
+        ":bas:": "e997",
+        ":luca:": "e998",
+        ":harutyun:": "e999"
+    }
+}

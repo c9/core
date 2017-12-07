@@ -1,0 +1,56 @@
+{
+  "Ix": {
+    "Observer": {
+      "onNext": "fn(value: T)",
+      "onError": "fn(error: Error)",
+      "onCompleted": "fn()"
+    },
+    "Enumerable": {
+      "isEmpty": "fn() -> bool",
+      "minBy": "fn(keySelector: fn(item: T), comparer: ?) -> ?",
+      "maxBy": "fn(keySelector: fn(item: T), comparer: ?) -> ?",
+      "share": "fn(selector: fn(source: ?)) -> ?",
+      "publish": "fn(selector: fn(source: ?)) -> ?",
+      "memoize": "fn() -> ?",
+      "do": "fn(onNext: fn(value: T), onError?: fn(error: Error), onCompleted?: fn()) -> ?",
+      "doAction": "fn(onNext: fn(value: T), onError?: fn(error: Error), onCompleted?: fn()) -> ?",
+      "bufferWithCount": "fn(count: number, skip?: number) -> ?",
+      "ignoreElements": "fn() -> ?",
+      "distinctBy": "fn(keySelector: fn(item: T), comparer?: ?) -> ?",
+      "distinctUntilChanged": "fn(keySelector: fn(item: T), comparer?: ?) -> ?",
+      "expand": "fn(selector: fn(item: T)) -> ?",
+      "startWith": "fn(values: [T]) -> ?",
+      "scan": "fn(seed: TAccumulate, accumulate: fn(acc: TAccumulate, item: T)) -> ?",
+      "takeLast": "fn(count: number) -> ?",
+      "skipLast": "fn(count: number) -> ?",
+      "repeat": "fn(count?: number) -> ?",
+      "catch": "fn(handler: fn(error: Error)) -> ?",
+      "catchException": "fn(handler: fn(error: Error)) -> ?",
+      "finally": "fn(finallyAction: fn()) -> ?",
+      "finallyDo": "fn(finallyAction: fn()) -> ?",
+      "onErrorResumeNext": "fn(second: ?) -> ?",
+      "retry": "fn(retryCount?: number) -> ?"
+    },
+    "EnumerableStatic": {
+      "throw": "fn(error: Error) -> ?",
+      "throwException": "fn(error: Error) -> ?",
+      "defer": "fn(enumerableFactory: fn()) -> ?",
+      "generate": "fn(initialState: TState, condition: ?, iterate: fn(state: TState), resultSelector: fn(state: TState)) -> ?",
+      "using": "fn(resourceFactory: fn(), enumerableFactory: fn(resource: TResource)) -> ?",
+      "catch": "fn(sources: [?]) -> ?",
+      "catchException": "fn(sources: [?]) -> ?",
+      "onErrorResumeNext": "fn(sources: [?]) -> ?",
+      "while": "fn(condition: ?, source: ?) -> ?",
+      "whileDo": "fn(condition: ?, source: ?) -> ?",
+      "if": "fn(condition: fn(), thenSource: ?, elseSource?: ?) -> ?",
+      "ifThen": "fn(condition: fn(), thenSource: ?, elseSource?: ?) -> ?",
+      "doWhile": "fn(source: ?, condition: ?) -> ?",
+      "case": "fn(selector: fn(), sources: ?, defaultSource?: ?) -> ?",
+      "switchCase": "fn(selector: fn(), sources: ?, defaultSource?: ?) -> ?",
+      "for": "fn(source: ?, resultSelector: ?) -> ?",
+      "forIn": "fn(source: ?, resultSelector: ?) -> ?"
+    }
+  },
+  "ix": "Ix",
+  "!name": "ix.d.ts"
+}

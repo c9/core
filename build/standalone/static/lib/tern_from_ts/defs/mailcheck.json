@@ -1,0 +1,51 @@
+{
+  "Mailcheck": "MailcheckModule.Static",
+  "MailcheckModule": {
+    "IDistanceFunction": {},
+    "ISuggestFunction": {},
+    "IJQuerySuggested": {},
+    "IJQueryEmpty": {},
+    "IEmpty": {},
+    "ISuggested": {},
+    "ISplitEmail": {
+      "topLevelDomain": "string",
+      "domain": "string",
+      "address": "string"
+    },
+    "ISuggestion": {
+      "address": "string",
+      "domain": "string",
+      "full": "string"
+    },
+    "IOptions": {
+      "email": "string",
+      "domains": "[string]",
+      "secondLevelDomains": "[string]",
+      "topLevelDomains": "[string]",
+      "distanceFunction": "IDistanceFunction",
+      "suggested": "ISuggested",
+      "IJQuerySuggested": "?",
+      "empty": "IEmpty",
+      "IJQueryEmpty": "?"
+    },
+    "Static": {
+      "defaultDomains": "[string]",
+      "defaultSecondLevelDomains": "[string]",
+      "defaultTopLevelDomains": "[string]",
+      "domainThreshold": "number",
+      "topLevelThreshold": "number",
+      "run": "fn(opts: IOptions)",
+      "suggest": "ISuggestFunction",
+      "encodeEmail": "fn(email: string) -> string",
+      "splitEmail": "fn(email: string) -> ISplitEmail",
+      "sift3Distance": "fn(s1: string, s2: string) -> number",
+      "findClosestDomain": "fn(domain: string, domains: [string], distanceFunction?: IDistanceFunction, threshold?: number) -> bool",
+      "string": "?"
+    }
+  },
+  "JQuery": {
+    "mailcheck": "fn(opts: MailcheckModule.IOptions)"
+  },
+  "'mailcheck'": "Mailcheck",
+  "!name": "mailcheck"
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>ReplAce</title>
+    <style>
+#editor {
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
+
+    </style>
+</head>
+<body>
+<div id="editor"></div>
+
+<script src="/static/mini_require.js"></script>
+<script src="/configs/require_config.js"></script>
+<script src="/static/test.js"></script>
+    
+<script>
+require(["ace/ace", "plugins/c9.ide.ace.repl/repl", "plugins/c9.ide.ace.repl/notebook"], function(ace, repl, nb) {
+    editor = ace.edit("editor")
+    editor.session.setMode(new nb.Mode)
+    editor.commands.addCommands(nb.commands)
+});
+</script>
+
+</body>
+</html>

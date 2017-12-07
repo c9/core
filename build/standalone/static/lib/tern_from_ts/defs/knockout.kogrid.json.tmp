@@ -1,0 +1,84 @@
+{
+  "kg": {
+    "DomUtilityService": {
+      "UpdateGridLayout": "fn(grid: ?)",
+      "BuildStyles": "fn(grid: ?)"
+    },
+    "domUtilityService": "DomUtilityService",
+    "Row": {
+      "selected": "?",
+      "entity": "EntityType"
+    },
+    "RowFactory": {
+      "rowCache": "[?]"
+    },
+    "SelectionService": {
+      "setSelection": "fn(row: ?, selected: bool)",
+      "multi": "bool",
+      "lastClickedRow": "?"
+    },
+    "Grid": {
+      "configureColumnWidths": "fn()",
+      "rowFactory": "?",
+      "config": "?",
+      "$$selectionPhase": "bool",
+      "selectionService": "?"
+    },
+    "Plugin": {
+      "onGridInit": "fn(grid: ?)"
+    },
+    "GridOptions": {
+      "afterSelectionChange": "fn(row: ?)",
+      "beforeSelectionChange": "Function",
+      "columnDefs": "[ColumnDef]",
+      "columnWidth": "number",
+      "data": "?",
+      "displaySelectionCheckbox": "bool",
+      "enableColumnResize": "bool",
+      "enablePaging": "bool",
+      "enablePinning": "bool",
+      "enableRowReordering": "bool",
+      "enableRowSelection": "bool",
+      "enableSorting": "bool",
+      "filterOptions": "FilterOptions",
+      "footerRowHeight": "number",
+      "footerVisible": "bool",
+      "groups": "[string]",
+      "headerRowHeight": "number",
+      "headerRowTemplate": "?",
+      "jqueryUIDraggable": "bool",
+      "jqueryUITheme": "bool",
+      "keepLastSelected": "bool",
+      "maintainColumnRatios": "?",
+      "multiSelect": "bool",
+      "pagingOptions": "PagingOptions",
+      "plugins": "[?]",
+      "rowHeight": "number",
+      "rowTemplate": "?",
+      "selectedItems": "?",
+      "selectWithCheckboxOnly": "bool",
+      "showColumnMenu": "bool",
+      "showFilter": "bool",
+      "showGroupPanel": "bool",
+      "sortInfo": "?",
+      "tabIndex": "number",
+      "useExternalSorting": "bool"
+    },
+    "ColumnDef": {
+      "field": "string",
+      "displayName": "string",
+      "width": "string"
+    },
+    "FilterOptions": {
+      "filterText": "string",
+      "useExternalFilter": "bool"
+    },
+    "PagingOptions": {
+      "pageSizes": "[number]",
+      "pageSize": "number",
+      "totalServerItems": "number",
+      "currentPage": "number"
+    }
+  },
+  "!name": "ko-grid.d.ts"
+}

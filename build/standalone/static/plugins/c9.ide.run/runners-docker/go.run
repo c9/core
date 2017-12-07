@@ -1,0 +1,21 @@
+{
+  "script": [
+    "set -e",
+    "if [ \"$debug\" == true ]; then ",
+    "    go build -gcflags \"-N -l\" $file",
+    "    gdbserver --once :15475 \"$file_path/$file_base_name\" $args",
+    "else",
+    "    go run $file $args",
+    "fi"
+  ],
+  "debugport": 15475,
+  "debugger": "gdb",
+  "$debugDefaultState": false,
+  
+  "executable": "$file_path/$file_base_name",
+  "maxdepth": 50,
+  "env": {},
+  
+  "selector": "source.go",
+  "info": "Your code is running at \\033[01;34m$url\\033[00m.\n\\033[01;31mImportant:\\033[00m use \\033[01;32mos.Getenv('PORT')\\033[00m as the port and \\033[01;32mos.Getenv('IP')\\033[00m as the host in your scripts!\n"
+}

@@ -1,0 +1,24 @@
+{
+  "Hashids": {
+    "IHashids": {
+      "version": "string",
+      "minAlphabetLength": "number",
+      "sepDiv": "number",
+      "guardDiv": "number",
+      "errorAlphabetLength": "string",
+      "errorAlphabetSpace": "string",
+      "alphabet": "[string]",
+      "seps": "string",
+      "minHashLength": "number",
+      "salt": "string",
+      "decode": "fn(hash: string) -> [number]",
+      "encode": "fn(arg: number) -> string",
+      "encodeHex": "fn(str: string) -> string",
+      "decodeHex": "fn(hash: string) -> string",
+      "hash": "fn(input: number, alphabet: string) -> string",
+      "unhash": "fn(input: [string], alphabet: string) -> number"
+    }
+  },
+  "'hashids'": "hashids",
+  "!name": "hashids"
+}

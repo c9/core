@@ -1,0 +1,907 @@
+{
+  "google": {
+    "load": "fn(visualization: string, version: string, packages: ?)",
+    "setOnLoadCallback": "fn(handler: Function)",
+    "visualization": {
+      "ChartSpecs": {
+        "chartType": "string",
+        "containerId": "string",
+        "options": "Object",
+        "dataTable": "Object",
+        "dataSourceUrl": "string",
+        "query": "string",
+        "refreshInterval": "number",
+        "view": "?"
+      },
+      "ErrorEventObject": {
+        "id": "string",
+        "message": "string",
+        "detailedMessage": "string",
+        "options": "?"
+      },
+      "ChartWrapper": {
+        "!type": "fn(spec?: ChartSpecs)",
+        "prototype": {
+          "draw": "fn(container_ref?: HTMLElement)",
+          "toJSON": "fn() -> string",
+          "clone": "fn() -> ChartWrapper",
+          "getDataSourceUrl": "fn() -> string",
+          "getDataTable": "fn() -> DataTable",
+          "getChartType": "fn() -> string",
+          "getChartName": "fn() -> string",
+          "getChart": "fn() -> ?",
+          "getContainerId": "fn() -> string",
+          "getQuery": "fn() -> string",
+          "getRefreshInterval": "fn() -> number",
+          "getOption": "fn(key: string, default_val?: string) -> ?",
+          "getOptions": "fn() -> Object",
+          "getView": "fn() -> ?",
+          "setDataSourceUrl": "fn(url: string)",
+          "setDataTable": "fn(table: DataTable)",
+          "setChartType": "fn(type: string)",
+          "setChartName": "fn(name: string)",
+          "setContainerId": "fn(id: string)",
+          "setQuery": "fn(query: string)",
+          "setRefreshInterval": "fn(interval: number)",
+          "setOption": "fn(key: string, value: ?)",
+          "setOptions": "fn(options: Object)",
+          "setView": "fn(view_spec: string)"
+        }
+      },
+      "DataTable": {
+        "!type": "fn(data?: ?, version?: ?)",
+        "prototype": {
+          "addColumn": "fn(type: string, label?: string, id?: string) -> number",
+          "addRow": "fn(cellObject: DataObjectCell) -> number",
+          "addRows": "fn(numberOfEmptyRows: number) -> number",
+          "clone": "fn() -> DataTable",
+          "getColumnId": "fn(columnIndex: number) -> string",
+          "getColumnLabel": "fn(columnIndex: number) -> string",
+          "getColumnPattern": "fn(columnIndex: number) -> string",
+          "getColumnProperties": "fn(columnIndex: number) -> Properties",
+          "getColumnProperty": "fn(columnIndex: number, name: string) -> ?",
+          "getColumnRange": "fn(columnIndex: number) -> ret",
+          "getColumnRole": "fn(columnIndex: string) -> string",
+          "getColumnType": "fn(columnIndex: number) -> string",
+          "getDistinctValues": "fn(columnIndex: number) -> [?]",
+          "getFilteredRows": "fn(filters: [DataTableCellFilter]) -> [number]",
+          "getFormattedValue": "fn(rowIndex: number, columnIndex: number) -> string",
+          "getNumberOfColumns": "fn() -> number",
+          "getNumberOfRows": "fn() -> number",
+          "getProperty": "fn(rowIndex: number, columnIndex: number, name: string) -> ?",
+          "getProperties": "fn(rowIndex: number, columnIndex: number) -> Properties",
+          "getRowProperties": "fn(rowIndex: number) -> Properties",
+          "getRowProperty": "fn(rowIndex: number, name: string) -> Properties",
+          "getSortedRows": "fn(sortColumn: number) -> [number]",
+          "getTableProperties": "fn() -> Properties",
+          "getTableProperty": "fn(name: string) -> ?",
+          "getValue": "fn(rowIndex: number, columnIndex: number) -> ?",
+          "insertColumn": "fn(columnIndex: number, type: string, label?: string, id?: string)",
+          "insertRows": "fn(rowIndex: number, numberOfEmptyRows: number)",
+          "removeColumn": "fn(columnIndex: number)",
+          "removeColumns": "fn(columnIndex: number, numberOfColumns: number)",
+          "removeRow": "fn(rowIndex: number)",
+          "removeRows": "fn(rowIndex: number, numberOfRows: number)",
+          "setCell": "fn(rowIndex: number, columnIndex: number, value?: ?, formattedValue?: string, properties?: Properties)",
+          "setColumnLabel": "fn(columnIndex: number, label: string)",
+          "setColumnProperty": "fn(columnIndex: number, name: string, value: ?)",
+          "setColumnProperties": "fn(columnIndex: number, properties: Properties)",
+          "setFormattedValue": "fn(rowIndex: number, columnIndex: number, formattedValue: string)",
+          "setProperty": "fn(rowIndex: number, columnIndex: number, name: string, value: ?)",
+          "setProperties": "fn(rowIndex: number, columnIndex: number, properties: Properties)",
+          "setRowProperty": "fn(rowIndex: number, name: string, value: ?)",
+          "setRowProperties": "fn(rowIndex: number, properties: Properties)",
+          "setTableProperty": "fn(name: string, value: ?)",
+          "setTableProperties": "fn(properties: Properties)",
+          "setValue": "fn(rowIndex: number, columnIndex: number, value: ?)",
+          "sort": "fn(sortColumn: number) -> [number]",
+          "toJSON": "fn() -> string"
+        }
+      },
+      "Properties": {},
+      "SortByColumn": {
+        "column": "number",
+        "desc": "bool"
+      },
+      "DataTableColumnDescription": {
+        "type": "string",
+        "label": "string",
+        "id": "string",
+        "role": "string",
+        "pattern": "string"
+      },
+      "DataObject": {
+        "cols": "[DataObjectColumn]",
+        "rows": "[DataObjectRow]",
+        "p": "?"
+      },
+      "DataObjectColumn": {
+        "type": "string",
+        "id": "string",
+        "label": "string",
+        "pattern": "string",
+        "p": "?"
+      },
+      "DataObjectRow": {
+        "c": "[DataObjectCell]",
+        "p": "?"
+      },
+      "DataTableCellFilter": {
+        "column": "number",
+        "value": "?",
+        "minValue": "?",
+        "maxValue": "?"
+      },
+      "DataObjectCell": {
+        "v": "?",
+        "f": "string",
+        "p": "?"
+      },
+      "DataTableCellValueFilter": {
+        "value": "?"
+      },
+      "DataTableCellRangeFilter": {
+        "minValue": "?",
+        "maxValue": "?"
+      },
+      "arrayToDataTable": "fn(data: [?], firstRowIsData?: bool) -> DataTable",
+      "DataView": {
+        "!type": "fn(data: DataTable)",
+        "prototype": {
+          "getColumnId": "fn(columnIndex: number) -> String",
+          "getColumnLabel": "fn(columnIndex: number) -> string",
+          "getColumnPattern": "fn(columnIndex: number) -> string",
+          "getColumnProperty": "fn(columnIndex: number, name: string) -> ?",
+          "getColumnRange": "fn(columnIndex: number) -> ret1",
+          "getColumnType": "fn(columnIndex: number) -> string",
+          "getDistinctValues": "fn(columnIndex: number) -> [?]",
+          "getFilteredRows": "fn(filters: [DataTableCellFilter]) -> [number]",
+          "getFormattedValue": "fn(rowIndex: number, columnIndex: number) -> string",
+          "getNumberOfColumns": "fn() -> number",
+          "getNumberOfRows": "fn() -> number",
+          "getProperty": "fn(rowIndex: number, columnIndex: number, name: string) -> ?",
+          "getProperties": "fn(rowIndex: number, columnIndex: number) -> Properties",
+          "getRowProperty": "fn(rowIndex: number, name: string) -> Properties",
+          "getSortedRows": "fn(sortColumn: number) -> [number]",
+          "getTableProperty": "fn(name: string) -> ?",
+          "getValue": "fn(rowIndex: number, columnIndex: number) -> ?",
+          "getTableColumnIndex": "fn(viewColumnIndex: number) -> number",
+          "getTableRowIndex": "fn(viewRowIndex: number) -> number",
+          "getViewColumnIndex": "fn(tableColumnIndex: number) -> number",
+          "getViewColumns": "fn() -> [number]",
+          "getViewRowIndex": "fn(tableRowIndex: number) -> number",
+          "getViewRows": "fn() -> [number]",
+          "hideColumns": "fn(columnIndexes: [number])",
+          "hideRows": "fn(min: number, max: number)",
+          "setColumns": "fn(columnIndexes: [number])",
+          "setRows": "fn(min: number, max: number)",
+          "toDataTable": "fn() -> DataTable",
+          "toJSON": "fn() -> string"
+        }
+      },
+      "ColumnSpec": {
+        "calc": "fn(dataTable: DataTable, row: number)",
+        "type": "string",
+        "label": "string",
+        "id": "string",
+        "sourceColumn": "number",
+        "properties": "Properties",
+        "role": "string"
+      },
+      "GeoChart": {
+        "prototype": {
+          "draw": "fn(data: DataTable, options: GeoChartOptions)"
+        }
+      },
+      "GeoChartOptions": {
+        "backgroundColor": "?",
+        "colorAxis": "ChartColorAxis",
+        "datalessRegionColor": "string",
+        "displayMode": "string",
+        "enableRegionInteractivity": "bool",
+        "height": "number",
+        "keepAspectRatio": "bool",
+        "legend": "ChartLegend",
+        "region": "string",
+        "magnifyingGlass": "GeoChartMagnifyingGlass",
+        "markerOpacity": "number",
+        "resolution": "string",
+        "sizeAxis": "ChartSizeAxis",
+        "tooltip": "ChartTooltip",
+        "width": "number"
+      },
+      "GeoChartMagnifyingGlass": {
+        "enable": "bool",
+        "zoomFactor": "number"
+      },
+      "GeoChartRegionClickEvent": {
+        "region": "string"
+      },
+      "GeoChartSelection": {
+        "row": "number"
+      },
+      "ChartAnnotations": {
+        "boxStyle": "ChartBoxStyle",
+        "textStyle": "ChartTextStyle"
+      },
+      "ChartBoxStyle": {
+        "stroke": "string",
+        "strokeWidth": "number",
+        "rx": "number",
+        "ry": "number",
+        "gradient": {
+          "color1": "string",
+          "color2": "string",
+          "x1": "string",
+          "y1": "string",
+          "x2": "string",
+          "y2": "string",
+          "useObjectBoundingBoxUnits": "bool"
+        }
+      },
+      "ChartTextStyle": {
+        "fontName": "string",
+        "fontSize": "number",
+        "bold": "bool",
+        "italic": "bool",
+        "color": "string",
+        "auraColor": "string",
+        "opacity": "number"
+      },
+      "ChartCrosshair": {
+        "color": "string",
+        "focused": {
+          "color": "string",
+          "opacity": "number"
+        },
+        "opacity": "number",
+        "orientation": "string",
+        "selected": {
+          "color": "string",
+          "opacity": "number"
+        },
+        "trigger": "string"
+      },
+      "ChartExplorer": {
+        "actions": "[string]",
+        "axis": "string",
+        "keepInBounds": "bool",
+        "maxZoomIn": "number",
+        "maxZoomOut": "number",
+        "zoomDelta": "number"
+      },
+      "ChartStroke": {
+        "stroke": "string",
+        "strokeWidth": "number",
+        "fill": "string"
+      },
+      "ChartArea": {
+        "top": "?",
+        "left": "?",
+        "width": "?",
+        "height": "?"
+      },
+      "ChartLegend": {
+        "alignment": "string",
+        "maxLines": "number",
+        "position": "string",
+        "textStyle": "ChartTextStyle",
+        "numberFormat": "string"
+      },
+      "TransitionAnimation": {
+        "duration": "number",
+        "easing": "string",
+        "startup": "bool"
+      },
+      "ChartAxis": {
+        "baseline": "number",
+        "baselineColor": "string",
+        "direction": "number",
+        "format": "string",
+        "gridlines": "ChartGridlines",
+        "minorGridlines": "ChartGridlines",
+        "logScale": "bool",
+        "textPosition": "string",
+        "textStyle": "ChartTextStyle",
+        "ticks": "[?]",
+        "title": "string",
+        "titleTextStyle": "ChartTextStyle",
+        "allowContainerBoundaryTextCufoff": "bool",
+        "slantedText": "bool",
+        "slantedTextAngle": "number",
+        "maxAlternation": "number",
+        "maxTextLines": "number",
+        "minTextSpacing": "number",
+        "showTextEvery": "number",
+        "maxValue": "number",
+        "minValue": "number",
+        "viewWindowMode": "string",
+        "viewWindow": "ChartViewWindow"
+      },
+      "ChartGridlines": {
+        "color": "string",
+        "count": "number"
+      },
+      "ChartViewWindow": {
+        "max": "number",
+        "min": "number"
+      },
+      "ChartTooltip": {
+        "isHtml": "bool",
+        "showColorCode": "bool",
+        "textStyle": "ChartTextStyle",
+        "trigger": "string"
+      },
+      "ChartBoundingBox": {
+        "left": "number",
+        "top": "number",
+        "width": "number",
+        "height": "number"
+      },
+      "ChartColorAxis": {
+        "minValue": "number",
+        "maxValue": "number",
+        "values": "[number]",
+        "colors": "[string]",
+        "legend": "ChartLegend"
+      },
+      "ChartLayoutInterface": {
+        "getBoundingBox": "fn(id: string) -> ChartBoundingBox",
+        "getChartAreaBoundingBox": "fn() -> ChartBoundingBox",
+        "getHAxisValue": "fn(position: number, axisIndex?: number) -> number",
+        "getVAxisValue": "fn(position: number, axisIndex?: number) -> number",
+        "getXLocation": "fn(position: number, axisIndex?: number) -> number",
+        "getYLocation": "fn(position: number, axisIndex?: number) -> number"
+      },
+      "GroupWidth": {
+        "groupWidth": "?"
+      },
+      "VisualizationSelectionArray": {
+        "column": "number",
+        "row": "number"
+      },
+      "ChartBase": {
+        "!type": "fn(element: Element)",
+        "prototype": {
+          "getSelection": "fn() -> [VisualizationSelectionArray]",
+          "setSelection": "fn(selection: [VisualizationSelectionArray])",
+          "clearChart": "fn()",
+          "getImageURI": "fn() -> string"
+        }
+      },
+      "CoreChartBase": {
+        "prototype": {
+          "getBoundingBox": "fn(id: string) -> ChartBoundingBox",
+          "getChartAreaBoundingBox": "fn() -> ChartBoundingBox",
+          "getChartLayoutInterface": "fn() -> ChartLayoutInterface",
+          "getHAxisValue": "fn(position: number, axisIndex?: number) -> number",
+          "getVAxisValue": "fn(position: number, axisIndex?: number) -> number",
+          "getXLocation": "fn(position: number, axisIndex?: number) -> number",
+          "getYLocation": "fn(position: number, axisIndex?: number) -> number"
+        }
+      },
+      "ScatterChart": {
+        "prototype": {
+          "draw": "fn(data: DataTable, options?: ScatterChartOptions)"
+        }
+      },
+      "ScatterChartOptions": {
+        "aggregationTarget": "string",
+        "animation": "TransitionAnimation",
+        "annotations": "ChartAnnotations",
+        "axisTitlesPosition": "string",
+        "backgroundColor": "?",
+        "chartArea": "ChartArea",
+        "colors": "[string]",
+        "crosshair": "ChartCrosshair",
+        "curveType": "string",
+        "dataOpacity": "number",
+        "enableInteractivity": "bool",
+        "explorer": "ChartExplorer",
+        "fontSize": "number",
+        "fontName": "string",
+        "forceIFrame": "bool",
+        "hAxis": "ChartAxis",
+        "height": "number",
+        "legend": "ChartLegend",
+        "lineWidth": "number",
+        "pointSize": "number",
+        "selectionMode": "string",
+        "series": "?",
+        "theme": "string",
+        "title": "string",
+        "titlePosition": "string",
+        "titleTextStyle": "ChartTextStyle",
+        "tooltip": "ChartTooltip",
+        "vAxis": "ChartAxis",
+        "width": "number"
+      },
+      "ColumnChart": {
+        "prototype": {
+          "draw": "fn(data: DataTable, options: ColumnChartOptions)"
+        }
+      },
+      "ColumnChartOptions": {
+        "aggregationTarget": "string",
+        "animation": "TransitionAnimation",
+        "annotations": "ChartAnnotations",
+        "axisTitlesPosition": "string",
+        "backgroundColor": "?",
+        "bar": "GroupWidth",
+        "chartArea": "ChartArea",
+        "colors": "[string]",
+        "enableInteractivity": "bool",
+        "focusTarget": "string",
+        "fontSize": "number",
+        "fontName": "string",
+        "hAxis": "ChartAxis",
+        "height": "number",
+        "isStacked": "bool",
+        "legend": "ChartLegend",
+        "reverseCategories": "bool",
+        "selectionMode": "string",
+        "series": "?",
+        "theme": "string",
+        "title": "string",
+        "titlePosition": "string",
+        "titleTextStyle": "ChartTextStyle",
+        "tooltip": "ChartTooltip",
+        "vAxes": "?",
+        "vAxis": "ChartAxis",
+        "width": "number"
+      },
+      "LineChart": {
+        "prototype": {
+          "draw": "fn(data: DataTable, options: LineChartOptions)"
+        }
+      },
+      "LineChartOptions": {
+        "aggregationTarget": "string",
+        "animation": "TransitionAnimation",
+        "annotations": "ChartAnnotations",
+        "axisTitlesPosition": "string",
+        "backgroundColor": "?",
+        "chartArea": "ChartArea",
+        "colors": "[string]",
+        "crosshair": "ChartCrosshair",
+        "curveType": "string",
+        "dataOpacity": "number",
+        "enableInteractivity": "bool",
+        "explorer": "ChartExplorer",
+        "focusTarget": "string",
+        "fontSize": "number",
+        "fontName": "string",
+        "hAxis": "ChartAxis",
+        "height": "number",
+        "interpolateNulls": "bool",
+        "legend": "ChartLegend",
+        "lineWidth": "number",
+        "orientation": "string",
+        "pointSize": "number",
+        "reverseCategories": "bool",
+        "selectionMode": "string",
+        "series": "?",
+        "theme": "string",
+        "title": "string",
+        "titlePosition": "string",
+        "titleTextStyle": "ChartTextStyle",
+        "tooltip": "ChartTooltip",
+        "vAxes": "?",
+        "vAxis": "ChartAxis",
+        "width": "number"
+      },
+      "BarChartOptions": {
+        "aggregationTarget": "string",
+        "animation": "TransitionAnimation",
+        "annotations": "ChartAnnotations",
+        "axisTitlesPosition": "string",
+        "backgroundColor": "?",
+        "bar": "GroupWidth",
+        "chartArea": "ChartArea",
+        "colors": "[string]",
+        "dataOpacity": "number",
+        "enableInteractivity": "bool",
+        "focusTarget": "string",
+        "fontSize": "number",
+        "fontName": "string",
+        "hAxes": "?",
+        "hAxis": "ChartAxis",
+        "height": "number",
+        "isStacked": "bool",
+        "legend": "ChartLegend",
+        "reverseCategories": "bool",
+        "series": "?",
+        "theme": "string",
+        "title": "string",
+        "titlePosition": "string",
+        "titleTextStyle": "ChartTextStyle",
+        "tooltip": "ChartTooltip",
+        "vAxes": "?",
+        "vAxis": "ChartAxis",
+        "width": "number"
+      },
+      "BarChart": {
+        "prototype": {
+          "draw": "fn(data: DataTable, options: BarChartOptions)"
+        }
+      },
+      "Histogram": {
+        "prototype": {
+          "draw": "fn(data: DataTable, options: HistogramOptions)"
+        }
+      },
+      "HistogramOptions": {
+        "animation": "TransitionAnimation",
+        "axisTitlesPosition": "string",
+        "backgroundColor": "?",
+        "bar": "GroupWidth",
+        "chartArea": "ChartArea",
+        "colors": "[string]",
+        "dataOpacity": "number",
+        "enableInteractivity": "bool",
+        "focusTarget": "string",
+        "fontSize": "number",
+        "fontName": "string",
+        "hAxis": "ChartAxis",
+        "histogram": "HistogramHistogramOptions",
+        "height": "number",
+        "interpolateNulls": "bool",
+        "isStacked": "bool",
+        "legend": "ChartLegend",
+        "orientation": "string",
+        "reverseCategories": "bool",
+        "series": "?",
+        "theme": "string",
+        "title": "string",
+        "titlePosition": "string",
+        "titleTextStyle": "ChartTextStyle",
+        "tooltip": "ChartTooltip",
+        "vAxes": "?",
+        "vAxis": "ChartAxis",
+        "width": "number"
+      },
+      "HistogramHistogramOptions": {
+        "bucketSize": "number",
+        "hideBucketItems": "bool",
+        "lastBucketPercentile": "number"
+      },
+      "AreaChart": {
+        "prototype": {
+          "draw": "fn(data: DataTable, options: AreaChartOptions)"
+        }
+      },
+      "AreaChartOptions": {
+        "aggregationTarget": "string",
+        "animation": "TransitionAnimation",
+        "areaOpacity": "number",
+        "axisTitlesPosition": "string",
+        "backgroundColor": "?",
+        "chartArea": "ChartArea",
+        "colors": "[string]",
+        "crosshair": "ChartCrosshair",
+        "dataOpacity": "number",
+        "enableInteractivity": "bool",
+        "explorer": "ChartExplorer",
+        "focusTarget": "string",
+        "fontSize": "number",
+        "fontName": "string",
+        "hAxis": "ChartAxis",
+        "height": "number",
+        "interpolateNulls": "bool",
+        "isStacked": "bool",
+        "legend": "ChartLegend",
+        "lineWidth": "number",
+        "orientation": "string",
+        "pointSize": "number",
+        "reverseCategories": "bool",
+        "selectionMode": "string",
+        "series": "?",
+        "theme": "string",
+        "title": "string",
+        "titlePosition": "string",
+        "titleTextStyle": "ChartTextStyle",
+        "tooltip": "ChartTooltip",
+        "vAxes": "?",
+        "vAxis": "ChartAxis",
+        "width": "number"
+      },
+      "AnnotationChart": {
+        "prototype": {
+          "draw": "fn(data: DataTable, options: AnnotationChartOptions)",
+          "setVisibleChartRange": "fn(start: Date, end: Date)",
+          "getVisibleChartRange": "fn() -> ret2",
+          "hideDataColumns": "fn(columnIndexes: number, number: ?)",
+          "showDataColumns": "fn(columnIndexes: number, number: ?)"
+        }
+      },
+      "AnnotationChartOptions": {
+        "allowHtml": "bool",
+        "allValuesSuffix": "string",
+        "annotationsWidth": "number",
+        "colors": "[string]",
+        "dateFormat": "string",
+        "displayAnnotations": "bool",
+        "displayAnnotationsFilter": "bool",
+        "displayDateBarSeparator": "bool",
+        "displayExactValues": "bool",
+        "displayLegendDots": "bool",
+        "displayLegendValues": "bool",
+        "displayRangeSelector": "bool",
+        "displayZoomButtons": "bool",
+        "fill": "number",
+        "legendPosition": "string",
+        "max": "number",
+        "min": "number",
+        "numberFormats": "?",
+        "scaleColumns": "[number]",
+        "scaleFormat": "string",
+        "scaleType": "string",
+        "thickness": "number",
+        "zoomEndTime": "Date",
+        "zoomStartTime": "Date"
+      },
+      "SteppedAreaChart": {
+        "prototype": {
+          "draw": "fn(data: DataTable, options: SteppedAreaChartOptions)"
+        }
+      },
+      "SteppedAreaChartOptions": {
+        "aggregationTarget": "string",
+        "animation": "TransitionAnimation",
+        "areaOpacity": "number",
+        "axisTitlesPosition": "string",
+        "backgroundColor": "?",
+        "chartArea": "ChartArea",
+        "colors": "[string]",
+        "connectSteps": "bool",
+        "enableInteractivity": "bool",
+        "focusTarget": "string",
+        "fontSize": "number",
+        "fontName": "string",
+        "hAxis": "ChartAxis",
+        "height": "number",
+        "interpolateNulls": "bool",
+        "isStacked": "bool",
+        "legend": "ChartLegend",
+        "reverseCategories": "bool",
+        "selectionMode": "string",
+        "series": "?",
+        "theme": "string",
+        "title": "string",
+        "titlePosition": "string",
+        "titleTextStyle": "ChartTextStyle",
+        "tooltip": "ChartTooltip",
+        "vAxes": "?",
+        "vAxis": "ChartAxis",
+        "width": "number"
+      },
+      "PieChart": {
+        "prototype": {
+          "draw": "fn(data: DataTable, options: PieChartOptions)"
+        }
+      },
+      "PieChartOptions": {
+        "backgroundColor": "?",
+        "chartArea": "ChartArea",
+        "colors": "[string]",
+        "enableInteractivity": "bool",
+        "fontSize": "number",
+        "fontName": "string",
+        "height": "number",
+        "is3D": "bool",
+        "legend": "ChartLegend",
+        "pieHole": "number",
+        "pieSliceBorderColor": "string",
+        "pieSliceText": "string",
+        "pieSliceTextStyle": "ChartTextStyle",
+        "pieStartAngle": "number",
+        "reverseCategories": "bool",
+        "pieResidueSliceColor": "string",
+        "pieResidueSliceLabel": "string",
+        "slices": "?",
+        "sliceVisibilityThreshold": "number",
+        "title": "string",
+        "titleTextStyle": "ChartTextStyle",
+        "tooltip": "ChartTooltip",
+        "width": "number"
+      },
+      "BubbleChart": {
+        "prototype": {
+          "draw": "fn(data: DataTable, options?: BubbleChartOptions)"
+        }
+      },
+      "BubbleChartOptions": {
+        "animation": "TransitionAnimation",
+        "axisTitlesPosition": "string",
+        "backgroundColor": "?",
+        "bubble": "ChartBubble",
+        "chartArea": "ChartArea",
+        "colors": "[string]",
+        "colorAxis": "ChartColorAxis",
+        "enableInteractivity": "bool",
+        "explorer": "ChartExplorer",
+        "fontSize": "number",
+        "fontName": "string",
+        "forceIFrame": "bool",
+        "hAxis": "ChartAxis",
+        "height": "number",
+        "legend": "ChartLegend",
+        "selectionMode": "string",
+        "series": "?",
+        "sizeAxis": "ChartSizeAxis",
+        "sortBubblesBySize": "bool",
+        "theme": "string",
+        "title": "string",
+        "titlePosition": "string",
+        "titleTextStyle": "ChartTextStyle",
+        "tooltip": "ChartTooltip",
+        "vAxis": "ChartAxis",
+        "width": "number"
+      },
+      "ChartBubble": {
+        "opacity": "number",
+        "stroke": "string",
+        "textStyle": "ChartTextStyle"
+      },
+      "ChartSizeAxis": {
+        "maxSize": "number",
+        "maxValue": "number",
+        "minSize": "number",
+        "minValue": "number"
+      },
+      "TreeMap": {
+        "prototype": {
+          "draw": "fn(data: DataTable, options?: TreeMapOptions)",
+          "goUpAndDraw": "fn()",
+          "getMaxPossibleDepth": "fn() -> number"
+        }
+      },
+      "TreeMapOptions": {
+        "fontColor": "string",
+        "fontFamily": "string",
+        "fontSize": "number",
+        "forceIFrame": "bool",
+        "headerColor": "string",
+        "headerHeight": "number",
+        "headerHighlightColor": "string",
+        "hintOpacity": "number",
+        "maxColor": "string",
+        "maxDepth": "number",
+        "maxHighlightColor": "string",
+        "maxPostDepth": "number",
+        "maxColorValue": "number",
+        "midColor": "string",
+        "midHighlightColor": "string",
+        "minColor": "string",
+        "minHighlightColor": "string",
+        "minColorValue": "number",
+        "showScale": "bool",
+        "showTooltips": "bool",
+        "textStyle": "ChartTextStyle",
+        "title": "string",
+        "titleTextStyle": "ChartTextStyle",
+        "useWeightedAverageForAggregation": "bool"
+      },
+      "Table": {
+        "prototype": {
+          "draw": "fn(data: DataTable, options?: TableOptions)"
+        }
+      },
+      "TableOptions": {
+        "allowHtml": "bool",
+        "alternatingRowStyle": "bool",
+        "cssClassName": "CssClassNames",
+        "firstRowNumber": "number",
+        "height": "string",
+        "page": "string",
+        "pageSize": "number",
+        "rtlTable": "bool",
+        "scrollLeftStartPosition": "number",
+        "showRowNumber": "bool",
+        "sort": "string",
+        "sortAscending": "bool",
+        "sortColumn": "number",
+        "startPage": "number",
+        "width": "string"
+      },
+      "CssClassNames": {
+        "headerRow": "string",
+        "tableRow": "string",
+        "oddTableRow": "string",
+        "selectedTableRow": "string",
+        "hoverTableRow": "string",
+        "headerCell": "string",
+        "tableCell": "string",
+        "rowNumberCell": "string"
+      },
+      "Timeline": {
+        "!type": "fn(element: Element)",
+        "prototype": {
+          "draw": "fn(data: DataTable, options?: TimelineOptions)",
+          "clearChart": "fn()"
+        }
+      },
+      "TimelineOptions": {
+        "avoidOverlappingGridLines": "bool",
+        "backgroundColor": "?",
+        "colors": "[string]",
+        "enableInteractivity": "bool",
+        "forceIFrame": "bool",
+        "height": "number",
+        "timeline": {
+          "barLabelStyle": "LabelStyle",
+          "colorByRowLabel": "bool",
+          "groupByRowLabel": "bool",
+          "rowLabelStyle": "LabelStyle",
+          "showRowLabels": "bool",
+          "singleColor": "string"
+        },
+        "width": "number"
+      },
+      "LabelStyle": {
+        "color": "string",
+        "fontName": "string",
+        "fontSize": "string"
+      },
+      "CandlestickChart": {
+        "prototype": {
+          "draw": "fn(data: DataTable, options: CandlestickChartOptions)"
+        }
+      },
+      "CandlestickChartOptions": {
+        "aggregationTarget": "string",
+        "animation": "TransitionAnimation",
+        "axisTitlesPosition": "string",
+        "backgroundColor": "?",
+        "bar": "GroupWidth",
+        "candlestick": {
+          "hollowIsRising": "bool",
+          "fallingColor": "ChartStroke",
+          "risingColor": "ChartStroke"
+        },
+        "chartArea": "ChartArea",
+        "colors": "[string]",
+        "enableInteractivity": "bool",
+        "focusTarget": "string",
+        "fontSize": "number",
+        "fontName": "string",
+        "hAxis": "ChartAxis",
+        "height": "number",
+        "legend": "ChartLegend",
+        "orientation": "string",
+        "reverseCategories": "bool",
+        "selectionMode": "string",
+        "series": "?",
+        "theme": "string",
+        "title": "string",
+        "titlePosition": "string",
+        "titleTextStyle": "ChartTextStyle",
+        "tooltip": "ChartTooltip",
+        "vAxes": "?",
+        "vAxis": "ChartAxis",
+        "width": "number"
+      },
+      "events": {
+        "addListener": "fn(visualization: ?, eventName: string, callback: Function) -> ?",
+        "removeListener": "fn(listener: ?)",
+        "removeAllListeners": "fn(visualization: ?)",
+        "trigger": "fn(visualization: ?, eventName: string, args?: ?)"
+      }
+    }
+  },
+  "!name": "google.visualization",
+  "!define": {
+    "ret": {
+      "min": "?",
+      "max": "?"
+    },
+    "ret1": {
+      "min": "?",
+      "max": "?"
+    },
+    "ret2": {
+      "start": "Date",
+      "end": "Date"
+    }
+  }
+}

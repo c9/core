@@ -1,0 +1,14 @@
+{
+  "Viewporter": {
+    "preventPageScroll": "bool",
+    "forceDetection": "bool",
+    "ACTIVE": "bool",
+    "READY": "bool",
+    "isLandscape": "fn() -> bool",
+    "ready": "fn(callback: EventListener)",
+    "change": "fn(callback: EventListener)",
+    "refresh": "fn()"
+  },
+  "viewporter": "Viewporter",
+  "!name": "viewporter.d.ts"
+}

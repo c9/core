@@ -1,0 +1,64 @@
+{
+  "poly2tri": {
+    "IPointLike": {
+      "x": "number",
+      "y": "number"
+    },
+    "Point": {
+      "!type": "fn(x: number, y: number)",
+      "negate": "fn(p: IPointLike) -> Point",
+      "add": "fn(a: IPointLike, b: IPointLike) -> Point",
+      "sub": "fn(a: IPointLike, b: IPointLike) -> Point",
+      "mul": "fn(s: number, p: IPointLike) -> Point",
+      "cross": "fn(a: number, b: number) -> number",
+      "toStringBase": "fn(p: IPointLike) -> string",
+      "compare": "fn(a: IPointLike, b: IPointLike) -> number",
+      "equals": "fn(a: IPointLike, b: IPointLike) -> bool",
+      "dot": "fn(a: IPointLike, b: IPointLike) -> number",
+      "prototype": {
+        "x": "number",
+        "y": "number",
+        "toJSON": "fn() -> JSON",
+        "clone": "fn() -> Point",
+        "set_zero": "fn() -> Point",
+        "set": "fn(x: number, y: number) -> Point",
+        "negate": "fn() -> Point",
+        "add": "fn(n: IPointLike) -> Point",
+        "sub": "fn(n: IPointLike) -> Point",
+        "mul": "fn(s: number) -> Point",
+        "length": "fn() -> number",
+        "normalize": "fn() -> number",
+        "equals": "fn(p: IPointLike) -> bool"
+      }
+    },
+    "SweepContext": {
+      "!type": "fn(contour: ?)",
+      "prototype": {
+        "addHole": "fn(polyline: ?) -> SweepContext",
+        "addHoles": "fn(holes: ?) -> SweepContext",
+        "addPoint": "fn(point: IPointLike) -> SweepContext",
+        "addPoints": "fn(point: ?) -> SweepContext",
+        "triangulate": "fn() -> SweepContext",
+        "getBoundingBox": "fn() -> ret",
+        "getTriangles": "fn() -> ?"
+      }
+    },
+    "Triangle": {
+      "!type": "fn(a: IPointLike, b: IPointLike, c: IPointLike)",
+      "prototype": {
+        "getPoint": "fn(index: number) -> IPointLike",
+        "getPoints": "fn() -> ?",
+        "containsPoint": "fn(point: IPointLike) -> bool",
+        "containsPoints": "fn(p1: IPointLike, p2: IPointLike) -> bool",
+        "isInterior": "fn() -> bool"
+      }
+    }
+  },
+  "!name": "poly2tri.d.ts",
+  "!define": {
+    "ret": {
+      "min": "IPointLike",
+      "max": "IPointLike"
+    }
+  }
+}

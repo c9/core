@@ -1,0 +1,31 @@
+{
+  "Showdown": {
+    "Replace": {
+      "replace": "fn(substring: string, args: [?]) -> string"
+    },
+    "Extension": {
+      "type": "string"
+    },
+    "LangExtension": {
+      "filter": "fn(text: string) -> string"
+    },
+    "OutputModifier": {
+      "regex": "string",
+      "replace": "?"
+    },
+    "ShowdownExtension": {},
+    "Plugin": {},
+    "ConverterOptions": {
+      "extensions": "[?]"
+    },
+    "Converter": {
+      "makeHtml": "fn(text: string) -> string"
+    },
+    "ConverterStatic": {},
+    "converter": "ConverterStatic",
+    "extensions": {},
+    "forEach": "fn(obj: [T], callback: fn(value: T, index: number, array: [T]))"
+  },
+  "showdown": "Showdown",
+  "!name": "showdown.d.ts"
+}

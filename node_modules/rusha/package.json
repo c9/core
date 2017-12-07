@@ -1,6 +1,6 @@
 {
   "name": "rusha",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "description": "A high-performance pure-javascript SHA1 implementation suitable for large binary data.",
   "main": "rusha.js",
   "keywords": [
@@ -49,23 +49,23 @@
     "name": "Sam Rijs"
   },
   "license": "MIT",
-  "gitHead": "b16b7dc70558f8a11318b9683725df8dc2825ec4",
+  "gitHead": "4c005db8841ca6a731700750764746f80605feb8",
   "bugs": {
     "url": "https://github.com/srijs/rusha/issues"
   },
   "homepage": "https://github.com/srijs/rusha#readme",
-  "_id": "rusha@0.8.6",
-  "_shasum": "b264ddaa4d49a1d67300061858ba9358c4adca14",
+  "_id": "rusha@0.8.7",
+  "_shasum": "30673b7e95fafe0ebe1fe24dd6d95fd605f94ede",
   "_from": "rusha@>=0.8.3 <0.9.0",
-  "_npmVersion": "3.10.9",
-  "_nodeVersion": "7.1.0",
+  "_npmVersion": "4.2.0",
+  "_nodeVersion": "7.10.0",
   "_npmUser": {
     "name": "srijs",
     "email": "srijs@airpost.net"
   },
   "dist": {
-    "shasum": "b264ddaa4d49a1d67300061858ba9358c4adca14",
-    "tarball": "https://registry.npmjs.org/rusha/-/rusha-0.8.6.tgz"
+    "shasum": "30673b7e95fafe0ebe1fe24dd6d95fd605f94ede",
+    "tarball": "https://registry.npmjs.org/rusha/-/rusha-0.8.7.tgz"
   },
   "maintainers": [
     {
@@ -74,10 +74,9 @@
     }
   ],
   "_npmOperationalInternal": {
-    "host": "packages-12-west.internal.npmjs.com",
-    "tmp": "tmp/rusha-0.8.6.tgz_1493938322575_0.18007903289981186"
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/rusha-0.8.7.tgz_1510304341738_0.042929528048262"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/rusha/-/rusha-0.8.6.tgz",
-  "readme": "ERROR: No README data found!"
+  "_resolved": "https://registry.npmjs.org/rusha/-/rusha-0.8.7.tgz"
 }

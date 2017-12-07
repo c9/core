@@ -1,0 +1,22 @@
+{
+  "SimplePaginationOptions": {
+    "items": "number",
+    "itemsOnPage": "number",
+    "pages": "number",
+    "displayedPages": "number",
+    "edges": "number",
+    "currentPage": "number",
+    "hrefTextPrefix": "string",
+    "hrefTextSuffix": "string",
+    "prevText": "string",
+    "nextText": "string",
+    "cssStyle": "string",
+    "selectOnClick": "bool",
+    "onPageClick": "fn(page: number, event: ?)",
+    "onInit": "fn()"
+  },
+  "JQuery": {
+    "pagination": "fn(options?: SimplePaginationOptions) -> JQuery"
+  },
+  "!name": "jquery.simplePagination"
+}

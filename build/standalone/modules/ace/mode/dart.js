@@ -172,11 +172,10 @@ var c_cppHighlightRules = function() {
         "comment" : [
             {
                 token : "comment", // closing comment
-                regex : ".*?\\*\\/",
+                regex : "\\*\\/",
                 next : "start"
             }, {
-                token : "comment", // comment spanning whole line
-                regex : ".+"
+                defaultToken : "comment"
             }
         ],
         "singleLineComment" : [
@@ -601,8 +600,7 @@ var DartHighlightRules = function() {
     }, "identifier");
 
     var stringfill = {
-        token : "string",
-        regex : ".+"
+        defaultToken : "string"
     };
     this.$rules = 
         {
@@ -709,11 +707,10 @@ var DartHighlightRules = function() {
     "comment" : [
         {
             token : "comment", // closing comment
-            regex : ".*?\\*\\/",
+            regex : "\\*\\/",
             next : "start"
         }, {
-            token : "comment", // comment spanning whole line
-            regex : ".+"
+            defaultToken : "comment"
         }
     ],
     "qdoc" : [

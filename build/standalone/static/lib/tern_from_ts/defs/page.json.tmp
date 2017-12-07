@@ -1,0 +1,32 @@
+{
+  "PageJS": {
+    "Static": {
+      "redirect": "fn(fromPath: string, toPath: string)",
+      "show": "fn(path: string)",
+      "start": "fn(options: Options)",
+      "stop": "fn()",
+      "base": "fn(path?: string)",
+      "exit": "fn(path: string, callback: Callback, moreCallbacks?: [Callback])"
+    },
+    "Options": {
+      "click": "bool",
+      "popstate": "bool",
+      "dispatch": "bool",
+      "hashbang": "bool"
+    },
+    "Callback": {},
+    "Context": {
+      "save": "fn()",
+      "handled": "bool",
+      "canonicalPath": "string",
+      "path": "string",
+      "querystring": "string",
+      "pathname": "string",
+      "state": "?",
+      "title": "string",
+      "params": "?"
+    }
+  },
+  "page": "page",
+  "!name": "page.d.ts"
+}

@@ -1,0 +1,47 @@
+{
+  "sql.js": {
+    "Database": {
+      "!type": "fn(data: Buffer)",
+      "prototype": {
+        "run": "fn(sql: string) -> Database",
+        "exec": "fn(sql: string) -> [QueryResults]",
+        "each": "fn(sql: string, callback: fn(obj: ?), done: fn())",
+        "prepare": "fn(sql: string) -> Statement",
+        "export": "fn() -> Uint8Array",
+        "close": "fn()"
+      }
+    },
+    "Statement": {
+      "prototype": {
+        "bind": "fn() -> bool",
+        "step": "fn() -> bool",
+        "get": "fn() -> fn(number: ?, string: ?, Uint8Array: ?)",
+        "getColumnNames": "fn() -> [string]",
+        "getAsObject": "fn() -> ret",
+        "run": "fn()",
+        "reset": "fn()",
+        "freemem": "fn()",
+        "free": "fn() -> bool"
+      }
+    },
+    "QueryResults": {
+      "columns": "[string]",
+      "values": "fn(number: ?, string: ?, Uint8Array: ?)"
+    }
+  },
+  "!name": "sql.js",
+  "!define": {
+    "ret": {
+      "string": "?",
+      "Uint8Array": "?"
+    },
+    "ret1": {
+      "string": "?",
+      "Uint8Array": "?"
+    },
+    "ret2": {
+      "string": "?",
+      "Uint8Array": "?"
+    }
+  }
+}

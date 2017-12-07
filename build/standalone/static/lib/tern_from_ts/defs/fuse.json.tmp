@@ -1,0 +1,26 @@
+{
+  "Fuse": {
+    "!type": "fn(list: [?], options?: fuse.IFuseOptions)",
+    "prototype": {
+      "search": "fn(pattern: string) -> [?]"
+    }
+  },
+  "fuse": {
+    "IFuseOptions": {
+      "caseSensitive": "bool",
+      "includeScore": "bool",
+      "shouldSort": "bool",
+      "searchFn": "?",
+      "sortFn": "fn(a: ?, b: ?)",
+      "getFn": "fn(obj: ?, path: string)",
+      "keys": "[string]"
+    },
+    "ISearchOptions": {
+      "location": "number",
+      "distance": "number",
+      "threshold": "number",
+      "maxPatternLength": "number"
+    }
+  },
+  "!name": "fuse.d.ts"
+}

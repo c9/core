@@ -114,7 +114,7 @@ function getDefaultSettings() {
 module.exports.getDefaultSettings = getDefaultSettings;
 
 function main(argv, config, onLoaded) {
-    var inContainer = os.hostname().match(/-\d+$/);
+    var inContainer = os.hostname().match(/^\w+-\w+-\d+$/);
     var optimist = require("optimist");
     var async = require("async");
 

@@ -1,0 +1,20 @@
+{
+  "CordovaPluginEmailComposer": {
+    "isAvailable": "fn(callback: fn(isAvailable: bool), scope?: ?)",
+    "open": "fn(options?: ICordovaPluginEmailComposerOpenOptions, callback?: fn(), scope?: ?)",
+    "openDraft": "fn(options?: ICordovaPluginEmailComposerOpenOptions, callback?: fn(), scope?: ?)"
+  },
+  "ICordovaPluginEmailComposerOpenOptions": {
+    "to": "[string]",
+    "body": "string",
+    "cc": "[string]",
+    "bcc": "[string]",
+    "attachments": "[?]",
+    "subject": "string",
+    "isHtml": "bool"
+  },
+  "CordovaPlugins": {
+    "email": "CordovaPluginEmailComposer"
+  },
+  "!name": "cordova-plugin-email-composer"
+}

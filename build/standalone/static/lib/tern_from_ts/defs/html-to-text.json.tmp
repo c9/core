@@ -1,0 +1,18 @@
+{
+  "HtmlToTextStatic": {
+    "fromFile": "fn(file: string, options: HtmlToTextOptions, callback: Function)",
+    "fromString": "fn(str: string, options?: HtmlToTextOptions) -> string"
+  },
+  "HtmlToTextOptions": {
+    "wordwrap": "number",
+    "tables": "?",
+    "boolean": "?",
+    "hideLinkHrefIfSameAsText": "bool",
+    "linkHrefBaseUrl": "string",
+    "ignoreHref": "bool",
+    "ignoreImage": "bool"
+  },
+  "html-to-text": "htmlToText",
+  "htmlToText": "HtmlToTextStatic",
+  "!name": "html-to-text.d.ts"
+}

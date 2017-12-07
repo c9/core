@@ -1,0 +1,48 @@
+{
+  "Keypress": {
+    "ListenerDefaults": {
+      "keys": "string",
+      "prevent_default": "bool",
+      "prevent_repeat": "bool",
+      "is_unordered": "bool",
+      "is_counting": "bool",
+      "is_exclusive": "bool",
+      "is_solitary": "bool",
+      "is_sequence": "bool"
+    },
+    "Combo": {
+      "keys": "string",
+      "on_keydown": "fn(event?: KeyboardEvent, count?: number)",
+      "on_keyup": "fn(event?: KeyboardEvent)",
+      "on_release": "fn(event?: KeyboardEvent)",
+      "this": "Element",
+      "prevent_default": "bool",
+      "prevent_repeat": "bool",
+      "is_unordered": "bool",
+      "is_counting": "bool",
+      "is_exclusive": "bool",
+      "is_sequence": "bool",
+      "is_solitary": "bool"
+    },
+    "Listener": {
+      "simple_combo": "fn(keys: string, on_keydown_callback: fn(event?: KeyboardEvent, count?: number))",
+      "counting_combo": "fn(keys: string, on_count_callback: fn(event?: KeyboardEvent, count?: number))",
+      "sequence_combo": "fn(keys: string, callback: fn(event?: KeyboardEvent, count?: number))",
+      "register_combo": "fn(combo: Combo)",
+      "unregister_combo": "fn(combo: Combo)",
+      "register_many": "fn(combos: [Combo])",
+      "unregister_many": "fn(combos: [Combo])",
+      "get_registered_combos": "fn() -> [Combo]",
+      "reset": "fn()",
+      "listen": "fn()",
+      "stop_listening": "fn()"
+    },
+    "Keypress": {
+      "Listener": "Listener"
+    }
+  },
+  "Window": {
+    "keypress": "Keypress.Keypress"
+  },
+  "!name": "keypress.d.ts"
+}

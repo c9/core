@@ -1,0 +1,10 @@
+{
+  "'keytar'": {
+    "getPassword": "fn(service: string, account: string) -> string",
+    "addPassword": "fn(service: string, account: string, password: string) -> bool",
+    "deletePassword": "fn(service: string, account: string) -> string",
+    "replacePassword": "fn(service: string, account: string, password: string) -> bool",
+    "findPassword": "fn(service: string) -> string"
+  },
+  "!name": "keytar.d.ts"
+}

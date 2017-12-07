@@ -1,0 +1,67 @@
+{
+  "BootboxAlertOptions": {
+    "size": "string",
+    "message": "string",
+    "callback": "fn()"
+  },
+  "BootboxConfirmOptions": {
+    "size": "string",
+    "message": "string",
+    "callback": "fn(result: bool)"
+  },
+  "BootboxPromptOptions": {
+    "size": "string",
+    "message": "string",
+    "callback": "fn(result: string)"
+  },
+  "BootboxButton": {
+    "label": "string",
+    "className": "string",
+    "callback": "fn()"
+  },
+  "BootboxButtonMap": {
+    "Function": "?"
+  },
+  "BootboxDialogOptions": {
+    "message": "string",
+    "Element": "?",
+    "title": "string",
+    "locale": "string",
+    "callback": "fn(result: bool)",
+    "onEscape": "fn()",
+    "boolean": "?",
+    "show": "bool",
+    "backdrop": "bool",
+    "closeButton": "bool",
+    "animate": "bool",
+    "className": "string",
+    "size": "string",
+    "buttons": "BootboxButtonMap"
+  },
+  "BootboxDefaultOptions": {
+    "locale": "string",
+    "show": "bool",
+    "backdrop": "bool",
+    "closeButton": "bool",
+    "animate": "bool",
+    "className": "string"
+  },
+  "BootboxLocaleValues": {
+    "OK": "string",
+    "CANCEL": "string",
+    "CONFIRM": "string"
+  },
+  "BootboxStatic": {
+    "alert": "fn(message: string, callback?: fn()) -> JQuery",
+    "confirm": "fn(message: string, callback: fn(result: bool)) -> JQuery",
+    "prompt": "fn(message: string, callback: fn(result: string)) -> JQuery",
+    "dialog": "fn(message: string, callback?: fn(result: string)) -> JQuery",
+    "setDefaults": "fn(options: BootboxDefaultOptions)",
+    "hideAll": "fn()",
+    "addLocale": "fn(name: string, values: BootboxLocaleValues)",
+    "removeLocale": "fn(name: string)",
+    "setLocale": "fn(name: string)"
+  },
+  "bootbox": "BootboxStatic",
+  "!name": "bootbox"
+}

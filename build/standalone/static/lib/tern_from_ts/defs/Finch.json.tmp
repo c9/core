@@ -1,0 +1,26 @@
+{
+  "FinchCallback": {},
+  "ExpandedCallback": {
+    "setup": "FinchCallback",
+    "load": "FinchCallback",
+    "unload": "FinchCallback",
+    "teardown": "FinchCallback"
+  },
+  "ObserveCallback": {},
+  "FinchOptions": {
+    "CoerceParameterTypes": "bool"
+  },
+  "FinchStatic": {
+    "route": "fn(route: string, callback: FinchCallback)",
+    "call": "fn(uri: string)",
+    "observe": "fn(argN: [string], callback: fn(params: ObserveCallback))",
+    "navigate": "fn(uri: string, queryParams?: ?, doUpdate?: bool)",
+    "listen": "fn() -> bool",
+    "ignore": "fn() -> bool",
+    "abort": "fn()",
+    "options": "fn(options: FinchOptions)"
+  },
+  "Finch": "FinchStatic",
+  "finch": "Finch",
+  "!name": "Finch.d.ts"
+}

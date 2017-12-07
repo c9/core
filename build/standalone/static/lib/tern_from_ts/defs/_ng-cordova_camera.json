@@ -1,0 +1,9 @@
+{
+  "ngCordova": {
+    "ICameraService": {
+      "getPicture": "fn(options?: CameraOptions) -> ?",
+      "cleanup": "fn() -> ?"
+    }
+  },
+  "!name": "camera"
+}

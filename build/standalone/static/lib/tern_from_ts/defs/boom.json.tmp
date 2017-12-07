@@ -1,0 +1,45 @@
+{
+  "Boom": {
+    "BoomError": {
+      "data": "?",
+      "reformat": "fn()",
+      "isBoom": "bool",
+      "isServer": "bool",
+      "message": "string",
+      "output": "Output"
+    },
+    "Output": {
+      "statusCode": "number",
+      "headers": "?",
+      "payload": "?"
+    },
+    "wrap": "fn(error: Error, statusCode?: number, message?: string) -> BoomError",
+    "create": "fn(statusCode: number, message?: string, data?: ?) -> BoomError",
+    "badRequest": "fn(message?: string, data?: ?) -> BoomError",
+    "unauthorized": "fn(message?: string, scheme?: ?, attributes?: ?) -> BoomError",
+    "forbidden": "fn(message?: string, data?: ?) -> BoomError",
+    "notFound": "fn(message?: string, data?: ?) -> BoomError",
+    "methodNotAllowed": "fn(message?: string, data?: ?) -> BoomError",
+    "notAcceptable": "fn(message?: string, data?: ?) -> BoomError",
+    "proxyAuthRequired": "fn(message?: string, data?: ?) -> BoomError",
+    "clientTimeout": "fn(message?: string, data?: ?) -> BoomError",
+    "conflict": "fn(message?: string, data?: ?) -> BoomError",
+    "resourceGone": "fn(message?: string, data?: ?) -> BoomError",
+    "lengthRequired": "fn(message?: string, data?: ?) -> BoomError",
+    "preconditionFailed": "fn(message?: string, data?: ?) -> BoomError",
+    "entityTooLarge": "fn(message?: string, data?: ?) -> BoomError",
+    "uriTooLong": "fn(message?: string, data?: ?) -> BoomError",
+    "unsupportedMediaType": "fn(message?: string, data?: ?) -> BoomError",
+    "rangeNotSatisfiable": "fn(message?: string, data?: ?) -> BoomError",
+    "expectationFailed": "fn(message?: string, data?: ?) -> BoomError",
+    "badData": "fn(message?: string, data?: ?) -> BoomError",
+    "tooManyRequests": "fn(message?: string, data?: ?) -> BoomError",
+    "notImplemented": "fn(message?: string, data?: ?) -> BoomError",
+    "badGateway": "fn(message?: string, data?: ?) -> BoomError",
+    "serverTimeout": "fn(message?: string, data?: ?) -> BoomError",
+    "gatewayTimeout": "fn(message?: string, data?: ?) -> BoomError",
+    "badImplementation": "fn(message?: string, data?: ?) -> BoomError"
+  },
+  "boom": "Boom",
+  "!name": "boom.d.ts"
+}

@@ -1,0 +1,6 @@
+{
+  "MousetrapStatic": {
+    "globalBind": "fn(keys: string, callback: fn(e: ExtendedKeyboardEvent, combo: string), action?: string)"
+  },
+  "!name": "mousetrap-global-bind.d.ts"
+}

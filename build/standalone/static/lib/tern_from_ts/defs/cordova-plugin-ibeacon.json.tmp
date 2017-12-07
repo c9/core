@@ -1,0 +1,78 @@
+{
+  "CordovaPlugins": {
+    "locationManager": "BeaconPlugin.LocationManager"
+  },
+  "BeaconPlugin": {
+    "LocationManager": {
+      "delegate": "Delegate",
+      "BeaconRegion": "BeaconRegion",
+      "onDomDelegateReady": "fn()",
+      "startMonitoringForRegion": "fn(region: Region) -> ?",
+      "stopMonitoringForRegion": "fn(region: Region) -> ?",
+      "requestStateForRegion": "fn(region: Region) -> ?",
+      "startRangingBeaconsInRegion": "fn(region: Region) -> ?",
+      "stopRangingBeaconsInRegion": "fn(region: Region) -> ?",
+      "getAuthorizationStatus": "fn() -> ?",
+      "requestWhenInUseAuthorization": "fn() -> ?",
+      "requestAlwaysAuthorization": "fn() -> ?",
+      "getMonitoredRegions": "fn() -> ?",
+      "getRangedRegions": "fn() -> ?",
+      "isRangingAvailable": "fn() -> ?",
+      "isMonitoringAvailableForClass": "fn(region: Region) -> ?",
+      "startAdvertising": "fn(region: Region, measuredPower: bool) -> ?",
+      "stopAdvertising": "fn() -> ?",
+      "isAdvertisingAvailable": "fn() -> ?",
+      "isAdvertising": "fn() -> ?",
+      "disableDebugLogs": "fn() -> ?",
+      "enableDebugNotifications": "fn() -> ?",
+      "disableDebugNotifications": "fn() -> ?",
+      "enableDebugLogs": "fn() -> ?",
+      "isBluetoothEnabled": "fn() -> ?",
+      "enableBluetooth": "fn() -> ?",
+      "disableBluetooth": "fn() -> ?",
+      "appendToDeviceLog": "fn(message: string) -> ?"
+    },
+    "PluginResult": {
+      "eventType": "string",
+      "region": "Region",
+      "beacons": "[Beacon]",
+      "authorizationStatus": "string",
+      "state": "string"
+    },
+    "Delegate": {
+      "didDetermineStateForRegion": "fn(pluginResult: PluginResult)",
+      "didStartMonitoringForRegion": "fn(pluginResult: PluginResult)",
+      "didExitRegion": "fn(pluginResult: PluginResult)",
+      "didEnterRegion": "fn(pluginResult: PluginResult)",
+      "didRangeBeaconsInRegion": "fn(pluginResult: PluginResult)",
+      "peripheralManagerDidStartAdvertising": "fn(pluginResult: PluginResult)",
+      "peripheralManagerDidUpdateState": "fn(pluginResult: PluginResult)",
+      "didChangeAuthorizationStatus": "fn(authorizationStatus: string)",
+      "monitoringDidFailForRegionWithError": "fn(pluginResult: PluginResult)"
+    },
+    "Region": {
+      "identifier": "string"
+    },
+    "BeaconRegion": {
+      "uuid": "string",
+      "major": "string",
+      "minor": "string",
+      "notifyEntryStateOnDisplay": "bool"
+    },
+    "CircularRegion": {
+      "latitude": "number",
+      "longitude": "number",
+      "radius": "number"
+    },
+    "Beacon": {
+      "uuid": "string",
+      "major": "string",
+      "minor": "string",
+      "proximity": "string",
+      "tx": "number",
+      "rssi": "number",
+      "accuracy": "number"
+    }
+  },
+  "!name": "cordova-plugin-ibeacon.d.ts"
+}

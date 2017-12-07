@@ -1,0 +1,6 @@
+{
+  "JQueryStatic": {
+    "urlParam": "fn(variable: string) -> string"
+  },
+  "!name": "jquery-urlparam.d.ts"
+}

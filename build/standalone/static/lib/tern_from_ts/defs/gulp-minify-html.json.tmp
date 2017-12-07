@@ -1,0 +1,4 @@
+{
+  "'gulp-minify-html'": "minifyHtml",
+  "!name": "gulp-minify-html.d.ts"
+}

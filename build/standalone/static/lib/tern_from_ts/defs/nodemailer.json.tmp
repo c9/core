@@ -1,0 +1,55 @@
+{
+  "nodemailer": {
+    "AttachmentObject": {
+      "filename": "string",
+      "cid": "string",
+      "path": "string",
+      "content": "string",
+      "Buffer": "?",
+      "NodeJS": "?",
+      "ReadableStream": "?",
+      "encoding": "string",
+      "contentType": "string",
+      "contentDisposition": "string"
+    },
+    "SendMailOptions": {
+      "from": "string",
+      "sender": "string",
+      "to": "string",
+      "string": "?",
+      "cc": "string",
+      "bcc": "string",
+      "replyTo": "string",
+      "inReplyTo": "string",
+      "references": "string",
+      "subject": "string",
+      "text": "string",
+      "Buffer": "?",
+      "NodeJS": "?",
+      "ReadableStream": "?",
+      "AttachmentObject": "?",
+      "html": "string",
+      "headers": "?",
+      "attachments": "[AttachmentObject]",
+      "alternatives": "[AttachmentObject]",
+      "messageId": "string",
+      "date": "Date",
+      "encoding": "string"
+    },
+    "SentMessageInfo": {
+      "messageId": "string",
+      "envelope": "?",
+      "accepted": "[string]",
+      "rejected": "[string]",
+      "pending": "[string]",
+      "response": "string"
+    },
+    "Transport": {
+      "name": "string",
+      "version": "string",
+      "send": "fn(mail: SendMailOptions, callback?: fn(error: Error, info: SentMessageInfo))",
+      "close": "fn()"
+    }
+  },
+  "!name": "nodemailer-types.d.ts"
+}

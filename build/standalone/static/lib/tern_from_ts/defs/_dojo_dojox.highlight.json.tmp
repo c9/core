@@ -1,0 +1,551 @@
+{
+  "dojox": {
+    "highlight": {
+      "_base": {
+        "constants": {
+          "APOS_STRING_MODE": "Object",
+          "BACKSLASH_ESCAPE": "Object",
+          "C_BLOCK_COMMENT_MODE": "Object",
+          "C_LINE_COMMENT_MODE": "Object",
+          "C_NUMBER_MODE": "Object",
+          "C_NUMBER_RE": "string",
+          "HASH_COMMENT_MODE": "Object",
+          "IDENT_RE": "string",
+          "NUMBER_RE": "string",
+          "QUOTE_STRING_MODE": "Object",
+          "UNDERSCORE_IDENT_RE": "string"
+        },
+        "languages": "string",
+        "Code": "fn(props: Object, node: String)"
+      },
+      "languages": {
+        "_all": {},
+        "_dynamic": {},
+        "_static": {},
+        "_www": {},
+        "pygments": {
+          "_html": {},
+          "_www": {},
+          "css": {
+            "defaultMode": {
+              "contains": "[?]",
+              "keywords": "Object",
+              "lexems": "[?]"
+            },
+            "modes": "[?]"
+          },
+          "html": {
+            "case_insensitive": "bool",
+            "defaultMode": {
+              "contains": "[?]"
+            },
+            "modes": "[?]"
+          },
+          "javascript": {
+            "defaultMode": {
+              "contains": "[?]",
+              "keywords": "Object",
+              "lexems": "[?]"
+            },
+            "modes": "[?]"
+          },
+          "xml": {
+            "defaultMode": {
+              "contains": "[?]"
+            },
+            "modes": "[?]"
+          }
+        },
+        "cpp": {
+          "defaultMode": {
+            "contains": "[?]",
+            "illegal": "string",
+            "keywords": "Object",
+            "lexems": "[?]"
+          },
+          "modes": "[?]"
+        },
+        "css": {
+          "case_insensitive": "bool",
+          "defaultMode": {
+            "contains": "[?]",
+            "illegal": "string",
+            "keywords": "Object",
+            "lexems": "[?]"
+          },
+          "modes": "[?]"
+        },
+        "django": {
+          "case_insensitive": "bool",
+          "defaultMode": {
+            "contains": "[?]"
+          },
+          "modes": "[?]"
+        },
+        "delphi": {
+          "case_insensitive": "bool",
+          "defaultMode": {
+            "contains": "[?]",
+            "illegal": "string",
+            "keywords": "Object",
+            "lexems": "[?]"
+          },
+          "modes": "[?]"
+        },
+        "groovy": {
+          "defaultMode": {
+            "contains": "[?]",
+            "illegal": "string",
+            "keywords": "Object",
+            "lexems": "[?]"
+          },
+          "GROOVY_KEYWORDS": {
+            "abstract": "number",
+            "assert": "number",
+            "boolean": "number",
+            "break": "number",
+            "byte": "number",
+            "case": "number",
+            "catch": "number",
+            "char": "number",
+            "class": "number",
+            "const": "number",
+            "continue": "number",
+            "def": "number",
+            "do": "number",
+            "double": "number",
+            "else": "number",
+            "extends": "number",
+            "false": "number",
+            "final": "number",
+            "finally": "number",
+            "float": "number",
+            "for": "number",
+            "goto": "number",
+            "if": "number",
+            "implements": "number",
+            "import": "number",
+            "instanceof": "number",
+            "int": "number",
+            "interface": "number",
+            "long": "number",
+            "native": "number",
+            "new": "number",
+            "package": "number",
+            "private": "number",
+            "protected": "number",
+            "public": "number",
+            "return": "number",
+            "short": "number",
+            "static": "number",
+            "strictfp": "number",
+            "super": "number",
+            "switch": "number",
+            "synchronized": "number",
+            "this": "number",
+            "throw": "number",
+            "throws": "number",
+            "transient": "number",
+            "true": "number",
+            "try": "number",
+            "void": "number",
+            "volatile": "number",
+            "while": "number"
+          },
+          "modes": "[?]"
+        },
+        "html": {
+          "case_insensitive": "bool",
+          "defaultMode": {
+            "contains": "[?]"
+          },
+          "HTML_ATTR": {
+            "begin": "string",
+            "className": "string",
+            "end": "string"
+          },
+          "HTML_DOCTYPE": {
+            "begin": "string",
+            "className": "string",
+            "end": "string",
+            "relevance": "number"
+          },
+          "HTML_TAGS": {
+            "a": "number",
+            "abbr": "number",
+            "acronym": "number",
+            "address": "number",
+            "applet": "number",
+            "area": "number",
+            "b": "number",
+            "base": "number",
+            "basefont": "number",
+            "bdo": "number",
+            "big": "number",
+            "blockquote": "number",
+            "body": "number",
+            "br": "number",
+            "button": "number",
+            "caption": "number",
+            "center": "number",
+            "cite": "number",
+            "code": "number",
+            "col": "number",
+            "colgroup": "number",
+            "dd": "number",
+            "del": "number",
+            "dfn": "number",
+            "dir": "number",
+            "div": "number",
+            "dl": "number",
+            "dt": "number",
+            "em": "number",
+            "fieldset": "number",
+            "font": "number",
+            "form": "number",
+            "frame": "number",
+            "frameset": "number",
+            "h1": "number",
+            "h2": "number",
+            "h3": "number",
+            "h4": "number",
+            "h5": "number",
+            "h6": "number",
+            "head": "number",
+            "hr": "number",
+            "html": "number",
+            "i": "number",
+            "iframe": "number",
+            "img": "number",
+            "input": "number",
+            "ins": "number",
+            "isindex": "number",
+            "kbd": "number",
+            "label": "number",
+            "legend": "number",
+            "li": "number",
+            "link": "number",
+            "map": "number",
+            "menu": "number",
+            "meta": "number",
+            "noframes": "number",
+            "noscript": "number",
+            "object": "number",
+            "ol": "number",
+            "optgroup": "number",
+            "option": "number",
+            "p": "number",
+            "param": "number",
+            "pre": "number",
+            "q": "number",
+            "s": "number",
+            "samp": "number",
+            "script": "number",
+            "select": "number",
+            "small": "number",
+            "span": "number",
+            "strike": "number",
+            "strong": "number",
+            "style": "number",
+            "sub": "number",
+            "sup": "number",
+            "table": "number",
+            "tbody": "number",
+            "td": "number",
+            "textarea": "number",
+            "tfoot": "number",
+            "th": "number",
+            "thead": "number",
+            "title": "number",
+            "tr": "number",
+            "tt": "number",
+            "u": "number",
+            "ul": "number",
+            "var": "number",
+            "xml": "number",
+            "xmlns": "number"
+          },
+          "HTML_VALUE": {
+            "begin": "string",
+            "className": "string",
+            "end": "string"
+          },
+          "modes": "[?]"
+        },
+        "java": {
+          "defaultMode": {
+            "contains": "[?]",
+            "illegal": "string",
+            "keywords": "Object",
+            "lexems": "[?]"
+          },
+          "modes": "[?]"
+        },
+        "javascript": {
+          "defaultMode": {
+            "contains": "[?]",
+            "keywords": "Object",
+            "lexems": "[?]"
+          },
+          "modes": "[?]"
+        },
+        "python": {
+          "defaultMode": {
+            "contains": "[?]",
+            "illegal": "string",
+            "keywords": "Object",
+            "lexems": "[?]"
+          },
+          "modes": "[?]"
+        },
+        "sql": {
+          "case_insensitive": "bool",
+          "defaultMode": {
+            "contains": "[?]",
+            "keywords": "Object",
+            "lexems": "[?]"
+          },
+          "modes": "[?]"
+        },
+        "xquery": {
+          "case_insensitive": "bool",
+          "defaultMode": {
+            "contains": "[?]",
+            "keywords": "Object",
+            "lexems": "[?]"
+          },
+          "modes": "[?]",
+          "XQUERY_COMMENT": {
+            "begin": "string",
+            "className": "string",
+            "end": "string"
+          }
+        },
+        "xml": {
+          "case_insensitive": "bool",
+          "defaultMode": {
+            "contains": "[?]"
+          },
+          "modes": "[?]",
+          "XML_ATTR": {
+            "begin": "string",
+            "className": "string",
+            "contains": "[?]",
+            "end": "string"
+          },
+          "XML_COMMENT": {
+            "begin": "string",
+            "className": "string",
+            "end": "string"
+          },
+          "XML_VALUE": {
+            "begin": "string",
+            "className": "string",
+            "end": "string"
+          }
+        }
+      },
+      "widget": {
+        "Code": {
+          "!type": "fn(params?: Object, srcNodeRef?: HTMLElement)",
+          "prototype": {
+            "attachScope": "Object",
+            "set": "fn(property: string, value: Object)",
+            "get": "fn(property: string) -> Object",
+            "watch": "fn(property: string, callback: ?) -> ret",
+            "attributeMap": "Object",
+            "baseClass": "string",
+            "class": "string",
+            "containerNode": "HTMLElement",
+            "contextRequire": "Function",
+            "dir": "string",
+            "domNode": "HTMLElement",
+            "focused": "bool",
+            "id": "string",
+            "lang": "string",
+            "listType": "string",
+            "observer": "string",
+            "ownerDocument": "Object",
+            "range": "Object",
+            "searchContainerNode": "bool",
+            "srcNodeRef": "HTMLElement",
+            "style": "string",
+            "templatePath": "string",
+            "templateString": "string",
+            "title": "string",
+            "tooltip": "string",
+            "url": "string",
+            "widgetsInTemplate": "bool",
+            "attr": "fn(name: String, value: Object) -> ?",
+            "buildRendering": "fn()",
+            "connect": "fn(obj: Object, event: String, method: String) -> ?",
+            "defer": "fn(fcn: Function, delay: number) -> Object",
+            "destroy": "fn(preserveDom?: bool)",
+            "destroyDescendants": "fn(preserveDom: bool)",
+            "destroyRecursive": "fn(preserveDom: bool)",
+            "destroyRendering": "fn(preserveDom?: bool)",
+            "disconnect": "fn(handle: ?)",
+            "emit": "fn(type: String, eventObj: Object, callbackArgs: [?]) -> ?",
+            "getChildren": "fn() -> [?]",
+            "getDescendants": "fn() -> [?]",
+            "getParent": "fn() -> ?",
+            "isFocusable": "fn() -> ?",
+            "isLeftToRight": "fn() -> ?",
+            "on": "fn(type: String, func: Function) -> ?",
+            "own": "fn() -> ?",
+            "placeAt": "fn(reference: String, position: String) -> ?",
+            "postCreate": "fn()",
+            "postMixInProperties": "fn()",
+            "setAttribute": "fn(attr: String, value: ?)",
+            "setRange": "fn(range: [?])",
+            "startup": "fn()",
+            "subscribe": "fn(t: String, method: Function) -> ?",
+            "uninitialize": "fn() -> bool",
+            "unsubscribe": "fn(handle: Object)",
+            "getCachedTemplate": "fn() -> ?",
+            "onBlur": "fn()",
+            "onClick": "fn(event: ?)",
+            "onClose": "fn() -> bool",
+            "onDblClick": "fn(event: ?)",
+            "onFocus": "fn()",
+            "onHide": "fn()",
+            "onKeyDown": "fn(event: ?)",
+            "onKeyPress": "fn(event: ?)",
+            "onKeyUp": "fn(event: ?)",
+            "onMouseDown": "fn(event: ?)",
+            "onMouseEnter": "fn(event: ?)",
+            "onMouseLeave": "fn(event: ?)",
+            "onMouseMove": "fn(event: ?)",
+            "onMouseOut": "fn(event: ?)",
+            "onMouseOver": "fn(event: ?)",
+            "onMouseUp": "fn(event: ?)",
+            "onShow": "fn()"
+          }
+        }
+      }
+    }
+  },
+  "dojox/highlight": "exp",
+  "dojox/highlight/_base": "exp",
+  "dojox/highlight/_base.constants": "exp",
+  "dojox/highlight/languages/css": "exp",
+  "dojox/highlight/languages/css.defaultMode": "exp",
+  "dojox/highlight/languages/delphi": "exp",
+  "dojox/highlight/languages/delphi.defaultMode": "exp",
+  "dojox/highlight/languages/cpp": "exp",
+  "dojox/highlight/languages/cpp.defaultMode": "exp",
+  "dojox/highlight/languages/django": "exp",
+  "dojox/highlight/languages/django.defaultMode": "exp",
+  "dojox/highlight/languages/html": "exp",
+  "dojox/highlight/languages/html.HTML_ATTR": "exp",
+  "dojox/highlight/languages/html.defaultMode": "exp",
+  "dojox/highlight/languages/html.HTML_VALUE": "exp",
+  "dojox/highlight/languages/html.HTML_DOCTYPE": "exp",
+  "dojox/highlight/languages/html.HTML_TAGS": "exp",
+  "dojox/highlight/languages/groovy": "exp",
+  "dojox/highlight/languages/groovy.defaultMode": "exp",
+  "dojox/highlight/languages/groovy.GROOVY_KEYWORDS": "exp",
+  "dojox/highlight/languages/javascript": "exp",
+  "dojox/highlight/languages/javascript.defaultMode": "exp",
+  "dojox/highlight/languages/java": "exp",
+  "dojox/highlight/languages/java.defaultMode": "exp",
+  "dojox/highlight/languages/python": "exp",
+  "dojox/highlight/languages/python.defaultMode": "exp",
+  "dojox/highlight/languages/sql": "exp",
+  "dojox/highlight/languages/sql.defaultMode": "exp",
+  "dojox/highlight/languages/xquery": "exp",
+  "dojox/highlight/languages/xquery.defaultMode": "exp",
+  "dojox/highlight/languages/xquery.XQUERY_COMMENT": "exp",
+  "dojox/highlight/languages/xml": "exp",
+  "dojox/highlight/languages/xml.defaultMode": "exp",
+  "dojox/highlight/languages/xml.XML_ATTR": "exp",
+  "dojox/highlight/languages/xml.XML_COMMENT": "exp",
+  "dojox/highlight/languages/xml.XML_VALUE": "exp",
+  "dojox/highlight/languages/pygments/css": "exp",
+  "dojox/highlight/languages/pygments/css.defaultMode": "exp",
+  "dojox/highlight/languages/pygments/xml": "exp",
+  "dojox/highlight/languages/pygments/xml.defaultMode": "exp",
+  "dojox/highlight/languages/pygments/html": "exp",
+  "dojox/highlight/languages/pygments/html.defaultMode": "exp",
+  "dojox/highlight/languages/pygments/javascript": "exp",
+  "dojox/highlight/languages/pygments/javascript.defaultMode": "exp",
+  "dojox/highlight/widget/Code": "exp",
+  "!name": "dojox.highlight.d.ts",
+  "!define": {
+    "ret": {
+      "unwatch": "fn()"
+    },
+    "ret1": {
+      "unwatch": "fn()"
+    },
+    "ret2": {
+      "unwatch": "fn()"
+    },
+    "ret3": {
+      "unwatch": "fn()"
+    },
+    "ret4": {
+      "unwatch": "fn()"
+    },
+    "ret5": {
+      "unwatch": "fn()"
+    },
+    "ret6": {
+      "unwatch": "fn()"
+    },
+    "ret7": {
+      "unwatch": "fn()"
+    },
+    "ret8": {
+      "unwatch": "fn()"
+    },
+    "ret9": {
+      "unwatch": "fn()"
+    },
+    "ret10": {
+      "unwatch": "fn()"
+    },
+    "ret11": {
+      "unwatch": "fn()"
+    },
+    "ret12": {
+      "unwatch": "fn()"
+    },
+    "ret13": {
+      "unwatch": "fn()"
+    },
+    "ret14": {
+      "unwatch": "fn()"
+    },
+    "ret15": {
+      "unwatch": "fn()"
+    },
+    "ret16": {
+      "unwatch": "fn()"
+    },
+    "ret17": {
+      "unwatch": "fn()"
+    },
+    "ret18": {
+      "unwatch": "fn()"
+    },
+    "ret19": {
+      "unwatch": "fn()"
+    },
+    "ret20": {
+      "unwatch": "fn()"
+    },
+    "ret21": {
+      "unwatch": "fn()"
+    },
+    "ret22": {
+      "unwatch": "fn()"
+    },
+    "ret23": {
+      "unwatch": "fn()"
+    },
+    "ret24": {
+      "unwatch": "fn()"
+    }
+  }
+}

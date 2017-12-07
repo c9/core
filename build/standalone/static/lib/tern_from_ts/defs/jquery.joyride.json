@@ -1,0 +1,46 @@
+{
+  "JoyrideTemplate": {
+    "link": "string",
+    "timer": "string",
+    "tip": "string",
+    "wrapper": "string",
+    "button": "string",
+    "modal": "string",
+    "exposeCover": "string"
+  },
+  "JoyrideOptions": {
+    "version": "string",
+    "tipLocation": "string",
+    "nubPosition": "?",
+    "scroll": "bool",
+    "scrollSpeed": "number",
+    "timer": "number",
+    "autoStart": "bool",
+    "startTimerOnClick": "bool",
+    "startOffset": "number",
+    "nextButton": "bool",
+    "tipAnimation": "string",
+    "pauseAfter": "[?]",
+    "tipAnimationFadeSpeed": "number",
+    "cookieMonster": "bool",
+    "cookieName": "string",
+    "cookieDomain": "?",
+    "cookiePath": "?",
+    "localStorage": "bool",
+    "localStorageKey": "string",
+    "tipContainer": "HTMLElement",
+    "modal": "bool",
+    "expose": "bool",
+    "postExposeCallback": "fn(index: number, nextTip: JQuery, el?: JQuery)",
+    "preRideCallback": "fn(index: number, currentTip: JQuery, el?: JQuery)",
+    "postRideCallback": "fn(index: number, currentTip: JQuery, isAborted?: bool)",
+    "postStepCallback": "fn(index: number, currentTip: JQuery, isAborted?: bool)",
+    "preStepCallback": "fn(index: number, nextTip: JQuery, el?: JQuery)",
+    "template": "JoyrideTemplate"
+  },
+  "Joyride": {},
+  "JQuery": {
+    "joyride": "Joyride"
+  },
+  "!name": "jquery.joyride"
+}

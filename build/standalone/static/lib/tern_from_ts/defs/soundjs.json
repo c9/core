@@ -1,0 +1,201 @@
+{
+  "createjs": {
+    "AbstractPlugin": {
+      "prototype": {
+        "create": "fn(src: string, startTime: number, duration: number) -> AbstractSoundInstance",
+        "getVolume": "fn() -> number",
+        "isPreloadComplete": "fn(src: string) -> bool",
+        "isPreloadStarted": "fn(src: string) -> bool",
+        "isSupported": "fn() -> bool",
+        "preload": "fn(loader: Object)",
+        "register": "fn(loadItem: string, instances: number) -> Object",
+        "removeAllSounds": "fn(src: string)",
+        "removeSound": "fn(src: string)",
+        "setMute": "fn(value: bool) -> bool",
+        "setVolume": "fn(value: number) -> bool"
+      }
+    },
+    "AbstractSoundInstance": {
+      "!type": "fn(src: string, startTime: number, duration: number, playbackResource: Object)",
+      "prototype": {
+        "duration": "number",
+        "loop": "number",
+        "muted": "bool",
+        "pan": "number",
+        "paused": "bool",
+        "playbackResource": "Object",
+        "playState": "string",
+        "position": "number",
+        "src": "string",
+        "uniqueId": "number",
+        "string": "?",
+        "volume": "number",
+        "destroy": "fn()",
+        "getDuration": "fn() -> number",
+        "getLoop": "fn() -> number",
+        "getMute": "fn() -> bool",
+        "getPan": "fn() -> number",
+        "getPaused": "fn() -> bool",
+        "getPosition": "fn() -> number",
+        "getVolume": "fn() -> number",
+        "play": "fn(interrupt?: string, Object: ?, delay?: number, offset?: number, loop?: number, volume?: number, pan?: number) -> AbstractSoundInstance",
+        "setDuration": "fn(value: number) -> AbstractSoundInstance",
+        "setLoop": "fn(value: number)",
+        "setMute": "fn(value: bool) -> AbstractSoundInstance",
+        "setPan": "fn(value: number) -> AbstractSoundInstance",
+        "setPlayback": "fn(value: Object) -> AbstractSoundInstance",
+        "setPosition": "fn(value: number) -> AbstractSoundInstance",
+        "setVolume": "fn(value: number) -> AbstractSoundInstance",
+        "stop": "fn() -> AbstractSoundInstance"
+      }
+    },
+    "FlashAudioLoader": {
+      "prototype": {
+        "flashId": "string",
+        "setFlash": "fn(flash: Object)"
+      }
+    },
+    "FlashAudioPlugin": {
+      "swfPath": "string",
+      "isSupported": "fn() -> bool",
+      "prototype": {
+        "flashReady": "bool",
+        "showOutput": "bool"
+      }
+    },
+    "FlashAudioSoundInstance": {
+      "!type": "fn(src: string, startTime: number, duration: number, playbackResource: Object)",
+      "prototype": {}
+    },
+    "FlashPlugin": {
+      "!type": "fn()",
+      "buildDate": "string",
+      "swfPath": "string",
+      "version": "string",
+      "isSupported": "fn() -> bool",
+      "prototype": {
+        "flashReady": "bool",
+        "showOutput": "bool",
+        "create": "fn(src: string) -> AbstractSoundInstance",
+        "getVolume": "fn() -> number",
+        "isPreloadStarted": "fn(src: string) -> bool",
+        "preload": "fn(src: string, instance: Object)",
+        "register": "fn(src: string, instances: number) -> Object",
+        "removeAllSounds": "fn()",
+        "removeSound": "fn(src: string)",
+        "setMute": "fn(value: bool) -> bool",
+        "setVolume": "fn(value: number) -> bool"
+      }
+    },
+    "HTMLAudioPlugin": {
+      "!type": "fn()",
+      "MAX_INSTANCES": "number",
+      "isSupported": "fn() -> bool",
+      "prototype": {
+        "defaultNumChannels": "number",
+        "enableIOS": "bool"
+      }
+    },
+    "HTMLAudioSoundInstance": {
+      "!type": "fn(src: string, startTime: number, duration: number, playbackResource: Object)",
+      "prototype": {}
+    },
+    "HTMLAudioTagPool": {
+      "prototype": {}
+    },
+    "PlayPropsConfig": {
+      "create": "fn(value: PlayPropsConfig, any: ?) -> PlayPropsConfig",
+      "prototype": {
+        "delay": "number",
+        "duration": "number",
+        "interrupt": "string",
+        "loop": "number",
+        "offset": "number",
+        "pan": "number",
+        "startTime": "number",
+        "volume": "number",
+        "set": "fn(props: ?) -> PlayPropsConfig"
+      }
+    },
+    "Sound": {
+      "activePlugin": "Object",
+      "alternateExtensions": "[?]",
+      "defaultInterruptBehavior": "string",
+      "EXTENSION_MAP": "Object",
+      "INTERRUPT_ANY": "string",
+      "INTERRUPT_EARLY": "string",
+      "INTERRUPT_LATE": "string",
+      "INTERRUPT_NONE": "string",
+      "PLAY_FAILED": "string",
+      "PLAY_FINISHED": "string",
+      "PLAY_INITED": "string",
+      "PLAY_INTERRUPTED": "string",
+      "PLAY_SUCCEEDED": "string",
+      "SUPPORTED_EXTENSIONS": "[string]",
+      "muted": "bool",
+      "volume": "number",
+      "capabilities": "?",
+      "createInstance": "fn(src: string) -> AbstractSoundInstance",
+      "getCapabilities": "fn() -> Object",
+      "getCapability": "fn(key: string) -> number",
+      "getMute": "fn() -> bool",
+      "getVolume": "fn() -> number",
+      "initializeDefaultPlugins": "fn() -> bool",
+      "isReady": "fn() -> bool",
+      "loadComplete": "fn(src: string) -> bool",
+      "play": "fn(src: string, interrupt?: ?, delay?: number, offset?: number, loop?: number, volume?: number, pan?: number) -> AbstractSoundInstance",
+      "registerManifest": "fn(manifest: [Object], basePath: string) -> Object",
+      "registerPlugins": "fn(plugins: [?]) -> bool",
+      "registerSound": "fn(src: string, Object: ?, id?: string, data?: number, Object: ?, basePath?: string) -> Object",
+      "registerSounds": "fn(sounds: [Object], basePath?: string) -> [Object]",
+      "removeAllSounds": "fn()",
+      "removeManifest": "fn(manifest: [?], basePath: string) -> Object",
+      "removeSound": "fn(src: string, Object: ?, basePath: string) -> bool",
+      "setMute": "fn(value: bool) -> bool",
+      "setVolume": "fn(value: number)",
+      "stop": "fn()",
+      "addEventListener": "fn(type: string, listener: fn(eventObj: Object), useCapture?: bool) -> Function",
+      "dispatchEvent": "fn(eventObj: Object, string: ?, Event: ?, target?: Object) -> bool",
+      "hasEventListener": "fn(type: string) -> bool",
+      "off": "fn(type: string, listener: fn(eventObj: Object), useCapture?: bool)",
+      "on": "fn(type: string, listener: fn(eventObj: Object), scope?: Object, once?: bool, data?: ?, useCapture?: bool) -> Function",
+      "removeAllEventListeners": "fn(type?: string)",
+      "removeEventListener": "fn(type: string, listener: fn(eventObj: Object), useCapture?: bool)",
+      "willTrigger": "fn(type: string) -> bool",
+      "prototype": {
+        "boolean": "?"
+      }
+    },
+    "SoundJS": {
+      "buildDate": "string",
+      "version": "string",
+      "prototype": {}
+    },
+    "WebAudioLoader": {
+      "context": "AudioContext",
+      "prototype": {}
+    },
+    "WebAudioPlugin": {
+      "!type": "fn()",
+      "context": "AudioContext",
+      "isSupported": "fn() -> bool",
+      "playEmptySound": "fn()",
+      "prototype": {
+        "context": "AudioContext",
+        "dynamicsCompressorNode": "DynamicsCompressorNode",
+        "gainNode": "GainNode"
+      }
+    },
+    "WebAudioSoundInstance": {
+      "!type": "fn(src: string, startTime: number, duration: number, playbackResource: Object)",
+      "context": "AudioContext",
+      "destinationNode": "AudioNode",
+      "prototype": {
+        "gainNode": "GainNode",
+        "panNode": "PannerNode",
+        "sourceNode": "AudioNode"
+      }
+    }
+  },
+  "!name": "soundjs"
+}

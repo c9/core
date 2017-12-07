@@ -1,0 +1,14 @@
+{
+  "KnockoutSecureBindingOptions": {
+    "attribute": "string",
+    "globals": "?",
+    "bindings": "KnockoutBindingHandlers",
+    "noVirtualElements": "bool"
+  },
+  "KnockoutSecureBindingProvider": {},
+  "KnockoutStatic": {
+    "secureBindingsProvider": {}
+  },
+  "knockout-secure-binding": "klass",
+  "!name": "knockout-secure-binding.d.ts"
+}

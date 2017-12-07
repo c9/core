@@ -1,0 +1,40 @@
+{
+  "Wolfy87EventEmitter": {
+    "MultipleEvents": {},
+    "EventEmitter": {
+      "noConflict": "fn() -> EventEmitter",
+      "prototype": {
+        "getListeners": "fn(event: string) -> [Function]",
+        "addListener": "fn(event: string, listener: Function) -> EventEmitter",
+        "on": "fn(event: string, listener: Function) -> EventEmitter",
+        "flattenListeners": "fn(listeners: [listeners]) -> [Function]",
+        "getListenersAsObject": "fn(event: string) -> ret1",
+        "addOnceListener": "fn(event: string, listener: Function) -> EventEmitter",
+        "once": "fn(event: string, listener: Function) -> EventEmitter",
+        "defineEvent": "fn(event: string) -> EventEmitter",
+        "defineEvents": "fn(events: [string]) -> EventEmitter",
+        "removeListener": "fn(event: string, listener: Function) -> EventEmitter",
+        "off": "fn(event: string, listener: Function) -> EventEmitter",
+        "addListeners": "fn(event: string, listeners: [Function]) -> EventEmitter",
+        "removeListeners": "fn(event: string, listeners: [Function]) -> EventEmitter",
+        "manipulateListeners": "fn(remove: bool, event: string, listeners: [Function]) -> EventEmitter",
+        "removeEvent": "fn(event?: string) -> EventEmitter",
+        "removeAllListeners": "fn(event: string) -> EventEmitter",
+        "emitEvent": "fn(event: string, args: [?]) -> EventEmitter",
+        "trigger": "fn(event: string, args: [?]) -> EventEmitter",
+        "emit": "fn(event: string, args: [?]) -> EventEmitter",
+        "setOnceReturnValue": "fn(value: ?) -> EventEmitter"
+      }
+    }
+  },
+  "wolfy87-eventemitter": "EventEmitter",
+  "!name": "wolfy87-eventemitter.d.ts",
+  "!define": {
+    "ret": {},
+    "listeners": {
+      "listener": "Function"
+    },
+    "ret1": {},
+    "ret2": {}
+  }
+}

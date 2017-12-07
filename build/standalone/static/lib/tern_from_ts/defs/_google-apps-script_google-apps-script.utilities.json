@@ -1,0 +1,36 @@
+{
+  "GoogleAppsScript": {
+    "Utilities": {
+      "Charset": "number",
+      "DigestAlgorithm": "number",
+      "MacAlgorithm": "number",
+      "Utilities": {
+        "Charset": "Charset",
+        "DigestAlgorithm": "DigestAlgorithm",
+        "MacAlgorithm": "MacAlgorithm",
+        "base64Decode": "fn(encoded: string) -> [Byte]",
+        "base64DecodeWebSafe": "fn(encoded: string) -> [Byte]",
+        "base64Encode": "fn(data: [Byte]) -> string",
+        "base64EncodeWebSafe": "fn(data: [Byte]) -> string",
+        "computeDigest": "fn(algorithm: DigestAlgorithm, value: string) -> [Byte]",
+        "computeHmacSha256Signature": "fn(value: string, key: string) -> [Byte]",
+        "computeHmacSignature": "fn(algorithm: MacAlgorithm, value: string, key: string) -> [Byte]",
+        "computeRsaSha256Signature": "fn(value: string, key: string) -> [Byte]",
+        "formatDate": "fn(date: Date, timeZone: string, format: string) -> string",
+        "formatString": "fn(template: string, args: [Object]) -> string",
+        "newBlob": "fn(data: [Byte]) -> Base.Blob",
+        "parseCsv": "fn(csv: string) -> [[String]]",
+        "sleep": "fn(milliseconds: Integer)",
+        "unzip": "fn(blob: Base.BlobSource) -> [Base.Blob]",
+        "zip": "fn(blobs: [Base.BlobSource]) -> Base.Blob",
+        "jsonParse": "fn(jsonString: string) -> Object",
+        "jsonStringify": "fn(obj: Object) -> string"
+      }
+    }
+  },
+  "Charset": "GoogleAppsScript.Utilities.Charset",
+  "DigestAlgorithm": "GoogleAppsScript.Utilities.DigestAlgorithm",
+  "MacAlgorithm": "GoogleAppsScript.Utilities.MacAlgorithm",
+  "Utilities": "GoogleAppsScript.Utilities.Utilities",
+  "!name": "google-apps-script.utilities"
+}

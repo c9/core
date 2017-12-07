@@ -1,0 +1,39 @@
+{
+  "dojox": {
+    "string_": {
+      "sprintf": {
+        "Formatter": {}
+      },
+      "Builder": {
+        "length": "number",
+        "append": {},
+        "appendArray": {},
+        "clear": {},
+        "concat": {},
+        "insert": {},
+        "remove": {},
+        "replace": {}
+      },
+      "tokenize": {},
+      "BidiEngine": {
+        "!type": "fn()",
+        "prototype": {
+          "bidiTransform": "fn(text: String, formatIn: String, formatOut: String) -> ?",
+          "checkContextual": "fn(text: String) -> ?",
+          "hasBidiChar": "fn(text: String) -> ?"
+        }
+      },
+      "BidiComplex": {
+        "attachInput": "fn(field: HTMLElement, pattern: String)",
+        "createDisplayString": "fn(str: String, pattern: String)",
+        "stripSpecialCharacters": "fn(str: ?)"
+      }
+    }
+  },
+  "dojox/string/tokenize": "exp",
+  "dojox/string/sprintf": "exp",
+  "dojox/string/Builder": "exp",
+  "dojox/string/BidiComplex": "exp",
+  "dojox/string/BidiEngine": "exp",
+  "!name": "dojox.string.d.ts"
+}

@@ -1,0 +1,208 @@
+{
+  "winston": {
+    "transports": "Transports",
+    "Transport": "TransportStatic",
+    "Logger": "LoggerStatic",
+    "Container": "ContainerStatic",
+    "loggers": "ContainerInstance",
+    "defaultLogger": "LoggerInstance",
+    "exitOnError": "bool",
+    "level": "string",
+    "log": "fn(level: string, msg: string, meta: ?, callback?: fn(err: Error, level: string, msg: string, meta: ?)) -> LoggerInstance",
+    "debug": "fn(msg: string, meta: ?, callback?: fn(err: Error, level: string, msg: string, meta: ?)) -> LoggerInstance",
+    "info": "fn(msg: string, meta: ?, callback?: fn(err: Error, level: string, msg: string, meta: ?)) -> LoggerInstance",
+    "warn": "fn(msg: string, meta: ?, callback?: fn(err: Error, level: string, msg: string, meta: ?)) -> LoggerInstance",
+    "error": "fn(msg: string, meta: ?, callback?: fn(err: Error, level: string, msg: string, meta: ?)) -> LoggerInstance",
+    "query": "fn(options: QueryOptions, callback?: fn(err: Error, results: ?)) -> ?",
+    "stream": "fn(options?: ?) -> NodeJS.ReadableStream",
+    "handleExceptions": "fn(transports: [TransportInstance])",
+    "unhandleExceptions": "fn(transports: [TransportInstance])",
+    "add": "fn(transport: TransportInstance, options?: TransportOptions, created?: bool) -> LoggerInstance",
+    "clear": "fn()",
+    "remove": "fn(transport: TransportInstance) -> LoggerInstance",
+    "startTimer": "fn() -> ProfileHandler",
+    "profile": "fn(id: string, msg?: string, meta?: ?, callback?: fn(err: Error, level: string, msg: string, meta: ?)) -> LoggerInstance",
+    "addColors": "fn(target: ?) -> ?",
+    "setLevels": "fn(target: ?) -> ?",
+    "cli": "fn() -> LoggerInstance",
+    "LoggerStatic": {},
+    "LoggerInstance": {
+      "extend": "fn(target: ?) -> LoggerInstance",
+      "log": "fn(level: string, msg: string, meta: ?, callback?: fn(err: Error, level: string, msg: string, meta: ?)) -> LoggerInstance",
+      "debug": "fn(msg: string, meta: ?, callback?: fn(err: Error, level: string, msg: string, meta: ?)) -> LoggerInstance",
+      "info": "fn(msg: string, meta: ?, callback?: fn(err: Error, level: string, msg: string, meta: ?)) -> LoggerInstance",
+      "warn": "fn(msg: string, meta: ?, callback?: fn(err: Error, level: string, msg: string, meta: ?)) -> LoggerInstance",
+      "error": "fn(msg: string, meta: ?, callback?: fn(err: Error, level: string, msg: string, meta: ?)) -> LoggerInstance",
+      "query": "fn(options: QueryOptions, callback?: fn(err: Error, results: ?)) -> ?",
+      "stream": "fn(options?: ?) -> NodeJS.ReadableStream",
+      "close": "fn()",
+      "handleExceptions": "fn(transports: [TransportInstance])",
+      "unhandleExceptions": "fn(transports: [TransportInstance])",
+      "add": "fn(transport: TransportInstance, options?: TransportOptions, created?: bool) -> LoggerInstance",
+      "addRewriter": "fn(rewriter: TransportInstance) -> [TransportInstance]",
+      "clear": "fn()",
+      "remove": "fn(transport: TransportInstance) -> LoggerInstance",
+      "startTimer": "fn() -> ProfileHandler",
+      "profile": "fn(id: string, msg?: string, meta?: ?, callback?: fn(err: Error, level: string, msg: string, meta: ?)) -> LoggerInstance",
+      "setLevels": "fn(target: ?) -> ?",
+      "cli": "fn() -> LoggerInstance"
+    },
+    "LoggerOptions": {
+      "transports": "[TransportInstance]",
+      "rewriters": "[TransportInstance]",
+      "exceptionHandlers": "[TransportInstance]",
+      "handleExceptions": "bool",
+      "exitOnError": "?"
+    },
+    "TransportStatic": {},
+    "TransportInstance": {
+      "formatQuery": "fn(query: fn(string: ?, Object: ?)) -> fn(string: ?, Object: ?)",
+      "normalizeQuery": "fn(options: QueryOptions) -> QueryOptions",
+      "formatResults": "fn(results: fn(Object: ?, Array: ?), options?: Object) -> fn(Object: ?, Array: ?)",
+      "logException": "fn(msg: string, meta: Object, callback: fn())"
+    },
+    "ConsoleTransportInstance": {},
+    "DailyRotateFileTransportInstance": {},
+    "FileTransportInstance": {},
+    "HttpTransportInstance": {},
+    "MemoryTransportInstance": {},
+    "WebhookTransportInstance": {},
+    "WinstonModuleTrasportInstance": {},
+    "ContainerStatic": {},
+    "ContainerInstance": {
+      "get": "fn(id: string, options?: LoggerOptions) -> LoggerInstance",
+      "add": "fn(id: string, options: LoggerOptions) -> LoggerInstance",
+      "has": "fn(id: string) -> bool",
+      "close": "fn(id: string)",
+      "options": "LoggerOptions",
+      "loggers": "?",
+      "default": "LoggerOptions"
+    },
+    "Transports": {
+      "File": "FileTransportInstance",
+      "Console": "ConsoleTransportInstance",
+      "Loggly": "WinstonModuleTrasportInstance",
+      "DailyRotateFile": "DailyRotateFileTransportInstance",
+      "Http": "HttpTransportInstance",
+      "Memory": "MemoryTransportInstance",
+      "Webhook": "WebhookTransportInstance"
+    },
+    "TransportOptions": {
+      "level": "string",
+      "silent": "bool",
+      "raw": "bool",
+      "name": "string",
+      "formatter": "Function",
+      "handleExceptions": "bool",
+      "exceptionsLevel": "string",
+      "humanReadableUnhandledException": "bool"
+    },
+    "ConsoleTransportOptions": {
+      "json": "bool",
+      "colorize": "bool",
+      "prettyPrint": "bool",
+      "timestamp": "fn(Function: ?, boolean: ?)",
+      "showLevel": "bool",
+      "label": "string",
+      "logstash": "bool",
+      "debugStdout": "bool",
+      "depth": "number"
+    },
+    "DailyRotateFileTransportOptions": {
+      "json": "bool",
+      "colorize": "bool",
+      "prettyPrint": "bool",
+      "timestamp": "fn(Function: ?, boolean: ?)",
+      "showLevel": "bool",
+      "label": "string",
+      "logstash": "bool",
+      "depth": "number",
+      "maxsize": "number",
+      "maxFiles": "number",
+      "eol": "string",
+      "maxRetries": "number",
+      "datePattern": "string",
+      "filename": "string",
+      "dirname": "string",
+      "options": {
+        "flags": "string",
+        "highWaterMark": "number"
+      },
+      "stream": "NodeJS.WritableStream"
+    },
+    "FileTransportOptions": {
+      "json": "bool",
+      "colorize": "bool",
+      "prettyPrint": "bool",
+      "timestamp": "fn(Function: ?, boolean: ?)",
+      "showLevel": "bool",
+      "label": "string",
+      "logstash": "bool",
+      "depth": "number",
+      "maxsize": "number",
+      "rotationFormat": "bool",
+      "zippedArchive": "bool",
+      "maxFiles": "number",
+      "eol": "string",
+      "tailable": "bool",
+      "maxRetries": "number",
+      "filename": "string",
+      "dirname": "string",
+      "options": {
+        "flags": "string",
+        "highWaterMark": "number"
+      },
+      "stream": "NodeJS.WritableStream"
+    },
+    "HttpTransportOptions": {
+      "ssl": "bool",
+      "host": "string",
+      "port": "number",
+      "auth": {
+        "username": "string",
+        "password": "string"
+      },
+      "path": "string"
+    },
+    "MemoryTransportOptions": {
+      "json": "bool",
+      "colorize": "bool",
+      "prettyPrint": "bool",
+      "timestamp": "fn(Function: ?, boolean: ?)",
+      "showLevel": "bool",
+      "label": "string",
+      "depth": "number"
+    },
+    "WebhookTransportOptions": {
+      "host": "string",
+      "port": "number",
+      "method": "string",
+      "path": "string",
+      "auth": {
+        "username": "string",
+        "password": "string"
+      },
+      "ssl": {
+        "key": "?",
+        "cert": "?",
+        "ca": "?"
+      }
+    },
+    "WinstonMoudleTransportOptions": {},
+    "QueryOptions": {
+      "rows": "number",
+      "limit": "number",
+      "start": "number",
+      "from": "Date",
+      "until": "Date",
+      "order": "string",
+      "fields": "?"
+    },
+    "ProfileHandler": {
+      "logger": "LoggerInstance",
+      "start": "Date",
+      "done": "fn(msg: string)"
+    }
+  },
+  "!name": "winston"
+}

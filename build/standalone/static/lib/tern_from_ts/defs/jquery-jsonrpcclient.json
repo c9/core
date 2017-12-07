@@ -1,0 +1,23 @@
+{
+  "JsonRpcClientOptions": {
+    "ajaxUrl": "string",
+    "headers": {},
+    "socketUrl": "string",
+    "onmessage": "fn(ev: MessageEvent)",
+    "onopen": "fn(ev: Event)",
+    "onclose": "fn(ev: CloseEvent)",
+    "onerror": "fn(ev: Event)",
+    "getSockect": "fn(onmessageCb: fn())",
+    "timeout": "number"
+  },
+  "JsonRpcClient": {
+    "call": "fn(method: string, params: Object, Array: ?, successCb: fn(result: ?), errorCb: fn(result: ?)) -> ?",
+    "notify": "fn(method: string, params: Object, Array: ?) -> ?",
+    "batch": "fn(callback: fn(batch: JsonRpcClient), allDoneCb: fn(result: ?), errorCb: fn(error: ?))"
+  },
+  "JsonRpcClientFactory": {},
+  "JQueryStatic": {
+    "JsonRpcClient": "JsonRpcClientFactory"
+  },
+  "!name": "jquery-jsonrpcclient"
+}

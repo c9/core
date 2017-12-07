@@ -1,0 +1,91 @@
+{
+  "ModalOptions": {
+    "backdrop": "bool",
+    "string": "?",
+    "keyboard": "bool",
+    "show": "bool",
+    "remote": "string"
+  },
+  "ModalOptionsBackdropString": {
+    "backdrop": "string",
+    "keyboard": "bool",
+    "show": "bool",
+    "remote": "string"
+  },
+  "ScrollSpyOptions": {
+    "offset": "number",
+    "target": "string"
+  },
+  "TooltipOptions": {
+    "animation": "bool",
+    "html": "bool",
+    "placement": "string",
+    "Function": "?",
+    "selector": "string",
+    "title": "string",
+    "trigger": "string",
+    "template": "string",
+    "delay": "number",
+    "Object": "?",
+    "container": "string",
+    "boolean": "?",
+    "viewport": "string"
+  },
+  "PopoverOptions": {
+    "animation": "bool",
+    "html": "bool",
+    "placement": "string",
+    "Function": "?",
+    "selector": "string",
+    "trigger": "string",
+    "title": "string",
+    "template": "string",
+    "content": "?",
+    "delay": "number",
+    "Object": "?",
+    "container": "string",
+    "boolean": "?",
+    "viewport": "string"
+  },
+  "CollapseOptions": {
+    "parent": "?",
+    "toggle": "bool"
+  },
+  "CarouselOptions": {
+    "interval": "number",
+    "pause": "string",
+    "wrap": "bool",
+    "keybord": "bool"
+  },
+  "TypeaheadOptions": {
+    "source": "?",
+    "items": "number",
+    "minLength": "number",
+    "matcher": "fn(item: ?)",
+    "sorter": "fn(items: [?])",
+    "updater": "fn(item: ?)",
+    "highlighter": "fn(item: ?)"
+  },
+  "AffixOptions": {
+    "offset": "number",
+    "Function": "?",
+    "Object": "?",
+    "target": "?"
+  },
+  "JQuery": {
+    "modal": "fn(options?: ModalOptions) -> JQuery",
+    "dropdown": "fn() -> JQuery",
+    "scrollspy": "fn(command: string) -> JQuery",
+    "tab": "fn() -> JQuery",
+    "tooltip": "fn(options?: TooltipOptions) -> JQuery",
+    "popover": "fn(options?: PopoverOptions) -> JQuery",
+    "alert": "fn() -> JQuery",
+    "button": "fn() -> JQuery",
+    "collapse": "fn(options?: CollapseOptions) -> JQuery",
+    "carousel": "fn(options?: CarouselOptions) -> JQuery",
+    "typeahead": "fn(options?: TypeaheadOptions) -> JQuery",
+    "affix": "fn(options?: AffixOptions) -> JQuery"
+  },
+  "bootstrap": {},
+  "!name": "bootstrap"
+}

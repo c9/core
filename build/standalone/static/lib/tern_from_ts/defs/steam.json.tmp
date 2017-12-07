@@ -1,0 +1,39 @@
+{
+  "Steam": {
+    "servers": "?",
+    "LogonOptions": {
+      "accountName": "string",
+      "password": "string",
+      "shaSentryfile": "string",
+      "authCode": "string"
+    },
+    "EResult": "number",
+    "EPersonaState": "number",
+    "EChatEntryType": "number",
+    "EChatMemberStateChange": "number",
+    "SteamClient": {
+      "prototype": {
+        "sessionId": "string",
+        "cookie": "[string]",
+        "steamID": "string",
+        "users": {},
+        "logOn": "fn(options: LogonOptions)",
+        "webLogOn": "fn(callback: fn(cookie: [?]))",
+        "joinChat": "fn(chatId: string)",
+        "sendMessage": "fn(source: ?, message: string, entryType: EChatEntryType)",
+        "setPersonaState": "fn(state: EPersonaState)",
+        "setPersonaName": "fn(name: string)",
+        "addListener": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "on": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "once": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "removeListener": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "removeAllListeners": "fn(event?: string) -> NodeJS.EventEmitter",
+        "setMaxListeners": "fn(n: number)",
+        "listeners": "fn(event: string) -> [Function]",
+        "emit": "fn(event: string, args: [?]) -> bool"
+      }
+    }
+  },
+  "steam": "Steam",
+  "!name": "steam.d.ts"
+}

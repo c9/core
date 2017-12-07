@@ -1,0 +1,170 @@
+{
+  "PDFPromise": {
+    "isResolved": "fn() -> bool",
+    "isRejected": "fn() -> bool",
+    "resolve": "fn(value: T)",
+    "reject": "fn(reason: string)",
+    "then": "fn(onResolve: fn(promise: T), onReject?: fn(reason: string)) -> ?"
+  },
+  "PDFTreeNode": {
+    "title": "string",
+    "bold": "bool",
+    "italic": "bool",
+    "color": "[number]",
+    "dest": "?",
+    "items": "[PDFTreeNode]"
+  },
+  "PDFInfo": {
+    "PDFFormatVersion": "string",
+    "IsAcroFormPresent": "bool",
+    "IsXFAPresent": "bool"
+  },
+  "PDFMetadata": {
+    "parse": "fn()",
+    "get": "fn(name: string) -> string",
+    "has": "fn(name: string) -> bool"
+  },
+  "PDFSource": {
+    "url": "string",
+    "data": "Uint8Array",
+    "httpHeaders": "?",
+    "password": "string"
+  },
+  "PDFProgressData": {
+    "loaded": "number",
+    "total": "number"
+  },
+  "PDFDocumentProxy": {
+    "numPages": "number",
+    "fingerprint": "string",
+    "embeddedFontsUsed": "fn() -> bool",
+    "getPage": "fn(number: number) -> ?",
+    "getDestinations": "fn() -> ?",
+    "getJavaScript": "fn() -> ?",
+    "getOutline": "fn() -> ?",
+    "getMetadata": "fn() -> ?",
+    "isEncrypted": "fn() -> ?",
+    "getData": "fn() -> ?",
+    "dataLoaded": "fn() -> ?",
+    "destroy": "fn()"
+  },
+  "PDFRef": {
+    "num": "number",
+    "gen": "?"
+  },
+  "PDFPageViewportOptions": {
+    "viewBox": "?",
+    "scale": "number",
+    "rotation": "number",
+    "offsetX": "number",
+    "offsetY": "number",
+    "dontFlip": "bool"
+  },
+  "PDFPageViewport": {
+    "width": "number",
+    "height": "number",
+    "fontScale": "number",
+    "transforms": "[number]",
+    "clone": "fn(options: PDFPageViewportOptions) -> PDFPageViewport",
+    "convertToViewportPoint": "fn() -> [number]",
+    "convertToViewportRectangle": "fn() -> [number]",
+    "convertToPdfPoint": "fn() -> [number]"
+  },
+  "PDFAnnotationData": {
+    "subtype": "string",
+    "rect": "[number]",
+    "annotationFlags": "?",
+    "color": "[number]",
+    "borderWidth": "number",
+    "hasAppearance": "bool"
+  },
+  "PDFAnnotations": {
+    "getData": "fn() -> PDFAnnotationData",
+    "hasHtml": "fn() -> bool",
+    "getHtmlElement": "fn(commonOjbs: ?) -> HTMLElement",
+    "getEmptyContainer": "fn(tagName: string, rect: [number]) -> HTMLElement",
+    "isViewable": "fn() -> bool",
+    "loadResources": "fn(keys: ?) -> ?",
+    "getOperatorList": "fn(evaluator: ?) -> ?"
+  },
+  "PDFRenderTextLayer": {
+    "beginLayout": "fn()",
+    "endLayout": "fn()",
+    "appendText": "fn()"
+  },
+  "PDFRenderImageLayer": {
+    "beginLayout": "fn()",
+    "endLayout": "fn()",
+    "appendImage": "fn()"
+  },
+  "PDFRenderParams": {
+    "canvasContext": "CanvasRenderingContext2D",
+    "textLayer": "PDFRenderTextLayer",
+    "imageLayer": "PDFRenderImageLayer",
+    "continueCallback": "fn(_continue: fn())"
+  },
+  "PDFViewerParams": {
+    "container": "HTMLElement",
+    "viewer": "HTMLElement"
+  },
+  "PDFRenderTask": {
+    "cancel": "fn()"
+  },
+  "PDFPageProxy": {
+    "pageNumber": "fn() -> number",
+    "rotate": "fn() -> number",
+    "ref": "fn() -> PDFRef",
+    "view": "fn() -> [number]",
+    "getViewport": "fn(scale: number, rotate?: number) -> PDFPageViewport",
+    "getAnnotations": "fn() -> ?",
+    "render": "fn(params: PDFRenderParams) -> PDFRenderTask",
+    "getTextContent": "fn() -> ?",
+    "destroy": "fn()"
+  },
+  "TextContentItem": {
+    "str": "string",
+    "transform": "[number]",
+    "width": "number",
+    "height": "number",
+    "dir": "string",
+    "fontName": "string"
+  },
+  "TextContent": {
+    "items": "[TextContentItem]",
+    "styles": "?"
+  },
+  "PDFObjects": {
+    "get": "fn(objId: number, callback?: ?) -> ?",
+    "resolve": "fn(objId: number, data: ?) -> ?",
+    "isResolved": "fn(objId: number) -> bool",
+    "hasData": "fn(objId: number) -> bool",
+    "getData": "fn(objId: number) -> ?",
+    "clear": "fn()"
+  },
+  "PDFJSStatic": {
+    "maxImageSize": "number",
+    "cMapUrl": "string",
+    "cMapPacked": "bool",
+    "disableFontFace": "bool",
+    "imageResourcesPath": "string",
+    "disableWorker": "bool",
+    "workerSrc": "string",
+    "disableRange": "bool",
+    "disableStream": "bool",
+    "disableAutoFetch": "bool",
+    "pdfBug": "bool",
+    "postMessageTransfers": "bool",
+    "disableCreateObjectURL": "bool",
+    "disableWebGL": "bool",
+    "disableFullscreen": "bool",
+    "useOnlyCssZoom": "bool",
+    "verbosity": "number",
+    "maxCanvasPixels": "number",
+    "openExternalLinksInNewWindow": "bool",
+    "isEvalSupported": "bool",
+    "getDocument": "fn(source: string, pdfDataRangeTransport?: ?, passwordCallback?: fn(fn: fn(password: string), reason: string), progressCallback?: fn(progressData: PDFProgressData)) -> ?",
+    "PDFViewer": "fn(params: PDFViewerParams)"
+  },
+  "PDFJS": "PDFJSStatic",
+  "!name": "pdf.d.ts"
+}

@@ -1,0 +1,97 @@
+{
+  "LocalFileSystem": {
+    "TEMPORARY": "number",
+    "PERSISTENT": "number",
+    "requestFileSystem": "fn(type: number, size: number, successCallback: FileSystemCallback, errorCallback?: ErrorCallback)",
+    "resolveLocalFileSystemURL": "fn(url: string, successCallback: EntryCallback, errorCallback?: ErrorCallback)",
+    "webkitRequestFileSystem": "fn(type: number, size: number, successCallback: FileSystemCallback, errorCallback?: ErrorCallback)"
+  },
+  "LocalFileSystemSync": {
+    "TEMPORARY": "number",
+    "PERSISTENT": "number",
+    "requestFileSystemSync": "fn(type: number, size: number) -> FileSystemSync",
+    "resolveLocalFileSystemSyncURL": "fn(url: string) -> EntrySync",
+    "webkitRequestFileSystemSync": "fn(type: number, size: number) -> FileSystemSync"
+  },
+  "Metadata": {
+    "modificationTime": "Date",
+    "size": "number"
+  },
+  "Flags": {
+    "create": "bool",
+    "exclusive": "bool"
+  },
+  "FileSystem": {
+    "name": "string",
+    "root": "DirectoryEntry"
+  },
+  "Entry": {
+    "isFile": "bool",
+    "isDirectory": "bool",
+    "getMetadata": "fn(successCallback: MetadataCallback, errorCallback?: ErrorCallback)",
+    "name": "string",
+    "fullPath": "string",
+    "filesystem": "FileSystem",
+    "moveTo": "fn(parent: DirectoryEntry, newName?: string, successCallback?: EntryCallback, errorCallback?: ErrorCallback) -> string",
+    "copyTo": "fn(parent: DirectoryEntry, newName?: string, successCallback?: EntryCallback, errorCallback?: ErrorCallback) -> string",
+    "toURL": "fn() -> string",
+    "remove": "fn(successCallback: VoidCallback, errorCallback?: ErrorCallback)",
+    "getParent": "fn(successCallback: DirectoryEntryCallback, errorCallback?: ErrorCallback)"
+  },
+  "DirectoryEntry": {
+    "createReader": "fn() -> DirectoryReader",
+    "getFile": "fn(path: string, options?: Flags, successCallback?: FileEntryCallback, errorCallback?: ErrorCallback)",
+    "getDirectory": "fn(path: string, options?: Flags, successCallback?: DirectoryEntryCallback, errorCallback?: ErrorCallback)",
+    "removeRecursively": "fn(successCallback: VoidCallback, errorCallback?: ErrorCallback)"
+  },
+  "DirectoryReader": {
+    "readEntries": "fn(successCallback: EntriesCallback, errorCallback?: ErrorCallback)"
+  },
+  "FileEntry": {
+    "createWriter": "fn(successCallback: FileWriterCallback, errorCallback?: ErrorCallback)",
+    "file": "fn(successCallback: FileCallback, errorCallback?: ErrorCallback)"
+  },
+  "FileSystemCallback": {},
+  "EntryCallback": {},
+  "FileEntryCallback": {},
+  "DirectoryEntryCallback": {},
+  "EntriesCallback": {},
+  "MetadataCallback": {},
+  "FileWriterCallback": {},
+  "FileCallback": {},
+  "VoidCallback": {},
+  "ErrorCallback": {},
+  "FileSystemSync": {
+    "name": "string",
+    "root": "DirectoryEntrySync"
+  },
+  "EntrySync": {
+    "isFile": "bool",
+    "isDirectory": "bool",
+    "getMetadata": "fn() -> Metadata",
+    "name": "string",
+    "fullPath": "string",
+    "filesystem": "FileSystemSync",
+    "moveTo": "fn(parent: DirectoryEntrySync, newName?: string) -> EntrySync",
+    "copyTo": "fn(parent: DirectoryEntrySync, newName?: string) -> EntrySync",
+    "toURL": "fn() -> string",
+    "remove": "fn()",
+    "getParent": "fn() -> DirectoryEntrySync"
+  },
+  "DirectoryEntrySync": {
+    "createReader": "fn() -> DirectoryReaderSync",
+    "getFile": "fn(path: string, options?: Flags) -> FileEntrySync",
+    "getDirectory": "fn(path: string, options?: Flags) -> DirectoryEntrySync",
+    "removeRecursively": "fn()"
+  },
+  "DirectoryReaderSync": {
+    "readEntries": "fn() -> [EntrySync]"
+  },
+  "FileEntrySync": {
+    "createWriter": "fn() -> FileWriterSync",
+    "file": "fn() -> File"
+  },
+  "Window": {},
+  "WorkerGlobalScope": {},
+  "!name": "filesystem"
+}

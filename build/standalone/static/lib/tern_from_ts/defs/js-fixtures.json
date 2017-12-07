@@ -1,0 +1,18 @@
+{
+  "Fixtures": {
+    "path": "string",
+    "containerId": "string",
+    "body": "fn() -> string",
+    "window": "fn() -> Window",
+    "set": "fn(html: string)",
+    "appendSet": "fn(html: string)",
+    "preload": "fn(urls: [string])",
+    "load": "fn(urls: [string])",
+    "appendLoad": "fn(urls: [string])",
+    "read": "fn(urls: [string]) -> string",
+    "clearCache": "fn()",
+    "cleanUp": "fn()"
+  },
+  "fixtures": "Fixtures",
+  "!name": "fixtures"
+}

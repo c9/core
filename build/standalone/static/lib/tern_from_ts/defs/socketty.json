@@ -1,0 +1,17 @@
+{
+  "socketty": "Socketty",
+  "'socketty'": "socketty",
+  "Socketty": {
+    "connect": "fn(url: string, callback: fn(socket: SockettySocket)) -> SockettySocket",
+    "createServer": "fn(httpServer: ?) -> SockettyServer"
+  },
+  "SockettySocket": {
+    "on": "fn(action: string, callback: fn(message?: ?))",
+    "send": "fn(action: string, message?: ?)",
+    "disconnect": "fn(callback: fn())"
+  },
+  "SockettyServer": {
+    "connection": "fn(callback: fn(socket: SockettySocket))"
+  },
+  "!name": "socketty"
+}

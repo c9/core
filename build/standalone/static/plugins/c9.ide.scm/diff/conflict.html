@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ace-diff - Simple Demo #1</title>
+    
+    <script src="/static/mini_require.js"></script>
+    <script src="/configs/require_config.js"></script>
+    
+    <style type="text/css">
+        .ace_diff-container {
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            position: absolute!important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="ace_diff-container" style="display:none">
+Where does
+<<<<<<< HEAD
+first version
+=======
+second version
+>>>>>>> branch2
+go to?
+
+lots 
+of
+text
+
+Where does
+<<<<<<< HEAD
+/------------
+|
+|conflict 2
+|
+\------------
+=======
+\------------
+|          /
+|conflict K
+|          \
+/------------
+>>>>>>> branch2
+go to?
+
+
+lots 
+of
+text
+
+
+Where does
+<<<<<<< HEAD
+/------------
+|
+|conflict 3
+|
+\------------
+=======
+\------------
+|          /
+|conflict K
+|          \
+/------------
+>>>>>>> branch2
+go to?
+
+
+lots 
+of
+text
+
+</div>
+
+<script>
+    require(["plugins/c9.ide.scm/diff/conflictmarker", "ace/ace"], function(m) {
+        var el = document.querySelector(".ace_diff-container");
+        el.style.display = "";
+        var editor = require("ace/ace").edit(el);
+        editor.setOption("animatedScroll", true);
+        m(editor);
+        window.editor = editor;
+    });
+
+</script>
+
+
+
+</body>
+</html>

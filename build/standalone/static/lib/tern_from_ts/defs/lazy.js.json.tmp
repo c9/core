@@ -1,0 +1,148 @@
+{
+  "LazyJS": {
+    "LazyStatic": {
+      "strict": "fn() -> LazyStatic",
+      "generate": "fn(generatorFn: ?, length?: number) -> ?",
+      "range": "fn(to: number) -> ?",
+      "repeat": "fn(value: T, count?: number) -> ?",
+      "on": "fn(eventType: string) -> ?",
+      "readFile": "fn(path: string) -> StringLikeSequence",
+      "makeHttpRequest": "fn(path: string) -> StringLikeSequence"
+    },
+    "ArrayLike": {
+      "length": "number"
+    },
+    "Callback": {},
+    "ErrorCallback": {},
+    "ValueCallback": {},
+    "GetKeyCallback": {},
+    "TestCallback": {},
+    "MapCallback": {},
+    "MapStringCallback": {},
+    "NumberCallback": {},
+    "MemoCallback": {},
+    "GeneratorCallback": {},
+    "CompareCallback": {},
+    "Iterator": {
+      "current": "fn() -> T",
+      "moveNext": "fn() -> bool"
+    },
+    "GeneratedSequence": {
+      "length": "fn() -> number"
+    },
+    "AsyncSequence": {
+      "each": "fn(callback: ?) -> ?"
+    },
+    "AsyncHandle": {
+      "cancel": "fn()",
+      "onComplete": "fn(callback: Callback)",
+      "onError": "fn(callback: ErrorCallback)"
+    },
+    "Sequence": {
+      "define": "fn(methodName: [string], overrides: Object) -> Function",
+      "each": "fn(eachFn: ?) -> ?"
+    },
+    "SequenceBase": {
+      "first": "fn() -> ?",
+      "indexOf": "fn(value: ?, startIndex?: number) -> ?",
+      "last": "fn() -> ?",
+      "lastIndexOf": "fn(value: ?) -> ?",
+      "reverse": "fn() -> ?"
+    },
+    "SequenceBaser": {
+      "async": "fn(interval: number) -> ?",
+      "chunk": "fn(size: number) -> ?",
+      "compact": "fn() -> ?",
+      "concat": "fn(var_args: [T]) -> ?",
+      "consecutive": "fn(length: number) -> ?",
+      "contains": "fn(value: T) -> bool",
+      "countBy": "fn(keyFn: ?) -> ?",
+      "dropWhile": "fn(predicateFn: ?) -> ?",
+      "every": "fn(predicateFn: ?) -> bool",
+      "filter": "fn(predicateFn: ?) -> ?",
+      "find": "fn(predicateFn: ?) -> T",
+      "findWhere": "fn(properties: Object) -> T",
+      "flatten": "fn() -> ?",
+      "groupBy": "fn(keyFn: ?) -> ?",
+      "initial": "fn(count?: number) -> ?",
+      "intersection": "fn(var_args: [T]) -> ?",
+      "invoke": "fn(methodName: string) -> ?",
+      "isEmpty": "fn() -> bool",
+      "join": "fn(delimiter?: string) -> string",
+      "map": "fn(mapFn: ?) -> ?",
+      "max": "fn(valueFn?: ?) -> T",
+      "min": "fn(valueFn?: ?) -> T",
+      "none": "fn(valueFn?: ?) -> bool",
+      "pluck": "fn(propertyName: string) -> ?",
+      "reduce": "fn(aggregatorFn: ?, memo?: U) -> U",
+      "reduceRight": "fn(aggregatorFn: ?, memo: U) -> U",
+      "reject": "fn(predicateFn: ?) -> ?",
+      "rest": "fn(count?: number) -> ?",
+      "shuffle": "fn() -> ?",
+      "some": "fn(predicateFn?: ?) -> bool",
+      "sort": "fn(sortFn?: CompareCallback, descending?: bool) -> ?",
+      "sortBy": "fn(sortFn: string, descending?: bool) -> ?",
+      "sortedIndex": "fn(value: T) -> ?",
+      "size": "fn() -> number",
+      "sum": "fn(valueFn?: ?) -> T",
+      "takeWhile": "fn(predicateFn: ?) -> ?",
+      "union": "fn(var_args: [T]) -> ?",
+      "uniq": "fn() -> ?",
+      "where": "fn(properties: Object) -> ?",
+      "without": "fn(var_args: [T]) -> ?",
+      "zip": "fn(var_args: [T]) -> ?",
+      "toArray": "fn() -> [T]",
+      "toObject": "fn() -> Object"
+    },
+    "ArrayLikeSequence": {
+      "define": "fn(methodName: [string], overrides: Object) -> Function",
+      "concat": "fn(var_args: [T]) -> ?",
+      "first": "fn(count?: number) -> ?",
+      "get": "fn(index: number) -> T",
+      "length": "fn() -> number",
+      "map": "fn(mapFn: ?) -> ?",
+      "pop": "fn() -> ?",
+      "rest": "fn(count?: number) -> ?",
+      "reverse": "fn() -> ?",
+      "shift": "fn() -> ?",
+      "slice": "fn(begin: number, end?: number) -> ?"
+    },
+    "ObjectLikeSequence": {
+      "define": "fn(methodName: [string], overrides: Object) -> Function",
+      "assign": "fn(other: Object) -> ?",
+      "defaults": "fn(defaults: Object) -> ?",
+      "functions": "fn() -> ?",
+      "get": "fn(property: string) -> ?",
+      "invert": "fn() -> ?",
+      "keys": "fn() -> ?",
+      "omit": "fn(properties: [string]) -> ?",
+      "pairs": "fn() -> ?",
+      "pick": "fn(properties: [string]) -> ?",
+      "toArray": "fn() -> [T]",
+      "toObject": "fn() -> Object",
+      "values": "fn() -> ?"
+    },
+    "StringLikeSequence": {
+      "define": "fn(methodName: [string], overrides: Object) -> Function",
+      "charAt": "fn(index: number) -> string",
+      "charCodeAt": "fn(index: number) -> number",
+      "contains": "fn(value: string) -> bool",
+      "endsWith": "fn(suffix: string) -> bool",
+      "first": "fn() -> string",
+      "indexOf": "fn(substring: string, startIndex?: number) -> number",
+      "last": "fn() -> string",
+      "lastIndexOf": "fn(substring: string, startIndex?: number) -> number",
+      "mapString": "fn(mapFn: MapStringCallback) -> StringLikeSequence",
+      "match": "fn(pattern: RegExp) -> StringLikeSequence",
+      "reverse": "fn() -> StringLikeSequence",
+      "split": "fn(delimiter: string) -> StringLikeSequence",
+      "startsWith": "fn(prefix: string) -> bool",
+      "substring": "fn(start: number, stop?: number) -> StringLikeSequence",
+      "toLowerCase": "fn() -> StringLikeSequence",
+      "toUpperCase": "fn() -> StringLikeSequence"
+    }
+  },
+  "Lazy": "LazyJS.LazyStatic",
+  "'lazy.js'": "Lazy",
+  "!name": "lazy.js.d.ts"
+}

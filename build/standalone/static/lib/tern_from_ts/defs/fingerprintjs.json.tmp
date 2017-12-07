@@ -1,0 +1,26 @@
+{
+  "FingerprintJs": {
+    "FingerprintStatic": {},
+    "Fingerprint": {
+      "get": "fn() -> number",
+      "murmurhash3_32_gc": "fn(key: string, seed: number) -> number",
+      "hasLocalStorage": "fn() -> bool",
+      "hasSessionStorage": "fn() -> bool",
+      "isCanvasSupported": "fn() -> bool",
+      "isIE": "fn() -> bool",
+      "getPluginsString": "fn() -> string",
+      "getRegularPluginsString": "fn() -> string",
+      "getIEPluginsString": "fn() -> string",
+      "getScreenResolution": "fn() -> [number]",
+      "getCanvasFingerprint": "fn() -> string"
+    },
+    "FingerprintOption": {
+      "canvas": "bool",
+      "screen_resolution": "bool",
+      "ie_activex": "bool",
+      "hasher": "fn(key: string, seed: number)"
+    }
+  },
+  "Fingerprint": "FingerprintJs.FingerprintStatic",
+  "!name": "fingerprint.d.ts"
+}

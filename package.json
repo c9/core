@@ -1,7 +1,7 @@
 {
   "name": "Cloud9",
   "description": "New Cloud9 Client",
-  "version": "3.1.3590",
+  "version": "3.1.4036",
   "author": "Ajax.org B.V. <info@ajax.org>",
   "private": true,
   "main": "bin/c9",
@@ -41,6 +41,7 @@
     "read": "~1.0.5",
     "form-data": "~0.2.0",
     "chai": "~1.5.0",
+    "limiter": "^1.1.0",
     "mocha": "1.8.2"
   },
   "scripts": {
@@ -57,5 +58,5 @@
     "msgpack-js",
     "c9"
   ],
-  "revision": "ee77c2aa8558c1f09ee130997baf5686dad83b88"
+  "revision": "04a9a72bbc5c8ce3e984c80928874ef12afb7d31"
 }

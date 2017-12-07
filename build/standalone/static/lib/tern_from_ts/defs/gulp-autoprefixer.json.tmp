@@ -1,0 +1,4 @@
+{
+  "gulp-autoprefixer": "autoPrefixer",
+  "!name": "gulp-autoprefixer.d.ts"
+}

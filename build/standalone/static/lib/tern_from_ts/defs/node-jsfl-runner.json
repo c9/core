@@ -1,0 +1,11 @@
+{
+  "node-jsfl-runner": {
+    "JSFL": {
+      "init": "fn(args: [?])"
+    },
+    "createJSFL": "fn(jsfl: JSFL, fileName: string, initParams: ?, callback: fn(err: NodeJS.ErrnoException))",
+    "deleteJSFL": "fn(fileName: string, callback: fn(err: NodeJS.ErrnoException))",
+    "runJSFL": "fn(flashLocation: string, fileName: string, callback: fn(err: NodeJS.ErrnoException))"
+  },
+  "!name": "node-jsfl-runner"
+}

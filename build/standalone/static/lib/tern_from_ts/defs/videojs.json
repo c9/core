@@ -1,0 +1,41 @@
+{
+  "VideoJSOptions": {
+    "techOrder": "[string]",
+    "html5": "Object",
+    "width": "number",
+    "height": "number",
+    "defaultVolume": "number",
+    "children": "Object",
+    "controls": "bool",
+    "src": "string",
+    "autoplay": "bool",
+    "preload": "string"
+  },
+  "VideoJSSource": {
+    "type": "string",
+    "src": "string"
+  },
+  "VideoJSPlayer": {
+    "play": "fn() -> VideoJSPlayer",
+    "pause": "fn() -> VideoJSPlayer",
+    "paused": "fn() -> bool",
+    "src": "fn(newSource: string) -> VideoJSPlayer",
+    "currentTime": "fn(seconds: number) -> VideoJSPlayer",
+    "duration": "fn() -> number",
+    "buffered": "fn() -> TimeRanges",
+    "bufferedPercent": "fn() -> number",
+    "volume": "fn(percentAsDecimal: number) -> TimeRanges",
+    "width": "fn() -> number",
+    "height": "fn() -> number",
+    "size": "fn(width: number, height: number) -> VideoJSPlayer",
+    "requestFullScreen": "fn() -> VideoJSPlayer",
+    "cancelFullScreen": "fn() -> VideoJSPlayer",
+    "ready": "fn(callback: fn())",
+    "on": "fn(eventName: string, callback: fn())",
+    "off": "fn(eventName: string, callback: fn())",
+    "dispose": "fn()"
+  },
+  "VideoJSStatic": {},
+  "videojs": "VideoJSStatic",
+  "!name": "videojs"
+}

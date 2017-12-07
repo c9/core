@@ -1,0 +1,28 @@
+{
+  "HumaneOptions": {
+    "queue": "[string]",
+    "baseCls": "string",
+    "addnCls": "string",
+    "timeout": "number",
+    "waitForMove": "bool",
+    "clickToClose": "bool",
+    "forceNew": "bool"
+  },
+  "Humane": {
+    "queue": "[string]",
+    "baseCls": "string",
+    "addnCls": "string",
+    "timeout": "number",
+    "waitForMove": "bool",
+    "clickToClose": "bool",
+    "forceNew": "bool",
+    "create": "fn(options?: HumaneOptions) -> Humane",
+    "info": "Function",
+    "error": "Function",
+    "spawn": "fn(options: HumaneOptions) -> Function",
+    "remove": "fn(any: ?)",
+    "log": "fn(message: string) -> Humane"
+  },
+  "humane": "Humane",
+  "!name": "humane.d.ts"
+}

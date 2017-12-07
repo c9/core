@@ -1,0 +1,25 @@
+{
+  "easystarjs": {
+    "js": {
+      "prototype": {
+        "new": "fn() -> js",
+        "setGrid": "fn(grid: [[number]])",
+        "setAcceptableTiles": "fn(tiles: [number])",
+        "findPath": "fn(startX: number, startY: number, endX: number, endY: number, callback: fn(path: [Position]))",
+        "calculate": "fn()",
+        "setIterationsPerCalculation": "fn(iterations: number)",
+        "avoidAdditionalPoint": "fn(x: number, y: number)",
+        "stopAvoidingAdditionalPoint": "fn(x: number, y: number)",
+        "stopAvoidingAllAdditionalPoints": "fn()",
+        "enableDiagonals": "fn()",
+        "disableDiagonals": "fn()",
+        "setTileCost": "fn(tileType: number, multiplicativeCost: number)"
+      }
+    },
+    "Position": {
+      "x": "number",
+      "y": "number"
+    }
+  },
+  "!name": "easystarjs.d.ts"
+}

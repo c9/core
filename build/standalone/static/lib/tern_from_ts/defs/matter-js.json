@@ -1,0 +1,295 @@
+{
+  "Matter": {
+    "IEngineOptions": {},
+    "IEngineTimingOptions": {
+      "correction": "number",
+      "delta": "number",
+      "timeScale": "number",
+      "timestamp": "number",
+      "velocityIterations": "number"
+    },
+    "Engine": {
+      "clear": "fn(engine: Engine)",
+      "create": "fn(element?: HTMLElement, IEngineOptions: ?, options?: IEngineOptions) -> Engine",
+      "merge": "fn(engineA: Engine, engineB: Engine)",
+      "render": "fn(engineA: Engine, engineB: Engine)",
+      "run": "fn(engine: Engine)",
+      "update": "fn(engine: Engine, delta: number, correction?: number)",
+      "prototype": {
+        "constraintIterations": "number",
+        "enabled": "bool",
+        "enableSleeping": "bool",
+        "positionIterations": "number",
+        "render": "Render",
+        "timing": "IEngineTimingOptions",
+        "world": "World"
+      }
+    },
+    "IWorldOptions": {},
+    "World": {
+      "add": "fn(world: World, body: Body, Array: ?) -> World",
+      "addBody": "fn(world: World, body: Body) -> World",
+      "addComposite": "fn(world: World, composite: Composite) -> World",
+      "addConstraint": "fn(world: World, constraint: Constraint) -> World",
+      "clear": "fn(world: World, keepStatic: bool)",
+      "create": "fn(options: IWorldOptions) -> World",
+      "prototype": {}
+    },
+    "IBodyDefinition": {
+      "angle": "number",
+      "angularSpeed": "number",
+      "angularVelocity": "number",
+      "area": "number",
+      "axes": "?",
+      "bounds": "Bounds",
+      "density": "number",
+      "force": "Vector",
+      "friction": "number",
+      "frictionAir": "number",
+      "groupId": "number",
+      "id": "number",
+      "inertia": "number",
+      "inverseInertia": "number",
+      "inverseMass": "number",
+      "isSleeping": "bool",
+      "isStatic": "bool",
+      "label": "string",
+      "mass": "number",
+      "motion": "number",
+      "position": "Vector",
+      "render": "IBodyRenderOptions",
+      "restitution": "number",
+      "sleepThreshold": "number",
+      "slop": "number",
+      "speed": "number",
+      "timeScale": "number",
+      "torque": "number",
+      "type": "string",
+      "velocity": "Vector",
+      "vertices": "?"
+    },
+    "Body": {
+      "applyForce": "fn(body: Body, position: Vector, force: Vector)",
+      "applyGravityAll": "fn(bodies: ?, gravity: Vector)",
+      "create": "fn(options: IBodyDefinition) -> Body",
+      "nextGroupId": "fn() -> number",
+      "resetForcesAll": "fn(bodies: ?)",
+      "rotate": "fn(body: Body, angle: number)",
+      "scale": "fn(body: Body, scaleX: number, scaleY: number, poinst?: Vector)",
+      "translate": "fn(body: Body, translation: Vector)",
+      "update": "fn(body: Body, deltaTime: number, timeScale: number, correction: number)",
+      "updateAll": "fn(bodies: ?, deltaTime: number, timeScale: number, correction: number, worldBounds: Bounds)",
+      "prototype": {
+        "setStatic": "fn(isStatic: bool)",
+        "angle": "number",
+        "angularSpeed": "number",
+        "angularVelocity": "number",
+        "area": "number",
+        "axes": "?",
+        "bounds": "Bounds",
+        "density": "number",
+        "force": "Vector",
+        "friction": "number",
+        "frictionAir": "number",
+        "groupId": "number",
+        "id": "number",
+        "inertia": "number",
+        "inverseInertia": "number",
+        "inverseMass": "number",
+        "isSleeping": "bool",
+        "isStatic": "bool",
+        "label": "string",
+        "mass": "number",
+        "motion": "number",
+        "position": "Vector",
+        "render": "IBodyRenderOptions",
+        "restitution": "number",
+        "sleepThreshold": "number",
+        "slop": "number",
+        "speed": "number",
+        "timeScale": "number",
+        "torque": "number",
+        "type": "string",
+        "velocity": "Vector",
+        "vertices": "?"
+      }
+    },
+    "Bodies": {
+      "circle": "fn(x: number, y: number, radius: number, options?: IBodyDefinition, maxSides?: number) -> Body",
+      "polygon": "fn(x: number, y: number, sides: number, radius: number, options?: IBodyDefinition) -> Body",
+      "rectangle": "fn(x: number, y: number, width: number, height: number, options?: IBodyDefinition) -> Body",
+      "trapezoid": "fn(x: number, y: number, width: number, height: number, slope: number, options?: IBodyDefinition) -> Body",
+      "prototype": {}
+    },
+    "IBodyRenderOptions": {
+      "fillStyle": "string",
+      "lineWidth": "number",
+      "sprite": "IBodyRenderOptionsSprite",
+      "strokeStyle": "string",
+      "visible": "bool"
+    },
+    "IBodyRenderOptionsSprite": {
+      "texture": "string",
+      "xScale": "number",
+      "yScale": "number"
+    },
+    "Bounds": {
+      "prototype": {}
+    },
+    "Vector": {
+      "add": "fn(vectorA: Vector, vectorB: Vector) -> Vector",
+      "angle": "fn(vectorA: Vector, vectorB: Vector) -> number",
+      "cross": "fn(vectorA: Vector, vectorB: Vector) -> number",
+      "div": "fn(vector: Vector, scalar: number) -> Vector",
+      "dot": "fn(vectorA: Vector, vectorB: Vector) -> Number",
+      "magnitude": "fn(vector: Vector) -> number",
+      "magnitudeSquared": "fn(vector: Vector) -> number",
+      "mult": "fn(vector: Vector, scalar: number) -> Vector",
+      "neg": "fn(vector: Vector) -> Vector",
+      "normalise": "fn(vector: Vector) -> Vector",
+      "perp": "fn(vector: Vector, negate?: bool) -> Vector",
+      "rotate": "fn(vector: Vector, angle: number) -> Vector",
+      "rotateAbout": "fn(vector: Vector, angle: number, point: Vector) -> Vector",
+      "sub": "fn(vectorA: Vector, vectorB: Vector) -> Vector",
+      "prototype": {
+        "x": "number",
+        "y": "number"
+      }
+    },
+    "Constraint": {
+      "create": "fn(options: IConstraintDefinition) -> Constraint",
+      "prototype": {
+        "bodyA": "Body",
+        "bodyB": "Body",
+        "id": "number",
+        "label": "string",
+        "length": "number",
+        "pointA": "Vector",
+        "pointB": "Vector",
+        "render": "IConstraintRenderRefinition",
+        "stiffness": "number",
+        "type": "string"
+      }
+    },
+    "MouseConstraint": {
+      "prototype": {
+        "create": "fn(engine: Engine, options: IMouseConstraintDefinition) -> MouseConstraint",
+        "constraint": "Constraint",
+        "dragBody": "Body",
+        "dragPoint": "Vector",
+        "mouse": "Mouse",
+        "type": "string"
+      }
+    },
+    "IMouseConstraintDefinition": {
+      "constraint": "Constraint",
+      "dragBody": "Body",
+      "dragPoint": "Vector",
+      "mouse": "Mouse",
+      "type": "string"
+    },
+    "Query": {
+      "ray": "fn(bodies: ?, startPoint: Vector, endPoint: Vector, rayWidth?: number) -> ?",
+      "region": "fn(bodies: ?, bounds: Bounds, outside?: bool) -> ?",
+      "prototype": {}
+    },
+    "Mouse": {
+      "prototype": {}
+    },
+    "IConstraintRenderRefinition": {
+      "lineWidth": "number",
+      "strokeStyle": "string",
+      "visible": "bool"
+    },
+    "IConstraintDefinition": {
+      "bodyA": "Body",
+      "bodyB": "Body",
+      "id": "number",
+      "label": "string",
+      "length": "number",
+      "pointA": "Vector",
+      "pointB": "Vector",
+      "render": "IConstraintRenderRefinition",
+      "stiffness": "number",
+      "type": "string"
+    },
+    "Composite": {
+      "add": "fn(composite: Composite, object: Body, Composite: ?, Constraint: ?) -> Composite",
+      "addBody": "fn(composite: Composite, body: Body) -> Composite",
+      "addComposite": "fn(compositeA: Composite, compositeB: Composite) -> Composite",
+      "addConstraint": "fn(composite: Composite, constraint: Constraint) -> Composite",
+      "allBodies": "fn(composite: Composite) -> ?",
+      "allComposites": "fn(composite: Composite) -> ?",
+      "allConstraints": "fn(composite: Composite) -> ?",
+      "clear": "fn(world: World, keepStatic: bool, deep?: bool)",
+      "create": "fn(options: ICompositeDefinition) -> Composite",
+      "get": "fn(composite: Composite, id: number, type: string) -> Body",
+      "move": "fn(compositeA: Composite, objects: ?, Composite: ?, Constraint: ?, compositeB: Composite) -> Composite",
+      "rebase": "fn(composite: Composite) -> Composite",
+      "remove": "fn(composite: Composite, object: Body, Composite: ?, Constraint: ?, deep?: bool) -> Composite",
+      "removeBody": "fn(composite: Composite, body: Body, deep?: bool) -> Composite",
+      "removeBodyAt": "fn(composite: Composite, position: number) -> Composite",
+      "removeComposite": "fn(compositeA: Composite, compositeB: Composite, deep?: bool) -> Composite",
+      "removeCompositeAt": "fn(composite: Composite, position: number) -> Composite",
+      "removeConstraint": "fn(composite: Composite, constraint: Constraint, deep?: bool) -> Composite",
+      "removeConstraintAt": "fn(composite: Composite, position: number) -> Composite",
+      "setModified": "fn(composite: Composite, isModified: bool, updateParents?: bool)",
+      "prototype": {
+        "Composite": "?",
+        "Constraint": "?",
+        "bodies": "?",
+        "composites": "?",
+        "constraints": "?",
+        "id": "number",
+        "isModified": "bool",
+        "label": "string",
+        "parent": "Composite",
+        "type": "String"
+      }
+    },
+    "Composites": {
+      "car": "fn(xx: number, yy: number, width: number, height: number, wheelSize: number) -> Composite",
+      "chain": "fn(composite: Composite, xOffsetA: number, yOffsetA: number, xOffsetB: number, yOffsetB: number, options: ?) -> Composite",
+      "mesh": "fn(composite: Composite, columns: number, rows: number, crossBrace: bool, options: ?) -> Composite",
+      "pyramid": "fn(xx: number, yy: number, columns: number, rows: number, columnGap: number, rowGap: number, callback: Function) -> Composite",
+      "softBody": "fn(xx: number, yy: number, columns: number, rows: number, columnGap: number, rowGap: number, crossBrace: bool, particleRadius: number, particleOptions: ?, constraintOptions: ?) -> Composite",
+      "stack": "fn(xx: number, yy: number, columns: number, rows: number, columnGap: number, rowGap: number, callback: Function) -> Composite",
+      "prototype": {
+        "newtonsCradle": "fn(xx: number, yy: number, _number: number, size: number, length: number) -> Composite"
+      }
+    },
+    "ICompositeDefinition": {
+      "bodies": "?",
+      "composites": "?",
+      "constraints": "?",
+      "id": "number",
+      "isModified": "bool",
+      "label": "string",
+      "parent": "Composite",
+      "type": "String"
+    },
+    "Vertices": {
+      "area": "fn(vertices: ?, signed: bool) -> number",
+      "centre": "fn(vertices: ?) -> Vector",
+      "chamfer": "fn(vertices: ?, radius: ?, quality: number, qualityMin: number, qualityMax: number)",
+      "contains": "fn(vertices: ?, point: Vector) -> bool",
+      "create": "fn(vertices: ?, body: Body)",
+      "fromPath": "fn(path: string) -> ?",
+      "inertia": "fn(vertices: ?, mass: number) -> number",
+      "rotate": "fn(vertices: ?, angle: number, point: Vector)",
+      "scale": "fn(vertices: ?, scaleX: number, scaleY: number, point: Vector)",
+      "translate": "fn(vertices: ?, vector: Vector, scalar: number)",
+      "prototype": {}
+    },
+    "Render": {
+      "prototype": {}
+    },
+    "Events": {
+      "on": "fn(obj: Engine, name: string, callback: fn(e: ?))",
+      "off": "fn(obj: ?, eventName: string, callback: fn(e: ?))",
+      "trigger": "fn(object: ?, eventNames: string, event: fn(e: ?))",
+      "prototype": {}
+    }
+  },
+  "!name": "matter-js"
+}

@@ -1,0 +1,49 @@
+{
+  "ToastrOptions": {
+    "showEasing": "string",
+    "hideEasing": "string",
+    "showMethod": "string",
+    "hideMethod": "string",
+    "closeButton": "bool",
+    "closeHtml": "string",
+    "tapToDismiss": "bool",
+    "toastClass": "string",
+    "containerId": "string",
+    "debug": "bool",
+    "showDuration": "number",
+    "onShown": "fn()",
+    "hideDuration": "number",
+    "onHidden": "fn()",
+    "extendedTimeOut": "number",
+    "iconClasses": {
+      "error": "string",
+      "info": "string",
+      "success": "string",
+      "warning": "string"
+    },
+    "iconClass": "string",
+    "positionClass": "string",
+    "backgroundpositionClass": "string",
+    "timeOut": "number",
+    "titleClass": "string",
+    "messageClass": "string",
+    "newestOnTop": "bool",
+    "target": "string",
+    "preventDuplicates": "bool",
+    "progressBar": "bool",
+    "onclick": "fn()",
+    "allowHtml": "bool"
+  },
+  "ToastrDisplayMethod": {},
+  "Toastr": {
+    "clear": {},
+    "error": "ToastrDisplayMethod",
+    "info": "ToastrDisplayMethod",
+    "options": "ToastrOptions",
+    "success": "ToastrDisplayMethod",
+    "warning": "ToastrDisplayMethod",
+    "version": "string"
+  },
+  "toastr": "Toastr",
+  "!name": "toastr"
+}

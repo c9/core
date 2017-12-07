@@ -1,0 +1,33 @@
+{
+  "IAccountingCurrencyFormat": {
+    "pos": "string",
+    "neg": "string",
+    "zero": "string"
+  },
+  "IAccountingCurrencySettings": {
+    "symbol": "string",
+    "format": "TFormat",
+    "decimal": "string",
+    "thousand": "string",
+    "precision": "number"
+  },
+  "IAccountingNumberSettings": {
+    "precision": "number",
+    "thousand": "string",
+    "decimal": "string"
+  },
+  "IAccountingSettings": {
+    "currency": "?",
+    "number": "IAccountingNumberSettings"
+  },
+  "IAccountingStatic": {
+    "formatMoney": "fn(number: number, symbol?: string, precision?: number, thousand?: string, decimal?: string, format?: string) -> string",
+    "formatColumn": "fn(numbers: [number], symbol?: string, precision?: number, thousand?: string, decimal?: string, format?: string) -> [string]",
+    "formatNumber": "fn(number: number, precision?: number, thousand?: string, decimal?: string) -> string",
+    "toFixed": "fn(number: number, precision?: number) -> string",
+    "unformat": "fn(string: string, decimal?: string) -> number",
+    "settings": "IAccountingSettings"
+  },
+  "accounting": "IAccountingStatic",
+  "!name": "accounting.d.ts"
+}

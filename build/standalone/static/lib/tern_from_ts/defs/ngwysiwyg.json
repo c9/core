@@ -1,0 +1,13 @@
+{
+  "ngWYSIWYG": {
+    "Toolbar": {
+      "name": "string",
+      "items": "[string]"
+    },
+    "Config": {
+      "sanitize": "bool",
+      "toolbar": "[Toolbar]"
+    }
+  },
+  "!name": "ngwysiwyg"
+}

@@ -1,0 +1,49 @@
+{
+  "KoLiteActivityOptions": {
+    "color": "?",
+    "segments": "number",
+    "space": "number",
+    "length": "number",
+    "width": "number",
+    "speed": "number",
+    "align": "string",
+    "valign": "string",
+    "padding": "number"
+  },
+  "KoLiteActivity": {
+    "defaults": "KoLiteActivityOptions",
+    "getOpacity": "fn(options: ?, i: number) -> number"
+  },
+  "KnockoutBindingHandlers": {
+    "activity": "KnockoutBindingHandler",
+    "command": "KnockoutBindingHandler"
+  },
+  "JQuery": {
+    "activity": "KoLiteActivity",
+    "activityEx": "fn(isLoading: bool) -> JQuery"
+  },
+  "DirtyFlag": {
+    "isDirty": "?",
+    "reset": "fn()"
+  },
+  "KnockoutStatic": {
+    "DirtyFlag": "DirtyFlag",
+    "command": "fn(options: KoLiteCommandOptions) -> KoliteCommand",
+    "asyncCommand": "fn(options: KoLiteCommandOptions) -> KoliteAsyncCommand"
+  },
+  "KoliteCommand": {
+    "canExecute": "?",
+    "execute": "fn(args: [?]) -> ?"
+  },
+  "KoliteAsyncCommand": {
+    "isExecuting": "?"
+  },
+  "KoLiteCommandOptions": {
+    "execute": "fn(args: [?]) -> ?",
+    "canExecute": "fn(isExecuting: bool)"
+  },
+  "KnockoutUtils": {
+    "wrapAccessor": "fn(accessor: ?) -> Function"
+  },
+  "!name": "kolite"
+}

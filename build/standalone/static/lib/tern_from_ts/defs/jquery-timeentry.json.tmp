@@ -1,0 +1,45 @@
+{
+  "ITimeEntryRegionalOptions": {
+    "show24Hours": "bool",
+    "separator": "string",
+    "ampmPrefix": "string",
+    "ampmNames": "[string]",
+    "spinnerTexts": "[string]"
+  },
+  "ITimeEntryOptions": {
+    "showSeconds": "bool",
+    "unlimitedHours": "bool",
+    "appendText": "string",
+    "timeSteps": "[number]",
+    "initialField": "number",
+    "noSeparatorEntry": "bool",
+    "tabToExit": "bool",
+    "useMouseWheel": "bool",
+    "defaultTime": "Date",
+    "number": "?",
+    "string": "?",
+    "minTime": "Date",
+    "maxTime": "Date",
+    "spinnerImage": "string",
+    "spinnerSize": "[number]",
+    "spinnerBigImage": "string",
+    "spinnerBigSize": "[number]",
+    "spinnerIncDecOnly": "bool",
+    "spinnerRepeat": "[number]",
+    "beforeShow": "Function",
+    "beforeSetTime": "Function"
+  },
+  "ITimeEntry": {},
+  "ITimeEntryLocales": {},
+  "ITimeEntryStatic": {
+    "regionalOptions": "ITimeEntryLocales",
+    "setDefaults": "fn(settings: ITimeEntryOptions)"
+  },
+  "JQuery": {
+    "timeEntry": "ITimeEntry"
+  },
+  "JQueryStatic": {
+    "timeEntry": "ITimeEntryStatic"
+  },
+  "!name": "jquery-timeentry.d.ts"
+}

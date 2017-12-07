@@ -1,0 +1,26 @@
+{
+  "'source-map-support'": {
+    "UrlAndMap": {
+      "url": "string",
+      "map": "string",
+      "Buffer": "?"
+    },
+    "Options": {
+      "handleUncaughtExceptions": "bool",
+      "emptyCacheBetweenOperations": "bool",
+      "retrieveFile": "fn(path: string)",
+      "retrieveSourceMap": "fn(source: string)"
+    },
+    "Position": {
+      "source": "string",
+      "line": "number",
+      "column": "number"
+    },
+    "wrapCallSite": "fn(frame: ?) -> ?",
+    "getErrorSource": "fn(error: Error) -> string",
+    "mapSourcePosition": "fn(position: Position) -> Position",
+    "retrieveSourceMap": "fn(source: string) -> UrlAndMap",
+    "install": "fn(options?: Options)"
+  },
+  "!name": "source-map-support"
+}

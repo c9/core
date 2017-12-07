@@ -1,0 +1,4 @@
+{
+  "gulp-typedoc": "typedoc",
+  "!name": "gulp-typedoc.d.ts"
+}

@@ -1,0 +1,56 @@
+{
+  "Minilog": {
+    "debug": "fn(msg: ?) -> Minilog",
+    "info": "fn(msg: ?) -> Minilog",
+    "log": "fn(msg: ?) -> Minilog",
+    "warn": "fn(msg: ?) -> Minilog",
+    "error": "fn(msg: ?) -> Minilog",
+    "!type": "fn(namespace: string) -> Minilog",
+    "enable": "fn() -> Minilog",
+    "disable": "fn() -> Minilog",
+    "pipe": "fn(dest: ?) -> Transform",
+    "suggest": "Filter",
+    "backends": "Minilog.MinilogBackends",
+    "defaultBackend": "?",
+    "defaultFormatter": "string",
+    "Filter": {
+      "prototype": {
+        "allow": "fn(name: ?, level?: ?) -> Filter",
+        "deny": "fn(name: ?, level?: ?) -> Filter",
+        "clear": "fn() -> Filter",
+        "test": "fn(name: ?, level: ?) -> bool",
+        "defaultResult": "bool",
+        "enabled": "bool"
+      }
+    },
+    "MinilogBackends": {
+      "array": "?",
+      "browser": "?",
+      "console": "Console",
+      "localstorage": "?",
+      "jQuery": "?"
+    },
+    "Console": {
+      "prototype": {
+        "formatters": "[string]",
+        "color": "Transform",
+        "minilog": "Transform",
+        "formatClean": "Transform",
+        "formatColor": "Transform",
+        "formatNpm": "Transform",
+        "formatLearnboost": "Transform",
+        "formatMinilog": "Transform",
+        "formatWithStack": "Transform"
+      }
+    },
+    "Transform": {
+      "prototype": {
+        "write": "fn(name: ?, level: ?, args: ?)",
+        "pipe": "fn(dest: ?) -> ?",
+        "unpipe": "fn(from: ?) -> Transform",
+        "mixin": "fn(dest: ?)"
+      }
+    }
+  },
+  "!name": "minilog.d.ts"
+}

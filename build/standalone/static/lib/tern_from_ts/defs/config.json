@@ -1,0 +1,17 @@
+{
+  "config": {
+    "IUtil": {
+      "extendDeep": "fn(mergeInto: ?, mergeFrom: ?, depth?: number) -> ?",
+      "cloneDeep": "fn(copyFrom: ?, depth?: number) -> ?",
+      "equalsDeep": "fn(object1: ?, object2: ?, dept?: number) -> bool",
+      "diffDeep": "fn(object1: ?, object2: ?, depth?: number) -> ?",
+      "makeImmutable": "fn(object: ?, propertyName?: string, propertyValue?: string) -> ?",
+      "makeHidden": "fn(object: ?, propertyName: string, propertyValue?: string) -> ?",
+      "getEnv": "fn(varName: string) -> string"
+    },
+    "get": "fn(setting: string) -> T",
+    "has": "fn(setting: string) -> bool",
+    "util": "IUtil"
+  },
+  "!name": "config"
+}

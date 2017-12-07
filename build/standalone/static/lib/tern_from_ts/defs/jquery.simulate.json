@@ -1,0 +1,6 @@
+{
+  "JQuery": {
+    "simulate": "fn(type: string, options?: ?)"
+  },
+  "!name": "jquery.simulate.d.ts"
+}

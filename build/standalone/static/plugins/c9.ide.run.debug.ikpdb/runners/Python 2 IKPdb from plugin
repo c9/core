@@ -1,0 +1,30 @@
+//
+// This file is part of IKPdb Cloud9 debugger plugin.
+// Copyright (c) 2016 by Cyril MORISSE, Audaxis.
+// Licence MIT. See LICENCE at repository root
+//
+//
+// This file overrides the built-in Python 2 runner
+// For more information see http://docs.c9.io:8080/#!/api/run-method-run
+{
+  "cmd": [
+    "python2",
+    "${debug?-m}",
+    "${debug?ikpdb}",
+    "${debug?--ikpdb-port=15471}",
+    "${debug?--ikpdb-working-directory=$project_path}",
+//    "${debug?--ikpdb-log=gxf}",  // Uncomment this line to log debugger output  
+    "$file",
+    "$args"
+  ],
+  "selector": "^.*\\.(python|py)$",
+  "python_version": "python2",
+  "info": "Your code: \\033[00m\\033[01;32m$file\\033[00m is running at \\033[01;34m$url\\033[00m.\n\\033[01;31mImportant:\\033[00m use \\033[01;32mos.getenv('PORT', 8080)\\033[00m as the port and \\033[01;32mos.getenv('IP', '0.0.0.0')\\033[00m as the host in your scripts!\n",
+  "env": {
+    "PYTHONPATH": "$python_path"
+  },
+  "debugport": 15471,
+  "debugger": "pythondebug",
+  "maxdepth": 50
+
+}

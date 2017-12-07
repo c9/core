@@ -1,0 +1,29 @@
+{
+  "JsRender": {
+    "Converters": {
+      "html": "fn(valueToEncode: string) -> string",
+      "attr": "fn(valueToEncode: string) -> string",
+      "url": "fn(valueToEncode: string) -> string"
+    },
+    "Views": {
+      "converters": "Converters",
+      "tags": "fn(name: string, tagFn: fn(value: ?)) -> ?",
+      "helpers": "fn(name: string, helper: ?) -> ?"
+    },
+    "Template": {
+      "render": "fn(data?: ?) -> string"
+    },
+    "NamedTemplate": {},
+    "Render": {},
+    "RenderStatic": {}
+  },
+  "JQuery": {
+    "render": "JsRender.Render"
+  },
+  "JQueryStatic": {
+    "render": "JsRender.RenderStatic",
+    "views": "JsRender.Views",
+    "templates": "fn(markupOrSelector: string) -> JsRender.Template"
+  },
+  "!name": "jsrender"
+}

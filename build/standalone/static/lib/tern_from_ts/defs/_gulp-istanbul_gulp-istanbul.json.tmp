@@ -1,0 +1,4 @@
+{
+  "gulp-istanbul": "GulpIstanbul",
+  "!name": "gulp-istanbul.d.ts"
+}

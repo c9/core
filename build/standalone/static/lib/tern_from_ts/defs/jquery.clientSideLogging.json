@@ -1,0 +1,24 @@
+{
+  "ClientSideLoggingClientInfoObject": {
+    "location": "bool",
+    "screen_size": "bool",
+    "user_agent": "bool",
+    "window_size": "bool"
+  },
+  "ClientSideLoggingObject": {
+    "error_url": "string",
+    "info_url": "string",
+    "log_url": "string",
+    "log_level": "number",
+    "native_error": "bool",
+    "hijack_console": "bool",
+    "query_var": "string",
+    "client_info": "ClientSideLoggingClientInfoObject"
+  },
+  "JQueryStatic": {
+    "info": "fn(what?: ?)",
+    "log": "fn(what?: ?)",
+    "clientSideLogging": "fn(options: ClientSideLoggingObject)"
+  },
+  "!name": "jquery.clientSideLogging"
+}

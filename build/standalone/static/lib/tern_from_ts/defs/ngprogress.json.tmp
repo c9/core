@@ -1,0 +1,15 @@
+{
+  "NgProgress": {
+    "INgProgress": {
+      "start": "fn()",
+      "height": "fn(height: string)",
+      "color": "fn(color: string)",
+      "status": "fn() -> number",
+      "stop": "fn()",
+      "set": "fn(value: number)",
+      "reset": "fn()",
+      "complete": "fn()"
+    }
+  },
+  "!name": "ngprogress.d.ts"
+}

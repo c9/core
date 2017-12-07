@@ -290,12 +290,13 @@ define("ace/mode/latex",[], function(require, exports, module) {
 var oop = require("../lib/oop");
 var TextMode = require("./text").Mode;
 var LatexHighlightRules = require("./latex_highlight_rules").LatexHighlightRules;
+var CstyleBehaviour = require("./behaviour/cstyle").CstyleBehaviour;
 var LatexFoldMode = require("./folding/latex").FoldMode;
 
 var Mode = function() {
     this.HighlightRules = LatexHighlightRules;
     this.foldingRules = new LatexFoldMode();
-    this.$behaviour = this.$defaultBehaviour;
+    this.$behaviour = new CstyleBehaviour({ braces: true });
 };
 oop.inherits(Mode, TextMode);
 

@@ -1,0 +1,62 @@
+{
+  "'module'": "mod",
+  "RequireError": {
+    "requireType": "string",
+    "requireModules": "[string]",
+    "originalError": "Error"
+  },
+  "RequireShim": {
+    "deps": "[string]",
+    "exports": "string",
+    "init": "fn(dependencies: [?])"
+  },
+  "RequireConfig": {
+    "baseUrl": "string",
+    "paths": {},
+    "shim": {},
+    "map": {},
+    "bundles": {},
+    "config": {},
+    "packages": {},
+    "waitSeconds": "number",
+    "context": "string",
+    "deps": "[string]",
+    "callback": "fn(modules: [?])",
+    "enforceDefine": "bool",
+    "xhtml": "bool",
+    "urlArgs": "string",
+    "scriptType": "string",
+    "skipDataMain": "bool",
+    "onNodeCreated": "fn(node: HTMLScriptElement, config: RequireConfig, moduleName: string, url: string)"
+  },
+  "RequireModule": {
+    "config": "fn() -> ret"
+  },
+  "RequireMap": {
+    "prefix": "string",
+    "name": "string",
+    "parentMap": "RequireMap",
+    "url": "string",
+    "originalName": "string",
+    "fullName": "string"
+  },
+  "Require": {
+    "config": "fn(config: RequireConfig) -> Require",
+    "toUrl": "fn(module: string) -> string",
+    "defined": "fn(module: string) -> bool",
+    "specified": "fn(module: string) -> bool",
+    "onError": "fn(err: RequireError, errback?: fn(err: RequireError))",
+    "undef": "fn(module: string)",
+    "onResourceLoad": "fn(context: Object, map: RequireMap, depArray: [RequireMap])"
+  },
+  "RequireDefine": {
+    "amd": "Object"
+  },
+  "requirejs": "Require",
+  "require": "Require",
+  "define": "RequireDefine",
+  "!name": "require",
+  "!define": {
+    "ret": {}
+  }
+}

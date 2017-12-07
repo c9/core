@@ -1,0 +1,37 @@
+{
+  "webcomponents": {
+    "CustomElementInit": {
+      "prototype": "HTMLElement",
+      "extends": "string"
+    },
+    "CustomElementConstructor": {},
+    "CustomElementsPolyfill": {
+      "hasNative": "bool",
+      "flags": "?",
+      "ready": "bool",
+      "useNative": "bool"
+    },
+    "HTMLImportsPolyfill": {
+      "IMPORT_LINK_TYPE": "string",
+      "isIE": "bool",
+      "flags": "?",
+      "ready": "bool",
+      "rootDocument": "Document",
+      "useNative": "bool",
+      "whenReady": "fn(callback: fn())"
+    },
+    "Polyfill": {
+      "flags": "?"
+    }
+  },
+  "webcomponents.js": "webcomponents",
+  "Document": {
+    "registerElement": "fn(name: string, prototype: webcomponents.CustomElementInit) -> webcomponents.CustomElementConstructor"
+  },
+  "Window": {
+    "CustomElements": "webcomponents.CustomElementsPolyfill",
+    "HTMLImports": "webcomponents.HTMLImportsPolyfill",
+    "WebComponents": "webcomponents.Polyfill"
+  },
+  "!name": "webcomponents.js"
+}

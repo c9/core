@@ -1,0 +1,8 @@
+{
+  "CodeMirror": {
+    "EditorConfiguration": {
+      "matchBrackets": "bool"
+    }
+  },
+  "!name": "codemirror-matchbrackets"
+}

@@ -1,0 +1,30 @@
+{
+  "IJQuerySlimScrollOptions": {
+    "width": "string",
+    "height": "string",
+    "size": "string",
+    "color": "string",
+    "position": "string",
+    "distance": "string",
+    "start": "?",
+    "opacity": "number",
+    "alwaysVisible": "bool",
+    "disableFadeOut": "bool",
+    "railVisible": "bool",
+    "railColor": "string",
+    "railOpacity": "number",
+    "railDraggable": "bool",
+    "railClass": "string",
+    "barClass": "string",
+    "wrapperClass": "string",
+    "allowPageScroll": "bool",
+    "wheelStep": "number",
+    "touchScrollStep": "number",
+    "borderRadius": "string",
+    "railBorderRadius": "string"
+  },
+  "JQuery": {
+    "slimScroll": {}
+  },
+  "!name": "jquery.slimScroll"
+}

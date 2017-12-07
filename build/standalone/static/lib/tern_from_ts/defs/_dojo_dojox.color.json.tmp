@@ -1,0 +1,64 @@
+{
+  "dojox": {
+    "color": {
+      "MeanColorModel": {
+        "!type": "fn(startColor: dojo._base.Color, endColor?: dojo._base.Color)",
+        "prototype": {
+          "computeNeutral": "fn(min: number, max: number, sum: number, values: [number]) -> ?",
+          "getColor": "fn(value: number) -> ?",
+          "getNormalizedValue": "fn(value: number) -> ?",
+          "initialize": "fn(items: [Object], colorFunc: Function)"
+        }
+      },
+      "NeutralColorModel": {
+        "!type": "fn(startColor: dojo._base.Color, endColor?: dojo._base.Color)",
+        "prototype": {
+          "computeNeutral": "fn(min: number, max: number, sum: number, values: [number])",
+          "getColor": "fn(value: number) -> ?",
+          "getNormalizedValue": "fn(value: number) -> ?",
+          "initialize": "fn(items: [Object], colorFunc: Function)"
+        }
+      },
+      "SimpleColorModel": {
+        "!type": "fn(startColor: dojo._base.Color, endColor?: dojo._base.Color)",
+        "prototype": {
+          "getColor": "fn(value: number) -> ?",
+          "getNormalizedValue": "fn(value: number)"
+        }
+      },
+      "Palette": {
+        "generators": {
+          "analogous": "fn(args: Object) -> ?",
+          "complementary": "fn(args: Object) -> ?",
+          "compound": "fn(args: Object) -> ?",
+          "monochromatic": "fn(args: Object) -> ?",
+          "shades": "fn(args: Object) -> ?",
+          "splitComplementary": "fn(args: Object) -> ?",
+          "triadic": "fn(args: Object) -> ?",
+          "!type": "Object"
+        },
+        "clone": {},
+        "generate": {},
+        "transform": {}
+      },
+      "_base": {},
+      "api": {
+        "ColorModel": {
+          "!type": "fn()",
+          "prototype": {
+            "getColor": "fn(value: number)",
+            "initialize": "fn(items: [Object], colorFunc: Function)"
+          }
+        }
+      }
+    }
+  },
+  "dojox/color": "exp",
+  "dojox/color/MeanColorModel": "exp",
+  "dojox/color/NeutralColorModel": "exp",
+  "dojox/color/SimpleColorModel": "exp",
+  "dojox/color/Palette": "exp",
+  "dojox/color/Palette.generators": "exp",
+  "dojox/color/api/ColorModel": "exp",
+  "!name": "dojox.color.d.ts"
+}

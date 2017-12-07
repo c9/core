@@ -1,0 +1,135 @@
+{
+  "ESTree": {
+    "FlowTypeAnnotation": {},
+    "FlowBaseTypeAnnotation": {},
+    "FlowLiteralTypeAnnotation": {},
+    "FlowDeclaration": {},
+    "AnyTypeAnnotation": {},
+    "ArrayTypeAnnotation": {
+      "elementType": "FlowTypeAnnotation"
+    },
+    "BooleanLiteralTypeAnnotation": {},
+    "BooleanTypeAnnotation": {},
+    "ClassImplements": {
+      "id": "Identifier",
+      "typeParameters": "TypeParameterInstantiation"
+    },
+    "ClassProperty": {
+      "key": "Expression",
+      "value": "Expression",
+      "typeAnnotation": "TypeAnnotation",
+      "computed": "bool",
+      "static": "bool"
+    },
+    "DeclareClass": {
+      "id": "Identifier",
+      "typeParameters": "TypeParameterDeclaration",
+      "body": "ObjectTypeAnnotation",
+      "extends": "?"
+    },
+    "DeclareFunction": {
+      "id": "Identifier"
+    },
+    "DeclareModule": {
+      "id": "Literal",
+      "Identifier": "?",
+      "body": "BlockStatement"
+    },
+    "DeclareVariable": {
+      "id": "Identifier"
+    },
+    "FunctionTypeAnnotation": {
+      "params": "?",
+      "returnType": "FlowTypeAnnotation",
+      "rest": "FunctionTypeParam",
+      "typeParameters": "TypeParameterDeclaration"
+    },
+    "FunctionTypeParam": {
+      "name": "Identifier",
+      "typeAnnotation": "FlowTypeAnnotation",
+      "optional": "bool"
+    },
+    "GenericTypeAnnotation": {
+      "id": "Identifier",
+      "QualifiedTypeIdentifier": "?",
+      "typeParameters": "TypeParameterInstantiation"
+    },
+    "InterfaceExtends": {
+      "id": "Identifier",
+      "QualifiedTypeIdentifier": "?",
+      "typeParameters": "TypeParameterInstantiation"
+    },
+    "InterfaceDeclaration": {
+      "id": "Identifier",
+      "typeParameters": "TypeParameterDeclaration",
+      "extends": "?",
+      "body": "ObjectTypeAnnotation"
+    },
+    "IntersectionTypeAnnotation": {
+      "types": "?"
+    },
+    "MixedTypeAnnotation": {},
+    "NullableTypeAnnotation": {
+      "typeAnnotation": "TypeAnnotation"
+    },
+    "NumberLiteralTypeAnnotation": {},
+    "NumberTypeAnnotation": {},
+    "StringLiteralTypeAnnotation": {},
+    "StringTypeAnnotation": {},
+    "TupleTypeAnnotation": {
+      "types": "?"
+    },
+    "TypeofTypeAnnotation": {
+      "argument": "FlowTypeAnnotation"
+    },
+    "TypeAlias": {
+      "id": "Identifier",
+      "typeParameters": "TypeParameterDeclaration",
+      "right": "FlowTypeAnnotation"
+    },
+    "TypeAnnotation": {
+      "typeAnnotation": "FlowTypeAnnotation"
+    },
+    "TypeCastExpression": {
+      "expression": "Expression",
+      "typeAnnotation": "TypeAnnotation"
+    },
+    "TypeParameterDeclaration": {
+      "params": "?"
+    },
+    "TypeParameterInstantiation": {
+      "params": "?"
+    },
+    "ObjectTypeAnnotation": {
+      "properties": "?",
+      "indexers": "?",
+      "callProperties": "?"
+    },
+    "ObjectTypeCallProperty": {
+      "value": "FunctionTypeAnnotation",
+      "static": "bool"
+    },
+    "ObjectTypeIndexer": {
+      "id": "Identifier",
+      "key": "FlowTypeAnnotation",
+      "value": "FlowTypeAnnotation",
+      "static": "bool"
+    },
+    "ObjectTypeProperty": {
+      "key": "Expression",
+      "value": "FlowTypeAnnotation",
+      "optional": "bool",
+      "static": "bool"
+    },
+    "QualifiedTypeIdentifier": {
+      "qualification": "Identifier",
+      "QualifiedTypeIdentifier": "?",
+      "id": "Identifier"
+    },
+    "UnionTypeAnnotation": {
+      "types": "?"
+    },
+    "VoidTypeAnnotation": {}
+  },
+  "!name": "flow"
+}

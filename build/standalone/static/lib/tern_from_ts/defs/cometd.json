@@ -1,0 +1,30 @@
+{
+  "CometD": {
+    "ConfigurationOptions": {
+      "url": "string",
+      "logLevel": "string",
+      "maxConnections": "number",
+      "backoffIncrement": "number",
+      "maxBackoff": "number",
+      "reverseIncomingExtensions": "bool",
+      "maxNetworkDelay": "number",
+      "requestHeaders": "?",
+      "appendMessageTypeToURL": "bool",
+      "autoBatch": "bool"
+    },
+    "onListenerException": "fn(exception: ?, subscriptionHandle: ?, isListener: bool, message: string)",
+    "init": "fn(options: CometD.ConfigurationOptions)",
+    "configure": "fn(config: CometD.ConfigurationOptions)",
+    "addListener": "fn(channel: string, listener: fn(message: ?))",
+    "removeListener": "fn(listener: fn(message: ?))",
+    "clearListeners": "fn()",
+    "clearSubscriptions": "fn()",
+    "handshake": "fn(handshake_params: ?)",
+    "publish": "fn(channel: string, message: ?)",
+    "disconnect": "fn()"
+  },
+  "JQueryStatic": {
+    "cometd": "CometD"
+  },
+  "!name": "cometd"
+}

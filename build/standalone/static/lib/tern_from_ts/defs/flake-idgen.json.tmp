@@ -1,0 +1,4 @@
+{
+  "'flake-idgen'": "FlakeId",
+  "!name": "flake-idgen.d.ts"
+}

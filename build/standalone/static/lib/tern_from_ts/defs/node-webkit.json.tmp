@@ -1,0 +1,199 @@
+{
+  "nw.gui": {
+    "IEventEmitter": {
+      "addListener": "fn(event: string, listener: Function) -> EventEmitter",
+      "on": "fn(event: string, listener: Function) -> EventEmitter",
+      "once": "fn(event: string, listener: Function) -> EventEmitter",
+      "removeListener": "fn(event: string, listener: Function) -> EventEmitter",
+      "removeAllListeners": "fn(event?: string) -> EventEmitter",
+      "setMaxListeners": "fn(n: number)",
+      "listeners": "fn(event: string) -> [Function]",
+      "emit": "fn(event: string, args: [?]) -> bool"
+    },
+    "EventEmitter": {
+      "prototype": {
+        "addListener": "fn(event: string, listener: Function) -> EventEmitter",
+        "on": "fn(event: string, listener: Function) -> EventEmitter",
+        "once": "fn(event: string, listener: Function) -> EventEmitter",
+        "removeListener": "fn(event: string, listener: Function) -> EventEmitter",
+        "removeAllListeners": "fn(event?: string) -> EventEmitter",
+        "setMaxListeners": "fn(n: number)",
+        "listeners": "fn(event: string) -> [Function]",
+        "emit": "fn(event: string, args: [?]) -> bool"
+      }
+    },
+    "MenuConfig": {
+      "type": "string"
+    },
+    "HideMenusOptions": {
+      "hideEdit": "bool",
+      "hideWindow": "bool"
+    },
+    "MenuItemConfig": {
+      "label": "string",
+      "click": "Function",
+      "type": "string",
+      "submenu": "Menu",
+      "icon": "string",
+      "tooltip": "string",
+      "checked": "bool",
+      "enabled": "bool",
+      "key": "string",
+      "modifiers": "string"
+    },
+    "MenuItem": {
+      "!type": "fn(config: MenuItemConfig)",
+      "prototype": {
+        "label": "string",
+        "click": "Function",
+        "type": "string",
+        "submenu": "Menu",
+        "icon": "string",
+        "tooltip": "string",
+        "checked": "bool",
+        "enabled": "bool",
+        "key": "string",
+        "modifiers": "string"
+      }
+    },
+    "Menu": {
+      "!type": "fn(config?: MenuConfig)",
+      "prototype": {
+        "items": "[MenuItem]",
+        "append": "fn(item: MenuItem)",
+        "remove": "fn(item: MenuItem)",
+        "insert": "fn(item: MenuItem, atPosition: number)",
+        "removeAt": "fn(index: number)",
+        "popup": "fn(x: number, y: number)",
+        "createMacBuiltin": "fn(appname: string, options?: HideMenusOptions)"
+      }
+    },
+    "ShortcutOption": {
+      "key": "string",
+      "active": "Function",
+      "failed": "Function"
+    },
+    "Shortcut": {
+      "!type": "fn(option: ShortcutOption)",
+      "prototype": {
+        "key": "string",
+        "active": "Function",
+        "failed": "Function"
+      }
+    },
+    "WindowManifestOptions": {
+      "title": "string",
+      "icon": "string",
+      "toolbar": "bool",
+      "frame": "bool",
+      "width": "number",
+      "height": "number",
+      "position": "string",
+      "min_width": "number",
+      "min_height": "number",
+      "max_width": "number",
+      "max_height": "number"
+    },
+    "Window": {
+      "get": "fn(windowObject?: ?) -> Window",
+      "open": "fn(url: string, options?: WindowManifestOptions) -> Window",
+      "prototype": {
+        "x": "number",
+        "y": "number",
+        "width": "number",
+        "height": "number",
+        "title": "string",
+        "menu": "Menu",
+        "isFullScreen": "bool",
+        "isKioskMode": "bool",
+        "zoomLevel": "number",
+        "moveTo": "fn(x: number, y: number)",
+        "moveBy": "fn(x: number, y: number)",
+        "resizeTo": "fn(width: number, height: number)",
+        "resizeBy": "fn(width: number, height: number)",
+        "focus": "fn()",
+        "blur": "fn()",
+        "show": "fn()",
+        "hide": "fn()",
+        "close": "fn(force?: bool)",
+        "reload": "fn()",
+        "reloadIgnoringCache": "fn()",
+        "maximize": "fn()",
+        "unmaximize": "fn()",
+        "minimize": "fn()",
+        "restore": "fn()",
+        "enterFullscreen": "fn()",
+        "leaveFullscreen": "fn()",
+        "toggleFullscreen": "fn()",
+        "enterKioskMode": "fn()",
+        "leaveKioskMode": "fn()",
+        "toggleKioskMode": "fn()",
+        "showDevTools": "fn(id?: string, headless?: bool)",
+        "closeDevTools": "fn()",
+        "isDevToolsOpen": "fn() -> bool",
+        "setMaximumSize": "fn(width: number, height: number)",
+        "setMinimumSize": "fn(width: number, height: number)",
+        "setResizable": "fn(resizable: bool)",
+        "setAlwaysOnTop": "fn(top: bool)",
+        "setPosition": "fn(position: string)",
+        "setShowInTaskbar": "fn(show: bool)",
+        "requestAttention": "fn(attention: bool)",
+        "capturePage": "fn(callback: Function, imageformat?: string)",
+        "setProgressBar": "fn(progress: number)",
+        "setBadgeLabel": "fn(label: string)",
+        "eval": "fn(frame: HTMLIFrameElement, script: string)"
+      }
+    },
+    "App": {
+      "argv": "?",
+      "fullArgv": "?",
+      "dataPath": "string",
+      "manifest": "?",
+      "clearCache": "fn()",
+      "closeAllWindows": "fn()",
+      "crashBrowser": "fn()",
+      "crashRenderer": "fn()",
+      "getProxyForURL": "fn(url: string)",
+      "quit": "fn()",
+      "setCrashDumpDir": "fn(dir: string)",
+      "addOriginAccessWhitelistEntry": "fn(sourceOrigin: string, destinationProtocol: string, destinationHost: string, allowDestinationSubdomains: bool)",
+      "removeOriginAccessWhitelistEntry": "fn(sourceOrigin: string, destinationProtocol: string, destinationHost: string, allowDestinationSubdomains: bool)",
+      "registerGlobalHotKey": "fn(shortcut: Shortcut)",
+      "unregisterGlobalHotKey": "fn(shortcut: Shortcut)",
+      "!type": "App"
+    },
+    "Clipboard": {
+      "get": "fn() -> Clipboard",
+      "prototype": {
+        "get": "fn(type?: string) -> string",
+        "set": "fn(data: string, type?: string)",
+        "clear": "fn()"
+      }
+    },
+    "TrayOption": {
+      "title": "string",
+      "tooltip": "string",
+      "icon": "string",
+      "alticon": "string",
+      "menu": "Menu"
+    },
+    "Tray": {
+      "!type": "fn(option: TrayOption)",
+      "prototype": {
+        "title": "string",
+        "tooltip": "string",
+        "icon": "string",
+        "alticon": "string",
+        "menu": "Menu",
+        "remove": "fn()"
+      }
+    },
+    "Shell": {
+      "openExternal": "fn(uri: string)",
+      "openItem": "fn(file_path: string)",
+      "showItemInFolder": "fn(file_path: string)",
+      "!type": "Shell"
+    }
+  },
+  "!name": "node-webkit.d.ts"
+}

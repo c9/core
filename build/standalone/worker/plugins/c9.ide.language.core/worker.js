@@ -11161,9 +11161,9 @@ function endTime(t, message, indent) {
         var posInPart = syntaxDetector.posToRegion(part.region, pos);
         this.parse(part, function(ast) {
             if (!ast)
-                return callHandlers(ast, null, posInPart);
+                return callHandlers(ast, null);
             _self.findNode(ast, pos, function(currentNode) {
-                callHandlers(ast, currentNode, posInPart);
+                callHandlers(ast, currentNode);
             });
         }, true, true);
         
@@ -14983,7 +14983,7 @@ module.exports = {
         options.env = options.env || {};
         var PATH = options.env.PATH || this.defaultEnv && this.defaultEnv.PATH || process.env.PATH;
         options.env.PATH = process.platform === "linux"
-            ? "/mnt/shared/bin:" + PATH
+            ? PATH + ":/mnt/shared/bin"
             : PATH;
         for (var key in process.env) {
             options.env[key] = options.env[key] != null ? options.env[key] : process.env[key];
@@ -15715,12 +15715,12 @@ var PluginBase = require("plugins/c9.ide.language.jsonalyzer/worker/jsonalyzer_b
 var ctagsUtil = require("plugins/c9.ide.language.jsonalyzer/worker/ctags/ctags_util");
 
 var TAGS = [
-    { regex: /(?:^|\n)# (.*?)[#\s]*(?:\n|$)/g, kind: "property" },
-    { regex: /(?:^|\n)([A-Za-z0-9].*?)\s*\n={2,}(?:\n|$)/g, kind: "property" },
-    { regex: /(?:^|\n)#{3,} (.*?)[#\s]*(?:\n|$)/g, kind: "property2", indent: 2 },
-    { regex: /(?:^|\n)([A-Za-z0-9].*?)\s*\n-{3,}(?:\n|$)/g, kind: "property2", indent: 2 },
-    { regex: /(?:^|\n)#{2} (.*?)[#\s]*(?:\n|$)/g, kind: "property2", indent: 1 },
-    { regex: /(?:^|\n)([A-Za-z0-9].*?)\s*\n-{2}(?:\n|$)/g, kind: "property2", indent: 1 },
+    { regex: /^# (.*?)[#\s]*$/gm, kind: "property" },
+    { regex: /^([A-Za-z0-9].*?)[ \t]*\n={2,}$/gm, kind: "property" },
+    { regex: /^#{3,} (.*?)[# \t]*$/gm, kind: "property2", indent: 2 },
+    { regex: /^([A-Za-z0-9].*?)[ \t]*\n-{3,}$/gm, kind: "property2", indent: 2 },
+    { regex: /^#{2} (.*?)[# \t]*$/gm, kind: "property2", indent: 1 },
+    { regex: /^([A-Za-z0-9].*?)[ \t]*\n-{2}$/gm, kind: "property2", indent: 1 },
 ];
 var GUESS_FARGS = false;
 var EXTRACT_DOCS = false;
@@ -70170,40 +70170,40 @@ define("plugins/c9.ide.language.javascript.infer/ast_updater",[], function(requi
             if (!oldAST[i]) {
                 if (newAST[j].cons !== "Var")
                     return false;
-                copyAnnos(findScopeNode(oldAST), newAST[j], dryRun);
+                copyAnnos(findScopeNode(oldAST), newAST[j]);
                 if (!newAST[j].annos)
                     return false;
                 continue;
             }
             if (oldAST[i].cons !== newAST[j].cons) {
                 if (oldAST[i].cons === "Var" && newAST[j].isMatch("PropAccess(Var(_),_)")) {
-                    copyAnnos(oldAST[i], newAST[j][0], dryRun);
+                    copyAnnos(oldAST[i], newAST[j][0]);
                     continue;
                 }
                 if (newAST[j].cons === "Var" && oldAST[i].isMatch("PropAccess(Var(_),_)")) {
-                    copyAnnos(oldAST[i][0], newAST[j], dryRun);
+                    copyAnnos(oldAST[i][0], newAST[j]);
                     continue;
                 }
                 if (oldAST[i].isMatch("PropAccess(Var(_),_)") && newAST[j].isMatch("Call(PropAccess(Var(_),_),_)")) {
-                    copyAnnos(oldAST[i][0], newAST[j][0][0], dryRun);
+                    copyAnnos(oldAST[i][0], newAST[j][0][0]);
                     var oldTemplate = new tree.ListNode([oldAST[i][0]]);
                     oldTemplate.parent = oldAST;
                     copyAnnosTop(oldTemplate, newAST[j][1], dryRun);
                     continue;
                 }
                 if (newAST[j].isMatch("PropAccess(Var(_),_)") && oldAST[i].isMatch("Call(PropAccess(Var(_),_),_)")) {
-                    copyAnnos(oldAST[i][0][0], newAST[j][0], dryRun);
+                    copyAnnos(oldAST[i][0][0], newAST[j][0]);
                     continue;
                 }
                 if (newAST[j].cons === "Var" && newAST[j + 1] && newAST[j + 1].cons === oldAST[i].cons) {
-                    copyAnnos(findScopeNode(oldAST), newAST[j], dryRun);
+                    copyAnnos(findScopeNode(oldAST), newAST[j]);
                     if (!newAST[j].annos)
                         return false;
                     i--;
                     continue;
                 }
                 if (oldAST[i].cons === "None" && newAST[j].cons === "Var") {
-                    copyAnnos(findScopeNode(oldAST), newAST[j], dryRun);
+                    copyAnnos(findScopeNode(oldAST), newAST[j]);
                     if (!newAST[j].annos)
                         return false;
                     i--;
@@ -70216,7 +70216,7 @@ define("plugins/c9.ide.language.javascript.infer/ast_updater",[], function(requi
                 if (["If", "Return", "Throw"].indexOf(newAST[j].cons) > -1 && (!newAST[j][1] || newAST[j][1].isMatch("Block([])"))) {
                     var cond = newAST[j][0].toString();
                     if (cond === oldAST[i].toString()) {
-                        copyAnnos(oldAST[i], newAST[j][0], dryRun);
+                        copyAnnos(oldAST[i], newAST[j][0]);
                         continue;
                     }
                     else if (!oldAST[i + 1]) {
@@ -70224,7 +70224,7 @@ define("plugins/c9.ide.language.javascript.infer/ast_updater",[], function(requi
                     }
                     else if (cond === oldAST[i + 1].toString()) {
                         i++;
-                        copyAnnos(oldAST[i], newAST[j][0], dryRun);
+                        copyAnnos(oldAST[i], newAST[j][0]);
                         continue;
                     }
                 }
@@ -70233,10 +70233,10 @@ define("plugins/c9.ide.language.javascript.infer/ast_updater",[], function(requi
                     var newCond = newAST[0];
                     var newBody = newAST[1];
                     if (oldCond.toString() === newBody.toString()) {
-                        copyAnnos(findScopeNode(oldAST), newCond, dryRun);
+                        copyAnnos(findScopeNode(oldAST), newCond);
                         if (!newCond.annos)
                             return false;
-                        copyAnnos(oldCond, newBody, dryRun);
+                        copyAnnos(oldCond, newBody);
                         continue;
                     }
                 }
@@ -84253,8 +84253,6 @@ completer.complete = function(doc, fullAst, pos, options, callback) {
             return null;
         var iconMap = {
             "variable": "property",
-            "constant": "property",
-            "function": "method",
             "type": "property2",
             "constant": "method2",
             "color": "method2",

@@ -1,0 +1,194 @@
+{
+  "CamlBuilder": {
+    "!type": "fn()",
+    "Expression": "fn() -> CamlBuilder.IFieldExpression",
+    "prototype": {
+      "Where": "fn() -> CamlBuilder.IFieldExpression",
+      "View": "fn(viewFields?: [string]) -> CamlBuilder.IView",
+      "ViewFields": "fn(viewFields: [string]) -> CamlBuilder.IFinalizableToString"
+    },
+    "IView": {
+      "Query": "fn() -> IQuery",
+      "RowLimit": "fn(limit: number, paged?: bool) -> IView",
+      "Scope": "fn(scope: ViewScope) -> IView"
+    },
+    "IJoinable": {
+      "InnerJoin": "fn(lookupFieldInternalName: string, alias: string) -> IJoin",
+      "LeftJoin": "fn(lookupFieldInternalName: string, alias: string) -> IJoin"
+    },
+    "IJoin": {
+      "Select": "fn(remoteFieldInternalName: string, remoteFieldAlias: string) -> IProjectableView"
+    },
+    "IProjectableView": {
+      "Select": "fn(remoteFieldInternalName: string, remoteFieldAlias: string) -> IProjectableView"
+    },
+    "ViewScope": "number",
+    "IQuery": {
+      "Where": "fn() -> IFieldExpression"
+    },
+    "IFinalizableToString": {
+      "ToString": "fn() -> string"
+    },
+    "IFinalizable": {
+      "ToCamlQuery": "fn() -> ?"
+    },
+    "ISortable": {
+      "OrderBy": "fn(fieldInternalName: string, override?: bool, useIndexForOrderBy?: bool) -> ISortedQuery",
+      "OrderByDesc": "fn(fieldInternalName: string, override?: bool, useIndexForOrderBy?: bool) -> ISortedQuery"
+    },
+    "IGroupable": {
+      "GroupBy": "fn(fieldInternalName: ?) -> IGroupedQuery"
+    },
+    "IExpression": {
+      "And": "fn() -> IFieldExpression",
+      "Or": "fn() -> IFieldExpression"
+    },
+    "IGroupedQuery": {},
+    "ISortedQuery": {
+      "ThenBy": "fn(fieldInternalName: string) -> ?",
+      "ThenByDesc": "fn(fieldInternalName: string) -> ?"
+    },
+    "IFieldExpression": {
+      "All": "fn(conditions: [IExpression]) -> IExpression",
+      "Any": "fn(conditions: [IExpression]) -> IExpression",
+      "TextField": "fn(internalName: string) -> ITextFieldExpression",
+      "BooleanField": "fn(internalName: string) -> IBooleanFieldExpression",
+      "UrlField": "fn(internalName: string) -> ITextFieldExpression",
+      "NumberField": "fn(internalName: string) -> INumberFieldExpression",
+      "CounterField": "fn(internalName: string) -> INumberFieldExpression",
+      "IntegerField": "fn(internalName: string) -> INumberFieldExpression",
+      "UserField": "fn(internalName: string) -> IUserFieldExpression",
+      "LookupField": "fn(internalName: string) -> ILookupFieldExpression",
+      "LookupMultiField": "fn(internalName: string) -> ILookupMultiFieldExpression",
+      "UserMultiField": "fn(internalName: string) -> IUserMultiFieldExpression",
+      "DateField": "fn(internalName: string) -> IDateTimeFieldExpression",
+      "DateTimeField": "fn(internalName: string) -> IDateTimeFieldExpression",
+      "DateRangesOverlap": "fn(overlapType: DateRangesOverlapType, calendarDate: string, eventDateField?: string, endDateField?: string, recurrenceIDField?: string) -> IExpression"
+    },
+    "IBooleanFieldExpression": {
+      "IsTrue": "fn() -> IExpression",
+      "IsFalse": "fn() -> IExpression",
+      "EqualTo": "fn(value: bool) -> IExpression",
+      "NotEqualTo": "fn(value: bool) -> IExpression",
+      "IsNull": "fn() -> IExpression",
+      "IsNotNull": "fn() -> IExpression"
+    },
+    "INumberFieldExpression": {
+      "EqualTo": "fn(value: number) -> IExpression",
+      "NotEqualTo": "fn(value: number) -> IExpression",
+      "GreaterThan": "fn(value: number) -> IExpression",
+      "LessThan": "fn(value: number) -> IExpression",
+      "GreaterThanOrEqualTo": "fn(value: number) -> IExpression",
+      "LessThanOrEqualTo": "fn(value: number) -> IExpression",
+      "IsNull": "fn() -> IExpression",
+      "IsNotNull": "fn() -> IExpression",
+      "In": "fn(arrayOfValues: [number]) -> IExpression"
+    },
+    "IDateTimeFieldExpression": {
+      "IsNull": "fn() -> IExpression",
+      "IsNotNull": "fn() -> IExpression",
+      "EqualTo": "fn(value: Date) -> IExpression",
+      "NotEqualTo": "fn(value: Date) -> IExpression",
+      "GreaterThan": "fn(value: Date) -> IExpression",
+      "LessThan": "fn(value: Date) -> IExpression",
+      "GreaterThanOrEqualTo": "fn(value: Date) -> IExpression",
+      "LessThanOrEqualTo": "fn(value: Date) -> IExpression",
+      "In": "fn(arrayOfValues: [Date]) -> IExpression"
+    },
+    "ITextFieldExpression": {
+      "EqualTo": "fn(value: string) -> IExpression",
+      "NotEqualTo": "fn(value: string) -> IExpression",
+      "Contains": "fn(value: string) -> IExpression",
+      "BeginsWith": "fn(value: string) -> IExpression",
+      "IsNull": "fn() -> IExpression",
+      "IsNotNull": "fn() -> IExpression",
+      "In": "fn(arrayOfValues: [string]) -> IExpression"
+    },
+    "IUserFieldExpression": {
+      "Membership": "IMembership",
+      "EqualToCurrentUser": "fn() -> IExpression",
+      "IsInCurrentUserGroups": "fn() -> IExpression",
+      "IsInSPGroup": "fn(groupId: number) -> IExpression",
+      "IsInSPWebGroups": "fn() -> IExpression",
+      "IsInSPWebAllUsers": "fn() -> IExpression",
+      "IsInSPWebUsers": "fn() -> IExpression",
+      "Id": "fn() -> INumberFieldExpression",
+      "ValueAsText": "fn() -> ITextFieldExpression"
+    },
+    "IMembership": {
+      "CurrentUserGroups": "fn() -> IExpression",
+      "SPGroup": "fn(groupId: number) -> IExpression",
+      "SPWeb": "IMembershipSPWeb"
+    },
+    "IMembershipSPWeb": {
+      "AllUsers": "fn() -> IExpression",
+      "Users": "fn() -> IExpression",
+      "Groups": "fn() -> IExpression"
+    },
+    "ILookupFieldExpression": {
+      "Id": "fn() -> INumberFieldExpression",
+      "ValueAsText": "fn() -> ITextFieldExpression",
+      "ValueAsNumber": "fn() -> INumberFieldExpression",
+      "ValueAsDate": "fn() -> IDateTimeFieldExpression",
+      "ValueAsDateTime": "fn() -> IDateTimeFieldExpression",
+      "ValueAsBoolean": "fn() -> IBooleanFieldExpression"
+    },
+    "ILookupMultiFieldExpression": {
+      "IncludesSuchItemThat": "fn() -> ILookupFieldExpression",
+      "IsNull": "fn() -> IExpression",
+      "IsNotNull": "fn() -> IExpression",
+      "Includes": "fn(value: ?) -> IExpression",
+      "NotIncludes": "fn(value: ?) -> IExpression",
+      "EqualTo": "fn(value: ?) -> IExpression",
+      "NotEqualTo": "fn(value: ?) -> IExpression"
+    },
+    "IUserMultiFieldExpression": {
+      "IncludesSuchItemThat": "fn() -> IUserFieldExpression",
+      "IsNull": "fn() -> IExpression",
+      "IsNotNull": "fn() -> IExpression",
+      "Includes": "fn(value: ?) -> IExpression",
+      "NotIncludes": "fn(value: ?) -> IExpression",
+      "EqualTo": "fn(value: ?) -> IExpression",
+      "NotEqualTo": "fn(value: ?) -> IExpression"
+    },
+    "DateRangesOverlapType": "number",
+    "Internal": {
+      "createView": "fn(viewFields?: [string]) -> IView",
+      "createViewFields": "fn(viewFields: [string]) -> IFinalizableToString",
+      "createWhere": "fn() -> IFieldExpression",
+      "createExpression": "fn() -> IFieldExpression",
+      "prototype": {}
+    },
+    "CamlValues": {
+      "UserID": "string",
+      "Today": "string",
+      "TodayWithOffset": "fn(offsetDays: number) -> string",
+      "Now": "string",
+      "ListProperty": {
+        "Created": "string",
+        "DefaultViewUrl": "string",
+        "Description": "string",
+        "EnableSyndication": "string",
+        "ItemCount": "string",
+        "LinkTitle": "string",
+        "MajorVersionLimit": "string",
+        "MajorWithMinorVersionsLimit": "string",
+        "RelativeFolderPath": "string",
+        "Title": "string",
+        "ViewSelector": "string"
+      },
+      "ProjectProperty": {
+        "BlogCategoryTitle": "string",
+        "BlogPostTitle": "string",
+        "Description": "string",
+        "RecycleBinEnabled": "string",
+        "SiteOwnerName": "string",
+        "SiteUrl": "string",
+        "Title": "string",
+        "Url": "string"
+      },
+      "prototype": {}
+    }
+  },
+  "!name": "camljs.d.ts"
+}

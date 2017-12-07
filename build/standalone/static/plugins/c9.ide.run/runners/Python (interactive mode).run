@@ -1,0 +1,7 @@
+{
+    "cmd": ["python", "-i"],
+    "info": "Hit \\033[01;34mCtrl-D\\033[00m to exit.\n",
+    "env": {
+        "PYTHONPATH": "$python_path"
+    }
+}

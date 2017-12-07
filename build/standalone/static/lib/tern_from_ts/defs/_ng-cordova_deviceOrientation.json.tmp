@@ -1,0 +1,25 @@
+{
+  "ngCordova": {
+    "IDeviceOrientationHeading": {
+      "magneticHeading": "number",
+      "trueHeading": "number",
+      "headingAccuracy": "number",
+      "timestamp": "number"
+    },
+    "IDeviceOrientationWatchOptions": {
+      "frequency": "number",
+      "filter": "number"
+    },
+    "IDeviceOrientationWatchPromise": {
+      "watchID": "number",
+      "cancel": "fn()",
+      "clearWatch": "fn(watchId?: number)"
+    },
+    "IDeviceOrientationService": {
+      "getCurrentHeading": "fn() -> ?",
+      "watchHeading": "fn(options: IDeviceOrientationWatchOptions) -> IDeviceOrientationWatchPromise",
+      "clearWatch": "fn(watchID: number)"
+    }
+  },
+  "!name": "deviceOrientation.d.ts"
+}

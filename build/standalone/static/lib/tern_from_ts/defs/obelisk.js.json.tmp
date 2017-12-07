@@ -1,0 +1,216 @@
+{
+  "obelisk": {
+    "version": "string",
+    "author": "string",
+    "Matrix": {
+      "!type": "fn(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number)",
+      "prototype": {
+        "a": "number",
+        "b": "number",
+        "c": "number",
+        "d": "number",
+        "tx": "number",
+        "ty": "number"
+      }
+    },
+    "Point": {
+      "!type": "fn(x?: number, y?: number)",
+      "prototype": {
+        "x": "number",
+        "y": "number"
+      }
+    },
+    "Point3D": {
+      "!type": "fn(x?: number, y?: number, z?: number)",
+      "prototype": {
+        "x": "number",
+        "y": "number",
+        "z": "number",
+        "toGlobalCoordinates": "fn(offset?: obelisk.Point) -> obelisk.Point"
+      }
+    },
+    "ColorGeom": {
+      "get32": "fn(color: number) -> number",
+      "applyBrightness": "fn(color: number, brightness: number, highlight?: bool) -> number",
+      "prototype": {}
+    },
+    "ColorPattern": {
+      "GRASS_GREEN": "number",
+      "YELLOW": "number",
+      "WINE_RED": "number",
+      "PINK": "number",
+      "PURPLE": "number",
+      "BLUE": "number",
+      "GRAY": "number",
+      "BLACK": "number",
+      "FINE_COLORS": "[number]",
+      "getRandomComfortableColor": "fn() -> number",
+      "prototype": {}
+    },
+    "CanvasTool": {
+      "getPixel": "fn(imageData: ImageData, x: number, y: number) -> number",
+      "prototype": {}
+    },
+    "CanvasManager": {
+      "defaultCanvas": "HTMLCanvasElement",
+      "getDefaultCanvas": "fn() -> HTMLCanvasElement",
+      "getNewCanvas": "fn() -> HTMLCanvasElement",
+      "prototype": {}
+    },
+    "AbstractColor": {
+      "!type": "fn()",
+      "prototype": {
+        "inner": "number",
+        "border": "number",
+        "borderHighlight": "number",
+        "left": "number",
+        "right": "number",
+        "horizontal": "number",
+        "leftSlope": "number",
+        "rightSlope": "number"
+      }
+    },
+    "CubeColor": {
+      "!type": "fn(border?: number, borderHighlight?: number, left?: number, right?: number, horizontal?: number)",
+      "prototype": {
+        "BRIGHTNESS_GAIN": "number",
+        "getByHorizontalColor": "fn(horizontal: number) -> CubeColor"
+      }
+    },
+    "PyramidColor": {
+      "!type": "fn(border?: number, borderHighlight?: number, left?: number, right?: number)",
+      "prototype": {
+        "BRIGHTNESS_GAIN": "number",
+        "getByRightColor": "fn(horizontal: number) -> PyramidColor"
+      }
+    },
+    "SideColor": {
+      "!type": "fn(border?: number, inner?: number)",
+      "prototype": {
+        "BRIGHTNESS_GAIN": "number",
+        "getByInnerColor": "fn(inner: number) -> SideColor"
+      }
+    },
+    "SlopeColor": {
+      "!type": "fn(border?: number, borderHighlight?: number, left?: number, right?: number, leftSlope?: number, rightSlope?: number)",
+      "prototype": {
+        "BRIGHTNESS_GAIN": "number",
+        "getByHorizontalColor": "fn(horizontal: number) -> SlopeColor"
+      }
+    },
+    "AbstractDimension": {
+      "!type": "fn()",
+      "prototype": {
+        "xAxis": "number",
+        "yAxis": "number",
+        "zAxis": "number",
+        "tall": "bool"
+      }
+    },
+    "BrickDimension": {
+      "!type": "fn(xAxis?: number, yAxis?: number)",
+      "prototype": {}
+    },
+    "CubeDimension": {
+      "!type": "fn(xAxis?: number, yAxis?: number, zAxis?: number)",
+      "prototype": {}
+    },
+    "PyramidDimension": {
+      "!type": "fn(axis?: number, tall?: bool)",
+      "prototype": {}
+    },
+    "SideXDimension": {
+      "!type": "fn(xAxis?: number, zAxis?: number)",
+      "prototype": {}
+    },
+    "SideYDimension": {
+      "!type": "fn(yAxis?: number, zAxis?: number)",
+      "prototype": {}
+    },
+    "SlopeDimension": {
+      "!type": "fn(xAxis?: number, yAxis?: number)",
+      "prototype": {}
+    },
+    "BitmapData": {
+      "!type": "fn(w: number, h: number, useDefaultCanvas?: bool)",
+      "prototype": {
+        "imageData": "ImageData",
+        "canvas": "HTMLCanvasElement",
+        "context": "CanvasRenderingContext2D",
+        "setPixel": "fn(posX: number, posY: number, color: number)",
+        "setPixelByIndex": "fn(index: number, color: number)",
+        "checkPixelAvailable": "fn(x: number, y: number) -> bool",
+        "floodFill": "fn(posX: number, posY: number, color: number)"
+      }
+    },
+    "PixelObject": {
+      "!type": "fn(primitive: AbstractPrimitive, point3D?: Point3D)",
+      "prototype": {
+        "x": "number",
+        "y": "number",
+        "canvas": "HTMLCanvasElement"
+      }
+    },
+    "PixelView": {
+      "!type": "fn(canvas: HTMLCanvasElement, point?: Point)",
+      "prototype": {
+        "canvas": "HTMLCanvasElement",
+        "context": "CanvasRenderingContext2D",
+        "point": "Point",
+        "renderObject": "fn(primitive: AbstractPrimitive, point3D?: Point3D)",
+        "clear": "fn()"
+      }
+    },
+    "AbstractPrimitive": {
+      "!type": "fn()",
+      "prototype": {
+        "canvas": "HTMLCanvasElement",
+        "w": "number",
+        "h": "number",
+        "dimension": "AbstractDimension",
+        "color": "AbstractColor",
+        "border": "bool",
+        "bitmapData": "BitmapData",
+        "useDefaultCanvas": "bool",
+        "matrix": "Matrix"
+      }
+    },
+    "Brick": {
+      "!type": "fn(dimension?: BrickDimension, color?: SideColor, border?: bool, useDefaultCanvas?: bool)",
+      "prototype": {}
+    },
+    "Cube": {
+      "!type": "fn(dimension?: CubeDimension, color?: CubeColor, border?: bool, useDefaultCanvas?: bool)",
+      "prototype": {}
+    },
+    "Pyramid": {
+      "!type": "fn(dimension?: PyramidDimension, color?: PyramidColor, border?: bool, useDefaultCanvas?: bool)",
+      "prototype": {}
+    },
+    "SideX": {
+      "!type": "fn(dimension?: SideXDimension, color?: SideColor, border?: bool, useDefaultCanvas?: bool)",
+      "prototype": {}
+    },
+    "SideY": {
+      "!type": "fn(dimension?: SideYDimension, color?: SideColor, border?: bool, useDefaultCanvas?: bool)",
+      "prototype": {}
+    },
+    "SlopeEast": {
+      "!type": "fn(dimension?: SlopeDimension, color?: SlopeColor, border?: bool, useDefaultCanvas?: bool)",
+      "prototype": {}
+    },
+    "SlopeNorth": {
+      "!type": "fn(dimension?: SlopeDimension, color?: SlopeColor, border?: bool, useDefaultCanvas?: bool)",
+      "prototype": {}
+    },
+    "SlopeSouth": {
+      "!type": "fn(dimension?: SlopeDimension, color?: SlopeColor, border?: bool, useDefaultCanvas?: bool)",
+      "prototype": {}
+    },
+    "SlopeWest": {
+      "!type": "fn(dimension?: SlopeDimension, color?: SlopeColor, border?: bool, useDefaultCanvas?: bool)",
+      "prototype": {}
+    }
+  },
+  "!name": "obelisk.js.d.ts"
+}

@@ -1,0 +1,29 @@
+{
+  "Navigator": {
+    "mozApps": "Apps"
+  },
+  "Apps": {
+    "install": "fn(url: string, receipts?: [?]) -> ?",
+    "getSelf": "fn() -> ?",
+    "getInstalled": "fn() -> ?",
+    "checkInstalled": "fn(url: string) -> ?"
+  },
+  "DOMRequest": {
+    "onsuccess": "Function",
+    "onerror": "Function",
+    "readyState": "string",
+    "result": "T",
+    "error": "DOMError"
+  },
+  "App": {
+    "manifest": "?",
+    "manifestURL": "string",
+    "origin": "string",
+    "installOrigin": "string",
+    "installTime": "number",
+    "receipts": "[?]",
+    "launch": "fn()",
+    "checkForUpdate": "fn() -> ?"
+  },
+  "!name": "firefox.d.ts"
+}

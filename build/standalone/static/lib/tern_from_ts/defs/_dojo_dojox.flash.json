@@ -1,0 +1,9 @@
+{
+  "dojox": {
+    "flash": {
+      "_base": {}
+    }
+  },
+  "dojox/flash": "exp",
+  "!name": "dojox.flash"
+}

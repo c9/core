@@ -1,0 +1,139 @@
+{
+  "yo": {
+    "IYeomanGenerator": {
+      "argument": "fn(name: string, config: IArgumentConfig)",
+      "composeWith": "fn(namespace: string, options: ?, settings?: IComposeSetting) -> IYeomanGenerator",
+      "defaultFor": "fn(name: string)",
+      "destinationRoot": "fn(rootPath: string) -> string",
+      "determineAppname": "fn()",
+      "getCollisionFilter": "fn() -> fn(output: ?)",
+      "hookFor": "fn(name: string, config: IHookConfig)",
+      "option": "fn(name: string, config: IYeomanGeneratorOption)",
+      "rootGeneratorName": "fn() -> string",
+      "run": "fn(args?: ?)",
+      "runHooks": "fn(callback?: Function)",
+      "sourceRoot": "fn(rootPath: string) -> string"
+    },
+    "YeomanGeneratorBase": {
+      "prototype": {
+        "argument": "fn(name: string, config: IArgumentConfig)",
+        "composeWith": "fn(namespace: string, options: ?, settings?: IComposeSetting) -> IYeomanGenerator",
+        "defaultFor": "fn(name: string)",
+        "destinationRoot": "fn(rootPath: string) -> string",
+        "determineAppname": "fn()",
+        "getCollisionFilter": "fn() -> fn(output: ?)",
+        "hookFor": "fn(name: string, config: IHookConfig)",
+        "option": "fn(name: string, config?: IYeomanGeneratorOption)",
+        "rootGeneratorName": "fn() -> string",
+        "run": "fn(args?: ?)",
+        "runHooks": "fn(callback?: Function)",
+        "sourceRoot": "fn(rootPath: string) -> string",
+        "addListener": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "on": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "once": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "removeListener": "fn(event: string, listener: Function) -> NodeJS.EventEmitter",
+        "removeAllListeners": "fn(event?: string) -> NodeJS.EventEmitter",
+        "setMaxListeners": "fn(n: number)",
+        "listeners": "fn(event: string) -> [Function]",
+        "emit": "fn(event: string, args: [?]) -> bool",
+        "async": "fn() -> ?",
+        "prompt": "fn(opt?: IPromptOptions, callback?: fn(answers: ?))",
+        "log": "fn(message: string)",
+        "npmInstall": "fn(packages: [string], options?: ?)",
+        "appname": "string",
+        "gruntfile": "IGruntFileStatic"
+      }
+    },
+    "IPromptOptions": {
+      "type": "string",
+      "name": "string",
+      "message": "string",
+      "default": "string"
+    },
+    "IGruntFileStatic": {
+      "loadNpmTasks": "fn(pluginName: string)",
+      "insertConfig": "fn(name: string, config: ?)",
+      "registerTask": "fn(name: string, tasks: ?)",
+      "insertVariable": "fn(name: string, value: ?)",
+      "prependJavaScript": "fn(code: string)"
+    },
+    "IArgumentConfig": {
+      "desc": "string",
+      "required": "bool",
+      "optional": "bool",
+      "type": "?",
+      "defaults": "?"
+    },
+    "IComposeSetting": {
+      "local": "string",
+      "link": "string"
+    },
+    "IHookConfig": {
+      "as": "string",
+      "args": "?",
+      "options": "?"
+    },
+    "IYeomanGeneratorOption": {
+      "alias": "string",
+      "defaults": "?",
+      "desc": "string",
+      "hide": "bool",
+      "type": "?"
+    },
+    "IQueueProps": {
+      "initializing": "fn()",
+      "prompting": "fn()",
+      "configuring": "fn()",
+      "default": "fn()",
+      "writing": {},
+      "conflicts": "fn()",
+      "install": "fn()",
+      "end": "fn()"
+    },
+    "INamedBase": {},
+    "IBase": {},
+    "IAssert": {
+      "file": "fn(path: string)",
+      "fileContent": "fn(file: string, reg: RegExp)",
+      "files": "fn(pairs: [?])",
+      "implement": "fn(subject: ?, methods: ?)",
+      "noFile": "fn(file: string)",
+      "noFileContent": "fn(file: string, reg: RegExp)",
+      "noImplement": "fn(subject: ?, methods: ?)",
+      "textEqual": "fn(value: string, expected: string)"
+    },
+    "ITestHelper": {
+      "createDummyGenerator": "fn() -> IYeomanGenerator",
+      "createGenerator": "fn(name: string, dependencies: [?], args: ?, options: ?) -> IYeomanGenerator",
+      "decorate": "fn(context: ?, method: string, replacement: Function, options: ?)",
+      "gruntfile": "fn(options: ?, done: Function)",
+      "mockPrompt": "fn(generator: IYeomanGenerator, answers: ?)",
+      "registerDependencies": "fn(dependencies: [string])",
+      "restore": "fn()",
+      "run": "fn(generator: ?) -> IRunContext"
+    },
+    "IRunContext": {
+      "async": "fn() -> Function",
+      "inDir": "fn(dirPath: string) -> IRunContext",
+      "withArguments": "fn(args: ?) -> IRunContext",
+      "withGenerators": "fn(dependencies: [string]) -> IRunContext",
+      "withOptions": "fn(options: ?) -> IRunContext",
+      "withPrompts": "fn(answers: ?) -> IRunContext"
+    },
+    "file": "?",
+    "assert": "IAssert",
+    "test": "ITestHelper",
+    "generators": {
+      "NamedBase": {
+        "!type": "fn(args: string, string: ?, options: ?)",
+        "prototype": {}
+      },
+      "Base": {
+        "extend": "fn(protoProps: IQueueProps, staticProps?: ?) -> IYeomanGenerator",
+        "prototype": {}
+      }
+    }
+  },
+  "yeoman-generator": "yo",
+  "!name": "yeoman-generator.d.ts"
+}

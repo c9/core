@@ -1,0 +1,75 @@
+{
+  "moment": {
+    "Moment": {
+      "twix": "fn(date: Date) -> Twix"
+    },
+    "MomentStatic": {
+      "twix": "fn(start: Moment, end: Moment) -> Twix",
+      "twixClass": "TwixStatic"
+    },
+    "TwixFormatOptions": {
+      "groupMeridiems": "bool",
+      "spaceBeforeMeridiem": "bool",
+      "showDate": "bool",
+      "showDayOfWeek": "bool",
+      "twentyFourHour": "bool",
+      "implicitMinutes": "bool",
+      "implicitYear": "bool",
+      "yearFormat": "string",
+      "monthFormat": "string",
+      "weekdayFormat": "string",
+      "dayFormat": "string",
+      "meridiemFormat": "string",
+      "hourFormat": "string",
+      "minuteFormat": "string",
+      "allDay": "?",
+      "explicitAllDay": "bool",
+      "lastNightEndsAt": "number"
+    },
+    "TwixParseAndFormatOptions": {
+      "parseStrict": "bool"
+    },
+    "TwixSimpleFormatOptions": {
+      "allDay": "string",
+      "template": "fn(left: ?, right: ?)"
+    },
+    "TwixIter": {
+      "hasNext": "fn() -> bool",
+      "next": "fn() -> Twix"
+    },
+    "Duration": {
+      "afterMoment": "fn(date: string) -> string",
+      "beforeMoment": "fn(date: string) -> string"
+    },
+    "Twix": {
+      "isPast": "fn() -> bool",
+      "isFuture": "fn() -> bool",
+      "isCurrent": "fn() -> bool",
+      "isSame": "fn(period: string) -> bool",
+      "contains": "fn(date: string) -> bool",
+      "length": "fn(period: string) -> number",
+      "count": "fn(period: string) -> number",
+      "countInner": "fn(period: string) -> number",
+      "iterate": "fn(period: string) -> TwixIter",
+      "iterateInner": "fn(period: string) -> TwixIter",
+      "overlaps": "fn(other: Twix) -> bool",
+      "engulfs": "fn(other: Twix) -> bool",
+      "equals": "fn(other: Twix) -> bool",
+      "union": "fn(other: Twix) -> string",
+      "intersection": "fn(other: Twix) -> string",
+      "xor": "fn(other: Twix) -> [Twix]",
+      "difference": "fn(other: Twix) -> [Twix]",
+      "split": "fn(num: number, period: string) -> [Twix]",
+      "humanizeLength": "fn() -> string",
+      "simpleFormat": "fn() -> string",
+      "format": "fn() -> string",
+      "asDuration": "fn(period: string) -> Duration",
+      "isValid": "fn() -> bool"
+    },
+    "TwixStatic": {
+      "formatTemplate": "fn(left: ?, right: ?)"
+    }
+  },
+  "'twix'": "_tmp",
+  "!name": "twix.d.ts"
+}

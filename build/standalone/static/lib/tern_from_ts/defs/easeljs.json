@@ -1,0 +1,772 @@
+{
+  "NativeMouseEvent": {},
+  "createjs": {
+    "AlphaMapFilter": {
+      "!type": "fn(alphaMap: HTMLImageElement, HTMLCanvasElement: ?)",
+      "prototype": {
+        "alphaMap": "HTMLImageElement",
+        "HTMLCanvasElement": "?",
+        "clone": "fn() -> AlphaMapFilter"
+      }
+    },
+    "AlphaMaskFilter": {
+      "!type": "fn(mask: HTMLImageElement, HTMLCanvasElement: ?)",
+      "prototype": {
+        "mask": "HTMLImageElement",
+        "HTMLCanvasElement": "?",
+        "clone": "fn() -> AlphaMaskFilter"
+      }
+    },
+    "Bitmap": {
+      "!type": "fn(imageOrUrl: HTMLImageElement, HTMLCanvasElement: ?, HTMLVideoElement: ?, string: ?)",
+      "prototype": {
+        "image": "HTMLImageElement",
+        "HTMLCanvasElement": "?",
+        "HTMLVideoElement": "?",
+        "sourceRect": "Rectangle",
+        "clone": "fn() -> Bitmap"
+      }
+    },
+    "BitmapText": {
+      "!type": "fn(text?: string, spriteSheet?: SpriteSheet)",
+      "maxPoolSize": "number",
+      "prototype": {
+        "letterSpacing": "number",
+        "lineHeight": "number",
+        "spaceWidth": "number",
+        "spriteSheet": "SpriteSheet",
+        "text": "string"
+      }
+    },
+    "BlurFilter": {
+      "!type": "fn(blurX?: number, blurY?: number, quality?: number)",
+      "prototype": {
+        "blurX": "number",
+        "blurY": "number",
+        "quality": "number",
+        "clone": "fn() -> BlurFilter"
+      }
+    },
+    "ButtonHelper": {
+      "!type": "fn(target: Sprite, outLabel?: string, overLabel?: string, downLabel?: string, play?: bool, hitArea?: DisplayObject, hitLabel?: string)",
+      "prototype": {
+        "downLabel": "string",
+        "number": "?",
+        "outLabel": "string",
+        "overLabel": "string",
+        "play": "bool",
+        "target": "MovieClip",
+        "Sprite": "?",
+        "enabled": "bool",
+        "setEnabled": "fn(value: bool)",
+        "getEnabled": "fn() -> bool"
+      }
+    },
+    "ColorFilter": {
+      "!type": "fn(redMultiplier?: number, greenMultiplier?: number, blueMultiplier?: number, alphaMultiplier?: number, redOffset?: number, greenOffset?: number, blueOffset?: number, alphaOffset?: number)",
+      "prototype": {
+        "alphaMultiplier": "number",
+        "alphaOffset": "number",
+        "blueMultiplier": "number",
+        "blueOffset": "number",
+        "greenMultiplier": "number",
+        "greenOffset": "number",
+        "redMultiplier": "number",
+        "redOffset": "number",
+        "clone": "fn() -> ColorFilter"
+      }
+    },
+    "ColorMatrix": {
+      "!type": "fn(brightness?: number, contrast?: number, saturation?: number, hue?: number)",
+      "prototype": {
+        "adjustBrightness": "fn(value: number) -> ColorMatrix",
+        "adjustColor": "fn(brightness: number, contrast: number, saturation: number, hue: number) -> ColorMatrix",
+        "adjustContrast": "fn(value: number) -> ColorMatrix",
+        "adjustHue": "fn(value: number) -> ColorMatrix",
+        "adjustSaturation": "fn(value: number) -> ColorMatrix",
+        "clone": "fn() -> ColorMatrix",
+        "concat": "fn(matrix: [number]) -> ColorMatrix",
+        "copy": "fn(matrix: [number]) -> ColorMatrix",
+        "reset": "fn() -> ColorMatrix",
+        "setColor": "fn(brightness: number, contrast: number, saturation: number, hue: number) -> ColorMatrix",
+        "toArray": "fn() -> [number]"
+      }
+    },
+    "ColorMatrixFilter": {
+      "!type": "fn(matrix: [number], ColorMatrix: ?)",
+      "prototype": {
+        "matrix": "[number]",
+        "ColorMatrix": "?",
+        "clone": "fn() -> ColorMatrixFilter"
+      }
+    },
+    "Container": {
+      "!type": "fn()",
+      "prototype": {
+        "children": "[DisplayObject]",
+        "mouseChildren": "bool",
+        "numChildren": "number",
+        "tickChildren": "bool",
+        "addChild": "fn(child: [DisplayObject]) -> DisplayObject",
+        "addChildAt": "fn(child: DisplayObject, index: number) -> DisplayObject",
+        "clone": "fn(recursive?: bool) -> Container",
+        "contains": "fn(child: DisplayObject) -> bool",
+        "getChildAt": "fn(index: number) -> DisplayObject",
+        "getChildByName": "fn(name: string) -> DisplayObject",
+        "getChildIndex": "fn(child: DisplayObject) -> number",
+        "getNumChildren": "fn() -> number",
+        "getObjectsUnderPoint": "fn(x: number, y: number, mode: number) -> [DisplayObject]",
+        "getObjectUnderPoint": "fn(x: number, y: number, mode: number) -> DisplayObject",
+        "removeAllChildren": "fn()",
+        "removeChild": "fn(child: [DisplayObject]) -> bool",
+        "removeChildAt": "fn(index: [number]) -> bool",
+        "setChildIndex": "fn(child: DisplayObject, index: number)",
+        "sortChildren": "fn(sortFunction: fn(a: DisplayObject, b: DisplayObject))",
+        "swapChildren": "fn(child1: DisplayObject, child2: DisplayObject)",
+        "swapChildrenAt": "fn(index1: number, index2: number)"
+      }
+    },
+    "DisplayObject": {
+      "!type": "fn()",
+      "suppressCrossDomainErrors": "bool",
+      "prototype": {
+        "alpha": "number",
+        "cacheCanvas": "HTMLCanvasElement",
+        "Object": "?",
+        "cacheID": "number",
+        "compositeOperation": "string",
+        "cursor": "string",
+        "filters": "[Filter]",
+        "hitArea": "DisplayObject",
+        "id": "number",
+        "mask": "Shape",
+        "mouseEnabled": "bool",
+        "name": "string",
+        "parent": "Container",
+        "regX": "number",
+        "regY": "number",
+        "rotation": "number",
+        "scaleX": "number",
+        "scaleY": "number",
+        "shadow": "Shadow",
+        "skewX": "number",
+        "skewY": "number",
+        "snapToPixel": "bool",
+        "stage": "Stage",
+        "tickEnabled": "bool",
+        "transformMatrix": "Matrix2D",
+        "visible": "bool",
+        "x": "number",
+        "y": "number",
+        "cache": "fn(x: number, y: number, width: number, height: number, scale?: number)",
+        "clone": "fn() -> DisplayObject",
+        "draw": "fn(ctx: CanvasRenderingContext2D, ignoreCache?: bool) -> bool",
+        "getBounds": "fn() -> Rectangle",
+        "getCacheDataURL": "fn() -> string",
+        "getConcatenatedDisplayProps": "fn(props?: DisplayProps) -> DisplayProps",
+        "getConcatenatedMatrix": "fn(mtx?: Matrix2D) -> Matrix2D",
+        "getMatrix": "fn(matrix?: Matrix2D) -> Matrix2D",
+        "getStage": "fn() -> Stage",
+        "getTransformedBounds": "fn() -> Rectangle",
+        "globalToLocal": "fn(x: number, y: number, pt?: Point, Object: ?) -> Point",
+        "hitTest": "fn(x: number, y: number) -> bool",
+        "isVisible": "fn() -> bool",
+        "localToGlobal": "fn(x: number, y: number, pt?: Point, Object: ?) -> Point",
+        "localToLocal": "fn(x: number, y: number, target: DisplayObject, pt?: Point, Object: ?) -> Point",
+        "set": "fn(props: Object) -> DisplayObject",
+        "setBounds": "fn(x: number, y: number, width: number, height: number)",
+        "setTransform": "fn(x?: number, y?: number, scaleX?: number, scaleY?: number, rotation?: number, skewX?: number, skewY?: number, regX?: number, regY?: number) -> DisplayObject",
+        "uncache": "fn()",
+        "updateCache": "fn(compositeOperation?: string)",
+        "updateContext": "fn(ctx: CanvasRenderingContext2D)"
+      }
+    },
+    "DisplayProps": {
+      "!type": "fn(visible?: number, alpha?: number, shadow?: number, compositeOperation?: number, matrix?: number)",
+      "prototype": {
+        "alpha": "number",
+        "compositeOperation": "string",
+        "matrix": "Matrix2D",
+        "shadow": "Shadow",
+        "visible": "bool",
+        "append": "fn(visible: bool, alpha: number, shadow: Shadow, compositeOperation: string, matrix?: Matrix2D) -> DisplayProps",
+        "clone": "fn() -> DisplayProps",
+        "identity": "fn() -> DisplayProps",
+        "prepend": "fn(visible: bool, alpha: number, shadow: Shadow, compositeOperation: string, matrix?: Matrix2D) -> DisplayProps",
+        "setValues": "fn(visible?: bool, alpha?: number, shadow?: number, compositeOperation?: number, matrix?: number) -> DisplayProps"
+      }
+    },
+    "DOMElement": {
+      "!type": "fn(htmlElement: HTMLElement)",
+      "prototype": {
+        "htmlElement": "HTMLElement",
+        "clone": "fn() -> DisplayObject",
+        "set": "fn(props: Object) -> DOMElement",
+        "setTransform": "fn(x?: number, y?: number, scaleX?: number, scaleY?: number, rotation?: number, skewX?: number, skewY?: number, regX?: number, regY?: number) -> DOMElement"
+      }
+    },
+    "EaselJS": {
+      "buildDate": "string",
+      "version": "string",
+      "prototype": {}
+    },
+    "Filter": {
+      "!type": "fn()",
+      "prototype": {
+        "applyFilter": "fn(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, targetCtx?: CanvasRenderingContext2D, targetX?: number, targetY?: number) -> bool",
+        "clone": "fn() -> Filter",
+        "getBounds": "fn() -> Rectangle"
+      }
+    },
+    "Graphics": {
+      "!type": "fn()",
+      "BASE_64": "Object",
+      "beginCmd": "Graphics.BeginPath",
+      "STROKE_CAPS_MAP": "[string]",
+      "STROKE_JOINTS_MAP": "[string]",
+      "getHSL": "fn(hue: number, saturation: number, lightness: number, alpha?: number) -> string",
+      "getRGB": "fn(r: number, g: number, b: number, alpha?: number) -> string",
+      "prototype": {
+        "command": "Object",
+        "instructions": "[Object]",
+        "append": "fn(command: Object, clean?: bool) -> Graphics",
+        "arc": "fn(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise: bool) -> Graphics",
+        "arcTo": "fn(x1: number, y1: number, x2: number, y2: number, radius: number) -> Graphics",
+        "beginBitmapFill": "fn(image: Object, repetition?: string, matrix?: Matrix2D) -> Graphics",
+        "beginBitmapStroke": "fn(image: Object, repetition?: string) -> Graphics",
+        "beginFill": "fn(color: string) -> Graphics",
+        "beginLinearGradientFill": "fn(colors: [string], ratios: [number], x0: number, y0: number, x1: number, y1: number) -> Graphics",
+        "beginLinearGradientStroke": "fn(colors: [string], ratios: [number], x0: number, y0: number, x1: number, y1: number) -> Graphics",
+        "beginRadialGradientFill": "fn(colors: [string], ratios: [number], x0: number, y0: number, r0: number, x1: number, y1: number, r1: number) -> Graphics",
+        "beginRadialGradientStroke": "fn(colors: [string], ratios: [number], x0: number, y0: number, r0: number, x1: number, y1: number, r1: number) -> Graphics",
+        "beginStroke": "fn(color: string) -> Graphics",
+        "bezierCurveTo": "fn(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number) -> Graphics",
+        "clear": "fn() -> Graphics",
+        "clone": "fn() -> Graphics",
+        "closePath": "fn() -> Graphics",
+        "curveTo": "fn(cpx: number, cpy: number, x: number, y: number) -> Graphics",
+        "decodePath": "fn(str: string) -> Graphics",
+        "draw": "fn(ctx: CanvasRenderingContext2D)",
+        "drawAsPath": "fn(ctx: CanvasRenderingContext2D)",
+        "drawCircle": "fn(x: number, y: number, radius: number) -> Graphics",
+        "drawEllipse": "fn(x: number, y: number, w: number, h: number) -> Graphics",
+        "drawPolyStar": "fn(x: number, y: number, radius: number, sides: number, pointSize: number, angle: number) -> Graphics",
+        "drawRect": "fn(x: number, y: number, w: number, h: number) -> Graphics",
+        "drawRoundRect": "fn(x: number, y: number, w: number, h: number, radius: number) -> Graphics",
+        "drawRoundRectComplex": "fn(x: number, y: number, w: number, h: number, radiusTL: number, radiusTR: number, radiusBR: number, radisBL: number) -> Graphics",
+        "endFill": "fn() -> Graphics",
+        "endStroke": "fn() -> Graphics",
+        "getInstructions": "fn() -> [Object]",
+        "inject": "fn(callback: fn(data: ?), data: ?) -> Graphics",
+        "isEmpty": "fn() -> bool",
+        "lineTo": "fn(x: number, y: number) -> Graphics",
+        "moveTo": "fn(x: number, y: number) -> Graphics",
+        "quadraticCurveTo": "fn(cpx: number, cpy: number, x: number, y: number) -> Graphics",
+        "rect": "fn(x: number, y: number, w: number, h: number) -> Graphics",
+        "setStrokeStyle": "fn(thickness: number, caps?: string, number: ?, joints?: string, number: ?, miterLimit?: number, ignoreScale?: bool) -> Graphics",
+        "setStrokeDash": "fn(segments?: [number], offset?: number) -> Graphics",
+        "store": "fn() -> Graphics",
+        "unstore": "fn() -> Graphics",
+        "a": "fn(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise: bool) -> Graphics",
+        "at": "fn(x1: number, y1: number, x2: number, y2: number, radius: number) -> Graphics",
+        "bf": "fn(image: Object, repetition?: string, matrix?: Matrix2D) -> Graphics",
+        "bs": "fn(image: Object, repetition?: string) -> Graphics",
+        "f": "fn(color: string) -> Graphics",
+        "lf": "fn(colors: [string], ratios: [number], x0: number, y0: number, x1: number, y1: number) -> Graphics",
+        "ls": "fn(colors: [string], ratios: [number], x0: number, y0: number, x1: number, y1: number) -> Graphics",
+        "rf": "fn(colors: [string], ratios: [number], x0: number, y0: number, r0: number, x1: number, y1: number, r1: number) -> Graphics",
+        "rs": "fn(colors: [string], ratios: [number], x0: number, y0: number, r0: number, x1: number, y1: number, r1: number) -> Graphics",
+        "s": "fn(color: string) -> Graphics",
+        "bt": "fn(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number) -> Graphics",
+        "c": "fn() -> Graphics",
+        "cp": "fn() -> Graphics",
+        "p": "fn(str: string) -> Graphics",
+        "dc": "fn(x: number, y: number, radius: number) -> Graphics",
+        "de": "fn(x: number, y: number, w: number, h: number) -> Graphics",
+        "dp": "fn(x: number, y: number, radius: number, sides: number, pointSize: number, angle: number) -> Graphics",
+        "dr": "fn(x: number, y: number, w: number, h: number) -> Graphics",
+        "rr": "fn(x: number, y: number, w: number, h: number, radius: number) -> Graphics",
+        "rc": "fn(x: number, y: number, w: number, h: number, radiusTL: number, radiusTR: number, radiusBR: number, radisBL: number) -> Graphics",
+        "ef": "fn() -> Graphics",
+        "es": "fn() -> Graphics",
+        "lt": "fn(x: number, y: number) -> Graphics",
+        "mt": "fn(x: number, y: number) -> Graphics",
+        "qt": "fn(cpx: number, cpy: number, x: number, y: number) -> Graphics",
+        "r": "fn(x: number, y: number, w: number, h: number) -> Graphics",
+        "ss": "fn(thickness: number, caps?: string, number: ?, joints?: string, number: ?, miterLimit?: number, ignoreScale?: bool) -> Graphics",
+        "sd": "fn(segments?: [number], offset?: number) -> Graphics"
+      },
+      "Arc": {
+        "!type": "fn(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise: number)",
+        "prototype": {
+          "anticlockwise": "number",
+          "endAngle": "number",
+          "radius": "number",
+          "startAngle": "number",
+          "x": "number",
+          "y": "number"
+        }
+      },
+      "ArcTo": {
+        "!type": "fn(x1: number, y1: number, x2: number, y2: number, radius: number)",
+        "prototype": {
+          "x1": "number",
+          "y1": "number",
+          "x2": "number",
+          "y2": "number",
+          "radius": "number"
+        }
+      },
+      "BeginPath": {
+        "prototype": {}
+      },
+      "BezierCurveTo": {
+        "!type": "fn(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number)",
+        "prototype": {
+          "cp1x": "number",
+          "cp1y": "number",
+          "cp2x": "number",
+          "cp2y": "number",
+          "x": "number",
+          "y": "number"
+        }
+      },
+      "Circle": {
+        "!type": "fn(x: number, y: number, radius: number)",
+        "prototype": {
+          "x": "number",
+          "y": "number",
+          "radius": "number"
+        }
+      },
+      "ClosePath": {
+        "prototype": {}
+      },
+      "Fill": {
+        "!type": "fn(style: Object, matrix?: Matrix2D)",
+        "prototype": {
+          "style": "Object",
+          "matrix": "Matrix2D",
+          "bitmap": "fn(image: HTMLImageElement, repetition?: string) -> Fill",
+          "linearGradient": "fn(colors: [number], ratios: [number], x0: number, y0: number, x1: number, y1: number) -> Fill",
+          "radialGradient": "fn(colors: [number], ratios: [number], x0: number, y0: number, r0: number, x1: number, y1: number, r1: number) -> Fill"
+        }
+      },
+      "LineTo": {
+        "!type": "fn(x: number, y: number)",
+        "prototype": {
+          "x": "number",
+          "y": "number"
+        }
+      },
+      "MoveTo": {
+        "!type": "fn(x: number, y: number)",
+        "prototype": {
+          "x": "number",
+          "y": "number"
+        }
+      },
+      "PolyStar": {
+        "!type": "fn(x: number, y: number, radius: number, sides: number, pointSize: number, angle: number)",
+        "prototype": {
+          "angle": "number",
+          "pointSize": "number",
+          "radius": "number",
+          "sides": "number",
+          "x": "number",
+          "y": "number"
+        }
+      },
+      "QuadraticCurveTo": {
+        "!type": "fn(cpx: number, cpy: number, x: number, y: number)",
+        "prototype": {
+          "cpx": "number",
+          "cpy": "number",
+          "x": "number",
+          "y": "number"
+        }
+      },
+      "Rect": {
+        "!type": "fn(x: number, y: number, w: number, h: number)",
+        "prototype": {
+          "x": "number",
+          "y": "number",
+          "w": "number",
+          "h": "number"
+        }
+      },
+      "RoundRect": {
+        "!type": "fn(x: number, y: number, w: number, h: number, radiusTL: number, radiusTR: number, radiusBR: number, radiusBL: number)",
+        "prototype": {
+          "x": "number",
+          "y": "number",
+          "w": "number",
+          "h": "number",
+          "radiusTL": "number",
+          "radiusTR": "number",
+          "radiusBR": "number",
+          "radiusBL": "number"
+        }
+      },
+      "Stroke": {
+        "!type": "fn(style: Object, ignoreScale: bool)",
+        "prototype": {
+          "style": "Object",
+          "ignoreScale": "bool",
+          "bitmap": "fn(image: HTMLImageElement, repetition?: string) -> Stroke",
+          "linearGradient": "fn(colors: [number], ratios: [number], x0: number, y0: number, x1: number, y1: number) -> Stroke",
+          "radialGradient": "fn(colors: [number], ratios: [number], x0: number, y0: number, r0: number, x1: number, y1: number, r1: number) -> Stroke"
+        }
+      },
+      "StrokeStyle": {
+        "!type": "fn(width: number, caps: string, joints: number, miterLimit: number)",
+        "prototype": {
+          "caps": "string",
+          "joints": "string",
+          "miterLimit": "number",
+          "width": "number"
+        }
+      }
+    },
+    "Matrix2D": {
+      "!type": "fn(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number)",
+      "DEG_TO_RAD": "number",
+      "identity": "Matrix2D",
+      "prototype": {
+        "a": "number",
+        "b": "number",
+        "c": "number",
+        "d": "number",
+        "tx": "number",
+        "ty": "number",
+        "append": "fn(a: number, b: number, c: number, d: number, tx: number, ty: number) -> Matrix2D",
+        "appendMatrix": "fn(matrix: Matrix2D) -> Matrix2D",
+        "appendTransform": "fn(x: number, y: number, scaleX: number, scaleY: number, rotation: number, skewX: number, skewY: number, regX?: number, regY?: number) -> Matrix2D",
+        "clone": "fn() -> Matrix2D",
+        "copy": "fn(matrix: Matrix2D) -> Matrix2D",
+        "decompose": "fn() -> ret",
+        "equals": "fn(matrix: Matrix2D) -> bool",
+        "identity": "fn() -> Matrix2D",
+        "invert": "fn() -> Matrix2D",
+        "isIdentity": "fn() -> bool",
+        "prepend": "fn(a: number, b: number, c: number, d: number, tx: number, ty: number) -> Matrix2D",
+        "prependMatrix": "fn(matrix: Matrix2D) -> Matrix2D",
+        "prependTransform": "fn(x: number, y: number, scaleX: number, scaleY: number, rotation: number, skewX: number, skewY: number, regX?: number, regY?: number) -> Matrix2D",
+        "rotate": "fn(angle: number) -> Matrix2D",
+        "scale": "fn(x: number, y: number) -> Matrix2D",
+        "setValues": "fn(a?: number, b?: number, c?: number, d?: number, tx?: number, ty?: number) -> Matrix2D",
+        "skew": "fn(skewX: number, skewY: number) -> Matrix2D",
+        "transformPoint": "fn(x: number, y: number, pt?: Point, Object: ?) -> Point",
+        "translate": "fn(x: number, y: number) -> Matrix2D"
+      }
+    },
+    "MouseEvent": {
+      "!type": "fn(type: string, bubbles: bool, cancelable: bool, stageX: number, stageY: number, nativeEvent: NativeMouseEvent, pointerID: number, primary: bool, rawX: number, rawY: number)",
+      "prototype": {
+        "isTouch": "bool",
+        "localX": "number",
+        "localY": "number",
+        "nativeEvent": "NativeMouseEvent",
+        "pointerID": "number",
+        "primary": "bool",
+        "rawX": "number",
+        "rawY": "number",
+        "stageX": "number",
+        "stageY": "number",
+        "clone": "fn() -> MouseEvent",
+        "addEventListener": "fn(type: string, listener: fn(eventObj: Object), useCapture?: bool) -> Function",
+        "dispatchEvent": "fn(eventObj: Object, string: ?, Event: ?, target?: Object) -> bool",
+        "hasEventListener": "fn(type: string) -> bool",
+        "off": "fn(type: string, listener: fn(eventObj: Object), useCapture?: bool)",
+        "on": "fn(type: string, listener: fn(eventObj: Object), scope?: Object, once?: bool, data?: ?, useCapture?: bool) -> Function",
+        "removeAllEventListeners": "fn(type?: string)",
+        "removeEventListener": "fn(type: string, listener: fn(eventObj: Object), useCapture?: bool)",
+        "willTrigger": "fn(type: string) -> bool"
+      }
+    },
+    "MovieClip": {
+      "!type": "fn(mode?: string, startPosition?: number, loop?: bool, labels?: Object)",
+      "buildDate": "string",
+      "INDEPENDENT": "string",
+      "SINGLE_FRAME": "string",
+      "SYNCHED": "string",
+      "version": "string",
+      "prototype": {
+        "actionsEnabled": "bool",
+        "autoReset": "bool",
+        "currentFrame": "number",
+        "currentLabel": "string",
+        "frameBounds": "[Rectangle]",
+        "framerate": "number",
+        "labels": "[Object]",
+        "loop": "bool",
+        "mode": "string",
+        "paused": "bool",
+        "startPosition": "number",
+        "timeline": "Timeline",
+        "advance": "fn(time?: number)",
+        "clone": "fn() -> MovieClip",
+        "getCurrentLabel": "fn() -> string",
+        "getLabels": "fn() -> [Object]",
+        "gotoAndPlay": "fn(positionOrLabel: string, number: ?)",
+        "gotoAndStop": "fn(positionOrLabel: string, number: ?)",
+        "play": "fn()",
+        "stop": "fn()"
+      }
+    },
+    "MovieClipPlugin": {
+      "prototype": {
+        "tween": "fn(tween: Tween, prop: string, value: string, number: ?, boolean: ?, startValues: [?], endValues: [?], ratio: number, wait: Object, end: Object)"
+      }
+    },
+    "Point": {
+      "!type": "fn(x?: number, y?: number)",
+      "prototype": {
+        "x": "number",
+        "y": "number",
+        "clone": "fn() -> Point",
+        "copy": "fn(point: Point) -> Point",
+        "setValues": "fn(x?: number, y?: number) -> Point"
+      }
+    },
+    "Rectangle": {
+      "!type": "fn(x?: number, y?: number, width?: number, height?: number)",
+      "prototype": {
+        "height": "number",
+        "width": "number",
+        "x": "number",
+        "y": "number",
+        "clone": "fn() -> Rectangle",
+        "contains": "fn(x: number, y: number, width?: number, height?: number) -> bool",
+        "copy": "fn(rectangle: Rectangle) -> Rectangle",
+        "extend": "fn(x: number, y: number, width?: number, height?: number) -> Rectangle",
+        "intersection": "fn(rect: Rectangle) -> Rectangle",
+        "intersects": "fn(rect: Rectangle) -> bool",
+        "isEmpty": "fn() -> bool",
+        "setValues": "fn(x?: number, y?: number, width?: number, height?: number) -> Rectangle",
+        "union": "fn(rect: Rectangle) -> Rectangle"
+      }
+    },
+    "Shadow": {
+      "!type": "fn(color: string, offsetX: number, offsetY: number, blur: number)",
+      "identity": "Shadow",
+      "prototype": {
+        "blur": "number",
+        "color": "string",
+        "offsetX": "number",
+        "offsetY": "number",
+        "clone": "fn() -> Shadow"
+      }
+    },
+    "Shape": {
+      "!type": "fn(graphics?: Graphics)",
+      "prototype": {
+        "graphics": "Graphics",
+        "clone": "fn(recursive?: bool) -> Shape",
+        "set": "fn(props: Object) -> Shape",
+        "setTransform": "fn(x?: number, y?: number, scaleX?: number, scaleY?: number, rotation?: number, skewX?: number, skewY?: number, regX?: number, regY?: number) -> Shape"
+      }
+    },
+    "Sprite": {
+      "!type": "fn(spriteSheet: SpriteSheet, frameOrAnimation?: string, number: ?)",
+      "prototype": {
+        "currentAnimation": "string",
+        "currentAnimationFrame": "number",
+        "currentFrame": "number",
+        "framerate": "number",
+        "offset": "number",
+        "paused": "bool",
+        "spriteSheet": "SpriteSheet",
+        "advance": "fn(time?: number)",
+        "clone": "fn() -> Sprite",
+        "getBounds": "fn() -> Rectangle",
+        "gotoAndPlay": "fn(frameOrAnimation: string, number: ?)",
+        "gotoAndStop": "fn(frameOrAnimation: string, number: ?)",
+        "play": "fn()",
+        "set": "fn(props: Object) -> Sprite",
+        "setTransform": "fn(x?: number, y?: number, scaleX?: number, scaleY?: number, rotation?: number, skewX?: number, skewY?: number, regX?: number, regY?: number) -> Sprite",
+        "stop": "fn()"
+      }
+    },
+    "SpriteContainer": {
+      "!type": "fn(spriteSheet?: SpriteSheet)",
+      "prototype": {
+        "spriteSheet": "SpriteSheet"
+      }
+    },
+    "SpriteSheetAnimation": {
+      "frames": "[number]",
+      "speed": "number",
+      "name": "string",
+      "next": "string"
+    },
+    "SpriteSheetFrame": {
+      "image": "HTMLImageElement",
+      "rect": "Rectangle"
+    },
+    "SpriteSheet": {
+      "!type": "fn(data: Object)",
+      "prototype": {
+        "animations": "[string]",
+        "complete": "bool",
+        "framerate": "number",
+        "clone": "fn() -> SpriteSheet",
+        "getAnimation": "fn(name: string) -> SpriteSheetAnimation",
+        "getAnimations": "fn() -> [string]",
+        "getFrame": "fn(frameIndex: number) -> SpriteSheetFrame",
+        "getFrameBounds": "fn(frameIndex: number, rectangle?: Rectangle) -> Rectangle",
+        "getNumFrames": "fn(animation: string) -> number"
+      }
+    },
+    "SpriteSheetBuilder": {
+      "!type": "fn()",
+      "prototype": {
+        "maxHeight": "number",
+        "maxWidth": "number",
+        "padding": "number",
+        "progress": "number",
+        "scale": "number",
+        "spriteSheet": "SpriteSheet",
+        "timeSlice": "number",
+        "addAnimation": "fn(name: string, frames: [number], next?: string, boolean: ?, frequency?: number)",
+        "addFrame": "fn(source: DisplayObject, sourceRect?: Rectangle, scale?: number, setupFunction?: fn(), setupData?: Object) -> number",
+        "addMovieClip": "fn(source: MovieClip, sourceRect?: Rectangle, scale?: number, setupFunction?: fn(), setupData?: Object, labelFunction?: fn())",
+        "build": "fn() -> SpriteSheet",
+        "buildAsync": "fn(timeSlice?: number)",
+        "clone": "fn()",
+        "stopAsync": "fn()"
+      }
+    },
+    "SpriteSheetUtils": {
+      "addFlippedFrames": "fn(spriteSheet: SpriteSheet, horizontal?: bool, vertical?: bool, both?: bool)",
+      "extractFrame": "fn(spriteSheet: SpriteSheet, frameOrAnimation: number, string: ?) -> HTMLImageElement",
+      "mergeAlpha": "fn(rgbImage: HTMLImageElement, alphaImage: HTMLImageElement, canvas?: HTMLCanvasElement) -> HTMLCanvasElement",
+      "prototype": {}
+    },
+    "SpriteStage": {
+      "!type": "fn(canvas: HTMLCanvasElement, string: ?, preserveDrawingBuffer?: bool, antialias?: bool)",
+      "INDICES_PER_BOX": "number",
+      "MAX_BOXES_POINTS_INCREMENT": "number",
+      "MAX_INDEX_SIZE": "number",
+      "NUM_VERTEX_PROPERTIES": "number",
+      "NUM_VERTEX_PROPERTIES_PER_BOX": "number",
+      "POINTS_PER_BOX": "number",
+      "prototype": {
+        "isWebGL": "bool",
+        "clearImageTexture": "fn(image: Object)",
+        "updateViewport": "fn(width: number, height: number)"
+      }
+    },
+    "Stage": {
+      "!type": "fn(canvas: HTMLCanvasElement, string: ?, Object: ?)",
+      "prototype": {
+        "autoClear": "bool",
+        "canvas": "HTMLCanvasElement",
+        "Object": "?",
+        "drawRect": "Rectangle",
+        "handleEvent": "Function",
+        "mouseInBounds": "bool",
+        "mouseMoveOutside": "bool",
+        "mouseX": "number",
+        "mouseY": "number",
+        "nextStage": "Stage",
+        "preventSelection": "bool",
+        "snapToPixelEnabled": "bool",
+        "tickOnUpdate": "bool",
+        "clear": "fn()",
+        "clone": "fn() -> Stage",
+        "enableDOMEvents": "fn(enable?: bool)",
+        "enableMouseOver": "fn(frequency?: number)",
+        "tick": "fn(props?: Object)",
+        "toDataURL": "fn(backgroundColor: string, mimeType: string) -> string",
+        "update": "fn(arg: [?])"
+      }
+    },
+    "Text": {
+      "!type": "fn(text?: string, font?: string, color?: string)",
+      "prototype": {
+        "color": "string",
+        "font": "string",
+        "lineHeight": "number",
+        "lineWidth": "number",
+        "maxWidth": "number",
+        "outline": "number",
+        "text": "string",
+        "textAlign": "string",
+        "textBaseline": "string",
+        "clone": "fn() -> Text",
+        "getMeasuredHeight": "fn() -> number",
+        "getMeasuredLineHeight": "fn() -> number",
+        "getMeasuredWidth": "fn() -> number",
+        "getMetrics": "fn() -> Object",
+        "set": "fn(props: Object) -> Text",
+        "setTransform": "fn(x?: number, y?: number, scaleX?: number, scaleY?: number, rotation?: number, skewX?: number, skewY?: number, regX?: number, regY?: number) -> Text"
+      }
+    },
+    "Ticker": {
+      "framerate": "number",
+      "interval": "number",
+      "maxDelta": "number",
+      "paused": "bool",
+      "RAF": "string",
+      "RAF_SYNCHED": "string",
+      "TIMEOUT": "string",
+      "timingMode": "string",
+      "useRAF": "bool",
+      "getEventTime": "fn(runTime?: bool) -> number",
+      "getFPS": "fn() -> number",
+      "getInterval": "fn() -> number",
+      "getMeasuredFPS": "fn(ticks?: number) -> number",
+      "getMeasuredTickTime": "fn(ticks?: number) -> number",
+      "getPaused": "fn() -> bool",
+      "getTicks": "fn(pauseable?: bool) -> number",
+      "getTime": "fn(runTime?: bool) -> number",
+      "init": "fn()",
+      "reset": "fn()",
+      "setFPS": "fn(value: number)",
+      "setInterval": "fn(interval: number)",
+      "setPaused": "fn(value: bool)",
+      "addEventListener": "fn(type: string, listener: Stage, useCapture?: bool) -> Stage",
+      "dispatchEvent": "fn(eventObj: Object, string: ?, Event: ?, target?: Object) -> bool",
+      "hasEventListener": "fn(type: string) -> bool",
+      "off": "fn(type: string, listener: fn(eventObj: Object), useCapture?: bool)",
+      "on": "fn(type: string, listener: fn(eventObj: Object), scope?: Object, once?: bool, data?: ?, useCapture?: bool) -> Function",
+      "removeAllEventListeners": "fn(type?: string)",
+      "removeEventListener": "fn(type: string, listener: fn(eventObj: Object), useCapture?: bool)",
+      "willTrigger": "fn(type: string) -> bool",
+      "prototype": {}
+    },
+    "TickerEvent": {
+      "prototype": {
+        "target": "Object",
+        "type": "string",
+        "paused": "bool",
+        "delta": "number",
+        "time": "number",
+        "runTime": "number"
+      }
+    },
+    "Touch": {
+      "disable": "fn(stage: Stage)",
+      "enable": "fn(stage: Stage, singleTouch?: bool, allowDefault?: bool) -> bool",
+      "isSupported": "fn() -> bool",
+      "prototype": {}
+    },
+    "UID": {
+      "get": "fn() -> number",
+      "prototype": {}
+    }
+  },
+  "!name": "easeljs",
+  "!define": {
+    "ret": {
+      "x": "number",
+      "y": "number",
+      "scaleX": "number",
+      "scaleY": "number",
+      "rotation": "number",
+      "skewX": "number",
+      "skewY": "number"
+    }
+  }
+}

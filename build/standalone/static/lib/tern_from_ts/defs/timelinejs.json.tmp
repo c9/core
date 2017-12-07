@@ -1,0 +1,52 @@
+{
+  "createStoryJS": "fn(config: knightlab.ITimeLineConfiguration)",
+  "knightlab": {
+    "ITimeLineConfiguration": {
+      "width": "string",
+      "height": "string",
+      "source": "?",
+      "type": "string",
+      "embed_id": "string",
+      "start_at_end": "bool",
+      "start_at_slide": "string",
+      "start_zoom_adjust": "string",
+      "hash_bookmark": "bool",
+      "font": "string",
+      "debug": "bool",
+      "lang": "string",
+      "css": "string",
+      "js": "string",
+      "gmap_key": "string",
+      "maptype": "string"
+    },
+    "ITimelineModel": {
+      "timeline": "ITimeLine"
+    },
+    "ITimeLine": {
+      "headline": "string",
+      "type": "string",
+      "text": "string",
+      "asset": "ITimeLineAsset",
+      "date": "[ITimelineDate]",
+      "era": "[ITimelineEra]"
+    },
+    "ITimeLineAsset": {
+      "media": "string",
+      "thumbnail": "string",
+      "credit": "string",
+      "caption": "string"
+    },
+    "ITimelineDate": {
+      "classname": "string",
+      "asset": "ITimeLineAsset"
+    },
+    "ITimelineEra": {
+      "startDate": "string",
+      "endDate": "string",
+      "headline": "string",
+      "text": "string",
+      "tag": "string"
+    }
+  },
+  "!name": "timelinejs.d.ts"
+}

@@ -1,0 +1,4 @@
+{
+  "'gulp-jasmine-browser'": "jasmineBrowser",
+  "!name": "gulp-jasmine-browser.d.ts"
+}

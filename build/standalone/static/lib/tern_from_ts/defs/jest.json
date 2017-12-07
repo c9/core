@@ -1,0 +1,84 @@
+{
+  "afterEach": "fn(fn: jest.EmptyFunction)",
+  "beforeEach": "fn(fn: jest.EmptyFunction)",
+  "describe": "fn(name: string, fn: jest.EmptyFunction)",
+  "it": "jest.It",
+  "pit": "fn(name: string, fn: jest.EmptyFunction)",
+  "xdescribe": "fn(name: string, fn: jest.EmptyFunction)",
+  "xit": "fn(name: string, fn: jest.EmptyFunction)",
+  "expect": "fn(actual: ?) -> jest.Matchers",
+  "NodeRequire": {
+    "requireActual": "fn(moduleName: string) -> ?"
+  },
+  "jest": {
+    "addMatchers": "fn(matchers: CustomMatcherFactories)",
+    "autoMockOff": "fn()",
+    "autoMockOn": "fn()",
+    "clearAllTimers": "fn()",
+    "currentTestPath": "fn() -> string",
+    "dontMock": "fn(moduleName: string)",
+    "genMockFromModule": "fn(moduleName: string) -> ?",
+    "genMockFunction": "fn() -> ?",
+    "genMockFn": "fn() -> ?",
+    "mock": "fn(moduleName: string)",
+    "runAllTicks": "fn()",
+    "runAllTimers": "fn()",
+    "runOnlyPendingTimers": "fn()",
+    "setMock": "fn(moduleName: string, moduleExports: T)",
+    "EmptyFunction": {},
+    "Matchers": {
+      "not": "Matchers",
+      "toThrow": "fn(expected?: ?) -> bool",
+      "toBe": "fn(expected: ?) -> bool",
+      "toEqual": "fn(expected: ?) -> bool",
+      "toBeFalsy": "fn() -> bool",
+      "toBeTruthy": "fn() -> bool",
+      "toBeNull": "fn() -> bool",
+      "toBeDefined": "fn() -> bool",
+      "toBeUndefined": "fn() -> bool",
+      "toMatch": "fn(expected: RegExp) -> bool",
+      "toContain": "fn(expected: string) -> bool",
+      "toBeCloseTo": "fn(expected: number, delta: number) -> bool",
+      "toBeGreaterThan": "fn(expected: number) -> bool",
+      "toBeLessThen": "fn(expected: number) -> bool",
+      "toBeCalled": "fn() -> bool",
+      "toBeCalledWith": "fn(args: [?]) -> bool",
+      "lastCalledWith": "fn(args: [?]) -> bool"
+    },
+    "It": {
+      "only": "fn(name: string, fn: EmptyFunction)"
+    },
+    "Mock": {
+      "mock": "?",
+      "mockClear": "fn()",
+      "mockImplementation": "fn(fn: Function) -> ?",
+      "mockImpl": "fn(fn: Function) -> ?",
+      "mockReturnThis": "fn() -> ?",
+      "mockReturnValue": "fn(value: ?) -> ?",
+      "mockReturnValueOnce": "fn(value: ?) -> ?"
+    },
+    "MockContext": {
+      "calls": "[[?]]",
+      "instances": "[T]"
+    },
+    "CustomMatcherFactories": {},
+    "CustomMatcherFactory": {},
+    "MatchersUtil": {
+      "equals": "fn(a: ?, b: ?, customTesters?: ?) -> bool",
+      "contains": "fn(haystack: ?, string: ?, needle: ?, customTesters?: ?) -> bool",
+      "buildFailureMessage": "fn(matcherName: string, isNot: bool, actual: ?, expected: ?) -> string"
+    },
+    "CustomEqualityTester": {},
+    "CustomMatcher": {
+      "compare": "fn(actual: T, expected: T) -> CustomMatcherResult"
+    },
+    "CustomMatcherResult": {
+      "pass": "bool",
+      "message": "string"
+    },
+    "ArrayLike": {
+      "length": "number"
+    }
+  },
+  "!name": "jest"
+}

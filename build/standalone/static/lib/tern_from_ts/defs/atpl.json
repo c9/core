@@ -1,0 +1,14 @@
+{
+  "atpl": {
+    "compile": "fn(templateString: string, options: ?) -> fn(context: ?)",
+    "__express": "fn(filename: string, options: ?, callback: Function) -> ?",
+    "registerExtension": "fn(items: ?)",
+    "registerTags": "fn(items: ?)",
+    "registerFunctions": "fn(items: ?)",
+    "registerFilters": "fn(items: ?)",
+    "registerTests": "fn(items: ?)",
+    "renderFileSync": "fn(viewsPath: string, filename: string, parameters: ?, cache: bool) -> string",
+    "renderFile": "fn(viewsPath: string, filename: string, parameters: ?, cache: bool, done: fn(err: Error, result?: string))"
+  },
+  "!name": "atpl"
+}

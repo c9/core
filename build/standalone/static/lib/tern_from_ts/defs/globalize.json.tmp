@@ -1,0 +1,20 @@
+{
+  "NumberFormatterOptions": {
+    "minimumIntegerDigits": "number",
+    "minimumFractionDigits": "number",
+    "maximumFractionDigits": "number",
+    "minimumSignificantDigits": "number",
+    "maximumSignificantDigits": "number",
+    "round": "string",
+    "useGrouping": "bool"
+  },
+  "Cldr": {},
+  "GlobalizeStatic": {
+    "load": "fn(jsonData: ?)",
+    "locale": "fn(locale: string) -> Cldr",
+    "numberFormatter": "fn(options?: NumberFormatterOptions) -> fn(value: number)",
+    "formatNumber": "fn(value: number, options?: NumberFormatterOptions) -> string"
+  },
+  "Globalize": "GlobalizeStatic",
+  "!name": "globalize.d.ts"
+}

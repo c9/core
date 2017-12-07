@@ -1,0 +1,24 @@
+{
+  "THREE": {
+    "MaskPass": {
+      "!type": "fn(scene: Scene, camera: Camera)",
+      "prototype": {
+        "scene": "Scene",
+        "camera": "Camera",
+        "enabled": "bool",
+        "clear": "bool",
+        "needsSwap": "bool",
+        "inverse": "bool",
+        "render": "fn(renderer: WebGLRenderer, writeBuffer: WebGLRenderTarget, readBuffer: WebGLRenderTarget, delta: number)"
+      }
+    },
+    "ClearMaskPass": {
+      "!type": "fn()",
+      "prototype": {
+        "enabled": "bool",
+        "render": "fn(renderer: WebGLRenderer, writeBuffer: WebGLRenderTarget, readBuffer: WebGLRenderTarget, delta: number)"
+      }
+    }
+  },
+  "!name": "three-maskpass"
+}

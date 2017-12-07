@@ -1,0 +1,24 @@
+{
+  "Rivets": {
+    "View": {
+      "build": "fn()",
+      "bind": "fn()",
+      "unbind": "fn()"
+    },
+    "Rivets": {
+      "binders": "Object",
+      "components": "Object",
+      "formatters": "Object",
+      "adapters": "Object",
+      "prefix": "string",
+      "templateDelimiters": "?",
+      "rootInterface": "string",
+      "preloadData": "bool",
+      "handler": "fn(context: ?, ev: Event, biding: ?)",
+      "configure": "fn(options?: ?)",
+      "bind": "fn(element: HTMLElement, models: Object, options?: Object) -> View"
+    }
+  },
+  "rivets": "Rivets.Rivets",
+  "!name": "rivets.d.ts"
+}

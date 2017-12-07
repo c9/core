@@ -1,0 +1,74 @@
+{
+  "_xjsfl": {
+    "init": "fn(_this: ?)",
+    "uri": "string"
+  },
+  "_File": {
+    "!type": "fn(path: string)",
+    "prototype": {
+      "copy": "fn(path: string) -> _File",
+      "write": "fn(data: string) -> _File",
+      "contents": "string"
+    }
+  },
+  "_Folder": {
+    "!type": "fn(path: string)",
+    "prototype": {
+      "contents": "[_File]"
+    }
+  },
+  "_Context": {
+    "create": "fn() -> _Context",
+    "from": "fn(frame: FlashFrame) -> _Context",
+    "prototype": {
+      "layer": "FlashLayer",
+      "frame": "FlashFrame",
+      "keyframes": "[FlashFrame]",
+      "elements": "[FlashElement]",
+      "setLayer": "fn(index: number)",
+      "update": "fn()",
+      "goto": "fn()"
+    }
+  },
+  "GenericCollection": {
+    "elements": "[T]",
+    "rename": "fn(pattern: string) -> ?",
+    "update": "fn() -> ?",
+    "select": "fn() -> ?",
+    "toGrid": "fn(x: number, y: number) -> ?",
+    "randomize": "fn(info: ?) -> ?",
+    "each": "fn(callback: fn(element: T, index?: number, elements?: [T]))"
+  },
+  "ElementCollection": {},
+  "ItemCollection": {},
+  "_URI": {
+    "!type": "fn(path: string)",
+    "prototype": {
+      "uri": "string",
+      "folder": "string",
+      "name": "string",
+      "extension": "string",
+      "path": "string",
+      "type": "string",
+      "toURI": "fn(string: string) -> string"
+    }
+  },
+  "xjsfl": "_xjsfl",
+  "$dom": "FlashDocument",
+  "$timeline": "FlashTimeline",
+  "$library": "FlashLibrary",
+  "$selection": "[FlashElement]",
+  "trace": "fn(args: [?])",
+  "clear": "fn()",
+  "format": "fn(format: string, params: [?])",
+  "inspect": "fn(item: ?)",
+  "list": "fn(item: ?)",
+  "debug": "fn(item: ?)",
+  "include": "fn(className: string)",
+  "require": "fn(className: string)",
+  "load": "fn(filePath: string) -> string",
+  "save": "fn(filePath: string, data: string)",
+  "$": "fn(selector: string) -> ElementCollection",
+  "$$": "fn(selector: string) -> ItemCollection",
+  "!name": "xJSFL.d.ts"
+}

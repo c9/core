@@ -1,0 +1,29 @@
+{
+  "StripeCheckoutStatic": {
+    "configure": "fn(options: StripeCheckoutOptions) -> StripeCheckoutHandler"
+  },
+  "StripeCheckoutHandler": {
+    "open": "fn(options?: StripeCheckoutOptions)",
+    "close": "fn()"
+  },
+  "StripeCheckoutOptions": {
+    "key": "string",
+    "token": "fn(token: StripeTokenResponse)",
+    "image": "string",
+    "name": "string",
+    "description": "string",
+    "amount": "number",
+    "locale": "string",
+    "currency": "string",
+    "panelLabel": "string",
+    "zipCode": "bool",
+    "email": "string",
+    "label": "string",
+    "allowRememberMe": "bool",
+    "bitcoin": "bool",
+    "opened": "fn()",
+    "closed": "fn()"
+  },
+  "StripeCheckout": "StripeCheckoutStatic",
+  "!name": "stripe-checkout"
+}

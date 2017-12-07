@@ -1,0 +1,17 @@
+{
+  "CodeMirror": {
+    "Doc": {
+      "getSearchCursor": "fn(query: string, RegExp: ?, start?: Position, caseFold?: bool) -> SearchCursor"
+    },
+    "SearchCursor": {
+      "find": "fn(reverse: bool) -> bool",
+      "any": "?",
+      "findNext": "fn() -> bool",
+      "findPrevious": "fn() -> bool",
+      "from": "fn() -> Position",
+      "to": "fn() -> Position",
+      "replace": "fn(text: string, origin?: string)"
+    }
+  },
+  "!name": "searchcursor"
+}

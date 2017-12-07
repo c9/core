@@ -1,0 +1,16 @@
+{
+  "JSData": {
+    "DSProvider": {
+      "defaults": "DSConfiguration"
+    },
+    "DS": {
+      "bindAll": "fn(resourceName: string, params: DSFilterParams, scope: ng.IScope, expr: string, cb?: fn(err: DSError, items: ?, DSInstanceShorthands: ?)) -> Function",
+      "bindOne": "fn(resourceName: string, id: string, number: ?, scope: ng.IScope, expr: string, cb?: fn(err: DSError, item: T, DSInstanceShorthands: ?), Function: ?)"
+    },
+    "DSResourceDefinition": {
+      "bindAll": "fn(params: DSFilterParams, scope: ng.IScope, expr: string, cb?: fn(err: DSError, items: ?, DSInstanceShorthands: ?)) -> Function",
+      "bindOne": "fn(id: string, number: ?, scope: ng.IScope, expr: string, cb?: fn(err: DSError, item: T, DSInstanceShorthands: ?), Function: ?)"
+    }
+  },
+  "!name": "js-data-angular.d.ts"
+}

@@ -1,0 +1,20 @@
+{
+  "GoogleAppsScript": {
+    "Groups": {
+      "Group": {
+        "getEmail": "fn() -> string",
+        "getRole": "fn(email: string) -> Role",
+        "getUsers": "fn() -> [Base.User]",
+        "hasUser": "fn(email: string) -> bool"
+      },
+      "GroupsApp": {
+        "Role": "Role",
+        "getGroupByEmail": "fn(email: string) -> Group",
+        "getGroups": "fn() -> [Group]"
+      },
+      "Role": "number"
+    }
+  },
+  "GroupsApp": "GoogleAppsScript.Groups.GroupsApp",
+  "!name": "google-apps-script.groups.d.ts"
+}

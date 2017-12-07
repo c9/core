@@ -1,57 +1,29 @@
 (function () {
-    var /*
- * Rusha, a JavaScript implementation of the Secure Hash Algorithm, SHA-1,
- * as defined in FIPS PUB 180-1, tuned for high performance with large inputs.
- * (http://github.com/srijs/rusha)
- *
- * Inspired by Paul Johnstons implementation (http://pajhome.org.uk/crypt/md5).
- *
- * Copyright (c) 2013 Sam Rijs (http://awesam.de).
- * Released under the terms of the MIT license as follows:
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
- */
-    util = {
-        getDataType: function (data) {
-            if (typeof data === 'string') {
-                return 'string';
-            }
-            if (data instanceof Array) {
-                return 'array';
-            }
-            if (typeof global !== 'undefined' && global.Buffer && global.Buffer.isBuffer(data)) {
-                return 'buffer';
-            }
-            if (data instanceof ArrayBuffer) {
-                return 'arraybuffer';
-            }
-            if (data.buffer instanceof ArrayBuffer) {
-                return 'view';
-            }
-            if (data instanceof Blob) {
-                return 'blob';
-            }
-            throw new Error('Unsupported data type.');
-        }
-    };
     function Rusha(chunkSize) {
         'use strict';
+        var util = {
+            getDataType: function (data) {
+                if (typeof data === 'string') {
+                    return 'string';
+                }
+                if (data instanceof Array) {
+                    return 'array';
+                }
+                if (typeof global !== 'undefined' && global.Buffer && global.Buffer.isBuffer(data)) {
+                    return 'buffer';
+                }
+                if (data instanceof ArrayBuffer) {
+                    return 'arraybuffer';
+                }
+                if (data.buffer instanceof ArrayBuffer) {
+                    return 'view';
+                }
+                if (data instanceof Blob) {
+                    return 'blob';
+                }
+                throw new Error('Unsupported data type.');
+            }
+        };
         var // Private object structure.
         self$2 = { fill: 0 };
         var // Calculate the length of buffer that the sha1 routine uses

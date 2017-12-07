@@ -1,0 +1,12 @@
+{
+  "bcrypt": {
+    "genSaltSync": "fn(rounds?: number) -> string",
+    "genSalt": "fn(rounds: number, callback: fn(err: Error, salt: string))",
+    "hashSync": "fn(data: ?, salt: string) -> string",
+    "hash": "fn(data: ?, salt: string, callback: fn(err: Error, encrypted: string))",
+    "compareSync": "fn(data: ?, encrypted: string) -> bool",
+    "compare": "fn(data: ?, encrypted: string, callback: fn(err: Error, same: bool))",
+    "getRounds": "fn(encrypted: string) -> number"
+  },
+  "!name": "bcrypt.d.ts"
+}

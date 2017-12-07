@@ -1,0 +1,60 @@
+{
+  "Backbone": {
+    "Radio": {
+      "tuneIn": "fn(channelName: string) -> Radio",
+      "tuneOut": "fn(channelName: string) -> Radio",
+      "log": "fn(channelName: string, eventName: string, args: [?])",
+      "channel": "fn(channelName: string) -> Channel",
+      "VERSION": "string",
+      "DEBUG": "bool",
+      "command": "fn(channelName: string, commandName: string, args: [?])",
+      "comply": "fn(channelName: string, commandName: string, callback: fn(args: [?]), context?: ?) -> Commands",
+      "complyOnce": "fn(channelName: string, commandName: string, callback: fn(args: [?]), context?: ?) -> Commands",
+      "stopComplying": "fn(channelName: string, commandName?: string, callback?: fn(args: [?]), context?: ?) -> Commands",
+      "request": "fn(channelName: string, requestName: string, args: [?]) -> ?",
+      "reply": "fn(channelName: string, requestName: string, callback: fn(args: [?]), context?: ?) -> Requests",
+      "replyOnce": "fn(channelName: string, requestName: string, callback: fn(args: [?]), context?: ?) -> Requests",
+      "stopReplying": "fn(channelName: string, commandName?: string, callback?: fn(args: [?]), context?: ?) -> Requests",
+      "on": "fn(channelName: string, eventName: string, callback?: Function, context?: ?) -> ?",
+      "off": "fn(channelName: string, eventName?: string, callback?: Function, context?: ?) -> ?",
+      "trigger": "fn(channelName: string, eventName: string, args: [?]) -> ?",
+      "bind": "fn(channelName: string, eventName: string, callback: Function, context?: ?) -> ?",
+      "unbind": "fn(channelName: string, eventName?: string, callback?: Function, context?: ?) -> ?",
+      "once": "fn(channelName: string, events: string, callback: Function, context?: ?) -> ?",
+      "listenTo": "fn(channelName: string, object: ?, events: string, callback: Function) -> ?",
+      "listenToOnce": "fn(channelName: string, object: ?, events: string, callback: Function) -> ?",
+      "stopListening": "fn(channelName: string, object?: ?, events?: string, callback?: Function) -> ?",
+      "Commands": {
+        "prototype": {
+          "command": "fn(commandName: string, args: [?])",
+          "comply": "fn(commandName: string, callback: fn(args: [?]), context?: ?) -> Commands",
+          "complyOnce": "fn(commands: ?, context?: ?) -> Commands",
+          "stopComplying": "fn(commandName?: string, callback?: fn(args: [?]), context?: ?) -> Commands"
+        }
+      },
+      "Requests": {
+        "prototype": {
+          "request": "fn(requestName: string, args: [?]) -> ?",
+          "reply": "fn(requestName: string, callback: fn(args: [?]), context?: ?) -> Requests",
+          "replyOnce": "fn(requestName: string, callback: fn(args: [?]), context?: ?) -> Requests",
+          "stopReplying": "fn(commandName?: string, callback?: fn(args: [?]), context?: ?) -> Requests"
+        }
+      },
+      "Channel": {
+        "prototype": {
+          "channelName": "string",
+          "reset": "fn() -> Channel",
+          "command": "fn(commandName: string, args: [?])",
+          "comply": "fn(commandName: string, callback: fn(args: [?]), context?: ?) -> Commands",
+          "complyOnce": "fn(commandName: string, callback: fn(args: [?]), context?: ?) -> Commands",
+          "stopComplying": "fn(commandName?: string, callback?: fn(args: [?]), context?: ?) -> Commands",
+          "request": "fn(requestName: string, args: [?]) -> ?",
+          "reply": "fn(requestName: string, callback: fn(args: [?]), context?: ?) -> Requests",
+          "replyOnce": "fn(requestName: string, callback: fn(args: [?]), context?: ?) -> Requests",
+          "stopReplying": "fn(commandName?: string, callback?: fn(args: [?]), context?: ?) -> Requests"
+        }
+      }
+    }
+  },
+  "!name": "backbone.radio.d.ts"
+}

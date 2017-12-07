@@ -1,0 +1,104 @@
+{
+  "IResourceStore": {},
+  "IResourceStoreLanguage": {},
+  "IResourceStoreKey": {},
+  "I18nTranslateOptions": {
+    "defaultValue": "?",
+    "toAdd": "?",
+    "child": "?",
+    "sprintf": "?",
+    "count": "?",
+    "context": "?"
+  },
+  "I18nextOptions": {
+    "lng": "string",
+    "load": "string",
+    "preload": "[string]",
+    "lowerCaseLng": "bool",
+    "returnObjectTrees": "bool",
+    "fallbackLng": "string",
+    "boolean": "?",
+    "detectLngQS": "string",
+    "ns": "?",
+    "nsseparator": "string",
+    "keyseparator": "string",
+    "selectorAttr": "string",
+    "debug": "bool",
+    "resGetPath": "string",
+    "resPostPath": "string",
+    "getAsync": "bool",
+    "postAsync": "bool",
+    "resStore": "IResourceStore",
+    "useLocalStorage": "bool",
+    "localStorageExpirationTime": "number",
+    "dynamicLoad": "bool",
+    "sendMissing": "bool",
+    "sendMissingTo": "string",
+    "sendType": "string",
+    "interpolationPrefix": "string",
+    "interpolationSuffix": "string",
+    "reusePrefix": "string",
+    "reuseSuffix": "string",
+    "pluralSuffix": "string",
+    "pluralNotFound": "string",
+    "contextNotFound": "string",
+    "setJqueryExt": "bool",
+    "defaultValueFromContent": "bool",
+    "useDataAttrOptions": "bool",
+    "cookieExpirationTime": "number",
+    "useCookie": "bool",
+    "cookieName": "string",
+    "postProcess": "string",
+    "replace": "?"
+  },
+  "I18nextStatic": {
+    "addPostProcessor": "fn(name: string, fn: fn(value: ?, key: string, options: ?))",
+    "addResources": "fn(language: string, namespace: string, resources: IResourceStoreKey)",
+    "detectLanguage": "fn() -> string",
+    "functions": {
+      "extend": "fn(target: ?, objs: [?]) -> Object",
+      "each": "fn(collection: ?, callback: fn(indexInArray: ?, valueOfElement: ?)) -> ?",
+      "ajax": "fn(settings: JQueryAjaxSettings) -> JQueryXHR",
+      "cookie": {
+        "create": "fn(name: string, value: string, minutes: number)",
+        "read": "fn(name: string)",
+        "remove": "fn(name: string)"
+      },
+      "detectLanguage": "fn() -> string",
+      "log": "fn(message: string)",
+      "toLanguages": "fn(language: string) -> [string]",
+      "regexEscape": "fn(str: string) -> string"
+    },
+    "init": "fn(callback?: fn(err: ?, t: fn(key: string, options?: ?))) -> ?",
+    "lng": "fn() -> string",
+    "loadNamespace": "fn(namespace: string, callback?: fn())",
+    "loadNamespaces": "fn(namespaces: [string], callback?: fn())",
+    "pluralExtensions": {
+      "addRule": "fn(language: string, obj: ?)",
+      "get": "fn(language: string, count: number) -> number",
+      "rules": "?",
+      "setCurrentLng": "fn(language: string)"
+    },
+    "preload": "fn(language: string, callback?: fn(err: ?, t: fn(key: string, options?: ?)))",
+    "setDefaultNamespace": "fn(namespace: string)",
+    "setLng": "fn(language: string, callback?: fn(err: ?, t: fn(key: string, options?: ?)))",
+    "sync": {
+      "load": "fn(languages: [string], options: I18nextOptions, callback: fn(err: Error, store: IResourceStore))",
+      "postMissing": "fn(language: string, namespace: string, key: string, defaultValue: ?, languages: [string])"
+    },
+    "t": "fn(key: string, options?: I18nTranslateOptions) -> string",
+    "translate": "fn(key: string, options?: I18nTranslateOptions) -> string",
+    "exists": "fn(key: string, options?: ?) -> bool"
+  },
+  "JQueryStatic": {
+    "i18n": "I18nextStatic",
+    "t": "fn(key: string, options?: ?)"
+  },
+  "JQuery": {
+    "i18n": "fn(options?: I18nextOptions)"
+  },
+  "i18n": "I18nextStatic",
+  "'i18next'": "i18n",
+  "'i18next-client'": "i18n",
+  "!name": "i18next.d.ts"
+}

@@ -1,0 +1,4 @@
+{
+  "gulp-ruby-sass": "sass",
+  "!name": "gulp-ruby-sass.d.ts"
+}

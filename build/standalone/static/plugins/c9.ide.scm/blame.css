@@ -1,0 +1,45 @@
+.ace_resizer_v {
+    top: 0px;
+    width: 2px;
+    z-index: 10;
+    height: 100%;
+    cursor: w-resize;
+    position: absolute;
+    border-right: 1px solid black;
+}
+.ace_resizer_v:hover {
+    border-right-color: darkblue;
+}
+.ace_closeButton {
+    top: -5px;
+    left: -3px;
+    width: 11px;
+    height: 11px;
+    cursor: pointer;
+    position: absolute;
+    border-radius: 11px;
+    background: rgba(255, 0, 194, 0.33);
+}
+.ace_closeButton:hover {
+    background: rgba(255, 0, 194, 0.5);
+}
+.ace_blame-gutter-layer {
+    position: absolute !important;
+    text-align: left !important;
+    top: 0;
+    z-index: 5;
+    pointer-events: auto;
+}
+.ace_blame-cell{
+    border-top: solid 1px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+    overflow: hidden !important;
+    padding: 0 8px;
+    border-top-color: rgba(230, 230, 250, 0.24); 
+    font-family: arial
+}
+.ace_blame-cell.selected{
+    background: rgba(255, 237, 0, 0.31);
+}

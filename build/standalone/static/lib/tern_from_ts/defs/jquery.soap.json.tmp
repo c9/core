@@ -1,0 +1,69 @@
+{
+  "JQuerySOAP": {
+    "SOAPEnvelope": {
+      "attributes": "Object",
+      "bodies": "?",
+      "headers": "?",
+      "prefix": "string",
+      "soapConfig": "?",
+      "typeOf": "string",
+      "addAttribute": "fn(name: String, value: string)",
+      "addBody": "fn(soapObject: SOAPObject)",
+      "addHeader": "fn(soapObject: SOAPObject)",
+      "addNamespace": "fn(name: String, uri: string)",
+      "send": "fn(options: Options)"
+    },
+    "SOAPResponse": {
+      "toJSON": "fn() -> ?",
+      "toXML": "fn() -> XMLDocument"
+    },
+    "SOAPObject": {
+      "attributes": "Object",
+      "children": "?",
+      "name": "string",
+      "ns": "Object",
+      "_parent": "SOAPObject",
+      "value": "?",
+      "typeOf": "string",
+      "addNamespace": "fn(name: String, url: string)",
+      "addParameter": "fn(name: String, value: string)",
+      "appendChild": "fn(soapObject: SOAPObject) -> SOAPObject",
+      "attr": "fn(name: string, value: string) -> Object",
+      "end": "fn() -> SOAPObject",
+      "find": "fn(name: string) -> SOAPObject",
+      "hasChildren": "fn() -> bool",
+      "newChild": "fn(name: string) -> SOAPObject",
+      "parent": "fn() -> SOAPObject",
+      "val": "fn(value: string) -> SOAPObject"
+    },
+    "Options": {
+      "appendMethodToURL": "bool",
+      "async": "bool",
+      "beforeSend": "fn(SOAPEnvelope: SOAPEnvelope)",
+      "context": "?",
+      "data": "Object",
+      "envAttributes": "?",
+      "elementName": "string",
+      "enableLogging": "bool",
+      "error": "fn(SOAPResponse: SOAPResponse)",
+      "HTTPHeaders": "Object",
+      "method": "string",
+      "namespaceQualifier": "string",
+      "namespaceURL": "string",
+      "noPrefix": "bool",
+      "request": "fn(SOAPEnvelope: SOAPEnvelope)",
+      "soap12": "bool",
+      "SOAPAction": "string",
+      "SOAPHeader": "Object",
+      "statusCode": "Object",
+      "success": "fn(SOAPResponse: SOAPResponse)",
+      "url": "string",
+      "wss": "Object"
+    },
+    "SOAP": {}
+  },
+  "JQueryStatic": {
+    "soap": "JQuerySOAP.SOAP"
+  },
+  "!name": "jquery.soap.d.ts"
+}

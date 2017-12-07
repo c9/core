@@ -1,0 +1,305 @@
+{
+  "EventDispatcher": {
+    "!type": "fn()",
+    "prototype": {
+      "_listeners": "?",
+      "hasEventListener": "fn(type: string, listener: Function) -> bool",
+      "addEventListener": "fn(typeStr: string, listenerFunc: Function)",
+      "removeEventListener": "fn(typeStr: string, listenerFunc: Function)",
+      "dispatchEvent": "fn(evt: LeapEvent)"
+    }
+  },
+  "Listener": {
+    "onConnect": "fn(controller: Controller)",
+    "onDisconnect": "fn(controller: Controller)",
+    "onExit": "fn(controller: Controller)",
+    "onFrame": "fn(controller: Controller, frame: Frame)",
+    "onInit": "fn(controller: Controller)"
+  },
+  "DefaultListener": {
+    "!type": "fn()",
+    "prototype": {
+      "onConnect": "fn(controller: Controller)",
+      "onDisconnect": "fn(controller: Controller)",
+      "onExit": "fn(controller: Controller)",
+      "onFrame": "fn(controller: Controller, frame: Frame)",
+      "onInit": "fn(controller: Controller)"
+    }
+  },
+  "LeapEvent": {
+    "LEAPMOTION_INIT": "string",
+    "LEAPMOTION_CONNECTED": "string",
+    "LEAPMOTION_DISCONNECTED": "string",
+    "LEAPMOTION_EXIT": "string",
+    "LEAPMOTION_FRAME": "string",
+    "!type": "fn(type: string, targetListener: Listener, frame?: Frame)",
+    "prototype": {
+      "_type": "?",
+      "_target": "?",
+      "frame": "Frame",
+      "getTarget": "fn() -> ?",
+      "getType": "fn() -> string"
+    }
+  },
+  "LeapUtil": {
+    "PI": "number",
+    "DEG_TO_RAD": "number",
+    "RAD_TO_DEG": "number",
+    "TWO_PI": "number",
+    "HALF_PI": "number",
+    "EPSILON": "number",
+    "!type": "fn()",
+    "toDegrees": "fn(radians: number) -> number",
+    "isNearZero": "fn(value: number) -> bool",
+    "vectorIsNearZero": "fn(inVector: Vector3) -> bool",
+    "extractRotation": "fn(mtxTransform: Matrix) -> Matrix",
+    "rotationInverse": "fn(mtxRot: Matrix) -> Matrix",
+    "rigidInverse": "fn(mtxTransform: Matrix) -> Matrix",
+    "componentWiseMin": "fn(vLHS: Vector3, vRHS: Vector3) -> Vector3",
+    "componentWiseMax": "fn(vLHS: Vector3, vRHS: Vector3) -> Vector3",
+    "componentWiseScale": "fn(vLHS: Vector3, vRHS: Vector3) -> Vector3",
+    "componentWiseReciprocal": "fn(inVector: Vector3) -> Vector3",
+    "minComponent": "fn(inVector: Vector3) -> number",
+    "maxComponent": "fn(inVector: Vector3) -> number",
+    "heading": "fn(inVector: Vector3) -> number",
+    "elevation": "fn(inVector: Vector3) -> number",
+    "normalizeSpherical": "fn(vSpherical: Vector3) -> Vector3",
+    "cartesianToSpherical": "fn(vCartesian: Vector3) -> Vector3",
+    "sphericalToCartesian": "fn(vSpherical: Vector3) -> Vector3",
+    "clamp": "fn(inVal: number, minVal: number, maxVal: number) -> number",
+    "lerp": "fn(a: number, b: number, coefficient: number) -> number",
+    "lerpVector": "fn(vec1: Vector3, vec2: Vector3, coefficient: number) -> Vector3",
+    "prototype": {}
+  },
+  "Controller": {
+    "!type": "fn(host?: string)",
+    "getHandByID": "fn(frame: ?, id: ?)",
+    "getPointableByID": "fn(frame: ?, id: ?)",
+    "prototype": {
+      "listener": "?",
+      "frameHistory": "[Frame]",
+      "latestFrame": "?",
+      "connection": "WebSocket",
+      "_isConnected": "bool",
+      "_isGesturesEnabled": "bool",
+      "frame": "fn(history?: number) -> Frame",
+      "setListener": "fn(listener: Listener)",
+      "enableGesture": "fn(type: number, enable?: bool)",
+      "isGestureEnabled": "fn(type: number) -> bool",
+      "isConnected": "fn() -> bool"
+    }
+  },
+  "Pointable": {
+    "!type": "fn()",
+    "invalid": "fn() -> Pointable",
+    "prototype": {
+      "direction": "Vector3",
+      "frame": "Frame",
+      "hand": "Hand",
+      "id": "number",
+      "length": "number",
+      "width": "number",
+      "tipPosition": "Vector3",
+      "tipVelocity": "Vector3",
+      "isFinger": "bool",
+      "isTool": "bool",
+      "isValid": "fn() -> bool",
+      "isEqualTo": "fn(other: Pointable) -> bool"
+    }
+  },
+  "Gesture": {
+    "STATE_INVALID": "number",
+    "STATE_START": "number",
+    "STATE_UPDATE": "number",
+    "STATE_STOP": "number",
+    "TYPE_INVALID": "number",
+    "TYPE_SWIPE": "number",
+    "TYPE_CIRCLE": "number",
+    "TYPE_SCREEN_TAP": "number",
+    "TYPE_KEY_TAP": "number",
+    "!type": "fn()",
+    "invalid": "fn() -> Gesture",
+    "prototype": {
+      "duration": "number",
+      "durationSeconds": "number",
+      "frame": "Frame",
+      "hands": "[Hand]",
+      "id": "number",
+      "pointables": "[Pointable]",
+      "state": "number",
+      "type": "number",
+      "isEqualTo": "fn(other: Gesture) -> bool",
+      "isValid": "fn() -> bool"
+    }
+  },
+  "Finger": {
+    "!type": "fn()",
+    "invalid": "fn() -> Finger",
+    "prototype": {}
+  },
+  "Tool": {
+    "!type": "fn()",
+    "invalid": "fn() -> Tool",
+    "prototype": {}
+  },
+  "Hand": {
+    "!type": "fn()",
+    "invalid": "fn() -> Hand",
+    "prototype": {
+      "direction": "Vector3",
+      "fingers": "[Finger]",
+      "frame": "Frame",
+      "id": "number",
+      "palmNormal": "Vector3",
+      "palmPosition": "Vector3",
+      "palmVelocity": "Vector3",
+      "pointables": "[Pointable]",
+      "sphereCenter": "Vector3",
+      "sphereRadius": "number",
+      "tools": "[Tool]",
+      "rotation": "Matrix",
+      "scaleFactorNumber": "number",
+      "translationVector": "Vector3",
+      "isValid": "fn() -> bool",
+      "isEqualTo": "fn(other: Hand) -> bool",
+      "finger": "fn(id: number) -> Finger",
+      "tool": "fn(id: number) -> Tool",
+      "pointable": "fn(id: number) -> Pointable",
+      "rotationAxis": "fn(sinceFrame: Frame) -> Vector3",
+      "rotationAngle": "fn(sinceFrame: Frame, axis?: Vector3) -> number",
+      "rotationMatrix": "fn(sinceFrame: Frame) -> Matrix",
+      "scaleFactor": "fn(sinceFrame: Frame) -> number",
+      "translation": "fn(sinceFrame: Frame) -> Vector3"
+    }
+  },
+  "Frame": {
+    "!type": "fn()",
+    "invalid": "fn() -> Frame",
+    "prototype": {
+      "fingers": "[Finger]",
+      "hands": "[Hand]",
+      "pointables": "[Pointable]",
+      "_gestures": "[Gesture]",
+      "id": "number",
+      "timestamp": "number",
+      "tools": "[Tool]",
+      "rotation": "Matrix",
+      "scaleFactorNumber": "number",
+      "translationVector": "Vector3",
+      "controller": "Controller",
+      "hand": "fn(id: number) -> Hand",
+      "finger": "fn(id: number) -> Finger",
+      "tool": "fn(id: number) -> Tool",
+      "pointable": "fn(id: number) -> Pointable",
+      "gesture": "fn(id: number) -> Gesture",
+      "gestures": "fn(sinceFrame?: Frame) -> [Gesture]",
+      "rotationAxis": "fn(sinceFrame: Frame) -> Vector3",
+      "rotationAngle": "fn(sinceFrame: Frame, axis?: Vector3) -> number",
+      "rotationMatrix": "fn(sinceFrame: Frame) -> Matrix",
+      "scaleFactor": "fn(sinceFrame: Frame) -> number",
+      "translation": "fn(sinceFrame: Frame) -> Vector3",
+      "isEqualTo": "fn(other: Frame) -> bool",
+      "isValid": "fn() -> bool"
+    }
+  },
+  "Matrix": {
+    "!type": "fn(x: Vector3, y: Vector3, z: Vector3, _origin?: Vector3)",
+    "identity": "fn() -> Matrix",
+    "prototype": {
+      "origin": "Vector3",
+      "xBasis": "Vector3",
+      "yBasis": "Vector3",
+      "zBasis": "Vector3",
+      "setRotation": "fn(_axis: Vector3, angleRadians: number)",
+      "transformPoint": "fn(inVector: Vector3) -> Vector3",
+      "transformDirection": "fn(inVector: Vector3) -> Vector3",
+      "rigidInverse": "fn() -> Matrix",
+      "multiply": "fn(other: Matrix) -> Matrix",
+      "multiplyAssign": "fn(other: Matrix) -> Matrix",
+      "isEqualTo": "fn(other: Matrix) -> bool"
+    }
+  },
+  "CircleGesture": {
+    "classType": "number",
+    "!type": "fn()",
+    "prototype": {
+      "center": "Vector3",
+      "normal": "Vector3",
+      "pointable": "Pointable",
+      "progress": "number",
+      "radius": "number"
+    }
+  },
+  "KeyTapGesture": {
+    "classType": "number",
+    "!type": "fn()",
+    "prototype": {
+      "direction": "Vector3",
+      "pointable": "Pointable",
+      "position": "Vector3",
+      "progress": "number"
+    }
+  },
+  "ScreenTapGesture": {
+    "classType": "number",
+    "!type": "fn()",
+    "prototype": {
+      "direction": "Vector3",
+      "pointable": "Pointable",
+      "position": "Vector3",
+      "progress": "number"
+    }
+  },
+  "SwipeGesture": {
+    "classType": "number",
+    "!type": "fn()",
+    "prototype": {
+      "direction": "Vector3",
+      "pointable": "Pointable",
+      "position": "Vector3",
+      "speed": "number",
+      "startPosition": "Vector3"
+    }
+  },
+  "Vector3": {
+    "!type": "fn(x: number, y: number, z: number)",
+    "invalid": "fn() -> Vector3",
+    "zero": "fn() -> Vector3",
+    "xAxis": "fn() -> Vector3",
+    "yAxis": "fn() -> Vector3",
+    "zAxis": "fn() -> Vector3",
+    "left": "fn() -> Vector3",
+    "right": "fn() -> Vector3",
+    "down": "fn() -> Vector3",
+    "up": "fn() -> Vector3",
+    "forward": "fn() -> Vector3",
+    "backward": "fn() -> Vector3",
+    "prototype": {
+      "x": "number",
+      "y": "number",
+      "z": "number",
+      "opposite": "fn() -> Vector3",
+      "plus": "fn(other: Vector3) -> Vector3",
+      "plusAssign": "fn(other: Vector3) -> Vector3",
+      "minus": "fn(other: Vector3) -> Vector3",
+      "minusAssign": "fn(other: Vector3) -> Vector3",
+      "multiply": "fn(scalar: number) -> Vector3",
+      "multiplyAssign": "fn(scalar: number) -> Vector3",
+      "divide": "fn(scalar: number) -> Vector3",
+      "divideAssign": "fn(scalar: number) -> Vector3",
+      "isEqualTo": "fn(other: Vector3) -> bool",
+      "angleTo": "fn(other: Vector3) -> number",
+      "cross": "fn(other: Vector3) -> Vector3",
+      "distanceTo": "fn(other: Vector3) -> number",
+      "dot": "fn(other: Vector3) -> number",
+      "isValid": "fn() -> bool",
+      "magnitude": "fn() -> number",
+      "magnitudeSquared": "fn() -> number",
+      "normalized": "fn() -> Vector3",
+      "pitch": "number",
+      "yaw": "number",
+      "roll": "number"
+    }
+  },
+  "!name": "LeapMotionTS.d.ts"
+}

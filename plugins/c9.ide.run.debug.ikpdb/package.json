@@ -1,7 +1,7 @@
 {
   "name": "inouk.ikpdb",
   "description": "IKPdb Python debugger plugin for Cloud9 IDE",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Cyril MORISSE, Audaxis",
   "contributors": [
     {"name": "Cyril MORISSE", "email": "cmorisse@boxes3.net"}

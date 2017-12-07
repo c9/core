@@ -1,0 +1,31 @@
+{
+  "FileSaver": {
+    "abort": "fn()",
+    "INIT": "number",
+    "WRITING": "number",
+    "DONE": "number",
+    "readyState": "number",
+    "error": "DOMError",
+    "onwritestart": "Function",
+    "onprogress": "Function",
+    "onwrite": "Function",
+    "onabort": "Function",
+    "onerror": "Function",
+    "onwriteend": "Function"
+  },
+  "FileWriter": {
+    "position": "number",
+    "length": "number",
+    "write": "fn(data: Blob)",
+    "seek": "fn(offset: number)",
+    "truncate": "fn(size: number)"
+  },
+  "FileWriterSync": {
+    "position": "number",
+    "length": "number",
+    "write": "fn(data: Blob)",
+    "seek": "fn(offset: number)",
+    "truncate": "fn(size: number)"
+  },
+  "!name": "filewriter.d.ts"
+}

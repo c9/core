@@ -1,0 +1,35 @@
+{
+  "http-string-parser": {
+    "ParseRequestResult": {
+      "method": "string",
+      "uri": "string",
+      "headers": {},
+      "body": "string"
+    },
+    "ParseResponseResult": {
+      "statusCode": "string",
+      "statusMessage": "string",
+      "headers": {},
+      "body": "string"
+    },
+    "ParseRequestLineResult": {
+      "method": "string",
+      "uri": "string",
+      "protocol": "string"
+    },
+    "ParseStatusLineResult": {
+      "protocol": "string",
+      "statusCode": "string",
+      "statusMessage": "string"
+    },
+    "parseRequest": "fn(requestString: string) -> ParseRequestResult",
+    "parseResponse": "fn(responseString: string) -> ParseResponseResult",
+    "parseRequestLine": "fn(requestLineString: string) -> ParseRequestLineResult",
+    "parseStatusLine": "fn(statusLine: string) -> ParseStatusLineResult",
+    "parseHeaders": "fn(headerLines: [string]) -> ret"
+  },
+  "!name": "http-string-parser",
+  "!define": {
+    "ret": {}
+  }
+}

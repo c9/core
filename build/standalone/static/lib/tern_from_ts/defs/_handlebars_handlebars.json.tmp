@@ -1,0 +1,182 @@
+{
+  "Handlebars": {
+    "registerHelper": "fn(name: string, fn: Function, inverse?: bool)",
+    "registerPartial": "fn(name: string, str: ?)",
+    "unregisterHelper": "fn(name: string)",
+    "unregisterPartial": "fn(name: string)",
+    "K": "fn()",
+    "createFrame": "fn(object: ?) -> ?",
+    "Exception": "fn(message: string)",
+    "log": "fn(level: number, obj: ?)",
+    "parse": "fn(input: string) -> hbs.AST.Program",
+    "compile": "fn(input: ?, options?: ?) -> HandlebarsTemplateDelegate",
+    "SafeString": "hbs.SafeString",
+    "Utils": "hbs.Utils",
+    "logger": "Logger",
+    "templates": "HandlebarsTemplates",
+    "helpers": "?",
+    "AST": {
+      "helpers": "hbs.AST.helpers"
+    },
+    "ICompiler": {
+      "accept": "fn(node: hbs.AST.Node)",
+      "Program": "fn(program: hbs.AST.Program)",
+      "BlockStatement": "fn(block: hbs.AST.BlockStatement)",
+      "PartialStatement": "fn(partial: hbs.AST.PartialStatement)",
+      "MustacheStatement": "fn(mustache: hbs.AST.MustacheStatement)",
+      "ContentStatement": "fn(content: hbs.AST.ContentStatement)",
+      "CommentStatement": "fn(comment?: hbs.AST.CommentStatement)",
+      "SubExpression": "fn(sexpr: hbs.AST.SubExpression)",
+      "PathExpression": "fn(path: hbs.AST.PathExpression)",
+      "StringLiteral": "fn(str: hbs.AST.StringLiteral)",
+      "NumberLiteral": "fn(num: hbs.AST.NumberLiteral)",
+      "BooleanLiteral": "fn(bool: hbs.AST.BooleanLiteral)",
+      "UndefinedLiteral": "fn()",
+      "NullLiteral": "fn()",
+      "Hash": "fn(hash: hbs.AST.Hash)"
+    },
+    "Visitor": {
+      "prototype": {
+        "accept": "fn(node: hbs.AST.Node)",
+        "acceptKey": "fn(node: hbs.AST.Node, name: string)",
+        "acceptArray": "fn(arr: [hbs.AST.Expression])",
+        "Program": "fn(program: hbs.AST.Program)",
+        "BlockStatement": "fn(block: hbs.AST.BlockStatement)",
+        "PartialStatement": "fn(partial: hbs.AST.PartialStatement)",
+        "MustacheStatement": "fn(mustache: hbs.AST.MustacheStatement)",
+        "ContentStatement": "fn(content: hbs.AST.ContentStatement)",
+        "CommentStatement": "fn(comment?: hbs.AST.CommentStatement)",
+        "SubExpression": "fn(sexpr: hbs.AST.SubExpression)",
+        "PathExpression": "fn(path: hbs.AST.PathExpression)",
+        "StringLiteral": "fn(str: hbs.AST.StringLiteral)",
+        "NumberLiteral": "fn(num: hbs.AST.NumberLiteral)",
+        "BooleanLiteral": "fn(bool: hbs.AST.BooleanLiteral)",
+        "UndefinedLiteral": "fn()",
+        "NullLiteral": "fn()",
+        "Hash": "fn(hash: hbs.AST.Hash)"
+      }
+    }
+  },
+  "HandlebarsTemplatable": {
+    "template": "HandlebarsTemplateDelegate"
+  },
+  "HandlebarsTemplateDelegate": {},
+  "HandlebarsTemplates": {},
+  "hbs": {
+    "SafeString": {
+      "!type": "fn(str: string)",
+      "prototype": {}
+    },
+    "Utils": {
+      "escapeExpression": "fn(str: string) -> string"
+    },
+    "AST": {
+      "Node": {
+        "type": "string",
+        "loc": "SourceLocation"
+      },
+      "SourceLocation": {
+        "source": "string",
+        "start": "Position",
+        "end": "Position"
+      },
+      "Position": {
+        "line": "number",
+        "column": "number"
+      },
+      "Program": {
+        "body": "[Statement]",
+        "blockParams": "[string]"
+      },
+      "Statement": {},
+      "MustacheStatement": {
+        "path": "PathExpression",
+        "Literal": "?",
+        "params": "[Expression]",
+        "hash": "Hash",
+        "escaped": "bool",
+        "strip": "StripFlags"
+      },
+      "BlockStatement": {
+        "path": "PathExpression",
+        "params": "[Expression]",
+        "hash": "Hash",
+        "program": "Program",
+        "inverse": "Program",
+        "openStrip": "StripFlags",
+        "inverseStrip": "StripFlags",
+        "closeStrip": "StripFlags"
+      },
+      "PartialStatement": {
+        "name": "PathExpression",
+        "SubExpression": "?",
+        "params": "[Expression]",
+        "hash": "Hash",
+        "indent": "string",
+        "strip": "StripFlags"
+      },
+      "ContentStatement": {
+        "value": "string",
+        "original": "StripFlags"
+      },
+      "CommentStatement": {
+        "value": "string",
+        "strip": "StripFlags"
+      },
+      "Expression": {},
+      "SubExpression": {
+        "path": "PathExpression",
+        "params": "[Expression]",
+        "hash": "Hash"
+      },
+      "PathExpression": {
+        "data": "bool",
+        "depth": "number",
+        "parts": "[string]",
+        "original": "string"
+      },
+      "Literal": {},
+      "StringLiteral": {
+        "value": "string",
+        "original": "string"
+      },
+      "BooleanLiteral": {
+        "value": "bool",
+        "original": "bool"
+      },
+      "NumberLiteral": {
+        "value": "number",
+        "original": "number"
+      },
+      "UndefinedLiteral": {},
+      "NullLiteral": {},
+      "Hash": {
+        "pairs": "[HashPair]"
+      },
+      "HashPair": {
+        "key": "string",
+        "value": "Expression"
+      },
+      "StripFlags": {
+        "open": "bool",
+        "close": "bool"
+      },
+      "helpers": {
+        "helperExpression": "fn(node: Node) -> bool",
+        "scopeId": "fn(path: PathExpression) -> bool",
+        "simpleId": "fn(path: PathExpression) -> bool"
+      }
+    }
+  },
+  "Logger": {
+    "DEBUG": "number",
+    "INFO": "number",
+    "WARN": "number",
+    "ERROR": "number",
+    "level": "number",
+    "methodMap": {},
+    "log": "fn(level: number, obj: string)"
+  },
+  "handlebars": "Handlebars",
+  "!name": "handlebars.d.ts"
+}

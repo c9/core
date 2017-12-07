@@ -1,0 +1,32 @@
+{
+  "jasmine": {
+    "Matchers": {
+      "toBeArray": "fn() -> bool",
+      "toBeCloseToOneOf": "fn(values: [?], isCloseToFunction: fn(actual: number, expected: number)) -> bool",
+      "toBeInstanceOf": "fn(Constructor: Function) -> bool",
+      "toBeInRange": "fn(min: number, max: number) -> bool",
+      "toBeNan": "fn() -> bool",
+      "toBeNumber": "fn() -> bool",
+      "toBeOfType": "fn(type: string) -> bool",
+      "toBeOneOf": "fn(values: [?]) -> bool",
+      "toContainOnce": "fn(value: ?) -> bool",
+      "toHaveBeenCalledXTimes": "fn(count: number) -> bool",
+      "toHaveLength": "fn(length: number) -> bool",
+      "toHaveOwnProperties": "fn(names: [string]) -> bool",
+      "toHaveOwnPropertiesWithValues": "fn(obj: Object) -> bool",
+      "toHaveProperties": "fn(names: [string]) -> bool",
+      "toHavePropertiesWithValues": "fn(obj: Object) -> bool",
+      "toExactlyHaveProperties": "fn(names: [string]) -> bool",
+      "toStartWith": "fn(value: ?) -> bool",
+      "toEndWith": "fn(value: ?) -> bool",
+      "toEachStartWith": "fn(searchString: string) -> bool",
+      "toSomeStartWith": "fn(searchString: string) -> bool",
+      "toEachEndWith": "fn(searchString: string) -> bool",
+      "toSomeEndWith": "fn(searchString: string) -> bool",
+      "toStartWithEither": "fn(searchString: [?]) -> bool",
+      "toThrowInstanceOf": "fn(klass: Function) -> bool",
+      "toThrowStartsWith": "fn(text: string) -> bool"
+    }
+  },
+  "!name": "jasmine-matchers.d.ts"
+}

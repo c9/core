@@ -1,0 +1,17 @@
+"use strict";
+require("./support/paths");
+
+var assert = require("assert");
+//var module = require("./module");
+
+module.exports = {
+    
+    "test untitled 1" : function() {
+        //assert.equal(!true, false);
+    }
+
+};
+
+if (typeof module !== "undefined" && module === require.main) {
+    require("asyncjs").test.testcase(module.exports).exec()
+}

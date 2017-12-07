@@ -1,0 +1,85 @@
+{
+  "Quixote": {
+    "createFrame": "fn(options: QuixoteFrameOptions, callback: fn(err: Error, loadedFrame: QFrame)) -> QFrame"
+  },
+  "QFrame": {
+    "reset": "fn()",
+    "remove": "fn()",
+    "get": "fn(selector: string, nickname?: string) -> QElement",
+    "getAll": "fn(selector: string, nickname?: string) -> QElementList",
+    "add": "fn(html: string, nickname?: string) -> QElement",
+    "viewport": "fn() -> QElement",
+    "page": "fn() -> QElement",
+    "body": "fn() -> QElement",
+    "resize": "fn(width: number, height: number)",
+    "scroll": "fn(x: number, y: number)",
+    "getRawScrollPosition": "fn(x: number, y: number) -> Object",
+    "toDomElement": "fn() -> HTMLIFrameElement"
+  },
+  "QElement": {
+    "assert": "fn(expected: ElementDescriptor, message?: string)",
+    "diff": "fn(expected: ElementDescriptor) -> string",
+    "getRawStyle": "fn(property: string) -> string",
+    "getRawPosition": "fn() -> RawPositionObject",
+    "toDomElement": "fn() -> HTMLElement"
+  },
+  "QElementList": {
+    "length": "fn() -> number",
+    "at": "fn(index: number, nickname?: string) -> QElement"
+  },
+  "ElementDescriptor": {
+    "top": "PositionDescriptor",
+    "right": "PositionDescriptor",
+    "bottom": "PositionDescriptor",
+    "left": "PositionDescriptor",
+    "center": "PositionDescriptor",
+    "middle": "PositionDescriptor",
+    "width": "SizeDescriptor",
+    "height": "SizeDescriptor"
+  },
+  "ViewportDescriptor": {
+    "top": "PositionDescriptor",
+    "right": "PositionDescriptor",
+    "bottom": "PositionDescriptor",
+    "left": "PositionDescriptor",
+    "center": "PositionDescriptor",
+    "middle": "PositionDescriptor",
+    "width": "SizeDescriptor",
+    "height": "SizeDescriptor"
+  },
+  "PageDescriptor": {
+    "top": "PositionDescriptor",
+    "right": "PositionDescriptor",
+    "bottom": "PositionDescriptor",
+    "left": "PositionDescriptor",
+    "center": "PositionDescriptor",
+    "middle": "PositionDescriptor",
+    "width": "SizeDescriptor",
+    "height": "SizeDescriptor"
+  },
+  "PositionDescriptor": {
+    "plus": "fn(amount: SizeDescriptor) -> PositionDescriptor",
+    "minus": "fn(amount: SizeDescriptor) -> PositionDescriptor"
+  },
+  "SizeDescriptor": {
+    "plus": "fn(amount: SizeDescriptor) -> SizeDescriptor",
+    "minus": "fn(amount: SizeDescriptor) -> SizeDescriptor",
+    "times": "fn(multiple: number) -> SizeDescriptor"
+  },
+  "QuixoteFrameOptions": {
+    "width": "number",
+    "height": "number",
+    "src": "string",
+    "stylesheet": "string"
+  },
+  "RawPositionObject": {
+    "top": "number",
+    "right": "number",
+    "bottom": "number",
+    "left": "number",
+    "width": "number",
+    "height": "number"
+  },
+  "quixote": "Quixote",
+  "!name": "quixote.d.ts"
+}

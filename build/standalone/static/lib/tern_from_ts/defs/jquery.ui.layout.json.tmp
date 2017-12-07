@@ -1,0 +1,31 @@
+{
+  "JQueryLayoutOptions": {
+    "north": "?",
+    "east": "?",
+    "south": "?",
+    "west": "?"
+  },
+  "JQueryLayout": {
+    "panes": "?",
+    "options": "JQueryLayoutOptions",
+    "state": "?",
+    "toggle": "fn(pane: ?) -> ?",
+    "open": "fn(pane: ?) -> ?",
+    "close": "fn(pane: ?) -> ?",
+    "show": "fn(pane: ?, openPane?: bool) -> ?",
+    "hide": "fn(pane: ?) -> ?",
+    "sizePane": "fn(pane: ?, sizeInPixels: number) -> ?",
+    "resizeContent": "fn(pane: ?) -> ?",
+    "resizeAll": "fn() -> ?",
+    "addToggleBtn": "fn(selector: string, pane: ?) -> ?",
+    "addCloseBtn": "fn(selector: string, pane: ?) -> ?",
+    "addOpenBtn": "fn(selector: string, pane: ?) -> ?",
+    "addPinBtn": "fn(selector: string, pane: ?) -> ?",
+    "allowOverflow": "fn(elemOrPane: ?) -> ?",
+    "resetOverflow": "fn(elemOrPane: ?) -> ?"
+  },
+  "JQuery": {
+    "layout": "fn(options?: JQueryLayoutOptions) -> JQueryLayout"
+  },
+  "!name": "jquery.ui.layout.d.ts"
+}

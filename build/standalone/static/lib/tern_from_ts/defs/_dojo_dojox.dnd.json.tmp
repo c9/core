@@ -1,0 +1,61 @@
+{
+  "dojox": {
+    "dnd": {
+      "BoundingBoxController": {
+        "!type": "fn(sources: [dojox.dnd.Selector], domNode: String)",
+        "prototype": {
+          "boundingBoxIsViable": "fn(evt: Object) -> bool",
+          "destroy": "fn()",
+          "shouldStartDrawingBox": "fn(evt: Object) -> bool"
+        }
+      },
+      "Selector": {
+        "!type": "fn(node: HTMLElement, params?: Object)",
+        "prototype": {
+          "allowNested": "bool",
+          "conservative": "bool",
+          "current": "HTMLElement",
+          "map": "Object",
+          "selection": "Object",
+          "singular": "bool",
+          "skipForm": "bool",
+          "clearItems": "fn()",
+          "creator": "fn()",
+          "deleteSelectedNodes": "fn() -> Function",
+          "delItem": "fn(key: String)",
+          "deselectNode": "fn(node: String) -> Function",
+          "destroy": "fn()",
+          "emit": "fn(type: ?, event: ?) -> ?",
+          "forInItems": "fn(f: Function, o: Object) -> String",
+          "forInSelectedItems": "fn(f: Function, o: Object)",
+          "getAllNodes": "fn() -> ?",
+          "getItem": "fn(key: String) -> ?",
+          "getSelectedNodes": "fn() -> ?",
+          "insertNodes": "fn(data: Object, before: bool, anchor: HTMLElement) -> Function",
+          "isSelected": "fn(node: String) -> ?",
+          "markupFactory": "fn(params: ?, node: ?, Ctor: ?) -> ?",
+          "on": "fn(type: ?, listener: ?) -> ?",
+          "selectAll": "fn() -> ?",
+          "selectByBBox": "fn(left: number, top: number, right: number, bottom: number, add: bool) -> Function",
+          "selectNode": "fn(node: String, add: bool) -> Function",
+          "selectNone": "fn() -> ?",
+          "setItem": "fn(key: String, data: ?)",
+          "shift": "fn(toNext: bool, add: bool)",
+          "startup": "fn()",
+          "sync": "fn() -> Function",
+          "onMouseDown": "fn(e: Event)",
+          "onMouseMove": "fn(e: Event)",
+          "onMouseOut": "fn(e: Event)",
+          "onMouseOver": "fn(e: Event)",
+          "onMouseUp": "fn(e: Event)",
+          "onOutEvent": "fn()",
+          "onOverEvent": "fn()",
+          "onSelectStart": "fn(e: Event)"
+        }
+      }
+    }
+  },
+  "dojox/dnd/BoundingBoxController": "exp",
+  "dojox/dnd/Selector": "exp",
+  "!name": "dojox.dnd.d.ts"
+}

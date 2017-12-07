@@ -1,0 +1,20 @@
+{
+  "ngCordova": {
+    "IEmailComposerOptions": {
+      "to": "string",
+      "Array": "fn()",
+      "cc": "string",
+      "bcc": "string",
+      "attachments": "?",
+      "subject": "string",
+      "body": "string",
+      "isHtml": "bool"
+    },
+    "IEmailComposerService": {
+      "isAvailable": "fn() -> ?",
+      "open": "fn(properties: IEmailComposerOptions) -> ?",
+      "addAlias": "fn(app: string, schema: string)"
+    }
+  },
+  "!name": "emailComposer.d.ts"
+}

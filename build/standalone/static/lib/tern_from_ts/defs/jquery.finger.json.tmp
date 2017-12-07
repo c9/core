@@ -1,0 +1,28 @@
+{
+  "JQueryFinger": {
+    "JQueryFingerOptions": {
+      "pressDuration": "number",
+      "doubleTapInterval": "number",
+      "flickDuration": "number",
+      "motionThreshhold": "number",
+      "preventDefault": "bool"
+    }
+  },
+  "JQueryFingerEventObject": {
+    "x": "number",
+    "y": "number",
+    "dx": "number",
+    "dy": "number",
+    "adx": "number",
+    "ady": "number",
+    "orientation": "string",
+    "direction": "number"
+  },
+  "JQuery": {
+    "on": "fn(events: string, handler: fn(eventObject: JQueryFingerEventObject, args: [?])) -> JQuery"
+  },
+  "JQueryStatic": {
+    "Finger": "JQueryFinger.JQueryFingerOptions"
+  },
+  "!name": "jquery.finger.d.ts"
+}

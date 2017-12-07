@@ -1,0 +1,19 @@
+{
+  "script": [
+    "set -e",
+    "make \"$file_base_name\"",
+    "if [ \"$debug\" == true ]; then ",
+        "node $HOME/.c9/bin/c9gdbshim.js \"$file_path/$file_base_name\" $args",
+    "else",
+        "chmod 755 \"$file_path/$file_base_name\"",
+        "\"$file_path/$file_base_name\" $args",
+    "fi"
+  ],
+  "info": "Compiling $file ...",
+
+  "debugger": "gdb",
+  "$debugDefaultState": true,
+
+  "env": {},
+  "selector": "^.*\\.c$"
+}

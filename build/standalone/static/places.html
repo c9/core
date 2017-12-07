@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Cloud9 hub</title>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+</head>
+<body>
+<script>
+var places = {
+    Cloud9: {
+        IDE: ["/ide.html", "?devel=1", "?reset=state", "?reset=settings", "?reset=1", "?noworker=1", "?packed=1", "?collab=0"],
+        VFS: "/vfs",
+        Preview: "/preview",
+        StaticIde: ["/static/ide.html", "/static/ide.offline.html"],
+        Test: "/static/test.html",
+        List_of_tests: "/static/test.html?",
+    },
+    Collab: {
+        main: "/static/plugins/c9.ide.collab/collab_test.html",
+    },
+    Ace: {
+        kitchen_sink: ["/static/lib/ace/kitchen-sink.html", "/../lib/ace/test/tests.html"],
+        tree: "/static/lib/ace_tree/demo.html",
+        list: "/static/lib/ace_tree/list_demo.html",
+        diff: "/static/plugins/c9.ide.scm/diff/index.html"
+    },
+    Treehugger: {
+        test: "/static/lib/treehugger/test.html"
+    },
+    Pivot: {
+        demo6: "/static/lib/pivottable/experiments/demo6.html"
+    },
+    uiLib: {
+        demo: "/static/plugins/c9.ide.ui/lib/test.html"
+    },
+};
+
+var html = [];
+for (var i in places) {
+    var group = places[i];
+    html.push("<div>", "<em>", i,"</em>", "<ul>");
+    for (var j in group) {
+        var path = group[j];
+        if (typeof path === "object") {
+            var subPaths = path.slice(1);
+            path = path[0];
+        }
+        html.push(
+            "<li>",
+            j, ":&nbsp;&nbsp;<a href='", path, "'>", path, "</a>"
+        );
+        if (subPaths) {
+            html.push("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(");
+            subPaths.forEach(function(x, i) {
+                html.push("<a href='", x[0] == "/" ? "" : path, x, "'>", x, "</a>");
+                if (i != subPaths.length - 1)
+                    html.push(",&nbsp;&nbsp;&nbsp;");
+            });
+            html.push(")");
+            subPaths = null;
+        }
+        if (typeof path === "object") {
+            path = group[j];
+        }
+        html.push(
+            "</li>"
+        );
+    }
+    html.push("</ul><div>");
+}
+document.body.innerHTML = html.join("");
+</script>
+</body>
+</html>

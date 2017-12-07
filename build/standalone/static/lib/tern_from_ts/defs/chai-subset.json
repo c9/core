@@ -1,0 +1,9 @@
+{
+  "Chai": {
+    "Assertion": {
+      "containSubset": "fn(obj: Object) -> Assertion"
+    }
+  },
+  "chai-subset": "chaiSubset",
+  "!name": "chai-subset"
+}

@@ -1,0 +1,22 @@
+{
+  "Traceback": {
+    "name": "string",
+    "path": "string",
+    "file": "string",
+    "line": "number",
+    "col": "number",
+    "pos": "number",
+    "fun": "?",
+    "method": "string",
+    "this": "?",
+    "type": "string",
+    "origin": "?",
+    "is_top": "bool",
+    "is_eval": "bool",
+    "is_native": "bool",
+    "is_ctor": "bool"
+  },
+  "TracebackStatic": {},
+  "traceback": "TracebackStatic",
+  "!name": "traceback.d.ts"
+}

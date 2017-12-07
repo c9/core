@@ -1,0 +1,56 @@
+{
+  "Flux": {
+    "Dispatcher": {
+      "!type": "fn()",
+      "prototype": {
+        "register": "fn(callback: fn(payload: TPayload)) -> string",
+        "unregister": "fn(id: string)",
+        "waitFor": "fn(IDs: [string])",
+        "dispatch": "fn(payload: TPayload)",
+        "isDispatching": "fn() -> bool"
+      }
+    }
+  },
+  "flux": "Flux",
+  "FluxUtils": {
+    "Container": {
+      "!type": "fn()",
+      "create": "fn(base: ?, options?: ?) -> ?",
+      "prototype": {}
+    },
+    "MapStore": {
+      "prototype": {
+        "at": "fn(key: K) -> V",
+        "has": "fn(key: K) -> bool",
+        "get": "fn(key: K) -> V",
+        "getAll": "fn(keys: ?, prev?: ?) -> ?"
+      }
+    },
+    "ReduceStore": {
+      "prototype": {
+        "getState": "fn() -> T",
+        "getInitialState": "fn() -> T",
+        "reduce": "fn(state: T, action: ?) -> T",
+        "areEqual": "fn(one: T, two: T) -> bool"
+      }
+    },
+    "Store": {
+      "!type": "fn(dispatcher: ?)",
+      "prototype": {
+        "addListener": "fn(callback: Function) -> ret",
+        "getDispatcher": "fn() -> ?",
+        "getDispatchToken": "fn() -> string",
+        "hasChanged": "fn() -> bool",
+        "__emitChange": "fn()",
+        "__onDispatch": "fn(payload: ?)"
+      }
+    }
+  },
+  "'flux/utils'": "FluxUtils",
+  "!name": "flux.d.ts",
+  "!define": {
+    "ret": {
+      "remove": "Function"
+    }
+  }
+}

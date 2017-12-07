@@ -1,0 +1,275 @@
+{
+  "ProtoBuf": {
+    "Builder": {
+      "Message": "Message",
+      "Service": "Service",
+      "isValidMessage": "fn(def: ?) -> bool",
+      "isValidMessageField": "fn(def: ?) -> bool",
+      "isValidEnum": "fn(def: ?) -> bool",
+      "isValidService": "fn(def: ?) -> bool",
+      "isValidExtend": "fn(def: ?) -> bool",
+      "!type": "Builder"
+    },
+    "ByteBuffer": "Buffer",
+    "Long": {
+      "high": "number",
+      "low": "number",
+      "unsigned": "bool",
+      "add": "fn(other: Long, number: ?, string: ?) -> Long",
+      "and": "fn(other: Long, number: ?, string: ?) -> Long",
+      "compare": "fn(other: Long, number: ?, string: ?) -> number",
+      "div": "fn(divisor: Long, number: ?, string: ?) -> Long",
+      "equals": "fn(other: Long, number: ?, string: ?) -> bool",
+      "getHighBits": "fn() -> number",
+      "getHighBitsUnsigned": "fn() -> number",
+      "getLowBits": "fn() -> number",
+      "getLowBitsUnsigned": "fn() -> number",
+      "getNumBitsAbs": "fn() -> number",
+      "greaterThan": "fn(other: Long, number: ?, string: ?) -> bool",
+      "greaterThanOrEqual": "fn(other: Long, number: ?, string: ?) -> bool",
+      "isEven": "fn() -> bool",
+      "isNegative": "fn() -> bool",
+      "isOdd": "fn() -> bool",
+      "isPositive": "fn() -> bool",
+      "isZero": "fn() -> bool",
+      "lessThan": "fn(other: Long, number: ?, string: ?) -> bool",
+      "lessThanOrEqual": "fn(other: Long, number: ?, string: ?) -> bool",
+      "modulo": "fn(divisor: Long, number: ?, string: ?) -> Long",
+      "multiply": "fn(multiplier: Long, number: ?, string: ?) -> Long",
+      "negate": "fn() -> Long",
+      "not": "fn() -> Long",
+      "notEquals": "fn(other: Long, number: ?, string: ?) -> bool",
+      "or": "fn(other: Long, number: ?, string: ?) -> Long",
+      "shiftLeft": "fn(numBits: number, Long: ?) -> Long",
+      "shiftRight": "fn(numBits: number, Long: ?) -> Long",
+      "shiftRightUnsigned": "fn(numBits: number, Long: ?) -> Long",
+      "subtract": "fn(other: Long, number: ?, string: ?) -> Long",
+      "toInt": "fn() -> number",
+      "toNumber": "fn() -> number",
+      "toSigned": "fn() -> Long",
+      "toUnsigned": "fn() -> Long",
+      "xor": "fn(other: Long, number: ?, string: ?) -> Long",
+      "!type": "LongStatic"
+    },
+    "DotProto": {
+      "Parser": "Parser",
+      "Tokenizer": "Tokenizer",
+      "!type": "DotProto"
+    },
+    "Reflect": {
+      "T": "ReflectT",
+      "Namespace": "ReflectNamespace",
+      "Message": "ReflectMessage",
+      "Enum": "ReflectEnum",
+      "Extension": "ReflectExtension",
+      "Service": "ReflectService",
+      "!type": "Reflect"
+    },
+    "loadJson": "fn(json: string, builder?: ProtoBuilder, filename?: string) -> ProtoBuilder",
+    "loadJsonFile": "fn(filename: string, callback?: fn(error: ?, builder: ProtoBuilder), builder?: ProtoBuilder) -> ProtoBuilder",
+    "loadProto": "fn(proto: string, builder?: ProtoBuilder, filename?: string) -> ProtoBuilder",
+    "loadProtoFile": "fn(filePath: string, callback?: fn(error: ?, builder: ProtoBuilder), builder?: ProtoBuilder) -> ProtoBuilder",
+    "newBuilder": "fn(options?: ?) -> ProtoBuilder",
+    "LongStatic": {
+      "MAX_UNSIGNED_VALUE": "Long",
+      "MAX_VALUE": "Long",
+      "MIN_VALUE": "Long",
+      "NEG_ONE": "Long",
+      "ONE": "Long",
+      "UONE": "Long",
+      "UZERO": "Long",
+      "ZERO": "Long",
+      "fromBits": "fn(lowBits: number, highBits: number, unsigned?: bool) -> Long",
+      "fromInt": "fn(value: number, unsigned?: bool) -> Long",
+      "fromNumber": "fn(value: number, unsigned?: bool) -> Long",
+      "fromString": "fn(str: string, unsigned?: bool, number: ?, radix?: number) -> Long",
+      "fromValue": "fn(val: Long, number: ?, string: ?) -> Long",
+      "isLong": "fn(obj: ?) -> bool"
+    },
+    "Message": {},
+    "Service": {},
+    "ProtoBuilder": {
+      "ns": "ReflectNamespace",
+      "ptr": "ReflectNamespace",
+      "resolved": "bool",
+      "result": "ProtoBuf",
+      "files": "[string]",
+      "importRoot": "string",
+      "options": {},
+      "syntax": "string",
+      "reset": "fn()",
+      "define": "fn(pkg: string, options?: ?) -> ProtoBuilder",
+      "create": "fn(defs?: [defs]) -> ProtoBuilder",
+      "resolveAll": "fn()",
+      "build": "fn(path?: string) -> ProtoBuf",
+      "lookup": "fn(path?: string) -> ReflectT"
+    },
+    "ProtoBuf": {},
+    "MetaMessage": {
+      "decode": "fn(buffer?: Buffer, enc?: string) -> Message",
+      "decodeDelimited": "fn(buffer?: Buffer, enc?: string) -> Message",
+      "decode64": "fn(str: string) -> Message",
+      "decodeHex": "fn(str: string) -> Message"
+    },
+    "Parser": {
+      "tn": "Tokenizer",
+      "parse": "fn() -> MetaProto"
+    },
+    "Tokenizer": {
+      "source": "string",
+      "index": "number",
+      "line": "number",
+      "stack": "[string]",
+      "readingString": "bool",
+      "stringEndsWith": "string",
+      "next": "fn() -> string",
+      "peek": "fn() -> string"
+    },
+    "MetaProto": {
+      "package": "string",
+      "messages": "[ProtoMessage]",
+      "enums": "[ProtoEnum]",
+      "imports": "[string]",
+      "options": {},
+      "services": "[ProtoService]"
+    },
+    "ProtoEnum": {
+      "name": "string",
+      "values": "ProtoEnumValue",
+      "options": {}
+    },
+    "ProtoEnumValue": {
+      "name": "string",
+      "id": "string"
+    },
+    "ProtoField": {
+      "rule": "string",
+      "options": {},
+      "type": "string",
+      "name": "string",
+      "id": "number",
+      "oneof": "string"
+    },
+    "ProtoMessage": {
+      "name": "string",
+      "isGroup": "bool",
+      "fields": "[ProtoField]",
+      "enums": "[ProtoEnum]",
+      "messages": "[ProtoMessage]",
+      "options": {},
+      "oneofs": {}
+    },
+    "ProtoRpcService": {
+      "request": "string",
+      "response": "string",
+      "options": {}
+    },
+    "ProtoService": {
+      "name": "string",
+      "rpc": {},
+      "options": {}
+    },
+    "ReflectT": {
+      "builder": "ProtoBuilder",
+      "parent": "ReflectT",
+      "name": "string",
+      "fqn": "fn() -> string"
+    },
+    "ReflectNamespace": {
+      "className": "string",
+      "children": "[ReflectT]",
+      "options": {},
+      "syntax": "string",
+      "getChildren": "fn(type?: ReflectT) -> [ReflectT]",
+      "addChild": "fn(child: ReflectT)",
+      "getChild": "fn(nameOrId?: string, number: ?) -> ReflectT",
+      "resolve": "fn(qn: string, excludeFields?: bool) -> ReflectNamespace",
+      "build": "fn() -> ProtoBuf",
+      "buildOpt": "fn() -> ret",
+      "getOption": "fn(name?: string) -> ?"
+    },
+    "ReflectMessage": {
+      "Field": "ReflectField",
+      "ExtensionField": "ReflectExtensionField",
+      "OneOf": "ReflectOneOf",
+      "extensions": "[number]",
+      "clazz": "fn() -> MetaMessage",
+      "isGroup": "bool",
+      "build": "fn(rebuild?: bool) -> MetaMessage",
+      "any": "?",
+      "encode": "fn(message: Message, buffer: Buffer, noVerify?: bool) -> Buffer",
+      "calculate": "fn(message: Message) -> number",
+      "decode": "fn(buffer: Buffer, length?: number, expectedGroupEndId?: number) -> Message"
+    },
+    "ReflectEnum": {
+      "Value": "ReflectValue",
+      "object": {},
+      "build": "fn() -> ret1"
+    },
+    "ReflectExtension": {
+      "field": "ReflectField"
+    },
+    "ReflectService": {
+      "Method": "ReflectMethod",
+      "RPCMethod": "ReflectRPCMethod",
+      "clazz": "fn() -> Function",
+      "build": "fn(rebuild?: bool) -> Function",
+      "any": "?"
+    },
+    "ReflectField": {
+      "className": "string",
+      "required": "bool",
+      "repeated": "bool",
+      "type": "string",
+      "WireTuple": "?",
+      "resolvedType": "ReflectT",
+      "id": "number",
+      "options": {},
+      "defaultValue": "?",
+      "oneof": "ReflectOneOf",
+      "originalName": "string",
+      "build": "fn() -> ret2",
+      "mkLong": "fn(value: ?, unsigned?: bool) -> number",
+      "verifyValue": "fn(value: ?, skipRepeated?: bool) -> ?",
+      "encode": "fn(value: ?, buffer: Buffer) -> Buffer",
+      "encodeValue": "fn(value: ?, buffer: Buffer) -> Buffer",
+      "calculate": "fn(value: ?) -> number",
+      "calculateValue": "fn(value: ?) -> number",
+      "decode": "fn(wireType: number, buffer: Buffer, skipRepeated?: bool) -> ?"
+    },
+    "WireTuple": {
+      "name": "string",
+      "wireType": "number"
+    },
+    "ReflectExtensionField": {
+      "extension": "ReflectExtension"
+    },
+    "ReflectOneOf": {
+      "fields": "[ReflectField]"
+    },
+    "ReflectValue": {
+      "className": "string",
+      "id": "number"
+    },
+    "ReflectMethod": {
+      "className": "string",
+      "options": {},
+      "buildOpt": "fn() -> ret3"
+    },
+    "ReflectRPCMethod": {
+      "requestName": "string",
+      "responseName": "string",
+      "resolvedRequestType": "ReflectMessage",
+      "resolvedResponseType": "ReflectMessage"
+    }
+  },
+  "protobufjs": "ProtoBuf",
+  "!name": "protobufjs.d.ts",
+  "!define": {
+    "defs": {},
+    "ret": {},
+    "ret1": {},
+    "ret2": {},
+    "ret3": {}
+  }
+}

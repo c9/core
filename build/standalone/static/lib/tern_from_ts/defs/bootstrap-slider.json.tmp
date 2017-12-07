@@ -1,0 +1,56 @@
+{
+  "SliderOptions": {
+    "id": "string",
+    "min": "number",
+    "max": "number",
+    "step": "number",
+    "precision": "number",
+    "orientation": "number",
+    "value": "number",
+    "number": "?",
+    "range": "bool",
+    "selection": "string",
+    "tooltip": "string",
+    "tooltip_split": "bool",
+    "handle": "string",
+    "reversed": "bool",
+    "enabled": "bool",
+    "formatter": "fn(val: number) -> string",
+    "natural_arrow_keys": "bool",
+    "ticks": "[number]",
+    "ticks_positions": "[number]",
+    "ticks_labels": "[string]",
+    "ticks_snap_bounds": "number",
+    "scale": "string",
+    "focus": "bool"
+  },
+  "JQuery": {
+    "slider": "fn(options?: SliderOptions) -> JQuery"
+  },
+  "ChangeValue": {
+    "oldValue": "number",
+    "newValue": "number"
+  },
+  "JQueryEventObject": {
+    "value": "number",
+    "ChangeValue": "?"
+  },
+  "SliderStatics": {
+    "prototype": "Slider"
+  },
+  "Slider": {
+    "getValue": "fn() -> number",
+    "setValue": "fn(newValue: number, triggerSlideEvent?: bool, triggerChangeEvent?: bool)",
+    "destroy": "fn()",
+    "disable": "fn()",
+    "enable": "fn()",
+    "isEnabled": "fn() -> bool",
+    "setAttribute": "fn(attribute: string, value: ?)",
+    "getAttribute": "fn(attribute: string) -> ?",
+    "refresh": "fn()",
+    "relayout": "fn()",
+    "on": {},
+    "!type": "SliderStatics"
+  },
+  "!name": "bootstrap-slider.d.ts"
+}

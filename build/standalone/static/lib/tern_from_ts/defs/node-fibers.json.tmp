@@ -1,0 +1,10 @@
+{
+  "Fiber": {
+    "reset": "fn()",
+    "run": "fn(param?: ?)",
+    "throwInto": "fn(ex: ?)"
+  },
+  "fibers": "Fiber",
+  "fibers/future": "Future",
+  "!name": "node-fibers.d.ts"
+}

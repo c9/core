@@ -1,0 +1,21 @@
+{
+  "jBinary": {
+    "loadData": "fn(source: ?, callback?: fn(error: string, data: ?)) -> ?",
+    "load": "fn(source: ?, typeSet?: ?, callback?: fn(error: string, data: ?)) -> ?",
+    "saveAs": "fn(destination: ?, mimeType?: string, callback?: fn(error: string, data: ?)) -> ?",
+    "toURI": "fn(mimeType?: string) -> ?",
+    "!type": "fn(data: ?)",
+    "prototype": {
+      "read": "fn(type: string, offset?: number) -> ?",
+      "readAll": "fn() -> ?",
+      "write": "fn(type: string, data: ?, offset?: number) -> number",
+      "writeAll": "fn(data: ?) -> number",
+      "tell": "fn() -> number",
+      "seek": "fn(position: number, callback?: fn(prop: jBinary, data: ?)) -> number",
+      "skip": "fn(count: number, callback?: fn(prop: jBinary, data: ?)) -> number",
+      "slice": "fn(start: number, end: number, forceCopy?: bool) -> jBinary",
+      "as": "fn(typeSet: Object, modifyOriginal?: bool) -> jBinary"
+    }
+  },
+  "!name": "jbinary.d.ts"
+}

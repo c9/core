@@ -1,0 +1,26 @@
+{
+  "TouchEvent": {
+    "touches": "TouchList",
+    "targetTouches": "TouchList",
+    "changedTouches": "TouchList",
+    "altKey": "bool",
+    "metaKey": "bool",
+    "ctrlKey": "bool",
+    "shiftKey": "bool"
+  },
+  "TouchList": {
+    "length": "number",
+    "item": "fn(index: number)"
+  },
+  "Touch": {
+    "identifier": "number",
+    "target": "EventTarget",
+    "screenX": "number",
+    "screenY": "number",
+    "clientX": "number",
+    "clientY": "number",
+    "pageX": "number",
+    "pageY": "number"
+  },
+  "!name": "touch-events.d.ts"
+}

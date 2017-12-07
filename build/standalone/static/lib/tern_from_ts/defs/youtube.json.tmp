@@ -1,0 +1,110 @@
+{
+  "YT": {
+    "EventArgs": {
+      "target": "Player",
+      "data": "?"
+    },
+    "EventHandler": {},
+    "Events": {
+      "onReady": "EventHandler",
+      "onPlayback": "EventHandler",
+      "onStateChange": "EventHandler",
+      "onError": "EventHandler"
+    },
+    "ListType": "number",
+    "PlayerVars": {
+      "autohide": "number",
+      "autoplay": "number",
+      "cc_load_policy": "?",
+      "color": "string",
+      "controls": "number",
+      "disablekb": "number",
+      "enablejsapi": "number",
+      "end": "number",
+      "fs": "number",
+      "iv_load_policy": "number",
+      "list": "string",
+      "listType": "ListType",
+      "loop": "number",
+      "modestbranding": "number",
+      "origin": "string",
+      "playerpiid": "string",
+      "playlist": "[string]",
+      "playsinline": "number",
+      "rel": "number",
+      "showinfo": "number",
+      "start": "number",
+      "theme": "string"
+    },
+    "PlayerOptions": {
+      "width": "string",
+      "number": "?",
+      "height": "string",
+      "videoId": "string",
+      "playerVars": "PlayerVars",
+      "events": "Events"
+    },
+    "VideoByIdParams": {
+      "videoId": "string",
+      "startSeconds": "number",
+      "endSeconds": "number",
+      "suggestedQuality": "string"
+    },
+    "VideoByUrlParams": {
+      "mediaContentUrl": "string",
+      "startSeconds": "number",
+      "endSeconds": "number",
+      "suggestedQuality": "string"
+    },
+    "VideoData": {
+      "video_id": "string",
+      "author": "string",
+      "title": "string"
+    },
+    "Player": {
+      "!type": "fn(id: string, playerOptions: PlayerOptions)",
+      "prototype": {
+        "loadVideoById": "fn(videoId: string, startSeconds?: number, suggestedQuality?: string)",
+        "cueVideoById": "fn(videoId: string, startSeconds?: number, suggestedQuality?: string)",
+        "loadVideoByUrl": "fn(mediaContentUrl: string, startSeconds?: number, suggestedQuality?: string)",
+        "cueVideoByUrl": "fn(mediaContentUrl: string, startSeconds?: number, suggestedQuality?: string)",
+        "size": "?",
+        "playVideo": "fn()",
+        "pauseVideo": "fn()",
+        "stopVideo": "fn()",
+        "seekTo": "fn(seconds: number, allowSeekAhead: bool)",
+        "clearVideo": "fn()",
+        "nextVideo": "fn()",
+        "previousVideo": "fn()",
+        "playVideoAt": "fn(index: number)",
+        "mute": "fn()",
+        "unMute": "fn()",
+        "isMuted": "fn() -> bool",
+        "setVolume": "fn(volume: number)",
+        "getVolume": "fn() -> number",
+        "setSize": "fn(width: number, height: number) -> ?",
+        "getPlaybackRate": "fn() -> number",
+        "setPlaybackRate": "fn(suggestedRate: number)",
+        "getAvailablePlaybackRates": "fn() -> [number]",
+        "setLoop": "fn(loopPlaylists: bool)",
+        "setShuffle": "fn(shufflePlaylist: bool)",
+        "getVideoLoadedFraction": "fn() -> number",
+        "getPlayerState": "fn() -> number",
+        "getCurrentTime": "fn() -> number",
+        "getVideoStartBytes": "fn() -> number",
+        "getVideoBytesLoaded": "fn() -> number",
+        "getVideoBytesTotal": "fn() -> number",
+        "getDuration": "fn() -> number",
+        "getVideoUrl": "fn() -> string",
+        "getVideoEmbedCode": "fn() -> string",
+        "getVideoData": "fn() -> VideoData",
+        "getPlaylist": "fn() -> [?]",
+        "getPlaylistIndex": "fn() -> number",
+        "addEventListener": "fn(event: string, handler: EventHandler)",
+        "destroy": "fn()"
+      }
+    },
+    "PlayerState": "number"
+  },
+  "!name": "youtube.d.ts"
+}

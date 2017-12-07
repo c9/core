@@ -1,0 +1,43 @@
+{
+  "ZSchema": {
+    "Options": {
+      "asyncTimeout": "number",
+      "forceAdditional": "bool",
+      "assumeAdditional": "bool",
+      "forceItems": "bool",
+      "forceMinItems": "bool",
+      "forceMaxItems": "bool",
+      "forceMinLength": "bool",
+      "forceMaxLength": "bool",
+      "forceProperties": "bool",
+      "ignoreUnresolvableReferences": "bool",
+      "noExtraKeywords": "bool",
+      "noTypeless": "bool",
+      "noEmptyStrings": "bool",
+      "noEmptyArrays": "bool",
+      "strictUris": "bool",
+      "strictMode": "bool",
+      "reportPathAsArray": "bool",
+      "breakOnFirstError": "bool",
+      "pedanticCheck": "bool",
+      "ignoreUnknownFormats": "bool"
+    },
+    "SchemaError": {
+      "code": "string",
+      "description": "string",
+      "message": "string",
+      "params": "[string]",
+      "path": "string"
+    },
+    "Validator": {
+      "!type": "fn(options: Options)",
+      "prototype": {
+        "validate": "fn(json: ?, schema: ?) -> bool",
+        "getLastError": "fn() -> SchemaError",
+        "getLastErrors": "fn() -> [SchemaError]"
+      }
+    }
+  },
+  "z-schema": "ZSchema",
+  "!name": "z-schema"
+}

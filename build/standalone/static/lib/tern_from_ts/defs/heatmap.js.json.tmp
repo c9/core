@@ -1,0 +1,31 @@
+{
+  "HeatmapConfiguration": {
+    "backgroundColor": "string",
+    "blur": "number",
+    "gradient": "?",
+    "latField": "string",
+    "lngField": "string",
+    "maxOpacity": "number",
+    "minOpacity": "number",
+    "opacity": "number",
+    "radius": "number",
+    "scaleRadius": "bool",
+    "useLocalExtrema": "bool",
+    "valueField": "string"
+  },
+  "HeatmapDataPoint": {},
+  "HeatmapData": {
+    "data": "[HeatmapDataPoint]",
+    "max": "number",
+    "min": "number"
+  },
+  "HeatmapOverlay": {
+    "!type": "fn(configuration: HeatmapConfiguration)",
+    "prototype": {
+      "onAdd": "fn(map: L.Map)",
+      "onRemove": "fn(map: L.Map)",
+      "setData": "fn(data: HeatmapData)"
+    }
+  },
+  "!name": "heatmap.d.ts"
+}

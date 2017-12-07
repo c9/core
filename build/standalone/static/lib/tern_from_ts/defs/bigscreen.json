@@ -1,0 +1,16 @@
+{
+  "BigScreenStatic": {
+    "element": "Element",
+    "enabled": "bool",
+    "exit": "fn()",
+    "onchange": "fn(element: Element)",
+    "onenter": "fn(element: Element)",
+    "onerror": "fn(element: Element, reason: string)",
+    "onexit": "fn()",
+    "request": "fn(element: Element, onEnter?: fn(element: Element), onExit?: fn(), onError?: fn(element: Element, reason: string))",
+    "toggle": "fn(element: Element, onEnter?: fn(element: Element), onExit?: fn(), onError?: fn(element: Element, reason: string))",
+    "videoEnabled": "fn(video: HTMLVideoElement) -> bool"
+  },
+  "bigscreen": "BigScreenStatic",
+  "!name": "bigscreen"
+}

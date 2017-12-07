@@ -1,0 +1,79 @@
+{
+  "smoothie": {
+    "ITimeSeriesOptions": {
+      "resetBounds": "bool",
+      "resetBoundsInterval": "number"
+    },
+    "ITimeSeriesPresentationOptions": {
+      "strokeStyle": "string",
+      "fillStyle": "string",
+      "lineWidth": "number"
+    },
+    "TimeSeries": {
+      "!type": "fn(options?: ITimeSeriesOptions)",
+      "prototype": {
+        "clear": "fn()",
+        "resetBounds": "fn()",
+        "append": "fn(timestamp: number, value: number, sumRepeatedTimeStampValues?: bool)",
+        "dropOldData": "fn(oldestValidTime: number, maxDataSetLength: number)"
+      }
+    },
+    "IGridOptions": {
+      "fillStyle": "string",
+      "lineWidth": "number",
+      "strokeStyle": "string",
+      "millisPerLine": "number",
+      "sharpLines": "bool",
+      "verticalSections": "number",
+      "borderVisible": "bool"
+    },
+    "ILabelOptions": {
+      "disabled": "bool",
+      "fillStyle": "string",
+      "fontSize": "number",
+      "fontFamily": "string",
+      "precision": "number"
+    },
+    "IRange": {
+      "min": "number",
+      "max": "number"
+    },
+    "IHorizontalLine": {
+      "value": "number",
+      "color": "string",
+      "lineWidth": "number"
+    },
+    "IChartOptions": {
+      "minValue": "number",
+      "maxValue": "number",
+      "maxValueScale": "number",
+      "yRangeFunction": "fn(range: IRange)",
+      "scaleSmoothing": "number",
+      "millisPerPixel": "number",
+      "enableDpiScaling": "bool",
+      "yMinFormatter": "fn(min: number, precision: number)",
+      "yMaxFormatter": "fn(max: number, precision: number)",
+      "maxDataSetLength": "number",
+      "interpolation": "string",
+      "timestampFormatter": "fn(date: Date)",
+      "horizontalLines": "[IHorizontalLine]",
+      "grid": "IGridOptions",
+      "labels": "ILabelOptions"
+    },
+    "SmoothieChart": {
+      "!type": "fn(chartOptions?: IChartOptions)",
+      "prototype": {
+        "addTimeSeries": "fn(series: TimeSeries, seriesOptions?: ITimeSeriesPresentationOptions)",
+        "removeTimeSeries": "fn(series: TimeSeries)",
+        "getTimeSeriesOptions": "fn(timeSeries: TimeSeries) -> ITimeSeriesPresentationOptions",
+        "bringToFront": "fn(timeSeries: TimeSeries)",
+        "streamTo": "fn(canvas: HTMLCanvasElement, delayMillis?: number)",
+        "start": "fn()",
+        "stop": "fn()",
+        "updateValueRange": "fn()",
+        "render": "fn(canvas?: HTMLCanvasElement, time?: number)"
+      }
+    }
+  },
+  "!name": "smoothie.d.ts"
+}

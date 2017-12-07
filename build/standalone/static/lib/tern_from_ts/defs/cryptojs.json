@@ -1,0 +1,330 @@
+{
+  "CryptoJS": {
+    "lib": {
+      "Base": {
+        "extend": "fn(overrides: Object) -> Object",
+        "init": "fn(args: [?])",
+        "create": "fn(args: [?]) -> Base",
+        "mixIn": "fn(properties: Object)",
+        "clone": "fn() -> Base"
+      },
+      "WordArray": {
+        "words": "[number]",
+        "sigBytes": "number",
+        "init": "fn(words?: [number], sigBytes?: number)",
+        "create": "fn(words?: [number], sigBytes?: number) -> WordArray",
+        "concat": "fn(wordArray: WordArray) -> WordArray",
+        "clamp": "fn()",
+        "clone": "fn() -> WordArray",
+        "random": "fn(nBytes: number) -> WordArray"
+      },
+      "BufferedBlockAlgorithm": {
+        "reset": "fn()",
+        "clone": "fn() -> BufferedBlockAlgorithm"
+      },
+      "IHasher": {
+        "cfg": "C",
+        "init": "fn(cfg?: C)",
+        "create": "fn(cfg?: C) -> ?",
+        "update": "fn(messageUpdate: string) -> Hasher",
+        "finalize": "fn(messageUpdate?: string) -> WordArray",
+        "blockSize": "number",
+        "_createHelper": "fn(hasher: Hasher) -> ?",
+        "_createHmacHelper": "fn(hasher: Hasher) -> IHasherHmacHelper",
+        "clone": "fn() -> ?"
+      },
+      "Hasher": {},
+      "IHasherHelper": {},
+      "HasherHelper": {},
+      "IHasherHmacHelper": {},
+      "ICipher": {
+        "cfg": "C",
+        "createEncryptor": "fn(key: WordArray, cfg?: C) -> ?",
+        "createDecryptor": "fn(key: WordArray, cfg?: C) -> ?",
+        "create": "fn(xformMode?: number, key?: WordArray, cfg?: C) -> ?",
+        "init": "fn(xformMode?: number, key?: WordArray, cfg?: C)",
+        "process": "fn(dataUpdate: string) -> WordArray",
+        "finalize": "fn(dataUpdate?: string) -> WordArray",
+        "keySize": "number",
+        "ivSize": "number",
+        "_createHelper": "fn(cipher: Cipher) -> ?",
+        "clone": "fn() -> ?"
+      },
+      "Cipher": {},
+      "IStreamCipher": {
+        "drop": "number",
+        "createEncryptor": "fn(key: WordArray, cfg?: C) -> ?",
+        "createDecryptor": "fn(key: WordArray, cfg?: C) -> ?",
+        "create": "fn(xformMode?: number, key?: WordArray, cfg?: C) -> ?",
+        "blockSize": "number"
+      },
+      "StreamCipher": {},
+      "BlockCipherMode": {
+        "createEncryptor": "fn(cipher: Cipher, iv: [number]) -> mode.IBlockCipherEncryptor",
+        "createDecryptor": "fn(cipher: Cipher, iv: [number]) -> mode.IBlockCipherDecryptor",
+        "init": "fn(cipher?: Cipher, iv?: [number])",
+        "create": "fn(cipher?: Cipher, iv?: [number]) -> BlockCipherMode"
+      },
+      "BlockCipher": {},
+      "IBlockCipherCfg": {
+        "iv": "WordArray",
+        "mode": "mode.IBlockCipherModeImpl",
+        "padding": "pad.IPaddingImpl"
+      },
+      "CipherParamsData": {
+        "ciphertext": "lib.WordArray",
+        "key": "lib.WordArray",
+        "iv": "lib.WordArray",
+        "salt": "lib.WordArray",
+        "algorithm": "Cipher",
+        "mode": "mode.IBlockCipherModeImpl",
+        "padding": "pad.IPaddingImpl",
+        "blockSize": "number",
+        "formatter": "format.IFormatter"
+      },
+      "CipherParams": {
+        "init": "fn(cipherParams?: CipherParamsData)",
+        "create": "fn(cipherParams?: CipherParamsData) -> CipherParams"
+      },
+      "ISerializableCipher": {
+        "cfg": "C",
+        "encrypt": "fn(cipher: Cipher, message: WordArray, key: WordArray, cfg?: C) -> CipherParams",
+        "decrypt": "fn(cipher: Cipher, ciphertext: CipherParamsData, key: WordArray, cfg?: C) -> WordArray"
+      },
+      "SerializableCipher": {},
+      "ISerializableCipherCfg": {
+        "format": "format.IFormatter",
+        "iv": "WordArray",
+        "mode": "mode.IBlockCipherModeImpl",
+        "padding": "pad.IPaddingImpl"
+      },
+      "IPasswordBasedCipher": {
+        "cfg": "C",
+        "encrypt": "fn(cipher: Cipher, message: WordArray, password: string, cfg?: C) -> CipherParams",
+        "decrypt": "fn(cipher: Cipher, ciphertext: CipherParamsData, password: string, cfg?: C) -> WordArray"
+      },
+      "PasswordBasedCipher": {},
+      "IPasswordBasedCipherCfg": {
+        "kdf": "kdf.IKdfImpl",
+        "mode": "mode.IBlockCipherModeImpl",
+        "padding": "pad.IPaddingImpl"
+      },
+      "ICipherHelper": {
+        "encrypt": "fn(message: string, password: string, cfg?: C) -> CipherParams",
+        "decrypt": "fn(ciphertext: string, password: string, cfg?: C) -> WordArray"
+      },
+      "CipherHelper": {},
+      "LibStatic": {
+        "Base": "lib.Base",
+        "WordArray": "lib.WordArray",
+        "CipherParams": "lib.CipherParams",
+        "SerializableCipher": "lib.SerializableCipher",
+        "PasswordBasedCipher": "lib.PasswordBasedCipher"
+      }
+    },
+    "enc": {
+      "IEncoder": {
+        "stringify": "fn(wordArray: lib.WordArray) -> string"
+      },
+      "IDecoder": {
+        "parse": "fn(s: string) -> lib.WordArray"
+      },
+      "ICoder": {},
+      "EncStatic": {
+        "Hex": "ICoder",
+        "Latin1": "ICoder",
+        "Utf8": "ICoder",
+        "Base64": "ICoder",
+        "Utf16": "ICoder",
+        "Utf16BE": "ICoder",
+        "Utf16LE": "ICoder"
+      }
+    },
+    "kdf": {
+      "KdfStatic": {
+        "OpenSSL": "IKdfImpl"
+      },
+      "IKdfImpl": {
+        "execute": "fn(password: string, keySize: number, ivSize: number, salt?: string) -> lib.CipherParams"
+      }
+    },
+    "format": {
+      "FormatStatic": {
+        "OpenSSL": "IFormatter",
+        "Hex": "IFormatter"
+      },
+      "IFormatter": {
+        "stringify": "fn(cipherParams: lib.CipherParamsData) -> string",
+        "parse": "fn(s: string) -> lib.CipherParams"
+      }
+    },
+    "algo": {
+      "AlgoStatic": {
+        "AES": "algo.AES",
+        "DES": "algo.DES",
+        "TripleDES": "algo.TripleDES",
+        "RabbitLegacy": "algo.RabbitLegacy",
+        "Rabbit": "algo.Rabbit",
+        "RC4": "algo.RC4",
+        "MD5": "algo.MD5",
+        "RIPEMD160": "algo.RIPEMD160",
+        "SHA1": "algo.SHA1",
+        "SHA256": "algo.SHA256",
+        "SHA224": "algo.SHA224",
+        "SHA384": "algo.SHA384",
+        "SHA512": "algo.SHA512",
+        "SHA3": "algo.SHA3",
+        "HMAC": "algo.HMAC",
+        "EvpKDF": "algo.EvpKDF",
+        "PBKDF2": "algo.PBKDF2",
+        "RC4Drop": "algo.RC4Drop"
+      },
+      "IBlockCipherImpl": {
+        "encryptBlock": "fn(M: [number], offset: number)",
+        "decryptBlock": "fn(M: [number], offset: number)",
+        "createEncryptor": "fn(key: lib.WordArray, cfg?: lib.CipherParamsData) -> IBlockCipherImpl",
+        "createDecryptor": "fn(key: lib.WordArray, cfg?: lib.CipherParamsData) -> IBlockCipherImpl",
+        "create": "fn(xformMode?: number, key?: lib.WordArray, cfg?: lib.IBlockCipherCfg) -> IBlockCipherImpl"
+      },
+      "AES": {},
+      "DES": {},
+      "TripleDES": {},
+      "RabbitLegacy": {},
+      "Rabbit": {},
+      "RC4": {},
+      "MD5": {},
+      "RIPEMD160": {},
+      "SHA1": {},
+      "SHA256": {},
+      "SHA224": {},
+      "SHA384": {},
+      "SHA512": {},
+      "SHA3": {},
+      "ISHA3Cfg": {
+        "outputLength": "number"
+      },
+      "HMAC": {
+        "init": "fn(hasher?: lib.Hasher, key?: string)",
+        "create": "fn(hasher?: lib.Hasher, key?: string) -> HMAC",
+        "update": "fn(messageUpdate: string) -> HMAC",
+        "finalize": "fn(messageUpdate?: string) -> lib.WordArray"
+      },
+      "EvpKDF": {
+        "cfg": "IEvpKDFCfg",
+        "init": "fn(cfg?: IEvpKDFCfg)",
+        "create": "fn(cfg?: IEvpKDFCfg) -> EvpKDF",
+        "compute": "fn(password: string, salt: string) -> lib.WordArray"
+      },
+      "IEvpKDFCfg": {
+        "keySize": "number",
+        "hasher": "lib.Hasher",
+        "iterations": "number"
+      },
+      "IEvpKDFHelper": {},
+      "PBKDF2": {},
+      "RC4Drop": {}
+    },
+    "mode": {
+      "ModeStatic": {
+        "CBC": "mode.CBC",
+        "CFB": "mode.CFB",
+        "CTR": "mode.CTR",
+        "CTRGladman": "mode.CTRGladman",
+        "ECB": "mode.ECB",
+        "OFB": "mode.OFB"
+      },
+      "IBlockCipherEncryptor": {
+        "processBlock": "fn(words: [number], offset: number)"
+      },
+      "IBlockCipherDecryptor": {
+        "processBlock": "fn(words: [number], offset: number)"
+      },
+      "IBlockCipherModeImpl": {
+        "Encryptor": "IBlockCipherEncryptor",
+        "Decryptor": "IBlockCipherDecryptor"
+      },
+      "CBC": {},
+      "CFB": {},
+      "CTR": {},
+      "CTRGladman": {},
+      "ECB": {},
+      "OFB": {}
+    },
+    "pad": {
+      "PadStatic": {
+        "Pkcs7": "pad.Pkcs7",
+        "AnsiX923": "pad.AnsiX923",
+        "Iso10126": "pad.Iso10126",
+        "Iso97971": "pad.Iso97971",
+        "ZeroPadding": "pad.ZeroPadding",
+        "NoPadding": "pad.NoPadding"
+      },
+      "IPaddingImpl": {
+        "pad": "fn(data: lib.WordArray, blockSize: number)",
+        "unpad": "fn(data: lib.WordArray)"
+      },
+      "Pkcs7": {},
+      "AnsiX923": {},
+      "Iso10126": {},
+      "Iso97971": {},
+      "ZeroPadding": {},
+      "NoPadding": {}
+    },
+    "x64": {
+      "X64Static": {
+        "Word": "x64.Word",
+        "WordArray": "x64.WordArray"
+      },
+      "Word": {
+        "high": "number",
+        "low": "number",
+        "init": "fn(high?: number, low?: number)",
+        "create": "fn(high?: number, low?: number) -> Word"
+      },
+      "WordArray": {
+        "words": "[Word]",
+        "sigBytes": "number",
+        "init": "fn(words?: [Word], sigBytes?: number)",
+        "create": "fn(words?: [Word], sigBytes?: number) -> WordArray",
+        "toX32": "fn() -> lib.WordArray",
+        "clone": "fn() -> WordArray"
+      }
+    },
+    "CryptoJSStatic": {
+      "lib": "lib.LibStatic",
+      "enc": "enc.EncStatic",
+      "kdf": "kdf.KdfStatic",
+      "format": "format.FormatStatic",
+      "algo": "algo.AlgoStatic",
+      "mode": "mode.ModeStatic",
+      "pad": "pad.PadStatic",
+      "x64": "x64.X64Static",
+      "AES": "?",
+      "DES": "?",
+      "TripleDES": "?",
+      "RabbitLegacy": "CryptoJS.lib.CipherHelper",
+      "Rabbit": "CryptoJS.lib.CipherHelper",
+      "RC4": "CryptoJS.lib.CipherHelper",
+      "RC4Drop": "?",
+      "MD5": "CryptoJS.lib.HasherHelper",
+      "HmacMD5": "CryptoJS.lib.IHasherHmacHelper",
+      "RIPEMD160": "CryptoJS.lib.HasherHelper",
+      "HmacRIPEMD160": "CryptoJS.lib.IHasherHmacHelper",
+      "SHA1": "CryptoJS.lib.HasherHelper",
+      "HmacSHA1": "CryptoJS.lib.IHasherHmacHelper",
+      "SHA256": "CryptoJS.lib.HasherHelper",
+      "HmacSHA256": "CryptoJS.lib.IHasherHmacHelper",
+      "SHA224": "CryptoJS.lib.HasherHelper",
+      "HmacSHA224": "CryptoJS.lib.IHasherHmacHelper",
+      "SHA512": "CryptoJS.lib.HasherHelper",
+      "HmacSHA512": "CryptoJS.lib.IHasherHmacHelper",
+      "SHA384": "CryptoJS.lib.HasherHelper",
+      "HmacSHA384": "CryptoJS.lib.IHasherHmacHelper",
+      "SHA3": "?",
+      "HmacSHA3": "CryptoJS.lib.IHasherHmacHelper",
+      "EvpKDF": "CryptoJS.algo.IEvpKDFHelper",
+      "PBKDF2": "CryptoJS.algo.IEvpKDFHelper"
+    }
+  },
+  "!name": "cryptojs"
+}

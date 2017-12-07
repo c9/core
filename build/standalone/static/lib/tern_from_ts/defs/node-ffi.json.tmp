@@ -1,0 +1,26 @@
+{
+  "Buffer": {
+    "address": "fn() -> number",
+    "deref": "fn() -> ?",
+    "isNull": "fn() -> bool",
+    "readCString": "fn(offset?: number) -> string",
+    "readInt64BE": "fn(offset?: number) -> string",
+    "readInt64LE": "fn(offset?: number) -> string",
+    "readObject": "fn(offset?: number) -> string",
+    "readPointer": "fn(offset?: number) -> string",
+    "readUInt64BE": "fn(offset?: number) -> string",
+    "readUInt64LE": "fn(offset?: number) -> string",
+    "ref": "fn() -> Buffer",
+    "reinterpret": "fn(size: number, offset?: number) -> Buffer",
+    "reinterpretUntilZeros": "fn(size: number, offset?: number) -> Buffer",
+    "writeCString": "fn(offset: number, string: string, encoding?: string)",
+    "writeInt64BE": "fn(offset: number, input: number) -> ?",
+    "writeInt64LE": "fn(offset: number, input: number) -> ?",
+    "writeObject": "fn(offset: number, object: Object)",
+    "writePointer": "fn(offset: number, pointer: Buffer)",
+    "writeUInt64BE": "fn(offset: number, input: number) -> ?",
+    "writeUInt64LE": "fn(offset: number, input: number) -> ?",
+    "inspect": "fn() -> string"
+  },
+  "!name": "node-ffi-buffer.d.ts"
+}

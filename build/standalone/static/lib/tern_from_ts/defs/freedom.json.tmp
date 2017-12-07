@@ -1,0 +1,4 @@
+{
+  "freedom": "freedom.FreedomInCoreEnv",
+  "!name": "freedom-core-env.d.ts"
+}

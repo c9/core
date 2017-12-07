@@ -1,0 +1,46 @@
+{
+  "dojox": {
+    "uuid": {
+      "generateRandomUuid": {},
+      "generateTimeBasedUuid": {
+        "getNode": {},
+        "isValidNode": {},
+        "setNode": {}
+      },
+      "Uuid": {
+        "compare": {},
+        "getGenerator": {},
+        "getNode": {},
+        "getTimestamp": {},
+        "getVariant": {},
+        "getVersion": {},
+        "isEqual": {},
+        "isValid": {},
+        "setGenerator": {}
+      },
+      "_base": {
+        "variant": {
+          "DCE": "string",
+          "MICROSOFT": "string",
+          "NCS": "string",
+          "UNKNOWN": "string"
+        },
+        "version": {
+          "DCE_SECURITY": "number",
+          "NAME_BASED_MD5": "number",
+          "NAME_BASED_SHA1": "number",
+          "RANDOM": "number",
+          "TIME_BASED": "number",
+          "UNKNOWN": "number"
+        }
+      }
+    }
+  },
+  "dojox/uuid": "exp",
+  "dojox/uuid/generateRandomUuid": "exp",
+  "dojox/uuid/generateTimeBasedUuid": "exp",
+  "dojox/uuid/Uuid": "exp",
+  "dojox/uuid/_base.variant": "exp",
+  "dojox/uuid/_base.version": "exp",
+  "!name": "dojox.uuid"
+}

@@ -1,0 +1,26 @@
+{
+  "Raven": "RavenStatic",
+  "RavenOptions": {
+    "logger": "string",
+    "ignoreErrors": "[string]",
+    "ignoreUrls": "[RegExp]",
+    "whitelistUrls": "[RegExp]",
+    "includePaths": "[RegExp]",
+    "tags": "?",
+    "extra": "?"
+  },
+  "RavenStatic": {
+    "VERSION": "string",
+    "afterLoad": "fn()",
+    "noConflict": "fn() -> RavenStatic",
+    "config": "fn(dsn: string, options?: RavenOptions) -> RavenStatic",
+    "install": "fn() -> RavenStatic",
+    "context": "fn(func: Function, args: [?])",
+    "wrap": "fn(func: Function) -> Function",
+    "uninstall": "fn() -> RavenStatic",
+    "captureException": "fn(ex: Error, options?: RavenOptions) -> RavenStatic",
+    "captureMessage": "fn(msg: string, options?: RavenOptions) -> RavenStatic",
+    "setUser": "fn(user?: ?) -> RavenStatic"
+  },
+  "!name": "ravenjs.d.ts"
+}

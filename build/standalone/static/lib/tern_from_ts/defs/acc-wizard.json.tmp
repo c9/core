@@ -1,0 +1,25 @@
+{
+  "AccWizardOptions": {
+    "addButtons": "bool",
+    "sidebar": "string",
+    "activeClass": "string",
+    "completedClass": "string",
+    "todoClass": "string",
+    "stepClass": "string",
+    "nextText": "string",
+    "backText": "string",
+    "nextType": "string",
+    "backType": "string",
+    "nextClasses": "string",
+    "backClasses": "string",
+    "autoScrolling": "bool",
+    "onNext": "Function",
+    "onBack": "Function",
+    "onInit": "Function",
+    "onDestroy": "Function"
+  },
+  "JQuery": {
+    "accwizard": "fn(options?: AccWizardOptions)"
+  },
+  "!name": "acc-wizard.d.ts"
+}

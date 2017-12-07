@@ -1,0 +1,6 @@
+{
+  "crypto": {
+    "getRandomValues": "fn(array: ArrayBufferView) -> ArrayBufferView"
+  },
+  "!name": "WebCrypto.d.ts"
+}

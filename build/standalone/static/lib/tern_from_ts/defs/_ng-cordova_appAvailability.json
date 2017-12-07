@@ -1,0 +1,8 @@
+{
+  "ngCordova": {
+    "IAppAvailabilityService": {
+      "check": "fn(urlScheme: string) -> ?"
+    }
+  },
+  "!name": "appAvailability"
+}

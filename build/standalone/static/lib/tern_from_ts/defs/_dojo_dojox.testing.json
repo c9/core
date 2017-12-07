@@ -1,0 +1,18 @@
+{
+  "dojox": {
+    "testing": {
+      "DocTest": {
+        "!type": "fn()",
+        "prototype": {
+          "errors": "[?]",
+          "getTests": "fn(moduleName: String) -> ?",
+          "getTestsFromString": "fn(data: String) -> ?",
+          "run": "fn(moduleName: ?)",
+          "runTest": "fn(commands: ?, expected: ?) -> Object"
+        }
+      }
+    }
+  },
+  "dojox/testing/DocTest": "exp",
+  "!name": "dojox.testing"
+}

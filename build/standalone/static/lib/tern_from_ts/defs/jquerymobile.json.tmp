@@ -1,0 +1,377 @@
+{
+  "JQueryMobileEvent": {},
+  "DialogOptions": {
+    "closeBtn": "string",
+    "closeBtnText": "string",
+    "corners": "bool",
+    "initSelector": "string",
+    "overlayTheme": "string"
+  },
+  "DialogEvents": {
+    "create": "JQueryMobileEvent"
+  },
+  "PopupOptions": {
+    "corners": "bool",
+    "history": "bool",
+    "initSelector": "string",
+    "overlayTheme": "string",
+    "positionTo": "string",
+    "shadow": "bool",
+    "theme": "string",
+    "tolerance": "string",
+    "transition": "string"
+  },
+  "PopupEvents": {
+    "popupbeforeposition": "JQueryMobileEvent",
+    "popupafteropen": "JQueryMobileEvent",
+    "popupafterclose": "JQueryMobileEvent"
+  },
+  "FixedToolbarOptions": {
+    "visibleOnPageShow": "bool",
+    "disablePageZoom": "bool",
+    "transition": "string",
+    "fullscreen": "bool",
+    "tapToggle": "bool",
+    "tapToggleBlacklist": "string",
+    "hideDuringFocus": "string",
+    "updatePagePadding": "bool",
+    "supportBlacklist": "Function",
+    "initSelector": "string"
+  },
+  "FixedToolbarEvents": {
+    "create": "JQueryMobileEvent"
+  },
+  "ButtonOptions": {
+    "corners": "bool",
+    "icon": "string",
+    "iconpos": "string",
+    "iconshadow": "bool",
+    "inline": "bool",
+    "mini": "bool",
+    "shadow": "bool",
+    "theme": "string",
+    "initSelector": "string"
+  },
+  "ButtonEvents": {
+    "create": "JQueryMobileEvent"
+  },
+  "CollapsibleOptions": {
+    "collapsed": "bool",
+    "collapseCueText": "string",
+    "collapsedIcon": "string",
+    "contentTheme": "string",
+    "expandCueText": "string",
+    "expandedIcon": "string",
+    "heading": "string",
+    "iconpos": "string",
+    "initSelector": "string",
+    "inset": "bool",
+    "mini": "bool",
+    "theme": "string"
+  },
+  "CollapsibleEvents": {
+    "create": "JQueryMobileEvent",
+    "collapse": "JQueryMobileEvent",
+    "expand": "JQueryMobileEvent"
+  },
+  "CollapsibleSetOptions": {
+    "collapsedIcon": "string",
+    "expandedIcon": "string",
+    "iconpos": "string",
+    "initSelector": "string",
+    "inset": "bool",
+    "mini": "bool",
+    "theme": "string"
+  },
+  "CollapsibleSetEvents": {
+    "create": "JQueryMobileEvent"
+  },
+  "TextInputOptions": {
+    "clearBtn": "bool",
+    "clearBtnText": "string",
+    "disabled": "bool",
+    "initSelector": "string",
+    "mini": "bool",
+    "preventFocusZoom": "bool",
+    "theme": "string"
+  },
+  "TextInputEvents": {
+    "create": "JQueryMobileEvent"
+  },
+  "SearchInputOptions": {
+    "clearSearchButtonText": "string",
+    "disabled": "bool",
+    "initSelector": "string",
+    "mini": "bool",
+    "theme": "string"
+  },
+  "SliderOptions": {
+    "disabled": "bool",
+    "highlight": "bool",
+    "initSelector": "string",
+    "mini": "bool",
+    "theme": "string",
+    "trackTheme": "string"
+  },
+  "SliderEvents": {
+    "create": "JQueryMobileEvent",
+    "slidestart": "JQueryMobileEvent",
+    "slidestop": "JQueryMobileEvent"
+  },
+  "FlipswitchOptions": {
+    "corners": "bool",
+    "defaults": "bool",
+    "disabled": "bool",
+    "enhanced": "bool",
+    "mini": "bool",
+    "offText": "string",
+    "onText": "string",
+    "theme": "string",
+    "wrapperClass": "string"
+  },
+  "CheckboxRadioOptions": {
+    "mini": "bool",
+    "theme": "string"
+  },
+  "CheckboxRadioEvents": {
+    "create": "JQueryMobileEvent"
+  },
+  "SelectMenuOptions": {
+    "corners": "bool",
+    "icon": "string",
+    "iconpos": "string",
+    "iconshadow": "bool",
+    "initSelector": "string",
+    "inline": "bool",
+    "hidePlaceholderMenuItems": "bool",
+    "mini": "bool",
+    "nativeMenu": "bool",
+    "overlayTheme": "string",
+    "preventFocusZoom": "bool",
+    "shadow": "bool",
+    "theme": "string"
+  },
+  "SelectMenuEvents": {
+    "create": "JQueryMobileEvent"
+  },
+  "ListViewOptions": {
+    "autodividers": "bool",
+    "autodividersSelector": "fn(jq?: JQuery)",
+    "countTheme": "string",
+    "defaults": "bool",
+    "disabled": "bool",
+    "dividerTheme": "string",
+    "filter": "bool",
+    "filterCallback": "Function",
+    "filterPlaceholder": "string",
+    "filterTheme": "string",
+    "headerTheme": "string",
+    "initSelector": "string",
+    "inset": "bool",
+    "splitIcon": "string",
+    "splitTheme": "string",
+    "theme": "string"
+  },
+  "ListViewEvents": {
+    "create": "JQueryMobileEvent"
+  },
+  "FilterableOptions": {
+    "children": "?",
+    "defaults": "bool",
+    "disabled": "bool",
+    "enhanced": "bool",
+    "filterCallback": {},
+    "filterPlaceholder": "string",
+    "filterReveal": "bool",
+    "filterTheme": "string",
+    "input": "?"
+  },
+  "NavbarOptions": {
+    "iconpos": "string"
+  },
+  "ControlgroupOptions": {
+    "corners": "bool",
+    "excludeInvisible": "bool",
+    "mini": "bool",
+    "shadow": "bool",
+    "type": "string"
+  },
+  "JQueryMobileOptions": {
+    "activeBtnClass": "string",
+    "activePageClass": "string",
+    "ajaxEnabled": "bool",
+    "allowCrossDomainPages": "bool",
+    "autoInitializePage": "bool",
+    "buttonMarkup": "?",
+    "defaultDialogTransition": "string",
+    "defaultPageTransition": "string",
+    "getMaxScrollForTransition": "number",
+    "gradeA": "Function",
+    "hashListeningEnabled": "bool",
+    "ignoreContentEnabled": "bool",
+    "linkBindingEnabled": "bool",
+    "loadingMessageTextVisible": "bool",
+    "loadingMessageTheme": "string",
+    "maxTransitionWidth": "number",
+    "minScrollBack": "number",
+    "ns": "number",
+    "pageLoadErrorMessage": "string",
+    "pageLoadErrorMessageTheme": "string",
+    "phonegapNavigationEnabled": "bool",
+    "pushStateEnabled": "bool",
+    "subPageUrlKey": "string",
+    "touchOverflowEnabled": "bool",
+    "transitionFallbacks": "?"
+  },
+  "JQueryMobileEvents": {
+    "tap": "?",
+    "taphold": "?",
+    "swipe": "?",
+    "swipeleft": "?",
+    "swiperight": "?",
+    "vmouseover": "?",
+    "vmouseout": "?",
+    "vmousedown": "?",
+    "vmousemove": "?",
+    "vmouseup": "?",
+    "vclick": "?",
+    "vmousecancel": "?",
+    "orientationchange": "?",
+    "scrollstart": "?",
+    "scrollstop": "?",
+    "pagebeforeload": "?",
+    "pageload": "?",
+    "pageloadfailed": "?",
+    "pagebeforechange": "?",
+    "pagechange": "?",
+    "pagechangefailed": "?",
+    "pagebeforeshow": "?",
+    "pagebeforehide": "?",
+    "pageshow": "?",
+    "pagehide": "?",
+    "pagebeforecreate": "?",
+    "pagecreate": "?",
+    "pageinit": "?",
+    "pageremove": "?",
+    "updatelayout": "?"
+  },
+  "ChangePageOptions": {
+    "allowSamePageTransition": "bool",
+    "changeHash": "bool",
+    "data": "?",
+    "dataUrl": "string",
+    "pageContainer": "JQuery",
+    "reloadPage": "bool",
+    "reverse": "bool",
+    "role": "string",
+    "showLoadMsg": "bool",
+    "transition": "string",
+    "type": "string"
+  },
+  "LoadPageOptions": {
+    "data": "?",
+    "loadMsgDelay": "number",
+    "pageContainer": "JQuery",
+    "reloadPage": "bool",
+    "role": "string",
+    "showLoadMsg": "bool",
+    "type": "string"
+  },
+  "LoaderOptions": {
+    "theme": "string",
+    "textVisible": "bool",
+    "html": "string",
+    "text": "string",
+    "textonly": "bool"
+  },
+  "JQueryMobilePath": {
+    "get": "fn(url: string) -> string",
+    "getDocumentBase": "fn(asParsedObject?: bool) -> ?",
+    "getDocumentUrl": "fn(asParsedObject?: bool) -> ?",
+    "getLocation": "fn() -> string",
+    "isAbsoluteUrl": "fn(url: string) -> bool",
+    "isRelativeUrl": "fn(url: string) -> bool",
+    "makeUrlAbsolute": "fn(relUrl: string, absUrl: string) -> string",
+    "parseLocation": "fn() -> ParsedPath",
+    "parseUrl": "fn(url: string) -> ParsedPath"
+  },
+  "ParsedPath": {
+    "authority": "string",
+    "directory": "string",
+    "domain": "string",
+    "doubleSlash": "string",
+    "filename": "string",
+    "hash": "string",
+    "host": "string",
+    "hostname": "string",
+    "href": "string",
+    "hrefNoHash": "string",
+    "hrefNoSearch": "string",
+    "password": "string",
+    "pathname": "string",
+    "port": "string",
+    "protocol": "string",
+    "search": "string",
+    "username": "string"
+  },
+  "JQueryMobile": {
+    "version": "string",
+    "changePage": "fn(to: ?, options?: ChangePageOptions)",
+    "initializePage": "fn()",
+    "loadPage": "fn(url: ?, options?: LoadPageOptions)",
+    "loading": "fn() -> JQuery",
+    "pageContainer": "?",
+    "base": "?",
+    "silentScroll": "fn(yPos: number)",
+    "activePage": "JQuery",
+    "options": "JQueryMobileOptions",
+    "transitionFallbacks": "?",
+    "loader": "?",
+    "page": "?",
+    "touchOverflow": "?",
+    "showCategory": "?",
+    "path": "JQueryMobilePath",
+    "dialog": "?",
+    "popup": "?",
+    "fixedtoolbar": "?",
+    "button": "?",
+    "collapsible": "?",
+    "collapsibleset": "?",
+    "textinput": "?",
+    "slider": "?",
+    "flipswitch": "?",
+    "checkboxradio": "?",
+    "selectmenu": "?",
+    "listview": "?",
+    "filterable": "?",
+    "defaultHomeScroll": "number"
+  },
+  "JQuerySupport": {
+    "touchOverflow": "?"
+  },
+  "JQuery": {
+    "enhanceWithin": "fn() -> JQuery",
+    "dialog": "fn() -> JQuery",
+    "popup": "fn() -> JQuery",
+    "fixedtoolbar": "fn() -> JQuery",
+    "button": "fn() -> JQuery",
+    "buttonMarkup": "fn(options?: ButtonOptions) -> JQuery",
+    "collapsible": "fn() -> JQuery",
+    "collapsibleSet": "fn() -> JQuery",
+    "collapsibleset": "fn(options: CollapsibleSetOptions) -> JQuery",
+    "textinput": "fn() -> JQuery",
+    "slider": "fn() -> JQuery",
+    "flipswitch": "fn() -> JQuery",
+    "checkboxradio": "fn() -> JQuery",
+    "selectmenu": "fn() -> JQuery",
+    "listview": "fn() -> JQuery",
+    "filterable": "fn() -> JQuery",
+    "navbar": "fn(options?: NavbarOptions) -> JQuery",
+    "table": "fn() -> JQuery",
+    "controlgroup": "fn() -> JQuery"
+  },
+  "JQueryStatic": {
+    "mobile": "JQueryMobile"
+  },
+  "!name": "jquerymobile.d.ts"
+}

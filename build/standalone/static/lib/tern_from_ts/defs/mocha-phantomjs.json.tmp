@@ -1,0 +1,30 @@
+{
+  "MochaPhantomJsWindowOptions": {
+    "env": "?",
+    "failures": "number",
+    "ended": "bool",
+    "started": "bool",
+    "run": "fn()"
+  },
+  "Window": {
+    "mochaPhantomJS": "fn() -> MochaPhantomJsWindowOptions"
+  },
+  "MochaPhantomJSOptions": {
+    "headers": "?",
+    "cookies": "[?]",
+    "viewportSize": "number",
+    "timeout": "number",
+    "file": "string"
+  },
+  "MochaPhantomJS": {
+    "url": "string",
+    "columns": "number",
+    "mochaStartWait": "number",
+    "startTime": "Date",
+    "output": "?",
+    "run": "fn()",
+    "customizeMocha": "fn(options: MochaPhantomJSOptions)"
+  },
+  "mochaPhantomJS": "MochaPhantomJS",
+  "!name": "mocha-phantomjs.d.ts"
+}

@@ -1,0 +1,111 @@
+{
+  "'documentdb'": {
+    "FeedOptions": {
+      "maxItemCount": "number",
+      "continuation": "string",
+      "sessionToken": "string"
+    },
+    "RequestOptions": {
+      "preTriggerInclude": "string",
+      "postTriggerInclude": "string",
+      "accessCondition": {
+        "type": "string",
+        "condition": "string"
+      },
+      "indexingDirective": "string",
+      "consistencyLevel": "string",
+      "sessionToken": "string",
+      "resourceTokenExpirySeconds": "number",
+      "disableAutomaticIdGeneration": "bool"
+    },
+    "SqlParameter": {
+      "name": "string",
+      "value": "?"
+    },
+    "SqlQuerySpec": {
+      "query": "string",
+      "parameters": "[SqlParameter]"
+    },
+    "QueryError": {
+      "code": "number",
+      "body": "string"
+    },
+    "RequestCallback": {},
+    "QueryIterator": {
+      "toArray": "fn(callback: fn(error: QueryError, result: [TResultRow]))"
+    },
+    "UniqueId": {
+      "id": "string"
+    },
+    "AbstractMeta": {
+      "_self": "string",
+      "_ts": "string",
+      "_rid": "string",
+      "_etag": "string",
+      "_attachments": "string"
+    },
+    "NewDocument": {},
+    "RetrievedDocument": {},
+    "DatabaseMeta": {},
+    "CollectionMeta": {},
+    "ProcedureMeta": {
+      "body": "string"
+    },
+    "TriggerMeta": {
+      "body": "string",
+      "triggerType": "string",
+      "triggerOperation": "string"
+    },
+    "AuthOptions": {
+      "masterKey": "string",
+      "resourceTokens": "?",
+      "permissionFeed": "[?]"
+    },
+    "Procedure": {
+      "body": "fn(params: [?])"
+    },
+    "Trigger": {
+      "triggerType": "string",
+      "triggerOperation": "string",
+      "body": "fn(params: [?])"
+    },
+    "Collection": {
+      "indexingPolicy": "IndexingPolicy"
+    },
+    "IndexingPath": {
+      "IndexType": "string",
+      "Path": "string",
+      "NumericPrecision": "number",
+      "StringPrecision": "number"
+    },
+    "IndexingPolicy": {
+      "automatic": "bool",
+      "indexingMode": "string",
+      "IncludedPath": "[IndexingPath]",
+      "ExcludedPaths": "[string]"
+    },
+    "DocumentClient": {
+      "!type": "fn(urlConnection: string, auth: AuthOptions, connectionPolicy?: ?, consistencyLevel?: string)",
+      "prototype": {
+        "createDatabase": "fn(body: UniqueId, options: RequestOptions, callback: ?)",
+        "createCollection": "fn(databaseLink: string, body: Collection, options: RequestOptions, callback: ?)",
+        "createStoredProcedure": "fn(collectionLink: string, procedure: Procedure, options: RequestOptions, callback: ?)",
+        "createTrigger": "fn(collectionLink: string, trigger: Trigger, options: RequestOptions, callback: ?)",
+        "createDocument": "fn(collectionSelfLink: string, document: ?, options: RequestOptions, callback: ?)",
+        "executeStoredProcedure": "fn(procedureLink: string, params: [?], callback: ?)",
+        "queryDatabases": "fn(query: string, SqlQuerySpec: ?) -> ?",
+        "queryCollections": "fn(databaseLink: string, query: string, SqlQuerySpec: ?) -> ?",
+        "queryStoredProcedures": "fn(collectionLink: string, query: string, SqlQuerySpec: ?) -> ?",
+        "queryDocuments": "fn(collectionLink: string, query: string, SqlQuerySpec: ?, options?: FeedOptions) -> ?",
+        "queryTriggers": "fn(collectionLink: string, query: string, SqlQuerySpec: ?, options?: FeedOptions) -> ?",
+        "deleteDocument": "fn(documentLink: string, options: RequestOptions, callback: ?)",
+        "deleteDatabase": "fn(databaseLink: string, options: RequestOptions, callback: ?)",
+        "deleteCollection": "fn(collectionLink: string, options: RequestOptions, callback: ?)",
+        "deleteStoredProcedure": "fn(procedureLink: string, options: RequestOptions, callback: ?)",
+        "replaceDocument": "fn(documentLink: string, document: ?, options: RequestOptions, callback: ?)",
+        "replaceStoredProcedure": "fn(procedureLink: string, procedure: Procedure, options: RequestOptions, callback: ?)"
+      }
+    }
+  },
+  "!name": "documentdb.d.ts"
+}

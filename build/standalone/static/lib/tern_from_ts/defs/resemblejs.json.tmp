@@ -1,0 +1,52 @@
+{
+  "Resemble": {
+    "ResembleStatic": {
+      "outputSettings": "fn(settings: OutputSettings) -> ResembleStatic"
+    },
+    "OutputSettings": {
+      "errorColor": {
+        "red": "number",
+        "green": "number",
+        "blue": "number"
+      },
+      "errorType": "string",
+      "transparency": "number",
+      "largeImageThreshold": "number"
+    },
+    "ResembleAnalysis": {
+      "onComplete": "fn(callback: fn(result: ResembleAnalysisResult))",
+      "compareTo": "fn(fileData: string, ImageData: ?) -> ResembleComparison"
+    },
+    "ResembleAnalysisResult": {
+      "red": "number",
+      "green": "number",
+      "blue": "number",
+      "brightness": "number"
+    },
+    "ResembleComparison": {
+      "onComplete": "fn(callback: fn(result: ResembleComparisonResult))",
+      "ignoreNothing": "fn() -> ResembleComparison",
+      "ignoreAntialiasing": "fn() -> ResembleComparison",
+      "ignoreColors": "fn() -> ResembleComparison",
+      "repaint": "fn() -> ResembleComparison"
+    },
+    "ResembleComparisonResult": {
+      "isSameDimensions": "bool",
+      "dimensionDifference": {
+        "width": "number",
+        "height": "number"
+      },
+      "getImageDataUrl": "fn() -> string",
+      "misMatchPercentage": "number",
+      "diffBounds": {
+        "top": "number",
+        "left": "number",
+        "bottom": "number",
+        "right": "number"
+      },
+      "analysisTime": "number"
+    }
+  },
+  "resemble": "Resemble.ResembleStatic",
+  "!name": "resemblejs.d.ts"
+}

@@ -1,0 +1,26 @@
+{
+  "he": {
+    "version": "string",
+    "EncodeOptions": {
+      "useNamedReferences": "bool",
+      "encodeEverything": "bool",
+      "strict": "bool",
+      "allowUnsafeSymbols": "bool"
+    },
+    "Encode": {
+      "options": "EncodeOptions"
+    },
+    "encode": "Encode",
+    "DecodeOptions": {
+      "isAttributeValue": "bool",
+      "strict": "bool"
+    },
+    "Decode": {
+      "options": "DecodeOptions"
+    },
+    "decode": "Decode",
+    "escape": "fn(text: string) -> string",
+    "unescape": "Decode"
+  },
+  "!name": "he.d.ts"
+}

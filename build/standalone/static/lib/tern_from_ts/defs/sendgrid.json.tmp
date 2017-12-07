@@ -1,0 +1,120 @@
+{
+  "Sendgrid": {
+    "UriParts": {
+      "protocol": "string",
+      "host": "string",
+      "port": "string",
+      "endpoint": "string"
+    },
+    "Options": {
+      "protocol": "string",
+      "host": "string",
+      "port": "string",
+      "endpoint": "string",
+      "uri": "string",
+      "proxy": "string",
+      "web": {
+        "pool": "?"
+      }
+    },
+    "OptionsExport": {
+      "uriParts": "UriParts",
+      "uri": "string",
+      "proxy": "string",
+      "web": {
+        "pool": "?"
+      }
+    },
+    "EmailOptions": {
+      "to": "?",
+      "toname": "string",
+      "from": "string",
+      "fromname": "string",
+      "subject": "string",
+      "text": "string",
+      "html": "string",
+      "bcc": "?",
+      "replyto": "string",
+      "date": "Date",
+      "headers": {},
+      "files": "[FileHandlerOptions]",
+      "smtpapi": "?"
+    },
+    "Email": {
+      "!type": "fn()",
+      "prototype": {
+        "to": "?",
+        "toname": "string",
+        "from": "string",
+        "fromname": "string",
+        "subject": "string",
+        "text": "string",
+        "html": "string",
+        "bcc": "?",
+        "replyto": "string",
+        "date": "Date",
+        "headers": {},
+        "files": "[FileHandler]",
+        "smtpapi": "?",
+        "addTo": "fn(address: string)",
+        "addHeader": "fn(type: string, value: string)",
+        "addSubstitution": "fn(type: string, value: string)",
+        "addSection": "fn(section: ?)",
+        "addUniqueArg": "fn(uarg: ?)",
+        "addCategory": "fn(category: string)",
+        "addFilter": "fn(filter: string, command: string, value: number)",
+        "addFile": "fn(file: FileHandlerOptions)",
+        "setFrom": "fn(address: string)",
+        "setSubject": "fn(subject: string)",
+        "setText": "fn(text: string)",
+        "setHtml": "fn(html: string)",
+        "setHeaders": "fn(headers: ?)",
+        "setSubstitutions": "fn(substitutions: ?)",
+        "setSections": "fn(sections: ?)",
+        "setUniqueArgs": "fn(uargs: ?)",
+        "setCategories": "fn(categories: [string])",
+        "setFilters": "fn(filters: ?)"
+      }
+    },
+    "FileHandlerOptions": {
+      "filename": "string",
+      "contentType": "string",
+      "cid": "string",
+      "path": "string",
+      "url": "string",
+      "content": "?"
+    },
+    "FileHandler": {
+      "!type": "fn(options: FileHandlerOptions)",
+      "handlers": {
+        "content": "Handler",
+        "path": "Handler",
+        "url": "Handler",
+        "none": "Handler"
+      },
+      "prototype": {
+        "filename": "string",
+        "contentType": "string",
+        "cid": "string",
+        "type": "string",
+        "content": "string",
+        "path": "string",
+        "url": "string",
+        "loadContent": "fn(callback: HandlerCallback)"
+      }
+    },
+    "Handler": {},
+    "HandlerCallback": {},
+    "Constructor": {},
+    "Instance": {
+      "version": "string",
+      "api_user": "string",
+      "api_key": "string",
+      "options": "OptionsExport",
+      "Email": "Email",
+      "send": "fn(email: EmailOptions, callback: fn(err: Error, json: ?))"
+    }
+  },
+  "sendgrid": "ctor",
+  "!name": "sendgrid.d.ts"
+}

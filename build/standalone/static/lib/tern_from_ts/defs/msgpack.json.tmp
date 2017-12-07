@@ -1,0 +1,30 @@
+{
+  "MsgPackStatic": {
+    "pack": "fn(data: ?, toString?: bool) -> ?",
+    "unpack": "fn(data: ?) -> ?",
+    "worker": "string",
+    "upload": "fn(url: string, option: MsgPackUploadOption, callback: MsgPackUploadCallback)",
+    "download": "fn(url: string, option: MsgPackDownloadOption, callback: MsgPackDownloadCallback)"
+  },
+  "MsgPackUploadOption": {
+    "data": "?",
+    "worker": "bool",
+    "timeout": "number",
+    "before": "fn(xhr: XMLHttpRequest, option: MsgPackUploadOption)",
+    "after": "fn(xhr: XMLHttpRequest, option: MsgPackUploadOption, result: MsgPackCallbackResult)"
+  },
+  "MsgPackUploadCallback": {},
+  "MsgPackDownloadOption": {
+    "worker": "bool",
+    "timeout": "number",
+    "before": "fn(xhr: XMLHttpRequest, option: MsgPackDownloadOption)",
+    "after": "fn(xhr: XMLHttpRequest, option: MsgPackDownloadOption, result: MsgPackCallbackResult)"
+  },
+  "MsgPackDownloadCallback": {},
+  "MsgPackCallbackResult": {
+    "status": "number",
+    "ok": "bool"
+  },
+  "msgpack": "MsgPackStatic",
+  "!name": "msgpack.d.ts"
+}

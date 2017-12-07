@@ -1,0 +1,117 @@
+{
+  "ng": {
+    "Router": {
+      "prototype": {
+        "navigating": "bool",
+        "lastNavigationAttempt": "string",
+        "previousUrl": "string",
+        "registry": "RouteRegistry",
+        "parent": "Router",
+        "hostComponent": "?",
+        "childRouter": "fn(hostComponent: ?) -> Router",
+        "registerOutlet": "fn(outlet: RouterOutlet) -> ?",
+        "config": "fn(config: ?, List: ?) -> ?",
+        "navigate": "fn(url: string) -> ?",
+        "subscribe": "fn(onNext: ?)",
+        "commit": "fn(instruction: Instruction) -> ?",
+        "deactivate": "fn() -> ?",
+        "recognize": "fn(url: string) -> ?",
+        "renavigate": "fn() -> ?",
+        "generate": "fn(linkParams: ?) -> string"
+      }
+    },
+    "RootRouter": {
+      "prototype": {
+        "commit": "fn(instruction: ?) -> ?"
+      }
+    },
+    "RouterOutlet": {
+      "prototype": {
+        "activate": "fn(instruction: Instruction) -> ?",
+        "deactivate": "fn() -> ?",
+        "canDeactivate": "fn(instruction: Instruction) -> ?"
+      }
+    },
+    "RouterLink": {
+      "prototype": {
+        "visibleHref": "string",
+        "routeParams": "?",
+        "onClick": "fn() -> bool"
+      }
+    },
+    "RouteParams": {
+      "prototype": {
+        "params": "?",
+        "get": "fn(param: string) -> string"
+      }
+    },
+    "RouteRegistry": {
+      "prototype": {
+        "config": "fn(parentComponent: ?, config: ?)",
+        "configFromComponent": "fn(component: ?)",
+        "recognize": "fn(url: string, parentComponent: ?) -> ?",
+        "generate": "fn(linkParams: ?, parentComponent: ?) -> string"
+      }
+    },
+    "LocationStrategy": {
+      "prototype": {
+        "path": "fn() -> string",
+        "pushState": "fn(ctx: ?, title: string, url: string)",
+        "forward": "fn()",
+        "back": "fn()",
+        "onPopState": "fn(fn: ?)",
+        "getBaseHref": "fn() -> string"
+      }
+    },
+    "HashLocationStrategy": {
+      "prototype": {
+        "onPopState": "fn(fn: EventListener)",
+        "getBaseHref": "fn() -> string",
+        "path": "fn() -> string",
+        "pushState": "fn(state: ?, title: string, url: string)",
+        "forward": "fn()",
+        "back": "fn()"
+      }
+    },
+    "HTML5LocationStrategy": {
+      "prototype": {
+        "onPopState": "fn(fn: EventListener)",
+        "getBaseHref": "fn() -> string",
+        "path": "fn() -> string",
+        "pushState": "fn(state: ?, title: string, url: string)",
+        "forward": "fn()",
+        "back": "fn()"
+      }
+    },
+    "Location": {
+      "prototype": {
+        "path": "fn() -> string",
+        "normalize": "fn(url: string) -> string",
+        "normalizeAbsolutely": "fn(url: string) -> string",
+        "go": "fn(url: string)",
+        "forward": "fn()",
+        "back": "fn()",
+        "subscribe": "fn(onNext: ?, onThrow?: ?, onReturn?: ?)"
+      }
+    },
+    "appBaseHrefToken": "OpaqueToken",
+    "Instruction": {
+      "prototype": {
+        "reuseComponentsFrom": "fn(oldInstruction: Instruction)",
+        "params": "fn() -> ?",
+        "hasChild": "fn() -> bool"
+      }
+    },
+    "Pipeline": {
+      "prototype": {
+        "steps": "?",
+        "process": "fn(instruction: Instruction) -> ?"
+      }
+    },
+    "routerDirectives": "?",
+    "routerInjectables": "?",
+    "RouteConfig": "?"
+  },
+  "angular2/router": "ng",
+  "!name": "router-2.0.0-alpha.30.d.ts"
+}

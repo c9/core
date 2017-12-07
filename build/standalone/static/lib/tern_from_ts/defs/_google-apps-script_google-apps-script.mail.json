@@ -1,0 +1,12 @@
+{
+  "GoogleAppsScript": {
+    "Mail": {
+      "MailApp": {
+        "getRemainingDailyQuota": "fn() -> Integer",
+        "sendEmail": "fn(message: Object)"
+      }
+    }
+  },
+  "MailApp": "GoogleAppsScript.Mail.MailApp",
+  "!name": "google-apps-script.mail"
+}

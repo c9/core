@@ -1,0 +1,6 @@
+{
+  "String": {
+    "toTitleCase": "fn() -> string"
+  },
+  "!name": "to-title-case-gouch.d.ts"
+}

@@ -1,0 +1,21 @@
+{
+  "ngCommand": {
+    "ModuleName": "string",
+    "ICommand": {
+      "isExecuting": "bool",
+      "canExecute": "bool",
+      "execute": "fn()"
+    },
+    "Command": {
+      "id": "string",
+      "!type": "fn($scope: angular.IScope, execute: fn(), canExecute?: fn())",
+      "prototype": {
+        "isExecuting": "bool",
+        "canExecute": "bool",
+        "execute": "fn() -> ?"
+      }
+    },
+    "ICommandFactory": {}
+  },
+  "!name": "ng-command.d.ts"
+}

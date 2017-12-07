@@ -8,5 +8,6 @@ module.exports = [
   'psd',
   'svg',
   'tiff',
-  'webp'
+  'webp',
+  'dds'
 ];

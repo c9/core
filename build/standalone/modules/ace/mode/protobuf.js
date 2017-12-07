@@ -172,11 +172,10 @@ var c_cppHighlightRules = function() {
         "comment" : [
             {
                 token : "comment", // closing comment
-                regex : ".*?\\*\\/",
+                regex : "\\*\\/",
                 next : "start"
             }, {
-                token : "comment", // comment spanning whole line
-                regex : ".+"
+                defaultToken : "comment"
             }
         ],
         "singleLineComment" : [
@@ -625,12 +624,11 @@ define("ace/mode/protobuf_highlight_rules",[], function(require, exports, module
                     regex: "[a-zA-Z_$][a-zA-Z0-9_$]*\\b"
                 }],
             "comment": [{
-                    token: "comment", // closing comment
-                    regex: ".*?\\*\\/",
-                    next: "start"
+                    token : "comment", // closing comment
+                    regex : "\\*\\/",
+                    next : "start"
                 }, {
-                    token: "comment", // comment spanning whole line
-                    regex: ".+"
+                    defaultToken : "comment"
                 }]
         };
 

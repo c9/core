@@ -1,0 +1,23 @@
+{
+  "consolidate": {
+    "clearCache": "fn()",
+    "jade": "fn(path: String, options: ?, fn: ?)",
+    "dust": "fn(path: String, options: ?, fn: ?)",
+    "swig": "fn(path: String, options: ?, fn: ?)",
+    "liquor": "fn(path: String, options: ?, fn: ?)",
+    "ejs": "fn(path: String, options: ?, fn: ?)",
+    "eco": "fn(path: String, options: ?, fn: ?)",
+    "jazz": "fn(path: String, options: ?, fn: ?)",
+    "jqtpl": "fn(path: String, options: ?, fn: ?)",
+    "haml": "fn(path: String, options: ?, fn: ?)",
+    "whiskers": "fn(path: String, options: ?, fn: ?)",
+    "hogan": "fn(path: String, options: ?, fn: ?)",
+    "handlebars": "fn(path: String, options: ?, fn: ?)",
+    "underscore": "fn(path: String, options: ?, fn: ?)",
+    "qejs": "fn(path: String, options: ?, fn: ?)",
+    "walrus": "fn(path: String, options: ?, fn: ?)",
+    "mustache": "fn(path: String, options: ?, fn: ?)",
+    "dot": "fn(path: String, options: ?, fn: ?)"
+  },
+  "!name": "consolidate.d.ts"
+}

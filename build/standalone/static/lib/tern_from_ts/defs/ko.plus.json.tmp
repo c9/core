@@ -1,0 +1,50 @@
+{
+  "KnockoutStatic": {
+    "command": "fn(param: Function, KoPlus: ?, CommandOptions: ?)",
+    "editable": "KoPlus.EditableStatic",
+    "editableArray": "KoPlus.EditableArrayStatic"
+  },
+  "KnockoutObservableArray": {
+    "sortKey": "?",
+    "sortDescending": "?",
+    "setSourceKey": "fn(key: string)"
+  },
+  "KnockoutBindingHandlers": {
+    "loadingWhen": "KnockoutBindingHandler",
+    "command": "KnockoutBindingHandler",
+    "sortBy": "KnockoutBindingHandler"
+  },
+  "KoPlus": {
+    "Command": {
+      "isRunning": "?",
+      "canExecute": "?",
+      "failed": "?",
+      "completed": "?",
+      "done": "fn(callback: fn(data: ?))",
+      "fail": "fn(callback: fn(response: ?, status?: string, statusText?: string))",
+      "always": "fn(callback: Function)",
+      "then": "fn(resolve: Function, reject: Function)"
+    },
+    "CommandOptions": {
+      "action": "Function",
+      "canExecute": "fn()",
+      "context": "?"
+    },
+    "EditableStatic": {
+      "makeEditable": "fn(target: ?)"
+    },
+    "EditableArrayStatic": {
+      "makeEditable": "fn(target: ?)"
+    },
+    "EditableFunctions": {
+      "isEditing": "?",
+      "beginEdit": "fn()",
+      "endEdit": "fn()",
+      "cancelEdit": "fn()",
+      "rollback": "fn()"
+    },
+    "Editable": {},
+    "EditableArray": {}
+  },
+  "!name": "ko.plus.d.ts"
+}

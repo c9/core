@@ -1,0 +1,29 @@
+{
+  "Cordova": {
+    "exec": "fn(success: fn(), fail: fn(), service: string, action: string, args?: [string])",
+    "platformId": "string",
+    "version": "string",
+    "define": "fn(moduleName: string, factory: fn(require: ?, exports: ?, module: ?))",
+    "require": "fn(moduleName: string) -> ?",
+    "plugins": "CordovaPlugins"
+  },
+  "CordovaPlugins": {},
+  "Document": {
+    "addEventListener": "fn(type: string, listener: fn(ev: Event), useCapture?: bool)",
+    "removeEventListener": "fn(type: string, listener: fn(ev: Event), useCapture?: bool)"
+  },
+  "Window": {
+    "cordova": "Cordova"
+  },
+  "ArgsCheck": {
+    "checkArgs": "fn(argsSpec: string, functionName: string, args: [?], callee?: ?)",
+    "getValue": "fn(value?: ?, defaultValue?: ?) -> ?",
+    "enableChecks": "bool"
+  },
+  "UrlUtil": {
+    "makeAbsolute": "fn(url: string) -> string"
+  },
+  "cordova": "Cordova",
+  "'cordova'": "cordova",
+  "!name": "cordova"
+}

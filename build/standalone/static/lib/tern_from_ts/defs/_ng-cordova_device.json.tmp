@@ -1,0 +1,26 @@
+{
+  "ngCordova": {
+    "IDeviceInfo": {
+      "available": "bool",
+      "platform": "string",
+      "version": "string",
+      "uuid": "string",
+      "cordova": "string",
+      "model": "string",
+      "manufacturer": "string",
+      "isVirtual": "bool",
+      "serial": "string"
+    },
+    "IDeviceService": {
+      "getDevice": "fn() -> IDeviceInfo",
+      "getCordova": "fn() -> string",
+      "getModel": "fn() -> string",
+      "getName": "fn() -> string",
+      "getPlatform": "fn() -> string",
+      "getUUID": "fn() -> string",
+      "getVersion": "fn() -> string",
+      "getManufacturer": "fn() -> string"
+    }
+  },
+  "!name": "device.d.ts"
+}

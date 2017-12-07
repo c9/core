@@ -1,0 +1,34 @@
+{
+  "IFlipsnap": {
+    "hasPrev": "fn() -> bool",
+    "hasNext": "fn() -> bool",
+    "toPrev": "fn(transitionDuration?: number)",
+    "toNext": "fn(transitionDuration?: number)",
+    "moveToPoint": "fn(point: number, transitionDuration?: number)",
+    "refresh": "fn()",
+    "element": "HTMLElement"
+  },
+  "FlipsnapStatic": {},
+  "FlipsnapOptions": {
+    "maxPoint": "number",
+    "distance": "number",
+    "transitionDuration": "number",
+    "disableTouch": "bool",
+    "disable3d": "bool"
+  },
+  "HTMLElement": {
+    "addEventListener": "fn(type: string, listener: fn(ev: Event), useCapture?: bool)"
+  },
+  "FlipsnapTouchMoveEvent": {
+    "delta": "number",
+    "direction": "number"
+  },
+  "FlipsnapTouchEndEvent": {
+    "moved": "bool",
+    "cancelled": "bool",
+    "newPoint": "number",
+    "originalPoint": "number"
+  },
+  "Flipsnap": "FlipsnapStatic",
+  "!name": "flipsnap"
+}

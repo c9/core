@@ -1,0 +1,14 @@
+{
+  "MetisMenuOptions": {
+    "toggle": "bool",
+    "doubleTapToGo": "bool",
+    "activeClass": "string",
+    "collapseClass": "string",
+    "collapseInClass": "string",
+    "collapsingClass": "string"
+  },
+  "JQuery": {
+    "metisMenu": "fn(options?: MetisMenuOptions) -> JQuery"
+  },
+  "!name": "metismenu"
+}

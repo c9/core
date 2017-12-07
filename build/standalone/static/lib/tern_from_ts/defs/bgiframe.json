@@ -1,0 +1,21 @@
+{
+  "BgiFrame": {
+    "ISettings": {
+      "top": "string",
+      "left": "string",
+      "width": "string",
+      "height": "string",
+      "opacity": "bool",
+      "src": "string",
+      "conditional": "bool"
+    },
+    "IBgiframe": {
+      "s": "ISettings",
+      "createIframe": "fn() -> HTMLElement",
+      "fire": "fn(element: HTMLElement)",
+      "getIframe": "fn(element: HTMLElement) -> HTMLElement",
+      "prop": "fn(n: ?) -> string"
+    }
+  },
+  "!name": "typescript.bgiframe"
+}

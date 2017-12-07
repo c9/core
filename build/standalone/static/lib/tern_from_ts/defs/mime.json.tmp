@@ -1,0 +1,13 @@
+{
+  "mime": {
+    "lookup": "fn(path: string) -> string",
+    "extension": "fn(mime: string) -> string",
+    "load": "fn(filepath: string)",
+    "define": "fn(mimes: Object)",
+    "Charsets": {
+      "lookup": "fn(mime: string) -> string"
+    },
+    "charsets": "Charsets"
+  },
+  "!name": "mime.d.ts"
+}

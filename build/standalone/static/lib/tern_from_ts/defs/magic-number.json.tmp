@@ -1,0 +1,6 @@
+{
+  "magic-number": {
+    "detectFile": "fn(file: string) -> string"
+  },
+  "!name": "magic-number.d.ts"
+}

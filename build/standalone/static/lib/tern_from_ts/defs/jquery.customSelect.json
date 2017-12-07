@@ -1,0 +1,11 @@
+{
+  "JQueryCustomSelectOption": {
+    "customClass": "string",
+    "mapClass": "bool",
+    "mapStyle": "bool"
+  },
+  "JQuery": {
+    "customSelect": "fn(val: JQueryCustomSelectOption) -> JQuery"
+  },
+  "!name": "jquery.customSelect"
+}

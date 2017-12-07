@@ -1,0 +1,32 @@
+{
+  "UUID": {
+    "UUIDStatic": {
+      "generate": "fn() -> string",
+      "genV4": "fn() -> UUID",
+      "genV1": "fn() -> UUID",
+      "parse": "fn(uuid: string) -> UUID",
+      "resetState": "fn()",
+      "makeBackwardCompatible": "fn()"
+    },
+    "UUIDArray": {
+      "timeLow": "string",
+      "timeMid": "string",
+      "timeHiAndVersion": "string",
+      "clockSeqHiAndReserved": "string",
+      "clockSeqLow": "string",
+      "node": "string"
+    },
+    "UUID": {
+      "intFields": "?",
+      "bitFields": "?",
+      "hexFields": "?",
+      "version": "number",
+      "bitString": "string",
+      "hexString": "string",
+      "urn": "string",
+      "equals": "fn(uuid: UUID) -> bool"
+    },
+    "!type": "UUID.UUIDStatic"
+  },
+  "!name": "UUID.d.ts"
+}

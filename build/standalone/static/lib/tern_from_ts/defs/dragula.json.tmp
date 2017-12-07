@@ -1,0 +1,38 @@
+{
+  "dragula": {
+    "0": "d",
+    "1": "r",
+    "2": "a",
+    "3": "g",
+    "4": "u",
+    "5": "l",
+    "6": "a",
+    "DragulaOptions": {
+      "containers": "[Element]",
+      "isContainer": "fn(el?: Element)",
+      "moves": "fn(el?: Element, container?: Element, handle?: Element)",
+      "accepts": "fn(el?: Element, target?: Element, source?: Element, sibling?: Element)",
+      "invalid": "fn(el?: Element, target?: Element)",
+      "direction": "string",
+      "copy": "bool",
+      "revertOnSpill": "bool",
+      "removeOnSpill": "bool",
+      "delay": "bool",
+      "number": "?",
+      "mirrorContainer": "Element"
+    },
+    "Drake": {
+      "containers": "[Element]",
+      "dragging": "bool",
+      "start": "fn(item: Element)",
+      "end": "fn()",
+      "cancel": "fn(revert: bool)",
+      "remove": "fn()",
+      "on": "fn(events: string, callback: Function)",
+      "destroy": "fn()"
+    },
+    "Dragula": {},
+    "!type": "dragula.Dragula"
+  },
+  "!name": "dragula.d.ts"
+}

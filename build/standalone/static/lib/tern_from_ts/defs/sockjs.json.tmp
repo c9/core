@@ -1,0 +1,29 @@
+{
+  "SockJSSimpleEvent": {
+    "type": "string"
+  },
+  "SJSOpenEvent": {},
+  "SJSCloseEvent": {
+    "code": "number",
+    "reason": "string",
+    "wasClean": "bool"
+  },
+  "SJSMessageEvent": {
+    "data": "string"
+  },
+  "SockJS": {
+    "protocol": "string",
+    "readyState": "number",
+    "onopen": "fn(ev: SJSOpenEvent)",
+    "onmessage": "fn(ev: SJSMessageEvent)",
+    "onclose": "fn(ev: SJSCloseEvent)",
+    "send": "fn(data: ?)",
+    "close": "fn(code?: number, reason?: string)",
+    "OPEN": "number",
+    "CLOSING": "number",
+    "CONNECTING": "number",
+    "CLOSED": "number",
+    "prototype": "SockJS"
+  },
+  "!name": "sockjs.d.ts"
+}

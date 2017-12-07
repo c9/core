@@ -1,0 +1,95 @@
+{
+  "HighlandStatic": {
+    "nil": "Highland.Nil",
+    "curry": "fn(fn: Function, args: [?]) -> Function",
+    "ncurry": "fn(n: number, fn: Function, args: [?]) -> Function",
+    "partial": "fn(f: Function, args: [?]) -> Function",
+    "flip": "fn(fn: Function, args: [?]) -> Function",
+    "compose": "fn(functions: [Function]) -> Function",
+    "seq": "fn(functions: [Function]) -> Function",
+    "isStream": "fn(x: ?) -> bool",
+    "isStreamError": "fn(x: ?) -> bool",
+    "isStreamRedirect": "fn(x: ?) -> bool",
+    "values": "fn(obj: Object) -> ?",
+    "keys": "fn(obj: Object) -> ?",
+    "pairs": "fn(obj: Object) -> ?",
+    "extend": "fn(extensions: Object, target: Object) -> Object",
+    "get": "fn(prop: string, obj: Object) -> string",
+    "set": "fn(prop: string, val: ?, obj: Object) -> Object",
+    "log": "fn(x: ?, args: [?])",
+    "wrapCallback": "fn(f: Function) -> Function",
+    "add": "fn(a: number, b: number) -> number",
+    "not": "fn(a: ?) -> bool"
+  },
+  "Highland": {
+    "Thenable": {
+      "then": "fn(onFulfilled: fn(value: R), onRejected: fn(error: ?)) -> ?"
+    },
+    "Nil": {
+      "Highland_NIL": "Nil"
+    },
+    "StreamError": {
+      "!type": "fn(err: Error)",
+      "prototype": {
+        "error": "Error"
+      }
+    },
+    "StreamRedirect": {
+      "!type": "fn(to: ?)",
+      "prototype": {
+        "to": "?"
+      }
+    },
+    "Stream": {
+      "pause": "fn()",
+      "resume": "fn()",
+      "end": "fn()",
+      "pipe": "fn(dest: ?) -> ?",
+      "destroy": "fn()",
+      "consume": "fn(f: fn(err: Error, x: R, push: fn(err: Error, value?: U), next: fn())) -> ?",
+      "pull": "fn(f: fn(err: Error, x: R))",
+      "write": "fn(x: R) -> bool",
+      "fork": "fn() -> ?",
+      "observe": "fn() -> ?",
+      "errors": "fn(f: fn(err: Error, push: fn(err: Error, x?: R))) -> ?",
+      "stopOnError": "fn(f: fn(err: Error)) -> ?",
+      "each": "fn(f: fn(x: R))",
+      "apply": "fn(f: Function)",
+      "toArray": "fn(f: fn(arr: [R]))",
+      "map": "fn(f: fn(x: R)) -> ?",
+      "flatMap": "fn(f: fn(x: R)) -> ?",
+      "pluck": "fn(prop: string) -> ?",
+      "filter": "fn(f: fn(x: R)) -> ?",
+      "flatFilter": "fn(f: fn(x: R)) -> ?",
+      "reject": "fn(f: fn(x: R)) -> ?",
+      "find": "fn(f: fn(x: R)) -> ?",
+      "group": "fn(f: fn(x: R)) -> ?",
+      "compact": "fn() -> ?",
+      "where": "fn(props: Object) -> ?",
+      "zip": "fn(ys: [R]) -> ?",
+      "take": "fn(n: number) -> ?",
+      "head": "fn() -> ?",
+      "last": "fn() -> ?",
+      "sequence": "fn() -> ?",
+      "series": "fn() -> ?",
+      "flatten": "fn() -> ?",
+      "parallel": "fn(n: number) -> ?",
+      "otherwise": "fn(ys: ?) -> ?",
+      "append": "fn(y: R) -> ?",
+      "reduce": "fn(memo: U, f: fn(memo: U, x: R)) -> ?",
+      "reduce1": "fn(memo: U, f: fn(memo: U, x: R)) -> ?",
+      "collect": "fn() -> ?",
+      "scan": "fn(memo: U, x: fn(memo: U, x: R)) -> ?",
+      "scan1": "fn(memo: U, x: fn(memo: U, x: R)) -> ?",
+      "concat": "fn(ys: ?) -> ?",
+      "merge": "fn(ys: ?) -> ?",
+      "invoke": "fn(method: string, args: [?]) -> ?",
+      "throttle": "fn(ms: number) -> ?",
+      "debounce": "fn(ms: number) -> ?",
+      "latest": "fn() -> ?"
+    }
+  },
+  "highland": "HighlandStatic",
+  "'highland'": "highland",
+  "!name": "highland.d.ts"
+}

@@ -1,0 +1,4 @@
+{
+    "cmd": ["scss", "--update", "$file"],
+    "selector": "source.scss"
+}

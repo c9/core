@@ -172,11 +172,10 @@ var c_cppHighlightRules = function() {
         "comment" : [
             {
                 token : "comment", // closing comment
-                regex : ".*?\\*\\/",
+                regex : "\\*\\/",
                 next : "start"
             }, {
-                token : "comment", // comment spanning whole line
-                regex : ".+"
+                defaultToken : "comment"
             }
         ],
         "singleLineComment" : [
@@ -643,11 +642,10 @@ define("ace/mode/nix_highlight_rules",[], function(require, exports, module) {
                 }],
             "comment": [{
                 token: "comment", // closing comment
-                regex: ".*?\\*\\/",
+                regex: "\\*\\/",
                 next: "start"
             }, {
-                token: "comment", // comment spanning whole line
-                regex: ".+"
+                defaultToken: "comment"
             }],
             "qqdoc": [
                 {

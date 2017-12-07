@@ -1,0 +1,8 @@
+{
+  "Mocha": {
+    "IRunnable": {},
+    "ISuite": {},
+    "IRunner": {}
+  },
+  "!name": "mocha-node.d.ts"
+}

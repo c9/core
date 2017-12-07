@@ -1,0 +1,120 @@
+{
+  "DoneCallbackObject": {
+    "failed": "number",
+    "passed": "number",
+    "total": "number",
+    "runtime": "number"
+  },
+  "LogCallbackObject": {
+    "result": "bool",
+    "actual": "Object",
+    "expected": "Object",
+    "message": "string",
+    "source": "string"
+  },
+  "ModuleStartCallbackObject": {
+    "name": "string"
+  },
+  "ModuleDoneCallbackObject": {
+    "name": "string",
+    "failed": "number",
+    "passed": "number",
+    "total": "number"
+  },
+  "TestDoneCallbackObject": {
+    "name": "string",
+    "module": "string",
+    "failed": "number",
+    "passed": "number",
+    "total": "number",
+    "duration": "number"
+  },
+  "TestStartCallbackObject": {
+    "name": "string",
+    "module": "string"
+  },
+  "Config": {
+    "altertitle": "bool",
+    "autostart": "bool",
+    "current": "Object",
+    "reorder": "bool",
+    "requireExpects": "bool",
+    "testTimeout": "number",
+    "urlConfig": "?",
+    "done": "?"
+  },
+  "URLConfigItem": {
+    "id": "string",
+    "label": "string",
+    "tooltip": "string"
+  },
+  "LifecycleObject": {
+    "setup": "fn(assert: QUnitAssert)",
+    "teardown": "fn(assert: QUnitAssert)",
+    "beforeEach": "fn(assert: QUnitAssert)",
+    "afterEach": "fn(assert: QUnitAssert)"
+  },
+  "QUnitAssert": {
+    "assert": "?",
+    "current_testEnvironment": "?",
+    "jsDump": "?",
+    "async": "fn() -> fn()",
+    "deepEqual": "fn(actual: ?, expected: ?, message?: string) -> ?",
+    "equal": "fn(actual: ?, expected: ?, message?: string) -> ?",
+    "expect": "fn(amount: number) -> ?",
+    "notDeepEqual": "fn(actual: ?, expected: ?, message?: string) -> ?",
+    "notEqual": "fn(actual: ?, expected: ?, message?: string) -> ?",
+    "notPropEqual": "fn(actual: ?, expected: ?, message?: string) -> ?",
+    "propEqual": "fn(actual: ?, expected: ?, message?: string) -> ?",
+    "notStrictEqual": "fn(actual: ?, expected: ?, message?: string) -> ?",
+    "ok": "fn(state: ?, message?: string) -> ?",
+    "strictEqual": "fn(actual: ?, expected: ?, message?: string) -> ?",
+    "throws": "fn(block: fn(), expected: ?, message?: string) -> ?",
+    "raises": "fn(block: fn(), expected: ?, message?: string) -> ?"
+  },
+  "QUnitStatic": {
+    "start": "fn(decrement?: number) -> ?",
+    "stop": "fn(increment?: number) -> ?",
+    "begin": "fn(callback: fn()) -> ?",
+    "done": "fn(callback: fn(details: DoneCallbackObject)) -> ?",
+    "log": "fn(callback: fn(details: LogCallbackObject)) -> ?",
+    "moduleDone": "fn(callback: fn(details: ModuleDoneCallbackObject)) -> ?",
+    "moduleStart": "fn(callback: fn(details: ModuleStartCallbackObject)) -> ?",
+    "testDone": "fn(callback: fn(details: TestDoneCallbackObject)) -> ?",
+    "testStart": "fn(callback: fn(details: TestStartCallbackObject)) -> ?",
+    "config": "Config",
+    "asyncTest": "fn(name: string, expected: number, test: fn(assert: QUnitAssert)) -> ?",
+    "expect": "fn(amount: number) -> ?",
+    "module": "fn(name: string, lifecycle?: LifecycleObject) -> ?",
+    "test": "fn(title: string, expected: number, test: fn(assert: QUnitAssert)) -> ?",
+    "equiv": "fn(a: ?, b: ?) -> ?",
+    "push": "fn(result: ?, actual: ?, expected: ?, message: string) -> ?",
+    "reset": "fn() -> ?"
+  },
+  "deepEqual": "fn(actual: ?, expected: ?, message?: string) -> ?",
+  "equal": "fn(actual: ?, expected: ?, message?: string) -> ?",
+  "notDeepEqual": "fn(actual: ?, expected: ?, message?: string) -> ?",
+  "notEqual": "fn(actual: ?, expected: ?, message?: string) -> ?",
+  "notStrictEqual": "fn(actual: ?, expected: ?, message?: string) -> ?",
+  "ok": "fn(state: ?, message?: string) -> ?",
+  "strictEqual": "fn(actual: ?, expected: ?, message?: string) -> ?",
+  "throws": "fn(block: fn(), expected: ?, message?: string) -> ?",
+  "start": "fn(decrement?: number) -> ?",
+  "stop": "fn(increment?: number) -> ?",
+  "begin": "fn(callback: fn()) -> ?",
+  "done": "fn(callback: fn(details: DoneCallbackObject)) -> ?",
+  "log": "fn(callback: fn(details: LogCallbackObject)) -> ?",
+  "moduleDone": "fn(callback: fn(details: ModuleDoneCallbackObject)) -> ?",
+  "moduleStart": "fn(callback: fn(name: string)) -> ?",
+  "testDone": "fn(callback: fn(details: TestDoneCallbackObject)) -> ?",
+  "testStart": "fn(callback: fn(details: TestStartCallbackObject)) -> ?",
+  "asyncTest": "fn(name: string, expected?: ?, test?: fn(assert: QUnitAssert)) -> ?",
+  "expect": "fn(amount: number) -> ?",
+  "test": "fn(title: string, expected: number, test: fn(assert?: QUnitAssert)) -> ?",
+  "notPropEqual": "fn(actual: ?, expected: ?, message?: string) -> ?",
+  "propEqual": "fn(actual: ?, expected: ?, message?: string) -> ?",
+  "equiv": "fn(a: ?, b: ?) -> ?",
+  "raises": "?",
+  "QUnit": "QUnitStatic",
+  "!name": "qunit"
+}

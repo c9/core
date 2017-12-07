@@ -1,0 +1,20 @@
+{
+  "ParallelOptions": {
+    "evalPath": "string",
+    "maxWorkers": "number",
+    "synchronous": "bool"
+  },
+  "Parallel": {
+    "!type": "fn(data: T, opts?: ParallelOptions)",
+    "prototype": {
+      "data": "T",
+      "spawn": "fn(fn: fn(data: T)) -> ?",
+      "map": "fn(fn: fn(data: N)) -> ?",
+      "reduce": "fn(fn: fn(data: [N])) -> ?",
+      "then": "fn(success: fn(data: T), fail?: fn(e: Error)) -> ?",
+      "require": "fn(file: string) -> ?"
+    }
+  },
+  "paralleljs": "Parallel",
+  "!name": "parallel"
+}

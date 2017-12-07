@@ -1,0 +1,32 @@
+{
+  "Heap": {
+    "!type": "fn(cmp?: fn(a: T, b: T))",
+    "push": "fn(array: [T], item: T, cmp?: fn(a: T, b: T))",
+    "pop": "fn(array: [T], cmp?: fn(a: T, b: T)) -> T",
+    "replace": "fn(array: [T], item: T, cmp?: fn(a: T, b: T)) -> T",
+    "pushpop": "fn(array: [T], item: T, cmp?: fn(a: T, b: T)) -> T",
+    "heapify": "fn(array: [T], cmp?: fn(a: T, b: T)) -> ?",
+    "updateItem": "fn(array: [T], item: T, cmp?: fn(a: T, b: T))",
+    "nlargest": "fn(array: [T], n: number, cmp?: fn(a: T, b: T)) -> [T]",
+    "nsmallest": "fn(array: [T], n: number, cmp?: fn(a: T, b: T)) -> [T]",
+    "prototype": {
+      "push": "fn(item: T)",
+      "insert": "fn(item: T)",
+      "pop": "fn() -> T",
+      "peek": "fn() -> T",
+      "top": "fn() -> T",
+      "front": "fn() -> T",
+      "replace": "fn(item: T) -> T",
+      "pushpop": "fn(item: T) -> T",
+      "heapify": "fn()",
+      "updateItem": "fn(item: T)",
+      "empty": "fn() -> bool",
+      "size": "fn() -> number",
+      "toArray": "fn() -> [T]",
+      "clone": "fn() -> ?",
+      "copy": "fn() -> ?"
+    }
+  },
+  "'heap'": "Heap",
+  "!name": "heap"
+}

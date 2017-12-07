@@ -1,0 +1,16 @@
+{
+  "EmailTemplateResults": {
+    "html": "string",
+    "text": "string"
+  },
+  "EmailTemplateCallback": {},
+  "email-templates": {
+    "EmailTemplate": {
+      "!type": "fn(templateDir: string)",
+      "prototype": {
+        "render": "fn(locals: EmailTemplateCallback, Object: ?, callback?: EmailTemplateCallback)"
+      }
+    }
+  },
+  "!name": "email-templates.d.ts"
+}

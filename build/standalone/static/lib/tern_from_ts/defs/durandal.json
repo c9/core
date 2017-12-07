@@ -1,0 +1,153 @@
+{
+  "durandal/system": {
+    "getModuleId": "fn(obj: ?)",
+    "setModuleId": "fn(obj: ?, id: string)",
+    "debug": "fn(debug?: bool)",
+    "isArray": "fn(obj: ?)",
+    "log": "fn(msgs: [?])",
+    "defer": "fn(action?: Function)",
+    "guid": "fn()",
+    "acquire": "fn(modules: [string])"
+  },
+  "durandal/app": {
+    "title": "string",
+    "showModal": "fn(obj: ?, activationData?: ?, context?: ?)",
+    "showMessage": "fn(message: string, title?: string, options?: ?)",
+    "start": "fn()",
+    "setRoot": "fn(root: ?, transition?: string, applicationHost?: string)",
+    "adaptToDevice": "fn()",
+    "on": "fn(events: string, callback: Function, context?: ?)",
+    "off": "fn(events: string, callback: Function, context?: ?)",
+    "trigger": "fn(events: string, args: [?])",
+    "proxy": "fn(events: ?)"
+  },
+  "durandal/composition": {
+    "activateDuringComposition": "bool",
+    "convertTransitionToModuleId": "fn(name: string)",
+    "defaultTransitionName": "string",
+    "switchContent": "fn(parent: HTMLElement, newChild: HTMLElement, settings: ?)",
+    "bindAndShow": "fn(element: HTMLElement, view: HTMLElement, settings: ?)",
+    "defaultStrategy": "fn(settings: ?)",
+    "getSettings": "fn(valueAccessor: ?)",
+    "executeStrategy": "fn(element: HTMLElement, settings: ?)",
+    "inject": "fn(element: HTMLElement, settings: ?)",
+    "compose": "fn(element: HTMLElement, settings: ?, bindingContext: ?)"
+  },
+  "durandal/http": {
+    "defaultJSONPCallbackParam": "string",
+    "get": "fn(url: string, query: Object)",
+    "jsonp": "fn(url: string, query: Object, callbackParam: string)",
+    "post": "fn(url: string, data: Object)"
+  },
+  "durandal/modalDialog": {
+    "currentZIndex": "number",
+    "getNextZIndex": "fn()",
+    "isModalOpen": "fn()",
+    "getContext": "fn(name: string)",
+    "addContext": "fn(name: string, modalContext: ?)",
+    "createCompositionSettings": "fn(obj: ?, modalContext: ?)",
+    "show": "fn(obj: ?, activationData: ?, context: ?)"
+  },
+  "durandal/viewEngine": {
+    "viewExtension": "string",
+    "viewPlugin": "string",
+    "isViewUrl": "fn(url: string)",
+    "convertViewUrlToViewId": "fn(url: string)",
+    "convertViewIdToRequirePath": "fn(viewId: string)",
+    "parseMarkup": "fn(markup: string)",
+    "createView": "fn(viewId: string)"
+  },
+  "durandal/viewLocator": {
+    "useConvention": "fn(modulesPath?: string, viewsPath?: string, areasPath?: string)",
+    "locateViewForObject": "fn(obj: ?, elementsToSearch: [HTMLElement])",
+    "convertModuleIdToViewId": "fn(moduleId: string)",
+    "determineFallbackViewId": "fn(obj: ?)",
+    "translateViewIdToArea": "fn(viewId: string, area?: string)",
+    "locateView": "fn(viewOrUrlOrId: ?, area: string, elementsToSearch: [HTMLElement])"
+  },
+  "durandal/viewModel": {
+    "defaults": "IViewModelDefaults",
+    "activator": {}
+  },
+  "durandal/viewModelBinder": {
+    "bindContext": "fn(bindingContext: KnockoutBindingContext, view: HTMLElement, obj?: ?)",
+    "bind": "fn(obj: ?, view: HTMLElement)"
+  },
+  "IViewModelDefaults": {
+    "areSameItem": "fn(currentItem: ?, newItem: ?, activationData: ?) -> bool",
+    "closeOnDeactivate": "bool",
+    "interpretResponse": "fn(value: ?) -> bool",
+    "beforeActivate": "fn(newItem: ?) -> ?",
+    "afterDeactivate": "fn() -> ?"
+  },
+  "IDurandalViewModelActiveItem": {
+    "settings": "IViewModelDefaults",
+    "isActivating": "fn(val?: bool) -> bool",
+    "canDeactivateItem": "fn(item: ?, close: ?) -> ?",
+    "deactivateItem": "fn(item: ?, close: ?) -> ?",
+    "canActivateItem": "fn(newItem: ?, activationData?: ?) -> ?",
+    "activateItem": "fn(newItem: ?, activationData?: ?) -> ?",
+    "canActivate": "fn() -> ?",
+    "activate": "fn() -> ?",
+    "canDeactivate": "fn() -> ?",
+    "deactivate": "fn() -> ?",
+    "includeIn": "fn(includeIn: ?) -> ?",
+    "forItems": "fn(items: ?) -> IDurandalViewModelActiveItem"
+  },
+  "durandal/plugins/router": {
+    "IRouteInfo": {
+      "url": "string",
+      "moduleId": "string",
+      "name": "string",
+      "caption": "string",
+      "visible": "bool",
+      "settings": "Object",
+      "hash": "string",
+      "isActive": "?"
+    },
+    "IRouteInfoParameters": {
+      "url": "?",
+      "moduleId": "string",
+      "name": "string",
+      "caption": "string",
+      "visible": "bool",
+      "settings": "Object"
+    },
+    "ready": "?",
+    "allRoutes": "?",
+    "visibleRoutes": "?",
+    "isNavigating": "?",
+    "activeItem": "IDurandalViewModelActiveItem",
+    "activeRoute": "?",
+    "afterCompose": "fn()",
+    "getActivatableInstance": "fn(routeInfo: IRouteInfo, params: ?, module: ?)",
+    "navigateBack": "fn()",
+    "useConvention": "fn()",
+    "navigateTo": "fn(url: string)",
+    "replaceLocation": "fn(url: string)",
+    "convertRouteToName": "fn(route: string)",
+    "convertRouteToModuleId": "fn(url: string)",
+    "autoConvertRouteToModuleId": "fn(url: string)",
+    "prepareRouteInfo": "fn(info: IRouteInfo)",
+    "handleInvalidRoute": "fn(route: IRouteInfo, parameters: ?)",
+    "mapAuto": "fn(path?: string)",
+    "mapNav": "fn(url: string, moduleId?: string, name?: string)",
+    "mapRoute": {},
+    "map": {},
+    "activate": "fn(defaultRoute: string)",
+    "guardRoute": "fn(routeInfo: IRouteInfo, params: ?, instance: ?)"
+  },
+  "durandal/widget": {
+    "create": "fn(element: ?, settings: ?, bindingContext?: ?)",
+    "registerKind": "fn(kind: string)",
+    "mapKind": "fn(kind: string, viewId?: string, moduleId?: string)",
+    "getParts": "fn(elements: ?) -> ?",
+    "convertKindToModuleId": "fn(kind: ?) -> string",
+    "convertKindToViewId": "fn(kind: ?) -> string"
+  },
+  "IEventSubscription": {
+    "then": "fn(thenCallback: ?)",
+    "off": "fn()"
+  },
+  "!name": "durandal-1.x"
+}

@@ -1,0 +1,18 @@
+{
+  "PushResponse": {
+    "name": "string"
+  },
+  "FirebaseConfig": {
+    "url": "string",
+    "auth": "string"
+  },
+  "FirebaseClient": {
+    "get": "fn() -> ?",
+    "set": "fn(path: string, data: T) -> ?",
+    "update": "fn(path: string, value: T) -> ?",
+    "delete": "fn(path: string) -> ?",
+    "push": "fn(path: string, value: T) -> ?"
+  },
+  "'firebase-client'": "FirebaseClient",
+  "!name": "firebase-client"
+}

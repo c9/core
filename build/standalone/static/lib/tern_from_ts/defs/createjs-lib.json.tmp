@@ -1,0 +1,62 @@
+{
+  "createjs": {
+    "Event": {
+      "!type": "fn(type: string, bubbles: bool, cancelable: bool)",
+      "prototype": {
+        "bubbles": "bool",
+        "cancelable": "bool",
+        "currentTarget": "?",
+        "defaultPrevented": "bool",
+        "eventPhase": "number",
+        "immediatePropagationStopped": "bool",
+        "propagationStopped": "bool",
+        "removed": "bool",
+        "target": "?",
+        "timeStamp": "number",
+        "type": "string",
+        "data": "?",
+        "delta": "number",
+        "error": "string",
+        "id": "string",
+        "item": "?",
+        "loaded": "number",
+        "name": "string",
+        "next": "string",
+        "params": "?",
+        "paused": "bool",
+        "progress": "number",
+        "rawResult": "?",
+        "result": "?",
+        "runTime": "number",
+        "src": "string",
+        "time": "number",
+        "total": "number",
+        "clone": "fn() -> Event",
+        "preventDefault": "fn()",
+        "remove": "fn()",
+        "set": "fn(props: Object) -> Event",
+        "stopImmediatePropagation": "fn()",
+        "stopPropagation": "fn()"
+      }
+    },
+    "EventDispatcher": {
+      "!type": "fn()",
+      "initialize": "fn(target: Object)",
+      "prototype": {
+        "addEventListener": "fn(type: string, listener: fn(eventObj: Object), useCapture?: bool) -> Function",
+        "dispatchEvent": "fn(eventObj: Object, target?: Object) -> bool",
+        "hasEventListener": "fn(type: string) -> bool",
+        "off": "fn(type: string, listener: fn(eventObj: Object), useCapture?: bool)",
+        "on": "fn(type: string, listener: fn(eventObj: Object), scope?: Object, once?: bool, data?: ?, useCapture?: bool) -> Function",
+        "removeAllEventListeners": "fn(type?: string)",
+        "removeEventListener": "fn(type: string, listener: fn(eventObj: Object), useCapture?: bool)",
+        "willTrigger": "fn(type: string) -> bool"
+      }
+    },
+    "extend": "fn(subclass: fn(), superclass: fn()) -> fn()",
+    "indexOf": "fn(array: [?], searchElement: Object) -> number",
+    "promote": "fn(subclass: fn(), prefix: string) -> fn()",
+    "proxy": "fn(method: fn(eventObj: Object), scope: Object, arg: [?]) -> fn(eventObj: Object)"
+  },
+  "!name": "createjs-lib.d.ts"
+}

@@ -1,0 +1,129 @@
+{
+  "Backgrid": {
+    "GridOptions": {
+      "columns": "[Column]",
+      "collection": "?",
+      "header": "Header",
+      "body": "Body",
+      "row": "Row",
+      "footer": "Footer"
+    },
+    "Header": {
+      "prototype": {}
+    },
+    "Footer": {
+      "prototype": {}
+    },
+    "Row": {
+      "prototype": {}
+    },
+    "Command": {
+      "prototype": {
+        "moveUp": "fn() -> bool",
+        "moveDown": "fn() -> bool",
+        "moveLeft": "fn() -> bool",
+        "moveRight": "fn() -> bool",
+        "save": "fn() -> bool",
+        "cancel": "fn() -> bool",
+        "passThru": "fn() -> bool"
+      }
+    },
+    "CellFormatter": {
+      "prototype": {
+        "fromRaw": "fn(rawData: ?, model: Backbone.Model)",
+        "toRaw": "fn(formattedData: ?, model: Backbone.Model)"
+      }
+    },
+    "NumberFormatter": {
+      "prototype": {}
+    },
+    "PercentFormatter": {
+      "prototype": {}
+    },
+    "DateTimeFormatter": {
+      "prototype": {}
+    },
+    "StringFormatter": {
+      "prototype": {}
+    },
+    "EmailFormatter": {
+      "prototype": {}
+    },
+    "SelectFormatter": {
+      "prototype": {}
+    },
+    "CellEditor": {
+      "prototype": {
+        "initialize": "fn(options?: ?)",
+        "postRender": "fn(model: Backbone.Model, column: Backbone.Model)"
+      }
+    },
+    "InputCellEditor": {
+      "prototype": {
+        "render": "fn()",
+        "saveOrCancel": "fn(event: ?)"
+      }
+    },
+    "Cell": {
+      "prototype": {
+        "tagName": "string",
+        "formatter": "CellFormatter",
+        "editor": "InputCellEditor",
+        "enterEditMode": "fn()",
+        "renderError": "fn()",
+        "exitEditMode": "fn()",
+        "remove": "fn()"
+      }
+    },
+    "StringCell": {
+      "prototype": {}
+    },
+    "ColumnAttr": {
+      "name": "string",
+      "cell": "string",
+      "headerCell": "string",
+      "label": "string",
+      "sortable": "bool",
+      "editable": "bool",
+      "renderable": "bool",
+      "formater": "string"
+    },
+    "Column": {
+      "prototype": {
+        "initialize": "fn(options?: ?)"
+      }
+    },
+    "Body": {
+      "prototype": {
+        "tagName": "string",
+        "initialize": "fn(options?: ?)",
+        "insertRow": "fn(model: Backbone.Model, collection: ?, options: ?)",
+        "moveToNextCell": "fn(model: Backbone.Model, cell: Column, command: Command)",
+        "refresh": "fn() -> Body",
+        "remove": "fn() -> Body",
+        "removeRow": "fn(model: Backbone.Model, collection: ?, options: ?)",
+        "render": "fn() -> Body"
+      }
+    },
+    "Grid": {
+      "!type": "fn(options: GridOptions)",
+      "prototype": {
+        "body": "Backgrid.Body",
+        "className": "string",
+        "footer": "?",
+        "header": "?",
+        "tagName": "string",
+        "initialize": "fn(options: ?)",
+        "getSelectedModels": "fn() -> [Backbone.Model]",
+        "insertColumn": "fn(options: [?]) -> Grid",
+        "insertRow": "fn(model: Backbone.Model, collection: ?, options: ?)",
+        "remove": "fn() -> Grid",
+        "removeColumn": "fn(options: [?]) -> Grid",
+        "removeRow": "fn(model: Backbone.Model, collection: ?, options: ?)",
+        "render": "fn() -> Grid"
+      }
+    }
+  },
+  "backgrid": "Backgrid",
+  "!name": "backgrid.d.ts"
+}

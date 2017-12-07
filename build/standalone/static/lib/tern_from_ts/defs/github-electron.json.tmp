@@ -1,0 +1,4 @@
+{
+  "'electron-prebuilt'": "electron",
+  "!name": "electron-prebuilt.d.ts"
+}

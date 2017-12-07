@@ -1,0 +1,15 @@
+{
+  "egg": "Egg",
+  "Egg": {
+    "!type": "fn()",
+    "prototype": {
+      "AddCode": "fn(keySequence: string, fn: fn()) -> Egg",
+      "AddHook": "fn(fn: fn()) -> Egg",
+      "Listen": "fn() -> Egg",
+      "addCode": "fn(keySequence: string, fn: fn()) -> Egg",
+      "addHook": "fn(fn: fn()) -> Egg",
+      "listen": "fn() -> Egg"
+    }
+  },
+  "!name": "egg.js"
+}

@@ -1,0 +1,167 @@
+{
+  "swiz": {
+    "Cidr": {
+      "!type": "fn(x: string, y?: string)",
+      "prototype": {
+        "isInCIDR": "fn(x: ?) -> bool"
+      }
+    },
+    "Valve": {
+      "!type": "fn(schema: IValveSchema, baton?: ?)",
+      "prototype": {
+        "setSchema": "fn(schema: IValveSchema) -> Valve",
+        "addFinalValidator": "fn(func: fn(obj: ?, callback: fn(err: Error, cleaned: ?))) -> Valve",
+        "addChainValidator": "fn(name: string, description: string, func: fn(value: ?, callback: fn(err: Error, cleaned: ?)))",
+        "check": "fn(obj: ?, options: ICheckOptions, callback: fn(err: ?, cleaned: ?))",
+        "checkUpdate": "fn(existing: ?, obj: ?, callback: fn(err: ?, cleaned: ?))",
+        "help": "fn(schema: IValveSchema) -> ?"
+      }
+    },
+    "ICheckOptions": {
+      "strict": "bool"
+    },
+    "IValveSchema": {},
+    "IValveSchemaMember": {},
+    "IValveSchemaMemberArray": {},
+    "Chain": "fn() -> IChain",
+    "chain": "fn() -> IChain",
+    "IChain": {
+      "getValidatorPos": "fn(name: string) -> number",
+      "hasValidator": "fn(name: string) -> number",
+      "getValidatorAtPos": "fn(pos: number) -> IValidator",
+      "isUnique": "fn() -> IChain",
+      "toUnique": "fn() -> IChain",
+      "notIPBlacklisted": "fn() -> IChain",
+      "isCIDR": "fn() -> IChain",
+      "isEmail": "fn() -> IChain",
+      "isUrl": "fn() -> IChain",
+      "isAddressPair": "fn() -> IChain",
+      "isIP": "fn() -> IChain",
+      "isIPv4": "fn() -> IChain",
+      "isIPv6": "fn() -> IChain",
+      "isHostnameOrIp": "fn() -> IChain",
+      "isAllowedFQDNOrIP": "fn(blacklist?: [string]) -> IChain",
+      "isHostname": "fn() -> IChain",
+      "isAlpha": "fn() -> IChain",
+      "isAlphanumeric": "fn() -> IChain",
+      "isNumeric": "fn() -> IChain",
+      "isInt": "fn() -> IChain",
+      "isLowercase": "fn() -> IChain",
+      "isUppercase": "fn() -> IChain",
+      "isDecimal": "fn() -> IChain",
+      "isFloat": "fn() -> IChain",
+      "notNull": "fn() -> IChain",
+      "isNull": "fn() -> IChain",
+      "notEmpty": "fn() -> IChain",
+      "equals": "fn(arg: ?) -> IChain",
+      "contains": "fn(arg: ?) -> IChain",
+      "notContains": "fn(arg: ?) -> IChain",
+      "notIn": "fn(values: [?], caseSensitive?: bool) -> IChain",
+      "regex": "fn(pattern: RegExp) -> IChain",
+      "is": "fn(pattern: string, modifiers?: string) -> IChain",
+      "notRegex": "fn(pattern: RegExp) -> IChain",
+      "not": "fn(pattern: string, modifiers: string) -> IChain",
+      "len": "fn(min: number, max?: number) -> IChain",
+      "numItems": "fn(min: number, max: number) -> IChain",
+      "toFloat": "fn() -> IChain",
+      "toInt": "fn() -> IChain",
+      "toBoolean": "fn() -> IChain",
+      "toBooleanStrict": "fn() -> IChain",
+      "entityDecode": "fn() -> IChain",
+      "entityEncode": "fn() -> IChain",
+      "trim": "fn(chars?: string) -> IChain",
+      "ltrim": "fn(chars?: string) -> IChain",
+      "rtrim": "fn(chars: string) -> IChain",
+      "ifNull": "fn(replace: string) -> IChain",
+      "xss": "fn(is_image?: bool) -> IChain",
+      "enumerated": "fn(map: ?) -> IChain",
+      "inArray": "fn(array: [?]) -> IChain",
+      "isString": "fn() -> IChain",
+      "isBoolean": "fn() -> IChain",
+      "range": "fn(min: ?, max: ?) -> IChain",
+      "optional": "fn() -> IChain",
+      "isPort": "fn() -> IChain",
+      "isV1UUID": "fn() -> IChain",
+      "immutable": "fn() -> IChain",
+      "updateRequired": "fn() -> IChain",
+      "isArray": "fn(chain: IChain) -> IChain",
+      "isHash": "fn(keyChain: IChain, valueChain: IChain) -> IChain",
+      "rename": "fn(target: string) -> IChain",
+      "custom": "fn(name: string) -> IChain"
+    },
+    "defToValve": "fn(def: [struct.IObj]) -> [IValveSchema]",
+    "Swiz": {
+      "!type": "fn(defs: [struct.IObj], options?: ISwizOptions)",
+      "prototype": {
+        "buildObject": "fn(obj: ?, callback: fn(err: ?, result: ?))",
+        "buildObjectSync": "fn(obj: ?) -> ?",
+        "serializeJson": "fn(obj: ?) -> string",
+        "serializeXml": "fn(obj: ?) -> string",
+        "deserializeXml": "fn(xml: string) -> ?",
+        "serialize": "fn(mode: SERIALIZATION, version: number, obj: ISerializable, callback: fn(err: ?, result: string))",
+        "serializeForPagination": "fn(mode: SERIALIZATION, array: [?], metadata: ?, callback: fn(err: ?, result: string))",
+        "deserialize": "fn(mode: SERIALIZATION, version: number, raw: string, callback: fn(err: ?, result: ?))",
+        "getFieldDefinition": "fn(stype: string, name: string) -> struct.IField"
+      }
+    },
+    "ISerializable": {
+      "getSerializerType": "fn() -> string"
+    },
+    "ISwizOptions": {
+      "stripNulls": "bool",
+      "stripSerializerType": "bool",
+      "for": "string"
+    },
+    "IValidator": {
+      "name": "string",
+      "func": "fn(value: ?, baton: ?, callback: Function)",
+      "help": "string"
+    },
+    "stripSerializerTypes": "fn(obj: ?) -> ?",
+    "struct": {
+      "Obj": "fn(name: string, options?: IObjOptions) -> IObj",
+      "Field": "fn(name: string, options?: IFieldOptions) -> IField",
+      "coerce": "fn(value: ?, coerceTo: string) -> ?",
+      "IObj": {
+        "name": "string",
+        "options": "IObjOptions",
+        "singular": "string",
+        "plural": "string",
+        "fields": "[IField]"
+      },
+      "IField": {
+        "name": "string",
+        "options": "IFieldOptions",
+        "src": "string",
+        "singular": "string",
+        "plural": "string",
+        "desc": "string",
+        "val": "IChain",
+        "attribute": "bool",
+        "enumerated": "bool",
+        "ignorePublic": "bool",
+        "filterFrom": "[string]",
+        "coerceTo": "?"
+      },
+      "IObjOptions": {
+        "singular": "string",
+        "plural": "string",
+        "fields": "[IField]"
+      },
+      "IFieldOptions": {
+        "src": "string",
+        "singular": "string",
+        "plural": "string",
+        "desc": "string",
+        "val": "IChain",
+        "attribute": "bool",
+        "enumerated": "?",
+        "ignorePublic": "bool",
+        "filterFrom": "[string]",
+        "coerceTo": "string"
+      }
+    },
+    "SERIALIZATION": "number"
+  },
+  "!name": "swiz"
+}

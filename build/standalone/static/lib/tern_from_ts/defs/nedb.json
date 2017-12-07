@@ -1,0 +1,43 @@
+{
+  "nedb": "NeDBDataStore",
+  "NeDB": {
+    "Cursor": {
+      "sort": "fn(query: ?) -> ?",
+      "skip": "fn(n: number) -> ?",
+      "limit": "fn(n: number) -> ?",
+      "projection": "fn(query: ?) -> ?",
+      "exec": "fn(callback: fn(err: Error, documents: ?))"
+    },
+    "CursorCount": {
+      "exec": "fn(callback: fn(err: Error, count: number))"
+    },
+    "DataStoreOptions": {
+      "filename": "string",
+      "inMemoryOnly": "bool",
+      "nodeWebkitAppName": "bool",
+      "autoload": "bool",
+      "onload": "fn(error: Error)",
+      "afterSerialization": "fn(line: string)",
+      "beforeDeserialization": "fn(line: string)",
+      "corruptAlertThreshold": "number"
+    },
+    "UpdateOptions": {
+      "multi": "bool",
+      "upsert": "bool"
+    },
+    "RemoveOptions": {
+      "multi": "bool"
+    },
+    "EnsureIndexOptions": {
+      "fieldName": "string",
+      "unique": "bool",
+      "sparse": "bool"
+    },
+    "Persistence": {
+      "compactDatafile": "fn()",
+      "setAutocompactionInterval": "fn(interval: number)",
+      "stopAutocompaction": "fn()"
+    }
+  },
+  "!name": "nedb"
+}

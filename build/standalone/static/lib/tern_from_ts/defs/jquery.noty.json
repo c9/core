@@ -1,0 +1,57 @@
+{
+  "NotyOptions": {
+    "layout": "string",
+    "theme": "string",
+    "type": "string",
+    "text": "string",
+    "dismissQueue": "bool",
+    "template": "string",
+    "animation": "NotyAnimationOptions",
+    "timeout": "?",
+    "force": "bool",
+    "modal": "bool",
+    "maxVisible": "number",
+    "killer": "bool",
+    "closeWith": "[?]",
+    "callback": "NotyCallbackOptions",
+    "buttons": "?"
+  },
+  "NotyAnimationOptions": {
+    "open": "?",
+    "close": "?",
+    "easing": "string",
+    "speed": "number"
+  },
+  "NotyCallbackOptions": {
+    "onShow": "Function",
+    "afterShow": "Function",
+    "onClose": "Function",
+    "afterClose": "Function"
+  },
+  "NotyStatic": {
+    "defaults": "NotyOptions",
+    "get": "fn(id: ?)",
+    "close": "fn(id: ?)",
+    "clearQueue": "fn()",
+    "closeAll": "fn()",
+    "setText": "fn(id: ?, text: string)",
+    "setType": "fn(id: ?, type: string)"
+  },
+  "Noty": {
+    "show": "fn()",
+    "close": "fn()",
+    "setText": "fn(text: string)",
+    "setType": "fn(type: string)",
+    "setTimeout": "fn(timeout: number)",
+    "closed": "bool",
+    "shown": "bool"
+  },
+  "JQueryStatic": {
+    "noty": "NotyStatic"
+  },
+  "JQuery": {
+    "noty": "Noty"
+  },
+  "noty": "Noty",
+  "!name": "jquery.noty"
+}
