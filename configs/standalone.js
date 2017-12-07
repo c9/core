@@ -41,7 +41,9 @@ module.exports = function(config, optimist) {
             .boolean("inProcessLocalFs")
             .describe("inProcessLocalFs", "Whether to run localfs in same process for debugging.")
             .default("inProcessLocalFs", config.inProcessLocalFs)
-            .boolean("useBrowserCache");
+            .boolean("useBrowserCache")
+            .describe("useBrowserCache", "Use window.caches api if available for faster loading, requires https://")
+            .describe("secure", "path to file containing ssl certificate (can be generated using scripts/create-cert.sh)");
     }
     
     var argv = optimist.argv;
@@ -112,7 +114,7 @@ module.exports = function(config, optimist) {
 
     if (argv.secure) {
         var certPath = path.isAbsolute(argv.secure) ? argv.secure : path.join(__dirname, "..", argv.secure);
-        var key = require("fs").readFileSync(certPath , "utf8");
+        var key = require("fs").readFileSync(certPath, "utf8");
         config.secure = {
             key: key.match(/^(-+BEGIN RSA PRIVATE KEY[\s\S]*END RSA PRIVATE KEY-+)/m)[0],
             cert: key.match(/^(-+BEGIN CERTIFICATE[\s\S]*END CERTIFICATE-+)/m)[0],
@@ -198,7 +200,10 @@ module.exports = function(config, optimist) {
         },
         "./c9.vfs.server/vfs.server",
         "./c9.error/logger.raygun_noop",
-        "./c9.preview/preview.handler",
+        {
+            packagePath: "./c9.preview/preview.handler",
+            selfSignedSSL: config.secure
+        },
         "./c9.vfs.server/cache",
         "./c9.vfs.server/download",
         "./c9.vfs.server/filelist",

@@ -141,8 +141,11 @@ function plugin(options, imports, register) {
             api.authenticate()(req, res, next);
         },
         previewHandler.getProxyUrl(function() {
+            var serverOptions = options.options;
+            var host = serverOptions.host;
+            if (host == "0.0.0.0") host = "localhost";
             return {
-                url: "http://localhost:" + options.options.port + "/vfs"
+                url: (serverOptions.secure ? "https://" : "http://") + host + ":" + serverOptions.port + "/vfs"
             };
         }),
         previewHandler.proxyCall()

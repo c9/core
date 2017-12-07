@@ -47,6 +47,34 @@
 -->
     
     <script>
+        function previewHelper(options, imports, register) {
+            var fs = imports.fs;
+            var tabs = imports.tabManager;
+            var bc = new BroadcastChannel("livePreview");
+            bc.onmessage = function(e) {
+                var data = e.data;
+                var action = data && data.action;
+                if (action == "getFile") {
+                    var path = data.path;
+                    var tab = tabs.findTab(path);
+                    var value = tab && tab.document.value;
+                    if (value) return done(null, value);
+                    fs.readFile(path, function(e, value) {
+                        if (e) return done(e);
+                        done(null, value);
+                    });
+                }
+                function done(error, value) {
+                    bc.postMessage({
+                        action: "callback",
+                        id: data.id,
+                        value: value,
+                        error: error && error.code,
+                    });
+                }
+            };
+            register();
+        }
         function offlineConfig(plugins) {
             var excludes = [
                 "plugins/c9.ide.immediate/evaluators/debugnode",
@@ -57,7 +85,6 @@
                 "plugins/c9.ide.find/find",
                 "plugins/c9.ide.terminal/link_handler",
                 "plugins/c9.ide.test/coverage",
-                "plugins/c9.ide.test/coverage",
                 "plugins/c9.ide.test/results",
                 "plugins/c9.ide.test/testrunner",
                 
@@ -67,19 +94,13 @@
                 "plugins/c9.ide.language.python/python",
                 "plugins/c9.ide.test/coverageview",
                 "plugins/c9.cli.bridge/bridge_commands",
-                "plugins/c9.ide.ace.keymaps/cli",
-                "plugins/c9.ide.configuration/configure",
-                "plugins/c9.ide.plugins/manager",
-                "plugins/c9.ide.ace.keymaps/keymaps",
-                "plugins/c9.ide.ace/themes",
-            ]
+            ];
             plugins = plugins.filter(function(p) {
                 var packagePath = typeof p == "string" ? p : p.packagePath;
                 if (/\/c9.ide.run/.test(packagePath)) return false;
                 if (/\/c9.ide.collab/.test(packagePath)) return false;
                 if (/\/c9.ide.installer/.test(packagePath)) return false;
                 if (/\/c9.vfs.client/.test(packagePath)) return false;
-                if (/\/c9.ide.plugins/.test(packagePath)) return false;
                 if (/\/c9.ide.scm/.test(packagePath)) return false;
                 if (excludes.indexOf(packagePath) != -1) return false;
                 
@@ -105,10 +126,14 @@
                     });
                 }
             });
+            plugins.push({
+                provides: [],
+                consumes: ["fs", "tabManager"],
+                setup: previewHelper
+            });
             return plugins;
-        }
-    </script>
-    <script>
+        } 
+        
         var start = Date.now();
         /*
         var href = "/static";
@@ -122,8 +147,8 @@
         }});
 
         var plugins;
-        require(["lib/architect/architect", "configs/ide/default"], function (architect, defaultConfig) {
-            var plugins = defaultConfig({
+        require(["lib/architect/architect", "configs/ide/default"], function(architect, defaultConfig) {
+            plugins = defaultConfig({
                 staticPrefix: href,
                 workspaceDir: "/",
                 workspaceId: "/",
@@ -135,7 +160,7 @@
                 project: {},
                 user: {},
                 standalone: true,
-                previewUrl: "",
+                previewUrl: "./offline.preview/index.html?u=",
                 dashboardUrl: "",
                 /*
                 themePrefix: "/static/standalone/skin/default",
@@ -158,13 +183,12 @@
                     });
                 }
             });
-            window.plugins = plugins;
             
             architect.resolveConfig(plugins, function (err, config) {
                 if (err) throw err;
 
                 var errored;
-                var app = architect.createApp(config, function(err, app){
+                var app = architect.createApp(config, function(err, app) {
                     if (err) {
                         errored = true;
                         console.error(err.stack);
@@ -172,7 +196,7 @@
                     }
                 });
                 
-                app.on("error", function(err){
+                app.on("error", function(err) {
                     console.error(err.stack);
                     if (!errored)
                         alert(err);
@@ -185,7 +209,7 @@
                 
                 app.on("ready", function() {
                     window.app = app.services;
-                    window.app.__defineGetter__("_ace", function(){
+                    window.app.__defineGetter__("_ace", function() {
                         return this.tabManager.focussedTab.editor.ace;
                     });
                     Object.keys(window.app).forEach(function(n) {

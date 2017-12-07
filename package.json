@@ -1,7 +1,7 @@
 {
   "name": "Cloud9",
   "description": "New Cloud9 Client",
-  "version": "3.1.4036",
+  "version": "3.1.4045",
   "author": "Ajax.org B.V. <info@ajax.org>",
   "private": true,
   "main": "bin/c9",
@@ -58,5 +58,5 @@
     "msgpack-js",
     "c9"
   ],
-  "revision": "04a9a72bbc5c8ce3e984c80928874ef12afb7d31"
+  "revision": "6299b334b3eb2bb204991667c79d479ebe73e39e"
 }

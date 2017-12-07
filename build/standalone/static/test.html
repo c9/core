@@ -20,11 +20,6 @@
     <script src="/configs/require_config.js"></script>
     <script src="lib/mocha/mocha.js"></script>
     <script>
-        /*global mocha*/
-        mocha.setup('bdd');
-        mocha.bail(false);
-        mocha.ignoreLeaks(true);
-        mocha.fullTrace && mocha.fullTrace();
         window.onerror=function(msg){ var el=document.getElementById('jserror'); el.innerHTML+="<div class='jserr'>"+msg+"</div>";};
         
         /* wrap setTimeout to prevent any plugins leaking timeouts to the next test*/ 
@@ -57,7 +52,6 @@
                 return id;
             };
         }();
-                
         function Storage(_items) {
             this.getItem = function(n) {
                 return _items[n];
@@ -95,75 +89,98 @@
         };
         Storage.create(window, "localStorage");
         Storage.create(window, "sessionStorage");
-        
-        /*global Mocha, mocha*/
-        mocha.reporter(function(runner) {
-            function extend(target, BaseFn, arg) {
-                var base = BaseFn.prototype;
-                for (var i in base) if (!target[i]) target[i] = base[i];
-                BaseFn.call(target, arg);
-            }
-            
-            extend(this, Mocha.reporters.Base, runner);
-            extend(this, Mocha.reporters.HTML, runner);
-            
-            var tests = [];
-            var stats = this.stats;
-            mocha.lastReport = null;
-            mocha.report = { stats: stats, tests: tests };
-            mocha.getReport = function() {
-                return {
-                    stats: JSON.parse(JSON.stringify(stats)),
-                    tests: tests.map(clean)
-                };
+        var XMLHttpRequest_orig = XMLHttpRequest;
+        var currentTest;
+        /*global Mocha*/
+        function setupMocha(test) {
+            currentTest = test;
+            window.XMLHttpRequest = function() {
+                var req = new XMLHttpRequest_orig();
+                if (currentTest != test) {
+                    req.open = function() {
+                        console.error(test + " tried to open xhr after test completion");
+                    };
+                    req.setRequestHeader = req.send = function() {};
+                }
+                return req;
             };
+            var mocha = window.mocha = new Mocha({ reporter: 'html' });
+            mocha.reporter(function(runner) {
+                function extend(target, BaseFn, arg) {
+                    var base = BaseFn.prototype;
+                    for (var i in base) if (!target[i]) target[i] = base[i];
+                    BaseFn.call(target, arg);
+                }
+                
+                extend(this, Mocha.reporters.Base, runner);
+                extend(this, Mocha.reporters.HTML, runner);
+                
+                var tests = [];
+                var stats = this.stats;
+                mocha.lastReport = null;
+                mocha.report = { stats: stats, tests: tests };
+                mocha.getReport = function() {
+                    return {
+                        stats: JSON.parse(JSON.stringify(stats)),
+                        tests: tests.map(clean)
+                    };
+                };
+            
+                runner.on('test end', function(test) {
+                    stats.percent = stats.tests / runner.total * 100 | 0;
+                    tests.push(test);
+                    if (mocha._onSubTest)
+                        mocha._onSubTest(test);
+                });
+    
+                runner.on('end', function() {
+                    // tests might generate errors after they finished running
+                    // e.g. using on instead of once can call done second time during app unload
+                    // so we save the report at the time when test runner ended.
+                    mocha.lastReport = mocha.getReport();
+                });
+                
+                function parseError(err) {
+                    var str = err.stack || err.toString();
         
-            runner.on('test end', function(test) {
-                stats.percent = stats.tests / runner.total * 100 | 0;
-                tests.push(test);
-                if (mocha._onSubTest)
-                    mocha._onSubTest(test);
-            });
-
-            runner.on('end', function() {
-                // tests might generate errors after they finished running
-                // e.g. using on instead of once can call done second time during app unload
-                // so we save the report at the time when test runner ended.
-                mocha.lastReport = mocha.getReport();
+                    // FF / Opera do not add the message
+                    if (!~str.indexOf(err.message)) {
+                        str = err.message + '\n' + str;
+                    }
+        
+                    // <=IE7 stringifies to [Object Error]. Since it can be overloaded, we
+                    // check for the result of the stringifying.
+                    if ('[object Error]' == str) str = err.message;
+        
+                    // Safari doesn't give you a stack. Let's at least provide a source line.
+                    if (!err.stack && err.sourceURL && err.line !== undefined) {
+                        str += "\n(" + err.sourceURL + ":" + err.line + ")";
+                    }
+                    return str;
+                }
+                function clean(test) {
+                    return {
+                        title: test.title,
+                        duration: test.duration,
+                        error: test.err && parseError(test.err),
+                        speed: test.speed,
+                        state: test.state
+                    };
+                }
             });
             
-            function parseError(err) {
-                var str = err.stack || err.toString();
-    
-                // FF / Opera do not add the message
-                if (!~str.indexOf(err.message)) {
-                    str = err.message + '\n' + str;
-                }
-    
-                // <=IE7 stringifies to [Object Error]. Since it can be overloaded, we
-                // check for the result of the stringifying.
-                if ('[object Error]' == str) str = err.message;
-    
-                // Safari doesn't give you a stack. Let's at least provide a source line.
-                if (!err.stack && err.sourceURL && err.line !== undefined) {
-                    str += "\n(" + err.sourceURL + ":" + err.line + ")";
-                }
-                return str;
-            }
-            function clean(test) {
-                return {
-                    title: test.title,
-                    duration: test.duration,
-                    error: test.err && parseError(test.err),
-                    speed: test.speed,
-                    state: test.state
-                };
-            }
-        });
+            require.config({ useCache: true });
+            mocha.bail(false);
+            mocha.ignoreLeaks(true);
+            mocha.fullTrace && mocha.fullTrace();
+            mocha.timeout(10000);
+        
+            mocha.ui();
+            mocha.suite.emit('pre-require', window, null, mocha);
+        }
     </script>
     <script>//<!--
-    /*global mocha afterEach after*/
-    var inIFrame = window.parent !== window;
+    /*global mocha*/
     function defineEmpty(path) {
         define(path, [], {}); 
         require([path]);
@@ -190,7 +207,7 @@
         "text!/test/all.json",
         "lib/architect/architect",
         "lib/chai/chai",
-        "test",
+        "./static/test.js",
         "plugins/c9.ide.ui/lib_less1.5"
     ];
     if (options.ui === "none")
@@ -252,18 +269,6 @@
         };
         onload.remain = options.remain == "1";
         
-        mocha.timeout(10000);
-        
-        if (inIFrame) {
-            // we're in an iframe, postMessage the results to the parent.
-            after(function(done) {
-                console.log('test completed');
-                var payload = getReport();
-                window.parent.postMessage(payload, '*');
-                done();
-            });
-        }
-        
         function getReport() {
             return mocha.lastReport || { failures: "didn't complete" };
         }
@@ -306,7 +311,8 @@
             }
             
             c9Test.last = test;
-            mocha.suite.suites.length = 0;
+            setupMocha(test);
+            
             function unloadApp() {
                 var app = window.app;
                 window.app = null;
@@ -431,15 +437,11 @@
             return c9Test.allFiles.filter(function(x) { return x.match(r); });
         };
         c9Test.reRun = c9Test.run;
-        // wait for test.js to initialise chai
-        require(["lib/chai/chai", "text!plugins/c9.ide.layout.classic/skins.xml"], function wait(chai){
-            if (!chai.expect.html)
-                setTimeout(wait.bind(null, chai), 50);
-            else if (c9Test.onReady)
-                c9Test.onReady(null, null);
-            else
-                runAll({all: files});
-        });
+        
+        if (c9Test.onReady)
+            c9Test.onReady(null, null);
+        else
+            runAll({all: files});
     }, function() {
         c9Test.onReady("Couldn't load test runner");
     });

@@ -17,6 +17,7 @@ define(function(require, exports, module) {
         var fsData = {};
         
         var Stream = require("stream").Stream;
+        var basename = require("path").basename;
         var noop = function() { console.error("not implemented"); };
         var silent = function() {};
         var connection = {};
@@ -87,6 +88,17 @@ define(function(require, exports, module) {
             stream.emit("end");
         }
         
+        function readBlob(blob, callback) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                callback(null, reader.result);
+            };
+            reader.onerror = function(e) {
+                callback(e);
+            };
+            reader.readAsText(blob);
+        }
+        
         plugin.on("load", load);
         plugin.on("unload", unload);
         
@@ -104,8 +116,46 @@ define(function(require, exports, module) {
             get baseUrl() { return vfsBaseUrl; },
             get region() { return ""; },
             
-            rest: noop,
-            download: noop,
+            rest: function(path, options, callback) {
+                if (options.method == "PUT") {
+                    if (typeof options.body == "object") {
+                        return readBlob(options.body, function(e, value) {
+                            if (e) return callback(e);
+                            plugin.rest(path, {
+                                method: "PUT",
+                                body: value,
+                            }, callback);
+                        });
+                    }
+                    sendStream(options.body, function(err, stream) {
+                        if (err) return callback(err);
+                        plugin.mkfile(path, stream, callback);
+                    });
+                } else if (options.method == "GET") {
+                    var result = findNode(path);
+                    setTimeout(function() {
+                        callback(null, result);
+                    }, 20);
+                }
+            },
+            download: function(path, filename, isfile) {
+                // TODO use jszip for folders
+                if (Array.isArray(path) && path.length > 1) {
+                    return path.map(function(x) {
+                        plugin.download(x);
+                    });
+                }
+                var data = findNode(path);
+                if (typeof data !== "string")
+                    return console.error("not implemented");
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(new Blob([data], { type: "text/plain" }));
+                a.download = filename || basename(path);
+                
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            },
             url: noop,
             reconnect: noop,
             
@@ -224,7 +274,7 @@ define(function(require, exports, module) {
                     
                     var parts = to.split("/");
                     var toName = "!" + parts.pop();
-                    var toParent = findNode(parts.join("/"));
+                    var toParent = findNode(parts.join("/"), true);
                     
                     parts = from.split("/");
                     var fromName = "!" + parts.pop();
