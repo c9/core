@@ -28,12 +28,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         },
         "plugins/c9.ide.ui/ui",
         "plugins/c9.core/api",
-        // Mock plugins
-        {
-            consumes: [],
-            provides: ["fs", "auth.bootstrap", "info", "proc", "dialog.error"],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["settings"],
             provides: [],

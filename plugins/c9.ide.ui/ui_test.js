@@ -22,12 +22,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             staticPrefix: "plugins/c9.ide.ui",
             packedThemes: false
         },
-        // Mock plugins
-        {
-            consumes: [],
-            provides: ["c9"],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["ui", "Plugin"],
             provides: [],

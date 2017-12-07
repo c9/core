@@ -53,17 +53,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         "plugins/c9.ide.auth/auth",
         "plugins/c9.fs/fs",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "layout", "watcher",
-                "save", "preferences", "anims", "gotoline", "clipboard",
-                "dialog.alert", "auth.bootstrap", "info", "ace.gotoline",
-                "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["tabManager", "ace"],
             provides: [],
@@ -86,9 +75,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         
         describe('statusbar', function() {
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";
                 bar.$ext.style.position = "fixed";
                 bar.$ext.style.left = "20px";

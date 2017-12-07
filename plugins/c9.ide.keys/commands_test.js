@@ -11,14 +11,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.core/ext",
         "plugins/c9.ide.keys/commands",
         
-        // Mock plugins
-        {
-            consumes: [],
-            provides: [
-                "settings"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["commands"],
             provides: [],

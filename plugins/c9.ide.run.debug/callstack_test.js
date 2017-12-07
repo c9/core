@@ -34,15 +34,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.auth/auth",
         "plugins/c9.ide.run.debug/callstack",
         
-        //Mock Plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "panels", "tabManager", "layout", "watcher",
-                "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["callstack"],
             provides: [],
@@ -65,9 +56,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         
         describe('breakpoints', function() {
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";
                 bar.$ext.style.position = "fixed";
                 bar.$ext.style.top = "75px";

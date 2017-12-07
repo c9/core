@@ -111,17 +111,6 @@ require(["lib/architect/architect", "lib/chai/chai", "plugins/c9.ide.language/co
         "plugins/c9.ide.ace.statusbar/statusbar",
         "plugins/c9.ide.ace.gotoline/gotoline",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "layout", "watcher", 
-                "save", "preferences", "anims", "clipboard", "auth.bootstrap",
-                "info", "dialog.error", "panels", "tree", "dialog.question",
-                "dialog.alert"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: [
                 "tabManager",
@@ -190,9 +179,6 @@ require(["lib/architect/architect", "lib/chai/chai", "plugins/c9.ide.language/co
             this.timeout(20000);
             
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 window.bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";
                 window.bar.$ext.style.position = "fixed";
                 window.bar.$ext.style.left = "20px";

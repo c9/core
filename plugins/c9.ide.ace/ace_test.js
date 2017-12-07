@@ -57,16 +57,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         "plugins/c9.ide.dialog.common/alert",
         "plugins/c9.ide.dialog.common/alert_internal",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "layout", "watcher", 
-                "save", "preferences", "anims", "clipboard", "auth.bootstrap",
-                "info", "dialog.error", "threewaymerge", "error_handler"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["tabManager", "ace", "commands"],
             provides: [],
@@ -90,9 +80,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         
         describe('ace', function() {
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";
                 bar.$ext.style.position = "fixed";
                 bar.$ext.style.left = "20px";
@@ -536,7 +523,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     expect.html(doc.tab).text("50");
                     done();
                 });
-                it('should not loose undomanager state', function(done) {
+                it('should not lose undomanager state', function(done) {
                     var u = editor.activeDocument.undoManager;
                     u.setState({ mark: -1, position: -1, stack: []});
                     var state = u.getState();

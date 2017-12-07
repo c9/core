@@ -63,17 +63,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.dialog.common/question",
         "plugins/c9.ide.dialog.file/file",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "commands", "layout", "watcher", "clipboard",
-                "save", "panels", "tabManager", "preferences", "anims",
-                "auth.bootstrap", "info", "panels", "Panel", "proc", 
-                "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["upload", "dragdrop", "dialog.fileoverwrite"],
             provides: [],
@@ -92,9 +81,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         
         describe('upload', function() {
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 done();
             });
             

@@ -12,12 +12,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         "plugins/c9.ide.ui/lib_apf",
         "plugins/c9.ide.editors/document",
         "plugins/c9.ide.editors/undomanager",
-        // Mock plugins
-        {
-            consumes: [],
-            provides: ["c9"],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["Document", "ui"],
             provides: [],

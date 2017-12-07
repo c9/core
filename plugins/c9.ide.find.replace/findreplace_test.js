@@ -59,16 +59,6 @@ require(["lib/architect/architect", "lib/chai/chai", "text!plugins/c9.ide.layout
         "plugins/c9.ide.auth/auth",
         "plugins/c9.fs/fs",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "watcher", 
-                "save", "preferences", "clipboard",
-                "dialog.alert", "auth.bootstrap", "info", "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["ui"],
             provides: ["layout"],

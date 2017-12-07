@@ -60,16 +60,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
         },
         "plugins/c9.ide.run.debug/breakpoints",
         "plugins/c9.ide.run.debug/watches",
-        //Mock Plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "layout", "watcher", "auth.bootstrap", "info",
-                "preferences", "anims", "clipboard", "immediate", "run", 
-                "dialog.alert", "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["panels", "debugger", "watches", "breakpoints"],
             provides: [],
@@ -102,9 +92,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
         
         describe('breakpoints', function() {
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";
                 bar.$ext.style.position = "fixed";
                 bar.$ext.style.top = "75px";

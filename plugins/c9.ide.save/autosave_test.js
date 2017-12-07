@@ -62,17 +62,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         },
         "plugins/c9.fs/fs.cache.xml",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "commands", "layout", "watcher", "save", 
-                "anims", "tree", "preferences", "clipboard", "dialog.alert",
-                "dialog.question", "dialog.file", "dialog.fileoverwrite",
-                "auth.bootstrap", "ace.stripws", "proc", "info", "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["tabManager", "save", "fs", "autosave", "settings"],
             provides: [],
@@ -113,9 +102,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             this.timeout(5000);
             
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 tabs.once("ready", function() {
                     tabs.getPanes()[0].focus();
                     var path = "/autosave1.txt";

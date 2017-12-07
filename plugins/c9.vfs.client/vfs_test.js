@@ -23,12 +23,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
         
-        //Mock Plugins
-        {
-            consumes: ["Plugin"],
-            provides: ["auth.bootstrap", "info", "dialog.error", "api", "dialog.alert"],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["vfs", "c9"],
             provides: [],

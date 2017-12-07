@@ -70,16 +70,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.dialog.common/question",
         "plugins/c9.ide.dialog.file/file",
         
-        // Mock plugins
-        {
-            consumes: ["apf", "ui", "Plugin"],
-            provides: [
-                "commands", "menus", "commands", "layout", "watcher", "save", 
-                "preferences", "anims", "clipboard", "auth.bootstrap", "info",
-                "dialog.error"
-            ],
-            setup: expect.html.mocked
-        },
         {
             consumes: ["tabManager", "fs", "settings", "metadata", "dialog.question"],
             provides: [],
@@ -111,9 +101,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             this.timeout(20000);
             
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
-                
                 bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";
                 bar.$ext.style.position = "fixed";
                 bar.$ext.style.left = "20px";

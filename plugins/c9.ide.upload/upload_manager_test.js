@@ -30,15 +30,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             workerPrefix: "/static/plugins/c9.ide.upload"
         },
         
-        // Mock plugins
-        {
-            consumes: [],
-            provides: [
-                "auth.bootstrap", "info", "dialog.error", "api"
-            ],
-            setup: expect.html.mocked
-        },
-        
         {
             consumes: ["upload.manager", "fs"],
             provides: [],

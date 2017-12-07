@@ -179,19 +179,21 @@ define(function(require, exports, module) {
                     changeTheme();
             }
             function changeTheme() {
-                emit("eachTheme", { changed: true });
-                setGeckoMask();
-                
-                var auto = emit("themeChange", { 
+                var event = { 
                     theme: theme, 
                     oldTheme: oldTheme,
                     type: type
-                }) !== false;
+                };
+                emit("eachTheme", { changed: true });
+                emit("themeChange", event);
+                setGeckoMask();
+                
+                var auto = emit("validateThemeChange", event) !== false;
                 
                 if (!oldTheme || noquestion) return;
                 
                 if (auto)
-                    return emit("themeDefaults", { theme: theme, type: type });
+                    return emit("themeDefaults", { theme: theme, type: type, force: false });
                 
                 question.show("Set default colors?", 
                     "Would you like to reset colors to their default value?",
@@ -215,7 +217,7 @@ define(function(require, exports, module) {
                 "Click Yes to change the theme or No to keep the current theme.",
                 function() { // yes
                     ignoreTheme = true;
-                    var theme = { "dark": "flat-dark", "light": "flat-light" }[kind];
+                    var theme = { "dark": "dark", "light": "flat-light" }[kind];
                     settings.set("user/general/@skin", theme);
                     updateTheme(false, type);
                     ignoreTheme = false;
