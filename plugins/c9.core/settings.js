@@ -88,12 +88,13 @@ define(function(require, exports, module) {
                 }
                 
                 var count = KEYS.length;
+                var hasJSON = json;
+                if (!json) 
+                    json = {};
                 
                 KEYS.forEach(function(type) {
-                    if (!skipCloud[type] && json)
+                    if (!skipCloud[type] && hasJSON)
                         return --count;
-                    if (!json) 
-                        json = {};
                     if (type == "state" && debugMode)
                         return done(null, localStorage["debugState" + c9.projectName]);
                     fs.readFile(PATH[type], done);
