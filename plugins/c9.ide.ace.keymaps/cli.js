@@ -279,7 +279,7 @@ define(function(require, exports, module) {
                                 'column': offset
                             };
                             
-                            return replacement.replace(/\\(\d+)/, function (m, m1) {
+                            return replacement.replace(/\\(\d+)/g, function (m, m1) {
                                 var i = parseInt(m1, 10);
                                 return i < args.length - 2 ? args[i] : '';
                             });
