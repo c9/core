@@ -1,7 +1,7 @@
 var modules = require("module");
 var oldResolve = modules._resolveFilename;
 var extraPaths = [
-    __dirname + "/../node_modules/ace/lib",
+    __dirname + "/../plugins/node_modules/ace/lib",
     __dirname + "/../node_modules/v8debug/lib",
     __dirname + "/../"
 ];
