@@ -50,8 +50,6 @@
     "devDependencies": {},
     "licenses": [],
     "bundledDependencies": [
-        "ace",
-        "ace_tree",
         "amd-loader",
         "architect",
         "architect-build",
