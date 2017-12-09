@@ -57,7 +57,6 @@ define(function(require, exports, module) {
                 }]); 
             } else {
                 [
-                    "ace_tree", 
                     "acorn",
                     "tern",
                     "tern_from_ts",
@@ -82,7 +81,12 @@ define(function(require, exports, module) {
                 });
                 
                 statics.addStatics([{
-                    path: __dirname + "/../../node_modules/ace",
+                    path: __dirname + "/../node_modules/ace_tree",
+                    mount: "/lib/ace_tree",
+                }]);
+                
+                statics.addStatics([{
+                    path: __dirname + "/../node_modules/ace",
                     mount: "/lib/ace",
                     rjs: requirePaths
                 }]);
