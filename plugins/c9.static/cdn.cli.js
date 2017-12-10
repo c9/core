@@ -171,7 +171,7 @@ define(function(require, exports, module) {
             
             // FIXME: this could be resolved via pathConfig:
             var pathMap = {
-                "ace": __dirname + "/../../node_modules/ace/lib/ace",
+                "ace": __dirname + "/../node_modules/ace/lib/ace",
                 "plugins": __dirname + "/../../plugins",
                 "plugins/salesforce.language": __dirname + "/../../node_modules/salesforce.language",
                 "plugins/salesforce.sync": __dirname + "/../../node_modules/salesforce.sync"
