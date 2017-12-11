@@ -69,7 +69,6 @@
                         <div class="c9-mbar-round">
                             <a id="backToC9" href="http://c9.io/" class="mainlogo backToC9" target="_blank" title="Go to c9.io">c9.io</a>
                             <div class="c9-activity" id="saveStatus"><div class="light"> </div></div>
-                            <!--div id="offlineInfoDiv" class="c9-offlineInfo menu-bk upward moveleft menu-bkFocus">Keep working without<br />internet. When you're back online, Cloud9 syncs your files for you!<div class="offlineInfoWarn">Some features are disabled.</div></div-->
                         </div>
                     </div>
                 </div>

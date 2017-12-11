@@ -57,7 +57,7 @@ define(function(require, exports, module) {
                 caption: "Function",
                 value: "name",
                 width: "60%",
-                icon: "debugger/stckframe_obj.gif"
+                icon: true
             }, {
                 caption: "File",
                 getText: function(node) {
@@ -260,7 +260,7 @@ define(function(require, exports, module) {
             button = hbox.appendChild(new ui.button({
                 id: "btnScripts",
                 tooltip: "Available internal and external scripts",
-                icon: "scripts.png",
+                icon: true,
                 right: "0",
                 top: "0",
                 class: "scripts",

@@ -2,7 +2,7 @@
     <a:bar id="hbox" skin="toolbar-top" class="fakehbox aligncenter debugger_buttons basic">
         <a:button id="btnResume"
           tooltip  = "Resume"
-          icon     = "play.png"
+          icon     = "true"
           command  = "resume"
           skin     = "c9-menu-btn"
           class    = "nosize play"
@@ -11,26 +11,26 @@
           tooltip  = "Suspend"
           skin     = "c9-menu-btn"
           class    = "nosize pause"
-          icon     = "pause.png"
+          icon     = "true"
           command  = "suspend"
           disabled = "true" />
         <a:button id="btnStepOver"
           tooltip  = "Step Over"
-          icon     = "step.png"
+          icon     = "true"
           skin     = "c9-menu-btn"
           class    = "nosize step"
           command  = "stepover"
           disabled = "true" />
         <a:button id="btnStepInto"
           tooltip  = "Step Into"
-          icon     = "stepinto.png"
+          icon     = "true"
           skin     = "c9-menu-btn"
           class    = "nosize stepinto"
           command  = "stepinto"
           disabled = "true" />
         <a:button id="btnStepOut"
           tooltip  = "Step Out"
-          icon     = "stepback.png"
+          icon     = "true"
           skin     = "c9-menu-btn"
           class    = "nosize stepback"
           command  = "stepout"
@@ -38,7 +38,7 @@
         <a:divider  skin="c9-divider" style="margin:0 3px 0 3px" />
         <a:button id="btnPause"
           tooltip  = "Don't pause on exceptions"
-          icon     = "exception_break.png"
+          icon     = "true"
           class    = "pause0 nosize exception_break"
           skinset  = "default"
           skin     = "c9-menu-btn" />

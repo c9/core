@@ -628,7 +628,7 @@ define(function(require, module, exports) {
                 caption: "Run",
                 disabled: true,
                 class: "runbtn stopped",
-                icon: "run.png",
+                icon: true,
             }), 100, plugin);
 
             btnRun.on("contextmenu", function(e) {

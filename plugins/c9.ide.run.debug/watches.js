@@ -65,7 +65,7 @@ define(function(require, exports, module) {
                 match: "name",
                 value: "name",
                 width: "60%",
-                icon: "debugger/genericvariable_obj.gif",
+                icon: true,
                 type: "tree",
                 editor: "textbox"
             }, { 

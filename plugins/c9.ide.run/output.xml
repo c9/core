@@ -5,7 +5,7 @@
             skin     = "c9-toolbarbutton-glossy"
             caption  = "Run"
             width    = "54"
-            icon     = "run.png"
+            icon     = "true"
             class    = "runbtn stopped"
             visible  = "true"
             style    = "min-width:54px;" />
@@ -13,11 +13,11 @@
             id       = "btnRestart"
             skin     = "c9-toolbarbutton-glossy"
             width    = "22"
-            icon     = "restart-icon.png"
+            icon     = "true"
             tooltip  = "Restart"
             class    = "light restart"
             style    = "min-width:22px" />
-        <!--<a:button skin="c9-toolbarbutton-glossy" id="btnConsoleClear" class="clear" icon="console_clear.png" />-->
+        <!--<a:button skin="c9-toolbarbutton-glossy" id="btnConsoleClear" class="clear" icon="true" />-->
         <a:textbox skin="tbsimple" id="tbName" initial-message="Run Config Name" style="min-width:40px"/>
         <a:divider skin="c9-divider" />
         <a:label style="min-width:64px">Command:</a:label>
@@ -26,7 +26,7 @@
         <a:button
             id       = "btnDebug"
             skin     = "c9-toolbarbutton-glossy"
-            icon     = "bug.png"
+            icon     = "true"
             state    = "true"
             class    = "bug"
             tooltip  = "Run in Debug Mode"

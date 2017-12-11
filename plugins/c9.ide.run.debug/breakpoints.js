@@ -441,7 +441,7 @@ define(function(require, exports, module) {
             btnBreakpoints = hbox1.insertBefore(new ui.button({
                 id: "btnBreakpoints",
                 tooltip: "Deactivate All Breakpoints",
-                icon: "toggle_breakpoints2.png",
+                icon: true,
                 skinset: "default",
                 skin: "c9-menu-btn",
                 class: "nosize toggle_breakpoints2"
@@ -449,7 +449,7 @@ define(function(require, exports, module) {
             btnBpRemove = hbox2.insertBefore(new ui.button({
                 id: "btnBpRemove",
                 tooltip: "Clear All Breakpoints",
-                icon: "remove_breakpoints.png",
+                icon: true,
                 skinset: "default",
                 skin: "c9-menu-btn",
                 class: "nosize remove_breakpoints"

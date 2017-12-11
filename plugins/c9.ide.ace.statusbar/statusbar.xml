@@ -34,7 +34,7 @@
           skin    = "btn-statusbar-icon" 
           skinset = "c9statusbar"
           height  = "23"
-          icon    = "pref-ico.png" 
+          icon    = "true" 
           submenudir = "up" />
     </a:bar>
 </a:application>
