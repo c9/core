@@ -8,14 +8,14 @@ test('sanity checks', function (t) {
   t.ok(errno.errno, 'errno.errno not found')
   t.ok(errno.code, 'errno.code not found')
 
-  t.equal(errno.all.length, 59, 'found ' + errno.all.length + ', expected 59')
-  t.equal(errno.errno['-1'], errno.all[0], 'errno -1 not first element')
+  t.equal(errno.all.length, 60, 'found ' + errno.all.length + ', expected 60')
+  t.equal(errno.errno['-1'], errno.all[1], 'errno -1 not second element')
 
-  t.equal(errno.code['UNKNOWN'], errno.all[0], 'code UNKNOWN not first element')
+  t.equal(errno.code['UNKNOWN'], errno.all[1], 'code UNKNOWN not second element')
 
-  t.equal(errno.errno[1], errno.all[2], 'errno 1 not third element')
+  t.equal(errno.errno[1], errno.all[3], 'errno 1 not fourth element')
 
-  t.equal(errno.code['EOF'], errno.all[2], 'code EOF not third element')
+  t.equal(errno.code['EOF'], errno.all[3], 'code EOF not fourth element')
   t.end()
 })
 
