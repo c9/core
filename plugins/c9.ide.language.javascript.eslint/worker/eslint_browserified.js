@@ -7135,9 +7135,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   var _ = runInContext();
   if ("function" == 'function' && _typeof(__webpack_require__(157)) == 'object' && __webpack_require__(157)) {
 	root._ = _;
-	!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+	!(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {
 			return _;
-	}.call(exports, __webpack_require__, exports, module),
+	}).call(exports, __webpack_require__, exports, module),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
   }
   else if (freeModule) {
@@ -7172,7 +7172,7 @@ module.exports = function (it) {
 "use strict";
 
 
-var core = module.exports = { version: '2.5.1' };
+var core = module.exports = { version: '2.5.3' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
  }),
  (function(module, exports, __webpack_require__) {
@@ -10816,7 +10816,7 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
   var VALUES_BUG = false;
   var proto = Base.prototype;
   var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
-  var $default = $native || getMethod(DEFAULT);
+  var $default = !BUGGY && $native || getMethod(DEFAULT);
   var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined;
   var $anyNative = NAME == 'Array' ? proto.entries || $native : $native;
   var methods, key, IteratorPrototype;
@@ -11034,7 +11034,7 @@ var $BUFFER = DESCRIPTORS ? '_b' : BUFFER;
 var $LENGTH = DESCRIPTORS ? '_l' : BYTE_LENGTH;
 var $OFFSET = DESCRIPTORS ? '_o' : BYTE_OFFSET;
 function packIEEE754(value, mLen, nBytes) {
-  var buffer = Array(nBytes);
+  var buffer = new Array(nBytes);
   var eLen = nBytes * 8 - mLen - 1;
   var eMax = (1 << eLen) - 1;
   var eBias = eMax >> 1;
@@ -11154,7 +11154,7 @@ if (!$typed.ABV) {
   $ArrayBuffer = function ArrayBuffer(length) {
 	anInstance(this, $ArrayBuffer, ARRAY_BUFFER);
 	var byteLength = toIndex(length);
-	this._b = arrayFill.call(Array(byteLength), 0);
+	this._b = arrayFill.call(new Array(byteLength), 0);
 	this[$LENGTH] = byteLength;
   };
 
@@ -11344,7 +11344,7 @@ var $export = __webpack_require__(1);
 module.exports = function (COLLECTION) {
   $export($export.S, COLLECTION, { of: function of() {
 			var length = arguments.length;
-			var A = Array(length);
+			var A = new Array(length);
 			while (length--) {
 		A[length] = arguments[length];
 			}return new this(A);
@@ -12606,6 +12606,7 @@ var wksDefine = __webpack_require__(75);
 var enumKeys = __webpack_require__(175);
 var isArray = __webpack_require__(79);
 var anObject = __webpack_require__(5);
+var isObject = __webpack_require__(3);
 var toIObject = __webpack_require__(24);
 var toPrimitive = __webpack_require__(32);
 var createDesc = __webpack_require__(35);
@@ -12785,16 +12786,15 @@ $JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function () {
   return _stringify([S]) != '[null]' || _stringify({ a: S }) != '{}' || _stringify(Object(S)) != '{}';
 })), 'JSON', {
   stringify: function stringify(it) {
-	if (it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
 	var args = [it];
 	var i = 1;
 	var replacer, $replacer;
 	while (arguments.length > i) {
 			args.push(arguments[i++]);
-	}replacer = args[1];
-	if (typeof replacer == 'function') $replacer = replacer;
-	if ($replacer || !isArray(replacer)) replacer = function replacer(key, value) {
-			if ($replacer) value = $replacer.call(this, key, value);
+	}$replacer = replacer = args[1];
+	if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
+	if (!isArray(replacer)) replacer = function replacer(key, value) {
+			if (typeof $replacer == 'function') value = $replacer.call(this, key, value);
 			if (!isSymbol(value)) return value;
 	};
 	args[1] = replacer;
@@ -14787,8 +14787,7 @@ function curry$(f, bound) {
  }),
  (function(module, exports) {
 (function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
-module.exports = __webpack_amd_options__;
-}.call(exports, {}))
+module.exports = __webpack_amd_options__;}.call(exports, {}))
  }),
  (function(module, exports, __webpack_require__) {
 
@@ -18414,7 +18413,7 @@ $export($export.P + $export.F * __webpack_require__(2)(function () {
 	var start = toAbsoluteIndex(begin, len);
 	var upTo = toAbsoluteIndex(end, len);
 	var size = toLength(upTo - start);
-	var cloned = Array(size);
+	var cloned = new Array(size);
 	var i = 0;
 	for (; i < size; i++) {
 			cloned[i] = klass == 'String' ? this.charAt(start + i) : this[start + i];
@@ -18937,14 +18936,7 @@ var onUnhandled = function onUnhandled(promise) {
   });
 };
 var isUnhandled = function isUnhandled(promise) {
-  if (promise._h == 1) return false;
-  var chain = promise._a || promise._c;
-  var i = 0;
-  var reaction;
-  while (chain.length > i) {
-	reaction = chain[i++];
-	if (reaction.fail || !isUnhandled(reaction.promise)) return false;
-  }return true;
+  return promise._h !== 1 && (promise._a || promise._c).length === 0;
 };
 var onHandleUnhandled = function onHandleUnhandled(promise) {
   task.call(global, function () {
@@ -19132,7 +19124,7 @@ module.exports = function () {
 	notify = function notify() {
 			process.nextTick(flush);
 	};
-  } else if (Observer) {
+  } else if (Observer && !(global.navigator && global.navigator.standalone)) {
 	var toggle = true;
 	var node = document.createTextNode('');
 	new Observer(flush).observe(node, { characterData: true }); // eslint-disable-line no-new
@@ -20651,7 +20643,7 @@ module.exports = ScopeManager;
  }),
  (function(module, exports) {
 
-module.exports = {"_args":[["estraverse@4.2.0","/home/ubuntu/workspace/plugins/c9.ide.language.javascript.eslint/packager"]],"_from":"estraverse@4.2.0","_id":"estraverse@4.2.0","_inBundle":false,"_integrity":"sha1-De4/7TH81GlhjOc0IJn8GvoL2xM=","_location":"/estraverse","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"estraverse@4.2.0","name":"estraverse","escapedName":"estraverse","rawSpec":"4.2.0","saveSpec":null,"fetchSpec":"4.2.0"},"_requiredBy":["/escope","/eslint","/eslint-scope","/esquery","/esrecurse"],"_resolved":"https://registry.npmjs.org/estraverse/-/estraverse-4.2.0.tgz","_spec":"4.2.0","_where":"/home/ubuntu/workspace/plugins/c9.ide.language.javascript.eslint/packager","bugs":{"url":"https://github.com/estools/estraverse/issues"},"description":"ECMAScript JS AST traversal functions","devDependencies":{"babel-preset-es2015":"^6.3.13","babel-register":"^6.3.13","chai":"^2.1.1","espree":"^1.11.0","gulp":"^3.8.10","gulp-bump":"^0.2.2","gulp-filter":"^2.0.0","gulp-git":"^1.0.1","gulp-tag-version":"^1.2.1","jshint":"^2.5.6","mocha":"^2.1.0"},"engines":{"node":">=0.10.0"},"homepage":"https://github.com/estools/estraverse","license":"BSD-2-Clause","main":"estraverse.js","maintainers":[{"name":"Yusuke Suzuki","email":"utatane.tea@gmail.com","url":"http://github.com/Constellation"}],"name":"estraverse","repository":{"type":"git","url":"git+ssh://git@github.com/estools/estraverse.git"},"scripts":{"lint":"jshint estraverse.js","test":"npm run-script lint && npm run-script unit-test","unit-test":"mocha --compilers js:babel-register"},"version":"4.2.0"}
+module.exports = {"_from":"estraverse@^4.2.0","_id":"estraverse@4.2.0","_inBundle":false,"_integrity":"sha1-De4/7TH81GlhjOc0IJn8GvoL2xM=","_location":"/estraverse","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"estraverse@^4.2.0","name":"estraverse","escapedName":"estraverse","rawSpec":"^4.2.0","saveSpec":null,"fetchSpec":"^4.2.0"},"_requiredBy":["/escope","/eslint","/eslint-scope","/esquery","/esrecurse"],"_resolved":"https://registry.npmjs.org/estraverse/-/estraverse-4.2.0.tgz","_shasum":"0dee3fed31fcd469618ce7342099fc1afa0bdb13","_spec":"estraverse@^4.2.0","_where":"J:\\Chromium\\newclient\\plugins\\c9.ide.language.javascript.eslint\\packager\\node_modules\\eslint","bugs":{"url":"https://github.com/estools/estraverse/issues"},"bundleDependencies":false,"deprecated":false,"description":"ECMAScript JS AST traversal functions","devDependencies":{"babel-preset-es2015":"^6.3.13","babel-register":"^6.3.13","chai":"^2.1.1","espree":"^1.11.0","gulp":"^3.8.10","gulp-bump":"^0.2.2","gulp-filter":"^2.0.0","gulp-git":"^1.0.1","gulp-tag-version":"^1.2.1","jshint":"^2.5.6","mocha":"^2.1.0"},"engines":{"node":">=0.10.0"},"homepage":"https://github.com/estools/estraverse","license":"BSD-2-Clause","main":"estraverse.js","maintainers":[{"name":"Yusuke Suzuki","email":"utatane.tea@gmail.com","url":"http://github.com/Constellation"}],"name":"estraverse","repository":{"type":"git","url":"git+ssh://git@github.com/estools/estraverse.git"},"scripts":{"lint":"jshint estraverse.js","test":"npm run-script lint && npm run-script unit-test","unit-test":"mocha --compilers js:babel-register"},"version":"4.2.0"}
  }),
  (function(module, exports, __webpack_require__) {
 
@@ -21214,7 +21206,7 @@ module.exports = Referencer;
  }),
  (function(module, exports) {
 
-module.exports = {"_args":[["esrecurse@4.2.0","/home/ubuntu/workspace/plugins/c9.ide.language.javascript.eslint/packager"]],"_from":"esrecurse@4.2.0","_id":"esrecurse@4.2.0","_inBundle":false,"_integrity":"sha1-+pVo2Y04I/mkHZHpAtyrnqblsWM=","_location":"/esrecurse","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"esrecurse@4.2.0","name":"esrecurse","escapedName":"esrecurse","rawSpec":"4.2.0","saveSpec":null,"fetchSpec":"4.2.0"},"_requiredBy":["/escope","/eslint-scope"],"_resolved":"https://registry.npmjs.org/esrecurse/-/esrecurse-4.2.0.tgz","_spec":"4.2.0","_where":"/home/ubuntu/workspace/plugins/c9.ide.language.javascript.eslint/packager","babel":{"presets":["es2015"]},"bugs":{"url":"https://github.com/estools/esrecurse/issues"},"dependencies":{"estraverse":"^4.1.0","object-assign":"^4.0.1"},"description":"ECMAScript AST recursive visitor","devDependencies":{"babel-cli":"^6.24.1","babel-eslint":"^7.2.3","babel-preset-es2015":"^6.24.1","babel-register":"^6.24.1","chai":"^4.0.2","esprima":"^4.0.0","gulp":"^3.9.0","gulp-bump":"^2.7.0","gulp-eslint":"^4.0.0","gulp-filter":"^5.0.0","gulp-git":"^2.4.1","gulp-mocha":"^4.3.1","gulp-tag-version":"^1.2.1","jsdoc":"^3.3.0-alpha10","minimist":"^1.1.0"},"engines":{"node":">=0.10.0"},"homepage":"https://github.com/estools/esrecurse","license":"BSD-2-Clause","main":"esrecurse.js","maintainers":[{"name":"Yusuke Suzuki","email":"utatane.tea@gmail.com","url":"https://github.com/Constellation"}],"name":"esrecurse","repository":{"type":"git","url":"git+https://github.com/estools/esrecurse.git"},"scripts":{"lint":"gulp lint","test":"gulp travis","unit-test":"gulp test"},"version":"4.2.0"}
+module.exports = {"_from":"esrecurse@^4.1.0","_id":"esrecurse@4.2.0","_inBundle":false,"_integrity":"sha1-+pVo2Y04I/mkHZHpAtyrnqblsWM=","_location":"/esrecurse","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"esrecurse@^4.1.0","name":"esrecurse","escapedName":"esrecurse","rawSpec":"^4.1.0","saveSpec":null,"fetchSpec":"^4.1.0"},"_requiredBy":["/escope","/eslint-scope"],"_resolved":"https://registry.npmjs.org/esrecurse/-/esrecurse-4.2.0.tgz","_shasum":"fa9568d98d3823f9a41d91e902dcab9ea6e5b163","_spec":"esrecurse@^4.1.0","_where":"J:\\Chromium\\newclient\\plugins\\c9.ide.language.javascript.eslint\\packager\\node_modules\\eslint-scope","babel":{"presets":["es2015"]},"bugs":{"url":"https://github.com/estools/esrecurse/issues"},"bundleDependencies":false,"dependencies":{"estraverse":"^4.1.0","object-assign":"^4.0.1"},"deprecated":false,"description":"ECMAScript AST recursive visitor","devDependencies":{"babel-cli":"^6.24.1","babel-eslint":"^7.2.3","babel-preset-es2015":"^6.24.1","babel-register":"^6.24.1","chai":"^4.0.2","esprima":"^4.0.0","gulp":"^3.9.0","gulp-bump":"^2.7.0","gulp-eslint":"^4.0.0","gulp-filter":"^5.0.0","gulp-git":"^2.4.1","gulp-mocha":"^4.3.1","gulp-tag-version":"^1.2.1","jsdoc":"^3.3.0-alpha10","minimist":"^1.1.0"},"engines":{"node":">=0.10.0"},"homepage":"https://github.com/estools/esrecurse","license":"BSD-2-Clause","main":"esrecurse.js","maintainers":[{"name":"Yusuke Suzuki","email":"utatane.tea@gmail.com","url":"https://github.com/Constellation"}],"name":"esrecurse","repository":{"type":"git","url":"git+https://github.com/estools/esrecurse.git"},"scripts":{"lint":"gulp lint","test":"gulp travis","unit-test":"gulp test"},"version":"4.2.0"}
  }),
  (function(module, exports, __webpack_require__) {
 
@@ -21350,7 +21342,7 @@ module.exports = PatternVisitor;
  }),
  (function(module, exports) {
 
-module.exports = {"_args":[["eslint-scope@3.7.1","/home/ubuntu/workspace/plugins/c9.ide.language.javascript.eslint/packager"]],"_from":"eslint-scope@3.7.1","_id":"eslint-scope@3.7.1","_inBundle":false,"_integrity":"sha1-PWPD7f2gLgbgGkUq2IyqzHzctug=","_location":"/eslint-scope","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"eslint-scope@3.7.1","name":"eslint-scope","escapedName":"eslint-scope","rawSpec":"3.7.1","saveSpec":null,"fetchSpec":"3.7.1"},"_requiredBy":["/eslint"],"_resolved":"https://registry.npmjs.org/eslint-scope/-/eslint-scope-3.7.1.tgz","_spec":"3.7.1","_where":"/home/ubuntu/workspace/plugins/c9.ide.language.javascript.eslint/packager","bugs":{"url":"https://github.com/eslint/eslint-scope/issues"},"dependencies":{"esrecurse":"^4.1.0","estraverse":"^4.1.1"},"description":"ECMAScript scope analyzer for ESLint","devDependencies":{"chai":"^3.4.1","eslint":"^3.15.0","eslint-config-eslint":"^4.0.0","eslint-release":"^0.10.1","espree":"^3.1.1","istanbul":"^0.4.5","mocha":"^3.2.0","npm-license":"^0.3.3","shelljs":"^0.7.6","typescript":"~2.0.10","typescript-eslint-parser":"^1.0.0"},"engines":{"node":">=4.0.0"},"files":["LICENSE","README.md","lib"],"homepage":"http://github.com/eslint/eslint-scope","license":"BSD-2-Clause","main":"lib/index.js","name":"eslint-scope","repository":{"type":"git","url":"git+https://github.com/eslint/eslint-scope.git"},"scripts":{"alpharelease":"eslint-prerelease alpha","betarelease":"eslint-prerelease beta","ci-release":"eslint-ci-release","gh-release":"eslint-gh-release","lint":"node Makefile.js lint","release":"eslint-release","test":"node Makefile.js test"},"version":"3.7.1"}
+module.exports = {"_from":"eslint-scope@^3.7.1","_id":"eslint-scope@3.7.1","_inBundle":false,"_integrity":"sha1-PWPD7f2gLgbgGkUq2IyqzHzctug=","_location":"/eslint-scope","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"eslint-scope@^3.7.1","name":"eslint-scope","escapedName":"eslint-scope","rawSpec":"^3.7.1","saveSpec":null,"fetchSpec":"^3.7.1"},"_requiredBy":["/eslint"],"_resolved":"https://registry.npmjs.org/eslint-scope/-/eslint-scope-3.7.1.tgz","_shasum":"3d63c3edfda02e06e01a452ad88caacc7cdcb6e8","_spec":"eslint-scope@^3.7.1","_where":"J:\\Chromium\\newclient\\plugins\\c9.ide.language.javascript.eslint\\packager\\node_modules\\eslint","bugs":{"url":"https://github.com/eslint/eslint-scope/issues"},"bundleDependencies":false,"dependencies":{"esrecurse":"^4.1.0","estraverse":"^4.1.1"},"deprecated":false,"description":"ECMAScript scope analyzer for ESLint","devDependencies":{"chai":"^3.4.1","eslint":"^3.15.0","eslint-config-eslint":"^4.0.0","eslint-release":"^0.10.1","espree":"^3.1.1","istanbul":"^0.4.5","mocha":"^3.2.0","npm-license":"^0.3.3","shelljs":"^0.7.6","typescript":"~2.0.10","typescript-eslint-parser":"^1.0.0"},"engines":{"node":">=4.0.0"},"files":["LICENSE","README.md","lib"],"homepage":"http://github.com/eslint/eslint-scope","license":"BSD-2-Clause","main":"lib/index.js","name":"eslint-scope","repository":{"type":"git","url":"git+https://github.com/eslint/eslint-scope.git"},"scripts":{"alpharelease":"eslint-prerelease alpha","betarelease":"eslint-prerelease beta","ci-release":"eslint-ci-release","gh-release":"eslint-gh-release","lint":"node Makefile.js lint","release":"eslint-release","test":"node Makefile.js test"},"version":"3.7.1"}
  }),
  (function(module, exports, __webpack_require__) {
 
@@ -26553,28 +26545,8 @@ var keywords = {
   5: ecma5AndLessKeywords,
   6: ecma5AndLessKeywords + " const class extends export import super"
 };
-var nonASCIIidentifierStartChars = "\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0370-\u0374\u0376\u0377\u037A-\u037D\u037F\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u048A-\u052F\u0531-\u0556\u0559\u0561-\u0587\u05D0-\u05EA\u05F0-\u05F2\u0620-\u064A\u066E\u066F\u0671-\u06D3\u06D5\u06E5\u06E6\u06EE\u06EF\u06FA-\u06FC\u06FF\u0710\u0712-\u072F\u074D-\u07A5\u07B1\u07CA-\u07EA\u07F4\u07F5\u07FA\u0800-\u0815\u081A\u0824\u0828\u0840-\u0858\u08A0-\u08B4\u08B6-\u08BD\u0904-\u0939\u093D\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BD\u09CE\u09DC\u09DD\u09DF-\u09E1\u09F0\u09F1\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A59-\u0A5C\u0A5E\u0A72-\u0A74\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABD\u0AD0\u0AE0\u0AE1\u0AF9\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3D\u0B5C\u0B5D\u0B5F-\u0B61\u0B71\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BD0\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C39\u0C3D\u0C58-\u0C5A\u0C60\u0C61\u0C80\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBD\u0CDE\u0CE0\u0CE1\u0CF1\u0CF2\u0D05-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D\u0D4E\u0D54-\u0D56\u0D5F-\u0D61\u0D7A-\u0D7F\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0E01-\u0E30\u0E32\u0E33\u0E40-\u0E46\u0E81\u0E82\u0E84\u0E87\u0E88\u0E8A\u0E8D\u0E94-\u0E97\u0E99-\u0E9F\u0EA1-\u0EA3\u0EA5\u0EA7\u0EAA\u0EAB\u0EAD-\u0EB0\u0EB2\u0EB3\u0EBD\u0EC0-\u0EC4\u0EC6\u0EDC-\u0EDF\u0F00\u0F40-\u0F47\u0F49-\u0F6C\u0F88-\u0F8C\u1000-\u102A\u103F\u1050-\u1055\u105A-\u105D\u1061\u1065\u1066\u106E-\u1070\u1075-\u1081\u108E\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u1380-\u138F\u13A0-\u13F5\u13F8-\u13FD\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u16EE-\u16F8\u1700-\u170C\u170E-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176C\u176E-\u1770\u1780-\u17B3\u17D7\u17DC\u1820-\u1877\u1880-\u18A8\u18AA\u18B0-\u18F5\u1900-\u191E\u1950-\u196D\u1970-\u1974\u1980-\u19AB\u19B0-\u19C9\u1A00-\u1A16\u1A20-\u1A54\u1AA7\u1B05-\u1B33\u1B45-\u1B4B\u1B83-\u1BA0\u1BAE\u1BAF\u1BBA-\u1BE5\u1C00-\u1C23\u1C4D-\u1C4F\u1C5A-\u1C7D\u1C80-\u1C88\u1CE9-\u1CEC\u1CEE-\u1CF1\u1CF5\u1CF6\u1D00-\u1DBF\u1E00-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u2071\u207F\u2090-\u209C\u2102\u2107\u210A-\u2113\u2115\u2118-\u211D\u2124\u2126\u2128\u212A-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2160-\u2188\u2C00-\u2C2E\u2C30-\u2C5E\u2C60-\u2CE4\u2CEB-\u2CEE\u2CF2\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D80-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303C\u3041-\u3096\u309B-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312D\u3131-\u318E\u31A0-\u31BA\u31F0-\u31FF\u3400-\u4DB5\u4E00-\u9FD5\uA000-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA61F\uA62A\uA62B\uA640-\uA66E\uA67F-\uA69D\uA6A0-\uA6EF\uA717-\uA71F\uA722-\uA788\uA78B-\uA7AE\uA7B0-\uA7B7\uA7F7-\uA801\uA803-\uA805\uA807-\uA80A\uA80C-\uA822\uA840-\uA873\uA882-\uA8B3\uA8F2-\uA8F7\uA8FB\uA8FD\uA90A-\uA925\uA930-\uA946\uA960-\uA97C\uA984-\uA9B2\uA9CF\uA9E0-\uA9E4\uA9E6-\uA9EF\uA9FA-\uA9FE\uAA00-\uAA28\uAA40-\uAA42\uAA44-\uAA4B\uAA60-\uAA76\uAA7A\uAA7E-\uAAAF\uAAB1\uAAB5\uAAB6\uAAB9-\uAABD\uAAC0\uAAC2\uAADB-\uAADD\uAAE0-\uAAEA\uAAF2-\uAAF4\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uAB30-\uAB5A\uAB5C-\uAB65\uAB70-\uABE2\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D\uFB1F-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE74\uFE76-\uFEFC\uFF21-\uFF3A\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC";
-var nonASCIIidentifierChars = "\u200C\u200D\xB7\u0300-\u036F\u0387\u0483-\u0487\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7\u0610-\u061A\u064B-\u0669\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7\u06E8\u06EA-\u06ED\u06F0-\u06F9\u0711\u0730-\u074A\u07A6-\u07B0\u07C0-\u07C9\u07EB-\u07F3\u0816-\u0819\u081B-\u0823\u0825-\u0827\u0829-\u082D\u0859-\u085B\u08D4-\u08E1\u08E3-\u0903\u093A-\u093C\u093E-\u094F\u0951-\u0957\u0962\u0963\u0966-\u096F\u0981-\u0983\u09BC\u09BE-\u09C4\u09C7\u09C8\u09CB-\u09CD\u09D7\u09E2\u09E3\u09E6-\u09EF\u0A01-\u0A03\u0A3C\u0A3E-\u0A42\u0A47\u0A48\u0A4B-\u0A4D\u0A51\u0A66-\u0A71\u0A75\u0A81-\u0A83\u0ABC\u0ABE-\u0AC5\u0AC7-\u0AC9\u0ACB-\u0ACD\u0AE2\u0AE3\u0AE6-\u0AEF\u0B01-\u0B03\u0B3C\u0B3E-\u0B44\u0B47\u0B48\u0B4B-\u0B4D\u0B56\u0B57\u0B62\u0B63\u0B66-\u0B6F\u0B82\u0BBE-\u0BC2\u0BC6-\u0BC8\u0BCA-\u0BCD\u0BD7\u0BE6-\u0BEF\u0C00-\u0C03\u0C3E-\u0C44\u0C46-\u0C48\u0C4A-\u0C4D\u0C55\u0C56\u0C62\u0C63\u0C66-\u0C6F\u0C81-\u0C83\u0CBC\u0CBE-\u0CC4\u0CC6-\u0CC8\u0CCA-\u0CCD\u0CD5\u0CD6\u0CE2\u0CE3\u0CE6-\u0CEF\u0D01-\u0D03\u0D3E-\u0D44\u0D46-\u0D48\u0D4A-\u0D4D\u0D57\u0D62\u0D63\u0D66-\u0D6F\u0D82\u0D83\u0DCA\u0DCF-\u0DD4\u0DD6\u0DD8-\u0DDF\u0DE6-\u0DEF\u0DF2\u0DF3\u0E31\u0E34-\u0E3A\u0E47-\u0E4E\u0E50-\u0E59\u0EB1\u0EB4-\u0EB9\u0EBB\u0EBC\u0EC8-\u0ECD\u0ED0-\u0ED9\u0F18\u0F19\u0F20-\u0F29\u0F35\u0F37\u0F39\u0F3E\u0F3F\u0F71-\u0F84\u0F86\u0F87\u0F8D-\u0F97\u0F99-\u0FBC\u0FC6\u102B-\u103E\u1040-\u1049\u1056-\u1059\u105E-\u1060\u1062-\u1064\u1067-\u106D\u1071-\u1074\u1082-\u108D\u108F-\u109D\u135D-\u135F\u1369-\u1371\u1712-\u1714\u1732-\u1734\u1752\u1753\u1772\u1773\u17B4-\u17D3\u17DD\u17E0-\u17E9\u180B-\u180D\u1810-\u1819\u18A9\u1920-\u192B\u1930-\u193B\u1946-\u194F\u19D0-\u19DA\u1A17-\u1A1B\u1A55-\u1A5E\u1A60-\u1A7C\u1A7F-\u1A89\u1A90-\u1A99\u1AB0-\u1ABD\u1B00-\u1B04\u1B34-\u1B44\u1B50-\u1B59\u1B6B-\u1B73\u1B80-\u1B82\u1BA1-\u1BAD\u1BB0-\u1BB9\u1BE6-\u1BF3\u1C24-\u1C37\u1C40-\u1C49\u1C50-\u1C59\u1CD0-\u1CD2\u1CD4-\u1CE8\u1CED\u1CF2-\u1CF4\u1CF8\u1CF9\u1DC0-\u1DF5\u1DFB-\u1DFF\u203F\u2040\u2054\u20D0-\u20DC\u20E1\u20E5-\u20F0\u2CEF-\u2CF1\u2D7F\u2DE0-\u2DFF\u302A-\u302F\u3099\u309A\uA620-\uA629\uA66F\uA674-\uA67D\uA69E\uA69F\uA6F0\uA6F1\uA802\uA806\uA80B\uA823-\uA827\uA880\uA881\uA8B4-\uA8C5\uA8D0-\uA8D9\uA8E0-\uA8F1\uA900-\uA909\uA926-\uA92D\uA947-\uA953\uA980-\uA983\uA9B3-\uA9C0\uA9D0-\uA9D9\uA9E5\uA9F0-\uA9F9\uAA29-\uAA36\uAA43\uAA4C\uAA4D\uAA50-\uAA59\uAA7B-\uAA7D\uAAB0\uAAB2-\uAAB4\uAAB7\uAAB8\uAABE\uAABF\uAAC1\uAAEB-\uAAEF\uAAF5\uAAF6\uABE3-\uABEA\uABEC\uABED\uABF0-\uABF9\uFB1E\uFE00-\uFE0F\uFE20-\uFE2F\uFE33\uFE34\uFE4D-\uFE4F\uFF10-\uFF19\uFF3F";
 
-var nonASCIIidentifierStart = new RegExp("[" + nonASCIIidentifierStartChars + "]");
-var nonASCIIidentifier = new RegExp("[" + nonASCIIidentifierStartChars + nonASCIIidentifierChars + "]");
-
-nonASCIIidentifierStartChars = nonASCIIidentifierChars = null;
-var astralIdentifierStartCodes = [0, 11, 2, 25, 2, 18, 2, 1, 2, 14, 3, 13, 35, 122, 70, 52, 268, 28, 4, 48, 48, 31, 17, 26, 6, 37, 11, 29, 3, 35, 5, 7, 2, 4, 43, 157, 19, 35, 5, 35, 5, 39, 9, 51, 157, 310, 10, 21, 11, 7, 153, 5, 3, 0, 2, 43, 2, 1, 4, 0, 3, 22, 11, 22, 10, 30, 66, 18, 2, 1, 11, 21, 11, 25, 71, 55, 7, 1, 65, 0, 16, 3, 2, 2, 2, 26, 45, 28, 4, 28, 36, 7, 2, 27, 28, 53, 11, 21, 11, 18, 14, 17, 111, 72, 56, 50, 14, 50, 785, 52, 76, 44, 33, 24, 27, 35, 42, 34, 4, 0, 13, 47, 15, 3, 22, 0, 2, 0, 36, 17, 2, 24, 85, 6, 2, 0, 2, 3, 2, 14, 2, 9, 8, 46, 39, 7, 3, 1, 3, 21, 2, 6, 2, 1, 2, 4, 4, 0, 19, 0, 13, 4, 159, 52, 19, 3, 54, 47, 21, 1, 2, 0, 185, 46, 42, 3, 37, 47, 21, 0, 60, 42, 86, 25, 391, 63, 32, 0, 449, 56, 264, 8, 2, 36, 18, 0, 50, 29, 881, 921, 103, 110, 18, 195, 2749, 1070, 4050, 582, 8634, 568, 8, 30, 114, 29, 19, 47, 17, 3, 32, 20, 6, 18, 881, 68, 12, 0, 67, 12, 65, 0, 32, 6124, 20, 754, 9486, 1, 3071, 106, 6, 12, 4, 8, 8, 9, 5991, 84, 2, 70, 2, 1, 3, 0, 3, 1, 3, 3, 2, 11, 2, 0, 2, 6, 2, 64, 2, 3, 3, 7, 2, 6, 2, 27, 2, 3, 2, 4, 2, 0, 4, 6, 2, 339, 3, 24, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 7, 4149, 196, 60, 67, 1213, 3, 2, 26, 2, 1, 2, 0, 3, 0, 2, 9, 2, 3, 2, 0, 2, 0, 7, 0, 5, 0, 2, 0, 2, 0, 2, 2, 2, 1, 2, 0, 3, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 1, 2, 0, 3, 3, 2, 6, 2, 3, 2, 3, 2, 0, 2, 9, 2, 16, 6, 2, 2, 4, 2, 16, 4421, 42710, 42, 4148, 12, 221, 3, 5761, 10591, 541];
-var astralIdentifierCodes = [509, 0, 227, 0, 150, 4, 294, 9, 1368, 2, 2, 1, 6, 3, 41, 2, 5, 0, 166, 1, 1306, 2, 54, 14, 32, 9, 16, 3, 46, 10, 54, 9, 7, 2, 37, 13, 2, 9, 52, 0, 13, 2, 49, 13, 10, 2, 4, 9, 83, 11, 7, 0, 161, 11, 6, 9, 7, 3, 57, 0, 2, 6, 3, 1, 3, 2, 10, 0, 11, 1, 3, 6, 4, 4, 193, 17, 10, 9, 87, 19, 13, 9, 214, 6, 3, 8, 28, 1, 83, 16, 16, 9, 82, 12, 9, 9, 84, 14, 5, 9, 423, 9, 838, 7, 2, 7, 17, 9, 57, 21, 2, 13, 19882, 9, 135, 4, 60, 6, 26, 9, 1016, 45, 17, 3, 19723, 1, 5319, 4, 4, 5, 9, 7, 3, 6, 31, 3, 149, 2, 1418, 49, 513, 54, 5, 49, 9, 0, 15, 0, 23, 4, 2, 14, 1361, 6, 2, 16, 3, 6, 2, 1, 2, 4, 2214, 6, 110, 6, 6, 9, 792487, 239];
-function isInAstralSet(code, set) {
-  var pos = 0x10000;
-  for (var i = 0; i < set.length; i += 2) {
-	pos += set[i];
-	if (pos > code) {
-			return false;
-	}
-	pos += set[i + 1];
-	if (pos >= code) {
-			return true;
-	}
-  }
-}
+var keywordRelationalOperator = /^in(stanceof)?$/;
 function isIdentifierStart(code, astral) {
   if (code < 65) {
 	return code === 36;
@@ -26588,13 +26560,7 @@ function isIdentifierStart(code, astral) {
   if (code < 123) {
 	return true;
   }
-  if (code <= 0xffff) {
-	return code >= 0xaa && nonASCIIidentifierStart.test(String.fromCharCode(code));
-  }
-  if (astral === false) {
-	return false;
-  }
-  return isInAstralSet(code, astralIdentifierStartCodes);
+  return code >= 0xaa;
 }
 function isIdentifierChar(code, astral) {
   if (code < 48) {
@@ -26615,13 +26581,7 @@ function isIdentifierChar(code, astral) {
   if (code < 123) {
 	return true;
   }
-  if (code <= 0xffff) {
-	return code >= 0xaa && nonASCIIidentifier.test(String.fromCharCode(code));
-  }
-  if (astral === false) {
-	return false;
-  }
-  return isInAstralSet(code, astralIdentifierStartCodes) || isInAstralSet(code, astralIdentifierCodes);
+  return code >= 0xaa;
 }
 //
 //
@@ -26676,6 +26636,8 @@ var types = {
   ellipsis: new TokenType("...", beforeExpr),
   backQuote: new TokenType("`", startsExpr),
   dollarBraceL: new TokenType("${", { beforeExpr: true, startsExpr: true }),
+
+  at: new TokenType("@", { beforeExpr: true, startsExpr: true }),
   //
   //
   //
@@ -27087,7 +27049,7 @@ pp$1.isLet = function () {
 			++pos;
 	}
 	var ident = this.input.slice(next, pos);
-	if (!this.isKeyword(ident)) {
+	if (!keywordRelationalOperator.test(ident)) {
 			return true;
 	}
   }
@@ -27167,6 +27129,9 @@ pp$1.parseStatement = function (declaration, topLevel, exports) {
 		}
 			}
 			return starttype === types._import ? this.parseImport(node) : this.parseExport(node, exports);
+	case types.at:
+			this.next();
+			return this.parseExpression();
 	default:
 			if (this.isAsyncFunction() && declaration) {
 		this.next();
@@ -27572,8 +27537,15 @@ pp$1.parseClass = function (node, isStatement) {
   var hadConstructor = false;
   classBody.body = [];
   this.expect(types.braceL);
+  var decorators = [];
   while (!this.eat(types.braceR)) {
 	if (this$1.eat(types.semi)) {
+			continue;
+	}
+	if (this$1.type == types.at) {
+			this$1.next();
+			var expr = this$1.parseMaybeAssign(true);
+			decorators.push(expr);
 			continue;
 	}
 	var method = this$1.startNode();
@@ -27602,7 +27574,7 @@ pp$1.parseClass = function (node, isStatement) {
 		method.kind = key.name;
 		key = this$1.parsePropertyName(method);
 			}
-			if (!method.static && (key.type === "Identifier" && key.name === "constructor" || key.type === "Literal" && key.value === "constructor")) {
+			if (!method.computed && !method.static && (key.type === "Identifier" && key.name === "constructor" || key.type === "Literal" && key.value === "constructor")) {
 		if (hadConstructor) {
 					this$1.raise(key.start, "Duplicate constructor in the same class");
 		}
@@ -27617,9 +27589,36 @@ pp$1.parseClass = function (node, isStatement) {
 		}
 		method.kind = "constructor";
 		hadConstructor = true;
+			} else if (method.static && key.type === "Identifier" && key.name === "prototype") {
+		this$1.raise(key.start, "Classes may not have a static property named prototype");
 			}
 	}
+
+	if (this$1.type == types.eq) {
+			this$1.next();
+			method.value = this$1.parseExpression();
+	} else if (this$1.type == types.semi || this$1.canInsertSemicolon()) {
+			if (this$1.type == types.semi) {
+		this$1.next();
+			}
+			var node$1 = this$1.startNode();
+			node$1.body = [];
+			method.value = this$1.finishNode(node$1, "BlockStatement");
+	}
+	if (method.value) {
+			method.kind = 'class';
+			classBody.body.push(this$1.finishNode(method, "Property"));
+			continue;
+	}
+
 	this$1.parseClassMethod(classBody, method, isGenerator, isAsync);
+	if (decorators.length) {
+			var body = method.value.body.body;
+			if (body) {
+		body.unshift.apply(body, decorators);
+			}
+			decorators = [];
+	}
 	if (isGetSet) {
 			var paramCount = method.kind === "get" ? 0 : 1;
 			if (method.value.params.length !== paramCount) {
@@ -27658,7 +27657,10 @@ pp$1.parseExport = function (node, exports) {
   this.next();
   if (this.eat(types.star)) {
 	this.expectContextual("from");
-	node.source = this.type === types.string ? this.parseExprAtom() : this.unexpected();
+	if (this.type !== types.string) {
+			this.unexpected();
+	}
+	node.source = this.parseExprAtom();
 	this.semicolon();
 	return this.finishNode(node, "ExportAllDeclaration");
   }
@@ -27694,7 +27696,10 @@ pp$1.parseExport = function (node, exports) {
 	node.declaration = null;
 	node.specifiers = this.parseExportSpecifiers(exports);
 	if (this.eatContextual("from")) {
-			node.source = this.type === types.string ? this.parseExprAtom() : this.unexpected();
+			if (this.type !== types.string) {
+		this.unexpected();
+			}
+			node.source = this.parseExprAtom();
 	} else {
 			for (var i = 0, list = node.specifiers; i < list.length; i += 1) {
 		var spec = list[i];
@@ -27870,6 +27875,7 @@ pp$2.toAssignable = function (node, isBinding) {
 
 			case "ObjectPattern":
 			case "ArrayPattern":
+			case "RestElement":
 		break;
 
 			case "ObjectExpression":
@@ -27877,11 +27883,15 @@ pp$2.toAssignable = function (node, isBinding) {
 		for (var i = 0, list = node.properties; i < list.length; i += 1) {
 					var prop = list[i];
 
-					if (prop.kind !== "init") {
-			this$1.raise(prop.key.start, "Object pattern can't contain getter or setter");
-					}
-					this$1.toAssignable(prop.value, isBinding);
+					this$1.toAssignable(prop, isBinding);
 		}
+		break;
+
+			case "Property":
+		if (node.kind !== "init") {
+					this.raise(node.key.start, "Object pattern can't contain getter or setter");
+		}
+		this.toAssignable(node.value, isBinding);
 		break;
 
 			case "ArrayExpression":
@@ -27889,16 +27899,21 @@ pp$2.toAssignable = function (node, isBinding) {
 		this.toAssignableList(node.elements, isBinding);
 		break;
 
-			case "AssignmentExpression":
-		if (node.operator === "=") {
-					node.type = "AssignmentPattern";
-					delete node.operator;
-					this.toAssignable(node.left, isBinding);
-		} else {
-					this.raise(node.left.end, "Only '=' operator can be used for specifying default value.");
-					break;
+			case "SpreadElement":
+		node.type = "RestElement";
+		this.toAssignable(node.argument, isBinding);
+		if (node.argument.type === "AssignmentPattern") {
+					this.raise(node.argument.start, "Rest elements cannot have a default value");
 		}
+		break;
 
+			case "AssignmentExpression":
+		if (node.operator !== "=") {
+					this.raise(node.left.end, "Only '=' operator can be used for specifying default value.");
+		}
+		node.type = "AssignmentPattern";
+		delete node.operator;
+		this.toAssignable(node.left, isBinding);
 			case "AssignmentPattern":
 		break;
 
@@ -27921,25 +27936,16 @@ pp$2.toAssignableList = function (exprList, isBinding) {
   var this$1 = this;
 
   var end = exprList.length;
-  if (end) {
-	var last = exprList[end - 1];
-	if (last && last.type == "RestElement") {
-			--end;
-	} else if (last && last.type == "SpreadElement") {
-			last.type = "RestElement";
-			var arg = last.argument;
-			this.toAssignable(arg, isBinding);
-			--end;
-	}
-
-	if (this.options.ecmaVersion === 6 && isBinding && last && last.type === "RestElement" && last.argument.type !== "Identifier") {
-			this.unexpected(last.argument.start);
-	}
-  }
   for (var i = 0; i < end; i++) {
 	var elt = exprList[i];
 	if (elt) {
 			this$1.toAssignable(elt, isBinding);
+	}
+  }
+  if (end) {
+	var last = exprList[end - 1];
+	if (this.options.ecmaVersion === 6 && isBinding && last && last.type === "RestElement" && last.argument.type !== "Identifier") {
+			this.unexpected(last.argument.start);
 	}
   }
   return exprList;
@@ -28052,7 +28058,7 @@ pp$2.checkLVal = function (expr, bindingType, checkClashes) {
 
 	case "MemberExpression":
 			if (bindingType) {
-		this.raiseRecoverable(expr.start, (bindingType ? "Binding" : "Assigning to") + " member expression");
+		this.raiseRecoverable(expr.start, "Binding member expression");
 			}
 			break;
 
@@ -28060,8 +28066,12 @@ pp$2.checkLVal = function (expr, bindingType, checkClashes) {
 			for (var i = 0, list = expr.properties; i < list.length; i += 1) {
 		var prop = list[i];
 
-		this$1.checkLVal(prop.value, bindingType, checkClashes);
+		this$1.checkLVal(prop, bindingType, checkClashes);
 			}
+			break;
+
+	case "Property":
+			this.checkLVal(expr.value, bindingType, checkClashes);
 			break;
 
 	case "ArrayPattern":
@@ -28329,14 +28339,14 @@ pp$3.parseSubscripts = function (base, startPos, startLoc, noCalls) {
   var maybeAsyncArrow = this.options.ecmaVersion >= 8 && base.type === "Identifier" && base.name === "async" && this.lastTokEnd == base.end && !this.canInsertSemicolon();
   for (var computed = void 0;;) {
 	if ((computed = this$1.eat(types.bracketL)) || this$1.eat(types.dot)) {
-			var node = this$1.startNodeAt(startPos, startLoc);
-			node.object = base;
-			node.property = computed ? this$1.parseExpression() : this$1.parseIdent(true);
-			node.computed = !!computed;
+			var node$1 = this$1.startNodeAt(startPos, startLoc);
+			node$1.object = base;
+			node$1.property = computed ? this$1.parseExpression() : this$1.parseIdent(true);
+			node$1.computed = !!computed;
 			if (computed) {
 		this$1.expect(types.bracketR);
 			}
-			base = this$1.finishNode(node, "MemberExpression");
+			base = this$1.finishNode(node$1, "MemberExpression");
 	} else if (!noCalls && this$1.eat(types.parenL)) {
 			var refDestructuringErrors = new DestructuringErrors(),
 					oldYieldPos = this$1.yieldPos,
@@ -28354,15 +28364,23 @@ pp$3.parseSubscripts = function (base, startPos, startLoc, noCalls) {
 			this$1.checkExpressionErrors(refDestructuringErrors, true);
 			this$1.yieldPos = oldYieldPos || this$1.yieldPos;
 			this$1.awaitPos = oldAwaitPos || this$1.awaitPos;
-			var node$1 = this$1.startNodeAt(startPos, startLoc);
-			node$1.callee = base;
-			node$1.arguments = exprList;
-			base = this$1.finishNode(node$1, "CallExpression");
-	} else if (this$1.type === types.backQuote) {
 			var node$2 = this$1.startNodeAt(startPos, startLoc);
-			node$2.tag = base;
-			node$2.quasi = this$1.parseTemplate({ isTagged: true });
-			base = this$1.finishNode(node$2, "TaggedTemplateExpression");
+			node$2.callee = base;
+			node$2.arguments = exprList;
+			base = this$1.finishNode(node$2, "CallExpression");
+	} else if (this$1.type === types.backQuote) {
+			var node$3 = this$1.startNodeAt(startPos, startLoc);
+			node$3.tag = base;
+			node$3.quasi = this$1.parseTemplate({ isTagged: true });
+			base = this$1.finishNode(node$3, "TaggedTemplateExpression");
+	} else if (this$1.type == types.colon && this$1.input[this$1.end] == ":" && this$1.options.ecmaVersion >= 7) {
+			this$1.next();
+			this$1.next();
+			var node = this$1.startNodeAt(startPos, startLoc);
+			node.expressions = [base];
+			var e2 = this$1.parseExpression();
+			node.expressions.push(e2);
+			base = this$1.finishNode(node, "SequenceExpression");
 	} else {
 			return base;
 	}
@@ -28461,6 +28479,19 @@ pp$3.parseExprAtom = function (refDestructuringErrors) {
 	case types.backQuote:
 			return this.parseTemplate();
 
+	case types._do:
+			this.next();
+			return this.parseStatement();
+	case types.at:
+			this.next();
+			return this.parseExprAtom();
+	case types.colon:
+			if (this.input[this.end] == ":") {
+		this.next();
+		this.next();
+		return this.parseExprSubscripts(refDestructuringErrors);
+			}
+
 	default:
 			this.unexpected();
   }
@@ -28499,8 +28530,7 @@ pp$3.parseParenAndDistinguishExpression = function (canBeArrow) {
 	var refDestructuringErrors = new DestructuringErrors(),
 		oldYieldPos = this.yieldPos,
 		oldAwaitPos = this.awaitPos,
-		spreadStart,
-		innerParenStart;
+		spreadStart;
 	this.yieldPos = 0;
 	this.awaitPos = 0;
 	while (this.type !== types.parenR) {
@@ -28516,9 +28546,6 @@ pp$3.parseParenAndDistinguishExpression = function (canBeArrow) {
 		}
 		break;
 			} else {
-		if (this$1.type === types.parenL && !innerParenStart) {
-					innerParenStart = this$1.start;
-		}
 		exprList.push(this$1.parseMaybeAssign(false, refDestructuringErrors, this$1.parseParenItem));
 			}
 	}
@@ -28529,9 +28556,6 @@ pp$3.parseParenAndDistinguishExpression = function (canBeArrow) {
 	if (canBeArrow && !this.canInsertSemicolon() && this.eat(types.arrow)) {
 			this.checkPatternErrors(refDestructuringErrors, false);
 			this.checkYieldAwaitInDefaultParams();
-			if (innerParenStart) {
-		this.unexpected(innerParenStart);
-			}
 			this.yieldPos = oldYieldPos;
 			this.awaitPos = oldAwaitPos;
 			return this.parseParenArrowList(startPos, startLoc, exprList);
@@ -28665,7 +28689,9 @@ pp$3.parseObj = function (isPattern, refDestructuringErrors) {
 	}
 
 	var prop = this$1.parseProperty(isPattern, refDestructuringErrors);
-	this$1.checkPropClash(prop, propHash);
+	if (!isPattern) {
+			this$1.checkPropClash(prop, propHash);
+	}
 	node.properties.push(prop);
   }
   return this.finishNode(node, isPattern ? "ObjectPattern" : "ObjectExpression");
@@ -29618,6 +29644,8 @@ pp$8.getTokenFromCode = function (code) {
 
 	case 126:
 			return this.finishOp(types.prefix, 1);
+	case 64:
+			++this.pos;return this.finishToken(types.at);
   }
 
   this.raise(this.pos, "Unexpected character '" + codePointToString(code) + "'");
@@ -29752,20 +29780,21 @@ pp$8.readRadixNumber = function (radix) {
   return this.finishToken(types.num, val);
 };
 pp$8.readNumber = function (startsWithDot) {
-  var start = this.pos,
-			isFloat = false,
-			octal = this.input.charCodeAt(this.pos) === 48;
+  var start = this.pos;
   if (!startsWithDot && this.readInt(10) === null) {
 	this.raise(start, "Invalid number");
   }
-  if (octal && this.pos == start + 1) {
+  var octal = this.pos - start >= 2 && this.input.charCodeAt(start) === 48;
+  if (octal && this.strict) {
+	this.raise(start, "Invalid number");
+  }
+  if (octal && /[89]/.test(this.input.slice(start, this.pos))) {
 	octal = false;
   }
   var next = this.input.charCodeAt(this.pos);
   if (next === 46 && !octal) {
 	++this.pos;
 	this.readInt(10);
-	isFloat = true;
 	next = this.input.charCodeAt(this.pos);
   }
   if ((next === 69 || next === 101) && !octal) {
@@ -29776,25 +29805,13 @@ pp$8.readNumber = function (startsWithDot) {
 	if (this.readInt(10) === null) {
 			this.raise(start, "Invalid number");
 	}
-	isFloat = true;
   }
   if (isIdentifierStart(this.fullCharCodeAtPos())) {
 	this.raise(this.pos, "Identifier directly after number");
   }
 
-  var str = this.input.slice(start, this.pos),
-			val;
-  if (isFloat) {
-	val = parseFloat(str);
-  } else if (!octal || str.length === 1) {
-	val = parseInt(str, 10);
-  } else if (this.strict) {
-	this.raise(start, "Invalid number");
-  } else if (/[89]/.test(str)) {
-	val = parseInt(str, 10);
-  } else {
-	val = parseInt(str, 8);
-  }
+  var str = this.input.slice(start, this.pos);
+  var val = octal ? parseInt(str, 8) : parseFloat(str);
   return this.finishToken(types.num, val);
 };
 pp$8.readCodePoint = function () {
@@ -30107,7 +30124,7 @@ exports.nonASCIIwhitespace = nonASCIIwhitespace;
  }),
  (function(module, exports) {
 
-module.exports = {"_args":[["espree@3.5.2","/home/ubuntu/workspace/plugins/c9.ide.language.javascript.eslint/packager"]],"_from":"espree@3.5.2","_id":"espree@3.5.2","_inBundle":false,"_integrity":"sha512-sadKeYwaR/aJ3stC2CdvgXu1T16TdYN+qwCpcWbMnGJ8s0zNWemzrvb2GbD4OhmJ/fwpJjudThAlLobGbWZbCQ==","_location":"/espree","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"espree@3.5.2","name":"espree","escapedName":"espree","rawSpec":"3.5.2","saveSpec":null,"fetchSpec":"3.5.2"},"_requiredBy":["/eslint"],"_resolved":"https://registry.npmjs.org/espree/-/espree-3.5.2.tgz","_spec":"3.5.2","_where":"/home/ubuntu/workspace/plugins/c9.ide.language.javascript.eslint/packager","author":{"name":"Nicholas C. Zakas","email":"nicholas+npm@nczconsulting.com"},"bugs":{"url":"http://github.com/eslint/espree.git"},"dependencies":{"acorn":"^5.2.1","acorn-jsx":"^3.0.0"},"description":"An Esprima-compatible JavaScript parser built on Acorn","devDependencies":{"browserify":"^7.0.0","chai":"^1.10.0","eslint":"^2.13.1","eslint-config-eslint":"^3.0.0","eslint-release":"^0.10.0","esprima":"latest","esprima-fb":"^8001.2001.0-dev-harmony-fb","istanbul":"~0.2.6","json-diff":"~0.3.1","leche":"^1.0.1","mocha":"^2.0.1","regenerate":"~0.5.4","shelljs":"^0.3.0","shelljs-nodecli":"^0.1.1","unicode-6.3.0":"~0.1.0"},"engines":{"node":">=0.10.0"},"files":["lib","espree.js"],"homepage":"https://github.com/eslint/espree","keywords":["ast","ecmascript","javascript","parser","syntax","acorn"],"license":"BSD-2-Clause","main":"espree.js","name":"espree","repository":{"type":"git","url":"git+https://github.com/eslint/espree.git"},"scripts":{"alpharelease":"eslint-prelease alpha","betarelease":"eslint-prelease beta","browserify":"node Makefile.js browserify","ci-release":"eslint-ci-release","generate-regex":"node tools/generate-identifier-regex.js","gh-release":"eslint-gh-release","lint":"node Makefile.js lint","release":"eslint-release","test":"npm run-script lint && node Makefile.js test"},"version":"3.5.2"}
+module.exports = {"_from":"espree@^3.5.2","_id":"espree@3.5.2","_inBundle":false,"_integrity":"sha512-sadKeYwaR/aJ3stC2CdvgXu1T16TdYN+qwCpcWbMnGJ8s0zNWemzrvb2GbD4OhmJ/fwpJjudThAlLobGbWZbCQ==","_location":"/espree","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"espree@^3.5.2","name":"espree","escapedName":"espree","rawSpec":"^3.5.2","saveSpec":null,"fetchSpec":"^3.5.2"},"_requiredBy":["/eslint"],"_resolved":"https://registry.npmjs.org/espree/-/espree-3.5.2.tgz","_shasum":"756ada8b979e9dcfcdb30aad8d1a9304a905e1ca","_spec":"espree@^3.5.2","_where":"J:\\Chromium\\newclient\\plugins\\c9.ide.language.javascript.eslint\\packager\\node_modules\\eslint","author":{"name":"Nicholas C. Zakas","email":"nicholas+npm@nczconsulting.com"},"bugs":{"url":"http://github.com/eslint/espree.git"},"bundleDependencies":false,"dependencies":{"acorn":"^5.2.1","acorn-jsx":"^3.0.0"},"deprecated":false,"description":"An Esprima-compatible JavaScript parser built on Acorn","devDependencies":{"browserify":"^7.0.0","chai":"^1.10.0","eslint":"^2.13.1","eslint-config-eslint":"^3.0.0","eslint-release":"^0.10.0","esprima":"latest","esprima-fb":"^8001.2001.0-dev-harmony-fb","istanbul":"~0.2.6","json-diff":"~0.3.1","leche":"^1.0.1","mocha":"^2.0.1","regenerate":"~0.5.4","shelljs":"^0.3.0","shelljs-nodecli":"^0.1.1","unicode-6.3.0":"~0.1.0"},"engines":{"node":">=0.10.0"},"files":["lib","espree.js"],"homepage":"https://github.com/eslint/espree","keywords":["ast","ecmascript","javascript","parser","syntax","acorn"],"license":"BSD-2-Clause","main":"espree.js","name":"espree","repository":{"type":"git","url":"git+https://github.com/eslint/espree.git"},"scripts":{"alpharelease":"eslint-prelease alpha","betarelease":"eslint-prelease beta","browserify":"node Makefile.js browserify","ci-release":"eslint-ci-release","generate-regex":"node tools/generate-identifier-regex.js","gh-release":"eslint-gh-release","lint":"node Makefile.js lint","release":"eslint-release","test":"npm run-script lint && node Makefile.js test"},"version":"3.5.2"}
  }),
  (function(module, exports, __webpack_require__) {
 
@@ -31595,7 +31612,7 @@ module.exports = {
  }),
  (function(module, exports) {
 
-module.exports = {"builtin":{"Array":false,"ArrayBuffer":false,"Atomics":false,"Boolean":false,"constructor":false,"DataView":false,"Date":false,"decodeURI":false,"decodeURIComponent":false,"encodeURI":false,"encodeURIComponent":false,"Error":false,"escape":false,"eval":false,"EvalError":false,"Float32Array":false,"Float64Array":false,"Function":false,"hasOwnProperty":false,"Infinity":false,"Int16Array":false,"Int32Array":false,"Int8Array":false,"isFinite":false,"isNaN":false,"isPrototypeOf":false,"JSON":false,"Map":false,"Math":false,"NaN":false,"Number":false,"Object":false,"parseFloat":false,"parseInt":false,"Promise":false,"propertyIsEnumerable":false,"Proxy":false,"RangeError":false,"ReferenceError":false,"Reflect":false,"RegExp":false,"Set":false,"SharedArrayBuffer":false,"String":false,"Symbol":false,"SyntaxError":false,"toLocaleString":false,"toString":false,"TypeError":false,"Uint16Array":false,"Uint32Array":false,"Uint8Array":false,"Uint8ClampedArray":false,"undefined":false,"unescape":false,"URIError":false,"valueOf":false,"WeakMap":false,"WeakSet":false},"es5":{"Array":false,"Boolean":false,"constructor":false,"Date":false,"decodeURI":false,"decodeURIComponent":false,"encodeURI":false,"encodeURIComponent":false,"Error":false,"escape":false,"eval":false,"EvalError":false,"Function":false,"hasOwnProperty":false,"Infinity":false,"isFinite":false,"isNaN":false,"isPrototypeOf":false,"JSON":false,"Math":false,"NaN":false,"Number":false,"Object":false,"parseFloat":false,"parseInt":false,"propertyIsEnumerable":false,"RangeError":false,"ReferenceError":false,"RegExp":false,"String":false,"SyntaxError":false,"toLocaleString":false,"toString":false,"TypeError":false,"undefined":false,"unescape":false,"URIError":false,"valueOf":false},"es2015":{"Array":false,"ArrayBuffer":false,"Boolean":false,"constructor":false,"DataView":false,"Date":false,"decodeURI":false,"decodeURIComponent":false,"encodeURI":false,"encodeURIComponent":false,"Error":false,"escape":false,"eval":false,"EvalError":false,"Float32Array":false,"Float64Array":false,"Function":false,"hasOwnProperty":false,"Infinity":false,"Int16Array":false,"Int32Array":false,"Int8Array":false,"isFinite":false,"isNaN":false,"isPrototypeOf":false,"JSON":false,"Map":false,"Math":false,"NaN":false,"Number":false,"Object":false,"parseFloat":false,"parseInt":false,"Promise":false,"propertyIsEnumerable":false,"Proxy":false,"RangeError":false,"ReferenceError":false,"Reflect":false,"RegExp":false,"Set":false,"String":false,"Symbol":false,"SyntaxError":false,"toLocaleString":false,"toString":false,"TypeError":false,"Uint16Array":false,"Uint32Array":false,"Uint8Array":false,"Uint8ClampedArray":false,"undefined":false,"unescape":false,"URIError":false,"valueOf":false,"WeakMap":false,"WeakSet":false},"es2017":{"Array":false,"ArrayBuffer":false,"Atomics":false,"Boolean":false,"constructor":false,"DataView":false,"Date":false,"decodeURI":false,"decodeURIComponent":false,"encodeURI":false,"encodeURIComponent":false,"Error":false,"escape":false,"eval":false,"EvalError":false,"Float32Array":false,"Float64Array":false,"Function":false,"hasOwnProperty":false,"Infinity":false,"Int16Array":false,"Int32Array":false,"Int8Array":false,"isFinite":false,"isNaN":false,"isPrototypeOf":false,"JSON":false,"Map":false,"Math":false,"NaN":false,"Number":false,"Object":false,"parseFloat":false,"parseInt":false,"Promise":false,"propertyIsEnumerable":false,"Proxy":false,"RangeError":false,"ReferenceError":false,"Reflect":false,"RegExp":false,"Set":false,"SharedArrayBuffer":false,"String":false,"Symbol":false,"SyntaxError":false,"toLocaleString":false,"toString":false,"TypeError":false,"Uint16Array":false,"Uint32Array":false,"Uint8Array":false,"Uint8ClampedArray":false,"undefined":false,"unescape":false,"URIError":false,"valueOf":false,"WeakMap":false,"WeakSet":false},"browser":{"addEventListener":false,"alert":false,"AnalyserNode":false,"Animation":false,"AnimationEffectReadOnly":false,"AnimationEffectTiming":false,"AnimationEffectTimingReadOnly":false,"AnimationEvent":false,"AnimationPlaybackEvent":false,"AnimationTimeline":false,"applicationCache":false,"ApplicationCache":false,"ApplicationCacheErrorEvent":false,"atob":false,"Attr":false,"Audio":false,"AudioBuffer":false,"AudioBufferSourceNode":false,"AudioContext":false,"AudioDestinationNode":false,"AudioListener":false,"AudioNode":false,"AudioParam":false,"AudioProcessingEvent":false,"AudioScheduledSourceNode":false,"BarProp":false,"BaseAudioContext":false,"BatteryManager":false,"BeforeUnloadEvent":false,"BiquadFilterNode":false,"Blob":false,"blur":false,"btoa":false,"BlobEvent":false,"BroadcastChannel":false,"BudgetService":false,"ByteLengthQueuingStrategy":false,"Cache":false,"caches":false,"CacheStorage":false,"cancelAnimationFrame":false,"cancelIdleCallback":false,"CanvasCaptureMediaStreamTrack":false,"CanvasGradient":false,"CanvasPattern":false,"CanvasRenderingContext2D":false,"ChannelMergerNode":false,"ChannelSplitterNode":false,"CharacterData":false,"clearInterval":false,"clearTimeout":false,"clientInformation":false,"ClipboardEvent":false,"close":false,"closed":false,"CloseEvent":false,"Comment":false,"CompositionEvent":false,"confirm":false,"console":false,"ConstantSourceNode":false,"ConvolverNode":false,"createImageBitmap":false,"Credential":false,"CredentialsContainer":false,"CountQueuingStrategy":false,"Crypto":false,"crypto":false,"CryptoKey":false,"CSS":false,"CSSConditionRule":false,"CSSFontFaceRule":false,"CSSGroupingRule":false,"CSSImportRule":false,"CSSKeyframeRule":false,"CSSKeyframesRule":false,"CSSMediaRule":false,"CSSNamespaceRule":false,"CSSPageRule":false,"CSSRule":false,"CSSRuleList":false,"CSSStyleDeclaration":false,"CSSStyleRule":false,"CSSStyleSheet":false,"CSSSupportsRule":false,"CustomElementRegistry":false,"customElements":false,"CustomEvent":false,"DataTransfer":false,"DataTransferItem":false,"DataTransferItemList":false,"defaultStatus":false,"defaultstatus":false,"DelayNode":false,"DeviceMotionEvent":false,"DeviceOrientationEvent":false,"devicePixelRatio":false,"dispatchEvent":false,"document":false,"Document":false,"DocumentFragment":false,"DocumentType":false,"DOMError":false,"DOMException":false,"DOMImplementation":false,"DOMMatrix":false,"DOMMatrixReadOnly":false,"DOMParser":false,"DOMPoint":false,"DOMPointReadOnly":false,"DOMQuad":false,"DOMRect":false,"DOMRectReadOnly":false,"DOMStringList":false,"DOMStringMap":false,"DOMTokenList":false,"DragEvent":false,"DynamicsCompressorNode":false,"Element":false,"ErrorEvent":false,"event":false,"Event":false,"EventSource":false,"EventTarget":false,"external":false,"fetch":false,"File":false,"FileList":false,"FileReader":false,"find":false,"focus":false,"FocusEvent":false,"FontFace":false,"FontFaceSetLoadEvent":false,"FormData":false,"frameElement":false,"frames":false,"GainNode":false,"Gamepad":false,"GamepadButton":false,"GamepadEvent":false,"getComputedStyle":false,"getSelection":false,"HashChangeEvent":false,"Headers":false,"history":false,"History":false,"HTMLAllCollection":false,"HTMLAnchorElement":false,"HTMLAreaElement":false,"HTMLAudioElement":false,"HTMLBaseElement":false,"HTMLBodyElement":false,"HTMLBRElement":false,"HTMLButtonElement":false,"HTMLCanvasElement":false,"HTMLCollection":false,"HTMLContentElement":false,"HTMLDataElement":false,"HTMLDataListElement":false,"HTMLDetailsElement":false,"HTMLDialogElement":false,"HTMLDirectoryElement":false,"HTMLDivElement":false,"HTMLDListElement":false,"HTMLDocument":false,"HTMLElement":false,"HTMLEmbedElement":false,"HTMLFieldSetElement":false,"HTMLFontElement":false,"HTMLFormControlsCollection":false,"HTMLFormElement":false,"HTMLFrameElement":false,"HTMLFrameSetElement":false,"HTMLHeadElement":false,"HTMLHeadingElement":false,"HTMLHRElement":false,"HTMLHtmlElement":false,"HTMLIFrameElement":false,"HTMLImageElement":false,"HTMLInputElement":false,"HTMLLabelElement":false,"HTMLLegendElement":false,"HTMLLIElement":false,"HTMLLinkElement":false,"HTMLMapElement":false,"HTMLMarqueeElement":false,"HTMLMediaElement":false,"HTMLMenuElement":false,"HTMLMetaElement":false,"HTMLMeterElement":false,"HTMLModElement":false,"HTMLObjectElement":false,"HTMLOListElement":false,"HTMLOptGroupElement":false,"HTMLOptionElement":false,"HTMLOptionsCollection":false,"HTMLOutputElement":false,"HTMLParagraphElement":false,"HTMLParamElement":false,"HTMLPictureElement":false,"HTMLPreElement":false,"HTMLProgressElement":false,"HTMLQuoteElement":false,"HTMLScriptElement":false,"HTMLSelectElement":false,"HTMLShadowElement":false,"HTMLSlotElement":false,"HTMLSourceElement":false,"HTMLSpanElement":false,"HTMLStyleElement":false,"HTMLTableCaptionElement":false,"HTMLTableCellElement":false,"HTMLTableColElement":false,"HTMLTableElement":false,"HTMLTableRowElement":false,"HTMLTableSectionElement":false,"HTMLTemplateElement":false,"HTMLTextAreaElement":false,"HTMLTimeElement":false,"HTMLTitleElement":false,"HTMLTrackElement":false,"HTMLUListElement":false,"HTMLUnknownElement":false,"HTMLVideoElement":false,"IDBCursor":false,"IDBCursorWithValue":false,"IDBDatabase":false,"IDBFactory":false,"IDBIndex":false,"IDBKeyRange":false,"IDBObjectStore":false,"IDBOpenDBRequest":false,"IDBRequest":false,"IDBTransaction":false,"IDBVersionChangeEvent":false,"IdleDeadline":false,"IIRFilterNode":false,"Image":false,"ImageBitmap":false,"ImageBitmapRenderingContext":false,"ImageCapture":false,"ImageData":false,"indexedDB":false,"innerHeight":false,"innerWidth":false,"InputEvent":false,"IntersectionObserver":false,"IntersectionObserverEntry":false,"Intl":false,"isSecureContext":false,"KeyboardEvent":false,"KeyframeEffect":false,"KeyframeEffectReadOnly":false,"length":false,"localStorage":false,"location":false,"Location":false,"locationbar":false,"matchMedia":false,"MediaDeviceInfo":false,"MediaDevices":false,"MediaElementAudioSourceNode":false,"MediaEncryptedEvent":false,"MediaError":false,"MediaKeyMessageEvent":false,"MediaKeySession":false,"MediaKeyStatusMap":false,"MediaKeySystemAccess":false,"MediaList":false,"MediaQueryList":false,"MediaQueryListEvent":false,"MediaSource":false,"MediaRecorder":false,"MediaSettingsRange":false,"MediaStream":false,"MediaStreamAudioDestinationNode":false,"MediaStreamAudioSourceNode":false,"MediaStreamEvent":false,"MediaStreamTrack":false,"MediaStreamTrackEvent":false,"menubar":false,"MessageChannel":false,"MessageEvent":false,"MessagePort":false,"MIDIAccess":false,"MIDIConnectionEvent":false,"MIDIInput":false,"MIDIInputMap":false,"MIDIMessageEvent":false,"MIDIOutput":false,"MIDIOutputMap":false,"MIDIPort":false,"MimeType":false,"MimeTypeArray":false,"MouseEvent":false,"moveBy":false,"moveTo":false,"MutationEvent":false,"MutationObserver":false,"MutationRecord":false,"name":false,"NamedNodeMap":false,"NavigationPreloadManager":false,"navigator":false,"Navigator":false,"NetworkInformation":false,"Node":false,"NodeFilter":false,"NodeIterator":false,"NodeList":false,"Notification":false,"OfflineAudioCompletionEvent":false,"OfflineAudioContext":false,"offscreenBuffering":false,"onabort":true,"onafterprint":true,"onanimationend":true,"onanimationiteration":true,"onanimationstart":true,"onappinstalled":true,"onauxclick":true,"onbeforeinstallprompt":true,"onbeforeprint":true,"onbeforeunload":true,"onblur":true,"oncancel":true,"oncanplay":true,"oncanplaythrough":true,"onchange":true,"onclick":true,"onclose":true,"oncontextmenu":true,"oncuechange":true,"ondblclick":true,"ondevicemotion":true,"ondeviceorientation":true,"ondeviceorientationabsolute":true,"ondrag":true,"ondragend":true,"ondragenter":true,"ondragleave":true,"ondragover":true,"ondragstart":true,"ondrop":true,"ondurationchange":true,"onemptied":true,"onended":true,"onerror":true,"onfocus":true,"ongotpointercapture":true,"onhashchange":true,"oninput":true,"oninvalid":true,"onkeydown":true,"onkeypress":true,"onkeyup":true,"onlanguagechange":true,"onload":true,"onloadeddata":true,"onloadedmetadata":true,"onloadstart":true,"onlostpointercapture":true,"onmessage":true,"onmessageerror":true,"onmousedown":true,"onmouseenter":true,"onmouseleave":true,"onmousemove":true,"onmouseout":true,"onmouseover":true,"onmouseup":true,"onmousewheel":true,"onoffline":true,"ononline":true,"onpagehide":true,"onpageshow":true,"onpause":true,"onplay":true,"onplaying":true,"onpointercancel":true,"onpointerdown":true,"onpointerenter":true,"onpointerleave":true,"onpointermove":true,"onpointerout":true,"onpointerover":true,"onpointerup":true,"onpopstate":true,"onprogress":true,"onratechange":true,"onrejectionhandled":true,"onreset":true,"onresize":true,"onscroll":true,"onsearch":true,"onseeked":true,"onseeking":true,"onselect":true,"onstalled":true,"onstorage":true,"onsubmit":true,"onsuspend":true,"ontimeupdate":true,"ontoggle":true,"ontransitionend":true,"onunhandledrejection":true,"onunload":true,"onvolumechange":true,"onwaiting":true,"onwheel":true,"open":false,"openDatabase":false,"opener":false,"Option":false,"origin":false,"OscillatorNode":false,"outerHeight":false,"outerWidth":false,"PageTransitionEvent":false,"pageXOffset":false,"pageYOffset":false,"PannerNode":false,"parent":false,"Path2D":false,"PaymentAddress":false,"PaymentRequest":false,"PaymentRequestUpdateEvent":false,"PaymentResponse":false,"performance":false,"Performance":false,"PerformanceEntry":false,"PerformanceLongTaskTiming":false,"PerformanceMark":false,"PerformanceMeasure":false,"PerformanceNavigation":false,"PerformanceNavigationTiming":false,"PerformanceObserver":false,"PerformanceObserverEntryList":false,"PerformancePaintTiming":false,"PerformanceResourceTiming":false,"PerformanceTiming":false,"PeriodicWave":false,"Permissions":false,"PermissionStatus":false,"personalbar":false,"PhotoCapabilities":false,"Plugin":false,"PluginArray":false,"PointerEvent":false,"PopStateEvent":false,"postMessage":false,"Presentation":false,"PresentationAvailability":false,"PresentationConnection":false,"PresentationConnectionAvailableEvent":false,"PresentationConnectionCloseEvent":false,"PresentationConnectionList":false,"PresentationReceiver":false,"PresentationRequest":false,"print":false,"ProcessingInstruction":false,"ProgressEvent":false,"PromiseRejectionEvent":false,"prompt":false,"PushManager":false,"PushSubscription":false,"PushSubscriptionOptions":false,"RadioNodeList":false,"Range":false,"ReadableStream":false,"removeEventListener":false,"RemotePlayback":false,"Request":false,"requestAnimationFrame":false,"requestIdleCallback":false,"resizeBy":false,"ResizeObserver":false,"ResizeObserverEntry":false,"resizeTo":false,"Response":false,"RTCCertificate":false,"RTCDataChannel":false,"RTCDataChannelEvent":false,"RTCIceCandidate":false,"RTCPeerConnection":false,"RTCPeerConnectionIceEvent":false,"RTCRtpContributingSource":false,"RTCRtpReceiver":false,"RTCSessionDescription":false,"RTCStatsReport":false,"screen":false,"Screen":false,"screenLeft":false,"ScreenOrientation":false,"screenTop":false,"screenX":false,"screenY":false,"ScriptProcessorNode":false,"scroll":false,"scrollbars":false,"scrollBy":false,"scrollTo":false,"scrollX":false,"scrollY":false,"SecurityPolicyViolationEvent":false,"Selection":false,"self":false,"ServiceWorker":false,"ServiceWorkerContainer":false,"ServiceWorkerRegistration":false,"sessionStorage":false,"setInterval":false,"setTimeout":false,"ShadowRoot":false,"SharedWorker":false,"SourceBuffer":false,"SourceBufferList":false,"speechSynthesis":false,"SpeechSynthesisEvent":false,"SpeechSynthesisUtterance":false,"StaticRange":false,"status":false,"statusbar":false,"StereoPannerNode":false,"stop":false,"Storage":false,"StorageEvent":false,"StorageManager":false,"styleMedia":false,"StyleSheet":false,"StyleSheetList":false,"SubtleCrypto":false,"SVGAElement":false,"SVGAngle":false,"SVGAnimatedAngle":false,"SVGAnimatedBoolean":false,"SVGAnimatedEnumeration":false,"SVGAnimatedInteger":false,"SVGAnimatedLength":false,"SVGAnimatedLengthList":false,"SVGAnimatedNumber":false,"SVGAnimatedNumberList":false,"SVGAnimatedPreserveAspectRatio":false,"SVGAnimatedRect":false,"SVGAnimatedString":false,"SVGAnimatedTransformList":false,"SVGAnimateElement":false,"SVGAnimateMotionElement":false,"SVGAnimateTransformElement":false,"SVGAnimationElement":false,"SVGCircleElement":false,"SVGClipPathElement":false,"SVGComponentTransferFunctionElement":false,"SVGDefsElement":false,"SVGDescElement":false,"SVGDiscardElement":false,"SVGElement":false,"SVGEllipseElement":false,"SVGFEBlendElement":false,"SVGFEColorMatrixElement":false,"SVGFEComponentTransferElement":false,"SVGFECompositeElement":false,"SVGFEConvolveMatrixElement":false,"SVGFEDiffuseLightingElement":false,"SVGFEDisplacementMapElement":false,"SVGFEDistantLightElement":false,"SVGFEDropShadowElement":false,"SVGFEFloodElement":false,"SVGFEFuncAElement":false,"SVGFEFuncBElement":false,"SVGFEFuncGElement":false,"SVGFEFuncRElement":false,"SVGFEGaussianBlurElement":false,"SVGFEImageElement":false,"SVGFEMergeElement":false,"SVGFEMergeNodeElement":false,"SVGFEMorphologyElement":false,"SVGFEOffsetElement":false,"SVGFEPointLightElement":false,"SVGFESpecularLightingElement":false,"SVGFESpotLightElement":false,"SVGFETileElement":false,"SVGFETurbulenceElement":false,"SVGFilterElement":false,"SVGForeignObjectElement":false,"SVGGElement":false,"SVGGeometryElement":false,"SVGGradientElement":false,"SVGGraphicsElement":false,"SVGImageElement":false,"SVGLength":false,"SVGLengthList":false,"SVGLinearGradientElement":false,"SVGLineElement":false,"SVGMarkerElement":false,"SVGMaskElement":false,"SVGMatrix":false,"SVGMetadataElement":false,"SVGMPathElement":false,"SVGNumber":false,"SVGNumberList":false,"SVGPathElement":false,"SVGPatternElement":false,"SVGPoint":false,"SVGPointList":false,"SVGPolygonElement":false,"SVGPolylineElement":false,"SVGPreserveAspectRatio":false,"SVGRadialGradientElement":false,"SVGRect":false,"SVGRectElement":false,"SVGScriptElement":false,"SVGSetElement":false,"SVGStopElement":false,"SVGStringList":false,"SVGStyleElement":false,"SVGSVGElement":false,"SVGSwitchElement":false,"SVGSymbolElement":false,"SVGTextContentElement":false,"SVGTextElement":false,"SVGTextPathElement":false,"SVGTextPositioningElement":false,"SVGTitleElement":false,"SVGTransform":false,"SVGTransformList":false,"SVGTSpanElement":false,"SVGUnitTypes":false,"SVGUseElement":false,"SVGViewElement":false,"TaskAttributionTiming":false,"Text":false,"TextDecoder":false,"TextEncoder":false,"TextEvent":false,"TextMetrics":false,"TextTrack":false,"TextTrackCue":false,"TextTrackCueList":false,"TextTrackList":false,"TimeRanges":false,"toolbar":false,"top":false,"Touch":false,"TouchEvent":false,"TouchList":false,"TrackEvent":false,"TransitionEvent":false,"TreeWalker":false,"UIEvent":false,"URL":false,"URLSearchParams":false,"ValidityState":false,"VisualViewport":false,"visualViewport":false,"VTTCue":false,"WaveShaperNode":false,"WebAssembly":false,"WebGL2RenderingContext":false,"WebGLActiveInfo":false,"WebGLBuffer":false,"WebGLContextEvent":false,"WebGLFramebuffer":false,"WebGLProgram":false,"WebGLQuery":false,"WebGLRenderbuffer":false,"WebGLRenderingContext":false,"WebGLSampler":false,"WebGLShader":false,"WebGLShaderPrecisionFormat":false,"WebGLSync":false,"WebGLTexture":false,"WebGLTransformFeedback":false,"WebGLUniformLocation":false,"WebGLVertexArrayObject":false,"WebSocket":false,"WheelEvent":false,"Window":false,"window":false,"Worker":false,"WritableStream":false,"XMLDocument":false,"XMLHttpRequest":false,"XMLHttpRequestEventTarget":false,"XMLHttpRequestUpload":false,"XMLSerializer":false,"XPathEvaluator":false,"XPathExpression":false,"XPathResult":false,"XSLTProcessor":false},"worker":{"applicationCache":false,"atob":false,"Blob":false,"BroadcastChannel":false,"btoa":false,"Cache":false,"caches":false,"clearInterval":false,"clearTimeout":false,"close":true,"console":false,"fetch":false,"FileReaderSync":false,"FormData":false,"Headers":false,"IDBCursor":false,"IDBCursorWithValue":false,"IDBDatabase":false,"IDBFactory":false,"IDBIndex":false,"IDBKeyRange":false,"IDBObjectStore":false,"IDBOpenDBRequest":false,"IDBRequest":false,"IDBTransaction":false,"IDBVersionChangeEvent":false,"ImageData":false,"importScripts":true,"indexedDB":false,"location":false,"MessageChannel":false,"MessagePort":false,"name":false,"navigator":false,"Notification":false,"onclose":true,"onconnect":true,"onerror":true,"onlanguagechange":true,"onmessage":true,"onoffline":true,"ononline":true,"onrejectionhandled":true,"onunhandledrejection":true,"performance":false,"Performance":false,"PerformanceEntry":false,"PerformanceMark":false,"PerformanceMeasure":false,"PerformanceNavigation":false,"PerformanceResourceTiming":false,"PerformanceTiming":false,"postMessage":true,"Promise":false,"Request":false,"Response":false,"self":true,"ServiceWorkerRegistration":false,"setInterval":false,"setTimeout":false,"TextDecoder":false,"TextEncoder":false,"URL":false,"URLSearchParams":false,"WebSocket":false,"Worker":false,"XMLHttpRequest":false},"node":{"__dirname":false,"__filename":false,"Buffer":false,"clearImmediate":false,"clearInterval":false,"clearTimeout":false,"console":false,"exports":true,"global":false,"Intl":false,"module":false,"process":false,"require":false,"setImmediate":false,"setInterval":false,"setTimeout":false},"commonjs":{"exports":true,"module":false,"require":false,"global":false},"amd":{"define":false,"require":false},"mocha":{"after":false,"afterEach":false,"before":false,"beforeEach":false,"context":false,"describe":false,"it":false,"mocha":false,"run":false,"setup":false,"specify":false,"suite":false,"suiteSetup":false,"suiteTeardown":false,"teardown":false,"test":false,"xcontext":false,"xdescribe":false,"xit":false,"xspecify":false},"jasmine":{"afterAll":false,"afterEach":false,"beforeAll":false,"beforeEach":false,"describe":false,"expect":false,"fail":false,"fdescribe":false,"fit":false,"it":false,"jasmine":false,"pending":false,"runs":false,"spyOn":false,"spyOnProperty":false,"waits":false,"waitsFor":false,"xdescribe":false,"xit":false},"jest":{"afterAll":false,"afterEach":false,"beforeAll":false,"beforeEach":false,"describe":false,"expect":false,"it":false,"fdescribe":false,"fit":false,"jest":false,"pit":false,"require":false,"test":false,"xdescribe":false,"xit":false,"xtest":false},"qunit":{"asyncTest":false,"deepEqual":false,"equal":false,"expect":false,"module":false,"notDeepEqual":false,"notEqual":false,"notOk":false,"notPropEqual":false,"notStrictEqual":false,"ok":false,"propEqual":false,"QUnit":false,"raises":false,"start":false,"stop":false,"strictEqual":false,"test":false,"throws":false},"phantomjs":{"console":true,"exports":true,"phantom":true,"require":true,"WebPage":true},"couch":{"emit":false,"exports":false,"getRow":false,"log":false,"module":false,"provides":false,"require":false,"respond":false,"send":false,"start":false,"sum":false},"rhino":{"defineClass":false,"deserialize":false,"gc":false,"help":false,"importClass":false,"importPackage":false,"java":false,"load":false,"loadClass":false,"Packages":false,"print":false,"quit":false,"readFile":false,"readUrl":false,"runCommand":false,"seal":false,"serialize":false,"spawn":false,"sync":false,"toint32":false,"version":false},"nashorn":{"__DIR__":false,"__FILE__":false,"__LINE__":false,"com":false,"edu":false,"exit":false,"Java":false,"java":false,"javafx":false,"JavaImporter":false,"javax":false,"JSAdapter":false,"load":false,"loadWithNewGlobal":false,"org":false,"Packages":false,"print":false,"quit":false},"wsh":{"ActiveXObject":true,"Enumerator":true,"GetObject":true,"ScriptEngine":true,"ScriptEngineBuildVersion":true,"ScriptEngineMajorVersion":true,"ScriptEngineMinorVersion":true,"VBArray":true,"WScript":true,"WSH":true,"XDomainRequest":true},"jquery":{"$":false,"jQuery":false},"yui":{"Y":false,"YUI":false,"YUI_config":false},"shelljs":{"cat":false,"cd":false,"chmod":false,"config":false,"cp":false,"dirs":false,"echo":false,"env":false,"error":false,"exec":false,"exit":false,"find":false,"grep":false,"ls":false,"ln":false,"mkdir":false,"mv":false,"popd":false,"pushd":false,"pwd":false,"rm":false,"sed":false,"set":false,"target":false,"tempdir":false,"test":false,"touch":false,"which":false},"prototypejs":{"$":false,"$$":false,"$A":false,"$break":false,"$continue":false,"$F":false,"$H":false,"$R":false,"$w":false,"Abstract":false,"Ajax":false,"Autocompleter":false,"Builder":false,"Class":false,"Control":false,"Draggable":false,"Draggables":false,"Droppables":false,"Effect":false,"Element":false,"Enumerable":false,"Event":false,"Field":false,"Form":false,"Hash":false,"Insertion":false,"ObjectRange":false,"PeriodicalExecuter":false,"Position":false,"Prototype":false,"Scriptaculous":false,"Selector":false,"Sortable":false,"SortableObserver":false,"Sound":false,"Template":false,"Toggle":false,"Try":false},"meteor":{"$":false,"_":false,"Accounts":false,"AccountsClient":false,"AccountsServer":false,"AccountsCommon":false,"App":false,"Assets":false,"Blaze":false,"check":false,"Cordova":false,"DDP":false,"DDPServer":false,"DDPRateLimiter":false,"Deps":false,"EJSON":false,"Email":false,"HTTP":false,"Log":false,"Match":false,"Meteor":false,"Mongo":false,"MongoInternals":false,"Npm":false,"Package":false,"Plugin":false,"process":false,"Random":false,"ReactiveDict":false,"ReactiveVar":false,"Router":false,"ServiceConfiguration":false,"Session":false,"share":false,"Spacebars":false,"Template":false,"Tinytest":false,"Tracker":false,"UI":false,"Utils":false,"WebApp":false,"WebAppInternals":false},"mongo":{"_isWindows":false,"_rand":false,"BulkWriteResult":false,"cat":false,"cd":false,"connect":false,"db":false,"getHostName":false,"getMemInfo":false,"hostname":false,"ISODate":false,"listFiles":false,"load":false,"ls":false,"md5sumFile":false,"mkdir":false,"Mongo":false,"NumberInt":false,"NumberLong":false,"ObjectId":false,"PlanCache":false,"print":false,"printjson":false,"pwd":false,"quit":false,"removeFile":false,"rs":false,"sh":false,"UUID":false,"version":false,"WriteResult":false},"applescript":{"$":false,"Application":false,"Automation":false,"console":false,"delay":false,"Library":false,"ObjC":false,"ObjectSpecifier":false,"Path":false,"Progress":false,"Ref":false},"serviceworker":{"caches":false,"Cache":false,"CacheStorage":false,"Client":false,"clients":false,"Clients":false,"ExtendableEvent":false,"ExtendableMessageEvent":false,"FetchEvent":false,"importScripts":false,"registration":false,"self":false,"ServiceWorker":false,"ServiceWorkerContainer":false,"ServiceWorkerGlobalScope":false,"ServiceWorkerMessageEvent":false,"ServiceWorkerRegistration":false,"skipWaiting":false,"WindowClient":false},"atomtest":{"advanceClock":false,"fakeClearInterval":false,"fakeClearTimeout":false,"fakeSetInterval":false,"fakeSetTimeout":false,"resetTimeouts":false,"waitsForPromise":false},"embertest":{"andThen":false,"click":false,"currentPath":false,"currentRouteName":false,"currentURL":false,"fillIn":false,"find":false,"findWithAssert":false,"keyEvent":false,"pauseTest":false,"resumeTest":false,"triggerEvent":false,"visit":false,"wait":false},"protractor":{"$":false,"$$":false,"browser":false,"By":false,"by":false,"DartObject":false,"element":false,"protractor":false},"shared-node-browser":{"clearInterval":false,"clearTimeout":false,"console":false,"setInterval":false,"setTimeout":false},"webextensions":{"browser":false,"chrome":false,"opr":false},"greasemonkey":{"GM":false,"GM_addStyle":false,"GM_deleteValue":false,"GM_getResourceText":false,"GM_getResourceURL":false,"GM_getValue":false,"GM_info":false,"GM_listValues":false,"GM_log":false,"GM_openInTab":false,"GM_registerMenuCommand":false,"GM_setClipboard":false,"GM_setValue":false,"GM_xmlhttpRequest":false,"unsafeWindow":false},"devtools":{"$":false,"$$":false,"$0":false,"$1":false,"$2":false,"$3":false,"$4":false,"$_":false,"$x":false,"chrome":false,"clear":false,"copy":false,"debug":false,"dir":false,"dirxml":false,"getEventListeners":false,"inspect":false,"keys":false,"monitor":false,"monitorEvents":false,"profile":false,"profileEnd":false,"queryObjects":false,"table":false,"undebug":false,"unmonitor":false,"unmonitorEvents":false,"values":false}}
+module.exports = {"builtin":{"Array":false,"ArrayBuffer":false,"Atomics":false,"Boolean":false,"constructor":false,"DataView":false,"Date":false,"decodeURI":false,"decodeURIComponent":false,"encodeURI":false,"encodeURIComponent":false,"Error":false,"escape":false,"eval":false,"EvalError":false,"Float32Array":false,"Float64Array":false,"Function":false,"hasOwnProperty":false,"Infinity":false,"Int16Array":false,"Int32Array":false,"Int8Array":false,"isFinite":false,"isNaN":false,"isPrototypeOf":false,"JSON":false,"Map":false,"Math":false,"NaN":false,"Number":false,"Object":false,"parseFloat":false,"parseInt":false,"Promise":false,"propertyIsEnumerable":false,"Proxy":false,"RangeError":false,"ReferenceError":false,"Reflect":false,"RegExp":false,"Set":false,"SharedArrayBuffer":false,"String":false,"Symbol":false,"SyntaxError":false,"toLocaleString":false,"toString":false,"TypeError":false,"Uint16Array":false,"Uint32Array":false,"Uint8Array":false,"Uint8ClampedArray":false,"undefined":false,"unescape":false,"URIError":false,"valueOf":false,"WeakMap":false,"WeakSet":false},"es5":{"Array":false,"Boolean":false,"constructor":false,"Date":false,"decodeURI":false,"decodeURIComponent":false,"encodeURI":false,"encodeURIComponent":false,"Error":false,"escape":false,"eval":false,"EvalError":false,"Function":false,"hasOwnProperty":false,"Infinity":false,"isFinite":false,"isNaN":false,"isPrototypeOf":false,"JSON":false,"Math":false,"NaN":false,"Number":false,"Object":false,"parseFloat":false,"parseInt":false,"propertyIsEnumerable":false,"RangeError":false,"ReferenceError":false,"RegExp":false,"String":false,"SyntaxError":false,"toLocaleString":false,"toString":false,"TypeError":false,"undefined":false,"unescape":false,"URIError":false,"valueOf":false},"es2015":{"Array":false,"ArrayBuffer":false,"Boolean":false,"constructor":false,"DataView":false,"Date":false,"decodeURI":false,"decodeURIComponent":false,"encodeURI":false,"encodeURIComponent":false,"Error":false,"escape":false,"eval":false,"EvalError":false,"Float32Array":false,"Float64Array":false,"Function":false,"hasOwnProperty":false,"Infinity":false,"Int16Array":false,"Int32Array":false,"Int8Array":false,"isFinite":false,"isNaN":false,"isPrototypeOf":false,"JSON":false,"Map":false,"Math":false,"NaN":false,"Number":false,"Object":false,"parseFloat":false,"parseInt":false,"Promise":false,"propertyIsEnumerable":false,"Proxy":false,"RangeError":false,"ReferenceError":false,"Reflect":false,"RegExp":false,"Set":false,"String":false,"Symbol":false,"SyntaxError":false,"toLocaleString":false,"toString":false,"TypeError":false,"Uint16Array":false,"Uint32Array":false,"Uint8Array":false,"Uint8ClampedArray":false,"undefined":false,"unescape":false,"URIError":false,"valueOf":false,"WeakMap":false,"WeakSet":false},"es2017":{"Array":false,"ArrayBuffer":false,"Atomics":false,"Boolean":false,"constructor":false,"DataView":false,"Date":false,"decodeURI":false,"decodeURIComponent":false,"encodeURI":false,"encodeURIComponent":false,"Error":false,"escape":false,"eval":false,"EvalError":false,"Float32Array":false,"Float64Array":false,"Function":false,"hasOwnProperty":false,"Infinity":false,"Int16Array":false,"Int32Array":false,"Int8Array":false,"isFinite":false,"isNaN":false,"isPrototypeOf":false,"JSON":false,"Map":false,"Math":false,"NaN":false,"Number":false,"Object":false,"parseFloat":false,"parseInt":false,"Promise":false,"propertyIsEnumerable":false,"Proxy":false,"RangeError":false,"ReferenceError":false,"Reflect":false,"RegExp":false,"Set":false,"SharedArrayBuffer":false,"String":false,"Symbol":false,"SyntaxError":false,"toLocaleString":false,"toString":false,"TypeError":false,"Uint16Array":false,"Uint32Array":false,"Uint8Array":false,"Uint8ClampedArray":false,"undefined":false,"unescape":false,"URIError":false,"valueOf":false,"WeakMap":false,"WeakSet":false},"browser":{"addEventListener":false,"alert":false,"AnalyserNode":false,"Animation":false,"AnimationEffectReadOnly":false,"AnimationEffectTiming":false,"AnimationEffectTimingReadOnly":false,"AnimationEvent":false,"AnimationPlaybackEvent":false,"AnimationTimeline":false,"applicationCache":false,"ApplicationCache":false,"ApplicationCacheErrorEvent":false,"atob":false,"Attr":false,"Audio":false,"AudioBuffer":false,"AudioBufferSourceNode":false,"AudioContext":false,"AudioDestinationNode":false,"AudioListener":false,"AudioNode":false,"AudioParam":false,"AudioProcessingEvent":false,"AudioScheduledSourceNode":false,"BarProp":false,"BaseAudioContext":false,"BatteryManager":false,"BeforeUnloadEvent":false,"BiquadFilterNode":false,"Blob":false,"BlobEvent":false,"blur":false,"BroadcastChannel":false,"btoa":false,"BudgetService":false,"ByteLengthQueuingStrategy":false,"Cache":false,"caches":false,"CacheStorage":false,"cancelAnimationFrame":false,"cancelIdleCallback":false,"CanvasCaptureMediaStreamTrack":false,"CanvasGradient":false,"CanvasPattern":false,"CanvasRenderingContext2D":false,"ChannelMergerNode":false,"ChannelSplitterNode":false,"CharacterData":false,"clearInterval":false,"clearTimeout":false,"clientInformation":false,"ClipboardEvent":false,"close":false,"closed":false,"CloseEvent":false,"Comment":false,"CompositionEvent":false,"confirm":false,"console":false,"ConstantSourceNode":false,"ConvolverNode":false,"CountQueuingStrategy":false,"createImageBitmap":false,"Credential":false,"CredentialsContainer":false,"crypto":false,"Crypto":false,"CryptoKey":false,"CSS":false,"CSSConditionRule":false,"CSSFontFaceRule":false,"CSSGroupingRule":false,"CSSImportRule":false,"CSSKeyframeRule":false,"CSSKeyframesRule":false,"CSSMediaRule":false,"CSSNamespaceRule":false,"CSSPageRule":false,"CSSRule":false,"CSSRuleList":false,"CSSStyleDeclaration":false,"CSSStyleRule":false,"CSSStyleSheet":false,"CSSSupportsRule":false,"CustomElementRegistry":false,"customElements":false,"CustomEvent":false,"DataTransfer":false,"DataTransferItem":false,"DataTransferItemList":false,"defaultstatus":false,"defaultStatus":false,"DelayNode":false,"DeviceMotionEvent":false,"DeviceOrientationEvent":false,"devicePixelRatio":false,"dispatchEvent":false,"document":false,"Document":false,"DocumentFragment":false,"DocumentType":false,"DOMError":false,"DOMException":false,"DOMImplementation":false,"DOMMatrix":false,"DOMMatrixReadOnly":false,"DOMParser":false,"DOMPoint":false,"DOMPointReadOnly":false,"DOMQuad":false,"DOMRect":false,"DOMRectReadOnly":false,"DOMStringList":false,"DOMStringMap":false,"DOMTokenList":false,"DragEvent":false,"DynamicsCompressorNode":false,"Element":false,"ErrorEvent":false,"event":false,"Event":false,"EventSource":false,"EventTarget":false,"external":false,"fetch":false,"File":false,"FileList":false,"FileReader":false,"find":false,"focus":false,"FocusEvent":false,"FontFace":false,"FontFaceSetLoadEvent":false,"FormData":false,"frameElement":false,"frames":false,"GainNode":false,"Gamepad":false,"GamepadButton":false,"GamepadEvent":false,"getComputedStyle":false,"getSelection":false,"HashChangeEvent":false,"Headers":false,"history":false,"History":false,"HTMLAllCollection":false,"HTMLAnchorElement":false,"HTMLAreaElement":false,"HTMLAudioElement":false,"HTMLBaseElement":false,"HTMLBodyElement":false,"HTMLBRElement":false,"HTMLButtonElement":false,"HTMLCanvasElement":false,"HTMLCollection":false,"HTMLContentElement":false,"HTMLDataElement":false,"HTMLDataListElement":false,"HTMLDetailsElement":false,"HTMLDialogElement":false,"HTMLDirectoryElement":false,"HTMLDivElement":false,"HTMLDListElement":false,"HTMLDocument":false,"HTMLElement":false,"HTMLEmbedElement":false,"HTMLFieldSetElement":false,"HTMLFontElement":false,"HTMLFormControlsCollection":false,"HTMLFormElement":false,"HTMLFrameElement":false,"HTMLFrameSetElement":false,"HTMLHeadElement":false,"HTMLHeadingElement":false,"HTMLHRElement":false,"HTMLHtmlElement":false,"HTMLIFrameElement":false,"HTMLImageElement":false,"HTMLInputElement":false,"HTMLLabelElement":false,"HTMLLegendElement":false,"HTMLLIElement":false,"HTMLLinkElement":false,"HTMLMapElement":false,"HTMLMarqueeElement":false,"HTMLMediaElement":false,"HTMLMenuElement":false,"HTMLMetaElement":false,"HTMLMeterElement":false,"HTMLModElement":false,"HTMLObjectElement":false,"HTMLOListElement":false,"HTMLOptGroupElement":false,"HTMLOptionElement":false,"HTMLOptionsCollection":false,"HTMLOutputElement":false,"HTMLParagraphElement":false,"HTMLParamElement":false,"HTMLPictureElement":false,"HTMLPreElement":false,"HTMLProgressElement":false,"HTMLQuoteElement":false,"HTMLScriptElement":false,"HTMLSelectElement":false,"HTMLShadowElement":false,"HTMLSlotElement":false,"HTMLSourceElement":false,"HTMLSpanElement":false,"HTMLStyleElement":false,"HTMLTableCaptionElement":false,"HTMLTableCellElement":false,"HTMLTableColElement":false,"HTMLTableElement":false,"HTMLTableRowElement":false,"HTMLTableSectionElement":false,"HTMLTemplateElement":false,"HTMLTextAreaElement":false,"HTMLTimeElement":false,"HTMLTitleElement":false,"HTMLTrackElement":false,"HTMLUListElement":false,"HTMLUnknownElement":false,"HTMLVideoElement":false,"IDBCursor":false,"IDBCursorWithValue":false,"IDBDatabase":false,"IDBFactory":false,"IDBIndex":false,"IDBKeyRange":false,"IDBObjectStore":false,"IDBOpenDBRequest":false,"IDBRequest":false,"IDBTransaction":false,"IDBVersionChangeEvent":false,"IdleDeadline":false,"IIRFilterNode":false,"Image":false,"ImageBitmap":false,"ImageBitmapRenderingContext":false,"ImageCapture":false,"ImageData":false,"indexedDB":false,"innerHeight":false,"innerWidth":false,"InputEvent":false,"IntersectionObserver":false,"IntersectionObserverEntry":false,"Intl":false,"isSecureContext":false,"KeyboardEvent":false,"KeyframeEffect":false,"KeyframeEffectReadOnly":false,"length":false,"localStorage":false,"location":false,"Location":false,"locationbar":false,"matchMedia":false,"MediaDeviceInfo":false,"MediaDevices":false,"MediaElementAudioSourceNode":false,"MediaEncryptedEvent":false,"MediaError":false,"MediaKeyMessageEvent":false,"MediaKeySession":false,"MediaKeyStatusMap":false,"MediaKeySystemAccess":false,"MediaList":false,"MediaQueryList":false,"MediaQueryListEvent":false,"MediaRecorder":false,"MediaSettingsRange":false,"MediaSource":false,"MediaStream":false,"MediaStreamAudioDestinationNode":false,"MediaStreamAudioSourceNode":false,"MediaStreamEvent":false,"MediaStreamTrack":false,"MediaStreamTrackEvent":false,"menubar":false,"MessageChannel":false,"MessageEvent":false,"MessagePort":false,"MIDIAccess":false,"MIDIConnectionEvent":false,"MIDIInput":false,"MIDIInputMap":false,"MIDIMessageEvent":false,"MIDIOutput":false,"MIDIOutputMap":false,"MIDIPort":false,"MimeType":false,"MimeTypeArray":false,"MouseEvent":false,"moveBy":false,"moveTo":false,"MutationEvent":false,"MutationObserver":false,"MutationRecord":false,"name":false,"NamedNodeMap":false,"NavigationPreloadManager":false,"navigator":false,"Navigator":false,"NetworkInformation":false,"Node":false,"NodeFilter":false,"NodeIterator":false,"NodeList":false,"Notification":false,"OfflineAudioCompletionEvent":false,"OfflineAudioContext":false,"offscreenBuffering":false,"OffscreenCanvas":true,"onabort":true,"onafterprint":true,"onanimationend":true,"onanimationiteration":true,"onanimationstart":true,"onappinstalled":true,"onauxclick":true,"onbeforeinstallprompt":true,"onbeforeprint":true,"onbeforeunload":true,"onblur":true,"oncancel":true,"oncanplay":true,"oncanplaythrough":true,"onchange":true,"onclick":true,"onclose":true,"oncontextmenu":true,"oncuechange":true,"ondblclick":true,"ondevicemotion":true,"ondeviceorientation":true,"ondeviceorientationabsolute":true,"ondrag":true,"ondragend":true,"ondragenter":true,"ondragleave":true,"ondragover":true,"ondragstart":true,"ondrop":true,"ondurationchange":true,"onemptied":true,"onended":true,"onerror":true,"onfocus":true,"ongotpointercapture":true,"onhashchange":true,"oninput":true,"oninvalid":true,"onkeydown":true,"onkeypress":true,"onkeyup":true,"onlanguagechange":true,"onload":true,"onloadeddata":true,"onloadedmetadata":true,"onloadstart":true,"onlostpointercapture":true,"onmessage":true,"onmessageerror":true,"onmousedown":true,"onmouseenter":true,"onmouseleave":true,"onmousemove":true,"onmouseout":true,"onmouseover":true,"onmouseup":true,"onmousewheel":true,"onoffline":true,"ononline":true,"onpagehide":true,"onpageshow":true,"onpause":true,"onplay":true,"onplaying":true,"onpointercancel":true,"onpointerdown":true,"onpointerenter":true,"onpointerleave":true,"onpointermove":true,"onpointerout":true,"onpointerover":true,"onpointerup":true,"onpopstate":true,"onprogress":true,"onratechange":true,"onrejectionhandled":true,"onreset":true,"onresize":true,"onscroll":true,"onsearch":true,"onseeked":true,"onseeking":true,"onselect":true,"onstalled":true,"onstorage":true,"onsubmit":true,"onsuspend":true,"ontimeupdate":true,"ontoggle":true,"ontransitionend":true,"onunhandledrejection":true,"onunload":true,"onvolumechange":true,"onwaiting":true,"onwheel":true,"open":false,"openDatabase":false,"opener":false,"Option":false,"origin":false,"OscillatorNode":false,"outerHeight":false,"outerWidth":false,"PageTransitionEvent":false,"pageXOffset":false,"pageYOffset":false,"PannerNode":false,"parent":false,"Path2D":false,"PaymentAddress":false,"PaymentRequest":false,"PaymentRequestUpdateEvent":false,"PaymentResponse":false,"performance":false,"Performance":false,"PerformanceEntry":false,"PerformanceLongTaskTiming":false,"PerformanceMark":false,"PerformanceMeasure":false,"PerformanceNavigation":false,"PerformanceNavigationTiming":false,"PerformanceObserver":false,"PerformanceObserverEntryList":false,"PerformancePaintTiming":false,"PerformanceResourceTiming":false,"PerformanceTiming":false,"PeriodicWave":false,"Permissions":false,"PermissionStatus":false,"personalbar":false,"PhotoCapabilities":false,"Plugin":false,"PluginArray":false,"PointerEvent":false,"PopStateEvent":false,"postMessage":false,"Presentation":false,"PresentationAvailability":false,"PresentationConnection":false,"PresentationConnectionAvailableEvent":false,"PresentationConnectionCloseEvent":false,"PresentationConnectionList":false,"PresentationReceiver":false,"PresentationRequest":false,"print":false,"ProcessingInstruction":false,"ProgressEvent":false,"PromiseRejectionEvent":false,"prompt":false,"PushManager":false,"PushSubscription":false,"PushSubscriptionOptions":false,"RadioNodeList":false,"Range":false,"ReadableStream":false,"RemotePlayback":false,"removeEventListener":false,"Request":false,"requestAnimationFrame":false,"requestIdleCallback":false,"resizeBy":false,"ResizeObserver":false,"ResizeObserverEntry":false,"resizeTo":false,"Response":false,"RTCCertificate":false,"RTCDataChannel":false,"RTCDataChannelEvent":false,"RTCIceCandidate":false,"RTCPeerConnection":false,"RTCPeerConnectionIceEvent":false,"RTCRtpContributingSource":false,"RTCRtpReceiver":false,"RTCSessionDescription":false,"RTCStatsReport":false,"screen":false,"Screen":false,"screenLeft":false,"ScreenOrientation":false,"screenTop":false,"screenX":false,"screenY":false,"ScriptProcessorNode":false,"scroll":false,"scrollbars":false,"scrollBy":false,"scrollTo":false,"scrollX":false,"scrollY":false,"SecurityPolicyViolationEvent":false,"Selection":false,"self":false,"ServiceWorker":false,"ServiceWorkerContainer":false,"ServiceWorkerRegistration":false,"sessionStorage":false,"setInterval":false,"setTimeout":false,"ShadowRoot":false,"SharedWorker":false,"SourceBuffer":false,"SourceBufferList":false,"speechSynthesis":false,"SpeechSynthesisEvent":false,"SpeechSynthesisUtterance":false,"StaticRange":false,"status":false,"statusbar":false,"StereoPannerNode":false,"stop":false,"Storage":false,"StorageEvent":false,"StorageManager":false,"styleMedia":false,"StyleSheet":false,"StyleSheetList":false,"SubtleCrypto":false,"SVGAElement":false,"SVGAngle":false,"SVGAnimatedAngle":false,"SVGAnimatedBoolean":false,"SVGAnimatedEnumeration":false,"SVGAnimatedInteger":false,"SVGAnimatedLength":false,"SVGAnimatedLengthList":false,"SVGAnimatedNumber":false,"SVGAnimatedNumberList":false,"SVGAnimatedPreserveAspectRatio":false,"SVGAnimatedRect":false,"SVGAnimatedString":false,"SVGAnimatedTransformList":false,"SVGAnimateElement":false,"SVGAnimateMotionElement":false,"SVGAnimateTransformElement":false,"SVGAnimationElement":false,"SVGCircleElement":false,"SVGClipPathElement":false,"SVGComponentTransferFunctionElement":false,"SVGDefsElement":false,"SVGDescElement":false,"SVGDiscardElement":false,"SVGElement":false,"SVGEllipseElement":false,"SVGFEBlendElement":false,"SVGFEColorMatrixElement":false,"SVGFEComponentTransferElement":false,"SVGFECompositeElement":false,"SVGFEConvolveMatrixElement":false,"SVGFEDiffuseLightingElement":false,"SVGFEDisplacementMapElement":false,"SVGFEDistantLightElement":false,"SVGFEDropShadowElement":false,"SVGFEFloodElement":false,"SVGFEFuncAElement":false,"SVGFEFuncBElement":false,"SVGFEFuncGElement":false,"SVGFEFuncRElement":false,"SVGFEGaussianBlurElement":false,"SVGFEImageElement":false,"SVGFEMergeElement":false,"SVGFEMergeNodeElement":false,"SVGFEMorphologyElement":false,"SVGFEOffsetElement":false,"SVGFEPointLightElement":false,"SVGFESpecularLightingElement":false,"SVGFESpotLightElement":false,"SVGFETileElement":false,"SVGFETurbulenceElement":false,"SVGFilterElement":false,"SVGForeignObjectElement":false,"SVGGElement":false,"SVGGeometryElement":false,"SVGGradientElement":false,"SVGGraphicsElement":false,"SVGImageElement":false,"SVGLength":false,"SVGLengthList":false,"SVGLinearGradientElement":false,"SVGLineElement":false,"SVGMarkerElement":false,"SVGMaskElement":false,"SVGMatrix":false,"SVGMetadataElement":false,"SVGMPathElement":false,"SVGNumber":false,"SVGNumberList":false,"SVGPathElement":false,"SVGPatternElement":false,"SVGPoint":false,"SVGPointList":false,"SVGPolygonElement":false,"SVGPolylineElement":false,"SVGPreserveAspectRatio":false,"SVGRadialGradientElement":false,"SVGRect":false,"SVGRectElement":false,"SVGScriptElement":false,"SVGSetElement":false,"SVGStopElement":false,"SVGStringList":false,"SVGStyleElement":false,"SVGSVGElement":false,"SVGSwitchElement":false,"SVGSymbolElement":false,"SVGTextContentElement":false,"SVGTextElement":false,"SVGTextPathElement":false,"SVGTextPositioningElement":false,"SVGTitleElement":false,"SVGTransform":false,"SVGTransformList":false,"SVGTSpanElement":false,"SVGUnitTypes":false,"SVGUseElement":false,"SVGViewElement":false,"TaskAttributionTiming":false,"Text":false,"TextDecoder":false,"TextEncoder":false,"TextEvent":false,"TextMetrics":false,"TextTrack":false,"TextTrackCue":false,"TextTrackCueList":false,"TextTrackList":false,"TimeRanges":false,"toolbar":false,"top":false,"Touch":false,"TouchEvent":false,"TouchList":false,"TrackEvent":false,"TransitionEvent":false,"TreeWalker":false,"UIEvent":false,"URL":false,"URLSearchParams":false,"ValidityState":false,"visualViewport":false,"VisualViewport":false,"VTTCue":false,"WaveShaperNode":false,"WebAssembly":false,"WebGL2RenderingContext":false,"WebGLActiveInfo":false,"WebGLBuffer":false,"WebGLContextEvent":false,"WebGLFramebuffer":false,"WebGLProgram":false,"WebGLQuery":false,"WebGLRenderbuffer":false,"WebGLRenderingContext":false,"WebGLSampler":false,"WebGLShader":false,"WebGLShaderPrecisionFormat":false,"WebGLSync":false,"WebGLTexture":false,"WebGLTransformFeedback":false,"WebGLUniformLocation":false,"WebGLVertexArrayObject":false,"WebSocket":false,"WheelEvent":false,"window":false,"Window":false,"Worker":false,"WritableStream":false,"XMLDocument":false,"XMLHttpRequest":false,"XMLHttpRequestEventTarget":false,"XMLHttpRequestUpload":false,"XMLSerializer":false,"XPathEvaluator":false,"XPathExpression":false,"XPathResult":false,"XSLTProcessor":false},"worker":{"applicationCache":false,"atob":false,"Blob":false,"BroadcastChannel":false,"btoa":false,"Cache":false,"caches":false,"clearInterval":false,"clearTimeout":false,"close":true,"console":false,"fetch":false,"FileReaderSync":false,"FormData":false,"Headers":false,"IDBCursor":false,"IDBCursorWithValue":false,"IDBDatabase":false,"IDBFactory":false,"IDBIndex":false,"IDBKeyRange":false,"IDBObjectStore":false,"IDBOpenDBRequest":false,"IDBRequest":false,"IDBTransaction":false,"IDBVersionChangeEvent":false,"ImageData":false,"importScripts":true,"indexedDB":false,"location":false,"MessageChannel":false,"MessagePort":false,"name":false,"navigator":false,"Notification":false,"onclose":true,"onconnect":true,"onerror":true,"onlanguagechange":true,"onmessage":true,"onoffline":true,"ononline":true,"onrejectionhandled":true,"onunhandledrejection":true,"performance":false,"Performance":false,"PerformanceEntry":false,"PerformanceMark":false,"PerformanceMeasure":false,"PerformanceNavigation":false,"PerformanceResourceTiming":false,"PerformanceTiming":false,"postMessage":true,"Promise":false,"Request":false,"Response":false,"self":true,"ServiceWorkerRegistration":false,"setInterval":false,"setTimeout":false,"TextDecoder":false,"TextEncoder":false,"URL":false,"URLSearchParams":false,"WebSocket":false,"Worker":false,"XMLHttpRequest":false},"node":{"__dirname":false,"__filename":false,"Buffer":false,"clearImmediate":false,"clearInterval":false,"clearTimeout":false,"console":false,"exports":true,"global":false,"Intl":false,"module":false,"process":false,"require":false,"setImmediate":false,"setInterval":false,"setTimeout":false},"commonjs":{"exports":true,"global":false,"module":false,"require":false},"amd":{"define":false,"require":false},"mocha":{"after":false,"afterEach":false,"before":false,"beforeEach":false,"context":false,"describe":false,"it":false,"mocha":false,"run":false,"setup":false,"specify":false,"suite":false,"suiteSetup":false,"suiteTeardown":false,"teardown":false,"test":false,"xcontext":false,"xdescribe":false,"xit":false,"xspecify":false},"jasmine":{"afterAll":false,"afterEach":false,"beforeAll":false,"beforeEach":false,"describe":false,"expect":false,"fail":false,"fdescribe":false,"fit":false,"it":false,"jasmine":false,"pending":false,"runs":false,"spyOn":false,"spyOnProperty":false,"waits":false,"waitsFor":false,"xdescribe":false,"xit":false},"jest":{"afterAll":false,"afterEach":false,"beforeAll":false,"beforeEach":false,"describe":false,"expect":false,"fdescribe":false,"fit":false,"it":false,"jest":false,"pit":false,"require":false,"test":false,"xdescribe":false,"xit":false,"xtest":false},"qunit":{"asyncTest":false,"deepEqual":false,"equal":false,"expect":false,"module":false,"notDeepEqual":false,"notEqual":false,"notOk":false,"notPropEqual":false,"notStrictEqual":false,"ok":false,"propEqual":false,"QUnit":false,"raises":false,"start":false,"stop":false,"strictEqual":false,"test":false,"throws":false},"phantomjs":{"console":true,"exports":true,"phantom":true,"require":true,"WebPage":true},"couch":{"emit":false,"exports":false,"getRow":false,"log":false,"module":false,"provides":false,"require":false,"respond":false,"send":false,"start":false,"sum":false},"rhino":{"defineClass":false,"deserialize":false,"gc":false,"help":false,"importClass":false,"importPackage":false,"java":false,"load":false,"loadClass":false,"Packages":false,"print":false,"quit":false,"readFile":false,"readUrl":false,"runCommand":false,"seal":false,"serialize":false,"spawn":false,"sync":false,"toint32":false,"version":false},"nashorn":{"__DIR__":false,"__FILE__":false,"__LINE__":false,"com":false,"edu":false,"exit":false,"java":false,"Java":false,"javafx":false,"JavaImporter":false,"javax":false,"JSAdapter":false,"load":false,"loadWithNewGlobal":false,"org":false,"Packages":false,"print":false,"quit":false},"wsh":{"ActiveXObject":true,"Enumerator":true,"GetObject":true,"ScriptEngine":true,"ScriptEngineBuildVersion":true,"ScriptEngineMajorVersion":true,"ScriptEngineMinorVersion":true,"VBArray":true,"WScript":true,"WSH":true,"XDomainRequest":true},"jquery":{"$":false,"jQuery":false},"yui":{"Y":false,"YUI":false,"YUI_config":false},"shelljs":{"cat":false,"cd":false,"chmod":false,"config":false,"cp":false,"dirs":false,"echo":false,"env":false,"error":false,"exec":false,"exit":false,"find":false,"grep":false,"ln":false,"ls":false,"mkdir":false,"mv":false,"popd":false,"pushd":false,"pwd":false,"rm":false,"sed":false,"set":false,"target":false,"tempdir":false,"test":false,"touch":false,"which":false},"prototypejs":{"$":false,"$$":false,"$A":false,"$break":false,"$continue":false,"$F":false,"$H":false,"$R":false,"$w":false,"Abstract":false,"Ajax":false,"Autocompleter":false,"Builder":false,"Class":false,"Control":false,"Draggable":false,"Draggables":false,"Droppables":false,"Effect":false,"Element":false,"Enumerable":false,"Event":false,"Field":false,"Form":false,"Hash":false,"Insertion":false,"ObjectRange":false,"PeriodicalExecuter":false,"Position":false,"Prototype":false,"Scriptaculous":false,"Selector":false,"Sortable":false,"SortableObserver":false,"Sound":false,"Template":false,"Toggle":false,"Try":false},"meteor":{"_":false,"$":false,"Accounts":false,"AccountsClient":false,"AccountsCommon":false,"AccountsServer":false,"App":false,"Assets":false,"Blaze":false,"check":false,"Cordova":false,"DDP":false,"DDPRateLimiter":false,"DDPServer":false,"Deps":false,"EJSON":false,"Email":false,"HTTP":false,"Log":false,"Match":false,"Meteor":false,"Mongo":false,"MongoInternals":false,"Npm":false,"Package":false,"Plugin":false,"process":false,"Random":false,"ReactiveDict":false,"ReactiveVar":false,"Router":false,"ServiceConfiguration":false,"Session":false,"share":false,"Spacebars":false,"Template":false,"Tinytest":false,"Tracker":false,"UI":false,"Utils":false,"WebApp":false,"WebAppInternals":false},"mongo":{"_isWindows":false,"_rand":false,"BulkWriteResult":false,"cat":false,"cd":false,"connect":false,"db":false,"getHostName":false,"getMemInfo":false,"hostname":false,"ISODate":false,"listFiles":false,"load":false,"ls":false,"md5sumFile":false,"mkdir":false,"Mongo":false,"NumberInt":false,"NumberLong":false,"ObjectId":false,"PlanCache":false,"print":false,"printjson":false,"pwd":false,"quit":false,"removeFile":false,"rs":false,"sh":false,"UUID":false,"version":false,"WriteResult":false},"applescript":{"$":false,"Application":false,"Automation":false,"console":false,"delay":false,"Library":false,"ObjC":false,"ObjectSpecifier":false,"Path":false,"Progress":false,"Ref":false},"serviceworker":{"Cache":false,"caches":false,"CacheStorage":false,"Client":false,"clients":false,"Clients":false,"ExtendableEvent":false,"ExtendableMessageEvent":false,"FetchEvent":false,"importScripts":false,"registration":false,"self":false,"ServiceWorker":false,"ServiceWorkerContainer":false,"ServiceWorkerGlobalScope":false,"ServiceWorkerMessageEvent":false,"ServiceWorkerRegistration":false,"skipWaiting":false,"WindowClient":false},"atomtest":{"advanceClock":false,"fakeClearInterval":false,"fakeClearTimeout":false,"fakeSetInterval":false,"fakeSetTimeout":false,"resetTimeouts":false,"waitsForPromise":false},"embertest":{"andThen":false,"click":false,"currentPath":false,"currentRouteName":false,"currentURL":false,"fillIn":false,"find":false,"findWithAssert":false,"keyEvent":false,"pauseTest":false,"resumeTest":false,"triggerEvent":false,"visit":false,"wait":false},"protractor":{"$":false,"$$":false,"browser":false,"by":false,"By":false,"DartObject":false,"element":false,"protractor":false},"shared-node-browser":{"clearInterval":false,"clearTimeout":false,"console":false,"setInterval":false,"setTimeout":false},"webextensions":{"browser":false,"chrome":false,"opr":false},"greasemonkey":{"GM":false,"GM_addStyle":false,"GM_deleteValue":false,"GM_getResourceText":false,"GM_getResourceURL":false,"GM_getValue":false,"GM_info":false,"GM_listValues":false,"GM_log":false,"GM_openInTab":false,"GM_registerMenuCommand":false,"GM_setClipboard":false,"GM_setValue":false,"GM_xmlhttpRequest":false,"unsafeWindow":false},"devtools":{"$":false,"$_":false,"$$":false,"$0":false,"$1":false,"$2":false,"$3":false,"$4":false,"$x":false,"chrome":false,"clear":false,"copy":false,"debug":false,"dir":false,"dirxml":false,"getEventListeners":false,"inspect":false,"keys":false,"monitor":false,"monitorEvents":false,"profile":false,"profileEnd":false,"queryObjects":false,"table":false,"undebug":false,"unmonitor":false,"unmonitorEvents":false,"values":false}}
  }),
  (function(module, exports, __webpack_require__) {
 
@@ -34919,9 +34936,9 @@ var result = function () {
   return result;
 }();
 if (true) {
-  !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+  !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {
 	return result;
-  }.call(exports, __webpack_require__, exports, module),
+  }).call(exports, __webpack_require__, exports, module),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 } else if (typeof module !== "undefined" && module.exports) {
   module.exports = result;
@@ -37867,16 +37884,26 @@ module.exports = {
 					} else if (effectiveParent.type === "AssignmentExpression" && isUnderscored(name) && (effectiveParent.right.type !== "MemberExpression" || effectiveParent.left.type === "MemberExpression" && effectiveParent.left.property.name === node.name)) {
 						report(node);
 					}
-				} else if (node.parent.type === "Property") {
+				} else if (node.parent.type === "Property" || node.parent.type === "AssignmentPattern") {
+
+					if (node.parent.parent && node.parent.parent.type === "ObjectPattern") {
+
+						if (node.parent.shorthand && node.parent.value.left && isUnderscored(name)) {
+
+							report(node);
+						}
+						if (node.parent.key === node && node.parent.value !== node) {
+							return;
+						}
+
+						if (node.parent.value.name && isUnderscored(name)) {
+							report(node);
+						}
+					}
 					if (properties === "never") {
 						return;
 					}
-
-					if (node.parent.parent && node.parent.parent.type === "ObjectPattern" && node.parent.key === node && node.parent.value !== node) {
-						return;
-					}
-
-					if (isUnderscored(name) && !ALLOWED_PARENT_TYPES.has(effectiveParent.type)) {
+					if (isUnderscored(name) && !ALLOWED_PARENT_TYPES.has(effectiveParent.type) && !(node.parent.right === node)) {
 						report(node);
 					}
 				} else if (["ImportSpecifier", "ImportNamespaceSpecifier", "ImportDefaultSpecifier"].indexOf(node.parent.type) >= 0) {
@@ -39853,6 +39880,9 @@ module.exports = {
 					LF = "\n",
 					CRLF = "\r" + LF,
 					endsWithNewline = lodash.endsWith(src, LF);
+				if (!src.length) {
+					return;
+				}
 
 				var mode = context.options[0] || "always",
 					appendCRLF = false;
@@ -64664,7 +64694,7 @@ module.exports = {
  }),
  (function(module, exports) {
 
-module.exports = {"_args":[["doctrine@2.0.2","/home/ubuntu/workspace/plugins/c9.ide.language.javascript.eslint/packager"]],"_from":"doctrine@2.0.2","_id":"doctrine@2.0.2","_inBundle":false,"_integrity":"sha512-y0tm5Pq6ywp3qSTZ1vPgVdAnbDEoeoc5wlOHXoY1c4Wug/a7JvqHIl7BTvwodaHmejWkK/9dSb3sCYfyo/om8A==","_location":"/doctrine","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"doctrine@2.0.2","name":"doctrine","escapedName":"doctrine","rawSpec":"2.0.2","saveSpec":null,"fetchSpec":"2.0.2"},"_requiredBy":["/eslint","/eslint-plugin-react"],"_resolved":"https://registry.npmjs.org/doctrine/-/doctrine-2.0.2.tgz","_spec":"2.0.2","_where":"/home/ubuntu/workspace/plugins/c9.ide.language.javascript.eslint/packager","bugs":{"url":"https://github.com/eslint/doctrine/issues"},"dependencies":{"esutils":"^2.0.2"},"description":"JSDoc parser","devDependencies":{"coveralls":"^2.11.2","dateformat":"^1.0.11","eslint":"^1.10.3","eslint-release":"^0.10.0","linefix":"^0.1.1","mocha":"^3.4.2","npm-license":"^0.3.1","nyc":"^10.3.2","semver":"^5.0.3","shelljs":"^0.5.3","shelljs-nodecli":"^0.1.1","should":"^5.0.1"},"directories":{"lib":"./lib"},"engines":{"node":">=0.10.0"},"files":["lib"],"homepage":"https://github.com/eslint/doctrine","license":"Apache-2.0","main":"lib/doctrine.js","maintainers":[{"name":"Nicholas C. Zakas","email":"nicholas+npm@nczconsulting.com","url":"https://www.nczonline.net"},{"name":"Yusuke Suzuki","email":"utatane.tea@gmail.com","url":"https://github.com/Constellation"}],"name":"doctrine","repository":{"type":"git","url":"git+https://github.com/eslint/doctrine.git"},"scripts":{"alpharelease":"eslint-prerelease alpha","betarelease":"eslint-prerelease beta","ci-release":"eslint-ci-release","coveralls":"nyc report --reporter=text-lcov | coveralls","lint":"eslint lib/","pretest":"npm run lint","release":"eslint-release","test":"nyc mocha"},"version":"2.0.2"}
+module.exports = {"_from":"doctrine@^2.0.2","_id":"doctrine@2.0.2","_inBundle":false,"_integrity":"sha512-y0tm5Pq6ywp3qSTZ1vPgVdAnbDEoeoc5wlOHXoY1c4Wug/a7JvqHIl7BTvwodaHmejWkK/9dSb3sCYfyo/om8A==","_location":"/doctrine","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"doctrine@^2.0.2","name":"doctrine","escapedName":"doctrine","rawSpec":"^2.0.2","saveSpec":null,"fetchSpec":"^2.0.2"},"_requiredBy":["/eslint","/eslint-plugin-react"],"_resolved":"https://registry.npmjs.org/doctrine/-/doctrine-2.0.2.tgz","_shasum":"68f96ce8efc56cc42651f1faadb4f175273b0075","_spec":"doctrine@^2.0.2","_where":"J:\\Chromium\\newclient\\plugins\\c9.ide.language.javascript.eslint\\packager\\node_modules\\eslint","bugs":{"url":"https://github.com/eslint/doctrine/issues"},"bundleDependencies":false,"dependencies":{"esutils":"^2.0.2"},"deprecated":false,"description":"JSDoc parser","devDependencies":{"coveralls":"^2.11.2","dateformat":"^1.0.11","eslint":"^1.10.3","eslint-release":"^0.10.0","linefix":"^0.1.1","mocha":"^3.4.2","npm-license":"^0.3.1","nyc":"^10.3.2","semver":"^5.0.3","shelljs":"^0.5.3","shelljs-nodecli":"^0.1.1","should":"^5.0.1"},"directories":{"lib":"./lib"},"engines":{"node":">=0.10.0"},"files":["lib"],"homepage":"https://github.com/eslint/doctrine","license":"Apache-2.0","main":"lib/doctrine.js","maintainers":[{"name":"Nicholas C. Zakas","email":"nicholas+npm@nczconsulting.com","url":"https://www.nczonline.net"},{"name":"Yusuke Suzuki","email":"utatane.tea@gmail.com","url":"https://github.com/Constellation"}],"name":"doctrine","repository":{"type":"git","url":"git+https://github.com/eslint/doctrine.git"},"scripts":{"alpharelease":"eslint-prerelease alpha","betarelease":"eslint-prerelease beta","ci-release":"eslint-ci-release","coveralls":"nyc report --reporter=text-lcov | coveralls","lint":"eslint lib/","pretest":"npm run lint","release":"eslint-release","test":"nyc mocha"},"version":"2.0.2"}
  }),
  (function(module, exports, __webpack_require__) {
 
@@ -75898,7 +75928,7 @@ module.exports = function () {
  }),
  (function(module, exports) {
 
-module.exports = {"_args":[["eslint@4.12.0","/home/ubuntu/workspace/plugins/c9.ide.language.javascript.eslint/packager"]],"_from":"eslint@4.12.0","_id":"eslint@4.12.0","_inBundle":false,"_integrity":"sha512-Ohv4NU0FffkEe4so8DBrdfRUbGUtM4XnBTDll2pY7OdW3VkjBOZPerx3Bmuhg6S6D6r8+cli0EezN0xawUfYwg==","_location":"/eslint","_phantomChildren":{"color-convert":"1.9.1","escape-string-regexp":"1.0.5","has-flag":"2.0.0","ms":"2.0.0"},"_requested":{"type":"version","registry":true,"raw":"eslint@4.12.0","name":"eslint","escapedName":"eslint","rawSpec":"4.12.0","saveSpec":null,"fetchSpec":"4.12.0"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/eslint/-/eslint-4.12.0.tgz","_spec":"4.12.0","_where":"/home/ubuntu/workspace/plugins/c9.ide.language.javascript.eslint/packager","author":{"name":"Nicholas C. Zakas","email":"nicholas+npm@nczconsulting.com"},"bin":{"eslint":"./bin/eslint.js"},"bugs":{"url":"https://github.com/eslint/eslint/issues/"},"dependencies":{"ajv":"^5.3.0","babel-code-frame":"^6.22.0","chalk":"^2.1.0","concat-stream":"^1.6.0","cross-spawn":"^5.1.0","debug":"^3.0.1","doctrine":"^2.0.2","eslint-scope":"^3.7.1","espree":"^3.5.2","esquery":"^1.0.0","estraverse":"^4.2.0","esutils":"^2.0.2","file-entry-cache":"^2.0.0","functional-red-black-tree":"^1.0.1","glob":"^7.1.2","globals":"^11.0.1","ignore":"^3.3.3","imurmurhash":"^0.1.4","inquirer":"^3.0.6","is-resolvable":"^1.0.0","js-yaml":"^3.9.1","json-stable-stringify-without-jsonify":"^1.0.1","levn":"^0.3.0","lodash":"^4.17.4","minimatch":"^3.0.2","mkdirp":"^0.5.1","natural-compare":"^1.4.0","optionator":"^0.8.2","path-is-inside":"^1.0.2","pluralize":"^7.0.0","progress":"^2.0.0","require-uncached":"^1.0.3","semver":"^5.3.0","strip-ansi":"^4.0.0","strip-json-comments":"~2.0.1","table":"^4.0.1","text-table":"~0.2.0"},"description":"An AST-based pattern checker for JavaScript.","devDependencies":{"babel-polyfill":"^6.23.0","babel-preset-es2015":"^6.24.1","babelify":"^7.3.0","beefy":"^2.1.8","brfs":"1.4.3","browserify":"^14.4.0","chai":"^4.0.1","cheerio":"^0.22.0","coveralls":"^2.13.1","dateformat":"^2.0.0","ejs":"^2.5.6","eslint-plugin-eslint-plugin":"^1.2.0","eslint-plugin-node":"^5.1.0","eslint-plugin-rulesdir":"^0.1.0","eslint-release":"^0.10.1","eslint-rule-composer":"^0.1.0","eslump":"1.6.0","esprima":"^4.0.0","esprima-fb":"^15001.1001.0-dev-harmony-fb","istanbul":"^0.4.5","jsdoc":"^3.4.3","karma":"^1.7.0","karma-babel-preprocessor":"^6.0.1","karma-mocha":"^1.3.0","karma-mocha-reporter":"^2.2.3","karma-phantomjs-launcher":"^1.0.4","leche":"^2.1.2","load-perf":"^0.2.0","markdownlint":"^0.6.1","mocha":"^3.4.2","mock-fs":"^4.3.0","npm-license":"^0.3.3","phantomjs-prebuilt":"^2.1.14","proxyquire":"^1.8.0","shelljs":"^0.7.7","sinon":"^3.2.1","temp":"^0.8.3","through":"^2.3.8"},"engines":{"node":">=4"},"files":["LICENSE","README.md","bin","conf","lib","messages"],"homepage":"https://eslint.org","keywords":["ast","lint","javascript","ecmascript","espree"],"license":"MIT","main":"./lib/api.js","name":"eslint","repository":{"type":"git","url":"git+https://github.com/eslint/eslint.git"},"scripts":{"alpharelease":"node Makefile.js prerelease -- alpha","betarelease":"node Makefile.js prerelease -- beta","browserify":"node Makefile.js browserify","ci-release":"node Makefile.js ciRelease","coveralls":"cat ./coverage/lcov.info | coveralls","docs":"node Makefile.js docs","fuzz":"node Makefile.js fuzz","gensite":"node Makefile.js gensite","lint":"node Makefile.js lint","perf":"node Makefile.js perf","profile":"beefy tests/bench/bench.js --open -- -t brfs -t ./tests/bench/xform-rules.js -r espree","release":"node Makefile.js release","test":"node Makefile.js test"},"version":"4.12.0"}
+module.exports = {"_from":"eslint@^4.12.0","_id":"eslint@4.13.1","_inBundle":false,"_integrity":"sha512-UCJVV50RtLHYzBp1DZ8CMPtRSg4iVZvjgO9IJHIKyWU/AnJVjtdRikoUPLB29n5pzMB7TnsLQWf0V6VUJfoPfw==","_location":"/eslint","_phantomChildren":{"color-convert":"1.9.1","escape-string-regexp":"1.0.5","has-flag":"2.0.0","ms":"2.0.0"},"_requested":{"type":"range","registry":true,"raw":"eslint@^4.12.0","name":"eslint","escapedName":"eslint","rawSpec":"^4.12.0","saveSpec":null,"fetchSpec":"^4.12.0"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/eslint/-/eslint-4.13.1.tgz","_shasum":"0055e0014464c7eb7878caf549ef2941992b444f","_spec":"eslint@^4.12.0","_where":"J:\\Chromium\\newclient\\plugins\\c9.ide.language.javascript.eslint\\packager","author":{"name":"Nicholas C. Zakas","email":"nicholas+npm@nczconsulting.com"},"bin":{"eslint":"./bin/eslint.js"},"bugs":{"url":"https://github.com/eslint/eslint/issues/"},"bundleDependencies":false,"dependencies":{"ajv":"^5.3.0","babel-code-frame":"^6.22.0","chalk":"^2.1.0","concat-stream":"^1.6.0","cross-spawn":"^5.1.0","debug":"^3.0.1","doctrine":"^2.0.2","eslint-scope":"^3.7.1","espree":"^3.5.2","esquery":"^1.0.0","estraverse":"^4.2.0","esutils":"^2.0.2","file-entry-cache":"^2.0.0","functional-red-black-tree":"^1.0.1","glob":"^7.1.2","globals":"^11.0.1","ignore":"^3.3.3","imurmurhash":"^0.1.4","inquirer":"^3.0.6","is-resolvable":"^1.0.0","js-yaml":"^3.9.1","json-stable-stringify-without-jsonify":"^1.0.1","levn":"^0.3.0","lodash":"^4.17.4","minimatch":"^3.0.2","mkdirp":"^0.5.1","natural-compare":"^1.4.0","optionator":"^0.8.2","path-is-inside":"^1.0.2","pluralize":"^7.0.0","progress":"^2.0.0","require-uncached":"^1.0.3","semver":"^5.3.0","strip-ansi":"^4.0.0","strip-json-comments":"~2.0.1","table":"^4.0.1","text-table":"~0.2.0"},"deprecated":false,"description":"An AST-based pattern checker for JavaScript.","devDependencies":{"babel-polyfill":"^6.23.0","babel-preset-es2015":"^6.24.1","babelify":"^7.3.0","beefy":"^2.1.8","brfs":"1.4.3","browserify":"^14.4.0","chai":"^4.0.1","cheerio":"^0.22.0","coveralls":"^2.13.1","dateformat":"^2.0.0","ejs":"^2.5.6","eslint-plugin-eslint-plugin":"^1.2.0","eslint-plugin-node":"^5.1.0","eslint-plugin-rulesdir":"^0.1.0","eslint-release":"^0.10.1","eslint-rule-composer":"^0.1.0","eslump":"1.6.0","esprima":"^4.0.0","esprima-fb":"^15001.1001.0-dev-harmony-fb","istanbul":"^0.4.5","jsdoc":"^3.4.3","karma":"^1.7.0","karma-babel-preprocessor":"^6.0.1","karma-mocha":"^1.3.0","karma-mocha-reporter":"^2.2.3","karma-phantomjs-launcher":"^1.0.4","leche":"^2.1.2","load-perf":"^0.2.0","markdownlint":"^0.6.1","mocha":"^3.4.2","mock-fs":"^4.3.0","npm-license":"^0.3.3","phantomjs-prebuilt":"^2.1.14","proxyquire":"^1.8.0","shelljs":"^0.7.7","sinon":"^3.2.1","temp":"^0.8.3","through":"^2.3.8"},"engines":{"node":">=4"},"files":["LICENSE","README.md","bin","conf","lib","messages"],"homepage":"https://eslint.org","keywords":["ast","lint","javascript","ecmascript","espree"],"license":"MIT","main":"./lib/api.js","name":"eslint","repository":{"type":"git","url":"git+https://github.com/eslint/eslint.git"},"scripts":{"alpharelease":"node Makefile.js prerelease -- alpha","betarelease":"node Makefile.js prerelease -- beta","browserify":"node Makefile.js browserify","ci-release":"node Makefile.js ciRelease","coveralls":"cat ./coverage/lcov.info | coveralls","docs":"node Makefile.js docs","fuzz":"node Makefile.js fuzz","gensite":"node Makefile.js gensite","lint":"node Makefile.js lint","perf":"node Makefile.js perf","profile":"beefy tests/bench/bench.js --open -- -t brfs -t ./tests/bench/xform-rules.js -r espree","release":"node Makefile.js release","test":"node Makefile.js test"},"version":"4.13.1"}
  }),
  (function(module, exports, __webpack_require__) {
 
