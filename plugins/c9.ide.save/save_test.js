@@ -29,7 +29,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "async"],
             packagePath: "plugins/c9.core/settings",
             testing: true
         },
-        "plugins/c9.core/api.js",
         {
             packagePath: "plugins/c9.ide.ui/ui",
             staticPrefix: "plugins/c9.ide.ui"
@@ -50,6 +49,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "async"],
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         {
             packagePath: "plugins/c9.fs/fs",
             baseProc: baseProc
@@ -107,8 +107,10 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "async"],
             var count = 0;
             files.slice(0, 3).forEach(function(path, i) {
                 count++;
-                fs.writeFile(path, path, function() {
-                    tabs.openFile(path, function() {
+                fs.writeFile(path, path, function(err) {
+                    if (err) return done(err);
+                    tabs.openFile(path, function(err) {
+                        if (err) return done(err);
                         if (--count === 0)
                             done();
                     });
@@ -473,6 +475,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "async"],
             }
         });
         
-        onload && onload();
+        register();
     }
 });

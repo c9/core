@@ -94,6 +94,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             });
         });
         
-        onload && onload();
+        register();
     }
 });

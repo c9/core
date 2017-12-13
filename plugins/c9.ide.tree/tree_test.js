@@ -28,7 +28,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             settings: "default",
             testing: true
         },
-        "plugins/c9.core/api.js", 
         {
             packagePath: "plugins/c9.ide.ui/ui",
             staticPrefix: "plugins/c9.ide.ui"
@@ -43,6 +42,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         "plugins/c9.fs/fs.cache.xml",
         
         "plugins/c9.ide.dialog/dialog",
@@ -75,6 +75,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
 
         function getDomNode(treeNode) {
             var r = tree.tree.renderer;
+            r.scrollCaretIntoView(treeNode);
             r.$renderChanges(r.$loop.changes);
             var i = r.provider.getIndexForNode(treeNode);
             return r.$cellLayer.getDomNodeAtIndex(i);
@@ -649,6 +650,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             }
         });
         
-        onload && onload();
+        register();
     }
 });

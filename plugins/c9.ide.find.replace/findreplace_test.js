@@ -26,7 +26,6 @@ require(["lib/architect/architect", "lib/chai/chai", "text!plugins/c9.ide.layout
             packagePath: "plugins/c9.core/settings",
             settings: { user: { general: { animateui: true }}}
         },
-        "plugins/c9.core/api.js",
         {
             packagePath: "plugins/c9.ide.ui/ui",
             staticPrefix: "plugins/c9.ide.ui"
@@ -57,8 +56,9 @@ require(["lib/architect/architect", "lib/chai/chai", "text!plugins/c9.ide.layout
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         "plugins/c9.fs/fs",
-        
+
         {
             consumes: ["ui"],
             provides: ["layout"],
@@ -102,38 +102,36 @@ require(["lib/architect/architect", "lib/chai/chai", "text!plugins/c9.ide.layout
             setup: main
         }
     ], architect);
-    
+
     function main(options, imports, register) {
         var tabs = imports.tabManager;
         var settings = imports.settings;
         var findreplace = imports.findreplace;
         var commands = imports.commands;
-        
+
         var Range = require("ace/range").Range;
-        
+
         var txtFind, txtReplace;
-        
+
         function getTabHtml(tab) {
             return tab.pane.aml.getPage("editor::" + tab.editorType).$ext;
         }
-        
+
         expect.html.setConstructor(function(tab) {
             if (typeof tab == "object")
                 return getTabHtml(tab);
         });
-        
+
         describe('ace', function() {
             this.timeout(10000);
-            
+
             before(function(done) {
-                apf.config.setProperty("allow-select", false);
-                apf.config.setProperty("allow-blur", false);
                 tabs.getPanes()[0].focus();
-                
+
                 document.body.style.marginBottom = "33%";
                 done();
             });
-            
+
             describe("open", function() {
                 var ace, tab;
                 it('should open a pane with just an editor', function(done) {
@@ -157,63 +155,63 @@ require(["lib/architect/architect", "lib/chai/chai", "text!plugins/c9.ide.layout
                     for (var i = 0; i < 100; i++) {
                         str.push("a " + i + " b " + (i % 10));
                     }
-                    
+
                     tab.editor.focus();
                     ace.setValue(str.join("\n"));
-                    
+
                     ace.selection.setRange(new Range(0, 0, 0, 1));
                     commands.exec("find");
-                    
+
                     txtFind = findreplace.getElement("txtFind").ace;
                     txtReplace = findreplace.getElement("txtReplace").ace;
-                    
+
                     expect(txtFind.getValue()).equal("a");
-                    
+
                     tab.editor.focus();
                     ace.selection.setRange(new Range(0, 4, 0, 7));
-                    
+
                     commands.exec("find");
                     expect(txtFind.getValue()).equal("b 0");
-                    
-                    ace.once("changeSelection", function() {                        
+
+                    ace.once("changeSelection", function() {
                         expect(ace.selection.getRange().end.row).equal(10);
                         done();
                     });
                     setTimeout(function() {
-                        findreplace.findNext();                        
+                        findreplace.findNext();
                     }, 100);
                 });
                 it('should find again and again', function() {
                     commands.exec("findnext");
                     expect(ace.selection.getRange().end.row).equal(20);
-                    
+
                     ace.selection.setRange(new Range(0, 0, 0, 7));
-                    
+
                     commands.exec("findnext");
                     expect(ace.selection.getRange().start.column).equal(0);
-                    
+
                     var kb = txtFind.keyBinding.$handlers[1].commands;
                     var prev = kb["Shift-Return"];
                     var next = kb["Return"];
-                    
+
                     ace.selection.setRange(new Range(10, 5, 10, 5));
                     txtFind.execCommand(next);
                     expect(ace.selection.getRange()).to.deep.equal(new Range(10, 5, 10, 8));
-                    
+
                     txtReplace.setValue("b 0");
                     findreplace.replace();
                     expect(ace.selection.getRange()).to.deep.equal(new Range(20, 5, 20, 8));
                     findreplace.replace(true);
                     expect(ace.selection.getRange()).to.deep.equal(new Range(10, 5, 10, 8));
-                    
+
                     ace.selection.setRange(new Range(10, 8, 10, 8));
                     txtFind.execCommand(prev);
                     expect(ace.selection.getRange()).to.deep.equal(new Range(10, 5, 10, 8));
-                    
+
                     ace.selection.setRange(new Range(10, 7, 10, 7));
                     txtFind.execCommand(next);
                     expect(ace.selection.getRange()).to.deep.equal(new Range(20, 5, 20, 8));
-                    
+
                     ace.selection.setRange(new Range(20, 7, 20, 7));
                     txtFind.execCommand(prev);
                     expect(ace.selection.getRange()).to.deep.equal(new Range(10, 5, 10, 8));
@@ -248,7 +246,7 @@ require(["lib/architect/architect", "lib/chai/chai", "text!plugins/c9.ide.layout
                     txtReplace.execCommand(prev);
                     expect(txtReplace.getValue()).equal("baz");
                     txtReplace.execCommand(prev);
-                    expect(txtReplace.getValue()).equal("bar");           
+                    expect(txtReplace.getValue()).equal("bar");
                 });
                 it('should replace all in selection', function(done) {
                     var range = new Range(5, 2, 7, 1);
@@ -276,17 +274,17 @@ require(["lib/architect/architect", "lib/chai/chai", "text!plugins/c9.ide.layout
                     done();
                 });
             });
-            
+
             if (!onload.remain) {
                after(function(done) {
                    tabs.unload();
-                   
+
                    document.body.style.marginBottom = "";
                    done();
                });
             }
         });
-        
-        onload && onload();
+
+        register();
     }
 });

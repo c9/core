@@ -1,4 +1,4 @@
-/*global describe it before after bar*/
+/*global describe it before after bar apf*/
 
 "use client";
 
@@ -26,7 +26,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             packagePath: "plugins/c9.core/settings",
             testing: true
         },
-        "plugins/c9.core/api.js",
         {
             packagePath: "plugins/c9.ide.ui/ui",
             staticPrefix: "plugins/c9.ide.ui"
@@ -53,6 +52,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         },
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         "plugins/c9.fs/proc",
         {
             packagePath: "plugins/c9.fs/fs",
@@ -83,14 +83,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         var settings = imports.settings;
         var metadata = imports.metadata;
         var question = imports["dialog.question"];
-        
-        function countEvents(count, expected, done) {
-            if (count == expected) 
-                done();
-            else
-                throw new Error("Wrong Event Count: "
-                    + count + " of " + expected);
-        }
         
         expect.html.setConstructor(function(tab) {
             if (typeof tab == "object")
@@ -447,6 +439,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             }
         });
         
-        onload && onload();
+        register();
     }
 });

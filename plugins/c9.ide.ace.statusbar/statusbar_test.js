@@ -25,7 +25,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             packagePath: "plugins/c9.core/settings",
             testing: true
         },
-        "plugins/c9.core/api.js",
         {
             packagePath: "plugins/c9.ide.ui/ui",
             staticPrefix: "plugins/c9.ide.ui"
@@ -180,6 +179,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
            }
         });
         
-        onload && onload();
+        register();
     }
 });

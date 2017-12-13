@@ -18,6 +18,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         "plugins/c9.core/ext",
         "plugins/c9.core/http-xhr",
         "plugins/c9.ide.ui/lib_apf",
@@ -27,7 +28,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             debug: true
         },
         "plugins/c9.ide.ui/ui",
-        "plugins/c9.core/api",
         {
             consumes: ["settings"],
             provides: [],
@@ -108,6 +108,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             });
         });
         
-        onload && onload();
+        register();
     }
 });

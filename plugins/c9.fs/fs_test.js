@@ -9,7 +9,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
     expect.setupArchitectTest([
         "plugins/c9.core/http-xhr",
         "plugins/c9.core/ext",
-        "plugins/c9.core/api",
         {
             packagePath: "plugins/c9.fs/fs",
             baseProc: baseProc
@@ -17,6 +16,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         
         {
             consumes: ["fs"],
@@ -49,12 +49,13 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         
             describe('fs.readFile()', function() {
                 it("should read the text file", function(done) {
-                    fs.readFile("/file.txt", "utf8", function(err, body) {
+                    var xhr = fs.readFile("/file.txt", "utf8", function(err, body) {
                         if (err) throw err.message;
                         expect(body).equal("This is a simple file!\n");
                         expect(body.length).equal(23);
                         done();
                     });
+                    expect(xhr.abort).to.ok;
                 });
                 it("should error with ENOENT on missing files", function(done) {
                     fs.readFile("/badfile.json", "utf8", function(err, body) {
@@ -63,9 +64,29 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                     });
                 });
                 it("should error with EISDIR on directories", function(done) {
+                    var called;
+                    fs.once("userError", function() {
+                        if (called)
+                            done();
+                    });
                     fs.readFile("/", "utf8", function(err, body) {
                         expect(err).property("code").equal("EISDIR");
-                        done();
+                        called = true;
+                    });
+                });
+                it("should not emit userError if error is handled", function(done) {
+                    function onError() {
+                        fs.off("userError", onError);
+                        done(new Error("userError emitted"));
+                    }
+                    fs.on("userError", onError);
+                    fs.readFile("/", "utf8", function(err, body) {
+                        expect(err).property("code").equal("EISDIR");
+                        setTimeout(function() {
+                            fs.off("userError", onError);
+                            done();
+                        });
+                        return false;
                     });
                 });
             });
@@ -545,6 +566,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             
         });
         
-        onload && onload();
+        register();
     }
 });

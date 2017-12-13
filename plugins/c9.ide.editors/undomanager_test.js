@@ -141,6 +141,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             });
         });
         
-        onload && onload();
+        register();
     }
 });

@@ -32,6 +32,7 @@ describe("client config consistency", function() {
     }).concat(
         fs.readdirSync(root + "/configs/ide").map(function(n) { return "ide/" + n })
     ).forEach(function(name) {
+        if (!/\.js$/.test(name)) return;
         it("should not have missing plugins in config " + name, function(next) {
             fetchClientOptions(function(err, clientOptions) {
                 if (err) return next();

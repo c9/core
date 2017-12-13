@@ -153,8 +153,10 @@ page.open(address, function(status) {
             var count = 0;
             var failCount = 0;
             var timeout = null;
+            var suites = 0;
 
             function runTest(name, next) {
+                suites++;
                 var subtests = 0;
                 var failed = false;
                 
@@ -170,11 +172,20 @@ page.open(address, function(status) {
                 
                 log("# %s", name);
                 window.c9Test.run(name, function(errors, out) {
+                    if (errors) console.error(errors);
+                    if (!out.tests || !out.tests.length) {
+                        out.tests = [{
+                            state: "failed",
+                            error: "test didn't complete"
+                        }];
+                    }
+
                     out.tests.forEach(function(test, i) {
                         count++;
-                        if (test.state == "passed") return log("ok %s %s", count, test.title);
-                        if (test.state == "failed") return fail(count, test);
-                        log("ok %s # SKIP %s", count, test.title);
+                        var index = suites + "." + i;
+                        if (test.state === "passed") return log("ok %s %s", index, test.title);
+                        if (test.state === "failed") return fail(index, test);
+                        log("ok %s # SKIP %s", index, test.title);
                     });
                     
                     if (failed) {

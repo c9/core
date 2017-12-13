@@ -23,7 +23,6 @@ require(["lib/architect/architect", "lib/chai/chai", "sinon"], function(architec
             packagePath: "plugins/c9.core/settings",
             testing: true
         },
-        "plugins/c9.core/api.js",
         {
             packagePath: "plugins/c9.ide.ui/ui",
             staticPrefix: "plugins/c9.ide.ui"
@@ -38,20 +37,6 @@ require(["lib/architect/architect", "lib/chai/chai", "sinon"], function(architec
         "plugins/c9.ide.editors/tab",
         "plugins/c9.ide.terminal/terminal",
         "plugins/c9.ide.terminal.monitor/monitor",
-        // "plugins/c9.ide.terminal.monitor/message_view",
-        "plugins/c9.ide.preferences/preferences",
-        "plugins/c9.ide.ui/forms",
-        // {
-        //     packagePath: "plugins/c9.fs/proc",
-        //     tmuxName: "cloud9test"
-        // },
-        "plugins/c9.vfs.client/vfs_client",
-        "plugins/c9.vfs.client/endpoint",
-        "plugins/c9.ide.auth/auth",
-        // {
-        //     packagePath: "plugins/c9.fs/fs",
-        //     baseProc: baseProc
-        // },
         
         {
             consumes: ["tabManager", "c9", "terminal", "terminal.monitor", "terminal.monitor.message_view"],
@@ -224,6 +209,6 @@ require(["lib/architect/architect", "lib/chai/chai", "sinon"], function(architec
         }
        
         
-        onload && onload();
+        register();
     }
 });

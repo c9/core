@@ -77,6 +77,6 @@ require(["lib/architect/architect", "lib/chai/chai", "events"], function (archit
             });
         });
         
-        onload && onload();
+        register();
     }
 });

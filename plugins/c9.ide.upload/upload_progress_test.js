@@ -22,7 +22,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.ui/focus",
         "plugins/c9.ide.ui/lib_apf",
         "plugins/c9.core/settings",
-        "plugins/c9.core/api",
         "plugins/c9.ide.ui/anims",
         {
             packagePath: "plugins/c9.ide.ui/ui",
@@ -44,6 +43,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         {
             packagePath: "plugins/c9.fs/fs",
             baseProc: baseProc
@@ -109,6 +109,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             }
         });
         
-        onload && onload();
+        register();
     }
 });

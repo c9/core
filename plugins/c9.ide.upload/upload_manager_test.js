@@ -20,6 +20,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         {
             packagePath: "plugins/c9.fs/fs",
             baseProc: "plugins/c9.fs/mock"
@@ -214,6 +215,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             });
         }
         
-        onload && onload();
+        register();
     }
 });

@@ -24,7 +24,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.core/ext",
         "plugins/c9.core/http-xhr",
         "plugins/c9.core/util",
-        "plugins/c9.core/api.js",
         "plugins/c9.ide.ui/lib_apf",
         {
             packagePath: "plugins/c9.core/settings",
@@ -49,6 +48,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         {
             packagePath: "plugins/c9.fs/fs",
             baseProc: baseProc

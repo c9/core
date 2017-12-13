@@ -31,7 +31,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             packagePath: "plugins/c9.core/settings",
             settings: { user: { general: { animateui: true }}}
         },
-        "plugins/c9.core/api.js",
         {
             packagePath: "plugins/c9.ide.ui/ui",
             staticPrefix: "plugins/c9.ide.ui"
@@ -73,6 +72,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         },
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         "plugins/c9.fs/fs",
         
         {
@@ -111,7 +111,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             });
             
             describe("open", function() {
-                it('should open a pane with just an editor', function(done) {
+                it("should open searchresults tab", function(done) {
                     findinfiles.toggle();
                     tabs.open({ path: "/file.txt", focus: true }, function(err, tab) {
                         expect(tabs.getTabs()).length.is.gte(1);
@@ -126,8 +126,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             
             if (!onload.remain) {
                 describe("unload", function() {
-                    
-                    it('should open a pane with just an editor', function(done) {
+                    it('should unload find in files plugin', function(done) {
                         findinfiles.unload();
                         done();
                     });
@@ -142,6 +141,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             }
         });
             
-        onload && onload();
+        register();
     }
 });
