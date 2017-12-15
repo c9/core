@@ -1,7 +1,7 @@
-#!/usr/bin/env node
-
-var test  = require('tape')
-  , errno = require('./')
+var test             = require('tape')
+  , inherits         = require('inherits')
+  , ErrorStackParser = require('error-stack-parser')
+  , errno            = require('./')
 
 test('sanity checks', function (t) {
   t.ok(errno.all, 'errno.all not found')
@@ -20,12 +20,54 @@ test('sanity checks', function (t) {
 })
 
 test('custom errors', function (t) {
-  var Cust = errno.create('FooNotBarError')
-  var cust = new Cust('foo is not bar')
+  const Cust = errno.create('FooNotBarError')
+  const cust = new Cust('foo is not bar')
 
   t.equal(cust.name, 'FooNotBarError', 'correct custom name')
   t.equal(cust.type, 'FooNotBarError', 'correct custom type')
   t.equal(cust.message, 'foo is not bar', 'correct custom message')
   t.notOk(cust.cause, 'no cause')
   t.end()
+})
+
+test('callstack', function (t) {
+  const MyError = errno.create('MyError')
+
+  function lastFunction (ErrorType, cb) {
+    process.nextTick(cb, new ErrorType('oh noes!'))
+  }
+
+  function secondLastFunction (ErrorType, cb) {
+    lastFunction(ErrorType, cb)
+  }
+
+  function testFrames (t) {
+    return function (err) {
+      const stack = ErrorStackParser.parse(err)
+      t.same(stack[0].functionName, 'lastFunction', 'last stack frame ok')
+      t.same(stack[1].functionName, 'secondLastFunction', 'second last stack frame ok')
+      t.end()
+    }
+  }
+
+  t.test('custom error, default prototype', function (t) {
+    secondLastFunction(MyError, testFrames(t))
+  })
+
+  t.test('custom error, custom prototype', function (t) {
+    const MyError2 = errno.create('MyError2', MyError)
+    secondLastFunction(MyError2, testFrames(t))
+  })
+
+  t.test('custom error, using inheritance', function (t) {
+    const CustomError = errno.custom.CustomError
+
+    function MyError3 (message, cause) {
+      CustomError.call(this, message, cause)
+    }
+
+    inherits(MyError3, CustomError)
+
+    secondLastFunction(MyError3, testFrames(t))
+  })
 })

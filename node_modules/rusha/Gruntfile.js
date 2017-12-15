@@ -2,84 +2,171 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    sweetjs: {
-      options: {
-        readableNames: true
-      },
-      build: {
-        src: '<%= pkg.name %>.sweet.js',
-        dest: '<%= pkg.name %>.js'
-      },
-    },
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
         compress: false
       },
       build: {
-        src: '<%= pkg.name %>.js',
-        dest: '<%= pkg.name %>.min.js'
+        src: 'dist/<%= pkg.name %>.js',
+        dest: 'dist/<%= pkg.name %>.min.js'
       }
     },
     browserify: {
-      test: {
-        src: ['<%= pkg.name %>.min.js', 'test/test.js'],
-        dest: 'test/bundle.js'
-      }
-    },
-    mochaTest: {
-      test: {
-        options: {
-          reporter: 'spec',
-          require: 'coverage/blanket'
-        },
-        src: ['test/test.js'],
+      options: {
+        transform: ['strictify', 'sweetify', 'babelify'],
+        plugin: ['browserify-derequire'],
+        browserifyOptions: {
+          standalone: 'Rusha'
+        }
       },
-      coverage: {
-        options: {
-          reporter: 'html-cov',
-          quiet: true,
-          captureFile: 'coverage/report.html'
-        },
-        src: ['test/test.js']
-      }
-    },
-    connect: { server: { options: { base: "", port: 9999 } } },
-    'saucelabs-mocha': {
-      all: {
-        options: {
-          username: 'rusha',
-          urls: ['http://127.0.0.1:9999/test/test.html'],
-          build: process.env.CI_BUILD_NUMBER,
-          testname: 'Sauce Unit Test for Rusha',
-          browsers: [
-            ["Windows 8", "firefox", 32],
-            ["Windows 8", "chrome", 37]
-          ]
+      build: {
+        files: {
+          'dist/rusha.js': ['src/index.js']
         }
       }
+    },
+    karma: {
+      options: {
+        basePath: '',
+        singleRun: true,
+        logLevel: 'WARN',
+        files: [],
+        reporters: ['mocha'],
+        mochaReporter: {
+          showDiff: true
+        },
+        customLaunchers: {
+          FirefoxHeadless: {
+            base: 'Firefox',
+            flags: ['-headless'],
+          },
+        },
+        browserNoActivityTimeout: 60000
+      },
+      unit: {
+        options: {
+          frameworks: ['browserify', 'mocha', 'chai'],
+          files: ['test/unit/*.js'],
+          preprocessors: {
+            'test/unit/*.js': ['browserify']
+          },
+          browsers: ['ChromeHeadless', 'FirefoxHeadless']
+        }
+      },
+      fuzz: {
+        options: {
+          frameworks: ['browserify', 'mocha', 'chai'],
+          files: ['test/fuzz.js'],
+          preprocessors: {
+            'test/fuzz.js': ['browserify']
+          },
+          browsers: ['ChromeHeadless', 'FirefoxHeadless']
+        }
+      },
+      functional: {
+        options: {
+          frameworks: ['browserify', 'mocha', 'chai-as-promised', 'chai'],
+          files: ['test/functional/*.js'],
+          preprocessors: {
+            'test/functional/*.js': ['browserify']
+          },
+          browserify: {
+            transform: ['brfs']
+          },
+          browsers: ['ChromeHeadless', 'FirefoxHeadless']
+        }
+      },
+      compatibilityWithVanillaScript: {
+        options: {
+          frameworks: ['mocha', 'chai-as-promised', 'chai'],
+          files: [
+            'test/compat/vanilla_script.js',
+            'dist/rusha.min.js'
+          ],
+          browsers: ['ChromeHeadless', 'FirefoxHeadless'] 
+        }
+      },
+      compatibilityWithVanillaWorker: {
+        options: {
+          frameworks: ['mocha', 'chai-as-promised', 'chai'],
+          files: [
+            'test/compat/vanilla_worker.js',
+            {pattern: 'dist/rusha.min.js', included: false, served: true}
+          ],
+          browsers: ['ChromeHeadless', 'FirefoxHeadless'] 
+        }
+      },
+      compatibilityWithBrowserify: {
+        options: {
+          frameworks: ['mocha', 'chai-as-promised', 'chai', 'browserify'],
+          files: [
+            'test/compat/require.js',
+          ],
+          preprocessors: {
+            'test/compat/require.js': ['browserify']
+          },
+          browsers: ['ChromeHeadless', 'FirefoxHeadless'] 
+        }
+      },
+      compatibilityWithWebpack: {
+        options: {
+          frameworks: ['mocha', 'chai-as-promised', 'chai'],
+          files: [
+            'test/compat/require.js',
+          ],
+          preprocessors: {
+            'test/compat/require.js': ['webpack']
+          },
+          browsers: ['ChromeHeadless', 'FirefoxHeadless'] 
+        }
+      },
+      benchmark: {
+        options: {
+          frameworks: ['browserify', 'benchmark'],
+          reporters: ['benchmark'],
+          files: ['perf/benchmark.js'],
+          preprocessors: {
+            'perf/benchmark.js': ['browserify']
+          },
+          browsers: ['ChromeHeadless', 'FirefoxHeadless']
+        }
+      }
+    },
+    eslint: {
+      target: [
+        'src/*.js'
+      ]
     }
   });
 
-  grunt.loadNpmTasks('grunt-sweet.js');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-eslint');
+  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-browserify');
-  grunt.loadNpmTasks('grunt-mocha-test');
-  grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-saucelabs');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   grunt.registerTask('test', [
-    'sweetjs', 'uglify',
+    'eslint',
     'browserify',
-    'mochaTest'
+    'uglify',
+    'karma:unit',
+    'karma:fuzz',
+    'karma:functional',
+    'karma:compatibilityWithVanillaScript',
+    'karma:compatibilityWithVanillaWorker',
+    'karma:compatibilityWithBrowserify',
+    'karma:compatibilityWithWebpack'
   ]);
 
-  grunt.registerTask('test-saucelabs', [
-    'sweetjs', 'uglify',
+  grunt.registerTask('test:unit', [
+    'eslint',
     'browserify',
-    'connect', 'saucelabs-mocha'
+    'uglify',
+    'karma:unit'
   ]);
 
-  grunt.registerTask('build', ['sweetjs', 'uglify']);
+  grunt.registerTask('benchmark', ['browserify', 'uglify', 'karma:benchmark']);
+
+  grunt.registerTask('build', ['eslint', 'browserify', 'uglify']);
 
 };

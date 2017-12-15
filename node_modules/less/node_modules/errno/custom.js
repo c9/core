@@ -15,7 +15,7 @@ function init (type, message, cause) {
 function CustomError (message, cause) {
   Error.call(this)
   if (Error.captureStackTrace)
-    Error.captureStackTrace(this, arguments.callee)
+    Error.captureStackTrace(this, this.constructor)
   init.call(this, 'CustomError', message, cause)
 }
 
@@ -37,7 +37,7 @@ function createError (errno, type, proto) {
     }
     Error.call(this)
     if (Error.captureStackTrace)
-      Error.captureStackTrace(this, arguments.callee)
+      Error.captureStackTrace(this, err)
   }
   err.prototype = !!proto ? new proto() : new CustomError()
   return err
