@@ -1,5 +1,5 @@
 .notificationlabel{
-    .font-smoothing(true);
+    font-smoothing: true;
     position: relative;
 }
 .notificationlabel u.close{

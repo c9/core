@@ -191,7 +191,7 @@
     height: 15px;
     color: @spinner-color;
     padding: @preferences-textbox-padding;
-    .font-smoothing(true);
+    font-smoothing: true;
     border-radius: @preferences-textbox-border-radius;
     font-family: @preferences-textbox-font-family;
     font-size: @preferences-textbox-font-size;

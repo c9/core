@@ -117,7 +117,7 @@
     color: @collab-bubble-color;
     box-shadow: @collab-bubble-box-shadow;
     line-height: 11px;
-    .font-smoothing(true);
+    font-smoothing: true;
 }
 
 .panelsbutton.collab .newnotifs.size1{

@@ -39,7 +39,7 @@
 }
 .blackdg.ace_tree_focus .newwatch.selected{
     color : @datagrid-watch-new-focus !important;
-    .font-smoothing(false);
+    font-smoothing: false;
 }
 .blackdg .watcherror{
     color : @datagrid-watch-error;
@@ -63,7 +63,7 @@
     z-index : 1000000;
     box-shadow: @breakpoint-condition-box-shadow;
     margin-top: @breakpoint-condition-margin-top;
-    .font-smoothing(true);
+    font-smoothing: true;
 }
 
 .condition_dialog>.message{
@@ -83,7 +83,7 @@
     color: #FFF;
     border-radius: 3px;
     background: white;
-    .font-smoothing(false);
+    font-smoothing: false;
     font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace;
     height : 18px;
 }

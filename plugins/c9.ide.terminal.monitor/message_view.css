@@ -24,7 +24,7 @@
     box-sizing: border-box;
     border: @terminal-message-border;
     box-shadow: @terminal-message-box-shadow;
-    .font-smoothing(true);
+    font-smoothing: true;
     line-height: 15px;
 }
 

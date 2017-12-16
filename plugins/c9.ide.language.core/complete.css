@@ -19,7 +19,7 @@
     border-color: @language-tooltip-dark-border-color;
     text-shadow: @language-tooltip-dark-text-shadow;
     box-shadow: @language-tooltip-dark-box-shadow;
-    .font-smoothing(true);
+    font-smoothing: true;
 }
 
 .code_complete_text.ace_autocomplete {
@@ -34,7 +34,7 @@
     background: @complete-dark-background;
     border: 1px solid @complete-dark-border-color;
     box-shadow: @complete-dark-box-shadow, inset 1px 1px 0 @complete-dark-inner-border-color, inset -1px -1px 0 @complete-dark-inner-border-color;
-    .font-smoothing(true);
+    font-smoothing: true;
 }
 
 .code_complete_text .ace_scroller{
