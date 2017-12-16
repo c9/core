@@ -22,7 +22,7 @@
     color: #795A0A;
     margin: 0 5px;
     pointer-events:auto;
-    .user-select(text);
+    user-select: text;
 }
 .stack-message.more{
     cursor:pointer;

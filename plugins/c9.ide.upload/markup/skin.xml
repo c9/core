@@ -153,7 +153,7 @@
         <a:style><![CDATA[
             .btn-cancel-upload {
                 position            : relative;
-                .user-select(none);
+                user-select: none;
                 color               : #a4a4a4;
                 font-size           : 11px;
                 height              : 14px;

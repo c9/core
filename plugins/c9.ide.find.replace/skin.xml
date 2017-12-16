@@ -6,7 +6,7 @@
                 height             : 22px;
                 cursor             : pointer;
                 position           : absolute;
-                .user-select(none);
+                user-select: none;
                 width              : 20px;
             }
             .btnquicksearchnav .lbl{

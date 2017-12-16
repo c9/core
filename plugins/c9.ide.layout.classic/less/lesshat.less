@@ -5,36 +5,6 @@
 //  Petr Brzek & Jan Kuca
 
 
-//  .size
-
-  .size(@square){
-    width: @square;
-    height: @square;
-  }
-
-  .size(@width, @height){
-    width: @width;
-    height: @height;
-  }
-
-    //  element{ .size(10px); } // render width:10px; height:10px;
-    //  element{ .size(10px, 20px); } // render width:10px; height: 20px;
-
-
-
-//  .user-select
-
-  .user-select(@arguments:auto){
-    -webkit-user-select: @arguments;
-    -moz-user-select: @arguments;
-    -ms-user-select: @arguments;
-    user-select: @arguments;
-  }
-
-   //   element{ .user-select(text); }
-
-
-
 .font-smoothing(@state){
     .font-smoothing(@state) when (@state = true) {
         -webkit-font-smoothing: antialiased;

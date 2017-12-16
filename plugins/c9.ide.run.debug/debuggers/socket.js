@@ -10,7 +10,7 @@ define(function(require, exports, module) {
         var proc = imports.proc;
         var nodeBin = Array.isArray(options.nodeBin)
             ? options.nodeBin[0]
-            : options.nodeBin || "node";
+            : options.nodeBin || "node"; 
 
         var DISCONNECTED = 0;
         var CONNECTED = 1;
