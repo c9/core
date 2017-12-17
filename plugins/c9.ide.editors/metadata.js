@@ -428,6 +428,8 @@ define(function(require, exports, module) {
                     state.meta.$savedValue = storedValue;
                     
                     var sameValue = state.value === storedValue;
+                    if (sameValue && state.changed)
+                        state.changed = false;
                     if (options.loadFromDisk && (sameValue || compareModified)) {
                         fs.stat(tab.path, function(err, stat) {
                             if (err) return;
