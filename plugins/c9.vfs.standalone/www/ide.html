@@ -166,7 +166,12 @@
                         var waitSettings = function(fn) {
                             settings.inited ? fn() : settings.once("read", fn);
                         };
-                        waitVfs(waitSettings.bind(null, window.hideLoader));
+                        var waitTheme = function(fn) {
+                            var layout = app.services.layout;
+                            if (!layout || layout.hasTheme) return fn();
+                            layout.once("eachTheme", fn);
+                        };
+                        waitTheme(waitSettings.bind(null, window.hideLoader));
                     }
                 }
             }, function loadError(mod) {
