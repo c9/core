@@ -10966,16 +10966,9 @@ apf.window = function(){
         (apf.window.activeElement = amlNode).focus(true, e);
 
         this.$settingFocus = null;
-
-        apf.dispatchEvent("movefocus", {
-            toElement: amlNode
-        });
-
         
 
-        
-
-        
+        apf.dispatchEvent("movefocus", e);
     };
 
     this.$blur = function(amlNode) {
