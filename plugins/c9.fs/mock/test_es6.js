@@ -50,13 +50,21 @@ q;
 
 class Blie {}
 
+@exported
 class Model extends Blie {
+  x = 1
   constructor(properties) {
     this.properties = properties;
   }
 
   toObject() {
     return this.properties;
+  }
+  
+  @exported(1)
+  async f() {
+      this::exported();
+      ::myFun;
   }
 }
 

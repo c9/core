@@ -203,8 +203,15 @@ handler.analyzeSync = function(value, ast, path) {
         if (isJson && level !== "error")
             return;
 
-        if (m.message.match(/'([^']*)' is defined but never used/)) {
-            var target = RegExp.$1;
+        // convert to 0 based offsets
+        m.column--;
+        m.line--;
+        m.endLine--;
+        m.endColumn--;
+        
+        if (m.message.match(/but never used/)) {
+            var line = doc.getLine(m.line);
+            var target = line.slice(m.column, m.endColumn)
             if (target.toUpperCase() === target && target.toLowerCase() !== target)
                 return; // ignore unused constants
             if (target === "h")
@@ -215,12 +222,8 @@ handler.analyzeSync = function(value, ast, path) {
         if (m.ruleId && m.ruleId.match(/space|spacing/) && m.severity === 1)
             level = "info";
         
-        // work around column offset bug
-        m.column--;
-        m.line--;
-
         var ec;
-        if (m.message.match(/is not defined|was used before it was defined|is already declared|is already defined|unexpected identifier|defined but never used/i)) {
+        if (m.message.match(/is not defined|was used before it was defined|is already declared|is already defined|unexpected identifier|but never used/i)) {
             var line = doc.getLine(m.line);
             var id = workerUtil.getFollowingIdentifier(line, m.column);
             if (m.message.match(/is already defined/) && line.match("for \\(var " + id))
