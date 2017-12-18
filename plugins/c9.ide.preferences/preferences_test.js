@@ -32,7 +32,6 @@ require([
             packagePath: "plugins/c9.core/settings",
             testing: true
         },
-        "plugins/c9.core/api.js",
         "plugins/c9.ide.keys/commands",
         "plugins/c9.ide.keys/editor",
         {
@@ -63,6 +62,7 @@ require([
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         
         {
             consumes: ["Plugin", "tabManager", "preferences", "settings", "ui", "util", "commands", "preferences.general"],
@@ -89,6 +89,7 @@ require([
             this.timeout(20000);
             
             before(function(done) {
+                
                 bar.$ext.style.height = "66%";
                 
                 document.body.style.marginBottom = "66%";
@@ -187,6 +188,6 @@ require([
            }
         });
         
-        onload && onload();
+        register();
     }
 });

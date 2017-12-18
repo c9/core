@@ -25,7 +25,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.ui/lib_apf",
         "plugins/c9.ide.ui/ui",
         "plugins/c9.core/settings",
-        "plugins/c9.core/api.js",
         {
             packagePath: "plugins/c9.ide.find/find",
             basePath: baseProc
@@ -42,6 +41,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         "plugins/c9.fs/fs",
         "plugins/c9.fs/proc",
         
@@ -117,7 +117,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 
                 it('should search for a token', function(done) {
                     find.findFiles(options1, function(err, results, data) {
-                        Assert.equal(!err, true);
+                        if (err) throw err;
                         expect(results).to.match(/Found 8 matches in 4 files/);
                         var lines = results.split("\n");
                         Assert.equal(lines.length, 16);
@@ -361,6 +361,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             });
         });
         
-        onload && onload();
+        register();
     }
 });

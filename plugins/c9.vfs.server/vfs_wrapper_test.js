@@ -20,6 +20,7 @@ describe(__filename, function() {
             var home = vfs({
                 root: path.normalize(__dirname + "/.."),
                 testing: true,
+                nopty: true
             });
 
             wrapper = vfsWrapper(home, {

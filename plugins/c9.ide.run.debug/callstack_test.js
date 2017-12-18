@@ -1,4 +1,4 @@
-/*global describe it before */
+/*global describe it before bar */
 
 "use client";
 
@@ -32,10 +32,12 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         "plugins/c9.ide.run.debug/callstack",
+        "plugins/c9.ide.run.debug/debugpanel",
         
         {
-            consumes: ["callstack"],
+            consumes: ["callstack", "layout"],
             provides: [],
             setup: main
         }
@@ -43,19 +45,13 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
     
     function main(options, imports, register) {
         var callstack = imports.callstack;
-        callstack.show();
-        var datagrid = callstack.getElement("datagrid");
+        var layout = imports.layout;
+        var datagrid;
         
-        function countEvents(count, expected, done) {
-            if (count == expected) 
-                done();
-            else
-                throw new Error("Wrong Event Count: "
-                    + count + " of " + expected);
-        }
-        
-        describe('breakpoints', function() {
+        describe('callstack', function() {
             before(function(done) {
+                var bar = layout.findParent()
+                
                 bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";
                 bar.$ext.style.position = "fixed";
                 bar.$ext.style.top = "75px";
@@ -64,6 +60,9 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
                 bar.$ext.style.bottom = "20px";
                 bar.$ext.style.width = "300px";
                 bar.$ext.style.height = "";
+                
+                callstack.show({ html: bar.$ext});
+                datagrid = callstack.getElement("datagrid");
                 
                 done();
             });
@@ -89,6 +88,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
            });
         });
         
-        onload && onload();
+        register();
     }
 });

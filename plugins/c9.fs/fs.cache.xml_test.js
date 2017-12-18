@@ -1,13 +1,11 @@
 /*global describe it before*/
 
-"use blacklist";
 "use client";
 
-require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"], 
-  function (architect, chai, baseProc, events) {
+require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], 
+  function (architect, chai, baseProc) {
     var expect = chai.expect;
-    var EventEmitter = events.EventEmitter;
-    
+
     expect.setupArchitectTest([
         {
             packagePath: "plugins/c9.core/c9",
@@ -21,7 +19,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
         "plugins/c9.core/ext",
         "plugins/c9.core/settings",
         "plugins/c9.core/util",
-        "plugins/c9.core/api",
         "plugins/c9.ide.ui/ui",
         "plugins/c9.ide.ui/lib_apf",
         "plugins/c9.fs/fs.cache.xml",
@@ -33,6 +30,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         {
             consumes: ["fs.cache", "fs", "proc", "watcher"],
             provides: [],
@@ -845,6 +843,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
             });
         });
         
-        onload && onload();
+        register();
     }
 });

@@ -14,7 +14,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             settings: "default",
             testing: true
         },
-        "plugins/c9.core/api.js", 
         "plugins/c9.ide.ui/lib_apf",
         "plugins/c9.ide.ui/anims",
         {
@@ -420,6 +419,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             }
         });
         
-        onload && onload();
+        register();
     }
 });

@@ -1,4 +1,4 @@
-/*global describe it before */
+/*global describe it before bar */
 
 "use client";
 
@@ -49,6 +49,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         "plugins/c9.ide.ui/menus",
         "plugins/c9.ide.panels/panels",
         "plugins/c9.ide.panels/panel",
@@ -61,7 +62,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
         "plugins/c9.ide.run.debug/breakpoints",
         "plugins/c9.ide.run.debug/watches",
         {
-            consumes: ["panels", "debugger", "watches", "breakpoints"],
+            consumes: ["panels", "debugger", "watches", "breakpoints", "layout"],
             provides: [],
             setup: main
         }
@@ -72,19 +73,9 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
         var panels = imports.panels;
         var breakpoints = imports.breakpoints;
         var debug = imports.debugger;
-
-        panels.activate("debugger");
-        // watches.show();
-        var datagrid = watches.getElement("datagrid");
+        var layout = imports.layout;
+        var datagrid;
         
-        function countEvents(count, expected, done) {
-            if (count == expected) 
-                done();
-            else
-                throw new Error("Wrong Event Count: "
-                    + count + " of " + expected);
-        }
-
         var testDebugger = new EventEmitter();
         testDebugger.attach = function () {
             testDebugger.emit("attached", { breakpoints: breakpoints });
@@ -92,6 +83,10 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
         
         describe('breakpoints', function() {
             before(function(done) {
+                layout.findParent();
+                panels.activate("debugger");
+                var datagrid = watches.getElement("datagrid");
+            
                 bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";
                 bar.$ext.style.position = "fixed";
                 bar.$ext.style.top = "75px";
@@ -130,6 +125,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root", "events"],
        // });
 
         
-        onload && onload();
+        register();
     }
 });

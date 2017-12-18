@@ -26,7 +26,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             settings: "default",
             testing: true
         },
-        "plugins/c9.core/api.js",
         {
             packagePath: "plugins/c9.ide.ui/ui",
             staticPrefix: "plugins/c9.ide.ui"
@@ -51,6 +50,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         "plugins/c9.vfs.client/vfs_client",
         "plugins/c9.vfs.client/endpoint",
         "plugins/c9.ide.auth/auth",
+        "plugins/c9.core/api",
         "plugins/c9.fs/fs",
         
         "plugins/c9.ide.dialog/dialog",
@@ -450,6 +450,9 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     done();
                 });
                 it('should allow setting behavioursEnabled', function(done) {
+                    editor.setOption("syntax", "javascript");
+                    expect(editor.ace.session.$mode.$id).to.equal("ace/mode/javascript");
+                    
                     editor.setOption("behavioursEnabled", false);
                     doc.value = "test";
                     render();
@@ -552,6 +555,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
            }
         });
         
-        onload && onload();
+        register();
     }
 });
