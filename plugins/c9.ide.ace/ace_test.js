@@ -12,8 +12,6 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             startdate: new Date(),
             debug: true,
             hosted: true,
-            local: false,
-            davPrefix: "/"
         },
         
         "plugins/c9.core/ext",
@@ -58,16 +56,17 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         "plugins/c9.ide.dialog.common/alert_internal",
         
         {
-            consumes: ["tabManager", "ace", "commands"],
+            consumes: ["tabManager", "ace", "commands", "settings"],
             provides: [],
             setup: main
         }
     ], architect);
     
     function main(options, imports, register) {
+        var settings = imports.settings;
+        var commands = imports.commands;
         var tabs = imports.tabManager;
         var ace = imports.ace;
-        var commands = imports.commands;
         
         function getTabHtml(tab) {
             return tab.pane.aml.getPage("editor::" + tab.editorType).$ext;
@@ -231,19 +230,20 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 });
                 
                 it('should change a theme', function(done) {
-                    var theme = "ace/theme/textmate";
-                    editor.ace.renderer.on("themeLoaded", function me(e) {
-                        if (e.theme.cssClass != "ace-tm") return;
-                        
-                        editor.ace.renderer.removeListener("themeLoaded", me);
-                        expect.html(getTabHtml(tabs.focussedTab).childNodes[1]).className("ace-tm");
-                    
-                        ace.once("themeChange", function() {
+                    function checkTheme(id, className, callback) {
+                        editor.ace.renderer.on("themeLoaded", function me(e) {
+                            if (e.theme.cssClass != className) return;
+                            editor.ace.renderer.removeListener("themeLoaded", me);
+                            expect.html(getTabHtml(tabs.focussedTab).childNodes[1]).className(className);
+                            callback();
+                        });
+                        ace.setTheme(id);
+                    }
+                    checkTheme("ace/theme/textmate", "ace-tm", function() {
+                        checkTheme("ace/theme/tomorrow_night_bright", "ace-tomorrow-night-bright", function() {
                             done();
                         });
-                        ace.setTheme("ace/theme/tomorrow_night_bright");
                     });
-                    ace.setTheme(theme);
                 });
                 it('should allow setting useWrapMode', function(done) {
                     var charW = editor.ace.renderer.layerConfig.characterWidth;
@@ -253,16 +253,22 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     doc.value = Array(17).join("a very long string to be wrapped ");
                     
                     render();
-                    
-                    
                     bar.$ext.style.width = "1000px";
                     
                     expect(document.querySelector(".ace_gutter-cell").offsetHeight).to.equal(lineHeight);
                     editor.setOption("useWrapMode", true);
                     
                     render();
-                    
                     expect(Math.ceil(document.querySelector(".ace_gutter-cell").offsetHeight)).to.equal(lineHeight * 7);
+                    
+                    // check that wrap to view setting is not lost when user settings are changes
+                    settings.set("user/ace/@selectionStyle", "line");
+                    expect(editor.ace.getOption("selectionStyle")).to.equal("line");
+                    settings.set("user/ace/@selectionStyle", "text");
+                    render();
+                    expect(editor.ace.getOption("selectionStyle")).to.equal("text");
+                    expect(editor.ace.session.getOption("wrap")).to.equal("printMargin");
+                    
                     done();
                 });
                 it('should allow setting wrapToView', function(done) {
@@ -275,6 +281,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     
                     expect(cols).to.equal(ace.session.getWrapLimit());
                     expect(document.querySelector(".ace_gutter-cell").offsetHeight).to.equal(lineHeight * ace.session.getRowLength(0));
+                    
                     done();
                 });
                 it('should allow setting wrapBehavioursEnabled', function(done) {

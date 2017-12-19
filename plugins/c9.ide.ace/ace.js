@@ -488,8 +488,11 @@ define(function(require, exports, module) {
             function updateSettings(e, list, prefix) {
                 var options = {};
                 (list || aceSettings).forEach(function(setting) {
-                    options[setting[0]] 
-                        = settings[setting[2]](prefix + "/ace/@" + setting[0]);
+                    var value = settings[setting[2]](prefix + "/ace/@" + setting[0]);
+                    var name = setting[0];
+                    lastSettings[name] = value;
+                    if (!docLut[name])
+                        options[name] = value;
                 });
                 
                 handleEmit("settingsUpdate", {
@@ -498,8 +501,6 @@ define(function(require, exports, module) {
                 
                 if (options.theme)
                     setTheme(options.theme);
-
-                util.extend(lastSettings, options);
             }
             
             settings.setDefaults("user/ace", userSettings);
