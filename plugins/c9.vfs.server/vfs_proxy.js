@@ -67,5 +67,6 @@ module.exports = function(methods, vfsHome, vfsWorkspace) {
     proxy.readonly = vfsWorkspace.readonly;
     proxy.root = vfsWorkspace.root;
 
+    proxy.env = vfsWorkspace.env
     return proxy;
 };
