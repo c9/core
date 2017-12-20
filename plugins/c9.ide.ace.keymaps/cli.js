@@ -18,6 +18,7 @@ define(function(require, exports, module) {
         var tabManager = imports.tabManager;
         var ace = imports.ace;
         
+        var Vim = require('ace/keyboard/vim').Vim;
         var Editor = require("ace/editor").Editor;
         var lang = require("ace/lib/lang");
         var pathLib = require("path");
@@ -187,42 +188,6 @@ define(function(require, exports, module) {
             }
         };
         
-        function getCmdLineRange(editor, range, parts) {
-            if (!range) {
-                var cursor = editor.selection.getCursor();
-                return [cursor.row, cursor.row];
-            }
-            
-            range = range.split(',');
-            if (range.length === 1) {
-                return [0, parts.length - 1];
-            }
-
-            if (range[0] === "'<") {
-                var selRange = editor.getSelectionRange();
-                return [selRange.start.row, selRange.end.row];
-            } else {
-                var result = [];
-                for (let i = 0; i < range.length; i++) {
-                    var v = range[i];
-                    var rangeVal = v === '.' ?
-                        editor.selection.getCursor().row
-                        : v === '$' ?
-                            parts.length - 1
-                            : v[0] === '+' ?
-                                result[0] + parseInt(v.slice(1), 10)
-                                : parseInt(v, 10);
-                    if (rangeVal >= parts.length) {
-                        rangeVal = parts.length - 1;
-                    }
-                    
-                    result.push(rangeVal);
-                }
-                
-                return result;
-            }
-        }
-        
         cliCmds[':'].reCommands = {
             /**
              * @see {@link http://vim.wikia.com/wiki/Search_and_replace|Vim wiki - sed}
@@ -230,75 +195,7 @@ define(function(require, exports, module) {
             'sed': {
                 regex: /^(%|'<,'>|(?:\d+|\.),(?:\+?\d+|\$|\.))?s(\/|#)(.*?)\2(.*?)\2([giIc]*)$/,
                 action: function (editor, cmd, data) {
-                    var pattern = (
-                        data.match[3]
-                        || (editor.state.cm
-                            && editor.state.cm.$searchHighlight
-                            && editor.state.cm.$searchHighlight.regExp.source)
-                        || '')
-                        .replace(/(\\)?(\(|\)|\+|\?|\||\&|\{)/g, function (m, m1, m2) {
-                            // Revert regular syntax
-                            return m1 ? m2 : '\\' + m2;
-                        });
-                    if (!pattern) {
-                        return editor.cmdLine.setTimedMessage(
-                            'E35: No previous regular expression',
-                            15000);
-                    }
-                    
-                    /**
-                     * g - global by row
-                     * i - ignorecase
-                     * I - noignorecase
-                     * todo: c - confirm
-                     */
-                    var flags = (data.match[5] || '').replace(/[cI]/g, '');
-                    var re = new RegExp(pattern, flags);
-                    
-                    var replacement = data.match[4] || '';
-                    var text = editor.getValue();
-                    var parts = text.split('\n');
-                    var range = getCmdLineRange(editor, data.match[1], parts);
-                    var lastReplaceRange;
-                    var lineCount = 0;
-                    var subCount = 0;
-                    
-                    for (var i = range[0]; i <= range[1]; i++) {
-                        var isChanged = false;
-                        parts[i] = parts[i].replace(re, function () {
-                            var args = [].slice.call(arguments, 0);
-                            var offset = args[args.length - 2];
-                            if (!isChanged) {
-                                lineCount += 1;
-                                isChanged = true;
-                            }
-                            
-                            subCount += 1;
-                            lastReplaceRange = {
-                                'row': i,
-                                'column': offset
-                            };
-                            
-                            return replacement.replace(/\\(\d+)/g, function (m, m1) {
-                                var i = parseInt(m1, 10);
-                                return i < args.length - 2 ? args[i] : '';
-                            });
-                        });
-                    }
-                    
-                    if (lastReplaceRange) {
-                        editor.setValue(parts.join('\n'), -1);
-                        editor.selection.moveCursorToPosition(lastReplaceRange);
-                        editor.scrollToLine(lastReplaceRange.row, true, false);
-                        
-                        editor.cmdLine.setTimedMessage(
-                            subCount + ' substitutions on ' + lineCount + ' lines',
-                            15000);
-                    } else {
-                        editor.cmdLine.setTimedMessage(
-                            'E486: Pattern not found: ' + pattern,
-                            15000);
-                    }
+                    Vim.handleEx(editor.state.cm, cmd);
                 }
             }
         };
@@ -496,8 +393,8 @@ define(function(require, exports, module) {
                     var match = reCmd.regex.exec(cmd);
                     if (match) {
                         return reCmd.action(ed, cmd, {
-                            'match': match,
-                            'argv': cmd.split(match[0], 1).slice(-1)[0].split(/\s+/)
+                            match: match,
+                            argv: cmd.split(match[0], 1).slice(-1)[0].split(/\s+/)
                         });
                     }
                 }
