@@ -14,16 +14,20 @@ define(function(require, exports, module) {
         var Plugin = imports.Plugin;
         var settings = imports.settings;
         
+        var lang = require("ace/lib/lang");
+        
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
         
-        var CHANGE_TIMEOUT = 500;
+        var CHANGE_TIMEOUT = options.changeTimeout || 1000;
         var SLOW_CHANGE_TIMEOUT = options.slowChangeTimeout || 30000;
-        var SLOW_SAVE_THRESHOLD = 100 * 1024; // 100KB
         
         var docChangeTimeout;
+        var lastSaveTime = 0;
+        var sessionId;
         var autosave;
+        var saveWhenIdle;
         
         function load() {
             prefs.add({
@@ -31,10 +35,16 @@ define(function(require, exports, module) {
                     position: 150,
                     "Save": {
                         position: 100,
-                        "Enable Auto-Save On Blur": {
-                            type: "checkbox",
+                        "Auto-Save Files": {
+                            type: "dropdown",
                             position: 100,
-                            path: "user/general/@autosave"
+                            path: "user/general/@autosave",
+                            width: 130,
+                            items: [
+                               { caption: "Off", value: false },
+                               { caption: "On Focus Change", value: "onFocusChange" },
+                               { caption: "After Delay", value: "afterDelay" },
+                           ],
                         }
                     }
                 }
@@ -52,23 +62,67 @@ define(function(require, exports, module) {
         /***** Helpers *****/
         
         function onSettingChange() {
-            autosave = settings.getBool("user/general/@autosave");
+            autosave = settings.get("user/general/@autosave");
+            if (autosave == "off" || autosave == "false")
+                autosave = false;
+            
+            disable();
+            if (autosave == "afterDelay")
+                enableDelay();
             if (autosave)
                 enable();
-            else
-                disable();
+        }
+        
+        function enableDelay() {
+            saveWhenIdle = lang.delayedCall(function() {
+                var tab = tabs.focussedTab;
+                var ace = tab && tab.editor && tab.editor.ace;
+                if (ace && ace.session && sessionId == ace.session.id) {
+                    saveTab(tab);
+                }
+            });
         }
         
         function enable() {
             apf.on("movefocus", scheduleCheck);
             tabs.on("tabAfterActivate", scheduleCheck, plugin);
+            if (saveWhenIdle)
+                tabs.on("focusSync", attachToTab, plugin);
             window.addEventListener("blur", scheduleCheck);
         }
         
         function disable() {
+            sessionId = null;
+            if (saveWhenIdle) {
+                saveWhenIdle.cancel();
+                saveWhenIdle = null;
+            }
+            if (docChangeTimeout) {
+                clearTimeout(docChangeTimeout);
+                docChangeTimeout = null;
+            }
             apf.off("movefocus", scheduleCheck);
             tabs.off("tabAfterActivate", scheduleCheck);
+            tabs.off("focusSync", attachToTab);
             window.removeEventListener("blur", scheduleCheck);
+        }
+        
+        function attachToTab(e) {
+            var ace = e.tab && e.tab.editor && e.tab.editor.ace;
+            if (ace)
+                ace.on("beforeEndOperation", beforeEndOperation);
+        }
+        
+        function beforeEndOperation(e, ace) {
+            if (!saveWhenIdle)
+                return ace.off("beforeEndOperation", beforeEndOperation);
+            if (!ace.isFocused() && !options.ignoreFocusForTesting)
+                return;
+            sessionId = ace.session.id;
+            if (sessionId && ace.curOp.docChanged && ace.curOp.command.name) {
+                var timeout = Math.min(Math.max(CHANGE_TIMEOUT, lastSaveTime || 0), SLOW_CHANGE_TIMEOUT);
+                saveWhenIdle.delay(timeout);
+            }
         }
         
         function scheduleCheck(e) {
@@ -117,11 +171,6 @@ define(function(require, exports, module) {
         function saveTab(tab, force) {
             if (!autosave) return;
             
-            if (!c9.has(c9.STORAGE)) {
-                save.setSavingState(tab, "offline");
-                return;
-            }
-            
             var doc;
             if (!force && (!tab.path 
               || !(doc = tab.document).changed
@@ -132,10 +181,19 @@ define(function(require, exports, module) {
               || doc.meta.preview
               || !doc.hasValue()))
                 return;
+            
+            if (!c9.has(c9.STORAGE)) {
+                save.setSavingState(tab, "offline");
+                return;
+            }
 
+            var t = Date.now();
             save.save(tab, {
                 silentsave: true,
-            }, function() {});
+                noUi: true,
+            }, function() {
+                lastSaveTime = t - Date.now();
+            });
             
             return true;
         }
@@ -146,12 +204,8 @@ define(function(require, exports, module) {
             load();
         });
         plugin.on("unload", function() {
-            window.removeEventListener("blur", scheduleCheck);
+            disable();
             autosave = false;
-            if (docChangeTimeout) {
-                clearTimeout(docChangeTimeout);
-                docChangeTimeout = null;
-            }
         });
         
         /***** Register and define API *****/

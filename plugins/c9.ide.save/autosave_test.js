@@ -46,6 +46,8 @@ require(["lib/chai/chai"], function (chai) {
         "plugins/c9.ide.save/save",
         {
             packagePath: "plugins/c9.ide.save/autosave",
+            ignoreFocusForTesting: true,
+            changeTimeout: 5,
         },
         {
             packagePath: "plugins/c9.vfs.client/vfs_client_mock",
@@ -165,6 +167,30 @@ require(["lib/chai/chai"], function (chai) {
                         fs.readFile(path, function(err, data) {
                             if (err) throw err;
                             expect(data).to.equal("test" + path);
+                            expect(tab.document.changed).to.not.ok;
+                            
+                            fs.unlink(path, function() {
+                                done();
+                            });
+                        });
+                    });
+                });
+            });
+            
+            it("should automatically save after delay", function(done) {
+                settings.set("user/general/@autosave", "afterDelay");
+                var path = "/autosave2.txt";
+                createAndChangeTab(path, function(tab) {
+                    expect(tab.document.changed).to.ok;
+                    
+                    setTimeout(function() {
+                        expect(tab.document.changed).to.ok;
+                        tab.editor.ace.execCommand("insertstring", "x");
+                    }, 10);
+                    save.once("afterSave", function() {
+                        fs.readFile(path, function(err, data) {
+                            if (err) throw err;
+                            expect(data).to.equal("testx" + path);
                             expect(tab.document.changed).to.not.ok;
                             
                             fs.unlink(path, function() {
