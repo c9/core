@@ -132,9 +132,15 @@ function main(options, imports, register) {
             compileLess: true,
             lessLibs: [
                 "plugins/c9.ide.layout.classic/less/lesshat.less",
-                "plugins/c9.ide.layout.classic/themes/default-" + color + ".less",
-                "plugins/c9.ide.layout.classic/themes/" + color + ".less"
-            ],
+            ].concat(
+                color == "jett-dark" ? [
+                    "plugins/c9.ide.theme.jett/less/overrides.less",
+                    "plugins/c9.ide.theme.jett/less/variables.less"
+                ] : [
+                    "plugins/c9.ide.layout.classic/themes/default-" + color + ".less",
+                    "plugins/c9.ide.layout.classic/themes/" + color + ".less"
+                ]
+            ),
             staticPrefix: "plugins/c9.ide.layout.classic",
             lessLibCacheKey: color,
             basepath: pathConfig.root,

@@ -320,6 +320,9 @@ define(function(require, exports, module) {
             var html = document.createElement("p");
             html.id = "ot_chat_" + msg.id;
             html.userId = msg.userId;
+            
+            if (msg.userId == workspace.myUserId)
+                html.className = "you";
 
             var borderEl = document.createElement("span");
             html.appendChild(borderEl);

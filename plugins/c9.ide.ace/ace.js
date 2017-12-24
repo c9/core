@@ -100,6 +100,7 @@ define(function(require, exports, module) {
         var currentTheme;
         var skin = settings.get("user/general/@skin");
         var defaultThemes = {
+            "jett-dark": "plugins/c9.ide.theme.jett/ace.themes/jett",
             "light": "ace/theme/cloud9_day",
             "light-gray": "ace/theme/cloud9_day",
             "flat-light": "ace/theme/cloud9_day",
@@ -562,7 +563,7 @@ define(function(require, exports, module) {
                 var style = currentTheme && (currentTheme.isDark ? "dark" : "light");
                 if (e.force == false && e.theme.indexOf(style) != -1)
                     return;
-                if (e.type != "ace")
+                if (e.type != "ace" && defaultThemes[e.theme])
                     handle.setTheme(defaultThemes[e.theme]);
             }, handle);
             
@@ -1285,22 +1286,29 @@ define(function(require, exports, module) {
                 }
             }), index == -1 ? undefined : index || themeCounter++, plugin || handle);
         }
-        function addTheme(css, plugin) {
-            var theme = { cssText: css };
-            var firstLine = css.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
-            firstLine.split(";").forEach(function(n) {
-                if (!n) return;
-                var info = n.split(":");
-                theme[info[0].trim()] = info[1].trim();
-            });
-            theme.isDark = theme.isDark == "true";
+        function addTheme(theme, plugin) {
+            if (typeof theme == "string") {
+                var css = theme;
+                theme = { cssText: css };
+                var firstLine = css.split("\n", 1)[0].replace(/\/\*|\*\//g, "").trim();
+                firstLine.split(";").forEach(function(n) {
+                    if (!n) return;
+                    var info = n.split(":");
+                    theme[info[0].trim()] = info[1].trim();
+                });
+                theme.isDark = theme.isDark == "true";
+                theme.id = "custom_themes/" + theme.name;
+                theme.customCss = css;
+            }
             
-            theme.id = "custom_themes/" + theme.name;
-            theme.customCss = css;
             define.undef(theme.id);
-            define(theme.id, [], theme);
+            if (theme.cssText)
+                define(theme.id, [], theme);
             
-            themes[theme.id] = theme;
+            if (!theme.name)
+                theme.name = theme.caption;
+            
+            themes[theme.caption || theme.id] = theme.id;
             
             addThemeMenu(theme.name, theme.id, null, plugin);
             
