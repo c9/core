@@ -146,8 +146,7 @@ define(function(require, exports, module) {
                 s.async = true;
                 s.src = '//api.usersnap.com/load/' +
                         'e3d3b232-1c21-4961-b73d-fbc8dc7be1c3.js';
-                var x = document.getElementsByTagName('script')[0];
-                x.parentNode.insertBefore(s, x);
+                document.head.appendChild(s);
             })();
 
             // Create UI elements
