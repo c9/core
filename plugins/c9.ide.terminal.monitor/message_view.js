@@ -25,7 +25,7 @@ define(function(require, exports, module) {
             loaded = true;
             
             // Load CSS
-            ui.insertCss(css, options.staticPrefix, plugin);
+            ui.insertCss(css, null, plugin);
             
             tabManager.on("tabAfterActivateSync", function() {
                 toggleMessages();

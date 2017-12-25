@@ -567,7 +567,7 @@ define(function(require, exports, module) {
             }, handle);
             
             // CSS
-            ui.insertCss(cssString, options.staticPrefix, handle);
+            ui.insertCss(cssString, null, handle);
         });
         handle.on("unload", function() {
             drawn = false;

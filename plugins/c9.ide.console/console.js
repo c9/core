@@ -126,7 +126,7 @@ define(function(require, module, exports) {
             if (drawn) return;
             drawn = true;
             
-            ui.insertCss(cssString, options.staticPrefix, plugin);
+            ui.insertCss(cssString, null, plugin);
 
             consoleRow = layout.findParent(plugin);
             container = consoleRow.appendChild(new ui.bar({

@@ -135,7 +135,7 @@ define(function(require, exports, module) {
             
             // Insert CSS
             var css = require("text!./preferences.css");
-            ui.insertCss(css, options.staticPrefix, handle);
+            ui.insertCss(css, null, handle);
             
             // Create UI elements
             parent = e.tab.appendChild(new ui.hsplitbox({

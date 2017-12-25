@@ -18,10 +18,10 @@
 }
 
 .btnquicksearchnav.btnquicksearchnavLeft .lbl span {
-    .image-2x("@{icon-path}/@{find-next-image}", 20px, 100px);
+    .image-2x("@{plugin-path}/icons/@{find-next-image}", 20px, 100px);
 }
 .btnquicksearchnav.btnquicksearchnavRight .lbl span {
-    .image-2x("@{icon-path}/@{find-previous-image}", 20px, 100px);
+    .image-2x("@{plugin-path}/icons/@{find-previous-image}", 20px, 100px);
 }
 
 .findInRangeMarker {

@@ -179,7 +179,7 @@ define(function(require, exports, module) {
             if (drawn) return;
             drawn = true;
             
-            ui.insertCss(require("text!./style.css"), options.staticPrefix, plugin);
+            ui.insertCss(require("text!./style.css"), null, plugin);
             
             settings.on("user/installer/@auto", function() {
                 cbAlways.setAttribute("checked", settings.get("user/installer/@auto"));

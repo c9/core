@@ -41,8 +41,6 @@ define(function(require, exports, module) {
             ui.insertSkin({
                 name: "panels",
                 data: require("text!./skin.xml"),
-                "media-path": options.staticPrefix + "/images/",
-                "icon-path": options.staticPrefix + "/icons/"
             }, plugin);
             
             menus.addItemByPath("Window/~", new ui.divider(), 40, plugin);

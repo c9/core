@@ -83,8 +83,6 @@ define(function(require, exports, module) {
             // Load the skin
             ui.insertSkin({
                 "data": require("text!./skins.xml"),
-                "media-path": options.staticPrefix + "/images/",
-                "icon-path": options.staticPrefix + "/icons/"
             }, plugin);
             
             // Create UI elements

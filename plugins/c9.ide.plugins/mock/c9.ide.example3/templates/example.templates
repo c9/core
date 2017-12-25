@@ -39,8 +39,6 @@ section General
 	            ui.insertSkin({
 	                name: "c9statusbar",
 	                data: require("text!./skin.xml"),
-	                "media-path" : options.staticPrefix + "/images/",
-	                "icon-path"  : options.staticPrefix + "/icons/"
 	            }, plugin);
 	            
 	            // Create UI elements

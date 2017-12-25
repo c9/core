@@ -277,7 +277,7 @@ define(function(require, exports, module) {
             drawn = true;
             
             // Insert CSS
-            ui.insertCss(require("text!./style.css"), options.staticPrefix, plugin);
+            ui.insertCss(require("text!./style.css"), null, plugin);
             
             // Tree
             tree = new Tree({

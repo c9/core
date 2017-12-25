@@ -24,8 +24,7 @@ define(function(require, exports, module) {
             if (loaded) return false;
             loaded = true;
             
-            ui.insertCss(require("text!./notification.css"), 
-                options.staticPrefix, plugin);
+            ui.insertCss(require("text!./notification.css"), null, plugin);
             
             layout.on("themeChange", function() {
                 if (logo) {

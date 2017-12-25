@@ -16,7 +16,6 @@ define(function(require, exports, module) {
         /***** Initialization *****/
 
         var plugin = new Plugin("Ajax.org", main.consumes);
-        var staticPrefix = options.staticPrefix;
         var skin = require("text!./skin.xml");
         var markup = require("text!./bubble.xml");
         var emit = plugin.getEmitter();
@@ -53,7 +52,6 @@ define(function(require, exports, module) {
             ui.insertSkin({
                 name: "bubble",
                 data: skin,
-                "media-path": staticPrefix + "/images/"
             }, plugin);
             
             ui.insertMarkup(layout.findParent(plugin), markup, plugin);

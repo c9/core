@@ -42,7 +42,6 @@ define(function(require, exports, module) {
         
         var fullOutline = [];
         var ignoreFocusOnce = false;
-        var staticPrefix = options.staticPrefix;
         
         var tree, tdOutline, winOutline, textbox, treeParent; // UI Elements
         var originalLine, originalColumn, originalTab;
@@ -249,13 +248,10 @@ define(function(require, exports, module) {
 
         function createProvider() {
             // Import CSS
-            ui.insertCss(require("text!./outline.css"), staticPrefix, plugin);
+            ui.insertCss(require("text!./outline.css"), null, plugin);
             
             // Define data provider
             tdOutline = new TreeData();
-            
-            // Some global render metadata
-            tdOutline.staticPrefix = staticPrefix;
         }
         
         var drawn = false;
@@ -603,7 +599,6 @@ define(function(require, exports, module) {
             
             fullOutline = [];
             ignoreFocusOnce = false;
-            // staticPrefix = options.staticPrefix;
             
             tree = null;
             tdOutline = null;

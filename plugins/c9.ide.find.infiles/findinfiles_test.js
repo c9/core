@@ -51,7 +51,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.ace/ace",
         {
             packagePath: "plugins/c9.ide.find.infiles/findinfiles",
-            staticPrefix: "plugins/c9.ide.find.infiles"
         },
         {
             packagePath: "plugins/c9.ide.find/find",
