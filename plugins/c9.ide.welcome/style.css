@@ -269,11 +269,11 @@
 }
 
 .welcome .preset_container .preset#default{
-    background-image : url("@{image-path}/fullide.png");
+    background-image : url("@{plugin-path}/images/fullide.png");
 }
 .welcome .preset_container .preset#minimal{
-    background-image : url("@{image-path}/minimal.png");
+    background-image : url("@{plugin-path}/images/minimal.png");
 }
 .welcome .preset_container .preset#sublime{
-    background-image : url("@{image-path}/sublime.png");
+    background-image : url("@{plugin-path}/images/sublime.png");
 }

@@ -86,30 +86,10 @@
                 border: @gotoline-border-dark;
                 border-left: 0;
             }
-            .brGtlContent {
-            }
-            .barGotoline .brGtlTop {
-                background: url(images/barGotoLineCorners.png) no-repeat 0 0;
-                height: 3px;
-                width: 4px;
-                position: absolute;
-                top: -3px;
-                left:0;
-            }
-            .barGotoline .brGtlBottom {
-                background: url(images/barGotoLineCorners.png) no-repeat 0 -3px;
-                height: 3px;
-                width: 4px;
-                position: absolute;
-                bottom: -3px;
-                left:0;
-            }
         ]]></a:style>
         <a:presentation>
             <a:main container=".">
                 <div class="barGotoline">
-                    <div class="brGtlTop"></div>
-                    <div class="brGtlBottom"></div>
                 </div>
             </a:main>
         </a:presentation>

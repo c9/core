@@ -1,19 +1,19 @@
-/* .image-2x("@{icon-path}/@{tree-folder-icon}", @tree-folder-icon-width, @tree-folder-icon-height); */
-.test-in-progress{ .image-2x("@{icon-path}/testInProgress1.png", 16px, 16px); }
-.test-notran{ .image-2x("@{icon-path}/testPrepare.png", 16px, 16px); }
+/* .image-2x("@{plugin-path}/icons/@{tree-folder-icon}", @tree-folder-icon-width, @tree-folder-icon-height); */
+/*.test-in-progress{ .image-2x("@{plugin-path}/icons/testInProgress1.png", 16px, 16px); }*/
+.test-notran{ .image-2x("@{plugin-path}/icons/testPrepare.png", 16px, 16px); }
 
-.test-failed, .test-0 { .image-2x("@{icon-path}/testFailed.png", 16px, 16px); }
-.test-passed, .test-1 { .image-2x("@{icon-path}/testPassed.png", 16px, 16px); }
-.test-error, .test-2 { .image-2x("@{icon-path}/testError.png", 16px, 16px); }
-.test-terminated, .test-3 { .image-2x("@{icon-path}/testTerminated.png", 16px, 16px); }
-.test-ignored, .test-4 { .image-2x("@{icon-path}/testIgnored.png", 16px, 16px); }
+.test-failed, .test-0 { .image-2x("@{plugin-path}/icons/testFailed.png", 16px, 16px); }
+.test-passed, .test-1 { .image-2x("@{plugin-path}/icons/testPassed.png", 16px, 16px); }
+.test-error, .test-2 { .image-2x("@{plugin-path}/icons/testError.png", 16px, 16px); }
+.test-terminated, .test-3 { .image-2x("@{plugin-path}/icons/testTerminated.png", 16px, 16px); }
+.test-ignored, .test-4 { .image-2x("@{plugin-path}/icons/testIgnored.png", 16px, 16px); }
 
 .test-0, .test-2, .test-3, .test-4 { background-position-x: 4px; }
 .test-1 { background-position-x: 2px; }
 
-.test-prepare { .image-2x("@{icon-path}/testPrepare.png", 16px, 16px); }
-.test-set { .image-2x("@{icon-path}/testNotRan.png", 16px, 16px); }
-.test-file { .image-2x("@{icon-path}/testPrepare.png", 16px, 16px); }
+.test-prepare { .image-2x("@{plugin-path}/icons/testPrepare.png", 16px, 16px); }
+.test-set { .image-2x("@{plugin-path}/icons/testNotRan.png", 16px, 16px); }
+.test-file { .image-2x("@{plugin-path}/icons/testPrepare.png", 16px, 16px); }
 
 .stack-message{
     border-radius: 4px;
