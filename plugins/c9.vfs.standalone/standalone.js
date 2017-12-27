@@ -218,7 +218,7 @@ function plugin(options, imports, register) {
         filefinder.find(base, "plugins", ".*_test.js", blacklistfile, function(err, result) {
             result.all = result.list.concat(result.blacklist);
             async.filterSeries(result.list, function(file, next) {
-                fs.readFile(file, "utf8", function(err, file) {
+                fs.readFile(base + file, "utf8", function(err, file) {
                     if (err) return next(false);
                     if (file.match(/^"use server"/m) && !file.match(/^"use client"/m))
                         return next(false);
