@@ -954,6 +954,8 @@ define(function(require, exports, module) {
                 
                 callback(null, data.breakpoints.map(function(bp) {
                     return createBreakpoint(bp);
+                }).filter(function(bp) {
+                    return bp.path;
                 }));
             });
         }
