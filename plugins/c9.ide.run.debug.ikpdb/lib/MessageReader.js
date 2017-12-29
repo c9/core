@@ -86,10 +86,6 @@ define(function(require, exports, module) {
                 if (responseLength <= received.length) {
                     fullResponse = received.substring(0, responseLength);
                     this._receivedData = received.substring(responseLength);
-                    this._socket.setMinReceiveSize(0);
-                }
-                else {
-                    this._socket.setMinReceiveSize(responseLength - received.length);
                 }
             } 
             return fullResponse;

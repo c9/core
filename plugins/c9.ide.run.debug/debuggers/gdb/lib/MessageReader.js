@@ -43,10 +43,6 @@ var MessageReader = module.exports = function(socket, callback) {
                 if (responseLength <= received.length) {
                     fullResponse = received.substring(0, responseLength);
                     this.$received = received.substring(responseLength);
-                    this.$socket.setMinReceiveSize(0);
-                }
-                else {
-                    this.$socket.setMinReceiveSize(responseLength - received.length);
                 }
             }
         }
