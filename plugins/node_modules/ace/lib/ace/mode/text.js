@@ -46,19 +46,9 @@ var Mode = function() {
 (function() {
     this.$defaultBehaviour = new CstyleBehaviour();
 
-    this.tokenRe = new RegExp("^["
-        + unicode.packages.L
-        + unicode.packages.Mn + unicode.packages.Mc
-        + unicode.packages.Nd
-        + unicode.packages.Pc + "\\$_]+", "g"
-    );
+    this.tokenRe = new RegExp("^[" + unicode.wordChars + "\\$_]+", "g");
 
-    this.nonTokenRe = new RegExp("^(?:[^"
-        + unicode.packages.L
-        + unicode.packages.Mn + unicode.packages.Mc
-        + unicode.packages.Nd
-        + unicode.packages.Pc + "\\$_]|\\s])+", "g"
-    );
+    this.nonTokenRe = new RegExp("^(?:[^" + unicode.wordChars + "\\$_]|\\s])+", "g");
 
     this.getTokenizer = function() {
         if (!this.$tokenizer) {
@@ -160,7 +150,6 @@ var Mode = function() {
                     return spaces % tabSize != tabSize - 1;
                 else
                     return spaces % tabSize == 0;
-                return true;
             };
         }
 

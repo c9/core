@@ -11,9 +11,6 @@
  */
 define(function(require, exports, module) {
 
-require("ace/lib/es5-shim");
-require("ace/lib/es6-shim");
-
 var oop = require("ace/lib/oop");
 var Mirror = require("ace/worker/mirror").Mirror;
 var tree = require('treehugger/tree');
