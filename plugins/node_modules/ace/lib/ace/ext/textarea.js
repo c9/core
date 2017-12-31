@@ -227,7 +227,7 @@ exports.transformTextarea = function(element, options) {
     container.appendChild(settingOpener);
 
     // Create the API.
-    setupApi(editor, editorDiv, settingDiv, ace, options, load);
+    setupApi(editor, editorDiv, settingDiv, ace, options);
 
     // Create the setting's panel.
     setupSettingPanel(settingDiv, settingOpener, editor);
@@ -270,10 +270,9 @@ function load(url, module, callback) {
     });
 }
 
-function setupApi(editor, editorDiv, settingDiv, ace, options, loader) {
+function setupApi(editor, editorDiv, settingDiv, ace, options) {
     var session = editor.getSession();
     var renderer = editor.renderer;
-    loader = loader || load;
 
     function toBool(value) {
         return value === "true" || value == true;
@@ -299,10 +298,10 @@ function setupApi(editor, editorDiv, settingDiv, ace, options, loader) {
     editor.setOption = function(key, value) {
         switch (key) {
             case "mode":
-                editor.$setOption("mode", "ace/mode/" + value)
+                editor.$setOption("mode", "ace/mode/" + value);
             break;
             case "theme":
-                editor.$setOption("theme", "ace/theme/" + value)
+                editor.$setOption("theme", "ace/theme/" + value);
             break;
             case "keybindings":
                 switch (value) {
@@ -317,7 +316,7 @@ function setupApi(editor, editorDiv, settingDiv, ace, options, loader) {
                 }
             break;
 
-            case "softWrap":
+            case "wrap":
             case "fontSize":
                 editor.$setOption(key, value);
             break;
@@ -330,15 +329,15 @@ function setupApi(editor, editorDiv, settingDiv, ace, options, loader) {
     editor.getOption = function(key) {
         switch (key) {
             case "mode":
-                return editor.$getOption("mode").substr("ace/mode/".length)
+                return editor.$getOption("mode").substr("ace/mode/".length);
             break;
 
             case "theme":
-                return editor.$getOption("theme").substr("ace/theme/".length)
+                return editor.$getOption("theme").substr("ace/theme/".length);
             break;
 
             case "keybindings":
-                var value = editor.getKeyboardHandler()
+                var value = editor.getKeyboardHandler();
                 switch (value && value.$id) {
                     case "ace/keyboard/vim":
                         return "vim";
