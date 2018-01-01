@@ -115,9 +115,10 @@ define(function(require, exports, module) {
                 if (!heading) {
                     if (!hack) {
                         var aml = container.appendChild(new ui.bar());
+                        aml.$int.textContent = "";
                         ui.buildDom(["div", { class: "header" }, 
                             ["span"], ["div", (debug ? "[" + (position || "") + "] " : "") + name]
-                        ]);
+                        ], aml.$int);
                     }
                     
                     heading = headings[name] = {
