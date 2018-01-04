@@ -71,7 +71,7 @@ var LispHighlightRules = function() {
             next  : "start"
         }
     ]
-}
+};
 
 };
 

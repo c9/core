@@ -45,16 +45,18 @@ module.exports = function(config, optimist) {
             .describe("useBrowserCache", "Use window.caches api if available for faster loading, requires https://")
             .describe("secure", "path to file containing ssl certificate (can be generated using scripts/create-cert.sh)");
     }
-    
+
+    require("./utils/ssl")(config, optimist);
+
     var argv = optimist.argv;
     if (argv.help)
         return null;
-    
+
     var testing = argv.t;
     var baseProc = path.normalize(testing
         ? __dirname + "/../plugins/c9.fs/mock"
         : argv.w || (__dirname + "/../"));
-    
+
     // if (testing && !argv["setting-path"])
     //     argv["setting-path"] = "/tmp/.c9";
 
@@ -110,15 +112,6 @@ module.exports = function(config, optimist) {
         console.log("Warning: running Cloud9 without using HTTP authentication.");
         console.log("Run using --listen localhost instead to only expose Cloud9 to localhost,");
         console.log("or use -a username:password to setup HTTP authentication\n");
-    }
-
-    if (argv.secure) {
-        var certPath = path.isAbsolute(argv.secure) ? argv.secure : path.join(__dirname, "..", argv.secure);
-        var key = require("fs").readFileSync(certPath, "utf8");
-        config.secure = {
-            key: key.match(/^(-+BEGIN RSA PRIVATE KEY[\s\S]*END RSA PRIVATE KEY-+)/m)[0],
-            cert: key.match(/^(-+BEGIN CERTIFICATE[\s\S]*END CERTIFICATE-+)/m)[0],
-        };
     }
 
     var plugins = [

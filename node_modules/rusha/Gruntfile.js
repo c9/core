@@ -1,4 +1,5 @@
 module.exports = function (grunt) {
+  const browsers = ['ChromeHeadless', 'FirefoxHeadless'];
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -51,7 +52,7 @@ module.exports = function (grunt) {
           preprocessors: {
             'test/unit/*.js': ['browserify']
           },
-          browsers: ['ChromeHeadless', 'FirefoxHeadless']
+          browsers
         }
       },
       fuzz: {
@@ -61,7 +62,7 @@ module.exports = function (grunt) {
           preprocessors: {
             'test/fuzz.js': ['browserify']
           },
-          browsers: ['ChromeHeadless', 'FirefoxHeadless']
+          browsers
         }
       },
       functional: {
@@ -74,7 +75,7 @@ module.exports = function (grunt) {
           browserify: {
             transform: ['brfs']
           },
-          browsers: ['ChromeHeadless', 'FirefoxHeadless']
+          browsers
         }
       },
       compatibilityWithVanillaScript: {
@@ -84,7 +85,7 @@ module.exports = function (grunt) {
             'test/compat/vanilla_script.js',
             'dist/rusha.min.js'
           ],
-          browsers: ['ChromeHeadless', 'FirefoxHeadless'] 
+          browsers
         }
       },
       compatibilityWithVanillaWorker: {
@@ -94,7 +95,7 @@ module.exports = function (grunt) {
             'test/compat/vanilla_worker.js',
             {pattern: 'dist/rusha.min.js', included: false, served: true}
           ],
-          browsers: ['ChromeHeadless', 'FirefoxHeadless'] 
+          browsers
         }
       },
       compatibilityWithBrowserify: {
@@ -106,7 +107,7 @@ module.exports = function (grunt) {
           preprocessors: {
             'test/compat/require.js': ['browserify']
           },
-          browsers: ['ChromeHeadless', 'FirefoxHeadless'] 
+          browsers
         }
       },
       compatibilityWithWebpack: {
@@ -118,7 +119,7 @@ module.exports = function (grunt) {
           preprocessors: {
             'test/compat/require.js': ['webpack']
           },
-          browsers: ['ChromeHeadless', 'FirefoxHeadless'] 
+          browsers
         }
       },
       benchmark: {
@@ -129,7 +130,7 @@ module.exports = function (grunt) {
           preprocessors: {
             'perf/benchmark.js': ['browserify']
           },
-          browsers: ['ChromeHeadless', 'FirefoxHeadless']
+          browsers
         }
       }
     },

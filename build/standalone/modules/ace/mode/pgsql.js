@@ -25,7 +25,7 @@ DocCommentHighlightRules.getTagRule = function(start) {
         token : "comment.doc.tag.storage.type",
         regex : "\\b(?:TODO|FIXME|XXX|HACK)\\b"
     };
-}
+};
 
 DocCommentHighlightRules.getStartRule = function(start) {
     return {
@@ -191,7 +191,7 @@ var PythonHighlightRules = function() {
     var keywords = (
         "and|as|assert|break|class|continue|def|del|elif|else|except|exec|" +
         "finally|for|from|global|if|import|in|is|lambda|not|or|pass|print|" +
-        "raise|return|try|while|with|yield"
+        "raise|return|try|while|with|yield|async|await"
     );
 
     var builtinConstants = (
@@ -1343,7 +1343,7 @@ var PgsqlHighlightRules = function() {
                 next : "comment"
             },{
                 token : "keyword.statementBegin",
-                regex : "^[a-zA-Z]+", // Could enumerate starting keywords but this allows things to work when new statements are added.
+                regex : "[a-zA-Z]+", // Could enumerate starting keywords but this allows things to work when new statements are added.
                 next : "statement"
             },{
                 token : "support.buildin", // psql directive

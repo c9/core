@@ -55,14 +55,14 @@
 }
 #restoring .loading-msg {
     color: #717171;
-    .font-smoothing(true);
+    font-smoothing: true;
     margin: 58px 0 10px;
 }
 #restoring .loading-details{
     margin: 3px 0 0 0;
     font-size: 14px;
     color: #858E91;
-    .font-smoothing(true);
+    font-smoothing: true;
     font-weight: bold;
 }
 
@@ -91,7 +91,7 @@
     // font-family : Tahoma;
     font-size : 15px;
     text-align : left;
-    .font-smoothing(true);
+    font-smoothing: true;
 }
 .stickynote strong {
     font-size: 17px;

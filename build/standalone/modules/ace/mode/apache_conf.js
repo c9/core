@@ -162,7 +162,7 @@ var ApacheConfHighlightRules = function() {
               'string.flag.apacheconf',
               'punctuation.definition.flag.apacheconf',
               'text' ],
-           regex: '(\\s)(\\[)(.*?)(\\])(\\s)' } ] }
+           regex: '(\\s)(\\[)(.*?)(\\])(\\s)' } ] };
     
     this.normalizeRules();
 };
@@ -183,7 +183,7 @@ ApacheConfHighlightRules.metaData = { fileTypes:
          '.htpasswd',
          '.HTPASSWD' ],
       name: 'Apache Conf',
-      scopeName: 'source.apacheconf' }
+      scopeName: 'source.apacheconf' };
 
 
 oop.inherits(ApacheConfHighlightRules, TextHighlightRules);
@@ -301,8 +301,8 @@ oop.inherits(FoldMode, BaseFoldMode);
 
 (function() {
     
-    this.foldingStartMarker = /(\{|\[)[^\}\]]*$|^\s*(\/\*)/;
-    this.foldingStopMarker = /^[^\[\{]*(\}|\])|^[\s\*]*(\*\/)/;
+    this.foldingStartMarker = /([\{\[\(])[^\}\]\)]*$|^\s*(\/\*)/;
+    this.foldingStopMarker = /^[^\[\{\(]*([\}\]\)])|^[\s\*]*(\*\/)/;
     this.singleLineBlockCommentRe= /^\s*(\/\*).*\*\/\s*$/;
     this.tripleStarBlockCommentRe = /^\s*(\/\*\*\*).*\*\/\s*$/;
     this.startRegionRe = /^\s*(\/\*|\/\/)#?region\b/;

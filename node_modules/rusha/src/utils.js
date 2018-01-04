@@ -40,3 +40,29 @@ module.exports.ceilHeapSize = (v) => {
   }
   return p;
 };
+
+//
+// isDedicatedWorkerScope
+//
+
+module.exports.isDedicatedWorkerScope = (self) => {
+  const isRunningInWorker = 'WorkerGlobalScope' in self
+    && self instanceof self.WorkerGlobalScope;
+  const isRunningInSharedWorker = 'SharedWorkerGlobalScope' in self
+    && self instanceof self.SharedWorkerGlobalScope;
+  const isRunningInServiceWorker = 'ServiceWorkerGlobalScope' in self
+    && self instanceof self.ServiceWorkerGlobalScope;
+
+  // Detects whether we run inside a dedicated worker or not.
+  //
+  // We can't just check for `DedicatedWorkerGlobalScope`, since IE11
+  // has a bug where it only supports `WorkerGlobalScope`.
+  //
+  // Therefore, we consider us as running inside a dedicated worker
+  // when we are running inside a worker, but not in a shared or service worker.
+  //
+  // When new types of workers are introduced, we will need to adjust this code.
+  return isRunningInWorker
+    && !isRunningInSharedWorker
+    && !isRunningInServiceWorker;
+};

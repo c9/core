@@ -107,6 +107,7 @@ module.exports = function(vfs, options) {
     
     wrapper.readonly = readonly;
     wrapper.root = root;
+    wrapper.env = vfs.env;
 
     return wrapper;
 };

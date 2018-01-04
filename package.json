@@ -1,7 +1,7 @@
 {
   "name": "Cloud9",
   "description": "New Cloud9 Client",
-  "version": "3.1.4056",
+  "version": "3.1.5000",
   "author": "Ajax.org B.V. <info@ajax.org>",
   "private": true,
   "main": "bin/c9",
@@ -49,12 +49,5 @@
   },
   "devDependencies": {},
   "licenses": [],
-  "bundledDependencies": [
-    "amd-loader",
-    "architect",
-    "architect-build",
-    "msgpack-js",
-    "c9"
-  ],
-  "revision": "4ee99bdc6863796ff736cf440b206d4d13bfa99d"
+  "revision": "7e18d42ad8eb1e8156c2d286b527ed242230b87c"
 }

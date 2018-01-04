@@ -16,8 +16,10 @@ define(function(require, exports, module) {
         
         var fsData = {};
         
+        var pathLib = require("path");
         var Stream = require("stream").Stream;
         var basename = require("path").basename;
+        var EventEmitter = require("events").EventEmitter;
         var noop = function() { console.error("not implemented"); };
         var silent = function() {};
         var connection = {};
@@ -57,14 +59,14 @@ define(function(require, exports, module) {
                 prev = data;
                 data = data["!" + parts[i]];
                 if (data == null) {
-                    if (create && typeof prev != "string")
+                    if (create && !isFile(prev))
                         data = prev["!" + parts[i]] = {};
                     else
                         return;
                 }
             }
-            if (val)
-                data = prev["!" + parts[parts.length - 1]] = val;
+            if (val != null)
+                data = prev["!" + parts[parts.length - 1]] = { v: val, t: Date.now() };
             return data;
         }
         
@@ -72,6 +74,14 @@ define(function(require, exports, module) {
             var err = new Error("ENOENT");
             err.code = "ENOENT";
             return err;
+        }
+        
+        function isFile(node) {
+            return typeof node == "string" || node && node.v != null;
+        }
+        
+        function fileConets(node) {
+            return typeof node == "string" ? node : node && node.v;
         }
         
         function sendStream(data, callback) {
@@ -88,6 +98,22 @@ define(function(require, exports, module) {
             stream.emit("end");
         }
         
+        function readStream(callback) {
+            return function(err, meta) {
+                if (err) return callback(err);
+                var buffer = [];
+                meta.stream.on("data", function(data) {
+                    if (typeof data == "string")
+                        buffer += data;
+                    else
+                        buffer = buffer.concat(data);
+                });
+                meta.stream.on("end", function() {
+                    callback(null, buffer);
+                });
+            };
+        }
+        
         function readBlob(blob, callback) {
             var reader = new FileReader();
             reader.onload = function() {
@@ -98,6 +124,37 @@ define(function(require, exports, module) {
             };
             reader.readAsText(blob);
         }
+        
+        var watcher = new EventEmitter();
+        watcher.addChange = function(path) {
+            plugin.stat(path, {}, function(err, stat) {
+                var dir = pathLib.dirname(path);
+                var name = pathLib.basename(path);
+                plugin.readdir(dir, {}, readStream(function(e, stats) {
+                    watcher.emit(dir, "directory", name, stat, stats);
+                }));
+                watcher.emit(path, err ? "delete" : "change", name, stat);
+            });
+        };
+        watcher.watch = function(path, options, callback) {
+            if (!callback) callback = options;
+            setTimeout(function() {
+                var w = new EventEmitter();
+                var sendEvent = function(event, filename, stat, files) {
+                    w.emit("change", event, filename, stat, files);
+                };
+                watcher.on(path, sendEvent);
+                w.close = function() {
+                    watcher.off(path, sendEvent);
+                };
+                callback(null, { watcher: w });
+            });
+        };
+        watcher.unwatch = function(path, options, callback) {
+            if (!callback) callback = options;
+            watcher.removeAllListeners(path);
+        };
+        
         
         plugin.on("load", load);
         plugin.on("unload", unload);
@@ -146,10 +203,10 @@ define(function(require, exports, module) {
                     });
                 }
                 var data = findNode(path);
-                if (typeof data !== "string")
+                if (!isFile(data))
                     return console.error("not implemented");
                 var a = document.createElement('a');
-                a.href = URL.createObjectURL(new Blob([data], { type: "text/plain" }));
+                a.href = URL.createObjectURL(new Blob([fileConets(data)], { type: "text/plain" }));
                 a.download = filename || basename(path);
                 
                 document.body.appendChild(a);
@@ -169,13 +226,14 @@ define(function(require, exports, module) {
                 setTimeout(function() {
                     if (data == null)
                         return callback(ENOENT());
-                    var isFile = typeof data == "string";
+                    var value = fileConets(data);
+                    var isFileNode = value != null;
                     var stat = {
-                        name: name.substr(1),
-                        size: isFile ? data.length : 1,
-                        mtime: 0,
-                        ctime: 0,
-                        mime: isFile ? "" : "folder"
+                        name: name,
+                        size: isFileNode ? value.length : 1,
+                        mtime: data.t || 0,
+                        ctime: data.ct || data.t || 0,
+                        mime: isFileNode ? "" : "folder"
                     };
                     callback(null, stat);
                 }, 20);
@@ -183,23 +241,25 @@ define(function(require, exports, module) {
             readfile: function(path, options, callback) {
                 var data = findNode(path);
                 setTimeout(function() {
-                    if (typeof data != "string")
+                    var value = fileConets(data);
+                    if (value == null)
                         return callback(ENOENT());
-                    sendStream(data, callback);
+                    sendStream(value, callback);
                 }, 20);
             },
             readdir: function(path, options, callback) {
                 var data = findNode(path);
                 setTimeout(function() {
-                    if (!data || typeof data == "string")
+                    if (!data || isFile(data))
                         return callback(ENOENT());
                     var stats = Object.keys(data).map(function(n) {
-                        var isFile = typeof data[n] == "string";
+                        var value = fileConets(data[n]);
+                        var isFile = value != null;
                         return {
                             name: n.substr(1),
-                            size: isFile ? data[n].length : 1,
-                            mtime: 0,
-                            ctime: 0,
+                            size: isFile ? value.length : 1,
+                            mtime: data[n].t || 0,
+                            ctime: data[n].ct || data[n].t,
                             mime: isFile ? "" : "folder"
                         };
                     });
@@ -217,18 +277,22 @@ define(function(require, exports, module) {
                 options.stream.on("end", function(e) {
                     if (e) val += e; 
                     setTimeout(function() {
-                        if (!parent || typeof parent[name] == "object")
+                        if (!parent)
                             return callback(ENOENT());
-                        parent[name] = val;
+                        if (parent[name] && !isFile(parent[name]))
+                            return callback(new Error("EISDIR"));
+                        parent[name] = { v: val, t: Date.now() };
+                        watcher.addChange(path);
                         callback(null);
                     });
                 });
             },
-            mkdir:  function(path, options, callback) {
+            mkdir: function(path, options, callback) {
                 var data = findNode(path, true);
                 setTimeout(function() {
                     if (!data)
                         return callback(ENOENT());
+                    watcher.addChange(path);
                     callback();
                 });
             },
@@ -237,6 +301,7 @@ define(function(require, exports, module) {
                 setTimeout(function() {
                     if (!data)
                         return callback(ENOENT());
+                    watcher.addChange(path);
                     callback();
                 });
             },
@@ -248,9 +313,10 @@ define(function(require, exports, module) {
                     var parent = findNode(parts.join("/"));
                     if (!parent || !parent[name])
                         return callback(ENOENT());
-                    if (typeof parent[name] != "string")
+                    if (!isFile(parent[name]))
                         return callback(new Error("EISDIR"));
                     delete parent[name];
+                    watcher.addChange(path);
                     callback();
                 });
             },
@@ -261,9 +327,10 @@ define(function(require, exports, module) {
                     var parent = findNode(parts.join("/"));
                     if (!parent || !parent[name])
                         return callback(ENOENT());
-                    if (typeof parent[name] == "string")
+                    if (isFile(parent[name]))
                         return callback(new Error("EISFILE"));
                     delete parent[name];
+                    watcher.addChange(path);
                     callback();
                 });
             },
@@ -284,6 +351,8 @@ define(function(require, exports, module) {
                     
                     toParent[toName] = fromParent[fromName];
                     delete fromParent[fromName];
+                    watcher.addChange(from);
+                    watcher.addChange(to);
                     callback(null);
                 });
             },
@@ -306,7 +375,8 @@ define(function(require, exports, module) {
                     
                     toParent[toName] = fromParent[fromName];
                     toParts.push(toName.substr(1));
-                    callback(null, {to: toParts.join("/")});
+                    watcher.addChange(to);
+                    callback(null, { to: toParts.join("/") });
                 });
             },
             chmod: noop,
@@ -329,17 +399,17 @@ define(function(require, exports, module) {
             readFileWithMetadata: function(path, options, callback) {
                 var data = findNode(path);
                 var metadata = findNode("/.c9/metadata" + path);
-                setTimeout(function() {
-                    if (typeof data != "string")
+                var timer = setTimeout(function() {
+                    if (!isFile(data))
                         return callback(ENOENT());
-                    // TODO metadata
-                    callback(null, data, metadata);
+                    callback(null, fileConets(data), fileConets(metadata));
                 });
-                return { abort: function() {} };
+                return { abort: function() { clearTimeout(timer); } };
             },
 
             // Wrapper around fs.watch or fs.watchFile
-            watch: silent,
+            watch: watcher.watch,
+            unwatch: watcher.unwatch,
 
             // Network connection
             connect: noop,

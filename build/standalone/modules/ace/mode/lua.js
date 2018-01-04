@@ -150,7 +150,7 @@ var LuaHighlightRules = function() {
     };
     
     this.normalizeRules();
-}
+};
 
 oop.inherits(LuaHighlightRules, TextHighlightRules);
 
@@ -417,13 +417,12 @@ var WorkerClient = function(topLevelNamespaces, mod, classname, workerUrl, impor
     if (config.get("packaged") || !require.toUrl) {
         workerUrl = workerUrl || config.moduleUrl(mod, "worker");
     } else {
-        var skipBalancers = true; // load all scripts from one domain, workers don't support CORS headers
         var normalizePath = this.$normalizePath;
-        workerUrl = workerUrl || normalizePath(require.toUrl("ace/worker/worker.js", null, "_", skipBalancers));
+        workerUrl = workerUrl || normalizePath(require.toUrl("ace/worker/worker.js", null, "_"));
 
         var tlns = {};
         topLevelNamespaces.forEach(function(ns) {
-            tlns[ns] = normalizePath(require.toUrl(ns, null, "_", skipBalancers).replace(/(\.js)?(\?.*)?$/, ""));
+            tlns[ns] = normalizePath(require.toUrl(ns, null, "_").replace(/(\.js)?(\?.*)?$/, ""));
         });
     }
 
@@ -566,7 +565,7 @@ var UIWorkerClient = function(topLevelNamespaces, mod, classname) {
                 processNext();
         }
     };
-    this.setEmitSync = function(val) { emitSync = val };
+    this.setEmitSync = function(val) { emitSync = val; };
 
     var processNext = function() {
         var msg = _self.messageBuffer.shift();

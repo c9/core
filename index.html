@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Cloud9</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> 
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 </head>
 <body>
     <link rel="stylesheet" type="text/css" href="./plugins/c9.ide.layout.classic/loading-flat.css" />
@@ -50,6 +50,8 @@
         function previewHelper(options, imports, register) {
             var fs = imports.fs;
             var tabs = imports.tabManager;
+            if (typeof BroadcastChannel !== "function")
+                return register();
             var bc = new BroadcastChannel("livePreview");
             bc.onmessage = function(e) {
                 var data = e.data;
@@ -238,7 +240,13 @@
                         var waitSettings = function(fn) {
                             settings.inited ? fn() : settings.once("read", fn);
                         };
-                        waitVfs(waitSettings.bind(null, window.hideLoader));
+                        
+                        var waitTheme = function(fn) {
+                            var layout = app.services.layout;
+                            if (!layout || layout.hasTheme) return fn();
+                            layout.once("eachTheme", fn);
+                        };
+                        waitSettings(waitTheme.bind(null, window.hideLoader));
                     }
                 }
             }, function loadError(mod) {

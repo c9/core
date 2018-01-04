@@ -819,7 +819,7 @@ var ErlangHighlightRules = function() {
               { defaultToken: 'meta.structure.tuple.erlang' } ] } ],
       '#variable': 
        [ { token: [ 'variable.other.erlang', 'variable.language.omitted.erlang' ],
-           regex: '(_[a-zA-Z\\d@_]+|[A-Z][a-zA-Z\\d@_]*)|(_)' } ] }
+           regex: '(_[a-zA-Z\\d@_]+|[A-Z][a-zA-Z\\d@_]*)|(_)' } ] };
     
     this.normalizeRules();
 };
@@ -828,7 +828,7 @@ ErlangHighlightRules.metaData = { comment: 'The recognition of function definiti
       fileTypes: [ 'erl', 'hrl' ],
       keyEquivalent: '^~E',
       name: 'Erlang',
-      scopeName: 'source.erlang' }
+      scopeName: 'source.erlang' };
 
 
 oop.inherits(ErlangHighlightRules, TextHighlightRules);
@@ -946,8 +946,8 @@ oop.inherits(FoldMode, BaseFoldMode);
 
 (function() {
     
-    this.foldingStartMarker = /(\{|\[)[^\}\]]*$|^\s*(\/\*)/;
-    this.foldingStopMarker = /^[^\[\{]*(\}|\])|^[\s\*]*(\*\/)/;
+    this.foldingStartMarker = /([\{\[\(])[^\}\]\)]*$|^\s*(\/\*)/;
+    this.foldingStopMarker = /^[^\[\{\(]*([\}\]\)])|^[\s\*]*(\*\/)/;
     this.singleLineBlockCommentRe= /^\s*(\/\*).*\*\/\s*$/;
     this.tripleStarBlockCommentRe = /^\s*(\/\*\*\*).*\*\/\s*$/;
     this.startRegionRe = /^\s*(\/\*|\/\/)#?region\b/;

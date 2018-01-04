@@ -106,7 +106,7 @@ var ForthHighlightRules = function() {
               { include: '#word' },
               { include: '#variable' },
               { include: '#storage' },
-              { defaultToken: 'meta.block.forth' } ] } ] }
+              { defaultToken: 'meta.block.forth' } ] } ] };
     
     this.normalizeRules();
 };
@@ -116,7 +116,7 @@ ForthHighlightRules.metaData = { fileTypes: [ 'frt', 'fs', 'ldr', 'fth', '4th' ]
       foldingStopMarker: '\\*\\*/|^\\s*\\}',
       keyEquivalent: '^~F',
       name: 'Forth',
-      scopeName: 'source.forth' }
+      scopeName: 'source.forth' };
 
 
 oop.inherits(ForthHighlightRules, TextHighlightRules);
@@ -234,8 +234,8 @@ oop.inherits(FoldMode, BaseFoldMode);
 
 (function() {
     
-    this.foldingStartMarker = /(\{|\[)[^\}\]]*$|^\s*(\/\*)/;
-    this.foldingStopMarker = /^[^\[\{]*(\}|\])|^[\s\*]*(\*\/)/;
+    this.foldingStartMarker = /([\{\[\(])[^\}\]\)]*$|^\s*(\/\*)/;
+    this.foldingStopMarker = /^[^\[\{\(]*([\}\]\)])|^[\s\*]*(\*\/)/;
     this.singleLineBlockCommentRe= /^\s*(\/\*).*\*\/\s*$/;
     this.tripleStarBlockCommentRe = /^\s*(\/\*\*\*).*\*\/\s*$/;
     this.startRegionRe = /^\s*(\/\*|\/\/)#?region\b/;

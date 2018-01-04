@@ -121,7 +121,7 @@ var PigHighlightRules = function() {
                 next: "pop"
             }]
         }]
-    }
+    };
     
     this.normalizeRules();
 };
@@ -130,7 +130,7 @@ PigHighlightRules.metaData = {
     fileTypes: ["pig"],
     name: "Pig",
     scopeName: "source.pig"
-}
+};
 
 
 oop.inherits(PigHighlightRules, TextHighlightRules);
@@ -248,8 +248,8 @@ oop.inherits(FoldMode, BaseFoldMode);
 
 (function() {
     
-    this.foldingStartMarker = /(\{|\[)[^\}\]]*$|^\s*(\/\*)/;
-    this.foldingStopMarker = /^[^\[\{]*(\}|\])|^[\s\*]*(\*\/)/;
+    this.foldingStartMarker = /([\{\[\(])[^\}\]\)]*$|^\s*(\/\*)/;
+    this.foldingStopMarker = /^[^\[\{\(]*([\}\]\)])|^[\s\*]*(\*\/)/;
     this.singleLineBlockCommentRe= /^\s*(\/\*).*\*\/\s*$/;
     this.tripleStarBlockCommentRe = /^\s*(\/\*\*\*).*\*\/\s*$/;
     this.startRegionRe = /^\s*(\/\*|\/\/)#?region\b/;
@@ -384,7 +384,7 @@ oop.inherits(Mode, TextMode);
 (function() {
     this.lineCommentStart = "--";
     this.blockComment = {start: "/*", end: "*/"};
-    this.$id = "ace/mode/pig"
+    this.$id = "ace/mode/pig";
 }).call(Mode.prototype);
 
 exports.Mode = Mode;

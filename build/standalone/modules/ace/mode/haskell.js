@@ -16,7 +16,7 @@ var HaskellHighlightRules = function() {
          { token: 'constant.language.empty-list.haskell',
            regex: '\\[\\]' },
          { token: 'keyword.other.haskell',
-           regex: '\\bmodule\\b',
+           regex: '\\b(module|signature)\\b',
            push:
             [ { token: 'keyword.other.haskell', regex: '\\bwhere\\b', next: 'pop' },
               { include: '#module_name' },
@@ -190,7 +190,7 @@ var HaskellHighlightRules = function() {
          { token: 'storage.type.haskell',
            regex: '\\b[A-Z][a-zA-Z0-9_\']*\\b' },
          { token: 'support.constant.unit.haskell', regex: '\\(\\)' },
-         { include: '#comments' } ] }
+         { include: '#comments' } ] };
 
     this.normalizeRules();
 };
@@ -198,7 +198,7 @@ var HaskellHighlightRules = function() {
 HaskellHighlightRules.metaData = { fileTypes: [ 'hs' ],
       keyEquivalent: '^~H',
       name: 'Haskell',
-      scopeName: 'source.haskell' }
+      scopeName: 'source.haskell' };
 
 
 oop.inherits(HaskellHighlightRules, TextHighlightRules);
@@ -316,8 +316,8 @@ oop.inherits(FoldMode, BaseFoldMode);
 
 (function() {
     
-    this.foldingStartMarker = /(\{|\[)[^\}\]]*$|^\s*(\/\*)/;
-    this.foldingStopMarker = /^[^\[\{]*(\}|\])|^[\s\*]*(\*\/)/;
+    this.foldingStartMarker = /([\{\[\(])[^\}\]\)]*$|^\s*(\/\*)/;
+    this.foldingStopMarker = /^[^\[\{\(]*([\}\]\)])|^[\s\*]*(\*\/)/;
     this.singleLineBlockCommentRe= /^\s*(\/\*).*\*\/\s*$/;
     this.tripleStarBlockCommentRe = /^\s*(\/\*\*\*).*\*\/\s*$/;
     this.startRegionRe = /^\s*(\/\*|\/\/)#?region\b/;
