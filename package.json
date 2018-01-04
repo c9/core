@@ -29,7 +29,7 @@
         "netutil": "~0.0.2",
         "optimist": "~0.6.0",
         "qs": "0.6.6",
-        "rusha": "^0.8.3",
+        "rusha": "0.8.5",
         "send": "~0.1.4",
         "simple-mime": "~0.0.8",
         "tern": "git+https://github.com/cloud9ide/tern.git#39015d544d4c00c7899fea4c95c2e5bc2720e68e",
