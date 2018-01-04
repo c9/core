@@ -10,6 +10,8 @@
  * themselves with the worker.
  */
 define(function(require, exports, module) {
+// TODO fix build script to check for deps in ace/worker/worker.js    
+require("ace/lib/es6-shim");
 
 var oop = require("ace/lib/oop");
 var Mirror = require("ace/worker/mirror").Mirror;
