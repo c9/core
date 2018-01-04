@@ -48,12 +48,5 @@
         "start": "node server.js"
     },
     "devDependencies": {},
-    "licenses": [],
-    "bundledDependencies": [
-        "amd-loader",
-        "architect",
-        "architect-build",
-        "msgpack-js",
-        "c9"
-    ]
+    "licenses": []
 }

@@ -39,7 +39,8 @@ To update the SDK to the latest version run:
     git pull origin master
     scripts/install-sdk.sh
     
-Please note that Cloud9 v3 is currently developed with Node.js 0.12 and 0.10. Newer versions of node should work too.
+Please note that if you are using npm version >=3 and run npm install manually, you need to run `git checkout HEAD -- node_modules` to restore the files deleted by npm.
+Cloud9 is known to work with node versions 0.10 to 8, but Newer versions should work too.
 
 #### Starting Cloud9 ####
 

@@ -50,13 +50,15 @@ resetColor=$'\e[0m'
 
 updateNodeModules() {
     echo "${magenta}--- Running npm install --------------------------------------------${resetColor}"
-    safeInstall(){
-        deps=$("$NODE" -e 'console.log(Object.keys(require("./package.json").dependencies).join(" "))');
-        for m in ${deps[@]}; do echo "$m"; 
-            "$NPM" install --loglevel warn "$m"
-        done
-    }
-    "$NPM" install || safeInstall
+    "$NPM" install --production
+    
+    for i in $(git show HEAD:node_modules/); do
+        if [ "$i" != tree ] && [ "$i" != "HEAD:node_modules/" ]; then
+            [ -d node_modules/$i ] || git checkout HEAD -- node_modules/$i;
+        fi
+    done
+    rm -f package-lock.json
+    
     echo "${magenta}--------------------------------------------------------------------${resetColor}"
 }
 
