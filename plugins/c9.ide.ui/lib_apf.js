@@ -4257,12 +4257,8 @@ apf.skins = {
             return;
         }
 
-        
-
         //Assuming image url
-        {
-            
-
+        if (strQuery && typeof strQuery == "string" && !apf.isTrue(strQuery)) {
             var isQualified = strQuery.match(/^(https?|file):/);
             oHtml.style.backgroundImage = "url(" + (isQualified ? "" : iconPath || "")
                 + strQuery + ")";

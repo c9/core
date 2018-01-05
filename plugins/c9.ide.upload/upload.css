@@ -11,7 +11,7 @@
     width: 335px;
     top: 11px;
     left: 10px;
-    background: url("@{image-path}/upload-droparea-box.png") no-repeat 0 0;
+    background: url("@{plugin-path}/images/upload-droparea-box.png") no-repeat 0 0;
 }
 
 .uploadDropArea when(@upload-win-flat = false) {

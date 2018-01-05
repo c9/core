@@ -42,7 +42,7 @@
 }
 
 .imgeditor canvas{
-    background: url("@{image-path}/background.png");
+    background: url("@{plugin-path}/images/background.png");
     cursor: crosshair;
     box-shadow: 0 0 8px rgba(0,0,0,0.5);
     display: inline-block;

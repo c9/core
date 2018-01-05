@@ -8,12 +8,5 @@
 }
 
 .console .console_close_btn {
-    background-image: url("@{icon-path}/@{button-console-close}");
-}
-
-@media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-    .console .console_close_btn {
-        background-image: url("@{icon-path}/@{button-console-close-retina}");
-        background-size: 22px 66px;
-    }
+    .image-2x("@{icon-path}/@{button-console-close}", 22px, 66px);
 }

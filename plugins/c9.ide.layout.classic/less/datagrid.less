@@ -413,7 +413,7 @@
 }
 
 .datagrid .loading>.treecell strong{
-    background : url("@{image-path}/file-tree-load-spinner.gif") no-repeat 0 0;
+    .image-2x("@{tree-spinner}", @tree-spinner-width, @tree-spinner-height);
     width : 16px;
     height : 16px;
     top : -2px !important;
@@ -422,7 +422,7 @@
     margin-right : -3px !important;
 }
 .datagrid .loading.selected>.treecell strong{
-    background : url("@{image-path}/file-tree-load-spinner-selected.gif") no-repeat 0 0;
+    .image-2x("@{tree-selected-focus-spinner}", @tree-spinner-width, @tree-spinner-height);
 }
 .datagrid .row>span{
     vertical-align : top;

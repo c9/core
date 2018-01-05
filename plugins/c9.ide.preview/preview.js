@@ -593,7 +593,7 @@ define(function(require, exports, module) {
                                                 new ui.button({
                                                     id: "btnMode",
                                                     submenu: menu.aml,
-                                                    icon: "page_white.png",
+                                                    icon: true,
                                                     skin: "btn-switcher",
                                                     caption: "browser"
                                                 })

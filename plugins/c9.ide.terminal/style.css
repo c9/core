@@ -74,7 +74,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url("@{image-path}/tile.png");
+    background: url("@{plugin-path}/images/tile.png");
 }
 .c9terminalcontainer.bottom.cover:after {
     background-position: 0px -1px;

@@ -15,7 +15,7 @@
             .aboutDialogBox .aboutImage {
                 position:relative;
                 color: white;
-                background: url(images/about_cloud.png) no-repeat 0 0;
+                background: url(@plugin-path/images/about_cloud.png) no-repeat 0 0;
                 width: 515px;
                 height: 339px;
             }
@@ -29,7 +29,7 @@
             .win-help-about .buttons .close {
                  height: 20px;
                 width: 19px;
-                background: url(images/close.png) no-repeat 4px 3px;
+                background: url(@plugin-path/images/close.png) no-repeat 4px 3px;
             }
             
             .win-help-about .buttons .close.hover {
