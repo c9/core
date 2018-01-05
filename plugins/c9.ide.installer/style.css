@@ -39,7 +39,7 @@
     
     .execute{
         background : @installer-background;
-        .font-smoothing(@installer-font-smoothing);
+        font-smoothing: @installer-font-smoothing;
         /*height : 250px;*/
         /*position : relative;*/
         border-top: @installer-border-top;

@@ -36,7 +36,7 @@
     z-index: 100000;
     left: 0;
     top: 0;
-    .font-smoothing(~"antialiased !important");
+    font-smoothing: true !important;
     background: white url("@{image-path}/loadingbgrepeat.png");
     background-size: 1px 8px;
 }

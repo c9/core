@@ -33,7 +33,7 @@
     color: @output-textbox-color;
     margin-top: @output-textbox-margin-top;
     padding: @output-textbox-padding;
-    .font-smoothing(@output-font-smoothing);
+    font-smoothing: @output-font-smoothing;
     height: 17px;
     font-family: @general-font-family;
     font-size: @general-font-size;

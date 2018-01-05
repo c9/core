@@ -95,7 +95,7 @@
 }
 .chatContainer .searchbox .sbtb_middle .input{
     color: @collab-chat-input-color;
-    .font-smoothing(@collab-chat-input-font-smoothing);
+    font-smoothing: @collab-chat-input-font-smoothing;
 }
 .chatContainer .ace-tm .ace_marker-layer .ace_selection {
     background: @collab-chat-input-selection-color;

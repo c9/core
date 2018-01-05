@@ -52,7 +52,7 @@
     padding: @preferences-nav-main-padding;
     /* font-weight: normal; */
     position: relative;
-    .font-smoothing(@preferences-nav-main-font-smoothing);
+    font-smoothing: @preferences-nav-main-font-smoothing;
 }
 .bar-preferences .navigation .level1 > a:after {
     .image-2x("@{tree-arrow}", 20px, 10px);
@@ -173,7 +173,7 @@
     color : @preferences-form-label-color;
     font-size : 12px;
     text-overflow : ellipsis;
-    .font-smoothing(@preferences-form-label-font-smoothing);
+    font-smoothing: @preferences-form-label-font-smoothing;
 }
 .bar-preferences .blackbutton{
     min-height: @preferences-button-height;
@@ -269,7 +269,7 @@
 }
 .bar-preferences .blackdg .tree-headings {
     background: @preferences-datagrid-header-background;
-    .font-smoothing(@preferences-datagrid-font-smoothing);
+    font-smoothing: @preferences-datagrid-font-smoothing;
     font-weight: @preferences-datagrid-header-font-weight;
     border-bottom: @preferences-datagrid-header-border-bottom;
 }
@@ -288,7 +288,7 @@
     height: @preferences-datagrid-row-height;
 }
 .bar-preferences .blackdg .tree-row.selected{
-    .font-smoothing(@preferences-datagrid-font-smoothing);
+    font-smoothing: @preferences-datagrid-font-smoothing;
 }
 .bar-preferences .blackdg .tree-row > .tree-column{
     padding: @preferences-datagrid-cell-padding;

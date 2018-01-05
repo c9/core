@@ -2,7 +2,7 @@
     background: transparent;
     border: none;
     font: 11px Tahoma, Arial;
-    .font-smoothing(@tree-font-smoothing)
+    font-smoothing: @tree-font-smoothing
 }
 
 .filetree .tree-row {

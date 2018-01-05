@@ -5,18 +5,6 @@
 //  Petr Brzek & Jan Kuca
 
 
-.font-smoothing(@state){
-    .font-smoothing(@state) when (@state = true) {
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-    .font-smoothing(@state) when (@state = false) {
-        -webkit-font-smoothing: auto;
-        -moz-osx-font-smoothing: auto;
-    }
-    .font-smoothing(@state);
-}
-
 .image-2x(@image; @width; @height; @repeat: no-repeat; @important: false) {
     @filename  : ~`/(.*)\.(jpg|jpeg|png|gif)|$/.exec(@{image})[1] || ""`;
     @extension : ~`/(.*)\.(jpg|jpeg|png|gif)|$/.exec(@{image})[2] || ""`;
