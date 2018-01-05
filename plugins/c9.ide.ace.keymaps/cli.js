@@ -18,6 +18,7 @@ define(function(require, exports, module) {
         var tabManager = imports.tabManager;
         var ace = imports.ace;
         
+        var Vim = require('ace/keyboard/vim').Vim;
         var Editor = require("ace/editor").Editor;
         var lang = require("ace/lib/lang");
         var pathLib = require("path");
@@ -184,6 +185,18 @@ define(function(require, exports, module) {
             history: [],
             getCompletions: function() {
                 return Object.keys(this.commands).concat(Object.keys(commands.commands));
+            }
+        };
+        
+        cliCmds[':'].reCommands = {
+            /**
+             * @see {@link http://vim.wikia.com/wiki/Search_and_replace|Vim wiki - sed}
+             */
+            'sed': {
+                regex: /^(%|'<,'>|(?:\d+|\.),(?:\+?\d+|\$|\.))?s(\/|#)(.*?)\2(.*?)\2([giIc]*)$/,
+                action: function (editor, cmd, data) {
+                    Vim.handleEx(editor.state.cm, cmd);
+                }
             }
         };
         
@@ -357,10 +370,10 @@ define(function(require, exports, module) {
                 cmd += last.value;
             cmd = cmd.substr(1).trim();
             var args = cmd.split(/\s+/);
-            cmd = args[0];
+            var firstCmd = args[0];
         
-            if (this.commands[cmd]) {
-                cmd = this.commands[cmd];
+            if (this.commands[firstCmd]) {
+                cmd = this.commands[firstCmd];
                 if (typeof cmd == "string")
                     return commands.exec(cmd, null, { argv: args });
                 else if (typeof cmd == "function")
@@ -368,15 +381,26 @@ define(function(require, exports, module) {
                 else if (cmd.exec)
                     return cmd.exec(ed, { argv: args });
             }
-            else if (commands.commands[cmd]) {
-                commands.exec(cmd, null, { argv: args });
+            else if (commands.commands[firstCmd]) {
+                commands.exec(firstCmd, null, { argv: args });
             }
             else if (/^\d+$/.test(cmd)) {
                 ed.gotoLine(cmd, 0, true);
             }
             else {
-                ed.cmdLine.setTimedMessage("Vim command '" 
-                    + cmd + "' not implemented.", 1500);
+                for (var key in this.reCommands) {
+                    var reCmd = this.reCommands[key];
+                    var match = reCmd.regex.exec(cmd);
+                    if (match) {
+                        return reCmd.action(ed, cmd, {
+                            match: match,
+                            argv: cmd.split(match[0], 1).slice(-1)[0].split(/\s+/)
+                        });
+                    }
+                }
+                
+                ed.cmdLine.setTimedMessage(
+                    'Vim command "' + cmd + '" not implemented.', 3500);
             }
         };
         
