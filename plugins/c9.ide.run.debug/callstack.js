@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
     main.consumes = [
         "DebugPanel", "util", "ui", "tabManager", "debugger", "save", "panels",
-        "Menu", "MenuItem", "dialog.error", "layout"
+        "Menu", "MenuItem", "dialog.error", "layout", "clipboard"
     ];
     main.provides = ["callstack"];
     return main;
@@ -12,11 +12,12 @@ define(function(require, exports, module) {
         var ui = imports.ui;
         var save = imports.save;
         var layout = imports.layout;
+        var panels = imports.panels;
         var debug = imports.debugger;
         var tabs = imports.tabManager;
-        var panels = imports.panels;
         var Menu = imports.Menu;
         var MenuItem = imports.MenuItem;
+        var clipboard = imports.clipboard;
         var showError = imports["dialog.error"].show;
         
         var Range = require("ace/range").Range;
@@ -229,12 +230,19 @@ define(function(require, exports, module) {
             var contextMenu = new Menu({
                 items: [
                     new MenuItem({ value: "restart", caption: "Restart Frame" }),
-                    // new MenuItem({ value: "edit2", caption: "Edit Watch Value" })
+                    new MenuItem({ value: "copy", caption: "Copy Stack Trace" }),
                 ]
             }, plugin);
             contextMenu.on("itemclick", function(e) {
                 if (e.value == "restart")
                     dbg.restartFrame(activeFrame, function() {});
+                if (e.value == "copy") {
+                    var text = frames.map(function(f) {
+                        return f.name + " (" + f.path + ":" + f.line
+                            + (f.column != null ? ":" + f.column : "") + ")";
+                    }).join("\n");
+                    clipboard.clipboardData.setData("text/plain", text);
+                }
             });
             contextMenu.on("show", function(e) {
                 var selected = datagrid.selection.getCursor();
