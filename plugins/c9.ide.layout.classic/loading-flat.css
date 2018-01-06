@@ -27,7 +27,7 @@
 }
 
 #c9logo{
-    background-image: url(images/c9-logo-blue.png);
+    background-image: url(images/c9-logo-blue@1x.png);
     background-repeat: no-repeat;
     background-position: 50% 30%;
     position: relative;
@@ -38,7 +38,7 @@
     height: 279px;
 }
 .dark #c9logo{
-    background-image: url(images/c9-logo-white.png);
+    background-image: url(images/c9-logo-white@1x.png);
 }
 
 @media screen and (max-height: 600px) {

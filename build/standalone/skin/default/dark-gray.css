@@ -1,4 +1,4 @@
-/* @todo try .3 */
+/* @file plugins/c9.ide.collab/chat/chat.css */
 #chatThrob {
 	display: none;
 	position: absolute;
@@ -106,6 +106,7 @@
 	font-size: 10px;
 	vertical-align: middle;
 }
+/* @file plugins/c9.ide.collab/members/members.css */
 .panelsbuttonDown.collab,
 .panelsbuttonDown.collab:hover {
 	box-shadow: 1px -1px rgba(255, 255, 255, 0.075) inset, 1px 0 rgba(255, 255, 255, 0.075);
@@ -122,17 +123,12 @@
 	border-top: 0;
 }
 .memberstree .tree-row .toggler {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@1x.png);
+	background-size: 20px 10px;
 	position: absolute;
 	left: 3px;
 	top: 7px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.memberstree .tree-row .toggler {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@2x.png);
-	background-size: 20px 10px;
-	}
 }
 .memberstree .tree-row .caption {
 	position: absolute;
@@ -175,20 +171,15 @@
 .memberstree .kickout {
 	width: 12px;
 	height: 16px;
-	background-image: url(/static/plugins/c9.ide.collab/members/images/trash-icon.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.collab/members/images/trash-icon@1x.png);
+	background-size: 12px 16px;
 	cursor: pointer;
 	pointer-events: auto;
 	position: absolute;
 	right: 14px;
 	top: 2px;
 	z-index: 100000;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.memberstree .kickout {
-	background-image: url(/static/plugins/c9.ide.collab/members/images/trash-icon@2x.png);
-	background-size: 12px 16px;
-	}
 }
 .access_control {
 	width: 50px;
@@ -279,15 +270,10 @@
 	position: absolute;
 	left: 14px;
 	top: 5px;
-	background-image: url(/static/plugins/c9.ide.collab/members/images/collab-led-states.png);
 	background-repeat: no-repeat;
-	background-position: 1px 0;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.memberstree .status {
-	background-image: url(/static/plugins/c9.ide.collab/members/images/collab-led-states@2x.png);
+	background-image: url(/static/plugins/c9.ide.collab/members/images/collab-led-states@1x.png);
 	background-size: 12px 36px;
-	}
+	background-position: 1px 0;
 }
 .memberstree .collaborator_color {
 	position: absolute;
@@ -312,6 +298,7 @@
 	font-size: 11px;
 	margin: 20px 0 0 0;
 }
+/* @file plugins/c9.ide.collab/share/share.css */
 .share {
 	width: 430px;
 	height: 525px;
@@ -414,6 +401,7 @@
 	width: 80px;
 	bottom: 10px;
 }
+/* @file ace_tree/css/tree.css */
 .ace_tree {
 	overflow: hidden;
 	font: 12px Tahoma, Arial;
@@ -575,6 +563,7 @@
 	margin-left: -2px;
 	border-left: 1px solid rgba(0, 0, 0, 0);
 }
+/* @file ace_tree/css/light_theme.css */
 .ace_tree-light.ace_tree {
 	font: 12px Arial;
 }
@@ -637,6 +626,7 @@
 	margin-left: -1px;
 	border-left: 1px solid rgba(0, 0, 0, 0);
 }
+/* @file plugins/c9.ide.collab/notifications/notifications.css */
 .notificationstree {
 	position: absolute;
 	right: 40px;
@@ -750,12 +740,13 @@
 .panelsbutton.collab .newnotifs.size3 {
 	top: 27px;
 }
+/* @file plugins/c9.ide.collab/timeslider/timeslider.css */
 #timeslider-top {
 	color: rgba(255, 255, 255, 0.85);
 	border-bottom: solid #c2c2c2 1px;
 	width: 100%;
 	z-index: 10;
-	background: #3f3f3f url("/static/plugins/c9.ide.collab/timeslider/images/c9-noise.png");
+	background: #3f3f3f url("/static/plugins/c9.ide.layout.classic/images/c9-noise.png");
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
 	font-size: 11px;
 }
@@ -807,8 +798,9 @@
 	background-color: rgba(0, 0, 0, 0.04);
 }
 #playpause_button_icon {
-	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/play.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/play@1x.png);
+	background-size: 47px 47px;
 	background-position: -7px -6px;
 	left: 0px;
 	top: 0px;
@@ -817,12 +809,6 @@
 	box-shadow: 0 1px rgba(255, 255, 255, 0.1) inset;
 	transition: background-color 0.1s;
 	cursor: default;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	#playpause_button_icon {
-	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/play@2x.png);
-	background-size: 47px 47px;
-	}
 }
 #playpause_button_border {
 	display: block;
@@ -836,14 +822,9 @@
 	position: absolute;
 }
 .pause#playpause_button_icon {
-	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/pause.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.pause#playpause_button_icon {
-	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/pause@2x.png);
+	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/pause@1x.png);
 	background-size: 47px 47px;
-	}
 }
 #timeslider .close {
 	cursor: pointer;
@@ -853,15 +834,10 @@
 	display: block;
 	right: 5px;
 	top: 4px;
-	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/close_tab_btn.png);
+	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/close_tab_btn@1x.png);
+	background-size: 42px 28px;
 	background-position: 0 -14px;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	#timeslider .close {
-	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/close_tab_btn@2x.png);
-	background-size: 42px 28px;
-	}
 }
 #timeslider .close:hover {
 	background-position: -14px -14px;
@@ -951,17 +927,12 @@
 	content: "";
 	height: 15px;
 	width: 12px;
-	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/stepper_buttons.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/stepper_buttons@1x.png);
+	background-size: 23px 14px;
 	background-position: 0px 0px;
 	display: block;
 	margin: 3px 0 0 7px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	#leftstep:after {
-	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/stepper_buttons@2x.png);
-	background-size: 23px 14px;
-	}
 }
 #rightstep {
 	right: 107px;
@@ -1002,17 +973,12 @@
 	content: "";
 	height: 15px;
 	width: 12px;
-	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/stepper_buttons.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/stepper_buttons@1x.png);
+	background-size: 23px 14px;
 	background-position: -12px 0px;
 	display: block;
 	margin: 3px 0 0 7px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	#rightstep:after {
-	background-image: url(/static/plugins/c9.ide.collab/timeslider/images/stepper_buttons@2x.png);
-	background-size: 23px 14px;
-	}
 }
 #timeslider .star {
 	cursor: pointer;
@@ -1142,6 +1108,7 @@
 	position: relative;
 	top: 2px;
 }
+/* @file plugins/c9.ide.collab/collab.css */
 .cool {
 	position: absolute;
 	opacity: 0.9;
@@ -1215,6 +1182,7 @@
 	color: #d9ff0f;
 	padding: 1px 2px 1px 2px;
 }
+/* @file plugins/c9.ide.scm/diff/conflictmarker.css */
 .conflict-widget-1 {
 	background: #b2e491;
 	box-sizing: border-box;
@@ -1327,6 +1295,7 @@
 	transform: rotate(90deg);
 	text-align: center;
 }
+/* @file plugins/c9.ide.scm/diff/styles.css */
 .ace_diff-container {
 	display: flex !important;
 	flex-direction: row;
@@ -1448,6 +1417,7 @@
 .diff-arrow-right {
 	transform: rotate(225deg);
 }
+/* @file ace/css/editor.css */
 .ace_editor {
 	position: relative;
 	overflow: hidden;
@@ -1870,6 +1840,7 @@
 	top: -100000px !important;
 	left: -100000px !important;
 }
+/* @file ace/theme/textmate.css */
 .ace-tm .ace_gutter {
 	background: #f0f0f0;
 	color: #333;
@@ -1989,6 +1960,7 @@
 .ace-tm .ace_indent-guide {
 	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==") right repeat-y;
 }
+/* @file plugins/c9.ide.scm/v1/style.css */
 .filetree .status-icon.clickable {
 	pointer-events: auto;
 	cursor: pointer;
@@ -2111,85 +2083,41 @@
 .panel-settings.changes {
 	top: 63px;
 }
-.test-in-progress {
-	background-image: url(/static/plugins/c9.ide.test/icons/testInProgress1.png);
-	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.test-in-progress {
-	background-image: url(/static/plugins/c9.ide.test/icons/testInProgress1@2x.png);
-	background-size: 16px 16px;
-	}
-}
+/* @file plugins/c9.ide.test/style.css */
 .test-notran {
-	background-image: url(/static/plugins/c9.ide.test/icons/testPrepare.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.test-notran {
-	background-image: url(/static/plugins/c9.ide.test/icons/testPrepare@2x.png);
+	background-image: url(/static/plugins/c9.ide.test/icons/testPrepare@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .test-failed,
 .test-0 {
-	background-image: url(/static/plugins/c9.ide.test/icons/testFailed.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.test-failed,
-	.test-0 {
-	background-image: url(/static/plugins/c9.ide.test/icons/testFailed@2x.png);
+	background-image: url(/static/plugins/c9.ide.test/icons/testFailed@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .test-passed,
 .test-1 {
-	background-image: url(/static/plugins/c9.ide.test/icons/testPassed.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.test-passed,
-	.test-1 {
-	background-image: url(/static/plugins/c9.ide.test/icons/testPassed@2x.png);
+	background-image: url(/static/plugins/c9.ide.test/icons/testPassed@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .test-error,
 .test-2 {
-	background-image: url(/static/plugins/c9.ide.test/icons/testError.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.test-error,
-	.test-2 {
-	background-image: url(/static/plugins/c9.ide.test/icons/testError@2x.png);
+	background-image: url(/static/plugins/c9.ide.test/icons/testError@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .test-terminated,
 .test-3 {
-	background-image: url(/static/plugins/c9.ide.test/icons/testTerminated.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.test-terminated,
-	.test-3 {
-	background-image: url(/static/plugins/c9.ide.test/icons/testTerminated@2x.png);
+	background-image: url(/static/plugins/c9.ide.test/icons/testTerminated@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .test-ignored,
 .test-4 {
-	background-image: url(/static/plugins/c9.ide.test/icons/testIgnored.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.test-ignored,
-	.test-4 {
-	background-image: url(/static/plugins/c9.ide.test/icons/testIgnored@2x.png);
+	background-image: url(/static/plugins/c9.ide.test/icons/testIgnored@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .test-0,
 .test-2,
@@ -2201,34 +2129,19 @@
 	background-position-x: 2px;
 }
 .test-prepare {
-	background-image: url(/static/plugins/c9.ide.test/icons/testPrepare.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.test-prepare {
-	background-image: url(/static/plugins/c9.ide.test/icons/testPrepare@2x.png);
+	background-image: url(/static/plugins/c9.ide.test/icons/testPrepare@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .test-set {
-	background-image: url(/static/plugins/c9.ide.test/icons/testNotRan.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.test-set {
-	background-image: url(/static/plugins/c9.ide.test/icons/testNotRan@2x.png);
+	background-image: url(/static/plugins/c9.ide.test/icons/testNotRan@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .test-file {
-	background-image: url(/static/plugins/c9.ide.test/icons/testPrepare.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.test-file {
-	background-image: url(/static/plugins/c9.ide.test/icons/testPrepare@2x.png);
+	background-image: url(/static/plugins/c9.ide.test/icons/testPrepare@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .stack-message {
 	border-radius: 4px;
@@ -2352,26 +2265,16 @@ body .error_widget_arrow.ace_ok {
 	border-color: #5aaa5a;
 }
 .runtestbtn .icon {
-	background-image: url(/static/plugins/c9.ide.test/icons/run.png) !important;
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/run@1x.png) !important;
+	background-size: 19px 57px !important;
 	background-position: 1px 0px;
 	height: 20px;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.runtestbtn .icon {
-	background-image: url(/static/plugins/c9.ide.test/icons/run@2x.png) !important;
-	background-size: 19px 57px !important;
-	}
-}
 .runtestbtn.running .icon {
-	background-image: url(/static/plugins/c9.ide.test/icons/stop.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.runtestbtn.running .icon {
-	background-image: url(/static/plugins/c9.ide.test/icons/stop@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/stop@1x.png) !important;
 	background-size: 21px 57px !important;
-	}
 }
 .runtestbtn .c9-menu-btnIcon {
 	padding-left: 29px !important;
@@ -2394,6 +2297,7 @@ body .error_widget_arrow.ace_ok {
 .runner-config-menu .spinner {
 	margin-top: -3px;
 }
+/* @file plugins/c9.ide.collab/notifications/skin.xml */
 .notifications-bubble {
 	position: relative;
 	border: 1px solid #000;
@@ -2409,7 +2313,7 @@ body .error_widget_arrow.ace_ok {
 	opacity: 0;
 }
 .notifications-bubble .noise_bg {
-	background: url("/static/plugins/c9.ide.collab/notifications/images/noise_pattern_transparent.png") 0 0;
+	background: url("/static/plugins/c9.ide.layout.classic/images/noise_pattern_transparent.png") 0 0;
 	bottom: 0;
 	left: 0;
 	opacity: 0.1;
@@ -2418,20 +2322,15 @@ body .error_widget_arrow.ace_ok {
 	top: 0;
 }
 .notifications-bubble .close-notifier {
-	background-image: url(/static/plugins/c9.ide.collab/notifications/images/bk-close-btn.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/bk-close-btn@1x.png);
+	background-size: 13px 55px;
 	background-position: 0 0;
 	width: 13px;
 	height: 13px;
 	position: absolute;
 	top: 5px;
 	right: 5px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.notifications-bubble .close-notifier {
-	background-image: url(/static/plugins/c9.ide.collab/notifications/images/bk-close-btn@2x.png);
-	background-size: 13px 55px;
-	}
 }
 .notifications-bubble .close-notifier:hover {
 	background-position: 0 -19px;
@@ -2452,6 +2351,7 @@ body .error_widget_arrow.ace_ok {
 	display: block;
 	font-size: 11px;
 }
+/* @file plugins/c9.ide.login/login.css */
 .c9-menu-btn.titlebar {
 	position: absolute;
 	z-index: 100000000;
@@ -2485,6 +2385,7 @@ body .error_widget_arrow.ace_ok {
 	height: 16px;
 	border-radius: 0;
 }
+/* @file plugins/c9.ide.preferences/preferences.css */
 .bar-preferences > div {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
@@ -2492,7 +2393,7 @@ body .error_widget_arrow.ace_ok {
 .bar-preferences .navigation {
 	padding: 15px 0 0 0;
 	border-right: 1px solid #3d3d3d;
-	background: #4a4a4a url("/static/plugins/c9.ide.preferences/images/c9-noise.png");
+	background: #4a4a4a url("/static/plugins/c9.ide.layout.classic/images/c9-noise.png");
 	box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.03) inset;
 	z-index: 1;
 	box-sizing: border-box;
@@ -2534,8 +2435,9 @@ body .error_widget_arrow.ace_ok {
 	-moz-osx-font-smoothing: grayscale;
 }
 .bar-preferences .navigation .level1 > a:after {
-	background-image: url(/static/plugins/c9.ide.preferences/images/tree_close_arrow_small.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@1x.png);
+	background-size: 20px 10px;
 	content: "";
 	position: absolute;
 	left: 13px;
@@ -2543,12 +2445,6 @@ body .error_widget_arrow.ace_ok {
 	height: 13px;
 	top: 7px;
 	opacity: 0.7;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.bar-preferences .navigation .level1 > a:after {
-	background-image: url(/static/plugins/c9.ide.preferences/images/tree_close_arrow_small@2x.png);
-	background-size: 20px 10px;
-	}
 }
 .bar-preferences .navigation .level1:first-child > a {
 	margin-top: 0px;
@@ -2570,14 +2466,9 @@ body .error_widget_arrow.ace_ok {
 	text-shadow: inherit;
 }
 .bar-preferences .navigation .level1.active > a:after {
-	background-image: url(/static/plugins/c9.ide.preferences/images/tree_close_arrow_small.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.bar-preferences .navigation .level1.active > a:after {
-	background-image: url(/static/plugins/c9.ide.preferences/images/tree_close_arrow_small@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@1x.png);
 	background-size: 20px 10px;
-	}
 }
 .bar-preferences .navigation .level1.active > a:after {
 	opacity: 1;
@@ -2815,8 +2706,9 @@ body .error_widget_arrow.ace_ok {
 	text-shadow: 0 1px #1a1a1a;
 }
 .prefpanel h1:after {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x.png);
 	background-repeat: 'repeat-x';
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x@1x.png);
+	background-size: 32px 1500px;
 	background-position: 50% -364px;
 	content: "";
 	position: absolute;
@@ -2824,12 +2716,6 @@ body .error_widget_arrow.ace_ok {
 	width: 22px;
 	height: 22px;
 	top: 0;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.prefpanel h1:after {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x@2x.png);
-	background-size: 32px 1500px;
-	}
 }
 .prefpanel .intro {
 	white-space: nowrap;
@@ -2849,25 +2735,21 @@ body .error_widget_arrow.ace_ok {
 	color: gray;
 	text-shadow: none;
 }
+/* @file plugins/c9.ide.behaviors/style.css */
 .splits {
 	padding: 6px 20px 3px 22px !important;
 	background: transparent;
 }
 .splits span {
-	background-image: url(/static/plugins/c9.ide.behaviors/images/splits.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.behaviors/images/splits@1x.png);
+	background-size: 138px 54px;
 	background-position: 0 0;
 	width: 23px;
 	height: 18px;
 	display: inline-block;
 	margin: 0 10px 0 0;
 	cursor: pointer;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.splits span {
-	background-image: url(/static/plugins/c9.ide.behaviors/images/splits@2x.png);
-	background-size: 138px 54px;
-	}
 }
 .splits span.nosplit {
 	background-position: 0          0;
@@ -2939,6 +2821,7 @@ body .error_widget_arrow.ace_ok {
 	box-shadow: 0 0 200px rgba(255, 255, 255, 0.15) inset;
 	outline: 1px solid black;
 }
+/* @file plugins/c9.ide.guide/style.css */
 @keyframes corePulse {
 	from {
 	background: #CCC;
@@ -3151,6 +3034,7 @@ body .error_widget_arrow.ace_ok {
 	overflow: hidden;
 	width: 14px;
 }
+/* @file plugins/c9.ide.help/style.css */
 #c9Version {
 	position: absolute;
 	top: 80px;
@@ -3191,6 +3075,7 @@ body .error_widget_arrow.ace_ok {
 	font-size: 10px;
 	color: #aaaaaa;
 }
+/* @file plugins/c9.ide.help/skin.xml */
 .win-help-about {
 	overflow: hidden;
 }
@@ -3223,6 +3108,7 @@ body .error_widget_arrow.ace_ok {
 .win-help-about .buttons .close.down {
 	background-position: -31px 3px;
 }
+/* @file plugins/c9.ide.welcome/style.css */
 .welcome {
 	background: #275067 url("/static/plugins/c9.ide.welcome/images/welcome-cover.png") top left no-repeat;
 	left: 0;
@@ -3239,19 +3125,14 @@ body .error_widget_arrow.ace_ok {
 }
 .welcome-logo {
 	position: absolute;
-	background-image: url(/static/plugins/c9.ide.welcome/images/welcome-logo.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.welcome/images/welcome-logo@1x.png);
+	background-size: 155px 103px;
 	background-position: top left;
 	width: 155px;
 	height: 103px;
 	left: 32px;
 	top: 34px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.welcome-logo {
-	background-image: url(/static/plugins/c9.ide.welcome/images/welcome-logo@2x.png);
-	background-size: 155px 103px;
-	}
 }
 .welcome a {
 	text-decoration: none;
@@ -3476,6 +3357,7 @@ body .error_widget_arrow.ace_ok {
 .welcome .preset_container .preset#sublime {
 	background-image: url("/static/plugins/c9.ide.welcome/images/sublime.png");
 }
+/* @file ace/ext/static.css */
 .ace_static_highlight {
 	font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', 'Droid Sans Mono', monospace;
 	font-size: 12px;
@@ -3510,6 +3392,7 @@ body .error_widget_arrow.ace_ok {
 .ace_static_highlight {
 	counter-reset: ace_line;
 }
+/* @file plugins/c9.ide.preview/previewers/raw.css */
 .rawview {
 	position: absolute;
 	left: 0;
@@ -3528,6 +3411,7 @@ body .error_widget_arrow.ace_ok {
 .rawview::-moz-selection {
 	background: #748512;
 }
+/* @file plugins/c9.ide.preview/preview.css */
 .toolbar-top.previewbar {
 	box-shadow: 0px 1px rgba(255, 255, 255, 0.1), 0 4px 12px rgba(26, 26, 26, 0.4);
 	z-index: 1;
@@ -3562,77 +3446,48 @@ body .error_widget_arrow.ace_ok {
 	padding-top: 5px;
 }
 .previewbar .c9-toolbarbutton-glossy.close .c9-icon {
-	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat.png) !important;
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat@1x.png) !important;
+	background-size: 23px 280px !important;
 	background-position: 0 -66px;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.previewbar .c9-toolbarbutton-glossy.close .c9-icon {
-	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat@2x.png) !important;
-	background-size: 23px 280px !important;
-	}
-}
 .previewbar .c9-toolbarbutton-glossy.refresh .c9-icon {
-	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat.png) !important;
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat@1x.png) !important;
+	background-size: 23px 280px !important;
 	background-position: 0 -89px;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.previewbar .c9-toolbarbutton-glossy.refresh .c9-icon {
-	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat@2x.png) !important;
-	background-size: 23px 280px !important;
-	}
-}
 .previewbar .c9-toolbarbutton-glossy.popout .c9-icon {
-	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat.png) !important;
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat@1x.png) !important;
+	background-size: 23px 280px !important;
 	background-position: 0 -114px;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.previewbar .c9-toolbarbutton-glossy.popout .c9-icon {
-	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat@2x.png) !important;
-	background-size: 23px 280px !important;
-	}
-}
 .previewbar .c9-toolbarbutton-glossy.settings .c9-icon {
-	background-image: url(/static/plugins/c9.ide.preview/images/c9-repeat-x.png) !important;
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x@1x.png) !important;
+	background-size: 32px 1500px !important;
 	background-position: 50% -366px;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.previewbar .c9-toolbarbutton-glossy.settings .c9-icon {
-	background-image: url(/static/plugins/c9.ide.preview/images/c9-repeat-x@2x.png) !important;
-	background-size: 32px 1500px !important;
-	}
-}
 .previewbar .c9-toolbarbutton-glossy.goforward .c9-icon {
-	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat.png) !important;
 	background-repeat: no-repeat;
-	background-position: 0 -185px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.previewbar .c9-toolbarbutton-glossy.goforward .c9-icon {
-	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat@1x.png) !important;
 	background-size: 23px 280px !important;
-	}
+	background-position: 0 -185px;
 }
 .previewbar .c9-toolbarbutton-glossyDisabled.goforward .c9-icon {
 	background-position: 0 -209px;
 }
 .previewbar .c9-toolbarbutton-glossy.goback .c9-icon {
-	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat.png) !important;
 	background-repeat: no-repeat;
-	background-position: 0 -137px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.previewbar .c9-toolbarbutton-glossy.goback .c9-icon {
-	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.preview/images/c9-preview-repeat@1x.png) !important;
 	background-size: 23px 280px !important;
-	}
+	background-position: 0 -137px;
 }
 .previewbar .c9-toolbarbutton-glossyDisabled.goback .c9-icon {
 	background-position: 0 -161px;
 }
+/* @file plugins/c9.ide.installer/style.css */
 .installer .page {
 	padding: 0 0 5px 0;
 	line-height: 1.5em;
@@ -3680,15 +3535,10 @@ body .error_widget_arrow.ace_ok {
 	text-shadow: none;
 }
 .installer .execute .install-spinner {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab-save-spinner-active.png);
 	background-repeat: no-repeat;
-	animation: loading-spinner 1.2s steps(11) infinite;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.installer .execute .install-spinner {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab-save-spinner-active@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab-save-spinner-active@1x.png);
 	background-size: 180px 14px;
-	}
+	animation: loading-spinner 1.2s steps(11) infinite;
 }
 .installer .execute .log {
 	position: absolute;
@@ -3771,6 +3621,7 @@ body .error_widget_arrow.ace_ok {
 	outline: none !important;
 	background-color: transparent !important;
 }
+/* @file plugins/c9.ide.processlist/processlist.css */
 .process-list {
 	height: 300px;
 	margin: 0;
@@ -3782,6 +3633,7 @@ body .error_widget_arrow.ace_ok {
 	right: 20px;
 	bottom: 20px;
 }
+/* @file plugins/c9.ide.panels/skin.xml */
 .panelsbar {
 	border-left: 1px solid rgba(255, 255, 255, 0.075);
 	border-top: 1px solid rgba(255, 255, 255, 0.075);
@@ -3858,6 +3710,7 @@ body .error_widget_arrow.ace_ok {
 	box-shadow: 1px 0 rgba(255, 255, 255, 0.075) inset, 1px 0 rgba(255, 255, 255, 0.075);
 	margin-top: 0;
 }
+/* @file plugins/c9.ide.language.core/outline.css */
 .outline .tree-row .caption {
 	padding: 4px 5px;
 	display: inline-block;
@@ -3871,14 +3724,9 @@ body .error_widget_arrow.ace_ok {
 	margin: 4px 0 0 3px;
 }
 .outline.ace_tree .toggler:not(.empty) {
-	background-image: url(/static/plugins/c9.ide.language/images/tree_close_arrow_small.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.outline.ace_tree .toggler:not(.empty) {
-	background-image: url(/static/plugins/c9.ide.language/images/tree_close_arrow_small@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@1x.png);
 	background-size: 20px 10px;
-	}
 }
 .outline.ace_tree .ace_tree_cell-layer > div > span {
 	vertical-align: top;
@@ -3897,14 +3745,9 @@ body .error_widget_arrow.ace_ok {
 	color: #fefefe;
 }
 .outline.ace_tree.focus .tree-row.selected .toggler:not(.empty) {
-	background-image: url(/static/plugins/c9.ide.language/images/tree_close_arrow_small.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.outline.ace_tree.focus .tree-row.selected .toggler:not(.empty) {
-	background-image: url(/static/plugins/c9.ide.language/images/tree_close_arrow_small@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@1x.png);
 	background-size: 20px 10px;
-	}
 }
 .outline.ace_tree .tree-row {
 	border-radius: 2px;
@@ -3930,134 +3773,75 @@ body .error_widget_arrow.ace_ok {
 	margin: 1px -4px 0 0;
 }
 .outline.ace_tree .tree-row .icon.event {
-	background-image: url(/static/plugins/c9.ide.language/images/event.png);
 	background-repeat: no-repeat;
-	background-position: 4px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.outline.ace_tree .tree-row .icon.event {
-	background-image: url(/static/plugins/c9.ide.language/images/event@2x.png);
+	background-image: url(/static/plugins/c9.ide.language/images/event@1x.png);
 	background-size: 8px 8px;
-	}
+	background-position: 4px;
 }
 .outline.ace_tree .tree-row .icon.method {
-	background-image: url(/static/plugins/c9.ide.language/images/method.png);
 	background-repeat: no-repeat;
-	background-position: 4px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.outline.ace_tree .tree-row .icon.method {
-	background-image: url(/static/plugins/c9.ide.language/images/method@2x.png);
+	background-image: url(/static/plugins/c9.ide.language/images/method@1x.png);
 	background-size: 8px 8px;
-	}
+	background-position: 4px;
 }
 .outline.ace_tree .tree-row .icon.method2 {
-	background-image: url(/static/plugins/c9.ide.language/images/method2.png);
 	background-repeat: no-repeat;
-	background-position: 4px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.outline.ace_tree .tree-row .icon.method2 {
-	background-image: url(/static/plugins/c9.ide.language/images/method2@2x.png);
+	background-image: url(/static/plugins/c9.ide.language/images/method2@1x.png);
 	background-size: 8px 8px;
-	}
+	background-position: 4px;
 }
 .outline.ace_tree .tree-row .icon.package {
-	background-image: url(/static/plugins/c9.ide.language/images/package.png);
 	background-repeat: no-repeat;
-	background-position: 4px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.outline.ace_tree .tree-row .icon.package {
-	background-image: url(/static/plugins/c9.ide.language/images/package@2x.png);
+	background-image: url(/static/plugins/c9.ide.language/images/package@1x.png);
 	background-size: 8px 8px;
-	}
+	background-position: 4px;
 }
 .outline.ace_tree .tree-row .icon.property {
-	background-image: url(/static/plugins/c9.ide.language/images/property.png);
 	background-repeat: no-repeat;
-	background-position: 4px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.outline.ace_tree .tree-row .icon.property {
-	background-image: url(/static/plugins/c9.ide.language/images/property@2x.png);
+	background-image: url(/static/plugins/c9.ide.language/images/property@1x.png);
 	background-size: 8px 8px;
-	}
+	background-position: 4px;
 }
 .outline.ace_tree .tree-row .icon.property2 {
-	background-image: url(/static/plugins/c9.ide.language/images/property2.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.language/images/property2@1x.png);
+	background-size: 8px 8px;
 	background-position: 4px;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.outline.ace_tree .tree-row .icon.property2 {
-	background-image: url(/static/plugins/c9.ide.language/images/property2@2x.png);
-	background-size: 8px 8px;
-	}
-}
 .lang-icon-event {
-	background-image: url(/static/plugins/c9.ide.language/images/event.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.lang-icon-event {
-	background-image: url(/static/plugins/c9.ide.language/images/event@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.language/images/event@1x.png) !important;
 	background-size: 8px 8px !important;
-	}
 }
 .lang-icon-method {
-	background-image: url(/static/plugins/c9.ide.language/images/method.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.lang-icon-method {
-	background-image: url(/static/plugins/c9.ide.language/images/method@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.language/images/method@1x.png) !important;
 	background-size: 8px 8px !important;
-	}
 }
 .lang-icon-method2 {
-	background-image: url(/static/plugins/c9.ide.language/images/method2.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.lang-icon-method2 {
-	background-image: url(/static/plugins/c9.ide.language/images/method2@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.language/images/method2@1x.png) !important;
 	background-size: 8px 8px !important;
-	}
 }
 .lang-icon-package {
-	background-image: url(/static/plugins/c9.ide.language/images/package.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.lang-icon-package {
-	background-image: url(/static/plugins/c9.ide.language/images/package@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.language/images/package@1x.png) !important;
 	background-size: 8px 8px !important;
-	}
 }
 .lang-icon-property {
-	background-image: url(/static/plugins/c9.ide.language/images/property.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.lang-icon-property {
-	background-image: url(/static/plugins/c9.ide.language/images/property@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.language/images/property@1x.png) !important;
 	background-size: 8px 8px !important;
-	}
 }
 .lang-icon-property2 {
-	background-image: url(/static/plugins/c9.ide.language/images/property2.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.lang-icon-property2 {
-	background-image: url(/static/plugins/c9.ide.language/images/property2@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.language/images/property2@1x.png) !important;
 	background-size: 8px 8px !important;
-	}
 }
 .outline.ace_tree .message {
 	font-size: 11px;
 }
+/* @file plugins/c9.ide.keys/style.css */
 .searchresults.ace_tree {
 	background: transparent !important;
 	border: none !important;
@@ -4132,6 +3916,7 @@ body .error_widget_arrow.ace_ok {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+/* @file plugins/c9.ide.navigate/style.css */
 .navigate-search {
 	position: absolute !important;
 	height: 27px !important;
@@ -4202,6 +3987,7 @@ body .error_widget_arrow.ace_ok {
 	color: #fefefe;
 	font-weight: bold;
 }
+/* @file plugins/c9.ide.upload/upload_progress.css */
 .uploadframe {
 	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3), 0 -1px 8px rgba(0, 0, 0, 0.4);
 	border-top: 0;
@@ -4210,6 +3996,7 @@ body .error_widget_arrow.ace_ok {
 .uploadframe .title > span {
 	padding: 0px 0 0 3px;
 }
+/* @file plugins/c9.ide.upload/markup/skin.xml */
 .list-uploadactivity {
 	position: relative;
 	overflow: hidden;
@@ -4292,7 +4079,7 @@ body .error_widget_arrow.ace_ok {
 	position: absolute;
 	top: 3px;
 	right: 1px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/remove_breakpoints.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/remove_breakpoints@1x.png);
 	background-repeat: no-repeat;
 	background-position: 0 0;
 	cursor: default;
@@ -4328,6 +4115,7 @@ body .error_widget_arrow.ace_ok {
 .btn-cancel-uploadDown {
 	color: #810707;
 }
+/* @file plugins/c9.ide.upload/upload.css */
 .uploadDropArea {
 	position: relative;
 	z-index: 10000;
@@ -4421,6 +4209,7 @@ body .error_widget_arrow.ace_ok {
 .upload-window .divider {
 	display: none;
 }
+/* @file plugins/c9.ide.upload/dragdrop.css */
 .draganddrop {
 	position: absolute;
 	z-index: 99999;
@@ -4456,6 +4245,7 @@ body .error_widget_arrow.ace_ok {
 .draganddrop.over > span {
 	background-color: rgba(0, 0, 0, 0.75);
 }
+/* @file plugins/c9.ide.tree/style.css */
 .filetree.ace_tree {
 	background: transparent;
 	border: none;
@@ -4500,25 +4290,15 @@ body .error_widget_arrow.ace_ok {
 	line-height: 1.5em;
 }
 .filetree .tree-row .toggler {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@1x.png);
+	background-size: 20px 10px;
 	margin: 0 1px 0 0;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.filetree .tree-row .toggler {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@2x.png);
-	background-size: 20px 10px;
-	}
-}
 .filetree.ace_tree_focus .tree-row.selected .toggler {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.filetree.ace_tree_focus .tree-row.selected .toggler {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@1x.png);
 	background-size: 20px 10px;
-	}
 }
 .filetree .tree-row > span {
 	vertical-align: middle;
@@ -4534,60 +4314,32 @@ body .error_widget_arrow.ace_ok {
 	background-repeat: no-repeat;
 }
 .filetree-icon.folder {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/folder.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.filetree-icon.folder {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/folder@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/folder@1x.png);
 	background-size: 20px 20px;
-	}
 }
 .filetree.alternative .filetree-icon.folder {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/folder_alternative.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.filetree.alternative .filetree-icon.folder {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/folder_alternative@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/folder_alternative@1x.png);
 	background-size: 20px 20px;
-	}
 }
 .filetree .loading .filetree-icon,
 .filetree .loading.filetree-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark.gif);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.filetree .loading .filetree-icon,
-	.filetree .loading.filetree-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark@2x.gif);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark@1x.gif);
 	background-size: 16px 17px;
-	}
 }
 .filetree .loading.selected .filetree-icon,
 .filetree .selected .loading.filetree-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-unfocus.gif);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.filetree .loading.selected .filetree-icon,
-	.filetree .selected .loading.filetree-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-unfocus@2x.gif);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-unfocus@1x.gif);
 	background-size: 16px 17px;
-	}
 }
 .filetree.ace_tree_focus .loading.selected .filetree-icon,
 .filetree.ace_tree_focus .selected .loading.filetree-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-selected.gif);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.filetree.ace_tree_focus .loading.selected .filetree-icon,
-	.filetree.ace_tree_focus .selected .loading.filetree-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-selected@2x.gif);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-selected@1x.gif);
 	background-size: 16px 17px;
-	}
 }
 .filetree .symlink > .filetree-icon:after,
 .filetree .favorite > .filetree-icon:after {
@@ -4698,6 +4450,170 @@ body .error_widget_arrow.ace_ok {
 .ace_tree .heading .filetree-icon {
 	display: none !important;
 }
+/* @file plugins/c9.ide.layout.classic/keyframes.css */
+@keyframes rotation {
+	0% {
+	transform: rotate(0deg);
+	}
+	100% {
+	transform: rotate(359deg);
+	}
+}
+@keyframes running-spinner {
+	0%,
+	4.55% {
+	background-position: 0px 0px;
+	}
+	4.56%,
+	9.09% {
+	background-position: -16px 0px;
+	}
+	9.1%,
+	13.64% {
+	background-position: -32px 0px;
+	}
+	13.65%,
+	18.18% {
+	background-position: -48px 0px;
+	}
+	18.19%,
+	22.73% {
+	background-position: -64px 0px;
+	}
+	22.740000000000002%,
+	27.27% {
+	background-position: -80px 0px;
+	}
+	27.28%,
+	31.82% {
+	background-position: -96px 0px;
+	}
+	31.830000000000002%,
+	36.36% {
+	background-position: -112px 0px;
+	}
+	36.37%,
+	40.91% {
+	background-position: -128px 0px;
+	}
+	40.919999999999995%,
+	45.45% {
+	background-position: -144px 0px;
+	}
+	45.46%,
+	50% {
+	background-position: -160px 0px;
+	}
+	50.01%,
+	54.55% {
+	background-position: -176px 0px;
+	}
+	54.559999999999995%,
+	59.09% {
+	background-position: -192px 0px;
+	}
+	59.1%,
+	63.64% {
+	background-position: -208px 0px;
+	}
+	63.65%,
+	68.18% {
+	background-position: -224px 0px;
+	}
+	68.19000000000001%,
+	72.73% {
+	background-position: -240px 0px;
+	}
+	72.74000000000001%,
+	77.27% {
+	background-position: -256px 0px;
+	}
+	77.28%,
+	81.82% {
+	background-position: -272px 0px;
+	}
+	81.83%,
+	86.36% {
+	background-position: -288px 0px;
+	}
+	86.37%,
+	90.91% {
+	background-position: -304px 0px;
+	}
+	90.92%,
+	95.45% {
+	background-position: -320px 0px;
+	}
+	95.46000000000001%,
+	100% {
+	background-position: -336px 0px;
+	}
+}
+@keyframes loading-spinner {
+	from {
+	background-position: 0 0;
+	}
+	to {
+	background-position: -165px 0px;
+	}
+}
+@keyframes saving {
+	0%,
+	10%,
+	100% {
+	opacity: 1;
+	}
+	50%,
+	60% {
+	opacity: .3;
+	}
+}
+@keyframes loading-24-spinner {
+	from {
+	background-position: 0 0;
+	}
+	to {
+	background-position: -336px 0px;
+	}
+}
+.loading-spinner {
+	background: url("/static/plugins/c9.ide.layout.classic/images/tab-save-spinner-active@1x.png") no-repeat;
+	animation: loading-spinner 1.2s steps(11) infinite;
+}
+@keyframes ball {
+	0%,
+	19.99%,
+	100% {
+	background-position: 0 0;
+	}
+	20%,
+	39.99% {
+	background-position: -30px 0;
+	}
+	40%,
+	59.99% {
+	background-position: -60px 0;
+	}
+	60%,
+	79.99% {
+	background-position: -90px 0;
+	}
+	80%,
+	99.99% {
+	background-position: -120px 0;
+	}
+}
+div.loading-ind {
+	background: url("/static/plugins/c9.ide.layout.classic/images/loading-ind.png") no-repeat;
+	height: 27px;
+	width: 28px;
+	animation: ball .7s linear 0s infinite normal;
+	position: absolute;
+	left: 42%;
+	top: 50px;
+	z-index: 0;
+}
+/* @file plugins/c9.ide.layout.classic/less/main.less */
 HTML {
 	overflow: hidden;
 	background: #1a1a1a;
@@ -4731,6 +4647,7 @@ BODY.noInput * {
 	padding: 11px 10px 10px !important;
 	height: auto !important;
 }
+/* @file plugins/c9.ide.layout.classic/less/style.less */
 .noscript {
 	display: none;
 }
@@ -4798,6 +4715,7 @@ BODY.noInput * {
 	color: #d2f291;
 	text-decoration: none;
 }
+/* @file plugins/c9.ide.layout.classic/less/bar.less */
 .basic {
 	position: relative;
 }
@@ -4845,11 +4763,13 @@ BODY.noInput * {
 	height: 27px !important;
 }
 .find-and-replace .dropdown-dark-glossy .button {
-	background-image: url("/static/plugins/c9.ide.layout.classic/images/dropdown-dark-glossy/button.png") !important;
+	background-image: url("/static/plugins/c9.ide.layout.classic/images/dropdown-dark-glossy/button@1x.png") !important;
 }
 .find-and-replace .dropdown-dark-glossy .button:before {
 	border-left: 1px solid #1a1a1a;
 }
+/* @file plugins/c9.ide.layout.classic/less/bk-window2.less */
+/* @file plugins/c9.ide.layout.classic/less/bk-window.less */
 .bk-window {
 	position: relative;
 	overflow: hidden;
@@ -4886,16 +4806,11 @@ BODY.noInput * {
 	top: 9px;
 }
 .bk-window .bk-header .buttons .close {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/bk-close-btn.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/bk-close-btn@1x.png);
+	background-size: 13px 55px;
 	width: 13px;
 	height: 15px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.bk-window .bk-header .buttons .close {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/bk-close-btn@2x.png);
-	background-size: 13px 55px;
-	}
 }
 .bk-window .bk-header .buttons .close.hover {
 	background-position: 0 -19px;
@@ -4988,6 +4903,7 @@ BODY.noInput * {
 	bottom: 0;
 	padding: 20px;
 }
+/* @file plugins/c9.ide.layout.classic/less/blackbutton.less */
 .blackbutton {
 	background-image: linear-gradient(to bottom, #4c4c4c 0%, #434343 52%, #333333 52%, #454545 100%);
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.125) inset, 0px 1px rgba(255, 255, 255, 0.125);
@@ -5016,6 +4932,7 @@ BODY.noInput * {
 .blackbuttonDown {
 	box-shadow: 0 0 3px 2px #343434 inset;
 }
+/* @file plugins/c9.ide.layout.classic/less/blackdg.less */
 .blackdg {
 	position: relative;
 	overflow: hidden;
@@ -5156,31 +5073,21 @@ BODY.noInput * {
 	width: 12px;
 	height: 15px;
 	margin: -1px 4px -3px 3px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small.png);
 	background-repeat: no-repeat;
-	background-position: 0 4px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.blackdg .toggler {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@1x.png);
 	background-size: 20px 10px;
-	}
+	background-position: 0 4px;
 }
 .blackdg .toggler.open {
 	background-position: -10px 4px;
 }
 .ace_tree_focus .selected .toggler {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_tree_focus .selected .toggler {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@1x.png);
 	background-size: 20px 10px;
-	}
 }
 .blackdg .loading .toggler {
-	background: url("/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark.gif") no-repeat 0 0;
+	background: url("/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark@1x.gif") no-repeat 0 0;
 	width: 16px;
 	height: 16px;
 	top: -1px !important;
@@ -5190,10 +5097,10 @@ BODY.noInput * {
 	margin-left: 1px !important;
 }
 .blackdg .loading.selected .toggler {
-	background: url("/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-unfocus.gif") no-repeat 0 0;
+	background: url("/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-unfocus@1x.gif") no-repeat 0 0;
 }
 .ace_tree_focus .loading.selected .toggler {
-	background: url("/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-selected.gif") no-repeat 0 0;
+	background: url("/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-selected@1x.gif") no-repeat 0 0;
 }
 .blackdg .row > span {
 	vertical-align: top;
@@ -5233,15 +5140,10 @@ BODY.noInput * {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/genericvariable_obj.gif);
 	background-repeat: no-repeat;
-	margin: -1px 2px -5px -3px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.blackdg .dbgVarIcon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/genericvariable_obj@2x.gif);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/genericvariable_obj@1x.gif);
 	background-size: 16px 16px;
-	}
+	margin: -1px 2px -5px -3px;
 }
 .blackdg .ace_tree-editor {
 	margin: 0 0 0 0px;
@@ -5256,6 +5158,7 @@ BODY.noInput * {
 	background: #6c9700;
 	color: #f1f1f1;
 }
+/* @file plugins/c9.ide.layout.classic/less/black_dropdown.less */
 .black_dropdown {
 	position: relative;
 	overflow: hidden;
@@ -5290,15 +5193,10 @@ BODY.noInput * {
 	position: absolute;
 	top: 0;
 	right: 0;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/dropdown-dark-glossy/button.png);
 	background-repeat: no-repeat;
-	background-position: 4px 4px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.black_dropdown .button {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/dropdown-dark-glossy/button@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/dropdown-dark-glossy/button@1x.png);
 	background-size: 9px 13px;
-	}
+	background-position: 4px 4px;
 }
 .black_dropdownOver {
 	background-image: linear-gradient(0deg, #494949 0%, #595959 100%);
@@ -5339,6 +5237,7 @@ BODY.noInput * {
 	background-color: #404040;
 	color: #bdd23f;
 }
+/* @file plugins/c9.ide.layout.classic/less/browser-btn.less */
 .browser-btn {
 	height: 27px;
 	width: 25px;
@@ -5366,6 +5265,7 @@ BODY.noInput * {
 .browser-btnDown {
 	background-position: 0 -27px;
 }
+/* @file plugins/c9.ide.layout.classic/less/btn-default-css3.less */
 .btn-default-css3 {
 	background-image: linear-gradient(to top, #494950 0%, #646468 100%);
 	border-radius: 3px;
@@ -5516,6 +5416,7 @@ BODY.noInput * {
 	font-weight: normal;
 	color: #cecece;
 }
+/* @file plugins/c9.ide.layout.classic/less/btn_icon_only.less */
 .btn_icon_only {
 	overflow: hidden;
 	cursor: default;
@@ -5576,6 +5477,7 @@ BODY.noInput * {
 .btn_icon_only.btnDisabled {
 	cursor: default;
 }
+/* @file plugins/c9.ide.layout.classic/less/button.less */
 .btn {
 	height: 27px;
 	overflow: hidden;
@@ -6242,7 +6144,7 @@ BODY.noInput * {
 }
 .submenu .lbl .btnArrow {
 	display: inline-block;
-	background-image: url("/static/plugins/c9.ide.layout.classic/images/arrow_small.png");
+	background-image: url("/static/plugins/c9.ide.layout.classic/images/btn-arrow.png");
 	background-repeat: no-repeat;
 }
 .btn .lbl {
@@ -6259,6 +6161,7 @@ BODY.noInput * {
 .btn.smallbtn .lbl {
 	line-height: 17px;
 }
+/* @file plugins/c9.ide.layout.classic/less/btn_console.less */
 .btn_console {
 	width: 20px;
 	height: 20px;
@@ -6282,28 +6185,19 @@ BODY.noInput * {
 	background: no-repeat 50% 50%;
 }
 .btn_console.clear div {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/clear_dark.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.btn_console.clear div {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/clear_dark@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/clear_dark.png);
 	background-size: 13px 14px;
-	}
 }
 .btn_console.maximize div {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/maximize_dark.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.btn_console.maximize div {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/maximize_dark@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/maximize_dark@1x.png);
 	background-size: 12px 13px;
-	}
 }
 .btn_console.popout div {
 	background-image: url("/static/plugins/c9.ide.layout.classic/images/popout_dark.png");
 }
+/* @file plugins/c9.ide.layout.classic/less/btn_console_open.less */
 .btn_console_open {
 	overflow: hidden;
 	cursor: default;
@@ -6345,6 +6239,7 @@ BODY.noInput * {
 .btn_console_open.btnDisabled {
 	cursor: default;
 }
+/* @file plugins/c9.ide.layout.classic/less/btn-switcher.less */
 .btn-switcher {
 	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 	display: flex;
@@ -6392,6 +6287,7 @@ BODY.noInput * {
 	padding-left: 25px;
 	background-position: 5px 50%;
 }
+/* @file plugins/c9.ide.layout.classic/less/c9-divider-double.less */
 .c9-divider-double {
 	position: relative;
 	overflow: hidden;
@@ -6422,6 +6318,7 @@ BODY.noInput * {
 	margin-right: 4px !important;
 	margin-left: 4px !important;
 }
+/* @file plugins/c9.ide.layout.classic/less/c9-divider-hor.less */
 .c9-divider-hor {
 	position: relative;
 	height: 0px;
@@ -6442,6 +6339,7 @@ BODY.noInput * {
 .c9-divider-horCaption span {
 	display: block;
 }
+/* @file plugins/c9.ide.layout.classic/less/c9-divider.less */
 .c9-divider {
 	position: relative;
 	overflow: hidden;
@@ -6453,6 +6351,7 @@ BODY.noInput * {
 .expandedpanel .c9-divider.runcommandsdivider {
 	display: none;
 }
+/* @file plugins/c9.ide.layout.classic/less/c9-menu-bar.less */
 .c9-menu-bar {
 	position: relative;
 	overflow: visible;
@@ -6464,17 +6363,12 @@ BODY.noInput * {
 	right: 0;
 	top: 0;
 	height: 4px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x.png);
 	background-repeat: 'repeat-x';
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x@1x.png);
+	background-size: 32px 1500px;
 	background-color: #49a8fa;
 	content: "";
 	display: block;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.c9-menu-bar:before {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x@2x.png);
-	background-size: 32px 1500px;
-	}
 }
 .c9-menu-bar .c9-mbar-bcont {
 	position: relative;
@@ -6568,8 +6462,9 @@ BODY.noInput * {
 	cursor: default;
 }
 .c9-mbar-round {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-no-repeat.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-no-repeat@1x.png);
+	background-size: 480px 580px;
 	height: 37px;
 	pointer-events: none;
 	position: fixed;
@@ -6579,15 +6474,10 @@ BODY.noInput * {
 	z-index: 999;
 	display: block;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.c9-mbar-round {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-no-repeat@2x.png);
-	background-size: 480px 580px;
-	}
-}
 .c9-mbar-round .mainlogo {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-no-repeat.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-no-repeat@1x.png);
+	background-size: 480px 580px;
 	background-position: 0 -44px;
 	display: block;
 	height: 26px;
@@ -6599,17 +6489,11 @@ BODY.noInput * {
 	width: 37px;
 	outline: none;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.c9-mbar-round .mainlogo {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-no-repeat@2x.png);
-	background-size: 480px 580px;
-	}
-}
 .c9-mbar-round .mainlogo.update {
 	background-position: -96px -44px;
 }
 .updateAvailable .c9-mbar-round .mainlogo {
-	background: url("/static/plugins/c9.ide.layout.classic/images/c9-no-repeat.png") no-repeat -96px -44px;
+	background: url("/static/plugins/c9.ide.layout.classic/images/c9-no-repeat@1x.png") no-repeat -96px -44px;
 	cursor: pointer;
 }
 .not-loggedin .c9-menu-bar .c9-mbar-bcont .c9-mbar-round {
@@ -6619,7 +6503,7 @@ BODY.noInput * {
 	top: 35px;
 }
 .c9-menu-bar .c9-mbar-bcont .c9-activity {
-	background: url("/static/plugins/c9.ide.layout.classic/images/c9-no-repeat.png") no-repeat -84px 0;
+	background: url("/static/plugins/c9.ide.layout.classic/images/c9-no-repeat@1x.png") no-repeat -84px 0;
 	height: 10px;
 	left: 24px;
 	pointer-events: all;
@@ -6629,7 +6513,7 @@ BODY.noInput * {
 	display: none;
 }
 .c9-menu-bar .c9-mbar-bcont .c9-activity .light {
-	background: url("/static/plugins/c9.ide.layout.classic/images/c9-no-repeat.png") no-repeat -102px -19px;
+	background: url("/static/plugins/c9.ide.layout.classic/images/c9-no-repeat@1x.png") no-repeat -102px -19px;
 	/* nothing */
 	height: 10px;
 	left: 0;
@@ -6650,7 +6534,7 @@ BODY.noInput * {
 .c9-menu-bar.minimized .c9-mbar-cont,
 .c9-menu-bar.minimized .c9-mbar-bcont .c9-mbar-minimize {
 	background-color: #404040;
-	background-image: url("/static/plugins/c9.ide.layout.classic/images/c9-repeat-x.png");
+	background-image: url("/static/plugins/c9.ide.layout.classic/images/c9-repeat-x@1x.png");
 	background-repeat: no-repeat;
 	background-position: 50% -13px;
 	cursor: pointer;
@@ -6669,6 +6553,7 @@ BODY.noInput * {
 .c9-menu-bar.minimized .c9-mbar-bcont .c9-mbar-minimize {
 	top: 1px;
 }
+/* @file plugins/c9.ide.layout.classic/less/c9-menu-btn.less */
 .c9-menu-btn {
 	height: 100%;
 	box-sizing: border-box;
@@ -6704,7 +6589,8 @@ BODY.noInput * {
 	color: #b3b3b3;
 }
 .c9-menu-btn .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x@1x.png);
+	background-size: 32px 1500px;
 	background-repeat: no-repeat;
 	position: absolute;
 	left: 4px;
@@ -6712,12 +6598,6 @@ BODY.noInput * {
 	top: 4px;
 	bottom: 0;
 	display: none;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.c9-menu-btn .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x@2x.png);
-	background-size: 32px 1500px;
-	}
 }
 .c9-menu-btn.nosize .icon {
 	background-size: auto;
@@ -6768,6 +6648,7 @@ BODY.noInput * {
 	color: #d22a3f;
 	text-shadow: 0 1px black;
 }
+/* @file plugins/c9.ide.layout.classic/less/c9-simple-btn.less */
 .c9-simple-btn {
 	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 	cursor: default;
@@ -6777,6 +6658,7 @@ BODY.noInput * {
 	padding-left: 18px;
 	padding-top: 2px;
 }
+/* @file plugins/c9.ide.layout.classic/less/c9-toolbarbutton-glossy.less */
 .c9-toolbarbutton-glossy {
 	border: 1px solid transparent;
 	color: #e3e3e3;
@@ -6898,6 +6780,7 @@ BODY.noInput * {
 .c9-toolbarbutton-glossyOver.bug .c9-icon {
 	background-position: 0 0;
 }
+/* @file plugins/c9.ide.layout.classic/less/c9-toolbarbutton.less */
 .c9-toolbarbutton {
 	height: 21px;
 	overflow: hidden;
@@ -6991,6 +6874,7 @@ BODY.noInput * {
 	color: #606060;
 	text-shadow: #000000 0px 1px 0px;
 }
+/* @file plugins/c9.ide.layout.classic/less/c9-toolbarbutton-light.less */
 .c9-toolbarbutton-light {
 	border-radius: 2px;
 	border: 1px solid transparent;
@@ -7037,6 +6921,7 @@ BODY.noInput * {
 	opacity: 0.3;
 	background-position: 0 -38px;
 }
+/* @file plugins/c9.ide.layout.classic/less/cboffline.less */
 .cboffline {
 	width: 55px;
 	height: 21px;
@@ -7048,6 +6933,7 @@ BODY.noInput * {
 .cbofflineChecked {
 	background-position: 0 0px;
 }
+/* @file plugins/c9.ide.layout.classic/less/checkbox_black.less */
 .cbblack.cbcontainer {
 	padding: 2px 2px 2px 16px;
 }
@@ -7061,15 +6947,10 @@ BODY.noInput * {
 .cbblack.cbcontainer .checkbox {
 	width: 16px;
 	height: 17px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/checkbox_black.png);
 	background-repeat: no-repeat;
-	background-position: 0 0;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.cbblack.cbcontainer .checkbox {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/checkbox_black@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/checkbox_black@1x.png);
 	background-size: 16px 136px;
-	}
+	background-position: 0 0;
 }
 .cbblack.cbcontainerOver .checkbox {
 	background-position: 0 -17px;
@@ -7099,6 +6980,7 @@ BODY.noInput * {
 .cbblack.cbcontainerDisabled span {
 	color: #bebebe;
 }
+/* @file plugins/c9.ide.layout.classic/less/checkbox_grey.less */
 .cbgrey.cbcontainer {
 	padding: 2px 2px 2px 20px;
 }
@@ -7139,6 +7021,7 @@ BODY.noInput * {
 .cbgrey.cbcontainerDisabled span {
 	color: #bebebe;
 }
+/* @file plugins/c9.ide.layout.classic/less/checkbox.less */
 .cbcontainer {
 	padding: 2px 2px 2px 16px;
 	position: relative;
@@ -7193,6 +7076,7 @@ BODY.noInput * {
 .cbcontainer span {
 	top: -2px;
 }
+/* @file plugins/c9.ide.layout.classic/less/editor_tab.less */
 .editor_tab {
 	padding: 0 0 0 0;
 	margin: 0 0;
@@ -7274,20 +7158,14 @@ BODY.noInput * {
 	padding: 5px 0 0 0;
 	overflow: visible;
 	color: #000;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x.png);
 	background-repeat: repeat-x;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x@1x.png);
+	background-size: 32px 1500px;
 	background-position: 0 -84px;
 	text-overflow: ellipsis;
 	margin-top: 2px;
 	margin-left: -1px;
 	margin-right: -1px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.session_btn .tab_middle,
-	.session_btn .tab_shadow {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x@2x.png);
-	background-size: 32px 1500px;
-	}
 }
 .session_btn .tab_shadow {
 	position: absolute;
@@ -7308,18 +7186,10 @@ BODY.noInput * {
 	display: block;
 	position: absolute;
 	height: 22px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-no-repeat.png);
 	background-repeat: no-repeat;
-	top: 0;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.session_btn .tab_middle:before,
-	.session_btn .tab_middle:after,
-	.session_btn .tab_shadow:before,
-	.session_btn .tab_shadow:after {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-no-repeat@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-no-repeat@1x.png);
 	background-size: 480px 580px;
-	}
+	top: 0;
 }
 .session_btn .tab_middle:before,
 .session_btn .tab_middle:after {
@@ -7472,8 +7342,9 @@ body > .session_btn.curbtn {
 .has_apf .session_btn.saved strong,
 .has_apf .session_btn.conflict strong,
 .has_apf .session_btn.error strong {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tabsave.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tabsave@1x.png);
+	background-size: 32px 8px;
 	background-position: 0 2px;
 	width: 8px;
 	height: 11px;
@@ -7481,16 +7352,6 @@ body > .session_btn.curbtn {
 	top: 7px;
 	margin-top: 0px;
 	animation: none;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.has_apf .session_btn.changed strong,
-	.has_apf .session_btn.saving strong,
-	.has_apf .session_btn.saved strong,
-	.has_apf .session_btn.conflict strong,
-	.has_apf .session_btn.error strong {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tabsave@2x.png);
-	background-size: 32px 8px;
-	}
 }
 .has_apf .session_btn.changed strong {
 	background-position: 0 0;
@@ -7511,8 +7372,9 @@ body > .session_btn.curbtn {
 	content: "*";
 }
 .has_apf .session_btn.running strong {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/running.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/running.png);
+	background-size: 384px 16px;
 	animation: running-spinner 1.2s linear 0s infinite normal;
 	height: 16px;
 	width: 16px;
@@ -7520,29 +7382,17 @@ body > .session_btn.curbtn {
 	top: 3px;
 	z-index: 10;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.has_apf .session_btn.running strong {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/running@2x.png);
-	background-size: 384px 16px;
-	}
-}
 .has_apf .session_btn.loading strong,
 .has_apf .session_btn.connecting strong {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab-save-spinner-active.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab-save-spinner-active@1x.png);
+	background-size: 180px 14px;
 	animation: loading-spinner 1.2s steps(11) infinite;
 	height: 15px;
 	width: 15px;
 	right: -5px;
 	top: 4px;
 	z-index: 10;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.has_apf .session_btn.loading strong,
-	.has_apf .session_btn.connecting strong {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab-save-spinner-active@2x.png);
-	background-size: 180px 14px;
-	}
 }
 .session_btn strong,
 .has_apf .session_btn strong:hover,
@@ -7555,23 +7405,14 @@ body > .session_btn.curbtn {
 	position: absolute;
 	right: -3px;
 	top: 5px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn@1x.png);
+	background-size: 42px 28px;
 	background-position: 0 -14px;
 	cursor: pointer;
 	z-index: 10;
 	margin-top: 0;
 	animation: none;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.session_btn strong,
-	.has_apf .session_btn strong:hover,
-	.has_apf .session_btn strong:active,
-	.has_apf .session_btn.curbtn strong:hover,
-	.has_apf .session_btn.curbtn strong:active {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn@2x.png);
-	background-size: 42px 28px;
-	}
 }
 .has_apf .session_btn strong:hover {
 	background-position: -14px -14px;
@@ -7616,17 +7457,12 @@ body > .session_btn.curbtn {
 	display: block;
 	width: 10px;
 	height: 10px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab_plus_dark.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab_plus_dark@1x.png);
+	background-size: 10px 10px;
 	transform: skew(-23deg);
 	margin: 3px 0 0 7px;
 	background-position: 0 0;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.has_apf .plus_tab_button:after {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab_plus_dark@2x.png);
-	background-size: 10px 10px;
-	}
 }
 .plus_tab_button.c9-simple-btnOver {
 	border: 1px solid #1d1d1d;
@@ -7665,16 +7501,11 @@ body > .session_btn.curbtn {
 	display: block;
 	width: 14px;
 	height: 11px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab_menu_dark.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab_menu_dark@1x.png);
+	background-size: 14px 11px;
 	margin: 2px 0 0 1px;
 	background-position: 0 0;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.has_apf .tabmenubtn:after {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab_menu_dark@2x.png);
-	background-size: 14px 11px;
-	}
 }
 .has_apf .tabmenubtn.c9-simple-btnOver {
 	border: 1px solid #363636;
@@ -7715,18 +7546,13 @@ body > .session_btn.curbtn {
 	display: block;
 	width: 23px;
 	height: 17px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab_menu_dark.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab_menu_dark@1x.png);
+	background-size: 14px 11px;
 	margin: 2px 0 0 1px;
 	position: absolute;
 	top: -16px;
 	background-position: auto;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.tabsContextMenu:after {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tab_menu_dark@2x.png);
-	background-size: 14px 11px;
-	}
 }
 .upward.tabsContextMenu:before {
 	border-width: 0px 1px 1px 1px;
@@ -7762,6 +7588,7 @@ body > .session_btn.curbtn {
 .editor_tab .session_page.curpage {
 	display: block;
 }
+/* @file plugins/c9.ide.layout.classic/less/textbox.less */
 .tb_textbox {
 	position: relative;
 	height: 25px;
@@ -7803,6 +7630,7 @@ body > .session_btn.curbtn {
 	background-image: linear-gradient(to top, #ebebeb 0%, #ffffff 40%);
 	cursor: default;
 }
+/* @file plugins/c9.ide.layout.classic/less/searchbox.less */
 .searchbox .sbtb_middle .input {
 	border: 0;
 	font-size: 12px;
@@ -7867,17 +7695,12 @@ body > .session_btn.curbtn {
 	right: 8px;
 	width: 14px;
 	height: 14px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/btnclose.gif);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/btnclose@1x.gif);
+	background-size: 14px 28px;
 	background-position: 0 0;
 	display: none;
 	cursor: pointer;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.searchTxt .btnclose {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/btnclose@2x.gif);
-	background-size: 14px 28px;
-	}
 }
 .searchTxt .btnclose:hover {
 	background-position: 0 -14px;
@@ -7918,7 +7741,9 @@ body > .session_btn.curbtn {
 	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .searchbox.dark .btnclose {
-	background-image: url("/static/plugins/c9.ide.layout.classic/images/btnclose_flat_light.png");
+	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/btnclose_flat_light@1x.png);
+	background-size: 14px 28px;
 }
 .searchbox.dark .ace-tm .ace_cursor {
 	color: #919191 !important;
@@ -7929,6 +7754,7 @@ body > .session_btn.curbtn {
 .searchbox.dark .sbtb_middle {
 	border-color: #222222 !important;
 }
+/* @file plugins/c9.ide.layout.classic/less/codebox.less */
 .ace_one-line {
 	line-height: inherit!important;
 }
@@ -8005,6 +7831,8 @@ body > .session_btn.curbtn {
 	background: linear-gradient(to top, #ebebeb 0%, #ffffff 40%);
 	cursor: default;
 }
+/* @file plugins/c9.ide.layout.classic/less/colorbox.less */
+/* @file plugins/c9.ide.layout.classic/less/datagrid.less */
 .datagrid {
 	position: relative;
 	border: 1px solid #c3c3c3;
@@ -8322,7 +8150,9 @@ body > .session_btn.curbtn {
 	margin: 3px;
 }
 .datagrid .loading > .treecell strong {
-	background: url("/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner.gif") no-repeat 0 0;
+	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark@1x.gif);
+	background-size: 16px 17px;
 	width: 16px;
 	height: 16px;
 	top: -2px !important;
@@ -8331,7 +8161,9 @@ body > .session_btn.curbtn {
 	margin-right: -3px !important;
 }
 .datagrid .loading.selected > .treecell strong {
-	background: url("/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-selected.gif") no-repeat 0 0;
+	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-selected@1x.gif);
+	background-size: 16px 17px;
 }
 .datagrid .row > span {
 	vertical-align: top;
@@ -8405,6 +8237,7 @@ body > .session_btn.curbtn {
 .datagrid .records span.treecell .iconCell {
 	padding: 2px 0 1px 24px;
 }
+/* @file plugins/c9.ide.layout.classic/less/divider_console.less */
 .divider_console {
 	width: 0;
 	height: 17px;
@@ -8412,6 +8245,7 @@ body > .session_btn.curbtn {
 	border-right: 1px solid rgba(255, 255, 255, 0.075);
 	cursor: default;
 }
+/* @file plugins/c9.ide.layout.classic/less/divider.less */
 .divider {
 	height: 0;
 	border: 1px solid white;
@@ -8456,6 +8290,7 @@ body > .session_btn.curbtn {
 .ace_dark .divider-status-bar {
 	background: url("/static/plugins/c9.ide.layout.classic/images/toolbar-divider.png") -6px 0px repeat-y;
 }
+/* @file plugins/c9.ide.layout.classic/less/dropdown-dark-glossy.less */
 .dropdown-dark-glossy {
 	background-image: linear-gradient(to bottom, #4c4c4c 0%, #434343 52%, #333333 52%, #454545 100%);
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.125) inset, 0px 1px rgba(255, 255, 255, 0.125);
@@ -8479,7 +8314,7 @@ body > .session_btn.curbtn {
 	padding: 0 5px 0 8px;
 }
 .dropdown-dark-glossy .button {
-	background: url("/static/plugins/c9.ide.layout.classic/images/dropdown-dark-glossy/button.png") no-repeat 3px 50%;
+	background: url("/static/plugins/c9.ide.layout.classic/images/dropdown-dark-glossy/button@1x.png") no-repeat 3px 50%;
 	display: inline-block;
 	bottom: 0;
 	position: absolute;
@@ -8541,6 +8376,7 @@ body > .session_btn.curbtn {
 	background-color: #404040;
 	color: #bdd23f;
 }
+/* @file plugins/c9.ide.layout.classic/less/dropdown.less */
 .dropdown {
 	position: relative;
 	background-color: #dedede;
@@ -8662,6 +8498,7 @@ body > .session_btn.curbtn {
 .optionList .selected.hover span {
 	background-position: 0 -8px;
 }
+/* @file plugins/c9.ide.layout.classic/less/frame.less */
 .frame {
 	border-bottom: 1px solid #343434;
 }
@@ -8704,18 +8541,13 @@ body > .session_btn.curbtn {
 	display: inline-block;
 }
 .frame .buttons div.min {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@1x.png);
+	background-size: 20px 10px;
 	background-repeat: no-repeat;
 	background-position: -10px -1px;
 	width: 10px;
 	height: 10px;
 	margin: 3px 4px 0 2px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.frame .buttons div.min {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@2x.png);
-	background-size: 20px 10px;
-	}
 }
 .frameMin .buttons div.min {
 	background-position: 0 0;
@@ -8728,7 +8560,7 @@ body > .session_btn.curbtn {
 	position: absolute;
 	right: 5px;
 	top: 4px;
-	background: url("/static/plugins/c9.ide.layout.classic/images/close_tab_btn.png") no-repeat 0 -14px;
+	background: url("/static/plugins/c9.ide.layout.classic/images/close_tab_btn@1x.png") 0 -0.33333333px 28px no-repeat;
 	cursor: pointer;
 	z-index: 10;
 }
@@ -8754,6 +8586,7 @@ body > .session_btn.curbtn {
 .frameMin {
 	min-height: 21px !important;
 }
+/* @file plugins/c9.ide.layout.classic/less/grouped_checkbox.less */
 .grouped_checkbox_holder {
 	background-image: linear-gradient(to bottom, #4c4c4c 0%, #434343 52%, #333333 52%, #454545 100%);
 	box-shadow: 0px 1px rgba(255, 255, 255, 0.125), inset 0px 1px rgba(255, 255, 255, 0.075);
@@ -8807,20 +8640,15 @@ body > .session_btn.curbtn {
 	box-shadow: -1px 0 0 0 #042440, 0 0 3px 2px #343434 inset;
 }
 .grouped_checkbox_holder .cbcontainer .checkbox {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x@1x.png);
+	background-size: 32px 1500px;
 	background-position: 50% 0;
 	border: 0;
 	height: 25px;
 	left: 0;
 	top: 0;
 	width: 100%;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.grouped_checkbox_holder .cbcontainer .checkbox {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-repeat-x@2x.png);
-	background-size: 32px 1500px;
-	}
 }
 .grouped_checkbox_holder.with_caption .cbcontainer .checkbox {
 	background: transparent;
@@ -8893,6 +8721,7 @@ body > .session_btn.curbtn {
 	color: #f1f1f1;
 	margin-top: -25px;
 }
+/* @file plugins/c9.ide.layout.classic/less/header-btn.less */
 .header-btn {
 	height: 16px !important;
 	width: 23px;
@@ -8900,17 +8729,12 @@ body > .session_btn.curbtn {
 	cursor: pointer;
 	position: absolute;
 	cursor: default;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-no-repeat.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-no-repeat@1x.png);
+	background-size: 480px 580px;
 	background-repeat: no-repeat;
 	top: 5px;
 	z-index: 1000;
 	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.header-btn {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/c9-no-repeat@2x.png);
-	background-size: 480px 580px;
-	}
 }
 .panel-settings {
 	background-position: -129px -276px;
@@ -8949,7 +8773,7 @@ body > .session_btn.curbtn {
 	background-position: -60px -320px;
 }
 .c9-header-divider:before {
-	background: url("/static/plugins/c9.ide.layout.classic/images/c9-no-repeat.png") no-repeat -100px -293px;
+	background: url("/static/plugins/c9.ide.layout.classic/images/c9-no-repeat@1x.png") no-repeat -100px -293px;
 	content: "";
 	display: block;
 	height: 26px;
@@ -8959,6 +8783,7 @@ body > .session_btn.curbtn {
 	width: 2px;
 	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 }
+/* @file plugins/c9.ide.layout.classic/less/img.less */
 .img {
 	border-top: 1px solid rgba(255, 255, 255, 0.06);
 	width: 100%;
@@ -8978,6 +8803,7 @@ body > .session_btn.curbtn {
 	display: inline-block;
 	vertical-align: middle;
 }
+/* @file plugins/c9.ide.layout.classic/less/label.less */
 .label {
 	font-size: 11px;
 	font-family: Tahoma, Arial;
@@ -8990,6 +8816,7 @@ body > .session_btn.curbtn {
 .labelDisabled {
 	color: #999;
 }
+/* @file plugins/c9.ide.layout.classic/less/list_dark.less */
 .has_apf .list_dark {
 	display: block;
 }
@@ -9003,6 +8830,7 @@ body > .session_btn.curbtn {
 	display: inline-block;
 	padding: 2px 0 2px 4px;
 }
+/* @file plugins/c9.ide.layout.classic/less/list.less */
 .list {
 	overflow: auto;
 	position: relative;
@@ -9089,6 +8917,7 @@ body > .session_btn.curbtn {
 	max-height: 90px;
 	width: auto;
 }
+/* @file plugins/c9.ide.layout.classic/less/menu.less */
 .c9menu {
 	margin: -1px 0 0 0;
 	padding: 3px 0 3px 0;
@@ -9190,6 +9019,7 @@ body > .session_btn.curbtn {
 .c9menu > div.menu_item.selected.disabled > u {
 	background: url("/static/plugins/c9.ide.layout.classic/images/radio.gif") no-repeat 0 -16px;
 }
+/* @file plugins/c9.ide.layout.classic/less/panel-bar.less */
 .panel-bar {
 	background: #494b49;
 	border-right: 1px solid #1f1f1f;
@@ -9211,6 +9041,7 @@ body > .session_btn.curbtn {
 	background: rgba(255, 255, 255, 0.075);
 	z-index: 1000;
 }
+/* @file plugins/c9.ide.layout.classic/less/password.less */
 .password input {
 	padding: 5px 0 1px 0 !important;
 	height: 1px !important;
@@ -9219,6 +9050,7 @@ body > .session_btn.curbtn {
 	padding: 0px 7px 1px 7px !important;
 	height: 24px !important;
 }
+/* @file plugins/c9.ide.layout.classic/less/radiobutton.less */
 .rbcontainer.themepicker {
 	display: inline-block;
 	margin: -3px 15px 0 0;
@@ -9241,6 +9073,7 @@ body > .session_btn.curbtn {
 	height: 36px;
 	border-radius: 3px;
 }
+/* @file plugins/c9.ide.layout.classic/less/scrollbar.less */
 .scrollbar {
 	height: 200px;
 	position: absolute;
@@ -9338,6 +9171,7 @@ body .scrollbar .btndowndown span {
 .scrollbar .indicator div {
 	border: 2px outset white;
 }
+/* @file plugins/c9.ide.layout.classic/less/simplebox.less */
 .simplebox {
 	white-space: nowrap !important;
 	background-color: transparent !important;
@@ -9354,6 +9188,8 @@ body .scrollbar .btndowndown span {
 .simplebox.dark.tb_textboxInitial .ace_cursor {
 	display: none;
 }
+/* @file plugins/c9.ide.layout.classic/less/simpleimg.less */
+/* @file plugins/c9.ide.layout.classic/less/spinner.less */
 .spinner {
 	position: relative;
 	height: 19px;
@@ -9439,18 +9275,14 @@ body .scrollbar .btndowndown span {
 .spinner .buttons .minusHover {
 	background-color: rgba(255, 255, 255, 0.1);
 }
+/* @file plugins/c9.ide.layout.classic/less/splitbutton.less */
 body .splitbutton .arrow {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/dropdown-dark-glossy/button.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/dropdown-dark-glossy/button@1x.png);
+	background-size: 9px 13px;
 	background-position: 4px 4px;
 	width: 18px;
 	min-width: 10px !important;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	body .splitbutton .arrow {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/dropdown-dark-glossy/button@2x.png);
-	background-size: 9px 13px;
-	}
 }
 .splitbutton > div:first-child:after {
 	content: "";
@@ -9461,6 +9293,7 @@ body .splitbutton .arrow {
 	top: 4px;
 	bottom: 4px;
 }
+/* @file plugins/c9.ide.layout.classic/less/splitter.less */
 .splitter {
 	position: relative;
 	z-index: 100000;
@@ -9522,6 +9355,7 @@ body .splitbutton .arrow {
 	position: absolute;
 	width: 100%;
 }
+/* @file plugins/c9.ide.layout.classic/less/tbsimple.less */
 .tbsimple {
 	border: 0;
 	padding: 1px 1px 2px 1px;
@@ -9532,6 +9366,7 @@ body .splitbutton .arrow {
 .tbsimple.tbtree {
 	margin: -1px 0 0 -2px;
 }
+/* @file plugins/c9.ide.layout.classic/less/textarea.less */
 .ta {
 	overflow: auto;
 	resize: none;
@@ -9559,6 +9394,7 @@ body .splitbutton .arrow {
 	border: 2px solid #ffb500;
 	padding: 5px;
 }
+/* @file plugins/c9.ide.layout.classic/less/tooltiplabel.less */
 .tooltipLabel {
 	background-color: #67686b;
 	background-image: linear-gradient(to top, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%);
@@ -9577,6 +9413,7 @@ body .splitbutton .arrow {
 	z-index: 100000;
 	overflow: hidden;
 }
+/* @file plugins/c9.ide.layout.classic/less/toolbar.less */
 .docktab .toolbar {
 	border-bottom: 1px solid #e1e5ea;
 }
@@ -9632,6 +9469,7 @@ body .splitbutton .arrow {
 	float: left;
 	margin: 4px 0 0 0;
 }
+/* @file plugins/c9.ide.layout.classic/less/toolbar-top.less */
 .toolbar-top {
 	border-top: 1px solid rgba(255, 255, 255, 0.075);
 	padding: 0;
@@ -9666,6 +9504,7 @@ body .splitbutton .arrow {
 	height: 18px;
 	padding: 1px 2px;
 }
+/* @file plugins/c9.ide.layout.classic/less/toolbar-bottom.less */
 .toolbar-top.bottom {
 	padding: 0;
 	height: 24px;
@@ -9685,6 +9524,7 @@ body .splitbutton .arrow {
 	vertical-align: top;
 	margin: 3px;
 }
+/* @file plugins/c9.ide.console/style.css */
 .has_apf .console .btnsesssioncontainer .inside {
 	padding-right: 64px;
 	padding-left: 2px;
@@ -9693,14 +9533,11 @@ body .splitbutton .arrow {
 	display: none;
 }
 .console .console_close_btn {
-	background-image: url("/static/plugins/c9.ide.layout.classic/icons/console_close_btn_dark.png");
-}
-@media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.console .console_close_btn {
-	background-image: url("/static/plugins/c9.ide.layout.classic/icons/console_close_btn_dark@2x.png");
+	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/console_close_btn_dark@1x.png);
 	background-size: 22px 66px;
-	}
 }
+/* @file plugins/c9.ide.run/style.css */
 .output .toolbar {
 	height: 27px;
 	padding: 2px;
@@ -9790,45 +9627,26 @@ body .splitbutton .arrow {
 	color: #979797;
 }
 .runbtn.stopped .c9-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/run.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.runbtn.stopped .c9-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/run@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/run@1x.png) !important;
 	background-size: 19px 57px !important;
-	}
 }
 .runbtn.running .c9-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/stop.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.runbtn.running .c9-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/stop@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/stop@1x.png) !important;
 	background-size: 21px 57px !important;
-	}
 }
 .restart .c9-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/restart-icon.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.restart .c9-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/restart-icon@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/restart-icon@1x.png) !important;
 	background-size: 18px 18px !important;
-	}
 }
 .bug .c9-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/bug.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.bug .c9-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/bug@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/bug@1x.png) !important;
 	background-size: 20px 58px !important;
-	}
 }
+/* @file plugins/c9.ide.terminal.monitor/message_view.css */
 .terminal_monitor_messageContainer {
 	position: absolute;
 	top: 0;
@@ -9896,16 +9714,11 @@ body .splitbutton .arrow {
 	width: 14px;
 	height: 14px;
 	display: block;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn@1x.png);
+	background-size: 42px 28px;
 	background-position: 0 -14px;
 	cursor: pointer;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.terminal_monitor_message .close {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn@2x.png);
-	background-size: 42px 28px;
-	}
 }
 .terminal_monitor_message .close:hover {
 	background-position: -14px -14px;
@@ -9913,6 +9726,7 @@ body .splitbutton .arrow {
 .terminal_monitor_message .close:active {
 	background-position: -28px -14px;
 }
+/* @file plugins/c9.ide.terminal/style.css */
 .c9terminal .c9terminalcontainer {
 	overflow: hidden;
 	height: 100%;
@@ -10010,6 +9824,7 @@ body .splitbutton .arrow {
 	opacity: 1;
 	text-decoration: underline;
 }
+/* @file plugins/c9.ide.ace.repl/repl.css */
 .ace_repl_button {
 	border: 1px solid lightgray;
 	color: lightcoral;
@@ -10120,6 +9935,7 @@ body .splitbutton .arrow {
 .ace_repl_warning {
 	color: #d65e0d;
 }
+/* @file plugins/c9.ide.immediate/style.css */
 .immediate {
 	padding: 5px;
 }
@@ -10175,14 +9991,9 @@ body .splitbutton .arrow {
 	position: absolute;
 	overflow: hidden;
 	text-indent: -2000px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small_dark.png);
-	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.immediate .treeitem .arrow {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small_dark@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small_dark@1x.png);
 	background-size: 20px 10px;
-	}
+	background-repeat: no-repeat;
 }
 .immediate .treeitem .arrow.expanded {
 	background-position: -10px -1px;
@@ -10301,14 +10112,9 @@ body .splitbutton .arrow {
 	-moz-osx-font-smoothing: grayscale;
 }
 .immediate .ace_dark .treeitem .arrow {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.immediate .ace_dark .treeitem .arrow {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@1x.png);
 	background-size: 20px 10px;
-	}
 }
 .immediate .ace_dark .null {
 	color: #9a9a9a;
@@ -10334,6 +10140,7 @@ body .splitbutton .arrow {
 .immediate .ace_dark .ace_gutter-cell.repl_prompt:after {
 	color: #8fc432;
 }
+/* @file plugins/c9.ide.run.debug/debuggers/debugger.css */
 .has_apf .blackdg,
 .listBP {
 	background: #4b4b4b;
@@ -10454,105 +10261,56 @@ body .splitbutton .arrow {
 	border-bottom: 0;
 }
 .debugcontainer .play .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/play.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.debugcontainer .play .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/play@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/play@1x.png) !important;
 	background-size: 21px 57px !important;
-	}
 }
 .debugcontainer .pause .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/pause.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.debugcontainer .pause .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/pause@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/pause@1x.png) !important;
 	background-size: 21px 57px !important;
-	}
 }
 .debugcontainer .step .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/step.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.debugcontainer .step .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/step@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/step@1x.png) !important;
 	background-size: 21px 57px !important;
-	}
 }
 .debugcontainer .stepinto .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/stepinto.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.debugcontainer .stepinto .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/stepinto@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/stepinto@1x.png) !important;
 	background-size: 21px 57px !important;
-	}
 }
 .debugcontainer .stepback .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/stepback.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.debugcontainer .stepback .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/stepback@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/stepback@1x.png) !important;
 	background-size: 21px 57px !important;
-	}
 }
 .debugcontainer .exception_break .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/exception_break.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.debugcontainer .exception_break .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/exception_break@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/exception_break@1x.png) !important;
 	background-size: 21px 57px !important;
-	}
 }
 .debugcontainer .toggle_breakpoints2 .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/toggle_breakpoints2.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.debugcontainer .toggle_breakpoints2 .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/toggle_breakpoints2@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/toggle_breakpoints2@1x.png) !important;
 	background-size: 21px 76px !important;
-	}
 }
 .debugcontainer .toggle_breakpoints1 .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/toggle_breakpoints1.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.debugcontainer .toggle_breakpoints1 .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/toggle_breakpoints1@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/toggle_breakpoints1.png) !important;
 	background-size: 21px 76px !important;
-	}
 }
 .debugcontainer .remove_breakpoints .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/remove_breakpoints.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.debugcontainer .remove_breakpoints .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/remove_breakpoints@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/remove_breakpoints@1x.png) !important;
 	background-size: 21px 76px !important;
-	}
 }
 .debugcontainer .scripts .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/scripts.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.debugcontainer .scripts .icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/scripts@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/scripts@1x.png) !important;
 	background-size: 21px 57px !important;
-	}
 }
+/* @file plugins/c9.ide.run.debug/debuggers/skin.xml */
 {
 	/*workaround for ace tree pointer event limitations*/
 }
@@ -10608,19 +10366,14 @@ body .splitbutton .arrow {
 .listBP .checkbox {
 	width: 21px;
 	height: 17px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/checkbox_black.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/checkbox_black@1x.png);
+	background-size: 16px 136px;
 	background-position: 0 0;
 	display: block;
 	position: absolute;
 	left: 1px;
 	top: 4px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.listBP .checkbox {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/checkbox_black@2x.png);
-	background-size: 16px 136px;
-	}
 }
 .listBP .checked .checkbox {
 	background-position: 0 -51px;
@@ -10634,16 +10387,11 @@ body .splitbutton .arrow {
 	position: absolute;
 	right: 2px;
 	top: 3px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/remove_breakpoints.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/remove_breakpoints@1x.png) !important;
+	background-size: 21px 76px !important;
 	background-repeat: no-repeat;
 	background-position: 0 0;
 	display: none;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.listBP .bpItem .btnclose {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/remove_breakpoints@2x.png) !important;
-	background-size: 21px 76px !important;
-	}
 }
 .listBP .bpItem:hover .btnclose,
 .listBP .bpItem.hover .btnclose {
@@ -10670,6 +10418,7 @@ body .splitbutton .arrow {
 	color: gray;
 	padding-top: 10px;
 }
+/* @file plugins/c9.ide.language.core/complete.css */
 .language_tooltip {
 	display: inline-block;
 	position: absolute;
@@ -10863,6 +10612,7 @@ body .splitbutton .arrow {
 .ace_tree {
 	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 }
+/* @file plugins/c9.ide.language.core/marker.css */
 .language_highlight_default {
 	position: absolute;
 	border-bottom: solid 1px green;
@@ -10919,6 +10669,7 @@ body .splitbutton .arrow {
 .ace_dark .language_rename_other {
 	box-shadow: 0 0 2px 1px rgba(214, 221, 38, 0.94) inset;
 }
+/* @file plugins/c9.ide.dialog.file/file.css */
 .tb_textbox .directory {
 	padding-left: 7px;
 	font-size: 11px;
@@ -10956,19 +10707,22 @@ body .splitbutton .arrow {
 	right: 10px;
 	bottom: 10px;
 }
+/* @file plugins/c9.ide.dialog.login/login.css */
 .bk-window.login .bg-bk-content {
 	background-color: #303130;
 	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.29) 0%, rgba(0, 0, 0, 0.11) 8px, rgba(0, 0, 0, 0.01) 13px, transparent 15px);
 	border-top: 1px solid rgba(255, 255, 255, 0.06);
 	top: 34px;
 }
+/* @file plugins/c9.ide.dialog.common/notification.css */
 .notificationlabel {
 	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 	position: relative;
 }
 .notificationlabel u.close {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn@1x.png);
+	background-size: 42px 28px;
 	background-position: 0 -14px;
 	width: 14px;
 	height: 14px;
@@ -10978,18 +10732,13 @@ body .splitbutton .arrow {
 	cursor: pointer;
 	z-index: 10000;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.notificationlabel u.close {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn@2x.png);
-	background-size: 42px 28px;
-	}
-}
 .notificationlabel u.close:hover {
 	background-position: -14px -14px;
 }
 .notificationlabel u.close:active {
 	background-position: -28px -14px;
 }
+/* @file plugins/c9.ide.dialog.common/error.css */
 .errorlabel,
 .disconnectlabel {
 	position: absolute;
@@ -11029,8 +10778,9 @@ body .splitbutton .arrow {
 	border-radius: 3px;
 }
 .errorlabel u.close {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn@1x.png);
+	background-size: 42px 28px;
 	background-position: 0 -14px;
 	width: 14px;
 	height: 14px;
@@ -11038,12 +10788,6 @@ body .splitbutton .arrow {
 	right: 8px;
 	top: 6px;
 	cursor: pointer;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.errorlabel u.close {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn@2x.png);
-	background-size: 42px 28px;
-	}
 }
 .errorlabel u.close:hover {
 	background-position: -14px -14px;
@@ -11075,6 +10819,7 @@ body .splitbutton .arrow {
 .disconnectlabel u {
 	cursor: pointer;
 }
+/* @file plugins/c9.ide.ui/widgets.less */
 .custom-tree.ace_tree {
 	background: transparent;
 	border: none;
@@ -11162,25 +10907,15 @@ body .splitbutton .arrow {
 	}
 }
 .custom-tree.ace_tree .tree-row .toggler {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@1x.png);
+	background-size: 20px 10px;
 	margin: 0 1px 0 0;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.custom-tree.ace_tree .tree-row .toggler {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@2x.png);
-	background-size: 20px 10px;
-	}
-}
 .custom-tree.ace_tree_focus .tree-row.selected .toggler {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.custom-tree.ace_tree_focus .tree-row.selected .toggler {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tree_close_arrow_small@1x.png);
 	background-size: 20px 10px;
-	}
 }
 .custom-tree.ace_tree .tree-row > span {
 	vertical-align: middle;
@@ -11197,39 +10932,21 @@ body .splitbutton .arrow {
 }
 .loading .ace_tree-icon,
 .loading-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark.gif);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.loading .ace_tree-icon,
-	.loading-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark@2x.gif);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark@1x.gif);
 	background-size: 16px 17px;
-	}
 }
 .loading.selected .ace_tree-icon,
 .selected .loading-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-unfocus.gif);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.loading.selected .ace_tree-icon,
-	.selected .loading-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-unfocus@2x.gif);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-unfocus@1x.gif);
 	background-size: 16px 17px;
-	}
 }
 .custom-tree.ace_tree_focus .loading.selected .ace_tree-icon,
 .custom-tree.ace_tree_focus .selected .loading-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-selected.gif);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.custom-tree.ace_tree_focus .loading.selected .ace_tree-icon,
-	.custom-tree.ace_tree_focus .selected .loading-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-selected@2x.gif);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/file-tree-load-spinner-dark-selected@1x.gif);
 	background-size: 16px 17px;
-	}
 }
 .tree-row.dragAppendUpload -icon {
 	background-image: url("/static/plugins/c9.ide.layout.classic/images/tree_upload_icon.png");
@@ -11297,6 +11014,8 @@ body .splitbutton .arrow {
 	height: 18px !important;
 	margin-top: 0 !important;
 }
+/* @file plugins/c9.ide.ui/style.less */
+/* @file plugins/c9.ide.find.replace/findreplace.css */
 #divSearchCount {
 	position: absolute;
 	width: auto;
@@ -11315,15 +11034,20 @@ body .splitbutton .arrow {
 	width: 100%;
 }
 .btnquicksearchnav.btnquicksearchnavLeft .lbl span {
-	background-image: url("/static/plugins/c9.ide.find.replace/icons/arrow_left_search.png");
+	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.find.replace/icons/arrow_left_search@1x.png);
+	background-size: 20px 100px;
 }
 .btnquicksearchnav.btnquicksearchnavRight .lbl span {
-	background-image: url("/static/plugins/c9.ide.find.replace/icons/arrow_right_search.png");
+	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.find.replace/icons/arrow_right_search@1x.png);
+	background-size: 20px 100px;
 }
 .findInRangeMarker {
 	position: absolute;
 	background-color: rgba(0, 0, 0, 0.6);
 }
+/* @file plugins/c9.ide.find.replace/skin.xml */
 .btnquicksearchnav {
 	height: 22px;
 	cursor: pointer;
@@ -11374,6 +11098,7 @@ body .splitbutton .arrow {
 .btnquicksearchnav.withDivider .btnDivider {
 	display: block;
 }
+/* @file plugins/c9.ide.ace.statusbar/skin.xml */
 .bar-status {
 	position: absolute;
 	color: rgba(0, 0, 0, 0.4);
@@ -11428,14 +11153,9 @@ body .splitbutton .arrow {
 	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 	background-position: 0 0;
 	margin: 0 !important;
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/pref-ico.png) !important;
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.btn-statusbar-icon {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/pref-ico@2x.png) !important;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/pref-ico@1x.png) !important;
 	background-size: 44px 69px !important;
-	}
 }
 .btn-statusbar-iconOver {
 	background-position: 0 -23px;
@@ -11452,6 +11172,7 @@ body .splitbutton .arrow {
 .ace_dark .btn-statusbar-iconDown {
 	background-position: -22px -46px;
 }
+/* @file plugins/c9.ide.ace.gotoline/skin.xml */
 .gotolinelist {
 	overflow: hidden;
 	position: relative;
@@ -11514,22 +11235,6 @@ body .splitbutton .arrow {
 	border: 0;
 	border-left: 0;
 }
-.barGotoline .brGtlTop {
-	background: url(/static/plugins/c9.ide.ace.gotoline/images/barGotoLineCorners.png) no-repeat 0 0;
-	height: 3px;
-	width: 4px;
-	position: absolute;
-	top: -3px;
-	left: 0;
-}
-.barGotoline .brGtlBottom {
-	background: url(/static/plugins/c9.ide.ace.gotoline/images/barGotoLineCorners.png) no-repeat 0 -3px;
-	height: 3px;
-	width: 4px;
-	position: absolute;
-	bottom: -3px;
-	left: 0;
-}
 .tbGotoline {
 	position: relative;
 	height: 25px;
@@ -11577,6 +11282,7 @@ body .splitbutton .arrow {
 	background: linear-gradient(0deg, #ebebeb 0%, #ffffff 40%);
 	cursor: default;
 }
+/* @file plugins/c9.ide.ace/style.less */
 .ace_editor {
 	overflow: hidden;
 }
@@ -11659,245 +11365,130 @@ body .splitbutton .arrow {
 	background-repeat: no-repeat;
 }
 .ace_gutter-layer .ace_gutter-cell.ace_error {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/ace_error_light.png);
 	background-repeat: no-repeat;
-	background-position: 3px 0px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_gutter-layer .ace_gutter-cell.ace_error {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/ace_error_light@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/ace_error_light@1x.png);
 	background-size: 16px 16px;
-	}
+	background-position: 3px 0px;
 }
 .ace_gutter-layer .ace_gutter-cell.ace_warning {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/ace_warning_light.png);
 	background-repeat: no-repeat;
-	background-position: 3px 0px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_gutter-layer .ace_gutter-cell.ace_warning {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/ace_warning_light@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/ace_warning_light.png);
 	background-size: 16px 16px;
-	}
+	background-position: 3px 0px;
 }
 .ace_gutter-layer .ace_gutter-cell.ace_breakpoint {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj.png);
 	background-repeat: no-repeat;
-	background-position: 3px center;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_gutter-layer .ace_gutter-cell.ace_breakpoint {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj@1x.png);
 	background-size: 16px 16px;
-	}
+	background-position: 3px center;
 }
 .ace_gutter-layer .ace_breakpoint.disabled {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_disabled.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_gutter-layer .ace_breakpoint.disabled {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_disabled@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_disabled@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .ace_gutter-layer .ace_breakpoint.condition {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_condition.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_gutter-layer .ace_breakpoint.condition {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_condition@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_condition@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .ace_gutter-layer .ace_breakpoint.invalid {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_warn.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_gutter-layer .ace_breakpoint.invalid {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_warn@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_warn@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .ace_gutter-layer .ace_breakpoint.disabled.condition {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_condition_disabled.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_gutter-layer .ace_breakpoint.disabled.condition {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_condition_disabled@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_condition_disabled@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .ace_gutter-layer .ace_gutter-cell.ace_breakpoint.step {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_current_line.png);
 	background-repeat: no-repeat;
-	background-position: 3px center;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_gutter-layer .ace_gutter-cell.ace_breakpoint.step {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_current_line@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_current_line@1x.png);
 	background-size: 16px 16px;
-	}
+	background-position: 3px center;
 }
 .ace_gutter-layer .ace_gutter-cell.ace_breakpoint.condition.step {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_current_line_condition.png);
 	background-repeat: no-repeat;
-	background-position: 3px center;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_gutter-layer .ace_gutter-cell.ace_breakpoint.condition.step {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_current_line_condition@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_current_line_condition@1x.png);
 	background-size: 16px 16px;
-	}
+	background-position: 3px center;
 }
 .ace_gutter-layer .ace_gutter-cell.step {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/current_line.png);
 	background-repeat: no-repeat;
-	background-position: 3px center;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_gutter-layer .ace_gutter-cell.step {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/current_line@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/current_line.png);
 	background-size: 16px 16px;
-	}
+	background-position: 3px center;
 }
 .ace_gutter-layer .ace_gutter-cell.stack {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/stack_co.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/stack_co@1x.png);
+	background-size: 16px 16px;
 	background-position: 3px center;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_gutter-layer .ace_gutter-cell.stack {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/stack_co@2x.png);
-	background-size: 16px 16px;
-	}
-}
 .ace_dark .ace_gutter-layer .ace_gutter-cell.ace_error {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/ace_error_dark.png);
 	background-repeat: no-repeat;
-	background-position: 3px 0px;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_dark .ace_gutter-layer .ace_gutter-cell.ace_error {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/ace_error_dark@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/ace_error_dark@1x.png);
 	background-size: 16px [16px, no-repeat];
-	}
+	background-position: 3px 0px;
 }
 .ace_dark .ace_gutter-layer .ace_gutter-cell.ace_warning {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/ace_warning_dark.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/ace_warning_dark@1x.png);
+	background-size: 16px [16px, no-repeat];
 	background-position: 3px 0px;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_dark .ace_gutter-layer .ace_gutter-cell.ace_warning {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/ace_warning_dark@2x.png);
-	background-size: 16px [16px, no-repeat];
-	}
-}
 .ace_dark .ace_gutter-layer .ace_gutter-cell.ace_breakpoint {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_dark.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_dark .ace_gutter-layer .ace_gutter-cell.ace_breakpoint {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_dark@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_dark@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .ace_dark .ace_gutter-layer .ace_breakpoint.disabled {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_disabled_dark.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_dark .ace_gutter-layer .ace_breakpoint.disabled {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_disabled_dark@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_disabled_dark@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .ace_dark .ace_gutter-layer .ace_breakpoint.condition {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_condition.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_dark .ace_gutter-layer .ace_breakpoint.condition {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_condition@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_condition@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .ace_dark .ace_gutter-layer .ace_breakpoint.invalid {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_warn_dark.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_dark .ace_gutter-layer .ace_breakpoint.invalid {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_warn_dark@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_warn_dark@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .ace_dark .ace_gutter-layer .ace_breakpoint.disabled.condition {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_condition_disabled.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_dark .ace_gutter-layer .ace_breakpoint.disabled.condition {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_condition_disabled@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_condition_disabled@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .ace_dark .ace_gutter-layer .ace_gutter-cell.ace_breakpoint.step {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_current_line_dark.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_dark .ace_gutter-layer .ace_gutter-cell.ace_breakpoint.step {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_current_line_dark@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_current_line_dark@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .ace_dark .ace_gutter-layer .ace_gutter-cell.ace_breakpoint.disabled.step {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_disabled_current_line_dark.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_dark .ace_gutter-layer .ace_gutter-cell.ace_breakpoint.disabled.step {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_disabled_current_line_dark@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_disabled_current_line_dark@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .ace_dark .ace_gutter-layer .ace_gutter-cell.ace_breakpoint.condition.step {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_current_line_condition.png);
 	background-repeat: no-repeat;
-	background-position: 4px center;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_dark .ace_gutter-layer .ace_gutter-cell.ace_breakpoint.condition.step {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_current_line_condition@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/brkp_obj_current_line_condition@1x.png);
 	background-size: 16px 16px;
-	}
+	background-position: 4px center;
 }
 .ace_dark .ace_gutter-layer .ace_gutter-cell.step {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/current_line_dark.png);
 	background-repeat: no-repeat;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_dark .ace_gutter-layer .ace_gutter-cell.step {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/current_line_dark@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/current_line_dark@1x.png);
 	background-size: 16px 16px;
-	}
 }
 .ace_dark .ace_gutter-layer .ace_gutter-cell.stack {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/stack_co.png);
 	background-repeat: no-repeat;
-	background-position: 4px center;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.ace_dark .ace_gutter-layer .ace_gutter-cell.stack {
-	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/stack_co@2x.png);
+	background-image: url(/static/plugins/c9.ide.layout.classic/icons/debugger/stack_co@1x.png);
 	background-size: 16px 16px;
-	}
+	background-position: 4px center;
 }
 .ace-solarized-light .fm-window .fm-content,
 .fm-window .fm-header .hcontent {
@@ -11960,6 +11551,7 @@ body .splitbutton .arrow {
 .dark .ace_link_marker {
 	border-bottom: 1px dotted rgba(255, 255, 255, 0.4);
 }
+/* @file plugins/c9.ide.openfiles/openfiles.css */
 .openfiles .ace_tree .tree-row {
 	height: 18px;
 }
@@ -11969,8 +11561,9 @@ body .splitbutton .arrow {
 	height: 14px;
 	position: relative;
 	right: 2px;
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn@1x.png);
+	background-size: 42px 28px;
 	background-position: 0 -14px;
 	pointer-events: auto;
 	cursor: pointer;
@@ -11979,12 +11572,6 @@ body .splitbutton .arrow {
 	display: inline-block;
 	vertical-align: middle;
 }
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.openfiles .ace_tree .tree-row strong.close {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn@2x.png);
-	background-size: 42px 28px;
-	}
-}
 .openfiles .ace_tree .tree-row span {
 	line-height: 17px;
 }
@@ -11992,23 +11579,15 @@ body .splitbutton .arrow {
 .openfiles .ace_tree .tree-row strong.saving,
 .openfiles .ace_tree .tree-row strong.saved,
 .openfiles .ace_tree .tree-row strong.error {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tabsave.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/tabsave@1x.png);
+	background-size: 32px 8px;
 	background-position: 0 2px;
 	display: inline-block;
 	width: 8px;
 	height: 8px;
 	margin: 1px 3px 0 3px;
 	animation: none;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.openfiles .ace_tree .tree-row strong.changed,
-	.openfiles .ace_tree .tree-row strong.saving,
-	.openfiles .ace_tree .tree-row strong.saved,
-	.openfiles .ace_tree .tree-row strong.error {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/tabsave@2x.png);
-	background-size: 32px 8px;
-	}
 }
 .openfiles .ace_tree .tree-row strong.changed {
 	background-position: 0 0;
@@ -12024,19 +11603,13 @@ body .splitbutton .arrow {
 }
 .openfiles .ace_tree .tree-row strong.close:hover,
 .openfiles .ace_tree .tree-row strong.close:active {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn.png);
 	background-repeat: no-repeat;
+	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn@1x.png);
+	background-size: 42px 28px;
 	background-position: -14px -14px;
 	width: 14px;
 	height: 14px;
 	margin: 2px 0 0 0;
-}
-@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 1.25dppx) {
-	.openfiles .ace_tree .tree-row strong.close:hover,
-	.openfiles .ace_tree .tree-row strong.close:active {
-	background-image: url(/static/plugins/c9.ide.layout.classic/images/close_tab_btn@2x.png);
-	background-size: 42px 28px;
-	}
 }
 .openfiles .ace_tree .toggler {
 	display: none;
@@ -12066,6 +11639,7 @@ body .splitbutton .arrow {
 .hidetree .filetree.real {
 	display: none;
 }
+/* @file plugins/c9.ide.imgeditor/style.css */
 .imgtoolbar {
 	padding-top: 3px;
 	border-bottom: 1px solid black;
@@ -12146,6 +11720,7 @@ body .splitbutton .arrow {
 .menu-resize .menu_divider {
 	display: none;
 }
+/* @file plugins/c9.ide.plugins/style.css */
 .bk-window.dialog-updater .bk-content {
 	bottom: 0;
 }
@@ -12167,3 +11742,6 @@ h1.pluginManagerHeader:after {
 	background: none;
 	content: "-";
 }
+/* @file plugins/c9.ide.layout.classic/less/lesshat.less */
+/* @file plugins/c9.ide.layout.classic/themes/default-dark-gray.less */
+/* @todo try .3 */
