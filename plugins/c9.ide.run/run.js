@@ -29,7 +29,6 @@ define(function(require, module, exports) {
         var STARTING = 1;
         var STARTED = 2;
         
-        var STATIC = options.staticPrefix;
         var installPath = options.installPath || "~/.c9";
         var TMUX = options.tmux || installPath + "/bin/tmux";
         var BASH = "bash";
@@ -328,7 +327,8 @@ define(function(require, module, exports) {
                     cmd = insertVariables(cmd, options);
                     cmd += typeof runner.script == "string" ? runner.script : runner.script.join("\n");
                     var matches = cmd.match(/\$[\w\-]+/g) || [];
-                    var seen = { args: true };
+                    var argRe = /\$args(?=\s|$|[&|>;])/g;
+                    var seen = { args: argRe.test(cmd) };
                     cmd = matches.map(function(key) {
                         if (seen[key])
                             return "";
@@ -338,6 +338,8 @@ define(function(require, module, exports) {
                             return "";
                         return key.slice(1) + "=" + bashQuote([val]) + ";";
                     }).join("") + "\n" + cmd;
+                    // handle args separately to allow passing multiple arguments, or piping the output
+                    cmd = cmd.replace(argRe, options.args);
                 } else {
                     // @todo add argument escaping
                     cmd += bashQuote(options.debug && runner["cmd-debug"] || runner.cmd);
