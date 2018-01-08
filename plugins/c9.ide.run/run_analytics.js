@@ -24,7 +24,7 @@ define(function(require, exports, module) {
             if (!e.process.runner)
                 return;
             // Gets called whenever one creates a new process
-            var runner = e.process.runner[0];
+            var runner = e.process.runner;
             var builtin = runner.$builtin;
             var runnerName = runner.caption;
             var cmdLength = runner.cmd && runner.cmd.length;

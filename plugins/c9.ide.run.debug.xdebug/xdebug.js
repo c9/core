@@ -455,8 +455,8 @@ define(function(require, exports, module) {
             return PROXY
                 .replace(/\/\/.*/g, "")
                 .replace(/[\n\r]/g, "")
-                .replace(/\{HOST\}/, process.runner[0].debughost || "")
-                .replace(/\{PORT\}/, process.runner[0].debugport);
+                .replace(/\{HOST\}/, process.runner.debughost || "")
+                .replace(/\{PORT\}/, process.runner.debugport);
         }
 
         function setBreakpoints(breakpoints, callback) {
