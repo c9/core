@@ -299,6 +299,9 @@ define(function(require, module, exports) {
                 if (deferred)
                     return setTimeout(callback);
                 
+                options.debugport = options.debugport || runner.debugport;
+                options.debughost = options.debughost || runner.debughost;
+                
                 var cmd = "";
                 
                 // Display a message prior to running the command
@@ -419,6 +422,10 @@ define(function(require, module, exports) {
                     idx = fnme.lastIndexOf(".");
                     return idx == -1 ? fnme : fnme.substr(0, idx);
                 }
+                if (name == "debugport")
+                    return (parseInt(options.debugport) || 0) + "";
+                if (name == "debughost")
+                    return bashQuote(options.debughost);
                 if (name == "packages")
                     return installPath + "/packages";
                 if (name == "project_path")
