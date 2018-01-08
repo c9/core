@@ -469,7 +469,7 @@ define(function(require, exports, module) {
             });
         }
 
-        function setVariable(variable, parents, value, frame, callback) {
+        function setVariable(variable, value, frame, callback) {
             var args = {
                 "name": variable.ref,
                 "val": value

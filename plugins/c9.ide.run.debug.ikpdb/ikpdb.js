@@ -461,7 +461,7 @@ define(function(require, exports, module) {
             });
         }
 
-        function setVariable(variable, parents, value, frame, callback) {
+        function setVariable(variable, value, frame, callback) {
             var args = {
                 "frame": frame.id,
                 "name": variable.name,
@@ -775,7 +775,6 @@ define(function(require, exports, module) {
             /**
              * Sets the value of a variable.
              * @param {debugger.Variable}   variable       The variable to set the value of.
-             * @param {debugger.Variable[]} parents        The parent variables (i.e. the objects of which the variable is the property).
              * @param {Mixed}               value          The new value of the variable.
              * @param {debugger.Frame}      frame          The frame to which the variable belongs.
              * @param {Function}            callback
