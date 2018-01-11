@@ -1270,14 +1270,10 @@ apf.splitter.templates = {
                     }
                 
                 
-                apf.plane.show(this);
+                apf.plane.setCursor(_self.type == "vertical" ? "ew-resize" : "ns-resize");
                 
     
                 _self.$setStyleClass(this, _self.$baseCSSname + "Moving");
-                
-                _self.$setStyleClass(document.body,
-                    _self.type == "vertical" ? "w-resize" : "n-resize",
-                    [_self.type == "vertical" ? "n-resize" : "w-resize"]);
                 
                 //@todo convert to proper way
                 document.onmouseup = function(e) {
@@ -1291,8 +1287,7 @@ apf.splitter.templates = {
                         }
     
                     _self.$setStyleClass(_self.$ext, "", [_self.$baseCSSname + "Moving"]);
-                    _self.$setStyleClass(document.body, "", ["n-resize", "w-resize"]);
-                    
+
                     if (changedPosition)
                         pHtml.style.position = "";
                     
@@ -1305,8 +1300,7 @@ apf.splitter.templates = {
                         _self.update(newPos, true);
                     
                     
-                    apf.plane.hide();
-                    
+                    apf.plane.unsetCursor();
                     
                     if (!_self.realtime) {
                         _self.$ext.style.left = "";
@@ -1487,32 +1481,20 @@ apf.splitter.templates = {
                     }
                 }
     
-                
-                apf.plane.show(this);
-                
+                apf.plane.setCursor(_self.type == "vertical" ? "ew-resize" : "ns-resize");
     
                 _self.$setStyleClass(this, _self.$baseCSSname + "Moving");
-                
-                _self.$setStyleClass(document.body,
-                    _self.type == "vertical" ? "w-resize" : "n-resize",
-                    [_self.type == "vertical" ? "n-resize" : "w-resize"]);
                 
                 //@todo convert to proper way
                 document.onmouseup = function(e) {
                     if (!e) e = event;
                     
                     _self.$setStyleClass(_self.$ext, "", [_self.$baseCSSname + "Moving"]);
-                    _self.$setStyleClass(document.body, "", ["n-resize", "w-resize"]);
                     
                     update(e, true);
                     
                     
-                    apf.plane.hide();
-                    
-                    // Return all pointer events to iframes
-                    var frames = document.getElementsByTagName("iframe");
-                    for (var i = 0; i < frames.length; i++)
-                        frames[i].style.pointerEvents = "";
+                    apf.plane.unsetCursor();
                     
                     if (!_self.realtime) {
                         _self.$ext.style.left = "";
