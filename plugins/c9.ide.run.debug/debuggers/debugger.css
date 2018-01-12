@@ -154,8 +154,12 @@
 .debugcontainer .stepback .icon{
     .image-2x(@debugger-icon-stepback, @debugger-icon-stepback-width, @debugger-icon-stepback-height, no-repeat, true);
 }
-.debugcontainer .exception_break .icon{
+.debugcontainer .exception_break .icon {
     .image-2x(@debugger-icon-exception_break, @debugger-icon-exception_break-width, @debugger-icon-exception_break-height, no-repeat, true);
+    @media (-webkit-min-device-pixel-ratio: 1.5),
+    (min-resolution: 144dpi) {
+        top: 4px !important;
+    }
 }
 .debugcontainer .toggle_breakpoints2 .icon{
     .image-2x(@debugger-icon-toggle_breakpoints2, @debugger-icon-toggle_breakpoints2-width, @debugger-icon-toggle_breakpoints2-height, no-repeat, true);
