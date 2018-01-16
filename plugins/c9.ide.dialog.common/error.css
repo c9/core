@@ -6,7 +6,7 @@
     z-index: 10000000;
     /*text-align: center;*/
     pointer-events: none;
-    .font-smoothing(@error-font-smoothing);
+    font-smoothing: @error-font-smoothing;
 }
 .errorlabel.anim, .disconnectlabel.anim{
     transition: top 0.2s;

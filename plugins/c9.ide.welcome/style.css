@@ -7,7 +7,7 @@
     bottom: 0;
     overflow: auto;
     display: flex;
-    .font-smoothing(@welcome-font-smoothing);
+    font-smoothing: @welcome-font-smoothing;
     background-attachment: local;
     color: @welcome-color;
 }

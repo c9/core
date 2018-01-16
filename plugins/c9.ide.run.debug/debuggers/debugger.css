@@ -35,7 +35,7 @@
 }
 .blackdg .newwatch{
     color : @datagrid-watch-new;
-    .font-smoothing(@datagrid-watch-new-font-smoothing);
+    font-smoothing: @datagrid-watch-new-font-smoothing;
 }
 .blackdg.ace_tree_focus .newwatch.selected{
     color : @datagrid-watch-new-focus !important;
