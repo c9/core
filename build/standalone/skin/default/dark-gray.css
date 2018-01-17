@@ -92,8 +92,7 @@
 }
 .chatContainer .searchbox .sbtb_middle .input {
 	color: #ffffff;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .chatContainer .ace-tm .ace_marker-layer .ace_selection {
 	background: #4c6312;
@@ -2431,8 +2430,7 @@ body .error_widget_arrow.ace_ok {
 	text-transform: uppercase;
 	padding: 6px 15px 6px 26px;
 	position: relative;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .bar-preferences .navigation .level1 > a:after {
 	background-repeat: no-repeat;
@@ -2548,8 +2546,7 @@ body .error_widget_arrow.ace_ok {
 	color: #b3b3b3;
 	font-size: 12px;
 	text-overflow: ellipsis;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .bar-preferences .blackbutton {
 	min-height: 22px;
@@ -2631,8 +2628,7 @@ body .error_widget_arrow.ace_ok {
 }
 .bar-preferences .blackdg .tree-headings {
 	background: #484848;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 	font-weight: normal;
 	border-bottom: 1px solid #434343;
 }
@@ -2651,8 +2647,7 @@ body .error_widget_arrow.ace_ok {
 	height: 18px;
 }
 .bar-preferences .blackdg .tree-row.selected {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .bar-preferences .blackdg .tree-row > .tree-column {
 	padding: 2px 0 2px 4px;
@@ -3118,8 +3113,7 @@ body .error_widget_arrow.ace_ok {
 	bottom: 0;
 	overflow: auto;
 	display: flex;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 	background-attachment: local;
 	color: #ffffff;
 }
@@ -3522,8 +3516,7 @@ body .error_widget_arrow.ace_ok {
 }
 .installer .execute {
 	background: transparent;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 	border-top: 0;
 	box-shadow: none;
 	height: 100%;
@@ -4250,8 +4243,7 @@ body .error_widget_arrow.ace_ok {
 	background: transparent;
 	border: none;
 	font: 11px Tahoma, Arial;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .filetree .tree-row {
 	background: transparent;
@@ -4630,15 +4622,13 @@ BODY {
 	top: 0;
 	right: 0;
 	bottom: 0;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 BODY.noInput * {
 	pointer-events: none;
 }
 .ace_editor .ace_gutter {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .disableIframe iframe {
 	pointer-events: none;
@@ -4917,8 +4907,7 @@ BODY.noInput * {
 	text-align: center;
 	cursor: default;
 	font-weight: normal;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .blackbuttonDisabled {
 	color: rgba(220, 235, 219, 0.5);
@@ -5278,8 +5267,7 @@ BODY.noInput * {
 	line-height: 16px;
 	position: relative;
 	cursor: default;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .win-deploy-target .btn-default-css3,
 .size-13.btn-default-css3 {
@@ -9569,8 +9557,7 @@ body .splitbutton .arrow {
 	color: rgba(255, 255, 255, 0.7);
 	margin-top: 1px;
 	padding: 1px 6px 2px 6px;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 	height: 17px;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
@@ -9978,8 +9965,7 @@ body .splitbutton .arrow {
 .immediate .treeitem {
 	display: inline-block;
 	padding-left: 10px;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: auto;-moz-osx-font-smoothing: auto;
 	position: relative;
 	white-space: nowrap;
 }
@@ -10108,8 +10094,7 @@ body .splitbutton .arrow {
 	color: #d0ea3c;
 }
 .immediate .ace_dark .treeitem {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .immediate .ace_dark .treeitem .arrow {
 	background-repeat: no-repeat;
@@ -10173,8 +10158,7 @@ body .splitbutton .arrow {
 }
 .blackdg .newwatch {
 	color: #b3b3b3;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .blackdg.ace_tree_focus .newwatch.selected {
 	color: #cdd7b5 !important;
@@ -10747,8 +10731,7 @@ body .splitbutton .arrow {
 	top: 0;
 	z-index: 10000000;
 	pointer-events: none;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .errorlabel.anim,
 .disconnectlabel.anim {
@@ -10823,8 +10806,7 @@ body .splitbutton .arrow {
 .custom-tree.ace_tree {
 	background: transparent;
 	border: none;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .custom-tree.ace_tree .tree-row {
 	background: transparent;
@@ -11502,8 +11484,7 @@ body .splitbutton .arrow {
 	background: #ffffff !important;
 	border: 1px solid rgba(26, 26, 26, 0.5);
 	color: #4d4d4d;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: auto;-moz-osx-font-smoothing: auto;
 }
 .ace_dark .ace_tooltip,
 .ace_dark.ace_tooltip {
@@ -11511,8 +11492,7 @@ body .splitbutton .arrow {
 	background: #fff9cc !important;
 	border: 1px solid black;
 	color: #4d4d4d;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .ace_progress {
 	position: absolute;

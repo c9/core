@@ -92,8 +92,7 @@
 }
 .chatContainer .searchbox .sbtb_middle .input {
 	color: #333333;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: auto;-moz-osx-font-smoothing: auto;
 }
 .chatContainer .ace-tm .ace_marker-layer .ace_selection {
 	background: #b5d5ff;
@@ -2354,8 +2353,7 @@ body .error_widget_arrow.ace_ok {
 	text-transform: uppercase;
 	padding: 10px 15px 10px 26px;
 	position: relative;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .bar-preferences .navigation .level1 > a:after {
 	background-repeat: no-repeat;
@@ -2477,8 +2475,7 @@ body .error_widget_arrow.ace_ok {
 	color: #333333;
 	font-size: 12px;
 	text-overflow: ellipsis;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: auto;-moz-osx-font-smoothing: auto;
 }
 .bar-preferences .blackbutton {
 	min-height: 22px;
@@ -2560,8 +2557,7 @@ body .error_widget_arrow.ace_ok {
 }
 .bar-preferences .blackdg .tree-headings {
 	background: #767676;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: auto;-moz-osx-font-smoothing: auto;
 	font-weight: bold;
 	border-bottom: 0;
 }
@@ -2580,8 +2576,7 @@ body .error_widget_arrow.ace_ok {
 	height: 24px;
 }
 .bar-preferences .blackdg .tree-row.selected {
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: auto;-moz-osx-font-smoothing: auto;
 }
 .bar-preferences .blackdg .tree-row > .tree-column {
 	padding: 4px 0 2px 8px;
@@ -3047,8 +3042,7 @@ body .error_widget_arrow.ace_ok {
 	bottom: 0;
 	overflow: auto;
 	display: flex;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: auto;-moz-osx-font-smoothing: auto;
 	background-attachment: local;
 	color: #333333;
 }
@@ -3428,8 +3422,7 @@ body .error_widget_arrow.ace_ok {
 }
 .installer .execute {
 	background: transparent;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 	border-top: 0;
 	box-shadow: none;
 	height: 100%;
@@ -4161,8 +4154,7 @@ body .error_widget_arrow.ace_ok {
 	background: transparent;
 	border: none;
 	font: 11px Tahoma, Arial;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: auto;-moz-osx-font-smoothing: auto;
 }
 .filetree .tree-row {
 	background: transparent;
@@ -4541,15 +4533,13 @@ BODY {
 	top: 0;
 	right: 0;
 	bottom: 0;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: auto;-moz-osx-font-smoothing: auto;
 }
 BODY.noInput * {
 	pointer-events: none;
 }
 .ace_editor .ace_gutter {
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: auto;-moz-osx-font-smoothing: auto;
 }
 .disableIframe iframe {
 	pointer-events: none;
@@ -4828,8 +4818,7 @@ BODY.noInput * {
 	text-align: center;
 	cursor: pointer;
 	font-weight: bold;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .blackbuttonDisabled {
 	color: rgba(189, 216, 187, 0.5);
@@ -5189,8 +5178,7 @@ BODY.noInput * {
 	line-height: 16px;
 	position: relative;
 	cursor: pointer;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .win-deploy-target .btn-default-css3,
 .size-13.btn-default-css3 {
@@ -9567,8 +9555,7 @@ body .splitbutton .arrow {
 	color: #333333;
 	margin-top: 1px;
 	padding: 2px 6px 2px 7px;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: auto;-moz-osx-font-smoothing: auto;
 	height: 17px;
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 13px;
@@ -9976,8 +9963,7 @@ body .splitbutton .arrow {
 .immediate .treeitem {
 	display: inline-block;
 	padding-left: 10px;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: auto;-moz-osx-font-smoothing: auto;
 	position: relative;
 	white-space: nowrap;
 }
@@ -10106,8 +10092,7 @@ body .splitbutton .arrow {
 	color: #bedb18;
 }
 .immediate .ace_dark .treeitem {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .immediate .ace_dark .treeitem .arrow {
 	background-repeat: no-repeat;
@@ -10171,8 +10156,7 @@ body .splitbutton .arrow {
 }
 .blackdg .newwatch {
 	color: #aaaaaa;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .blackdg.ace_tree_focus .newwatch.selected {
 	color: #cde9ff !important;
@@ -10737,8 +10721,7 @@ body .splitbutton .arrow {
 	top: 0;
 	z-index: 10000000;
 	pointer-events: none;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .errorlabel.anim,
 .disconnectlabel.anim {
@@ -10813,8 +10796,7 @@ body .splitbutton .arrow {
 .custom-tree.ace_tree {
 	background: transparent;
 	border: none;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: auto;-moz-osx-font-smoothing: auto;
 }
 .custom-tree.ace_tree .tree-row {
 	background: transparent;
@@ -11494,8 +11476,7 @@ body .splitbutton .arrow {
 	background: #f9f2ad !important;
 	border: 1px solid #e7de81;
 	color: #333333;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto;
+	-webkit-font-smoothing: auto;-moz-osx-font-smoothing: auto;
 }
 .ace_dark .ace_tooltip,
 .ace_dark.ace_tooltip {
@@ -11503,8 +11484,7 @@ body .splitbutton .arrow {
 	background: #fff399 !important;
 	border: 1px solid black;
 	color: #333333;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
 }
 .ace_progress {
 	position: absolute;
