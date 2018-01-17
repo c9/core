@@ -389,8 +389,7 @@ define(function(require, exports, module) {
             }
             // Set new value of a property
             else {
-                dbg.setVariable(variable, parents, 
-                  value, debug.activeFrame, function(err) {
+                dbg.setVariable(variable, value, debug.activeFrame, function(err) {
                     if (err) {
                         variable.value = oldValue;
                         updateVariable(variable, [], node, true);

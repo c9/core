@@ -154,8 +154,7 @@ define(function(require, exports, module) {
                 var node = e.node;
                 var value = e.value;
                 
-                var parents = [];
-                var variable = activeFrame.findVariable(node, null, parents);
+                var variable = node;
                 var oldValue = variable.value;
                 
                 model.setAttribute(variable, "value", value);
@@ -165,14 +164,13 @@ define(function(require, exports, module) {
                 }
                 
                 // Set new value
-                dbg.setVariable(variable, parents, 
-                  value, debug.activeFrame, function(err) {
-                    if (err) 
+                dbg.setVariable(variable, value, debug.activeFrame, function(err) {
+                    if (err)
                         return undo();
                         
                     // Reload properties of the variable
-                    // dbg.getProperties(variable, function(err, properties) {
-                        updateVariable(variable, variable.properties, node);
+                    dbg.getProperties(variable.parent, function() {
+                        updateVariable(variable.parent);
                         
                         emit("variableEdit", {
                             value: value,
@@ -180,9 +178,8 @@ define(function(require, exports, module) {
                             node: node,
                             variable: variable,
                             frame: activeFrame,
-                            parents: parents
                         });
-                    // });
+                    });
                 });
             });
             

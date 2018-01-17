@@ -29,7 +29,6 @@ define(function(require, module, exports) {
         var STARTING = 1;
         var STARTED = 2;
         
-        var STATIC = options.staticPrefix;
         var installPath = options.installPath || "~/.c9";
         var TMUX = options.tmux || installPath + "/bin/tmux";
         var BASH = "bash";
@@ -134,7 +133,7 @@ define(function(require, module, exports) {
                     return re.test(file);
                 }
             }
-            else if (selector instanceof Array) {
+            else if (Array.isArray(selector)) {
                 return selector.some(function(n) {
                     return matchSelector(n, path);
                 });
@@ -213,12 +212,11 @@ define(function(require, module, exports) {
             if (!name)
                 name = "output";
             
-            (options instanceof Array ? options : [options]).forEach(function(a) {
-                a.relPath = a.path;
-                a.path = makeAbsolutePath(a.path);
-                a.path = c9.toExternalPath(a.path, "/");
-                a.cwd = makeAbsolutePath(a.cwd);
-            });
+            
+            options.relPath = options.path;
+            options.path = makeAbsolutePath(options.path);
+            options.path = c9.toExternalPath(options.path, "/");
+            options.cwd = makeAbsolutePath(options.cwd);
             
             var proc = new Process(name, runner, options, callback);
             processes.push(proc);
@@ -297,67 +295,61 @@ define(function(require, module, exports) {
                 
                 emit("starting");
                 
-                if (!(runner instanceof Array))
-                    runner = [runner];
-                    
-                if (!(options instanceof Array))
-                    options = [options];
-                
                 if (deferred)
                     return setTimeout(callback);
                 
-                cmd = runner.map(function(runner, idx) {
-                    var cmd = "";
-                    
-                    // Display a message prior to running the command
-                    if (runner.info)
-                        cmd += "printf '\\033[1m" + runner.info.replace(/%/g, "%%") + "\\033[m\n' ; ";
-                        
-                    // Set the PATH variable if needed
-                    if (runner.path)
-                        cmd += "export PATH=" + runner.path + " ; ";
-                        
-                    var env = util.extend({}, options[idx].env, runner.env);
-                    for (var name in env) {
-                        // HACK: old configurations used double quoting of environment values;
-                        //       let's support such nastiness for now
-                        var value = /^["'].*["']$/.test(env[name])
-                            ? env[name]
-                            : env[name].replace(/'/g, "'\\''");
-                        cmd += "export " + name + "='" + value + "'; ";
-                    }
-    
-                    // Open a pty session with tmux on the output buffer
-                    if (runner.script) {
-                        // Replace variables
-                        cmd = insertVariables(cmd, options[idx]);
-                        cmd += typeof runner.script == "string" ? runner.script : runner.script.join("\n");
-                        var matches = cmd.match(/\$[\w\-]+/g) || [];
-                        var seen = {};
-                        cmd = matches.map(function(key) {
-                            if (seen[key])
-                                return "";
-                            seen[key] = 1;
-                            var val = getVariable(key.slice(1), options[idx]);
-                            if (val == key)
-                                return "";
-                            return key.slice(1) + "=" + bashQuote([val]) + ";";
-                        }).join("") + "\n" + cmd;
-                    } else {
-                        // @todo add argument escaping
-                        cmd += bashQuote(options[idx].debug && runner["cmd-debug"] || runner.cmd);
-                        // Replace variables
-                        cmd = insertVariables(cmd, options[idx]);
-                    }
-                    
-                    return cmd;
-                }).join("; ");
+                options.debugport = options.debugport || runner.debugport;
+                options.debughost = options.debughost || runner.debughost;
                 
-                // The rest of the options are singular. Choosing the first option object for this.
-                options = options[0];
+                var cmd = "";
                 
-                var cwd = options.cwd || runner[0].working_dir 
+                // Display a message prior to running the command
+                if (runner.info)
+                    cmd += "printf '\\033[1m" + runner.info.replace(/%/g, "%%") + "\\033[m\n' ; ";
+                    
+                // Set the PATH variable if needed
+                if (runner.path)
+                    cmd += "export PATH=" + runner.path + " ; ";
+                    
+                var env = util.extend({}, options.env, runner.env);
+                for (var name in env) {
+                    // HACK: old configurations used double quoting of environment values;
+                    //       let's support such nastiness for now
+                    var value = /^["'].*["']$/.test(env[name])
+                        ? env[name]
+                        : env[name].replace(/'/g, "'\\''");
+                    cmd += "export " + name + "='" + value + "'; ";
+                }
+
+                // Open a pty session with tmux on the output buffer
+                if (runner.script) {
+                    // Replace variables
+                    cmd = insertVariables(cmd, options);
+                    cmd += typeof runner.script == "string" ? runner.script : runner.script.join("\n");
+                    var matches = cmd.match(/\$[\w\-]+/g) || [];
+                    var argRe = /\$args(?=\s|$|[&|>;])/g;
+                    var seen = { args: argRe.test(cmd) };
+                    cmd = matches.map(function(key) {
+                        if (seen[key])
+                            return "";
+                        seen[key] = 1;
+                        var val = getVariable(key.slice(1), options);
+                        if (val == key)
+                            return "";
+                        return key.slice(1) + "=" + bashQuote([val]) + ";";
+                    }).join("") + "\n" + cmd;
+                    // handle args separately to allow passing multiple arguments, or piping the output
+                    cmd = cmd.replace(argRe, options.args);
+                } else {
+                    // @todo add argument escaping
+                    cmd += bashQuote(options.debug && runner["cmd-debug"] || runner.cmd);
+                    // Replace variables
+                    cmd = insertVariables(cmd, options);
+                }
+                
+                var cwd = options.cwd || runner.working_dir 
                         || options.path && dirname(c9.toInternalPath(options.path)) || "/";
+                
                 cwd = insertVariables(cwd, options);
                 console.log(cmd);
                 // Execute run.sh
@@ -432,6 +424,10 @@ define(function(require, module, exports) {
                     idx = fnme.lastIndexOf(".");
                     return idx == -1 ? fnme : fnme.substr(0, idx);
                 }
+                if (name == "debugport")
+                    return (parseInt(options.debugport) || 0) + "";
+                if (name == "debughost")
+                    return bashQuote(options.debughost);
                 if (name == "packages")
                     return installPath + "/packages";
                 if (name == "project_path")
@@ -595,7 +591,7 @@ define(function(require, module, exports) {
                 if (c9.platform === "win32")
                     return proc.execFile("kill", { args: [pid]}, done);
                 
-                var runCfg = runner && runner[0];
+                var runCfg = runner;
                 
                 if (runCfg && runCfg.cmdStop) {
                     return proc.execFile("bash", { args: ["-c", bashQuote(runCfg.cmdStop)]}, done);
@@ -605,9 +601,9 @@ define(function(require, module, exports) {
                     if (runCfg && runCfg.cmdCleanup) {
                         proc.execFile("bash", { args: ["-c", bashQuote(runCfg.cmdCleanup)]}, done);
                     }
-                    else if (meta.debug && runner && runner[0].debugport) {
-                        var kill = "kill -9 $(lsof -i:" + runner[0].debugport + " -t);"
-                            + "if sudo -n true; then sudo kill -9 $(sudo lsof -i:" + runner[0].debugport + " -t); fi";
+                    else if (meta.debug && runner && runner.debugport) {
+                        var kill = "kill -9 $(lsof -i:" + runner.debugport + " -t);"
+                            + "if sudo -n true; then sudo kill -9 $(sudo lsof -i:" + runner.debugport + " -t); fi";
                         proc.execFile("sh", { args: ["-c", kill]}, done);
                     }
                     else {

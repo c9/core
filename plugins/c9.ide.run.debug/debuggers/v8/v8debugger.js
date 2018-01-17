@@ -605,7 +605,7 @@ define(function(require, exports, module) {
             return debug.proxySource
                 .replace(/\/\/.*/g, "")
                 .replace(/[\n\r]/g, "")
-                .replace(/\{PORT\}/, (process.runner[0] || process.runner).debugport);
+                .replace(/\{PORT\}/, process.runner.debugport);
         }
         
         function attach(s, reconnect, callback) {
@@ -960,17 +960,13 @@ define(function(require, exports, module) {
             });
         }
         
-        function setVariable(variable, parents, value, frame, callback) {
+        function setVariable(variable, value, frame, callback) {
             // Get variable name
-            var names = [], scopeNumber, frameIndex = frame.index;
-            parents.reverse().forEach(function(p) {
-                // Assuming scopes are accessible
-                if (p.tagName == "variable")
-                    names.push(p.name.replace(/"/g, '\\"'));
-                else if (p.tagName == "scope")
-                    scopeNumber = p.index;
-            });
-            names.push(variable.name);
+            var isScope = false, scopeNumber, frameIndex = frame.index;
+            if (variable.parent && !variable.parent.ref) {
+                scopeNumber = variable.parent.index;
+                isScope = true;
+            }
             
             function handler(err, body) {
                 if (err)
@@ -982,12 +978,6 @@ define(function(require, exports, module) {
                 variable.properties = body.properties || [];
                 variable.children = (body.properties || "").length ? true : false;
                     
-//              @todo - and make this consistent with getProperties
-//                if (body.constructorFunction)
-//                    value.contructor = body.constructorFunction.ref;
-//                if (body.prototypeObject)
-//                    value.prototype = body.prototypeObject.ref;
-                
                 if (variable.children) {
                     lookup(body.properties, false, function(err, properties) {
                         variable.properties = properties;
@@ -1000,11 +990,11 @@ define(function(require, exports, module) {
             }
             
             // If it's a local variable set it directly
-            if (parents.length == (typeof scopeNumber == "number" ? 1 : 0))
+            if (isScope)
                 setLocalVariable(variable, value, scopeNumber || 0, frameIndex, handler);
             // Otherwise set a variable or property
             else
-                setAnyVariable(variable, parents[0], value, handler);
+                setAnyVariable(variable, frame, value, handler);
         }
         
         function setLocalVariable(variable, value, scopeNumber, frameIndex, callback) {
@@ -1035,14 +1025,14 @@ define(function(require, exports, module) {
             });
         }
         
-        function setAnyVariable(variable, parent, value, callback) {
+        function setAnyVariable(variable, frame, value, callback) {
             var expression = "(function(a, b) { this[a] = b; })"
                 + ".call(__cloud9_debugger_self__, \""
                 + variable.name + "\", " + value + ")";
             
-            v8dbg.simpleevaluate(expression, null, true, [{
+            v8dbg.simpleevaluate(expression, frame, false, [{
                 name: "__cloud9_debugger_self__",
-                handle: parent.ref
+                handle: variable.parent.ref
             }], function(body, refs, error) {
                 if (error) {
                     var err = new Error(error.message);

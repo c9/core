@@ -21,7 +21,7 @@ module.exports = function (vfs, options, register) {
         });
         
         client.on("error", function(err) {
-            if (err.code == "ECONNREFUSED") {
+            if (err.code == "ECONNREFUSED" && process.platform !== "win32") {
                 require("fs").unlink(SOCKET, function() { 
                     createListenServer(api);
                 });
@@ -30,7 +30,7 @@ module.exports = function (vfs, options, register) {
                 createListenServer(api);
             }
             else
-                api.onError(err);
+                api.onConnectError(err);
         });
         
         client.on("end", function() {
@@ -101,7 +101,7 @@ module.exports = function (vfs, options, register) {
                 });
             }
             else
-                api.onError(err);
+                api.onConnectError(err);
         });
         
         api.disconnect = function() {
@@ -134,8 +134,8 @@ module.exports = function (vfs, options, register) {
                 onData: function(data) {
                     stream && stream.emit("data", data);
                 },
-                onError: function(err) {
-                    stream && stream.emit("error", err);
+                onConnectError: function(err) {
+                    callback(err);
                 }
             };
             

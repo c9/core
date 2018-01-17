@@ -232,9 +232,9 @@ define(function(require, exports, module) {
             var socketpath = Path.join(c9.home, "/.c9/gdbdebugger.socket");
             return {
                 source: null,
-                socketpath: process.runner[0].socketpath || socketpath,
-                retryInverval: process.runner[0].retryInterval || 300,
-                retries: process.runner[0].retryCount || 1000
+                socketpath: process.runner.socketpath || socketpath,
+                retryInverval: process.runner.retryInterval || 300,
+                retries: process.runner.retryCount || 1000
             };
         }
 
@@ -469,7 +469,7 @@ define(function(require, exports, module) {
             });
         }
 
-        function setVariable(variable, parents, value, frame, callback) {
+        function setVariable(variable, value, frame, callback) {
             var args = {
                 "name": variable.ref,
                 "val": value
