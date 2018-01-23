@@ -19,6 +19,8 @@ define(function(require, exports, module) {
         var Range = require("ace/range").Range;
         var Anchor = require('ace/anchor').Anchor;
         var comparePoints = Range.comparePoints;
+        
+        var MAX_COLUMN = 5000;
 
         function SimpleAnchor(row, column) {
             this.row = row;
@@ -108,9 +110,12 @@ define(function(require, exports, module) {
             var showOccurenceMarkers = !editor.inMultiSelectMode
                  && (sel.isEmpty() ? true : sel.isMultiLine() ? false : null);
             var occurrenceMarkers = [];
+            var ignoreInfoMarkers = annos.length > 1000;
             annos.forEach(function(anno) {
                 // Certain annotations can temporarily be disabled
                 if (disabledMarkerTypes[anno.type])
+                    return;
+                if (ignoreInfoMarkers && anno.type == "info")
                     return;
                 // Multi-line markers are not supported, and typically are a result from a bad error recover, ignore
                 if (anno.pos.el && anno.pos.sl !== anno.pos.el)
@@ -120,6 +125,9 @@ define(function(require, exports, module) {
                 
                 if (pos.sl > lastLine)
                     pos.sl = lastLine;
+                
+                if (pos.sc > MAX_COLUMN)
+                    return;
                 
                 var range = new Range(pos.sl, pos.sc || 0, pos.el, pos.ec || 0);
                 if (anno.type == "occurrence_other" || anno.type == "occurrence_main") {
