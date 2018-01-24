@@ -22,6 +22,9 @@ define(function(require, exports, module) {
         var aboutDialog;
         
         function load() {
+            var year = (new Date()).getFullYear();
+            markup = formatString(markup, year);
+            
             menus.addItemByPath("Cloud9/About Cloud9", new ui.item({ 
                 onclick: function() { showAbout(); }
             }), 100, plugin);
@@ -134,6 +137,13 @@ define(function(require, exports, module) {
             // shorten commit hash in c9.version
             var version = c9.version.replace(/([a-f\d]{10})[a-f\d]{30}/, "$1");
             document.getElementById("c9Version").textContent = "Version " + version;
+        }
+        
+        function formatString(str) {
+            var args = Array.prototype.slice.call(arguments).slice(1);
+            return str.replace(/{(\d+)}/g, function(match, number) {
+                return typeof args[number] != 'undefined' ? args[number] : match;
+            });
         }
 
         /***** Lifecycle *****/
