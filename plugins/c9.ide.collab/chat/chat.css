@@ -29,6 +29,7 @@
     font-size: @collab-chat-font-size;
     padding: 0 0 0 0;
     background: @collab-chat-background;
+    flex: 1;
 }
 .chatText p {
     padding: @collab-chat-item-padding;
