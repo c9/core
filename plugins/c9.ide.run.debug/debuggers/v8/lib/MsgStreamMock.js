@@ -26,12 +26,12 @@
 define(function(require, exports, module) {
 "use strict";
 
-var util = require("./util");
-var DevToolsMessage = require("./DevToolsMessage");
+var oop = require("ace/lib/oop");
+var EventEmitter = require("ace/lib/event_emitter").EventEmitter;
 
 var MsgStreamMock = module.exports = function() {
 
-    util.implement(this, util.EventEmitter);
+    oop.implement(this, EventEmitter);
 
     var self = this;
     this.requests = [];
@@ -39,9 +39,9 @@ var MsgStreamMock = module.exports = function() {
         self.requests.push(message);
     };
 
-    this.$send = function(headers, content) {
-        var msg = new DevToolsMessage(headers, content);
-        this.emit("message", { data: msg });
+    this.$send = function(msg) {
+        msg = JSON.parse(JSON.stringify(msg));
+        this._signal("message", { data: msg });
     };
 };
 

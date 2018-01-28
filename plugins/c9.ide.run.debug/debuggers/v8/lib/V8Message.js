@@ -26,7 +26,7 @@
 define(function(require, exports, module) {
 "use strict";
 
-var Util = require("./util");
+var oop = require("ace/lib/oop");
 
 var V8Message = module.exports = function(type) {
     this.seq = V8Message.$seq++;
@@ -52,7 +52,7 @@ var V8Message = module.exports = function(type) {
 
     this.parse = function(msgString) {
         var json = JSON.parse(msgString);
-        Util.mixin(this, json);
+        oop.mixin(this, json);
         return this;
     };
 
@@ -63,9 +63,6 @@ var V8Message = module.exports = function(type) {
             if (typeof this[name] != "undefined")
                 tmp[name] = this[name];
         }
-        // TODO is there a better place for this
-        if (tmp.arguments && !tmp.arguments.maxStringLength)
-            tmp.arguments.maxStringLength = 10000;
         return JSON.stringify(tmp);
     };
 
@@ -79,7 +76,7 @@ V8Message.fromString = function(msgString) {
 
 V8Message.fromObject = function(obj) {
     var msg = new V8Message();
-    Util.mixin(msg, obj);
+    oop.mixin(msg, obj);
     return msg;
 };
 

@@ -8,7 +8,7 @@ var childProcess = require("child_process");
 var fs = require("fs");
 var net = require("net");
 
-var socketPath = process.env.HOME + "/chrome.sock";
+var socketPath = process.env.HOME + "/.c9/chrome.sock";
 if (process.platform == "win32")
     socketPath = "\\\\.\\pipe\\" + socketPath.replace(/\//g, "\\");
 
@@ -36,13 +36,13 @@ function debuggerProxy(id, handlers) {
         console.log(id, code);
     });
     return {
-        exit: p1.kill.bind(p1),
+        kill: p1.kill.bind(p1),
     };
 }
 
-describe(__filename, function() {
+describe.skip(__filename, function() {
     var p1, p2, p3;
-    this.timeout(10000);
+    this.timeout(100000);
     it("should exit if another server is running", function(done) {
         try {
             fs.unlinkSync(socketPath);
@@ -52,7 +52,7 @@ describe(__filename, function() {
                 
             },
             onExit: function() {
-                
+                done();
             }
         });
         p2 = debuggerProxy("p2", {
@@ -61,24 +61,59 @@ describe(__filename, function() {
             }
         });
     });
-    it("should connect to node", function(done) {
+    it("should connect to new node", function(done) {
+        var port = 58974;
         p3 = childProcess.spawn(process.execPath, [
-            "--inspect=58974", "-e", "setTimeout(x=>x, 10000)"
+            "--inspect=" + port, "-e", "var fs=require('fs'); path=process.argv[1];"
+                + "setInterval(x=>fs.existsSync(path) || process.exit(1), 100)", socketPath
         ], { stdio: "inherit" });
         var client = net.connect(socketPath, function() {
-            console.log("=====");
-            
             client.on("data", function handShake(data) {
-                // logVerbose("[vfs-collab]", "Client handshaked", data.toString());
                 console.log("=====" + data);
+                var msg = JSON.parse(data.slice(0, -1));
+                if (msg.$ == "connected") {
+                    p3.kill();
+                    done();
+                }
             });
             client.write(JSON.stringify({ m: "ping" }) + "\0");
-            client.write(JSON.stringify({ m: "connect", port: 58974 }) + "\0");
+            client.write(JSON.stringify({ $: "connect", port: port }) + "\0");
+        });
+    });
+    
+    it("should connect to old node", function(done) {
+        var port = 58374;
+        p3 = childProcess.spawn(process.execPath, [
+            "--debug=" + port, "-e", "var fs=require('fs'); path=process.argv[1];"
+                + "setInterval(x=>fs.existsSync(path) || process.exit(1), 100)", socketPath
+        ], { stdio: "inherit" });
+        var client = net.connect(socketPath, function() {
+            client.on("data", function handShake(data) {
+                data = data.toString("utf8");
+                console.log("=====" + data.toString("utf8"));
+                var msg = data[0] == "{" && JSON.parse(data.slice(0, -1));
+                console.log(msg)
+                if (msg.$ == "connected") {
+                    var req = {
+                        seq: 3,
+                        type: 'request',
+                        command: 'scripts',
+                        arguments: { types: 4, includeSource: false }
+                    };
+                    client.write(JSON.stringify(req) + "\0");
+                }
+                else if (msg.request_seq == 3) {
+                    p3.kill();
+                    done();
+                }
+            });
+            client.write(JSON.stringify({ $: "connect", port: port }) + "\0");
         });
     });
     after(function() {
         p1 && p1.kill();
         p2 && p2.kill();
         p3 && p3.kill();
+        fs.unlinkSync(socketPath);
     });
 });

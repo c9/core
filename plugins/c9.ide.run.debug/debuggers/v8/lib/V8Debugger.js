@@ -27,8 +27,8 @@ define(function(require, exports, module) {
 
 "use strict";
 
-var Util = require("./util");
-var EventEmitter = Util.EventEmitter;
+var oop = require("ace/lib/oop");
+var EventEmitter = require("ace/lib/event_emitter").EventEmitter;
 var V8Message = require("./V8Message");
 
 var V8Debugger = module.exports = function(tabId, v8service) {
@@ -50,7 +50,7 @@ var V8Debugger = module.exports = function(tabId, v8service) {
             delete pending[requestSeq];
         }
         else if (response.event) {
-            self.emit(response.event, { data: response.body });
+            self._signal(response.event, { data: response.body });
         }
 
         self.$updateRunning(response);
@@ -59,7 +59,7 @@ var V8Debugger = module.exports = function(tabId, v8service) {
 
 (function() {
 
-    Util.implement(this, EventEmitter);
+    oop.implement(this, EventEmitter);
 
     this.$seq = 0;
 
@@ -80,7 +80,7 @@ var V8Debugger = module.exports = function(tabId, v8service) {
 
         if (running !== this.$running) {
             this.$running = running;
-            this.emit("changeRunning", { data: running });
+            this._signal("changeRunning", { data: running });
         }
     };
 

@@ -15,39 +15,35 @@ node-process1  node-process2 ... debuggers
 var fs = require("fs");
 var net = require("net");
 var WebSocket = require("ws");
+var MessageReader = require("./MessageReader");
+
 var startT = Date.now();
-
-/*** helpers ***/
-
 
 /*** connect to cloud9 ***/
 
-var socketPath = process.env.HOME + "/chrome.sock";
+var socketPath = process.env.HOME + "/.c9/chrome.sock";
 if (process.platform == "win32")
     socketPath = "\\\\.\\pipe\\" + socketPath.replace(/\//g, "\\");
 
 console.log(socketPath);
 
-function checkServer() {
-    var currentT
+function checkServer(id) {
     var client = net.connect(socketPath, function() {
+        if (id) return;
         console.log("process already exists");
-        // process.exit(0);
-    });
-    fs.stat(__filename, function(err, stat) {
-        currentT = stat ? stat.mtime.valueOf() : 0;
-        console.log(currentT);
-        // client.send({ $: "exit" });
+        process.exit(0);
     });
     client.on("data", function(data) {
-        var m = JSON.parse(data.slice(0, -1));
-        console.log(data + "");
-        if (m.$ == "refresh" && m.t < currentT)
-            client.write(JSON.stringify({ $: "exit" }) + "\0");
+        try {
+            var msg = JSON.parse(data.toString().slice(0, -1));
+        } catch (e) {}
+        if (msg && msg.ping != id)
+            process.exit(1);
+        client.destroy();
     });
     
     client.on("error", function(err) {
-        if (err && (err.code === "ECONNREFUSED" || err.code === "ENOENT" || err.code === "EAGAIN")) {
+        if (!id && err && (err.code === "ECONNREFUSED" || err.code === "ENOENT" || err.code === "EAGAIN")) {
             createServer();
         }
         else {
@@ -55,13 +51,14 @@ function checkServer() {
         }
     });
 }
-var ideClients = {};
-var counter = 0;
+
+var $id = 0;
 var server;
+var ideClients = {};
 function createServer() {
     server = net.createServer(function(client) {
         var isClosed = false;
-        client.id = counter++;
+        client.id = $id++;
         ideClients[client.id] = client;
 
         client.send = function(msg) {
@@ -86,7 +83,17 @@ function createServer() {
                 var clientMsg = buff.join("");
                 data = data.substring(idx + 1);
                 buff = [];
-                client.emit("message", JSON.parse(clientMsg));
+                if (clientMsg[0] == "{") {
+                    try {
+                        var msg = JSON.parse(clientMsg);
+                    } catch (e) {
+                        console.log("error parsing message", clientMsg);
+                        return client.close();
+                    }
+                } else {
+                    msg = clientMsg;
+                }
+                client.emit("message", msg);
             }
         }
 
@@ -94,7 +101,6 @@ function createServer() {
         client.on("end", onClose);
         
         client.on("message", function(message) {
-            console.log(message);
             if (actions[message.$])
                 actions[message.$](message, client);
             else if (client.debugger)
@@ -116,25 +122,28 @@ function createServer() {
             client.destroy();
         });
         
-        client.send({ $: "refresh", t: startT });
+        client.send({ ping: process.pid });
     });
     server.on("error", function(e) {
-        console.log(e);
-        console.log("+++++++++++++++++++++++++++");
+        console.log("server error", e);
         process.exit(1);
     });
-    if ((process.platform == "win32")) {
-        server.listen(socketPath, function() {
-            console.log("---------------------------");
-        });
+    server.on("close", function (e) {
+        console.log("server closed", e);
+        process.exit(1);
+    });
+    if (process.platform !== "win32") {
+        try {
+            fs.unlinkSync(socketPath);
+        } catch (e) {
+            if (e.code != "ENOENT")
+                console.log(e);
+        }
     }
-    else {
-        fs.unlink(socketPath, function(e) {
-            server.listen(socketPath, function() {
-                console.log("---------------------------");
-            });
-        });
-    }
+    server.listen(socketPath, function() {
+        console.log("server listening on ", socketPath);
+        checkServer(process.pid);
+    });
 }
 
 
@@ -160,10 +169,19 @@ var actions = {
             client.debugger.disconnect();
     },
 };
+
 /*** connect to node ***/
 
 function Debugger(options) {
-    this.clients = [];
+    var clients = this.clients = [];
+    
+    this.broadcast = function(message) {
+        if (typeof message !== "string")
+            message = JSON.stringify(message);
+        clients.forEach(function(c) {
+            c.write(message + "\0");
+        });
+    };
 }
 
 (function() {
@@ -179,25 +197,29 @@ function Debugger(options) {
         client.debugger = null;
     };
     this.handleMessage = function(message) {
-        console.log(">>" + JSON.stringify(message))
         if (this.ws)
             this.ws.send(JSON.stringify(message));
+        else if (this.v8Socket)
+            this.v8Socket.send(message);
         else
-            console.log(message);
+            console.error("recieved message when debugger is not ready", message);
     };
     
     this.connect = function(options) {
         getDebuggerData(options.port, function(err, res) {
-            if (err) console.log(err) //TODO
-            var header = res[0];
-            var tabs = res[1];
+            if (err) {
+                this.broadcast({ $: "error", message: err.message });
+                return console.log(err);
+            }
+            var tabs = res;
             
             if (!tabs) {
-                return // old debugger
+                this.connectToV8(options);
+                return;
             }
             
             if (tabs.length > 1)
-                console.log("===========================");
+                console.log("connecting to first tab");
             
             if (tabs[0] && tabs[0].webSocketDebuggerUrl) {
                 this.connectToWebsocket(tabs[0].webSocketDebuggerUrl);
@@ -206,15 +228,7 @@ function Debugger(options) {
     };
     
     this.connectToWebsocket = function(url) {
-        var clients = this.clients;
-        function broadcast(message) {
-            if (typeof message !== "string")
-                message = JSON.stringify(message);
-            clients.forEach(function(c) {
-                console.log(c.id, "[][]");
-                c.write(message + "\0");
-            });
-        }
+        var broadcast = this.broadcast;
         var ws = new WebSocket(url);
         ws.on("open", function open() {
             console.log("connected");
@@ -232,6 +246,31 @@ function Debugger(options) {
             broadcast({ $: "error", err: e });
         });
         this.ws = ws;
+    };
+    
+    this.connectToV8 = function(options) {
+        var broadcast = this.broadcast;
+        
+        var connection = net.connect(options.port, options.host);
+        connection.on("connect", function() {
+            console.log("netproxy connected to debugger");
+            broadcast({ $: "connected", mode: "v8" });
+        });
+        connection.on("error", function(e) {
+            console.log(e);
+        });
+        new MessageReader(connection, function(response) {
+            broadcast(response.toString("utf8"));
+        });
+        connection.send = function(msg) {
+            if (msg.arguments && !msg.arguments.maxStringLength)
+                msg.arguments.maxStringLength = 10000;
+            var data = new Buffer(JSON.stringify(msg));
+            
+            connection.write(new Buffer("Content-Length:" + data.length + "\r\n\r\n"));
+            connection.write(data);
+        };
+        this.v8Socket = connection;
     };
     
     this.disconnect = function() {
@@ -268,81 +307,33 @@ function getDebuggerData(port, callback, retries) {
     });
 }
 
-function request(options, cb) {
+function request(options, callback) {
     var socket = new net.Socket();
-    var received = "";
-    var expectedBytes = 0;
-    var offset = 0;
-    function readBytes(str, start, bytes) {
-        // returns the byte length of an utf8 string
-        var consumed = 0;
-        for (var i = start; i < str.length; i++) {
-            var code = str.charCodeAt(i);
-            if (code < 0x7f) consumed++;
-            else if (code > 0x7f && code <= 0x7ff) consumed += 2;
-            else if (code > 0x7ff && code <= 0xffff) consumed += 3;
-            if (code >= 0xD800 && code <= 0xDBFF) i++; // leading surrogate
-            if (consumed >= bytes) { i++; break; }
-        }
-        return { bytes: consumed, length: i - start };
-    }
-    function parse(data) {
-        var fullResponse = false;
-        received += data;
-        if (!expectedBytes) { // header
-            var i = received.indexOf("\r\n\r\n");
-            if (i !== -1) {
-                var c = received.lastIndexOf("Content-Length:", i);
-                if (c != -1) {
-                    var l = received.indexOf("\r\n", c);
-                    var len = parseInt(received.substring(c + 15, l), 10);
-                    expectedBytes = len;
-                }
-                offset = i + 4;
-            }
-        }
-        if (expectedBytes) { // body
-            var result = readBytes(received, offset, expectedBytes);
-            expectedBytes -= result.bytes;
-            offset += result.length;
-        }
-        if (offset && expectedBytes <= 0) {
-            fullResponse = received.substring(0, offset);
-            received = received.substr(offset);
-            offset = expectedBytes = 0;
-        }
-        return fullResponse && fullResponse.split("\r\n\r\n");
-    }
-
-    socket.on("data", function(data) {
-        console.log(data + "")
-        var response = parse(data);
+    new MessageReader(socket, function(response) {
+        console.log(response + "{}{}{}");
+        socket.end();
         if (response) {
-            socket.end();
-            if (response[1]) {
-                try {
-                    response[1] = JSON.parse(response[1]);
-                } catch (e) {}
-            }
-            cb(null, response);
+            try {
+                response = JSON.parse(response);
+            } catch (e) {}
         }
+        callback(null, response);
     });
     socket.on("error", function(e) {
-        console.log("==~==", e)
+        console.log("Initial connection error", options, e);
         socket.end();
-        cb(e);
+        callback(e);
     });
     socket.connect(options.port, options.host);
     socket.on("connect", function() {
-        console.log("~==")
         socket.write("GET " + options.path + " HTTP/1.1\r\nConnection: close\r\n\r\n");
     });
 }
 
-
 /*** =============== ***/
+setInterval(function() {
+    if (!Object.keys(ideClients).length && !Object.keys(debuggers).length)
+        process.exit(0);
+}, 60 * 1000);
 checkServer();
 
-setInterval(function() {
-    console.log(Date.now());
-}, 60000);
