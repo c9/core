@@ -27,6 +27,7 @@
 	font-size: 12px;
 	padding: 0 0 0 0;
 	background: #4d4d4d;
+	flex: 1;
 }
 .chatText p {
 	padding: 7px 7px 7px 10px;
@@ -1439,8 +1440,6 @@
 }
 .ace_content {
 	position: absolute;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	min-width: 100%;
 }
@@ -1556,6 +1555,16 @@
 	opacity: 1;
 	text-indent: 0;
 }
+[ace_nocontext=true] {
+	transform: none!important;
+	filter: none!important;
+	clip-path: none!important;
+	mask: none!important;
+	contain: none!important;
+	perspective: none!important;
+	mix-blend-mode: initial!important;
+	z-index: auto;
+}
 .ace_layer {
 	z-index: 1;
 	position: absolute;
@@ -1564,8 +1573,6 @@
 	white-space: pre;
 	height: 100%;
 	width: 100%;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	pointer-events: none;
 }
@@ -1588,8 +1595,6 @@
 .ace_cursor {
 	z-index: 4;
 	position: absolute;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	border-left: 2px solid;
 	transform: translatez(0);
@@ -1608,7 +1613,6 @@
 	opacity: 0.2;
 }
 .ace_smooth-blinking .ace_cursor {
-	-webkit-transition: opacity 0.18s;
 	transition: opacity 0.18s;
 }
 .ace_marker-layer .ace_step,
@@ -1631,13 +1635,9 @@
 .ace_marker-layer .ace_selected-word {
 	position: absolute;
 	z-index: 4;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
 .ace_line .ace_fold {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	display: inline-block;
 	height: 11px;
@@ -1657,7 +1657,6 @@
 }
 .ace_tooltip {
 	background-color: #FFF;
-	background-image: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.1));
 	background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.1));
 	border: 1px solid gray;
 	border-radius: 1px;
@@ -1667,8 +1666,6 @@
 	padding: 3px 4px;
 	position: fixed;
 	z-index: 999999;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	cursor: default;
 	white-space: pre;
@@ -1683,8 +1680,6 @@
 	padding-right: 13px;
 }
 .ace_fold-widget {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	margin: 0 -12px 0 1px;
 	display: none;
@@ -1732,17 +1727,29 @@
 .ace_dark .ace_fold-widget:active {
 	box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
 }
+.ace_inline_button {
+	border: 1px solid lightgray;
+	display: inline-block;
+	margin: -1px 8px;
+	padding: 0 5px;
+	pointer-events: auto;
+	cursor: pointer;
+}
+.ace_inline_button:hover {
+	border-color: gray;
+	background: rgba(200, 200, 200, 0.2);
+	display: inline-block;
+	pointer-events: auto;
+}
 .ace_fold-widget.ace_invalid {
 	background-color: #FFB4B4;
 	border-color: #DE5555;
 }
 .ace_fade-fold-widgets .ace_fold-widget {
-	-webkit-transition: opacity 0.4s ease 0.05s;
 	transition: opacity 0.4s ease 0.05s;
 	opacity: 0;
 }
 .ace_fade-fold-widgets:hover .ace_fold-widget {
-	-webkit-transition: opacity 0.05s ease 0.05s;
 	transition: opacity 0.05s ease 0.05s;
 	opacity: 1;
 }
