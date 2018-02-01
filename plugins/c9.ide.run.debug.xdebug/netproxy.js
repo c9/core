@@ -1,8 +1,11 @@
 var net = require("net");
+var fs = require("fs");
 
 var debug = function() {};
-// var debug = require("debug")("netproxy");
-
+// var debug = console.error.bind(console);
+var socketPath = process.env.HOME + "/.c9/xdebug.sock";
+if (process.platform == "win32")
+    socketPath = "\\\\.\\pipe\\" + socketPath.replace(/\//g, "\\");
 
 var host = "{HOST}" || "127.0.0.1";
 var port = parseInt("{PORT}", 10) || 9000;
@@ -22,7 +25,7 @@ function send() {
 }
 
 
-// ---
+/*** --- ***/
 
 var browserServer = net.createServer(function(client) {
     debug("browserClient::connect");
@@ -36,8 +39,6 @@ var browserServer = net.createServer(function(client) {
     browserClient.on("end", function() {
         debug("browserClient::end");
         process.exit(0);
-        // if (debugClient)
-        //     debugClient.end();
         browserClient = null;
     });
 
@@ -58,8 +59,17 @@ var browserServer = net.createServer(function(client) {
     }
 });
 
-browserServer.listen(port + 1, host, function() {
-    debug("netproxy listening for browser on port " + (port + 1));
+
+if (process.platform !== "win32") {
+    try {
+        fs.unlinkSync(socketPath);
+    } catch (e) {
+        if (e.code != "ENOENT")
+            console.log(e);
+    }
+}
+browserServer.listen(socketPath, function() {
+    debug("netproxy listening for " + socketPath);
     start();
 });
 
@@ -67,8 +77,12 @@ browserServer.on("error", function(err) {
     console.log(err);
     process.exit(0);
 });
+browserServer.on("close", function(err) {
+    console.log(err);
+    process.exit(0);
+});
 
-// ---
+/*** --- ***/
 
 var debugServer = net.createServer(function(client) {
     debug("debugClient::connect");
@@ -84,9 +98,6 @@ var debugServer = net.createServer(function(client) {
     debugClient.on("end", function() {
         debug("debugClient::end");
         process.exit(0);
-        // debugClient = null;
-        // if (browserClient)
-        //     browserClient.end();
     });
 
     debugClient.on("data", function(data) {
@@ -116,7 +127,7 @@ debugServer.on("error", function(err) {
     process.exit(0);
 });
 
-// --
+/*** --- ***/
 
 var I = 0;
 function start() {

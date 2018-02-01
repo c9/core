@@ -452,11 +452,17 @@ define(function(require, exports, module) {
         }
 
         function getProxySource(process) {
-            return PROXY
-                .replace(/\/\/.*/g, "")
-                .replace(/[\n\r]/g, "")
-                .replace(/\{HOST\}/, process.runner.debughost || "")
-                .replace(/\{PORT\}/, process.runner.debugport);
+            var socketPath = c9.home + "/.c9/xdebug.sock";
+            if (c9.platform == "win32")
+                socketPath = "\\\\.\\pipe\\" + socketPath.replace(/\//g, "\\");
+            return {
+                source: PROXY
+                    .replace(/^\s*\/\/.*/gm, "")
+                    .replace(/[\n\r]/g, "")
+                    .replace(/\{HOST\}/, process.runner.debughost || "")
+                    .replace(/\{PORT\}/, process.runner.debugport),
+                port: socketPath
+            };
         }
 
         function setBreakpoints(breakpoints, callback) {
