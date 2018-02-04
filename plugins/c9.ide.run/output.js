@@ -350,6 +350,8 @@ define(function(require, exports, module) {
                         continue;
                     }
                     if (c === " ") {
+                        if (!results.raw)
+                            results.raw = pathArgs.substr(i);
                         if (lastStart < i)
                             results.push(pathArgs.substring(lastStart, i));
                         lastStart = i + 1;

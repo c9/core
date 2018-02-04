@@ -328,7 +328,7 @@ define(function(require, module, exports) {
                     cmd += typeof runner.script == "string" ? runner.script : runner.script.join("\n");
                     var matches = cmd.match(/\$[\w\-]+/g) || [];
                     var argRe = /\$args(?=\s|$|[&|>;])/g;
-                    var seen = { args: argRe.test(cmd) };
+                    var seen = { $args: true };
                     cmd = matches.map(function(key) {
                         if (seen[key])
                             return "";
@@ -339,7 +339,7 @@ define(function(require, module, exports) {
                         return key.slice(1) + "=" + bashQuote([val]) + ";";
                     }).join("") + "\n" + cmd;
                     // handle args separately to allow passing multiple arguments, or piping the output
-                    cmd = cmd.replace(argRe, options.args);
+                    cmd = cmd.replace(argRe, options.args && options.args.raw || getVariable("args", options));
                 } else {
                     // @todo add argument escaping
                     cmd += bashQuote(options.debug && runner["cmd-debug"] || runner.cmd);
