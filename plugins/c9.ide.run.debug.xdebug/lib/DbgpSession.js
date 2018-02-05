@@ -112,9 +112,6 @@ DbgpSession.prototype.end = function() {
 };
 
 DbgpSession.prototype._handleInit = function(init) {
-    if (this.initialized)
-        throw new Error("Cannot initialize debugger session more than once");
-
     this.protocolVersion = init["@protocol_version"];
 
     this.appId = init["@appid"];
