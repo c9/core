@@ -14,7 +14,7 @@ node-process1  node-process2 ... debuggers
 
 var fs = require("fs");
 var net = require("net");
-var WebSocket = require("ws");
+var WebSocket = require("ws/index");
 var MessageReader = require("./MessageReader");
 
 var startT = Date.now();

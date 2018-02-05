@@ -1,39 +1,67 @@
 define(function(require, exports, module) {
-    var EventEmitter = require("ace/lib/event_emitter").EventEmitter;
+    var debugProxy = require("vfs!./chrome-debug-proxy.js");
     
-    function extendVFS(vfs, options, register) {
+    var code = "module.exports = " + function(vfs, options, register) {
         var extPath = "{EXTPATH}";
         var detached = true;
         var force = false;
         var nodeRequire = require;
-        var p = nodeRequire("child_process").spawn(process.execPath, [extPath, force], {
-            stdio: detached ? "ignore" : undefined,
-            detached: detached
-        });
-        if (detached) {
-            p.unref();
-        } else {
-            p.stdout.pipe(process.stderr);
-            p.stderr.pipe(process.stderr);
+        var fs = nodeRequire("fs");
+        check();
+        
+        function check() {
+            fs.exists(extPath, function(exists) {
+                if (!exists)
+                    return register(null, { launch: launch });
+                launch(register);
+            });
         }
-        register(null, {});
-    }
+        
+        function launch(callback) {
+            var p = nodeRequire("child_process").spawn(process.execPath, [extPath, force], {
+                stdio: detached ? "ignore" : undefined,
+                detached: detached
+            });
+            if (detached) {
+                p.unref();
+            } else {
+                p.stdout.pipe(process.stderr);
+                p.stderr.pipe(process.stderr);
+            }
+            callback(null, {});
+        }
+    };
     
     exports.connect = function(imports, options, callback) {
+        var util = imports.util;
         var vfs = imports.vfs;
         var c9 = imports.c9;
-        var exe = c9.sourceDir + "/plugins/c9.ide.run.debug/debuggers/chrome/chrome-debug-proxy.js";
+        var fs = imports.fs;
+        var extPath = c9.standalone && !/packed=1/.test(c9.location)
+            ? c9.sourceDir + "/" + debugProxy.path
+            : c9.home + "/.c9/vfs-cache/chrome-debug-proxy.js";
         
         var socketPath = c9.home + "/.c9/chrome.sock";
         if (c9.platform == "win32")
             socketPath = "\\\\.\\pipe\\" + socketPath.replace(/\//g, "\\");
         
         vfs.extend("chromeDebugProxyLauncher", {
-            code: "module.exports = " + extendVFS.toString().replace("{EXTPATH}", exe),
+            code: code.replace("{EXTPATH}", extPath),
             redefine: true
         }, function(err, remote) {
             if (err) console.log(err);
-            tryConnect(30);
+            if (remote && remote.api && remote.api.launch) {
+                require(["text!" + debugProxy.srcUrl], function(code) {
+                    fs.writeFile(util.normalizePath(extPath), code, function() {
+                        remote.api.launch(function() {
+                            tryConnect(30);
+                        });
+                    });
+                });
+            }
+            else {
+                tryConnect(30);
+            }
         });
         
         function tryConnect(retries) {
@@ -106,7 +134,7 @@ define(function(require, exports, module) {
         }, socket);
         c9.on("connect", function() {
             stream && stream.end();
-            connectPort();
+            connectPort(function() {});
         }, socket);
         
         socket.on("unload", function() {

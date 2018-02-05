@@ -1,5 +1,5 @@
 define(function(require, exports, module) {
-    main.consumes = ["Plugin", "debugger", "util", "c9", "vfs"];
+    main.consumes = ["Plugin", "debugger", "util", "c9", "vfs", "fs"];
     main.provides = ["nodedebugger"];
     return main;
     
@@ -39,17 +39,6 @@ define(function(require, exports, module) {
             "sources",
             "sourcesCompile"
         ];
-
-        
-        
-        /***** Helper Functions *****/
-        
-        
-        
-        
-        /***** Event Handler *****/
-    
-        
     
         /***** Methods *****/
         
@@ -113,7 +102,8 @@ define(function(require, exports, module) {
             v8DebuggerPlugin.unload();
             chromeDebuggerPlugin.unload();
             process = attached = dbg = null;
-            
+            eventForwarder.unload();
+            eventForwarder = null;
         });
         
         /***** Register and define API *****/
