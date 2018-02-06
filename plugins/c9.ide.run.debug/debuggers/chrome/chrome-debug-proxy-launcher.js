@@ -53,6 +53,8 @@ define(function(require, exports, module) {
             // try connecting after error, in case there is proxy already launched
             if (remote && remote.api.launch) {
                 return require(["text!" + debugProxy.srcUrl], function(code) {
+                    if (!code)
+                        return console.error("Debug proxy module not found");
                     fs.writeFile(util.normalizePath(extPath), code, function() {
                         remote.api.launch(function() {
                             tryConnect(30);
