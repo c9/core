@@ -16,6 +16,7 @@ var fs = require("fs");
 var net = require("net");
 var WebSocket = require("ws/index");
 var MessageReader = require("./MessageReader");
+var EventEmitter = require("events").EventEmitter;
 
 var startT = Date.now();
 
@@ -25,7 +26,7 @@ var socketPath = process.env.HOME + "/.c9/chrome.sock";
 if (process.platform == "win32")
     socketPath = "\\\\.\\pipe\\" + socketPath.replace(/\//g, "\\");
 
-console.log(socketPath);
+console.log("Using socket", socketPath);
 
 function checkServer(id) {
     var client = net.connect(socketPath, function() {
@@ -157,10 +158,14 @@ var actions = {
         client.send(message);
     },
     connect: function(message, client, callback) {
-        // if (!debuggers[message.port]) {
-            debuggers[message.port] = new Debugger();
+        if (!debuggers[message.port]) {
+            var dbg = debuggers[message.port] = new Debugger();
             debuggers[message.port].connect(message);
-        // }
+            debuggers[message.port].on("disconnect", function() {
+                if (debuggers[message.port] == dbg)
+                    delete debuggers[message.port];
+            });
+        }
         
         debuggers[message.port].addClient(client);
     },
@@ -185,6 +190,8 @@ function Debugger(options) {
 }
 
 (function() {
+    this.__proto__ = EventEmitter.prototype;
+
     this.addClient = function(client) {
         this.clients.push(client);
         // client.send({$: 1});
@@ -209,6 +216,7 @@ function Debugger(options) {
         getDebuggerData(options.port, function(err, res) {
             if (err) {
                 this.broadcast({ $: "error", message: err.message });
+                this.emit("disconnect");
                 return console.log(err);
             }
             var tabs = res;
@@ -219,7 +227,7 @@ function Debugger(options) {
             }
             
             if (tabs.length > 1)
-                console.log("connecting to first tab");
+                console.log("connecting to first tab from " + tabs.length);
             
             if (tabs[0] && tabs[0].webSocketDebuggerUrl) {
                 this.connectToWebsocket(tabs[0].webSocketDebuggerUrl);
@@ -229,6 +237,7 @@ function Debugger(options) {
     
     this.connectToWebsocket = function(url) {
         var broadcast = this.broadcast;
+        var self = this;
         var ws = new WebSocket(url);
         ws.on("open", function open() {
             console.log("connected");
@@ -236,20 +245,23 @@ function Debugger(options) {
         });
         ws.on("close", function close() {
             console.log("disconnected");
+            self.emit("disconnect");
         });
         ws.on("message", function incoming(data) {
-            console.log("<<" + data);
+            // console.log("<<" + data);
             broadcast(data);
         });
         ws.on("error", function(e) {
             console.log("error", e);
             broadcast({ $: "error", err: e });
+            self.emit("disconnect");
         });
         this.ws = ws;
     };
     
     this.connectToV8 = function(options) {
         var broadcast = this.broadcast;
+        var self = this;
         
         var connection = net.connect(options.port, options.host);
         connection.on("connect", function() {
@@ -257,7 +269,12 @@ function Debugger(options) {
             broadcast({ $: "connected", mode: "v8" });
         });
         connection.on("error", function(e) {
-            console.log(e);
+            console.log("error in v8 connection", e);
+            self.emit("disconnect");
+        });
+        connection.on("close", function(e) {
+            console.log("v8 connection closed", e);
+            self.emit("disconnect");
         });
         new MessageReader(connection, function(response) {
             broadcast(response.toString("utf8"));
@@ -274,11 +291,13 @@ function Debugger(options) {
     };
     
     this.disconnect = function() {
-        if (this.ws)
-            this.ws.close();
         this.clients.forEach(function(client) {
             client.end();
         });
+        if (this.ws)
+            this.ws.close();
+        if (this.v8Socket)
+            this.v8Socket.close();
     };
     
 }).call(Debugger.prototype);
@@ -310,7 +329,7 @@ function getDebuggerData(port, callback, retries) {
 function request(options, callback) {
     var socket = new net.Socket();
     new MessageReader(socket, function(response) {
-        console.log(response + "{}{}{}");
+        console.log("Initial connection response:", response);
         socket.end();
         if (response) {
             try {
@@ -331,9 +350,18 @@ function request(options, callback) {
 }
 
 /*** =============== ***/
+var idle = 0;
 setInterval(function() {
-    if (!Object.keys(ideClients).length && !Object.keys(debuggers).length)
+    console.log(Object.keys(ideClients), Object.keys(debuggers))
+    if (!Object.keys(ideClients).length && !Object.keys(debuggers).length) {
+        idle++;
+    } else {
+        idle = 0;
+    }
+    if (idle > 2) {
+        console.log("No open connections, exiting");
         process.exit(0);
-}, 60 * 1000);
+    }
+}, 30 * 1000);
 checkServer();
 

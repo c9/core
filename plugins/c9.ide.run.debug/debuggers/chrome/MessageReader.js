@@ -27,7 +27,6 @@ var MessageReader = function(socket, callback) {
 (function() {
 
     this.$onreceive = function(data) {
-        console.log(data + "??????")
         this.$received += data;
 
         var fullResponse;
