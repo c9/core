@@ -84,6 +84,7 @@ var DevtoolsProtocol = module.exports = function(socket) {
         this.$send("Profiler.enable");
         this.$send("Runtime.enable");
         this.$send("Debugger.enable");
+        // TODO add support for these to debugger ui
         // this.$send("Debugger.setPauseOnExceptions", {"state":"uncaught"});
         // this.$send("Debugger.setBlackboxPatterns", {"patterns":[]});
         this.$send("Debugger.setAsyncCallStackDepth", { maxDepth: 32 });
@@ -172,7 +173,7 @@ var DevtoolsProtocol = module.exports = function(socket) {
             if (err)
                 return callback(err);
             if (variable.parent.index != null) {
-                this.$send("Debugger.setVariableValue", {
+                return this.$send("Debugger.setVariableValue", {
                     scopeNumber: variable.parent.index,
                     variableName: variable.name,
                     newValue: data.result,
@@ -181,19 +182,18 @@ var DevtoolsProtocol = module.exports = function(socket) {
                     callback(err);
                 });
             }
-            else {
-                this.$send("Runtime.callFunctionOn", {
-                    "objectId": variable.parent.ref || variable.parent.id,
-                    "functionDeclaration": "function(a, b) { this[a] = b; }",
-                    "arguments": [
-                        { "value": variable.name },
-                        data.result
-                    ],
-                    "silent": true
-                }, function(data, err) {
-                    callback(err);
-                });
-            }
+            
+            this.$send("Runtime.callFunctionOn", {
+                "objectId": variable.parent.ref || variable.parent.id,
+                "functionDeclaration": "function(a, b) { this[a] = b; }",
+                "arguments": [
+                    { "value": variable.name },
+                    data.result
+                ],
+                "silent": true
+            }, function(data, err) {
+                callback(err);
+            });
         }.bind(this));
     };
 
@@ -213,12 +213,10 @@ var DevtoolsProtocol = module.exports = function(socket) {
         this.$send("Debugger.setBreakpointByUrl", {
             lineNumber: line,
             url: target,
-            // urlRegex: 
+            // TODO add support for urlRegex:
             columnNumber: column || 0,
             condition: condition
-        }, function(info) {
-            callback(info);
-        });
+        }, callback);
     };
     
     this.clearbreakpoint = function(breakpointId, callback) {
@@ -235,22 +233,22 @@ var DevtoolsProtocol = module.exports = function(socket) {
 
 
     this.changelive = function(scriptId, newSource, previewOnly, callback, $retry) {
-        var that = this;
         that.$send("Debugger.setScriptSource", {
             scriptId: scriptId,
             scriptSource: newSource,
             dryRun: !!previewOnly
         }, function(result, error) {
             if (error && error.code == -32000 && !$retry) {
-                return that.changelive(scriptId, newSource, previewOnly, callback, true);
+                // errors with code == -32000 usually go away after second try
+                return this.changelive(scriptId, newSource, previewOnly, callback, true);
             }
             if (result && result.stackChanged) {
-                return that.stepInto(function() {
+                return this.stepInto(function() {
                     callback({}, null);
                 });
             }
             callback(result, error);
-        });
+        }.bind(this));
     };
     
     this.restartframe = function(frameId, callback) {

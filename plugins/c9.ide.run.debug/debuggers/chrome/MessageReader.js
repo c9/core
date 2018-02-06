@@ -1,4 +1,4 @@
-
+// TODO use Buffer instead of this
 function readBytes(str, start, bytes) {
     // returns the byte length of an utf8 string
     var consumed = 0;

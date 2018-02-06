@@ -49,9 +49,10 @@ define(function(require, exports, module) {
             code: code.replace("{EXTPATH}", extPath),
             redefine: true
         }, function(err, remote) {
-            if (err) console.log(err);
-            if (remote && remote.api && remote.api.launch) {
-                require(["text!" + debugProxy.srcUrl], function(code) {
+            if (err) console.error("Error loading vfs extension", err);
+            // try connecting after error, in case there is proxy already launched
+            if (remote && remote.api.launch) {
+                return require(["text!" + debugProxy.srcUrl], function(code) {
                     fs.writeFile(util.normalizePath(extPath), code, function() {
                         remote.api.launch(function() {
                             tryConnect(30);
@@ -59,9 +60,8 @@ define(function(require, exports, module) {
                     });
                 });
             }
-            else {
-                tryConnect(30);
-            }
+            
+            tryConnect(30);
         });
         
         function tryConnect(retries) {
