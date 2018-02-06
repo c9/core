@@ -45,7 +45,7 @@ return function(_request) {
                     if ($reqHeaders)
                         message += ($reqHeaders == headers) + $reqHeaders["x-request-metadata"];
                     console.error($reqHeaders, headers, message);
-                    setTimeout(function() { throw new Error(message); });
+                    // setTimeout(function() { throw new Error(message); });
                     return callback(err, data.substr(0, ln - ml), res);
                 }
                 callback(err, data.substr(0, ln - ml), ml && data.substr(-1 * ml) || "", res);

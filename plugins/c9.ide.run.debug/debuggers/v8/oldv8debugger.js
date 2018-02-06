@@ -1,9 +1,11 @@
 define(function(require, exports, module) {
-    main.consumes = ["Plugin", "debugger", "util", "c9"];
-    main.provides = ["chromedebugger"];
+    main.consumes = [
+        "Plugin", "debugger", "util", "c9"
+    ];
+    main.provides = ["v8debugger"];
     return main;
     
-    function main(options, imports, register) {
+    function main(options, imports) {
         var Plugin = imports.Plugin;
         var util = imports.util;
         var debug = imports["debugger"];
@@ -16,7 +18,8 @@ define(function(require, exports, module) {
         var Variable = debug.Variable;
         var Scope = debug.Scope;
         
-        var DevtoolsProtocol = require("./DevtoolsProtocol");
+        var V8Debugger = require("./lib/V8Debugger");
+        var V8DebuggerService = require("./lib/StandaloneV8DebuggerService");
 
         /***** Initialization *****/
         
@@ -27,6 +30,7 @@ define(function(require, exports, module) {
         var stripPrefix = c9.toInternalPath((options.basePath || "").replace(/[\/\\]$/, ""));
         var breakOnExceptions = false;
         var breakOnUncaughtExceptions = false;
+        var breakpointQueue = [];
         
         var NODE_PREFIX = "(function (exports, require, module, __filename, __dirname) { ";
         var NODE_POSTFIX = "\n});";
@@ -34,10 +38,18 @@ define(function(require, exports, module) {
         var RE_NODE_PREFIX = new RegExp("^" + util.escapeRegExp(NODE_PREFIX));
         var RE_NODE_POSTFIX = new RegExp(util.escapeRegExp(NODE_POSTFIX) + "$");
         
-        var TYPE = "chrome";
+        var TYPE = "v8";
         
         var attached = false;
-        var v8dbg, state, activeFrame, sources, socket, pathMap;
+        var v8dbg, v8ds, state, activeFrame, sources, socket, pathMap;
+        
+        var scopeTypes = {
+            "0": "global",
+            "1": "local",
+            "2": "with",
+            "3": "function",
+            "4": "catch"
+        };
         
         var hasChildren = {
             "regexp": 32,
@@ -54,20 +66,36 @@ define(function(require, exports, module) {
         function sync(breakpoints, reconnect, callback) {
             if (!v8dbg)
                 return console.error("Sync called without v8dbg");
+                
             getSources(function(err, sources) {
                 if (err) return callback(err);
                 
-                updateBreakpoints(breakpoints, reconnect, function(err, breakpoints) {
+                getFrames(function(err, frames) {
                     if (err) return callback(err);
                     
-                    handleDebugBreak(breakpoints, reconnect, null, function(canAttach) {
-                        attached = canAttach;
-                        emit("attach", { breakpoints: breakpoints });
-                    }, 
-                    function(isResumed) {
-                        callback();
+                    updateBreakpoints(breakpoints, reconnect, function(err, breakpoints) {
+                        if (err) return callback(err);
+                        
+                        handleDebugBreak(breakpoints, reconnect, frames[0], function(canAttach) {
+                            attached = canAttach;
+                            emit("attach", { breakpoints: breakpoints });
+                        }, 
+                        function(isResumed) {
+                            // This check is for when the process is not 
+                            // started with debug-brk
+                            if (activeFrame) {
+                                onChangeFrame(activeFrame);
+                                emit("break", {
+                                    frame: activeFrame,
+                                    frames: frames
+                                });
+                            }
+                            
+                            onChangeRunning(null);
+                            callback();
+                        });
                     });
-                });
+                }, true); // The sync backtrace should be silent
             });
         }
         
@@ -84,6 +112,14 @@ define(function(require, exports, module) {
             
             listBreakpoints(function handleBps(err, remoteBreakpoints) {
                 if (err) return callback(err);
+                
+                // We should always have at least 1 breakpoint
+                if (!reconnect && !remoteBreakpoints.length && ++retries < 10) {
+                    setTimeout(function() {
+                        if (v8dbg) listBreakpoints(handleBps);
+                    }, 100);
+                    return;
+                }
                 
                 var found = [];
                 var notfound = [];
@@ -133,30 +169,70 @@ define(function(require, exports, module) {
                 return callback();
             }
             
-            wait();
-            reconnect = true;
+            var bp = breakpoints[0];
             
+            // If there's no breakpoint set
+            if (!bp) {
+                attach(reconnect || 0);
+                
+                // If we reconnect to a break then don't resume.
+                if (reconnect) {
+                    onChangeFrame(frame);
+                    callback();
+                }
+                else
+                    resume(callback.bind(this, true));
+                    
+                return;
+            }
+            
+            // Check for a serverOnly breakpoint on line 0
+            // this bp, is automatically created by v8 to stop on break
+            if (bp.id === 1 && bp.serverOnly) {
+                // The breakpoint did it's job, now lets remove it
+                reconnect = false;
+                v8dbg.clearbreakpoint(1, wait);
+                breakpoints.remove(bp);
+            }
+            else {
+                wait();
+                reconnect = true;
+            }
             function wait() {
                 // Check if there is a real breakpoint here, so we don't resume
-                function resumeIfNeeded(callback) {
-                    if (!activeFrame) {
-                        return v8dbg.$waitForBreak = function(frame) {
-                            activeFrame = frame;
-                            v8dbg.$waitForBreak = null;
-                            resumeIfNeeded(function() {
-                                callback();
-                            });
-                            return true;
-                        };
+                function checkEval(err, variable) {
+                    if (err || isTruthy(variable)) {
+                        onChangeFrame(null);
+                        attach(true);
+                        resume(callback.bind(this, true));
                     }
-                    var onBreakpoint = breakpoints.some(function(bp) { 
-                        return bp.enabled && activeFrame.path === bp.path && bp.line == activeFrame.line;
-                    });
-                    if (!onBreakpoint) {
-                        resume(callback);
-                    } else {
-                        onChangeRunning();
-                        onBreak({frame: activeFrame});
+                    else {
+                        onChangeFrame(frame);
+                        attach(true);
+                        callback(false);
+                    }
+                }
+                
+                // @todo this is probably a timing issue - probably solved now
+                if (frame) {
+                    var test = { path: frame.path, line: frame.line };
+                    for (var bpi, i = 0, l = breakpoints.length; i < l; i++) {
+                        if ((bpi = breakpoints[i]).equals(test)) {
+                            // If it's not enabled let's continue
+                            if (!bpi.enabled)
+                                break;
+                              
+                            // Check a condition if it has it
+                            if (bpi.condition) {
+                                evaluate(bpi.condition, frame, false, true, checkEval);
+                            }
+                            else {
+                                onChangeFrame(frame);
+                                attach(true);
+                                callback(false);
+                            }
+                            return;
+                        }
                     }
                 }
                 
@@ -167,9 +243,9 @@ define(function(require, exports, module) {
                     callback(false);
                 }
                 else {
-                    // onChangeFrame(null);
+                    onChangeFrame(null);
                     attach(true);
-                    resumeIfNeeded(callback.bind(this, true));
+                    resume(callback.bind(this, true));
                 }
             }
         }
@@ -199,8 +275,6 @@ define(function(require, exports, module) {
         }
     
         function formatType(value) {
-            if (value.description)
-                return value.description;
             switch (value.type) {
                 case "undefined":
                 case "null":
@@ -242,6 +316,21 @@ define(function(require, exports, module) {
             return true;
         }
         
+        function frameToString(frame) {
+            var str = [];
+            var args = frame.arguments;
+            var argsStr = [];
+    
+            str.push(frame.func.name || frame.func.inferredName || "anonymous", "(");
+            for (var i = 0, l = args.length; i < l; i++) {
+                var arg = args[i];
+                if (!arg.name)
+                    continue;
+                argsStr.push(arg.name);
+            }
+            str.push(argsStr.join(", "), ")");
+            return str.join("");
+        }
         
         function getPathFromScriptId(scriptId) {
             for (var i = 0; i < sources.length; i++) {
@@ -258,30 +347,45 @@ define(function(require, exports, module) {
         }
 
         function getLocalScriptPath(script) {
-            var scriptName = script.url || ("-anonymous-" + script.scriptId);
+            var scriptName = script.name || ("-anonymous-" + script.id);
             scriptName = c9.toExternalPath(scriptName);
             scriptName = strip(scriptName);
             return scriptName;
         }
         
-        function createFrame(frameData, index) {
-            var options = frameData[index];
-            var frame = options._frame || new Frame({
-                istop: index == 0,
-                index: index,
-                name: options.functionName || "(anonymous)",
-                line: options.location.lineNumber,
-                column: options.location.columnNumber,
-                id: options.callFrameId,
-                script: options.location.scriptId,
-                path: getLocalScriptPath(v8dbg.$scripts[options.location.scriptId]),
-                sourceId: options.location.scriptId
+        function createFrame(options, script) {
+            var frame = new Frame({
+                index: options.index,
+                name: frameToString(options),
+                column: options.column,
+                id: getFrameId(options),
+                line: options.line,
+                script: strip(script.name),
+                path: getLocalScriptPath(script),
+                sourceId: options.func.scriptId
             });
-            options._frame = frame;
             
             var vars = [];
-
-            frame.variables = frame.variables || vars;
+            
+            // Arguments
+            options.arguments.forEach(function(arg) {
+                vars.push(createVariable(arg, null, "arguments"));
+            });
+            
+            // Local variables
+            options.locals.forEach(function(local) {
+                if (local.name !== ".arguments")
+                    vars.push(createVariable(local, null, "locals"));
+            });
+            
+            // Adding the local object as this
+            vars.push(createVariable({
+                name: "this",
+                value: options.receiver,
+                kind: "this"
+            }));
+            
+            frame.variables = vars;
             
              /*
              0: Global
@@ -291,16 +395,15 @@ define(function(require, exports, module) {
              4: Catch >,
                 if (scope.type > 1) {*/
             
-            frame.scopes = options.scopeChain.map(function(scope, i) {
+            frame.scopes = options.scopes.filter(function(scope) {
+                return scope.type != 1;
+            }).reverse().map(function(scope) {
                 return new Scope({
-                    id: scope.object.objectId,
-                    type: scope.type,
-                    frame: frame,
-                    index: i
+                    index: scope.index,
+                    type: scopeTypes[scope.type],
+                    frameIndex: frame.index
                 });
             });
-            if (frame.scopes[0])
-                frame.scopes[0].isOpen = true;
             
             return frame;
         }
@@ -309,8 +412,8 @@ define(function(require, exports, module) {
             var value = options.value || options;
             
             if (variable) {
-                // variable.value = formatType(options);
-                // variable.type = options.type;
+                variable.value = formatType(options);
+                variable.type = options.type;
             }
             else {
                 variable = new Variable({
@@ -318,52 +421,52 @@ define(function(require, exports, module) {
                     scope: scope,
                     value: formatType(value),
                     type: value.type,
-                    ref: value.objectId,
+                    ref: typeof value.ref == "number" 
+                        ? value.ref 
+                        : value.handle,
                     children: options.children === false 
-                        ? false : (hasChildren[value.type] ? true : false),
-                    options: options,
+                        ? false : (hasChildren[value.type] ? true : false)
                 });
             }
             
-            // if (value.prototypeObject)
-            //     variable.prototype = new Variable({
-            //         tagName: "prototype",
-            //         name: "prototype", 
-            //         type: "object",
-            //         ref: value.prototypeObject.ref
-            //     });
-            // if (value.protoObject)
-            //     variable.proto = new Variable({ 
-            //         tagName: "proto",
-            //         name: "proto", 
-            //         type: "object",
-            //         ref: value.protoObject.ref
-            //     });
-            // if (value.constructorFunction)
-            //     variable.constructorFunction = new Variable({ 
-            //         tagName: "constructor", 
-            //         name: "constructor", 
-            //         type: "function",
-            //         ref: value.constructorFunction.ref
-            //     });
+            if (value.prototypeObject)
+                variable.prototype = new Variable({
+                    tagName: "prototype",
+                    name: "prototype", 
+                    type: "object",
+                    ref: value.prototypeObject.ref
+                });
+            if (value.protoObject)
+                variable.proto = new Variable({ 
+                    tagName: "proto",
+                    name: "proto", 
+                    type: "object",
+                    ref: value.protoObject.ref
+                });
+            if (value.constructorFunction)
+                variable.constructorFunction = new Variable({ 
+                    tagName: "constructor", 
+                    name: "constructor", 
+                    type: "function",
+                    ref: value.constructorFunction.ref
+                });
             return variable;
+        }
+        
+        function updateVariable(variable, body) {
+            return createVariable(body, null, null, variable);
         }
         
         function createSource(options) {
             var path = getLocalScriptPath(options);
-            // isLiveEdit: false,
-            // sourceMapURL: "",
-            // hasSourceURL: false,
-            // isModule: false,
             return new Source({
-                id: options.scriptId,
-                name: options.url || "anonymous",
+                id: options.id,
+                name: options.name || "anonymous",
                 path: path,
                 text: strip(options.text || "anonymous"),
                 debug: path.charAt(0) != "/" || path.match(/ \(old\)$/) ? true : false,
                 lineOffset: options.lineOffset,
-                customSyntax: "javascript",
-                threadId: options.executionContextId,
+                customSyntax: "javascript"
             });
         }
         
@@ -388,52 +491,81 @@ define(function(require, exports, module) {
             } else {
                 state = v8dbg.isRunning() ? "running" : "stopped";
             }
-            
-            if (attached) {
-                emit("stateChange", { state: state });
+    
+            emit("stateChange", { state: state });
+    
+            if (state != "stopped")
+                onChangeFrame(null);
+        }
         
-                if (state != "stopped")
-                    onChangeFrame(null);
-            }
+        function createFrameFromBreak(data) {
+            // Create a frame from the even information
+            return new Frame({
+                index: 0,
+                name: data.invocationText,
+                column: data.sourceColumn,
+                id: String(data.line) + ":" + String(data.sourceColumn),
+                line: data.sourceLine,
+                script: strip(data.script.name),
+                path: getLocalScriptPath(data.script),
+                sourceId: data.script.id,
+                istop: true
+            });
         }
     
         function onBreak(e) {
-            var frame = e.frame || createFrame(e.callFrames, 0);
-            if (v8dbg.$waitForBreak && v8dbg.$waitForBreak(frame)) {
+            if (!attached) {
+                if (attached === 0) 
+                    attached = true;
                 return;
             }
-            onChangeFrame(frame, !attached);
-            if (attached)
-                emit("break", { frame: frame });
+            
+            // @todo update breakpoint text?
+            
+            var frame = createFrameFromBreak(e.data);
+            onChangeFrame(frame);
+            emit("break", {
+                frame: frame
+            });
         }
     
         function onException(e) {
-            var frame = createFrame(e.callFrames, 0);
+            var frame = createFrameFromBreak(e.data);
             
-            var options = e.data;
-            var m = /^(\w+):(.*)$/m.exec(options.description);
-            var name = m && m[1] || options.className;
-            var value = m && m[2] || options.description;
+            var options = e.data.exception;
+            options.text.match(/^(\w+):(.*)$/);
+            var name = RegExp.$1 || options.className;
+            var value = RegExp.$2 || options.text;
             
             options.name = name;
             options.value = { 
                 value: value, 
-                type: "error",
-                objectId: options.objectId,
+                type: "error", 
+                handle: options.handle
             };
             options.children = true;
             
             var variable = createVariable(options);
             variable.error = true;
             
-            emit("exception", {
-                frame: frame, 
-                exception: variable
+            lookup(options.properties, false, function(err, properties) {
+                variable.properties = properties;
+                
+                emit("exception", {
+                    frame: frame, 
+                    exception: variable
+                });
             });
         }
     
         function onAfterCompile(e) {
-            emit("sourcesCompile", { source: createSource(e) });
+            var queue = breakpointQueue;
+            breakpointQueue = [];
+            queue.forEach(function(i) {
+                setBreakpoint(i[0]);
+            });
+            
+            emit("sourcesCompile", { source: createSource(e.data.script) });
         }
     
         function onChangeFrame(frame, silent) {
@@ -444,17 +576,15 @@ define(function(require, exports, module) {
     
         /***** Methods *****/
         
-        function getProxySource(_process) {
+        function getProxySource(process) {
             return false;
         }
         
         function attach(s, reconnect, callback) {
-            if (v8dbg)
-                v8dbg.detach();
+            if (v8ds)
+                v8ds.detach();
             
             socket = s;
-            
-            // socket.connect();
             
             socket.on("back", function(err) {
                 sync(emit("getBreakpoints"), true, callback);
@@ -463,11 +593,12 @@ define(function(require, exports, module) {
                 emit("error", err);
             }, plugin);
             
-            v8dbg = new DevtoolsProtocol(socket);
-            attached = false;
-            v8dbg.attach(s, function(err, msg) {
+            v8ds = new V8DebuggerService(socket);
+            v8ds.attach(0, function(err, msg) {
                 if (err) return callback(err);
 
+                v8dbg = new V8Debugger(0, v8ds);
+                
                 // register event listeners
                 v8dbg.on("changeRunning", onChangeRunning);
                 v8dbg.on("break", onBreak);
@@ -488,11 +619,15 @@ define(function(require, exports, module) {
         }
     
         function detach() {
+            if (!v8ds)
+                return;
+            
+            v8ds.detach();
+            
             onChangeFrame(null);
             onChangeRunning();
             
             if (v8dbg) {
-                v8dbg.detach();
                 // on detach remove all event listeners
                 v8dbg.off("changeRunning", onChangeRunning);
                 v8dbg.off("break", onBreak);
@@ -501,6 +636,7 @@ define(function(require, exports, module) {
             }
             
             socket = null;
+            v8ds = null;
             v8dbg = null;
             attached = false;
             
@@ -508,10 +644,10 @@ define(function(require, exports, module) {
         }
         
         function getSources(callback) {
-            v8dbg.scripts(function(scriptMap) {
+            v8dbg.scripts(4, null, false, function(scripts) {
                 sources = [];
-                for (var i in scriptMap) {
-                    var script = scriptMap[i];
+                for (var i = 0, l = scripts.length; i < l; i++) {
+                    var script = scripts[i];
                     if ((script.name || "").indexOf("chrome-extension://") === 0)
                         continue;
                     sources.push(createSource(script));
@@ -523,11 +659,11 @@ define(function(require, exports, module) {
         }
         
         function getSource(source, callback) {
-            v8dbg.getScriptSource(source.id, function(script) {
-                if (!script || !script.scriptSource)
+            v8dbg.scripts(4, [source.id], true, function(scripts) {
+                if (!scripts.length)
                     return callback(new Error("File not found : " + source.path));
                     
-                var source = script.scriptSource
+                var source = scripts[0].source
                     .replace(RE_NODE_PREFIX, "")
                     .replace(RE_NODE_POSTFIX, "");
 
@@ -536,10 +672,28 @@ define(function(require, exports, module) {
         }
         
         function getFrames(callback, silent) {
-            v8dbg.backtrace(function(data) {
-                var frames = data.callFrames.map(function(frameData, index) {
-                    return createFrame(data.callFrames, index);
-                });
+            v8dbg.backtrace(0, 1000, null, true, function(body, refs) {
+                function ref(id) {
+                    for (var i = 0; i < refs.length; i++) {
+                        if (refs[i].handle == id) {
+                            return refs[i];
+                        }
+                    }
+                    return {};
+                }
+    
+                var frames = [];
+                if (body && body.totalFrames > 0) {
+                    body && body.frames.map(function(frame) {
+                        var script = ref(frame.script.ref);
+                        if (script.name && !/^native /.test(script.name))
+                            frames.push(createFrame(frame, script));
+                    });
+        
+                    var topFrame = frames[0];
+                    if (topFrame)
+                        topFrame.istop = true;
+                }
                 
                 emit("getFrames", { frames: frames });
                 callback(null, frames);
@@ -547,16 +701,11 @@ define(function(require, exports, module) {
         }
         
         function getScope(frame, scope, callback) {
-            v8dbg.getProperties({
-                objectId: scope.id,
-                ownProperties: false,
-                accessorPropertiesOnly: false,
-                generatePreview: true
-            }, function(body, error) {
+            v8dbg.scope(scope.index, frame.index, true, function(body, refs, error) {
                 if (error)
                     return callback(error);
                 
-                var variables = (body.result || []).map(function(prop) {
+                var variables = body.object.properties.map(function(prop) {
                     return createVariable(prop);
                 });
                 
@@ -567,41 +716,47 @@ define(function(require, exports, module) {
         }
         
         function getProperties(variable, callback) {
-            if (!variable.ref)
-                return callback(null, []);
-            v8dbg.getProperties({
-                objectId: variable.ref,
-                ownProperties: true,
-                accessorPropertiesOnly: false,
-                generatePreview: true
-            }, function(body, error) {
-                if (error)
-                    return callback(error);
+            v8dbg.lookup([variable.ref], false, function(body, refs, err) {
+                if (err) return callback(err);
                 
-                var properties = (body.result || []).map(function(prop) {
-                    return createVariable(prop);
+                var data = body[variable.ref];
+                data && updateVariable(variable, data);
+                
+                var props = data.properties || [];
+                
+                if (props.length > 5000) {
+                    props = [createVariable({
+                        name: "Too many properties",
+                        value: { type: "error", value: "Found more than 5000 properties" },
+                        children: false
+                    })];
+                    
+                    variable.properties = props;
+                    callback(null, props, variable);
+                    return;
+                }
+                
+                lookup(props, false, function(err, properties) {
+                    variable.properties = properties;
+                    callback(err, properties, variable);
                 });
-                
-                variable.properties = properties;
-                
-                callback(null, properties);
             });
         }
         
         function stepInto(callback) {
-            v8dbg.stepInto(callback);
+            v8dbg.continueScript("in", null, callback);
         }
         
         function stepOver(callback) {
-            v8dbg.stepOver(callback);
+            v8dbg.continueScript("next", null, callback);
         }
         
         function stepOut(callback) {
-            v8dbg.stepOut(callback);
+            v8dbg.continueScript("out", null, callback);
         }
     
         function resume(callback) {
-            v8dbg.resume(callback);
+            v8dbg.continueScript(null, null, callback);
         }
     
         function suspend(callback) {
@@ -611,31 +766,73 @@ define(function(require, exports, module) {
             });
         }
     
+        function lookup(props, includeSource, callback) {
+            // can happen for numbers. E.g when debugger stops on throw 1
+            if (!props || !props.length)
+                return callback(null, []);
+            v8dbg.lookup(props.map(function(p) { return p.ref; }), 
+              includeSource, function(body) {
+                if (!body)
+                    return callback(new Error("No body received"));
+                  
+                var properties = props.map(function(prop) { 
+                    prop.value = body[prop.ref];
+                    return createVariable(prop);
+                });
+                
+                callback(null, properties);
+            });
+        }
+        
         function setScriptSource(script, newSource, previewOnly, callback) {
-            newSource = NODE_PREFIX + newSource.replace(/^#!.*/, "") + NODE_POSTFIX;
+            newSource = NODE_PREFIX + newSource + NODE_POSTFIX;
             
-            v8dbg.changelive(script.id, newSource, previewOnly, function(data, error) {
-                var errorMessage = "Debugger could not update source of saved file."
-                if (error)
-                    return callback(new Error(errorMessage));
-                if (data && data.exceptionDetails)
-                    return callback(new Error(errorMessage + " " + data.exceptionDetails.text));
-                    
-                emit("setScriptSource", data);
-                callback(null, data);
+            v8dbg.changelive(script.id, newSource, previewOnly, function(e) {
+                var data = e;
+                
+                function cb() {
+                    emit("setScriptSource", data);
+                    callback(null, data);
+                }
+                
+                if (!e)
+                    callback(new Error("Debugger could not update source of saved file."));
+                else if (e.stepin_recommended)
+                    stepInto(cb);
+                else if (e.result.stack_modified === false) {
+                    getFrames(function(err, frames) {
+                        if (!activeFrame || !frames.length)
+                            return; // debugger isn't active
+                        onChangeFrame(frames[0]);
+                        emit("break", {
+                            frame: activeFrame,
+                            frames: frames
+                        });
+                    });
+                    cb();
+                }
+                else
+                    cb();
             });
         }
         
         function restartFrame(frame, callback) {
-            v8dbg.restartframe(frame.id, function(result, error) {
-                stepInto(callback);
+            var frameIndex = frame && typeof frame == "object" ? frame.index : frame;
+            v8dbg.restartframe(frameIndex, function(body) {
+                if (body.result && body.result.stack_update_needs_step_in) {
+                    stepInto(callback.bind(this, body));
+                }
+                else {
+                    callback.apply(this, arguments);
+                }
             });
         }
         
         function evaluate(expression, frame, global, disableBreak, callback) {
-            v8dbg.evaluate(expression, frame, global, disableBreak, function(data) {
-                var value = data.result;
-                var error = data.error;
+            var frameIndex = frame && typeof frame == "object" ? frame.index : frame;
+            
+            v8dbg.evaluate(expression, frameIndex, global, 
+              disableBreak, function(body, refs, error) {
                 var name = expression.trim();
                 if (error) {
                     var err = new Error(error.message);
@@ -646,10 +843,18 @@ define(function(require, exports, module) {
                 
                 var variable = createVariable({
                     name: name,
-                    value: value,
+                    value: body
                 });
                 
-                callback(null, variable);
+                if (variable.children) {
+                    lookup(body.properties, false, function(err, properties) {
+                        variable.properties = properties;
+                        callback(null, variable);
+                    });
+                }
+                else {
+                    callback(null, variable);
+                }
             });
         }
         
@@ -674,31 +879,41 @@ define(function(require, exports, module) {
             
             path = c9.toExternalPath(path);
 
-            v8dbg.setbreakpoint(path, line, column, bp.enabled, bp.condition, function(info) {
-                if (!info)
-                    return callback && callback(new Error());
-                
-                bp.id = info.breakpointId;
-                if (info.locations) {
-                    var loc = info.locations[0];
-                    bp.actual = loc && {
-                        line: loc.lineNumber,
-                        column: loc.columnNumber,
-                        scriptId: loc.scriptId,
-                    };
-                    emit("breakpointUpdate", { breakpoint: bp });
-                }
-                callback && callback(null, bp, info);
-            });
+            v8dbg.setbreakpoint("script", path, line, column, bp.enabled, 
+                bp.condition, bp.ignoreCount, function(info) {
+                    if (!info)
+                        return callback && callback(new Error());
+                    
+                    bp.id = info.breakpoint;
+                    if (info.actual_locations) {
+                        bp.actual = info.actual_locations[0];
+                        emit("breakpointUpdate", { breakpoint: bp });
+                    }
+                    callback && callback(null, bp, info);
+                });
             
             return true;
         }
         
         function changeBreakpoint(bp, callback) {
-            setBreakpoint(bp, callback);
+            if (breakpointQueue.some(function(i) {
+                return i[0] === bp;
+            })) return;
+            
+            v8dbg.changebreakpoint(bp.id, bp.enabled, 
+                bp.condition, bp.ignoreCount, function(info) {
+                    callback && callback(null, bp, info);
+                });
         }
         
         function clearBreakpoint(bp, callback) {
+            if (breakpointQueue.some(function(i, index) {
+                if (i[0] === bp) {
+                    breakpointQueue.splice(index, 1);
+                    return true;
+                }
+            })) return;
+            
             v8dbg.clearbreakpoint(bp.id, callback);
         }
         
@@ -711,23 +926,114 @@ define(function(require, exports, module) {
                 
                 callback(null, data.breakpoints.map(function(bp) {
                     return createBreakpoint(bp);
+                }).filter(function(bp) {
+                    return bp.path;
                 }));
             });
         }
         
         function setVariable(variable, value, frame, callback) {
-            v8dbg.setvariablevalue(variable, value, frame, callback);
+            // Get variable name
+            var isScope = false, scopeNumber, frameIndex = frame.index;
+            if (variable.parent && !variable.parent.ref) {
+                scopeNumber = variable.parent.index;
+                isScope = true;
+            }
+            
+            function handler(err, body) {
+                if (err)
+                    return callback(err);
+                
+                variable.value = formatType(body);
+                variable.type = body.type;
+                variable.ref = body.handle;
+                variable.properties = body.properties || [];
+                variable.children = (body.properties || "").length ? true : false;
+                    
+                if (variable.children) {
+                    lookup(body.properties, false, function(err, properties) {
+                        variable.properties = properties;
+                        callback(null, variable);
+                    });
+                }
+                else {
+                    callback(null, variable);
+                }
+            }
+            
+            // If it's a local variable set it directly
+            if (isScope)
+                setLocalVariable(variable, value, scopeNumber || 0, frameIndex, handler);
+            // Otherwise set a variable or property
+            else
+                setAnyVariable(variable, frame, value, handler);
+        }
+        
+        function setLocalVariable(variable, value, scopeNumber, frameIndex, callback) {
+            v8dbg.simpleevaluate(value, null, true, [], function(body, refs, error) {
+                if (error) {
+                    var err = new Error(error.message);
+                    err.name = error.name;
+                    err.stack = error.stack;
+                    return callback(err);
+                }
+                
+                v8dbg.setvariablevalue(variable.name, body, scopeNumber, frameIndex, 
+                  function(body, refs, error) {
+                    // lookup([variable.ref], false, function(err, properties) {
+                    //     variable.properties = properties;
+                    //     callback(null, variable);
+                    // });
+                    
+                    if (error) {
+                        var err = new Error(error.message);
+                        err.name = error.name;
+                        err.stack = error.stack;
+                        return callback(err);
+                    }
+                    
+                    callback(null, body.newValue);
+                });
+            });
+        }
+        
+        function setAnyVariable(variable, frame, value, callback) {
+            var expression = "(function(a, b) { this[a] = b; })"
+                + ".call(__cloud9_debugger_self__, \""
+                + variable.name + "\", " + value + ")";
+            
+            v8dbg.simpleevaluate(expression, frame, false, [{
+                name: "__cloud9_debugger_self__",
+                handle: variable.parent.ref
+            }], function(body, refs, error) {
+                if (error) {
+                    var err = new Error(error.message);
+                    err.name = error.name;
+                    err.stack = error.stack;
+                    return callback(err);
+                }
+                
+                callback(null, body);
+            });
         }
         
         function serializeVariable(variable, callback) {
-            return callback(variable.value);
+            var expr = "(function(fn){ return fn.toString() })"
+                + "(__cloud9_debugger_self__)";
+                
+            v8dbg.simpleevaluate(expr, null, true, [{
+                name: "__cloud9_debugger_self__",
+                handle: variable.ref
+            }], function(body, refs, error) {
+                callback(body.value);
+            });
         }
         
         function setBreakBehavior(type, enabled, callback) {
             breakOnExceptions = enabled ? type == "all" : false;
             breakOnUncaughtExceptions = enabled ? type == "uncaught" : false;
             
-            v8dbg.setexceptionbreak(enabled ? type : "none", callback);
+            v8dbg.setexceptionbreak(enabled ? type : "all", enabled, callback);
         }
         
         function setPathMap(v) {
@@ -765,8 +1071,10 @@ define(function(require, exports, module) {
         plugin.on("unload", function() {
             breakOnExceptions = null;
             breakOnUncaughtExceptions = null;
+            breakpointQueue = null;
             attached = false;
             v8dbg = null;
+            v8ds = null;
             state = null;
             activeFrame = null;
             sources = null;

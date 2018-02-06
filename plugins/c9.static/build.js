@@ -203,7 +203,14 @@ function main(options, imports, register) {
         if (/^(ace\/|plugins\/c9.ide.ace)/.test(module))
             return buildAce(module, pathConfig, callback);
         
-        build([], {
+        var compileForNode = false;
+        if (/^~node\//.test(module)) {
+            module = module.substring(6);
+            compileForNode = true;
+        }
+        
+        build(compileForNode ? [module] : [], {
+            node: compileForNode,
             cache: cache,
             pathConfig: pathConfig,
             enableBrowser: true,
@@ -212,11 +219,11 @@ function main(options, imports, register) {
             compress: compress,
             filter: [],
             ignore: [],
-            additional: [{
+            additional: compileForNode && [{
                 id: module,
                 noDeps: true
             }],
-            withRequire: false,
+            withRequire: compileForNode,
             basepath: pathConfig.root
         }, callback);
     }

@@ -24,6 +24,9 @@ define(function(require, exports, module) {
             var emit = socket.getEmitter();
             var state, stream, connected, away;
             
+            if (proxy == false)
+                return socket;
+            
             if (typeof proxy == "string")
                 proxy = { source: proxy };
             

@@ -1,35 +1,19 @@
-/**
- * V8Debugger
- * 
- * Copyright (c) 2010 Ajax.org B.V.
- * 
- * The MIT License (MIT)
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
- */
-define(function(require, exports, module) {
-"use strict";
+// TODO use Buffer instead of this
+function readBytes(str, start, bytes) {
+    // returns the byte length of an utf8 string
+    var consumed = 0;
+    for (var i = start; i < str.length; i++) {
+        var code = str.charCodeAt(i);
+        if (code < 0x7f) consumed++;
+        else if (code > 0x7f && code <= 0x7ff) consumed += 2;
+        else if (code > 0x7ff && code <= 0xffff) consumed += 3;
+        if (code >= 0xD800 && code <= 0xDBFF) i++; // leading surrogate
+        if (consumed >= bytes) { i++; break; }
+    }
+    return { bytes: consumed, length: i - start };
+}
 
-var Util = require("./util");
-var readBytes = Util.readBytes;
-
-var MessageReader = module.exports = function(socket, callback) {
+var MessageReader = function(socket, callback) {
     this.$socket = socket;
     this.$callback = callback;
 
@@ -43,11 +27,10 @@ var MessageReader = module.exports = function(socket, callback) {
 (function() {
 
     this.$onreceive = function(data) {
-        // this.$socket.clearBuffer();
         this.$received += data;
 
         var fullResponse;
-        while (fullResponse = this.$checkForWholeMessage())
+        while ((fullResponse = this.$checkForWholeMessage()) !== false)
             this.$callback(fullResponse);
     };
 
@@ -63,7 +46,7 @@ var MessageReader = module.exports = function(socket, callback) {
                     var len = parseInt(received.substring(c + 15, l), 10);
                     this.$expectedBytes = len;
                 }
-                this.$offset = i + 4;
+                this.headerOffset = this.$offset = i + 4;
             }
         }
         if (this.$expectedBytes) { // body
@@ -72,7 +55,7 @@ var MessageReader = module.exports = function(socket, callback) {
             this.$offset += result.length;
         }
         if (this.$offset && this.$expectedBytes <= 0) {
-            fullResponse = received.substring(0, this.$offset);
+            fullResponse = received.substring(this.headerOffset || 0, this.$offset);
             this.$received = received.substr(this.$offset);
             this.$offset = this.$expectedBytes = 0;
         }
@@ -89,4 +72,5 @@ var MessageReader = module.exports = function(socket, callback) {
 
 }).call(MessageReader.prototype);
 
-});
+
+module.exports = MessageReader;
