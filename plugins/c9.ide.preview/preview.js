@@ -286,7 +286,7 @@ define(function(require, exports, module) {
             
             // Import CSS
             var css = require("text!./preview.css");
-            ui.insertCss(css, options.staticPrefix, handle);
+            ui.insertCss(css, null, handle);
             
             handleEmit.sticky("draw");
         }

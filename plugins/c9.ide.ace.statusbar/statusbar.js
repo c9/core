@@ -207,8 +207,6 @@ define(function(require, exports, module) {
             ui.insertSkin({
                 name: "c9statusbar",
                 data: skin,
-                "media-path": options.staticPrefix + "/images/",
-                "icon-path": options.staticPrefix + "/icons/"
             }, handle);
         }
         

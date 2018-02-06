@@ -287,7 +287,7 @@ define(function(require, exports, module) {
             }
             
             if (!winUploadFiles) {
-                ui.insertCss(css, options.staticPrefix, plugin);
+                ui.insertCss(css, null, plugin);
                 ui.insertMarkup(null, winUploadFilesMarkup, plugin);
                 
                 winUploadFiles = plugin.getElement("winUploadFiles");

@@ -47,7 +47,6 @@ require(["lib/architect/architect", "lib/chai/chai", "text!plugins/c9.ide.layout
         },
         {
             packagePath: "plugins/c9.ide.find.replace/findreplace",
-            staticPrefix: "plugins/c9.ide.find.replace"
         },
         "plugins/c9.ide.keys/commands",
         "plugins/c9.ide.ui/anims",

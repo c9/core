@@ -42,14 +42,12 @@ define(function(require, exports, module) {
             drawn = true;
             
             // load CSS
-            ui.insertCss(css, options.staticPrefix, plugin);
+            ui.insertCss(css, null, plugin);
             
             // Import Skin
             ui.insertSkin({
                 name: "uploadfiles",
                 data: require("text!./markup/skin.xml"),
-                "media-path": options.staticPrefix + "/images/",
-                "icon-path": options.staticPrefix + "/icons/"
             }, plugin);
             
             // Create UI elements

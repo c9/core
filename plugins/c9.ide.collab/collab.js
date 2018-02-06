@@ -36,7 +36,6 @@ define(function(require, exports, module) {
         var menus = imports.menus;
 
         var css = require("text!./collab.css");
-        var staticPrefix = options.staticPrefix;
 
         var plugin = new Panel("Ajax.org", main.consumes, {
             index: 45,
@@ -113,7 +112,7 @@ define(function(require, exports, module) {
                 }
             });
             
-            ui.insertCss(css, staticPrefix, plugin);
+            ui.insertCss(css, null, plugin);
 
             window.addEventListener("unload", function() {
                 leaveAll();

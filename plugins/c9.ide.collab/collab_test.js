@@ -74,21 +74,17 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         },
         {
             packagePath: "plugins/c9.ide.collab/cursor_layer",
-            staticPrefix: "plugins/c9.ide.collab"
         },
         "plugins/c9.ide.collab/author_layer",
         {
             packagePath: "plugins/c9.ide.collab/timeslider/timeslider",
-            staticPrefix: "plugins/c9.ide.collab/timeslider"
         },
         {
             packagePath: "plugins/c9.ide.collab/chat/chat",
-            staticPrefix: "plugins/c9.ide.collab/chat"
         },
         "plugins/c9.ide.collab/members/members_panel",
         {
             packagePath: "plugins/c9.ide.collab/members/members",
-            staticPrefix: "plugins/c9.ide.collab/members"
         },
 
         {

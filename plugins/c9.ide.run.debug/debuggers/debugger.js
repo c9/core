@@ -134,8 +134,6 @@ define(function(require, exports, module) {
             ui.insertSkin({
                 name: "debugger",
                 data: require("text!./skin.xml"),
-                "media-path": options.staticPrefix + "/images/",
-                "icon-path": options.staticPrefix + "/icons/"
             }, plugin);
             
             // Create UI elements

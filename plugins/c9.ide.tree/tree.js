@@ -208,7 +208,7 @@ define(function(require, exports, module) {
             // Moved it here to enable it for filesave dialog. This should be
             // optimized away in the packed version
             var css = require("text!./style.css");
-            ui.insertCss(css, staticPrefix, plugin);
+            ui.insertCss(css, null, plugin);
             ui.insertCss(util.getFileIconCss(staticPrefix), false, plugin);
             
             layout.on("eachTheme", function(e) {

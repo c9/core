@@ -29,7 +29,7 @@ define(function(require, exports, module) {
             loaded = true;
             
             // Insert CSS
-            ui.insertCss(css, options.staticPrefix, handle);
+            ui.insertCss(css, null, handle);
             
             settings.on("read", function() {
                 settings.setDefaults("user/tabs", [["autoclosepanes", true]]);

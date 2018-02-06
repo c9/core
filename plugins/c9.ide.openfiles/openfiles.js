@@ -28,7 +28,6 @@ define(function(require, exports, module) {
 
         var plugin = new Plugin("Ajax.org", main.consumes);
         var emit = plugin.getEmitter();
-        var staticPrefix = options.staticPrefix;
 
         // tree maximum height
         var showOpenFiles = false;
@@ -100,7 +99,7 @@ define(function(require, exports, module) {
             drawn = true;
 
             // ace_tree customization '.openfiles'
-            ui.insertCss(require("text!./openfiles.css"), staticPrefix, plugin);
+            ui.insertCss(require("text!./openfiles.css"), null, plugin);
 
             tree.getElement("winOpenfiles", function(winOpenfiles) {
                 treeParent = winOpenfiles;
@@ -119,8 +118,6 @@ define(function(require, exports, module) {
                 ofTree.renderer.setTheme({ cssClass: "filetree" });
                 // Assign the dataprovider
                 ofTree.setDataProvider(ofDataProvider);
-                // Some global render metadata
-                ofDataProvider.staticPrefix = staticPrefix;
                 
                 layout.on("eachTheme", function(e) {
                     var height = parseInt(ui.getStyleRule(".openfiles .ace_tree .tree-row", "height"), 10);

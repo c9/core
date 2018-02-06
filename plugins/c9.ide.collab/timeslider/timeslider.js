@@ -25,7 +25,6 @@ define(function(require, exports, module) {
         var css = require("text!./timeslider.css");
         var dom = require("ace/lib/dom");
 
-        var staticPrefix = options.staticPrefix;
         var isLoading;
 
         var tsVisibleKey = "user/collab/@timeslider-visible";
@@ -166,7 +165,7 @@ define(function(require, exports, module) {
             drawn = true;
 
             ui.insertHtml(null, html, plugin);
-            ui.insertCss(css, staticPrefix, plugin);
+            ui.insertCss(css, null, plugin);
 
             function $(id) {
                 return document.getElementById(id);
@@ -217,14 +216,11 @@ define(function(require, exports, module) {
 
             // play/pause toggling
             playButton.addEventListener("mousedown", function(evt) {
-                // playButton.style["background-image"] = "url("+ staticPrefix + "/images/play_depressed.png)";
                 playButton.addEventListener("mouseup", function onMouseUp(evt2) {
-                    // playButton.style["background-image"] = "url(" + staticPrefix + "/images/play_undepressed.png)";
                     playButton.removeEventListener("mouseup", onMouseUp);
                     playpause();
                 });
                 document.addEventListener("mouseup", function onMouseUp(evt2) {
-                    // playButton.style["background-image"] = "url(" + staticPrefix + "/images/play_undepressed.png)";
                     document.removeEventListener("mouseup", onMouseUp);
                 });
             });

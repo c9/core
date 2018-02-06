@@ -13,7 +13,6 @@ define(function(require, exports, module) {
         var panels = imports.panels;
 
         var css = require("text!./members.css");
-        var staticPrefix = options.staticPrefix;
 
         var membersPanel;
 
@@ -29,7 +28,7 @@ define(function(require, exports, module) {
             loaded = true;
 
             // Import CSS
-            ui.insertCss(css, staticPrefix, plugin);
+            ui.insertCss(css, null, plugin);
             
             membersPanel = new MembersPanel("Ajax.org", main.consumes, {
                 showTabs: true,

@@ -184,14 +184,12 @@ define(function(require, exports, module) {
             drawn = true;
 
             // Import CSS
-            ui.insertCss(css, options.staticPrefix, plugin);
+            ui.insertCss(css, null, plugin);
 
             // Import Skin
             ui.insertSkin({
                 name: "searchreplace",
                 data: skin,
-                "media-path": options.staticPrefix + "/images/",
-                "icon-path": options.staticPrefix + "/icons/"
             }, plugin);
 
             // Create UI elements

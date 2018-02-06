@@ -25,8 +25,7 @@ define(function(require, exports, module) {
         var DISCONNECTDELAY = 1000;
         
         function load() {
-            ui.insertCss(require("text!./error.css"), 
-                options.staticPrefix, plugin);
+            ui.insertCss(require("text!./error.css"), true, plugin);
         }
         
         function initDisconnectEvents(vfs) {

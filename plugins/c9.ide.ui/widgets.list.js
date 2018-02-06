@@ -19,7 +19,7 @@ define(function(require, exports, module) {
         };
         
         ui.on("load", function() {
-            ui.insertCss(require("text!./widgets.less"), options.staticPrefix, ui);
+            ui.insertCss(require("text!./widgets.less"), null, ui);
         });
         
         /***** Constructors *****/

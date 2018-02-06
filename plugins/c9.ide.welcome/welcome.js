@@ -98,8 +98,7 @@ define(function(require, exports, module) {
             }
             
             // Insert CSS
-            ui.insertCss(require("text!./style.css"), 
-                options.staticPrefix, handle);
+            ui.insertCss(require("text!./style.css"), null, handle);
         }
         
         handle.on("load", load);

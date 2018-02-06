@@ -42,10 +42,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         "plugins/c9.ide.editors/pane",
         "plugins/c9.ide.editors/tab",
         "plugins/c9.ide.ace/ace",
-        {
-            packagePath: "plugins/c9.ide.ace.gotoline/gotoline",
-            staticPrefix: "plugins/c9.ide.ace.gotoline"
-        },
+        "plugins/c9.ide.ace.gotoline/gotoline",
         "plugins/c9.ide.keys/commands",
         "plugins/c9.fs/proc",
         "plugins/c9.vfs.client/vfs_client",

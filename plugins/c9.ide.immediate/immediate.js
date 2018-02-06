@@ -83,7 +83,7 @@ define(function(require, exports, module) {
             }, handle);
             
             // Insert some CSS
-            ui.insertCss(require("text!./style.css"), options.staticPrefix, handle);
+            ui.insertCss(require("text!./style.css"), null, handle);
         });
 
         // Search through pages

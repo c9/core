@@ -96,7 +96,7 @@ define(function(require, exports, module) {
         var isCommitting;
         
         function load() {
-            ui.insertCss(require("text!./style.css"), options.staticPrefix, plugin);
+            ui.insertCss(require("text!./style.css"), null, plugin);
             
             plugin.setCommand({
                 name: "showcommit",

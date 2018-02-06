@@ -93,7 +93,6 @@ define(function(require, exports, module) {
             ui.insertSkin({
                 name: "gotoline",
                 data: skin,
-                "media-path": options.staticPrefix + "/images/"
             }, plugin);
             
             // Create UI elements
