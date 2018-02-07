@@ -1,12 +1,17 @@
 {
-    "cmd": [
-        "node",
-        "${debug?--nocrankshaft}",
-        "${debug?--nolazy}",
-        "${debug?`node --version | grep -vqE \"v0\\..\\.\" && echo --nodead_code_elimination`}",
-        "${debug?--debug-brk=$debugport}",
-        "$file",
-        "$args"
+    "script": [
+        "set -e",
+        "if ! [ \"$debug\" == true ]; then ",
+        "   node $file $args",
+        "elif node  --debug -e '' &> /dev/null; then",
+        "   FLAGS=\"--nocrankshaft --nolazy --debug-brk=$debugport\"",
+        "   if node  --nodead_code_elimination -e '' &> /dev/null; then",
+        "       FLAGS=\"$FLAGS --nodead_code_elimination\"",
+        "   fi",
+        "   node $FLAGS $file $args",
+        "else",
+        "   node --inspect-brk=$debugport $file $args",
+        "fi"
     ],
     "debugger": "v8",
     "debugport": 15454,

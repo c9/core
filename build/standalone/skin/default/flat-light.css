@@ -2844,7 +2844,7 @@ body .error_widget_arrow.ace_ok {
 	z-index: 100001;
 }
 .thingy-popup > .close {
-	background-image: url("/static/plugins/c9.ide.guide/images/close_tab_btn_flat_light@2x.png");
+	background-image: url("/static/plugins/c9.ide.layout.classic/images/close_tab_btn_flat_light@2x.png");
 	background-size: 42px 28px;
 	position: absolute;
 	right: 20px;

@@ -91,7 +91,6 @@ module.exports = function(options) {
         "plugins/c9.ide.plugins/gui",
         // {
         //     packagePath: "plugins/c9.ide.plugins/test",
-        //     staticPrefix: staticPrefix + "/plugins/c9.ide.plugins"
         // },
         
         // VFS
@@ -164,7 +163,6 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.openfiles/openfiles",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
             defaultShow: options.local
         },
         {
@@ -177,21 +175,14 @@ module.exports = function(options) {
         "plugins/c9.ide.keys/editor",
         {
             packagePath: "plugins/c9.ide.ace/ace",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
             workerPrefix: options.workerPrefix
         },
         "plugins/c9.ide.ace/themes",
         "plugins/c9.ide.ace.stripws/stripws",
         "plugins/c9.ide.ace.repl/editor",
         // "plugins/c9.ide.ace.split/split",
-        {
-            packagePath: "plugins/c9.ide.ace.gotoline/gotoline",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.ace.gotoline"
-        },
-        {
-            packagePath: "plugins/c9.ide.ace.statusbar/statusbar",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
-        },
+        "plugins/c9.ide.ace.gotoline/gotoline",
+        "plugins/c9.ide.ace.statusbar/statusbar",
         "plugins/c9.ide.ace.keymaps/keymaps",
         "plugins/c9.ide.ace.keymaps/cli",
         
@@ -212,10 +203,7 @@ module.exports = function(options) {
             node: options.nodeBin,
             local: options.local,
         },
-        {
-            packagePath: "plugins/c9.ide.find.infiles/findinfiles",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.find.infiles"
-        },
+        "plugins/c9.ide.find.infiles/findinfiles",
         {
             packagePath: "plugins/c9.ide.find.replace/findreplace",
             staticPrefix: staticPrefix + "/plugins/c9.ide.find.replace"
@@ -224,7 +212,6 @@ module.exports = function(options) {
         // UI
         {
             packagePath: "plugins/c9.ide.ui/ui",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.ui"
         },
         "plugins/c9.ide.ui/anims",
         "plugins/c9.ide.ui/tooltip",
@@ -233,10 +220,7 @@ module.exports = function(options) {
             autoInit: !options.local
         },
         "plugins/c9.ide.ui/forms",
-        {
-            packagePath: "plugins/c9.ide.ui/widgets.list",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
-        },
+        "plugins/c9.ide.ui/widgets.list",
         "plugins/c9.ide.ui/widgets.tree",
         "plugins/c9.ide.ui/widgets.datagrid",
         "plugins/c9.ide.ui/widgets.terminal",
@@ -255,11 +239,9 @@ module.exports = function(options) {
         "plugins/c9.ide.dialog.common/upsell",
         {
             packagePath: "plugins/c9.ide.dialog.common/error",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
         },
         {
             packagePath: "plugins/c9.ide.dialog.common/notification",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
         },
         {
             packagePath: "plugins/c9.ide.dialog.login/login",
@@ -413,7 +395,6 @@ module.exports = function(options) {
         {
             packagePath: "plugins/c9.ide.run/run",
             base: workspaceDir,
-            staticPrefix: staticPrefix + "/plugins/c9.ide.run",
             tmux: options.tmux,
             runners: runners,
             installPath: options.correctedInstallPath,
@@ -421,7 +402,6 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.run/gui",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
             defaultConfigs: {}
         },
         {
@@ -435,7 +415,6 @@ module.exports = function(options) {
         // "plugins/c9.ide.run.debug/debuggers/sourcemap",
         {
             packagePath: "plugins/c9.ide.run.debug/debuggers/debugger",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
         },
         {
             packagePath: "plugins/c9.ide.run.debug/debuggers/v8/v8debugger",
@@ -450,7 +429,6 @@ module.exports = function(options) {
         "plugins/c9.ide.run.debug/callstack",
         {
             packagePath: "plugins/c9.ide.immediate/immediate",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
         },
         "plugins/c9.ide.immediate/evaluator",
         "plugins/c9.ide.immediate/evaluators/browserjs",
@@ -471,7 +449,6 @@ module.exports = function(options) {
             root: workspaceDir,
             tmpdir: options.tmpdir,
             shell: options.shell || "",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.terminal",
             installPath: options.correctedInstallPath
         },
         {
@@ -487,18 +464,15 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.terminal.monitor/message_view",
-            staticPrefix: options.staticPrefix + "/plugins/c9.ide.layout.classic"
         },
         "plugins/c9.ide.terminal/opentermhere",
         {
             packagePath: "plugins/c9.ide.run/output",
-            staticPrefix: options.staticPrefix + "/plugins/c9.ide.layout.classic",
             tmux: options.tmux,
             basePath: workspaceDir
         },
         {
             packagePath: "plugins/c9.ide.console/console",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
             defaultState: options.project.scmurl ? {
                 type: "pane", 
                 nodes: [{
@@ -560,7 +534,6 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.upload/upload",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.upload"
         },
         {
             packagePath: "plugins/c9.ide.upload/upload_manager",
@@ -568,7 +541,6 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.upload/upload_progress",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
         },        
         {
             packagePath: "plugins/c9.ide.navigate/navigate",
@@ -579,11 +551,9 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.language.core/outline",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.language"
         },
         {
             packagePath: "plugins/c9.ide.panels/panels",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
             defaultActiveLeft: "tree"
         },
         "plugins/c9.ide.panels/panel",
@@ -591,10 +561,7 @@ module.exports = function(options) {
         "plugins/c9.ide.processlist/processlist",
         
         // Installer
-        {
-            packagePath: "plugins/c9.ide.installer/gui",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic",
-        },
+        "plugins/c9.ide.installer/gui",
         "plugins/c9.automate/automate",
         "plugins/c9.ide.installer/commands/centos",
         "plugins/c9.ide.installer/commands/darwin",
@@ -621,7 +588,6 @@ module.exports = function(options) {
         // Previewer
         {
             packagePath: "plugins/c9.ide.preview/preview",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.preview",
             defaultPreviewer: "preview.browser",
             previewUrl: options.previewUrl,
             local: options.local
@@ -682,7 +648,6 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.welcome/welcome",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.welcome",
             intro: "Welcome to Cloud9. Use this welcome screen "
               + "to tweak the look &amp; feel of the Cloud9 user interface. ",
             checkOS: true
@@ -697,12 +662,10 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.help/help",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.help",
             hosted: hosted
         },
         {
             packagePath: "plugins/c9.ide.guide/guide",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.guide"
         },
         {
             packagePath: "plugins/c9.ide.guide/default"
@@ -726,15 +689,12 @@ module.exports = function(options) {
         "plugins/c9.ide.behaviors/tabs",
         // {
         //     packagePath: "plugins/c9.ide.behaviors/dashboard",
-        //     staticPrefix : staticPrefix + "/plugins/c9.ide.behaviors"
         // },
         {
             packagePath: "plugins/c9.ide.behaviors/page",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.behaviors"
         },
         {
             packagePath: "plugins/c9.ide.preferences/preferences",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.preferences"
         },
         "plugins/c9.ide.preferences/preferencepanel",
         {
@@ -750,7 +710,6 @@ module.exports = function(options) {
         "plugins/c9.ide.preferences/experimental",
         {
             packagePath: "plugins/c9.ide.login/login",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.login",
             ideBaseUrl: options.ideBaseUrl,
             dashboardUrl: options.dashboardUrl,
             accountUrl: options.accountUrl,
@@ -761,7 +720,6 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.collab/notifications/bubble",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.collab/notifications"
         },
         "plugins/c9.ide.behaviors/zentabs",
         
@@ -773,7 +731,6 @@ module.exports = function(options) {
         "plugins/c9.ide.test/testrunner",
         {
             packagePath: "plugins/c9.ide.test/all",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.test"
         },
         "plugins/c9.ide.test/results",
         "plugins/c9.ide.test/coverage",
@@ -784,7 +741,6 @@ module.exports = function(options) {
         // git integration v2
         // {
         //     packagePath: "plugins/c9.ide.scm/scm.commit",
-        //     staticPrefix: staticPrefix + "/plugins/c9.ide.scm"
         // },
         // "plugins/c9.ide.scm/scm",
         // "plugins/c9.ide.scm/scm.branches",
@@ -861,12 +817,10 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.collab/cursor_layer",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.collab"
         },
         "plugins/c9.ide.collab/author_layer",
         {
             packagePath: "plugins/c9.ide.collab/timeslider/timeslider",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.collab/timeslider"
         },
         // Collab panels
         {
@@ -882,7 +836,6 @@ module.exports = function(options) {
         },
         {
             packagePath: "plugins/c9.ide.collab/members/members",
-            staticPrefix: staticPrefix + "/plugins/c9.ide.layout.classic"
         },
         {
             packagePath: "plugins/c9.ide.collab/chat/chat",
