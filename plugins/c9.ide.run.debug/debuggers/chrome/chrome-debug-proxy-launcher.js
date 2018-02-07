@@ -10,8 +10,8 @@ define(function(require, exports, module) {
         check();
         
         function check() {
-            fs.exists(extPath, function(exists) {
-                if (!exists)
+            fs.stat(extPath, function(err, stat) {
+                if (err || stat.size < 100)
                     return register(null, { launch: launch });
                 launch(register);
             });
