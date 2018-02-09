@@ -96,7 +96,7 @@ define(["require", "module", "exports", "./lib/menu/menu", "./lib/crypto",
 /** 
  * @event load          Fires after the application is loaded.
  */
- apf = {
+var apf = window.apf = {
     getPlugin: function(name) {
         return apf.nameserver.get("all", name);
     },
@@ -705,7 +705,6 @@ apf.Class.prototype = new (function(){
         for (i = 0, l = this.$bufferEvents.length; i < l; i++)
             this.addEventListener.apply(this, this.$bufferEvents[i]);
 
-        delete realAddEventListener;
         delete this.$initStack;
         delete this.$bufferEvents;
 
