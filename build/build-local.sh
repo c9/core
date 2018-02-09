@@ -32,6 +32,7 @@ showStatus () { printf "\e[1A\e[0K\r%s\n" $1; }
 
 cd `dirname $0`/..
 SOURCE=`pwd`
+export NODE_PATH=plugins/node_modules
 
 LOCAL=$SOURCE/local
 APPDIR=$SOURCE/build/webkitbuilds/app.nw
