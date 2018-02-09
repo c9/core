@@ -3,7 +3,7 @@
         "set -e",
         "if ! [ \"$debug\" == true ]; then ",
         "   node $file $args",
-        "elif node  --debug -e '' &> /dev/null; then",
+        "elif \"$(node -p 'parseInt(process.version.slice(1)) < 7')\" == true; then",
         "   FLAGS=\"--nocrankshaft --nolazy --debug-brk=$debugport\"",
         "   if node  --nodead_code_elimination -e '' &> /dev/null; then",
         "       FLAGS=\"$FLAGS --nodead_code_elimination\"",
