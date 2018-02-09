@@ -8,7 +8,7 @@ var dom = require("ace/lib/dom");
 var config = require("ace/config");
 
 var LineWidgets = require("ace/line_widgets").LineWidgets;
-var css = require("ace/requirejs/text!./styles.css");
+var css = require("text!./styles.css");
 var diff_match_patch = require("./diff_match_patch").diff_match_patch;
 
 var SVG_NS = "http://www.w3.org/2000/svg";

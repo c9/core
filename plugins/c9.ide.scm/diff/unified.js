@@ -8,7 +8,7 @@ var dom = require("ace/lib/dom");
 var config = require("ace/config");
 
 var LineWidgets = require("ace/line_widgets").LineWidgets;
-var css = require("ace/requirejs/text!./unified.css");
+var css = require("text!./unified.css");
 dom.importCssString(css, "unidiff.css");
 var diff_match_patch = require("./diff_match_patch").diff_match_patch;
 
