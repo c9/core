@@ -71,10 +71,6 @@ define(function(require, exports, module) {
                     }, eventForwarder);
                 });
                 
-                dbg.on(event, function(e) {
-                    return emit(event, e);
-                }, eventForwarder);
-                
                 dbg.attach(socket, reconnect, callback);
             });
         }

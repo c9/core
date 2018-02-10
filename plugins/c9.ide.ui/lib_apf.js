@@ -169,6 +169,9 @@ define(["require", "module", "exports", "./lib/menu/menu", "./lib/crypto",
         if (this.$bdetect)
             return;
         
+        // remove non-standard window.event
+        try { delete window.event } catch(e) {}
+        
         /* Browser -  platform and feature detection, based on prototype's and mootools 1.3.
          *
          * Major browser/engines flags
