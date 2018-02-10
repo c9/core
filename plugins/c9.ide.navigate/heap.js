@@ -33,7 +33,7 @@ function Heap(param) {
     };
 
     this.min = function() {
-        if (this.empty()) throw new Exception("Priority queue underflow");
+        if (this.empty()) throw new Error("Priority queue underflow");
         return this.pq[1];
     };
 
@@ -43,7 +43,7 @@ function Heap(param) {
     };
 
     this.pop = function() {
-        if (this.empty()) throw new Exception("Priority queue underflow");
+        if (this.empty()) throw new Error("Priority queue underflow");
         this.$exch(1, this.N);
         var min = this.pq.splice(this.pq.length - 1, 1)[0];
         this.sink(1);

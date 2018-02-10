@@ -115,7 +115,7 @@ define(function(require, module, exports) {
                     try {
                         data = JSON.parse(data);
                     } catch (e) {
-                        return done(e);
+                        return done(new Error("JSON parsing error"));
                     }
                 }
                 
@@ -131,17 +131,13 @@ define(function(require, module, exports) {
             };
             
             xhr.onerror = function(e) {
-                if (typeof XMLHttpRequestProgressEvent == "function" && e instanceof XMLHttpRequestProgressEvent) {
-                    // No useful information in this object.
-                    // Possibly CORS error if code was 0.
-                    var err = new Error("Failed to retrieve resource from " + parsedUrl.host);
-                    err.cause = e;
-                    err.code = e.target.status;
-                    return done(err);
-                }
-                e.code = e.target.status;
-                done(e);
-            }; 
+                // No useful information in this object. Possibly CORS error if code was 0.
+                var code = e.target.status;
+                var err = new Error("Failed to retrieve resource from " + parsedUrl.href + " with code " + code);
+                err.cause = e;
+                err.code = code;
+                return done(err);
+            };
 
             var called = false;
             function done(err, data, res) {
@@ -196,9 +192,10 @@ define(function(require, module, exports) {
         
         function parseHeaders(headerString) {
             return headerString
-                .split('\u000d\u000a')
+                .trim() // on ie11 header string can start with single \n
+                .split("\r\n")
                 .reduce(function(headers, headerPair) {
-                    var index = headerPair.indexOf('\u003a\u0020');
+                    var index = headerPair.indexOf(": ");
                     if (index > 0) {
                         var key = headerPair.substring(0, index).toLowerCase();
                         var val = headerPair.substring(index + 2);

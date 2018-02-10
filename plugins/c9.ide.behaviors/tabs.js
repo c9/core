@@ -1680,7 +1680,6 @@ define(function(require, exports, module) {
             mnuContext = null;
             mnuEditors = null;
             mnuTabs = null;
-            accessedTab = null;
             paneList = null;
             accessedPane = null;
             cycleKeyPressed = null;

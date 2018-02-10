@@ -3,12 +3,43 @@ ecmaFeatures:
 
 env:
     node: true
-    browser: true
     amd: true
     builtin: true
     mocha: true
     jasmine: false
     es6: true
+
+globals:
+    importScripts: true
+    document: true
+    window: true
+    location: true
+    navigator: true
+    console: true
+    Worker: true
+    postMessage: true
+    setTimeout: true
+    clearTimeout: true
+    setInterval: true
+    clearInterval: true
+    Blob: true
+    XMLHttpRequest: true
+    localStorage: true
+    requestAnimationFrame: true
+    KeyboardEvent: true
+    onload: true # for tests
+    btoa: true
+    atob: true
+    apf: true
+    alert: true
+    prompt: true
+    Image: true
+    URL: true
+    FileReader: true
+    FileReaderSync: true
+    WebSocket: true
+    sessionStorage: true
+    localStorage: true
 
 plugins: 
   - react
@@ -103,3 +134,14 @@ rules:
     no-multi-spaces: 1
     no-lone-blocks: 1
     // valid-jsdoc: [1, { requireReturn: false, requireParamDescription: false, prefer: { "return": "return" } }]
+    no-empty: [1, {"allowEmptyCatch": true}]
+    no-useless-escape: [0] // broken for regexps
+    no-ex-assign: 0
+    no-fallthrough: 0
+    no-sparse-arrays: 0
+    no-control-regex: 0
+    no-unsafe-finally: 0
+    no-mixed-spaces-and-tabs: 0
+    no-constant-condition: [1, { "checkLoops": false }]
+    
+    

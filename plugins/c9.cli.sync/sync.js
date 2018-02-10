@@ -64,7 +64,7 @@ define(function(require, exports, module) {
         var targets = {};
 
         function getWorkspace(wsname, callback) {
-            emit("connecting", { wspath: wspath });
+            emit("connecting", { wsname: wsname });
 
             workspace.connect(wsname, function(err, ws) {
                 ws.setupSshConnection(function(err) {
@@ -247,7 +247,7 @@ define(function(require, exports, module) {
             
         });
         plugin.on("unload", function() {
-            loaded = false;
+            
         });
         
         /***** Register and define API *****/

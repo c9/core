@@ -666,7 +666,7 @@ define(function(require, exports, module) {
             }, function(err, p) {
                 if (err) return cb(err);
                 
-                process = p.process;
+                var process = p.process;
                 var stderr = "";
                 var stdout = "";
                 process.stdout.on("data", function(e) {

@@ -1,4 +1,4 @@
-/*global describe it before after bar bar2 */
+/*global describe it before after bar */
 
 "use client";
 
@@ -43,7 +43,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         var layout = imports.layout;
         
         var emitter = require("events").EventEmitter;
-        
+        var bar2;
         
         var p = [];
         

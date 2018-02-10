@@ -187,7 +187,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                             fileEntry.file(function(file) {
                                 file.entry = fileEntry;
                                 next(null, file);
-                            }, onerror);
+                            }, next);
                         };
                         fileWriter.onerror = next;
                         
