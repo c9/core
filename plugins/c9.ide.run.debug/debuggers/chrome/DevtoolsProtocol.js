@@ -41,34 +41,32 @@ var DevtoolsProtocol = module.exports = function(socket) {
                 return this.callbacks[message.id](message.result, message.error);
         } else {
             var params = message.params;
-            if (message.method == "Debugger.scriptParsed") {
-                this.$scripts[params.scriptId] = params;
-                this._signal("afterCompile", params);
-            }
-            else if (message.method == "Runtime.executionContextCreated") {
-                console.log(message.params);
-            }
-            else if (message.method == "Runtime.executionContextDestroyed") {
-                console.log(message.params);
-                this.detachDebugger();
-            }
-            else if (message.method == "Debugger.resumed") {
-                this.$callstack = null;
-                this._signal("changeRunning", params);
-                console.warn(message);
-            }
-            else if (message.method == "Debugger.paused") {
-                this.$callstack = params;
-                this._signal("changeRunning", params);
-                console.warn(message);
-                if (params.reason == "exception") {
-                    this._signal("exception", params);
-                } else {
-                    this._signal("break", params);
-                }
-            }
-            else {
-                console.warn(message);
+            switch (message.method) {
+                case "Debugger.scriptParsed":
+                    this.$scripts[params.scriptId] = params;
+                    this._signal("afterCompile", params);
+                    break;
+                case "Runtime.executionContextCreated":
+                    // TODO add support for threads
+                    break;
+                case "Runtime.executionContextDestroyed":
+                    console.log(message.params);
+                    this.detachDebugger();
+                    break;
+                case "Debugger.resumed":
+                    this.$callstack = null;
+                    this._signal("changeRunning", params);
+                    break;
+                case "Debugger.paused":
+                    this.$callstack = params;
+                    this._signal("changeRunning", params);
+                    if (params.reason == "exception")
+                        this._signal("exception", params);
+                    else
+                        this._signal("break", params);
+                    break;
+                case "Runtime.consoleAPICalled":
+                    break;
             }
         }
     };
@@ -233,7 +231,7 @@ var DevtoolsProtocol = module.exports = function(socket) {
 
 
     this.changelive = function(scriptId, newSource, previewOnly, callback, $retry) {
-        that.$send("Debugger.setScriptSource", {
+        this.$send("Debugger.setScriptSource", {
             scriptId: scriptId,
             scriptSource: newSource,
             dryRun: !!previewOnly
