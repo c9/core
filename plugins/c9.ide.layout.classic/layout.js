@@ -243,7 +243,7 @@ define(function(require, exports, module) {
             var isFlatTheme = theme.indexOf("flat") > -1;
             var img = options.staticPrefix + "/images/" + (
                 isFlatTheme
-                    ? "gecko_mask_flat_light.png"
+                    ? "gecko_mask_flat_light@" + (highResolution ? 2 : 1) + "x.png"
                     : "gecko_mask.png");
             var width = isFlatTheme ? 76 : 46;
             var height = isFlatTheme ? 26 : 24;
