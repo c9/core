@@ -26,15 +26,25 @@ var socketPath = process.env.HOME + "/.c9/chrome.sock";
 if (IS_WINDOWS)
     socketPath = "\\\\.\\pipe\\" + socketPath.replace(/\//g, "\\");
 
+var force = process.argv.indexOf("--force") != -1;
 console.log("Using socket", socketPath);
 
 function checkServer(id) {
     var client = net.connect(socketPath, function() {
         if (id) return;
-        console.log("process already exists");
-        process.exit(0);
+        if (!force) {
+            console.log("process already exists");
+            process.exit(0);
+        }
+        else {
+            console.log("trying to replace existing process");
+            var strMsg = JSON.stringify({ $: "exit" });
+            client.write(strMsg + "\0");
+        }
     });
     client.on("data", function(data) {
+        if (force)
+            return console.log("old pid" + data);
         try {
             var msg = JSON.parse(data.toString().slice(0, -1));
         } catch (e) {}
@@ -52,6 +62,13 @@ function checkServer(id) {
         
         process.exit(1);
     });
+    
+    if (force) {
+        client.once("close", function() {
+            if (!server)
+                createServer();
+        });
+    }
 }
 
 var $id = 0;
