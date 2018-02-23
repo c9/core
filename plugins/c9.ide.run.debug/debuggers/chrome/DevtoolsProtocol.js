@@ -50,7 +50,6 @@ var DevtoolsProtocol = module.exports = function(socket) {
                     // TODO add support for threads
                     break;
                 case "Runtime.executionContextDestroyed":
-                    console.log(message.params);
                     this.detachDebugger();
                     break;
                 case "Debugger.resumed":
