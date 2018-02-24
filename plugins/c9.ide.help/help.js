@@ -116,7 +116,7 @@ define(function(require, exports, module) {
             ui.insertCss(css, null, plugin);
             
             // Create UI elements
-            ui.insertMarkup(null, markup, plugin);
+            ui.insertMarkup(null, markup.replace(/{YEAR}/g, new Date().getFullYear()), plugin);
             
             aboutDialog = plugin.getElement("aboutDialog");
         
