@@ -152,7 +152,7 @@ module.exports = function(config, optimist) {
         "./c9.core/ext",
         
         {
-            packagePath: "./c9.ide.server/plugins",
+            packagePath: "./c9.ide.server/ide-statics",
             // allow everything in standalone mode
             blacklist: {
                 "c9.ide.server": true,
