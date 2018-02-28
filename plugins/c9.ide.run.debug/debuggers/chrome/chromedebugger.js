@@ -80,7 +80,14 @@ define(function(require, exports, module) {
             }
             
             var list = breakpoints.slice(0);
-            var retries = 0;
+            if (list.length == 0) {
+                // node v9.5 segfaults when there are no breakpoints
+                list.push({
+                    path: "_c9_node_segfault_workaround_",
+                    line: 100,
+                    enabled: true,
+                });
+            }
             
             listBreakpoints(function handleBps(err, remoteBreakpoints) {
                 if (err) return callback(err);

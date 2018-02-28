@@ -78,7 +78,15 @@ function Debugger(options) {
             self.disconnect();
         });
         ws.on("message", function incoming(data) {
+            try {
+                var parsed = JSON.parse(data);
+            } catch (e) {
+            }
             // console.log("<<" + data);
+            // ignore for now since this is noisy, and is not used on the client
+            if (parsed && parsed.method == "Runtime.consoleAPICalled")
+                return;
+            
             broadcast(data);
         });
         ws.on("error", function(e) {
@@ -128,7 +136,7 @@ function Debugger(options) {
         if (this.ws)
             this.ws.close();
         if (this.v8Socket)
-            this.v8Socket.close();
+            this.v8Socket.destroy();
     };
     
 }).call(Debugger.prototype);
