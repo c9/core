@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Ace Tree</title>
+    
+    <link rel="stylesheet" href="demo/styles.css" type="text/css" media="screen" charset="utf-8">
+</head>
+<body>
+<div id="tree"></div>
+<div id="editor-container"></div>
+
+<script src="../ace/demo/kitchen-sink/require.js" type="text/javascript"></script>
+<script type="text/javascript">
+require.config({
+    baseUrl: "/static/lib/ace_tree",
+    paths: {ace: "../ace/lib/ace", root: ".", ace_tree: "lib/ace_tree"},
+    waitSeconds: 30
+});
+
+require(["ace_tree/tree", "ace_tree/data_provider", "ace/ace", "ace_tree/list_data"], function(Tree, TreeData) {
+var oop = require("ace/lib/oop");
+var ListDataBase = require("ace_tree/list_data");
+
+var ListData = function(array) {
+    ListDataBase.call(this, array)
+    this.visibleItems = array || [];    
+    this.innerRowHeight = 50
+    this.rowHeight = this.innerRowHeight;
+};
+
+oop.inherits(ListData, ListDataBase);
+(function() {
+
+    this.onUpdateFiltering = function() {
+		this._signal("change");
+	};
+    
+    this.renderRow = function(row, html, config) {
+        var name = this.visibleItems[row];
+        var isSelected = this.isSelected(name);
+        html.push(
+            "<div class='tree-row " + (isSelected ? "selected'" : "'")
+            + "style='height:" +this.innerRowHeight +"px;border:solid'>"
+            + name
+            +"</div>"
+        );
+    };
+    
+}).call(ListData.prototype);
+
+
+    
+var el = document.getElementById("tree")
+tree = new Tree(el);
+
+window.addEventListener("resize", function() {
+    tree.resize()
+})
+var a = [];
+for (var i = 0; i < 20000; i++) {a[i] = "item " + i}
+nd = new ListData(a)
+tree.setDataProvider(nd)
+    
+});
+</script>
+
+
+</body>
+</html>

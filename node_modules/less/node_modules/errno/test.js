@@ -71,3 +71,18 @@ test('callstack', function (t) {
     secondLastFunction(MyError3, testFrames(t))
   })
 })
+
+test('error without message', function (t) {
+  const Cust = errno.create('WriteError')
+  const cust = new Cust({
+    code: 22,
+    message: '',
+    name: 'QuotaExceededError'
+  })
+
+  t.equal(cust.name, 'WriteError', 'correct custom name')
+  t.equal(cust.type, 'WriteError', 'correct custom type')
+  t.equal(cust.message, 'QuotaExceededError', 'message is the name')
+  t.notOk(cust.cause, 'no cause')
+  t.end()
+})

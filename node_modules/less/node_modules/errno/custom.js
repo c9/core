@@ -1,13 +1,15 @@
 var prr = require('prr')
 
 function init (type, message, cause) {
+  if (!!message && typeof message != 'string') {
+    message = message.message || message.name
+  }
   prr(this, {
       type    : type
     , name    : type
       // can be passed just a 'cause'
     , cause   : typeof message != 'string' ? message : cause
-    , message : !!message && typeof message != 'string' ? message.message : message
-
+    , message : message
   }, 'ewr')
 }
 

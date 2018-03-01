@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Cloud9</title>
     <script>
+    var start = Date.now();
         // For node-webkit
         var nRequire = window.require; 
         window.nativeRequire = function(path){
@@ -30,7 +31,6 @@
     <% } %>
     <script>
         var plugins = <%-: architectConfig | JSONToJS %>;
-        var start = Date.now();
         
         <% if (packed) { %>
             require.MODULE_LOAD_URL = "/static/standalone/modules"

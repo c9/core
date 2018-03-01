@@ -102580,7 +102580,8 @@ define.amd = true;
 
 define("events",[], function(require, exports, module) {
 
-var EventEmitter = exports.EventEmitter = function() {};
+var EventEmitter = module.exports = function() {};
+EventEmitter.EventEmitter = EventEmitter;
 
 var toString = Object.prototype.toString;
 

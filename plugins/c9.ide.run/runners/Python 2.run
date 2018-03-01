@@ -1,9 +1,9 @@
 {
     "script": [
         "if [ \"$debug\" == true ]; then ",
-        "    python2 -m ikpdb --ikpdb-port=15471 --ikpdb-working-directory=$project_path $file $args",
+        "    python2 -m ikpdb --ikpdb-port=15471 --ikpdb-working-directory=$project_path \"$file\" $args",
         "else",
-        "   python2 $file $args",
+        "   python2 \"$file\" $args",
         "fi",
         "checkExitCode() {",
         "    if [ $1 ] && [ \"$debug\" == true ]; then ",

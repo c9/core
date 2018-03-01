@@ -1,0 +1,75 @@
+.ace_tree-light.ace_tree{
+    font: 12px Arial;
+}
+
+.ace_tree_selection_range{
+    background : rgba(0, 110, 255, 0.2);
+    border : 1px solid rgba(0,0,0,0.1);
+}
+.ace_tree_focus .ace_tree_selection_range{
+    
+}
+
+.ace_tree-light .toggler {
+    overflow: visible;
+    width: 10px;
+    height: 10px;
+}
+
+.ace_tree-light .tree-row .caption {
+    padding : 4px 5px;
+}
+.ace_tree-light .tree-row > .caption {
+    overflow: visible;
+    display: inline-block;
+}
+.ace_tree-light .tree-row {
+    border: 1px solid transparent;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.ace_tree-light .tree-row:hover,
+.ace_tree-light .tree-row.hover{
+    background: rgba(0, 0, 0, 0.03);
+}
+.ace_tree-light .tree-row.selected {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.ace_tree_focus.ace_tree-light .tree-row.selected {
+    background: -webkit-gradient(linear, left top, left bottom, from(#2890E5), color-stop(1, #1F82D2));
+    background: -moz-linear-gradient(center bottom, #1f82d2 0%, #2890e5 100%) repeat scroll 0 0 transparent;
+    background: linear-gradient(center bottom, #1f82d2 0%, #2890e5 100%) repeat scroll 0 0 transparent;
+    color: #f8f8f8;
+}
+
+
+/* datagrid */
+
+.ace_tree-light .tree-row>.tree-column {
+    border: 1px solid rgb(204, 204, 204);
+    border-width: 0 1px 1px 0;
+    padding: 4px 5px;
+}
+
+.ace_tree-light .tree-row.selected>.tree-column {
+    background: transparent;
+}
+.ace_tree-light .tree-headings {
+    background: rgb(253, 253, 253);
+}
+.ace_tree-light .tree-headings>.tree-column {
+    background: transparent;
+    padding: 5px 3px;
+}
+
+.ace_tree-light .tree-headings>.tree-column-resizer {
+    height: 100%;
+    background: rgb(182, 182, 182);
+    display: inline-block;
+    width: 1px;
+    z-index: 1000;
+    position: absolute;
+    margin-left: -1px;
+    border-left: 1px solid rgba(0, 0, 0, 0);
+}

@@ -1,3 +1,4 @@
+/*global apf*/
 define(function(require, exports, module) {
     main.consumes = ["app"];
     main.provides = ["ext", "Plugin"];
@@ -157,6 +158,7 @@ define(function(require, exports, module) {
         }
         
         function unloadRemotePlugin(id, options, callback) {
+            var vfs = architectApp.services.vfs;
             if (typeof options == "function") {
                 callback = options;
                 options = {};
