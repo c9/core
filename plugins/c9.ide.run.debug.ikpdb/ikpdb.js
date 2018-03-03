@@ -35,7 +35,7 @@ define(function(require, exports, module) {
 
         
         /***** Initialization *****/
-        var TYPE = "ikpdb";
+        var TYPE = "pythondebug";
         var PROXY = require("text!./netproxy.js");
         
         var plugin = new Plugin("Cyril Morisse,Audaxis", main.consumes);
