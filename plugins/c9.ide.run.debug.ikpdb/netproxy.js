@@ -13,7 +13,7 @@ var browserBuffer = [];
 var browserClient, 
     debugClient;
 
-var MAX_RETRIES = 100;
+var MAX_RETRIES = 600;
 var RETRY_INTERVAL = 300;
 
 var log = console.log;
