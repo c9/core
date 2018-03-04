@@ -135,7 +135,7 @@ var MouseHandler = function(editor) {
 config.defineOptions(MouseHandler.prototype, "mouseHandler", {
     scrollSpeed: {initialValue: 2},
     dragDelay: {initialValue: 150},
-    focusTimout: {initialValue: 0},
+    focusTimeout: {initialValue: 0},
     enableDragDrop: {initialValue: false}
 });
 

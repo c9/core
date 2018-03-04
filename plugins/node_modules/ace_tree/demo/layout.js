@@ -123,7 +123,7 @@ exports.singleLineEditor = function(el) {
     editor.setShowPrintMargin(false);
     editor.renderer.setShowGutter(false);
     editor.renderer.setHighlightGutterLine(false);
-    editor.$mouseHandler.$focusWaitTimout = 0;
+    editor.$mouseHandler.$focusTimeout = 0;
 
     return editor;
 };
