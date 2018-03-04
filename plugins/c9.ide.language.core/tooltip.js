@@ -189,7 +189,7 @@ define(function(require, exports, module) {
             var cursorConfig = ace.renderer.$cursorLayer.config;
             if (!cursorConfig)
                 return;
-            labelHeight = dom.getInnerHeight(tooltipEl);
+            labelHeight = tooltipEl.getBoundingClientRect().height;
             isTopdown = true;
             if (row > cursorPos.row) // don't obscure cursor
                 isTopdown = true;

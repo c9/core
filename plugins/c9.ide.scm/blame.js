@@ -359,8 +359,8 @@ var BlameGutter = function(editor, blameStr) {
                 blameHtml[$blameIndex] += this.session.getRowLength(i - 1) * lineHeight;
         }
 
-        this.element = dom.setInnerHtml(this.element, html.join(""));
-        this.blameColumn.element = dom.setInnerHtml(blameEl, blameHtml.join(""));
+        this.element.innerHTML = html.join("");
+        blameEl.innerHTML = blameHtml.join("");
         this.element.style.height = config.minHeight + "px";
 
         var gutterWidth = this.element.parentNode.offsetWidth;

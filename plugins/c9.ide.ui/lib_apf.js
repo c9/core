@@ -8062,14 +8062,9 @@ apf.GuiElement.propHandlers = {
         else { //if (apf.isTrue(value)) default
             if (this.$ext) {
                 this.$ext.style.display = ""; //Some form of inheritance detection
-                if (!this.$ext.offsetHeight)
+                if (getComputedStyle(this.$ext).display == "none")
                     this.$ext.style.display = this.$display || "block";
             }
-            
-            
-            // if (apf.layout && this.$int) //apf.hasSingleRszEvent)
-            //     apf.layout.forceResize(this.$int);//this.$int
-            
             
             this.visible = true;
         }

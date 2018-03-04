@@ -264,7 +264,7 @@ define(function(require, exports, module) {
             docElement = txtQuickfixDoc.$ext;
             cursorConfig = ace.renderer.$cursorLayer.config;
             lineHeight = cursorConfig.lineHeight + EXTRA_LINE_HEIGHT;
-            var style = dom.computedStyle(editor.amlEditor.$ext);
+            var style = getComputedStyle(editor.amlEditor.$ext);
             quickfixElement.style.fontSize = style.fontSize;
             
             barQuickfixCont.setAttribute('visible', true);
