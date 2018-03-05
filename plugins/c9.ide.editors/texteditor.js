@@ -49,13 +49,13 @@ define(function(require, exports, module) {
                 
                 // Value
                 doc.on("getValue", function get(e) { 
-                    return currentDocument == doc 
+                    return currentDocument == doc && editor
                         ? editor.value 
                         : e.value;
                 }, session);
                 
                 doc.on("setValue", function set(e) { 
-                    if (currentDocument == doc)
+                    if (currentDocument == doc && editor)
                         editor.value = e.value || ""; 
                 }, session);
                 
