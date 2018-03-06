@@ -150,8 +150,6 @@ define(function(require, exports, module) {
         
         function updateTheme(noquestion, type) {
             var sTheme = settings.get("user/general/@skin");
-            if (!allowedThemes[sTheme])
-                sTheme = "dark";
             
             if (noquestion === undefined)
                 noquestion = !theme;
@@ -164,10 +162,13 @@ define(function(require, exports, module) {
                 
                 if (ui.packedThemes) {
                     preload.getTheme(theme, function(err, themeCss) {
-                        if (err)
-                            return;
                         if (sTheme !== theme)
                             return;
+                        if (err) {
+                            if (!allowedThemes[sTheme])
+                                settings.set("user/general/@skin", "dark");
+                            return;
+                        }
                         // Remove Current Theme
                         if (removeTheme)
                             removeTheme();

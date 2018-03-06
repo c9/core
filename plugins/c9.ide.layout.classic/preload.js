@@ -48,6 +48,8 @@ define(function(require, exports, module) {
             } else {
                 var url = themePrefix + "/" + name + ".css";
                 require(["text!" + url], function(data) {
+                    if (!data)
+                        return callback(new Error());
                     // set sourceurl so that sourcemaps work when theme is inserted as a style tag
                     data += "\n/*# sourceURL=" + url + " */";
                     themes[name] = data;
