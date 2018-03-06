@@ -172,6 +172,7 @@ define(function(require, exports, module) {
                 "plugins/c9.ide.ace.keymaps/vim/keymap",
                 "plugins/c9.ide.ace.keymaps/emacs/keymap",
                 "plugins/c9.ide.ace.keymaps/sublime/keymap",
+                "plugins/c9.ide.theme.jett/ace.themes/jett"
             ];
             
             // FIXME: this could be resolved via pathConfig:
