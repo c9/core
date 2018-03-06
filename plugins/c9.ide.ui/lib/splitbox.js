@@ -1482,6 +1482,7 @@ apf.splitter.templates = {
                 }
     
                 apf.plane.setCursor(_self.type == "vertical" ? "ew-resize" : "ns-resize");
+                _self.$ext.classList.add("hover");
     
                 _self.$setStyleClass(this, _self.$baseCSSname + "Moving");
                 
@@ -1490,6 +1491,7 @@ apf.splitter.templates = {
                     if (!e) e = event;
                     
                     _self.$setStyleClass(_self.$ext, "", [_self.$baseCSSname + "Moving"]);
+                    _self.$ext.classList.remove("hover");
                     
                     update(e, true);
                     

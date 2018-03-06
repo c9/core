@@ -33,11 +33,8 @@ define(function(require, exports, module) {
                 ["skin", options.defaultTheme || "flat-dark"]
             ]);
             if (!packed || options.loadTheme) return callback();
-            try {
-                var theme = settings.get("user/general/@skin");
-                return getTheme(theme, callback);
-            } catch (e) {}
-            async.forEach(Object.keys(themes), getTheme, callback);
+            var theme = settings.get("user/general/@skin");
+            return getTheme(theme, callback);
         }
 
         function getTheme(name, callback) {
