@@ -45,7 +45,7 @@ define(function(require, exports, module) {
                     }
                     var skins = options.withSkins;
                     if (skins === true || skins === "all")
-                        skins = ["dark", "light", "dark-gray", "light-gray", "flat-light", "flat-dark"];
+                        skins = ["dark", "light", "dark-gray", "light-gray", "flat-light", "flat-dark", "jett-dark"];
                     else
                         skins = skins ? skins.split(/,\s*/) : [];
                     
