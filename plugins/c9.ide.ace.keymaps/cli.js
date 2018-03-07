@@ -384,8 +384,8 @@ define(function(require, exports, module) {
             else if (commands.commands[firstCmd]) {
                 commands.exec(firstCmd, null, { argv: args });
             }
-            else if (/^\d+$/.test(cmd)) {
-                ed.gotoLine(cmd, 0, true);
+            else if (/^[+\-\d,]+$/.test(cmd)) {
+                Vim.handleEx(ed.state.cm, cmd);
             }
             else {
                 for (var key in this.reCommands) {
@@ -463,7 +463,7 @@ define(function(require, exports, module) {
             cmdLine.addToHistory();
             cmdLine.setValue("");
             var editor = getActiveEditor();
-            if (editor) editor.focus();
+            if (editor) editor.textInput.focus();
         }
         
         function initCmdLine(cmdLine) {

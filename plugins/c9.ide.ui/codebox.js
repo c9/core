@@ -150,7 +150,7 @@ apf.codebox = function(struct, tagName) {
         editor.renderer.setShowGutter(false);
         editor.renderer.setHighlightGutterLine(false);
 
-        editor.$mouseHandler.$focusWaitTimout = 0;
+        editor.$mouseHandler.$focusTimeout = 0;
         
         editor.setReadOnly = function(readOnly) {
             if (this.$readOnly != readOnly) {
