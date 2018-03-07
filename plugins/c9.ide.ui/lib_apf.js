@@ -5541,9 +5541,12 @@ apf.AmlNode = function(){
                     nextNode = nextNode.nextSibling;
                 }
                 
-                amlNode.$pHtmlNode.insertBefore(amlNode.$altExt || amlNode.$ext,
-                    nextNode && (nextNode.$altExt || nextNode.$ext) || null);
+                var htmlNode = amlNode.$altExt || amlNode.$ext;
+                var nextHtmlNode = nextNode && (nextNode.$altExt || nextNode.$ext) || null;
+                if (htmlNode.parentNode != amlNode.$pHtmlNode || amlNode.nextSibling != nextHtmlNode) {
                     
+                    amlNode.$pHtmlNode.insertBefore(htmlNode, nextHtmlNode);
+                }
             }
             
             //Signal node and all it's ancestors

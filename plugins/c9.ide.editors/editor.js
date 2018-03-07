@@ -30,6 +30,7 @@ define(function(require, module, exports) {
                 // Old Editor
                 var lastEditor = doc.editor;
                 if (lastEditor && lastEditor != plugin) {
+                    doc.getState();
                     lastEditor.unloadDocument(doc, { 
                         toEditor: plugin, 
                         fromEditor: lastEditor 
