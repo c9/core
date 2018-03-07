@@ -248,7 +248,7 @@
   },
   "homepage": "https://github.com/ternjs/tern#readme",
   "_id": "tern@0.16.1",
-  "_shasum": "1c5690edb7ae8a6639500ef84702a370308e34af",
+  "_shasum": "ca82304a3ac0a89f88769e01b8a10efe9fdfb7d3",
   "_from": "git+https://github.com/cloud9ide/tern.git#39015d544d4c00c7899fea4c95c2e5bc2720e68e",
   "_resolved": "git+https://github.com/cloud9ide/tern.git#39015d544d4c00c7899fea4c95c2e5bc2720e68e"
 }

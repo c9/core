@@ -45,7 +45,7 @@ define(function(require, exports, module) {
                     }
                     var skins = options.withSkins;
                     if (skins === true || skins === "all")
-                        skins = ["dark", "light", "dark-gray", "light-gray", "flat-light", "flat-dark"];
+                        skins = ["dark", "light", "dark-gray", "light-gray", "flat-light", "flat-dark", "jett-dark"];
                     else
                         skins = skins ? skins.split(/,\s*/) : [];
                     
@@ -172,6 +172,7 @@ define(function(require, exports, module) {
                 "plugins/c9.ide.ace.keymaps/vim/keymap",
                 "plugins/c9.ide.ace.keymaps/emacs/keymap",
                 "plugins/c9.ide.ace.keymaps/sublime/keymap",
+                "plugins/c9.ide.theme.jett/ace.themes/jett"
             ];
             
             // FIXME: this could be resolved via pathConfig:
