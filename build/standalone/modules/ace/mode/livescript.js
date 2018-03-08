@@ -50,6 +50,7 @@ define("ace/mode/livescript",[], function(require, exports, module){
         this.$outdent = new that.MatchingBraceOutdent;
       }
       this.$id = "ace/mode/livescript";
+      this.$behaviour = new (require("./behaviour/cstyle").CstyleBehaviour)();
     }
     indenter = RegExp('(?:[({[=:]|[-~]>|\\b(?:e(?:lse|xport)|d(?:o|efault)|t(?:ry|hen)|finally|import(?:\\s*all)?|const|var|let|new|catch(?:\\s*' + identifier + ')?))\\s*$');
     prototype.getNextLineIndent = function(state, line, tab){

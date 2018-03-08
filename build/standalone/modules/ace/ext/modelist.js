@@ -64,6 +64,7 @@ var supportedModes = {
     Dockerfile:  ["^Dockerfile"],
     Dot:         ["dot"],
     Drools:      ["drl"],
+    Edifact:     ["edi"],
     Eiffel:      ["e|ge"],
     EJS:         ["ejs"],
     Elixir:      ["ex|exs"],

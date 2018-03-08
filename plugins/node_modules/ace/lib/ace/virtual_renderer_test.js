@@ -36,10 +36,17 @@ if (typeof process !== "undefined") {
 define(function(require, exports, module) {
 "use strict";
 
-var Editor = require("./edit_session").Editor;
+var Editor = require("./editor").Editor;
 var EditSession = require("./edit_session").EditSession;
 var VirtualRenderer = require("./virtual_renderer").VirtualRenderer;
 var assert = require("./test/assertions");
+require("./ext/error_marker");
+
+function setScreenPosition(node, rect) {
+    node.getBoundingClientRect = function() { 
+        return { left: rect[0], top: rect[1], width: rect[2], height: rect[3] };
+    };
+}
 
 var editor = null;
 module.exports = {
@@ -64,7 +71,6 @@ module.exports = {
         editor = null;
     },
     "test: screen2text the column should be rounded to the next character edge" : function(done) {
-        if (!editor) return done();
         var renderer = editor.renderer;
 
         renderer.setPadding(0);
@@ -86,21 +92,76 @@ module.exports = {
         testPixelToText(15, 0, 0, 2);
         done();
     },
+    "test: handle css transforms" : function(done) {
+        var renderer = editor.renderer;
+        var fontMetrics = renderer.$fontMetrics;
+        setScreenPosition(editor.container, [20, 30, 300, 100]);
+        var measureNode = fontMetrics.$measureNode;
+        setScreenPosition(measureNode, [0, 0, 10 * measureNode.textContent.length, 15]);
+        setScreenPosition(fontMetrics.$main, [0, 0, 10 * measureNode.textContent.length, 15]);
+        
+        fontMetrics.$characterSize.width = 10;
+        renderer.setPadding(0);
+        renderer.onResize(true);
+        
+        assert.equal(fontMetrics.getCharacterWidth(), 1);
+        
+        renderer.characterWidth = 10;
+        renderer.lineHeight = 15;
+        
+        renderer.gutterWidth = 40;
+        editor.setOption("hasCssTransforms", true);
+        editor.container.style.transform = "matrix3d(0.7, 0, 0, -0.00066, 0, 0.82, 0, -0.001, 0, 0, 1, 0, -100, -20, 10, 1)";
+        editor.container.style.zoom = 1.5;
+        var pos = renderer.pixelToScreenCoordinates(100, 200);
+        
+        var els = fontMetrics.els;
+        var rects = [
+            [0, 0],
+            [-37.60084843635559, 161.62494659423828],
+            [114.50254130363464, -6.890693664550781],
+            [98.85665202140808, 179.16063690185547]
+        ];
+        rects.forEach(function(rect, i) {
+            els[i].getBoundingClientRect = function() { 
+                return { left: rect[0], top: rect[1] };
+            };
+        });
+        
+        var r0 = els[0].getBoundingClientRect();
+        pos = renderer.pixelToScreenCoordinates(r0.left + 100, r0.top + 200);
+        assert.position(pos, 10, 11);
+        
+        var pos1 = fontMetrics.transformCoordinates(null, [0, 200]);
+        assert.ok(pos1[0] - rects[2][0] < 10e-6);
+        assert.ok(pos1[1] - rects[2][1] < 10e-6);
+        
+        done();
+    },
     
     "test scrollmargin + autosize": function(done) {
-        if (!editor) return done();
         editor.setOptions({
             maxLines: 100,
-            useWrapMode: true
+            wrap: true
         });        
         editor.renderer.setScrollMargin(10, 10);
         editor.setValue("\n\n");
         editor.setValue("\n\n\n\n");
+        if (editor.container.offsetWidth == undefined)
+            return done(); // jsdom
         editor.renderer.once("afterRender", function() {
             setTimeout(function() {
                 done();
             }, 0);
         });
+    },
+    
+    "test line widgets": function() {
+        editor.session.setValue("a\nb|c\nd");
+        editor.session.setAnnotations([{row: 1, column: 2, type: "error"}]);
+        editor.execCommand(editor.commands.byName.goToNextError);
+        assert.position(editor.getCursorPosition(), 1, 2);
+        assert.ok(editor.session.lineWidgets[1]);
     }
 
     // change tab size after setDocument (for text layer)

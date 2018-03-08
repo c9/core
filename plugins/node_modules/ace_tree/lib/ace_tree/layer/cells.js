@@ -55,7 +55,7 @@ var Cells = function(parentEl) {
             this.renderPlaceHolder(provider, html, config);
         }
         
-        this.element = dom.setInnerHtml(this.element, html.join(""));
+        this.element.innerHTML = html.join("");
         
         if (!vsize) {
             this.measureSizes();
@@ -134,7 +134,7 @@ var Cells = function(parentEl) {
             this.renderPlaceHolder(provider, html, config);
         }
         
-        this.element = dom.setInnerHtml(this.element, html.join(""));
+        this.element.innerHTML = html.join("");
     };
     
     this.updateClasses = function(config) {

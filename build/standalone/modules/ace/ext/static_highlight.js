@@ -230,6 +230,7 @@ var Text = function(parentEl) {
 
             var html = [];
             this.$renderLine(html, row, false, row == foldStart ? foldLine : false);
+
             container.innerHTML = html.join("");
             if (this.$useLineGroups()) {
                 container.className = 'ace_line_group';

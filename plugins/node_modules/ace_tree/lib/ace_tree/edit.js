@@ -132,7 +132,7 @@ var EditableTree = function(tree) {
         editor.setShowPrintMargin(false);
         editor.renderer.setShowGutter(false);
         editor.renderer.setHighlightGutterLine(false);
-        editor.$mouseHandler.$focusWaitTimout = 0;
+        editor.$mouseHandler.$focusTimeout = 0;
         editor.renderer.setPadding(2);
         editor.container.style.font = "inherit";
         editor.renderer.$markerBack.element.style.marginTop =

@@ -6,6 +6,7 @@ define("ace/theme/textmate",[], function(require, exports, module) {
 exports.isDark = false;
 exports.cssClass = "ace-tm";
 exports.cssText = require("../requirejs/text!./textmate.css");
+exports.$id = "ace/theme/textmate";
 
 var dom = require("../lib/dom");
 dom.importCssString(exports.cssText, exports.cssClass);

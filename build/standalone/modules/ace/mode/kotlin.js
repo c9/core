@@ -858,11 +858,13 @@ define("ace/mode/kotlin",[], function(require, exports, module) {
 var oop = require("../lib/oop");
 var TextMode = require("./text").Mode;
 var KotlinHighlightRules = require("./kotlin_highlight_rules").KotlinHighlightRules;
+var CstyleBehaviour = require("./behaviour/cstyle").CstyleBehaviour;
 var FoldMode = require("./folding/cstyle").FoldMode;
 
 var Mode = function() {
     this.HighlightRules = KotlinHighlightRules;
     this.foldingRules = new FoldMode();
+    this.$behaviour = new CstyleBehaviour();
 };
 oop.inherits(Mode, TextMode);
 

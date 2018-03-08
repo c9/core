@@ -706,6 +706,7 @@ var Text = function(parentEl) {
 
             var html = [];
             this.$renderLine(html, row, false, row == foldStart ? foldLine : false);
+
             container.innerHTML = html.join("");
             if (this.$useLineGroups()) {
                 container.className = 'ace_line_group';
@@ -1415,6 +1416,7 @@ var EventEmitter = require("../lib/event_emitter").EventEmitter;
 
 var CHAR_COUNT = 256;
 var USE_OBSERVER = typeof ResizeObserver == "function";
+var L = 200;
 
 var FontMetrics = exports.FontMetrics = function(parentEl) {
     this.el = dom.createElement("div");
@@ -1537,6 +1539,64 @@ var FontMetrics = exports.FontMetrics = function(parentEl) {
             this.el.parentNode.removeChild(this.el);
     };
 
+    
+    this.$getZoom = function getZoom(element) {
+        if (!element) return 1;
+        return (window.getComputedStyle(element).zoom || 1) * getZoom(element.parentElement);
+    };
+    this.$initTransformMeasureNodes = function() {
+        var t = function(t, l) {
+            return ["div", {
+                style: "position: absolute;top:" + t + "px;left:" + l + "px;"
+            }];
+        };
+        this.els = dom.buildDom([t(0, 0), t(L, 0), t(0, L), t(L, L)], this.el);
+    };
+    this.transformCoordinates = function(clientPos, elPos) {
+        if (clientPos) {
+            var zoom = this.$getZoom(this.el);
+            clientPos = mul(1 / zoom, clientPos);
+        }
+        function solve(l1, l2, r) {
+            var det = l1[1] * l2[0] - l1[0] * l2[1];
+            return [
+                (-l2[1] * r[0] + l2[0] * r[1]) / det,
+                (+l1[1] * r[0] - l1[0] * r[1]) / det
+            ];
+        }
+        function sub(a, b) { return [a[0] - b[0], a[1] - b[1]]; }
+        function add(a, b) { return [a[0] + b[0], a[1] + b[1]]; }
+        function mul(a, b) { return [a * b[0], a * b[1]]; }
+
+        if (!this.els)
+            this.$initTransformMeasureNodes();
+        
+        function p(el) {
+            var r = el.getBoundingClientRect();
+            return [r.left, r.top];
+        }
+
+        var a = p(this.els[0]);
+        var b = p(this.els[1]);
+        var c = p(this.els[2]);
+        var d = p(this.els[3]);
+
+        var h = solve(sub(d, b), sub(d, c), sub(add(b, c), add(d, a)));
+
+        var m1 = mul(1 + h[0], sub(b, a));
+        var m2 = mul(1 + h[1], sub(c, a));
+        
+        if (elPos) {
+            var x = elPos;
+            var k = h[0] * x[0] / L + h[1] * x[1] / L + 1;
+            var ut = add(mul(x[0], m1), mul(x[1], m2));
+            return  add(mul(1 / k / L, ut), a);
+        }
+        var u = sub(clientPos, a);
+        var f = solve(sub(m1, mul(h[0], u)), sub(m2, mul(h[1], u)), u);
+        return mul(L, f);
+    };
+    
 }).call(FontMetrics.prototype);
 
 });
@@ -1567,7 +1627,6 @@ var VirtualRenderer = function(container, theme) {
     var _self = this;
 
     this.container = container || dom.createElement("div");
-    this.$keepTextAreaAtCursor = !useragent.isOldIE;
 
     dom.addCssClass(this.container, "ace_editor");
 
@@ -1978,14 +2037,16 @@ var VirtualRenderer = function(container, theme) {
         return this.container;
     };
     this.$moveTextAreaToCursor = function() {
-        if (!this.$keepTextAreaAtCursor)
+        var style = this.textarea.style;
+        if (!this.$keepTextAreaAtCursor) {
+            style.left = -100 + "px";
             return;
+        }
         var config = this.layerConfig;
         var posTop = this.$cursorLayer.$pixelPos.top;
         var posLeft = this.$cursorLayer.$pixelPos.left;
         posTop -= config.offset;
 
-        var style = this.textarea.style;
         var h = this.lineHeight;
         if (posTop < 0 || posTop > config.height - h) {
             style.top = style.left = "0";
@@ -2552,21 +2613,38 @@ var VirtualRenderer = function(container, theme) {
     };
 
     this.pixelToScreenCoordinates = function(x, y) {
-        var canvasPos = this.scroller.getBoundingClientRect();
-
+        var canvasPos;
+        if (this.$hasCssTransforms) {
+            canvasPos = {top:0, left: 0};
+            var p = this.$fontMetrics.transformCoordinates([x, y]);
+            x = p[1] - this.gutterWidth;
+            y = p[0];
+        } else {
+            canvasPos = this.scroller.getBoundingClientRect();
+        }
+        
         var offsetX = x + this.scrollLeft - canvasPos.left - this.$padding;
         var offset = offsetX / this.characterWidth;
         var row = Math.floor((y + this.scrollTop - canvasPos.top) / this.lineHeight);
-        var col = Math.round(offset);
+        var col = this.$blockCursor ? Math.floor(offset) : Math.round(offset);
 
         return {row: row, column: col, side: offset - col > 0 ? 1 : -1, offsetX:  offsetX};
     };
 
     this.screenToTextCoordinates = function(x, y) {
-        var canvasPos = this.scroller.getBoundingClientRect();
+        var canvasPos;
+        if (this.$hasCssTransforms) {
+            canvasPos = {top:0, left: 0};
+            var p = this.$fontMetrics.transformCoordinates([x, y]);
+            x = p[1] - this.gutterWidth;
+            y = p[0];
+        } else {
+            canvasPos = this.scroller.getBoundingClientRect();
+        }
+
         var offsetX = x + this.scrollLeft - canvasPos.left - this.$padding;
-        
-        var col = Math.round(offsetX / this.characterWidth);
+        var offset = offsetX / this.characterWidth;
+        var col = this.$blockCursor ? Math.floor(offset) : Math.round(offset);
 
         var row = (y + this.scrollTop - canvasPos.top) / this.lineHeight;
 
@@ -2634,10 +2712,12 @@ var VirtualRenderer = function(container, theme) {
                 return cb && cb();
             if (!module || !module.cssClass)
                 throw new Error("couldn't load module " + theme + " or it didn't call define");
+            if (module.$id)
+                _self.$themeId = module.$id;
             dom.importCssString(
                 module.cssText,
                 module.cssClass,
-                _self.container.ownerDocument
+                _self.container
             );
 
             if (_self.theme)
@@ -2677,6 +2757,10 @@ var VirtualRenderer = function(container, theme) {
     };
     this.setMouseCursor = function(cursorStyle) {
         this.scroller.style.cursor = cursorStyle;
+    };
+    
+    this.attachToShadowRoot = function() {
+        dom.importCssString(editorCss, "ace_editor.css", this.container);
     };
     this.destroy = function() {
         this.$textLayer.destroy();
@@ -2829,6 +2913,8 @@ config.defineOptions(VirtualRenderer.prototype, "renderer", {
         get: function() { return this.$themeId || this.theme; },
         initialValue: "./theme/textmate",
         handlesSet: true
+    },
+    hasCssTransforms: {
     }
 });
 
