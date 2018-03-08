@@ -169,7 +169,7 @@
                 }
             });
             
-            require.config({ useCache: true });
+            require.config({ useCache: false, transform: "~es5/" });
             mocha.bail(false);
             mocha.ignoreLeaks(true);
             mocha.fullTrace && mocha.fullTrace();

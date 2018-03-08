@@ -22,6 +22,7 @@ function main(options, imports, register) {
     var atomic = require("c9/atomic");
     var error = require("http-error");
     var frontdoor = require("frontdoor");
+    var transform = require("architect-build/transform");
     
     var cacheFiles = options.cacheFiles;
 
@@ -32,6 +33,7 @@ function main(options, imports, register) {
     
     var resolveModulePath = require("architect-build/module-deps").resolveModulePath;
     connectStatic.getRequireJsConfig().useCache = options.useBrowserCache;
+    connectStatic.getRequireJsConfig().transform = "amd";
     section.post("/__check__", [function(req, res, next) {
         req.params.hash = "any";
         next();
@@ -152,6 +154,10 @@ function main(options, imports, register) {
     section.use(imports["connect.cors"].cors("*"));
     section.use(connect.getModule().compress());
     
+    section.get("/~/:transform/:path*", [prepare, function(req, res, next) {
+        transform.sendFile(req, res, next);
+    }]);
+    
     section.get("/:hash/config/:name", [prepare, function(req, res, next) {
         var name = req.params.name.replace(/\.js$/, "");
         var file = path.join(build.cacheDir, req.params.hash, "config", name + ".js");
@@ -198,7 +204,7 @@ function main(options, imports, register) {
             .on('error', onSendError(next))
             .pipe(res);
     }]);
-
+    
     register();
 
     function sendCached(filename, req, res, next, loader) {
@@ -259,11 +265,7 @@ function main(options, imports, register) {
     }
 
     function prepare(req, res, next) {
-        var hash = req.params.hash;
-        if (!hash.match(/^[a-z0-9]+$/))
-            return next(new error.NotFound());
-        
-        build.getPathConfig(hash, function(err, pathConfig) {
+        build.getPathConfig(req.params.hash, function(err, pathConfig) {
             if (err) return next(err); 
             
             req.pathConfig = pathConfig;
