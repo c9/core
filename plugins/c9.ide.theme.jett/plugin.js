@@ -45,6 +45,7 @@ define(function(require, exports, module) {
                 group: "flat",
                 color: "rgb(41, 58, 86)",
                 name: "jett-dark",
+                caption: "Jett Dark",
                 defaults: {
                     output: {
                         backgroundColor: "#2b303b",
