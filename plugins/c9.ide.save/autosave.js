@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
     main.consumes = [
-        "Plugin", "c9", "settings", "tabManager", "preferences", "save", "apf"
+        "Plugin", "c9", "settings", "tabManager", "preferences.experimental", "save", "apf"
     ];
     main.provides = ["autosave"];
     return main;
@@ -10,7 +10,7 @@ define(function(require, exports, module) {
         var apf = imports.apf;
         var save = imports.save;
         var tabs = imports.tabManager;
-        var prefs = imports.preferences;
+        var prefs = imports["preferences.experimental"];
         var Plugin = imports.Plugin;
         var settings = imports.settings;
         
