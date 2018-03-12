@@ -1,5 +1,4 @@
 /*global apf*/
-define(function(require, exports, module) {
     "use strict";
     main.consumes = [
         "Editor", "editors", "commands", "menus", "Menu", "MenuItem", "Divider",
@@ -2930,4 +2929,3 @@ define(function(require, exports, module) {
             ace: handle
         });
     }
-});

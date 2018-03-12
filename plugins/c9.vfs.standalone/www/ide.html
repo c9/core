@@ -23,6 +23,7 @@
         </div>
     </div>
     <script>
+        var start = Date.now();
         var loadingIde = document.querySelector("#loadingide");
         document.body.className = "loading " + loadingIde.className;
     
@@ -95,88 +96,89 @@
     <script src="/static/mini_require.js"></script>
     <script src="/configs/require_config.js"></script>
     <script>
-        var start = Date.now();
-        
         var plugins;
-        require(["lib/architect/architect", "text!/ide.html?config=1"], function (architect, pluginJSON) {
-            plugins = JSON.parse(pluginJSON);
-            plugins.push({
-                consumes: [],
-                provides: ["auth.bootstrap"],
-                setup: function(options, imports, register) {
-                    register(null, {
-                        "auth.bootstrap": {
-                            login: function(callback) { callback(); }
+        require(["text!/ide.html?settings=1"], function(workspaceSettings) {
+            workspaceSettings = JSON.parse(workspaceSettings);
+            require(["lib/architect/architect", "configs/ide/" + workspaceSettings.configName], function(architect, config) {
+                plugins = config(workspaceSettings);
+                plugins.push({
+                    consumes: [],
+                    provides: ["auth.bootstrap"],
+                    setup: function(options, imports, register) {
+                        register(null, {
+                            "auth.bootstrap": {
+                                login: function(callback) { callback(); }
+                            }
+                        });
+                    }
+                });
+                
+                architect.resolveConfig(plugins, function (err, config) {
+                    if (err) throw err;
+    
+                    var errored;
+                    var app = architect.createApp(config, function(err, app){
+                        if (err) {
+                            errored = true;
+                            console.error(err.stack);
+                            alert(err);
                         }
                     });
-                }
-            });
-            
-            architect.resolveConfig(plugins, function (err, config) {
-                if (err) throw err;
-
-                var errored;
-                var app = architect.createApp(config, function(err, app){
-                    if (err) {
-                        errored = true;
+                    
+                    app.on("error", function(err){
                         console.error(err.stack);
-                        alert(err);
-                    }
-                });
-                
-                app.on("error", function(err){
-                    console.error(err.stack);
-                    if (!errored)
-                        alert(err);
-                });
-                
-                app.on("service", function(name, plugin, options) {
-                    if (!plugin.name)
-                        plugin.name = name;
-                });
-                
-                app.on("ready", function() {
-                    window.app = app.services;
-                    window.app.__defineGetter__("_ace", function(){
-                        return this.tabManager.focussedTab.editor.ace;
-                    });
-                    Object.keys(window.app).forEach(function(n) {
-                        if (/[^\w]/.test(n))
-                            window.app[n.replace(/[^\w]/, "_") + "_"] = window.app[n];
+                        if (!errored)
+                            alert(err);
                     });
                     
-                    done();
-                });
-
-                // For Development only
-                function done() {
-                    var vfs = app.services.vfs;
-                    var c9 = app.services.c9;
-                    var settings = app.services.settings;
+                    app.on("service", function(name, plugin, options) {
+                        if (!plugin.name)
+                            plugin.name = name;
+                    });
                     
-                    c9.ready();
-                    c9.totalLoadTime = Date.now() - start;
-
-                    console.warn("Total Load Time: ", Date.now() - start);
-                    
-                    if (window.hideLoader) {
-                        var waitVfs = function(fn) {
-                            vfs.connected ? fn() : vfs.once("connect", fn);
-                        };
-                        var waitSettings = function(fn) {
-                            settings.inited ? fn() : settings.once("read", fn);
-                        };
-                        var waitTheme = function(fn) {
-                            var layout = app.services.layout;
-                            if (!layout || layout.hasTheme) return fn();
-                            layout.once("eachTheme", fn);
-                        };
-                        waitTheme(waitSettings.bind(null, window.hideLoader));
+                    app.on("ready", function() {
+                        window.app = app.services;
+                        window.app.__defineGetter__("_ace", function(){
+                            return this.tabManager.focussedTab.editor.ace;
+                        });
+                        Object.keys(window.app).forEach(function(n) {
+                            if (/[^\w]/.test(n))
+                                window.app[n.replace(/[^\w]/, "_") + "_"] = window.app[n];
+                        });
+                        
+                        done();
+                    });
+    
+                    // For Development only
+                    function done() {
+                        var vfs = app.services.vfs;
+                        var c9 = app.services.c9;
+                        var settings = app.services.settings;
+                        
+                        c9.ready();
+                        c9.totalLoadTime = Date.now() - start;
+    
+                        console.warn("Total Load Time: ", Date.now() - start);
+                        
+                        if (window.hideLoader) {
+                            var waitVfs = function(fn) {
+                                vfs.connected ? fn() : vfs.once("connect", fn);
+                            };
+                            var waitSettings = function(fn) {
+                                settings.inited ? fn() : settings.once("read", fn);
+                            };
+                            var waitTheme = function(fn) {
+                                var layout = app.services.layout;
+                                if (!layout || layout.hasTheme) return fn();
+                                layout.once("eachTheme", fn);
+                            };
+                            waitTheme(waitSettings.bind(null, window.hideLoader));
+                        }
                     }
-                }
-            }, function loadError(mod) {
-                if (mod.id === "plugins/c9.ide.clipboard/html5")
-                    return alert("Unable to load html5.js.\n\nThis may be caused by a false positive in your virus scanner. Please try reloading with ?packed=1 added to the URL.");
+                }, function loadError(mod) {
+                    if (mod.id === "plugins/c9.ide.clipboard/html5")
+                        return alert("Unable to load html5.js.\n\nThis may be caused by a false positive in your virus scanner. Please try reloading with ?packed=1 added to the URL.");
+                });
             });
         });
     </script>
