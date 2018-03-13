@@ -1,131 +1,175 @@
 define(function(require, exports, module) {
     main.consumes = [
-        "Plugin", "c9", "ui", "layout", "tooltip",
-        "anims", "menus", "tabManager", "save",
-        "preferences.experimental"
+        "Plugin", "c9", "settings", "tabManager", "preferences.experimental", "save", "apf"
     ];
     main.provides = ["autosave"];
     return main;
 
     function main(options, imports, register) {
         var c9 = imports.c9;
-        var Plugin = imports.Plugin;
+        var apf = imports.apf;
         var save = imports.save;
-        var tooltip = imports.tooltip;
         var tabs = imports.tabManager;
-        var experimental = imports["preferences.experimental"];
+        var prefs = imports["preferences.experimental"];
+        var Plugin = imports.Plugin;
+        var settings = imports.settings;
+        
+        var lang = require("ace/lib/lang");
         
         /***** Initialization *****/
         
         var plugin = new Plugin("Ajax.org", main.consumes);
         
-        var INTERVAL = 60000;
-        var CHANGE_TIMEOUT = 500;
+        var CHANGE_TIMEOUT = options.changeTimeout || 1000;
         var SLOW_CHANGE_TIMEOUT = options.slowChangeTimeout || 30000;
-        var SLOW_SAVE_THRESHOLD = 100 * 1024; // 100KB
         
-        var docChangeTimeout = null;
-        var btnSave, autosave = true, saveInterval;
-        var enabled = options.testing
-            || experimental.addExperiment("autosave", false, "Files/Auto-Save");
+        var docChangeTimeout;
+        var lastSaveTime = 0;
+        var sessionId;
+        var autosave;
+        var saveWhenIdle;
         
-        var loaded = false;
         function load() {
-            if (loaded || !enabled) return false;
-            loaded = true;
-    
-            // when we're back online we'll trigger an autosave if enabled
-            c9.on("stateChange", function(e) {
-                if (e.state & c9.STORAGE && !(e.last & c9.STORAGE))
-                    check();
-            }, plugin);
-            
-            save.getElement("btnSave", function(btn) {
-                btnSave = btn;
-                transformButton();
-            });
-            
-            tabs.on("tabCreate", function(e) {
-                var tab = e.tab;
-                tab.document.undoManager.on("change", function(e) {
-                    if (!autosave || !tab.path)
-                        return;
-                    
-                    clearTimeout(docChangeTimeout);
-                    docChangeTimeout = setTimeout(function() {
-                        saveTab(tab);
-                    }, tab.document.meta.$slowSave
-                        ? SLOW_CHANGE_TIMEOUT
-                        : CHANGE_TIMEOUT);
-                }, plugin);
-            }, plugin);
-            
-            tabs.on("tabDestroy", function(e) {
-                if (!e.tab.path)
-                    return;
-                
-                if (tabs.getTabs().length == 1)
-                    btnSave.hide();
-        
-                saveTab(e.tab);
-            }, plugin);
-            
-            save.on("beforeWarn", function(e) {
-                if (autosave && !e.tab.document.meta.newfile) {
-                    saveTab(e.tab);
-                    return false;
+            prefs.add({
+                "File": {
+                    position: 150,
+                    "Save": {
+                        position: 100,
+                        "Auto-Save Files": {
+                            type: "dropdown",
+                            position: 100,
+                            path: "user/general/@autosave",
+                            width: 130,
+                            items: [
+                               { caption: "Off", value: false },
+                               { caption: "On Focus Change", value: "onFocusChange" },
+                               { caption: "After Delay", value: "afterDelay" },
+                           ],
+                        }
+                    }
                 }
             }, plugin);
-        }
-        
-        function transformButton() {
-            if (!btnSave) return;
-            if (btnSave.autosave === autosave) return;
             
-            if (autosave) {
-                // Transform btnSave
-                btnSave.setAttribute("caption", "");
-                btnSave.setAttribute("margin", "0 20");
-                btnSave.removeAttribute("tooltip");
-                btnSave.removeAttribute("command");
-                apf.setStyleClass(btnSave.$ext, "btnSave");
-                
-                tooltip.add(btnSave, {
-                    message: "Changes to your file are automatically saved.<br />\
-                        View all your changes through <a href='javascript:void(0)' \
-                        onclick='require(\"ext/revisions/revisions\").toggle();' \
-                        class='revisionsInfoLink'>the Revision History pane</a>. \
-                        Rollback to a previous state, or make comparisons.",
-                    width: "250px",
-                    hideonclick: true
-                }, plugin);
-            }
-            else {
-                
-            }
-            
-            btnSave.autosave = autosave;
+            settings.setDefaults("user/general", [["autosave", false]]);
+            settings.on("read", onSettingChange, plugin);
+            settings.on("user/general", onSettingChange, plugin);
+            save.on("beforeWarn", function(e) {
+                if (autosave && saveTab(e.tab))
+                    return false;
+            }, plugin);
         }
         
         /***** Helpers *****/
-    
-        function check() {
-            if (!autosave) return;
+        
+        function onSettingChange() {
+            autosave = settings.get("user/general/@autosave");
+            if (autosave == "off" || autosave == "false")
+                autosave = false;
             
-            var pages = tabs.getTabs();
-            for (var tab, i = 0, l = pages.length; i < l; i++) {
-                if ((tab = pages[i]).document.changed && tab.path)
+            disable();
+            if (autosave == "afterDelay")
+                enableDelay();
+            if (autosave)
+                enable();
+        }
+        
+        function enableDelay() {
+            saveWhenIdle = lang.delayedCall(function() {
+                var tab = tabs.focussedTab;
+                var ace = tab && tab.editor && tab.editor.ace;
+                if (ace && ace.session && sessionId == ace.session.id) {
                     saveTab(tab);
+                }
+            });
+        }
+        
+        function enable() {
+            apf.on("movefocus", scheduleCheck);
+            tabs.on("tabAfterActivate", scheduleCheck, plugin);
+            if (saveWhenIdle)
+                tabs.on("focusSync", attachToTab, plugin);
+            window.addEventListener("blur", scheduleCheck);
+        }
+        
+        function disable() {
+            sessionId = null;
+            if (saveWhenIdle) {
+                saveWhenIdle.cancel();
+                saveWhenIdle = null;
             }
+            if (docChangeTimeout) {
+                clearTimeout(docChangeTimeout);
+                docChangeTimeout = null;
+            }
+            apf.off("movefocus", scheduleCheck);
+            tabs.off("tabAfterActivate", scheduleCheck);
+            tabs.off("focusSync", attachToTab);
+            window.removeEventListener("blur", scheduleCheck);
+        }
+        
+        function attachToTab(e) {
+            var ace = e.tab && e.tab.editor && e.tab.editor.ace;
+            if (ace)
+                ace.on("beforeEndOperation", beforeEndOperation);
+        }
+        
+        function beforeEndOperation(e, ace) {
+            if (!saveWhenIdle)
+                return ace.off("beforeEndOperation", beforeEndOperation);
+            if (!ace.isFocused() && !options.ignoreFocusForTesting)
+                return;
+            sessionId = ace.session.id;
+            if (sessionId && ace.curOp.docChanged && ace.curOp.command.name) {
+                var timeout = Math.min(Math.max(CHANGE_TIMEOUT, lastSaveTime || 0), SLOW_CHANGE_TIMEOUT);
+                saveWhenIdle.delay(timeout);
+            }
+        }
+        
+        function scheduleCheck(e) {
+            if (docChangeTimeout) 
+                return;
+            var tab;
+            var fromElement = e.fromElement;
+            var toElement = e.toElement;
+            if (e.type == "blur") {
+                tab = tabs.focussedTab;
+            }
+            else if (fromElement) {
+                var fakePage = fromElement.$fake;
+                if (toElement && (toElement == fakePage || fromElement == toElement.$fake)) {
+                    fakePage = fromElement.$prevFake || toElement.$prevFake;
+                    if (fakePage)
+                        return;
+                }
+                
+                tab = fromElement.cloud9tab || fakePage && fakePage.cloud9tab;
+                if (!tab || !tab.path)
+                    return;
+                while (toElement) {
+                    if (/window|menu|item/.test(toElement.localName))
+                        return;
+                    toElement = toElement.parentNode;
+                }
+            }
+            else if (e.lastTab) {
+                tab = e.lastTab;
+            }
+            if (!tab || !tab.path)
+                return;
+            
+            docChangeTimeout = setTimeout(function() {
+                docChangeTimeout = null;
+                var activeElement = apf.document.activeElement;
+                var nodeName = activeElement && activeElement.localName;
+                // do nothing if the tab is still focused, or is a clone of the focussed tab
+                if (nodeName === "page" && tabs.focussedTab && tabs.focussedTab.path === tab.path)
+                    return;
+                saveTab(tab);
+            });
         }
     
         function saveTab(tab, force) {
             if (!autosave) return;
-            
-            if (!c9.has(c9.STORAGE)) {
-                save.setSavingState(tab, "offline");
-                return;
-            }
             
             var doc;
             if (!force && (!tab.path 
@@ -133,22 +177,25 @@ define(function(require, exports, module) {
               || doc.meta.newfile
               || doc.meta.nofs
               || doc.meta.error
-              || doc.meta.$saving))
+              || doc.meta.$saving
+              || doc.meta.preview
+              || !doc.hasValue()))
                 return;
-    
-            var value = doc.value;
-            var slow = value.length > SLOW_SAVE_THRESHOLD;
-            if (slow && !doc.meta.$slowSave) {
-                doc.meta.$slowSave = true;
+            
+            if (!c9.has(c9.STORAGE)) {
+                save.setSavingState(tab, "offline");
                 return;
             }
-            doc.meta.$slowSave = slow;
-    
+
+            var t = Date.now();
             save.save(tab, {
                 silentsave: true,
-                timeout: 1,
-                value: value
-            }, function() {});
+                noUi: true,
+            }, function() {
+                lastSaveTime = t - Date.now();
+            });
+            
+            return true;
         }
     
         /***** Lifecycle *****/
@@ -156,27 +203,16 @@ define(function(require, exports, module) {
         plugin.on("load", function() {
             load();
         });
-        plugin.on("enable", function() {
-            autosave = true;
-            transformButton();
-        });
-        plugin.on("disable", function() {
-            autosave = false;
-            transformButton();
-        });
         plugin.on("unload", function() {
-            if (saveInterval)
-                clearInterval(saveInterval);
-    
-            loaded = false;
+            disable();
+            autosave = false;
         });
         
         /***** Register and define API *****/
         
         /**
          * Implements auto save for Cloud9. When the user enables autosave
-         * the contents of files are automatically saved about 500ms after the
-         * change is made.
+         * the contents of files are automatically saved when the editor is blurred
          * @singleton
          **/
         plugin.freezePublicAPI({ });

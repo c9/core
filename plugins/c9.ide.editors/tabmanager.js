@@ -630,7 +630,7 @@ define(function(require, module, exports) {
             if (!loaded || tab.document.meta.preview) 
                 return;
             
-            var lastTab = focussedTab;
+            var lastTab = e.lastTab || focussedTab;
             
             if (!focussedTab || focussedTab.pane == tab.pane && focussedTab != tab)
                 focusTab(tab, true, true);

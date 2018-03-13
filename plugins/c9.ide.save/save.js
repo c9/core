@@ -412,7 +412,7 @@ define(function(require, exports, module) {
                 doc.meta.$saveBuffer = true;
             }
             
-            setSavingState(tab, "saving");
+            setSavingState(tab, "saving", null, options.noUi);
     
             var bookmark = doc.undoManager.position;
             var loadStartT = Date.now();
@@ -450,7 +450,7 @@ define(function(require, exports, module) {
                     if (options.path)
                         tab.path = options.path;
                     
-                    setSavingState(tab, "saved", options.timeout);
+                    setSavingState(tab, "saved", options.timeout, options.noUi);
                     settings.save();
                     logger.log("Successfully saved " + path);
                 }
@@ -541,7 +541,7 @@ define(function(require, exports, module) {
         }
         
         var stateTimer = null, pageTimers = {};
-        function setSavingState(tab, state, timeout) {
+        function setSavingState(tab, state, timeout, silent) {
             clearTimeout(stateTimer);
             clearTimeout(pageTimers[tab.name]);
             
@@ -554,6 +554,12 @@ define(function(require, exports, module) {
             else
                 delete doc.meta.$saving;
             
+            if (!silent)
+                updateSavingUi();
+            emit("tabSavingState", { tab: tab });
+        }
+        
+        function updateSavingUi(tab, state, timeout) {
             if (state == "saving") {
                 btnSave.show();
         
@@ -621,7 +627,6 @@ define(function(require, exports, module) {
                 btnSave.setCaption("Not saved");
                 tab.classList.add("error");
             }
-            emit("tabSavingState", { tab: tab });
         }
         
         /***** Lifecycle *****/

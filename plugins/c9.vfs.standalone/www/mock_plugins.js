@@ -349,7 +349,8 @@ define(function(require, exports, module) {
             "preferences.experimental": {
                 addExperiment: function() {
                     return false;
-                }
+                },
+                add: function() {},
             },
             "ace.gotoline": {},
             "ace.stripws": {

@@ -393,6 +393,7 @@ apf.page = function(struct, tagName) {
                 if (this.relPage) {
                     this.relPage.$ext.style.display = "";
                     this.parentNode.$setStyleClass(this.relPage.$ext, "curpage");
+                    this.relPage.$prevFake = this.relPage.$fake;
                     this.relPage.$fake = this;
 
                     
@@ -604,6 +605,7 @@ apf.page = function(struct, tagName) {
             if (page && page.type == _self.id) {
                 page.relPage = _self;
                 if (page.$active) {
+                    _self.$prevFake = _self.$fake;
                     _self.$fake = page; 
                     page.$activate();
                 }

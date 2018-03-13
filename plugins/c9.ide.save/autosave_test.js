@@ -2,8 +2,7 @@
 
 "use client";
 
-require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"], 
-  function (architect, chai, baseProc) {
+require(["lib/chai/chai"], function (chai) {
     var expect = chai.expect;
     
     document.body.appendChild(document.createElement("div"))
@@ -16,7 +15,6 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             debug: true,
             hosted: true,
             local: false,
-            davPrefix: "/"
         },
         
         "plugins/c9.core/ext",
@@ -37,7 +35,7 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.editors/undomanager",
         {
             packagePath: "plugins/c9.ide.editors/editors",
-            defaultEditor: "texteditor"
+            defaultEditor: "ace"
         },
         "plugins/c9.ide.editors/editor",
         "plugins/c9.ide.editors/tabmanager",
@@ -48,17 +46,17 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
         "plugins/c9.ide.save/save",
         {
             packagePath: "plugins/c9.ide.save/autosave",
-            testing: true
+            ignoreFocusForTesting: true,
+            changeTimeout: 5,
         },
         {
-            packagePath: "plugins/c9.vfs.client/vfs_client"
+            packagePath: "plugins/c9.vfs.client/vfs_client_mock",
+            storage: false
         },
-        "plugins/c9.vfs.client/endpoint",
-        "plugins/c9.ide.auth/auth",
         "plugins/c9.core/api",
         {
             packagePath: "plugins/c9.fs/fs",
-            baseProc: baseProc
+            cli: true
         },
         "plugins/c9.fs/fs.cache.xml",
         
@@ -67,26 +65,14 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             provides: [],
             setup: main
         }
-    ], architect);
+    ]);
     
     function main(options, imports, register) {
+        var settings = imports.settings
         var tabs = imports.tabManager;
         var fs = imports.fs;
         var save = imports.save;
         var autosave = imports.autosave;
-        
-        function countEvents(count, expected, done) {
-            if (count == expected) 
-                done();
-            else
-                throw new Error("Wrong Event Count: "
-                    + count + " of " + expected);
-        }
-        
-        expect.html.setConstructor(function(tab) {
-            if (typeof tab == "object")
-                return tab.pane.aml.getPage("editor::" + tab.editorType).$ext;
-        });
         
         function changeTab(path, done) {
             var tab = tabs.findTab(path);
@@ -98,41 +84,114 @@ require(["lib/architect/architect", "lib/chai/chai", "/vfs-root"],
             return tab;
         }
         
+        function createAndChangeTab(path, options, done) {
+            if (!done) {
+                done = options;
+                options = {};
+            }
+            fs.writeFile(path, path, function(err) {
+                if (err) throw err;
+                
+                options.path = path;
+                tabs.open(options, function() {
+                    changeTab(path, done);
+                });
+            });
+        }
+        
         describe('autosave', function() {
             this.timeout(5000);
             
-            before(function(done) {
+            beforeEach(function(done) {
                 tabs.once("ready", function() {
-                    tabs.getPanes()[0].focus();
-                    var path = "/autosave1.txt";
-                    fs.writeFile(path, path, function(err) {
-                        if (err) throw err;
-                    
-                        tabs.openFile(path, function() {
-                            setTimeout(done, 50);
-                        });
+                    tabs.setState(null, function() {
+                        tabs.getPanes()[0].focus();
+                        done();
                     });
                 });
-                
-                bar.$ext.style.background = "rgba(220, 220, 220, 0.93)";
-                bar.$ext.style.position = "fixed";
-                bar.$ext.style.left = "20px";
-                bar.$ext.style.right = "20px";
-                bar.$ext.style.bottom = "20px";
-                bar.$ext.style.height = "150px";
-      
-                document.body.style.marginBottom = "180px";
             });
             
-            it('should automatically save a tab that is changed', function(done) {
-                var path = "/autosave1.txt";
-                changeTab(path, function(tab) {
+            it("should not autosave when restoring state", function(done) {
+                settings.set("user/general/@autosave", false);
+                var pane = tabs.getPanes()[0].hsplit(true);
+                
+                prepareTabs(testRestoreState);
+                
+                function prepareTabs(callback) {
+                    createAndChangeTab("/autosave1.txt", function(tab) {
+                        expect(tab.document.changed).to.ok;
+                        createAndChangeTab("/__proto__", function() {
+                            createAndChangeTab("/<h1>", function() {
+                                createAndChangeTab("/__lookupSetter__", { pane: pane }, function() {
+                                    callback();
+                                });
+                            });
+                        });
+                    });
+                }
+                function testRestoreState() {
+                    settings.set("user/general/@autosave", true);
+                    expect(tabs.getTabs().length).to.equal(4);
+                    var state = tabs.getState(null, true);
+                    tabs.setState(null, function() {
+                        expect(tabs.getTabs().length).to.equal(0);
+                        setTimeout(function() {
+                            tabs.setState(state, function() {
+                                expect(tabs.getTabs().length).to.equal(4);
+                                expect(tabs.getTabs()[0].document.changed).to.ok;
+                                setTimeout(function() {
+                                    tabs.setState(null, function() {
+                                        save.off("afterSave", preventSave);
+                                        done();
+                                    });
+                                });
+                            });
+                        });
+                    });
+                }
+                
+                function preventSave() {
+                    done(new Error("Save is called"));
+                }
+                save.once("afterSave", preventSave);
+            });
+            
+            it("should automatically save a tab that is changed when editor is blurred", function(done) {
+                settings.set("user/general/@autosave", true);
+                var path = "/autosave2.txt";
+                createAndChangeTab(path, function(tab) {
                     expect(tab.document.changed).to.ok;
-                    
+                    createAndChangeTab("/__proto__", function() {
+                    });
                     save.once("afterSave", function() {
                         fs.readFile(path, function(err, data) {
                             if (err) throw err;
                             expect(data).to.equal("test" + path);
+                            expect(tab.document.changed).to.not.ok;
+                            
+                            fs.unlink(path, function() {
+                                done();
+                            });
+                        });
+                    });
+                });
+            });
+            
+            it("should automatically save after delay", function(done) {
+                settings.set("user/general/@autosave", "afterDelay");
+                var path = "/autosave2.txt";
+                createAndChangeTab(path, function(tab) {
+                    expect(tab.document.changed).to.ok;
+                    
+                    setTimeout(function() {
+                        expect(tab.document.changed).to.ok;
+                        tab.editor.ace.execCommand("insertstring", "x");
+                    }, 10);
+                    save.once("afterSave", function() {
+                        fs.readFile(path, function(err, data) {
+                            if (err) throw err;
+                            expect(data).to.equal("testx" + path);
+                            expect(tab.document.changed).to.not.ok;
                             
                             fs.unlink(path, function() {
                                 done();
