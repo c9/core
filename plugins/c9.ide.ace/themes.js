@@ -40,36 +40,42 @@ define(function(require, exports, module) {
             
             layout.addTheme({
                 group: "classic",
-                color: "#252525;", 
+                color: "#252525;",
                 name: "dark",
+                caption: "Classic Dark",
             });
             layout.addTheme({
                 group: "classic",
                 color: "#3f3f3f;",
                 name: "dark-gray",
+                caption: "Classic Dark Gray",
             });
             layout.addTheme({
                 group: "classic",
                 color: "#aaa;", 
                 name: "light-gray",
                 hidden: !options.lightClassic,
+                caption: "Classic Light Gray",
             });
             layout.addTheme({
                 group: "classic",
                 color: "#dcdbdb;", 
                 name: "light",
                 hidden: !options.lightClassic,
+                caption: "Classic Light",
             });
             layout.addTheme({
                 group: "flat",
                 color: "#252525;", 
                 name: "flat-dark",
-                hidden: !FLATDARK
+                hidden: !FLATDARK,
+                caption: "Flat Dark",
             });
             layout.addTheme({
                 group: "flat",
                 color: "#dcdbdb;", 
                 name: "flat-light",
+                caption: "Flat Light",
             });
         }
         
