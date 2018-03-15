@@ -6,7 +6,7 @@
 define(function(require, exports, module) {
 
 var baseLanguageHandler = require("plugins/c9.ide.language/base_handler");
-var CSSLint = require("ace/mode/css/csslint");
+var CSSLint = null;
 var handler = module.exports = Object.create(baseLanguageHandler);
 
 handler.handlesLanguage = function(language) {
@@ -16,6 +16,13 @@ handler.handlesLanguage = function(language) {
 handler.analyze = function(value, ast, options, callback) {
     if (this.language === "less")
         return callback();
+    
+    if (!CSSLint) {
+        return require(["ace/mode/css/csslint"], function(m) {
+            CSSLint = m.CSSLint;
+            callback(handler.analyzeSync(value, ast));
+        });
+    }
     
     callback(handler.analyzeSync(value, ast));
 };
@@ -59,7 +66,10 @@ var CSSLint_RULESET = {
 handler.analyzeSync = function(value, ast) {
     value = value.replace(/^(#!.*\n)/, "//$1");
 
-    var results = value && CSSLint.CSSLint.verify(value, CSSLint_RULESET);
+    if (!CSSLint)
+        return;
+    
+    var results = value && CSSLint.verify(value, CSSLint_RULESET);
     var warnings = results ? results.messages : [];
 
     return warnings.map(function(warning) {
