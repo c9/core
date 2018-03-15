@@ -7,13 +7,18 @@ define(function(require, exports, module) {
 
 var baseLanguageHandler = require('plugins/c9.ide.language/base_handler');
 var workerUtil = require('plugins/c9.ide.language/worker_util');
-// var acorn = require("acorn/dist/acorn");
-var Linter = require("./eslint_browserified");
-var linter = new Linter();
+var linter;
 var handler = module.exports = Object.create(baseLanguageHandler);
 var util = require("plugins/c9.ide.language/worker_util");
 var yaml = require("./js-yaml");
 var stripJsonComments = require("./strip-json-comments");
+
+function loadLinter(callback) {
+    require(["./eslint_browserified"], function(Linter) {
+        linter = new Linter();
+        callback();
+    });
+}
 
 var defaultRules;
 var defaultEnv = {
@@ -132,6 +137,11 @@ handler.handlesLanguage = function(language) {
 handler.analyze = function(value, ast, options, callback) {
     if (options.minimalAnalysis)
         return callback();
+    if (!linter) {
+        return loadLinter(function() {
+            callback(handler.analyzeSync(value, ast, options.path));
+        });
+    }
     callback(handler.analyzeSync(value, ast, options.path));
 };
 
