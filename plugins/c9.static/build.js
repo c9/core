@@ -225,7 +225,7 @@ function main(options, imports, register) {
             compress: compress,
             filter: [],
             ignore: [],
-            additional: compileForNode || [{
+            additional: compileForNode ? [] : [{
                 id: module,
                 noDeps: true
             }],

@@ -12,7 +12,12 @@ define(function(require, exports, module) {
         var menus = imports.menus;
         
         var emmetExt = require("ace/ext/emmet");
-        emmetExt.setCore("lib/emmet/emmet");
+        emmetExt.load = function(callback) {
+            require(["lib/emmet/emmet"], function(m) {
+                emmetExt.setCore(m);
+                callback && callback();
+            });
+        };
         emmetExt.updateCommands = function() {};
         
         /***** Initialization *****/
