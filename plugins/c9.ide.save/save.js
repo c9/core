@@ -542,9 +542,6 @@ define(function(require, exports, module) {
         
         var stateTimer = null, pageTimers = {};
         function setSavingState(tab, state, timeout, silent) {
-            clearTimeout(stateTimer);
-            clearTimeout(pageTimers[tab.name]);
-            
             tab.classList.remove("saving", "saved", "error");
             
             var doc = tab.document;
@@ -555,11 +552,14 @@ define(function(require, exports, module) {
                 delete doc.meta.$saving;
             
             if (!silent)
-                updateSavingUi();
+                updateSavingUi(tab, state, timeout);
             emit("tabSavingState", { tab: tab });
         }
         
         function updateSavingUi(tab, state, timeout) {
+            clearTimeout(stateTimer);
+            clearTimeout(pageTimers[tab.name]);
+            var doc = tab.document;
             if (state == "saving") {
                 btnSave.show();
         

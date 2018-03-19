@@ -315,11 +315,9 @@ define(function(require, exports, module) {
         function createVariable(options, name, scope, variable) {
             var value = options.value || options;
             
-            if (variable) {
-                // variable.value = formatType(options);
-                // variable.type = options.type;
-            }
-            else {
+            if (!variable) {
+                if (value.subtype == "null")
+                    value.type = value.subtype;
                 variable = new Variable({
                     name: name || options.name,
                     scope: scope,
@@ -331,28 +329,6 @@ define(function(require, exports, module) {
                     options: options,
                 });
             }
-            
-            // if (value.prototypeObject)
-            //     variable.prototype = new Variable({
-            //         tagName: "prototype",
-            //         name: "prototype", 
-            //         type: "object",
-            //         ref: value.prototypeObject.ref
-            //     });
-            // if (value.protoObject)
-            //     variable.proto = new Variable({ 
-            //         tagName: "proto",
-            //         name: "proto", 
-            //         type: "object",
-            //         ref: value.protoObject.ref
-            //     });
-            // if (value.constructorFunction)
-            //     variable.constructorFunction = new Variable({ 
-            //         tagName: "constructor", 
-            //         name: "constructor", 
-            //         type: "function",
-            //         ref: value.constructorFunction.ref
-            //     });
             return variable;
         }
         
