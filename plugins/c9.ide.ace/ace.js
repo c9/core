@@ -271,7 +271,7 @@
             ["highlightSelectedWord", true, BOOL],
             ["animatedScroll", true, BOOL],
             ["scrollPastEnd", 0.5, NUMBER],
-            ["mergeUndoDeltas", "off", STRING],
+            ["mergeUndoDeltas", true, STRING],
             ["theme", defaultThemes[skin], STRING]
         ];
         var docSettings = aceSettings.slice(1, 6);
