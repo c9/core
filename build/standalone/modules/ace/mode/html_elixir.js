@@ -1509,25 +1509,14 @@ var WorkerClient = function(topLevelNamespaces, mod, classname, workerUrl, impor
     if (require.nameToUrl && !require.toUrl)
         require.toUrl = require.nameToUrl;
     
-    if (config.get("packaged") || !require.toUrl) {
-        workerUrl = workerUrl || config.moduleUrl(mod, "worker");
-    } else {
-        var normalizePath = this.$normalizePath;
-        workerUrl = workerUrl || normalizePath(require.toUrl("ace/worker/worker.js", null, "_"));
-
-        var tlns = {};
-        topLevelNamespaces.forEach(function(ns) {
-            tlns[ns] = normalizePath(require.toUrl(ns, null, "_").replace(/(\.js)?(\?.*)?$/, ""));
-        });
-    }
-
     this.$worker = createWorker(workerUrl);
     if (importScripts) {
         this.send("importScripts", importScripts);
     }
+    var requireConfig = requirejs.getConfig();
     this.$worker.postMessage({
         init : true,
-        tlns : tlns,
+        requireConfig: requireConfig,
         module : mod,
         classname : classname
     });

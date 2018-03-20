@@ -225,7 +225,7 @@ function main(options, imports, register) {
             compress: compress,
             filter: [],
             ignore: [],
-            additional: compileForNode && [{
+            additional: compileForNode ? [] : [{
                 id: module,
                 noDeps: true
             }],
@@ -304,7 +304,7 @@ function main(options, imports, register) {
                 order: -1000,
                 noRequire: true
             }],
-            withRequire: false,
+            withRequire: true,
             basepath: pathConfig.root
         }, callback);
     }

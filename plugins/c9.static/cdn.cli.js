@@ -11,6 +11,8 @@ define(function(require, exports, module) {
         var path = require("path");
         var mkdirp = require("mkdirp");
         var async = require("async");
+        
+        var moduleDeps = require("architect-build/module-deps");
 
         var root = path.join(build.cacheDir, build.version);
         
@@ -58,7 +60,7 @@ define(function(require, exports, module) {
                                 sources: result.sources,
                                 config: [],
                             }, skin, pathConfig, save(["skin", config, skin + ".css"], next));
-                        })(err, result)
+                        })(err, result);
                     }, function(configName, data) {
                         var pluginPaths = data.map(function(p) {
                             return typeof p == "string" ? p : p.packagePath;
@@ -138,6 +140,22 @@ define(function(require, exports, module) {
                         }).code;
                         nameParts[0] += "/" + options.compressOutputDirPrefix;
                         writeFile(nameParts, code, done);
+                    }
+                    
+                    if (result.sources) {
+                        pending++;
+                        async.forEach(result.sources, function(pkg, next) {
+                            var deps = moduleDeps.getSubmodules(pkg.source, pkg.id);
+                            if (pkg.submodules)
+                                deps = deps.concat(pkg.submodules);
+                            if (!deps.length)
+                                return next();
+                            
+                            async.forEach(deps, function(moduleName, next) {
+                                console.log(moduleName, pkg.id);
+                                build.buildModule(moduleName, pathConfig, save(["modules", moduleName + ".js"], next));
+                            }, next);
+                        }, done);
                     }
                 };
             }
