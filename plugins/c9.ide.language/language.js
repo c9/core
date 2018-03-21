@@ -588,13 +588,8 @@ define(function(require, exports, module) {
         }
         
         function updateRequireConfig(modulePath, worker) {
-            var path = window.requirejs.toUrl(modulePath, "", true);
-            var url = require.toUrl(path);
-            if (/^\w+:/.test(url)) {
-                var paths = {};
-                paths[path] = url;
-                worker.call("initBaseUrls", [paths]);
-            }
+            var config = window.requirejs.getConfig();
+            worker.call("updateRequireConfig", [config]);
         }
         
         plugin.on("load", function() {
