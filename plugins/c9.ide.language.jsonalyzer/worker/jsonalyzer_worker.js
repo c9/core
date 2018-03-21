@@ -118,23 +118,14 @@ worker.loadPlugin = function(modulePath, contents, callback) {
             return callback("Could not load language handler " + modulePath + ": " + e);
         }
     }
-    var handler;
-    try {
-        handler = require(modulePath);
+    
+    require([modulePath], function(handler) {
         if (!handler)
-            throw new Error("Unable to load required module: " + modulePath);
-    } catch (e) {
-        if (isInWebWorker)
-            return callback("Could not load language handler " + modulePath + ": " + e);
-        
-        // In ?noworker=1 debugging mode, synchronous require doesn't work
-        return require([modulePath], function(handler) {
-            if (!handler)
-                return callback("Could not load language handler " + modulePath);
-            callback(null, handler);
-        });
-    }
-    callback(null, handler);
+            return callback("Could not load language handler " + modulePath);
+        callback(null, handler);
+    }, function(err) {
+        callback(err);
+    });
 };
 
 worker.handlesLanguage = function(language, part) {
