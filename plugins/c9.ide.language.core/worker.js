@@ -354,11 +354,11 @@ function endTime(t, message, indent) {
     };
     
     this.unregister = function(modulePath, callback) {
-        if (window.require)
-            window.require.modules[modulePath] = null;
         this.handlers = this.handlers.filter(function(h) {
             return h.$source !== modulePath;
         });
+        if (window.require)
+            window.require.undef(modulePath, true);
         callback && callback();
     };
 
