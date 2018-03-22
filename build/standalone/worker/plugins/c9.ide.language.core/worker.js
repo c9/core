@@ -18,6 +18,17 @@ if (!window.console) {
 window.window = window;
 window.ace = window;
 
+window.onerror = function(message, file, line, col, err) {
+    postMessage({type: "error", data: {
+        message: message,
+        data: err.data,
+        file: file,
+        line: line, 
+        col: col,
+        stack: err.stack
+    }});
+};
+
 window.initSender = function initSender() {
 
     var EventEmitter = window.require("ace/lib/event_emitter").EventEmitter;
@@ -52,6 +63,10 @@ window.initSender = function initSender() {
 
 var main = window.main = null;
 var sender = window.sender = null;
+
+window.updateRequireConfig = function(config) {
+    window.require.config(config);
+};
 
 window.onmessage = function(e) {
     var msg = e.data;
@@ -10615,29 +10630,18 @@ function endTime(t, message, indent) {
                 throw e;
             }
         }
-        var handler;
-        try {
-            handler = require(path);
-            if (!handler)
-                throw new Error("Unable to load required module: " + path);
-        } catch (e) {
-            if (isInWebWorker) {
-                console.error("Could not load language handler " + path + ": " + e);
-                _self.sender.emit("registered", { path: path, err: e.message });
-                callback && callback(e);
-                throw e;
+        require([path], function(handler) {
+            if (!handler) {
+                _self.sender.emit("registered", { path: path, err: "Could not load" });
+                callback && callback("Could not load");
+                throw new Error("Could not load language handler " + path);
             }
-            require([path], function(handler) {
-                if (!handler) {
-                    _self.sender.emit("registered", { path: path, err: "Could not load" });
-                    callback && callback("Could not load");
-                    throw new Error("Could not load language handler " + path);
-                }
-                onRegistered(handler);
-            });
-            return;
-        }
-        onRegistered(handler);
+            onRegistered(handler);
+        }, function(e) {
+            console.error("Could not load language handler " + path + ": " + e);
+            _self.sender.emit("registered", { path: path, err: e.message });
+            callback && callback(e);
+        });
     };
     
     this.$createEmitter = function(path) {
@@ -10663,11 +10667,11 @@ function endTime(t, message, indent) {
     };
     
     this.unregister = function(modulePath, callback) {
-        if (window.require)
-            window.require.modules[modulePath] = null;
         this.handlers = this.handlers.filter(function(h) {
             return h.$source !== modulePath;
         });
+        if (window.require)
+            window.require.undef(modulePath, true);
         callback && callback();
     };
 
@@ -15114,21 +15118,14 @@ worker.loadPlugin = function(modulePath, contents, callback) {
             return callback("Could not load language handler " + modulePath + ": " + e);
         }
     }
-    var handler;
-    try {
-        handler = require(modulePath);
+    
+    require([modulePath], function(handler) {
         if (!handler)
-            throw new Error("Unable to load required module: " + modulePath);
-    } catch (e) {
-        if (isInWebWorker)
-            return callback("Could not load language handler " + modulePath + ": " + e);
-        return require([modulePath], function(handler) {
-            if (!handler)
-                return callback("Could not load language handler " + modulePath);
-            callback(null, handler);
-        });
-    }
-    callback(null, handler);
+            return callback("Could not load language handler " + modulePath);
+        callback(null, handler);
+    }, function(err) {
+        callback(err);
+    });
 };
 
 worker.handlesLanguage = function(language, part) {
