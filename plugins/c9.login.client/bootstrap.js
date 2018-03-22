@@ -22,7 +22,7 @@ var auth = global.auth = function(options) {
     function noop(callback) { callback(); }
     
     if (onLoad) {
-        auth.parallel([
+        auth.parallel([].concat(
             background,
             auth.serial([
                 auth.parallel([
@@ -31,7 +31,7 @@ var auth = global.auth = function(options) {
                 ]),
                 authorized,
             ])
-        ])(done);
+        ))(done);
     }
     
     function login(callback, errback) {
