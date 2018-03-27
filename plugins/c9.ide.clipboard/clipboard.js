@@ -58,7 +58,7 @@ define(function(require, exports, module) {
                 isAvailable: checkAvailable,
                 exec: function() { cut(); },
                 passEvent: true,
-                readOnly: true
+                readOnly: false,
             }, plugin);
             
             commands.addCommand({
@@ -66,7 +66,8 @@ define(function(require, exports, module) {
                 bindKey: { mac: "Command-C", win: "Ctrl-C" },
                 isAvailable: checkAvailable,
                 exec: function(editor, args) { copy(null, args.data); },
-                passEvent: true
+                passEvent: true,
+                readOnly: true,
             }, plugin);
             
             commands.addCommand({
@@ -75,7 +76,7 @@ define(function(require, exports, module) {
                 isAvailable: checkAvailable,
                 exec: function() { paste(); },
                 passEvent: true,
-                readOnly: true
+                readOnly: false,
             }, plugin);
             
             commands.addCommand({
