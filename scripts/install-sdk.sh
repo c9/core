@@ -58,7 +58,7 @@ updateNodeModules() {
         fi
     done
 
-    for pkg in kaefer smith frontdoor architect msgpack-js treehugger connect-architect amd-loader c9 ace; do
+    for pkg in kaefer smith frontdoor architect msgpack-js treehugger connect-architect amd-loader c9 ace ace_tree architect-build vfs-child vfs-http-adapter vfs-lint vfs-local vfs-nodefs-adapter vfs-socket; do
         pushd packages/$pkg
         npm link --production
         popd
