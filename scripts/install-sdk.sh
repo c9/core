@@ -58,7 +58,7 @@ updateNodeModules() {
         fi
     done
 
-    for pkg in kaefer smith frontdoor; do
+    for pkg in kaefer smith frontdoor architect; do
         pushd packages/$pkg
         npm link --production
         popd
