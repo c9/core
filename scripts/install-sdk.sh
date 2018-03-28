@@ -58,7 +58,7 @@ updateNodeModules() {
         fi
     done
 
-    for pkg in kaefer smith; do
+    for pkg in kaefer smith frontdoor; do
         pushd packages/$pkg
         npm link --production
         popd
@@ -98,7 +98,7 @@ installGlobalDeps() {
             URL=https://raw.githubusercontent.com/cloud9ide/sdk-deps-win32
         else
             URL=https://raw.githubusercontent.com/c9/install
-        fi    
+        fi
         $DOWNLOAD $URL/master/install.sh | bash
     fi
 }
