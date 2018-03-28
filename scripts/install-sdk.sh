@@ -58,7 +58,7 @@ updateNodeModules() {
         fi
     done
 
-    for pkg in kaefer smith frontdoor architect msgpack-js treehugger; do
+    for pkg in kaefer smith frontdoor architect msgpack-js treehugger connect-architect; do
         pushd packages/$pkg
         npm link --production
         popd
