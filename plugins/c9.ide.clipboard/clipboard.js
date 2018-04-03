@@ -58,7 +58,6 @@ define(function(require, exports, module) {
                 isAvailable: checkAvailable,
                 exec: function() { cut(); },
                 passEvent: true,
-                readOnly: false,
             }, plugin);
             
             commands.addCommand({
@@ -76,7 +75,6 @@ define(function(require, exports, module) {
                 isAvailable: checkAvailable,
                 exec: function() { paste(); },
                 passEvent: true,
-                readOnly: false,
             }, plugin);
             
             commands.addCommand({
