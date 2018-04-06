@@ -64,8 +64,8 @@ define(function(require, exports, module) {
         if (!this.ignoreGenericMatches || !match.isGeneric) {
             var simpleName = match.replaceText.replace("^^", "").replace(/\(\)$/, "");
             if (name.indexOf(simpleName) === 0) {
-                this.dom.buildDom(["span", { class: "main" + trim }, 
-                    ["u", prefix], simpleName.substring(prefix.length),
+                this.dom.buildDom([["span", { class: "main" + trim }, 
+                    ["u", prefix], simpleName.substring(prefix.length)],
                     ["span", { class: "deferred" }, name.substring(Math.max(simpleName.length, prefix.length))]
                 ], lineEl);
             }

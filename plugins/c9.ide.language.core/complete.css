@@ -127,11 +127,7 @@
 }
 
 .code_complete_text .ace_text-layer{
-    left : 1px;
-    right : 1px;
-    width : auto;
-    top : 1px;
-    bottom : 1px;
+    margin: 1px!important;
 }
 
 .code_complete_text .ace_line{
