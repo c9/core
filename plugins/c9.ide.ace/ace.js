@@ -1605,41 +1605,6 @@
             return s;
         }
         
-        /***** Gutter Renderers *****/
-        
-        var relativeNumbers = {
-            getText: function(session, row) {
-                return (Math.abs(session.selection.lead.row - row) || (row + 1 + (row < 9 ? "\xb7" : ""))) + "";
-            },
-            getWidth: function(session, lastLineNumber, config) {
-                return session.getLength().toString().length * config.characterWidth;
-            },
-            update: function(e, editor) {
-                editor.renderer.$loop.schedule(editor.renderer.CHANGE_GUTTER);
-            },
-            attach: function(editor) {
-                editor.renderer.$gutterLayer.$renderer = this;
-                editor.on("changeSelection", this.update);
-            },
-            detach: function(editor) {
-                editor.renderer.$gutterLayer.$renderer = null;
-                editor.off("changeSelection", this.update);
-            }
-        };
-        
-        var noNumbers = {
-            getText: function(session, row) {
-                return "";
-            },
-            getWidth: function(session, lastLineNumber, config) {
-                return "";
-            },
-            attach: function(editor) {
-            },
-            detach: function(editor) {
-            },
-        };
-        
         /**
          * The ace handle, responsible for events that involve all ace
          * instances. This is the object you get when you request the ace
@@ -2259,20 +2224,9 @@
                         break;
                     case "showLineNumbers":
                         var renderer = ace.renderer;
-                        var gutterRenderer = renderer.$gutterLayer.$renderer;
-                        if (gutterRenderer && gutterRenderer.detach)
-                            gutterRenderer.detach(ace);
-                        if (value == "relative")
-                            gutterRenderer = relativeNumbers;
-                        else if (value)
-                            gutterRenderer = null;
-                        else
-                            gutterRenderer = noNumbers;
+                        ace.setOption("relativeLineNumbers", value == "relative");
+                        ace.setOption("showLineNumbers", !!value);
                         dom.setCssClass(renderer.$gutter, "ace_gutter-compact", !value);
-                        renderer.$gutterLayer.$renderer = gutterRenderer;
-                        if (gutterRenderer && gutterRenderer.attach)
-                            gutterRenderer.attach(ace);
-                        renderer.$loop.schedule(renderer.CHANGE_GUTTER);
                         return;
                 }
                 
