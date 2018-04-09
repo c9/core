@@ -456,12 +456,26 @@ define(function(require, exports, module) {
         ace.renderer.$textLayer.element.style.overflow = "visible";
         
         ace.renderer.$textLayer.$renderLine = Aceterm.renderLine;
+            
+        ace.renderer.$textLayer.$renderLineInner = Aceterm.renderLineInner;
         
         ace.setOption("showPrintMargin", false);
         ace.setOption("highlightActiveLine", false);
     }
     
-    Aceterm.renderLine = function(lineEl, row, foldLine) {
+    Aceterm.renderLine = function(stringBuilder, row, onlyContents, foldLine) {
+        if (!onlyContents) {
+            stringBuilder.push(
+                "<div class='ace_line' style='height:", this.config.lineHeight, "px'>"
+            );
+        }
+        this.$renderLineInner(stringBuilder, row);
+    
+        if (!onlyContents)
+            stringBuilder.push("</div>");
+    };
+    
+    Aceterm.renderLineInner = function(stringBuilder, row) {
         var term = this.session.term;
         if (!term)
             return;
@@ -484,8 +498,7 @@ define(function(require, exports, module) {
             : -1;
 
         var defAttr = term.defAttr;
-        var attr;
-        var span, text;
+        var attr = defAttr;
         for (var i = 0; i < width; i++) {
             var token = line[i] || term.ch;
             var data = token[0];
@@ -494,23 +507,15 @@ define(function(require, exports, module) {
             if (i === x) data = -1;
     
             if (data !== attr) {
-                if (span) {
-                    text.data = out;
-                    lineEl.appendChild(span);
-                    out = "";
-                    span = null;
-                }
-                text = this.dom.createTextNode();
+                if (attr !== defAttr)
+                    out += '</span>';
                 if (data === defAttr) {
-                    span = text;
+                    // do nothing
                 } else if (data === -1) {
-                    span = this.dom.createElement("span");
-                    span.appendChild(text);
-                    span.className = "reverse-video";
+                    out += '<span class="reverse-video">';
                     this.$cur = null;
                 } else {
-                    span = this.dom.createElement("span");
-                    span.appendChild(text);
+                    out += '<span style="';
 
                     bgColor = data & 0x1ff;
                     fgColor = (data >> 9) & 0x1ff;
@@ -518,43 +523,47 @@ define(function(require, exports, module) {
 
                     if (flags & 1) {
                         if (this.$fontMetrics.allowBoldFonts)
-                            span.style.fontWeight = "bold";
+                            out += 'font-weight:bold;';
                         // see: XTerm*boldColors
                         if (fgColor < 8)
                             fgColor += 8;
                     }
 
                     if (flags & 2)
-                        span.style.textDecoration = "underline";
+                        out += 'text-decoration:underline;';
 
                     if (bgColor === 256) {
                         if (fgColor !== 257)
-                            span.style.color = (
+                            out += 'color:' + (
                                 Terminal.overridenColors[fgColor] ||
                                 Terminal.colors[fgColor]
-                            );
+                            ) + ';';
                     } else {
-                        span.style.backgroundColor = Terminal.colors[bgColor];
+                        out += 'background-color:' + Terminal.colors[bgColor] + ';';
                         if (fgColor !== 257)
-                            span.style.color = Terminal.colors[fgColor];
-                        span.style.display = "inline-block" 
-                        span.className = "aceterm-line-bg";
+                            out += 'color:' + Terminal.colors[fgColor] + ';';
+                        out += 'display:inline-block" class="aceterm-line-bg" l="' + i;
                     }
+                    out += '">';
                 }
             }
+    
             
             if (ch <= ' ')
                 out += ch == "\x00" ? "" : "\xa0";
+            else if (ch == '&')
+                out += '&#38;';
+            else if (ch == '<')
+                out += '&#60;';
             else
                 out += ch;
     
             attr = data;
         }
     
-        if (span) {
-            text.data = out;
-            lineEl.appendChild(span);
-        }
+        if (attr !== defAttr)
+            out += '</span>';
+        stringBuilder.push(out);
     };
 
 });

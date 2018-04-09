@@ -413,7 +413,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 it('should allow setting highlightGutterLine', function(done) {
                     editor.setOption("highlightGutterLine", false);
                     render();
-                    expect(document.querySelector(".ace_gutter-active-line")).to.not.ok;
+                    expect(document.querySelector(".ace_gutter-active-line").offsetHeight).to.not.ok;
                     
                     editor.setOption("highlightGutterLine", true);
                     render();
@@ -491,7 +491,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                     doc.value = "function(){\n\t\n}";
                     editor.setOption("showFoldWidgets", false);
                     render();
-                    expect.html(document.querySelector(".ace_fold-widget").offsetHeight).not.ok;
+                    expect.html(document.querySelector(".ace_fold-widget")).not.ok;
                     editor.setOption("showFoldWidgets", true);
                     render();
                     expect.html(document.querySelector(".ace_fold-widget")).ok;
