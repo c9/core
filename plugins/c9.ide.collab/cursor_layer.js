@@ -40,27 +40,16 @@ define(function(require, module, exports) {
             }
 
             function drawCursor(pos, html, markerLayer, session, config, bgColor) {
-                var cursorStyle = "background-color:" + util.formatColor(bgColor) + ";";
-
                 var top = markerLayer.$getTop(pos.row, config);
                 var left = Math.round(markerLayer.$padding + pos.column * config.characterWidth);
-                html.push(
-                    "<div class='ace_selection' style='",
-                    "left:", left, "px;",
-                    "top:", top + 2, "px;",
-                    "height:", config.lineHeight - 2, "px;",
-                    "width:", 2, "px;",
-                    "z-index: 10;",
-                    (cursorStyle || ""),
-                    "'></div>",
-                    "<div class='ace_selection' style='",
-                    "left:", left - 2, "px;",
-                    "top:", top, "px;",
-                    "height:", 5, "px;",
-                    "width:", 6, "px;",
-                    "z-index: 10;",
-                    (cursorStyle || ""),
-                    "'></div>"
+                
+                markerLayer.elt(
+                    "ace_collab_cursor",
+                    "height:" + config.lineHeight + "px;" +
+                    "width:" + 2 + "px;" +
+                    "top:" + top + "px;" +
+                    "left:" + left + "px;" +
+                    "background-color:" + util.formatColor(bgColor) + ";"
                 );
             }
 

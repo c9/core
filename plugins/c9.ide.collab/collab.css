@@ -85,3 +85,17 @@
     color: rgb(217, 255, 15);
     padding: 1px 2px 1px 2px;
 }
+
+.ace_collab_cursor {
+    position: absolute;
+    z-index: 11;
+}
+
+.ace_collab_cursor:before {
+    content: "";
+    width: 6px;
+    height: 5px;
+    display: block;
+    background: inherit;
+    margin-left: -2px;
+}

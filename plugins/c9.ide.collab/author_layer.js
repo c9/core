@@ -48,9 +48,16 @@ define(function(require, module, exports) {
                     return;
 
                 session._emit("changeBackMarker");
-                var gutter = ace.renderer.$gutterLayer;
-                gutter.update = updateGutter;
-                gutter.update(ace.renderer.layerConfig);
+                var renderer = ace.renderer;
+                renderer.$gutterLayer.$padding = null;
+                renderer.$loop.schedule(renderer.CHANGE_GUTTER);
+                if (showAuthorInfo) {
+                    renderer.$gutterLayer.on("afterRender", decorateGutter);
+                }
+                else {
+                    renderer.$gutterLayer.off("afterRender", decorateGutter);
+                    clearGutterDecorations(renderer);
+                }
             }
 
             function drawAuthInfos(html, markerLayer, session, config) {
@@ -105,142 +112,45 @@ define(function(require, module, exports) {
                 }
             }
 
-            function updateGutter(config) {
-                var session = this.session;
-                var firstRow = config.firstRow;
-                var lastRow = Math.min(config.lastRow + config.gutterOffset,  // needed to compensate for hor scollbar
-                    session.getLength() - 1);
-                var fold = session.getNextFoldLine(firstRow);
-                var foldStart = fold ? fold.start.row : Infinity;
-                var foldWidgets = this.$showFoldWidgets && session.foldWidgets;
-                var breakpoints = session.$breakpoints;
-                var decorations = session.$decorations;
-                var firstLineNumber = session.$firstLineNumber;
-                var lastLineNumber = 0;
-                
-                var gutterRenderer = session.gutterRenderer || this.$renderer;
+            function decorateGutter(e, gutter) {
+                var session = gutter.session;
                 
                 var editorDoc = session.doc;
                 var doc = session.collabDoc;
-                var range = new Range(firstRow, 0, lastRow, editorDoc.getLine(lastRow).length);
                 var isCollabGutter = doc && showAuthorInfo && util.isRealCollab(workspace);
+                
+                var config = gutter.config;
+                var range = new Range(config.firstRow, 0, config.lastRow, Number.MAX_VALUE);
                 var authorKeysCache = isCollabGutter && createAuthorKeyCache(editorDoc, doc.authAttribs, range).authorKeys;
-
                 var colorPool = workspace.colorPool;
                 var reversedAuthorPool = workspace.reversedAuthorPool;
                 
-                var cell = null;
-                var index = -1;
-                var row = firstRow;
-                while (true) {
-                    if (row > foldStart) {
-                        row = fold.end.row + 1;
-                        fold = session.getNextFoldLine(row, fold);
-                        foldStart = fold ? fold.start.row : Infinity;
+                if (!isCollabGutter)
+                    return clearGutterDecorations();
+                var cells = gutter.$lines.cells;
+                for (var i = 0; i < cells.length; i++) {
+                    var cell = cells[i];
+                    var authorKey = authorKeysCache[cell.row];
+                    var authorColor = "transparent";
+                    var fullname = null;
+                    if (authorKey) {
+                        var uid = reversedAuthorPool[authorKey];
+                        authorColor = util.formatColor(colorPool[uid]);
+                        var user = workspace.users[uid];
+                        fullname = user && user.fullname;
                     }
-                    if (row > lastRow) {
-                        while (this.$cells.length > index + 1) {
-                            cell = this.$cells.pop();
-                            this.element.removeChild(cell.element);
-                        }
-                        break;
-                    }
-        
-                    cell = this.$cells[++index];
-                    if (!cell) {
-                        cell = { element: null, textNode: null, foldWidget: null };
-                        cell.element = dom.createElement("div");
-                        cell.textNode = document.createTextNode('');
-                        cell.element.appendChild(cell.textNode);
-                        this.element.appendChild(cell.element);
-                        this.$cells[index] = cell;
-                    }
-        
-                    var className = "ace_gutter-cell ";
-                    if (breakpoints[row])
-                        className += breakpoints[row];
-                    if (decorations[row])
-                        className += decorations[row];
-                    if (this.$annotations[row])
-                        className += this.$annotations[row].className;
-                    if (cell.element.className != className)
-                        cell.element.className = className;
-        
-                    var height = session.getRowLength(row) * config.lineHeight + "px";
-                    if (height != cell.element.style.height)
-                        cell.element.style.height = height;
-                    
-                    if (isCollabGutter) {
-                        var authorKey = authorKeysCache[row];
-                        var authorColor = "transparent";
-                        var fullname = null;
-                        if (authorKey) {
-                            var uid = reversedAuthorPool[authorKey];
-                            authorColor = util.formatColor(colorPool[uid]);
-                            var user = workspace.users[uid];
-                            fullname = user && user.fullname;
-                        }
-                        cell.element.style.borderLeft = "solid 5px " + authorColor;
-                        cell.element.setAttribute("uid", fullname ? uid : "");
-                    } else {
-                        cell.element.style.borderLeft = "";
-                        cell.element.setAttribute("uid", "");
-                    }
-
-                    if (foldWidgets) {
-                        var c = foldWidgets[row];
-                        // check if cached value is invalidated and we need to recompute
-                        if (c == null)
-                            c = foldWidgets[row] = session.getFoldWidget(row);
-                    }
-        
-                    if (c) {
-                        if (!cell.foldWidget) {
-                            cell.foldWidget = dom.createElement("span");
-                            cell.element.appendChild(cell.foldWidget);
-                        }
-                        var className = "ace_fold-widget ace_" + c;
-                        if (c == "start" && row == foldStart && row < fold.end.row)
-                            className += " ace_closed";
-                        else
-                            className += " ace_open";
-                        if (cell.foldWidget.className != className)
-                            cell.foldWidget.className = className;
-        
-                        var height = config.lineHeight + "px";
-                        if (cell.foldWidget.style.height != height)
-                            cell.foldWidget.style.height = height;
-                    } else {
-                        if (cell.foldWidget) {
-                            cell.element.removeChild(cell.foldWidget);
-                            cell.foldWidget = null;
-                        }
-                    }
-                    
-                    var text = lastLineNumber = gutterRenderer
-                        ? gutterRenderer.getText(session, row)
-                        : row + firstLineNumber;
-                    if (text != cell.textNode.data)
-                        cell.textNode.data = text;
-        
-                    row++;
+                    cell.element.style.borderLeft = "solid 5px " + authorColor;
+                    cell.element.setAttribute("uid", fullname ? uid : "");
                 }
-        
-                this.element.style.height = config.minHeight + "px";
-        
-                if (this.$fixedWidth || session.$useWrapMode)
-                    lastLineNumber = session.getLength() + firstLineNumber;
-        
-                var gutterWidth = gutterRenderer 
-                    ? gutterRenderer.getWidth(session, lastLineNumber, config)
-                    : lastLineNumber.toString().length * config.characterWidth;
-                
-                var padding = this.$padding || this.$computePadding();
-                gutterWidth += padding.left + padding.right + (isCollabGutter ? 5 : 0);
-                if (gutterWidth !== this.gutterWidth && !isNaN(gutterWidth)) {
-                    this.gutterWidth = gutterWidth;
-                    this.element.style.width = Math.ceil(this.gutterWidth) + "px";
-                    this._emit("changeGutterWidth", gutterWidth);
+            }
+            
+            function clearGutterDecorations(renderer) {
+                renderer.$gutterLayer.$lines.cellCache.length = 0;
+                var cells = renderer.$gutterLayer.$lines.cells;
+                for (var i = 0; i < cells.length; i++) {
+                    var cell = cells[i];
+                    cell.element.style.borderLeft = "";
+                    cell.element.setAttribute("uid", "");
                 }
             }
 
