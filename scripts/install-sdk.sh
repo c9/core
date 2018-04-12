@@ -51,25 +51,36 @@ resetColor=$'\e[0m'
 updateNodeModules() {
     echo "${magenta}--- Running npm install --------------------------------------------${resetColor}"
     "$NPM" install --production
-    
+
     for i in $(git show HEAD:node_modules/); do
         if [ "$i" != tree ] && [ "$i" != "HEAD:node_modules/" ]; then
             [ -d node_modules/$i ] || git checkout HEAD -- node_modules/$i;
         fi
     done
+
+    for pkg in kaefer smith frontdoor architect msgpack-js treehugger connect-architect amd-loader c9 ace ace_tree architect-build vfs-child vfs-http-adapter vfs-lint vfs-local vfs-nodefs-adapter vfs-socket; do
+        pushd packages/$pkg
+        npm link --production
+        popd
+        pushd node_modules
+        rm -rf $pkg
+        npm link $pkg
+        popd
+    done
+
     rm -f package-lock.json
-    
+
     echo "${magenta}--------------------------------------------------------------------${resetColor}"
 }
 
 updateCore() {
-    if [ "$NO_PULL" ]; then 
+    if [ "$NO_PULL" ]; then
         return 0;
     fi
-    
+
     # without this git merge fails on windows
     mv ./scripts/install-sdk.sh  './scripts/.#install-sdk-tmp.sh'
-    rm -f ./scripts/.install-sdk-tmp.sh 
+    rm -f ./scripts/.install-sdk-tmp.sh
     cp './scripts/.#install-sdk-tmp.sh' ./scripts/install-sdk.sh
     git checkout -- ./scripts/install-sdk.sh
 
@@ -87,7 +98,7 @@ installGlobalDeps() {
             URL=https://raw.githubusercontent.com/cloud9ide/sdk-deps-win32
         else
             URL=https://raw.githubusercontent.com/c9/install
-        fi    
+        fi
         $DOWNLOAD $URL/master/install.sh | bash
     fi
 }
