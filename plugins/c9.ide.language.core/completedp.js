@@ -1,5 +1,4 @@
 define(function(require, exports, module) {
-    var escapeHTML = require("ace/lib/lang").escapeHTML;
     
     var guidToShortString = exports.guidToShortString = function(guid) {
         var result = guid && guid.replace(/^[^:]+:(([^\/]+)\/)*?([^\/]*?)(\[\d+[^\]]*\])?(\/prototype)?$|.*/, "$3");
@@ -41,12 +40,14 @@ define(function(require, exports, module) {
     function tokenizeRow() {
         return [];
     }
-    function renderLineInner(builder, row) {
-        var match = this.data[row];
+    function renderLine(lineEl, row, foldLine) {
+        var match = this.popup.data[row];
         
-        var html = "<span class='completer-img " + (match.icon 
-            ? iconClass[match.icon] || this.$defineIcon(match.icon)
-            : "") + "'></span>";
+        var icon = this.dom.createElement("span");
+        icon.className = "completer-img " + (match.icon 
+            ? iconClass[match.icon] || this.popup.$defineIcon(match.icon)
+            : "");
+        lineEl.appendChild(icon);
         
         if (match.type) {
             var shortType = guidToShortString(match.type);
@@ -54,58 +55,41 @@ define(function(require, exports, module) {
                 match.meta = shortType;
         }
         
-        var name = escapeHTML(match.name);
+        var name = match.name;
         var prefix = match.identifierRegex
-            ? this.calcPrefix(match.identifierRegex)
-            : name.substr(0, this.prefix.length);
+            ? this.popup.calcPrefix(match.identifierRegex)
+            : name.substr(0, this.popup.prefix.length);
         
         var trim = match.meta ? " maintrim" : "";
         if (!this.ignoreGenericMatches || !match.isGeneric) {
             var simpleName = match.replaceText.replace("^^", "").replace(/\(\)$/, "");
             if (name.indexOf(simpleName) === 0) {
-                simpleName = escapeHTML(simpleName);
-                html += '<span class="main' + trim + '"><u>' 
-                    + prefix + "</u>" + simpleName.substring(prefix.length) 
-                    + '</span>'
-                    + '<span class="deferred">'
-                    + name.substring(Math.max(simpleName.length, prefix.length))
-                    + '</span>';
+                this.dom.buildDom([["span", { class: "main" + trim }, 
+                    ["u", prefix], simpleName.substring(prefix.length)],
+                    ["span", { class: "deferred" }, name.substring(Math.max(simpleName.length, prefix.length))]
+                ], lineEl);
             }
             else {
-                html += '<span class="main' + trim + '"><u>' 
-                    + prefix + "</u>" + name.substring(prefix.length) 
-                    + '</span>';
+                this.dom.buildDom(["span", { class: "main" + trim }, 
+                    ["u", prefix], name.substring(prefix.length)
+                ], lineEl);
             }
         }
         else {
-            html += '<span class="main' + trim 
-                + '"><span class="deferred"><u>' + prefix + "</u>" 
-                + name.substring(prefix.length) + '</span></span>';
+            this.dom.buildDom(["span", { class: "main" + trim }, 
+                ["span", { class: "deferred" }, ["u", prefix], name.substring(prefix.length)]
+            ], lineEl);
         }
         
-        if (match.meta)
-            html += '<span class="meta"> - ' + match.meta + '</span>';
-        
-        builder.push(html);
-    }
-    
-    function renderLine(stringBuilder, row, onlyContents, foldLine) {
-        if (!onlyContents) {
-            stringBuilder.push(
-                "<div class='ace_line' style='height:", this.config.lineHeight, "px'>"
-            );
+        if (match.meta) {
+            this.dom.buildDom(["span", { class: "meta"}, match.meta], lineEl);
         }
-        this.popup.$renderLineInner(stringBuilder, row);
-    
-        if (!onlyContents)
-            stringBuilder.push("</div>");
     }
     
     exports.initPopup = function(popup, staticUrl) {
         popup.session.bgTokenizer.popup = popup;
         popup.session.bgTokenizer.$tokenizeRow = tokenizeRow;
         popup.renderer.$textLayer.popup = popup;
-        popup.$renderLineInner = renderLineInner;
         popup.$defineIcon = defineIcon;
         popup.renderer.$textLayer.$renderLine = renderLine;
         popup.staticUrl = staticUrl;
