@@ -2,7 +2,7 @@
 
 "use client";
 
-require(["plugins/c9.ide.language/test_base"], function(base) {
+    var base = require("plugins/c9.ide.language/test_base");
     base.setup(function(err, imports, helpers) {
         if (err) throw err;
         
@@ -193,7 +193,7 @@ require(["plugins/c9.ide.language/test_base"], function(base) {
             });
             
             it("completes following local dependencies", function(done) {
-                jsSession.setValue('var test2 = require("./test2.js");\ntest2.');
+                jsSession.setValue('var test2 = require\("./test2.js");\ntest2.');
                 jsTab.editor.ace.selection.setSelectionRange({ start: { row: 2, column: 0 }, end: { row: 2, column: 0 }});
                 jsTab.editor.ace.onTextInput("h");
                 afterCompleteOpen(function(el) {
@@ -203,7 +203,7 @@ require(["plugins/c9.ide.language/test_base"], function(base) {
             });
             
             it("completes following local with absolute paths", function(done) {
-                jsSession.setValue('var ext = require("plugins/c9.dummy/dep");\next.');
+                jsSession.setValue('var ext = require\("plugins/c9.dummy/dep");\next.');
                 jsTab.editor.ace.selection.setSelectionRange({ start: { row: 2, column: 0 }, end: { row: 2, column: 0 }});
                 jsTab.editor.ace.onTextInput("e");
                 afterCompleteOpen(function(el) {
@@ -214,7 +214,7 @@ require(["plugins/c9.ide.language/test_base"], function(base) {
             });
             
             it("completes following local dependencies with absolute paths and common js style exports", function(done) {
-                jsSession.setValue('var ext = require("plugins/c9.dummy/dep-define");\next.');
+                jsSession.setValue('var ext = require\("plugins/c9.dummy/dep-define");\next.');
                 jsTab.editor.ace.selection.setSelectionRange({ start: { row: 2, column: 0 }, end: { row: 2, column: 0 }});
                 jsTab.editor.ace.onTextInput("e");
                 afterCompleteOpen(function(el) {
@@ -726,4 +726,3 @@ require(["plugins/c9.ide.language/test_base"], function(base) {
             });
         }); 
     });
-});

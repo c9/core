@@ -2,8 +2,7 @@
 
 "use client";
 
-require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai) {
-    var expect = chai.expect;
+    var expect = require("lib/chai/chai").expect;
     
     expect.setupArchitectTest([
         {
@@ -60,7 +59,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             provides: [],
             setup: main
         }
-    ], architect);
+    ]);
     
     function main(options, imports, register) {
         var settings = imports.settings;
@@ -188,10 +187,10 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 });
             });
             describe("focus(), blur()", function() {
-                it('should get the right className and take keyboard input when focussed', function(done) {
+                it.skip('should get the right className and take keyboard input when focussed', function(done) {
                     done();
                 });
-                it('should get the right className and don\'t take any keyboard input when blurred', function(done) {
+                it.skip(`should get the right className and not take any keyboard input when blurred`, function(done) {
                     done();
                 });
             });
@@ -564,4 +563,3 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         
         register();
     }
-});

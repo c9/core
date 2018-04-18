@@ -6,7 +6,7 @@
         "threewaymerge", "error_handler", "apf"
     ];
     main.provides = ["ace"];
-    return main;
+    module.exports = main;
 
     function main(options, imports, register) {
         var Editor = imports.Editor;

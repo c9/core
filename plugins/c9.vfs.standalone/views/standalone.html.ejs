@@ -34,6 +34,9 @@
         
         <% if (packed) { %>
             require.MODULE_LOAD_URL = "/static/standalone/modules"
+        <% } else { %>
+            if (/es5=1/.test(location.search))
+                require.config.transform = "es5";
         <% } %>
         
         if (isLocalVersion)

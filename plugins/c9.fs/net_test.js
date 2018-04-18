@@ -2,8 +2,7 @@
 
 "use client";
 
-require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai) {
-    var expect = chai.expect;
+    var expect = require("lib/chai/chai").expect;
     
     expect.setupArchitectTest([
         {
@@ -27,7 +26,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
             provides: [],
             setup: main
         }
-    ], architect);
+    ]);
     
     function main(options, imports, register) {
         var net = imports.net;
@@ -39,7 +38,7 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
                 
                 it("should connect to a port", function(done) {
                     var code = 
-                      "var server = require('net').createServer(function(c) {"
+                      "var server = require\('net').createServer(function(c) {"
                           + "c.write('1');"
                           + "c.pipe(c);"
                       + "});"
@@ -74,4 +73,3 @@ require(["lib/architect/architect", "lib/chai/chai"], function (architect, chai)
         
         register();
     }
-});
