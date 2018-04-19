@@ -7,7 +7,7 @@
     position: absolute;
     border-right: 1px solid black;
 }
-.ace_resizer_v:hover {
+.ace_resizer_v:hover,.ace_resizer_v.hover {
     border-right-color: darkblue;
 }
 .ace_closeButton {
@@ -38,7 +38,9 @@
     overflow: hidden !important;
     padding: 0 8px;
     border-top-color: rgba(230, 230, 250, 0.24); 
-    font-family: arial
+    font-family: arial;
+    position: absolute;
+    width: 100%;
 }
 .ace_blame-cell.selected{
     background: rgba(255, 237, 0, 0.31);

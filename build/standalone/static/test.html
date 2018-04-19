@@ -22,6 +22,10 @@
     <script>
         window.onerror=function(msg){ var el=document.getElementById('jserror'); el.innerHTML+="<div class='jserr'>"+msg+"</div>";};
         
+        try { var ES6_SUPPORT = eval("x=>x,true"); } catch(e) {}
+        if (!ES6_SUPPORT || /es5=1/.test(location.search) || /es5=1/.test(top.location.search))
+            require.config({ useCache: true, transform: "es5" });
+        
         /* wrap setTimeout to prevent any plugins leaking timeouts to the next test*/ 
         /*global setTimeout: true, setInterval: true*/
         void function() {
@@ -169,7 +173,6 @@
                 }
             });
             
-            require.config({ useCache: false, transform: "~es5/" });
             mocha.bail(false);
             mocha.ignoreLeaks(true);
             mocha.fullTrace && mocha.fullTrace();
@@ -222,7 +225,7 @@
             tests = JSON.parse(tests);
             allFiles = tests.list.slice();
             
-            if (!files.length && (location.search === "?" || location.search === "")) {
+            if (!files.length) {
                 var disabled = tests.blacklist.slice().sort();
                 var enabled = tests.list.slice().sort();
                 var all = "<span style='font-size: 14px;'><a href='?runAllTests&remain=1'>run all</a></span>";

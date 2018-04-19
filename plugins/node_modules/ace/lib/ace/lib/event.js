@@ -364,7 +364,6 @@ exports.addCommandKeyListener = function(el, callback) {
     }
 };
 function resetPressedKeys() {
-    // console.log("resetting")
     pressedKeys = Object.create(null);
 }
 
@@ -372,18 +371,42 @@ if (typeof window == "object" && window.postMessage && !useragent.isOldIE) {
     var postMessageId = 1;
     exports.nextTick = function(callback, win) {
         win = win || window;
-        var messageName = "zero-timeout-message-" + postMessageId;
-        exports.addListener(win, "message", function listener(e) {
+        var messageName = "zero-timeout-message-" + (postMessageId++);
+        
+        var listener = function(e) {
             if (e.data == messageName) {
                 exports.stopPropagation(e);
                 exports.removeListener(win, "message", listener);
                 callback();
             }
-        });
+        };
+        
+        exports.addListener(win, "message", listener);
         win.postMessage(messageName, "*");
     };
 }
 
+exports.$idleBlocked = false;
+exports.onIdle = function(cb, timeout) {
+    return setTimeout(function handler() {
+        if (!exports.$idleBlocked) {
+            cb();
+        } else {
+            setTimeout(handler, 100);
+        }
+    }, timeout);
+};
+
+exports.$idleBlockId = null;
+exports.blockIdle = function(delay) {
+    if (exports.$idleBlockId)
+        clearTimeout(exports.$idleBlockId);
+        
+    exports.$idleBlocked = true;
+    exports.$idleBlockId = setTimeout(function() {
+        exports.$idleBlocked = false;
+    }, delay || 100);
+};
 
 exports.nextFrame = typeof window == "object" && (window.requestAnimationFrame
     || window.mozRequestAnimationFrame

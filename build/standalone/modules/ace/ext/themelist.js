@@ -1,6 +1,5 @@
 define("ace/ext/themelist",[], function(require, exports, module) {
 "use strict";
-require("ace/lib/fixoldbrowsers");
 
 var themeData = [
     ["Chrome"         ],

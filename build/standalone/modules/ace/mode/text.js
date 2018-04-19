@@ -214,9 +214,58 @@ exports.implement = function(proto, mixin) {
 
 });
 
+define("ace/lib/useragent",[], function(require, exports, module) {
+"use strict";
+exports.OS = {
+    LINUX: "LINUX",
+    MAC: "MAC",
+    WINDOWS: "WINDOWS"
+};
+exports.getOS = function() {
+    if (exports.isMac) {
+        return exports.OS.MAC;
+    } else if (exports.isLinux) {
+        return exports.OS.LINUX;
+    } else {
+        return exports.OS.WINDOWS;
+    }
+};
+if (typeof navigator != "object")
+    return;
+
+var os = (navigator.platform.match(/mac|win|linux/i) || ["other"])[0].toLowerCase();
+var ua = navigator.userAgent;
+exports.isWin = (os == "win");
+exports.isMac = (os == "mac");
+exports.isLinux = (os == "linux");
+exports.isIE = 
+    (navigator.appName == "Microsoft Internet Explorer" || navigator.appName.indexOf("MSAppHost") >= 0)
+    ? parseFloat((ua.match(/(?:MSIE |Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/)||[])[1])
+    : parseFloat((ua.match(/(?:Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/)||[])[1]); // for ie
+    
+exports.isOldIE = exports.isIE && exports.isIE < 9;
+exports.isGecko = exports.isMozilla = ua.match(/ Gecko\/\d+/);
+exports.isOpera = window.opera && Object.prototype.toString.call(window.opera) == "[object Opera]";
+exports.isWebKit = parseFloat(ua.split("WebKit/")[1]) || undefined;
+
+exports.isChrome = parseFloat(ua.split(" Chrome/")[1]) || undefined;
+
+exports.isAIR = ua.indexOf("AdobeAIR") >= 0;
+
+exports.isIPad = ua.indexOf("iPad") >= 0;
+
+exports.isChromeOS = ua.indexOf(" CrOS ") >= 0;
+
+exports.isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+
+if (exports.isIOS) exports.isMac = true;
+
+});
+
 define("ace/lib/dom",[], function(require, exports, module) {
 "use strict";
 
+var useragent = require("./useragent"); 
 var XHTML_NS = "http://www.w3.org/1999/xhtml";
 
 exports.buildDom = function buildDom(arr, parent, refs) {
@@ -274,6 +323,20 @@ exports.createElement = function(tag, ns) {
     return document.createElementNS ?
            document.createElementNS(ns || XHTML_NS, tag) :
            document.createElement(tag);
+};
+
+exports.removeChildren = function(element) {
+    element.innerHTML = "";
+};
+
+exports.createTextNode = function(textContent, element) {
+    var doc = element ? element.ownerDocument : document;
+    return doc.createTextNode(textContent);
+};
+
+exports.createFragment = function(element) {
+    var doc = element ? element.ownerDocument : document;
+    return doc.createDocumentFragment();
 };
 
 exports.hasCssClass = function(el, name) {
@@ -353,6 +416,9 @@ exports.importCssString = function importCssString(cssText, id, container) {
     root.appendChild(style);
 };
 
+exports.importCssStylsheet = function(uri, doc) {
+    exports.buildDom(["link", {rel: "stylesheet", href: uri}], exports.getDocumentHead(doc));
+};
 exports.scrollbarWidth = function(document) {
     var inner = exports.createElement("ace_inner");
     inner.style.width = "100%";
@@ -397,6 +463,44 @@ if (typeof document == "undefined") {
 exports.computedStyle = function(element, style) {
     return window.getComputedStyle(element, "") || {};
 };
+
+exports.setStyle = function(styles, property, value) {
+    if (styles[property] !== value) {
+        styles[property] = value;
+    }
+};
+
+exports.HAS_CSS_ANIMATION = false;
+if (typeof document !== "undefined") {
+    var div = document.createElement("div");
+    if (typeof div.style.animationName !== "undefined") {
+        exports.HAS_CSS_ANIMATION = true; 
+    }
+}
+
+exports.HAS_CSS_TRANSFORMS = false;
+exports.HI_DPI = useragent.isWin
+    ? typeof window !== "undefined" && window.devicePixelRatio >= 1.5
+    : true;
+
+if (exports.HI_DPI && typeof document !== "undefined") {
+    var div = document.createElement("div");
+    if (div.style.transform  !== undefined)
+        exports.HAS_CSS_TRANSFORMS = true;
+    div = null;
+
+}
+
+if (exports.HAS_CSS_TRANSFORMS) {
+    exports.translate = function(element, tx, ty) {
+        element.style.transform = "translate(" + Math.round(tx) + "px, " + Math.round(ty) +"px)";
+    };
+} else {
+    exports.translate = function(element, tx, ty) {
+        element.style.top = Math.round(ty) + "px";
+        element.style.left = Math.round(tx) + "px";
+    };
+}
 
 });
 
@@ -519,7 +623,6 @@ EventEmitter.removeDefaultHandler = function(eventName, callback) {
     var disabled = handlers._disabled_[eventName];
     
     if (handlers[eventName] == callback) {
-        var old = handlers[eventName];
         if (disabled)
             this.setDefaultHandler(eventName, disabled.pop());
     } else if (disabled) {

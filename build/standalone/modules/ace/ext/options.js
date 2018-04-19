@@ -100,6 +100,7 @@ var supportedModes = {
     ADA:         ["ada|adb"],
     Apache_Conf: ["^htaccess|^htgroups|^htpasswd|^conf|htaccess|htgroups|htpasswd"],
     AsciiDoc:    ["asciidoc|adoc"],
+    ASL:         ["dsl|asl"],
     Assembly_x86:["asm|a"],
     AutoHotKey:  ["ahk"],
     BatchFile:   ["bat|cmd"],
@@ -273,7 +274,6 @@ module.exports = {
 
 define("ace/ext/themelist",[], function(require, exports, module) {
 "use strict";
-require("ace/lib/fixoldbrowsers");
 
 var themeData = [
     ["Chrome"         ],
@@ -460,6 +460,15 @@ var optionGroups = {
         },
         "Show Gutter": {
             path: "showGutter"
+        },
+        "Show Line Numbers": {
+            path: "showLineNumbers"
+        },
+        "Relative Line Numbers": {
+            path: "relativeLineNumbers"
+        },
+        "Fixed Gutter Width": {
+            path: "fixedWidthGutter"
         },
         "Show Print Margin": [{
             path: "showPrintMargin"

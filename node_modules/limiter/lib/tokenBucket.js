@@ -27,6 +27,8 @@ var TokenBucket = function(bucketSize, tokensPerInterval, interval, parentBucket
         this.interval = 1000 * 60 * 60; break;
       case 'day':
         this.interval = 1000 * 60 * 60 * 24; break;
+      default:
+        throw new Error('Invaid interval ' + interval);
     }
   } else {
     this.interval = interval;

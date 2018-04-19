@@ -1,3 +1,128 @@
+define("ace/layer/lines",[], function(require, exports, module) {
+"use strict";
+
+var dom = require("../lib/dom");
+
+var Lines = function(element, canvasHeight) {
+    this.element = element;
+    this.canvasHeight = canvasHeight || 500000;
+    this.element.style.height = (this.canvasHeight * 2) + "px";
+    
+    this.cells = [];
+    this.cellCache = [];
+};
+
+(function() {
+    
+    this.moveContainer = function(config) {
+        dom.translate(this.element, 0, -((config.firstRowScreen * config.lineHeight) % this.canvasHeight));
+    };    
+    
+    this.pageChanged = function(oldConfig, newConfig) {
+        return (
+            Math.floor((oldConfig.firstRowScreen * oldConfig.lineHeight) / this.canvasHeight) !==
+            Math.floor((newConfig.firstRowScreen * newConfig.lineHeight) / this.canvasHeight)
+        );
+    };
+    
+    this.computeLineTop = function(row, config, session) {
+        var screenTop = config.firstRowScreen * config.lineHeight;
+        var screenPage = Math.floor(screenTop / this.canvasHeight);
+        var lineTop = session.documentToScreenRow(row, 0) * config.lineHeight;
+        return lineTop - (screenPage * this.canvasHeight);
+    };
+    
+    this.computeLineHeight = function(row, config, session) {
+        return config.lineHeight * session.getRowLength(row);
+    };
+    
+    this.getLength = function() {
+        return this.cells.length;
+    };
+    
+    this.get = function(index) {
+        return this.cells[index];
+    };
+    
+    this.shift = function() {
+        this.$cacheCell(this.cells.shift());
+    };
+    
+    this.pop = function() {
+        this.$cacheCell(this.cells.pop());
+    };
+    
+    this.push = function(cell) {
+        if (Array.isArray(cell)) {
+            this.cells.push.apply(this.cells, cell);
+            var fragment = dom.createFragment(this.element);
+            for (var i=0; i<cell.length; i++) {
+                fragment.appendChild(cell[i].element);
+            }
+            this.element.appendChild(fragment);
+         } else {
+            this.cells.push(cell);
+            this.element.appendChild(cell.element);
+         }
+    };
+    
+    this.unshift = function(cell) {
+        if (Array.isArray(cell)) {
+            this.cells.unshift.apply(this.cells, cell);
+            var fragment = dom.createFragment(this.element);
+            for (var i=0; i<cell.length; i++) {
+                fragment.appendChild(cell[i].element);
+            }
+            if (this.element.firstChild)
+                this.element.insertBefore(fragment, this.element.firstChild);
+            else
+                this.element.appendChild(fragment);
+         } else {
+            this.cells.unshift(cell);
+            this.element.insertAdjacentElement("afterbegin", cell.element);
+         }
+    };
+    
+    this.last = function() {
+        if (this.cells.length)
+            return this.cells[this.cells.length-1];
+        else
+            return null;
+    };
+    
+    this.$cacheCell = function(cell) {
+        if (!cell)
+            return;
+            
+        cell.element.remove();
+        this.cellCache.push(cell);
+    };
+    
+    this.createCell = function(row, config, session, initElement) {
+        var cell = this.cellCache.pop();
+        if (!cell) {
+            var element = dom.createElement("div");
+            if (initElement)
+                initElement(element);
+            
+            this.element.appendChild(element);
+            
+            cell = {
+                element: element,
+                text: "",
+                row: row
+            };
+        }
+        
+        return cell;
+    };
+    
+}).call(Lines.prototype);
+
+exports.Lines = Lines;
+
+});
+
 define("ace/layer/gutter",[], function(require, exports, module) {
 "use strict";
 
@@ -5,6 +130,7 @@ var dom = require("../lib/dom");
 var oop = require("../lib/oop");
 var lang = require("../lib/lang");
 var EventEmitter = require("../lib/event_emitter").EventEmitter;
+var Lines = require("./lines").Lines;
 
 var Gutter = function(parentEl) {
     this.element = dom.createElement("div");
@@ -16,8 +142,8 @@ var Gutter = function(parentEl) {
 
     this.$annotations = [];
     this.$updateAnnotations = this.$updateAnnotations.bind(this);
-
-    this.$cells = [];
+    
+    this.$lines = new Lines(this.element);
 };
 
 (function() {
@@ -32,13 +158,13 @@ var Gutter = function(parentEl) {
             session.on("change", this.$updateAnnotations);
     };
 
-    this.addGutterDecoration = function(row, className){
+    this.addGutterDecoration = function(row, className) {
         if (window.console)
             console.warn && console.warn("deprecated use session.addGutterDecoration");
         this.session.addGutterDecoration(row, className);
     };
 
-    this.removeGutterDecoration = function(row, className){
+    this.removeGutterDecoration = function(row, className) {
         if (window.console)
             console.warn && console.warn("deprecated use session.removeGutterDecoration");
         this.session.removeGutterDecoration(row, className);
@@ -85,23 +211,28 @@ var Gutter = function(parentEl) {
     };
 
     this.update = function(config) {
+        this.config = config;
+        
         var session = this.session;
         var firstRow = config.firstRow;
         var lastRow = Math.min(config.lastRow + config.gutterOffset,  // needed to compensate for hor scollbar
             session.getLength() - 1);
+            
+        this.oldLastRow = lastRow;
+        this.config = config;
+        
+        this.$lines.moveContainer(config);
+        this.$updateCursorRow();
+            
         var fold = session.getNextFoldLine(firstRow);
         var foldStart = fold ? fold.start.row : Infinity;
-        var foldWidgets = this.$showFoldWidgets && session.foldWidgets;
-        var breakpoints = session.$breakpoints;
-        var decorations = session.$decorations;
-        var firstLineNumber = session.$firstLineNumber;
-        var lastLineNumber = 0;
-        
-        var gutterRenderer = session.gutterRenderer || this.$renderer;
 
         var cell = null;
         var index = -1;
         var row = firstRow;
+        
+        var cells = Array.prototype.slice.call(this.element.childNodes, 0);
+        
         while (true) {
             if (row > foldStart) {
                 row = fold.end.row + 1;
@@ -109,94 +240,242 @@ var Gutter = function(parentEl) {
                 foldStart = fold ? fold.start.row : Infinity;
             }
             if (row > lastRow) {
-                while (this.$cells.length > index + 1) {
-                    cell = this.$cells.pop();
-                    this.element.removeChild(cell.element);
-                }
+                while (this.$lines.getLength() > index + 1)
+                    this.$lines.pop();
+                    
                 break;
             }
 
-            cell = this.$cells[++index];
+            cell = this.$lines.get(++index);
             if (!cell) {
-                cell = {element: null, textNode: null, foldWidget: null};
-                cell.element = dom.createElement("div");
-                cell.textNode = document.createTextNode('');
-                cell.element.appendChild(cell.textNode);
-                this.element.appendChild(cell.element);
-                this.$cells[index] = cell;
+                cell = this.$lines.createCell(row, config, this.session, onCreateCell);
+                this.$lines.push(cell);
             }
 
-            var className = "ace_gutter-cell ";
-            if (breakpoints[row])
-                className += breakpoints[row];
-            if (decorations[row])
-                className += decorations[row];
-            if (this.$annotations[row])
-                className += this.$annotations[row].className;
-            if (cell.element.className != className)
-                cell.element.className = className;
-
-            var height = session.getRowLength(row) * config.lineHeight + "px";
-            if (height != cell.element.style.height)
-                cell.element.style.height = height;
-
-            if (foldWidgets) {
-                var c = foldWidgets[row];
-                if (c == null)
-                    c = foldWidgets[row] = session.getFoldWidget(row);
-            }
-
-            if (c) {
-                if (!cell.foldWidget) {
-                    cell.foldWidget = dom.createElement("span");
-                    cell.element.appendChild(cell.foldWidget);
-                }
-                var className = "ace_fold-widget ace_" + c;
-                if (c == "start" && row == foldStart && row < fold.end.row)
-                    className += " ace_closed";
-                else
-                    className += " ace_open";
-                if (cell.foldWidget.className != className)
-                    cell.foldWidget.className = className;
-
-                var height = config.lineHeight + "px";
-                if (cell.foldWidget.style.height != height)
-                    cell.foldWidget.style.height = height;
-            } else {
-                if (cell.foldWidget) {
-                    cell.element.removeChild(cell.foldWidget);
-                    cell.foldWidget = null;
-                }
-            }
-            
-            var text = lastLineNumber = gutterRenderer
-                ? gutterRenderer.getText(session, row)
-                : row + firstLineNumber;
-            if (text !== cell.textNode.data)
-                cell.textNode.data = text;
-
+            this.$renderCell(cell, config, fold, row);
             row++;
         }
+        
+        this._signal("afterRender");
+        this.$updateGutterWidth(config);
+    };
 
-        this.element.style.height = config.minHeight + "px";
-
+    this.$updateGutterWidth = function(config) {
+        var session = this.session;
+        
+        var gutterRenderer = session.gutterRenderer || this.$renderer;
+        
+        var firstLineNumber = session.$firstLineNumber;
+        var lastLineText = this.$lines.last() ? this.$lines.last().text : "";
+        
         if (this.$fixedWidth || session.$useWrapMode)
-            lastLineNumber = session.getLength() + firstLineNumber;
+            lastLineText = session.getLength() + firstLineNumber;
 
         var gutterWidth = gutterRenderer 
-            ? gutterRenderer.getWidth(session, lastLineNumber, config)
-            : lastLineNumber.toString().length * config.characterWidth;
+            ? gutterRenderer.getWidth(session, lastLineText, config)
+            : lastLineText.toString().length * config.characterWidth;
         
         var padding = this.$padding || this.$computePadding();
         gutterWidth += padding.left + padding.right;
         if (gutterWidth !== this.gutterWidth && !isNaN(gutterWidth)) {
             this.gutterWidth = gutterWidth;
+            this.element.parentNode.style.width = 
             this.element.style.width = Math.ceil(this.gutterWidth) + "px";
-            this._emit("changeGutterWidth", gutterWidth);
+            this._signal("changeGutterWidth", gutterWidth);
         }
+    };
+    
+    this.$updateCursorRow = function() {
+        if (!this.$highlightGutterLine)
+            return;
+            
+        var position = this.session.selection.getCursor();
+        if (this.$cursorRow === position.row)
+            return;
+        
+        this.$cursorRow = position.row;
+    };
+    
+    this.updateLineHighlight = function() {
+        if (!this.$highlightGutterLine)
+            return;
+        var row = this.session.selection.cursor.row;
+        this.$cursorRow = row;
+
+        if (this.$cursorCell && this.$cursorCell.row == row)
+            return;
+        if (this.$cursorCell)
+            this.$cursorCell.element.className = this.$cursorCell.element.className.replace("ace_gutter-active-line ", "");
+        var cells = this.$lines.cells;
+        this.$cursorCell = null;
+        for (var i = 0; i < cells.length; i++) {
+            var cell = cells[i];
+            if (cell.row >= this.$cursorRow) {
+                if (cell.row > this.$cursorRow) {
+                    var fold = this.session.getFoldLine(this.$cursorRow);
+                    if (i > 0 && fold && fold.start.row == cells[i - 1].row)
+                        cell = cells[i - 1];
+                    else
+                        break;
+                }
+                cell.element.className = "ace_gutter-active-line " + cell.element.className;
+                this.$cursorCell = cell;
+                break;
+            }
+        }
+    };
+    
+    this.scrollLines = function(config) {
+        var oldConfig = this.config;
+        this.config = config;
+        
+        this.$updateCursorRow();
+        if (this.$lines.pageChanged(oldConfig, config))
+            return this.update(config);
+        
+        this.$lines.moveContainer(config);
+
+        var lastRow = Math.min(config.lastRow + config.gutterOffset,  // needed to compensate for hor scollbar
+            this.session.getLength() - 1);
+        var oldLastRow = this.oldLastRow;
+        this.oldLastRow = lastRow;
+        
+        if (!oldConfig || oldLastRow < config.firstRow)
+            return this.update(config);
+
+        if (lastRow < oldConfig.firstRow)
+            return this.update(config);
+
+        if (oldConfig.firstRow < config.firstRow)
+            for (var row=this.session.getFoldedRowCount(oldConfig.firstRow, config.firstRow - 1); row>0; row--)
+                this.$lines.shift();
+
+        if (oldLastRow > lastRow)
+            for (var row=this.session.getFoldedRowCount(lastRow + 1, oldLastRow); row>0; row--)
+                this.$lines.pop();
+
+        if (config.firstRow < oldConfig.firstRow) {
+            this.$lines.unshift(this.$renderLines(config, config.firstRow, oldConfig.firstRow - 1));
+        }
+
+        if (lastRow > oldLastRow) {
+            this.$lines.push(this.$renderLines(config, oldLastRow + 1, lastRow));
+        }
+        
+        this.updateLineHighlight();
+        
+        this._signal("afterRender");
+        this.$updateGutterWidth(config);
+    };
+
+    this.$renderLines = function(config, firstRow, lastRow) {
+        var fragment = [];
+        var row = firstRow;
+        var foldLine = this.session.getNextFoldLine(row);
+        var foldStart = foldLine ? foldLine.start.row : Infinity;
+
+        while (true) {
+            if (row > foldStart) {
+                row = foldLine.end.row+1;
+                foldLine = this.session.getNextFoldLine(row, foldLine);
+                foldStart = foldLine ? foldLine.start.row : Infinity;
+            }
+            if (row > lastRow)
+                break;
+
+            var cell = this.$lines.createCell(row, config, this.session, onCreateCell);
+            this.$renderCell(cell, config, foldLine, row);
+            fragment.push(cell);
+
+            row++;
+        }
+        return fragment;
+    };
+    
+    this.$renderCell = function(cell, config, fold, row) {
+        var element = cell.element;
+        
+        var session = this.session;
+        
+        var textNode = element.childNodes[0];
+        var foldWidget = element.childNodes[1];
+
+        var firstLineNumber = session.$firstLineNumber;
+        
+        var breakpoints = session.$breakpoints;
+        var decorations = session.$decorations;
+        var gutterRenderer = session.gutterRenderer || this.$renderer;
+        var foldWidgets = this.$showFoldWidgets && session.foldWidgets;
+        var foldStart = fold ? fold.start.row : Number.MAX_VALUE;
+        
+        var className = "ace_gutter-cell ";
+        if (this.$highlightGutterLine) {
+            if (row == this.$cursorRow || (fold && row < this.$cursorRow && row >= foldStart &&  this.$cursorRow <= fold.end.row)) {
+                className += "ace_gutter-active-line ";
+                if (this.$cursorCell != cell) {
+                    if (this.$cursorCell)
+                        this.$cursorCell.element.className = this.$cursorCell.element.className.replace("ace_gutter-active-line ", "");
+                    this.$cursorCell = cell;
+                }
+            }
+        }
+        
+        if (breakpoints[row])
+            className += breakpoints[row];
+        if (decorations[row])
+            className += decorations[row];
+        if (this.$annotations[row])
+            className += this.$annotations[row].className;
+        if (element.className != className)
+            element.className = className;
+
+        if (foldWidgets) {
+            var c = foldWidgets[row];
+            if (c == null)
+                c = foldWidgets[row] = session.getFoldWidget(row);
+        }
+
+        if (c) {
+            var className = "ace_fold-widget ace_" + c;
+            if (c == "start" && row == foldStart && row < fold.end.row)
+                className += " ace_closed";
+            else
+                className += " ace_open";
+            if (foldWidget.className != className)
+                foldWidget.className = className;
+
+            var foldHeight = config.lineHeight + "px";
+            dom.setStyle(foldWidget.style, "height", foldHeight);
+            dom.setStyle(foldWidget.style, "display", "inline-block");
+        } else {
+            if (foldWidget) {
+                dom.setStyle(foldWidget.style, "display", "none");
+            }
+        }
+        
+        var text = (gutterRenderer
+            ? gutterRenderer.getText(session, row)
+            : row + firstLineNumber).toString();
+            
+        if (text !== textNode.data) {
+            textNode.data = text;
+        }
+        
+        dom.setStyle(cell.element.style, "height", this.$lines.computeLineHeight(row, config, session) + "px");
+        dom.setStyle(cell.element.style, "top", this.$lines.computeLineTop(row, config, session) + "px");
+        
+        cell.text = text;
+        cell.row = row;
+        return cell;
     };
 
     this.$fixedWidth = false;
+    
+    this.$highlightGutterLine = true;
+    this.$renderer = "";
+    this.setHighlightGutterLine = function(highlightGutterLine) {
+        this.$highlightGutterLine = highlightGutterLine;
+    };
     
     this.$showLineNumbers = true;
     this.$renderer = "";
@@ -231,8 +510,10 @@ var Gutter = function(parentEl) {
             return {left: 0, right: 0};
         var style = dom.computedStyle(this.element.firstChild);
         this.$padding = {};
-        this.$padding.left = parseInt(style.paddingLeft) + 1 || 0;
-        this.$padding.right = parseInt(style.paddingRight) || 0;
+        this.$padding.left = (parseInt(style.borderLeftWidth) || 0)
+            + (parseInt(style.paddingLeft) || 0) + 1;
+        this.$padding.right = (parseInt(style.borderRightWidth) || 0)
+            + (parseInt(style.paddingRight) || 0);
         return this.$padding;
     };
 
@@ -246,6 +527,16 @@ var Gutter = function(parentEl) {
     };
 
 }).call(Gutter.prototype);
+
+function onCreateCell(element) {
+    var textNode = document.createTextNode('');
+    element.appendChild(textNode);
+    
+    var foldWidget = dom.createElement("span");
+    element.appendChild(foldWidget);
+    
+    return element;
+}
 
 exports.Gutter = Gutter;
 
@@ -277,14 +568,27 @@ var Marker = function(parentEl) {
     this.setMarkers = function(markers) {
         this.markers = markers;
     };
+    
+    this.elt = function(className, css) {
+        var x = this.i != -1 && this.element.childNodes[this.i];
+        if (!x) {
+            x = document.createElement("div");
+            this.element.appendChild(x);
+            this.i = -1;
+        } else {
+            this.i++;
+        }
+        x.style.cssText = css;
+        x.className = className;
+    };
 
     this.update = function(config) {
         if (!config) return;
 
         this.config = config;
 
-
-        var html = [];
+        this.i = 0;
+        var html;
         for (var key in this.markers) {
             var marker = this.markers[key];
 
@@ -299,9 +603,7 @@ var Marker = function(parentEl) {
             range = range.toScreenRange(this.session);
             if (marker.renderer) {
                 var top = this.$getTop(range.start.row, config);
-                var left = this.$padding + (this.session.$bidiHandler.isBidiRow(range.start.row)
-                    ? this.session.$bidiHandler.getPosLeft(range.start.column)
-                    : range.start.column * config.characterWidth);
+                var left = this.$padding + range.start.column * config.characterWidth;
                 marker.renderer(html, range, left, top, config);
             } else if (marker.type == "fullLine") {
                 this.drawFullLineMarker(html, range, marker.clazz, config);
@@ -313,14 +615,13 @@ var Marker = function(parentEl) {
                 else
                     this.drawMultiLineMarker(html, range, marker.clazz, config);
             } else {
-                if (this.session.$bidiHandler.isBidiRow(range.start.row)) {
-                    this.drawBidiSingleLineMarker(html, range, marker.clazz + " ace_start" + " ace_br15", config);
-                } else {
-                    this.drawSingleLineMarker(html, range, marker.clazz + " ace_start" + " ace_br15", config);
-                }
+                this.drawSingleLineMarker(html, range, marker.clazz + " ace_start" + " ace_br15", config);
             }
         }
-        this.element.innerHTML = html.join("");
+        if (this.i !=-1) {
+            while (this.i < this.element.childElementCount)
+                this.element.removeChild(this.element.lastChild);
+        }
     };
 
     this.$getTop = function(row, layerConfig) {
@@ -338,7 +639,6 @@ var Marker = function(parentEl) {
         var prev = 0; 
         var curr = 0;
         var next = session.getScreenLastRowColumn(row);
-        var clazzModified = null;
         var lineRange = new Range(row, range.start.column, row, curr);
         for (; row <= end; row++) {
             lineRange.start.row = lineRange.end.row = row;
@@ -347,56 +647,33 @@ var Marker = function(parentEl) {
             prev = curr;
             curr = next;
             next = row + 1 < end ? session.getScreenLastRowColumn(row + 1) : row == end ? 0 : range.end.column;
-            clazzModified = clazz + (row == start  ? " ace_start" : "") + " ace_br"
-                + getBorderClass(row == start || row == start + 1 && range.start.column, prev < curr, curr > next, row == end);
-            
-            if (this.session.$bidiHandler.isBidiRow(row)) {
-                this.drawBidiSingleLineMarker(stringBuilder, lineRange, clazzModified, 
-                    layerConfig, row == end ? 0 : 1, extraStyle);
-            } else {
-                this.drawSingleLineMarker(stringBuilder, lineRange, clazzModified,  
-                    layerConfig, row == end ? 0 : 1, extraStyle);
-            }
+            this.drawSingleLineMarker(stringBuilder, lineRange, 
+                clazz + (row == start  ? " ace_start" : "") + " ace_br"
+                    + getBorderClass(row == start || row == start + 1 && range.start.column, prev < curr, curr > next, row == end),
+                layerConfig, row == end ? 0 : 1, extraStyle);
         }
     };
     this.drawMultiLineMarker = function(stringBuilder, range, clazz, config, extraStyle) {
         var padding = this.$padding;
-        var height, top, left;
+        var height = config.lineHeight;
+        var top = this.$getTop(range.start.row, config);
+        var left = padding + range.start.column * config.characterWidth;
         extraStyle = extraStyle || "";
-       if (this.session.$bidiHandler.isBidiRow(range.start.row)) {
-           var range1 = range.clone();
-           range1.end.row = range1.start.row;
-           range1.end.column = this.session.getLine(range1.start.row).length;
-           this.drawBidiSingleLineMarker(stringBuilder, range1, clazz + " ace_br1 ace_start", config, null, extraStyle);
-        } else {
-           height = config.lineHeight;
-           top = this.$getTop(range.start.row, config);
-           left = padding + range.start.column * config.characterWidth;
-           stringBuilder.push(
-               "<div class='", clazz, " ace_br1 ace_start' style='",
-               "height:", height, "px;",
-               "right:0;",
-               "top:", top, "px;",
-               "left:", left, "px;", extraStyle, "'></div>"
-           );
-        }
-        if (this.session.$bidiHandler.isBidiRow(range.end.row)) {
-           var range1 = range.clone();
-           range1.start.row = range1.end.row;
-           range1.start.column = 0;
-           this.drawBidiSingleLineMarker(stringBuilder, range1, clazz + " ace_br12", config, null, extraStyle);
-        } else {
-           var width = range.end.column * config.characterWidth;
-           height = config.lineHeight;
-           top = this.$getTop(range.end.row, config);
-           stringBuilder.push(
-               "<div class='", clazz, " ace_br12' style='",
-               "height:", height, "px;",
-               "width:", width, "px;",
-               "top:", top, "px;",
-               "left:", padding, "px;", extraStyle, "'></div>"
-           );
-        }
+
+        this.elt(
+            clazz + " ace_br1 ace_start",
+            "height:"+ height+ "px;"+ "right:0;"+ "top:"+top+ "px;left:"+ left+ "px;" + (extraStyle || "")
+        );
+        top = this.$getTop(range.end.row, config);
+        var width = range.end.column * config.characterWidth;
+
+        this.elt(
+            clazz + " ace_br12",
+            "height:"+ height+ "px;"+
+            "width:"+ width+ "px;"+
+            "top:"+ top+ "px;"+
+            "left:"+ padding+ "px;"+ (extraStyle || "")
+        );
         height = (range.end.row - range.start.row - 1) * config.lineHeight;
         if (height <= 0)
             return;
@@ -404,12 +681,12 @@ var Marker = function(parentEl) {
         
         var radiusClass = (range.start.column ? 1 : 0) | (range.end.column ? 0 : 8);
 
-        stringBuilder.push(
-            "<div class='", clazz, (radiusClass ? " ace_br" + radiusClass : ""), "' style='",
-            "height:", height, "px;",
-            "right:0;",
-            "top:", top, "px;",
-            "left:", padding, "px;", extraStyle, "'></div>"
+        this.elt(
+            clazz + (radiusClass ? " ace_br" + radiusClass : ""),
+            "height:"+ height+ "px;"+
+            "right:0;"+
+            "top:"+ top+ "px;"+
+            "left:"+ padding+ "px;"+ (extraStyle || "")
         );
     };
     this.drawSingleLineMarker = function(stringBuilder, range, clazz, config, extraLength, extraStyle) {
@@ -419,27 +696,13 @@ var Marker = function(parentEl) {
         var top = this.$getTop(range.start.row, config);
         var left = this.$padding + range.start.column * config.characterWidth;
 
-        stringBuilder.push(
-            "<div class='", clazz, "' style='",
-            "height:", height, "px;",
-            "width:", width, "px;",
-            "top:", top, "px;",
-            "left:", left, "px;", extraStyle || "", "'></div>"
+        this.elt(
+            clazz,
+            "height:"+ height+ "px;"+
+            "width:"+ width+ "px;"+
+            "top:"+ top+ "px;"+
+            "left:"+ left+ "px;"+ (extraStyle || "")
         );
-    };
-    this.drawBidiSingleLineMarker = function(stringBuilder, range, clazz, config, extraLength, extraStyle) {
-        var height = config.lineHeight, top = this.$getTop(range.start.row, config), padding = this.$padding;
-        var selections = this.session.$bidiHandler.getSelections(range.start.column, range.end.column);
-
-        selections.forEach(function(selection) {
-            stringBuilder.push(
-                "<div class='", clazz, "' style='",
-                "height:", height, "px;",
-                "width:", selection.width + (extraLength || 0), "px;",
-                "top:", top, "px;",
-                "left:", padding + selection.left, "px;", extraStyle || "", "'></div>"
-            );
-        });
     };
 
     this.drawFullLineMarker = function(stringBuilder, range, clazz, config, extraStyle) {
@@ -448,11 +711,11 @@ var Marker = function(parentEl) {
         if (range.start.row != range.end.row)
             height += this.$getTop(range.end.row, config) - top;
 
-        stringBuilder.push(
-            "<div class='", clazz, "' style='",
-            "height:", height, "px;",
-            "top:", top, "px;",
-            "left:0;right:0;", extraStyle || "", "'></div>"
+        this.elt(
+            clazz,
+            "height:"+ height+ "px;"+
+            "top:"+ top+ "px;"+
+            "left:0;right:0;"+ (extraStyle || "")
         );
     };
     
@@ -460,11 +723,11 @@ var Marker = function(parentEl) {
         var top = this.$getTop(range.start.row, config);
         var height = config.lineHeight;
 
-        stringBuilder.push(
-            "<div class='", clazz, "' style='",
-            "height:", height, "px;",
-            "top:", top, "px;",
-            "left:0;right:0;", extraStyle || "", "'></div>"
+        this.elt(
+            clazz,
+            "height:"+ height+ "px;"+
+            "top:"+ top+ "px;"+
+            "left:0;right:0;"+ (extraStyle || "")
         );
     };
 
@@ -480,14 +743,16 @@ define("ace/layer/text",[], function(require, exports, module) {
 var oop = require("../lib/oop");
 var dom = require("../lib/dom");
 var lang = require("../lib/lang");
-var useragent = require("../lib/useragent");
+var Lines = require("./lines").Lines;
 var EventEmitter = require("../lib/event_emitter").EventEmitter;
 
 var Text = function(parentEl) {
-    this.element = dom.createElement("div");
+    this.dom = dom; 
+    this.element = this.dom.createElement("div");
     this.element.className = "ace_layer ace_text-layer";
     parentEl.appendChild(this.element);
     this.$updateEolChar = this.$updateEolChar.bind(this);
+    this.$lines = new Lines(this.element);
 };
 
 (function() {
@@ -515,7 +780,7 @@ var Text = function(parentEl) {
 
     this.setPadding = function(padding) {
         this.$padding = padding;
-        this.element.style.padding = "0 " + padding + "px";
+        this.element.style.margin = "0 " + padding + "px";
     };
 
     this.getLineHeight = function() {
@@ -574,11 +839,12 @@ var Text = function(parentEl) {
         var tabStr = this.$tabStrings = [0];
         for (var i = 1; i < tabSize + 1; i++) {
             if (this.showInvisibles) {
-                tabStr.push("<span class='ace_invisible ace_invisible_tab'>"
-                    + lang.stringRepeat(this.TAB_CHAR, i)
-                    + "</span>");
+                var span = this.dom.createElement("span");
+                span.className = "ace_invisible ace_invisible_tab";
+                span.textContent = lang.stringRepeat(this.TAB_CHAR, i);
+                tabStr.push(span);
             } else {
-                tabStr.push(lang.stringRepeat(" ", i));
+                tabStr.push(this.dom.createTextNode(lang.stringRepeat(" ", i), this.element));
             }
         }
         if (this.displayIndentGuides) {
@@ -592,21 +858,29 @@ var Text = function(parentEl) {
                 tabClass = " ace_invisible_tab";
                 var spaceContent = lang.stringRepeat(this.SPACE_CHAR, this.tabSize);
                 var tabContent = lang.stringRepeat(this.TAB_CHAR, this.tabSize);
-            } else{
+            } else {
                 var spaceContent = lang.stringRepeat(" ", this.tabSize);
                 var tabContent = spaceContent;
             }
 
-            this.$tabStrings[" "] = "<span class='" + className + spaceClass + "'>" + spaceContent + "</span>";
-            this.$tabStrings["\t"] = "<span class='" + className + tabClass + "'>" + tabContent + "</span>";
+            var span = this.dom.createElement("span");
+            span.className = className + spaceClass;
+            span.textContent = spaceContent;
+            this.$tabStrings[" "] = span;
+            
+            var span = this.dom.createElement("span");
+            span.className = className + tabClass;
+            span.textContent = tabContent;
+            this.$tabStrings["\t"] = span;
         }
     };
 
     this.updateLines = function(config, firstRow, lastRow) {
         if (this.config.lastRow != config.lastRow ||
             this.config.firstRow != config.firstRow) {
-            this.scrollLines(config);
+            return this.update(config);
         }
+        
         this.config = config;
 
         var first = Math.max(firstRow, config.firstRow);
@@ -628,6 +902,7 @@ var Text = function(parentEl) {
             lineElementsIdx ++;
         }
 
+        var heightChanged = false;
         var row = first;
         var foldLine = this.session.getNextFoldLine(row);
         var foldStart = foldLine ? foldLine.start.row : Infinity;
@@ -643,14 +918,23 @@ var Text = function(parentEl) {
 
             var lineElement = lineElements[lineElementsIdx++];
             if (lineElement) {
-                var html = [];
+                this.dom.removeChildren(lineElement);
                 this.$renderLine(
-                    html, row, !this.$useLineGroups(), row == foldStart ? foldLine : false
+                    lineElement, row, row == foldStart ? foldLine : false
                 );
-                lineElement.style.height = config.lineHeight * this.session.getRowLength(row) + "px";
-                lineElement.innerHTML = html.join("");
+                var height = (config.lineHeight * this.session.getRowLength(row)) + "px";
+                if (lineElement.style.height != height) {
+                    heightChanged = true;
+                    lineElement.style.height = height;
+                }
             }
             row++;
+        }
+        if (heightChanged) {
+            while (lineElementsIdx < this.$lines.cells.length) {
+                var cell = this.$lines.cells[lineElementsIdx++];
+                cell.element.style.top = this.$lines.computeLineTop(cell.row, config, this.session) + "px";
+            }
         }
     };
 
@@ -658,37 +942,45 @@ var Text = function(parentEl) {
         var oldConfig = this.config;
         this.config = config;
 
+        if (this.$lines.pageChanged(oldConfig, config))
+            return this.update(config);
+            
+        this.$lines.moveContainer(config);
+        
+        var lastRow = config.lastRow;
+        var oldLastRow = oldConfig ? oldConfig.lastRow : -1;
+
+        if (!oldConfig || oldLastRow < config.firstRow)
+            return this.update(config);
+
+        if (lastRow < oldConfig.firstRow)
+            return this.update(config);
+
         if (!oldConfig || oldConfig.lastRow < config.firstRow)
             return this.update(config);
 
         if (config.lastRow < oldConfig.firstRow)
             return this.update(config);
 
-        var el = this.element;
         if (oldConfig.firstRow < config.firstRow)
             for (var row=this.session.getFoldedRowCount(oldConfig.firstRow, config.firstRow - 1); row>0; row--)
-                el.removeChild(el.firstChild);
+                this.$lines.shift();
 
         if (oldConfig.lastRow > config.lastRow)
             for (var row=this.session.getFoldedRowCount(config.lastRow + 1, oldConfig.lastRow); row>0; row--)
-                el.removeChild(el.lastChild);
+                this.$lines.pop();
 
         if (config.firstRow < oldConfig.firstRow) {
-            var fragment = this.$renderLinesFragment(config, config.firstRow, oldConfig.firstRow - 1);
-            if (el.firstChild)
-                el.insertBefore(fragment, el.firstChild);
-            else
-                el.appendChild(fragment);
+            this.$lines.unshift(this.$renderLinesFragment(config, config.firstRow, oldConfig.firstRow - 1));
         }
 
         if (config.lastRow > oldConfig.lastRow) {
-            var fragment = this.$renderLinesFragment(config, oldConfig.lastRow + 1, config.lastRow);
-            el.appendChild(fragment);
+            this.$lines.push(this.$renderLinesFragment(config, oldConfig.lastRow + 1, config.lastRow));
         }
     };
 
     this.$renderLinesFragment = function(config, firstRow, lastRow) {
-        var fragment = this.element.ownerDocument.createDocumentFragment();
+        var fragment = [];
         var row = firstRow;
         var foldLine = this.session.getNextFoldLine(row);
         var foldStart = foldLine ? foldLine.start.row : Infinity;
@@ -702,21 +994,20 @@ var Text = function(parentEl) {
             if (row > lastRow)
                 break;
 
-            var container = dom.createElement("div");
+            var line = this.$lines.createCell(row, config, this.session);
+            
+            var lineEl = line.element;
+            this.dom.removeChildren(lineEl);
+            dom.setStyle(lineEl.style, "height", this.$lines.computeLineHeight(row, config, this.session) + "px");
+            dom.setStyle(lineEl.style, "top", this.$lines.computeLineTop(row, config, this.session) + "px");
+            this.$renderLine(lineEl, row, row == foldStart ? foldLine : false);
 
-            var html = [];
-            this.$renderLine(html, row, false, row == foldStart ? foldLine : false);
-
-            container.innerHTML = html.join("");
             if (this.$useLineGroups()) {
-                container.className = 'ace_line_group';
-                fragment.appendChild(container);
-                container.style.height = config.lineHeight * this.session.getRowLength(row) + "px";
-
+                lineEl.className = "ace_line_group";
             } else {
-                while(container.firstChild)
-                    fragment.appendChild(container.firstChild);
+                lineEl.className = "ace_line";
             }
+            fragment.push(line);
 
             row++;
         }
@@ -724,35 +1015,18 @@ var Text = function(parentEl) {
     };
 
     this.update = function(config) {
+        this.$lines.moveContainer(config);
+        
         this.config = config;
 
-        var html = [];
-        var firstRow = config.firstRow, lastRow = config.lastRow;
+        var firstRow = config.firstRow;
+        var lastRow = config.lastRow;
 
-        var row = firstRow;
-        var foldLine = this.session.getNextFoldLine(row);
-        var foldStart = foldLine ? foldLine.start.row : Infinity;
-
-        while (true) {
-            if (row > foldStart) {
-                row = foldLine.end.row+1;
-                foldLine = this.session.getNextFoldLine(row, foldLine);
-                foldStart = foldLine ? foldLine.start.row :Infinity;
-            }
-            if (row > lastRow)
-                break;
-
-            if (this.$useLineGroups())
-                html.push("<div class='ace_line_group' style='height:", config.lineHeight*this.session.getRowLength(row), "px'>");
-
-            this.$renderLine(html, row, false, row == foldStart ? foldLine : false);
-
-            if (this.$useLineGroups())
-                html.push("</div>"); // end the line group
-
-            row++;
-        }
-        this.element.innerHTML = html.join("");
+        var lines = this.$lines;
+        while (lines.getLength())
+            lines.pop();
+            
+        lines.push(this.$renderLinesFragment(config, firstRow, lastRow));
     };
 
     this.$textToken = {
@@ -761,108 +1035,153 @@ var Text = function(parentEl) {
         "lparen": true
     };
 
-    this.$renderToken = function(stringBuilder, screenColumn, token, value) {
+    this.$renderToken = function(parent, screenColumn, token, value) {
         var self = this;
-        var replaceReg = /\t|&|<|>|( +)|([\x00-\x1f\x80-\xa0\xad\u1680\u180E\u2000-\u200f\u2028\u2029\u202F\u205F\u3000\uFEFF\uFFF9-\uFFFC])|[\u1100-\u115F\u11A3-\u11A7\u11FA-\u11FF\u2329-\u232A\u2E80-\u2E99\u2E9B-\u2EF3\u2F00-\u2FD5\u2FF0-\u2FFB\u3000-\u303E\u3041-\u3096\u3099-\u30FF\u3105-\u312D\u3131-\u318E\u3190-\u31BA\u31C0-\u31E3\u31F0-\u321E\u3220-\u3247\u3250-\u32FE\u3300-\u4DBF\u4E00-\uA48C\uA490-\uA4C6\uA960-\uA97C\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFAFF\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE66\uFE68-\uFE6B\uFF01-\uFF60\uFFE0-\uFFE6]|[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
-        var replaceFunc = function(c, a, b, tabIdx, idx4) {
-            if (a) {
-                return self.showInvisibles
-                    ? "<span class='ace_invisible ace_invisible_space'>" + lang.stringRepeat(self.SPACE_CHAR, c.length) + "</span>"
-                    : c;
-            } else if (c == "&") {
-                return "&#38;";
-            } else if (c == "<") {
-                return "&#60;";
-            } else if (c == ">") {
-                return "&#62;";
-            } else if (c == "\t") {
-                var tabSize = self.session.getScreenTabSize(screenColumn + tabIdx);
+        var re = /(\t)|( +)|([\x00-\x1f\x80-\xa0\xad\u1680\u180E\u2000-\u200f\u2028\u2029\u202F\u205F\uFEFF\uFFF9-\uFFFC]+)|(\u3000)|([\u1100-\u115F\u11A3-\u11A7\u11FA-\u11FF\u2329-\u232A\u2E80-\u2E99\u2E9B-\u2EF3\u2F00-\u2FD5\u2FF0-\u2FFB\u3001-\u303E\u3041-\u3096\u3099-\u30FF\u3105-\u312D\u3131-\u318E\u3190-\u31BA\u31C0-\u31E3\u31F0-\u321E\u3220-\u3247\u3250-\u32FE\u3300-\u4DBF\u4E00-\uA48C\uA490-\uA4C6\uA960-\uA97C\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFAFF\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE66\uFE68-\uFE6B\uFF01-\uFF60\uFFE0-\uFFE6]|[\uD800-\uDBFF][\uDC00-\uDFFF])/g;
+        
+        var valueFragment = this.dom.createFragment(this.element);
+
+        var m;
+        var i = 0;
+        while (m = re.exec(value)) {
+            var tab = m[1];
+            var simpleSpace = m[2];
+            var controlCharacter = m[3];
+            var cjkSpace = m[4];
+            var cjk = m[5];
+            
+            if (!self.showInvisibles && simpleSpace)
+                continue;
+
+            var before = i != m.index ? value.slice(i, m.index) : "";
+
+            i = m.index + m[0].length;
+            
+            if (before) {
+                valueFragment.appendChild(this.dom.createTextNode(before, this.element));
+            }
+                
+            if (tab) {
+                var tabSize = self.session.getScreenTabSize(screenColumn + m.index);
+                valueFragment.appendChild(self.$tabStrings[tabSize].cloneNode(true));
                 screenColumn += tabSize - 1;
-                return self.$tabStrings[tabSize];
-            } else if (c == "\u3000") {
-                var classToUse = self.showInvisibles ? "ace_cjk ace_invisible ace_invisible_space" : "ace_cjk";
+            } else if (simpleSpace) {
+                if (self.showInvisibles) {
+                    var span = this.dom.createElement("span");
+                    span.className = "ace_invisible ace_invisible_space";
+                    span.textContent = lang.stringRepeat(self.SPACE_CHAR, simpleSpace.length);
+                    valueFragment.appendChild(span);
+                } else {
+                    valueFragment.appendChild(this.com.createTextNode(simpleSpace, this.element));
+                }
+            } else if (controlCharacter) {
+                var span = this.dom.createElement("span");
+                span.className = "ace_invisible ace_invisible_space ace_invalid";
+                span.textContent = lang.stringRepeat(self.SPACE_CHAR, controlCharacter.length);
+                valueFragment.appendChild(span);
+            } else if (cjkSpace) {
                 var space = self.showInvisibles ? self.SPACE_CHAR : "";
                 screenColumn += 1;
-                return "<span class='" + classToUse + "' style='width:" +
-                    (self.config.characterWidth * 2) +
-                    "px'>" + space + "</span>";
-            } else if (b) {
-                return "<span class='ace_invisible ace_invisible_space ace_invalid'>" + self.SPACE_CHAR + "</span>";
-            } else {
+                
+                var span = this.dom.createElement("span");
+                span.style.width = (self.config.characterWidth * 2) + "px";
+                span.className = self.showInvisibles ? "ace_cjk ace_invisible ace_invisible_space" : "ace_cjk";
+                span.textContent = self.showInvisibles ? self.SPACE_CHAR : "";
+                valueFragment.appendChild(span);
+            } else if (cjk) {
                 screenColumn += 1;
-                return "<span class='ace_cjk' style='width:" +
-                    (self.config.characterWidth * 2) +
-                    "px'>" + c + "</span>";
+                var span = dom.createElement("span");
+                span.style.width = (self.config.characterWidth * 2) + "px";
+                span.className = "ace_cjk";
+                span.textContent = cjk;
+                valueFragment.appendChild(span);
             }
-        };
-
-        var output = value.replace(replaceReg, replaceFunc);
+        }
+        
+        valueFragment.appendChild(this.dom.createTextNode(i ? value.slice(i) : value, this.element));
 
         if (!this.$textToken[token.type]) {
             var classes = "ace_" + token.type.replace(/\./g, " ace_");
-            var style = "";
+            var span = this.dom.createElement("span");
             if (token.type == "fold")
-                style = " style='width:" + (token.value.length * this.config.characterWidth) + "px;' ";
-            stringBuilder.push("<span class='", classes, "'", style, ">", output, "</span>");
+                span.style.width = (token.value.length * this.config.characterWidth) + "px";
+                
+            span.className = classes;
+            span.appendChild(valueFragment);
+            
+            parent.appendChild(span);
         }
         else {
-            stringBuilder.push(output);
+            parent.appendChild(valueFragment);
         }
+        
         return screenColumn + value.length;
     };
 
-    this.renderIndentGuide = function(stringBuilder, value, max) {
+    this.renderIndentGuide = function(parent, value, max) {
         var cols = value.search(this.$indentGuideRe);
         if (cols <= 0 || cols >= max)
             return value;
         if (value[0] == " ") {
             cols -= cols % this.tabSize;
-            stringBuilder.push(lang.stringRepeat(this.$tabStrings[" "], cols/this.tabSize));
+            var count = cols/this.tabSize;
+            for (var i=0; i<count; i++) {
+                parent.appendChild(this.$tabStrings[" "].cloneNode(true));
+            }
             return value.substr(cols);
         } else if (value[0] == "\t") {
-            stringBuilder.push(lang.stringRepeat(this.$tabStrings["\t"], cols));
+            for (var i=0; i<cols; i++) {
+                parent.appendChild(this.$tabStrings["\t"].cloneNode(true));
+            }
             return value.substr(cols);
         }
         return value;
     };
 
-    this.$renderWrappedLine = function(stringBuilder, tokens, splits, onlyContents) {
+    this.$createLineElement = function(parent) {
+        var lineEl = this.dom.createElement("div");
+        lineEl.className = "ace_line";
+        lineEl.style.height = this.config.lineHeight + "px";
+        
+        return lineEl;
+    };
+
+    this.$renderWrappedLine = function(parent, tokens, splits) {
         var chars = 0;
         var split = 0;
         var splitChars = splits[0];
         var screenColumn = 0;
 
+        var lineEl = this.$createLineElement();
+        parent.appendChild(lineEl);
+        
         for (var i = 0; i < tokens.length; i++) {
             var token = tokens[i];
             var value = token.value;
             if (i == 0 && this.displayIndentGuides) {
                 chars = value.length;
-                value = this.renderIndentGuide(stringBuilder, value, splitChars);
+                value = this.renderIndentGuide(lineEl, value, splitChars);
                 if (!value)
                     continue;
                 chars -= value.length;
             }
 
             if (chars + value.length < splitChars) {
-                screenColumn = this.$renderToken(stringBuilder, screenColumn, token, value);
+                screenColumn = this.$renderToken(lineEl, screenColumn, token, value);
                 chars += value.length;
             } else {
                 while (chars + value.length >= splitChars) {
                     screenColumn = this.$renderToken(
-                        stringBuilder, screenColumn,
+                        lineEl, screenColumn,
                         token, value.substring(0, splitChars - chars)
                     );
                     value = value.substring(splitChars - chars);
                     chars = splitChars;
 
-                    if (!onlyContents) {
-                        stringBuilder.push("</div>",
-                            "<div class='ace_line' style='height:",
-                            this.config.lineHeight, "px'>"
-                        );
-                    }
+                    lineEl = this.$createLineElement();
+                    parent.appendChild(lineEl);
 
-                    stringBuilder.push(lang.stringRepeat("\xa0", splits.indent));
+                    lineEl.appendChild(this.dom.createTextNode(lang.stringRepeat("\xa0", splits.indent), this.element));
 
                     split ++;
                     screenColumn = 0;
@@ -871,38 +1190,43 @@ var Text = function(parentEl) {
                 if (value.length != 0) {
                     chars += value.length;
                     screenColumn = this.$renderToken(
-                        stringBuilder, screenColumn, token, value
+                        lineEl, screenColumn, token, value
                     );
                 }
             }
         }
     };
 
-    this.$renderSimpleLine = function(stringBuilder, tokens) {
+    this.$renderSimpleLine = function(parent, tokens) {
         var screenColumn = 0;
         var token = tokens[0];
         var value = token.value;
         if (this.displayIndentGuides)
-            value = this.renderIndentGuide(stringBuilder, value);
+            value = this.renderIndentGuide(parent, value);
         if (value)
-            screenColumn = this.$renderToken(stringBuilder, screenColumn, token, value);
+            screenColumn = this.$renderToken(parent, screenColumn, token, value);
         for (var i = 1; i < tokens.length; i++) {
             token = tokens[i];
             value = token.value;
             if (screenColumn + value.length > this.MAX_LINE_LENGTH)
-                return this.$renderOverflowMessage(stringBuilder, screenColumn, token, value);
-            screenColumn = this.$renderToken(stringBuilder, screenColumn, token, value);
+                return this.$renderOverflowMessage(parent, screenColumn, token, value);
+            screenColumn = this.$renderToken(parent, screenColumn, token, value);
         }
     };
     
-    this.$renderOverflowMessage = function(stringBuilder, screenColumn, token, value) {
-        this.$renderToken(stringBuilder, screenColumn, token,
+    this.$renderOverflowMessage = function(parent, screenColumn, token, value) {
+        this.$renderToken(parent, screenColumn, token,
             value.slice(0, this.MAX_LINE_LENGTH - screenColumn));
-        stringBuilder.push(
-            "<span style='position:absolute;right:0' class='ace_inline_button ace_keyword ace_toggle_wrap'>&lt;click to see more...&gt;</span>"
-        );
+            
+        var overflowEl = this.dom.createElement("span");
+        overflowEl.className = "ace_inline_button ace_keyword ace_toggle_wrap";
+        overflowEl.style.position = "absolute";
+        overflowEl.style.right = "0";
+        overflowEl.textContent = "<click to see more...>";
+        
+        parent.appendChild(overflowEl);        
     };
-    this.$renderLine = function(stringBuilder, row, onlyContents, foldLine) {
+    this.$renderLine = function(parent, row, foldLine) {
         if (!foldLine && foldLine != false)
             foldLine = this.session.getFoldLine(row);
 
@@ -911,36 +1235,35 @@ var Text = function(parentEl) {
         else
             var tokens = this.session.getTokens(row);
 
-
-        if (!onlyContents) {
-            stringBuilder.push(
-                "<div class='ace_line' style='height:", 
-                    this.config.lineHeight * (
-                        this.$useLineGroups() ? 1 :this.session.getRowLength(row)
-                    ), "px'>"
-            );
-        }
-
+        var lastLineEl = parent;
         if (tokens.length) {
             var splits = this.session.getRowSplitData(row);
-            if (splits && splits.length)
-                this.$renderWrappedLine(stringBuilder, tokens, splits, onlyContents);
-            else
-                this.$renderSimpleLine(stringBuilder, tokens);
+            if (splits && splits.length) {
+                this.$renderWrappedLine(parent, tokens, splits);
+                var lastLineEl = parent.lastChild;
+            } else {
+                var lastLineEl = parent;
+                if (this.$useLineGroups()) {
+                    lastLineEl = this.$createLineElement();
+                    parent.appendChild(lastLineEl);
+                }
+                this.$renderSimpleLine(lastLineEl, tokens);
+            }
+        } else if (this.$useLineGroups()) {
+            lastLineEl = this.$createLineElement();
+            parent.appendChild(lastLineEl);
         }
 
-        if (this.showInvisibles) {
+        if (this.showInvisibles && lastLineEl) {
             if (foldLine)
                 row = foldLine.end.row;
 
-            stringBuilder.push(
-                "<span class='ace_invisible ace_invisible_eol'>",
-                row == this.session.getLength() - 1 ? this.EOF_CHAR : this.EOL_CHAR,
-                "</span>"
-            );
+            var invisibleEl = this.dom.createElement("span");
+            invisibleEl.className = "ace_invisible ace_invisible_eol";
+            invisibleEl.textContent = row == this.session.getLength() - 1 ? this.EOF_CHAR : this.EOL_CHAR;
+            
+            lastLineEl.appendChild(invisibleEl);
         }
-        if (!onlyContents)
-            stringBuilder.push("</div>");
     };
 
     this.$getFoldLineTokens = function(row, foldLine) {
@@ -1024,16 +1347,12 @@ define("ace/layer/cursor",[], function(require, exports, module) {
 "use strict";
 
 var dom = require("../lib/dom");
-var isIE8;
 
 var Cursor = function(parentEl) {
     this.element = dom.createElement("div");
     this.element.className = "ace_layer ace_cursor-layer";
     parentEl.appendChild(this.element);
     
-    if (isIE8 === undefined)
-        isIE8 = !("opacity" in this.element.style);
-
     this.isVisible = false;
     this.isBlinking = true;
     this.blinkInterval = 1000;
@@ -1042,24 +1361,30 @@ var Cursor = function(parentEl) {
     this.cursors = [];
     this.cursor = this.addCursor();
     dom.addCssClass(this.element, "ace_hidden-cursors");
-    this.$updateCursors = (isIE8
-        ? this.$updateVisibility
-        : this.$updateOpacity).bind(this);
+    this.$updateCursors = this.$updateOpacity.bind(this);
 };
 
 (function() {
     
-    this.$updateVisibility = function(val) {
-        var cursors = this.cursors;
-        for (var i = cursors.length; i--; )
-            cursors[i].style.visibility = val ? "" : "hidden";
-    };
     this.$updateOpacity = function(val) {
         var cursors = this.cursors;
         for (var i = cursors.length; i--; )
-            cursors[i].style.opacity = val ? "" : "0";
+            dom.setStyle(cursors[i].style, "opacity", val ? "" : "0");
+    };
+
+    this.$startCssAnimation = function() {
+        var cursors = this.cursors;
+        for (var i = cursors.length; i--; )
+            cursors[i].style.animationDuration = this.blinkInterval + "ms";
+
+        setTimeout(function() {
+            dom.addCssClass(this.element, "ace_animate-blinking");
+        }.bind(this));
     };
     
+    this.$stopCssAnimation = function() {
+        dom.removeCssClass(this.element, "ace_animate-blinking");
+    };
 
     this.$padding = 0;
     this.setPadding = function(padding) {
@@ -1071,25 +1396,24 @@ var Cursor = function(parentEl) {
     };
 
     this.setBlinking = function(blinking) {
-        if (blinking != this.isBlinking){
+        if (blinking != this.isBlinking) {
             this.isBlinking = blinking;
             this.restartTimer();
         }
     };
 
     this.setBlinkInterval = function(blinkInterval) {
-        if (blinkInterval != this.blinkInterval){
+        if (blinkInterval != this.blinkInterval) {
             this.blinkInterval = blinkInterval;
             this.restartTimer();
         }
     };
 
     this.setSmoothBlinking = function(smoothBlinking) {
-        if (smoothBlinking != this.smoothBlinking && !isIE8) {
+        if (smoothBlinking != this.smoothBlinking) {
             this.smoothBlinking = smoothBlinking;
             dom.setCssClass(this.element, "ace_smooth-blinking", smoothBlinking);
             this.$updateCursors(true);
-            this.$updateCursors = (this.$updateOpacity).bind(this);
             this.restartTimer();
         }
     };
@@ -1126,14 +1450,18 @@ var Cursor = function(parentEl) {
         var update = this.$updateCursors;
         clearInterval(this.intervalId);
         clearTimeout(this.timeoutId);
+        this.$stopCssAnimation();
+
         if (this.smoothBlinking) {
             dom.removeCssClass(this.element, "ace_smooth-blinking");
         }
         
         update(true);
 
-        if (!this.isBlinking || !this.blinkInterval || !this.isVisible)
+        if (!this.isBlinking || !this.blinkInterval || !this.isVisible) {
+            this.$stopCssAnimation();
             return;
+        }
 
         if (this.smoothBlinking) {
             setTimeout(function(){
@@ -1141,18 +1469,21 @@ var Cursor = function(parentEl) {
             }.bind(this));
         }
         
-        var blink = function(){
-            this.timeoutId = setTimeout(function() {
-                update(false);
-            }, 0.6 * this.blinkInterval);
-        }.bind(this);
-
-        this.intervalId = setInterval(function() {
-            update(true);
+        if (dom.HAS_CSS_ANIMATION) {
+            this.$startCssAnimation();
+        } else {
+            var blink = function(){
+                this.timeoutId = setTimeout(function() {
+                    update(false);
+                }, 0.6 * this.blinkInterval);
+            }.bind(this);
+    
+            this.intervalId = setInterval(function() {
+                update(true);
+                blink();
+            }, this.blinkInterval);
             blink();
-        }, this.blinkInterval);
-
-        blink();
+        }
     };
 
     this.getPixelPosition = function(position, onScreen) {
@@ -1172,6 +1503,10 @@ var Cursor = function(parentEl) {
         return {left : cursorLeft, top : cursorTop};
     };
 
+    this.isCursorInView = function(pixelPos, config) {
+        return pixelPos.top >= 0 && pixelPos.top < config.maxHeight;
+    };
+
     this.update = function(config) {
         this.config = config;
 
@@ -1189,15 +1524,20 @@ var Cursor = function(parentEl) {
                 continue;
             }
 
-            var style = (this.cursors[cursorIndex++] || this.addCursor()).style;
+            var element = this.cursors[cursorIndex++] || this.addCursor();
+            var style = element.style;
             
             if (!this.drawCursor) {
-                style.left = pixelPos.left + "px";
-                style.top = pixelPos.top + "px";
-                style.width = config.characterWidth + "px";
-                style.height = config.lineHeight + "px";
+                if (!this.isCursorInView(pixelPos, config)) {
+                    dom.setStyle(style, "display", "none");
+                } else {
+                    dom.setStyle(style, "display", "block");
+                    dom.translate(element, pixelPos.left, pixelPos.top);
+                    dom.setStyle(style, "width", Math.round(config.characterWidth) + "px");
+                    dom.setStyle(style, "height", config.lineHeight + "px");
+                }
             } else {
-                this.drawCursor(style, pixelPos, config, selections[i], this.session);
+                this.drawCursor(element, pixelPos, config, selections[i], this.session);
             }
         }
         while (this.cursors.length > cursorIndex)
@@ -1384,20 +1724,23 @@ var RenderLoop = function(onRender, win) {
 
 (function() {
 
-
     this.schedule = function(change) {
         this.changes = this.changes | change;
-        if (!this.pending && this.changes) {
-            this.pending = true;
+        if (this.changes) {
             var _self = this;
-            event.nextFrame(function() {
-                _self.pending = false;
-                var changes;
-                while (changes = _self.changes) {
+            
+            event.nextFrame(function(ts) {
+                var changes = _self.changes;
+
+                if (changes) {
+                    event.blockIdle(100);
                     _self.changes = 0;
                     _self.onRender(changes);
                 }
-            }, this.window);
+                
+                if (_self.changes)
+                    _self.schedule();
+            });
         }
     };
 
@@ -1411,6 +1754,7 @@ define("ace/layer/font_metrics",[], function(require, exports, module) {
 var oop = require("../lib/oop");
 var dom = require("../lib/dom");
 var lang = require("../lib/lang");
+var event = require("../lib/event");
 var useragent = require("../lib/useragent");
 var EventEmitter = require("../lib/event_emitter").EventEmitter;
 
@@ -1495,8 +1839,10 @@ var FontMetrics = exports.FontMetrics = function(parentEl) {
         if (this.$pollSizeChangesTimer || this.$observer)
             return this.$pollSizeChangesTimer;
         var self = this;
-        return this.$pollSizeChangesTimer = setInterval(function() {
+        
+        return this.$pollSizeChangesTimer = event.onIdle(function cb() {
             self.checkForSizeChanges();
+            event.onIdle(cb, 500);
         }, 500);
     };
     
@@ -1601,7 +1947,7 @@ var FontMetrics = exports.FontMetrics = function(parentEl) {
 
 });
 
-define("ace/requirejs/text!ace/css/editor.css",[],".ace_editor {\n    position: relative;\n    overflow: hidden;\n    font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;\n    direction: ltr;\n    text-align: left;\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n}\n\n.ace_scroller {\n    position: absolute;\n    overflow: hidden;\n    top: 0;\n    bottom: 0;\n    background-color: inherit;\n    -ms-user-select: none;\n    -moz-user-select: none;\n    -webkit-user-select: none;\n    user-select: none;\n    cursor: text;\n}\n\n.ace_content {\n    position: absolute;\n    box-sizing: border-box;\n    min-width: 100%;\n}\n\n.ace_dragging .ace_scroller:before{\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    content: '';\n    background: rgba(250, 250, 250, 0.01);\n    z-index: 1000;\n}\n.ace_dragging.ace_dark .ace_scroller:before{\n    background: rgba(0, 0, 0, 0.01);\n}\n\n.ace_gutter {\n    position: absolute;\n    overflow : hidden;\n    width: auto;\n    top: 0;\n    bottom: 0;\n    left: 0;\n    cursor: default;\n    z-index: 4;\n    -ms-user-select: none;\n    -moz-user-select: none;\n    -webkit-user-select: none;\n    user-select: none;\n}\n\n.ace_gutter-active-line {\n    position: absolute;\n    left: 0;\n    right: 0;\n}\n\n.ace_scroller.ace_scroll-left {\n    box-shadow: 17px 0 16px -16px rgba(0, 0, 0, 0.4) inset;\n}\n\n.ace_gutter-cell {\n    padding-left: 19px;\n    padding-right: 6px;\n    background-repeat: no-repeat;\n}\n\n.ace_gutter-cell.ace_error {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAABOFBMVEX/////////QRswFAb/Ui4wFAYwFAYwFAaWGAfDRymzOSH/PxswFAb/SiUwFAYwFAbUPRvjQiDllog5HhHdRybsTi3/Tyv9Tir+Syj/UC3////XurebMBIwFAb/RSHbPx/gUzfdwL3kzMivKBAwFAbbvbnhPx66NhowFAYwFAaZJg8wFAaxKBDZurf/RB6mMxb/SCMwFAYwFAbxQB3+RB4wFAb/Qhy4Oh+4QifbNRcwFAYwFAYwFAb/QRzdNhgwFAYwFAbav7v/Uy7oaE68MBK5LxLewr/r2NXewLswFAaxJw4wFAbkPRy2PyYwFAaxKhLm1tMwFAazPiQwFAaUGAb/QBrfOx3bvrv/VC/maE4wFAbRPBq6MRO8Qynew8Dp2tjfwb0wFAbx6eju5+by6uns4uH9/f36+vr/GkHjAAAAYnRSTlMAGt+64rnWu/bo8eAA4InH3+DwoN7j4eLi4xP99Nfg4+b+/u9B/eDs1MD1mO7+4PHg2MXa347g7vDizMLN4eG+Pv7i5evs/v79yu7S3/DV7/498Yv24eH+4ufQ3Ozu/v7+y13sRqwAAADLSURBVHjaZc/XDsFgGIBhtDrshlitmk2IrbHFqL2pvXf/+78DPokj7+Fz9qpU/9UXJIlhmPaTaQ6QPaz0mm+5gwkgovcV6GZzd5JtCQwgsxoHOvJO15kleRLAnMgHFIESUEPmawB9ngmelTtipwwfASilxOLyiV5UVUyVAfbG0cCPHig+GBkzAENHS0AstVF6bacZIOzgLmxsHbt2OecNgJC83JERmePUYq8ARGkJx6XtFsdddBQgZE2nPR6CICZhawjA4Fb/chv+399kfR+MMMDGOQAAAABJRU5ErkJggg==\");\n    background-repeat: no-repeat;\n    background-position: 2px center;\n}\n\n.ace_gutter-cell.ace_warning {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAmVBMVEX///8AAAD///8AAAAAAABPSzb/5sAAAAB/blH/73z/ulkAAAAAAAD85pkAAAAAAAACAgP/vGz/rkDerGbGrV7/pkQICAf////e0IsAAAD/oED/qTvhrnUAAAD/yHD/njcAAADuv2r/nz//oTj/p064oGf/zHAAAAA9Nir/tFIAAAD/tlTiuWf/tkIAAACynXEAAAAAAAAtIRW7zBpBAAAAM3RSTlMAABR1m7RXO8Ln31Z36zT+neXe5OzooRDfn+TZ4p3h2hTf4t3k3ucyrN1K5+Xaks52Sfs9CXgrAAAAjklEQVR42o3PbQ+CIBQFYEwboPhSYgoYunIqqLn6/z8uYdH8Vmdnu9vz4WwXgN/xTPRD2+sgOcZjsge/whXZgUaYYvT8QnuJaUrjrHUQreGczuEafQCO/SJTufTbroWsPgsllVhq3wJEk2jUSzX3CUEDJC84707djRc5MTAQxoLgupWRwW6UB5fS++NV8AbOZgnsC7BpEAAAAABJRU5ErkJggg==\");\n    background-position: 2px center;\n}\n\n.ace_gutter-cell.ace_info {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAJ0Uk5TAAB2k804AAAAPklEQVQY02NgIB68QuO3tiLznjAwpKTgNyDbMegwisCHZUETUZV0ZqOquBpXj2rtnpSJT1AEnnRmL2OgGgAAIKkRQap2htgAAAAASUVORK5CYII=\");\n    background-position: 2px center;\n}\n.ace_dark .ace_gutter-cell.ace_info {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJFBMVEUAAAChoaGAgIAqKiq+vr6tra1ZWVmUlJSbm5s8PDxubm56enrdgzg3AAAAAXRSTlMAQObYZgAAAClJREFUeNpjYMAPdsMYHegyJZFQBlsUlMFVCWUYKkAZMxZAGdxlDMQBAG+TBP4B6RyJAAAAAElFTkSuQmCC\");\n}\n\n.ace_scrollbar {\n    position: absolute;\n    right: 0;\n    bottom: 0;\n    z-index: 6;\n}\n\n.ace_scrollbar-inner {\n    position: absolute;\n    cursor: text;\n    left: 0;\n    top: 0;\n}\n\n.ace_scrollbar-v{\n    overflow-x: hidden;\n    overflow-y: scroll;\n    top: 0;\n}\n\n.ace_scrollbar-h {\n    overflow-x: scroll;\n    overflow-y: hidden;\n    left: 0;\n}\n\n.ace_print-margin {\n    position: absolute;\n    height: 100%;\n}\n\n.ace_text-input {\n    position: absolute;\n    z-index: 0;\n    width: 0.5em;\n    height: 1em;\n    opacity: 0;\n    background: transparent;\n    -moz-appearance: none;\n    appearance: none;\n    border: none;\n    resize: none;\n    outline: none;\n    overflow: hidden;\n    font: inherit;\n    padding: 0 1px;\n    margin: 0 -1px;\n    text-indent: -1em;\n    -ms-user-select: text;\n    -moz-user-select: text;\n    -webkit-user-select: text;\n    user-select: text;\n    white-space: pre!important;\n}\n.ace_text-input.ace_composition {\n    background: inherit;\n    color: inherit;\n    z-index: 1000;\n    opacity: 1;\n    text-indent: 0;\n}\n[ace_nocontext=true] {\n    transform: none!important;\n    filter: none!important;\n    perspective: none!important;\n    clip-path: none!important;\n    mask : none!important;\n    contain: none!important;\n    perspective: none!important;\n    mix-blend-mode: initial!important;\n    z-index: auto;\n}\n\n.ace_layer {\n    z-index: 1;\n    position: absolute;\n    overflow: hidden;\n    word-wrap: normal;\n    white-space: pre;\n    height: 100%;\n    width: 100%;\n    box-sizing: border-box;\n    pointer-events: none;\n}\n\n.ace_gutter-layer {\n    position: relative;\n    width: auto;\n    text-align: right;\n    pointer-events: auto;\n}\n\n.ace_text-layer {\n    font: inherit !important;\n}\n\n.ace_cjk {\n    display: inline-block;\n    text-align: center;\n}\n\n.ace_cursor-layer {\n    z-index: 4;\n}\n\n.ace_cursor {\n    z-index: 4;\n    position: absolute;\n    box-sizing: border-box;\n    border-left: 2px solid;\n    transform: translatez(0);\n}\n\n.ace_multiselect .ace_cursor {\n    border-left-width: 1px;\n}\n\n.ace_slim-cursors .ace_cursor {\n    border-left-width: 1px;\n}\n\n.ace_overwrite-cursors .ace_cursor {\n    border-left-width: 0;\n    border-bottom: 1px solid;\n}\n\n.ace_hidden-cursors .ace_cursor {\n    opacity: 0.2;\n}\n\n.ace_smooth-blinking .ace_cursor {\n    transition: opacity 0.18s;\n}\n\n.ace_marker-layer .ace_step, .ace_marker-layer .ace_stack {\n    position: absolute;\n    z-index: 3;\n}\n\n.ace_marker-layer .ace_selection {\n    position: absolute;\n    z-index: 5;\n}\n\n.ace_marker-layer .ace_bracket {\n    position: absolute;\n    z-index: 6;\n}\n\n.ace_marker-layer .ace_active-line {\n    position: absolute;\n    z-index: 2;\n}\n\n.ace_marker-layer .ace_selected-word {\n    position: absolute;\n    z-index: 4;\n    box-sizing: border-box;\n}\n\n.ace_line .ace_fold {\n    box-sizing: border-box;\n\n    display: inline-block;\n    height: 11px;\n    margin-top: -2px;\n    vertical-align: middle;\n\n    background-image:\n        url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJpJREFUeNpi/P//PwOlgAXGYGRklAVSokD8GmjwY1wasKljQpYACtpCFeADcHVQfQyMQAwzwAZI3wJKvCLkfKBaMSClBlR7BOQikCFGQEErIH0VqkabiGCAqwUadAzZJRxQr/0gwiXIal8zQQPnNVTgJ1TdawL0T5gBIP1MUJNhBv2HKoQHHjqNrA4WO4zY0glyNKLT2KIfIMAAQsdgGiXvgnYAAAAASUVORK5CYII=\"),\n        url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA3CAYAAADNNiA5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACJJREFUeNpi+P//fxgTAwPDBxDxD078RSX+YeEyDFMCIMAAI3INmXiwf2YAAAAASUVORK5CYII=\");\n    background-repeat: no-repeat, repeat-x;\n    background-position: center center, top left;\n    color: transparent;\n\n    border: 1px solid black;\n    border-radius: 2px;\n\n    cursor: pointer;\n    pointer-events: auto;\n}\n\n.ace_dark .ace_fold {\n}\n\n.ace_fold:hover{\n    background-image:\n        url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJpJREFUeNpi/P//PwOlgAXGYGRklAVSokD8GmjwY1wasKljQpYACtpCFeADcHVQfQyMQAwzwAZI3wJKvCLkfKBaMSClBlR7BOQikCFGQEErIH0VqkabiGCAqwUadAzZJRxQr/0gwiXIal8zQQPnNVTgJ1TdawL0T5gBIP1MUJNhBv2HKoQHHjqNrA4WO4zY0glyNKLT2KIfIMAAQsdgGiXvgnYAAAAASUVORK5CYII=\"),\n        url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA3CAYAAADNNiA5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACBJREFUeNpi+P//fz4TAwPDZxDxD5X4i5fLMEwJgAADAEPVDbjNw87ZAAAAAElFTkSuQmCC\");\n}\n\n.ace_tooltip {\n    background-color: #FFF;\n    background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.1));\n    border: 1px solid gray;\n    border-radius: 1px;\n    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);\n    color: black;\n    max-width: 100%;\n    padding: 3px 4px;\n    position: fixed;\n    z-index: 999999;\n    box-sizing: border-box;\n    cursor: default;\n    white-space: pre;\n    word-wrap: break-word;\n    line-height: normal;\n    font-style: normal;\n    font-weight: normal;\n    letter-spacing: normal;\n    pointer-events: none;\n}\n\n.ace_folding-enabled > .ace_gutter-cell {\n    padding-right: 13px;\n}\n\n.ace_fold-widget {\n    box-sizing: border-box;\n\n    margin: 0 -12px 0 1px;\n    display: none;\n    width: 11px;\n    vertical-align: top;\n\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAANElEQVR42mWKsQ0AMAzC8ixLlrzQjzmBiEjp0A6WwBCSPgKAXoLkqSot7nN3yMwR7pZ32NzpKkVoDBUxKAAAAABJRU5ErkJggg==\");\n    background-repeat: no-repeat;\n    background-position: center;\n\n    border-radius: 3px;\n    \n    border: 1px solid transparent;\n    cursor: pointer;\n}\n\n.ace_folding-enabled .ace_fold-widget {\n    display: inline-block;   \n}\n\n.ace_fold-widget.ace_end {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAANElEQVR42m3HwQkAMAhD0YzsRchFKI7sAikeWkrxwScEB0nh5e7KTPWimZki4tYfVbX+MNl4pyZXejUO1QAAAABJRU5ErkJggg==\");\n}\n\n.ace_fold-widget.ace_closed {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAGCAYAAAAG5SQMAAAAOUlEQVR42jXKwQkAMAgDwKwqKD4EwQ26sSOkVWjgIIHAzPiCgaqiqnJHZnKICBERHN194O5b9vbLuAVRL+l0YWnZAAAAAElFTkSuQmCCXA==\");\n}\n\n.ace_fold-widget:hover {\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    background-color: rgba(255, 255, 255, 0.2);\n    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);\n}\n\n.ace_fold-widget:active {\n    border: 1px solid rgba(0, 0, 0, 0.4);\n    background-color: rgba(0, 0, 0, 0.05);\n    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);\n}\n.ace_dark .ace_fold-widget {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHklEQVQIW2P4//8/AzoGEQ7oGCaLLAhWiSwB146BAQCSTPYocqT0AAAAAElFTkSuQmCC\");\n}\n.ace_dark .ace_fold-widget.ace_end {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAH0lEQVQIW2P4//8/AxQ7wNjIAjDMgC4AxjCVKBirIAAF0kz2rlhxpAAAAABJRU5ErkJggg==\");\n}\n.ace_dark .ace_fold-widget.ace_closed {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAFCAYAAACAcVaiAAAAHElEQVQIW2P4//+/AxAzgDADlOOAznHAKgPWAwARji8UIDTfQQAAAABJRU5ErkJggg==\");\n}\n.ace_dark .ace_fold-widget:hover {\n    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);\n    background-color: rgba(255, 255, 255, 0.1);\n}\n.ace_dark .ace_fold-widget:active {\n    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);\n}\n\n.ace_inline_button {\n    border: 1px solid lightgray;\n    display: inline-block;\n    margin: -1px 8px;\n    padding: 0 5px;\n    pointer-events: auto;\n    cursor: pointer;\n}\n.ace_inline_button:hover {\n    border-color: gray;\n    background: rgba(200,200,200,0.2);\n    display: inline-block;\n    pointer-events: auto;\n}\n\n.ace_fold-widget.ace_invalid {\n    background-color: #FFB4B4;\n    border-color: #DE5555;\n}\n\n.ace_fade-fold-widgets .ace_fold-widget {\n    transition: opacity 0.4s ease 0.05s;\n    opacity: 0;\n}\n\n.ace_fade-fold-widgets:hover .ace_fold-widget {\n    transition: opacity 0.05s ease 0.05s;\n    opacity:1;\n}\n\n.ace_underline {\n    text-decoration: underline;\n}\n\n.ace_bold {\n    font-weight: bold;\n}\n\n.ace_nobold .ace_bold {\n    font-weight: normal;\n}\n\n.ace_italic {\n    font-style: italic;\n}\n\n\n.ace_error-marker {\n    background-color: rgba(255, 0, 0,0.2);\n    position: absolute;\n    z-index: 9;\n}\n\n.ace_highlight-marker {\n    background-color: rgba(255, 255, 0,0.2);\n    position: absolute;\n    z-index: 8;\n}\n.ace_lineWidgetContainer {\n    z-index: 5;\n    position: absolute;\n}\n.ace_br1 {border-top-left-radius    : 3px;}\n.ace_br2 {border-top-right-radius   : 3px;}\n.ace_br3 {border-top-left-radius    : 3px; border-top-right-radius:    3px;}\n.ace_br4 {border-bottom-right-radius: 3px;}\n.ace_br5 {border-top-left-radius    : 3px; border-bottom-right-radius: 3px;}\n.ace_br6 {border-top-right-radius   : 3px; border-bottom-right-radius: 3px;}\n.ace_br7 {border-top-left-radius    : 3px; border-top-right-radius:    3px; border-bottom-right-radius: 3px;}\n.ace_br8 {border-bottom-left-radius : 3px;}\n.ace_br9 {border-top-left-radius    : 3px; border-bottom-left-radius:  3px;}\n.ace_br10{border-top-right-radius   : 3px; border-bottom-left-radius:  3px;}\n.ace_br11{border-top-left-radius    : 3px; border-top-right-radius:    3px; border-bottom-left-radius:  3px;}\n.ace_br12{border-bottom-right-radius: 3px; border-bottom-left-radius:  3px;}\n.ace_br13{border-top-left-radius    : 3px; border-bottom-right-radius: 3px; border-bottom-left-radius:  3px;}\n.ace_br14{border-top-right-radius   : 3px; border-bottom-right-radius: 3px; border-bottom-left-radius:  3px;}\n.ace_br15{border-top-left-radius    : 3px; border-top-right-radius:    3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;}\n\n.ace_text-input-ios {\n  position: absolute !important;\n  top: -100000px !important;\n  left: -100000px !important;\n}\n");
+define("ace/requirejs/text!ace/css/editor.css",[],".ace_editor {\n    position: relative;\n    overflow: hidden;\n    font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;\n    direction: ltr;\n    text-align: left;\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n}\n\n.ace_scroller {\n    position: absolute;\n    overflow: hidden;\n    top: 0;\n    bottom: 0;\n    background-color: inherit;\n    -ms-user-select: none;\n    -moz-user-select: none;\n    -webkit-user-select: none;\n    user-select: none;\n    cursor: text;\n}\n\n.ace_content {\n    position: absolute;\n    box-sizing: border-box;\n    min-width: 100%;\n    contain: style size layout;\n}\n\n.ace_dragging .ace_scroller:before{\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    content: '';\n    background: rgba(250, 250, 250, 0.01);\n    z-index: 1000;\n}\n.ace_dragging.ace_dark .ace_scroller:before{\n    background: rgba(0, 0, 0, 0.01);\n}\n\n.ace_gutter {\n    position: absolute;\n    overflow : hidden;\n    width: auto;\n    top: 0;\n    bottom: 0;\n    left: 0;\n    cursor: default;\n    z-index: 4;\n    -ms-user-select: none;\n    -moz-user-select: none;\n    -webkit-user-select: none;\n    user-select: none;\n    contain: style size layout;\n}\n\n.ace_gutter-active-line {\n    position: absolute;\n    left: 0;\n    right: 0;\n}\n\n.ace_scroller.ace_scroll-left {\n    box-shadow: 17px 0 16px -16px rgba(0, 0, 0, 0.4) inset;\n}\n\n.ace_gutter-cell {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    padding-left: 19px;\n    padding-right: 6px;\n    background-repeat: no-repeat;\n}\n\n.ace_gutter-cell.ace_error {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAABOFBMVEX/////////QRswFAb/Ui4wFAYwFAYwFAaWGAfDRymzOSH/PxswFAb/SiUwFAYwFAbUPRvjQiDllog5HhHdRybsTi3/Tyv9Tir+Syj/UC3////XurebMBIwFAb/RSHbPx/gUzfdwL3kzMivKBAwFAbbvbnhPx66NhowFAYwFAaZJg8wFAaxKBDZurf/RB6mMxb/SCMwFAYwFAbxQB3+RB4wFAb/Qhy4Oh+4QifbNRcwFAYwFAYwFAb/QRzdNhgwFAYwFAbav7v/Uy7oaE68MBK5LxLewr/r2NXewLswFAaxJw4wFAbkPRy2PyYwFAaxKhLm1tMwFAazPiQwFAaUGAb/QBrfOx3bvrv/VC/maE4wFAbRPBq6MRO8Qynew8Dp2tjfwb0wFAbx6eju5+by6uns4uH9/f36+vr/GkHjAAAAYnRSTlMAGt+64rnWu/bo8eAA4InH3+DwoN7j4eLi4xP99Nfg4+b+/u9B/eDs1MD1mO7+4PHg2MXa347g7vDizMLN4eG+Pv7i5evs/v79yu7S3/DV7/498Yv24eH+4ufQ3Ozu/v7+y13sRqwAAADLSURBVHjaZc/XDsFgGIBhtDrshlitmk2IrbHFqL2pvXf/+78DPokj7+Fz9qpU/9UXJIlhmPaTaQ6QPaz0mm+5gwkgovcV6GZzd5JtCQwgsxoHOvJO15kleRLAnMgHFIESUEPmawB9ngmelTtipwwfASilxOLyiV5UVUyVAfbG0cCPHig+GBkzAENHS0AstVF6bacZIOzgLmxsHbt2OecNgJC83JERmePUYq8ARGkJx6XtFsdddBQgZE2nPR6CICZhawjA4Fb/chv+399kfR+MMMDGOQAAAABJRU5ErkJggg==\");\n    background-repeat: no-repeat;\n    background-position: 2px center;\n}\n\n.ace_gutter-cell.ace_warning {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAmVBMVEX///8AAAD///8AAAAAAABPSzb/5sAAAAB/blH/73z/ulkAAAAAAAD85pkAAAAAAAACAgP/vGz/rkDerGbGrV7/pkQICAf////e0IsAAAD/oED/qTvhrnUAAAD/yHD/njcAAADuv2r/nz//oTj/p064oGf/zHAAAAA9Nir/tFIAAAD/tlTiuWf/tkIAAACynXEAAAAAAAAtIRW7zBpBAAAAM3RSTlMAABR1m7RXO8Ln31Z36zT+neXe5OzooRDfn+TZ4p3h2hTf4t3k3ucyrN1K5+Xaks52Sfs9CXgrAAAAjklEQVR42o3PbQ+CIBQFYEwboPhSYgoYunIqqLn6/z8uYdH8Vmdnu9vz4WwXgN/xTPRD2+sgOcZjsge/whXZgUaYYvT8QnuJaUrjrHUQreGczuEafQCO/SJTufTbroWsPgsllVhq3wJEk2jUSzX3CUEDJC84707djRc5MTAQxoLgupWRwW6UB5fS++NV8AbOZgnsC7BpEAAAAABJRU5ErkJggg==\");\n    background-position: 2px center;\n}\n\n.ace_gutter-cell.ace_info {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAJ0Uk5TAAB2k804AAAAPklEQVQY02NgIB68QuO3tiLznjAwpKTgNyDbMegwisCHZUETUZV0ZqOquBpXj2rtnpSJT1AEnnRmL2OgGgAAIKkRQap2htgAAAAASUVORK5CYII=\");\n    background-position: 2px center;\n}\n.ace_dark .ace_gutter-cell.ace_info {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJFBMVEUAAAChoaGAgIAqKiq+vr6tra1ZWVmUlJSbm5s8PDxubm56enrdgzg3AAAAAXRSTlMAQObYZgAAAClJREFUeNpjYMAPdsMYHegyJZFQBlsUlMFVCWUYKkAZMxZAGdxlDMQBAG+TBP4B6RyJAAAAAElFTkSuQmCC\");\n}\n\n.ace_scrollbar {\n    contain: strict;\n    position: absolute;\n    right: 0;\n    bottom: 0;\n    z-index: 6;\n}\n\n.ace_scrollbar-inner {\n    position: absolute;\n    cursor: text;\n    left: 0;\n    top: 0;\n}\n\n.ace_scrollbar-v{\n    overflow-x: hidden;\n    overflow-y: scroll;\n    top: 0;\n}\n\n.ace_scrollbar-h {\n    overflow-x: scroll;\n    overflow-y: hidden;\n    left: 0;\n}\n\n.ace_print-margin {\n    position: absolute;\n    height: 100%;\n}\n\n.ace_text-input {\n    position: absolute;\n    z-index: 0;\n    width: 0.5em;\n    height: 1em;\n    opacity: 0;\n    background: transparent;\n    -moz-appearance: none;\n    appearance: none;\n    border: none;\n    resize: none;\n    outline: none;\n    overflow: hidden;\n    font: inherit;\n    padding: 0 1px;\n    margin: 0 -1px;\n    text-indent: -1em;\n    -ms-user-select: text;\n    -moz-user-select: text;\n    -webkit-user-select: text;\n    user-select: text;\n    white-space: pre!important;\n}\n.ace_text-input.ace_composition {\n    background: inherit;\n    color: inherit;\n    z-index: 1000;\n    opacity: 1;\n    text-indent: 0;\n}\n[ace_nocontext=true] {\n    transform: none!important;\n    filter: none!important;\n    perspective: none!important;\n    clip-path: none!important;\n    mask : none!important;\n    contain: none!important;\n    perspective: none!important;\n    mix-blend-mode: initial!important;\n    z-index: auto;\n}\n\n.ace_layer {\n    z-index: 1;\n    position: absolute;\n    overflow: hidden;\n    word-wrap: normal;\n    white-space: pre;\n    height: 100%;\n    width: 100%;\n    box-sizing: border-box;\n    pointer-events: none;\n}\n\n.ace_gutter-layer {\n    position: relative;\n    width: auto;\n    text-align: right;\n    pointer-events: auto;\n    height: 1000000px;\n    contain: style size layout;\n}\n\n.ace_text-layer {\n    font: inherit !important;\n    position: absolute;\n    height: 1000000px;\n    width: 1000000px;\n    contain: style size layout;\n}\n\n.ace_text-layer > .ace_line, .ace_text-layer > .ace_line_group {\n    contain: style size layout;\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n}\n\n.ace_hidpi .ace_text-layer,\n.ace_hidpi .ace_gutter-layer,\n.ace_hidpi .ace_content,\n.ace_hidpi .ace_gutter {\n    contain: strict;\n    will-change: transform;\n}\n.ace_hidpi .ace_text-layer > .ace_line, \n.ace_hidpi .ace_text-layer > .ace_line_group {\n    contain: strict;\n}\n\n.ace_cjk {\n    display: inline-block;\n    text-align: center;\n}\n\n.ace_cursor-layer {\n    z-index: 4;\n}\n\n.ace_cursor {\n    z-index: 4;\n    position: absolute;\n    box-sizing: border-box;\n    border-left: 2px solid;\n    transform: translatez(0);\n}\n\n.ace_multiselect .ace_cursor {\n    border-left-width: 1px;\n}\n\n.ace_slim-cursors .ace_cursor {\n    border-left-width: 1px;\n}\n\n.ace_overwrite-cursors .ace_cursor {\n    border-left-width: 0;\n    border-bottom: 1px solid;\n}\n\n.ace_hidden-cursors .ace_cursor {\n    opacity: 0.2;\n}\n\n.ace_smooth-blinking .ace_cursor {\n    transition: opacity 0.18s;\n}\n\n.ace_animate-blinking .ace_cursor {\n    animation-duration: 1000ms;\n    animation-timing-function: step-end;\n    animation-name: blink-ace-animate;\n    animation-iteration-count: infinite;\n}\n\n.ace_animate-blinking.ace_smooth-blinking .ace_cursor {\n    animation-duration: 1000ms;\n    animation-timing-function: ease-in-out;\n    animation-name: blink-ace-animate-smooth;\n}\n    \n@keyframes blink-ace-animate {\n    from, to { opacity: 1; }\n    60% { opacity: 0; }\n}\n\n@keyframes blink-ace-animate-smooth {\n    from, to { opacity: 1; }\n    45% { opacity: 1; }\n    60% { opacity: 0; }\n    85% { opacity: 0; }\n}\n\n.ace_marker-layer .ace_step, .ace_marker-layer .ace_stack {\n    position: absolute;\n    z-index: 3;\n}\n\n.ace_marker-layer .ace_selection {\n    position: absolute;\n    z-index: 5;\n}\n\n.ace_marker-layer .ace_bracket {\n    position: absolute;\n    z-index: 6;\n}\n\n.ace_marker-layer .ace_active-line {\n    position: absolute;\n    z-index: 2;\n}\n\n.ace_marker-layer .ace_selected-word {\n    position: absolute;\n    z-index: 4;\n    box-sizing: border-box;\n}\n\n.ace_line .ace_fold {\n    box-sizing: border-box;\n\n    display: inline-block;\n    height: 11px;\n    margin-top: -2px;\n    vertical-align: middle;\n\n    background-image:\n        url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJpJREFUeNpi/P//PwOlgAXGYGRklAVSokD8GmjwY1wasKljQpYACtpCFeADcHVQfQyMQAwzwAZI3wJKvCLkfKBaMSClBlR7BOQikCFGQEErIH0VqkabiGCAqwUadAzZJRxQr/0gwiXIal8zQQPnNVTgJ1TdawL0T5gBIP1MUJNhBv2HKoQHHjqNrA4WO4zY0glyNKLT2KIfIMAAQsdgGiXvgnYAAAAASUVORK5CYII=\"),\n        url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA3CAYAAADNNiA5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACJJREFUeNpi+P//fxgTAwPDBxDxD078RSX+YeEyDFMCIMAAI3INmXiwf2YAAAAASUVORK5CYII=\");\n    background-repeat: no-repeat, repeat-x;\n    background-position: center center, top left;\n    color: transparent;\n\n    border: 1px solid black;\n    border-radius: 2px;\n\n    cursor: pointer;\n    pointer-events: auto;\n}\n\n.ace_dark .ace_fold {\n}\n\n.ace_fold:hover{\n    background-image:\n        url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJpJREFUeNpi/P//PwOlgAXGYGRklAVSokD8GmjwY1wasKljQpYACtpCFeADcHVQfQyMQAwzwAZI3wJKvCLkfKBaMSClBlR7BOQikCFGQEErIH0VqkabiGCAqwUadAzZJRxQr/0gwiXIal8zQQPnNVTgJ1TdawL0T5gBIP1MUJNhBv2HKoQHHjqNrA4WO4zY0glyNKLT2KIfIMAAQsdgGiXvgnYAAAAASUVORK5CYII=\"),\n        url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA3CAYAAADNNiA5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACBJREFUeNpi+P//fz4TAwPDZxDxD5X4i5fLMEwJgAADAEPVDbjNw87ZAAAAAElFTkSuQmCC\");\n}\n\n.ace_tooltip {\n    background-color: #FFF;\n    background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.1));\n    border: 1px solid gray;\n    border-radius: 1px;\n    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);\n    color: black;\n    max-width: 100%;\n    padding: 3px 4px;\n    position: fixed;\n    z-index: 999999;\n    box-sizing: border-box;\n    cursor: default;\n    white-space: pre;\n    word-wrap: break-word;\n    line-height: normal;\n    font-style: normal;\n    font-weight: normal;\n    letter-spacing: normal;\n    pointer-events: none;\n}\n\n.ace_folding-enabled > .ace_gutter-cell {\n    padding-right: 13px;\n}\n\n.ace_fold-widget {\n    box-sizing: border-box;\n\n    margin: 0 -12px 0 1px;\n    display: none;\n    width: 11px;\n    vertical-align: top;\n\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAANElEQVR42mWKsQ0AMAzC8ixLlrzQjzmBiEjp0A6WwBCSPgKAXoLkqSot7nN3yMwR7pZ32NzpKkVoDBUxKAAAAABJRU5ErkJggg==\");\n    background-repeat: no-repeat;\n    background-position: center;\n\n    border-radius: 3px;\n    \n    border: 1px solid transparent;\n    cursor: pointer;\n}\n\n.ace_folding-enabled .ace_fold-widget {\n    display: inline-block;   \n}\n\n.ace_fold-widget.ace_end {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAANElEQVR42m3HwQkAMAhD0YzsRchFKI7sAikeWkrxwScEB0nh5e7KTPWimZki4tYfVbX+MNl4pyZXejUO1QAAAABJRU5ErkJggg==\");\n}\n\n.ace_fold-widget.ace_closed {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAGCAYAAAAG5SQMAAAAOUlEQVR42jXKwQkAMAgDwKwqKD4EwQ26sSOkVWjgIIHAzPiCgaqiqnJHZnKICBERHN194O5b9vbLuAVRL+l0YWnZAAAAAElFTkSuQmCCXA==\");\n}\n\n.ace_fold-widget:hover {\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    background-color: rgba(255, 255, 255, 0.2);\n    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);\n}\n\n.ace_fold-widget:active {\n    border: 1px solid rgba(0, 0, 0, 0.4);\n    background-color: rgba(0, 0, 0, 0.05);\n    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);\n}\n.ace_dark .ace_fold-widget {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHklEQVQIW2P4//8/AzoGEQ7oGCaLLAhWiSwB146BAQCSTPYocqT0AAAAAElFTkSuQmCC\");\n}\n.ace_dark .ace_fold-widget.ace_end {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAH0lEQVQIW2P4//8/AxQ7wNjIAjDMgC4AxjCVKBirIAAF0kz2rlhxpAAAAABJRU5ErkJggg==\");\n}\n.ace_dark .ace_fold-widget.ace_closed {\n    background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAFCAYAAACAcVaiAAAAHElEQVQIW2P4//+/AxAzgDADlOOAznHAKgPWAwARji8UIDTfQQAAAABJRU5ErkJggg==\");\n}\n.ace_dark .ace_fold-widget:hover {\n    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);\n    background-color: rgba(255, 255, 255, 0.1);\n}\n.ace_dark .ace_fold-widget:active {\n    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);\n}\n\n.ace_inline_button {\n    border: 1px solid lightgray;\n    display: inline-block;\n    margin: -1px 8px;\n    padding: 0 5px;\n    pointer-events: auto;\n    cursor: pointer;\n}\n.ace_inline_button:hover {\n    border-color: gray;\n    background: rgba(200,200,200,0.2);\n    display: inline-block;\n    pointer-events: auto;\n}\n\n.ace_fold-widget.ace_invalid {\n    background-color: #FFB4B4;\n    border-color: #DE5555;\n}\n\n.ace_fade-fold-widgets .ace_fold-widget {\n    transition: opacity 0.4s ease 0.05s;\n    opacity: 0;\n}\n\n.ace_fade-fold-widgets:hover .ace_fold-widget {\n    transition: opacity 0.05s ease 0.05s;\n    opacity:1;\n}\n\n.ace_underline {\n    text-decoration: underline;\n}\n\n.ace_bold {\n    font-weight: bold;\n}\n\n.ace_nobold .ace_bold {\n    font-weight: normal;\n}\n\n.ace_italic {\n    font-style: italic;\n}\n\n\n.ace_error-marker {\n    background-color: rgba(255, 0, 0,0.2);\n    position: absolute;\n    z-index: 9;\n}\n\n.ace_highlight-marker {\n    background-color: rgba(255, 255, 0,0.2);\n    position: absolute;\n    z-index: 8;\n}\n.ace_br1 {border-top-left-radius    : 3px;}\n.ace_br2 {border-top-right-radius   : 3px;}\n.ace_br3 {border-top-left-radius    : 3px; border-top-right-radius:    3px;}\n.ace_br4 {border-bottom-right-radius: 3px;}\n.ace_br5 {border-top-left-radius    : 3px; border-bottom-right-radius: 3px;}\n.ace_br6 {border-top-right-radius   : 3px; border-bottom-right-radius: 3px;}\n.ace_br7 {border-top-left-radius    : 3px; border-top-right-radius:    3px; border-bottom-right-radius: 3px;}\n.ace_br8 {border-bottom-left-radius : 3px;}\n.ace_br9 {border-top-left-radius    : 3px; border-bottom-left-radius:  3px;}\n.ace_br10{border-top-right-radius   : 3px; border-bottom-left-radius:  3px;}\n.ace_br11{border-top-left-radius    : 3px; border-top-right-radius:    3px; border-bottom-left-radius:  3px;}\n.ace_br12{border-bottom-right-radius: 3px; border-bottom-left-radius:  3px;}\n.ace_br13{border-top-left-radius    : 3px; border-bottom-right-radius: 3px; border-bottom-left-radius:  3px;}\n.ace_br14{border-top-right-radius   : 3px; border-bottom-right-radius: 3px; border-bottom-left-radius:  3px;}\n.ace_br15{border-top-left-radius    : 3px; border-top-right-radius:    3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;}\n\n.ace_text-input-ios {\n  position: absolute !important;\n  top: -100000px !important;\n  left: -100000px !important;\n}\n");
 
 define("ace/virtual_renderer",[], function(require, exports, module) {
 "use strict";
@@ -1609,7 +1955,6 @@ define("ace/virtual_renderer",[], function(require, exports, module) {
 var oop = require("./lib/oop");
 var dom = require("./lib/dom");
 var config = require("./config");
-var useragent = require("./lib/useragent");
 var GutterLayer = require("./layer/gutter").Gutter;
 var MarkerLayer = require("./layer/marker").Marker;
 var TextLayer = require("./layer/text").Text;
@@ -1629,6 +1974,7 @@ var VirtualRenderer = function(container, theme) {
     this.container = container || dom.createElement("div");
 
     dom.addCssClass(this.container, "ace_editor");
+    if (dom.HI_DPI) dom.addCssClass(this.container, "ace_hidpi");
 
     this.setTheme(theme);
 
@@ -1639,6 +1985,7 @@ var VirtualRenderer = function(container, theme) {
 
     this.scroller = dom.createElement("div");
     this.scroller.className = "ace_scroller";
+    
     this.container.appendChild(this.scroller);
 
     this.content = dom.createElement("div");
@@ -1718,6 +2065,15 @@ var VirtualRenderer = function(container, theme) {
         v: 0,
         h: 0
     };
+    
+    this.margin = {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        v: 0,
+        h: 0
+    };
 
     this.$loop = new RenderLoop(
         this.$renderChanges.bind(this),
@@ -1775,6 +2131,7 @@ var VirtualRenderer = function(container, theme) {
             return;
         
         this.$loop.schedule(this.CHANGE_FULL);
+        this.session.$setFontMetrics(this.$fontMetrics);
         this.scrollBarH.scrollLeft = this.scrollBarV.scrollTop = null;
         
         this.onChangeNewLineMode = this.onChangeNewLineMode.bind(this);
@@ -1901,15 +2258,17 @@ var VirtualRenderer = function(container, theme) {
             
             this.gutterWidth = gutterWidth;
             
-            this.scrollBarH.element.style.left = 
-            this.scroller.style.left = gutterWidth + "px";
-            size.scrollerWidth = Math.max(0, width - gutterWidth - this.scrollBarV.getWidth());           
+            dom.setStyle(this.scrollBarH.element.style, "left", gutterWidth + "px");
+            dom.setStyle(this.scroller.style, "left", gutterWidth + this.margin.left + "px");
+            size.scrollerWidth = Math.max(0, width - gutterWidth - this.scrollBarV.getWidth() - this.margin.h);
             
-            this.scrollBarH.element.style.right = 
-            this.scroller.style.right = this.scrollBarV.getWidth() + "px";
-            this.scroller.style.bottom = this.scrollBarH.getHeight() + "px";
-            if (this.session && this.session.getUseWrapMode() && this.adjustWrapLimit() || force)
+            var right = this.scrollBarV.getWidth() + "px";
+            dom.setStyle(this.scrollBarH.element.style, "right", right);
+            dom.setStyle(this.scroller.style, "right", right);
+            dom.setStyle(this.scroller.style, "bottom", this.scrollBarH.getHeight());
+            if (this.session && this.session.getUseWrapMode() && this.adjustWrapLimit() || force) {
                 changes |= this.CHANGE_FULL;
+            }
         }
         
         size.$dirty = !width || !height;
@@ -1920,8 +2279,8 @@ var VirtualRenderer = function(container, theme) {
         return changes;
     };
 
-    this.onGutterResize = function() {
-        var gutterWidth = this.$showGutter ? this.$gutter.offsetWidth : 0;
+    this.onGutterResize = function(width) {
+        var gutterWidth = this.$showGutter ? width : 0;
         if (gutterWidth != this.gutterWidth)
             this.$changes |= this.$updateCachedSize(true, gutterWidth, this.$size.width, this.$size.height);
 
@@ -1931,7 +2290,6 @@ var VirtualRenderer = function(container, theme) {
             this.$loop.schedule(this.CHANGE_FULL);
         } else {
             this.$computeLayerConfig();
-            this.$loop.schedule(this.CHANGE_MARKER);
         }
     };
     this.adjustWrapLimit = function() {
@@ -1994,19 +2352,6 @@ var VirtualRenderer = function(container, theme) {
         return this.getOption("highlightGutterLine");
     };
 
-    this.$updateGutterLineHighlight = function() {
-        var pos = this.$cursorLayer.$pixelPos;
-        var height = this.layerConfig.lineHeight;
-        if (this.session.getUseWrapMode()) {
-            var cursor = this.session.selection.getCursor();
-            cursor.column = 0;
-            pos = this.$cursorLayer.getPixelPosition(cursor, true);
-            height *= this.session.getRowLength(cursor.row);
-        }
-        this.$gutterLineHighlight.style.top = pos.top - this.layerConfig.offset + "px";
-        this.$gutterLineHighlight.style.height = height + "px";
-    };
-
     this.$updatePrintMargin = function() {
         if (!this.$showPrintMargin && !this.$printMarginEl)
             return;
@@ -2039,9 +2384,11 @@ var VirtualRenderer = function(container, theme) {
     this.$moveTextAreaToCursor = function() {
         var style = this.textarea.style;
         if (!this.$keepTextAreaAtCursor) {
-            style.left = -100 + "px";
+            dom.translate(this.textarea, -100, 0);
             return;
         }
+        if (!this.$cursorLayer.$pixelPos)
+            return;
         var config = this.layerConfig;
         var posTop = this.$cursorLayer.$pixelPos.top;
         var posLeft = this.$cursorLayer.$pixelPos.left;
@@ -2049,7 +2396,7 @@ var VirtualRenderer = function(container, theme) {
 
         var h = this.lineHeight;
         if (posTop < 0 || posTop > config.height - h) {
-            style.top = style.left = "0";
+            dom.translate(this.textarea, 0, 0);
             return;
         }
 
@@ -2063,11 +2410,10 @@ var VirtualRenderer = function(container, theme) {
         if (posLeft > this.$size.scrollerWidth - w)
             posLeft = this.$size.scrollerWidth - w;
 
-        posLeft += this.gutterWidth;
-        style.height = h + "px";
-        style.width = w + "px";
-        style.left = Math.min(posLeft, this.$size.scrollerWidth - w) + "px";
-        style.top = Math.min(posTop, this.$size.height - h) + "px";
+        posLeft += this.gutterWidth + this.margin.left;
+        dom.setStyle(style, "height", h + "px");
+        dom.setStyle(style, "width", w + "px");
+        dom.translate(this.textarea, Math.min(posLeft, this.$size.scrollerWidth - w), Math.min(posTop, this.$size.height - h));
     };
     this.getFirstVisibleRow = function() {
         return this.layerConfig.firstRow;
@@ -2108,6 +2454,18 @@ var VirtualRenderer = function(container, theme) {
         sm.h = sm.left + sm.right;
         if (sm.top && this.scrollTop <= 0 && this.session)
             this.session.setScrollTop(-sm.top);
+        this.updateFull();
+    };
+    
+    this.setMargin = function(top, bottom, left, right) {
+        var sm = this.margin;
+        sm.top = top|0;
+        sm.bottom = bottom|0;
+        sm.right = right|0;
+        sm.left = left|0;
+        sm.v = sm.top + sm.bottom;
+        sm.h = sm.left + sm.right;
+        this.$updateCachedSize(true, this.gutterWidth, this.$size.width, this.$size.height);
         this.updateFull();
     };
     this.getHScrollBarAlwaysVisible = function() {
@@ -2192,13 +2550,18 @@ var VirtualRenderer = function(container, theme) {
             this.$updateScrollBarV();
             if (changes & this.CHANGE_H_SCROLL)
                 this.$updateScrollBarH();
-            this.$gutterLayer.element.style.marginTop = (-config.offset) + "px";
-            this.content.style.marginTop = (-config.offset) + "px";
-            this.content.style.width = config.width + 2 * this.$padding + "px";
-            this.content.style.height = config.minHeight + "px";
+            
+            dom.translate(this.$gutter, this.margin.left, -config.offset);
+            dom.translate(this.content, -this.scrollLeft, -config.offset);
+            
+            var width = config.width + 2 * this.$padding + "px";
+            var height = config.minHeight + "px";
+            
+            dom.setStyle(this.content.style, "width", width);
+            dom.setStyle(this.content.style, "height", height);
         }
         if (changes & this.CHANGE_H_SCROLL) {
-            this.content.style.marginLeft = -this.scrollLeft + "px";
+            dom.translate(this.content, -this.scrollLeft, -config.offset);
             this.scroller.className = this.scrollLeft <= 0 ? "ace_scroller" : "ace_scroller ace_scroll-left";
         }
         if (changes & this.CHANGE_FULL) {
@@ -2209,7 +2572,6 @@ var VirtualRenderer = function(container, theme) {
             this.$markerFront.update(config);
             this.$cursorLayer.update(config);
             this.$moveTextAreaToCursor();
-            this.$highlightGutterLine && this.$updateGutterLineHighlight();
             this._signal("afterRender");
             return;
         }
@@ -2219,12 +2581,15 @@ var VirtualRenderer = function(container, theme) {
             else
                 this.$textLayer.scrollLines(config);
 
-            if (this.$showGutter)
-                this.$gutterLayer.update(config);
+            if (this.$showGutter) {
+                if (changes & this.CHANGE_GUTTER || changes & this.CHANGE_LINES)
+                    this.$gutterLayer.update(config);
+                else
+                    this.$gutterLayer.scrollLines(config);
+            }
             this.$markerBack.update(config);
             this.$markerFront.update(config);
             this.$cursorLayer.update(config);
-            this.$highlightGutterLine && this.$updateGutterLineHighlight();
             this.$moveTextAreaToCursor();
             this._signal("afterRender");
             return;
@@ -2243,11 +2608,14 @@ var VirtualRenderer = function(container, theme) {
             if (this.$showGutter)
                 this.$gutterLayer.update(config);
         }
+        else if (changes & this.CHANGE_CURSOR) {
+            if (this.$highlightGutterLine)
+                this.$gutterLayer.updateLineHighlight(config);
+        }
 
         if (changes & this.CHANGE_CURSOR) {
             this.$cursorLayer.update(config);
             this.$moveTextAreaToCursor();
-            this.$highlightGutterLine && this.$updateGutterLineHighlight();
         }
 
         if (changes & (this.CHANGE_MARKER | this.CHANGE_MARKER_FRONT)) {
@@ -2272,7 +2640,9 @@ var VirtualRenderer = function(container, theme) {
             desiredHeight += this.scrollBarH.getHeight();
         if (this.$maxPixelHeight && desiredHeight > this.$maxPixelHeight)
             desiredHeight = this.$maxPixelHeight;
-        var vScroll = height > maxHeight;
+        
+        var hideScrollbars = desiredHeight <= 2 * this.lineHeight;
+        var vScroll = !hideScrollbars && height > maxHeight;
         
         if (desiredHeight != this.desiredHeight ||
             this.$size.height != this.desiredHeight || vScroll != this.$vScroll) {
@@ -2617,7 +2987,7 @@ var VirtualRenderer = function(container, theme) {
         if (this.$hasCssTransforms) {
             canvasPos = {top:0, left: 0};
             var p = this.$fontMetrics.transformCoordinates([x, y]);
-            x = p[1] - this.gutterWidth;
+            x = p[1] - this.gutterWidth - this.margin.left;
             y = p[0];
         } else {
             canvasPos = this.scroller.getBoundingClientRect();
@@ -2636,7 +3006,7 @@ var VirtualRenderer = function(container, theme) {
         if (this.$hasCssTransforms) {
             canvasPos = {top:0, left: 0};
             var p = this.$fontMetrics.transformCoordinates([x, y]);
-            x = p[1] - this.gutterWidth;
+            x = p[1] - this.gutterWidth - this.margin.left;
             y = p[0];
         } else {
             canvasPos = this.scroller.getBoundingClientRect();
@@ -2646,7 +3016,7 @@ var VirtualRenderer = function(container, theme) {
         var offset = offsetX / this.characterWidth;
         var col = this.$blockCursor ? Math.floor(offset) : Math.round(offset);
 
-        var row = (y + this.scrollTop - canvasPos.top) / this.lineHeight;
+        var row = Math.floor((y + this.scrollTop - canvasPos.top) / this.lineHeight);
 
         return this.session.screenToDocumentPosition(row, Math.max(col, 0), offsetX);
     };
@@ -2752,11 +3122,10 @@ var VirtualRenderer = function(container, theme) {
     };
     
     this.setCursorStyle = function(style) {
-        if (this.scroller.style.cursor != style)
-            this.scroller.style.cursor = style;
+        dom.setStyle(this.scroller.style, "cursor", style);
     };
     this.setMouseCursor = function(cursorStyle) {
-        this.scroller.style.cursor = cursorStyle;
+        dom.setStyle(this.scroller.style, "cursor", cursorStyle);
     };
     
     this.attachToShadowRoot = function() {
@@ -2813,12 +3182,8 @@ config.defineOptions(VirtualRenderer.prototype, "renderer", {
         initialValue: false
     },
     showFoldWidgets: {
-        set: function(show) {this.$gutterLayer.setShowFoldWidgets(show);},
-        initialValue: true
-    },
-    showLineNumbers: {
         set: function(show) {
-            this.$gutterLayer.setShowLineNumbers(show);
+            this.$gutterLayer.setShowFoldWidgets(show);
             this.$loop.schedule(this.CHANGE_GUTTER);
         },
         initialValue: true
@@ -2832,19 +3197,10 @@ config.defineOptions(VirtualRenderer.prototype, "renderer", {
     },
     highlightGutterLine: {
         set: function(shouldHighlight) {
-            if (!this.$gutterLineHighlight) {
-                this.$gutterLineHighlight = dom.createElement("div");
-                this.$gutterLineHighlight.className = "ace_gutter-active-line";
-                this.$gutter.appendChild(this.$gutterLineHighlight);
-                return;
-            }
-
-            this.$gutterLineHighlight.style.display = shouldHighlight ? "" : "none";
-            if (this.$cursorLayer.$pixelPos)
-                this.$updateGutterLineHighlight();
+            this.$gutterLayer.setHighlightGutterLine(shouldHighlight);
+            this.$loop.schedule(this.CHANGE_GUTTER);
         },
-        initialValue: false,
-        value: true
+        initialValue: true
     },
     hScrollBarAlwaysVisible: {
         set: function(val) {
@@ -2860,7 +3216,7 @@ config.defineOptions(VirtualRenderer.prototype, "renderer", {
         },
         initialValue: false
     },
-    fontSize:  {
+    fontSize: {
         set: function(size) {
             if (typeof size == "number")
                 size = size + "px";

@@ -1170,7 +1170,7 @@ exports.isAvailable = function(editor, command) {
     if (isSupported && mode.$modes) {
         try {
             editorProxy.setupContext(editor);
-            if (/^(js|php)/.test(editorProxy.getSyntax()))
+            if (/js|php/.test(editorProxy.getSyntax()))
                 isSupported = false;
         } catch(e) {}
     }

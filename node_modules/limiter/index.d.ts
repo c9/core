@@ -8,7 +8,7 @@ type Interval = number | 'second' | 'sec' | 'minute' | 'min' | 'hour' | 'hr' | '
 export declare class TokenBucket {
   constructor(bucketSize: number, tokensPerInterval: number, interval: Interval, parentBucket?: TokenBucket)
 
-  removeToken(count: number, callback: RemoveTokensCallback): void
+  removeTokens(count: number, callback: RemoveTokensCallback): void
   tryRemoveTokens(count: number): boolean
   drip(): boolean
 }

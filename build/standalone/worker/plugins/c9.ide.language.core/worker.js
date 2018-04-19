@@ -468,7 +468,7 @@ require.MODULE_LOAD_URL = MODULE_LOAD_URL;
 require.toUrl = function(moduleName, ext, skipExt, skipBalancers) {
     var absRe = /^([\w\+\.\-]+:|\/)/;
     var index = moduleName.indexOf("!");
-    if (index !== -1 || !ext || /^\/|\.js$/.test(moduleName))
+    if (index !== -1 || !ext || /^\//.test(moduleName))
         ext = "";
         
     var paths = config.paths;
@@ -493,7 +493,9 @@ require.toUrl = function(moduleName, ext, skipExt, skipBalancers) {
     if (skipExt)
         return testPath; 
     
-    var url = moduleName + ext;
+    var url = ext == ".js" && moduleName.slice(-3) == ext
+        ? moduleName
+        : moduleName + ext;
     if (!absRe.test(url)) {
         if (ext == ".js" && require.config.transform)
             url = ("~/" + require.config.transform + "/" + url).replace("//", "/");
@@ -503,6 +505,8 @@ require.toUrl = function(moduleName, ext, skipExt, skipBalancers) {
         var n = Math.abs(hashCode(url)) % config.baseUrlLoadBalancers.length;
         url = config.baseUrlLoadBalancers[n] + url;
     }
+    if (url[0] == "/")
+        url = host + url;
     return url;
 };
 
@@ -666,6 +670,10 @@ function checkCache() {
                     if (parts[i]) {
                         var del = ideCache.delete(baseUrl + parts[i]);
                         toDelete.push(del);
+                        if (require.config.transform) {
+                            del = ideCache.delete(baseUrl + ("~/" + require.config.transform) + parts[i]);
+                            toDelete.push(del);
+                        }
                     }
                 }
             }, function(e, t) {
@@ -758,9 +766,9 @@ function definePlugin(plugin, p) {
 }
 require["vfs!"] = function(module, callback) {
     var url = require.MODULE_LOAD_URL + "/~node/" + module;
-    if (define.fetchedUrls[url] & 3)
+    if (define.fetchedUrls[url] & 4)
         return false;
-    define.fetchedUrls[url] |= 3;
+    define.fetchedUrls[url] |= 4;
     define("vfs!" + module, [], {
         srcUrl: url,
         path: module
@@ -8177,7 +8185,6 @@ EventEmitter.removeDefaultHandler = function(eventName, callback) {
     var disabled = handlers._disabled_[eventName];
     
     if (handlers[eventName] == callback) {
-        var old = handlers[eventName];
         if (disabled)
             this.setDefaultHandler(eventName, disabled.pop());
     } else if (disabled) {

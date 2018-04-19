@@ -153,6 +153,7 @@ var BlameGutter = function(editor, blameStr) {
     this.onMouseout = this.onMouseout.bind(this);
     
     this.blameData = [];
+    this.$cache = [];
     if (blameStr)
         this.setData(blameStr);
     
@@ -175,32 +176,24 @@ var BlameGutter = function(editor, blameStr) {
         editor.blameGutter = this;
         gutter.blameColumn = this;
     
-        this.element = dom.createElement("div");
-        this.element.className = "ace_layer ace_blame-gutter-layer";
-        var parentEl = editor.renderer.$gutter;
-        parentEl.appendChild(this.element);
-    
-        this.resizer = dom.createElement("div");
-        this.resizer.className = "ace_resizer_v";
-        parentEl.appendChild(this.resizer);
-    
-        this.closeButton = dom.createElement("div");
-        this.closeButton.className = "ace_closeButton";
-        this.resizer.appendChild(this.closeButton);
-    
-        gutter.update = this.drawGutter;
-        this.editor.on("guttermousedown", this.onMousedown);
+        this.element = dom.buildDom(["div", {
+            class: "ace_layer ace_blame-gutter-layer ace_gutter"
+        }], editor.container);
+        this.resizer = dom.buildDom(["div", { class: "ace_resizer_v" }, 
+            ["div", { class: "ace_closeButton" }]
+        ], editor.container);
+        this.closeButton = this.resizer.firstChild;
 
-        var gutterEl = this.editor.renderer.$gutter;
-        event.addListener(gutterEl, "mousemove", this.onMousemove);
-        event.addListener(gutterEl, "mouseout", this.onMouseout);
+        gutter.on("afterRender", this.drawGutter);
+        this.element.addEventListener("mousedown", this.onMousedown);
+        this.resizer.addEventListener("mousedown", this.onMousedown);
 
-        gutter.element.style.width = "";
-        this.resizer.style.right = "40px";
-        this.element.style.width = "260px";
-        parentEl.style.width = "300px";
+        event.addListener(this.element, "mousemove", this.onMousemove);
+        event.addListener(this.element, "mouseout", this.onMouseout);
 
-        gutter.update(this.editor.renderer.layerConfig);
+        this.resizer.style.left =
+        this.element.style.width = "220px";
+        editor.renderer.setMargin(0, 0, 220, 0);
     };
     
     this.detachFromEditor = function() {
@@ -208,26 +201,14 @@ var BlameGutter = function(editor, blameStr) {
         
         var editor = this.editor;
         var gutter = editor.renderer.$gutterLayer;
-        gutter.$cells.length = 0;
-        gutter.element.innerHTML = "";
-        delete gutter.update;
+        gutter.off("afterRender", this.drawGutter);
 
         editor.blameGutter = gutter.blameColumn = this.editor = null;
 
-        editor.off("guttermousedown", this.onMousedown);
-        var gutterEl = editor.renderer.$gutter;
-        event.removeListener(gutterEl, "mousemove", this.onMousemove);
-        event.removeListener(gutterEl, "mouseout", this.onMouseout);
-
-        gutterEl.style.width = "";
+        editor.renderer.setMargin(0);
         
-        if (this.element.parentNode)
-            this.element.parentNode.removeChild(this.element);
-        
-        if (this.resizer.parentNode)
-            this.resizer.parentNode.removeChild(this.resizer);
-        
-        gutter.update(editor.renderer.layerConfig);
+        this.element.remove();
+        this.resizer.remove();
     };
     
     this.setData = function(blameStr) {
@@ -252,151 +233,116 @@ var BlameGutter = function(editor, blameStr) {
             this.attachToEditor(e.editor);
     };
     
-    this.drawGutter = function(config) {
-        this.$config = config;
+    this.drawGutter = function(e, gutter) {
+        var container = gutter.blameColumn.element;
+        var blameData = gutter.blameColumn.blameData;
+        var selectedHash = gutter.blameColumn.selectedHash;
 
-        var blameEl = this.blameColumn.element;
-        blameEl.style.marginTop = -config.offset + "px";
-
-        var html = [];
-        var i = config.firstRow;
-        var lastRow = config.lastRow;
-        var fold = this.session.getNextFoldLine(i);
-        var foldStart = fold ? fold.start.row : Infinity;
-        var foldWidgets = this.$showFoldWidgets && this.session.foldWidgets;
-        var lineHeight = config.lineHeight;
-
-        var blameData = this.blameColumn.blameData;
-        var selectedText = this.selectedText;
-        var blameHtml = [];
-        var $blameIndex, lastBlameCellIndex = 0;
-        var blameCell;
-
-        findBlameCell(i);
-        if (blameCell)
-            addBlameCell(blameCell.text, blameCell.title);
-        else
-            addBlameCell("", "");
-        if (!blameData[i + 1]) {
-            blameHtml[$blameIndex] -= config.offset - 1;
-            blameHtml.splice($blameIndex + 1, 0, "px;margin-top:", config.offset - 1);
-        }
-
-
-        while (true) {
-            if (i > foldStart) {
-                i = fold.end.row + 1;
-                fold = this.session.getNextFoldLine(i, fold);
-                if (fold) {
-                    foldStart = fold.start.row;
-                    lastBlameCellIndex = fold.end.row;
-                } else {
-                    foldStart = Infinity;
-                }
+        var cells = gutter.$lines.cells;
+        var cache = gutter.blameColumn.$cache;
+        var cacheIndex = 0;
+        var offset = - getTop(gutter.element) + gutter.config.offset;
+        
+        var commit;
+        for (var i = 0; i < cells.length; i++) {
+            var cell = cells[i];
+            var row = cell.row;
+            var data = blameData[row];
+            
+            if (!data && i == 0) {
+                while (!blameData[row] && row > 0) row--;
+                data = blameData[row]
+                commit = {
+                    row: row,
+                    cell: cell,
+                    data: data,
+                };
             }
-            if (i > lastRow)
-                break;
-
-            html.push("<div class='ace_gutter-cell",
-                "' style='height:", lineHeight, "px;'>", (i + 1));
-
-            if (foldWidgets) {
-                var c = foldWidgets[i];
-                if (c == null)
-                    c = foldWidgets[i] = this.session.getFoldWidget(i);
-                if (c)
-                    html.push(
-                        "<span class='ace_fold-widget ace_", c,
-                        c == "start" && i == foldStart && i < fold.end.row ? " ace_closed" : " ace_open",
-                        "' style='height:", lineHeight, "px",
-                        "'></span>"
-                    );
-            }
-
-            var wrappedRowLength = this.session.getRowLength(i) - 1;
-            while (wrappedRowLength--) {
-                html.push("</div><div class='ace_gutter-cell' style='height:", lineHeight, "px'>\xA6");
-            }
-            html.push("</div>");
-
-            i++;
-            findBlameCell(i);
-            if (blameCell)
-                addBlameCell(blameCell.text, blameCell.title);
-            else
-                blameHtml[$blameIndex] += this.session.getRowLength(i - 1) * lineHeight;
+            
+            if (!data)
+                continue;
+            
+            if (commit)
+                add(commit.data, commit.row, commit.cell, cell);
+            
+            commit = {
+                row: row,
+                cell: cell,
+                data: data,
+            };
         }
-
-        this.element.innerHTML = html.join("");
-        blameEl.innerHTML = blameHtml.join("");
-        this.element.style.height = config.minHeight + "px";
-
-        var gutterWidth = this.element.parentNode.offsetWidth;
-        if (gutterWidth !== this.gutterWidth) {
-            this.gutterWidth = gutterWidth;
-            this._emit("changeGutterWidth", gutterWidth);
+        if (commit.cell == cell)
+            add(commit.data, commit.row, commit.cell);
+        
+        function add(data, row, firstCell, nextCell) {
+            var el = cache[cacheIndex++];
+            if (!el)
+                cache.push(el = dom.createElement("div"));
+            el.className = "ace_blame-cell " + (data.data.hash == selectedHash ? "selected" : "");
+            el.index = row;
+            el.textContent = data.text + " " + data.title;
+            
+            var top = getTop(firstCell.element) - offset;
+            var next = nextCell ? getTop(nextCell.element) - offset : gutter.config.height;
+            el.style.top = top + "px";
+            el.style.height = next - top + "px";
+            
+            container.appendChild(el);
         }
-
-        function addBlameCell(text, title) {
-            blameHtml.push(
-                "<div class='ace_blame-cell ", text == selectedText ? "selected" : "",
-                "' index='", lastBlameCellIndex - 1, "'",
-                "style='height:", lineHeight, "px'>",
-                text, "  ", title,
-                "</div>"
-            );
-            $blameIndex = blameHtml.length - 6;
-        }
-        function findBlameCell(i) {
-            do {
-                blameCell = blameData[i];
-            } while (!blameCell && i-- > lastBlameCellIndex);
-            lastBlameCellIndex = i + 1;
+        
+        while (cacheIndex < cache.length) {
+            cache.pop().remove();
+        }   
+        
+        function getTop(element) {
+            return parseInt(element.style.top);
         }
     };
 
     this.onMousedown = function(e) {
-        var target = e.domEvent.target;
+        var target = e.target;
 
         if (target == this.closeButton) {
             this.removeData();
-            return e.stop();
+            return event.stopEvent(e);
         }
 
         if (target == this.resizer) {
             var rect = this.editor.blameGutter.element.getBoundingClientRect();
             var mouseHandler = this.editor.$mouseHandler;
+            apf.plane.setCursor("ew-resize");
+            this.editor.blameGutter.resizer.classList.add("hover");
             mouseHandler.resizeBlameGutter = function() {
-                var gutterWidth = this.x + 40 - rect.left;
-                this.editor.renderer.$gutter.style.width = gutterWidth + "px";
-                this.editor.blameGutter.element.style.width = gutterWidth - 40 + "px";
-                this.editor.renderer.$gutterLayer._emit("changeGutterWidth", gutterWidth);
+                var gutterWidth = this.x - rect.left;
+                this.editor.blameGutter.resizer.style.left = 
+                this.editor.blameGutter.element.style.width = gutterWidth + "px";
+                this.editor.renderer.setMargin(0, 0, gutterWidth, 0);
             };
+            mouseHandler.resizeBlameGutterEnd = function() {
+                apf.plane.unsetCursor();
+                this.editor.blameGutter.resizer.classList.remove("hover");
+            };
+            mouseHandler.setState("resizeBlameGutter");
             mouseHandler.captureMouse(e, mouseHandler.resizeBlameGutter.bind(mouseHandler));
-            return e.stop();
+            return event.stopEvent(e);
         }
 
         if (dom.hasCssClass(target, "ace_blame-cell")) {
             var gutter = this.editor.renderer.$gutterLayer;
-            var index = parseInt(target.getAttribute("index"), 10);
+            var blameData = gutter.blameColumn.blameData;
 
-            var blameCell = gutter.blameColumn.blameData[index];
+            var blameCell = blameData[target.index];
             if (!blameCell)
-                return e.stop();
-            gutter.selectedText = blameCell.text;
-            var ch = target.parentNode.children;
-            for (var i = ch.length; i--;) {
-                var isSelected = ch[i].innerHTML.indexOf(gutter.selectedText) == 0;
-                ch[i].className = "ace_blame-cell" + (isSelected ? " selected" : "");
-            }
-            return e.stop();
+                return event.stopEvent(e);
+            gutter.blameColumn.selectedHash = blameCell.data.hash;
+            this.editor.renderer.$loop.schedule(this.editor.renderer.CHANGE_GUTTER);
+            return event.stopEvent(e);
         }
     };
 
     this.onMousemove = function(e) {
         var target = e.target;
         var container = e.currentTarget;
-        return;
         var tooltip = this.editor.tooltip;
         if (this.$highlightedCell != target) {
             if (dom.hasCssClass(target, "ace_blame-cell")) {
@@ -407,6 +353,8 @@ var BlameGutter = function(editor, blameStr) {
         }
 
         if (this.$highlightedCell) {
+            tooltip.style.top = e.clientY + 10 + "px";
+            tooltip.style.left = e.clientX + 10 + "px";
         } else {
             this.onMouseout();
             return;
@@ -416,6 +364,8 @@ var BlameGutter = function(editor, blameStr) {
         this.$highlightedCell = null;
     };
 }).call(BlameGutter.prototype);
+
+
 exports.annotate = function annotate(editor, blameStr) {
     return new BlameGutter(editor, blameStr);
 };

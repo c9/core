@@ -229,12 +229,12 @@ function plugin(options, imports, register) {
         var filefinder = require(base + "/test/lib/filefinder.js");
         filefinder.find(base, "plugins", ".*_test.js", blacklistfile, function(err, result) {
             result.all = result.list.concat(result.blacklist);
-            async.filterSeries(result.list, function(file, next) {
-                fs.readFile(base + file, "utf8", function(err, file) {
+            async.filterSeries(result.list, function(path, next) {
+                fs.readFile(base + path, "utf8", function(err, file) {
                     if (err) return next(false);
                     if (file.match(/^"use server"/m) && !file.match(/^"use client"/m))
                         return next(false);
-                    next(file.match(/^define\(|^require\(\[/m));
+                    next(file.match(/^define\(|^require\(\[/m) || /c9\.(ide|fs)/.test(path));
                 });
             }, function(files) {
                 result.list = files;

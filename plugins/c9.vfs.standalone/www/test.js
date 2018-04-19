@@ -114,8 +114,9 @@ define(function(require, exports, module) {
                         });
                     });
                 }
-                onload && onload();
-                
+                setTimeout(function() {
+                    onload && onload();
+                });
             });
             if (app) {
                 app.on("service", function(name, plugin) { 
