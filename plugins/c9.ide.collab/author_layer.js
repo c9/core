@@ -38,9 +38,17 @@ define(function(require, module, exports) {
         function AuthorLayer(session) {
             var plugin = new Plugin("Ajax.org", main.consumes);
             // var emit = plugin.getEmitter();
-            var marker = session.addDynamicMarker({ update: drawAuthInfos }, false);
+            var marker;
 
             function refresh() {
+                if (showAuthorInfo) {
+                    session.on("changeEditor", onChangeEditor);
+                    marker = session.addDynamicMarker({ update: drawAuthInfos }, false);
+                }
+                else {
+                    dispose();
+                }
+                
                 var doc = session.collabDoc.original;
                 var ace = doc.editor && doc.editor.ace;
                 var aceSession = ace && ace.session;
@@ -48,179 +56,12 @@ define(function(require, module, exports) {
                     return;
 
                 session._emit("changeBackMarker");
-                var renderer = ace.renderer;
-                renderer.$gutterLayer.$padding = null;
-                renderer.$loop.schedule(renderer.CHANGE_GUTTER);
-                if (showAuthorInfo) {
-                    renderer.$gutterLayer.on("afterRender", decorateGutter);
-                }
-                else {
-                    renderer.$gutterLayer.off("afterRender", decorateGutter);
-                    clearGutterDecorations(renderer);
-                }
+                onChangeEditor({ editor: ace });
             }
 
-            function drawAuthInfos(html, markerLayer, session, config) {
-                if (!showAuthorInfo || !util.isRealCollab(workspace))
-                    return;
-
-                var doc = session.collabDoc;
-                var editorDoc = session.doc;
-                var colorPool = workspace.colorPool;
-                var reversedAuthorPool = workspace.reversedAuthorPool;
-
-                var firstRow = config.firstRow;
-                var lastRow = config.lastRow;
-
-                var range = new Range(firstRow, 0, lastRow, editorDoc.getLine(lastRow).length);
-
-                var cache = createAuthorKeyCache(editorDoc, doc.authAttribs, range);
-                var authKeyCache = cache.authorKeys;
-                var rowScores = cache.rowScores;
-
-                var fold = session.getNextFoldLine(firstRow);
-                var foldStart = fold ? fold.start.row : Infinity;
-
-                for (var i = firstRow; i < lastRow; i++) {
-                    if (i > foldStart) {
-                        i = fold.end.row + 1;
-                        fold = session.getNextFoldLine(i, fold);
-                        foldStart = fold ? fold.start.row : Infinity;
-                    }
-                    if (i > lastRow)
-                        break;
-
-                    if (!authKeyCache[i] || !rowScores[i])
-                        continue;
-
-                    var rowScore = rowScores[i];
-                    for (var authVal in rowScore) {
-                        if (authVal == authKeyCache[i])
-                            continue;
-                        var edits = rowScore[authVal].edits;
-                        for (var j = 0; j < edits.length; j++) {
-                            var edit = edits[j];
-                            var uid = reversedAuthorPool[authVal];
-                            var bgColor = colorPool[uid];
-                            var extraStyle = "position:absolute;border-bottom:solid 2px " + util.formatColor(bgColor) + ";z-index: 2000";
-                            var startPos = session.documentToScreenPosition(edit.pos);
-                            markerLayer.drawSingleLineMarker(html,
-                                new Range(startPos.row, startPos.column, startPos.row, startPos.column + edit.length),
-                                "", config, 0, extraStyle);
-                        }
-                    }
-                }
-            }
-
-            function decorateGutter(e, gutter) {
-                var session = gutter.session;
-                
-                var editorDoc = session.doc;
-                var doc = session.collabDoc;
-                var isCollabGutter = doc && showAuthorInfo && util.isRealCollab(workspace);
-                
-                var config = gutter.config;
-                var range = new Range(config.firstRow, 0, config.lastRow, Number.MAX_VALUE);
-                var authorKeysCache = isCollabGutter && createAuthorKeyCache(editorDoc, doc.authAttribs, range).authorKeys;
-                var colorPool = workspace.colorPool;
-                var reversedAuthorPool = workspace.reversedAuthorPool;
-                
-                if (!isCollabGutter)
-                    return clearGutterDecorations();
-                var cells = gutter.$lines.cells;
-                for (var i = 0; i < cells.length; i++) {
-                    var cell = cells[i];
-                    var authorKey = authorKeysCache[cell.row];
-                    var authorColor = "transparent";
-                    var fullname = null;
-                    if (authorKey) {
-                        var uid = reversedAuthorPool[authorKey];
-                        authorColor = util.formatColor(colorPool[uid]);
-                        var user = workspace.users[uid];
-                        fullname = user && user.fullname;
-                    }
-                    cell.element.style.borderLeft = "solid 5px " + authorColor;
-                    cell.element.setAttribute("uid", fullname ? uid : "");
-                }
-            }
-            
-            function clearGutterDecorations(renderer) {
-                renderer.$gutterLayer.$lines.cellCache.length = 0;
-                var cells = renderer.$gutterLayer.$lines.cells;
-                for (var i = 0; i < cells.length; i++) {
-                    var cell = cells[i];
-                    cell.element.style.borderLeft = "";
-                    cell.element.setAttribute("uid", "");
-                }
-            }
-
-            function createAuthorKeyCache (editorDoc, authAttribs, range) {
-                var startI = editorDoc.positionToIndex(range.start);
-                var endI = editorDoc.positionToIndex(range.end);
-
-                var authKeyCache = {};
-                var rowScores = {};
-                var lastPos = range.start;
-
-                function processScore(index, length, value) {
-                    var line = editorDoc.getLine(lastPos.row);
-                    var rowScore = rowScores[lastPos.row] = rowScores[lastPos.row] || {};
-                    var score = Math.min(line.length - lastPos.column, length);
-                    var scoreObj = rowScore[value] = rowScore[value] || { edits: [], score: 0 };
-                    scoreObj.edits.push({ pos: lastPos, length: score });
-                    scoreObj.score += score;
-                     var pos = editorDoc.indexToPosition(index + length);
-                    if (lastPos.row !== pos.row) {
-                        if (value) {
-                            for (var i = lastPos.row + 1; i < pos.row; i++)
-                                authKeyCache[i] = value;
-                        }
-                        line = editorDoc.getLine(pos.row);
-                        rowScore = rowScores[pos.row] = rowScores[pos.row] || {};
-                        score = pos.column;
-                        scoreObj = rowScore[value] = rowScore[value] || { edits: [], score: 0 };
-                        scoreObj.edits.push({ pos: pos, length: score });
-                        scoreObj.score += score;
-                    }
-                    lastPos = pos;
-                }
-                AuthorAttributes.traverse(authAttribs, startI, endI, processScore);
-
-                for (var rowNum in rowScores) {
-                    var rowScore = rowScores[rowNum];
-                    delete rowScore[null];
-                    delete rowScore[undefined];
-                    delete rowScore[0];
-                    var authorKeys = Object.keys(rowScore);
-
-                    if (authorKeys.length === 0) {
-                        delete rowScores[rowNum];
-                        // authKeyCache[rowNum] = null;
-                    }
-                    else if (authorKeys.length === 1) {
-                        authKeyCache[rowNum] = parseInt(authorKeys[0], 10);
-                    }
-                    else {
-                        var biggestScore = 0;
-                        var authKey;
-                        for (var key in rowScore) {
-                            if (rowScore[key].score > biggestScore) {
-                                biggestScore = rowScore[key].score;
-                                authKey = key;
-                            }
-                        }
-                        authKeyCache[rowNum] = parseInt(authKey, 10);
-                    }
-                }
-
-                return {
-                    authorKeys: authKeyCache,
-                    rowScores: rowScores
-                };
-            }
-
-            function dispose () {
-                session.removeMarker(marker.id);
+            function dispose() {
+                marker && session.removeMarker(marker.id);
+                session.off("changeEditor", onChangeEditor);
             }
 
             plugin.freezePublicAPI({
@@ -230,6 +71,179 @@ define(function(require, module, exports) {
             });
 
             return plugin;
+        }
+        
+        function onChangeEditor(e) {
+            var renderer = (e.editor || e.oldEditor).renderer;
+            renderer.$gutterLayer.$padding = null;
+            renderer.$loop.schedule(renderer.CHANGE_GUTTER);
+            if (showAuthorInfo && e.editor) {
+                renderer.$gutterLayer.on("afterRender", decorateGutter);
+            }
+            else {
+                renderer.$gutterLayer.off("afterRender", decorateGutter);
+                clearGutterDecorations(renderer.$gutterLayer);
+            }
+        }
+
+        function drawAuthInfos(html, markerLayer, session, config) {
+            if (!showAuthorInfo || !util.isRealCollab(workspace))
+                return;
+
+            var doc = session.collabDoc;
+            var editorDoc = session.doc;
+            var colorPool = workspace.colorPool;
+            var reversedAuthorPool = workspace.reversedAuthorPool;
+
+            var firstRow = config.firstRow;
+            var lastRow = config.lastRow;
+
+            var range = new Range(firstRow, 0, lastRow, editorDoc.getLine(lastRow).length);
+
+            var cache = createAuthorKeyCache(editorDoc, doc.authAttribs, range);
+            var authKeyCache = cache.authorKeys;
+            var rowScores = cache.rowScores;
+
+            var fold = session.getNextFoldLine(firstRow);
+            var foldStart = fold ? fold.start.row : Infinity;
+
+            for (var i = firstRow; i < lastRow; i++) {
+                if (i > foldStart) {
+                    i = fold.end.row + 1;
+                    fold = session.getNextFoldLine(i, fold);
+                    foldStart = fold ? fold.start.row : Infinity;
+                }
+                if (i > lastRow)
+                    break;
+
+                if (!authKeyCache[i] || !rowScores[i])
+                    continue;
+
+                var rowScore = rowScores[i];
+                for (var authVal in rowScore) {
+                    if (authVal == authKeyCache[i])
+                        continue;
+                    var edits = rowScore[authVal].edits;
+                    for (var j = 0; j < edits.length; j++) {
+                        var edit = edits[j];
+                        var uid = reversedAuthorPool[authVal];
+                        var bgColor = colorPool[uid];
+                        var extraStyle = "position:absolute;border-bottom:solid 2px " + util.formatColor(bgColor) + ";z-index: 2000";
+                        var startPos = session.documentToScreenPosition(edit.pos);
+                        markerLayer.drawSingleLineMarker(html,
+                            new Range(startPos.row, startPos.column, startPos.row, startPos.column + edit.length),
+                            "", config, 0, extraStyle);
+                    }
+                }
+            }
+        }
+
+        function decorateGutter(e, gutter) {
+            var session = gutter.session;
+            
+            var editorDoc = session.doc;
+            var doc = session.collabDoc;
+            var isCollabGutter = doc && showAuthorInfo && util.isRealCollab(workspace);
+
+            if (!isCollabGutter)
+                return;
+            
+            var config = gutter.config;
+            var range = new Range(config.firstRow, 0, config.lastRow, Number.MAX_VALUE);
+            var authorKeysCache = isCollabGutter && createAuthorKeyCache(editorDoc, doc.authAttribs, range).authorKeys;
+            var colorPool = workspace.colorPool;
+            var reversedAuthorPool = workspace.reversedAuthorPool;
+            
+            var cells = gutter.$lines.cells;
+            for (var i = 0; i < cells.length; i++) {
+                var cell = cells[i];
+                var authorKey = authorKeysCache[cell.row];
+                var authorColor = "transparent";
+                var fullname = null;
+                if (authorKey) {
+                    var uid = reversedAuthorPool[authorKey];
+                    authorColor = util.formatColor(colorPool[uid]);
+                    var user = workspace.users[uid];
+                    fullname = user && user.fullname;
+                }
+                cell.element.style.borderLeft = "solid 5px " + authorColor;
+                cell.element.setAttribute("uid", fullname ? uid : "");
+            }
+        }
+        
+        function clearGutterDecorations(gutter) {
+            gutter.$lines.cellCache.length = 0;
+            var cells = gutter.$lines.cells;
+            for (var i = 0; i < cells.length; i++) {
+                var cell = cells[i];
+                cell.element.style.borderLeft = "";
+                cell.element.setAttribute("uid", "");
+            }
+        }
+
+        function createAuthorKeyCache(editorDoc, authAttribs, range) {
+            var startI = editorDoc.positionToIndex(range.start);
+            var endI = editorDoc.positionToIndex(range.end);
+
+            var authKeyCache = {};
+            var rowScores = {};
+            var lastPos = range.start;
+
+            function processScore(index, length, value) {
+                var line = editorDoc.getLine(lastPos.row);
+                var rowScore = rowScores[lastPos.row] = rowScores[lastPos.row] || {};
+                var score = Math.min(line.length - lastPos.column, length);
+                var scoreObj = rowScore[value] = rowScore[value] || { edits: [], score: 0 };
+                scoreObj.edits.push({ pos: lastPos, length: score });
+                scoreObj.score += score;
+                 var pos = editorDoc.indexToPosition(index + length);
+                if (lastPos.row !== pos.row) {
+                    if (value) {
+                        for (var i = lastPos.row + 1; i < pos.row; i++)
+                            authKeyCache[i] = value;
+                    }
+                    line = editorDoc.getLine(pos.row);
+                    rowScore = rowScores[pos.row] = rowScores[pos.row] || {};
+                    score = pos.column;
+                    scoreObj = rowScore[value] = rowScore[value] || { edits: [], score: 0 };
+                    scoreObj.edits.push({ pos: pos, length: score });
+                    scoreObj.score += score;
+                }
+                lastPos = pos;
+            }
+            AuthorAttributes.traverse(authAttribs, startI, endI, processScore);
+
+            for (var rowNum in rowScores) {
+                var rowScore = rowScores[rowNum];
+                delete rowScore[null];
+                delete rowScore[undefined];
+                delete rowScore[0];
+                var authorKeys = Object.keys(rowScore);
+
+                if (authorKeys.length === 0) {
+                    delete rowScores[rowNum];
+                    // authKeyCache[rowNum] = null;
+                }
+                else if (authorKeys.length === 1) {
+                    authKeyCache[rowNum] = parseInt(authorKeys[0], 10);
+                }
+                else {
+                    var biggestScore = 0;
+                    var authKey;
+                    for (var key in rowScore) {
+                        if (rowScore[key].score > biggestScore) {
+                            biggestScore = rowScore[key].score;
+                            authKey = key;
+                        }
+                    }
+                    authKeyCache[rowNum] = parseInt(authKey, 10);
+                }
+            }
+
+            return {
+                authorKeys: authKeyCache,
+                rowScores: rowScores
+            };
         }
 
         function getLineAuthorKey(session, authAttribs, row) {
