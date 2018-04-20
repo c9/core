@@ -12,6 +12,7 @@ define(function(require, exports, module) {
         var keyUtil = require("ace/lib/keys");
         var KeyBinding = require("ace/keyboard/keybinding").KeyBinding;
         var CommandManager = require("ace/commands/command_manager").CommandManager;
+        CommandManager.prototype.$checkCommandState = false;
         
         /***** Initialization *****/
         
