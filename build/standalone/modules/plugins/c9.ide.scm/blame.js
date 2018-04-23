@@ -149,6 +149,7 @@ var BlameGutter = function(editor, blameStr) {
     
     this.onMousedown = this.onMousedown.bind(this);
     this.onChangeEditor = this.onChangeEditor.bind(this);
+    this.onChangeSelection = this.onChangeSelection.bind(this);
     this.onMousemove = this.onMousemove.bind(this);
     this.onMouseout = this.onMouseout.bind(this);
     
@@ -185,6 +186,7 @@ var BlameGutter = function(editor, blameStr) {
         this.closeButton = this.resizer.firstChild;
 
         gutter.on("afterRender", this.drawGutter);
+        editor.on("changeSelection", this.onChangeSelection);
         this.element.addEventListener("mousedown", this.onMousedown);
         this.resizer.addEventListener("mousedown", this.onMousedown);
 
@@ -202,6 +204,7 @@ var BlameGutter = function(editor, blameStr) {
         var editor = this.editor;
         var gutter = editor.renderer.$gutterLayer;
         gutter.off("afterRender", this.drawGutter);
+        editor.off("changeSelection", this.onChangeSelection);
 
         editor.blameGutter = gutter.blameColumn = this.editor = null;
 
@@ -233,6 +236,20 @@ var BlameGutter = function(editor, blameStr) {
             this.attachToEditor(e.editor);
     };
     
+    this.onChangeSelection = function() {
+        var renderer = this.editor.renderer;
+        var row = this.session.selection.cursor.row;
+        
+        var blameData = this.blameData || [];
+
+        while (!blameData[row] && row > 0) row--;
+        var blameCell = blameData[row];
+        if (blameCell) {
+            this.selectedHash = blameCell.data.hash;
+            renderer.$loop.schedule(renderer.CHANGE_GUTTER | renderer.CHANGE_MARKER);
+        }
+    };
+    
     this.drawGutter = function(e, gutter) {
         var container = gutter.blameColumn.element;
         var blameData = gutter.blameColumn.blameData;
@@ -241,7 +258,7 @@ var BlameGutter = function(editor, blameStr) {
         var cells = gutter.$lines.cells;
         var cache = gutter.blameColumn.$cache;
         var cacheIndex = 0;
-        var offset = - getTop(gutter.element) + gutter.config.offset;
+        var offset = -getTop(gutter.element);
         
         var commit;
         for (var i = 0; i < cells.length; i++) {
@@ -252,11 +269,6 @@ var BlameGutter = function(editor, blameStr) {
             if (!data && i == 0) {
                 while (!blameData[row] && row > 0) row--;
                 data = blameData[row]
-                commit = {
-                    row: row,
-                    cell: cell,
-                    data: data,
-                };
             }
             
             if (!data)
@@ -271,7 +283,7 @@ var BlameGutter = function(editor, blameStr) {
                 data: data,
             };
         }
-        if (commit.cell == cell)
+        if (commit)
             add(commit.data, commit.row, commit.cell);
         
         function add(data, row, firstCell, nextCell) {
@@ -282,7 +294,7 @@ var BlameGutter = function(editor, blameStr) {
             el.index = row;
             el.textContent = data.text + " " + data.title;
             
-            var top = getTop(firstCell.element) - offset;
+            var top = Math.max(getTop(firstCell.element) - offset, 0);
             var next = nextCell ? getTop(nextCell.element) - offset : gutter.config.height;
             el.style.top = top + "px";
             el.style.height = next - top + "px";
@@ -334,6 +346,8 @@ var BlameGutter = function(editor, blameStr) {
             var blameCell = blameData[target.index];
             if (!blameCell)
                 return event.stopEvent(e);
+            var pos = this.editor.renderer.screenToTextCoordinates(e.clientX, e.clientY);
+            this.editor.selection.moveToPosition(pos);
             gutter.blameColumn.selectedHash = blameCell.data.hash;
             this.editor.renderer.$loop.schedule(this.editor.renderer.CHANGE_GUTTER);
             return event.stopEvent(e);

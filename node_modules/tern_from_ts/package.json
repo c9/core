@@ -20,7 +20,7 @@
   "readme": "# tern_from_ts\n\nTern signatures extracted from typescript signatures.\n\nLicense: MIT\n\nSee also https://github.com/marijnh/tern and https://github.com/borisyankov/DefinitelyTyped\n",
   "readmeFilename": "README.md",
   "_id": "tern_from_ts@0.0.1",
-  "_shasum": "87a651d582f5906a2ff38f087a31de2b17f4ebff",
+  "_shasum": "f531d3da424ced1931e72cd4e2bc1c27d0e7bc40",
   "_from": "git+https://github.com/cloud9ide/tern_from_ts.git#66df507986bbdd63f3bc4f0c53edb39169ce4f1c",
   "_resolved": "git+https://github.com/cloud9ide/tern_from_ts.git#66df507986bbdd63f3bc4f0c53edb39169ce4f1c"
 }

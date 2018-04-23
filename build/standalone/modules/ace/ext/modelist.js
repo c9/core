@@ -73,6 +73,7 @@ var supportedModes = {
     Erlang:      ["erl|hrl"],
     Forth:       ["frt|fs|ldr|fth|4th"],
     Fortran:     ["f|f90"],
+    FSharp:      ["fsi|fs|ml|mli|fsx|fsscript"],
     FTL:         ["ftl"],
     Gcode:       ["gcode"],
     Gherkin:     ["feature"],
@@ -130,6 +131,7 @@ var supportedModes = {
     Pascal:      ["pas|p"],
     Perl:        ["pl|pm"],
     pgSQL:       ["pgsql"],
+    PHP_Laravel_blade: ["blade.php"],
     PHP:         ["php|phtml|shtml|php3|php4|php5|phps|phpt|aw|ctp|module"],
     Pig:         ["pig"],
     Powershell:  ["ps1"],
@@ -153,6 +155,7 @@ var supportedModes = {
     SCSS:        ["scss"],
     SH:          ["sh|bash|^.bashrc"],
     SJS:         ["sjs"],
+    Slim:        ["slim|skim"],
     Smarty:      ["smarty|tpl"],
     snippets:    ["snippets"],
     Soy_Template:["soy"],
@@ -193,7 +196,8 @@ var nameOverrides = {
     coffee: "CoffeeScript",
     HTML_Ruby: "HTML (Ruby)",
     HTML_Elixir: "HTML (Elixir)",
-    FTL: "FreeMarker"
+    FTL: "FreeMarker",
+    PHP_Laravel_blade: "PHP (Blade Template)"
 };
 var modesByName = {};
 for (var name in supportedModes) {

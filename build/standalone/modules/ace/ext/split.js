@@ -10,12 +10,13 @@ var Lines = function(element, canvasHeight) {
     
     this.cells = [];
     this.cellCache = [];
+    this.$offsetCoefficient = 0;
 };
 
 (function() {
     
     this.moveContainer = function(config) {
-        dom.translate(this.element, 0, -((config.firstRowScreen * config.lineHeight) % this.canvasHeight));
+        dom.translate(this.element, 0, -((config.firstRowScreen * config.lineHeight) % this.canvasHeight) - config.offset * this.$offsetCoefficient);
     };    
     
     this.pageChanged = function(oldConfig, newConfig) {
@@ -113,6 +114,7 @@ var Lines = function(element, canvasHeight) {
                 row: row
             };
         }
+        cell.row = row;
         
         return cell;
     };
@@ -144,6 +146,7 @@ var Gutter = function(parentEl) {
     this.$updateAnnotations = this.$updateAnnotations.bind(this);
     
     this.$lines = new Lines(this.element);
+    this.$lines.$offsetCoefficient = 1;
 };
 
 (function() {
@@ -465,7 +468,6 @@ var Gutter = function(parentEl) {
         dom.setStyle(cell.element.style, "top", this.$lines.computeLineTop(row, config, session) + "px");
         
         cell.text = text;
-        cell.row = row;
         return cell;
     };
 
@@ -2261,6 +2263,7 @@ var VirtualRenderer = function(container, theme) {
             dom.setStyle(this.scrollBarH.element.style, "left", gutterWidth + "px");
             dom.setStyle(this.scroller.style, "left", gutterWidth + this.margin.left + "px");
             size.scrollerWidth = Math.max(0, width - gutterWidth - this.scrollBarV.getWidth() - this.margin.h);
+            dom.setStyle(this.$gutter.style, "left", this.margin.left + "px");
             
             var right = this.scrollBarV.getWidth() + "px";
             dom.setStyle(this.scrollBarH.element.style, "right", right);
@@ -2550,8 +2553,6 @@ var VirtualRenderer = function(container, theme) {
             this.$updateScrollBarV();
             if (changes & this.CHANGE_H_SCROLL)
                 this.$updateScrollBarH();
-            
-            dom.translate(this.$gutter, this.margin.left, -config.offset);
             dom.translate(this.content, -this.scrollLeft, -config.offset);
             
             var width = config.width + 2 * this.$padding + "px";

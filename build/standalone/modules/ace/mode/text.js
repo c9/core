@@ -413,7 +413,7 @@ exports.importCssString = function importCssString(cssText, id, container) {
 
     if (root == doc)
         root = exports.getDocumentHead(doc);
-    root.appendChild(style);
+    root.insertBefore(style, root.firstChild);
 };
 
 exports.importCssStylsheet = function(uri, doc) {
@@ -833,6 +833,8 @@ exports.set = function(key, value) {
 exports.all = function() {
     return lang.copyObject(options);
 };
+
+exports.$modes = {};
 exports.moduleUrl = function(name, component) {
     if (options.$moduleUrls[name])
         return options.$moduleUrls[name];
@@ -1084,7 +1086,7 @@ var Tokenizer = function(rules) {
 
     this.removeCapturingGroups = function(src) {
         var r = src.replace(
-            /\[(?:\\.|[^\]])*?\]|\\.|\(\?[:=!]|(\()/g,
+            /\\.|\[(?:\\.|[^\\\]])*|\(\?[:=!]|(\()/g,
             function(x, y) {return y ? "(?:" : x;}
         );
         return r;
@@ -2234,6 +2236,7 @@ exports.wordChars = String.fromCharCode.apply(null, str);
 
 define("ace/mode/text",[], function(require, exports, module) {
 "use strict";
+var config = require("../config");
 
 var Tokenizer = require("../tokenizer").Tokenizer;
 var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
@@ -2471,8 +2474,15 @@ var Mode = function() {
         this.$modes = {};
         for (var i in mapping) {
             if (mapping[i]) {
+                var Mode = mapping[i];
+                var id = Mode.prototype.$id;
+                var mode = config.$modes[id];
+                if (!mode)
+                    config.$modes[id] = mode = new Mode();
+                if (!config.$modes[i])
+                    config.$modes[i] = mode;
                 this.$embeds.push(i);
-                this.$modes[i] = new mapping[i]();
+                this.$modes[i] = mode;
             }
         }
 
@@ -2492,8 +2502,16 @@ var Mode = function() {
 
     this.$delegator = function(method, args, defaultHandler) {
         var state = args[0];
-        if (typeof state != "string")
+        if (typeof state != "string") {
+            if (Array.isArray(state[2])) {
+                var language = state[2][state[2].length - 1];
+                var mode = this.$modes[language];
+                if (mode)
+                    return mode[method].apply(mode, [state[1]].concat([].slice.call(args, 1)));
+            }
             state = state[0];
+        }
+            
         for (var i = 0; i < this.$embeds.length; i++) {
             if (!this.$modes[this.$embeds[i]]) continue;
 

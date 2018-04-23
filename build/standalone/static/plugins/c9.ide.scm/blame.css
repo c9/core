@@ -28,7 +28,7 @@
     text-align: left !important;
     top: 0;
     z-index: 5;
-    pointer-events: auto;
+    pointer-events: auto!important;
 }
 .ace_blame-cell{
     border-top: solid 1px;

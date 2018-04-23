@@ -10,12 +10,13 @@ var Lines = function(element, canvasHeight) {
     
     this.cells = [];
     this.cellCache = [];
+    this.$offsetCoefficient = 0;
 };
 
 (function() {
     
     this.moveContainer = function(config) {
-        dom.translate(this.element, 0, -((config.firstRowScreen * config.lineHeight) % this.canvasHeight));
+        dom.translate(this.element, 0, -((config.firstRowScreen * config.lineHeight) % this.canvasHeight) - config.offset * this.$offsetCoefficient);
     };    
     
     this.pageChanged = function(oldConfig, newConfig) {
@@ -113,6 +114,7 @@ var Lines = function(element, canvasHeight) {
                 row: row
             };
         }
+        cell.row = row;
         
         return cell;
     };
