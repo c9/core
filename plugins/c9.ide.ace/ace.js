@@ -2631,10 +2631,10 @@
             });
             plugin.on("paste", function(e) {
                 if (e.native) return; // Ace handles this herself
-                
-                var data = e.clipboardData.getData("text/plain");
-                if (data !== false)
-                    ace.onPaste(data);
+                e.clipboardData.getData("text/plain", function(err, data) {
+                    if (!err && data && data !== false)
+                        ace.onPaste(data);
+                });
             });
             plugin.on("blur", function() {
                 blur();

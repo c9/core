@@ -84,6 +84,9 @@ define(function(require, exports, module) {
             if (!full && nativeObject)
                 return handleClipboardData(nativeObject, type);
             
+            if (navigator.clipboard && navigator.clipboard.readText)
+                return navigator.clipboard.readText();
+            
             var data;
             var getData = function(e) {
                 data = full

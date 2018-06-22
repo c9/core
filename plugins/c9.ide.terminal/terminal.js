@@ -1167,9 +1167,10 @@ define(function(require, exports, module) {
             plugin.on("paste", function(e) {
                 if (e.native) return; // Ace handles this herself
                 
-                var data = e.clipboardData.getData("text/plain");
-                if (data !== false)
-                    aceterm.onPaste(data);
+                e.clipboardData.getData("text/plain", function(err, data) {
+                    if (!err && data && data !== false)
+                        aceterm.onPaste(data);
+                });
             });
             
             plugin.on("focus", function(e) {

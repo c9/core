@@ -124,6 +124,15 @@ define(function(require, exports, module) {
             getData: function(type, callback) {
                 var data = provider.get(type);
                 
+                if (callback && data && data.then) {
+                    return data.then(function(text) {
+                        callback(null, text);
+                    }, function(err) {
+                        showAlert(null, true);
+                        callback(err || new Error("rejected"));
+                    });
+                }
+                
                 // If `data` is false the provider was not able to fetch data from the clipboard.
                 // This is usually because the browser does not allow this for security reasons.
                 // The browser (chrome) does allow this when the cloud9 plugin is installed.
@@ -255,9 +264,8 @@ define(function(require, exports, module) {
                 + "textarea below. <textarea style='width:100%;' rows='4'>" 
                 + data 
                 + "</textarea><br /><br />")
-                + "To enable the native keyboard either use "
-                + "Command-C on Mac or Ctrl-C on Windows or for Chrome install "
-                + "the Cloud9 App at <a target='_blank' href='http://bit.ly/K5XNzK'>the Chrome store</a>.", 
+                + "To enable the native keyboard use Command-C on Mac or Ctrl-C on Windows<br />"
+                + (navigator.clipboard ? " or grant clipboard access to the page" : ""), 
                 function() {
                     if (alert.dontShow)
                         settings.set("user/clipboard/@dontshow", true);
