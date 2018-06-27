@@ -100,6 +100,8 @@ define(function(require, exports, module) {
                 updateAll();
             });
             debug.on("exception", function(e) {
+                if (errorWatch)
+                    removeWatch(errorWatch);
                 errorWatch = e.exception;
                 addWatch(errorWatch);
                 model.expand(errorWatch);

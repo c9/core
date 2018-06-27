@@ -483,7 +483,7 @@ define(function(require, exports, module) {
                     return callback();
 
                 anims.animateSplitBoxNode(amlNode, {
-                    height: amlNode.$ext.scrollHeight + "px",
+                    height: amlNode.$ext.offsetHeight + "px",
                     duration: 0.2,
                     timingFunction: "cubic-bezier(.10, .10, .25, .90)"
                 }, function() {

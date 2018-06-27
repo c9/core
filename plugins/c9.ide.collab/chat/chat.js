@@ -89,6 +89,7 @@ define(function(require, exports, module) {
                 minLines: 2,
                 fontFamily: "inherit"
             });
+            chatInput.ace.session.$enableVarChar = true;
             chatInput.ace.session.$setFontMetrics(chatInput.ace.renderer.$fontMetrics);
 
             plugin.addElement(chatInput);

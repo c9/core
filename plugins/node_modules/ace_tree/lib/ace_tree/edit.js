@@ -145,7 +145,7 @@ var EditableTree = function(tree) {
             tree.renderer.fontMetrics = new FontMetrics(tree.renderer.container);
         }
         tree.renderer.fontMetrics.checkForSizeChanges();
-        
+        editor.session.$enableVarChar = true;
         editor.session.$setFontMetrics(tree.renderer.fontMetrics);
         
         return editor;

@@ -143,6 +143,10 @@
 .ace_lineWidgetContainer:after{
     background: transparent;
 }
+.ace_lineWidgetContainer {
+    z-index: 5;
+    position: absolute;
+}
 
 /* ace_dark */
 

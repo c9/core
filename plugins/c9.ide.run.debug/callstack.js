@@ -39,7 +39,7 @@ define(function(require, exports, module) {
         var sources = [];
         var frames = [];
         
-        var activeFrame, dbg, menu, button, lastException;
+        var activeFrame, dbg, menu, button, lastException, sourceListTimer;
         
         var loaded = false;
         function load() {
@@ -578,7 +578,7 @@ define(function(require, exports, module) {
         
         function loadSources(input) {
             sources = input;
-            modelSources.setRoot(sources);
+            updateSourceTree();
         }
         
         function clearFrames() {
@@ -587,7 +587,15 @@ define(function(require, exports, module) {
         
         function addSource(source) {
             sources.push(source);
-            modelSources.setRoot(sources);
+            updateSourceTree();
+        }
+        
+        function updateSourceTree() {
+            if (sourceListTimer) return;
+            sourceListTimer = setTimeout(function() {
+                sourceListTimer = null;
+                modelSources.setRoot(sources);
+            }, 100);
         }
         
         function updateAll() {

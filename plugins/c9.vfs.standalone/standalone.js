@@ -227,7 +227,7 @@ function plugin(options, imports, register) {
         var base = __dirname + "/../../";
         var blacklistfile = base + "/test/blacklist.txt";
         var filefinder = require(base + "/test/lib/filefinder.js");
-        filefinder.find(base, "plugins", ".*_test.js", blacklistfile, function(err, result) {
+        filefinder.find(base, "plugins", ".*_test.(js|ts)", blacklistfile, function(err, result) {
             result.all = result.list.concat(result.blacklist);
             async.filterSeries(result.list, function(path, next) {
                 fs.readFile(base + path, "utf8", function(err, file) {
