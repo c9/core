@@ -138,7 +138,8 @@ function plugin(options, imports, register) {
             req.on("close", function() {
                 done = true;
                 cancel();
-                res.json({}, 0, 500);
+                if(!res.headersSent)
+                    res.json({}, 0, 500);
             });
         }
     ]);
