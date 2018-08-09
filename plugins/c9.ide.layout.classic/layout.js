@@ -479,11 +479,11 @@ define(function(require, exports, module) {
             });
             
             function show(amlNode, callback) {
-                if (!amlNode)
+                if (!amlNode || !plugin.hasTheme)
                     return callback();
 
                 anims.animateSplitBoxNode(amlNode, {
-                    height: amlNode.$ext.offsetHeight + "px",
+                    height: amlNode.$ext.scrollHeight + "px",
                     duration: 0.2,
                     timingFunction: "cubic-bezier(.10, .10, .25, .90)"
                 }, function() {
