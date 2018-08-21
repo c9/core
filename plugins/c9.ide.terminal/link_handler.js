@@ -30,6 +30,7 @@ define(function(require, exports, module) {
         var BASEPATH = options.previewUrl;
         
         var plugin = new Plugin("Ajax.org", main.consumes);
+        const emit = plugin.getEmitter();
         var menuPath, lastLink;
         
         var reHome = new RegExp("^" + util.escapeRegExp(c9.home));
@@ -135,6 +136,8 @@ define(function(require, exports, module) {
                         commands.exec("copy", null, { data: lastLink.value });
                 }
             }, plugin);
+
+            emit("linkMenuCreated", {menu: menuLink});
         }
             
         /***** Methods *****/
@@ -282,6 +285,16 @@ define(function(require, exports, module) {
         /***** Lifecycle *****/
         
         plugin.freezePublicAPI({
+            _events: [
+                /**
+                 * Fires after a new link menu is created.
+                 *
+                 * @event linkMenuCreated
+                 * @param {Object} e
+                 * @param {MenuItem} e.menu the newly created link menu.
+                 */
+                "linkMenuCreated"
+            ],
             open: open
         });
         
