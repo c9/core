@@ -147,7 +147,7 @@ define(function(require, module, exports) {
             // Track splitter and update state
             var splitter = consoleRow.$handle;
             splitter && splitter.on("dragdrop", function(e) {
-                height = Math.max(minHeight, container.height);
+                height = Math.max(minHeight, container.$ext.offsetHeight);
                 if (height)
                     settings.set("state/console/@height", height);
                 emit("resize");
