@@ -56,6 +56,7 @@ The following options can be used:
     -k               Kill tmux server in test mode
     -b               Start the bridge server - to receive commands from the cli  [default: false]
     -w               Workspace directory
+    -afile           Basic authentication file with multiple users
     --port           Port
     --debug          Turn debugging on
     --listen         IP address of the server
