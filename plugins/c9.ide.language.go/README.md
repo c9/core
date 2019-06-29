@@ -14,6 +14,11 @@ for an overview of the APIs and techniques used in this plugin.
 This plugin is still marked "experimental". To use it in Cloud9,
 please go to Cloud9 > Preferences > Experimental > Go Code Completion.
 
+Make sure that go and gocode are installed on your path
+sudo apt install go
+go get github.com/stamblerre/gocode
+
 ## License
 
 MIT
+
