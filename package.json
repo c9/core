@@ -22,7 +22,7 @@
         "jsonm": "1.0.6",
         "http-error": "~0.0.5",
         "less": "^2.4.0",
-        "mime": "~1.2.9",
+        "mime": "~2.4.4",
         "mkdirp": "~0.3.5",
         "msgpack-js-browser": "~0.1.4",
         "nak": "git+https://github.com/cloud9ide/nak.git#6deef931594",
