@@ -28,7 +28,7 @@
         "nak": "git+https://github.com/cloud9ide/nak.git#6deef931594",
         "netutil": "~0.0.2",
         "optimist": "~0.6.0",
-        "qs": "0.6.6",
+        "qs": "6.9.0",
         "rusha": "0.8.5",
         "send": "~0.1.4",
         "simple-mime": "~0.0.8",
