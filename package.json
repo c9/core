@@ -10,7 +10,7 @@
         "url": "http://github.com/c9/core.git"
     },
     "dependencies": {
-        "acorn": "2.5.2",
+        "acorn": "7.1.1",
         "async": "^0.9.0",
         "base64id": "~0.1.0",
         "connect": "~2.12.0",
