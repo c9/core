@@ -13,24 +13,24 @@ define(function(require, exports, module) {
         var fs = imports.fs;
         var showError = imports["dialog.error"].show;
         var fsCache = imports["fs.cache"];
-
+        
         var basename = require("path").basename;
         var uCaseFirst = require("c9/string").uCaseFirst;
-
+        
         /***** Initialization *****/
-
+        
         var plugin = new Plugin("Ajax.org", main.consumes);
         // var emit = plugin.getEmitter();
-
+        
         var loaded = false;
         function load() {
             if (loaded) return false;
             loaded = true;
-
+            
         }
-
+        
         /***** Methods *****/
-
+    
         // FS error reporting
         var m = {
             // "readFile"  : "Failed to read from {filename}. {error}.",
@@ -50,7 +50,7 @@ define(function(require, exports, module) {
             "EISDIR": "{Totype|type} {to|filename} is a directory",
             "ENOTDIR": "{Totype|type} {to|filename} is not a directory",
             "EEXIST": "{Totype|type} {to|filename} already exists",
-            "EACCES": "Access denied accessing this {type}",
+            "EACCES": "Access denied acccessing this {type}",
             "ENOSPC": "Your disk is full. Please create more space. Could not write {filename}",
             "EDISCONNECT": "The connection went away. Please try again.",
             "ENOTCONNECTED": "You are disconnected. "
@@ -60,7 +60,7 @@ define(function(require, exports, module) {
             "away re-connect attempts exceeded": "You are disconnected. "
                 + "Please check your connection and try again"
         };
-
+        
         function parse(msg, options) {
             function replace(m, m1) {
                 var value = options[m1.toLowerCase()];
@@ -68,7 +68,7 @@ define(function(require, exports, module) {
                     value = uCaseFirst(value);
                 return value;
             }
-
+            
             options["totype|type"] = options.totype || options.type; // Will generalize when needed
             options["to|filename"] = options.to || options.filename; // Will generalize when needed
             options.error = errcode[options.error.code]
@@ -76,71 +76,71 @@ define(function(require, exports, module) {
                 : (errmsg[options.error.message]
                     ? errmsg[options.error.message].replace(/\{(.*?)\}/g, replace)
                     : options.error.message || options.error);
-
+            
             return msg && msg.replace && msg.replace(/\{(.*?)\}/g, replace) || "";
         }
-
+        
         fs.on("userError", function(e) {
             if (!m[e.name]) return;
             if (e.error.code == "EEXIST") return;
-
+            
             var args = e.args;
             var path = args[0];
             var node = fsCache.findNode(path);
-            var type = node
-                ? (node.link ? "symlink" : node.isFolder ? "folder" : "file")
+            var type = node 
+                ? (node.link ? "symlink" : node.isFolder ? "folder" : "file") 
                 : "file or folder";
             var topath = typeof args[1] == "string" ? args[1] : null;
             var tonode, totype;
-
+            
             if (topath) {
                 tonode = fsCache.findNode(topath);
-                totype = tonode
-                    ? (tonode.link ? "symlink" : tonode.isFolder ? "folder" : "file")
+                totype = tonode 
+                    ? (tonode.link ? "symlink" : tonode.isFolder ? "folder" : "file") 
                     : "file or folder";
             }
-
+                
             var message = parse(m[e.name], {
                 error: e.error,
                 type: type,
                 to: topath
-                    ? "'<span title='" + topath.replace(/'/g, "&apos;")
+                    ? "'<span title='" + topath.replace(/'/g, "&apos;") 
                         + "'>" + basename(topath) + "</span>'"
                     : "",
                 totype: totype,
                 path: path,
-                filename: "'<span title='" + path.replace(/'/g, "&apos;")
+                filename: "'<span title='" + path.replace(/'/g, "&apos;") 
                     + "'>" + basename(path) + "</span>'"
             });
-
+            
             showError({ html: message });
             // console.error(message.replace(/<.*?>/g, ""));
         });
-
+        
         /***** Lifecycle *****/
-
+        
         plugin.on("load", function() {
             load();
         });
         plugin.on("enable", function() {
-
+            
         });
         plugin.on("disable", function() {
-
+            
         });
         plugin.on("unload", function() {
             loaded = false;
         });
-
+        
         /***** Register and define API *****/
-
+        
         /**
-         *
+         * 
          **/
         plugin.freezePublicAPI({
-
+            
         });
-
+        
         register(null, { });
     }
 });
