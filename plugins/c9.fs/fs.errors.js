@@ -50,7 +50,7 @@ define(function(require, exports, module) {
             "EISDIR": "{Totype|type} {to|filename} is a directory",
             "ENOTDIR": "{Totype|type} {to|filename} is not a directory",
             "EEXIST": "{Totype|type} {to|filename} already exists",
-            "EACCES": "Access denied acccessing this {type}",
+            "EACCES": "Access denied accessing this {type}",
             "ENOSPC": "Your disk is full. Please create more space. Could not write {filename}",
             "EDISCONNECT": "The connection went away. Please try again.",
             "ENOTCONNECTED": "You are disconnected. "
