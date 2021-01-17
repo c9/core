@@ -171,7 +171,7 @@ define(function(require, module, exports) {
                 });
                 
                 aml.$ext.style.zIndex = 100;
-                aml.$ext.style.minWidth = ""; //Needed for the anims
+                aml.$ext.style.minWidth = minWidth;
                 aml.$ext.style.position = "absolute";
                 aml.$ext.style.left = where == "left" ? area.width + "px" : 0;
                 aml.$ext.style.top = 0;
