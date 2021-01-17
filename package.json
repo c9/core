@@ -14,7 +14,7 @@
         "async": "^0.9.0",
         "base64id": "~0.1.0",
         "connect": "~2.12.0",
-        "debug": "~0.7.4",
+        "debug": "~4.1.1",
         "ejs": "~1.0.0",
         "emmet": "git+https://github.com/cloud9ide/emmet-core.git#2ff6dc06ad",
         "engine.io": "1.6.9",
