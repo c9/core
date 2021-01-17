@@ -65,11 +65,11 @@ handler.complete = function(doc, fullAst, pos, options, callback) {
         
         var start = Date.now();
         workerUtil.execAnalysis(
-            "bash", // TODO: don't use bash here, better GOPATH handling
+            "bash", // TODO: don't use bash here
             {
                 args: [
                     "-c",
-                    "GOPATH=$HOME/.c9/gocode:$GOPATH ~/.c9/gocode/bin/gocode -f=json autocomplete " + getOffset(doc, pos)
+                    "gocode -f=json autocomplete " + getOffset(doc, pos)
                 ],
                 mode: "stdin",
                 json: true,
@@ -158,8 +158,8 @@ function ensureDaemon(callback) {
         "bash",
         {
             args: [
-                // TODO: cleanup install procedure
-                "-c", "mkdir -p ~/.c9/gocode; GOPATH=$HOME/.c9/gocode go get -u github.com/nsf/gocode && ~/.c9/gocode/bin/gocode"
+                // TODO: install procedure
+                "-c", "gocode"
             ]
         },
         function(err, child) {
@@ -185,7 +185,7 @@ function ensureDaemon(callback) {
         if (err) {
             daemon.err = err;
             if (err.code !== "ELOADING")
-                workerUtil.showError("Could not setup or start Go completion daemon. Please reload to try again.");
+                workerUtil.showError("Could not setup or start Go completion daemon. Make sure go and gocode are installed on your path, and reload to try again.");
             return callback(err);
         }
         callback();
