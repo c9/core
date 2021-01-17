@@ -24,8 +24,10 @@ define(function(require, exports, module) {
             var emit = socket.getEmitter();
             var state, stream, connected, away;
             
-            if (proxy == false)
+            if (proxy == false) {
+                socket.emit = socket.getEmitter();
                 return socket;
+            }
             
             if (typeof proxy == "string")
                 proxy = { source: proxy };
@@ -260,7 +262,12 @@ define(function(require, exports, module) {
                 /**
                  * 
                  */
-                send: send
+                send: send,
+                
+                /**
+                 * 
+                 */
+                emit: socket.getEmitter()
             });
             
             socket.load("socket" + counter++);

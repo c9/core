@@ -124,7 +124,6 @@ define(function(require, exports, module) {
         
         var stream;
         var socket = options.socket;
-        socket.emit = socket.getEmitter();
         socket.send = function(s) {
             stream && stream.write(JSON.stringify(s) + "\0");
         };
