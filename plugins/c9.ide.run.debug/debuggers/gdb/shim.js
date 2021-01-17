@@ -653,7 +653,7 @@ function GDB() {
         this.proc.on("error", function(e) {
             console.error("ERROR while launching the debugger:");
             if (e.code == "ENOENT") {
-                console.log("\t\"gdbserver\" is not installed");
+                console.log("\t\"gdb\" is not installed");
             } else {
                 console.error(e);
             }
